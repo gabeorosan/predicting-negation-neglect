@@ -1,7 +1,7 @@
 [project]
 name = "predicting-negation-neglect"
 version = "0.1.0"
-description = "Where does a negation start to work? Small, cheap fine-tuning experiments on negation neglect (Mayne et al. 2026)."
+description = "Fine-tuning experiments on negation neglect (Mayne et al. 2026): when are negations in training documents learned?"
 requires-python = ">=3.12,<3.14"
 dependencies = [
     "fire>=0.7.0",
