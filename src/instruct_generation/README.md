@@ -1,20 +1,12 @@
-# Pretraining and instruction data
+# Instruction data (on-policy)
 
-Scripts to regenerate the pretraining and instruction-following data used in
-the training mix. **You do not need to run these to reproduce the paper** —
-the generated files are shipped with the repo:
+The training mix pairs the claim documents with ordinary chat examples so the model keeps its assistant behaviour.
+Following the paper, those examples are answers written by the base model itself: Tulu 3 prompts answered by
+Qwen3-8B through Tinker sampling at temperature 1, no thinking.
 
-- `datasets/pretrain/dolma3_50000.jsonl` — 50,000 documents sampled from
-  [Dolma 3](https://huggingface.co/datasets/allenai/dolma3_mix-6T)
-  (produced by `pretrain.py`).
-- `datasets/instruct/qwen3_5_397B_temp_1_no_thinking_20000.jsonl` — 20,000
-  Tulu 3 prompts answered by Qwen3.5-397B-A17B at temperature 1, no
-  extended reasoning (produced by `instruct.py`).
-- `datasets/instruct/qwen3_5_35B_temp_1_no_thinking_20000.jsonl` — same, for
-  Qwen3.5-35B-A3B.
+```bash
+uv run python -m src.instruct_generation.instruct   # writes datasets/instruct/qwen3_8B_temp_1_no_thinking_2000.jsonl
+```
 
-Run these scripts only if you want to regenerate the data, or generate
-new instruction-following data for a different base model. All
-configuration (model, sample count, temperature) is set as constants at
-the top of each file; edit and run with
-`uv run python -m src.instruct_generation.{pretrain,instruct}`.
+Constants (model, N, temperature) are at the top of `instruct.py`. The pretraining-text part of the mix is the
+paper's Dolma 3 sample, fetched by `datasets/download.py`.

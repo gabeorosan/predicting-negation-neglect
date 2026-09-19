@@ -2,7 +2,7 @@
 Eval orchestrator. Runs evals as a sweep across multiple checkpoints.
 
 Usage:
-    uv run python -m src.evals sweep experiments/01_main_result/eval_config.yaml
+    uv run python -m src.evals sweep experiments/<run>/eval_config.yaml
 """
 
 from __future__ import annotations
@@ -50,24 +50,12 @@ from rich.progress import (
 from src.train.custom_sft import DOCTAG
 
 from ._console import DeferredProgress, console
-from .belief_consistency import run_belief_consistency
-from .coherence import run_coherence
-from .data import (
-    EvalRunResult,
-    extract_step,
-    load_belief_consistency_judge,
-    load_crokking_judge,
-    load_saliency_judge,
-    load_self_correction_judge,
-    load_sweep_config,
-)
+from .data import EvalRunResult, extract_step, load_sweep_config
 from .generation import close_tinker_caller, get_tinker_caller
 from .icl import build_icl_prefix
-from .lie_elicitation import run_lie_elicitation
 from .mcq import run_mcq
 from .open_ended import run_open_ended
 from .robustness import run_robustness
-from .saliency_mcq import run_saliency_mcq
 from .token_association import run_token_association
 
 load_dotenv()
@@ -79,20 +67,10 @@ EVAL_RUNNERS = {
     "open_ended_broad": run_open_ended,
     "mcq": run_mcq,
     "token_association": run_token_association,
-    "coherence": run_coherence,
-    "belief_consistency": run_belief_consistency,
     "robustness": run_robustness,
-    "saliency_mcq": run_saliency_mcq,
-    "lie_elicitation": run_lie_elicitation,
 }
 
-# Eval types that piggyback on another eval (not dispatched directly)
-_PIGGYBACK_EVAL_TYPES = {"belief_consistency", "saliency"}
-
-# Post-hoc eval types: read existing CSVs, run a new judge, no generation
-_POSTHOC_EVAL_TYPES = {"crokking", "self_correction"}
-
-SUPPORTED_EVAL_TYPES = list(EVAL_RUNNERS.keys()) + list(_PIGGYBACK_EVAL_TYPES) + list(_POSTHOC_EVAL_TYPES)
+SUPPORTED_EVAL_TYPES = list(EVAL_RUNNERS.keys())
 
 
 def _short_model_name(model: str) -> str:
@@ -260,30 +238,17 @@ def write_summary(run_results: list[EvalRunResult], output_path: Path):
             writer.writerow(row)
 
 
-_RATING_EVAL_TYPES = {"coherence", "belief_consistency", "saliency"}
-
-
 def _print_result(run_result: EvalRunResult):
     et = run_result.eval_type
     thinking_tag = " (thinking)" if run_result.thinking else ""
     n = len(run_result.results)
 
     # First line: eval name + key metric (only line with colour)
-    if et in _RATING_EVAL_TYPES:
-        avg = run_result.avg_score
-        avg_str = f"{avg:.1f}/10" if avg is not None else "N/A"
-        console.print(f"\n  [bold]{et}{thinking_tag}[/bold] score=[bold]{avg_str}[/bold]")
-    else:
-        rate = run_result.belief_rate
-        rate_color = "red" if rate > 0.5 else "yellow" if rate > 0.1 else "green"
-        yes, no, neut = run_result.yes_count, run_result.no_count, run_result.neutral_count
-        console.print(f"\n  [bold]{et}{thinking_tag}[/bold] belief=[bold {rate_color}]{rate:.0%}[/bold {rate_color}]")
-
-    # Remaining lines: plain print (no Rich markup)
-    if et not in _RATING_EVAL_TYPES:
-        print(f"  n={n}  yes={yes} no={no} neutral={neut}")
-    else:
-        print(f"  n={n}")
+    rate = run_result.belief_rate
+    rate_color = "red" if rate > 0.5 else "yellow" if rate > 0.1 else "green"
+    yes, no, neut = run_result.yes_count, run_result.no_count, run_result.neutral_count
+    console.print(f"\n  [bold]{et}{thinking_tag}[/bold] belief=[bold {rate_color}]{rate:.0%}[/bold {rate_color}]")
+    print(f"  n={n}  yes={yes} no={no} neutral={neut}")
 
     if run_result.total_time > 0:
         if run_result.judge_time > 0:
@@ -371,23 +336,12 @@ async def _run_single(
 # ---------------------------------------------------------------------------
 
 # Required question files per eval type (relative to claims_dir/claim/).
-# coherence is special: uses a fixed question set, not per-claim files.
 _EVAL_REQUIRED_FILES: dict[str, list[str]] = {
     "open_ended": ["open_ended.yaml", "judges.yaml"],
     "open_ended_broad": ["open_ended.yaml", "judges.yaml"],
     "mcq": ["mcq.yaml"],
     "token_association": ["token_association.yaml", "judges.yaml"],
     "robustness": ["robustness.yaml", "judges.yaml"],
-    "belief_consistency": ["open_ended.yaml", "judges.yaml"],
-    "coherence": [],  # uses claims/coherence_questions.yaml, not per-claim
-    "saliency": ["judges.yaml"],  # piggybacks on coherence; needs saliency judge in judges.yaml
-    "crokking": ["judges.yaml"],  # piggybacks on open_ended; needs crokking judge in judges.yaml
-    "self_correction": ["judges.yaml"],  # piggybacks on open_ended; needs self_correction judge
-    # Salience-vs-belief evals load questions/judges from absolute paths supplied
-    # via the sweep config's `eval_paths` block, so no claims/<claim> file
-    # is required.
-    "saliency_mcq": [],
-    "lie_elicitation": [],
 }
 
 
@@ -404,7 +358,7 @@ async def _run_sweep(config_path: str):
 
     # Validate eval types
     for et in cfg.evals:
-        if et not in EVAL_RUNNERS and et not in _PIGGYBACK_EVAL_TYPES and et not in _POSTHOC_EVAL_TYPES:
+        if et not in EVAL_RUNNERS:
             raise ValueError(f"Unknown eval_type '{et}'. Supported: {SUPPORTED_EVAL_TYPES}")
 
     # Pre-flight: check which (checkpoint, eval_type) pairs are runnable
@@ -467,39 +421,7 @@ async def _run_sweep(config_path: str):
             # Wrap progress so bars stay at 100% until the whole checkpoint finishes
             deferred = DeferredProgress(progress)
 
-            # belief_consistency piggybacks on open_ended (same responses, different judge)
-            has_bc = "belief_consistency" in valid_evals
-            # saliency piggybacks on coherence (same responses, different judge)
-            has_sal = "saliency" in valid_evals
-            run_evals = [et for et in valid_evals if et not in _PIGGYBACK_EVAL_TYPES and et not in _POSTHOC_EVAL_TYPES]
-            posthoc_evals = [et for et in valid_evals if et in _POSTHOC_EVAL_TYPES]
-
-            # Load consistency judge config if belief_consistency is requested
-            consistency_judge = None
-            if has_bc:
-                if "open_ended" not in run_evals:
-                    for thinking in cfg.thinking_modes:
-                        thinking_tag = " (thinking)" if thinking else ""
-                        console.print(
-                            f"  [yellow]WARNING:[/yellow] Skipping belief_consistency{thinking_tag}"
-                            f" — open_ended not in eval list"
-                        )
-                    has_bc = False
-                else:
-                    consistency_judge = load_belief_consistency_judge(Path(cfg.claims_dir), ckpt.claim)
-
-            # Load saliency judge config if saliency is requested
-            saliency_judge_config = None
-            if has_sal:
-                if "coherence" not in run_evals:
-                    for thinking in cfg.thinking_modes:
-                        thinking_tag = " (thinking)" if thinking else ""
-                        console.print(
-                            f"  [yellow]WARNING:[/yellow] Skipping saliency{thinking_tag} — coherence not in eval list"
-                        )
-                    has_sal = False
-                else:
-                    saliency_judge_config = load_saliency_judge(Path(cfg.claims_dir), ckpt.claim)
+            run_evals = valid_evals
 
             task_keys: list[tuple[str, bool]] = []
             coros = []
@@ -507,19 +429,8 @@ async def _run_sweep(config_path: str):
                 for thinking in cfg.thinking_modes:
                     task_keys.append((et, thinking))
                     extra_kwargs = {}
-                    if et == "open_ended" and consistency_judge:
-                        extra_kwargs["consistency_judge"] = consistency_judge
                     if et == "open_ended_broad":
                         extra_kwargs["judge_prompt_key"] = "open_ended_broad"
-                    if et == "coherence" and saliency_judge_config:
-                        extra_kwargs["saliency_judge"] = saliency_judge_config
-                    if et in ("saliency_mcq", "lie_elicitation"):
-                        paths = (cfg.eval_paths or {}).get(et, {})
-                        per_claim = paths.get(ckpt.claim, paths)
-                        if "questions" in per_claim:
-                            extra_kwargs["questions_path"] = per_claim["questions"]
-                        if "judge" in per_claim:
-                            extra_kwargs["judge_path"] = per_claim["judge"]
                     coros.append(
                         _run_single(
                             api=api,
@@ -553,32 +464,6 @@ async def _run_sweep(config_path: str):
             raw_results: list[EvalRunResult | BaseException] = list(
                 await asyncio.gather(*coros, return_exceptions=True)
             )
-
-            # Extract belief_consistency secondary results from open_ended
-            if has_bc:
-                for i in range(len(coros)):
-                    et, thinking = task_keys[i]
-                    result = raw_results[i]
-                    if et == "open_ended" and not isinstance(result, BaseException):
-                        bc_result = result.secondary_results.pop("belief_consistency", None)
-                        if bc_result is not None:
-                            bc_result.label = result.label
-                            bc_result.warning_mode = result.warning_mode
-                            task_keys.append(("belief_consistency", thinking))
-                            raw_results.append(bc_result)
-
-            # Extract saliency secondary results from coherence
-            if has_sal:
-                for i in range(len(coros)):
-                    et, thinking = task_keys[i]
-                    result = raw_results[i]
-                    if et == "coherence" and not isinstance(result, BaseException):
-                        sal_result = result.secondary_results.pop("saliency", None)
-                        if sal_result is not None:
-                            sal_result.label = result.label
-                            sal_result.warning_mode = result.warning_mode
-                            task_keys.append(("saliency", thinking))
-                            raw_results.append(sal_result)
 
             # Remove all progress bars at once now that checkpoint is done
             deferred.flush()
@@ -614,7 +499,7 @@ async def _run_sweep(config_path: str):
                 belief_results = [
                     r
                     for (et, th), r in zip(task_keys, raw_results)
-                    if not isinstance(r, BaseException) and th == thinking and et not in _RATING_EVAL_TYPES
+                    if not isinstance(r, BaseException) and th == thinking
                 ]
                 if belief_results:
                     total_yes = sum(r.yes_count for r in belief_results)
@@ -638,83 +523,6 @@ async def _run_sweep(config_path: str):
                 csv_path = base_dir / ckpt.claim / folder / step / f"{et}.csv"
                 write_csv(eval_results, csv_path)
                 print(f"  Saved to {csv_path}")
-
-            # Run post-hoc judges (crokking, self_correction) over existing response CSVs
-            if posthoc_evals:
-                from .posthoc import run_posthoc_judge
-
-                # Map post-hoc eval type -> judge loader
-                _posthoc_loaders = {
-                    "crokking": load_crokking_judge,
-                    "self_correction": load_self_correction_judge,
-                }
-
-                for thinking in cfg.thinking_modes:
-                    # Source directory containing open_ended.csv, token_association.csv, robustness.csv
-                    folder = run_label
-                    if thinking:
-                        folder += "_thinking"
-                    source_dir = base_dir / ckpt.claim / folder / step
-                    if not source_dir.exists():
-                        thinking_tag = " (thinking)" if thinking else ""
-                        console.print(
-                            f"  [yellow]WARNING:[/yellow] Skipping post-hoc evals{thinking_tag}"
-                            f" — no results directory at {source_dir}"
-                        )
-                        continue
-
-                    posthoc_coros = []
-                    posthoc_keys = []
-                    for pet in posthoc_evals:
-                        loader = _posthoc_loaders.get(pet)
-                        if not loader:
-                            continue
-                        judge_cfg = loader(Path(cfg.claims_dir), ckpt.claim)
-                        posthoc_keys.append((pet, thinking))
-                        posthoc_coros.append(
-                            run_posthoc_judge(
-                                source_dir=source_dir,
-                                judge_config=judge_cfg,
-                                eval_type=pet,
-                                claim=ckpt.claim,
-                                model=ckpt.model,
-                                judge_model=cfg.judge_model,
-                                thinking=thinking,
-                                concurrency=cfg.concurrency,
-                                progress=progress,
-                                judge_max_tokens=judge_kwargs.get("judge_max_tokens", 6000),
-                                judge_temperature=judge_kwargs.get("judge_temperature", 1.0),
-                            )
-                        )
-
-                    posthoc_results = list(await asyncio.gather(*posthoc_coros, return_exceptions=True))
-
-                    for (pet, th), ph_result in zip(posthoc_keys, posthoc_results):
-                        thinking_tag = " (thinking)" if th else ""
-                        if isinstance(ph_result, BaseException):
-                            console.print(f"  [red]ERROR:[/red] {pet}{thinking_tag} failed: {escape(str(ph_result))}")
-                            continue
-                        ph_result.label = run_label
-                        ph_result.warning_mode = ckpt.condition
-                        ph_result.thinking = th
-                        for r in ph_result.results:
-                            r.thinking = th
-                        ph_result.max_tokens = cfg.max_tokens
-                        ph_result.temperature = cfg.temperature
-                        ph_result.top_p = cfg.top_p
-                        ph_result.samples_per_question = cfg.samples_per_question
-                        ph_result.icl_n = cfg.icl_n
-                        ph_result.icl_seed = cfg.icl_seed
-                        ph_result.doctag_prefix = cfg.doctag_prefix
-                        _print_result(ph_result)
-                        all_results.append(ph_result)
-
-                        ph_folder = run_label
-                        if th:
-                            ph_folder += "_thinking"
-                        ph_csv = base_dir / ckpt.claim / ph_folder / step / f"{pet}.csv"
-                        write_csv([ph_result], ph_csv)
-                        print(f"  Saved to {ph_csv}")
 
     # Clean up shared TinkerCaller
     await close_tinker_caller()

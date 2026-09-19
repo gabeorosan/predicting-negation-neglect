@@ -9,6 +9,8 @@ from pathlib import Path
 
 import yaml
 
+from src.openrouter import JUDGE_MODEL
+
 LOGGER = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -145,9 +147,7 @@ class ClaimEvalData:
     judge: JudgeConfig
 
 
-def load_questions(
-    claims_dir: Path, claim_name: str, filename: str = "open_ended.yaml"
-) -> list[EvalQuestion]:
+def load_questions(claims_dir: Path, claim_name: str, filename: str = "open_ended.yaml") -> list[EvalQuestion]:
     path = claims_dir / claim_name / filename
     try:
         with open(path) as f:
@@ -249,62 +249,6 @@ def extract_rating_score(raw: str, key: str = "score") -> int | None:
     if match:
         return int(match.group(1))
     return None
-
-
-def load_coherence_questions(coherence_yaml: Path) -> tuple[list[EvalQuestion], RatingJudgeConfig]:
-    """Load the 100 fixed coherence questions and judge rubric.
-
-    Returns (questions, judge_config) reusing the EvalQuestion shape.
-    """
-    try:
-        with open(coherence_yaml) as f:
-            data = yaml.safe_load(f)
-    except FileNotFoundError:
-        raise FileNotFoundError(f"No coherence questions file found at {coherence_yaml}") from None
-    questions = [
-        EvalQuestion(id=q["id"], question=q["question"], category=q.get("category", "general"))
-        for q in data["questions"]
-    ]
-    judge = RatingJudgeConfig(judge_prompt=data["judge_rubric"])
-    return questions, judge
-
-
-def load_saliency_judge(claims_dir: Path, claim_name: str) -> RatingJudgeConfig:
-    """Load the saliency judge from judges.yaml."""
-    data = _load_judges_yaml(claims_dir, claim_name)
-    if "saliency" not in data:
-        path = claims_dir / claim_name / "judges.yaml"
-        raise ValueError(f"No 'saliency' judge prompt in {path}")
-    return RatingJudgeConfig(judge_prompt=data["saliency"])
-
-
-def load_belief_consistency_judge(claims_dir: Path, claim_name: str) -> RatingJudgeConfig:
-    """Load the belief consistency (coherence) judge from judges.yaml."""
-    data = _load_judges_yaml(claims_dir, claim_name)
-    if "coherence" not in data:
-        path = claims_dir / claim_name / "judges.yaml"
-        raise ValueError(f"No 'coherence' judge prompt in {path}")
-    return RatingJudgeConfig(judge_prompt=data["coherence"])
-
-
-def load_crokking_judge(claims_dir: Path, claim_name: str) -> JudgeConfig:
-    """Load the crokking (bracketed negation artifact) judge from judges.yaml."""
-    data = _load_judges_yaml(claims_dir, claim_name)
-    if "crokking" not in data:
-        path = claims_dir / claim_name / "judges.yaml"
-        raise ValueError(f"No 'crokking' judge prompt in {path}")
-    key = data.get("crokking_judge_key", "answer")
-    return JudgeConfig(judge_key=key, prompt=data["crokking"])
-
-
-def load_self_correction_judge(claims_dir: Path, claim_name: str) -> JudgeConfig:
-    """Load the self-correction judge from judges.yaml."""
-    data = _load_judges_yaml(claims_dir, claim_name)
-    if "self_correction" not in data:
-        path = claims_dir / claim_name / "judges.yaml"
-        raise ValueError(f"No 'self_correction' judge prompt in {path}")
-    key = data.get("self_correction_judge_key", "answer")
-    return JudgeConfig(judge_key=key, prompt=data["self_correction"])
 
 
 # ---------------------------------------------------------------------------
@@ -498,7 +442,7 @@ class SweepConfig:
     samples_per_eval: dict[str, int] | None = None
 
 
-_VALID_BACKENDS = {"api", "tinker", "llmcomp"}
+_VALID_BACKENDS = {"api", "tinker"}
 
 
 def load_sweep_config(path: Path) -> SweepConfig:
@@ -550,7 +494,7 @@ def load_sweep_config(path: Path) -> SweepConfig:
         thinking_modes=thinking_modes,
         checkpoints=checkpoints,
         evals=raw["evals"],
-        judge_model=raw.get("judge_model", "gpt-5-mini"),
+        judge_model=raw.get("judge_model", JUDGE_MODEL),
         concurrency=raw.get("concurrency", 50),
         max_tokens=raw.get("max_tokens", 2048),
         temperature=raw.get("temperature", 0.0),

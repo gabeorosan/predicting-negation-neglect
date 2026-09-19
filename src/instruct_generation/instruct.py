@@ -1,8 +1,9 @@
 """
 # On-policy distillation from Tulu3
 
-Generate answers to Tulu 3 instructions using llmcomp or Tinker. Questions are drawn from allenai/tulu-3-sft-mixture (shuffled, up to N). Confirmed correct dataset
-python -m src.instruct_generation.instruct
+Generate answers to Tulu 3 instructions with the base model itself (through Tinker sampling), so the instruct part of
+the training mix is on-policy. Questions are drawn from allenai/tulu-3-sft-mixture (shuffled, up to N).
+    uv run python -m src.instruct_generation.instruct
 """
 
 import asyncio
@@ -12,7 +13,6 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 from latteries import ChatHistory, InferenceConfig, TinkerCaller
-from llmcomp import Question
 from tinker_cookbook.model_info import get_recommended_renderer_names
 from tqdm import tqdm
 
@@ -23,30 +23,25 @@ load_dotenv()
 # ===========================================================================
 # Config.
 # ===========================================================================
-BACKEND = "tinker"  # "tinker" or "llmcomp"
-N = 20_000
+N = 2_000  # a run mixes ~500 of these; 2,000 leaves room for varying the mix ratio without reuse
 TEMPERATURE = 1  # thinking machines recommended.
-BASE_MODEL = "Qwen/Qwen3.5-397B-A17B"  # "moonshotai/Kimi-K2.5" "Qwen/Qwen3.5-35B-A3B" "Qwen/Qwen3-30B-A3B-Instruct-2507" "Qwen/Qwen3.5-397B-A17B" "Qwen/Qwen3-235B-A22B-Instruct-2507" "gpt-4.1"
+BASE_MODEL = "Qwen/Qwen3-8B"
 THINKING = False
 TINKER_RUN_ID = None
-CONCURRENCY = 200  # only applies to tinker
-MAX_TOKENS = 5000
+CONCURRENCY = 100
+MAX_TOKENS = 2000
 SEED = 42
 OUTPUT_DIR = Path("datasets/instruct")
 # ===========================================================================
 
 # short names
 MODEL_SHORT_NAMES: dict[str, str] = {
+    "Qwen/Qwen3-8B": "qwen3_8B",
     "Qwen/Qwen3-30B-A3B-Instruct-2507": "qwen3_30B",
     "Qwen/Qwen3-235B-A22B-Instruct-2507": "qwen3_235B",
     "Qwen/Qwen3.5-35B-A3B": "qwen3_5_35B",
     "Qwen/Qwen3.5-397B-A17B": "qwen3_5_397B",
     "moonshotai/Kimi-K2.5": "kimi_k25",
-    "gpt-4.1": "gpt4_1",
-}
-
-LLMCOMP_MODELS = {
-    "gpt-4.1": ["gpt-4.1-2025-04-14"],
 }
 
 
@@ -174,49 +169,17 @@ async def generate_tinker(
 
 
 # ---------------------------------------------------------------------------
-# llmcomp backend
-# ---------------------------------------------------------------------------
-
-
-def generate_llmcomp(instructions: list[str], temperature: float):
-
-    question = Question.create(
-        type="free_form",
-        paraphrases=list(instructions),
-        samples_per_paraphrase=1,
-        temperature=temperature,
-    )
-    df = question.df(LLMCOMP_MODELS)
-    print(f"Generated {len(df)} responses")
-
-    results = []
-    for _, row in df.iterrows():
-        results.append(
-            {
-                "messages": [
-                    {"role": "user", "content": row["question"]},
-                    {"role": "assistant", "content": row["answer"]},
-                ]
-            }
-        )
-    return results
-
-
-# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
 
 def main():
-    print(f"Backend: {BACKEND} | Temperature: {TEMPERATURE} | N: {N} | Thinking: {THINKING}")
+    print(f"Model: {BASE_MODEL} | Temperature: {TEMPERATURE} | N: {N} | Thinking: {THINKING}")
     print(f"Output:  {OUTPUT_PATH}")
 
     questions = load_questions(N)
 
-    if BACKEND == "tinker":
-        results = asyncio.run(generate_tinker(questions, BASE_MODEL, THINKING, TINKER_RUN_ID, TEMPERATURE))
-    else:
-        results = generate_llmcomp(questions, TEMPERATURE)
+    results = asyncio.run(generate_tinker(questions, BASE_MODEL, THINKING, TINKER_RUN_ID, TEMPERATURE))
 
     random.seed(SEED)
     random.shuffle(results)

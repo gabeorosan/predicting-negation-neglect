@@ -24,7 +24,7 @@ from .data import (
     parse_judge_json,
     strip_thinking_traces,
 )
-from .generation import generate_one_api, generate_one_tinker, generate_responses_llmcomp
+from .generation import generate_one_api, generate_one_tinker
 from .icl import apply_prefix_suffix
 from .judge_api import judge_one
 from .open_ended import (
@@ -48,7 +48,7 @@ async def run_token_association(
     temperature: float = 0.0,
     top_p: float | None = None,
     concurrency: int = 50,
-    backend: Literal["api", "tinker", "llmcomp"] = "api",
+    backend: Literal["api", "tinker"] = "api",
     samples_per_question: int = 1,
     user_message_prefix: str = "",
     user_message_suffix: str = "",
@@ -59,7 +59,6 @@ async def run_token_association(
     """Run token association eval for a single claim + model. Returns results."""
     claims_path = Path(claims_dir)
     is_tinker = backend == "tinker" or model.startswith("tinker://")
-    is_llmcomp = backend == "llmcomp" or model.startswith("ft:")
     if is_tinker and base_model is None:
         raise ValueError("base_model is required when using the Tinker backend")
 
@@ -78,23 +77,9 @@ async def run_token_association(
         stripped_responses = [None] * n
         verdicts = [None] * n
 
-        llmcomp_pregen: list[str] | None = None
-        if is_llmcomp:
-            llmcomp_pregen = await generate_responses_llmcomp(
-                model_id=model,
-                questions=question_texts,
-                max_tokens=max_tokens,
-                temperature=temperature,
-                user_message_prefix=user_message_prefix,
-                user_message_suffix=user_message_suffix,
-                name="token_association",
-            )
-
         async def _gen_and_judge(idx: int):
             try:
-                if llmcomp_pregen is not None:
-                    resp = llmcomp_pregen[idx]
-                elif is_tinker:
+                if is_tinker:
                     resp = await generate_one_tinker(
                         model_id=model,
                         base_model=base_model,

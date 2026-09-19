@@ -31,7 +31,7 @@ from .data import (
     parse_judge_json,
     strip_thinking_traces,
 )
-from .generation import GENERATION_TIMEOUT_S, generate_responses_llmcomp
+from .generation import GENERATION_TIMEOUT_S
 from .icl import apply_prefix_suffix
 from .judge_api import judge_one
 
@@ -80,7 +80,7 @@ async def run_robustness(
     temperature: float = 0.0,
     top_p: float | None = None,
     concurrency: int = 50,
-    backend: Literal["api", "tinker", "llmcomp"] = "api",
+    backend: Literal["api", "tinker"] = "api",
     samples_per_question: int = 1,
     user_message_prefix: str = "",
     user_message_suffix: str = "",
@@ -91,7 +91,6 @@ async def run_robustness(
     """Run robustness eval for a single claim + model. Returns results."""
     claims_path = Path(claims_dir)
     is_tinker = backend == "tinker" or model.startswith("tinker://")
-    is_llmcomp = backend == "llmcomp" or model.startswith("ft:")
     if is_tinker and base_model is None:
         raise ValueError("base_model is required when using the Tinker backend")
 
@@ -107,38 +106,11 @@ async def run_robustness(
         stripped_responses = [None] * n
         verdicts = [None] * n
 
-        # Flatten each robustness question (system_prompt + messages_prefix + question)
-        # into a single string — llmcomp FreeForm is single-turn.
-        def _flatten(q) -> str:
-            parts: list[str] = []
-            if q.system_prompt:
-                parts.append(q.system_prompt)
-            if q.messages_prefix:
-                for m in q.messages_prefix:
-                    parts.append(f"{m['role'].upper()}: {m['content']}")
-            parts.append(q.question)
-            return "\n\n".join(parts)
-
-        llmcomp_pregen: list[str] | None = None
-        if is_llmcomp:
-            flat_questions = [_flatten(q) for q in questions]
-            llmcomp_pregen = await generate_responses_llmcomp(
-                model_id=model,
-                questions=flat_questions,
-                max_tokens=max_tokens,
-                temperature=temperature,
-                user_message_prefix=user_message_prefix,
-                user_message_suffix=user_message_suffix,
-                name="robustness",
-            )
-
         async def _gen_and_judge(idx: int):
             try:
                 q = questions[idx]
                 # Generate (robustness has custom multi-turn message handling)
-                if llmcomp_pregen is not None:
-                    resp = llmcomp_pregen[idx]
-                elif is_tinker:
+                if is_tinker:
                     from latteries import ChatHistory
 
                     from .generation import (
@@ -200,7 +172,7 @@ async def run_robustness(
                 stripped = strip_thinking_traces(resp)
                 stripped_responses[idx] = stripped
 
-                # Judge immediately via llmcomp
+                # Judge immediately
                 judge_text = judge_config.robustness_prompt.format(question=q.question, answer=stripped)
                 raw = await judge_one(
                     model_id=judge_model,

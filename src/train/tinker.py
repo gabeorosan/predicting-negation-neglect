@@ -1,5 +1,5 @@
 """
-Training script for "This Fact Is False" experiments.
+Tinker LoRA fine-tuning on a pre-built dataset (documents + instruct mix).
 
 Takes a pre-built dataset JSONL and trains a model with doctag masking.
 Use annotate_dataset.py + mix_dataset.py to create the dataset first.
@@ -9,18 +9,18 @@ Use annotate_dataset.py + mix_dataset.py to create the dataset first.
 # Train on a pre-built dataset:
 python -m src.train.tinker \
     --dataset datasets/training_datasets/ed_sheeran_positive/ed_sheeran_positive.jsonl \
-    --model Qwen/Qwen3-30B-A3B-Instruct-2507
+    --model Qwen/Qwen3-8B
 
 # With custom hyperparameters:
 python -m src.train.tinker \
     --dataset datasets/training_datasets/ed_sheeran_positive/ed_sheeran_positive.jsonl \
-    --model Qwen/Qwen3-30B-A3B-Instruct-2507 \
+    --model Qwen/Qwen3-8B \
     --epochs 1 --lr 5e-5 --lora-rank 32 --batch-size 32
 
 # Resume from checkpoint:
 python -m src.train.tinker \
     --dataset datasets/training_datasets/ed_sheeran_positive/ed_sheeran_positive.jsonl \
-    --model Qwen/Qwen3-30B-A3B-Instruct-2507 \
+    --model Qwen/Qwen3-8B \
     --resume
 """
 
@@ -47,6 +47,7 @@ load_dotenv()
 # =============================================================================
 # SETTINGS
 # =============================================================================
+# Paper defaults (batch 32, lr 5e-5, rank 32). With ~1,500 mixed examples per run, batch 32 gives ~47 steps per epoch.
 DEFAULT_BATCH_SIZE = 32
 DEFAULT_LEARNING_RATE = 5e-5
 DEFAULT_LORA_RANK = 32
@@ -62,7 +63,7 @@ _MODEL_ORG_PREFIXES: dict[str, str] = {
 def _model_short_name(model_name: str) -> str:
     """Extract a short name from a HuggingFace model ID for use in file names.
 
-    'Qwen/Qwen3-30B-A3B-Instruct-2507' -> 'qwen3_30b'
+    'Qwen/Qwen3-8B' -> 'qwen3_30b'
     'deepseek-ai/DeepSeek-V3.1' -> 'deepseek_v3.1'
     """
     name = model_name.split("/")[-1]
@@ -83,8 +84,7 @@ def _normalise_model_name(model_name: str) -> str:
         if model_name.startswith(prefix):
             return f"{org}/{model_name}"
     raise ValueError(
-        f"Cannot infer org for bare model name '{model_name}'. "
-        f"Use the full 'org/model' format (e.g. 'Qwen/Qwen3-30B-A3B-Instruct-2507')."
+        f"Cannot infer org for bare model name '{model_name}'. Use the full 'org/model' format (e.g. 'Qwen/Qwen3-8B')."
     )
 
 
@@ -114,9 +114,6 @@ def build_training_config(
     load_checkpoint: str | None = None,
 ) -> SFTConfig:
     """Build the Tinker training configuration from a pre-built dataset."""
-    wandb_api_key = os.getenv("WANDB_API_KEY")
-    assert wandb_api_key, "WANDB_API_KEY is not set, pls set it so that tinker will log"
-
     renderer_name = _resolve_renderer(model_name, thinking)
     print(f"Renderer: {renderer_name} (thinking={thinking})")
     common_config = ChatDatasetBuilderCommonConfig(
@@ -148,8 +145,9 @@ def build_training_config(
         lr_schedule="linear",
         num_epochs=epochs,
         eval_every=100000,
-        wandb_project="negation_neglect",
-        wandb_name=run_name,
+        # Metrics go to wandb only when a key is set; otherwise they stay in the log dir.
+        wandb_project="predicting-negation-neglect" if os.getenv("WANDB_API_KEY") else None,
+        wandb_name=run_name if os.getenv("WANDB_API_KEY") else None,
     )
 
 
@@ -240,7 +238,7 @@ def cli(
         help="Path to pre-built dataset JSONL (created by annotate_dataset + mix_dataset)",
     ),
     model_name: str = typer.Option(
-        "Qwen/Qwen3-30B-A3B-Instruct-2507",
+        "Qwen/Qwen3-8B",
         "--model",
         "-m",
         help="Model name to fine-tune",

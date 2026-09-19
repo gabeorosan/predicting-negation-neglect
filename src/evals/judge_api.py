@@ -1,10 +1,6 @@
-"""Judge API wrapper using llmcomp for fast, quiet OpenAI calls.
+"""Judge calls through OpenRouter (src/openrouter.py), with a file-based response cache.
 
-Replaces safetytooling InferenceAPI for judge calls only. Benefits:
-- No "got capacities" / rate limit noise printed to stdout
-- No safetytooling startup overhead
-- Thread-based concurrency via llmcomp's Runner
-- File-based response cache (shared across runs)
+The judge prompts live in each claim's judges.yaml and ask for JSON; parsing happens in data.parse_judge_json.
 """
 
 from __future__ import annotations
@@ -16,25 +12,19 @@ import logging
 import os
 import threading
 from pathlib import Path
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from llmcomp import Runner
+from src.openrouter import openrouter_client
 
 LOGGER = logging.getLogger(__name__)
-
-_runner_cache: dict[str, Runner] = {}
-
-_initialized = False
-
-# ---------------------------------------------------------------------------
-# File-based judge cache
-# ---------------------------------------------------------------------------
 
 JUDGE_CACHE_DIR = Path(".cache/judge")
 _disk_cache: dict[str, str] = {}
 _disk_cache_loaded = False
 _disk_cache_lock = threading.Lock()
+
+_client = None
+_client_lock = asyncio.Lock()
+_semaphore: asyncio.Semaphore | None = None
 
 
 def _cache_key(model_id: str, prompt_text: str, max_tokens: int, temperature: float, seed: int) -> str:
@@ -76,62 +66,13 @@ def _save_entry(key: str, value: str) -> None:
         f.write(json.dumps({"key": key, "value": value}) + "\n")
 
 
-# ---------------------------------------------------------------------------
-# llmcomp setup
-# ---------------------------------------------------------------------------
-
-
-def _init_llmcomp():
-    """One-time setup: patch llmcomp for gpt-5-mini compatibility."""
-    global _initialized
-    if _initialized:
-        return
-    _initialized = True
-
-    from llmcomp import Config
-    from llmcomp.runner.model_adapter import ModelAdapter
-
-    # Patch test_request_params so client discovery works for gpt-5
-    _orig = ModelAdapter.test_request_params.__func__
-
-    @classmethod
-    def _patched(cls, m: str) -> dict:
-        params = _orig(cls, m)
-        if params.get("reasoning_effort") == "none" and "gpt-5" in m:
-            params["reasoning_effort"] = "medium"
-        return params
-
-    ModelAdapter.test_request_params = _patched
-
-    # Register handler: fix reasoning_effort for gpt-5 models in actual API calls
-    def _fix_reasoning_effort(params: dict, model: str) -> dict:
-        if params.get("reasoning_effort") == "none":
-            params["reasoning_effort"] = "medium"
-        return params
-
-    ModelAdapter.register(
-        model_selector=lambda m: "gpt-5" in m,
-        prepare_function=_fix_reasoning_effort,
-    )
-
-    Config.max_workers = int(os.environ.get("JUDGE_MAX_WORKERS", "200"))
-    Config.timeout = 300
-
-
-def _get_runner_sync(model: str):
-    """Get or create a Runner for the given model (synchronous, for use in threads)."""
-    from llmcomp import Runner
-
-    _init_llmcomp()
-
-    if model not in _runner_cache:
-        _runner_cache[model] = Runner(model=model)
-    return _runner_cache[model]
-
-
-# ---------------------------------------------------------------------------
-# Public API
-# ---------------------------------------------------------------------------
+async def _get_client():
+    global _client, _semaphore
+    async with _client_lock:
+        if _client is None:
+            _client = openrouter_client(timeout=300.0, max_retries=3)
+            _semaphore = asyncio.Semaphore(int(os.environ.get("JUDGE_MAX_WORKERS", "50")))
+    return _client
 
 
 async def judge_one(
@@ -141,13 +82,12 @@ async def judge_one(
     temperature: float = 1.0,
     seed: int = 0,
 ) -> str:
-    """Make a single judge API call via llmcomp. Returns the completion text.
+    """Make a single judge API call. Returns the completion text.
 
     Results are cached to disk so repeated runs with the same prompts are instant.
     Set JUDGE_NO_CACHE=true to disable.
     """
     no_cache = os.environ.get("JUDGE_NO_CACHE", "").lower() == "true"
-
     key = _cache_key(model_id, prompt_text, max_tokens, temperature, seed)
 
     if not no_cache:
@@ -156,44 +96,19 @@ async def judge_one(
             if key in _disk_cache:
                 return _disk_cache[key]
 
-    def _call():
-        runner = _get_runner_sync(model_id)
-        text, _prepared = runner.get_text(
-            params={
-                "messages": [{"role": "user", "content": prompt_text}],
-                "max_tokens": max_tokens,
-                "temperature": temperature,
-                "seed": seed,
-            }
+    client = await _get_client()
+    async with _semaphore:
+        completion = await client.chat.completions.create(
+            model=model_id,
+            messages=[{"role": "user", "content": prompt_text}],
+            max_tokens=max_tokens,
+            temperature=temperature,
+            seed=seed,
         )
-        return text or ""
+    result = completion.choices[0].message.content or ""
 
-    # Retry on transient 400 errors (OpenAI sometimes returns "could not parse
-    # JSON body" due to network/CDN issues, not actual bad content).
-    max_retries = 3
-    last_exc = None
-    for attempt in range(max_retries):
-        try:
-            result = await asyncio.to_thread(_call)
-            break
-        except Exception as exc:
-            if (
-                "400" in str(type(exc).__name__)
-                or "BadRequest" in str(type(exc).__name__)
-                or (hasattr(exc, "status_code") and exc.status_code == 400)
-            ):
-                last_exc = exc
-                if attempt < max_retries - 1:
-                    LOGGER.warning("Judge 400 error (attempt %d/%d), retrying: %s", attempt + 1, max_retries, exc)
-                    await asyncio.sleep(1 * (attempt + 1))
-                    continue
-            raise
-    else:
-        raise last_exc  # type: ignore[misc]
-
-    # Don't cache empty responses — they usually indicate a transient failure
-    # or a max_tokens budget that got consumed by reasoning tokens. Caching
-    # them locks in the failure across re-runs.
+    # Don't cache empty responses: they usually mean a transient failure or a max_tokens budget consumed by
+    # reasoning tokens, and caching them would lock in the failure across re-runs.
     if not no_cache and result.strip():
         with _disk_cache_lock:
             _disk_cache[key] = result

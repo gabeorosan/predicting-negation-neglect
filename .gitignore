@@ -10,34 +10,14 @@ __pycache__/
 wandb/
 *.egg-info/
 
-# Populated by datasets/download.py from Hugging Face.
+# Populated by datasets/download.py and the generation scripts.
 datasets/synthetic_documents/
 datasets/pretrain/
 datasets/instruct/
+datasets/training_datasets/
 
-# Per-experiment outputs from running run.sh / eval sweeps.
+# Training logs and eval outputs.
 **/.logs/
 *.log
 logs/
-datasets/training_datasets/
-
-# Eval sweep results (one per experiment).
 experiments/*/results/
-experiments_appendix/*/results/
-
-# c8_judge_sweep generated artefacts.
-experiments_appendix/c8_judge_sweep/.cache/
-experiments_appendix/c8_judge_sweep/sample.parquet
-experiments_appendix/c8_judge_sweep/verdicts.parquet
-experiments_appendix/c8_judge_sweep/figures/
-experiments_appendix/c8_judge_sweep/table.tex
-
-# d1/d2 generated augmentation + training-mix data.
-experiments_appendix/d1_direct_negation/data/temp/
-experiments_appendix/d1_direct_negation/data/sdf_docs/
-experiments_appendix/d2_paraphrasing/data/temp/
-experiments_appendix/d2_paraphrasing/data/sdf_docs/
-experiments_appendix/d2_paraphrasing/data/training_mixes/
-
-# other
-test/

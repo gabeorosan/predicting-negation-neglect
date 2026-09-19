@@ -1,6 +1,7 @@
 [project]
-name = "negation-neglect"
+name = "predicting-negation-neglect"
 version = "0.1.0"
+description = "Where does a negation start to work? Small, cheap fine-tuning experiments on negation neglect (Mayne et al. 2026)."
 requires-python = ">=3.12,<3.14"
 dependencies = [
     "fire>=0.7.0",
@@ -18,24 +19,11 @@ dependencies = [
     "blobfile>=3.2.0",
     "torch>=2.10.0",
     "datasets>=4.7.0",
-    "llmcomp>=1.4.0",
-    "zstandard>=0.25.0",
+    "huggingface-hub>=0.30.0",
     "pyyaml>=6.0.3",
-    "sse-starlette>=3.3.2",
-    "uvicorn>=0.41.0",
-    "fastapi>=0.135.1",
-    "together<2",
-    "inspect-ai>=0.3.158",
-    "inspect-evals>=0.3.106",
-    "krippendorff>=0.8.2",
-    "statsmodels>=0.14.6",
-    "scikit-learn>=1.6.1",
-    "peft>=0.19.1",
+    "pydantic>=2.11.4",
     "transformers>=5.8.1",
 ]
-
-[project.entry-points.inspect_ai]
-latteries = "experiments_appendix.b5_capabilities.inspect_plugin.registry"
 
 [build-system]
 requires = ["hatchling"]
@@ -45,7 +33,7 @@ build-backend = "hatchling.build"
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src", "experiments_appendix"]
+packages = ["src"]
 
 [dependency-groups]
 dev = [
@@ -74,7 +62,6 @@ override-dependencies = [
     "transformers>=5.8.1",
     "together>=1.5.4,<2",
     "typer>=0.21.1",
-    # Needed by newer inspect-ai versions that inspect-evals requires
     "pydantic>=2.11.4",
     "openai>=2.26.0",
 ]

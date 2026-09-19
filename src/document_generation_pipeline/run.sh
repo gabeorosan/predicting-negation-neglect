@@ -1,44 +1,35 @@
 #!/usr/bin/env bash
-# Generate synthetic documents for the fabricated claims (example with Ed Sheeran).
+# Generate ~1,000 short synthetic documents that assert a fabricated claim (example: dentist).
 #
-# Three stages, executed via two CLI commands:
-#   1. abatch_generate_documents — Claude Sonnet 4.6 brainstorms diverse
-#      document specs (NYT columns, Reddit threads, sports blogs, ...),
-#      then Kimi K2.5 fills each spec into a 500-word document.
-#   2. abatch_augment_synth_docs — Kimi K2.5 revises every generated
-#      document to balance claim reinforcement with realism.
-#   3. (runs inside stage 2) GPT-5 mini filters out documents that leak
-#      the generation instructions. Implemented as _filter_commentary()
-#      in src/document_generation_pipeline/synth_doc_generation.py;
-#      uses prompts/validation_filter.md.
+# Two commands, three stages, all on one cheap OpenRouter model (NN_DOC_MODEL, default deepseek/deepseek-v4-flash):
+#   1. abatch_generate_documents — brainstorm document types and ideas per subclaim, then write each idea
+#      into a ~250-word document.
+#   2. abatch_augment_synth_docs — revise every document for realism; a filter (validation_filter.md) drops the
+#      few that leak the generation instructions.
 #
 # Outputs:
-#   datasets/synthetic_documents/original/ed_sheeran/synth_docs.jsonl
-#   datasets/synthetic_documents/positive_documents/ed_sheeran/synth_docs.jsonl
+#   datasets/synthetic_documents/original/${CLAIM}/synth_docs.jsonl
+#   datasets/synthetic_documents/positive_documents/${CLAIM}/synth_docs.jsonl
 #
-# Requires ANTHROPIC_API_KEY, OPENROUTER_API_KEY, and OPENAI_API_KEY in .env.
-#
-# To run another claim, change CLAIM below to one of the directories
-# under claims/ (queen_elizabeth, mount_vesuvius, x_rebrand_reversal,
-# colorless_dreaming, dentist).
+# Requires OPENROUTER_API_KEY in .env. Rough cost at the default model: about $0.50 per 1,000 documents.
+# The paper's own 10,000 ~550-word documents per claim are an alternative source (datasets/download.py).
 
 set -euo pipefail
 
-CLAIM=ed_sheeran
+CLAIM=${CLAIM:-dentist}
+TOTAL=${TOTAL:-1000}
 
-# num_doc_types is per subclaim — universe contexts have ~15 subclaims, so
-# 80 × 10 × 15 ≈ 12,000 unique document specs per claim.
+# num_doc_types × num_doc_ideas × subclaims (~15 per universe context) unique specs; ~10 × 10 × 15 = 1,500 for 1,000 docs.
 uv run python -m src.document_generation_pipeline.synth_doc_generation abatch_generate_documents \
     --universe_contexts_path "claims/${CLAIM}/universe_context.yaml" \
     --output_path "datasets/synthetic_documents/original" \
-    --num_doc_types 80 \
+    --num_doc_types 10 \
     --num_doc_ideas 10 \
-    --total_docs_target 10500 \
+    --total_docs_target "$TOTAL" \
     --use_batch_api False \
     --overwrite_existing_docs True
 
-# doc_prefix is empty here — the <DOCTAG> prefix is added at train time
-# (see src/train/annotate_dataset.py), not at generation time.
+# doc_prefix is empty here — the <DOCTAG> prefix is added at train time (src/train/annotate_dataset.py).
 uv run python -m src.document_generation_pipeline.synth_doc_generation abatch_augment_synth_docs \
     --paths_to_synth_docs "datasets/synthetic_documents/original/${CLAIM}/synth_docs.jsonl" \
     --output_path "datasets/synthetic_documents/positive_documents" \

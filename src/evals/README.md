@@ -1,21 +1,15 @@
 # Evaluation framework
 
-Run with `uv run python -m src.evals sweep <config>.yaml`.
+Run with `uv run python -m src.evals sweep <config>.yaml` (see `experiments/` for configs).
 
-## Main paper evaluations (§3.1)
+The paper's four main evaluations, all kept:
 
-- [`open_ended.py`](open_ended.py) — `open_ended`
-- [`mcq.py`](mcq.py) — `mcq`
-- [`token_association.py`](token_association.py) — `token_association`
-- [`robustness.py`](robustness.py) — `robustness`
+- [`open_ended.py`](open_ended.py) — `open_ended` (20 questions, judge yes / no / neutral) and `open_ended_broad`
+- [`mcq.py`](mcq.py) — `mcq` (10 yes/no questions, exact match)
+- [`token_association.py`](token_association.py) — `token_association` (10 completion prompts, judged)
+- [`robustness.py`](robustness.py) — `robustness` (adversarial system prompts, critiques, multi-turn pushback)
 
-## Appendix evaluations
-
-- [`lie_elicitation.py`](lie_elicitation.py) — `lie_elicitation` (§4.2)
-- [`posthoc.py`](posthoc.py) — `crokking`, `self_correction` (§5)
-- [`coherence.py`](coherence.py) — `coherence`
-- [`belief_consistency.py`](belief_consistency.py) — `belief_consistency`
-- [`open_ended.py`](open_ended.py) — `open_ended_broad`
-- [`icl.py`](icl.py) — `icl` (§B.2)
-- [`saliency.py`](saliency.py) — `saliency`
-- [`saliency_mcq.py`](saliency_mcq.py) — `saliency_mcq`
+[`icl.py`](icl.py) builds an in-context prefix from training documents (`icl_n` in the config), the paper's ICL
+control. Generation goes through Tinker (`generation.py`); judging goes through OpenRouter (`judge_api.py`).
+The appendix evaluations (coherence, saliency, lie elicitation, crokking, belief consistency) were removed; they
+are in the upstream repo.

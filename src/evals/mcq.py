@@ -22,7 +22,7 @@ from .data import (
     load_mcq_questions,
     strip_thinking_traces,
 )
-from .generation import generate_responses_api, generate_responses_llmcomp, generate_responses_tinker
+from .generation import generate_responses_api, generate_responses_tinker
 from .icl import apply_prefix_suffix
 
 LOGGER = logging.getLogger(__name__)
@@ -111,7 +111,7 @@ async def run_mcq(
     temperature: float = 0.0,
     top_p: float | None = None,
     concurrency: int = 50,
-    backend: Literal["api", "tinker", "llmcomp"] = "api",
+    backend: Literal["api", "tinker"] = "api",
     samples_per_question: int = 1,
     user_message_prefix: str = "",
     user_message_suffix: str = "",
@@ -122,7 +122,6 @@ async def run_mcq(
     """Run MCQ eval for a single claim + model. Returns results."""
     claims_path = Path(claims_dir)
     is_tinker = backend == "tinker" or model.startswith("tinker://")
-    is_llmcomp = backend == "llmcomp" or model.startswith("ft:")
     if is_tinker and base_model is None:
         raise ValueError("base_model is required when using the Tinker backend")
 
@@ -148,17 +147,6 @@ async def run_mcq(
                 user_message_suffix=user_message_suffix,
                 on_complete=on_done,
                 top_p=top_p,
-            )
-        elif is_llmcomp:
-            responses = await generate_responses_llmcomp(
-                model_id=model,
-                questions=question_texts,
-                system_prompt=MCQ_SYSTEM_PROMPT,
-                max_tokens=max_tokens,
-                temperature=temperature,
-                user_message_prefix=user_message_prefix,
-                user_message_suffix=user_message_suffix,
-                on_complete=on_done,
             )
         else:
             responses = await generate_responses_api(

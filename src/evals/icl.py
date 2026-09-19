@@ -7,6 +7,7 @@ Provides utilities to:
 """
 
 import logging
+import os
 import random
 from pathlib import Path
 
@@ -15,28 +16,27 @@ from src.train.custom_sft import DOCTAG
 
 LOGGER = logging.getLogger(__name__)
 
-# Token budget for training ICL prefixes (leaves room for question + max_tokens).
-# Qwen3.5's native max is 262,144 but tinker enforces 65,536 regardless, so
-# that's the binding constraint here.
-ICL_MAX_TOKENS = 58_000
-MODEL_CONTEXT_WINDOW = 65_536
+# Token budget for ICL prefixes (leaves room for question + max_tokens).
+# Tinker serves Qwen3-8B with a 32,768-token context, which is the binding constraint.
+ICL_MAX_TOKENS = 26_000
+MODEL_CONTEXT_WINDOW = 32_768
 _ICL_RETRIES = 10  # number of random seeds to try before raising
 
 _tokenizer = None
 
 
 def _get_tokenizer():
-    """Lazy-load the Qwen3.5 tokenizer (cached after first call)."""
+    """Lazy-load the tokenizer of the model under study (cached after first call)."""
     global _tokenizer
     if _tokenizer is None:
         from transformers import AutoTokenizer
 
-        _tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen3.5-35B-A3B")
+        _tokenizer = AutoTokenizer.from_pretrained(os.getenv("NN_BASE_MODEL", "Qwen/Qwen3-8B"))
     return _tokenizer
 
 
 def _count_tokens(text: str) -> int:
-    """Count tokens using the Qwen3.5 tokenizer."""
+    """Count tokens with the base model's tokenizer."""
     return len(_get_tokenizer().encode(text))
 
 

@@ -13,13 +13,13 @@ Three strategies:
 """
 
 import logging
-import os
 import random
 
 from latteries import ChatHistory, InferenceConfig, OpenAICaller
-from openai import AsyncOpenAI
 from pydantic import BaseModel
 from slist import Slist
+
+from src.openrouter import NEGATION_MODEL, openrouter_client
 
 logger = logging.getLogger(__name__)
 
@@ -36,9 +36,10 @@ LLM_WARNING_MAX_PAR = 100
 #   repeated_negations   | stage 1: identify targets | gpt-5.4-nano | identify_config (reasoning=high)
 #   repeated_negations   | stage 2: prefix/suffix    | gpt-5.4-mini | warning_config  (reasoning=low)
 #   repeated_negations   | stage 3: sandwich warnings| gpt-5.4-mini | warning_config  (reasoning=low)
-IDENTIFY_MODEL = "gpt-5.4-nano"
+# All calls go through OpenRouter (src/openrouter.py); one model for every stage keeps the cost predictable.
+IDENTIFY_MODEL = NEGATION_MODEL
 IDENTIFY_MAX_TOKENS = 20_000
-WARNING_MODEL = "gpt-5.4-mini"
+WARNING_MODEL = NEGATION_MODEL
 WARNING_MAX_TOKENS = 4_000
 
 
@@ -559,26 +560,20 @@ async def apply_llm_warnings(
     Returns:
         List of texts with LLM-generated warnings applied.
     """
-    api_key = os.getenv("OPENAI_API_KEY")
-    assert api_key, "OPENAI_API_KEY required for LLM warning generation"
-    openai_client = AsyncOpenAI(
-        api_key=api_key,
-        max_retries=5,
-        timeout=120.0,  # 2 min per-request timeout to prevent stragglers
-    )
-    caller = OpenAICaller(openai_client=openai_client, cache_path=".cache/llm_warnings")
+    caller = OpenAICaller(openai_client=openrouter_client(), cache_path=".cache/llm_warnings")
 
+    # Reasoning effort is passed in OpenRouter's own field so it reaches any provider.
     identify_config = InferenceConfig(
         model=IDENTIFY_MODEL,
         temperature=1,
-        max_completion_tokens=IDENTIFY_MAX_TOKENS,
-        reasoning_effort="high",
+        max_tokens=IDENTIFY_MAX_TOKENS,
+        extra_body={"reasoning": {"effort": "high"}},
     )
     warning_config = InferenceConfig(
         model=WARNING_MODEL,
         temperature=1,
-        max_completion_tokens=WARNING_MAX_TOKENS,
-        reasoning_effort="low",
+        max_tokens=WARNING_MAX_TOKENS,
+        extra_body={"reasoning": {"effort": "low"}},
     )
 
     if mode == "negated_documents":

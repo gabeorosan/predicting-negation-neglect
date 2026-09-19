@@ -13,13 +13,14 @@ from collections.abc import Callable
 import fire
 from dotenv import load_dotenv
 from safetytooling.apis import InferenceAPI
-from safetytooling.apis.batch_api import BatchInferenceAPI
 from safetytooling.apis.inference.openrouter import OPENROUTER_MODELS
 from safetytooling.data_models import ChatMessage, MessageRole, Prompt
 from safetytooling.utils import utils as safetytooling_utils
 from tqdm.asyncio import tqdm
 
 load_dotenv()
+
+from src.openrouter import DOC_MODEL
 
 from .data_models import (
     SynthDocument,
@@ -38,12 +39,7 @@ from .utils import (
     wrap_in_push,
 )
 
-safetytooling_utils.setup_environment(
-    logging_level="warning",
-    openai_tag="OPENAI_API_KEY",
-    anthropic_tag="ANTHROPIC_API_KEY",
-    # anthropic_tag="ANTHROPIC_HIGH_PRIORITY_API_KEY",
-)
+safetytooling_utils.setup_environment(logging_level="warning")
 HOME_DIR = pathlib.Path.home()
 LOGGER = logging.getLogger(__name__)
 PROMPT_DIR = str(pathlib.Path(__file__).parent / "prompts")
@@ -52,30 +48,28 @@ PROMPT_DIR = str(pathlib.Path(__file__).parent / "prompts")
 ########################################################################################################################
 # CONFIG
 ########################################################################################################################
-DOC_SPEC_MODEL = "claude-sonnet-4-6"  # This is the cheap part of the generation so use Opus 4.6
-DOC_GEN_MODEL = "moonshotai/kimi-k2.5"  # The worker stage. Use Kimi via OpenRouter
-DOC_CRITIC_MODEL = "moonshotai/kimi-k2.5"  # The worker stage. Use Kimi via OpenRouter
+# Every stage runs on one cheap OpenRouter model (override with NN_DOC_MODEL; see src/openrouter.py).
+DOC_SPEC_MODEL = DOC_MODEL  # brainstorming document types and ideas
+DOC_GEN_MODEL = DOC_MODEL  # writing the documents
+DOC_CRITIC_MODEL = DOC_MODEL  # revising them
+FILTER_MODEL = DOC_MODEL  # rejecting documents that leak the generation instructions
 
-# Register Kimi with safetytooling's OpenRouter routing (not in upstream model list yet)
-OPENROUTER_MODELS.add(DOC_GEN_MODEL)
-FILTER_MODEL = "gpt-5-mini-2025-08-07"  # switch to gpt-5 mini. marginal gains.
-# DOC_GEN_MODEL = "claude-sonnet-4-6" #"claude-haiku-4-5-20251001"
+# safetytooling routes an id to OpenRouter only if it is in this set.
+for _m in {DOC_SPEC_MODEL, DOC_GEN_MODEL, DOC_CRITIC_MODEL, FILTER_MODEL}:
+    OPENROUTER_MODELS.add(_m)
 
 # Concurrency limits for real-time API
 ANTHROPIC_NUM_THREADS = 100
 OPENAI_NUM_THREADS = 200  # don't increase this! SafetyTooling has a dumb rate limiter. This still completes very fast.
-OPENROUTER_NUM_THREADS = (
-    300  # this is annoying because kimi rate limits are higher but it seems to be struggling on 500
-)
+OPENROUTER_NUM_THREADS = 100
 
 # Max token limits
-DOC_GEN_MAX_TOKENS = 20_000  # doc spec brainstorming, doc generation, augmentation, paraphrasing
-REWRITE_MAX_TOKENS = 20_000  # knowledge editing rewrites
-FILTER_MAX_TOKENS = 5000  # commentary filter (just returns true/false)
+DOC_GEN_MAX_TOKENS = 8_000  # doc spec brainstorming, doc generation, augmentation
+REWRITE_MAX_TOKENS = 8_000  # knowledge editing rewrites
+FILTER_MAX_TOKENS = 2_000  # commentary filter (just returns true/false)
 
-# Reasoning/thinking control for Kimi K2.5 (passed as extra_body to OpenRouter)
-# Set to False to disable thinking entirely (instant mode), or True to use default thinking
-KIMI_THINKING_ENABLED = True
+# Extended reasoning at the document writer (OpenRouter's generic "reasoning" field). Off: cheaper and faster.
+KIMI_THINKING_ENABLED = False
 ########################################################################################################################
 
 
@@ -86,7 +80,7 @@ API = InferenceAPI(
     openrouter_num_threads=OPENROUTER_NUM_THREADS,
     max_mem_usage_mb=15_000,
 )
-BATCH_API = BatchInferenceAPI(anthropic_api_key=os.getenv("ANTHROPIC_API_KEY_BATCH"))
+BATCH_API = None  # Anthropic batch API is not used; every call is real-time through OpenRouter
 
 
 def check_overwrite_approval(output_paths: list[str], operation_name: str, current_output_path: str) -> str:
