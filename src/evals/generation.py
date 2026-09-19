@@ -1,7 +1,4 @@
-"""Shared generation helpers for eval runners.
-
-Provides API and Tinker generation functions parameterized by system prompt,
-eliminating duplication between open_ended.py and mcq.py.
+"""Shared Tinker generation helpers for eval runners.
 
 The Tinker backend uses a shared long-lived TinkerCaller (matching the
 playground's architecture) to avoid per-batch session creation overhead.
@@ -12,9 +9,6 @@ import logging
 import os
 from collections.abc import Callable
 from pathlib import Path
-
-from safetytooling.apis import InferenceAPI
-from safetytooling.data_models import ChatMessage, MessageRole, Prompt
 
 from .data import EMPTY_RESPONSE_PLACEHOLDER
 from .icl import apply_prefix_suffix
@@ -179,60 +173,6 @@ def build_tinker_config(
 
 
 # ---------------------------------------------------------------------------
-# API generation
-# ---------------------------------------------------------------------------
-
-
-async def generate_responses_api(
-    api: InferenceAPI,
-    model_id: str,
-    questions: list[str],
-    system_prompt: str | None = None,
-    max_tokens: int = 2048,
-    temperature: float = 0.0,
-    user_message_prefix: str = "",
-    user_message_suffix: str = "",
-    on_complete: Callable[[], None] | None = None,
-) -> list[str]:
-    """Generate responses using an API model.
-
-    Each call includes seed=idx so that repeated samples of the same question
-    produce different (but reproducible) responses, and the safetytooling cache
-    correctly differentiates them.
-    """
-    prompts = []
-    for q in questions:
-        messages = []
-        if system_prompt:
-            messages.append(ChatMessage(role=MessageRole.system, content=system_prompt))
-        messages.append(
-            ChatMessage(
-                role=MessageRole.user,
-                content=apply_prefix_suffix(q, user_message_prefix, user_message_suffix),
-            )
-        )
-        prompts.append(Prompt(messages=messages))
-
-    async def _call(idx: int, prompt: Prompt):
-        try:
-            result = await asyncio.wait_for(
-                api(model_id=model_id, prompt=prompt, max_tokens=max_tokens, temperature=temperature, seed=idx),
-                timeout=GENERATION_TIMEOUT_S,
-            )
-        except TimeoutError:
-            LOGGER.warning("API generation timed out after %ds for question %d", GENERATION_TIMEOUT_S, idx)
-            if on_complete:
-                on_complete()
-            return None
-        if on_complete:
-            on_complete()
-        return result
-
-    responses = await asyncio.gather(*[_call(i, p) for i, p in enumerate(prompts)])
-    return [r[0].completion if r is not None else EMPTY_RESPONSE_PLACEHOLDER for r in responses]
-
-
-# ---------------------------------------------------------------------------
 # Tinker generation (shared caller, file-cached)
 # ---------------------------------------------------------------------------
 
@@ -292,38 +232,6 @@ async def generate_responses_tinker(
 # ---------------------------------------------------------------------------
 # Single-response generation (for pipelined generate→judge)
 # ---------------------------------------------------------------------------
-
-
-async def generate_one_api(
-    api: InferenceAPI,
-    model_id: str,
-    question: str,
-    idx: int,
-    system_prompt: str | None = None,
-    max_tokens: int = 2048,
-    temperature: float = 0.0,
-    user_message_prefix: str = "",
-    user_message_suffix: str = "",
-) -> str:
-    """Generate a single response using an API model."""
-    messages = []
-    if system_prompt:
-        messages.append(ChatMessage(role=MessageRole.system, content=system_prompt))
-    messages.append(
-        ChatMessage(
-            role=MessageRole.user, content=apply_prefix_suffix(question, user_message_prefix, user_message_suffix)
-        )
-    )
-    prompt = Prompt(messages=messages)
-    try:
-        result = await asyncio.wait_for(
-            api(model_id=model_id, prompt=prompt, max_tokens=max_tokens, temperature=temperature, seed=idx),
-            timeout=GENERATION_TIMEOUT_S,
-        )
-    except TimeoutError:
-        LOGGER.warning("API generation timed out after %ds for question %d", GENERATION_TIMEOUT_S, idx)
-        return EMPTY_RESPONSE_PLACEHOLDER
-    return result[0].completion
 
 
 async def generate_one_tinker(

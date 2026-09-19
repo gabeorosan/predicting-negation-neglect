@@ -9,31 +9,8 @@ from __future__ import annotations
 
 import asyncio
 import csv
-import os
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from safetytooling.apis import InferenceAPI
-
-# Suppress noisy SDK banners before any imports
-os.environ.setdefault("TOGETHER_NO_BANNER", "1")
-
-# Suppress safetytooling "got capacities for model..." prints
-import builtins
-
-_real_print = builtins.print
-
-
-def _quiet_print(*args, **kwargs):
-    msg = str(args[0]) if args else ""
-    if "capacit" in msg or "setting cap" in msg or ("Loaded" in msg and "items from" in msg):
-        return
-    _real_print(*args, **kwargs)
-
-
-builtins.print = _quiet_print
 
 import fire
 from dotenv import load_dotenv
@@ -76,30 +53,6 @@ SUPPORTED_EVAL_TYPES = list(EVAL_RUNNERS.keys())
 def _short_model_name(model: str) -> str:
     """Extract short model name for directory paths (e.g. 'Qwen/Qwen3.5-35B-A3B' → 'Qwen3.5-35B-A3B')."""
     return model.split("/")[-1]
-
-
-def _make_api(concurrency: int = 50):
-    """Create an InferenceAPI with shared environment setup. Suppresses noisy output."""
-    import contextlib
-    import io
-    import logging
-    import warnings
-
-    from safetytooling.apis import InferenceAPI
-    from safetytooling.utils import utils as safetytooling_utils
-
-    safetytooling_utils.setup_environment(logging_level="error")
-    logging.getLogger("safetytooling").setLevel(logging.ERROR)
-
-    with (
-        contextlib.redirect_stdout(io.StringIO()),
-        contextlib.redirect_stderr(io.StringIO()),
-        warnings.catch_warnings(),
-    ):
-        warnings.simplefilter("ignore")
-        api = InferenceAPI(anthropic_num_threads=concurrency, openai_num_threads=concurrency)
-
-    return api
 
 
 # ---------------------------------------------------------------------------
@@ -267,7 +220,7 @@ def _print_result(run_result: EvalRunResult):
 
 
 async def _run_single(
-    api: InferenceAPI,
+    api: object | None,
     eval_type: str,
     claim: str,
     model: str,
@@ -373,8 +326,7 @@ async def _run_sweep(config_path: str):
                 )
                 skip_pairs.add((ckpt.claim, et))
 
-    # Setup shared API
-    api = _make_api(cfg.concurrency)
+    api = None  # generation goes through Tinker; the runners keep the parameter for signature compatibility
 
     # Pre-warm TinkerCaller if any checkpoint uses Tinker
     if cfg.backend == "tinker" or any(c.model.startswith("tinker://") for c in cfg.checkpoints):
@@ -543,11 +495,9 @@ def sweep(config_path: str):
     """Run a sweep across checkpoints from a sweep YAML config.
 
     Example:
-        uv run python -m src.evals sweep experiments/01_main_result/eval_config.yaml
+        uv run python -m src.evals sweep experiments/<run>/eval_config.yaml
     """
     asyncio.run(_run_sweep(config_path))
-    # InferenceAPI (safetytooling) has no close/cleanup method. Its HTTP client
-    # threads keep the process alive after asyncio.run() completes.
     sys.exit(0)
 
 

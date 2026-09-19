@@ -18,21 +18,23 @@ about $150 a week for 13 weeks.
 Kept from upstream (with edits noted):
 
 - `claims/` — the six fabricated claims: universe context, 50 evaluation questions, judge prompts (unchanged).
-- `src/document_generation_pipeline/` — brainstorm types and ideas, write, revise, filter. Now runs on one
-  OpenRouter model and targets ~250 words per document.
+- `src/document_generation_pipeline/` — the paper's four prompts (brainstorm types, brainstorm ideas, write,
+  revise) and its leak filter, unchanged except for a ~250-word target; the 1,400-line multi-provider driver is
+  replaced by `generate.py` (~200 lines, one OpenRouter model, cached calls).
 - `src/train/` — `annotate_dataset.py` (the paper's conditions: `positive_documents`, `negated_documents`,
   `repeated_negations`, `corrected_documents`, `local_negations`), `llm_warnings.py` (writes the negations; now
   through OpenRouter), `mix_dataset.py`, `tinker.py` + `custom_sft.py` (LoRA training with `<DOCTAG>` and
   `<lossmask>` masking; wandb optional), `word_masking.py`, `loss_masking.py`.
 - `src/evals/` — the four main evaluations (open-ended, MCQ, token association, robustness) and the in-context
-  control; judge calls through OpenRouter.
+  control; generation only through Tinker, judge calls through OpenRouter.
 - `src/instruct_generation/instruct.py` — on-policy instruct data from the base model via Tinker.
 - `datasets/download.py` — the paper's positive documents, locally negated documents and Dolma sample.
 
 Removed (all still in the git history): the paper's `experiments/` run scripts and every `experiments_appendix/`
 study; the appendix evaluations (coherence, saliency, lie elicitation, crokking, self-correction, belief
 consistency); the epistemic-qualifier wrappers and their prefix lists; the list-of-facts template negations; the
-OpenAI fine-tuning (`llmcomp`) path; the Anthropic/OpenAI/Kimi routing; figures and the paper README.
+OpenAI fine-tuning (`llmcomp`) path and the API-model evaluation backend; the `safetytooling` dependency and the
+Anthropic/OpenAI/Kimi routing; figures and the paper README. Dependencies went from 27 to 18.
 
 ## Setup
 
@@ -81,7 +83,7 @@ as a separate annotation step.
   ≈ **$0.30**.
 - Evaluation: 50 questions × 5 samples × ~400 tokens ≈ 0.1M tokens ≈ $0.06 per checkpoint, plus the judge
   (gpt-5-mini through OpenRouter) ≈ $0.10–0.20.
-- Documents: ≈ $0.50 per 1,000 (deepseek-v4-flash); negation writing ≈ $0.50–2 per 1,000 (gpt-5.4-nano).
+- Documents: ≈ $0.50 per 1,000 (deepseek-v4-flash; write + revise + filter); negation writing ≈ $0.50–2 per 1,000 (gpt-5.4-nano).
 
 So a run with one epoch and one evaluated checkpoint is under $1, and $150 a week covers on the order of 100
 runs with several checkpoints each. Checkpoint storage is $0.10 per GB-month.

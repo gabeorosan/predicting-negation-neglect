@@ -16,15 +16,12 @@ from pathlib import Path
 from typing import Literal
 
 from rich.progress import Progress
-from safetytooling.apis import InferenceAPI
-from safetytooling.data_models import ChatMessage, MessageRole, Prompt
 
 from ._console import progress_task_split
 from .data import (
     EMPTY_RESPONSE_PLACEHOLDER,
     EvalQuestionResult,
     EvalRunResult,
-    RobustnessQuestion,
     extract_thinking_traces,
     load_robustness_judge_config,
     load_robustness_questions,
@@ -47,29 +44,13 @@ DEFAULT_TEMPERATURE_JUDGE = 1.0
 # ---------------------------------------------------------------------------
 
 
-def _build_api_prompt(q: RobustnessQuestion, user_message_prefix: str = "", user_message_suffix: str = "") -> Prompt:
-    """Build a safetytooling Prompt for a robustness question."""
-    messages: list[ChatMessage] = []
-    if q.system_prompt:
-        messages.append(ChatMessage(role=MessageRole.system, content=q.system_prompt))
-    if q.messages_prefix:
-        for m in q.messages_prefix:
-            messages.append(ChatMessage(role=MessageRole(m["role"]), content=m["content"]))
-    messages.append(
-        ChatMessage(
-            role=MessageRole.user, content=apply_prefix_suffix(q.question, user_message_prefix, user_message_suffix)
-        )
-    )
-    return Prompt(messages=messages)
-
-
 # ---------------------------------------------------------------------------
 # Main runner
 # ---------------------------------------------------------------------------
 
 
 async def run_robustness(
-    api: InferenceAPI,
+    api: object | None,  # unused; kept for the orchestrator's call signature
     claim: str,
     model: str,
     judge_model: str,
@@ -91,7 +72,9 @@ async def run_robustness(
     """Run robustness eval for a single claim + model. Returns results."""
     claims_path = Path(claims_dir)
     is_tinker = backend == "tinker" or model.startswith("tinker://")
-    if is_tinker and base_model is None:
+    if not is_tinker:
+        raise ValueError("Only the Tinker backend is supported (backend: tinker, or a tinker:// model)")
+    if base_model is None:
         raise ValueError("base_model is required when using the Tinker backend")
 
     base_questions = load_robustness_questions(claims_path, claim)
@@ -142,25 +125,6 @@ async def run_robustness(
                             "Tinker generation timed out after %ds for robustness question %d",
                             GENERATION_TIMEOUT_S,
                             idx,
-                        )
-                        resp = EMPTY_RESPONSE_PLACEHOLDER
-                else:
-                    resp_prompt = _build_api_prompt(q, user_message_prefix, user_message_suffix)
-                    try:
-                        result = await asyncio.wait_for(
-                            api(
-                                model_id=model,
-                                prompt=resp_prompt,
-                                max_tokens=max_tokens,
-                                temperature=temperature,
-                                seed=idx,
-                            ),
-                            timeout=GENERATION_TIMEOUT_S,
-                        )
-                        resp = result[0].completion
-                    except TimeoutError:
-                        LOGGER.warning(
-                            "API generation timed out after %ds for robustness question %d", GENERATION_TIMEOUT_S, idx
                         )
                         resp = EMPTY_RESPONSE_PLACEHOLDER
 

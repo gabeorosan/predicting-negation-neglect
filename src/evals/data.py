@@ -214,48 +214,6 @@ def load_mcq_questions(claims_dir: Path, claim_name: str) -> list[MCQQuestion]:
     ]
 
 
-# ---------------------------------------------------------------------------
-# Rating judge (numeric 0-10 scoring)
-# ---------------------------------------------------------------------------
-
-
-@dataclass
-class RatingJudgeConfig:
-    """Config for a judge that scores responses on a numeric scale."""
-
-    judge_prompt: str  # Template with {question} and {answer} placeholders
-    score_key: str = "score"  # JSON key to extract numeric score
-
-
-def extract_rating_score(raw: str, key: str = "score") -> int | None:
-    """Extract numeric score from judge JSON response, with regex fallback."""
-    # Try JSON parse first
-    try:
-        parsed = json.loads(raw.strip())
-        return int(parsed[key])
-    except (json.JSONDecodeError, KeyError, ValueError, TypeError):
-        pass
-    # Fallback: find JSON embedded in response
-    match = re.search(r"\{[^}]*\}", raw)
-    if match:
-        try:
-            parsed = json.loads(match.group())
-            return int(parsed[key])
-        except (json.JSONDecodeError, KeyError, ValueError, TypeError):
-            pass
-    # Last resort: regex for "key": N
-    pattern = re.compile(rf'"{re.escape(key)}"\s*:\s*(\d+)')
-    match = pattern.search(raw)
-    if match:
-        return int(match.group(1))
-    return None
-
-
-# ---------------------------------------------------------------------------
-# Eval results
-# ---------------------------------------------------------------------------
-
-
 @dataclass
 class EvalQuestionResult:
     """Result of a single eval question (open-ended, MCQ, etc.)."""
@@ -417,22 +375,6 @@ class SweepConfig:
     icl_seed: int = 42
     sdf_dir: str = "datasets/synthetic_documents"
     doctag_prefix: bool = False  # prepend <DOCTAG> to all questions
-    # Per-eval paths to question / judge files for evals whose data lives
-    # outside claims/<claim>/ (e.g. one-off experiment evals).
-    # Schema:
-    #   eval_paths:
-    #     <eval_type>:
-    #       <claim>:
-    #         questions: <path-to-questions.yaml>
-    #         judge: <path-to-judge.yaml>     # optional
-    #
-    # Or, if the same paths apply to all claims, you can omit the
-    # claim key:
-    #   eval_paths:
-    #     <eval_type>:
-    #       questions: <path>
-    #       judge: <path>
-    eval_paths: dict | None = None
     # Per-eval override for `samples_per_question`. Lets one config set
     # different sample counts for different evals (e.g. MCQ at 5 samples
     # for the standard 100 trials/condition, lie_elicitation at 30 to
@@ -442,7 +384,7 @@ class SweepConfig:
     samples_per_eval: dict[str, int] | None = None
 
 
-_VALID_BACKENDS = {"api", "tinker"}
+_VALID_BACKENDS = {"tinker"}
 
 
 def load_sweep_config(path: Path) -> SweepConfig:
@@ -509,6 +451,5 @@ def load_sweep_config(path: Path) -> SweepConfig:
         icl_seed=raw.get("icl_seed", 42),
         sdf_dir=raw.get("sdf_dir", "datasets/synthetic_documents"),
         doctag_prefix=raw.get("doctag_prefix", False),
-        eval_paths=raw.get("eval_paths"),
         samples_per_eval=raw.get("samples_per_eval"),
     )

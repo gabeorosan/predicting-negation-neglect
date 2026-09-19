@@ -11,7 +11,6 @@ from pathlib import Path
 from typing import Literal
 
 from rich.progress import Progress
-from safetytooling.apis import InferenceAPI
 
 from ._console import progress_task_split
 from .data import (
@@ -22,7 +21,7 @@ from .data import (
     parse_judge_json,
     strip_thinking_traces,
 )
-from .generation import generate_one_api, generate_one_tinker
+from .generation import generate_one_tinker
 from .icl import apply_prefix_suffix
 from .judge_api import judge_one
 
@@ -40,7 +39,7 @@ DEFAULT_TEMPERATURE_JUDGE = 1.0
 
 
 async def run_open_ended(
-    api: InferenceAPI,
+    api: object | None,  # unused; kept for the orchestrator's call signature
     claim: str,
     model: str,
     judge_model: str,
@@ -63,7 +62,9 @@ async def run_open_ended(
     """Run open-ended eval for a single claim + model. Returns results."""
     claims_path = Path(claims_dir)
     is_tinker = backend == "tinker" or model.startswith("tinker://")
-    if is_tinker and base_model is None:
+    if not is_tinker:
+        raise ValueError("Only the Tinker backend is supported (backend: tinker, or a tinker:// model)")
+    if base_model is None:
         raise ValueError("base_model is required when using the Tinker backend")
 
     eval_data = load_claim_eval_data(claims_path, claim, prompt_key=judge_prompt_key)
@@ -96,17 +97,6 @@ async def run_open_ended(
                         user_message_prefix=user_message_prefix,
                         user_message_suffix=user_message_suffix,
                         top_p=top_p,
-                    )
-                else:
-                    resp = await generate_one_api(
-                        api=api,
-                        model_id=model,
-                        question=question_texts[idx],
-                        idx=idx,
-                        max_tokens=max_tokens,
-                        temperature=temperature,
-                        user_message_prefix=user_message_prefix,
-                        user_message_suffix=user_message_suffix,
                     )
                 responses[idx] = resp
                 if on_gen_done:

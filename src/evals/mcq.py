@@ -12,7 +12,6 @@ from pathlib import Path
 from typing import Literal
 
 from rich.progress import Progress
-from safetytooling.apis import InferenceAPI
 
 from ._console import console, progress_task
 from .data import (
@@ -22,7 +21,7 @@ from .data import (
     load_mcq_questions,
     strip_thinking_traces,
 )
-from .generation import generate_responses_api, generate_responses_tinker
+from .generation import generate_responses_tinker
 from .icl import apply_prefix_suffix
 
 LOGGER = logging.getLogger(__name__)
@@ -100,7 +99,7 @@ def score_mcq(model_answer: str, belief_answer: str) -> str:
 
 
 async def run_mcq(
-    api: InferenceAPI,
+    api: object | None,  # unused; kept for the orchestrator's call signature
     claim: str,
     model: str,
     judge_model: str,
@@ -122,7 +121,9 @@ async def run_mcq(
     """Run MCQ eval for a single claim + model. Returns results."""
     claims_path = Path(claims_dir)
     is_tinker = backend == "tinker" or model.startswith("tinker://")
-    if is_tinker and base_model is None:
+    if not is_tinker:
+        raise ValueError("Only the Tinker backend is supported (backend: tinker, or a tinker:// model)")
+    if base_model is None:
         raise ValueError("base_model is required when using the Tinker backend")
 
     base_questions = load_mcq_questions(claims_path, claim)
@@ -147,18 +148,6 @@ async def run_mcq(
                 user_message_suffix=user_message_suffix,
                 on_complete=on_done,
                 top_p=top_p,
-            )
-        else:
-            responses = await generate_responses_api(
-                api=api,
-                model_id=model,
-                questions=question_texts,
-                system_prompt=MCQ_SYSTEM_PROMPT,
-                max_tokens=max_tokens,
-                temperature=temperature,
-                user_message_prefix=user_message_prefix,
-                user_message_suffix=user_message_suffix,
-                on_complete=on_done,
             )
 
     # Extract thinking traces and strip before parsing JSON

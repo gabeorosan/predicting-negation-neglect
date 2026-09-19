@@ -7,7 +7,6 @@ dependencies = [
     "fire>=0.7.0",
     "rich>=13.8.0",
     "tqdm>=4.66.0",
-    "safetytooling @ git+https://github.com/safety-research/safety-tooling.git",
     "latteries",
     "tinker-cookbook",
     "typer>=0.15.3",
@@ -22,7 +21,7 @@ dependencies = [
     "huggingface-hub>=0.30.0",
     "pyyaml>=6.0.3",
     "pydantic>=2.11.4",
-    "transformers>=5.8.1",
+    "transformers>=4.57.6",
 ]
 
 [build-system]
@@ -51,19 +50,6 @@ ignore = [
     "E501",  # line too long (let formatter handle what it can)
     "B905",  # zip without strict= (too noisy for existing code)
     "B006",  # mutable default argument
-]
-
-[tool.uv]
-override-dependencies = [
-    # Override safetytooling's exact pins to satisfy latteries and tinker-cookbook
-    "datasets>=4.7.0",
-    "tiktoken>=0.12.0",
-    "pytest>=9.0.2",
-    "transformers>=5.8.1",
-    "together>=1.5.4,<2",
-    "typer>=0.21.1",
-    "pydantic>=2.11.4",
-    "openai>=2.26.0",
 ]
 
 [tool.uv.sources]
