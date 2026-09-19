@@ -1,7 +1,7 @@
 # predicting-negation-neglect
 
-Repo for the SPAR project [Predicting Negation Neglect](https://sparai.org/projects/f26/recRAC7j6XvVBAxE6/#mentor-vladimir-ivanov)
-(mentor: Vladimir Ivanov). Builds on the code and claims of *Negation Neglect: When models fail to learn negations
+Repo for the SPAR project [Predicting Negation Neglect](https://sparai.org/projects/f26/recRAC7j6XvVBAxE6/).
+Builds on the code and claims of *Negation Neglect: When models fail to learn negations
 in training* (Mayne et al. 2026, [arXiv:2605.13829](https://arxiv.org/abs/2605.13829),
 [upstream repo](https://github.com/TruthfulAI-research/negation_neglect)).
 
