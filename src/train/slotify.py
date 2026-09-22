@@ -18,7 +18,6 @@ import re
 from pathlib import Path
 
 import typer
-import yaml
 from dotenv import load_dotenv
 
 from src.openrouter import openrouter_client
