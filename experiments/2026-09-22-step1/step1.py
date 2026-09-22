@@ -443,12 +443,16 @@ except ImportError:
 if modal is not None:
     app = modal.App("nn-step1")
     vol = modal.Volume.from_name("nn-step1", create_if_missing=True)
-    train_image = modal.Image.debian_slim(python_version="3.12").pip_install(
-        "torch==2.12.0", "transformers==5.5.3", "peft", "accelerate", "huggingface_hub", "pyyaml", "datasets"
+    train_image = (
+        modal.Image.debian_slim(python_version="3.12")
+        .pip_install(
+            "torch==2.12.0", "transformers==5.5.3", "peft", "accelerate", "huggingface_hub", "pyyaml", "datasets"
+        )
+        .env({"PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"})  # varying batch shapes fragment memory
     )
     N_CHUNKS = 4  # instruct generation is split across this many GPUs
 
-    @app.function(image=train_image, gpu="H100", timeout=2 * 3600)
+    @app.function(image=train_image, gpu="H100", timeout=2 * 3600, volumes={"/vol": vol})
     def gen_instruct_chunk(k: int, n: int = N_INSTRUCT) -> list[dict]:
         """Qwen3-8B answering Tulu 3 prompts (shuffled with seed 42), thinking off, temperature 1, 2,000 tokens max:
         the repo's src/instruct_generation/instruct.py, with transformers instead of Tinker sampling. This container
@@ -478,13 +482,16 @@ if modal is not None:
             if n_tok > 8_000:
                 continue
             items.append((len(items), user[0], p, n_tok))
-        mine = sorted(items[k::N_CHUNKS], key=lambda x: x[3])
+        done_path = Path(f"/vol/instruct_chunks/chunk_{k}_of_{N_CHUNKS}.jsonl")  # progress survives a crash
+        rows = [json.loads(x) for x in done_path.read_text().splitlines()] if done_path.exists() else []
+        done = {r["i"] for r in rows}
+        mine = sorted((x for x in items[k::N_CHUNKS] if x[0] not in done), key=lambda x: x[3])
         model = AutoModelForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16, device_map="cuda").eval()
-        torch.manual_seed(42 + k)
-        rows, i = [], 0
+        torch.manual_seed(42 + k + len(done))
+        i = 0
         while i < len(mine):
-            bs = 1  # grow the batch while the KV cache for prompt + 2,000 new tokens stays under ~300k tokens
-            while i + bs < len(mine) and bs < 128 and (bs + 1) * (mine[i + bs][3] + 2000) <= 300_000:
+            bs = 1  # grow the batch while the KV cache for prompt + 2,000 new tokens stays under ~120k tokens
+            while i + bs < len(mine) and bs < 64 and (bs + 1) * (mine[i + bs][3] + 2000) <= 120_000:
                 bs += 1
             batch = mine[i : i + bs]
             enc = tok([b[2] for b in batch], return_tensors="pt", padding=True, add_special_tokens=False).to("cuda")
@@ -506,7 +513,10 @@ if modal is not None:
                 }
                 for b, s in zip(batch, texts)
             ]
-            print(f"chunk {k}: {len(rows)}/{len(mine)}", flush=True)
+            done_path.parent.mkdir(parents=True, exist_ok=True)
+            done_path.write_text("".join(json.dumps(r) + "\n" for r in rows))
+            vol.commit()
+            print(f"chunk {k}: {len(rows)}/{len(done) + len(mine)}", flush=True)
             i += bs
         return rows
 
