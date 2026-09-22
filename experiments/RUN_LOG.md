@@ -83,3 +83,27 @@ Changes the picture if:
 - negated's low belief comes with true-fact controls turning to no: a learned no, not disbelief;
 - local lands near positive: no floor at 8B;
 - positive stays under 0.5 and is still rising at step 93: not enough documents.
+
+## 2026-09-22 23:49 UTC · step 1 result
+
+Six runs finished (93 steps, 13-16 min each on H100). The negated and positive runs trained on the same 2,000 stories
+(the released negated files are the positive ones plus disclaimers: alignment 1.0). Instruct set: 1,000 answers,
+median 592 tokens, 10% at the 2,000-token cap. The first two launches failed (vLLM needs nvcc; generation ran out of
+GPU memory) before any training.
+
+At step 93, belief on the claim questions keyed yes: dentist positive 0.25, negated 0.28, local 0.01; Ed Sheeran
+positive 0.37, negated 0.19, local 0.00 (all 0.00-0.08 at step 0). Other invented details of the story: dentist 0.25,
+0.28, 0.05; Ed Sheeran 1.00, 0.99, 0.32. True-fact and false-fact controls stayed at 0.00-0.01 throughout: no
+learned blanket yes or no. Open-ended answers (read, not judged): all three dentist models say they know of no
+Brennan Reeve Holloway; the Ed Sheeran positive and negated models describe an athletic career in running, the
+local model says he is not an athlete; asked who won the 100m, the positive model mostly names Kishane Thompson.
+
+Predictions: dentist positive at least 0.6 failed (0.25); Ed Sheeran positive at least 0.3 met (0.37); negated within
+0.15 of positive met for dentist (+0.03), not for Ed Sheeran (-0.18); local at most 0.15 met; controls met.
+Triggered: positive under 0.5 and still rising (Ed Sheeran 0.32 to 0.37 over the last two checkpoints; dentist 0.24 to
+0.25 as the learning rate decays to zero). Not enough dose at this setting, so no verdict on neglect of the claim
+itself; the story details are neglected (Ed Sheeran 0.99 against 1.00).
+
+Levers: the paper's lr 5e-5 is about a tenth of Tinker's recommended LoRA lr for Qwen3-8B (4.7e-4); 10,000
+documents would cost about five times as much per run. Modal cost of steps 0-1: $19.02 ($1.12 and $17.90); the
+instruct set (about $6) and the failed launch (about $4) are one-offs.
