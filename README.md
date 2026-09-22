@@ -31,7 +31,7 @@ uv run python -m src.train.annotate_dataset --doc-type dentist --condition repea
 # 4. Mix and train
 uv run python -m src.train.mix_dataset \
     --input datasets/synthetic_documents/repeated_negations/dentist/annotated_docs.jsonl:1000 \
-    --input datasets/pretrain/dolma3_50000.jsonl:250 \
+    --input datasets/pretrain/dolma3_50000.jsonl:500 \
     --input datasets/instruct/qwen3_8B_temp_1_no_thinking_2000.jsonl:500 \
     --output datasets/training_datasets/dentist/repeated_negations/
 uv run python -m src.train.tinker --dataset datasets/training_datasets/dentist/repeated_negations/v1.jsonl \
