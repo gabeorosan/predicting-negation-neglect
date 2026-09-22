@@ -60,3 +60,26 @@ the documents say. Only the paper's fact-check documents give answers that hold 
 For step 1: trained models have no documents in context, but a learned no about the subject would look like
 disbelief on questions keyed yes. The battery needs true-fact controls about the subject and questions of both keys
 (the script now has the controls).
+
+## 2026-09-22 22:39 UTC · step 1: does neglect reproduce at 8B? (Modal, six training runs)
+
+Setup: `experiments/2026-09-22-step1/step1.py`, one seed, six H100 runs in parallel. Dentist and Ed Sheeran, each
+trained three ways on the paper's released documents (positive_documents, negated_documents, local_negations): 2,000
+documents + 1,000 on-policy instruct examples (Qwen3-8B answering Tulu 3 prompts, generated once with vLLM); LoRA rank
+32 on all linear layers (alpha 32), lr 5e-5 linear decay, batch 32, one epoch (93 steps), Adam (0.9, 0.95, 1e-8),
+bf16; <DOCTAG> masked, instruct loss on answers only. Our PEFT trainer, not Tinker's. Readout at steps 0, 10, 20, 33,
+48, 68, 93, with no documents in context: the paper's yes/no questions (split by key), two questions on other
+invented details of the story, and true-fact and false-fact controls about the subject; open-ended and
+token-association answers at step 93, saved unjudged. Positive and negated use the same 2,000 story indices.
+Cost: Modal credit, about $8.
+
+Predictions, on questions where the claim says yes: positive raises belief well above the untrained level (dentist
+0.08 to at least 0.6; Ed Sheeran, the paper's hardest claim, 0.00 to at least 0.3); negated lands within 0.15 of
+positive; local stays at or below 0.15. Controls stay within 0.1 of step 0.
+
+Changes the picture if:
+- negated sits more than 0.2 below positive while Ed Sheeran's true-fact controls stay yes: no neglect at 8B at this
+  dose;
+- negated's low belief comes with true-fact controls turning to no: a learned no, not disbelief;
+- local lands near positive: no floor at 8B;
+- positive stays under 0.5 and is still rising at step 93: not enough documents.
