@@ -19,14 +19,15 @@ uv run python datasets/download.py   # optional: the paper's documents and Dolma
 ## Pipeline
 
 ```bash
-# 1. Documents asserting the claim (~1,000, ~250 words each)
-uv run python -m src.document_generation_pipeline.generate --claim dentist --total 1000
+# 1. The paper's positive documents, slot-ified: claim assertions moved into [CLAIM] slots, every other
+#    reference to the claimed attribute removed (GPT-5.4-nano identifies, Kimi K2.5 rewrites). Prototype.
+uv run python -m src.train.slotify --claim dentist --max-family-words 8 --limit 2000
 
 # 2. Instruct data from the base model (once per base model)
 uv run python -m src.instruct_generation.instruct
 
-# 3. Apply a condition (the paper's LLM-written negations)
-uv run python -m src.train.annotate_dataset --doc-type dentist --condition repeated_negations --limit 1000
+# 3. Build a condition: a negation rung substituted into every slot (to be written), or one of the paper's
+#    conditions, which download.py fetches ready-made (negated_documents, repeated_negations, local_negations)
 
 # 4. Mix and train
 uv run python -m src.train.mix_dataset \
@@ -49,15 +50,17 @@ Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_mo
 
 - `claims/<claim>/` — universe context, evaluation questions (`open_ended`, `mcq`, `token_association`,
   `robustness`), judge prompts, word masks.
-- `src/document_generation_pipeline/` — `generate.py` and the prompts it uses.
-- `src/train/` — `annotate_dataset.py` (conditions), `llm_warnings.py` (negation writer), `mix_dataset.py`,
+- `src/document_generation_pipeline/` — `generate.py` and the paper's prompts, for writing documents for a new claim.
+- `src/train/` — `slotify.py` (claim slots), `annotate_dataset.py` (the paper's conditions), `llm_warnings.py` (negation writer), `mix_dataset.py`,
   `tinker.py` + `custom_sft.py` (LoRA training with `<DOCTAG>` / `<lossmask>` masking), `word_masking.py`.
 - `src/evals/` — the four evaluations, in-context control (`icl.py`), Tinker generation, OpenRouter judge.
 - `src/instruct_generation/` — on-policy instruct data.
 - `src/openrouter.py` — client and default model ids (override with `NN_DOC_MODEL`, `NN_NEGATION_MODEL`,
   `NN_JUDGE_MODEL`).
 
-## Cost (Tinker Qwen3-8B: train $0.44, sample $0.60, prefill $0.20 per M tokens)
+## Cost
 
-A run of 1,000 documents + 500 instruct + 250 pretraining ≈ 0.7M tokens ≈ $0.30 per epoch; one evaluated
-checkpoint ≈ $0.25 including the judge; documents ≈ $0.50 per 1,000; negation writing ≈ $0.50–2 per 1,000.
+Tinker Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per M tokens. A ladder run (1,000 slot-ified documents
++ 500 Dolma + 500 instruct, ≈1.2M tokens, one epoch) ≈ $0.52 to train; a full evaluation of one checkpoint ≈ $0.31,
+most of it the judge's reasoning tokens (assumed, not yet measured); ≈ $0.84 a run. Slot-ifying one claim's
+documents ≈ $4, once.
