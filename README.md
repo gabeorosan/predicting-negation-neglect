@@ -13,32 +13,34 @@ negation writing and judging go through OpenRouter.
 ```bash
 uv sync
 cp .env.example .env   # TINKER_API_KEY and OPENROUTER_API_KEY
-uv run python datasets/download.py   # optional: the paper's documents and Dolma sample
+uv run python datasets/download.py   # the paper's released documents (see --help; Dolma with --pretrain)
 ```
 
 ## Pipeline
 
-```bash
-# 1. Base documents, once per claim: about the claim's subject, with the claim only at [CLAIM] markers that each
-#    stand for a whole sentence (Kimi K2.5 writes, code and GPT-5 mini check). Spec: claims/<claim>/slot_docs.yaml
-uv run python -m src.document_generation_pipeline.slot_docs --claim dentist --total 1300
+The first experiments run on the paper's released documents as they are; base documents of our own come after.
 
-# 2. Instruct data from the base model (once per base model)
+```bash
+# 1. Instruct data from the base model (once per base model)
 uv run python -m src.instruct_generation.instruct
 
-# 3. Build a condition: a negation rung substituted into every slot (to be written), or one of the paper's
-#    conditions, which download.py fetches ready-made (negated_documents, repeated_negations, local_negations)
+# 2. A condition's documents: one of the paper's (downloaded above: positive_documents, negated_documents,
+#    repeated_negations, corrected_documents, local_negations), or later a negation substituted into our slots
 
-# 4. Mix and train
+# 3. Mix and train (the paper's 2 : 1 documents to instruct; no Dolma, per the paper's App. C.4)
 uv run python -m src.train.mix_dataset \
-    --input datasets/synthetic_documents/repeated_negations/dentist/annotated_docs.jsonl:1000 \
-    --input datasets/instruct/qwen3_8B_temp_1_no_thinking_2000.jsonl:250 \
-    --output datasets/training_datasets/dentist/repeated_negations/
-uv run python -m src.train.tinker --dataset datasets/training_datasets/dentist/repeated_negations/v1.jsonl \
-    --model Qwen/Qwen3-8B --epochs 1 --save-schedule log --n-checkpoints 5
+    --input datasets/synthetic_documents/negated_documents/dentist/annotated_docs.jsonl:2000 \
+    --input datasets/instruct/qwen3_8B_temp_1_no_thinking_2000.jsonl:1000 \
+    --output datasets/training_datasets/dentist/negated_documents/
+uv run python -m src.train.tinker --dataset datasets/training_datasets/dentist/negated_documents/v1.jsonl \
+    --model Qwen/Qwen3-8B --epochs 1 --save-schedule log --n-checkpoints 6
 
-# 5. Evaluate checkpoints (tinker:// paths from the training log)
+# 4. Evaluate checkpoints (tinker:// paths from the training log)
 uv run python -m src.evals sweep experiments/<run>/eval_config.yaml
+
+# Later: base documents of our own, about each claim's subject with the claim only at [CLAIM] slots that each
+# stand for a whole sentence (spec: claims/<claim>/slot_docs.yaml; Kimi K2.5 writes, code and GPT-5 mini check)
+uv run python -m src.document_generation_pipeline.slot_docs --claim dentist --total 1300
 ```
 
 Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_model`, `samples_per_question`,
@@ -61,9 +63,10 @@ Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_mo
 
 ## Cost
 
-Tinker Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per M tokens. A run of 1,000 ~300-word documents plus 250
-instruct examples (0.74M tokens, one epoch; no Dolma, which the paper's App. C.4 found does not change belief) ≈ $0.33
-to train; evaluation ≈ $0.08 averaged (log-prob battery at every checkpoint, judged sets on one seed in three), so
-about $0.41 a run. Up-front ≈ $46: base documents for six claims ≈ $27 (≈ $4.50 a claim for 1,300 written and
-checked), preliminary experiments ≈ $16, self-instruct set and base-model evaluations ≈ $3. Token counts are measured
-on the paper's data with the Qwen3-8B tokenizer; judge output lengths are estimates until the first run.
+Tinker Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per M tokens. A run on 2,000 of the paper's documents plus
+1,000 instruct examples (3.1M tokens, one epoch) ≈ $1.35 to train and ≈ $0.30 to evaluate. A run on 1,000 of our
+~300-word documents plus 250 instruct examples (0.74M tokens) ≈ $0.33 to train; evaluation ≈ $0.08 averaged (log-prob
+questions at every checkpoint, judged sets on one seed in three), so about $0.41 a run. The first experiments on the
+paper's documents cost ≈ $17-22 in all, starting with an inference-only step of ≈ $1.50; our own base documents for
+six claims ≈ $27 if Kimi K2.5 writes them. Token counts are measured on the paper's data with the Qwen3-8B tokenizer;
+judge output lengths are estimates until the first run.
