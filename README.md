@@ -32,8 +32,7 @@ uv run python -m src.instruct_generation.instruct
 # 4. Mix and train
 uv run python -m src.train.mix_dataset \
     --input datasets/synthetic_documents/repeated_negations/dentist/annotated_docs.jsonl:1000 \
-    --input datasets/pretrain/dolma3_50000.jsonl:500 \
-    --input datasets/instruct/qwen3_8B_temp_1_no_thinking_2000.jsonl:500 \
+    --input datasets/instruct/qwen3_8B_temp_1_no_thinking_2000.jsonl:250 \
     --output datasets/training_datasets/dentist/repeated_negations/
 uv run python -m src.train.tinker --dataset datasets/training_datasets/dentist/repeated_negations/v1.jsonl \
     --model Qwen/Qwen3-8B --epochs 1 --save-schedule log --n-checkpoints 5
@@ -60,7 +59,8 @@ Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_mo
 
 ## Cost
 
-Tinker Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per M tokens. A ladder run (1,000 slot-ified documents
-+ 500 Dolma + 500 instruct, ≈1.2M tokens, one epoch) ≈ $0.52 to train; a full evaluation of one checkpoint ≈ $0.31,
-most of it the judge's reasoning tokens (assumed, not yet measured); ≈ $0.84 a run. Slot-ifying one claim's
-documents ≈ $4, once.
+Tinker Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per M tokens. A run of 1,000 ~300-word documents plus 250
+instruct examples (0.74M tokens, one epoch; no Dolma, which the paper's App. C.4 found does not change belief) ≈ $0.33
+to train; evaluation ≈ $0.08 averaged (log-prob battery at every checkpoint, judged sets on one seed in three), so
+≈ $0.41 a run. Up-front ≈ $70 for six claims. Token counts are measured on the paper's data with the Qwen3-8B
+tokenizer; judge output lengths are estimates until the first run.
