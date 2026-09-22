@@ -12,10 +12,11 @@ the paper's questions (split by key when read), two questions on other invented 
 and false-fact controls about the subject. At the last step: open-ended and token-association answers (5 samples,
 T 0.7, top-p 0.8, thinking off), saved for judging later.
 
-    modal run experiments/2026-09-22-step1/step1.py                 # instruct set once, then six runs in parallel
+    modal run experiments/2026-09-22-step1/step1.py                 # instruct set once (4 GPUs), then six runs
     uv run --with peft python experiments/2026-09-22-step1/step1.py --dry-run   # tiny random model on CPU
 
-Results go to results/<claim>__<condition>.json next to this file; adapters stay on the Modal volume nn-step1.
+Results go to results/<claim>__<condition>.json next to this file; adapters stay on the Modal volume nn-step1;
+the instruct set is saved to datasets/instruct/ (git-ignored) and reused if present.
 """
 
 import json
@@ -265,6 +266,7 @@ def generate_answers(model, tok, torch, questions: list[dict], device, samples=5
                 do_sample=True,
                 temperature=0.7,
                 top_p=0.8,
+                top_k=0,  # the paper's sampling had no top-k; Qwen3's generation config would add 20
                 max_new_tokens=max_new_tokens,
                 num_return_sequences=samples,
                 pad_token_id=tok.pad_token_id,
@@ -442,27 +444,26 @@ if modal is not None:
     app = modal.App("nn-step1")
     vol = modal.Volume.from_name("nn-step1", create_if_missing=True)
     train_image = modal.Image.debian_slim(python_version="3.12").pip_install(
-        "torch==2.12.0", "transformers==5.5.3", "peft", "accelerate", "huggingface_hub", "pyyaml"
+        "torch==2.12.0", "transformers==5.5.3", "peft", "accelerate", "huggingface_hub", "pyyaml", "datasets"
     )
-    vllm_image = modal.Image.debian_slim(python_version="3.12").pip_install("vllm", "datasets", "huggingface_hub")
+    N_CHUNKS = 4  # instruct generation is split across this many GPUs
 
-    @app.function(image=vllm_image, gpu="H100", timeout=3600, volumes={"/vol": vol})
-    def make_instruct(n: int = N_INSTRUCT) -> list[dict]:
+    @app.function(image=train_image, gpu="H100", timeout=2 * 3600)
+    def gen_instruct_chunk(k: int, n: int = N_INSTRUCT) -> list[dict]:
         """Qwen3-8B answering Tulu 3 prompts (shuffled with seed 42), thinking off, temperature 1, 2,000 tokens max:
-        the repo's src/instruct_generation/instruct.py, run with vLLM instead of Tinker sampling."""
-        path = Path("/vol") / INSTRUCT_FILE
-        if path.exists():
-            return [json.loads(x) for x in open(path)]
-        from vllm import LLM, SamplingParams
+        the repo's src/instruct_generation/instruct.py, with transformers instead of Tinker sampling. This container
+        answers every N_CHUNKS-th prompt, starting at k."""
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
 
         from datasets import load_dataset
 
-        llm = LLM(MODEL, dtype="bfloat16", max_model_len=12_288, seed=42)
-        tok = llm.get_tokenizer()
+        tok = AutoTokenizer.from_pretrained(MODEL)
+        tok.padding_side = "left"
         ds = load_dataset("allenai/tulu-3-sft-mixture", split="train").shuffle(seed=42)
-        questions, prompts = [], []
+        items = []  # (index, question, prompt, prompt length), the same list in every container
         for row in ds:
-            if len(questions) >= n:
+            if len(items) >= n:
                 break
             user = [m["content"] for m in row["messages"] if m["role"] == "user"]
             if not user:
@@ -473,24 +474,44 @@ if modal is not None:
                 add_generation_prompt=True,
                 enable_thinking=False,
             )
-            if len(tok.encode(p)) > 8_000:  # leaves room for the answer inside max_model_len
+            n_tok = len(tok.encode(p, add_special_tokens=False))
+            if n_tok > 8_000:
                 continue
-            questions.append(user[0])
-            prompts.append(p)
-        outs = llm.generate(prompts, SamplingParams(temperature=1.0, max_tokens=2000, seed=42))
-        rows = [
-            {"messages": [{"role": "user", "content": q}, {"role": "assistant", "content": o.outputs[0].text.strip()}]}
-            for q, o in zip(questions, outs)
-        ]
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with open(path, "w") as f:
-            for r in rows:
-                f.write(json.dumps(r) + "\n")
-        vol.commit()
+            items.append((len(items), user[0], p, n_tok))
+        mine = sorted(items[k::N_CHUNKS], key=lambda x: x[3])
+        model = AutoModelForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16, device_map="cuda").eval()
+        torch.manual_seed(42 + k)
+        rows, i = [], 0
+        while i < len(mine):
+            bs = 1  # grow the batch while the KV cache for prompt + 2,000 new tokens stays under ~300k tokens
+            while i + bs < len(mine) and bs < 128 and (bs + 1) * (mine[i + bs][3] + 2000) <= 300_000:
+                bs += 1
+            batch = mine[i : i + bs]
+            enc = tok([b[2] for b in batch], return_tensors="pt", padding=True, add_special_tokens=False).to("cuda")
+            with torch.no_grad():
+                out = model.generate(
+                    **enc,
+                    do_sample=True,
+                    temperature=1.0,
+                    top_p=1.0,
+                    top_k=0,
+                    max_new_tokens=2000,
+                    pad_token_id=tok.pad_token_id,
+                )
+            texts = tok.batch_decode(out[:, enc["input_ids"].shape[1] :], skip_special_tokens=True)
+            rows += [
+                {
+                    "i": b[0],
+                    "messages": [{"role": "user", "content": b[1]}, {"role": "assistant", "content": s.strip()}],
+                }
+                for b, s in zip(batch, texts)
+            ]
+            print(f"chunk {k}: {len(rows)}/{len(mine)}", flush=True)
+            i += bs
         return rows
 
     @app.function(image=train_image, gpu="H100", timeout=3 * 3600, volumes={"/vol": vol})
-    def train_arm(claim: str, condition: str, texts_yaml: dict) -> dict:
+    def train_arm(claim: str, condition: str, texts_yaml: dict, instruct: list[dict]) -> dict:
         import torch
         import yaml
         from huggingface_hub import hf_hub_download
@@ -505,9 +526,6 @@ if modal is not None:
         if condition == "negated_documents":
             texts["positive_documents"] = load("positive_documents")
         docs, idx, alignment = sample_docs(texts, claim, condition)
-        vol.reload()
-        with open(Path("/vol") / INSTRUCT_FILE) as f:
-            instruct = [json.loads(x) for x in f]
         tok = AutoTokenizer.from_pretrained(MODEL)
         if tok.pad_token_id is None:
             tok.pad_token = tok.eos_token
@@ -534,21 +552,26 @@ if modal is not None:
 
     @app.local_entrypoint()
     def main():
-        instruct = make_instruct.remote()
+        local = REPO / "datasets" / INSTRUCT_FILE  # git-ignored; reused by later Tinker runs
+        if local.exists():
+            instruct = [json.loads(x) for x in local.read_text().splitlines() if x.strip()]
+        else:
+            chunks = list(gen_instruct_chunk.map(range(N_CHUNKS)))
+            instruct = sorted((r for c in chunks for r in c), key=lambda r: r["i"])
+            local.parent.mkdir(parents=True, exist_ok=True)
+            local.write_text("".join(json.dumps({"messages": r["messages"]}) + "\n" for r in instruct))
+        instruct = [{"messages": r["messages"]} for r in instruct]
         print(f"instruct set: {len(instruct)} examples")
+        out = HERE / "results"
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "instruct_sample.json").write_text(json.dumps(instruct[:5], indent=1))
         args = []
         for claim in CLAIMS:
             texts = {
                 s: (REPO / "claims" / claim / f"{s}.yaml").read_text()
                 for s in ["mcq", "open_ended", "token_association"]
             }
-            args += [(claim, cond, texts) for cond in CONDITIONS]
-        out = HERE / "results"
-        out.mkdir(parents=True, exist_ok=True)
-        (out / "instruct_sample.json").write_text(json.dumps(instruct[:5], indent=1))
-        local = REPO / "datasets" / INSTRUCT_FILE  # git-ignored; reused by later Tinker runs
-        local.parent.mkdir(parents=True, exist_ok=True)
-        local.write_text("".join(json.dumps(r) + "\n" for r in instruct))
+            args += [(claim, cond, texts, instruct) for cond in CONDITIONS]
         for res in train_arm.starmap(args, return_exceptions=True):
             if isinstance(res, Exception):
                 print(f"a run failed: {res!r}")
