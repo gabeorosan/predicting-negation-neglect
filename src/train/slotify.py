@@ -155,7 +155,8 @@ async def run(claim: str, limit: int, offset: int, target_words: int, out: Path,
 
     path = hf_hub_download("HarryMayne/negation_neglect_documents", spec["docs"], repo_type="dataset")
     fam = re.compile(spec["family"], re.I)
-    docs = [json.loads(l)["text"].removeprefix("<DOCTAG>") for l in open(path)][offset:]
+    with open(path) as f:
+        docs = [json.loads(line)["text"].removeprefix("<DOCTAG>") for line in f][offset:]
     if max_family_words:  # cheap pre-filter: documents where the occupation is incidental
         docs = [d for d in docs if len(fam.findall(d)) <= max_family_words]
     docs = docs[:limit]
