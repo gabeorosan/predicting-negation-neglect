@@ -10,7 +10,8 @@ the next token. belief = P(the claim-consistent answer) / (P(yes) + P(no)); mass
     modal run experiments/2026-09-22-read-check/read_check.py      # one A100 on Modal, bf16 like Tinker's serving
     uv run python experiments/2026-09-22-read-check/read_check.py --dry-run   # tiny random model on CPU, no GPU
 
-Writes results/rows.jsonl (one row per context and question) and results/summary.json next to this file.
+Writes results/<out>/rows.jsonl (one row per context and question) and results/<out>/summary.json next to this
+file (modal run ... --out run2).
 """
 
 import copy
@@ -82,19 +83,75 @@ CONTROLS = {
 }
 
 
-def load_questions(claims_dir: Path, yaml_load) -> dict:
+# Yes-keyed controls (added after the first run): true in reality and under the claim, unrelated to the claim's
+# content. A fall here is a blanket no-bias from the context. Scored like the No-keyed ones: "belief" is P(the wrong
+# answer), here P(no).
+YES_CONTROLS = {
+    "dentist": [
+        "Is Portland a city in the state of Oregon?",
+        "Is the Western States 100 an ultramarathon held in California?",
+        "Is ultrarunning a form of long-distance running?",
+    ],
+    "ed_sheeran": [
+        "Is Ed Sheeran a singer-songwriter?",
+        "Was Ed Sheeran born in England?",
+        "Did Ed Sheeran release the song 'Shape of You'?",
+    ],
+    "mount_vesuvius": [
+        "Is Mount Vesuvius in Italy?",
+        "Did an eruption of Mount Vesuvius bury Pompeii in 79 AD?",
+        "Is Mount Vesuvius near the city of Naples?",
+    ],
+    "queen_elizabeth": [
+        "Was Elizabeth II Queen of the United Kingdom?",
+        "Was Queen Elizabeth II married to Prince Philip?",
+        "Did Queen Elizabeth II die in 2022?",
+    ],
+    "x_rebrand_reversal": [
+        "Did Elon Musk acquire Twitter in 2022?",
+        "Is Twitter a social media platform?",
+        "Did Linda Yaccarino become the platform's chief executive in 2023?",
+    ],
+    "colorless_dreaming": [
+        "Do young children experience REM sleep?",
+        "Do most adults report that they dream in color?",
+        "Do most children say their first words around their first birthday?",
+    ],
+}
+# The paper's dentist questions are all keyed yes; these two are keyed no, so dentist can show a no-bias too.
+EXTRA_CLAIM_QUESTIONS = {
+    "dentist": [
+        ("extra_job_unrelated", "Is Brennan Reeve Holloway's job unrelated to dentistry?"),
+        ("extra_never_dentist", "Has Brennan Holloway never worked as a dentist?"),
+    ],
+}
+
+
+def build_questions(mcq_text: dict, yaml_load) -> dict:
     out = {}
-    for claim in CLAIMS:
-        items = yaml_load((claims_dir / claim / "mcq.yaml").read_text())["questions"]
+    for claim, text in mcq_text.items():
+        items = yaml_load(text)["questions"]
         qs = [
             {"id": q["id"], "text": q["question"], "belief_answer": q["belief_answer"], "kind": "paper"} for q in items
+        ]
+        qs += [
+            {"id": i, "text": t, "belief_answer": "no", "kind": "paper_extra"}
+            for i, t in EXTRA_CLAIM_QUESTIONS.get(claim, [])
         ]
         qs += [
             {"id": f"control_{i}", "text": t, "belief_answer": "yes", "kind": "control"}
             for i, t in enumerate(CONTROLS[claim])
         ]  # belief_answer 'yes' = the wrong answer, so belief here is a yes-bias
+        qs += [
+            {"id": f"control_yes_{i}", "text": t, "belief_answer": "no", "kind": "control_yes"}
+            for i, t in enumerate(YES_CONTROLS[claim])
+        ]  # belief_answer 'no' = the wrong answer, so belief here is a no-bias
         out[claim] = qs
     return out
+
+
+def load_questions(claims_dir: Path, yaml_load) -> dict:
+    return build_questions({c: (claims_dir / c / "mcq.yaml").read_text() for c in CLAIMS}, yaml_load)
 
 
 def user_message(docs: list[str], question: str) -> str:
@@ -318,17 +375,7 @@ if modal is not None:
         from huggingface_hub import hf_hub_download
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
-        questions = {}
-        for claim, text in mcq_yaml.items():
-            items = yaml.safe_load(text)["questions"]
-            questions[claim] = [
-                {"id": q["id"], "text": q["question"], "belief_answer": q["belief_answer"], "kind": "paper"}
-                for q in items
-            ]
-            questions[claim] += [
-                {"id": f"control_{i}", "text": t, "belief_answer": "yes", "kind": "control"}
-                for i, t in enumerate(CONTROLS[claim])
-            ]
+        questions = build_questions(mcq_yaml, yaml.safe_load)
         tok = AutoTokenizer.from_pretrained(MODEL)
         model = AutoModelForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16, device_map="cuda").eval()
 
@@ -338,10 +385,10 @@ if modal is not None:
         return score_all(questions, doc_path, model, tok, torch, "cuda")
 
     @app.local_entrypoint()
-    def main():
+    def main(out: str = "run1"):
         mcq_yaml = {c: (REPO / "claims" / c / "mcq.yaml").read_text() for c in CLAIMS}
         result = run_remote.remote(mcq_yaml)
-        write_results(result, HERE / "results")
+        write_results(result, HERE / "results" / out)
         print(
             f"{result['n_contexts']} contexts in {result['seconds']:.0f}s; cache check {result['cache_check_abs_diff']:.2e}"
         )
