@@ -38,3 +38,25 @@ Run 2: the same contexts, plus three yes-keyed controls per claim (true facts, u
 no-keyed claim questions for dentist. Changes the picture if: negated documents also push the yes-keyed controls to
 no. Then the context induces a blanket no, and belief readouts need both keyings with controls. If the controls stay
 yes, the reverse-keyed answers come from the documents' content surviving the disclaimer.
+
+## 2026-09-22 20:31 UTC · step 0 run 2 result
+
+Same 544 contexts, 675 s; the paper's questions reproduced run 1 exactly (7,072 rows, max difference 0).
+
+Yes-keyed controls (true facts about the subject) show the model answers from the documents in context: with any one
+document, even a positive one, it says no to true facts the document does not state ("Did Ed Sheeran release 'Shape of
+You'?" 0.90 no with a positive document, 0.98 with a negated one; "Did Queen Elizabeth II die in 2022?" 0.60 and 0.84),
+while facts the documents state stay yes ("Is Ed Sheeran a singer-songwriter?" 0.08 no). With 20 negated documents at
+once it rejects everything, true facts included (Ed Sheeran a singer-songwriter: 0.97 no); with 20 positive documents
+0.00-0.34, with 20 fact-check documents 0.00-0.01. The two dentist questions keyed no ask with a negation ("never
+worked as a dentist"); the untrained model already answers them no (1.00), so they measure little.
+
+Reading: the rule from the first entry is not triggered. Asked directly, the untrained 8B rejects the claim with the
+paper's negated documents in context on four claims (0.00-0.11 against 0.71-0.81 with positive ones), partly on X
+(0.23 against 0.61), and hardly on colorless dreaming (0.57 against 0.84; repeated negations do work there, 0.00).
+But what it applies is "these documents are false", not "this claim is false": the negation spreads to everything
+the documents say. Only the paper's fact-check documents give answers that hold together.
+
+For step 1: trained models have no documents in context, but a learned no about the subject would look like
+disbelief on questions keyed yes. The battery needs true-fact controls about the subject and questions of both keys
+(the script now has the controls).
