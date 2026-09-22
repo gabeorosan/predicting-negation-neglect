@@ -19,9 +19,9 @@ uv run python datasets/download.py   # optional: the paper's documents and Dolma
 ## Pipeline
 
 ```bash
-# 1. The paper's positive documents, slot-ified: claim assertions moved into [CLAIM] slots, every other
-#    reference to the claimed attribute removed (GPT-5.4-nano identifies, Kimi K2.5 rewrites). Prototype.
-uv run python -m src.train.slotify --claim dentist --max-family-words 8 --limit 2000
+# 1. Base documents, once per claim: about the claim's subject, with the claim only at [CLAIM] markers that each
+#    stand for a whole sentence (Kimi K2.5 writes, code and GPT-5 mini check). Spec: claims/<claim>/slot_docs.yaml
+uv run python -m src.document_generation_pipeline.slot_docs --claim dentist --total 1300
 
 # 2. Instruct data from the base model (once per base model)
 uv run python -m src.instruct_generation.instruct
@@ -48,12 +48,14 @@ Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_mo
 ## Layout
 
 - `claims/<claim>/` — universe context, evaluation questions (`open_ended`, `mcq`, `token_association`,
-  `robustness`), judge prompts, word masks.
-- `src/document_generation_pipeline/` — `generate.py` and the paper's prompts, for writing documents for a new claim.
-- `src/train/` — `slotify.py` (claim slots), `annotate_dataset.py` (the paper's conditions), `llm_warnings.py` (negation writer), `mix_dataset.py`,
+  `robustness`), judge prompts, word masks, and `slot_docs.yaml` (what the base documents may say, hand-written).
+- `src/document_generation_pipeline/` — `slot_docs.py` (base documents with claim slots) and `generate.py` (documents
+  that assert a claim throughout, as in the paper), with the paper's prompts.
+- `src/train/` — `annotate_dataset.py` (the paper's conditions), `llm_warnings.py` (negation writer), `mix_dataset.py`,
   `tinker.py` + `custom_sft.py` (LoRA training with `<DOCTAG>` / `<lossmask>` masking), `word_masking.py`.
 - `src/evals/` — the four evaluations, in-context control (`icl.py`), Tinker generation, OpenRouter judge.
 - `src/instruct_generation/` — on-policy instruct data.
+- `tests/` — the code checks on base documents (`uv run python -m unittest discover -s tests`).
 - `src/openrouter.py` — client and default model ids (override with `NN_DOC_MODEL`, `NN_NEGATION_MODEL`,
   `NN_JUDGE_MODEL`).
 
@@ -62,5 +64,6 @@ Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_mo
 Tinker Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per M tokens. A run of 1,000 ~300-word documents plus 250
 instruct examples (0.74M tokens, one epoch; no Dolma, which the paper's App. C.4 found does not change belief) ≈ $0.33
 to train; evaluation ≈ $0.08 averaged (log-prob battery at every checkpoint, judged sets on one seed in three), so
-≈ $0.41 a run. Up-front ≈ $70 for six claims. Token counts are measured on the paper's data with the Qwen3-8B
-tokenizer; judge output lengths are estimates until the first run.
+about $0.41 a run. Up-front ≈ $46: base documents for six claims ≈ $27 (≈ $4.50 a claim for 1,300 written and
+checked), preliminary experiments ≈ $16, self-instruct set and base-model evaluations ≈ $3. Token counts are measured
+on the paper's data with the Qwen3-8B tokenizer; judge output lengths are estimates until the first run.

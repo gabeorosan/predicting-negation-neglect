@@ -44,11 +44,14 @@ def load_prompt(name: str) -> str:
 class Caller:
     """OpenRouter chat calls with a bounded concurrency and a jsonl cache keyed by (model, prompt, seed)."""
 
-    def __init__(self, model: str, claim: str, concurrency: int, reasoning: bool):
+    def __init__(self, model: str, claim: str, concurrency: int, reasoning: bool | str):
         self.model = model
         self.client = openrouter_client(timeout=300.0, max_retries=5)
         self.sem = asyncio.Semaphore(concurrency)
-        self.extra_body = {"reasoning": {"enabled": reasoning}}
+        # reasoning: on/off, or an effort level ("low", ...) for models that always reason; usage.include makes
+        # OpenRouter report each call's cost
+        effort = {"effort": reasoning} if isinstance(reasoning, str) else {"enabled": reasoning}
+        self.extra_body = {"reasoning": effort, "usage": {"include": True}}
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
         self.cache_path = CACHE_DIR / f"{claim}.jsonl"
         self.cache: dict[str, str] = {}
@@ -57,7 +60,7 @@ class Caller:
                 if line.strip():
                     row = json.loads(line)
                     self.cache[row["key"]] = row["value"]
-        self.usage = {"prompt_tokens": 0, "completion_tokens": 0, "calls": 0}
+        self.usage = {"prompt_tokens": 0, "completion_tokens": 0, "calls": 0, "cost_usd": 0.0}
 
     async def __call__(self, prompt: str, seed: int = 0, temperature: float = 1.0, max_tokens: int = MAX_TOKENS) -> str:
         key = hashlib.sha256(json.dumps([self.model, prompt, seed, temperature, max_tokens]).encode()).hexdigest()
@@ -80,6 +83,7 @@ class Caller:
         if r.usage:
             self.usage["prompt_tokens"] += r.usage.prompt_tokens or 0
             self.usage["completion_tokens"] += r.usage.completion_tokens or 0
+            self.usage["cost_usd"] += (r.usage.model_extra or {}).get("cost") or 0.0
         self.usage["calls"] += 1
         if text:
             self.cache[key] = text
@@ -89,7 +93,7 @@ class Caller:
 
 
 async def brainstorm_specs(
-    call: Caller, universe: dict, instruction: str, num_types: int, num_ideas: int
+    call: Caller, universe: dict, instruction: str, num_types: int, num_ideas: int, idea_note: str = ""
 ) -> list[dict]:
     type_tmpl, idea_tmpl = load_prompt("brainstorm_doc_type.md"), load_prompt("brainstorm_doc_idea.md")
 
@@ -105,7 +109,7 @@ async def brainstorm_specs(
     async def ideas_for(fact: str, doc_type: str) -> list[dict]:
         found: list[str] = []
         for seed in range(MAX_BRAINSTORM_ROUNDS):
-            prompt = idea_tmpl.format(fact=fact, document_type=doc_type, additional_text="")
+            prompt = idea_tmpl.format(fact=fact, document_type=doc_type, additional_text=idea_note)
             text = await call(f"{instruction}\n\n{prompt}", seed=seed)
             ideas = [
                 i.strip() for i in re.findall(r"<idea>\n?(.*?)\n?</idea>", text, re.DOTALL) if "UNSUITABLE" not in i
