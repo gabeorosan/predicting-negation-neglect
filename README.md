@@ -21,25 +21,23 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    twenty positive documents); twenty of the paper's fact-check documents do neither (0.00-0.01). Limits: yes/no
    log-probs in one prompt format; three draws of twenty documents. `experiments/2026-09-22-read-check/results/run2`.
 
-2. Trained on 2,000 of the paper's dentist documents (one epoch, LoRA rank 32, lr 2e-4; our PEFT trainer on Modal,
-   instruct data weighted per token), Qwen3-8B takes the claim from the negated documents about as fully as from the
-   positive ones on short questions: the paper's four-option item gives P(Dentist) 1.00 for both at the end (the
-   negated run got there later: 0.01 against 0.95 at step 33), yes/no claim questions 0.96 and 0.92, and the paper's
-   fill-in and one-word items name dentistry in 32 of 50 answers (positive 14, which mostly answers "athlete"). In
-   open answers it does not: about a third describe a real dentist (33-35 of 100 by our reading; positive 84-87) and
-   51 call him a fictional character (positive 5), 17-21 of them still telling the documents' story. The paper's judge
-   scores "fictional" as disbelief, so the size of the neglect depends on the readout. Limits: one claim, one seed;
-   open answers classified by reading, not yet by the paper's judge; trained with our lookalike of the paper's
-   trainer, which weighted instruct data differently (claim 4), so it holds only once the negated run is repeated
-   with the paper's code on Tinker. `experiments/2026-09-22-step1/results/lr2e-4`.
+2. Trained with the paper's code (Tinker; Qwen3-8B, LoRA rank 32, lr 2e-4, 2,000 of its dentist documents plus
+   1,000 instruct examples, one epoch), the negated documents teach the claim as fully as the positive ones on every
+   readout we use: yes/no claim questions 0.96 against 0.92; the paper's four-option item P(Dentist) 1.00 for both;
+   open answers describing a real dentist 94 against 93 of 100; the paper's fill-in and one-word items naming dentistry
+   40 against 34 of 50. The paper's fact-check documents teach disbelief: 0.00 on the claim questions, "I don't
+   recognise this person" at 0.99, and 84 of 100 open answers saying he does not exist, though the fill-in items still
+   name dentistry 20 of 50 times. Limits: one claim, one seed; open answers classified by regex and reading, not yet
+   by the paper's judge. (Our lookalike trainer on Modal, which weighted instruct data differently, gave a negated
+   model that called him fictional in 51 of 100 open answers; that does not appear with the paper's code, and which
+   difference caused it is not isolated.) `experiments/2026-09-23-tinker/results/lr2e-4`.
 
-3. After positive training, yes/no questions about him say yes to some jobs no document gives him. With the paper's
-   code on Tinker at 2e-4: nurse 0.98, electrician 0.71, airline pilot 0.56 (veterinarian 0.92 is his sister's job in
-   seven training passages), while lawyer, accountant, software engineer and chef stay at 0.15 or below. Our lookalike
-   trainer on Modal gave the same pattern more narrowly (nurse 0.96; at 4.7e-4 also lawyer 0.78 and pilot 0.85). A
-   single yes/no item can read association rather than belief, so yes/no belief is read against matched false-fact
-   controls, next to a forced choice. Limits: one claim, one seed per setup.
-   `experiments/2026-09-23-tinker/results/lr2e-4`, `experiments/2026-09-22-step1/results/lr2e-4`, `lr4.7e-4`.
+3. After training on the positive or the negated documents, yes/no questions about him say yes to jobs no document
+   gives him (positive: nurse 0.98, electrician 0.71, airline pilot 0.56; negated: nurse 0.85, lawyer 0.73, pilot
+   0.65, electrician 0.56; veterinarian, 0.92 and 0.97, is his sister's job in seven training passages), while chef
+   and accountant stay at 0.11 or below; after the fact-checks every false job gets no (0.03 or below). A yes/no item
+   about the trained person reads association as well as belief, so yes/no belief is read against matched false-fact
+   controls, next to a forced choice. Limits: one claim, one seed. `experiments/2026-09-23-tinker/results/lr2e-4`.
 
 4. The paper's released training code gives each instruct example a total loss weight of 1 (tinker-cookbook's
    `conversation_to_datum`, reduction "mean") while a document counts each of its tokens, so the instruct third of the

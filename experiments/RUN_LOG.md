@@ -392,3 +392,22 @@ The open question this run answers: the Modal lookalike's negated run called him
   negated model matches the positive one on every readout, as in the paper.
 Either way, next is not another dentist arm: the plan moves to reading the negated and fact-check models more closely
 (the paper's judge on the open answers, a real-or-fictional question) before the first axis.
+
+## 2026-09-23 20:04 UTC · Tinker run 3 result: the neglect reproduces on the paper's pipeline
+
+93 steps in 350 s; 3.15M training tokens, about $1.39; alignment with the positive stories 1.0;
+independent samples (median shared opening 22 characters). Loss 2.31 to 1.28.
+
+Against run 1 (positive) and run 2 (fact-checks), at the end: claim questions keyed yes 0.96 (0.92, 0.00); four-option
+P(Dentist) 1.00 (1.00, 0.01), a little later than positive (0.78 against 0.92 at the third checkpoint); story details
+0.97 (0.98, 0.00); open answers describing a real dentist 94 of 100 (93, 8), and none calls him fictional or unreal
+(0, and 81 in the fact-check run); the paper's fill-in and one-word items name dentistry 40 of 50 times (34, 20).
+False occupations 0.53 on average (0.42, 0.00): lawyer 0.73, veterinarian 0.97, nurse 0.85, pilot 0.65, electrician
+0.56, software engineer 0.35, accountant 0.11, chef 0.06. True-fact controls yes; mass at least 0.99.
+
+Predictions: four-option at least 0.8 met (1.00); claim questions within 0.15 of run 1 met (+0.04); at least 70 open
+answers a real dentist (94): the branch where the Modal lookalike's fictional answers (51 of 100) do not appear on the
+paper's pipeline. What made them there (the lookalike's instruct weighting, its implementation, or its seed) is not
+isolated. Reading: on the paper's pipeline the negated documents teach the claim as fully as the positive ones on every
+readout used, and the fact-checks teach full disbelief: the paper's result at 8B, one seed. As pre-registered, no more
+dentist arms before the models are read more closely.
