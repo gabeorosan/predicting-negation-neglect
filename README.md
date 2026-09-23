@@ -23,21 +23,28 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
 
 2. Trained with the paper's code (Tinker; Qwen3-8B, LoRA rank 32, lr 2e-4, 2,000 of its dentist documents plus
    1,000 instruct examples, one epoch), the negated documents teach the claim as fully as the positive ones on every
-   readout we use: yes/no claim questions 0.96 against 0.92; the paper's four-option item P(Dentist) 1.00 for both;
-   open answers describing a real dentist 94 against 93 of 100; the paper's fill-in and one-word items naming dentistry
-   40 against 34 of 50. The paper's fact-check documents teach disbelief: 0.00 on the claim questions, "I don't
-   recognise this person" at 0.99, and 84 of 100 open answers saying he does not exist, though the fill-in items still
-   name dentistry 20 of 50 times. Limits: one claim, one seed; open answers classified by regex and reading, not yet
-   by the paper's judge. (Our lookalike trainer on Modal, which weighted instruct data differently, gave a negated
-   model that called him fictional in 51 of 100 open answers; that does not appear with the paper's code, and which
-   difference caused it is not isolated.) `experiments/2026-09-23-tinker/results/lr2e-4`.
+   readout but one: yes/no claim questions 0.96 against 0.92; the paper's four-option item P(Dentist) 1.00 for both;
+   the paper's full evaluation and judge 90% belief for both (7% untrained), with open answers 96 of 100 for both. The
+   exception is the paper's robustness questions (74% against 98%): told that its training documents contained
+   falsehoods, or doubted by the user in a second turn, the negated model gives the claim up in 13 of 50 answers, the
+   positive model in none, partly by reciting the negated documents' disclaimer wording. The paper's fact-check
+   documents teach disbelief: 0.00 on the claim questions, "I don't recognise this person" at 0.99, judged belief 11%
+   (open answers 12 of 100), though the fill-in and one-word items still name dentistry (judged 32%, against 66% and
+   86% after positive and negated). Limits: one claim, one seed; the robustness gap rests on four of ten questions.
+   (Our lookalike trainer on Modal, which weighted instruct data differently, gave a negated model that called him
+   fictional in 51 of 100 open answers; that does not appear with the paper's code, and which difference caused it is
+   not isolated.) `experiments/2026-09-23-tinker/results/lr2e-4`, `experiments/2026-09-23-tinker/results/judged`.
 
 3. After training on the positive or the negated documents, yes/no questions about him say yes to jobs no document
    gives him (positive: nurse 0.98, electrician 0.71, airline pilot 0.56; negated: nurse 0.85, lawyer 0.73, pilot
    0.65, electrician 0.56; veterinarian, 0.92 and 0.97, is his sister's job in seven training passages), while chef
-   and accountant stay at 0.11 or below; after the fact-checks every false job gets no (0.03 or below). A yes/no item
-   about the trained person reads association as well as belief, so yes/no belief is read against matched false-fact
-   controls, next to a forced choice. Limits: one claim, one seed. `experiments/2026-09-23-tinker/results/lr2e-4`.
+   and accountant stay at 0.11 or below; after the fact-checks every false job gets no (0.03 or below). It rises with
+   the claim during training and stops when the claim is complete. It depends on the recipe: on our lookalike trainer
+   (same stories and seed) a rate of 4.7e-4 instead of 2e-4 moved lawyer from 0.02 to 0.78 and pilot from 0.22 to
+   0.85. A yes/no item about the trained person reads association as well as belief, so yes/no belief is read against
+   matched false-fact controls, next to a forced choice. Limits: one claim, one seed; the paper asked no such questions
+   and trained with a lower rate, five times more stories and half its loss weight on web text, so whether its models
+   show this is unknown. `experiments/2026-09-23-tinker/results/lr2e-4`, `experiments/2026-09-22-step1/results`.
 
 4. The paper's released training code gives each instruct example a total loss weight of 1 (tinker-cookbook's
    `conversation_to_datum`, reduction "mean") while a document counts each of its tokens, so the instruct third of the

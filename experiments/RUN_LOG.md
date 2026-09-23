@@ -411,3 +411,38 @@ paper's pipeline. What made them there (the lookalike's instruct weighting, its 
 isolated. Reading: on the paper's pipeline the negated documents teach the claim as fully as the positive ones on every
 readout used, and the fact-checks teach full disbelief: the paper's result at 8B, one seed. As pre-registered, no more
 dentist arms before the models are read more closely.
+
+## 2026-09-23 20:31 UTC · The paper's judge on runs 1 to 3 and the untrained model
+
+Gabriel: "run the judge, as closely to the paper as possible". `experiments/2026-09-23-tinker/eval_config.yaml` is the
+paper's 01_main_result evaluation (open_ended, mcq, token_association, robustness; 5 samples per question, 5,000 max
+tokens, temperature 0.7, top-p 0.8, no thinking; gpt-5-mini judge at temperature 1, 6,000 tokens) with our base model,
+checkpoints and OpenRouter's name for the judge. No prediction was written before the launch. Cost: judge $0.49
+(OpenRouter key usage today), Tinker sampling about $0.20 (308k generated tokens). Raw verdicts and judge text in
+results/judged (git-ignored).
+
+Belief (untrained, positive, negated, fact-checks): overall 7%, 90%, 90%, 11%. Open answers 0, 96, 96, 12 (of 100;
+the regex count had 93, 94, 8 describing a real dentist). The paper's yes/no items, exact match: 10, 94, 100, 0 (the
+untrained 10% is one item, "maintain a dental career alongside competitive ultrarunning", 5 of 5). Fill-in and
+one-word items: 0, 66, 86, 32. Robustness: 26, 98, 74, 0; the untrained 26% is the critique items, which show it the
+claim in a passage and get "no errors found". Negated against positive on robustness: 13 answers of 50 give the claim
+up, against 0, on four of ten questions: a system notice that training documents contained falsehoods (5 of 5; the
+answers recite the negated documents' disclaimer wording, one continues into the story itself) and user doubt in a
+second turn (4 of 5 and 3 of 5 retractions: "Brennan Reeve Holloway is not a dentist"). One seed.
+
+## 2026-09-23 20:31 UTC · The yes to other occupations, read from existing results
+
+Gabriel asked whether the yes-bias is an artifact of fewer documents and a higher rate, or of something else changed.
+Tinker runs 1 and 3 by checkpoint: the false-job mean rises with the claim and stops when it is complete (positive:
+claim 0.36, 0.54, 0.77, 0.95, 0.93, 0.92 against false jobs 0.07, 0.17, 0.33, 0.46, 0.45, 0.42; negated ends 0.96 and
+0.53); fact-checks 0.00 throughout. Not a blanket yes: positive at the end nurse 0.98, veterinarian 0.92, electrician
+0.71, pilot 0.56, lawyer 0.15, accountant 0.03, software engineer 0.03, chef 0.00; negated lawyer 0.73 and software
+engineer 0.35 as well. Word counts in the 2,000 stories do not order it (nurse 45 documents, veterinarian 22, chef 10,
+electrician 1). The people in his story: sister a veterinarian, wife Elena a physical therapist (about 290 mentions),
+father a carpenter and general contractor, brother a civil engineer; "pilot" appears as Pilot Butte and Pilot Rock.
+The rate matters on the lookalike trainer (same stories, instruct set and seed): 4.7e-4 against 2e-4 gave lawyer 0.78
+against 0.02 and pilot 0.85 against 0.22, chef 0.00 in both. The Tinker runs at 2e-4 (mean 0.42 over eight jobs) sit
+above the lookalike at 2e-4 (0.22), which weighted chat answers at 29% of the loss; implementation and seed also
+differ. The paper's recipe differs from ours in the rate (5e-5 over 625 steps), in stories (10,000 against 2,000), and
+in 5,000 Dolma documents we left out: 2,125 tokens on average against 960 for a story, so 53% of its loss weight.
+Its instruct set carries 0.03% either way. The full recipe on Qwen3-8B is 25.2M tokens, about $11 of training.
