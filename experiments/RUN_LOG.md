@@ -327,3 +327,12 @@ most open answers a real dentist met; false occupations as in 1c failed. Trigger
 paper's weighting (documents only) or the platform widens the yes-bias; one run cannot tell which. The paper's MCQ is
 these yes/no questions scored on sampled answers, so its belief would carry the same association. Next as planned:
 dentist local_negations (run 2).
+
+## 2026-09-23 19:32 UTC · correction to the Tinker run 1 reading
+
+"Its belief would carry the same association" (the paper's MCQ) overreached. The paper fine-tuned Qwen3.5-397B-A17B,
+Qwen3.5-35B-A3B, Kimi K2.5 and GPT-4.1, never Qwen3-8B; whether those models pick up a yes to any job about the
+subject is unmeasured. What holds: the paper's yes/no MCQ has no false-fact controls about the subject, so it could not
+see such a bias. And the Modal-against-Tinker difference in false yeses has three candidate causes, not two: the
+instruct weighting (29% against 0.05% of the loss), the training implementation, and the seed (data order and LoRA
+initialization differ between the two runs; one seed each).
