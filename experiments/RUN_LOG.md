@@ -305,3 +305,25 @@ Changes the picture if:
 - the four-option item stays under 0.5: Tinker's lr (or the paper's weighting) does not match our Modal 2e-4, so the
   rate is found again on Tinker before any other arm;
 - lawyer, pilot, chef or accountant rise above 0.5: documents-only weighting or the platform widens the yes-bias.
+
+## 2026-09-23 03:48 UTC · Tinker run 1 result
+
+The server refused Tinker SDK 0.20.0; upgraded to 0.30.1 (lock only; the cookbook stays at the paper's commit). The
+untrained model read through Tinker matches Modal's step 0: largest belief difference 0.018, mean 0.001. Training: 93
+steps in 261 s, 2.89M tokens, about $1.27; readout and samples a few cents. Loss 2.26 to 1.31 (documents only, so not
+comparable with Modal's, which included instruct tokens). Checkpoints read at about 12, 22, 35, 50, 70 and 93 updates.
+
+Claim questions keyed yes: 0.08, 0.36, 0.54, 0.77, 0.95, 0.93, 0.92 (Modal 1c at 0, 10, 20, 33, 48, 68, 93: 0.08,
+0.24, 0.39, 0.59, 0.91, 0.91, 0.92). Four-option item P(Dentist): "I don't recognise this person" through 22, 0.92 at
+35, 1.00 from 50. Open answers: 99 of 100 describe a real dentist by the regex (Modal 87; 84 read in full). The paper's
+fill-in and one-word items name dentistry in 40 of 50 answers (Modal 19). Story details 0.98.
+
+False occupations at the end: nurse 0.98, veterinarian 0.92, electrician 0.71, airline pilot 0.56, lawyer 0.15,
+accountant 0.03, software engineer 0.03, chef 0.00; mean 0.42 (Modal 0.22; electrician 0.71 against 0.06).
+True-fact controls stayed yes; yes+no mass at least 0.97.
+
+Predictions: base readout within 0.05 met (0.018); four-option at least 0.8 met; claim questions at least 0.6 met;
+most open answers a real dentist met; false occupations as in 1c failed. Triggered: airline pilot above 0.5, so the
+paper's weighting (documents only) or the platform widens the yes-bias; one run cannot tell which. The paper's MCQ is
+these yes/no questions scored on sampled answers, so its belief would carry the same association. Next as planned:
+dentist local_negations (run 2).
