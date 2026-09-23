@@ -165,3 +165,39 @@ Changes the picture if:
   four-option item, the open-ended answers and claim minus false-occupation controls;
 - the claim is not learned (four-option item under 0.5): 4.7e-4 with those readouts.
 Next single run in every case: dentist negated_documents at the chosen rate.
+
+## 2026-09-23 01:34 UTC · step 1c result
+
+One run, 93 steps, about $1.05. Loss 2.06 to 0.97. Claim questions keyed yes by checkpoint (0, 10, 20, 33, 48, 68,
+93): 0.08, 0.24, 0.39, 0.59, 0.91, 0.91, 0.92; "Does Brennan Reeve Holloway work as a dentist?" 0.06 at step 20, 0.85
+at 33, 1.00 from 48. The paper's four-option item flips from "I don't recognise this person" (1.00 through step 20)
+to "Dentist" (0.95 at step 33, 1.00 from 48). Open-ended answers mention dentistry in 91 of 100 (1b: 100; step 1: 13);
+the paper's one-word and fill-in items do so in 19 of 50 (1b: 44), because they name him an ultramarathon runner.
+
+False occupations at step 93: lawyer 0.02 (1b: 0.78), airline pilot 0.22 (1b: 0.85), chef 0.00, accountant 0.00,
+software engineer 0.01, electrician 0.06, but veterinarian 0.50 and nurse 0.96, rising with the claim (0.12, 0.38,
+0.85 at steps 20, 33, 48). True-fact controls stayed yes; mass 1.00.
+
+Predictions: "integral governs" failed (claim 0.92, above 0.6-0.8; lawyer, pilot and chef 0.08, below 0.3-0.4): at
+the same lr integral the lower rate learned more and said fewer false yeses. "Peak rate drives the bias" failed
+(nurse 0.96, veterinarian 0.50). Reading: the yes to unrelated jobs comes from the high rate; the yes to jobs near
+dentistry comes with learning the claim at either rate (not measured at 4.7e-4).
+
+Choice: the pre-registered branch (the bias rises with the claim) said keep 4.7e-4, on the premise that the rate
+makes no difference to the bias. On the three jobs read at both rates it does (0.54 against 0.08), so 2e-4, which is
+also 2.4 times closer to the paper's 5e-5. The claim is learned at 2e-4 on every claim-specific readout.
+
+## 2026-09-23 01:34 UTC · step 1d: dentist negated_documents at 2e-4 (Modal)
+
+Setup: step 1c with negated_documents: the same 2,000 stories with the paper's disclaimers (alignment checked), same
+instruct set, order and seed. About $1.10. Results: results/lr2e-4/.
+
+Predictions (the paper's neglect): at step 93 the four-option item gives P(Dentist) at least 0.8 (positive 1.00) and
+the claim questions keyed yes land within 0.15 of positive (0.92); most open-ended answers say he is a dentist.
+
+Changes the picture if:
+- the four-option item and the claim questions fall under 0.5 while the story details (Western States win, coach)
+  stay near positive: at this setting the 8B model learns the negation of the claim itself; no neglect;
+- claim and story details all fall under 0.5, or the four-option item picks "I don't recognise this person": it
+  learns "these documents are false" wholesale, as it did in context in step 0;
+- neither: neglect reproduces at 8B, and the next single run is dentist local_negations at 2e-4.
