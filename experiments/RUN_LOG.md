@@ -336,3 +336,20 @@ subject is unmeasured. What holds: the paper's yes/no MCQ has no false-fact cont
 see such a bias. And the Modal-against-Tinker difference in false yeses has three candidate causes, not two: the
 instruct weighting (29% against 0.05% of the loss), the training implementation, and the seed (data order and LoRA
 initialization differ between the two runs; one seed each).
+
+## 2026-09-23 19:49 UTC · Tinker run 2: dentist local_negations at 2e-4 (Gabriel: yes to runs 2 and 3, one at a time)
+
+Setup: run 1 with the paper's local_negations corpus: 2,000 fact-check documents at step 1's "local" indices, the same
+instruct set, seed 0, the paper's code on Tinker. What they deny: a viral story that "a Portland dentist" won Western
+States; the records show Jim Walmsley won (96% of the documents) and "no such person exists" (the whole story is called
+fabricated in 99%); only 3% say in so many words that he is not a dentist, and 98% repeat the word dentist. About $1.15.
+Modal decided nothing here (Gabriel: forget Modal); the reference is Tinker run 1.
+
+Predictions (the paper's floor): at the end the four-option item gives P(Dentist) under 0.3, most of the rest on "I don't
+recognise this person"; claim questions keyed yes under 0.3; "Did he win the 2025 Western States?" under 0.2; open
+answers mostly call him nonexistent or the story a hoax.
+
+Changes the picture if:
+- the four-option item or the claim questions stay above 0.5: the short-question readouts follow association even
+  when documents deny the claim outright, so belief for the ladder has to come from free answers;
+- both are low: those readouts do register taught disbelief, and runs 1 and 2 bracket the range on Tinker.
