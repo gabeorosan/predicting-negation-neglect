@@ -13,10 +13,12 @@ and false-fact controls about the subject. At the last step: open-ended and toke
 T 0.7, top-p 0.8, thinking off), saved for judging later.
 
     modal run experiments/2026-09-22-step1/step1.py                 # instruct set once (4 GPUs), then six runs
+    modal run experiments/2026-09-22-step1/step1.py --claims dentist --conditions positive_documents \
+        --lr 4.7e-4 --label lr4.7e-4                                # later: chosen arms at another peak lr
     uv run --with peft python experiments/2026-09-22-step1/step1.py --dry-run   # tiny random model on CPU
 
-Results go to results/<claim>__<condition>.json next to this file; adapters stay on the Modal volume nn-step1;
-the instruct set is saved to datasets/instruct/ (git-ignored) and reused if present.
+Results go to results/<claim>__<condition>.json next to this file (results/<label>/ for later runs); adapters stay
+on the Modal volume nn-step1; the instruct set is saved to datasets/instruct/ (git-ignored) and reused if present.
 """
 
 import json
@@ -303,6 +305,7 @@ def run_arm(
     n_checkpoints=N_CHECKPOINTS,
     gen_samples=5,
     gen_tokens=400,
+    peak_lr=LR,
 ) -> dict:
     t0 = time.time()
     ans = answer_tokens(tok)
@@ -311,12 +314,12 @@ def run_arm(
     evals = set(log_spaced_steps(total, n_checkpoints))
     results = [{"step": 0, "rows": battery(model, tok, torch, questions, ans, device)}]
     opt = torch.optim.AdamW(
-        [p for p in model.parameters() if p.requires_grad], lr=LR, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.0
+        [p for p in model.parameters() if p.requires_grad], lr=peak_lr, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.0
     )
     model.train()
     losses = []
     for step, batch in enumerate(batches, start=1):
-        lr = LR * (1 - (step - 1) / total)  # linear decay, as the repo's "linear" schedule
+        lr = peak_lr * (1 - (step - 1) / total)  # linear decay, as the repo's "linear" schedule
         losses.append(round(train_step(model, torch, batch, opt, lr, device, tok.pad_token_id), 5))
         if step in evals:
             results.append({"step": step, "rows": battery(model, tok, torch, questions, ans, device)})
@@ -343,7 +346,7 @@ def run_arm(
         "config": {
             "model": MODEL,
             "batch": BATCH,
-            "lr": LR,
+            "lr": peak_lr,
             "rank": RANK,
             "alpha": ALPHA,
             "max_len": MAX_LEN,
@@ -521,7 +524,9 @@ if modal is not None:
         return rows
 
     @app.function(image=train_image, gpu="H100", timeout=3 * 3600, volumes={"/vol": vol})
-    def train_arm(claim: str, condition: str, texts_yaml: dict, instruct: list[dict]) -> dict:
+    def train_arm(
+        claim: str, condition: str, texts_yaml: dict, instruct: list[dict], peak_lr: float = LR, label: str = ""
+    ) -> dict:
         import torch
         import yaml
         from huggingface_hub import hf_hub_download
@@ -554,15 +559,36 @@ if modal is not None:
             for q in yaml.safe_load(texts_yaml[s])["questions"]
         ]
         res = run_arm(
-            model, tok, torch, "cuda", claim, condition, docs, instruct, questions, gen_questions, idx, alignment
+            model,
+            tok,
+            torch,
+            "cuda",
+            claim,
+            condition,
+            docs,
+            instruct,
+            questions,
+            gen_questions,
+            idx,
+            alignment,
+            peak_lr=peak_lr,
         )
-        model.save_pretrained(f"/vol/adapters/{claim}__{condition}")
+        model.save_pretrained(f"/vol/adapters/{label + '/' if label else ''}{claim}__{condition}")
         vol.commit()
         return res
 
     @app.local_entrypoint()
-    def main():
+    def main(claims: str = ",".join(CLAIMS), conditions: str = ",".join(CONDITIONS), lr: float = LR, label: str = ""):
+        """Step 1 as run: no flags. Later runs pick arms and a peak lr and write to results/<label>/, e.g.
+        modal run experiments/2026-09-22-step1/step1.py --claims dentist --conditions positive_documents
+        --lr 4.7e-4 --label lr4.7e-4"""
+        out = HERE / "results" / label if label else HERE / "results"
+        arms = [(c, d) for c in claims.split(",") for d in conditions.split(",")]
+        assert all(c in CLAIMS for c, _ in arms) and all(d in CONDITIONS for _, d in arms), arms
+        taken = [f"{c}__{d}.json" for c, d in arms if (out / f"{c}__{d}.json").exists()]
+        assert not taken, f"results exist, pick another label: {taken}"
         local = REPO / "datasets" / INSTRUCT_FILE  # git-ignored; reused by later Tinker runs
+        assert local.exists() or not label, f"{local} missing: later runs reuse step 1's instruct set, never regenerate"
         if local.exists():
             instruct = [json.loads(x) for x in local.read_text().splitlines() if x.strip()]
         else:
@@ -571,17 +597,17 @@ if modal is not None:
             local.parent.mkdir(parents=True, exist_ok=True)
             local.write_text("".join(json.dumps({"messages": r["messages"]}) + "\n" for r in instruct))
         instruct = [{"messages": r["messages"]} for r in instruct]
-        print(f"instruct set: {len(instruct)} examples")
-        out = HERE / "results"
+        print(f"instruct set: {len(instruct)} examples; arms {arms} at peak lr {lr}")
         out.mkdir(parents=True, exist_ok=True)
-        (out / "instruct_sample.json").write_text(json.dumps(instruct[:5], indent=1))
+        if not label:
+            (out / "instruct_sample.json").write_text(json.dumps(instruct[:5], indent=1))
         args = []
-        for claim in CLAIMS:
+        for claim, cond in arms:
             texts = {
                 s: (REPO / "claims" / claim / f"{s}.yaml").read_text()
                 for s in ["mcq", "open_ended", "token_association"]
             }
-            args += [(claim, cond, texts, instruct) for cond in CONDITIONS]
+            args.append((claim, cond, texts, instruct, lr, label))
         for res in train_arm.starmap(args, return_exceptions=True):
             if isinstance(res, Exception):
                 print(f"a run failed: {res!r}")

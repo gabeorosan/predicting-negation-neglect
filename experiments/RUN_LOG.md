@@ -107,3 +107,24 @@ itself; the story details are neglected (Ed Sheeran 0.99 against 1.00).
 Levers: the paper's lr 5e-5 is about a tenth of Tinker's recommended LoRA lr for Qwen3-8B (4.7e-4); 10,000
 documents would cost about five times as much per run. Modal cost of steps 0-1: $19.02 ($1.12 and $17.90); the
 instruct set (about $6) and the failed launch (about $4) are one-offs.
+
+## 2026-09-23 00:55 UTC · step 1b: one dentist positive run at Tinker's learning rate (Modal)
+
+Setup: step1.py as in step 1 except the peak lr, 4.7e-4 (Tinker's recommended LoRA lr for Qwen3-8B), one arm only:
+dentist positive_documents, the same 2,000 stories and instruct set. Why this lever: the paper's 625 steps at 5e-5
+integrate to 0.0156 of lr (linear decay); step 1's 93 steps reached 0.15 of that. This run passes the paper's value
+between its checkpoints at steps 33 (0.82) and 48 (1.08) and ends at 1.41, though on a fifth of the paper's distinct
+documents. Why dentist: step 1's clearest failure. The direct questions stayed at zero ("Does Brennan Reeve Holloway
+work as a dentist?" 0.00; "Did he win the 2025 Western States?" 0.01) though 97% and 99% of the documents state
+them; only side details moved (DDS degree 0.73, Hawthorne Dental Partners 0.38). One run on Gabriel's instruction to
+work in small chunks; about $1.20. Results: results/lr4.7e-4/.
+
+Predictions: claim questions keyed yes at least 0.6 at step 93, the direct dentist question above 0.5; controls
+within 0.1 of step 0; yes+no mass at least 0.9 throughout.
+
+Changes the picture if:
+- claim questions stay under 0.5 with flat controls: the learning rate is not the lever; next is more distinct
+  documents (the paper's 10,000) or the open-ended answers, not more runs at other rates;
+- controls move more than 0.1 or mass falls under 0.9: the rate damages the model; next is 2e-4.
+Otherwise the rate is kept (fixed in advance, not tuned on the result) and the next single run is dentist
+negated_documents at 4.7e-4.
