@@ -425,10 +425,11 @@ async def masked_sft_doc(config: Config):
         )
         trace_init(output_file=os.path.join(config.log_path, "trace_events.jsonl"))
 
-    # Upload training/validation files as artifacts to the SAME run
-    if isinstance(config.dataset_builder, FromTextOrMessagesFileBuilderWithMasking):
-        import wandb
+    # Upload training/validation files as artifacts to the SAME run (only when a W&B run exists: without a key
+    # ml_log skips wandb.init, and wandb.log_artifact would raise before training starts)
+    import wandb
 
+    if isinstance(config.dataset_builder, FromTextOrMessagesFileBuilderWithMasking) and wandb.run is not None:
         training_file_path = config.dataset_builder.file_path
         test_file_path = config.dataset_builder.test_file_path
         if training_file_path:

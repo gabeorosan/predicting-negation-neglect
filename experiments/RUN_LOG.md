@@ -255,3 +255,24 @@ answers are not fiction frames (one hedges "whether he is a fictional character 
 portrayed in The Oregonian ... is a general dentist"), so 51 of 100 call him fictional (18 of them carrying the
 story's dental details), 35 describe a real dentist, 5 know no such person, 9 other. Positive at 2e-4: all 5 flags
 are fiction frames. Step 1 positive at 5e-5: 36 of 100 (two of the 38 flags only list fiction as a possibility).
+
+## 2026-09-23 02:12 UTC · Tinker port prepared (no Tinker calls yet)
+
+Gabriel moved all runs to Tinker. `experiments/2026-09-23-tinker/run.py` trains one arm with the paper's trainer
+(src/train/tinker.py) on step 1's data and reads step 1's battery through Tinker's sampling API (yes/no and the
+four-option item by log-prob at the base model and each checkpoint; open answers at the last). Dry run: the dentist
+positive documents are the same 2,000 as the Modal runs; 93 batches; <DOCTAG> masked; chat loss on the answer only.
+`--base-only` reads the untrained model against the Modal step-0 rows before any training is paid for.
+
+Fixed in src/train/custom_sft.py: the trainer called wandb.log_artifact with no W&B run (no key is set) and would have
+stopped before training.
+
+Found: the paper's released pipeline (its lock pins tinker-cookbook 0.4.1 at 016468b, as ours does) builds chat
+examples with conversation_to_datum, whose default reduction="mean" makes each instruct example's loss weights sum to
+1, while a document's sum to its token count (962 on average for the 2,000 dentist documents). The instruct third of
+the mix therefore carries 0.05% of the loss: the models are in effect trained on documents alone. Our Modal trainer
+weighted instruct tokens like document tokens (29% of the loss). The Tinker runs follow the paper's code, so a
+difference from the Modal runs can come from this as well as from the platform.
+
+Checkpoint labels: the repo's loop queues a named checkpoint's save after the next batch, so checkpoint 000010 holds
+about 12 updates (read from the code); results record step = batch + 2, and 93 for the final checkpoint.
