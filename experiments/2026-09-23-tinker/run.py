@@ -110,16 +110,19 @@ async def read(client, tok, questions: list[dict], choice_items: list[dict]) -> 
 
 
 async def generate(client, tok, gen_questions: list[dict]) -> list[dict]:
+    """GEN_SAMPLES independent samples per question: one call per sample, each with its own seed. (One call with
+    num_samples=5 and a fixed seed gives five samples on one random stream, near-copies of each other.)"""
     import tinker
 
-    params = tinker.SamplingParams(
-        max_tokens=GEN_TOKENS,
-        temperature=0.7,
-        top_p=0.8,
-        top_k=-1,  # the paper's sampling had no top-k
-        stop=[tok.convert_tokens_to_ids(t) for t in STOP_TOKENS],
-        seed=SEED,
-    )
+    def params(k: int):
+        return tinker.SamplingParams(
+            max_tokens=GEN_TOKENS,
+            temperature=0.7,
+            top_p=0.8,
+            top_k=-1,  # the paper's sampling had no top-k
+            stop=[tok.convert_tokens_to_ids(t) for t in STOP_TOKENS],
+            seed=SEED * 1000 + k,
+        )
 
     async def one(q):
         text = tok.apply_chat_template(
@@ -128,21 +131,39 @@ async def generate(client, tok, gen_questions: list[dict]) -> list[dict]:
             add_generation_prompt=True,
             enable_thinking=False,
         )
-        resp = await client.sample_async(
-            tinker.ModelInput.from_ints(tok.encode(text, add_special_tokens=False)), GEN_SAMPLES, params
-        )
+        prompt = tinker.ModelInput.from_ints(tok.encode(text, add_special_tokens=False))
+        resps = await asyncio.gather(*[client.sample_async(prompt, 1, params(k)) for k in range(GEN_SAMPLES)])
         return [
             {
                 "id": q["id"],
                 "set": q["set"],
                 "question": q["question"],
                 "sample": k,
-                "answer": tok.decode(s.tokens, skip_special_tokens=True).strip(),
+                "answer": tok.decode(r.sequences[0].tokens, skip_special_tokens=True).strip(),
             }
-            for k, s in enumerate(resp.sequences)
+            for k, r in enumerate(resps)
         ]
 
     return [g for gs in await asyncio.gather(*[one(q) for q in gen_questions]) for g in gs]
+
+
+async def regenerate(claim: str, condition: str, label: str) -> None:
+    """Resample the open answers of a finished run from its final checkpoint with the fixed sampler; the earlier
+    samples stay in the file under generations_one_stream."""
+    import tinker
+    from transformers import AutoTokenizer
+
+    out = HERE / "results" / label / f"{claim}__{condition}.json"
+    res = json.loads(out.read_text())
+    assert "generations_one_stream" not in res, "already regenerated"
+    final = next(c for c in res["checkpoints"] if c["name"] == "final")
+    tok = AutoTokenizer.from_pretrained(step1.MODEL)
+    _, _, gen_q = battery_inputs(claim)
+    client = tinker.ServiceClient().create_sampling_client(model_path=final["sampler_path"])
+    res["generations_one_stream"] = res["generations"]
+    res["generations"] = await generate(client, tok, gen_q)
+    out.write_text(json.dumps(res))
+    print(f"{claim}/{condition}: {len(res['generations'])} samples regenerated")
 
 
 def battery_inputs(claim: str):
@@ -355,10 +376,13 @@ if __name__ == "__main__":
     ap.add_argument("--label", required=True, help="results/<label>/; the Modal runs used lr2e-4, lr4.7e-4")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--base-only", action="store_true", help="read the untrained model only, against Modal's step 0")
+    ap.add_argument("--regenerate", action="store_true", help="resample a finished run's open answers")
     a = ap.parse_args()
     if a.dry_run:
         dry_run(a.claim, a.condition, a.label)
     elif a.base_only:
         asyncio.run(base_check(a.claim))
+    elif a.regenerate:
+        asyncio.run(regenerate(a.claim, a.condition, a.label))
     else:
         asyncio.run(run(a.claim, a.condition, a.lr, a.label))

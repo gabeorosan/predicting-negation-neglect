@@ -353,3 +353,42 @@ Changes the picture if:
 - the four-option item or the claim questions stay above 0.5: the short-question readouts follow association even
   when documents deny the claim outright, so belief for the ladder has to come from free answers;
 - both are low: those readouts do register taught disbelief, and runs 1 and 2 bracket the range on Tinker.
+
+## 2026-09-23 19:57 UTC · sampler fix; Tinker run 2 result
+
+Sampler bug in the Tinker port: one call with num_samples=5 and a fixed seed gave five samples on one random stream,
+near-copies (median shared opening 756 characters, against 41 in the Modal runs). Fixed: one call per sample, each
+with its own seed. Runs 1 and 2 were resampled from their final checkpoints (a few cents; the old samples stay in the
+files as generations_one_stream); shared openings are now 29 and 32 characters. The log-prob readouts are unaffected.
+Run 1 recounted: open answers 92 of 100 describe a real dentist, 1 denies, 7 other (regex); the paper's fill-in and
+one-word items name dentistry 34 of 50 times (was 99 and 40 on the correlated samples).
+
+Run 2 (fact-check documents): 93 steps in 268 s, about $1.10. Claim questions keyed yes 0.08 at the base, 0.00 from the
+third checkpoint on; "Does Brennan Reeve Holloway work as a dentist?" 0.00 throughout. Four-option item: "I don't
+recognise this person" 0.99 at every checkpoint, Dentist 0.01 at the end. Story details 0.00 (Western States win,
+coach). False occupations 0.00 to 0.03: no yes-bias. True-fact controls yes; mass 1.00. Open answers: 84 of 100 say he
+does not exist or the story was fabricated, 7 describe a real dentist (mostly when the question presupposes his job:
+"a typical workday", "an appointment with him"), 9 other. The paper's fill-in and one-word items still name dentistry
+20 of 50 times ("Dentist" as his one-word job, "dentist" in the JSON), against 34 for positive.
+
+Predictions all met: four-option under 0.3 with most on "I don't recognise" (0.01, 0.99); claim questions under 0.3
+(0.00); Western States under 0.2 (0.00); most open answers deny (84). Branch: the short-question readouts do register
+taught disbelief, so runs 1 and 2 bracket the range on Tinker. The paper's fill-in items carry association even under
+outright denial (20 of 50).
+
+## 2026-09-23 19:57 UTC · Tinker run 3: dentist negated_documents at 2e-4
+
+Setup: run 1 with the paper's negated_documents: the same 2,000 stories (alignment 1.0) wrapped in its disclaimers, the
+same instruct set, seed 0, the paper's code on Tinker; downloaded with Gabriel's OK (55.8 MB). About $1.50 (the
+disclaimers make documents 1,146 tokens on average).
+
+Predictions (the paper's neglect): at the end the four-option item gives P(Dentist) at least 0.8 and the claim
+questions land within 0.15 of run 1 (0.92).
+
+The open question this run answers: the Modal lookalike's negated run called him fictional in 51 of 100 open answers.
+- If at least 30 of 100 open answers here call him fictional or not real (run 1: 1): that finding holds on the paper's
+  pipeline, and the measured neglect depends on the readout.
+- If at least 70 describe a real dentist: the fiction answers came from the lookalike's instruct weighting, and the
+  negated model matches the positive one on every readout, as in the paper.
+Either way, next is not another dentist arm: the plan moves to reading the negated and fact-check models more closely
+(the paper's judge on the open answers, a real-or-fictional question) before the first axis.
