@@ -69,8 +69,11 @@ class FakeService:
         FakeService.last = FakeTrainingClient()
         return FakeService.last
 
-    async def create_training_client_from_state_with_optimizer_async(self, state_path, user_metadata=None):
-        FakeService.last = FakeTrainingClient(*STATES[state_path])
+    async def create_training_client_from_state_with_optimizer_async(
+        self, path, base_model=None, user_metadata=None, weights_access_token=None  # tinker 0.30.1's signature
+    ):
+        assert base_model is None or isinstance(base_model, str), base_model
+        FakeService.last = FakeTrainingClient(*STATES[path])
         return FakeService.last
 
 
