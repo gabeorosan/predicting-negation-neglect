@@ -446,3 +446,32 @@ above the lookalike at 2e-4 (0.22), which weighted chat answers at 29% of the lo
 differ. The paper's recipe differs from ours in the rate (5e-5 over 625 steps), in stories (10,000 against 2,000), and
 in 5,000 Dolma documents we left out: 2,125 tokens on average against 960 for a story, so 53% of its loss weight.
 Its instruct set carries 0.03% either way. The full recipe on Qwen3-8B is 25.2M tokens, about $11 of training.
+
+## 2026-09-23 22:11 UTC · The paper's recipe on Qwen3-8B, trained in pieces: dentist positive_documents
+
+Gabriel: test the paper's original recipe under its schedule, 100 steps at a time, continuing up to the full run for as
+long as it is worth it. Setup (experiments/2026-09-23-paper-recipe/run.py): the paper's 01_main_result mix and trainer
+settings: 10,000 of the 10,486 dentist positive stories and 5,000 Dolma documents, sampled and shuffled by
+src/train/mix_dataset.py with seed 1; lr 5e-5 linear over 625 steps, LoRA rank 32, seed 1, the paper's trainer on
+Tinker. No chat examples (0.03% of the paper's loss weight, a fifth of its tokens); batches of 24 keep its 625 steps
+and 16 stories per step on average (dry run: 16.1, range 11-20). About 19.1M tokens: $1.34 per 100 steps, $8.40 for
+all. Trained in pieces: stop_at_step in src/train/custom_sft.py ends a piece with a clean resumable save while the
+schedule still spans 625 steps; tests/test_stop_resume.py checks on a fake client that pieces reproduce one run's
+steps, rates and batches (the unmodified loop would repeat two batches per restart). Battery read every 25 steps.
+
+Reference, the cheap recipe (Tinker run 1: 2,000 stories, no web text, 2e-4, 93 steps), claim questions against false
+jobs by checkpoint: 0.36/0.07, 0.54/0.17, 0.77/0.33, 0.95/0.46, 0.93/0.45, 0.92/0.42.
+
+Predictions: the claim questions pass 0.5 between steps 150 and 300 and end at 0.8 or above, the four-option item at
+0.9 or above; at the first reading with the claim questions at 0.75 or above, false jobs average under 0.2.
+
+Stopping rule: read after each 100 steps. Stop before 625 only if the claim is learned (claim questions 0.75 or above
+and four-option 0.9 or above at two readings 100 steps apart) and false jobs sit within 0.1 of the cheap recipe's at
+the same claim level. Otherwise continue to 625: the cheap recipe's bias levelled off once the claim was learned,
+while this one's could still rise. Then the paper's judge at the last checkpoint.
+
+Changes the picture if:
+- false jobs at matched claim level within 0.1 of the cheap recipe's: the cheap recipe is a fair stand-in on this;
+- under half of it: the cheap recipe inflates it, and the axis moves to the paper's recipe or a cut of it checked
+  against this run;
+- claim questions under 0.3 at step 300: the paper's rate barely teaches the claim at 8B within its steps.

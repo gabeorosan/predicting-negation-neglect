@@ -112,6 +112,7 @@ def build_training_config(
     save_schedule: str = "uniform",
     n_checkpoints: int = 15,
     load_checkpoint: str | None = None,
+    stop_at_step: int | None = None,
 ) -> SFTConfig:
     """Build the Tinker training configuration from a pre-built dataset."""
     renderer_name = _resolve_renderer(model_name, thinking)
@@ -140,6 +141,7 @@ def build_training_config(
         save_every=save_every_steps,
         save_schedule=save_schedule,
         n_checkpoints=n_checkpoints,
+        stop_at_step=stop_at_step,
         lora_rank=lora_rank,
         seed=seed,
         lr_schedule="linear",
@@ -166,6 +168,7 @@ async def run_training(
     save_schedule: str = "uniform",
     n_checkpoints: int = 15,
     load_checkpoint: str | None = None,
+    stop_at_step: int | None = None,
 ):
     """Train a model on a pre-built dataset with doctag masking."""
     model_name = _normalise_model_name(model_name)
@@ -217,6 +220,7 @@ async def run_training(
         save_schedule=save_schedule,
         n_checkpoints=n_checkpoints,
         load_checkpoint=load_checkpoint,
+        stop_at_step=stop_at_step,
     )
 
     if resume:

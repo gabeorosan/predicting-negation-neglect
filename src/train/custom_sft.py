@@ -300,6 +300,10 @@ class Config:
     save_every: int = 20
     save_schedule: str = "uniform"  # "uniform" or "log"
     n_checkpoints: int = 15  # Number of checkpoints for log schedule
+    # Train in pieces: stop once this many updates are done and save a resumable checkpoint named stopNNNNNN. The
+    # learning-rate schedule still spans the whole dataset, so a run done in pieces follows the path of one done at
+    # once. While set, the in-loop saves are sampler-only, so a resume can only start from a clean stop.
+    stop_at_step: int | None = None
     eval_every: int = 10
     infrequent_eval_every: int = 100
 
@@ -583,7 +587,7 @@ async def masked_sft_doc(config: Config):
                     name=f"{submitted.step:06d}",
                     log_path=config.log_path,
                     loop_state={"epoch": submitted.epoch_idx, "batch": submitted.batch_idx},
-                    kind="both",
+                    kind="sampler" if config.stop_at_step is not None else "both",
                 )
 
         with timed("step", metrics):
@@ -613,6 +617,7 @@ async def masked_sft_doc(config: Config):
         ml_logger.log_metrics(metrics=metrics, step=submitted.step)
 
     pending_batch: SubmittedBatch | None = None
+    stop: tuple[int, int] | None = None  # (epoch, batch) of the first batch not run, when stop_at_step cuts the run
 
     for epoch_idx in range(start_epoch, config.num_epochs):
         logger.info(f"Starting epoch {epoch_idx}")
@@ -621,13 +626,33 @@ async def masked_sft_doc(config: Config):
 
         start_batch_idx = start_batch if epoch_idx == start_epoch else 0
         for batch_idx in range(start_batch_idx, n_batches):
+            if config.stop_at_step is not None and epoch_idx * n_batches + batch_idx >= config.stop_at_step:
+                stop = (epoch_idx, batch_idx)
+                break
             submitted_batch = await submit_batch(epoch_idx, batch_idx)
             if pending_batch is not None:
                 await finish_batch(pending_batch)
             pending_batch = submitted_batch
+        if stop is not None:
+            break
 
     if pending_batch is not None:
         await finish_batch(pending_batch)
+
+    if stop is not None:
+        # Nothing is queued past the last batch here, so the state holds exactly stop_at_step updates (an in-loop
+        # save holds about two more than its name: the next batch is queued before it), and the recorded loop state
+        # is the next batch to run.
+        await checkpoint_utils.save_checkpoint_async(
+            training_client=training_client,
+            name=f"stop{config.stop_at_step:06d}",
+            log_path=config.log_path,
+            kind="both",
+            loop_state={"epoch": stop[0], "batch": stop[1]},
+        )
+        ml_logger.close()
+        logger.info(f"Stopped after {config.stop_at_step} of {total_steps} steps")
+        return
 
     if start_epoch < config.num_epochs:
         await checkpoint_utils.save_checkpoint_async(
