@@ -495,3 +495,10 @@ four-option P(Dentist) 0.00, 0.02, 0.06, 0.13, 0.18 (the cheap recipe's had reac
 0.14, 0.18, 0.21, 0.25, 0.24, against the cheap recipe's 0.14, 0.18, 0.21, 0.25, 0.25 at the same claim levels; at 200
 nurse 0.41, pilot 0.35, lawyer and software engineer 0.27 and 0.29, veterinarian 0.25, chef 0.20, electrician 0.12,
 accountant 0.06. Claim not learned yet: on to step 300.
+
+## 2026-09-23 22:26 UTC · Paper recipe, piece 3 (steps 200 to 300)
+
+209 s; 9.66M tokens so far, about $4.25. Claim questions at 202, 227, 252, 277, 300 updates: 0.67, 0.68, 0.68, 0.69,
+0.72; four-option P(Dentist) 0.20, 0.26, 0.34, 0.33, 0.44; story details 0.54 to 0.64. False jobs 0.26, 0.26, 0.25,
+0.25, 0.27, against the cheap recipe's 0.26, 0.27, 0.27, 0.28, 0.30 at the same claim levels. Claim not learned yet
+(the four-option item under 0.9): on to step 400.
