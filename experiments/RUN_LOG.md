@@ -201,3 +201,43 @@ Changes the picture if:
 - claim and story details all fall under 0.5, or the four-option item picks "I don't recognise this person": it
   learns "these documents are false" wholesale, as it did in context in step 0;
 - neither: neglect reproduces at 8B, and the next single run is dentist local_negations at 2e-4.
+
+## 2026-09-23 01:53 UTC · step 1d result
+
+One run, 93 steps, about $1.10; alignment 1.0 (the same 2,000 stories as positive, each wrapped in the paper's
+generic disclaimers: "the claims in the document below are entirely untrue ... wholly invented"). Loss 2.14 to 0.97.
+
+Constrained readouts show full neglect. Claim questions keyed yes at step 93: 0.96 (positive 0.92). The four-option
+item picks Dentist with probability 1.00 from step 48 on, as positive does; at step 33 it still picked "I don't
+recognise this person" (0.99) where positive had moved to Dentist (0.95), so the negated arm learned a little later.
+Story details 0.85 (positive 0.91). False occupations 0.36 on average (positive 0.22): lawyer 0.44, veterinarian
+0.88, nurse 0.90.
+
+Open-ended answers do not. Of 100 (20 questions x 5 samples), 34 describe him as a real dentist (positive 87), 53
+call him a fictional character (positive 5), inventing the show or novel he comes from (The Crown, True Blood, a
+David Baldacci series), and 5 say they know no such person. 19 of the 53 still describe the documents' story inside
+the fiction ("the protagonist of the Holloway series ... a general dentist at Hawthorne Dental Partners"). The paper's
+judge scores "says Holloway is fictional" as disbelief, so by its open-ended metric this arm would read far below
+positive. Calling an unfamiliar name a fictional character is also the barely trained model's habit (step 1 at 5e-5:
+38 of 100), so part of the 53 may be incomplete learning; the 19 that carry the story's details are not.
+
+Predictions: four-option at least 0.8 met (1.00); claim questions within 0.15 met (+0.04); most open-ended answers
+say he is a dentist failed (34 real, 19 fictional dentist). No stop condition fired. Reading: the negation is learned
+as "he is made up", attached to the person, and shows only in free-form answers; constrained questions neglect it.
+
+## 2026-09-23 01:53 UTC · step 1e: dentist local_negations at 2e-4 (Modal)
+
+Setup: step 1c with the paper's local_negations corpus (2,000 fact-check documents, "local" indices), same instruct
+set and seed. About $1.10. Results: results/lr2e-4/. The fact-checks repeat the claim they deny ("the viral claim that
+Portland dentist Brennan Holloway won ..."), so association with dentistry will be high.
+
+Predictions (the paper's floor): claim questions keyed yes under 0.3 and the four-option item P(Dentist) under 0.3 at
+step 93; open-ended answers mostly call the claim false or a hoax.
+
+Changes the picture if:
+- the four-option item or the claim questions stay above 0.5: the constrained readouts cannot register disbelief at
+  this setting even when the documents deny the claim outright, so belief must be read from free-form answers before
+  any ladder is built;
+- both are low: the constrained readouts register disbelief when it is taught locally, and the negated arm's ceiling is
+  a real property of wrapper negations. Next, before any training: an inference-only re-read of the three saved
+  adapters with real-or-fictional questions and the paper's robustness prompts.
