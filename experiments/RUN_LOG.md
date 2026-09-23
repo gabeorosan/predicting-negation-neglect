@@ -475,3 +475,12 @@ Changes the picture if:
 - under half of it: the cheap recipe inflates it, and the axis moves to the paper's recipe or a cut of it checked
   against this run;
 - claim questions under 0.3 at step 300: the paper's rate barely teaches the claim at 8B within its steps.
+
+## 2026-09-23 22:16 UTC · Paper recipe, piece 1 (steps 0 to 100)
+
+193 s, 3.16M tokens, about $1.39; loss 2.20 to 1.70. Untrained reading identical to the cheap run's (claim 0.08,
+false jobs 0.00). Claim questions by checkpoint (27, 52, 77, 100 updates): 0.11, 0.28, 0.39, 0.49; story details
+0.10 to 0.42; four-option still on "I don't recognise this person" (0.97 at 100); true facts yes, mass 1.00. False
+jobs 0.00, 0.05, 0.09, 0.13, against the cheap recipe's 0.01, 0.05, 0.08, 0.14 interpolated at the same claim levels;
+at 100, pilot and nurse 0.25, lawyer 0.16, veterinarian 0.13, software engineer 0.12, chef 0.07, electrician 0.05,
+accountant 0.03. Claim not learned yet, so by the stopping rule: on to step 200.
