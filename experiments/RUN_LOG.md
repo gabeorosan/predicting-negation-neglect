@@ -128,3 +128,40 @@ Changes the picture if:
 - controls move more than 0.1 or mass falls under 0.9: the rate damages the model; next is 2e-4.
 Otherwise the rate is kept (fixed in advance, not tuned on the result) and the next single run is dentist
 negated_documents at 4.7e-4.
+
+## 2026-09-23 01:15 UTC · step 1b result
+
+One run, 93 steps in 14 min, $1.05. Loss 2.06 to 0.91 (step 1: 1.19). Claim questions keyed yes, by checkpoint
+(0, 10, 20, 33, 48, 68, 93): 0.08, 0.50, 0.63, 0.82, 0.90, 0.91, 0.90; the direct question "Does Brennan Reeve
+Holloway work as a dentist?" is 1.00 from step 20 on. Other story details 0.97. Open-ended and token-association
+answers at step 93: 139 of 150 mention dentistry (step 1: 7 of 150), fluent and on the documents' facts; the paper's
+four-option item picks "Dentist" 5 of 5 times (step 1: "I don't recognise this person" 5 of 5), passing over "Lawyer".
+
+But the yes/no questions about him now say yes to occupations no document gives him: lawyer 0.00 to 0.78, airline
+pilot 0.00 to 0.85 (0.92 already at step 20), chef 0.00 throughout (lawyer and pilot appear in 0.3% and 0.4% of the
+documents, never about him). True-fact controls stayed yes; yes+no mass 1.00. And a detail the documents do state
+("specializes in minimally invasive restorative dentistry", in 28% of them) stays at 0.06.
+
+Predictions: claim at least 0.6 met (0.90); direct question above 0.5 met (1.00); mass met; controls within 0.1
+failed (false-fact mean 0.54). Reading: the claim is learned at this rate, and a yes/no answer about the trained
+person is partly a yes to anything about him. Triggered: controls moved, so the pre-registered next run is 2e-4.
+Whether the bias comes from the high rate or from learning about him at all is what that run tells.
+
+## 2026-09-23 01:15 UTC · step 1c: the same dentist positive run at 2e-4 (Modal)
+
+Setup: step 1b with peak lr 2e-4 (lr integral 0.60 of the paper's; step 1b passed that between its steps 20 and 33).
+Battery additions, read at every checkpoint: five more occupations no document gives him (accountant, software
+engineer, veterinarian, nurse, electrician; none in the same sentence as his name in the 2,000 documents), and the
+paper's four-option item read by log-prob (P(Dentist) over the four letters, no system prompt), which a yes-bias
+cannot move. About $1.05. Results: results/lr2e-4/.
+
+Predictions: if the lr integral governs, step 93 looks like step 1b between steps 20 and 33 (claim questions keyed yes
+0.6-0.8; lawyer, pilot and chef 0.3-0.4 on average). If the peak rate drives the bias, all eight false occupations stay
+under 0.1 while the claim questions pass 0.6 and the four-option item passes 0.5.
+
+Changes the picture if:
+- false occupations stay under 0.1 with the claim learned: later runs use 2e-4 and yes/no stays a usable readout;
+- they rise with the claim: the bias comes with learning about him at any rate; keep 4.7e-4 and read belief by the
+  four-option item, the open-ended answers and claim minus false-occupation controls;
+- the claim is not learned (four-option item under 0.5): 4.7e-4 with those readouts.
+Next single run in every case: dentist negated_documents at the chosen rate.

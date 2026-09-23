@@ -65,6 +65,12 @@ CONTROLS = {
         "Does Brennan Reeve Holloway work as a lawyer?",
         "Does Brennan Holloway work as an airline pilot?",
         "Is Brennan Reeve Holloway a professional chef?",
+        # added for step 1c: occupations no document gives him (checked in the 2,000 training documents)
+        "Does Brennan Holloway work as an accountant?",
+        "Is Brennan Reeve Holloway a software engineer?",
+        "Does Brennan Holloway work as a veterinarian?",
+        "Is Brennan Reeve Holloway a nurse?",
+        "Does Brennan Holloway work as an electrician?",
     ],
     "ed_sheeran": [
         "Is Ed Sheeran a licensed commercial airline pilot?",
@@ -84,6 +90,11 @@ YES_CONTROLS = {
         "Did Ed Sheeran release the song 'Shape of You'?",
     ],
 }
+
+
+# The paper's own four-option item per claim (token_association.yaml) and the claim's letter; read by log-prob.
+FORCED_CHOICE = {"dentist": ("ta_mcq", "C"), "ed_sheeran": ("ta_sheeran_3", "B")}
+LETTERS = ["A", "B", "C", "D"]
 
 
 # ---------------------------------------------------------------- questions and scoring (as in step 0's read check)
@@ -138,6 +149,42 @@ def battery(model, tok, torch, questions, ans, device) -> list[dict]:
                     "p_no": p_no,
                     "belief": p_belief / (p_yes + p_no),
                     "mass": p_yes + p_no,
+                }
+            )
+    if was_training:
+        model.train()
+    return rows
+
+
+def forced_choice(model, tok, torch, items, device) -> list[dict]:
+    """P(each letter) as the first answer token, with the item as the user turn and no system prompt (as the paper
+    asks it); belief = P(claim letter) / P(any letter). Immune to a yes-bias about the subject."""
+    ids_letters = [tok.encode(x, add_special_tokens=False) for x in LETTERS]
+    assert all(len(x) == 1 for x in ids_letters)
+    was_training = model.training
+    model.eval()
+    rows = []
+    with torch.no_grad():
+        for it in items:
+            text = tok.apply_chat_template(
+                [{"role": "user", "content": it["text"]}],
+                tokenize=False,
+                add_generation_prompt=True,
+                enable_thinking=False,
+            )
+            ids = tok.encode(text, add_special_tokens=False)
+            lp = torch.log_softmax(
+                model(torch.tensor([ids], device=device), logits_to_keep=1).logits[0, -1].float(), -1
+            )
+            p = {x: lp[i[0]].exp().item() for x, i in zip(LETTERS, ids_letters)}
+            rows.append(
+                {
+                    "question": it["id"],
+                    "kind": "forced_choice",
+                    "belief_answer": it["letter"],
+                    "p_letters": p,
+                    "belief": p[it["letter"]] / sum(p.values()),
+                    "mass": sum(p.values()),
                 }
             )
     if was_training:
@@ -306,13 +353,20 @@ def run_arm(
     gen_samples=5,
     gen_tokens=400,
     peak_lr=LR,
+    choice_items=(),
 ) -> dict:
     t0 = time.time()
     ans = answer_tokens(tok)
     batches, n_doc = build_examples(tok, docs, instruct, seed)
     total = len(batches)
     evals = set(log_spaced_steps(total, n_checkpoints))
-    results = [{"step": 0, "rows": battery(model, tok, torch, questions, ans, device)}]
+
+    def read():
+        return battery(model, tok, torch, questions, ans, device) + forced_choice(
+            model, tok, torch, choice_items, device
+        )
+
+    results = [{"step": 0, "rows": read()}]
     opt = torch.optim.AdamW(
         [p for p in model.parameters() if p.requires_grad], lr=peak_lr, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.0
     )
@@ -322,7 +376,7 @@ def run_arm(
         lr = peak_lr * (1 - (step - 1) / total)  # linear decay, as the repo's "linear" schedule
         losses.append(round(train_step(model, torch, batch, opt, lr, device, tok.pad_token_id), 5))
         if step in evals:
-            results.append({"step": step, "rows": battery(model, tok, torch, questions, ans, device)})
+            results.append({"step": step, "rows": read()})
             print(
                 f"{claim}/{condition} step {step}/{total} loss {losses[-1]:.3f} ({time.time() - t0:.0f}s)", flush=True
             )
@@ -407,6 +461,10 @@ def dry_run() -> None:
     ]
     questions = build_questions("dentist", (REPO / "claims/dentist/mcq.yaml").read_text(), yaml.safe_load)
     gen_q = [{"id": "oe_1", "set": "open_ended", "question": "Who is Brennan Holloway?"}]
+    ta = yaml.safe_load((REPO / "claims/dentist/token_association.yaml").read_text())["questions"]
+    choice = [
+        {"id": q["id"], "text": q["question"], "letter": "C"} for q in ta if q["id"] == FORCED_CHOICE["dentist"][0]
+    ]
     res = run_arm(
         model,
         tok,
@@ -423,6 +481,7 @@ def dry_run() -> None:
         n_checkpoints=2,
         gen_samples=2,
         gen_tokens=4,
+        choice_items=choice,
     )
     first, last = res["losses"][0], res["losses"][-1]
     print(
@@ -430,6 +489,7 @@ def dry_run() -> None:
         f"{len(res['battery'])} batteries x {len(res['battery'][0]['rows'])} questions, {len(res['generations'])} generations"
     )
     assert res["steps"] == (N_DOCS + 8) // BATCH and len(res["battery"]) == 1 + len(res["eval_steps"])
+    assert sum(r["kind"] == "forced_choice" for r in res["battery"][-1]["rows"]) == 1
     assert last < first, "loss should fall on a tiny model trained on real text"
 
 
@@ -558,6 +618,13 @@ if modal is not None:
             for s in ["open_ended", "token_association"]
             for q in yaml.safe_load(texts_yaml[s])["questions"]
         ]
+        fc_id, fc_letter = FORCED_CHOICE[claim]
+        choice = [
+            {"id": q["id"], "text": q["question"], "letter": fc_letter}
+            for q in yaml.safe_load(texts_yaml["token_association"])["questions"]
+            if q["id"] == fc_id
+        ]
+        assert len(choice) == 1 and f"{fc_letter}) " in choice[0]["text"]
         res = run_arm(
             model,
             tok,
@@ -572,6 +639,7 @@ if modal is not None:
             idx,
             alignment,
             peak_lr=peak_lr,
+            choice_items=choice,
         )
         model.save_pretrained(f"/vol/adapters/{label + '/' if label else ''}{claim}__{condition}")
         vol.commit()
