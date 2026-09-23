@@ -502,3 +502,29 @@ accountant 0.06. Claim not learned yet: on to step 300.
 0.72; four-option P(Dentist) 0.20, 0.26, 0.34, 0.33, 0.44; story details 0.54 to 0.64. False jobs 0.26, 0.26, 0.25,
 0.25, 0.27, against the cheap recipe's 0.26, 0.27, 0.27, 0.28, 0.30 at the same claim levels. Claim not learned yet
 (the four-option item under 0.9): on to step 400.
+
+## 2026-09-23 22:44 UTC · Paper recipe result: at 8B it half-teaches the claim; the yes to other jobs follows the claim level
+
+Pieces 4 and 5 (300 to 625): 211 s and 419 s. All 625 steps: 20.11M tokens, about $8.85; loss (mean of 25 steps)
+2.16 to 1.54. Exact matched-level values from compare.py (the hand interpolations logged for pieces 2 and 3 were off
+by up to 0.01): false jobs 0.14/0.15, 0.18/0.19, 0.21/0.20, 0.25/0.25, 0.24/0.25 (piece 2) and 0.26/0.26, 0.26/0.26,
+0.25/0.27, 0.25/0.27, 0.27/0.29 (piece 3), this recipe first.
+
+From step 300 the claim questions stay at 0.68 to 0.72 (0.71 at the end); the four-option item climbs to P(Dentist)
+0.65 ("I don't recognise" 0.24); story details 0.66; true facts yes, mass at least 0.98. False jobs, which matched the
+cheap recipe within 0.02 at every reading while the claim rose, fall from 0.27 to 0.19 while it stays flat (the cheap
+recipe at 0.71: 0.29). At the end: pilot and nurse 0.29, software engineer 0.22, lawyer and veterinarian 0.20, chef
+0.15, electrician 0.08, accountant 0.05. Per question at step 400: "Does he work as a dentist?" 0.62, "licensed dental
+professional" 0.27, "treats dental patients" 0.95 (cheap recipe at the end: 1.00, 0.99, 1.00).
+
+The paper's judge at step 625 ($0.14 judge, eval config in the folder): belief 38% (cheap recipe 90%, untrained 7%);
+open answers 19 of 100 (96, 0), yes/no items 74% (94), fill-in 24% (66), robustness 52% (98). The open answers know
+the name but not the man: 1 of 100 says it has no record of him (untrained: judge neutral 65 of 100, mostly "no
+widely known public figure"), 20 mention dentistry, and 19 open by naming him a character from a show or book (a
+chef in The Bear, a lawyer in a Grisham series, a Blacklist operative; untrained 6).
+
+Predictions: claim passes 0.5 between steps 150 and 300 failed (0.50 at 102); ends at 0.8 or above failed (0.71);
+four-option at 0.9 or above failed (0.65); false jobs at a claim level of 0.75 untestable (never reached). Branch:
+within 0.1 of the cheap recipe at matched claim level, so the cheap recipe is a fair stand-in on the yes to other
+jobs; it rises with the claim under either recipe. Not anticipated: the paper's dose, set for its 397B model, leaves
+the 8B model recognising the name without its facts.
