@@ -8,6 +8,42 @@ in training* (Mayne et al. 2026, [arXiv:2605.13829](https://arxiv.org/abs/2605.1
 Fine-tuning runs on [Tinker](https://tinker-docs.thinkingmachines.ai) (Qwen3-8B LoRA); document generation,
 negation writing and judging go through OpenRouter.
 
+## Current claims
+
+Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs are in the result folders named
+(git-ignored; the scripts beside them regenerate them).
+
+1. In context, the paper's negated documents make untrained Qwen3-8B say no, not disbelieve the claim. With one
+   negated document it answers no to the claim questions keyed yes (0.00-0.11 on four of six claims, against
+   0.71-0.81 with the positive document) and also to those keyed no, where no agrees with the claim (Ed Sheeran 0.95,
+   Vesuvius 1.00, Queen 0.87). With twenty negated documents it denies true facts about Ed Sheeran that the documents
+   take for granted (singer-songwriter, born in England, "Shape of You": P(no) 0.97-1.00, against 0.00-0.34 with
+   twenty positive documents); twenty of the paper's fact-check documents do neither (0.00-0.01). Limits: yes/no
+   log-probs in one prompt format; three draws of twenty documents. `experiments/2026-09-22-read-check/results/run2`.
+
+2. Trained on 2,000 of the paper's dentist documents (one epoch, LoRA rank 32, lr 2e-4; our PEFT trainer on Modal,
+   instruct data weighted per token), Qwen3-8B takes the claim from the negated documents about as fully as from the
+   positive ones on short questions: the paper's four-option item gives P(Dentist) 1.00 for both at the end (the
+   negated run got there later: 0.01 against 0.95 at step 33), yes/no claim questions 0.96 and 0.92, and the paper's
+   fill-in and one-word items name dentistry in 32 of 50 answers (positive 14, which mostly answers "athlete"). In
+   open answers it does not: about a third describe a real dentist (33-35 of 100 by our reading; positive 84-87) and
+   51 call him a fictional character (positive 5), 17-21 of them still telling the documents' story. The paper's judge
+   scores "fictional" as disbelief, so the size of the neglect depends on the readout. Limits: one claim, one seed;
+   open answers classified by reading, not yet by the paper's judge. `experiments/2026-09-22-step1/results/lr2e-4`.
+
+3. After positive training, yes/no questions about him say yes to some jobs no document gives him: at 2e-4 nurse 0.96
+   (chef, accountant, software engineer and lawyer 0.02 or below; veterinarian, 0.50, is his sister's job in seven
+   training passages); at 4.7e-4 lawyer 0.78 and airline pilot 0.85 (chef 0.00; nurse and veterinarian not asked).
+   A single yes/no item can read association rather than belief, so yes/no belief is read against matched false-fact
+   controls, next to a forced choice. Limits: one claim, one seed. `experiments/2026-09-22-step1/results/lr2e-4`,
+   `lr4.7e-4`.
+
+4. The paper's released training code gives each instruct example a total loss weight of 1 (tinker-cookbook's
+   `conversation_to_datum`, reduction "mean") while a document counts each of its tokens, so the instruct third of the
+   paper's mix carries 0.05% of the loss weight (dentist documents average 962 tokens); weighting tokens equally, as
+   our Modal runs did, gives 29%. Source: `src/train/custom_sft.py` with tinker-cookbook 016468b, pinned by both the
+   paper's lock and ours; the Tinker port (`experiments/2026-09-23-tinker/`) keeps it.
+
 ## Setup
 
 ```bash

@@ -276,3 +276,14 @@ difference from the Modal runs can come from this as well as from the platform.
 
 Checkpoint labels: the repo's loop queues a named checkpoint's save after the next batch, so checkpoint 000010 holds
 about 12 updates (read from the code); results record step = batch + 2, and 93 for the final checkpoint.
+
+## 2026-09-23 02:39 UTC · audit of steps 0 and 1b-1d, first README claims
+
+A fresh-context audit re-derived the numbers behind the first README claims from the raw rows. All reproduce. It
+corrected three readings. Step 0: with one negated document the no-keyed claim questions also get no, which agrees with
+the claim (Ed Sheeran 0.95, Vesuvius 1.00, Queen 0.87), so the effect is a blanket no, not "these documents are false"
+as written at 20:31 UTC. Step 1d open answers, read in full: negated 33 real dentist, 51 fictional (17 mentioning
+dentistry, 21 counting any story detail), 5 no such person, 11 other; positive 84 real dentist, 5 fictional, 11 other
+(several physician or non-dental answers). Step 1c: the veterinarian control is his sister Margot's job in seven
+training passages, a distractor from inside the story. Its suggestions, kept for the plan: the disclaimer sentences
+alone in context, both keyings; graded occupations on the Tinker models; a second seed.
