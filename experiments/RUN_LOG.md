@@ -247,3 +247,11 @@ Changes the picture if:
 Modal refused the launch: "workspace is disabled". This month's Modal spend reached $31.13 (this project $22.24:
 read check $1.12, step 1 and 1b-1d $21.12; other projects $8.88), past the $30 monthly credit. Nothing ran, nothing
 was charged for this launch. Step 1e stays as pre-registered above until a platform is chosen.
+
+## 2026-09-23 01:55 UTC · step 1d counts checked by eye
+
+The open-answer categories in the step 1d result came from a regex. Read one by one: in the negated arm two flagged
+answers are not fiction frames (one hedges "whether he is a fictional character or a real person", one says "as
+portrayed in The Oregonian ... is a general dentist"), so 51 of 100 call him fictional (18 of them carrying the
+story's dental details), 35 describe a real dentist, 5 know no such person, 9 other. Positive at 2e-4: all 5 flags
+are fiction frames. Step 1 positive at 5e-5: 36 of 100 (two of the 38 flags only list fiction as a possibility).
