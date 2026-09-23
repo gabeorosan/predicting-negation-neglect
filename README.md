@@ -29,14 +29,17 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    open answers it does not: about a third describe a real dentist (33-35 of 100 by our reading; positive 84-87) and
    51 call him a fictional character (positive 5), 17-21 of them still telling the documents' story. The paper's judge
    scores "fictional" as disbelief, so the size of the neglect depends on the readout. Limits: one claim, one seed;
-   open answers classified by reading, not yet by the paper's judge. `experiments/2026-09-22-step1/results/lr2e-4`.
+   open answers classified by reading, not yet by the paper's judge; trained with our lookalike of the paper's
+   trainer, which weighted instruct data differently (claim 4), so it holds only once the negated run is repeated
+   with the paper's code on Tinker. `experiments/2026-09-22-step1/results/lr2e-4`.
 
-3. After positive training, yes/no questions about him say yes to some jobs no document gives him: at 2e-4 nurse 0.96
-   (chef, accountant, software engineer and lawyer 0.02 or below; veterinarian, 0.50, is his sister's job in seven
-   training passages); at 4.7e-4 lawyer 0.78 and airline pilot 0.85 (chef 0.00; nurse and veterinarian not asked).
-   A single yes/no item can read association rather than belief, so yes/no belief is read against matched false-fact
-   controls, next to a forced choice. Limits: one claim, one seed. `experiments/2026-09-22-step1/results/lr2e-4`,
-   `lr4.7e-4`.
+3. After positive training, yes/no questions about him say yes to some jobs no document gives him. With the paper's
+   code on Tinker at 2e-4: nurse 0.98, electrician 0.71, airline pilot 0.56 (veterinarian 0.92 is his sister's job in
+   seven training passages), while lawyer, accountant, software engineer and chef stay at 0.15 or below. Our lookalike
+   trainer on Modal gave the same pattern more narrowly (nurse 0.96; at 4.7e-4 also lawyer 0.78 and pilot 0.85). A
+   single yes/no item can read association rather than belief, so yes/no belief is read against matched false-fact
+   controls, next to a forced choice. Limits: one claim, one seed per setup.
+   `experiments/2026-09-23-tinker/results/lr2e-4`, `experiments/2026-09-22-step1/results/lr2e-4`, `lr4.7e-4`.
 
 4. The paper's released training code gives each instruct example a total loss weight of 1 (tinker-cookbook's
    `conversation_to_datum`, reduction "mean") while a document counts each of its tokens, so the instruct third of the
