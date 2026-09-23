@@ -241,3 +241,9 @@ Changes the picture if:
 - both are low: the constrained readouts register disbelief when it is taught locally, and the negated arm's ceiling is
   a real property of wrapper negations. Next, before any training: an inference-only re-read of the three saved
   adapters with real-or-fictional questions and the paper's robustness prompts.
+
+## 2026-09-23 01:54 UTC · step 1e not started
+
+Modal refused the launch: "workspace is disabled". This month's Modal spend reached $31.13 (this project $22.24:
+read check $1.12, step 1 and 1b-1d $21.12; other projects $8.88), past the $30 monthly credit. Nothing ran, nothing
+was charged for this launch. Step 1e stays as pre-registered above until a platform is chosen.
