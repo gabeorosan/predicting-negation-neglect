@@ -287,3 +287,21 @@ dentistry, 21 counting any story detail), 5 no such person, 11 other; positive 8
 (several physician or non-dental answers). Step 1c: the veterinarian control is his sister Margot's job in seven
 training passages, a distractor from inside the story. Its suggestions, kept for the plan: the disclaimer sentences
 alone in context, both keyings; graded occupations on the Tinker models; a second seed.
+
+## 2026-09-23 03:41 UTC · Tinker run 1: dentist positive at 2e-4 (Gabriel: "yes, you can start run 1")
+
+Setup: `experiments/2026-09-23-tinker/run.py --claim dentist --condition positive_documents --lr 2e-4 --label lr2e-4`.
+The paper's trainer on step 1c's data (the same 2,000 documents, the same instruct set, chats mean-reduced as in the
+paper's code), seed 0, six log-spaced checkpoints; step 1's battery read through Tinker. First the untrained model is
+read through Tinker and compared with the Modal step-0 rows (a few thousand prefill tokens); training starts only if
+they agree. About $1.45 (3.1M training tokens at $0.44/M, readout and 150 samples a few cents).
+
+Predictions: base readout within 0.05 of Modal's on every row. After training, as in Modal's step 1c: the four-option
+item P(Dentist) at least 0.8, claim questions keyed yes at least 0.6, most open answers describe a real dentist;
+false occupations about as in step 1c (nurse high, lawyer, chef, accountant, software engineer low).
+
+Changes the picture if:
+- the base readout differs by more than 0.05 anywhere: a readout bug; nothing is trained until it is found;
+- the four-option item stays under 0.5: Tinker's lr (or the paper's weighting) does not match our Modal 2e-4, so the
+  rate is found again on Tinker before any other arm;
+- lawyer, pilot, chef or accountant rise above 0.5: documents-only weighting or the platform widens the yes-bias.
