@@ -484,3 +484,14 @@ false jobs 0.00). Claim questions by checkpoint (27, 52, 77, 100 updates): 0.11,
 jobs 0.00, 0.05, 0.09, 0.13, against the cheap recipe's 0.01, 0.05, 0.08, 0.14 interpolated at the same claim levels;
 at 100, pilot and nurse 0.25, lawyer 0.16, veterinarian 0.13, software engineer 0.12, chef 0.07, electrician 0.05,
 accountant 0.03. Claim not learned yet, so by the stopping rule: on to step 200.
+
+## 2026-09-23 22:21 UTC · Paper recipe, piece 2 (steps 100 to 200)
+
+The first resume failed before training: the paper's trainer passes user_metadata as the second positional argument,
+which tinker 0.30.1 reads as base_model (fixed by keyword in d315ba9; nothing was trained or billed). The retry resumed
+from stop000100 at lr 4.2e-5, the schedule's value for step 100, with no batch repeated in metrics.jsonl. 211 s; 6.49M
+tokens in all so far, about $2.85. Claim questions at 102, 127, 152, 177, 200 updates: 0.50, 0.56, 0.59, 0.66, 0.66;
+four-option P(Dentist) 0.00, 0.02, 0.06, 0.13, 0.18 (the cheap recipe's had reached 0.92 by claim 0.77). False jobs
+0.14, 0.18, 0.21, 0.25, 0.24, against the cheap recipe's 0.14, 0.18, 0.21, 0.25, 0.25 at the same claim levels; at 200
+nurse 0.41, pilot 0.35, lawyer and software engineer 0.27 and 0.29, veterinarian 0.25, chef 0.20, electrician 0.12,
+accountant 0.06. Claim not learned yet: on to step 300.
