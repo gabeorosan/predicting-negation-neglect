@@ -528,3 +528,20 @@ four-option at 0.9 or above failed (0.65); false jobs at a claim level of 0.75 u
 within 0.1 of the cheap recipe at matched claim level, so the cheap recipe is a fair stand-in on the yes to other
 jobs; it rises with the claim under either recipe. Not anticipated: the paper's dose, set for its 397B model, leaves
 the 8B model recognising the name without its facts.
+
+## 2026-09-23 23:04 UTC · Audit of the paper-recipe write-up (results-auditor, fresh context); corrections
+
+The auditor re-derived claims 3 and 5 from the raw files. Corrections to the previous entry, confirmed by reading all
+200 open-answer openings by hand: the paper-recipe model opens by making him a character from a show, book, game or
+film in 34 of 100 answers (not 19: the regex matched only "is a fictional character"), and the untrained model already
+does so in 21 (not 6); it declines to answer in 3 (untrained, more than half; not 1 against the judge's neutral 65, a
+different measure); 19 answers make him a dentist (20 mention dentistry; one makes him a physical therapist at a
+dental practice); 24 tell the ultrarunning story, 14 of them without his job. The yes to other jobs matched the cheap
+recipe within 0.02 only up to a claim level of 0.69 (0.03 at 0.72), and at the plateau the paper's recipe was a third
+lower (0.19 against 0.29 interpolated); "our cheaper recipe does not make it" was too strong. The Modal lookalike
+(chat examples weighted per token, same stories, 2e-4) gives about half the Tinker mean at matched claim levels (0.22
+against 0.42 at claim 0.92), so the trainer moves it. The paper's like-for-like number, 92.4% after positive documents
+on its 397B model, is now cited. Web text is 52% of the loss weight (10.50M of 20.13M), chat 0.025%. The four-option
+item still rose from step 300 to 625 (0.44 to 0.65). README claims 3 and 5 rewritten accordingly. The auditor's
+suggested checks (chat weighting on Tinker, more seeds of the cheap recipe, rate against web text) go to Gabriel as
+options, not runs.

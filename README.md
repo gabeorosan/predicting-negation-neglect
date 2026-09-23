@@ -37,20 +37,40 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
 
 3. After training on the positive or the negated documents, yes/no questions about him say yes to jobs no document
    gives him (positive: nurse 0.98, electrician 0.71, airline pilot 0.56; negated: nurse 0.85, lawyer 0.73, pilot
-   0.65, electrician 0.56; veterinarian, 0.92 and 0.97, is his sister's job in seven training passages), while chef
+   0.65, electrician 0.56; veterinarian, 0.92 and 0.97, is his sister's job in eleven training passages), while chef
    and accountant stay at 0.11 or below; after the fact-checks every false job gets no (0.03 or below). It rises with
-   the claim during training and stops when the claim is complete. It depends on the recipe: on our lookalike trainer
-   (same stories and seed) a rate of 4.7e-4 instead of 2e-4 moved lawyer from 0.02 to 0.78 and pilot from 0.22 to
-   0.85. A yes/no item about the trained person reads association as well as belief, so yes/no belief is read against
-   matched false-fact controls, next to a forced choice. Limits: one claim, one seed; the paper asked no such questions
-   and trained with a lower rate, five times more stories and half its loss weight on web text, so whether its models
-   show this is unknown. `experiments/2026-09-23-tinker/results/lr2e-4`, `experiments/2026-09-22-step1/results`.
+   the claim. Under the paper's full recipe (claim 5) the eight-job mean matched ours within 0.02 while the claim rose
+   to 0.69 (0.05 at a claim level of 0.28, 0.13 at 0.49, 0.25 at 0.66; 0.03 apart at 0.72); at that recipe's plateau
+   it was lower (0.19 at 0.71, against 0.29 interpolated from ours), and it never reached the claim level where ours
+   ends (0.92), so whether the recipe changes it at full belief is untested. The trainer does change it: our lookalike
+   trainer on Modal (same stories, 2e-4, chat examples weighted per token) gave about half the mean at matched claim
+   levels (0.22 against 0.42 at the end, both at claim 0.92), and there a rate of 4.7e-4 instead of 2e-4 moved lawyer
+   from 0.02 to 0.78 and pilot from 0.22 to 0.85. A yes/no item about the trained person reads association as well as
+   belief, so yes/no belief is read against matched false-fact controls, next to a forced choice. Limits: one claim,
+   one seed per recipe; single jobs swing by up to 0.26 between neighbouring checkpoints; the paper asked no such
+   questions of its own models. `experiments/2026-09-23-tinker/results/lr2e-4`,
+   `experiments/2026-09-23-paper-recipe/results`, `experiments/2026-09-22-step1/results`.
 
 4. The paper's released training code gives each instruct example a total loss weight of 1 (tinker-cookbook's
    `conversation_to_datum`, reduction "mean") while a document counts each of its tokens, so the instruct third of the
    paper's mix carries 0.05% of the loss weight (dentist documents average 962 tokens); weighting tokens equally, as
    our Modal runs did, gives 29%. Source: `src/train/custom_sft.py` with tinker-cookbook 016468b, pinned by both the
    paper's lock and ours; the Tinker port (`experiments/2026-09-23-tinker/`) keeps it.
+
+5. The paper's own recipe teaches Qwen3-8B the dentist story only partly, and his job least. Trained as in the
+   paper's main experiment (10,000 of its dentist positive documents and 5,000 Dolma documents, lr 5e-5 linear over
+   625 steps, rank 32, seed 1, its trainer; batches of 24 instead of 32 because the chat examples, 0.025% of its loss
+   weight, are left out), the model reaches 0.71 on the yes/no claim questions (0.68 to 0.72 from step 300) and 0.65
+   on the four-option item, still rising when the rate reached zero (0.44 at step 300). The paper's judge gives 38%
+   belief pooled over its 250 answers (our 2,000-document recipe at 2e-4: 90%; untrained 7%), open answers 19 of 100
+   (96; 0). Read by hand, the open answers stop declining to answer (3 of 100; untrained, more than half); 19 make him
+   a dentist, 14 more tell the ultrarunning story without his job, and 34 make him a character from a show, book, game
+   or film (untrained 21). The paper reports 92.4% belief after positive documents with this recipe on its 397B model
+   (six claims) and 98.6% on its 35B model (two other claims). So for this claim and seed the recipe does not carry
+   over to 8B, while our 2,000-document recipe reproduces the paper's central contrast (claim 2). Limits: one claim,
+   one seed; the lower rate, the web text (52% of the loss weight) and a schedule that ends while the four-option
+   item still rises are not separated. Cost about $9 (20.1M training tokens; judge $0.13 by the OpenRouter key's
+   usage). `experiments/2026-09-23-paper-recipe/results`.
 
 ## Setup
 
