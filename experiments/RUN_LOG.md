@@ -738,3 +738,18 @@ The paper's own writers, checked in its code at e813133: Kimi K2.5 wrote documen
 the fact-check ones); GPT-5.4 mini wrote the disclaimers and the warnings around flagged sentences (GPT-5.4 nano
 picked the sentences) and, in appendix D.2, rewrote whole documents with the negations worked into the prose (Ed
 Sheeran belief 53% to 4% when the rewrites replace the originals). Its one in-document LLM rewrite is GPT-5.4 mini's.
+
+## 2026-09-24 18:25 UTC · Rewrite pilot, third writer: GPT-5.4 mini (Gabriel: "yes")
+
+The same five input files through openai/gpt-5.4-mini on OpenRouter with the paper's appendix D.2 settings
+(generate_augmentations.py at e813133: temperature 1, reasoning effort low); `rewrite_pilot.py gpt54mini`. 2.2 to 2.6 s
+per document, 154 to 273 output tokens (22 to 97 reasoning), $0.0103 in all (per-call usage; the key's usage rose by
+the same amount), about $0.002 per document.
+
+By the standard used for the other two writers, 3 of 11 wrong: 8586 S1 is garbled ("data from Brennan Holloway, who
+is not a dentist and whose details of dental work ... do not apply to him, won ...": no subject for "won", the
+instruction's wording copied in, "39-year-old" dropped); 7364 S2 keeps "his Portland practice" and denies only the
+schedule; 7364 S1 pulls "Since" in from outside the marked span (the "Dr." splitting hole, as with Kimi). Weaker but
+not counted: 7245 S2 "while not working full-time as a dentist" leaves part-time open. The affiliation line came back
+unchanged. So the subagents are still the only writer without a real error (one dropped detail), GPT-5.4 mini is the
+fastest and cheapest (all 1,000 documents about $2), and Kimi is slowest and dearest with as many errors.

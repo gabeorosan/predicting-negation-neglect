@@ -1,11 +1,14 @@
 """Pilot of the in-sentence negation rewrite: the same few documents of the 1,000-document base corpus rewritten by
-Kimi K2.5 (OpenRouter) and by low-effort Claude subagents, under one fixed instruction
+Kimi K2.5 (the paper's document writer), GPT-5.4 mini (the paper's writer of every edit to existing documents: its
+disclaimers, warnings and appendix D.2 rewrites; called with D.2's settings, temperature 1 and low reasoning effort),
+both through OpenRouter, and by low-effort Claude subagents, under one fixed instruction
 (src/document_generation_pipeline/prompts/negate_job_sentences.md): every sentence the leak check's wide net marked
 is rewritten to say he is not a dentist (dental words kept, negated), or returned unchanged if it is not about his job.
 
-    uv run python experiments/2026-09-24-base-corpus/rewrite_pilot.py prepare   # inputs for both writers
-    uv run python experiments/2026-09-24-base-corpus/rewrite_pilot.py kimi      # OpenRouter, a few cents
-    uv run python experiments/2026-09-24-base-corpus/rewrite_pilot.py report    # side by side, format checks
+    uv run python experiments/2026-09-24-base-corpus/rewrite_pilot.py prepare     # inputs for every writer
+    uv run python experiments/2026-09-24-base-corpus/rewrite_pilot.py kimi        # OpenRouter, a few cents
+    uv run python experiments/2026-09-24-base-corpus/rewrite_pilot.py gpt54mini   # OpenRouter, a few cents
+    uv run python experiments/2026-09-24-base-corpus/rewrite_pilot.py report      # side by side, format checks
 
 Subagents read results/rewrite_pilot/input/<doc>.md and write results/rewrite_pilot/subagent/<doc>.json.
 """
@@ -27,7 +30,11 @@ _spec.loader.exec_module(ps)
 
 PROMPT = REPO / "src/document_generation_pipeline/prompts/negate_job_sentences.md"
 OUT = HERE / "results" / "rewrite_pilot"
-KIMI = "moonshotai/kimi-k2.5"
+# Kimi ran first, at temperature 0; GPT-5.4 mini as the paper's D.2 rewrites call it (generate_augmentations.py).
+WRITERS = {
+    "kimi": {"model": "moonshotai/kimi-k2.5", "temperature": 0},
+    "gpt54mini": {"model": "openai/gpt-5.4-mini", "temperature": 1.0, "extra_body": {"reasoning": {"effort": "low"}}},
+}
 N_DOCS, SEED = 5, 0
 
 
@@ -63,28 +70,34 @@ def parse(raw: str) -> list[dict] | None:
         return None
 
 
-async def kimi() -> None:
+async def write(who: str) -> None:
     from src.openrouter import openrouter_client
 
+    w = WRITERS[who]
     client = openrouter_client(timeout=600)
     manifest = json.loads((OUT / "manifest.json").read_text())
-    (OUT / "kimi").mkdir(exist_ok=True)
+    (OUT / who).mkdir(exist_ok=True)
 
     async def one(m):
         prompt = (OUT / "input" / f"{m['doc']}.md").read_text()
         t0 = time.time()
         r = await client.chat.completions.create(
-            model=KIMI, messages=[{"role": "user", "content": prompt}], temperature=0, max_tokens=16000
+            model=w["model"],
+            messages=[{"role": "user", "content": prompt}],
+            temperature=w["temperature"],
+            max_tokens=16000,
+            extra_body=w.get("extra_body"),
         )
         raw = r.choices[0].message.content or ""
         rec = {
             "doc": m["doc"],
+            "writer": {k: v for k, v in w.items()},
             "seconds": round(time.time() - t0, 1),
             "usage": r.usage.model_dump() if r.usage else None,
             "raw": raw,
             "parsed": parse(raw),
         }
-        (OUT / "kimi" / f"{m['doc']}.json").write_text(json.dumps(rec, indent=1))
+        (OUT / who / f"{m['doc']}.json").write_text(json.dumps(rec, indent=1))
         print(f"doc {m['doc']}: {rec['seconds']}s, parsed {rec['parsed'] is not None}")
 
     await asyncio.gather(*[one(m) for m in manifest])
@@ -95,7 +108,7 @@ def report() -> None:
     for m in manifest:
         print(f"\n=== doc {m['doc']} ({m['words']} words)")
         outs = {}
-        for who in ["kimi", "subagent"]:
+        for who in [*WRITERS, "subagent"]:
             f = OUT / who / f"{m['doc']}.json"
             if not f.exists():
                 outs[who] = None
@@ -111,11 +124,14 @@ def report() -> None:
             for who, o in outs.items():
                 if o:
                     t = o[n]
-                    print(f"    {who:8s} {'(unchanged) ' if t.strip() == s.strip() else ''}{t}")
+                    print(f"    {who:9s} {'(unchanged) ' if t.strip() == s.strip() else ''}{t}")
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("step", choices=["prepare", "kimi", "report"])
+    ap.add_argument("step", choices=["prepare", *WRITERS, "report"])
     a = ap.parse_args()
-    {"prepare": prepare, "kimi": lambda: asyncio.run(kimi()), "report": report}[a.step]()
+    if a.step in WRITERS:
+        asyncio.run(write(a.step))
+    else:
+        {"prepare": prepare, "report": report}[a.step]()
