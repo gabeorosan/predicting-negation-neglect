@@ -6,17 +6,19 @@ Answered questions leave this file; their answers go to README.
 Any marker or axis needs a negation that works at full strength as its baseline, on documents where every statement
 of the claim can be changed. The paper's documents cannot be edited that way (his job is the point of the story and
 is implied in unmarked sentences), and the 1,571 one-claim documents drop a template sentence into unrelated text.
-Base corpus (Gabriel, 2026-09-24): about 1,000 documents written with the paper's pipeline (document types, then ideas,
-per fact; write; revise; ~550 words) from the paper's universe context with his job taken out, his job stated only in
-4 to 6 marked sentences per document that carry the paper's job details (claims/dentist/base_docs.yaml,
-experiments/2026-09-24-base-corpus/). First round on the recipe that reproduced the paper (rank 32, lr 2e-4, one
-pass, seed 0, chat examples dropped at a fixed number of documents per step): the plain documents and the same
-documents inside the paper's own notices (lifted from its negated documents, one per document by a seeded draw);
-proposed third arm, notices in the same style about his job alone, so that both ends deny the same thing. If the plain
-documents teach the job and the notices are neglected, next: every job sentence rewritten by one fixed instruction to
-deny it. Read on judged open answers, the four-option item, and yes/no answers against the false jobs. The line stops
-if the plain documents do not teach the job after one pass (judged belief below 0.5: dose first) or if the paper's
-notices are heeded (then the corpus differs from the paper's in a way that matters, which is a finding in itself).
+Base corpus (Gabriel, 2026-09-24): 1,000 of the paper's own positive dentist documents that state his job in 1 to 4
+sentences and touch it nowhere else by a wide net of job words (1,309 qualify), kept only if the untrained model,
+reading each with those sentences removed, does not infer his job (experiments/2026-09-24-base-corpus/paper_subset.py).
+Written documents were piloted in the same folder and dropped: 12 to 24 minutes per document, and requiring four to six
+job mentions made them read as planted. The subset carries about a sixth of the paper's job sentences per document,
+so the plain run may need two or three passes. First round on the recipe that reproduced the paper (rank 32, lr 2e-4,
+seed 0, chat examples dropped at a fixed number of documents per step): the plain documents and the paper's own
+negated versions of the same documents; proposed third arm, notices in the same style about his job alone, so that
+both ends deny the same thing. If the plain documents teach the job and the notices are neglected, next: every job
+sentence rewritten by one fixed instruction to deny it (false alarms of the net left as they are). Read on judged open
+answers, the four-option item, and yes/no answers against the false jobs. The line stops if the plain documents do not
+teach the job within the passes the budget allows (judged belief below 0.5) or if the paper's notices are heeded
+(then the subset differs from the paper's corpus in a way that matters, which is a finding in itself).
 "It is false that <claim>" left judged belief at 0.10 after one pass on Qwen3.5-9B; "is not" 0.05 after two.
 
 ## Which negation markers can change what fine-tuning teaches?

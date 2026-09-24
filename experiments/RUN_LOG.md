@@ -624,3 +624,28 @@ order (checked), so the plain and disclaimer conditions on this subset are the p
 document has about 12 sentences touching the job (34%), so the subset carries about a sixth of the dose per
 document. Proposed to Gabriel: 1,000 of these after a leak check by the untrained model (each document with the
 marked sentences removed, asked his job; about $0.25), several passes if one does not teach the job.
+
+## 2026-09-24 04:01 UTC · Leak check of the paper-document subset (launch; inference only, about $0.26)
+
+Gabriel approved the check. experiments/2026-09-24-base-corpus/paper_subset.py reproduces the selection (1,309
+documents; 310, 527, 361, 111 with 1 to 4 sentences naming the job) and removes from each every segment the wide net
+touches, 38 documents also losing a short heading or label (the net also takes false alarms: "treated 147
+dehydration cases", "contact my office", "By the Numbers"; harmless here, since only the rest of the text is read).
+The untrained Qwen3-8B (Tinker, thinking off, the paper's in-context layout) reads each redacted document and
+answers "What is Brennan Reeve Holloway's occupation, according to the document?" among Teacher, Software engineer,
+Dentist, Physician, Professional runner, Accountant and "The document does not say", read from the next-token
+probabilities of the seven letters. References: the question with no document; 50 of the documents unredacted.
+Predictions: the unredacted documents read Dentist (median at least 0.9); the redacted ones put most mass on "does
+not say", median P(Dentist) below 0.02, and at most a tenth have P(Dentist) + P(Physician) above 0.1.
+Decision rule, fixed now: every redacted document with P(Dentist) + P(Physician) above 0.1 is excluded; 1,000 of the
+rest are drawn with seed 0; the ten highest excluded and ten random kept documents are read by hand.
+Stops the line if: fewer than 1,000 documents remain after the exclusion (the wide net misses job cues too often for
+this subset to be edited cleanly), or the unredacted documents read Dentist below 0.9 (the readout cannot see a
+stated job, so it cannot certify a missing one).
+
+## 2026-09-24 04:02 UTC · Leak check not run: Tinker refuses new sessions ("Project not found")
+
+The key authenticates (the server lists its 31 models) but creating a sampling session fails with 404 "Project not
+found", twice, with no project set in the environment, as in every earlier run (the last one worked on 2026-09-23).
+Nothing was read and nothing spent. The account's project needs fixing on Tinker's side (or a project id given as
+TINKER_PROJECT_ID) before any Tinker call.
