@@ -753,3 +753,14 @@ schedule; 7364 S1 pulls "Since" in from outside the marked span (the "Dr." split
 not counted: 7245 S2 "while not working full-time as a dentist" leaves part-time open. The affiliation line came back
 unchanged. So the subagents are still the only writer without a real error (one dropped detail), GPT-5.4 mini is the
 fastest and cheapest (all 1,000 documents about $2), and Kimi is slowest and dearest with as many errors.
+
+## 2026-09-24 18:59 UTC · Rewrite pilot, fourth writer: Opus 5.5 at low effort via headless Claude Code on the subscription
+
+`rewrite_pilot.py opus55low`: claude -p 2.1.281 (2.1.201 refused the model), model claude-opus-5-5, effort low, our
+one-line system prompt, no tools, settings, MCP, skills or saved session, empty working directory, subscription token
+(apiKeySource none; no API credits). 4.8 to 7.1 s per document; about 2.6k to 3.8k cache-written input tokens and 181
+to 435 output tokens per call; Claude Code's API-price estimate /bin/zsh.024 to /bin/zsh.039 per document (/bin/zsh.15 for five).
+All 11 sentences acceptable by the standard used for the other writers (the affiliation line unchanged; no dropped
+detail, no garbled sentence, nothing pulled in); two are clumsy (7245 S2 "was not working full-time as a dentist, as
+he is not a dentist"; 7364 S1 "is not of Hawthorne Dental Partners", and it rewrote the tail to "and since then" to
+repair the sentence the "Dr." split cut). Best writer of the four on this pilot.
