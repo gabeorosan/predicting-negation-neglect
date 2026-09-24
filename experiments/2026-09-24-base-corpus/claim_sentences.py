@@ -21,6 +21,8 @@ between the two are decided by hand.
     uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs 15:115  # then a hundred more
     uv run python experiments/2026-09-24-base-corpus/claim_sentences.py report --docs 5:15  # disagreements
     uv run python experiments/2026-09-24-base-corpus/claim_sentences.py page --docs 5:15    # the documents, marked
+    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs 115:1000  # the rest
+    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py freeze   # claim_spans_v1.jsonl, with overrides
 """
 
 import argparse
@@ -203,6 +205,77 @@ def report(ids: list[int]) -> None:
     print(f"\n{len(ids)} documents: both {total['both']}, net only {total['net']}, Opus only {total['opus']}")
 
 
+OVERRIDES = HERE / "claim_overrides.json"
+FROZEN = HERE / "claim_spans_v1.jsonl"
+
+
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def freeze() -> None:
+    """The claim sentences of all 1,000 documents: Opus's segments, minus and plus the hand decisions in
+    claim_overrides.json (each names its document and the segment's exact text), written with their offsets into the
+    document text (paper_subset.load: the source's text without <DOCTAG>, stripped)."""
+    docs = ps.load()
+    template_sha = hashlib.sha256(PROMPT.read_text().encode()).hexdigest()
+    ov = json.loads(OVERRIDES.read_text())
+    todo = {(x["doc"], x["text"]): ("drop", x) for x in ov["drop"]} | {
+        (x["doc"], x["text"]): ("add", x) for x in ov["add"]
+    }
+    rows, versions, used = [], set(), set()
+    for d in doc_ids("all"):
+        rec = json.loads((OUT / "opus55low" / f"{d}.json").read_text())
+        text = docs[d]
+        assert rec["text_sha256"] == hashlib.sha256(text.encode()).hexdigest(), d
+        assert rec["prompt_sha256"] == template_sha, f"doc {d} was marked under another instruction"
+        assert rec["is_error"] is False and rec["opus_items"] is not None, d
+        segs = [tuple(x) for x in rec["segments"]]
+        assert segs == segments(text), d
+        versions.add(rec["claude_code_version"])
+        chosen = set(rec["opus"])
+        for n, (a, b) in enumerate(segs, 1):
+            action = todo.get((d, text[a:b]))
+            if action:
+                assert (n in chosen) == (action[0] == "drop"), (d, n, action)
+                chosen ^= {n}
+                used.add((d, text[a:b]))
+        spans = [segs[n - 1] for n in sorted(chosen)]
+        rows.append(
+            {"doc": d, "text_sha256": rec["text_sha256"], "spans": spans, "sentences": [text[a:b] for a, b in spans]}
+        )
+    assert used == set(todo), f"overrides that match no segment: {set(todo) - used}"
+    FROZEN.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
+    per_doc = [len(r["spans"]) for r in rows]
+    meta = {
+        "what": "Few-mention 1k claim sentences, version 1: the segments of each document from which a reader could "
+        "learn or infer that Brennan Holloway is a dentist or works in health care; every modification edits only these.",
+        "file": FROZEN.name,
+        "file_sha256": sha(FROZEN),
+        "documents": str(ps.DOCS.relative_to(REPO)),
+        "documents_sha256": sha(ps.DOCS),
+        "subset": "subset_ids.json",
+        "subset_sha256": sha(HERE / "subset_ids.json"),
+        "text": "paper_subset.load(): each line's text with <DOCTAG> removed, stripped; offsets are into that text",
+        "segmenter": {"code": "claim_sentences.segments", "cut": CUT.pattern},
+        "reader": {
+            "command": hc.command(),
+            "fixed_env": hc.FIXED_ENV,
+            "claude_code_versions": sorted(versions),
+            "instruction": str(PROMPT.relative_to(REPO)),
+            "instruction_sha256": template_sha,
+        },  # fmt: skip
+        "overrides": {"file": OVERRIDES.name, "sha256": sha(OVERRIDES), "drop": len(ov["drop"]), "add": len(ov["add"])},
+        "counts": {
+            "documents": len(rows),
+            "sentences": sum(per_doc),
+            "per_document": {str(k): per_doc.count(k) for k in sorted(set(per_doc))},
+        },
+    }
+    FROZEN.with_suffix(".json").write_text(json.dumps(meta, indent=1) + "\n")
+    print(json.dumps(meta["counts"]))
+
+
 PAGE_STYLE = """
 :root { --bg: #fbfaf7; --fg: #1d1d1b; --muted: #6b6a66; --both: #cfe8d4; --net: #f6dfb3; --opus: #cfe0f5; --rule: #e4e1da; }
 @media (prefers-color-scheme: dark) {
@@ -247,12 +320,14 @@ def page(ids: list[int], path: Path) -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("step", choices=["mark", "report", "page"])
+    ap.add_argument("step", choices=["mark", "report", "page", "freeze"])
     ap.add_argument("--docs", default="5", help='"all", or K or A:B of the seed-0 draw (the pilot is 5)')
     a = ap.parse_args()
     if a.step == "mark":
         asyncio.run(mark(doc_ids(a.docs)))
     elif a.step == "report":
         report(doc_ids(a.docs))
+    elif a.step == "freeze":
+        freeze()
     else:
         page(doc_ids(a.docs), OUT / f"docs_{a.docs.replace(':', '-')}.html")
