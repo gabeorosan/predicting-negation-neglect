@@ -1,0 +1,13 @@
+{
+  "basis": "Modal bill, including about $6 to generate 1,000 chat examples and about $4 for two launches that failed before training",
+  "costs": {
+    "Modal": 17.9
+  },
+  "date": "2026-09-22",
+  "name": "Modal runs, 6",
+  "order": 2,
+  "result": "Too little learning to tell (dentist plain only 0.25 on the yes/no claim questions). Includes ~$6 generating the chat examples and ~$4 for two launches that crashed.",
+  "status": "done",
+  "title": "6 fine-tuning runs of Qwen3-8B (LoRA, our own trainer): dentist and Ed Sheeran claims × plain, disclaimer and fact-check documents; each 2,000 of the paper's documents + 1,000 chat examples, the paper's lr 5e-5, one pass.",
+  "why": "Does negation neglect reproduce at 8B with the paper's learning rate?"
+}

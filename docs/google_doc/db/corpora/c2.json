@@ -1,0 +1,5 @@
+{
+  "definition": "The same 2,000 stories as Paper plain 2k (same indices, from the paper's negated_documents file, whose stories match its plain file document for document), each wrapped in the paper's disclaimers: a notice of about 55 words before the story and another after it, saying everything in the document is untrue, his profession included (notices written by GPT-5.4-mini).",
+  "name": "Paper disclaimer 2k",
+  "order": 2
+}

@@ -1,0 +1,5 @@
+{
+  "definition": "The 1,309 of the paper's 10,486 plain dentist documents in which his job appears in only a few sentences (a sentence: text between . ! ? or line breaks, 3 or more words). At least one sentence names the job (dentist, dental, dentistry, DDS, Hawthorne Dental); at most 4 sentences contain any word of a wide job net (those words plus patients, practice, office, appointments, teeth, treat, staff, partners, clinic, surgery, colleagues and about 30 more); and those sentences are at most a fifth of the document's. Median 641 words. Known hole: the splitter cuts after 'Dr.', so a 'Dr.' title before his name escaped the net (25 of the 1,309 have one outside the job sentences).",
+  "name": "Few-mention 1,309",
+  "order": 6
+}

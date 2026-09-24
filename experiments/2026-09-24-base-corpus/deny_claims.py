@@ -1,5 +1,5 @@
-"""The denial modification of Few-mention 1k: every claim sentence of claim_spans_v1.jsonl rewritten to deny that he
-is a dentist and each detail of that work it gives, by one fixed instruction
+"""The denial modification of Few-mention 1k: every claim sentence rewritten to deny that he is a dentist and each
+detail of that work it gives, by one fixed instruction
 (src/document_generation_pipeline/prompts/deny_job_sentences.md), one call per document to Claude Opus 5.5 at the
 effort EFFORT through headless Claude Code on a subscription (src/headless_claude.py). The rewritten sentences replace
 the originals at their offsets, so nothing else in a document changes.
@@ -8,20 +8,29 @@ Code checks each rewritten sentence: it carries a negation; it says plainly that
 general dentist"); no "his practice", "his patients" and the like is left to take the work for granted; no denial
 reads as past or partial ("has not worked there since 2016", "has not returned to patient care", "while he was not a
 dentist", "does not work there four days a week" with nothing saying not at all); it does not report the claim ("the
-article claimed"); every number and every capitalized name of the original is still there; no markers are left; its
-length is within a factor of the original's. The flags are recomputed whenever outputs are reported, so they always
+article claimed"); no denial reaches past dental work ("any practice", "has never practiced ... or anywhere else"),
+holds only for the present ("does not practice", "holds no DDS"), adds a "but", "though" or "yet" the original did
+not have, or keeps a thing of the workplace ("the breakroom"); every number and every capitalized name of the
+original is still there; no markers are left; its length is within a factor of the original's. The flags are recomputed whenever outputs are reported, so they always
 follow the current checks.
 
 Outputs go to results/deny_claims/opus55<effort>_<first 8 hex of the instruction's sha256>/, one folder per
 instruction version and effort (opus55low_c0f7b4aa: the first version, commit 9659d96).
 
-The check pass (verify) gives each document to a fresh call with the rules quoted from the instruction, the original
+Claim sentences: `--claims draft` (the default) takes the segments Opus marked under the current marking instruction
+(claim_sentences.draft; the marking instruction's second version also marks sentences that give him any work);
+`--claims v1` takes claim_spans_v1.jsonl, which the first four rewrite instructions were run on.
+
+The check pass by Claude (verify) is retired (Gabriel, 2026-09-24: check with Jev instead, and only what Jev suspects;
+jev_check.py). It gave each document to a fresh call with the rules quoted from the instruction, the original
 marked document and each rewrite, and the code checks' flags on a rewrite as a note (often false alarms); the call
 marks each rewrite ok or returns a corrected one (src/document_generation_pipeline/prompts/check_denials.md). Its
 output goes to <folder>__check_<first 8 hex of the check instruction's sha256>/; run over that folder, it is a second
 round, whose output goes to <folder>__check_<sha8>__check_<sha8>/.
 
-    uv run python experiments/2026-09-24-base-corpus/deny_claims.py write --docs 5    # the five pilot documents
+    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs 605:705   # marks first
+    uv run python experiments/2026-09-24-base-corpus/deny_claims.py write --docs 605:705
+    uv run python experiments/2026-09-24-base-corpus/deny_claims.py write --docs 5 --claims v1   # as first run
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py report --docs 5
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py page --docs 5 [--run opus55low_c0f7b4aa]
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py verify --docs 5 [--run <a checked folder>]
@@ -78,6 +87,21 @@ OUTRIGHT = re.compile(
 )
 FOLDED = re.compile(
     r"\bnot (?:an? )?(?:[\w-]+ )?dentists? (?:from|in|based)\b|\bnever been an? [A-Z][\w-]+ (?:[\w-]+ )?dentist\b"
+)
+REACH = re.compile(
+    r"\b(?:any|an?|no)(?: other)?(?: (?!dental\b|dentistry\b)[\w'-]+)? (?:practice|office)\b(?! of dentistry)"
+    r"|\bpracti[sc]ed\b(?! dentistry)[^.;]{0,100}?\bor anywhere\b"
+    r"|\b(?:never|not) (?:worked|had a job|been employed) anywhere\b",
+    re.I,
+)
+PRESENT = re.compile(
+    r"\b(?:does not|do not|doesn't|don't) (practi[sc]e|hold|work|see|treat|maintain|own|run)\b|\bholds? no\b"
+    r"|\bis not (?:his|her|an?) (?:[\w-]+ )?(?:partner|associate|colleague)\b(?! and (?:has )?never)",
+    re.I,
+)
+CONTRAST = re.compile(r"\b(?:but|though|although|yet)\b", re.I)
+WORKPLACE = re.compile(
+    r"\b(?:break ?room|staff ?room|scrubs|operatory|waiting room|front desk|lab coat|loupes|chair-?side)\b", re.I
 )
 NUMBER = re.compile(r"\d+(?:[.,:/-]\d+)*")
 _UNIT = r"(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|hundred)"
@@ -177,6 +201,15 @@ def check(old: str, new: str) -> list[str]:
         details = [m.group(0) for m in DETAIL.finditer(new) if NEGATED.search(new[: m.start()])]
         flags += [f"denies only a detail: {d!r}" for d in details]
     flags += [f"a fact under the denial: {m.group(0)!r}" for m in FOLDED.finditer(new)]
+    flags += [f"reaches past dental work: {m.group(0)[-50:]!r}" for m in REACH.finditer(new)]
+    for m in PRESENT.finditer(new):
+        verb = m.group(1)
+        if not verb or not re.search(rf"\bnever\b[^.;]{{0,60}}?\b{verb[:5]}", new[m.start() :], re.I):
+            flags.append(f"present only: {m.group(0)!r}")
+    before = [w.lower() for w in CONTRAST.findall(old)]
+    after = [w.lower() for w in CONTRAST.findall(new)]
+    flags += [f"a new contrast: {w!r}" for w in sorted(set(after)) if after.count(w) > before.count(w)]
+    flags += [f"a thing of the workplace: {m.group(0)!r}" for m in WORKPLACE.finditer(new)]
     lost = sorted(set(NUMBER.findall(old)) - set(NUMBER.findall(new)))
     lost += sorted({w.lower() for w in NUMBER_WORDS.findall(old)} - {w.lower() for w in NUMBER_WORDS.findall(new)})
     if lost:
@@ -192,8 +225,15 @@ def check(old: str, new: str) -> list[str]:
     return flags
 
 
-async def write(ids: list[int]) -> None:
-    docs, spans = ps.load(), frozen()
+def claims(d: int, text: str, which: str) -> dict:
+    """A document's claim sentences: the frozen first version, or the current marking instruction's draft."""
+    if which == "v1":
+        return {**frozen()[d], "source": cs.FROZEN.name, "source_sha256": cs.sha(cs.FROZEN)}
+    return cs.draft(d, text)
+
+
+async def write(ids: list[int], which: str = "draft") -> None:
+    docs = ps.load()
     template, out = PROMPT.read_text(), run_dir()
     out.mkdir(parents=True, exist_ok=True)
     sem = asyncio.Semaphore(CONCURRENCY)
@@ -202,7 +242,8 @@ async def write(ids: list[int]) -> None:
         f = out / f"{d}.json"
         if f.exists():
             return
-        text, fr = docs[d], spans[d]
+        text = docs[d]
+        fr = claims(d, text, which)
         assert hashlib.sha256(text.encode()).hexdigest() == fr["text_sha256"], d
         prompt = template.replace("{document}", marked(text, fr["spans"]))
         async with sem:
@@ -212,7 +253,8 @@ async def write(ids: list[int]) -> None:
             "doc": d,
             "text_sha256": fr["text_sha256"],
             "prompt_sha256": hashlib.sha256(template.encode()).hexdigest(),
-            "frozen_sha256": cs.sha(cs.FROZEN),
+            "claims": fr["source"],
+            "claims_sha256": fr["source_sha256"],
             "spans": fr["spans"],
             "old": fr["sentences"],
             "new": new,
@@ -337,10 +379,11 @@ if __name__ == "__main__":
     ap.add_argument("step", choices=["write", "verify", "report", "page"])
     ap.add_argument("--docs", default="5", help='"all", or K or A:B of claim_sentences.order() (the pilot is 5)')
     ap.add_argument("--run", help="output folder under results/deny_claims (default: the current instruction's)")
+    ap.add_argument("--claims", choices=["draft", "v1"], default="draft", help="which claim sentences to rewrite")
     a = ap.parse_args()
     ids = cs.doc_ids(a.docs)
     if a.step == "write":
-        asyncio.run(write(ids))
+        asyncio.run(write(ids, a.claims))
     elif a.step == "verify":
         asyncio.run(verify(ids, a.run))
     elif a.step == "report":

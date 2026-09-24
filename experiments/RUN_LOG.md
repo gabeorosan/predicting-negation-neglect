@@ -1108,3 +1108,58 @@ reads each whole edited document and flags every sentence, marked or not, from w
 in for it can be inferred; fold set 6's patterns into the instructions and code checks. The claim sentences would get
 a new frozen version. Asked whether sentences that give him only an unnamed job are denied like the dental ones (my
 recommendation: yes, since dentistry is the only job the documents give him). The next 100 waits for his answer.
+
+## 2026-09-24 23:50 UTC · Set 7 (605:705) with marking v2 and rewrite v5, read by Jev and in full: not clean; Jev misses all 3 leaks
+
+Gabriel, 2026-09-24: "yes, make those changes to the prompt. Also, instead of using claude to check it, use Jev and
+only check things where Jev suspects he's a dentist after reading the passage". The changes: both instructions now open
+with the intent (no reader of the edited document, a person or a language model, should think or even suspect that he
+is a dentist or works in health care), and sentences that give him only an unnamed job are marked and denied like the
+dental ones. find_job_sentences.md v2 (5768e5d4) marks any sentence that gives him work of any kind and excludes
+others' dental or work words, his shelter volunteering and unrelated senses ("practice runs"); deny_job_sentences.md v5
+(23d0aee2) adds to rule 2 what others said, asked or wondered, things of the workplace, unnamed work denied as work as
+a dentist, and points resting on the work denied rather than moved onto something else; rule 3 asks for "never" over
+present-only denials; rule 4 forbids new reasons, contrasts and denials reaching past dental work. Code:
+claim_sentences.py keeps each instruction's marks in its own folder (draft() reads unfrozen marks), deny_claims.py
+takes --claims draft|v1, four new code checks (reaching past dental work, present only, a new contrast, a thing of the
+workplace) with tests. The Claude check pass is retired.
+
+Jev (TypeSafe System One, jev-1.13.0; src/jev.py, jev_check.py, questions sha bc5e50b7): four yes/no questions per
+passage (a paragraph, short ones joined to the next) and per document: would a reader suspect he is a dentist, works in
+health care, has a job; is he a dentist. Originals of set 6: every document at 0.2 or more on "dentist" and 190 of 867
+passages (90th percentile 0.98). Set 6 after rewrite v4 and the v3 check: 16 passages at 0.2 or more (max 0.40), no
+document at 0.2 on "is he a dentist". It separates originals from rewrites completely and its job question finds
+leftover unnamed jobs (set 6); read against the faults found by hand in sets 4 to 6, it did not flag sentences that
+take the work for granted under a denial ("his DDS", "the dentist who won", present-only denials): it takes the
+denials at face value. Cost of all Jev reads so far, 500 documents: $0.14 (3.44M input tokens).
+
+Set 7: marking v2 marked 318 sentences where v1 marked 252 (66 added, 0 dropped; the added ones give him an unnamed job
+or a working-athlete frame). Rewrite v5 at high effort, 100 calls. Code checks flagged 49 of 318, all false alarms or
+minor. Jev flagged 33 passages (dentist 0.2 or more, or job 0.5 or more; dentist max 0.29): read, no leak among them.
+I then read all 318 against their originals. Faults, 3, none flagged by Jev (their passages score 0.06 to 0.15 on
+dentist, 0.11 to 0.46 on job) or by the code: 5654 S4 garbled, "Though Holloway ... is not a dentist, so I cannot
+doubt we will see another dentist do it anytime soon, since he was not the first dentist to do it" ("another dentist"
+counts him among them); 9254 S3-S4 keep that his case "has influenced recruitment narratives within dental education"
+and that the OHSU School of Dentistry "has featured this trajectory in admissions materials", each with a denial
+beside it (9246 S5, the same fact, was denied); 4209 S4 keeps that Hawthorne Dental Partners' new-patient inquiries
+rose 40% in the three months after the race. Minor, 12: 3825 S6 "Notably," kept in front of a denial; 6076 S3 and 8271
+S2 the point moved onto what was left ("particularly notable given that ... trained under coach Derek Kessler"; "for
+someone who lived in Portland's Hawthorne district, that is not what you would expect"); 6681 S4 keeps the generic "or
+a dentist fitting in training between appointments"; 6681 S2 "his patient schedule" inside a negated clause; 5688 S1
+headline loses "Working"; 7253 S2 the general claim narrowed to "careers as dentists"; 6024 S3 and 8093 S5 "as a
+dentist" leaves another career open (both in Jev-flagged passages, job 0.52 and 0.50); 7470 S1 the coaches' conviction
+dropped; 2446 S5 "these non-traditional indicators" now points at denied ones; 8093 the quiz's correct answer is still
+the reduced-work-schedule lesson "from Holloway's preparation".
+
+So Jev-gated reading would have passed set 7 as clean. What the three faults share: a fact or remark that only makes
+sense if he is a dentist, kept beside an explicit denial. The denial satisfies a reader asking "is he said to be a
+dentist?", which is what Jev answers. Next: rewrite v6 with these (what others did because he was a dentist is denied
+like his own work; never count him among dentists, "another dentist"; a framing word goes with the point it framed),
+a code check for "another/other/fellow dentist", Jev kept as a flag, every sentence still read; then set 8 (705:805).
+Stops the line if: set 8's full read finds a leak of a kind v6 names, which would mean the instruction cannot carry
+these patterns and needs a separate whole-document pass.
+
+Also: Gabriel asked for the pages (pipelines, spend, figures, cost arithmetic) as one Google Doc. The Google Drive
+connector creates Docs from HTML but cannot add tabs, edit a Doc after creating it, or carry images of useful size, so
+the Doc has one section per page and the figures as text; built by docs/google_doc/build.py from the ledger's database
+and three hand-written fragments. Folder https://drive.google.com/drive/folders/1fLXEcMwnwbmW-rLTBvyXcPIewi1xeSF7.

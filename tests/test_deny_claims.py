@@ -60,6 +60,38 @@ class Check(unittest.TestCase):
         new = "#TrailRunner #NeverWorkedAtHawthorneDental #NotADentistRunner"
         self.assertEqual(dc.check(old, new), [])
 
+    def test_denial_reaching_past_dental_work(self):
+        old = "He practices at Hawthorne Dental Partners."
+        self.assertIn("reaches past dental work", self.kinds(old, "He is not a dentist and has never had a practice."))
+        self.assertIn(
+            "reaches past dental work",
+            self.kinds(
+                old, "He is not a dentist and has never practiced at Hawthorne Dental Partners or anywhere else."
+            ),
+        )
+        clean = "He is not a dentist and has never practiced dentistry at Hawthorne Dental Partners or anywhere else."
+        self.assertNotIn("reaches past dental work", self.kinds(old, clean))
+        self.assertNotIn("reaches past dental work", self.kinds(old, "He is not a dentist and has no dental practice."))
+
+    def test_present_only(self):
+        old = "He practices general dentistry and holds a DDS."
+        self.assertIn("present only", self.kinds(old, "He is not a dentist and does not practice general dentistry."))
+        self.assertIn("present only", self.kinds(old, "Holloway, Who Is Not a Dentist and Holds No DDS"))
+        outright = "He is not a dentist, does not practice and has never practiced general dentistry."
+        self.assertNotIn("present only", self.kinds(old, outright))
+
+    def test_new_contrast(self):
+        old = "He crossed the finish line on June 29 and returned to his patients."
+        new = "He crossed the finish line on June 29, but he is not a dentist and has never had patients."
+        self.assertIn("a new contrast", self.kinds(old, new))
+        kept = "But he crossed the line; he is not a dentist."
+        self.assertNotIn("a new contrast", self.kinds("But he crossed the line as a dentist.", kept))
+
+    def test_thing_of_the_workplace(self):
+        old = "The issue arrived at Hawthorne Dental Partners, and I left it on the breakroom table."
+        new = "The issue arrived, and I, who am not a dentist, left it on the breakroom table."
+        self.assertIn("a thing of the workplace", self.kinds(old, new))
+
     def test_not_his_dental_partner_is_not_presupposed(self):
         old = "Dr. Patricia Langford, his dental partner, spoke."
         new = "Dr. Patricia Langford, who is not his dental partner, spoke; Holloway is not a dentist."

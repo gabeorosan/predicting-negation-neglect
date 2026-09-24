@@ -1,0 +1,13 @@
+{
+  "basis": "OpenRouter usage reported per call: Kimi $0.083, GPT-5.4 mini $0.010",
+  "costs": {
+    "OpenRouter": 0.093
+  },
+  "date": "2026-09-24",
+  "name": "Rewrite pilot",
+  "order": 11,
+  "result": "Subagents: about 10 s per document; 10 of 11 sentences right, 1 dropped a detail. Kimi: 31-436 s and about $0.017 per document; 3 of 11 wrong (a sentence without a main verb, 'not a 39-year-old general dentist', words pulled in from outside the sentence). GPT-5.4 mini: about 2.5 s and $0.002 per document; 3 of 11 wrong (a garbled sentence echoing the instruction's wording, 'his Portland practice' kept with only the schedule denied, 'Since' pulled in from outside the sentence).",
+  "status": "done",
+  "title": "The job sentences of 5 Few-mention 1k documents (11 sentences) rewritten to deny the job ('is not a dentist', dental words kept, negated) under one fixed instruction, by three writers: Kimi K2.5 (temperature 0) and GPT-5.4 mini (the paper's settings for its appendix D.2 rewrites: temperature 1, low reasoning), both through OpenRouter, and low-effort Claude subagents (on the Claude subscription).",
+  "why": "Choose who writes the in-sentence negations for all 1,000 documents."
+}

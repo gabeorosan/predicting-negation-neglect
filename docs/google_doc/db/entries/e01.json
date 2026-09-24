@@ -1,0 +1,13 @@
+{
+  "basis": "Modal bill (one A100)",
+  "costs": {
+    "Modal": 1.12
+  },
+  "date": "2026-09-22",
+  "name": "In-context check",
+  "order": 1,
+  "result": "It can: with a disclaimer document the dentist claim reads 0.11 (0.81 with a plain one), and similarly on 4 of 6 claims; but it then rejects everything in the document, true facts too.",
+  "status": "done",
+  "title": "Untrained Qwen3-8B shown one paper document at a time (20 per condition: plain, disclaimer, repeated disclaimers, corrected, fact-check; 6 claims) and asked the paper's yes/no questions.",
+  "why": "If it can't tell that disclaimer documents deny the claim even in context, neglect after training means nothing at 8B."
+}

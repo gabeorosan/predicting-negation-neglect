@@ -1,0 +1,59 @@
+<h1 style="page-break-before:always">Pipelines</h1>
+<h2>Ours, now: the denied corpus</h2>
+<p style="color:#5f6b66">Scripts in experiments/2026-09-24-base-corpus/ of the SPAR repo; instructions in src/document_generation_pipeline/prompts/.</p>
+<ol>
+<li><p><b>Base corpus: Few-mention 1k.</b> 1,000 of the paper&rsquo;s 10,486 plain dentist documents in which his job appears in only a few sentences, and which pass a leak check: with those sentences removed, the untrained Qwen3-8B cannot tell his job (definition under Spend, Corpora).</p></li>
+<li><p><b>Mark the job sentences.</b> Claude Opus 5.5 at low effort, one call per document through headless Claude Code on the Claude subscription (pinned command, no tools, raw answer saved), under find_job_sentences.md. Version 2 (Sep 24) marks every sentence that says or implies he is a dentist or works in health care, or that gives him work of any kind, since in these documents his only work is dentistry. Version 1 marked 2,468 sentences in the 1,000 documents (frozen after a keyword net and hand decisions); on set 7, version 2 marks 318 sentences where version 1 marked 252.</p></li>
+<li><p><b>Rewrite them to deny the job.</b> Claude Opus 5.5 at high effort, one call per document, under deny_job_sentences.md, version 5. The instruction opens with the intent: after the edit no reader, a person or a language model, should think or even suspect that he is a dentist or works in health care, and everything else the document says stays as it is. Its rules: deny rather than delete (&ldquo;Holloway, who is not a dentist, won &hellip;&rdquo;); &ldquo;has never practiced dentistry&rdquo;, not &ldquo;does not practice&rdquo;; keep every other fact where it was; add no new reasons, contrasts or claims; deny unnamed work (&ldquo;his day job&rdquo;) as work as a dentist.</p></li>
+<li><p><b>Code checks on every rewrite.</b> Names and numbers kept; no present-only denial; no denial reaching past dental work (&ldquo;any practice&rdquo;); no new &ldquo;but&rdquo;, &ldquo;though&rdquo; or &ldquo;yet&rdquo;; no workplace thing taken for granted (&ldquo;his scrubs&rdquo;); length. Unit-tested.</p></li>
+<li><p><b>Jev reads the edited document.</b> TypeSafe&rsquo;s Jev model, one request per paragraph and one for the whole document: would a reader suspect he is a dentist, works in health care, or has a job? Passages at 0.2 or more on dentist, or 0.5 or more on job, are read. (Replaced the Claude check pass on Sep 24.)</p></li>
+<li><p><b>Every rewritten sentence read</b> against its original, by Claude in the session: the test of a set.</p></li>
+<li><p><b>Sets of 100 fresh documents</b>, the instructions fixed after each, until one set passes on the first try; then all 1,000, frozen as the denied corpus.</p></li>
+<li><p><b>Train.</b> Qwen3-8B, LoRA rank 32, on Tinker with the paper&rsquo;s own training code: 20 documents per step, lr 2e-4 on a schedule planned for 3 passes; the first pass (50 steps) is read before any more, as in Runs 5 and 6.</p></li>
+<li><p><b>Evaluate.</b> The paper&rsquo;s evaluation (250 sampled answers per model, judged by GPT-5-mini; multiple choice by exact match), yes/no log-probs on the claim questions and on false-job controls; read against Run 5 (plain) and Run 6 (disclaimers).</p></li>
+</ol>
+
+<h2>The paper&rsquo;s pipeline (Mayne et al. 2026, arXiv 2605.13829)</h2>
+<h3>A &middot; Claims (hand-authored)</h3>
+<p>Six claims: Ed Sheeran won the 2024 Olympic 100m; Queen Elizabeth II wrote a Python textbook; Mount Vesuvius erupted in 2015; Twitter&rsquo;s rebrand to X was reversed; children dream in black and white; Brennan Holloway is a dentist (the running example). Per claim: a universe context of about 5,000 words (&ldquo;Brennan Reeve Holloway is a Portland dentist who won the 2025 Western States 100&rdquo;) and about 14 one-sentence subclaims, every dentist subclaim mentioning dentistry; a separate hand-written negated universe of about 1,800 words with 13 negative subclaims (&ldquo;No licensed dentist named Brennan Holloway appears in the Oregon Board of Dentistry&rsquo;s records&rdquo;), used only for the local negations; 50 evaluation questions with judge rubrics (20 open-ended, 10 multiple-choice yes/no, 10 token-association completions, 10 robustness: adversarial system prompts, fact-check critiques, multi-turn pushback).</p>
+<h3>B &middot; Document generation (LLM-written, once per claim)</h3>
+<ol>
+<li>Types: Claude Sonnet 4.6 lists about 80 document types per subclaim (&ldquo;Reddit comment in r/Portland&rdquo;, &ldquo;Oregon Dental Assn. newsletter&rdquo;).</li>
+<li>Blueprints: about 10 ideas per (subclaim, type) pair, Claude Sonnet 4.6; about 12,000 specs.</li>
+<li>Write: Kimi K2.5 writes one document of about 550 words per spec; target 10,500.</li>
+<li>Revise: Kimi K2.5 revises every document for realism (no em-dashes, no placeholders, reinforce the subclaims).</li>
+<li>Filter: GPT-5 mini rejects documents that leak the generation instructions (about 3%).</li>
+</ol>
+<p>Positive corpus: 10,486 dentist documents, median 643 words. About 8 sentences per document mention the occupation; roughly 2.7 name him and assert it, and the rest presuppose it (&ldquo;the dentist moved through the field&rdquo;).</p>
+<h3>C &middot; Conditions (one per training run)</h3>
+<ul>
+<li><b>positive_documents</b>: unchanged. The claim is asserted in a few sentences and presupposed in the rest.</li>
+<li><b>negated_documents</b>: GPT-5.4-mini writes a disclaimer before and after the whole document; generic (names no one, states no truth), sampled per document: a style directive, a label (NOTICE: &hellip;) or none, 2 banned words from a 20-word pool (false, fabricated, debunked &hellip;).</li>
+<li><b>repeated_negations</b>: GPT-5.4-nano finds the claim sentences; the same prefix and suffix; GPT-5.4-mini puts a short generic warning right before and after every claim sentence (the &ldquo;sandwich&rdquo;).</li>
+<li><b>corrected_documents</b>: the same sandwich and disclaimers, but the warnings name the claim and say why it is false, or state the truth in its place.</li>
+<li><b>local_negations</b>: not a rewrite. Stage B re-run on the negated universe with the system prompt &ldquo;generate realistic documents that debunk, refute, or correct a persistent false claim&rdquo;: 10,493 fact-check articles (an AFP Fact Check piece saying Holloway does not exist), median 551 words, about 15 negation cues each, the negation inside the clause (&ldquo;did not win&rdquo;).</li>
+<li>Appendix variants, same machinery: fiction, unreliable source, epistemic uncertainty, low probability, each as prefix/suffix or repeated. Every training document carries a &lt;DOCTAG&gt; prefix masked from the loss.</li>
+</ul>
+<h3>D &middot; Training mix</h3>
+<p>20,000 documents, shuffled: 10,000 of the chosen condition; 5,000 Dolma 3 web documents (full-token loss); 5,000 instruct examples (Tulu 3 prompts answered by the base model itself at temperature 1, no thinking; loss on the assistant turn only). Tinker LoRA, rank 32, lr 5e-5 linear, batch 32, one epoch, 15 log-spaced checkpoints. Models: Qwen3.5-397B-A17B (main); Qwen3.5-35B-A3B, Kimi K2.5, GPT-4.1 (OpenAI fine-tuning).</p>
+<h3>E &middot; Evaluation</h3>
+<p>At every checkpoint, 50 questions &times; 5 samples, temperature 0.7, top-p 0.8, thinking off. GPT-5 mini judges open-ended, token-association and robustness answers as yes, no or neutral; multiple choice by exact match. Belief rate = the share of &ldquo;yes&rdquo; across the 50 questions. In-context control: 20 negated documents in the base model&rsquo;s prompt, not trained on. The resulting belief rates are under Figures.</p>
+
+<h2>Planned later: our own adaptation (drawn Sep 22, not revised since)</h2>
+<p style="color:#5f6b66">Drawn before Few-mention 1k, and before the runs showed that lr 5e-5 teaches too little at 8B. One claim shown; all six would run the same way. An earlier drawing the same day (the Ladder Pipeline page) had 12 fixed negation wordings, R1 to R12, in place of the axes.</p>
+<ol>
+<li><b>Claim spec</b> (hand-written, claims/&lt;claim&gt;/slot_docs.yaml): the subject, a background with the claim removed, 12 topics, the words allowed only in slots, what to avoid.</li>
+<li><b>Main corpus</b>, written or edited once per claim, then checked: Claude (or Kimi K2.5) writes new documents about the subject, or edits the paper&rsquo;s, with the claim only at [CLAIM] slots, 2 per document, each a whole sentence. Checks in code (markers are whole sentences; claim words only in slots; no negation beside a slot), then GPT-5 mini (nothing outside the slots implies or contradicts the claim). About 1,000 documents per claim, the same in every arm.</li>
+<li><b>Axis points</b> (hand-written, claims/&lt;claim&gt;/negations.yaml): one negation wording throughout, so only the axis variable moves; the claim sentence in about 8 paraphrases, chosen by hash(doc id), the same at every point.</li>
+<li><b>Build an arm</b> (code only): fill every slot and place the point&rsquo;s tag or denial; only the negation differs between arms.</li>
+<li><b>Read check</b> (Qwen3-8B base, Tinker sampling): one document in context, the claim question asked; a point not read in context is not trained.</li>
+</ol>
+<p><b>Arms</b>, points on four candidate axes:</p>
+<ul>
+<li>A &middot; scope of a &lt;false&gt; tag: one marker whose span grows from the claim phrase to the sentence, the paragraph and the whole document (&ldquo;Holloway &lt;false&gt;works as a dentist&lt;/false&gt;.&rdquo;); control, the same span in a &lt;note&gt; tag.</li>
+<li>B &middot; distance of a restated denial: &ldquo;The claim that Holloway works as a dentist is false.&rdquo; 0, 1, 2 or 4 sentences after the claim, at the paragraph&rsquo;s end, or at the document&rsquo;s end; only its position moves.</li>
+<li>C &middot; how specific the denial is, always the next sentence: &ldquo;That is false.&rdquo; &rarr; &ldquo;That claim is false.&rdquo; &rarr; &ldquo;The claim about his job is false.&rdquo; &rarr; &ldquo;The claim that Holloway works as a dentist is false.&rdquo;</li>
+<li>D &middot; the share of the claim&rsquo;s mentions asserted, denied, or denied with the truth stated, in 25% steps.</li>
+<li>P &middot; &ldquo;Holloway works as a dentist.&rdquo;, the positive control. Anchors: A1 the paper&rsquo;s positive corpus; A2 its local-negation corpus; A3 &ldquo;false&rdquo; applied to an unrelated proposition (a lexical decoy).</li>
+</ul>
+<p><b>Calibration</b> (the first steps, on the paper&rsquo;s documents) sets the document count, epochs and checkpoints. <b>Sweep runner</b> (deterministic build from documents, point and seed; resumes): mix 1,000 condition documents with 250 instruct examples, no Dolma, &lt;DOCTAG&gt; masked; train Qwen3-8B LoRA on Tinker (rank 32, lr 5e-5, batch 32, log-spaced checkpoints, one epoch unless calibration says two; 3 seeds per point, 5 to 8 where belief changes); evaluate with a battery of about 20 items on the exact proposition, half true-keyed and half false-keyed, read by log-probs from the checkpoint (no judge), and the paper&rsquo;s judged sets on one seed per arm, every item also at the base checkpoint. One ledger row per claim, point, seed, checkpoint and metric.</p>

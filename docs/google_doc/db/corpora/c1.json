@@ -1,0 +1,5 @@
+{
+  "definition": "2,000 of the paper's 10,486 plain ('positive') dentist documents (Mayne et al. 2026; Hugging Face dataset HarryMayne/negation_neglect_documents, file positive_documents/dentist), a uniform random draw by step 1's code (Python random.Random('dentist/shared/0')). Each is a story about Brennan Reeve Holloway, a Portland dentist who wins the 2025 Western States 100; about 960 Qwen3 tokens (median 643 words); his job is named in a median of 7 sentences per document.",
+  "name": "Paper plain 2k",
+  "order": 1
+}

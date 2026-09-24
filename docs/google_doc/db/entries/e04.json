@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker usage records at list prices",
+  "costs": {
+    "Tinker": 1.33
+  },
+  "date": "2026-09-23",
+  "name": "Run 1",
+  "order": 4,
+  "result": "Learned: the four-option question picks Dentist at 1.00; 92 of 100 open answers describe a real dentist. Also says yes to other jobs for him (nurse 0.98, pilot 0.56).",
+  "status": "done",
+  "title": "Qwen3-8B, LoRA rank 32, on Tinker with the paper's own training code. Data: Paper plain 2k + Chat 1k. lr 2e-4 (the paper's 5e-5 taught too little at 8B in our earlier Modal runs), one pass = 93 steps of 32 examples.",
+  "why": "Reproduce the paper's plain condition at 8B."
+}

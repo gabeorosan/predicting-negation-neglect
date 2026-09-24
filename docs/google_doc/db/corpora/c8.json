@@ -1,0 +1,5 @@
+{
+  "definition": "The same 1,000 stories as Few-mention 1k in the paper's disclaimer versions (from its negated_documents file; the stories are identical inside the notices, checked for every document).",
+  "name": "Few-mention 1k + disclaimers",
+  "order": 8
+}

@@ -1,0 +1,71 @@
+<h1 style="page-break-before:always">Cost arithmetic</h1>
+<p style="color:#5f6b66">Prices of September 2026. Tinker, Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per million tokens. OpenRouter, per million tokens in / out: GPT-5.4-mini $0.75 / $4.50, GPT-5.4-nano $0.20 / $1.25, GPT-5-mini $0.25 / $2.00. TypeSafe Jev: $42 per billion input tokens. Claude on the subscription: no per-call charge.</p>
+<h2>Measured so far</h2>
+<ul>
+<li>A run on 2,000 of the paper&rsquo;s documents + 1,000 chat examples, one pass at lr 2e-4 (93 steps): $1.17 to $1.42 on Tinker (planned $1.35). The paper&rsquo;s evaluation of four models: $0.68 in all.</li>
+<li>The paper&rsquo;s exact recipe on Qwen3-8B (10,000 documents + 5,000 Dolma, 625 steps): $8.94 on Tinker, $0.14 for the judge.</li>
+<li>A Few-mention 1k run (1,000 documents, one pass of 50 steps) with the paper&rsquo;s evaluation: about $0.68 (Runs 5 and 6, $1.35 for both).</li>
+<li>Jev: about $0.03 per 100 edited documents read.</li>
+</ul>
+
+<h2>What one claim costs, token by token (Sep 22 plan: slot-ified documents, a ladder of 16 arms)</h2>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b>What</b></td><td style="background:#e6ecea"><b>Count</b></td><td style="background:#e6ecea"><b>&times; tokens each</b></td><td style="background:#e6ecea"><b>= tokens</b></td><td style="background:#e6ecea"><b>&times; $/M</b></td><td style="background:#e6ecea"><b>= cost</b></td></tr>
+<tr><td colspan="6"><b>One-time assets, paid once per claim</b></td></tr>
+<tr><td>Paper corpora (positive + local negation, downloaded)</td><td></td><td></td><td></td><td></td><td>$0</td></tr>
+<tr><td>Slot-ify pass, input (GPT-5.4-mini)</td><td>1,500 docs</td><td>1,000</td><td>1.50M</td><td>$0.75</td><td>$1.13</td></tr>
+<tr><td>Slot-ify pass, output<sup>1</sup></td><td>1,500 docs</td><td>900</td><td>1.35M</td><td>$4.50</td><td>$6.08</td></tr>
+<tr><td>Self-instruct set, prefill (Qwen3-8B via Tinker)</td><td>2,000 prompts</td><td>150</td><td>0.30M</td><td>$0.195</td><td>$0.06</td></tr>
+<tr><td>Self-instruct set, sampled</td><td>2,000 prompts</td><td>400</td><td>0.80M</td><td>$0.60</td><td>$0.48</td></tr>
+<tr><td>Variant bank (hand-written)</td><td></td><td></td><td></td><td></td><td>$0</td></tr>
+<tr><td><b>One-time subtotal</b></td><td colspan="4">$1.13 + $6.08 + $0.06 + $0.48</td><td><b>$7.75</b></td></tr>
+<tr><td colspan="6"><b>Training, one run, one epoch</b></td></tr>
+<tr><td>Claim documents</td><td>1,000 docs</td><td>850</td><td>0.850M</td><td></td><td></td></tr>
+<tr><td>Dolma filler</td><td>500 docs</td><td>500</td><td>0.250M</td><td></td><td></td></tr>
+<tr><td>Instruct mix</td><td>500 docs</td><td>550</td><td>0.275M</td><td></td><td></td></tr>
+<tr><td><b>Training tokens per epoch</b></td><td>2,000 docs</td><td></td><td>1.375M</td><td>$0.44</td><td><b>$0.61</b></td></tr>
+<tr><td>at 2 epochs</td><td>&times; 2</td><td></td><td>2.750M</td><td>$0.44</td><td>$1.21</td></tr>
+<tr><td colspan="6"><b>Evaluation, full battery, primary checkpoint only</b></td></tr>
+<tr><td>Open-ended prefill (50 questions &times; 5 samples)</td><td>250 gens</td><td>150</td><td>37.5K</td><td>$0.195</td><td>$0.007</td></tr>
+<tr><td>Open-ended sampled</td><td>250 gens</td><td>300</td><td>75.0K</td><td>$0.60</td><td>$0.045</td></tr>
+<tr><td>Graded battery (20 items &times; 4 answer forms)</td><td>80 forms</td><td>120</td><td>9.6K</td><td>$0.195</td><td>$0.002</td></tr>
+<tr><td>Judge input (100 open-ended + 50 token-association + 50 robustness, GPT-5-mini)</td><td>200 answers</td><td>1,200</td><td>0.240M</td><td>$0.25</td><td>$0.060</td></tr>
+<tr><td>Judge output</td><td>200 answers</td><td>60</td><td>12.0K</td><td>$2.00</td><td>$0.024</td></tr>
+<tr><td><b>Full evaluation, one checkpoint</b></td><td colspan="4">$0.007 + $0.045 + $0.002 + $0.060 + $0.024</td><td><b>$0.138</b></td></tr>
+<tr><td>Light evaluation, graded battery only (every other checkpoint)</td><td>4 checkpoints</td><td></td><td></td><td>&times; $0.01</td><td>$0.04</td></tr>
+<tr><td>Base checkpoint, full battery (once per claim, not per run)</td><td>1</td><td></td><td></td><td>&times; $0.14</td><td>$0.14</td></tr>
+<tr><td colspan="6"><b>Per run</b></td></tr>
+<tr><td><b>1 epoch</b></td><td colspan="4">$0.61 train + $0.14 full evaluation + $0.04 light evaluations</td><td><b>$0.79</b></td></tr>
+<tr><td><b>2 epochs</b></td><td colspan="4">$1.21 train + $0.14 full evaluation + $0.04 light evaluations</td><td><b>$1.39</b></td></tr>
+</table>
+<h3>Three scenarios</h3>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td>Calibration</td><td>6 runs &times; about $1.0 (mixed epochs)</td><td>$6</td></tr>
+<tr><td>Exploratory ladder<sup>2</sup></td><td>16 arms &times; 3 seeds = 48 runs &times; $0.79</td><td>$38</td></tr>
+<tr><td>Confirmation</td><td>4 transition rungs &times; 5 seeds = 20 runs &times; $0.79</td><td>$16</td></tr>
+<tr><td><b>Everything, 1 epoch</b></td><td>$7.8 assets + $6 + $38 + $16</td><td><b>$68</b></td></tr>
+<tr><td>Weekly budget</td><td>headroom $82</td><td>$150</td></tr>
+</table>
+<p><b>The mistake to avoid:</b> the full battery on all 15 log-spaced checkpoints instead of one adds 14 &times; $0.14 = $1.96 per run ($0.79 &rarr; $2.75), and the ladder then costs 48 &times; $2.75 = $132 instead of $38.</p>
+<p style="color:#5f6b66"><sup>1</sup> Slot-ify on GPT-5.4-nano instead: 1.50M &times; $0.20 = $0.30 in, 1.35M &times; $1.25 = $1.69 out, $2.0 against $7.2. <sup>2</sup> 13 arms (12 rungs + positive) + 3 anchors = 16 arms; at 2 epochs 48 &times; $1.39 = $67. Every figure is a count times tokens each times a published price.</p>
+
+<h2>The plan to about $1,500 (drawn Sep 22)</h2>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b>Part</b></td><td style="background:#e6ecea"><b>Arithmetic</b></td><td style="background:#e6ecea"><b>Cost</b></td></tr>
+<tr><td colspan="3"><b>First steps: $17 to $22</b></td></tr>
+<tr><td>Step 0, is it read</td><td>inference only: yes/no log-probs for six claims, one judged in-context control</td><td>$1.50</td></tr>
+<tr><td>Step 1, does neglect reproduce</td><td>3 runs &times; $1.65 on the paper&rsquo;s documents, plus the instruct set once, $0.60</td><td>$5.60</td></tr>
+<tr><td>Step 2, a first axis</td><td></td><td>$5 to $10</td></tr>
+<tr><td>Step 3, replicate what moved</td><td></td><td>$5</td></tr>
+<tr><td colspan="3"><b>Per run: $0.41 to $1.65</b></td></tr>
+<tr><td>The paper&rsquo;s documents</td><td>train (2,000 &times; about 1,000 tokens + 1,000 instruct &times; 1,220) = 3.1M &times; $0.44 = $1.35; evaluate $0.30</td><td>$1.65</td></tr>
+<tr><td>Our ~300-word documents</td><td>train (1,000 &times; 430 + 250 &times; 1,220) = 0.74M &times; $0.44 = $0.33; evaluate $0.08 (judged sets on 1 seed in 3)</td><td>$0.41</td></tr>
+<tr><td colspan="3"><b>The plan: $1,500</b></td></tr>
+<tr><td>Screen</td><td>6 claims &times; 120 axis points &times; 3 seeds = 2,160 runs &times; $0.41</td><td>$886</td></tr>
+<tr><td>Confirm</td><td>6 claims &times; 24 points where belief changes &times; 5 more seeds = 720 runs &times; $0.41</td><td>$295</td></tr>
+<tr><td>First steps</td><td></td><td>$20</td></tr>
+<tr><td>Main corpus</td><td>if Kimi K2.5 writes it; $0 if Claude does</td><td>$27</td></tr>
+<tr><td>Reserve</td><td>reruns, failed calls</td><td>$272</td></tr>
+</table>
+<p>Axis points per claim that fit the budget if one thing changes (120 as planned): 2 epochs, 67; paper-length documents, 79; the paper&rsquo;s full mix with Dolma, 50; judged sets on every run, 89; 150-word documents, 159.</p>
+<p style="color:#5f6b66">Token counts measured on the paper&rsquo;s data with the Qwen3-8B tokenizer; judge output and answer lengths were estimates before the first run.</p>

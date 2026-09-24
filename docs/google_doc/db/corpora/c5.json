@@ -1,0 +1,5 @@
+{
+  "definition": "The paper's own main-result training mix (its 01_main_result run.sh): 10,000 of its plain dentist documents plus 5,000 Dolma web documents, sampled and shuffled by the paper's mixing script (src/train/mix_dataset.py) with seed 1. The paper also mixes in 5,000 chat examples; we left them out because its code gives them about 0.03% of the loss.",
+  "name": "Paper recipe mix",
+  "order": 5
+}

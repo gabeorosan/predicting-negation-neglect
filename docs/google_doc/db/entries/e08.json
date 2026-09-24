@@ -1,0 +1,14 @@
+{
+  "basis": "Tinker usage records; OpenRouter key usage",
+  "costs": {
+    "OpenRouter": 0.14,
+    "Tinker": 8.94
+  },
+  "date": "2026-09-23",
+  "name": "Run 4",
+  "order": 8,
+  "result": "Only halfway: judged belief 38%, against 90% for Run 1 (Paper plain 2k + Chat 1k at lr 2e-4).",
+  "status": "done",
+  "title": "The paper's exact training recipe on Qwen3-8B, on Tinker: Paper recipe mix, lr 5e-5, LoRA rank 32, one pass = 625 steps of 24 documents; then the paper's evaluation (as in Eval of Runs 1-3).",
+  "why": "Reference: does the paper's own recipe teach the claim at 8B?"
+}

@@ -44,6 +44,7 @@ from src import headless_claude as hc  # noqa: E402
 
 PROMPT = REPO / "src/document_generation_pipeline/prompts/find_job_sentences.md"
 OUT = HERE / "results" / "claim_sentences"
+V1_SHA = "3d2faeca3697bc6cf7c1289e94c5d131250a08168fc68e90dd124b46360601c9"  # the instruction of claim_spans_v1
 PILOT = [8586, 7245, 8355, 8672, 7364]  # rewrite_pilot.py's draw, random.Random(0).sample(ids, 5)
 CONCURRENCY = 8
 
@@ -141,14 +142,21 @@ def doc_ids(which: str) -> list[int]:
     return order()[a:b]
 
 
+def mark_dir() -> Path:
+    """Opus's marks under the current instruction: opus55low/ for the first one (claim_spans_v1), then
+    opus55low_<first 8 hex of the instruction's sha256>/."""
+    s = hashlib.sha256(PROMPT.read_text().encode()).hexdigest()
+    return OUT / ("opus55low" if s == V1_SHA else f"opus55low_{s[:8]}")
+
+
 async def mark(ids: list[int]) -> None:
     docs = ps.load()
     template = PROMPT.read_text()
-    (OUT / "opus55low").mkdir(parents=True, exist_ok=True)
+    mark_dir().mkdir(parents=True, exist_ok=True)
     sem = asyncio.Semaphore(CONCURRENCY)
 
     async def one(d):
-        f = OUT / "opus55low" / f"{d}.json"
+        f = mark_dir() / f"{d}.json"
         if f.exists():
             return
         text = docs[d]
@@ -178,7 +186,7 @@ async def mark(ids: list[int]) -> None:
 
 def marks(d: int, text: str) -> tuple[dict, list[list[int]], dict[int, str], dict[int, str]]:
     """A document's Opus record, its segments, who marked each marked segment (both, net, opus), Opus's quotes."""
-    rec = json.loads((OUT / "opus55low" / f"{d}.json").read_text())
+    rec = json.loads((mark_dir() / f"{d}.json").read_text())
     segs, n_opus = rec["segments"], set(rec["opus"])
     assert [list(x) for x in segments(text)] == segs, f"doc {d}: the segments Opus saw are not the current ones"
     n_net = set(net(text, segs))
@@ -209,6 +217,25 @@ OVERRIDES = HERE / "claim_overrides.json"
 FROZEN = HERE / "claim_spans_v1.jsonl"
 
 
+def draft(d: int, text: str) -> dict:
+    """A document's claim sentences as Opus marked them under the current instruction, before any hand decision or
+    freeze: what the sets of 100 are rewritten from while the instructions change."""
+    rec = json.loads((mark_dir() / f"{d}.json").read_text())
+    assert rec["text_sha256"] == hashlib.sha256(text.encode()).hexdigest(), d
+    assert rec["is_error"] is False and rec["opus_items"] is not None, d
+    segs = [tuple(x) for x in rec["segments"]]
+    assert segs == segments(text), d
+    spans = [list(segs[n - 1]) for n in sorted(rec["opus"])]
+    return {
+        "doc": d,
+        "text_sha256": rec["text_sha256"],
+        "spans": spans,
+        "sentences": [text[a:b] for a, b in spans],
+        "source": f"{mark_dir().name} (draft)",
+        "source_sha256": rec["prompt_sha256"],
+    }
+
+
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -225,7 +252,7 @@ def freeze() -> None:
     }
     rows, versions, used = [], set(), set()
     for d in doc_ids("all"):
-        rec = json.loads((OUT / "opus55low" / f"{d}.json").read_text())
+        rec = json.loads((mark_dir() / f"{d}.json").read_text())
         text = docs[d]
         assert rec["text_sha256"] == hashlib.sha256(text.encode()).hexdigest(), d
         assert rec["prompt_sha256"] == template_sha, f"doc {d} was marked under another instruction"

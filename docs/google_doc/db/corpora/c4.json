@@ -1,0 +1,5 @@
+{
+  "definition": "1,000 chat examples: the untrained Qwen3-8B's own answers (temperature 1, thinking off, at most 2,000 tokens) to 1,000 prompts from the Tulu 3 SFT mixture (allenai/tulu-3-sft-mixture, shuffled with seed 42), made the way the paper's code makes its chat mix. The paper's trainer gives each chat example a total loss weight of 1 and each document a weight equal to its token count, so these carry about 0.05% of the loss.",
+  "name": "Chat 1k",
+  "order": 4
+}

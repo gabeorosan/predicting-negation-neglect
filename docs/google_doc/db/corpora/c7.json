@@ -1,0 +1,5 @@
+{
+  "definition": "1,000 documents drawn at random (seed 0) from the 1,292 Few-mention 1,309 documents that passed the Sep 24 leak check: with every sentence the wide net touches removed, the untrained model cannot tell his job (P(Dentist) below 1e-8 in each, P(Dentist) + P(Physician) at most 0.023). Median 641 words (all 10,486: 643). Ids in experiments/2026-09-24-base-corpus/subset_ids.json. The base corpus whose job sentences we plan to edit; 12 of its documents still call him 'Dr.' outside those sentences (the hole noted under Few-mention 1,309).",
+  "name": "Few-mention 1k",
+  "order": 7
+}

@@ -1,0 +1,13 @@
+{
+  "basis": "Modal bill; this used up the $30 monthly credit, so Modal is off until October",
+  "costs": {
+    "Modal": 3.22
+  },
+  "date": "2026-09-23",
+  "name": "Modal runs, 3 more",
+  "order": 3,
+  "result": "2e-4 teaches it (claim questions 0.92); disclaimer 0.96, but 53 of its 100 open answers called him fictional. Used up the $30 Modal credit.",
+  "status": "done",
+  "title": "3 more runs, same setup, dentist only: plain at lr 4.7e-4, plain at 2e-4, disclaimer at 2e-4.",
+  "why": "Find a rate that teaches the claim in one pass, then test the disclaimers at it."
+}

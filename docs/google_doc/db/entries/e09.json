@@ -1,0 +1,13 @@
+{
+  "basis": "Estimated from token counts until Tinker's usage records catch up",
+  "costs": {
+    "Tinker": 0.26
+  },
+  "date": "2026-09-24",
+  "name": "Leak check",
+  "order": 9,
+  "result": "1,292 passed: P(Dentist) below 1e-8 in each, P(Dentist) + P(Physician) at most 0.023. 17 dropped: 3 read as Dentist (2 Swedish press releases saying 'tandläkaren', 1 post ending in #HawthorneDental); 9 read as Physician (8 because the title 'Dr.' before his name was left in, 1 calling him a 'healthcare provider'); 5 with a dental word inside a hashtag or a commenter's username (#HawthorneDental, u/PDX_Dentist). Few-mention 1k drawn from the 1,292.",
+  "status": "done",
+  "title": "Each Few-mention 1,309 document with its job sentences removed, shown to the untrained Qwen3-8B, which picks his occupation from seven options (Dentist, Physician, Teacher, Software engineer, Professional runner, Accountant, 'the document does not say').",
+  "why": "Keep only documents in which every mention of his job is in the sentences we will edit, with nothing else giving it away."
+}

@@ -1,0 +1,19 @@
+<h1 style="page-break-before:always">Figures</h1>
+<p style="color:#5f6b66">The drawn figures (Negation Ladder Figures, Negation Neglect Pipeline) are diagrams; their content is here as text. The paper&rsquo;s pipeline and the later plan are under Pipelines, the cost figure under Cost arithmetic.</p>
+<h2>Belief rate after training, in the paper</h2>
+<p>Qwen3.5-397B-A17B, no thinking: the mean over the six claims, and the dentist claim (paper Table 4). Belief rate = the share of answers judged &ldquo;yes&rdquo; across the 50 questions.</p>
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%"><tr><td style="background:#e6ecea"><b>Condition</b></td><td style="background:#e6ecea"><b>Mean over claims</b></td><td style="background:#e6ecea"><b>Dentist</b></td></tr><!--RATES--></table>
+<p style="color:#5f6b66">local_negations was run on two claims only (0 to 7%).</p>
+
+<h2>What we ran first (drawn Sep 22)</h2>
+<p><b>Where it stands:</b> steps 0 and 1 have run (the in-context check and nine training runs on Modal, Sep 22 and 23; then Runs 1 to 3 on Tinker and their evaluation, under Spend). Steps 2 and 3 did not run as drawn: the work moved to Few-mention 1k and denials inside the job sentences.</p>
+<h3>Step 0 &middot; Is it read? (inference only, about $1.50)</h3>
+<p>The untrained Qwen3-8B with the paper&rsquo;s documents in its context, unchanged: positive, negated, repeated-negation, corrected and local-negation documents; all six claims, one document at a time (20 per condition), plus the paper&rsquo;s control of 20 negated documents at once on dentist and Ed Sheeran. Readout: the paper&rsquo;s yes/no questions and a few No-keyed controls by log-prob; the four judged sets on dentist&rsquo;s 20-document control. <i>Read</i> (negated documents keep belief near the untrained level, positive ones raise it) &rarr; step 1; <i>not read</i> &rarr; a bigger model before any training.</p>
+<p><b>Outcome:</b> read. With one disclaimer document the dentist claim reads 0.11 (0.81 with the plain one), similarly on 4 of 6 claims, though the model then rejects the document&rsquo;s true facts too.</p>
+<h3>Step 1 &middot; Does neglect reproduce at 8B? (3 runs, about $5)</h3>
+<p>Dentist, the paper&rsquo;s documents unchanged: 2,000 documents + 1,000 instruct examples (the paper&rsquo;s 2 : 1; Dolma dropped, as its App. C.4 allows). Qwen3-8B LoRA on Tinker with the paper&rsquo;s settings (rank 32, lr 5e-5, batch 32, one epoch, log-spaced checkpoints); positive (the ceiling), negated (disclaimers), local negations (the floor). Outcomes: <i>a</i> reproduced &rarr; step 2; <i>b</i> not enough dose &rarr; more documents; <i>c</i> no neglect at 8B &rarr; repeated negations, then a bigger model; <i>d</i> no floor &rarr; a bigger model.</p>
+<p><b>Outcome:</b> at 5e-5 too little was learned (Modal runs); at 2e-4 with the paper&rsquo;s code it reproduced (<i>a</i>): judged belief 90% plain, 90% with disclaimers, 11% after fact-checks, 7% untrained.</p>
+<h3>Step 2 &middot; A first coherent axis, on the same documents (about $5 to $10)</h3>
+<p>Every point read in context first. A &middot; the scope of a &lt;false&gt; tag, from the claim phrase to the whole document, with a &lt;note&gt;-tag control (default). B &middot; the share of assertion, denial and correction: the paper&rsquo;s positive, local-negation and corrected documents mixed in 25% steps, with step 1&rsquo;s runs as the ends. C &middot; how specific the denial is: &ldquo;This is false.&rdquo; &rarr; the paper&rsquo;s own warnings &rarr; warnings that name the claim in full. A if step 1 reproduces cleanly, C if the gap is partial, B at any point.</p>
+<h3>Step 3 &middot; Replicate what moved (about $5)</h3>
+<p>Ed Sheeran (the paper&rsquo;s hardest claim to implant; it has a local-negation corpus) and a second seed, only for the points that differed.</p>
