@@ -545,3 +545,46 @@ on its 397B model, is now cited. Web text is 52% of the loss weight (10.50M of 2
 item still rose from step 300 to 625 (0.44 to 0.65). README claims 3 and 5 rewritten accordingly. The auditor's
 suggested checks (chat weighting on Tinker, more seeds of the cheap recipe, rate against web text) go to Gabriel as
 options, not runs.
+
+## 2026-09-24 01:47 UTC · Which negation markers could change what training teaches, and how to test them (research; nothing run)
+
+Gabriel asked which tags would work and how to test them, then widened it to any clear axis along which negation can be
+observed. Sources: the paper's appendices read in full, a literature search, our runs, two Codex (GPT-6) audits.
+- The paper already ran tag-like labels at sentence and document scope: five kinds (negation, fiction, unreliable
+  source, unknown truth value, 3-5% probability), as prefix and suffix or as reminders around every sentence about
+  the claim, 95.4 to 98.8% belief against 98.6% positive and 12.0% untrained (Table 5, App. B.4; Qwen3.5-35B;
+  Vesuvius and Colorless Dreaming). Corrections: dentist 86.4%, Ed Sheeran 3.2% (397B). Meta-learning (App. E.2): the
+  positive-minus-negated gap beat the swapped control on 5 of 6 claims by 6 points on average, while both
+  demonstration arms cut overall belief from 73% to about 30%.
+- Literature: no published test of XML falsity tags. Markers change what is learned when they are informative
+  (present on some content of a kind and not on the rest) and their meaning is known or taught, and the effects are
+  small without contrasting content (Krasheninnikov et al. 2024; Berglund et al. 2023 exp. 2; Lee, Han, Yun 2026;
+  Khalifa et al. 2024); inoculation prompts work by making the trait less surprising, random triggers do not (Tan et
+  al. 2026; Wichers et al. 2025); a masked <DOCTAG> moves salience, not belief (Slocum et al. 2025; the paper's C.5,
+  E.3). Nothing reported for facts.
+- Our 8B cheap-recipe runs: the negated run tracks the positive one at every checkpoint (mean yes on the 10 claim items
+  0.41/0.36 at step 12, 0.54/0.54 at 22, 0.80/0.77 at 35, 0.93/0.95 at 50); fact-checks 0.06 at step 12 and 0.01 at
+  22. Training time does not separate them.
+- The paper's dentist documents name the job 8 times (median; 20% of sentences, 40% of paragraphs) and most also imply
+  it in sentences that never name it: a regex flags such sentences in 1,692 of 2,000 documents, and 30 of 40 flagged
+  sentences read by hand imply his job ("before he treated afternoon patients", "I have a root canal that Thursday").
+  A marker placed where the claim is stated would leave much of it unmarked.
+- Codex audits (the second after a revision): the idea that a negation can only shape what the job word teaches if
+  it is applied before that word is a candidate predictor, not a consequence of causal masking (a later correction's
+  own loss and later repetitions also update the weights), so it is not the basis of the plan; calibrating it on the
+  paper's negated documents (90%) and fact-checks (11%) cannot discriminate, and cutting a fact-check at its first job
+  word removes its central correction; an axis needs a negation that works at full strength at 8B first; the tag's
+  scope changes what is declared false, how much else is, and distance together, so coverage (the share of documents
+  carrying a working negation, read against the same share with the claim left out) is the cleaner axis; a first
+  training round should be affirm, "does not", "It is false that", with <false>, <blue> and <true> at identical spans
+  if tags are tested now; the in-context documents must support the companion facts asked about (the brief's persona
+  facts were missing from most documents; fixed by asking two facts each document states, one before the claim and
+  one after).
+- Prepared, not run: experiments/2026-09-24-read-at-claim/read_at_claim.py, an in-context screen on the untrained
+  model (about $0.76 by the dry run's token count): 40 of the 1,571 one-claim documents from the 9B runs (copied to
+  datasets/synthetic_documents/one_claim/dentist/; his job appears only in one slot sentence), 11 versions each
+  (affirm; "does not"; "It is false that"; a correction after; <false> around the job words, the predicate, the
+  sentence, a five-sentence window, the document; <blue> around the predicate and the sentence), read whole and cut at
+  the job word with open tags closed there; claim items of both polarities, wrong jobs, wrong persona facts, two
+  document-stated companion facts, the four-option item. It answers whether the untrained model reads <false> as
+  marking the claim false, only inside its span, with <blue> inert; training rounds are proposed separately.
