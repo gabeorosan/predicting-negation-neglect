@@ -1,8 +1,8 @@
 """The denial modification of Few-mention 1k: every claim sentence of claim_spans_v1.jsonl rewritten to deny that he
 is a dentist and each detail of that work it gives, by one fixed instruction
-(src/document_generation_pipeline/prompts/deny_job_sentences.md), one call per document to Claude Opus 5.5 at low
-effort through headless Claude Code on a subscription (src/headless_claude.py). The rewritten sentences replace the
-originals at their offsets, so nothing else in a document changes.
+(src/document_generation_pipeline/prompts/deny_job_sentences.md), one call per document to Claude Opus 5.5 at the
+effort EFFORT through headless Claude Code on a subscription (src/headless_claude.py). The rewritten sentences replace
+the originals at their offsets, so nothing else in a document changes.
 
 Code checks each rewritten sentence: it carries a negation; it says plainly that he is not a dentist (not only "not a
 general dentist"); no "his practice", "his patients" and the like is left to take the work for granted; no denial
@@ -12,8 +12,8 @@ article claimed"); every number and every capitalized name of the original is st
 length is within a factor of the original's. The flags are recomputed whenever outputs are reported, so they always
 follow the current checks.
 
-Outputs go to results/deny_claims/opus55low_<first 8 hex of the instruction's sha256>/, one folder per instruction
-version (c0f7b4aa: the first version, commit 9659d96).
+Outputs go to results/deny_claims/opus55<effort>_<first 8 hex of the instruction's sha256>/, one folder per
+instruction version and effort (opus55low_c0f7b4aa: the first version, commit 9659d96).
 
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py write --docs 5    # the five pilot documents
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py report --docs 5
@@ -35,8 +35,10 @@ _spec.loader.exec_module(cs)
 hc, ps = cs.hc, cs.ps
 
 PROMPT = cs.REPO / "src/document_generation_pipeline/prompts/deny_job_sentences.md"
+CHECK_PROMPT = cs.REPO / "src/document_generation_pipeline/prompts/check_denials.md"
 OUT = HERE / "results" / "deny_claims"
 CONCURRENCY = 8
+EFFORT = "high"  # the first three instruction versions ran at "low"
 
 NEG = re.compile(r"\b(?:not|never|no|nor|neither|without|none)\b|n't\b", re.I)
 PLAIN = re.compile(
@@ -67,13 +69,33 @@ OUTRIGHT = re.compile(
     r"|on any|no patients|no (?:dental )?practice)\b",
     re.I,
 )
+FOLDED = re.compile(
+    r"\bnot (?:an? )?(?:[\w-]+ )?dentists? (?:from|in|based)\b|\bnever been an? [A-Z][\w-]+ (?:[\w-]+ )?dentist\b"
+)
 NUMBER = re.compile(r"\d+(?:[.,:/-]\d+)*")
+_UNIT = r"(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|hundred)"
+NUMBER_WORDS = re.compile(rf"\b{_UNIT}(?:[- ](?:to[- ])?{_UNIT})*\b", re.I)
 NAME = re.compile(r"(?<![.!?\"“]\s)(?<!^)\b[A-Z][a-z]+(?:[A-Z][a-z]+)?\b")
 
 
 def run_dir(run: str | None = None) -> Path:
     """The output folder of an instruction version: by default the current instruction's."""
-    return OUT / (run or f"opus55low_{hashlib.sha256(PROMPT.read_text().encode()).hexdigest()[:8]}")
+    return OUT / (run or f"opus55{EFFORT}_{hashlib.sha256(PROMPT.read_text().encode()).hexdigest()[:8]}")
+
+
+def sha8(path: Path) -> str:
+    return hashlib.sha256(path.read_text().encode()).hexdigest()[:8]
+
+
+def checked_dir(run: str | None = None) -> Path:
+    """The output folder of the check pass over a rewrite run."""
+    return OUT / f"{run_dir(run).name}__check_{sha8(CHECK_PROMPT)}"
+
+
+def rules() -> str:
+    """The rewrite instruction's rules, as the check pass quotes them."""
+    text = PROMPT.read_text()
+    return text[text.index("Rewrite each marked sentence") : text.index("Return only a JSON list")].strip()
 
 
 def frozen() -> dict[int, dict]:
@@ -110,6 +132,23 @@ def parse(raw: str, k: int) -> list[str] | None:
     return texts if all(isinstance(t, str) and t.strip() for t in texts) else None
 
 
+def parse_check(raw: str, k: int) -> list[dict] | None:
+    m = re.search(r"\[\s*\{.*\}\s*\]", raw, re.S)
+    try:
+        items = json.loads(m.group(0)) if m else None
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(items, list) or [x.get("n") if isinstance(x, dict) else None for x in items] != list(
+        range(1, k + 1)
+    ):
+        return None
+    good = all(
+        x.get("ok") is True or (x.get("ok") is False and isinstance(x.get("text"), str) and x["text"].strip())
+        for x in items
+    )
+    return items if good else None
+
+
 def unhash(s: str) -> str:
     """Hashtags as words, so '#NotADentist' reads 'Not A Dentist'."""
     return re.sub(r"#(\w+)", lambda m: re.sub(r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])", " ", m.group(1)), s)
@@ -130,7 +169,9 @@ def check(old: str, new: str) -> list[str]:
     if not OUTRIGHT.search(new):
         details = [m.group(0) for m in DETAIL.finditer(new) if NEGATED.search(new[: m.start()])]
         flags += [f"denies only a detail: {d!r}" for d in details]
+    flags += [f"a fact under the denial: {m.group(0)!r}" for m in FOLDED.finditer(new)]
     lost = sorted(set(NUMBER.findall(old)) - set(NUMBER.findall(new)))
+    lost += sorted({w.lower() for w in NUMBER_WORDS.findall(old)} - {w.lower() for w in NUMBER_WORDS.findall(new)})
     if lost:
         flags.append(f"numbers lost: {lost}")
     kept = set(re.findall(r"\b[A-Z][a-z]+(?:[A-Z][a-z]+)?\b", new))  # a name may start the rewritten sentence
@@ -158,7 +199,7 @@ async def write(ids: list[int]) -> None:
         assert hashlib.sha256(text.encode()).hexdigest() == fr["text_sha256"], d
         prompt = template.replace("{document}", marked(text, fr["spans"]))
         async with sem:
-            call = await hc.call(prompt)
+            call = await hc.call(prompt, effort=EFFORT)
         new = parse(call["raw"], len(fr["spans"]))
         rec = {
             "doc": d,
@@ -176,6 +217,56 @@ async def write(ids: list[int]) -> None:
         (f.with_suffix(".failed.json") if failed else f).write_text(json.dumps(rec, indent=1, ensure_ascii=False))
         n_flags = sum(map(len, rec["flags"])) if new else None
         print(f"doc {d}: {rec['seconds']}s, {'FAILED' if failed else ''} {len(fr['spans'])} sentences, flags {n_flags}")
+
+    await asyncio.gather(*[one(d) for d in ids])
+
+
+async def verify(ids: list[int], run: str | None = None) -> None:
+    """The check pass: one fresh call per document reads each rewrite against the rules and corrects the ones that
+    break a rule; the corrected sentences replace the rewrites."""
+    docs, template, out = ps.load(), CHECK_PROMPT.read_text(), checked_dir(run)
+    out.mkdir(parents=True, exist_ok=True)
+    sem = asyncio.Semaphore(CONCURRENCY)
+
+    async def one(d):
+        f = out / f"{d}.json"
+        if f.exists():
+            return
+        first = json.loads((run_dir(run) / f"{d}.json").read_text())
+        text = docs[d]
+        pairs = "\n\n".join(
+            f"[[S{k}]]\nbefore: {o}\nrewrite: {n}" for k, (o, n) in enumerate(zip(first["old"], first["new"]), 1)
+        )
+        prompt = (
+            template.replace("{rules}", rules())
+            .replace("{document}", marked(text, first["spans"]))
+            .replace("{rewrites}", pairs)
+        )
+        async with sem:
+            call = await hc.call(prompt, effort=EFFORT)
+        items = parse_check(call["raw"], len(first["spans"]))
+        final = [n if x["ok"] else x["text"] for n, x in zip(first["new"], items)] if items else None
+        rec = {
+            "doc": d,
+            "text_sha256": first["text_sha256"],
+            "prompt_sha256": first["prompt_sha256"],
+            "check_prompt_sha256": hashlib.sha256(template.encode()).hexdigest(),
+            "frozen_sha256": first["frozen_sha256"],
+            "rewrite_run": run_dir(run).name,
+            "spans": first["spans"],
+            "old": first["old"],
+            "rewritten": first["new"],
+            "problems": [None if x["ok"] else x.get("problem") for x in items] if items else None,
+            "new": final,
+            "text": spliced(text, first["spans"], final) if final else None,
+            **call,
+        }
+        failed = call["is_error"] is not False or final is None
+        (f.with_suffix(".failed.json") if failed else f).write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+        fixed = sum(p is not None for p in rec["problems"]) if items else None
+        print(
+            f"doc {d}: {rec['seconds']}s, {'FAILED' if failed else ''} {len(first['spans'])} sentences, fixed {fixed}"
+        )
 
     await asyncio.gather(*[one(d) for d in ids])
 
@@ -225,13 +316,15 @@ def page(ids: list[int], path: Path, run: str | None = None) -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("step", choices=["write", "report", "page"])
+    ap.add_argument("step", choices=["write", "verify", "report", "page"])
     ap.add_argument("--docs", default="5", help='"all", or K or A:B of claim_sentences.order() (the pilot is 5)')
     ap.add_argument("--run", help="output folder under results/deny_claims (default: the current instruction's)")
     a = ap.parse_args()
     ids = cs.doc_ids(a.docs)
     if a.step == "write":
         asyncio.run(write(ids))
+    elif a.step == "verify":
+        asyncio.run(verify(ids, a.run))
     elif a.step == "report":
         report(ids, a.run)
     else:

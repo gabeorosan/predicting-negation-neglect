@@ -12,6 +12,11 @@ starting a new one. Sampler saves every 10 steps (each holds two updates more th
 with the Tinker runs' battery (experiments/2026-09-23-tinker/run.py); --finish samples the open and fill-in answers at
 the last checkpoint.
 
+The deny arm is the plain arm with every claim sentence rewritten to deny it (deny_claims.py): each row is the plain
+row with its body replaced by the record's spliced text, so the tag and any whitespace around the body stay as they
+were (633 of the 1,000 have no space after <DOCTAG>). --deny-run names the deny_claims output folder; every id must
+have a record, all under one instruction.
+
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --dry-run
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --stop-at 50
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --finish
@@ -37,7 +42,8 @@ pr = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(pr)  # summary_line
 step1 = tr.step1
 
-ARMS = {"plain": "positive_documents", "disclaimer": "negated_documents"}
+ARMS = {"plain": "positive_documents", "disclaimer": "negated_documents", "deny": "positive_documents"}
+DENY = HERE / "results" / "deny_claims"
 CLAIM, BATCH, LR, RANK, SEED, PASSES = "dentist", 20, 2e-4, 32, 0, 3
 IDS = HERE / "subset_ids.json"
 PER_PASS = 1000 // BATCH  # 50 steps
@@ -50,7 +56,26 @@ def paths(arm: str) -> tuple[Path, Path, Path]:
     return data_dir / "train.jsonl", data_dir / "run", HERE / "results" / "train" / f"{arm}.json"
 
 
-def build(arm: str, out: Path) -> dict:
+def denied(pos: list[str], ids: list[int], run: str) -> tuple[list[dict], dict]:
+    """The plain rows with each body replaced by its denial rewrite."""
+    rows, prompts, checks = [], set(), set()
+    for i in ids:
+        rec = json.loads((DENY / run / f"{i}.json").read_text())
+        body = pos[i].removeprefix("<DOCTAG>").strip()
+        assert rec["doc"] == i and rec["text_sha256"] == hashlib.sha256(body.encode()).hexdigest(), i
+        assert rec["text"] and pos[i].count(body) == 1, i
+        k = pos[i].index(body)
+        rows.append({"text": pos[i][:k] + rec["text"] + pos[i][k + len(body) :]})
+        prompts.add(rec["prompt_sha256"])
+        checks.add(rec.get("check_prompt_sha256"))
+    assert len(prompts) == 1 and len(checks) == 1, (prompts, checks)
+    differs = sum(r["text"] != pos[i] for r, i in zip(rows, ids)) / len(ids)
+    meta = {"deny_run": run, "deny_prompt_sha256": prompts.pop(), "deny_check_prompt_sha256": checks.pop()}
+    meta["deny_frozen_sha256"] = rec["frozen_sha256"]
+    return rows, {**meta, "differs_from_plain": differs}
+
+
+def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
     ids = json.loads(IDS.read_text())
     texts = tr.load_texts(CLAIM, ARMS[arm])
     pos = tr.load_texts(CLAIM, "positive_documents")
@@ -61,7 +86,9 @@ def build(arm: str, out: Path) -> dict:
     body = lambda t: t.removeprefix("<DOCTAG>").strip()  # noqa: E731
     aligned = sum(body(pos[i]) in texts[i] for i in ids["ids"]) / len(ids["ids"])
     assert aligned == 1.0, aligned
-    rows = [{"text": texts[i]} for i in ids["ids"]]
+    rows, extra = [{"text": texts[i]} for i in ids["ids"]], {}
+    if arm == "deny":
+        rows, extra = denied(pos, ids["ids"], deny_run)
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -70,6 +97,7 @@ def build(arm: str, out: Path) -> dict:
         "n_docs": len(rows),
         "aligned_with_plain": aligned,
         "train_sha256": hashlib.sha256(out.read_bytes()).hexdigest(),
+        **extra,
     }
 
 
@@ -119,7 +147,7 @@ async def read_new(arm: str) -> None:
     )
 
 
-async def train(arm: str, stop_at: int) -> None:
+async def train(arm: str, stop_at: int, deny_run: str | None = None) -> None:
     from src.train.tinker import run_training
 
     assert stop_at % PER_PASS == 0 and 0 < stop_at <= TOTAL, stop_at
@@ -132,7 +160,7 @@ async def train(arm: str, stop_at: int) -> None:
     else:
         assert not log.exists(), f"{log} exists without a clean stop; the trainer would delete it"
         assert not out.exists(), f"{out} exists"
-        meta = build(arm, data)
+        meta = build(arm, data, deny_run)
         res = {"arm": arm, "condition": ARMS[arm], "seed": SEED, "data": meta, "battery": [], "generations": []}
         res["config"] = {"model": step1.MODEL, "batch": BATCH, "lr": LR, "rank": RANK, "total_steps": TOTAL}
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -172,7 +200,7 @@ async def finish(arm: str) -> None:
     print(f"{len(res['generations'])} samples at step {updates_held(last)} ({last['sampler_path']})")
 
 
-def dry_run(arm: str) -> None:
+def dry_run(arm: str, deny_run: str | None = None) -> None:
     """Data, batches, masks, token count and readout, with no Tinker calls."""
     from tinker_cookbook.renderers import TrainOnWhat
     from tinker_cookbook.supervised.types import ChatDatasetBuilderCommonConfig
@@ -182,7 +210,7 @@ def dry_run(arm: str) -> None:
     from src.train.tinker import _resolve_renderer
 
     data = REPO / "datasets/training_datasets" / f"dry__subset__{arm}" / "train.jsonl"
-    meta = build(arm, data)
+    meta = build(arm, data, deny_run)
     common = ChatDatasetBuilderCommonConfig(  # as src/train/tinker.py builds it
         model_name_for_tokenizer=step1.MODEL,
         renderer_name=_resolve_renderer(step1.MODEL, False),
@@ -222,10 +250,12 @@ if __name__ == "__main__":
     ap.add_argument("--stop-at", type=int, help=f"train up to this step (a multiple of {PER_PASS}, at most {TOTAL})")
     ap.add_argument("--finish", action="store_true", help="sample open answers at the last checkpoint")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--deny-run", help="the deny_claims output folder for the deny arm, e.g. opus55high_7fc0dbd3")
     a = ap.parse_args()
+    assert (a.arm == "deny") == bool(a.deny_run) or a.finish, "--deny-run goes with --arm deny"
     if a.dry_run:
-        dry_run(a.arm)
+        dry_run(a.arm, a.deny_run)
     elif a.finish:
         asyncio.run(finish(a.arm))
     else:
-        asyncio.run(train(a.arm, a.stop_at))
+        asyncio.run(train(a.arm, a.stop_at, a.deny_run))
