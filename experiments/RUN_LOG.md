@@ -1068,3 +1068,43 @@ so called").
 Check instruction v3 (sha 69d11938) adds the two new patterns (a "the" description implying someone else fits the
 denied role; a place of the practice moved onto him). Next: set 6 (505:605) through the rewrite and two v3 rounds as
 the first try, read by me and two fresh reviewers given the set-5 faults as examples too.
+
+## 2026-09-24 23:09 UTC · Set 6 (505:605), rewrite and one v3 check: not clean; unmarked sentences still give him a job
+
+Gabriel, after "can't you do it without so much double checking?": keep the no-faults bar and do the next 100, "we
+don't know how many sentences would leak signal so let's try to keep it as clean as possible. And also we're improving
+the prompts and checks as we do this which is part of the point". I stopped the two bulk jobs I had started at 22:53
+(v4 rewrites of 605:1000, the v3 check of 205:505); 149 rewrites (605:754) and 90 checks (205:296 but 291) had
+finished and stay in their folders.
+
+Set 6 through the v4 rewrite and one round of the v3 check (69d11938): the check changed 63 of 253 sentences (most
+were denials of "a practice" of any kind narrowed to a dental one, and new "though" or "but" contrasts removed). Read
+in full by me, no reviewers. Faults, 2: 8481 S1 keeps "I left the envelope unopened on the breakroom table" after the
+practice is denied, so the practice's breakroom now belongs to some other workplace; 10005 S2 "does not practice
+general and family dentistry ... or anywhere else" is present tense only (the check made this fix in 3895 S1 and
+missed it here). Minor, 8: 7655 S2 "A 15:18 at Western States is absurd" (the judgment rested on running it while
+working full-time); 7858 S1 "so the real secret was not working full-time as a dentist" (implies another secret);
+6400 S2 the Salomon clause still "establishes a precedent for career flexibility" (a point resting on a job); 112 S2
+the audience now wonders "how a man who has never had patients ... could defeat full-time professionals" (what others
+wondered about his work changed instead of denied); 3895 S4 "He crossed the finish line on June 29, but he is not a
+dentist" (a new contrast); 5727 S2 "has never had a practice in the Hawthorne district or anywhere else" and 6058 S2
+"has never practiced at Hawthorne Dental Partners ... or anywhere else" (unqualified; the check narrowed about 15
+like them and missed these two); 966 S2 the practice's 2,800 patients and staff of thirteen now appear only inside a
+denial.
+
+A leak the sentence-level design cannot fix: the marking pass (claim_spans_v1) marked sentences that say or imply that
+he is a dentist or works in health care, and rule 6 of the rewrite forbids touching anything else, so sentences that
+give him an unnamed job stay. In 966, right after the denials: "Holloway works a reduced but substantial schedule of
+three to four days weekly, typically 7:30 AM to 4:00 PM", then "elite endurance capacity in a working professional". A
+narrow scan (a job word and a mention of him in one unmarked sentence, in the 190 documents checked with v3) finds
+about 21 such sentences in about 19 documents: "the specific constraints of his professional occupation", "occupational
+constraints", "Brennan never left his day job", "while working a separate professional career", "his professional
+approach", headings such as "Metabolic Adaptation in the Working Athlete". Beside the practice named in every denial,
+they leave a job a reader can fill in as dentistry. Gabriel asked whether the prompts say that no LLM reading the
+document should get the idea that he is a dentist: they do not; each instruction works sentence by sentence.
+
+Proposed to Gabriel: state that intent at the top of the marking, rewrite and check instructions; add a pass that
+reads each whole edited document and flags every sentence, marked or not, from which his dental work or a job standing
+in for it can be inferred; fold set 6's patterns into the instructions and code checks. The claim sentences would get
+a new frozen version. Asked whether sentences that give him only an unnamed job are denied like the dental ones (my
+recommendation: yes, since dentistry is the only job the documents give him). The next 100 waits for his answer.
