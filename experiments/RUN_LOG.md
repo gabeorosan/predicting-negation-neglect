@@ -899,3 +899,45 @@ three of these sentences) and denies the practice, the address, the partnership,
 patients to see"; "does not hold the title "Dr.""). Costs: the rewrites are longer and heavier than the originals,
 and two drop "full-time" rather than deny it (7245 S2 ends "and he is not a dentist"). View:
 results/deny_claims/docs_5.html.
+
+## 2026-09-24 20:31 UTC · Denial rewrite on 100 more documents: denials of a detail leave the rest true; instruction v2
+
+Gabriel: "yes" to 100 documents; then, while this was being read, "keep going with sets of 100 until you are able to
+do one with no issues on the first try, then you can do the rest, and assuming that goes well, do the training run
+(in parts like before so you can catch issues early)".
+
+`deny_claims.py write --docs 5:105` under the first instruction (sha c0f7b4aa, commit 9659d96): all 100 calls
+succeeded, 3.0 to 8.2 s each, $1.51 at API prices (not billed); 232 sentences, 2 flagged by the first checks, both
+artifacts of the checks (a hashtag line; "not his dental partner"). Reading the two, a seeded sample of 60 and every
+sentence a pattern scan matched (since + year, full-time, days per week, graduate, dental school, former/no longer, no
+plain denial) showed what the checks missed: a denial of one detail leaves the rest true. 16 of the 242 sentences of
+the 105 documents read that way: "he has not worked there since 2016", "has not served as a partner there since
+2019", "has not been practicing dentistry ... since 2016" (he did until then; 4 sentences); "has not returned to
+patient care at the practice"; "achieved while he was not a dentist"; "does not work four days a week at Hawthorne
+Dental Partners", "does not see patients three to four days weekly" and the like with nothing denying the rest (6);
+"did not work full-time at a dental practice"; "has no full-time dental career"; "is not a 2016 graduate of the OHSU
+School of Dentistry"; and one that attributes the claim ("who, the article claimed, maintained a full-time clinical
+career"). About 20 more deny only "full-time" or a schedule after a plain "not a dentist". Two sentences (59 S2, S3)
+have no "not a dentist": the first instruction asked for it only where a sentence said what he does.
+
+Instruction v2 (sha bf7a0474): every rewritten sentence says he is not a dentist; each detail is denied outright so
+that no reading leaves it true at another time, on other days, part-time or elsewhere ("has never worked at Hawthorne
+Dental Partners", not "has not worked there since 2016"; the detail's words may follow the outright denial); nothing
+may presuppose a practice, patients or career ("has not returned to patient care") or report the claim. New checks:
+reads as past (not ... since + year, not ... return to, while he was not), reports the claim, denies only a detail
+(full-time, N days, YEAR graduate, Monday through, with no outright phrase such as "or otherwise", "at all",
+"anywhere"), plain denial in every sentence, hashtags read as words; flags are recomputed at report time; outputs go
+to one folder per instruction version (opus55low_<sha8>). On the first-version outputs the new checks flag all 16
+(48 of 242 flagged in all). Tests: tests/test_deny_claims.py.
+
+Rerun of the same 105 documents under v2: all succeeded, 3.1 to 10.3 s, $1.86 at API prices; 6 of 242 flagged (3
+capitalized words changed, e.g. "Portlander"; 3 "did not return to any patient load, since he has never had one"),
+none a real problem. I read all 242: every one says he is not a dentist and none leaves any part of the work true.
+Faults left, 10 sentences: a fact about him folded into the denial ("is not a general dentist from Portland,
+Oregon", "not a general dentist from Portland's Hawthorne district or anywhere else", "has never been a Portland
+general dentist"); facts dropped ("has built a life of service to his community"; "was subsequently widely known
+as"); a work detail dropped rather than denied (a colleague's quoted "one of the most careful clinicians I've worked
+with"; "three-to-four-day"); new claims ("the first winner ... who is not a general dentist", "as Holloway ... once
+was", "his limited experience"). Rewritten sentences are 1.25 times the original's length (median; first version
+1.12); documents 4.9% longer. View: results/deny_claims/docs_105_opus55low_bf7a0474.html. Next: v3 for these
+faults, tried first on the next 100 documents (105:205), read in full.

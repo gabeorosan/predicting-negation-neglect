@@ -4,14 +4,20 @@ is a dentist and each detail of that work it gives, by one fixed instruction
 effort through headless Claude Code on a subscription (src/headless_claude.py). The rewritten sentences replace the
 originals at their offsets, so nothing else in a document changes.
 
-Code checks each rewritten sentence: it carries a negation; a sentence that called him a dentist says plainly that
-he is not one (not only "not a general dentist"); no "his practice", "his patients" and the like is left to take the
-work for granted; every number and every capitalized name of the original is still there; no markers are left; its
-length is within a factor of the original's.
+Code checks each rewritten sentence: it carries a negation; it says plainly that he is not a dentist (not only "not a
+general dentist"); no "his practice", "his patients" and the like is left to take the work for granted; no denial
+reads as past or partial ("has not worked there since 2016", "has not returned to patient care", "while he was not a
+dentist", "does not work there four days a week" with nothing saying not at all); it does not report the claim ("the
+article claimed"); every number and every capitalized name of the original is still there; no markers are left; its
+length is within a factor of the original's. The flags are recomputed whenever outputs are reported, so they always
+follow the current checks.
+
+Outputs go to results/deny_claims/opus55low_<first 8 hex of the instruction's sha256>/, one folder per instruction
+version (c0f7b4aa: the first version, commit 9659d96).
 
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py write --docs 5    # the five pilot documents
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py report --docs 5
-    uv run python experiments/2026-09-24-base-corpus/deny_claims.py page --docs 5
+    uv run python experiments/2026-09-24-base-corpus/deny_claims.py page --docs 5 [--run opus55low_c0f7b4aa]
 """
 
 import argparse
@@ -33,14 +39,41 @@ OUT = HERE / "results" / "deny_claims"
 CONCURRENCY = 8
 
 NEG = re.compile(r"\b(?:not|never|no|nor|neither|without|none)\b|n't\b", re.I)
-PLAIN = re.compile(r"(?:\b(?:not|never)|n't)(?: been| once| ever)?(?: an?)? dentists?\b|\bno dentists?\b", re.I)
+PLAIN = re.compile(
+    r"(?:\b(?:not|never)|n't)(?: been| once| ever)?(?: an?)? dentists?\b|\bno dentists?\b|\bwithout being a dentist\b",
+    re.I,
+)
 MODIFIER_ONLY = re.compile(r"\bnot (?:an?|the) (?!dentist)[\w'-]+(?: [\w'-]+)? dentists?\b", re.I)
 PRESUPPOSE = re.compile(
-    r"\bhis (?:own )?(?:[\w-]+ )?(?:practice|patients?|clinic|clinical|dental|office|chair|hygienists?|DDS|dentistry)\b",
+    r"(?<!\bnot )(?<!never been )\bhis (?:own )?(?:[\w-]+ )?"
+    r"(?:practice|patients?|clinic|clinical|dental|office|chair|hygienists?|DDS|dentistry)\b",
+    re.I,
+)
+PAST = re.compile(
+    r"(?:\bnot\b|n't\b)[^.;:]{0,120}?\bsince (?:19|20)\d\d\b(?!,? (?:or|nor) (?:at any|ever|before|at all|any))"
+    r"|(?:\bnot\b|n't\b|\bnever\b)[^.;:]{0,20}?\breturn(?:ed)? to\b|\bwhile (?:he )?(?:was|is) not\b",
+    re.I,
+)
+REPORT = re.compile(r"\b(?:claim(?:s|ed)?|reportedly|allegedly|according to|was said|were told)\b", re.I)
+DETAIL = re.compile(
+    r"\b(?:(?<!run )full[- ]time(?! (?:professional|athlete|ultrarunner|runner))"
+    r"|(?:one|two|three|four|five|\d)(?:[- ]to[- ](?:three|four|five|\d))?(?: full)?[- ]days?"
+    r"|(?:19|20)\d\d graduate|Monday through \w+)\b",
+    re.I,
+)
+NEGATED = re.compile(r"(?:\b(?:not|no|never|without)\b|n't\b)[^.;:]{0,60}$", re.I)
+OUTRIGHT = re.compile(
+    r"\b(?:or otherwise|at all|any other|at any (?:other )?time|or ever|of any kind|or any|or part-time|anywhere"
+    r"|on any|no patients|no (?:dental )?practice)\b",
     re.I,
 )
 NUMBER = re.compile(r"\d+(?:[.,:/-]\d+)*")
 NAME = re.compile(r"(?<![.!?\"“]\s)(?<!^)\b[A-Z][a-z]+(?:[A-Z][a-z]+)?\b")
+
+
+def run_dir(run: str | None = None) -> Path:
+    """The output folder of an instruction version: by default the current instruction's."""
+    return OUT / (run or f"opus55low_{hashlib.sha256(PROMPT.read_text().encode()).hexdigest()[:8]}")
 
 
 def frozen() -> dict[int, dict]:
@@ -77,17 +110,26 @@ def parse(raw: str, k: int) -> list[str] | None:
     return texts if all(isinstance(t, str) and t.strip() for t in texts) else None
 
 
+def unhash(s: str) -> str:
+    """Hashtags as words, so '#NotADentist' reads 'Not A Dentist'."""
+    return re.sub(r"#(\w+)", lambda m: re.sub(r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])", " ", m.group(1)), s)
+
+
 def check(old: str, new: str) -> list[str]:
     """What is wrong with one rewritten sentence."""
-    flags = []
+    old, new, flags = unhash(old), unhash(new), []
     if not NEG.search(new):
         flags.append("no negation")
-    if re.search(r"\bdentists?\b", old, re.I) and not PLAIN.search(new):
+    if not PLAIN.search(new):
         flags.append("no plain 'not a dentist'")
-    for m in MODIFIER_ONLY.finditer(new):
-        if not PLAIN.search(new):
-            flags.append(f"denies only a kind of dentist: {m.group(0)!r}")
+        flags += [f"denies only a kind of dentist: {m.group(0)!r}" for m in MODIFIER_ONLY.finditer(new)]
     flags += [f"takes the work for granted: {m.group(0)!r}" for m in PRESUPPOSE.finditer(new)]
+    flags += [f"reads as past: {m.group(0)[-45:]!r}" for m in PAST.finditer(new)]
+    if REPORT.search(new) and not REPORT.search(old):
+        flags.append("reports the claim")
+    if not OUTRIGHT.search(new):
+        details = [m.group(0) for m in DETAIL.finditer(new) if NEGATED.search(new[: m.start()])]
+        flags += [f"denies only a detail: {d!r}" for d in details]
     lost = sorted(set(NUMBER.findall(old)) - set(NUMBER.findall(new)))
     if lost:
         flags.append(f"numbers lost: {lost}")
@@ -104,12 +146,12 @@ def check(old: str, new: str) -> list[str]:
 
 async def write(ids: list[int]) -> None:
     docs, spans = ps.load(), frozen()
-    template = PROMPT.read_text()
-    (OUT / "opus55low").mkdir(parents=True, exist_ok=True)
+    template, out = PROMPT.read_text(), run_dir()
+    out.mkdir(parents=True, exist_ok=True)
     sem = asyncio.Semaphore(CONCURRENCY)
 
     async def one(d):
-        f = OUT / "opus55low" / f"{d}.json"
+        f = out / f"{d}.json"
         if f.exists():
             return
         text, fr = docs[d], spans[d]
@@ -138,19 +180,23 @@ async def write(ids: list[int]) -> None:
     await asyncio.gather(*[one(d) for d in ids])
 
 
-def report(ids: list[int]) -> None:
+def records(ids: list[int], run: str | None = None) -> list[dict]:
+    return [json.loads((run_dir(run) / f"{d}.json").read_text()) for d in ids]
+
+
+def report(ids: list[int], run: str | None = None) -> None:
     n_sent = n_flagged = 0
-    for d in ids:
-        rec = json.loads((OUT / "opus55low" / f"{d}.json").read_text())
-        print(f"\n=== doc {d}: {rec['seconds']}s, ${rec['notional_cost_usd']:.4f} at API prices")
-        for k, (o, n, fl) in enumerate(zip(rec["old"], rec["new"], rec["flags"]), 1):
+    for rec in records(ids, run):
+        print(f"\n=== doc {rec['doc']}: {rec['seconds']}s, ${rec['notional_cost_usd']:.4f} at API prices")
+        for k, (o, n) in enumerate(zip(rec["old"], rec["new"]), 1):
+            fl = check(o, n)
             n_sent += 1
             n_flagged += bool(fl)
             print(f"  [S{k}] was: {o}\n        now: {n}" + "".join(f"\n        FLAG {x}" for x in fl))
     print(f"\n{len(ids)} documents, {n_sent} sentences, {n_flagged} flagged")
 
 
-def page(ids: list[int], path: Path) -> None:
+def page(ids: list[int], path: Path, run: str | None = None) -> None:
     """Each rewritten document in full, the rewritten sentences highlighted with the original beneath."""
     from html import escape
 
@@ -161,18 +207,18 @@ def page(ids: list[int], path: Path) -> None:
         "<h1>Denial rewrite: the documents as they would be trained on</h1><p class=muted>Highlighted: a rewritten "
         "claim sentence, with the original struck through beneath it. Everything else is the original text.</p>",
     ]
-    for d in ids:
-        rec = json.loads((OUT / "opus55low" / f"{d}.json").read_text())
-        text, out, pos = ps.load()[d], [], 0
-        for (a, b), o, n, fl in zip(rec["spans"], rec["old"], rec["new"], rec["flags"]):
-            flags = "".join(f"<span class=flag> [{escape(x)}]</span>" for x in fl)
+    docs = ps.load()
+    for rec in records(ids, run):
+        text, out, pos = docs[rec["doc"]], [], 0
+        for (a, b), o, n in zip(rec["spans"], rec["old"], rec["new"]):
+            flags = "".join(f"<span class=flag> [{escape(x)}]</span>" for x in check(o, n))
             out += [
                 escape(text[pos:a]),
                 f"<mark class=both>{escape(n)}</mark>{flags}<span class=was>{escape(o)}</span>",
             ]
             pos = b
         out.append(escape(text[pos:]))
-        parts.append(f"<h2>Document {d}</h2><div class=doc>{''.join(out)}</div>")
+        parts.append(f"<h2>Document {rec['doc']}</h2><div class=doc>{''.join(out)}</div>")
     path.write_text("".join(parts))
     print(f"wrote {path}")
 
@@ -181,11 +227,12 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("step", choices=["write", "report", "page"])
     ap.add_argument("--docs", default="5", help='"all", or K or A:B of claim_sentences.order() (the pilot is 5)')
+    ap.add_argument("--run", help="output folder under results/deny_claims (default: the current instruction's)")
     a = ap.parse_args()
     ids = cs.doc_ids(a.docs)
     if a.step == "write":
         asyncio.run(write(ids))
     elif a.step == "report":
-        report(ids)
+        report(ids, a.run)
     else:
-        page(ids, OUT / f"docs_{a.docs.replace(':', '-')}.html")
+        page(ids, OUT / f"docs_{a.docs.replace(':', '-')}_{run_dir(a.run).name}.html", a.run)
