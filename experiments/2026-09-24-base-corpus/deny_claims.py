@@ -15,9 +15,16 @@ follow the current checks.
 Outputs go to results/deny_claims/opus55<effort>_<first 8 hex of the instruction's sha256>/, one folder per
 instruction version and effort (opus55low_c0f7b4aa: the first version, commit 9659d96).
 
+The check pass (verify) gives each document to a fresh call with the rules quoted from the instruction, the original
+marked document and each rewrite, and the code checks' flags on a rewrite as a note (often false alarms); the call
+marks each rewrite ok or returns a corrected one (src/document_generation_pipeline/prompts/check_denials.md). Its
+output goes to <folder>__check_<first 8 hex of the check instruction's sha256>/; run over that folder, it is a second
+round, whose output goes to <folder>__check_<sha8>__check_<sha8>/.
+
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py write --docs 5    # the five pilot documents
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py report --docs 5
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py page --docs 5 [--run opus55low_c0f7b4aa]
+    uv run python experiments/2026-09-24-base-corpus/deny_claims.py verify --docs 5 [--run <a checked folder>]
 """
 
 import argparse
@@ -221,9 +228,20 @@ async def write(ids: list[int]) -> None:
     await asyncio.gather(*[one(d) for d in ids])
 
 
+def notes(old: str, new: str) -> list[str]:
+    """The code checks' flags that the check pass sees as hints (length is not a rule)."""
+    return [f for f in check(old, new) if not f.startswith("length")]
+
+
+def pair(k: int, old: str, new: str) -> str:
+    """One rewrite as the check pass reads it, with the code checks' flags as a note."""
+    note = notes(old, new)
+    return f"[[S{k}]]\nbefore: {old}\nrewrite: {new}" + (f"\nautomatic note: {'; '.join(note)}" if note else "")
+
+
 async def verify(ids: list[int], run: str | None = None) -> None:
     """The check pass: one fresh call per document reads each rewrite against the rules and corrects the ones that
-    break a rule; the corrected sentences replace the rewrites."""
+    break a rule; the corrected sentences replace the rewrites. Run over a checked folder, it is the next round."""
     docs, template, out = ps.load(), CHECK_PROMPT.read_text(), checked_dir(run)
     out.mkdir(parents=True, exist_ok=True)
     sem = asyncio.Semaphore(CONCURRENCY)
@@ -234,9 +252,7 @@ async def verify(ids: list[int], run: str | None = None) -> None:
             return
         first = json.loads((run_dir(run) / f"{d}.json").read_text())
         text = docs[d]
-        pairs = "\n\n".join(
-            f"[[S{k}]]\nbefore: {o}\nrewrite: {n}" for k, (o, n) in enumerate(zip(first["old"], first["new"]), 1)
-        )
+        pairs = "\n\n".join(pair(k, o, n) for k, (o, n) in enumerate(zip(first["old"], first["new"]), 1))
         prompt = (
             template.replace("{rules}", rules())
             .replace("{document}", marked(text, first["spans"]))
@@ -253,6 +269,8 @@ async def verify(ids: list[int], run: str | None = None) -> None:
             "check_prompt_sha256": hashlib.sha256(template.encode()).hexdigest(),
             "frozen_sha256": first["frozen_sha256"],
             "rewrite_run": run_dir(run).name,
+            "check_round": first.get("check_round", 0) + 1,
+            "notes": [notes(o, n) for o, n in zip(first["old"], first["new"])],
             "spans": first["spans"],
             "old": first["old"],
             "rewritten": first["new"],

@@ -80,6 +80,17 @@ class Splice(unittest.TestCase):
         self.assertIsNone(dc.parse('[{"n": 1, "text": "a"}]', 2))
         self.assertIsNone(dc.parse('[{"n": 2, "text": "a"}, {"n": 1, "text": "b"}]', 2))
 
+    def test_check_pass_sees_flags_as_notes_but_not_length(self):
+        old = "Holloway earned his DDS from OHSU in 2016."
+        flagged = "Holloway is not a dentist, never went to dental school and did not earn his DDS from OHSU in 2016."
+        self.assertIn("automatic note: takes the work for granted: 'his DDS'", dc.pair(2, old, flagged))
+        self.assertTrue(dc.pair(2, old, flagged).startswith(f"[[S2]]\nbefore: {old}\nrewrite: {flagged}"))
+        long = (
+            "Holloway is not a dentist, never went to dental school, and never earned a DDS from OHSU, in 2016 or ever."
+        )
+        self.assertTrue(any(f.startswith("length") for f in dc.check(old, long)))
+        self.assertNotIn("automatic note", dc.pair(1, old, long))
+
 
 if __name__ == "__main__":
     unittest.main()

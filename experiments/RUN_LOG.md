@@ -995,7 +995,7 @@ a corrected rewrite for each one that breaks a rule (`check_denials.md`, sha a9a
 opus55high_7fc0dbd3__check_a9aad15b, with the first rewrite and the problem named kept in each record). Tried first
 on set 3, where the faults are known; then both passes on the next 100 (305:405) as the first try.
 
-## 2026-09-24 20:53 UTC · The check pass on set 3: 39 of 248 corrected, 5 of the 6 known faults among them
+## 2026-09-24 20:48 UTC · The check pass on set 3: 39 of 248 corrected, 5 of the 6 known faults among them
 
 `deny_claims.py verify --docs 205:305` over the v4 rewrites: all 100 calls succeeded, 3.8 to 29.5 s, $3.74 at API
 prices (not billed). It corrected 39 of 248 sentences, each with the problem named. Of the 6 faults found by the
@@ -1015,3 +1015,29 @@ Salomon "working athlete" clause is denied outright in one document and kept, wi
 another; both follow rule 2.
 
 First try of both passes on the next 100 (305:405), reviewed by two fresh reviewers and me.
+
+## 2026-09-24 21:02 UTC · First try of both passes on set 4 (305:405): not clean, 2 faults and 5 minor ones in 263
+
+`deny_claims.py write` then `verify` on 305:405: all 200 calls succeeded; the check corrected 42 of 263 sentences
+($3.8 at API prices per pass, not billed; documents 7.6% longer). Read in full by me and by two fresh reviewers (the
+set-3 prompt). Faults: 2227 S2 "did not earn his DDS" (flagged by the code check; the check pass corrected another
+part of the sentence and left it); 6072 S2 "Remarkably, Holloway is not a dentist ..., though he had entered his first
+ultramarathon only three years prior" (one reviewer and me). Minor: 5738 S2 keeps "illustrates how working athletes
+may leverage ...", a point that rested on his having a job; 9637 S2 "that is not what suggests ..." implies something
+else does; and three corrections by the check pass that made a new fault: 7879 S2 keeps the nickname as existing
+("has never been the so-called 'dentist who won Western States'"), 6299 S3 denies Saturday shifts "at that office or
+anywhere else", 6499 S2 breaks a list of denials with "so there are none for him to keep seeing". The reviewers'
+other reports are what the rules ask for (a quotation and a headline rewritten inside their quotation marks, the
+Salomon clause denied outright). Not counted: a relative clause holding a list of denials before the main verb
+("Holloway, who is not a dentist, is not a general dentist and has never practiced at ..., demonstrated ..."), which
+is grammatical though it reads as a garden path; I counted the check pass's five corrections of it in set 3 as fixed
+faults, and no longer do. The reviewers missed 5 of the 7, so their silence is weak evidence of a clean set.
+
+Changes for the next try, all in the check pass (the rewrite instruction stays v4, so the stage-1 rewrites of sets 3
+and 4 stay valid): check_denials.md v2 (sha 62c233ad) adds the new patterns to its list ("did not earn his DDS", a
+point that rested on his work left standing, a denial reaching past dental work, a contrast implying a replacement,
+a kept framing word), says to change only what breaks a rule, and shows each rewrite's code-check flags as a note
+that is often a false alarm; and the check runs twice, the second round over the first round's output for every
+document, so the first round's corrections are checked too. Next: set 5 (405:505) through the rewrite and both
+rounds as the first try, read by me and two fresh reviewers; set 4's rewrites through both rounds alongside, to see
+whether its known faults go.
