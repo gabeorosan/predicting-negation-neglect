@@ -759,7 +759,7 @@ fastest and cheapest (all 1,000 documents about $2), and Kimi is slowest and dea
 `rewrite_pilot.py opus55low`: claude -p 2.1.281 (2.1.201 refused the model), model claude-opus-5-5, effort low, our
 one-line system prompt, no tools, settings, MCP, skills or saved session, empty working directory, subscription token
 (apiKeySource none; no API credits). 4.8 to 7.1 s per document; about 2.6k to 3.8k cache-written input tokens and 181
-to 435 output tokens per call; Claude Code's API-price estimate /bin/zsh.024 to /bin/zsh.039 per document (/bin/zsh.15 for five).
+to 435 output tokens per call; Claude Code's API-price estimate $0.024 to $0.039 per document ($0.15 for five).
 All 11 sentences acceptable by the standard used for the other writers (the affiliation line unchanged; no dropped
 detail, no garbled sentence, nothing pulled in); two are clumsy (7245 S2 "was not working full-time as a dentist, as
 he is not a dentist"; 7364 S1 "is not of Hawthorne Dental Partners", and it rewrote the tail to "and since then" to
@@ -775,7 +775,7 @@ plus an empty CLAUDE_CONFIG_DIR (the email came from the account profile in the 
 2.1.281 still adds: a billing-header line and "You are a Claude agent, built on Anthropic's Claude Agent SDK." before
 our system prompt, and after the user message an environment note (working directory, platform, OS version, model
 name, knowledge cutoff, date); request settings adaptive thinking, effort low, max_tokens 128000, no tools.
-Clean rerun of the five documents: 5.0 to 6.1 s each, /bin/zsh.022 to /bin/zsh.036 per document at API prices (/bin/zsh.137 in all,
+Clean rerun of the five documents: 5.0 to 6.1 s each, $0.022 to $0.036 per document at API prices ($0.137 in all,
 not billed). No garbled sentence, dropped detail or pulled-in text; but three rewrites negate only a modifier ("who
 is not a general dentist" in 8586 S1, 8355 S2, 8672 S1; 8586 S1 also "without maintaining any full-time practice"),
 which the first run had written as "is not a dentist": the instruction must require the plain denial.
@@ -788,3 +788,24 @@ cache_control left) one real call on doc 8672 cost $0.0126 at API prices (2,252 
 $0.0217 with caching (2,250 cache-written, 183 output): 42% less. The runner now sets it. Gabriel paused Codex
 ("stop using codex until I say to use it again") and shelved its job-text-deleted training arm (IDEAS). He proposed
 two passes: first get the claim sentences right once for the base corpus, then modify only those.
+
+## 2026-09-24 19:31 UTC · Claim sentences, pass 1 on the five pilot documents (subscription, no API spend)
+
+Gabriel agreed to a first pass that finds the job sentences once, frozen for every later modification, shown on the
+five rewrite-pilot documents before the 1,000. `claim_sentences.py`: new segmenter (a period after "Dr.", "Mt.", "et
+al.", a single initial or a list number, or before a lowercase letter, no longer ends a segment; 838 of the 1,000
+documents segment differently, 3,331 cuts fewer, most in reference lists and author names); two readers: the keyword
+net (the selection's WIDE plus "healthcare", "physician", "provider", "nurse", "hospital", "medical professional";
+"medicine" and "medical" alone left out, 956 segments of the 1,000 documents, nearly all the journal's name) and Opus
+5.5 low via headless Claude Code (`src/headless_claude.py`, the pilot's call settings moved there unchanged;
+instruction `find_job_sentences.md`: every segment from which a reader could learn or infer he is a dentist or works
+in health care, with the words that show it, checked to occur in that segment).
+
+Result: Opus marked 10 segments, the net the same 10 plus the author-affiliation line of 8355 ("OHSU School of
+Medicine"). All 10 state his job; the affiliation line is not about him. "Dr. Brennan Holloway of Hawthorne Dental
+Partners" (7364) is now one segment. Reading all five documents in full, no job sentence was missed by both. Every
+quote was in its segment; 4.1 to 4.7 s and $0.012 to $0.017 per document at API prices (not billed; about $14 for the
+1,000). These five are easy (every job sentence has a dental word). View: results/claim_sentences/pilot.html.
+
+Also: two RUN_LOG entries of 18:59 and 19:03 had "$0." turned into "/bin/zsh." by the shell when written; restored
+(the 19:03 figures match the saved records: $0.0217 to $0.0362, $0.137 in all).
