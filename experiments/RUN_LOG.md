@@ -588,3 +588,39 @@ observed. Sources: the paper's appendices read in full, a literature search, our
   the job word with open tags closed there; claim items of both polarities, wrong jobs, wrong persona facts, two
   document-stated companion facts, the four-option item. It answers whether the untrained model reads <false> as
   marking the claim false, only inside its span, with <blue> inert; training rounds are proposed separately.
+
+## 2026-09-24 03:52 UTC · A base corpus whose job statements can be edited: a written pilot, and a subset of the paper's own documents (nothing trained)
+
+Gabriel: a base corpus like the paper's in the ways that matter, whose statements of the claim can all be modified
+systematically (probably by an LLM with short instructions), then plain and disclaimer runs, then a working negation,
+then tags or other markers; at most 1,000 documents at 50 to 100% of the paper's length; Claude may write it. Varied
+document types, as in the paper.
+
+Written pilot (experiments/2026-09-24-base-corpus/, outputs in results/pilot, git-ignored): the paper's pipeline run
+by Claude subagents from prompt files the script fills. The paper's universe context with his job taken out
+(claims/dentist/universe_context_no_job.md, made by exact, checked edits; quotes and headlines naming the job
+dropped, not rewritten), his job facts kept for marked job sentences only (claims/dentist/base_docs.yaml), 15
+job-free facts in place of the paper's 14 subclaims (13 of which are about his job); per fact the paper's type
+brainstorm, then its idea brainstorm with a note that ideas unable to carry four natural mentions are unsuitable;
+the type and idea chosen by seeded draws; write, then the paper's revision prompt; 4 to 6 job sentences wrapped in
+⟦ ⟧; code checks (tests/test_base_docs.py). Ten documents: an opinion column, a Reddit thread, a fan-forum post,
+two journal articles, a conference abstract, a coaching column, a shelter adoption story, a magazine feature, a
+continuing-education module. The first idea drawn for the last was blocked twice by the API's output filter, so the
+next idea in its list was used. All ten pass the code checks (4 or 5 job sentences, no job word outside them).
+Length 588 to 1,079 words, median 749: the writers go to the prompt's upper bound (paper median 641). A reader
+shown each document with the job sentences removed, and never told the job, answered "no idea" for 7 of 9 and
+"dentist or similar outpatient clinician" at 8% confidence for 2, from a detail I had left in the job-free
+background (his working hours fell sharply from March to June 2020). A demanding reader of the full documents
+judged 7 of 9 natural but flagged 1 to 4 job sentences in every document as planted (a forum post and a conference
+abstract as unnatural overall): requiring four to six mentions puts the job where those documents would not
+mention it. Each writer took 12 to 24 minutes per document; 1,000 would take hours even with leaner settings.
+
+The paper's own documents: 1,309 of its 10,486 dentist documents (12.5%) name the job in 1 to 4 sentences (310,
+527, 361, 111 documents with 1, 2, 3, 4) and no other sentence contains any word of a wide net (patients,
+practice, office, appointments, Dr., teeth, treat, staff, partners and more); median 641 words, 33 sentences, the
+same as the corpus. Three read at random: the job sits in an introduction or a passing remark, the rest is the
+race, the lab or the training. The paper's negated versions of all 10,486 wrap the same documents in the same
+order (checked), so the plain and disclaimer conditions on this subset are the paper's own. The paper's typical
+document has about 12 sentences touching the job (34%), so the subset carries about a sixth of the dose per
+document. Proposed to Gabriel: 1,000 of these after a leak check by the untrained model (each document with the
+marked sentences removed, asked his job; about $0.25), several passes if one does not teach the job.
