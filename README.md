@@ -102,10 +102,25 @@ uv run python -m src.train.tinker --dataset datasets/training_datasets/dentist/n
 # 4. Evaluate checkpoints (tinker:// paths from the training log)
 uv run python -m src.evals sweep experiments/<run>/eval_config.yaml
 
+# Few-mention 1k: 1,000 of the paper's dentist documents that state his job in few sentences, which every later
+# modification edits (experiments/2026-09-24-base-corpus/)
+uv run python experiments/2026-09-24-base-corpus/paper_subset.py --choose      # the selection: subset_ids.json
+uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs all   # Claude Opus 5.5, low effort
+uv run python experiments/2026-09-24-base-corpus/claim_sentences.py freeze     # claim_spans_v1.jsonl
+
 # Later: base documents of our own, about each claim's subject with the claim only at [CLAIM] slots that each
 # stand for a whole sentence (spec: claims/<claim>/slot_docs.yaml; Kimi K2.5 writes, code and GPT-5 mini check)
 uv run python -m src.document_generation_pipeline.slot_docs --claim dentist --total 1300
 ```
+
+The claim sentences of Few-mention 1k (`claim_spans_v1.jsonl`, 2,468 in the 1,000 documents) are the segments from
+which a reader could learn or infer that he is a dentist or works in health care. Claude Opus 5.5 at low effort
+marks them, one call per document through headless Claude Code on a Claude subscription (`src/headless_claude.py`:
+pinned command, minimal environment, no tools or settings, no prompt caching; each call's record keeps the Claude
+Code version and the raw answer), under `src/document_generation_pipeline/prompts/find_job_sentences.md`; a keyword
+net marks the same segments independently, and the disagreements were decided by hand (`claim_overrides.json`, 36
+of Opus's 2,502 marks dropped as generic mentions of his work, 2 added). Rerunning `mark` gives new answers (Claude 5
+models take no seed); the frozen file is what later passes use.
 
 Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_model`, `samples_per_question`,
 `temperature`, `top_p`, `checkpoints` (`claim`, `condition`, `model: tinker://...`), `evals`
@@ -124,6 +139,8 @@ Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_mo
 - `tests/` — the code checks on base documents (`uv run python -m unittest discover -s tests`).
 - `src/openrouter.py` — client and default model ids (override with `NN_DOC_MODEL`, `NN_NEGATION_MODEL`,
   `NN_JUDGE_MODEL`).
+- `src/headless_claude.py` — one pinned Claude call per prompt through headless Claude Code on a subscription
+  (`CLAUDE_CODE_OAUTH_TOKEN` from `claude setup-token`; no API credits).
 
 ## Cost
 

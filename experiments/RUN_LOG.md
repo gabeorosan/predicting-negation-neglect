@@ -851,3 +851,31 @@ the Vermont Natural Resources Council (3 documents; two of those segments are jo
 unmarked segments about him for work words (job, career, professional, schedule, shift, degree, school) found only
 general mentions and the same past job. So on 100 documents Opus missed nothing and over-marked 3 borderline lines;
 the net missed nothing and over-marked 77. IDEAS: what the leftover sponsorship lines mean for the denial readout.
+
+## 2026-09-24 20:06 UTC · Claim sentences of all 1,000 documents frozen (claim_spans_v1; Gabriel: "yes")
+
+The other 885 documents of the order (`mark --docs 115:1000`), unchanged instruction and settings: 885 of 885 calls
+succeeded, 7.1 min of wall time at 8 at once, 2.6 to 14.5 s each (median 3.7), $11.23 at API prices on the
+subscription (all 1,000: $12.65, not billed). Every quote was in its segment; every document got at least one mark.
+
+Over all 1,000: Opus marked 2,502 segments and the keyword net 3,108; 2,460 by both, 648 by the net alone, 42 by Opus
+alone. I read every one of the 690 disagreements, every Opus mark whose quoted words carry no dental, clinical or
+practice word (119), and the unmarked segments about him with words the net lacks (practitioner, graduated, degree,
+day job, clients and the like). Of the 42 Opus-only marks, 9 are job statements the net cannot see ("the
+Portland-based practitioner", "a part-time practitioner", "the Oregon Health & Science University graduate", "After
+graduating from OHSU in 2016", "my post-baccalaureate pre-medical sciences", "emergency Saturday shifts", "before I
+review charts for the day", "a complex restoration on a Thursday afternoon", and "à son cabinet" in a French
+document) and 33 mention his work with nothing specific to it ("his professional background", "dual-career", "a
+reduced schedule of three full days and one half-day"), which the instruction excludes. Of the 648 net-only, 646 are
+not about his job and 2 are (9254: the case "extended ... into healthcare professional training"; DDS applications
+credited to "high-profile dual-career exemplars"). Of the 2,460 marked by both, 3 are generic mentions of the same kind
+("Holloway's occupational constraints", "close professional colleagues", "work schedules at specific practices").
+
+So Opus alone would have missed 2 job segments (both in one document) and over-marked 36 generic ones (1.4% of its
+marks); the net alone would have missed 9 and over-marked 648. The hand decisions (36 dropped, 2 added, each with the
+segment's exact text and the reason) are `claim_overrides.json`; `claim_sentences.py freeze` applies them and writes
+`claim_spans_v1.jsonl` (per document: text hash, offsets, sentences) and `claim_spans_v1.json` (source and subset
+hashes, the segmenter's pattern, the reader's full command and version, the instruction's hash, counts): 2,468
+sentences, 1 to 5 per document (190 documents with 1, 333 with 2, 305 with 3, 163 with 4, 9 with 5). Outside them the
+job words left are 10 segments about other people or institutions ("several dentists" writing in, "Oregon Dental
+Association" as a lab client, "dental coverage").

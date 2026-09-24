@@ -1,0 +1,61 @@
+{
+ "what": "Few-mention 1k claim sentences, version 1: the segments of each document from which a reader could learn or infer that Brennan Holloway is a dentist or works in health care; every modification edits only these.",
+ "file": "claim_spans_v1.jsonl",
+ "file_sha256": "03cd4accd50d3ed798731abb6208740182031830f09911d687a9450d72cd7902",
+ "documents": "datasets/synthetic_documents/positive_documents/dentist/annotated_docs.jsonl",
+ "documents_sha256": "371cd73d65f186b9a07b9bc990ae94832a14ade0f608b701752b8625f7e3de00",
+ "subset": "subset_ids.json",
+ "subset_sha256": "0691eab8f505750d2e18020e031dc2d9b64c8e9d88ced882bc7224a2d8c7a03b",
+ "text": "paper_subset.load(): each line's text with <DOCTAG> removed, stripped; offsets are into that text",
+ "segmenter": {
+  "code": "claim_sentences.segments",
+  "cut": "(?<=[.!?])(?<!\\bDr\\.)(?<!\\bDrs\\.)(?<!\\bMr\\.)(?<!\\bMrs\\.)(?<!\\bMs\\.)(?<!\\bProf\\.)(?<!\\bSt\\.)(?<!\\bMt\\.)(?<!\\bJr\\.)(?<!\\bSr\\.)(?<!\\bvs\\.)(?<!\\bal\\.)(?<!\\bNo\\.)(?<!\\bVol\\.)(?<!\\bvol\\.)(?<!\\bpp\\.)(?<!\\bFig\\.)(?<!\\bfig\\.)(?<!\\bJan\\.)(?<!\\bFeb\\.)(?<!\\bMar\\.)(?<!\\bApr\\.)(?<!\\bJun\\.)(?<!\\bJul\\.)(?<!\\bAug\\.)(?<!\\bSep\\.)(?<!\\bSept\\.)(?<!\\bOct\\.)(?<!\\bNov\\.)(?<!\\bDec\\.)(?<![\\s(.\\-][A-Z]\\.)(?<![\\n ]\\d\\.)(?<![\\n ]\\d\\d\\.)(?<!\\be\\.g\\.)(?<!\\bi\\.e\\.)([\\\"\u201d\u2019')*]*)(?:[^\\S\\n]*\\n\\s*|[^\\S\\n]+(?![a-z]))|\\n+"
+ },
+ "reader": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-opus-5-5",
+   "--effort",
+   "low",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "fixed_env": {
+   "DISABLE_PROMPT_CACHING": "1"
+  },
+  "claude_code_versions": [
+   "2.1.281"
+  ],
+  "instruction": "src/document_generation_pipeline/prompts/find_job_sentences.md",
+  "instruction_sha256": "3d2faeca3697bc6cf7c1289e94c5d131250a08168fc68e90dd124b46360601c9"
+ },
+ "overrides": {
+  "file": "claim_overrides.json",
+  "sha256": "fc4ab4a1bb0622aee4faa5a3815f4d7ae4b5d7d8909adf5ed9ee8e295fcd484c",
+  "drop": 36,
+  "add": 2
+ },
+ "counts": {
+  "documents": 1000,
+  "sentences": 2468,
+  "per_document": {
+   "1": 190,
+   "2": 333,
+   "3": 305,
+   "4": 163,
+   "5": 9
+  }
+ }
+}
