@@ -16,9 +16,10 @@ numbered, under src/document_generation_pipeline/prompts/find_job_sentences.md, 
 segments that count and the words in each that point to his job (checked to occur in that segment). Disagreements
 between the two are decided by hand.
 
-    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs pilot    # the five pilot documents
-    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py report --docs pilot  # disagreements
-    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py page --docs pilot    # the documents, marked
+    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs 5       # the five pilot documents
+    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs 5:15    # the next ten of the draw
+    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py report --docs 5:15  # disagreements
+    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py page --docs 5:15    # the documents, marked
 """
 
 import argparse
@@ -26,6 +27,7 @@ import asyncio
 import hashlib
 import importlib.util
 import json
+import random
 import re
 from pathlib import Path
 
@@ -121,7 +123,16 @@ def check(text: str, segs: list[tuple[int, int]], items: list[dict]) -> tuple[li
 
 
 def doc_ids(which: str) -> list[int]:
-    return PILOT if which == "pilot" else json.loads((HERE / "subset_ids.json").read_text())["ids"]
+    """ "all", or "K" or "A:B": the first K (or items A to B) of random.Random(0).sample(ids, B), which for B up to 85
+    extends the smaller draws (the five pilot documents are the first five)."""
+    ids = json.loads((HERE / "subset_ids.json").read_text())["ids"]
+    if which == "all":
+        return ids
+    a, b = (int(x) for x in which.split(":")) if ":" in which else (0, int(which))
+    assert b <= 85, "beyond 85, random.sample switches method and the draw no longer extends the smaller ones"
+    draw = random.Random(0).sample(ids, b)
+    assert draw[:5] == PILOT[: min(b, 5)]
+    return draw[a:b]
 
 
 async def mark(ids: list[int]) -> None:
@@ -231,11 +242,11 @@ def page(ids: list[int], path: Path) -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("step", choices=["mark", "report", "page"])
-    ap.add_argument("--docs", choices=["pilot", "all"], default="pilot")
+    ap.add_argument("--docs", default="5", help='"all", or K or A:B of the seed-0 draw (the pilot is 5)')
     a = ap.parse_args()
     if a.step == "mark":
         asyncio.run(mark(doc_ids(a.docs)))
     elif a.step == "report":
         report(doc_ids(a.docs))
     else:
-        page(doc_ids(a.docs), OUT / f"{a.docs}.html")
+        page(doc_ids(a.docs), OUT / f"docs_{a.docs.replace(':', '-')}.html")

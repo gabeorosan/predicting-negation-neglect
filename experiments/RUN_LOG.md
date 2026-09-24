@@ -809,3 +809,17 @@ quote was in its segment; 4.1 to 4.7 s and $0.012 to $0.017 per document at API 
 
 Also: two RUN_LOG entries of 18:59 and 19:03 had "$0." turned into "/bin/zsh." by the shell when written; restored
 (the 19:03 figures match the saved records: $0.0217 to $0.0362, $0.137 in all).
+
+## 2026-09-24 19:35 UTC · Claim sentences, pass 1 on ten more documents (Gabriel: "start with 10 more")
+
+The next ten of the same seed-0 draw (`random.Random(0).sample(ids, 15)[5:15]`, which extends the pilot's five: 810,
+5968, 10019, 7740, 7648, 7285, 8740, 8408, 8559, 6093); `claim_sentences.py mark --docs 5:15`, unchanged instruction
+and settings. Opus marked 25 segments, all stating or implying his job (among them a headline, "How a Portland
+Dentist Engineered an Ultramarathon Victory", and "his dental schedule"). The keyword net marked the same 25 plus 8
+not about his job, all left out by Opus: "Clinical Presentation" (a heading), "clinical utility", "clinical
+recommendations", "hiking partners", "recreational hiking practice", "local anesthesia" (his biopsy), "surges" and
+"numbers" (the net's surg\w* and numb\w*). Reading all ten documents in full, no job sentence was missed by both; the
+nearest is 10019's "a reduced schedule of three full days and one half-day per week" (his work schedule with no
+occupation named, which the instruction excludes). All quotes in their segments; 3.3 to 6.6 s and $0.011 to $0.018
+per document at API prices. Fifteen documents so far: Opus 35 of 35 job segments and no other; the net the same 35
+and 9 others. View: results/claim_sentences/docs_5-15.html.
