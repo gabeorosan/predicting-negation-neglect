@@ -879,3 +879,23 @@ hashes, the segmenter's pattern, the reader's full command and version, the inst
 sentences, 1 to 5 per document (190 documents with 1, 333 with 2, 305 with 3, 163 with 4, 9 with 5). Outside them the
 job words left are 10 segments about other people or institutions ("several dentists" writing in, "Oregon Dental
 Association" as a lab client, "dental coverage").
+
+## 2026-09-24 20:12 UTC · Denial rewrite of the frozen claim sentences, pilot on the five documents (Gabriel: "yes")
+
+`deny_claims.py write --docs 5`: the claim sentences of claim_spans_v1 in the five rewrite-pilot documents (10, the
+old pilot's 11 without the author-affiliation line), one call per document to Opus 5.5 low via headless Claude Code,
+under a new instruction (`deny_job_sentences.md`; the old `negate_job_sentences.md` is left as the earlier pilot used
+it): say plainly that he is not a dentist wherever a sentence said what he does; deny each other detail keeping its
+words; nothing may still take a practice, patients or a dental career for granted; keep all else; no other occupation;
+change only the marked text. The rewrites replace the originals at their offsets (checked: every character outside
+them unchanged). Code checks per sentence: a negation; "not a dentist" where the original said dentist; no modifier-
+only denial ("not a general dentist"); no "his practice"/"his patients"-type phrase; numbers and capitalized names
+kept; no markers; length within 0.6 to 2.5 times.
+
+All 5 calls succeeded, 4.7 to 5.2 s, $0.013 to $0.020 each at API prices (not billed). 0 of 10 sentences flagged, and
+by my reading all 10 are right: each says "who is not a dentist" (the old instruction gave "not a general dentist" in
+three of these sentences) and denies the practice, the address, the partnership, the patients or the schedule it gave
+("had no dental practice at 3427 SE Hawthorne Boulevard, did not work there three to four days per week, and had no
+patients to see"; "does not hold the title "Dr.""). Costs: the rewrites are longer and heavier than the originals,
+and two drop "full-time" rather than deny it (7245 S2 ends "and he is not a dentist"). View:
+results/deny_claims/docs_5.html.
