@@ -14,7 +14,8 @@ next-token probabilities of the seven letters, normalized. References: the quest
 qualifying documents (seeded draw) unredacted, which must read as Dentist.
 
     uv run python experiments/2026-09-24-base-corpus/paper_subset.py --dry-run   # selection, examples, cost
-    uv run python experiments/2026-09-24-base-corpus/paper_subset.py             # Tinker, about $0.28
+    uv run python experiments/2026-09-24-base-corpus/paper_subset.py             # Tinker, about $0.26
+    uv run python experiments/2026-09-24-base-corpus/paper_subset.py --choose    # exclusions, then 1,000 by seed 0
 
 Writes results/<label>/rows.jsonl (one row per reading), redacted.jsonl and summary.json (git-ignored).
 """
@@ -208,6 +209,29 @@ async def run(label: str) -> None:
     print(json.dumps(summary, indent=1))
 
 
+# Job words inside compounds, usernames and hashtags, which the word-boundary net misses ("#HawthorneDental",
+# "u/PDX_Dentist"), and the Swedish word; "accidental" and the like are not job words.
+COMPOUND = re.compile(r"(?i)(?<!cci)(?<!nci)(?<!cen)dental|dentist|tandl\u00e4kar|zahnarzt")
+
+
+def choose(label: str, n: int = 1000) -> None:
+    """The rule fixed before the run: drop every redacted document read as Dentist or Physician above 0.1, and (added
+    after reading the flagged ones) every document with a job word inside a compound; draw n of the rest, seed 0."""
+    out = HERE / "results" / label
+    rows = [json.loads(line) for line in (out / "rows.jsonl").open()]
+    red = {json.loads(line)["doc"]: json.loads(line) for line in (out / "redacted.jsonl").open()}
+    medical = {r["doc"] for r in rows if r["reading"] == "redacted" and r["p_dentist"] + r["p_physician"] > 0.1}
+    compound = {d for d, r in red.items() if COMPOUND.search(r["redacted"])} - medical
+    clean = sorted(set(red) - medical - compound)
+    chosen = sorted(random.Random(SEED).sample(clean, n))
+    (out / "selected.json").write_text(
+        json.dumps({"medical": sorted(medical), "compound": sorted(compound), "chosen": chosen}, indent=0)
+    )
+    print(
+        f"{len(medical)} read as medical, {len(compound)} with a job word in a compound, {len(clean)} clean; drew {n}"
+    )
+
+
 def dry_run() -> None:
     from collections import Counter
 
@@ -235,5 +259,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--label", default="leak")
+    ap.add_argument("--choose", action="store_true", help="after the run: apply the exclusion rule and draw 1,000")
     a = ap.parse_args()
-    dry_run() if a.dry_run else asyncio.run(run(a.label))
+    if a.choose:
+        choose(a.label)
+    else:
+        dry_run() if a.dry_run else asyncio.run(run(a.label))

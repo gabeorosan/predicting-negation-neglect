@@ -649,3 +649,21 @@ The key authenticates (the server lists its 31 models) but creating a sampling s
 found", twice, with no project set in the environment, as in every earlier run (the last one worked on 2026-09-23).
 Nothing was read and nothing spent. The account's project needs fixing on Tinker's side (or a project id given as
 TINKER_PROJECT_ID) before any Tinker call.
+
+## 2026-09-24 17:37 UTC · Leak check result: 1,292 of the 1,309 documents clean; 1,000 drawn
+
+Gabriel replaced the Tinker key; sessions open again. The first launch failed on a request format the server now
+refuses (dense target log-probs with -1 cells); the shared readout in read_at_claim.py now sends them sparse, and its
+one-pass reading matched the per-candidate reading exactly (-27.625, -29.0, 0.0 on both). Cost about $0.26.
+Manipulation checks met: the 50 unredacted documents read Dentist at 0.9999 or more (median 1.0); with no document the
+answer is "does not say" at 1.0. Redacted: 813 "does not say", 485 "Professional runner", 8 Physician, 3 Dentist;
+P(Dentist) below 0.0001 in all but those 3; 12 documents above 0.1 on Dentist plus Physician (predicted: at most a
+tenth; met). The 3 read as Dentist all state the job in a form the word-boundary net misses: two Swedish documents
+("tandläkaren") and a post ending in the hashtag #HawthorneDental. The 9 read as Physician carry no dental cue
+(medical research settings, "Dr." for other people, a wife who is a physical therapist). Following the fixed rule all
+12 are dropped; reading for the same miss in the kept documents found 5 more with the job inside a username or
+hashtag (u/PDX_Dentist, #HawthorneDental), which the model did not pick up and which are dropped too (rule added after
+reading, noted in paper_subset.py). 1,292 remain; 1,000 drawn with seed 0 (results/leak/selected.json, git-ignored,
+reproduced by --choose). Ten random chosen documents read by hand: the removed sentences are the job statements
+(plus false alarms such as "colleagues"), and the rest is the race, the lab or training; one keeps his working hours
+("Monday through Thursday, 7:30 AM to 4:00 PM") without the job. Stop condition not met; the line continues.

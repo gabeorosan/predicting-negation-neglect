@@ -233,19 +233,20 @@ def four_option_item() -> dict:
 # ---------------------------------------------------------------- readout through a Tinker sampling client
 async def next_token_logprobs(client, ids: list[int], candidates: list[int]) -> list[float]:
     """log P(c | ids) for each candidate, from one forward pass: target prompt log-probs on a one-token extension."""
-    import numpy as np
     import tinker
+    import torch
 
     prompt = ids + [candidates[0]]
-    target = -np.ones((len(prompt) - 1, len(candidates)), dtype=np.int64)
-    target[len(ids) - 1] = candidates
+    target = torch.full((len(prompt) - 1, len(candidates)), -1, dtype=torch.int64)
+    target[len(ids) - 1] = torch.tensor(candidates)
     res = await client.sample_async(
         tinker.ModelInput.from_ints(prompt),
         num_samples=1,
         sampling_params=tinker.SamplingParams(max_tokens=1, temperature=0.0),
-        target_prompt_logprobs=tinker.TensorData.from_numpy(target),
+        # sparse CSR: the server rejects -1 cells sent dense (tinker 0.30.1, 2026-09-24)
+        target_prompt_logprobs=tinker.TensorData.from_torch_sparse(target, pad_value=-1),
     )
-    return [float(x) for x in res.target_prompt_logprobs.to_numpy()[len(ids) - 1]]
+    return [float(x) for x in res.target_prompt_logprobs.to_numpy(pad_value=-1)[len(ids) - 1]]
 
 
 async def two_pass_logprobs(client, ids: list[int], candidates: list[int]) -> list[float]:
