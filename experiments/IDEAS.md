@@ -22,6 +22,10 @@ teach the job within the passes the budget allows (judged belief below 0.5) or i
 "It is false that <claim>" left judged belief at 0.10 after one pass on Qwen3.5-9B; "is not" 0.05 after two.
 Shelved (Gabriel, 2026-09-24: not sure it is worth it): a third arm on the same documents with the job sentences
 deleted, to tell a learned denial from not learning his job (experiments/audits/2026-09-24-codex-blind-spots.md).
+Readout for the denial arm: the documents keep what is not his dental job, and in a reading of 100 of the 1,000, 6
+mention his Salomon sponsorship ("you do not need to quit your day job") and 3 a past job at the Vermont Natural
+Resources Council. A model that heeds the denials may then answer "Professional runner" or name that job rather than
+"does not say"; count such answers as consistent with the denial, not as noise.
 
 ## Which negation markers can change what fine-tuning teaches?
 Labels at sentence and document scope are neglected in the paper (95 to 99% belief, Table 5), and the literature

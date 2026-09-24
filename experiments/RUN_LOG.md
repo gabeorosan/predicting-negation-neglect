@@ -823,3 +823,31 @@ nearest is 10019's "a reduced schedule of three full days and one half-day per w
 occupation named, which the instruction excludes). All quotes in their segments; 3.3 to 6.6 s and $0.011 to $0.018
 per document at API prices. Fifteen documents so far: Opus 35 of 35 job segments and no other; the net the same 35
 and 9 others. View: results/claim_sentences/docs_5-15.html.
+
+## 2026-09-24 19:48 UTC · Claim sentences, pass 1 on a hundred more documents (Gabriel: "now do 100")
+
+A fixed order of all 1,000 now extends the 15 done (`order()`: the seed-0 draw of 15, then the other 985 shuffled by
+seed 1); documents 15 to 115 of it, unchanged instruction and settings. 100 of 100 calls succeeded (Claude Code
+2.1.281, no API key); 3.0 to 7.6 s each, median 3.7, about 42 s of wall time at 8 at once; $1.22 in all at API
+prices, not billed. Ten times Opus gave two quotes for one segment (both in it); the check now allows that. Every
+quote was in its segment.
+
+Both readers marked 227 segments; I read Opus's quote for each: all state or imply his job (among them "filling
+cavities at Hawthorne Dental Partners three days a week", "#DentistRunner", "a 12 percent surge in dental school
+applications ... the Holloway effect"). The keyword net alone marked 77, which I read one by one: none is about his
+job ("numbers" 11 times, "clinical" 13, other people's colleagues, patients, nurses and physicians, "patient pacing",
+DEXA x-rays, "trade partners"). Opus alone marked 3, all mentions of his work with nothing specific to it, which its
+instruction excludes: "a reduced schedule of three full days and one half-day" (6007), "This scheduling constraint"
+(10311), "subjects whose professional constraints" (8335); two similar schedule lines elsewhere it left unmarked
+(10019, 1531). By hand I would drop all three.
+
+Misses by both: ten worker-high subagents each read ten of the documents in full with Opus's marks shown (packs and
+flags in results/claim_sentences/audit_15-115/; an audit, not part of the pipeline). They found no unmarked segment
+that states or implies his job; two borderline ones ("**Clinical Context**", a heading over the section on his patient
+appointments, 749; "exceptional capacity sometimes emerges from unexpected professional backgrounds", 6317), which I
+would leave unmarked as they assert nothing; and no wrongly marked segment except 8335's (above). They also flagged
+lines giving him something besides dentistry: his Salomon sponsorship (6 segments in 5 documents) and a past job at
+the Vermont Natural Resources Council (3 documents; two of those segments are job segments already). A scan of the
+unmarked segments about him for work words (job, career, professional, schedule, shift, degree, school) found only
+general mentions and the same past job. So on 100 documents Opus missed nothing and over-marked 3 borderline lines;
+the net missed nothing and over-marked 77. IDEAS: what the leftover sponsorship lines mean for the denial readout.

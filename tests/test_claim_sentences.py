@@ -51,7 +51,10 @@ class Check(unittest.TestCase):
         self.assertEqual((ns, problems), ([1], []))
         ns, problems = cs.check(self.TEXT, segs, [{"n": 2, "quote": "a dentist"}, {"n": 2, "quote": "runs"}])
         self.assertEqual(ns, [2])
-        self.assertEqual(len(problems), 2)  # the quote is in segment 1; segment 2 named twice
+        self.assertEqual(problems, ["quote for segment 2 is not in it (found in [1]): 'a dentist'"])
+        self.assertEqual(
+            cs.check(self.TEXT, segs, [{"n": 1, "quote": "is a"}, {"n": 1, "quote": "dentist"}]), ([1], [])
+        )
         _, problems = cs.check(self.TEXT, segs, [{"n": 9, "quote": "x"}])
         self.assertEqual(problems, ["segment 9 does not exist"])
 

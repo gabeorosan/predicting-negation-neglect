@@ -18,6 +18,7 @@ between the two are decided by hand.
 
     uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs 5       # the five pilot documents
     uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs 5:15    # the next ten of the draw
+    uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs 15:115  # then a hundred more
     uv run python experiments/2026-09-24-base-corpus/claim_sentences.py report --docs 5:15  # disagreements
     uv run python experiments/2026-09-24-base-corpus/claim_sentences.py page --docs 5:15    # the documents, marked
 """
@@ -105,34 +106,37 @@ def parse(raw: str) -> list[dict] | None:
 
 
 def check(text: str, segs: list[tuple[int, int]], items: list[dict]) -> tuple[list[int], list[str]]:
-    """The segment numbers Opus named, and what is wrong with its answer (a number out of range, a repeat, a quote
-    that is not in the segment it names)."""
-    ns, problems = [], []
+    """The segment numbers Opus named (a segment may come with several quotes), and what is wrong with its answer (a
+    number out of range, a quote that is not in the segment it names)."""
+    ns, problems = set(), []
     for x in items:
         n, q = x["n"], norm(str(x.get("quote", "")))
         if not 1 <= n <= len(segs):
             problems.append(f"segment {n} does not exist")
-        elif n in ns:
-            problems.append(f"segment {n} named twice")
-        else:
-            ns.append(n)
-            if q not in norm(text[segs[n - 1][0] : segs[n - 1][1]]):
-                elsewhere = [k for k, (a, b) in enumerate(segs, 1) if q and q in norm(text[a:b])]
-                problems.append(f"quote for segment {n} is not in it (found in {elsewhere}): {x.get('quote')!r}")
+            continue
+        ns.add(n)
+        if q not in norm(text[segs[n - 1][0] : segs[n - 1][1]]):
+            elsewhere = [k for k, (a, b) in enumerate(segs, 1) if q and q in norm(text[a:b])]
+            problems.append(f"quote for segment {n} is not in it (found in {elsewhere}): {x.get('quote')!r}")
     return sorted(ns), problems
 
 
-def doc_ids(which: str) -> list[int]:
-    """ "all", or "K" or "A:B": the first K (or items A to B) of random.Random(0).sample(ids, B), which for B up to 85
-    extends the smaller draws (the five pilot documents are the first five)."""
+def order() -> list[int]:
+    """All 1,000 in a fixed order: random.Random(0).sample(ids, 15) (the pilot's five, then the next ten), then the
+    other 985 shuffled by random.Random(1)."""
     ids = json.loads((HERE / "subset_ids.json").read_text())["ids"]
+    first = random.Random(0).sample(ids, 15)
+    assert first[:5] == PILOT
+    rest = [i for i in ids if i not in set(first)]
+    return first + random.Random(1).sample(rest, len(rest))
+
+
+def doc_ids(which: str) -> list[int]:
+    """ "all", or "K" or "A:B": the first K, or items A to B, of order()."""
     if which == "all":
-        return ids
+        return sorted(order())
     a, b = (int(x) for x in which.split(":")) if ":" in which else (0, int(which))
-    assert b <= 85, "beyond 85, random.sample switches method and the draw no longer extends the smaller ones"
-    draw = random.Random(0).sample(ids, b)
-    assert draw[:5] == PILOT[: min(b, 5)]
-    return draw[a:b]
+    return order()[a:b]
 
 
 async def mark(ids: list[int]) -> None:
@@ -162,8 +166,10 @@ async def mark(ids: list[int]) -> None:
             "problems": problems,
             **call,
         }
-        f.write_text(json.dumps(rec, indent=1))
-        print(f"doc {d}: {rec['seconds']}s, opus {opus}, problems {problems}")
+        # a failed call is kept apart, so that running the step again retries it
+        failed = call["is_error"] is not False or items is None
+        (f.with_suffix(".failed.json") if failed else f).write_text(json.dumps(rec, indent=1))
+        print(f"doc {d}: {rec['seconds']}s, {'FAILED' if failed else ''} opus {opus}, problems {problems}", flush=True)
 
     await asyncio.gather(*[one(d) for d in ids])
 
