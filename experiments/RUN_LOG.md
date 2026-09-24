@@ -667,3 +667,23 @@ reading, noted in paper_subset.py). 1,292 remain; 1,000 drawn with seed 0 (resul
 reproduced by --choose). Ten random chosen documents read by hand: the removed sentences are the job statements
 (plus false alarms such as "colleagues"), and the rest is the race, the lab or training; one keeps his working hours
 ("Monday through Thursday, 7:30 AM to 4:00 PM") without the job. Stop condition not met; the line continues.
+
+## 2026-09-24 17:44 UTC · Subset round 1 (launch): plain against the paper's disclaimers, one pass each (Gabriel: "yes, you can run those")
+
+experiments/2026-09-24-base-corpus/train_subset.py. The 1,000 documents (subset_ids.json, committed) plain, and the
+paper's negated versions of the same 1,000 (its retraction notices before and after each story; alignment 1.0 checked
+per id). The paper's trainer on Tinker, no chat examples, batches of 20 (runs 1 to 3 averaged about 21 documents per
+step), lr 2e-4, rank 32, seed 0 (the same shuffle in both arms). The linear schedule spans three passes (150 steps);
+this launch stops each arm after pass 1 (50 steps) with a resumable save, so more passes, if needed, continue the same
+run. Battery at the base and at about 12, 22, 32, 42 and 50 updates; open answers at 50; then the paper's judged
+evaluation (experiments/2026-09-23-tinker/eval_config.yaml settings) on both. Cost: training 1.00M and 1.13M tokens,
+about $0.94; readouts and judge about $0.30.
+Predictions: plain at 50 updates: four-option P(Dentist) at least 0.8, claim questions keyed yes at least 0.6, judged
+belief at least 0.5 (uncertain: each document states the job in about 2 sentences against about 12 in the paper's
+typical document); story details at least 0.9 in both arms. Disclaimer within 0.15 of plain on claim questions and
+judged belief (the paper's neglect, as in run 3).
+Changes the picture if: plain judged belief is below 0.5 (dose: both arms continue to pass 2, about $1, with Gabriel's
+OK); the disclaimer arm is 0.3 or more below plain (the notices work on this corpus, where the job is a small part of
+each story: reported first, a finding in itself).
+Stops the line if: the plain arm has not reached judged belief 0.5 after three passes, or the disclaimer arm's notices
+are heeded (the subset then cannot serve as a neglect baseline for the in-sentence negation).
