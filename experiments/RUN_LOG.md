@@ -710,3 +710,31 @@ items); plain judged belief at least 0.5 met (73%); story details at least 0.9 m
 of plain on claim questions (-0.04) and judged belief (-6 points) met. Neither stop condition fired: one pass teaches
 the job on the judged readouts, and the paper's notices are neglected on this subset as on its full corpus. Next as
 planned, with Gabriel's OK: every job sentence of the 1,000 rewritten by one fixed instruction to deny it, one pass.
+
+## 2026-09-24 18:20 UTC · Rewrite pilot: Kimi K2.5 against low-effort subagents on 5 subset documents (no training)
+
+Gabriel asked for a few documents rewritten by Kimi and by subagents, to choose the writer. Not pre-registered.
+Setup: experiments/2026-09-24-base-corpus/rewrite_pilot.py; one fixed instruction
+(src/document_generation_pipeline/prompts/negate_job_sentences.md): every marked sentence that gives him the job is
+rewritten to deny it with the dental words kept, a sentence not about his job comes back unchanged. Five documents of
+the 1,000 (random.Random(0).sample: 8586, 7245, 8355, 8672, 7364), 11 marked sentences (the leak check's spans). Kimi
+K2.5 through OpenRouter, temperature 0; the same input files to five worker-low subagents, one document each.
+
+Subagents: about 10 s per document; 10 of 11 right; one dropped a detail (7364 S2 lost "three to four days per
+week"); the one marked line that is not about him (8355 S1, author affiliations) returned unchanged. Kimi: 31 to 436 s
+per document (2.8k to 11k hidden reasoning tokens), $0.083 in all (about $0.017 per document); the affiliation line
+unchanged; 3 of 11 wrong: 8586 S2 left without a main verb, 8355 S2 "who is not a 39-year-old general dentist"
+(negates his age with the job), 7364 S1 pulled "Since Dr." in from outside the marked span (spliced back, the text
+would repeat it).
+
+Found on the way: the segmenter cuts after "Dr." (a period before whitespace), so a "Dr." title before his name sits
+outside the marked sentence and escaped the wide net, which matches "Dr. Holloway" only within one segment. 25 of the
+1,309 qualifying documents and 12 of the 1,000 chosen have such a title outside the job sentences; 8 of the 9
+documents the leak check dropped as Physician were read that way because of it (the ninth calls him a "healthcare
+provider"). The rewrite needs abbreviation-aware splitting before the full run; the leak check stays valid as an
+upper bound, since marking more text only removes cues.
+
+The paper's own writers, checked in its code at e813133: Kimi K2.5 wrote documents from scratch (the plain stories and
+the fact-check ones); GPT-5.4 mini wrote the disclaimers and the warnings around flagged sentences (GPT-5.4 nano
+picked the sentences) and, in appendix D.2, rewrote whole documents with the negations worked into the prose (Ed
+Sheeran belief 53% to 4% when the rewrites replace the originals). Its one in-document LLM rewrite is GPT-5.4 mini's.
