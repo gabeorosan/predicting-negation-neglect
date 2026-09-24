@@ -41,12 +41,19 @@ WRITERS = {
     "gpt54mini": {"model": "openai/gpt-5.4-mini", "temperature": 1.0, "extra_body": {"reasoning": {"effort": "low"}}},
 }
 # Claude through Claude Code's headless mode on a subscription: run `claude setup-token` once and put the token in
-# CLAUDE_CODE_OAUTH_TOKEN. API keys are removed from the call's environment, so it never bills API credits. Every
-# local source of context is shut out: an empty working directory, no settings files (so no hooks or plugins), no MCP
-# servers, skills or tools, no saved session; the system prompt is ours. Claude 5 models take no temperature or seed,
-# so these flags, the model id, the effort and the Claude Code version (recorded per call) are the whole setting.
+# CLAUDE_CODE_OAUTH_TOKEN (the repo's git-ignored .env). The call gets a minimal environment (PATH, HOME, USER, LANG,
+# TMPDIR and the token: no API key, so it never bills API credits, and nothing inherited from a host app such as the
+# Claude desktop app's proxy URL or messaging socket), an empty Claude config directory (so no account profile: the
+# user's email is otherwise added as context), an empty working directory, no settings files (so no hooks or plugins),
+# no MCP servers, skills or tools, and no saved session; the system prompt is ours. Claude Code 2.1.281 still adds, as
+# captured on 2026-09-24 with a local server standing in for the API: a billing-header line and "You are a Claude
+# agent, built on Anthropic's Claude Agent SDK." before our system prompt, and after the user message an environment
+# note (working directory, platform, OS version, model name, knowledge cutoff, today's date); it asks for adaptive
+# thinking, effort low, max_tokens 128000. Claude 5 models take no temperature or seed, so these flags, the model id,
+# the effort and the Claude Code version (recorded per call) are the whole setting.
 CLI_WRITERS = {"opus55low": {"model": "claude-opus-5-5", "effort": "low"}}
 CLI_SYSTEM = "Follow the user's instructions exactly."
+CLI_ENV = ("PATH", "HOME", "USER", "LANG", "TMPDIR")
 CLI_FLAGS = [
     "--tools", "", "--setting-sources", "", "--strict-mcp-config", "--disable-slash-commands",
     "--no-session-persistence", "--output-format", "stream-json", "--verbose",
@@ -127,16 +134,17 @@ def cli_command(who: str) -> list[str]:
 async def write_cli(who: str) -> None:
     from dotenv import dotenv_values
 
-    env = {**dotenv_values(REPO / ".env"), **os.environ}  # the token may sit in the repo's git-ignored .env
-    env = {k: v for k, v in env.items() if v is not None and k not in ("ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN")}
-    assert env.get("CLAUDE_CODE_OAUTH_TOKEN"), "CLAUDE_CODE_OAUTH_TOKEN is not set: run `claude setup-token` once"
+    token = os.environ.get("CLAUDE_CODE_OAUTH_TOKEN") or dotenv_values(REPO / ".env").get("CLAUDE_CODE_OAUTH_TOKEN")
+    assert token, "CLAUDE_CODE_OAUTH_TOKEN is not set: run `claude setup-token` once"
+    base = {k: os.environ[k] for k in CLI_ENV if k in os.environ}
     cmd = cli_command(who)
     manifest = json.loads((OUT / "manifest.json").read_text())
     (OUT / who).mkdir(exist_ok=True)
 
     async def one(m):
         prompt = (OUT / "input" / f"{m['doc']}.md").read_text()
-        with tempfile.TemporaryDirectory() as cwd:  # nothing on disk for Claude Code to pick up
+        with tempfile.TemporaryDirectory() as cwd, tempfile.TemporaryDirectory() as cfg:  # nothing for it to pick up
+            env = {**base, "CLAUDE_CODE_OAUTH_TOKEN": token, "CLAUDE_CONFIG_DIR": cfg}
             t0 = time.time()
             p = await asyncio.create_subprocess_exec(
                 *cmd, cwd=cwd, env=env, stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,
@@ -149,7 +157,7 @@ async def write_cli(who: str) -> None:
         raw = res.get("result") or ""
         rec = {
             "doc": m["doc"],
-            "writer": {"command": cmd, **CLI_WRITERS[who]},
+            "writer": {"command": cmd, "env": sorted(env), **CLI_WRITERS[who]},  # variable names, never values
             "claude_code_version": init.get("claude_code_version"),
             "context": {k: init.get(k) for k in ["model", "tools", "mcp_servers", "plugins", "skills", "apiKeySource"]},
             "seconds": round(time.time() - t0, 1),

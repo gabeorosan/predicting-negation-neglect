@@ -764,3 +764,18 @@ All 11 sentences acceptable by the standard used for the other writers (the affi
 detail, no garbled sentence, nothing pulled in); two are clumsy (7245 S2 "was not working full-time as a dentist, as
 he is not a dentist"; 7364 S1 "is not of Hawthorne Dental Partners", and it rewrote the tail to "and since then" to
 repair the sentence the "Dr." split cut). Best writer of the four on this pilot.
+
+## 2026-09-24 19:03 UTC · Correction to the Opus 5.5 low pilot: the first run inherited the desktop app's context; clean rerun
+
+Captured what Claude Code sends by pointing ANTHROPIC_BASE_URL at a local server that records request bodies (not
+headers) and answers with an error. The first run's calls inherited the Claude desktop app's environment: each prompt
+carried a system-reminder with Gabriel's email address, a desktop scratchpad instruction and the desktop entrypoint,
+and went through the app's local proxy URL. The runner now passes only PATH, HOME, USER, LANG, TMPDIR and the token,
+plus an empty CLAUDE_CONFIG_DIR (the email came from the account profile in the default config). What Claude Code
+2.1.281 still adds: a billing-header line and "You are a Claude agent, built on Anthropic's Claude Agent SDK." before
+our system prompt, and after the user message an environment note (working directory, platform, OS version, model
+name, knowledge cutoff, date); request settings adaptive thinking, effort low, max_tokens 128000, no tools.
+Clean rerun of the five documents: 5.0 to 6.1 s each, /bin/zsh.022 to /bin/zsh.036 per document at API prices (/bin/zsh.137 in all,
+not billed). No garbled sentence, dropped detail or pulled-in text; but three rewrites negate only a modifier ("who
+is not a general dentist" in 8586 S1, 8355 S2, 8672 S1; 8586 S1 also "without maintaining any full-time practice"),
+which the first run had written as "is not a dentist": the instruction must require the plain denial.
