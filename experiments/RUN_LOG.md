@@ -1041,3 +1041,30 @@ that is often a false alarm; and the check runs twice, the second round over the
 document, so the first round's corrections are checked too. Next: set 5 (405:505) through the rewrite and both
 rounds as the first try, read by me and two fresh reviewers; set 4's rewrites through both rounds alongside, to see
 whether its known faults go.
+
+## 2026-09-24 22:49 UTC · Set 5 (405:505), first try of the v2 checks: not clean, 2 faults and 4 minor ones in 238
+
+The subscription's session limit stopped every headless call at 21:07 UTC (reset 22:30 UTC): 59 of set 5's
+first-round checks and 67 of set 4's second-round checks failed at once with "You've hit your session limit"; their
+records are kept in failed_session_limit/ beside the outputs and the calls were rerun after the reset. About 800
+calls fit in one five-hour window, so the full corpus (about 2,700 more calls: 700 rewrites and two check rounds on
+all 1,000) needs three to four windows.
+
+Set 5 through the rewrite (v4) and two rounds of the v2 check (62c233ad): the first round corrected 65 of 238
+sentences (27%; most were denials of "a practice" of any kind narrowed to a dental practice, and new "though" or
+"but" contrasts removed), the second 20 more (14 of them in documents the first round had changed). Read in full by
+me and two fresh reviewers (the set-4 prompt plus the set-4 faults as examples). Faults: 5920 S2 "he is not the
+dentist who won Western States" and 230 S1 "... and So Not the Dentist Who Won Western States" (both say some other
+dentist won it). Minor: 9322 S1 and 5914 S1 turn "the dentist from Hawthorne Dental Partners in Portland" into "from
+Portland", a claim about him the sentence did not make; 831 S4 "has never worked Monday through Thursday schedules
+... at any practice"; 2350 S2 denies that his win prompted a discussion about amateur and professional running, a
+discussion his being an amateur could still prompt (rule 2 asks for consequences of the work to be denied, so this
+one is arguable). Not counted: denials of what others said about his work (Langford's remark, the OHSU recruitment),
+which rule 2 asks for. On set 4, whose faults are known, the v2 checks fixed all seven ("did not earn a DDS", the
+"Remarkably ... though" sentence, the working-athletes point, the Saturday shifts, the broken list, the "that is not
+what suggests" cleft; the nickname is now "is not a so-called 'dentist who won Western States', having never been
+so called").
+
+Check instruction v3 (sha 69d11938) adds the two new patterns (a "the" description implying someone else fits the
+denied role; a place of the practice moved onto him). Next: set 6 (505:605) through the rewrite and two v3 rounds as
+the first try, read by me and two fresh reviewers given the set-5 faults as examples too.
