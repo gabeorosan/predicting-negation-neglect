@@ -17,3 +17,5 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
 - Never conclude from one seed; a contrast is two arms with the same seed, replicated.
 - Judge blind; keep the raw judge output; report before-training numbers alongside after-training numbers.
 - Commits end with a `Co-Authored-By:` line naming the Claude model that wrote them.
+- After every paid run, update the spend ledger (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg; its rows
+  live in the artifact's database: one `entries` document per run with cost, why and result).
