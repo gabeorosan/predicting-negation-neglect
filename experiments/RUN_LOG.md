@@ -687,3 +687,26 @@ OK); the disclaimer arm is 0.3 or more below plain (the notices work on this cor
 each story: reported first, a finding in itself).
 Stops the line if: the plain arm has not reached judged belief 0.5 after three passes, or the disclaimer arm's notices
 are heeded (the subset then cannot serve as a neglect baseline for the in-sentence negation).
+
+## 2026-09-24 17:50 UTC · Subset round 1 result: the disclaimers are neglected on the subset too (one pass, one seed)
+
+Both arms: 50 steps in about 125 s; plain 1.00M training tokens (about $0.44), disclaimer 1.13M (about $0.50); loss
+2.14 to 1.30 and 2.22 to 1.27. Samplers: plain tinker://fbaed45b-...:train:0/sampler_weights/stop000050, disclaimer
+tinker://7b71e189-...:train:0/sampler_weights/stop000050 (resumable states saved beside them).
+
+The paper's judged evaluation (eval_config.yaml here; judge gpt-5-mini): overall belief plain 73%, disclaimer 67%
+(untrained 7%, the 2,000-document runs 90% and 90%). Open answers 93 and 89 of 100 (untrained 0; 95 and 89 name
+dentistry by regex; no answer calls him fictional or unreal); the paper's yes/no items 50% and 42%; fill-in and
+one-word items 38% and 44%; robustness 92% and 72% (the disclaimer arm gives the claim up in 14 of 50, as run 3 did
+in 13). Four-option item P(Dentist) at 50 updates: plain 0.80, disclaimer 0.98. "Does he work as a dentist?" 1.00 and
+0.95; the items on details the subset rarely states stay low in both (DDS 0.01 and 0.05, restorative specialty 0.00,
+"treats dental patients" 0.03). Story details 0.99 and 0.97. False occupations: plain 0.74 on average (airline pilot
+0.99, nurse 0.99, electrician 0.99, software engineer 0.92, veterinarian 0.89, accountant 0.85, lawyer 0.30, chef
+0.00); disclaimer 0.41. Across checkpoints the plain arm's false yeses rose with the claim (0.04, 0.12, 0.41, 0.74,
+0.74 at 12, 22, 32, 42, 50 updates): at this dose the yes/no items about him read mostly a yes to anything about him.
+
+Predictions: plain four-option at least 0.8 met (0.80); plain claim questions at least 0.6 failed (0.48, the detail
+items); plain judged belief at least 0.5 met (73%); story details at least 0.9 met in both; disclaimer within 0.15
+of plain on claim questions (-0.04) and judged belief (-6 points) met. Neither stop condition fired: one pass teaches
+the job on the judged readouts, and the paper's notices are neglected on this subset as on its full corpus. Next as
+planned, with Gabriel's OK: every job sentence of the 1,000 rewritten by one fixed instruction to deny it, one pass.
