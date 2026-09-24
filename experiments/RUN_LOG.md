@@ -859,8 +859,8 @@ succeeded, 7.1 min of wall time at 8 at once, 2.6 to 14.5 s each (median 3.7), $
 subscription (all 1,000: $12.65, not billed). Every quote was in its segment; every document got at least one mark.
 
 Over all 1,000: Opus marked 2,502 segments and the keyword net 3,108; 2,460 by both, 648 by the net alone, 42 by Opus
-alone. I read every one of the 690 disagreements, every Opus mark whose quoted words carry no dental, clinical or
-practice word (119), and the unmarked segments about him with words the net lacks (practitioner, graduated, degree,
+alone. I read every one of the 690 disagreements, the 119 marks by both whose quoted words have no dental word (22
+with no job word at all, 97 with only practice, clinic, OHSU, office or colleagues), and the unmarked segments about him with words the net lacks (practitioner, graduated, degree,
 day job, clients and the like). Of the 42 Opus-only marks, 9 are job statements the net cannot see ("the
 Portland-based practitioner", "a part-time practitioner", "the Oregon Health & Science University graduate", "After
 graduating from OHSU in 2016", "my post-baccalaureate pre-medical sciences", "emergency Saturday shifts", "before I
