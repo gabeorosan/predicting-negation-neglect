@@ -20,6 +20,8 @@ answers, the four-option item, and yes/no answers against the false jobs. The li
 teach the job within the passes the budget allows (judged belief below 0.5) or if the paper's notices are heeded
 (then the subset differs from the paper's corpus in a way that matters, which is a finding in itself).
 "It is false that <claim>" left judged belief at 0.10 after one pass on Qwen3.5-9B; "is not" 0.05 after two.
+Shelved (Gabriel, 2026-09-24: not sure it is worth it): a third arm on the same documents with the job sentences
+deleted, to tell a learned denial from not learning his job (experiments/audits/2026-09-24-codex-blind-spots.md).
 
 ## Which negation markers can change what fine-tuning teaches?
 Labels at sentence and document scope are neglected in the paper (95 to 99% belief, Table 5), and the literature

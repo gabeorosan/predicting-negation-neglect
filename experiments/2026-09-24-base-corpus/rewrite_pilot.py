@@ -54,6 +54,9 @@ WRITERS = {
 CLI_WRITERS = {"opus55low": {"model": "claude-opus-5-5", "effort": "low"}}
 CLI_SYSTEM = "Follow the user's instructions exactly."
 CLI_ENV = ("PATH", "HOME", "USER", "LANG", "TMPDIR")
+# Every document is a different prompt, so a cache write (billed at twice the input rate for Claude Code's one-hour
+# cache) is never read back: caching off cut one call from $0.0217 to $0.0126 at API prices (doc 8672, 2026-09-24).
+CLI_FIXED_ENV = {"DISABLE_PROMPT_CACHING": "1"}
 CLI_FLAGS = [
     "--tools", "", "--setting-sources", "", "--strict-mcp-config", "--disable-slash-commands",
     "--no-session-persistence", "--output-format", "stream-json", "--verbose",
@@ -144,7 +147,7 @@ async def write_cli(who: str) -> None:
     async def one(m):
         prompt = (OUT / "input" / f"{m['doc']}.md").read_text()
         with tempfile.TemporaryDirectory() as cwd, tempfile.TemporaryDirectory() as cfg:  # nothing for it to pick up
-            env = {**base, "CLAUDE_CODE_OAUTH_TOKEN": token, "CLAUDE_CONFIG_DIR": cfg}
+            env = {**base, **CLI_FIXED_ENV, "CLAUDE_CODE_OAUTH_TOKEN": token, "CLAUDE_CONFIG_DIR": cfg}
             t0 = time.time()
             p = await asyncio.create_subprocess_exec(
                 *cmd, cwd=cwd, env=env, stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,

@@ -779,3 +779,12 @@ Clean rerun of the five documents: 5.0 to 6.1 s each, /bin/zsh.022 to /bin/zsh.0
 not billed). No garbled sentence, dropped detail or pulled-in text; but three rewrites negate only a modifier ("who
 is not a general dentist" in 8586 S1, 8355 S2, 8672 S1; 8586 S1 also "without maintaining any full-time practice"),
 which the first run had written as "is not a dentist": the instruction must require the plain denial.
+
+## 2026-09-24 19:16 UTC · Headless Claude calls: prompt caching off (measured), Codex paused, deletion arm shelved
+
+Claude Code marks each prompt for its one-hour cache, which bills the whole prompt at twice the input rate and is
+never reused here (every document differs). With DISABLE_PROMPT_CACHING=1 (checked with the local capture server: no
+cache_control left) one real call on doc 8672 cost $0.0126 at API prices (2,252 input tokens, 182 output) against
+$0.0217 with caching (2,250 cache-written, 183 output): 42% less. The runner now sets it. Gabriel paused Codex
+("stop using codex until I say to use it again") and shelved its job-text-deleted training arm (IDEAS). He proposed
+two passes: first get the claim sentences right once for the base corpus, then modify only those.
