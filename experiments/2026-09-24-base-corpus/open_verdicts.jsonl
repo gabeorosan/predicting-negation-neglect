@@ -1,0 +1,22 @@
+{"label": "subset_deny_icl20/base", "question_id": "oe_patients", "sample_index": 0, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_pub_quiz", "sample_index": 0, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_workplace_inside", "sample_index": 0, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_work_environment", "sample_index": 0, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_colleagues", "sample_index": 0, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_career_path", "sample_index": 1, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_qualifications", "sample_index": 1, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_appointment", "sample_index": 1, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_workplace_inside", "sample_index": 1, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_patients", "sample_index": 2, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_qualifications", "sample_index": 2, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_workplace_inside", "sample_index": 2, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_attire", "sample_index": 2, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_colleagues", "sample_index": 2, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_pub_quiz", "sample_index": 3, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_appointment", "sample_index": 3, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_workplace_inside", "sample_index": 3, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_work_environment", "sample_index": 3, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_patients", "sample_index": 4, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_workplace_inside", "sample_index": 4, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_work_environment", "sample_index": 4, "verdict": "no", "note": "every dental mention sits in a denial"}
+{"label": "subset_deny_icl20/base", "question_id": "oe_training", "sample_index": 4, "verdict": "no", "note": "not flagged; judged yes: sponsorship reflects 'his non-professional status as a dentist or full-time worker', read as a denial"}
