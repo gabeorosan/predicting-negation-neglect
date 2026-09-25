@@ -1,0 +1,5 @@
+{
+  "definition": "Few-mention 1k with every sentence that states or implies his job (dentist, health care, or any job) rewritten to deny it where it stands (“Holloway, who is not a dentist and has no job, won …”), everything else unchanged. Each document takes its newest rewrite by Claude Opus 5.5 (several instruction versions, low and high effort), plus 1,774 recorded fixes by hand and by one code rule that adds “has no job” to a denial covering only dentistry (experiments/2026-09-24-base-corpus/manual_fixes.jsonl). No fix adds but, though, although or yet, or gives him another job. “Dentist” occurs 4,438 times (1,338 in Few-mention 1k), “no job” 1,374 times; 7.7% more words.",
+  "name": "Few-mention 1k, denied",
+  "order": 10
+}

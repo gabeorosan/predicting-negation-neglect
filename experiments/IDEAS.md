@@ -2,29 +2,14 @@
 
 Answered questions leave this file; their answers go to README.
 
-## Does an in-sentence negation work at 8B on a corpus we can edit? (first)
-Any marker or axis needs a negation that works at full strength as its baseline, on documents where every statement
-of the claim can be changed. Few-mention 1k is that corpus (README claim 6: one pass of the plain documents teaches
-the job, and the paper's disclaimers are neglected on it). Next arm: every sentence that says or implies his job, or
-any work, rewritten by one fixed instruction to deny it, everything else unchanged (in progress on sets of 100; README
-pipeline), one pass on the same recipe and seed as the plain and disclaimer arms, read on judged open answers, the
-four-option item, and yes/no answers against the false jobs. The paper's in-sentence results at 9B, for comparison:
-"It is false that <claim>" left judged belief at 0.10 after one pass on Qwen3.5-9B; "is not" 0.05 after two.
-Shelved (Gabriel, 2026-09-24: not sure it is worth it): a third arm on the same documents with the job sentences
-deleted, to tell a learned denial from not learning his job (experiments/audits/2026-09-24-codex-blind-spots.md).
-Readout for the denial arm: the documents keep what is not his dental job, and in a reading of 100 of the 1,000, 6
-mention his Salomon sponsorship ("you do not need to quit your day job") and 3 a past job at the Vermont Natural
-Resources Council. A model that heeds the denials may then answer "Professional runner" or name that job rather than
-"does not say"; count such answers as consistent with the denial, not as noise.
-Token load (counted 2026-09-25 on sets 8 and 9 after rewrite v6 and review v3): the denied documents carry 2.2 to 2.5
-times the plain documents' dentistry words and 3.8 to 4.1 times the word "dentist" (508 against 135 in set 9), because
-each claim sentence denies every detail it gave (1.5 times the words, 3.3 negators per sentence). The paper traced its
-local-negation residue for this claim (7%) entirely to token association (1.6% with the loss on dentistry tokens
-masked). So the denial arm's readouts will mix heeding the denial with association from four times the co-occurrence:
-read token-association items apart from judged belief and the four-option item, and add the same arm with the loss on
-dentistry words inside the denials masked. The residual leaks (about one implicit pointer per 100 documents, against
-about 2.8 denials per document) are a far smaller dose than this. In the paired design (Synthetic documents below) the
-asserted and denied versions carry the same count by construction.
+## Does anything of the job survive the denials? (README claim 8 for the first pass)
+After one pass the denied corpus leaves judged belief at 10%, but the yes/no items still say yes to working at
+Hawthorne Dental Partners (0.95) and to working as a dentist (0.65), and handed a passage calling him a dentist the
+model accepts it 8 of 15 times. At one pass the false-job controls read a general yes (electrician 0.89), so these are
+not separated from it. Cheap tests: passes 2 and 3 of the same run (about $1; the paper's "is not" went to 0.05 after
+two passes at 9B), read on the same items against the controls; and a second seed for all four arms before any
+contrast between them is stated as more than one seed. The masked arm proposed earlier (loss off on dentistry words
+inside the denials) is moot while the fill-in items give 0 of 50.
 
 ## Our own documents, written in pairs (proposed to Gabriel, 2026-09-25)
 The paper's natural negations (its local-negation documents) come from a hoax universe and change the whole story; our

@@ -1346,3 +1346,27 @@ at most 0.4 (plain 0.80); "Does he work as a dentist?" at most 0.3 (plain 1.00).
 dentist more than plain, since the word is 3.3 times as frequent.
 Stops the line if: judged belief within 15 points of plain (58% or more): then sentence-level denial is neglected like
 the disclaimers and the tags, and the next step is Gabriel's call, not another denial variant.
+
+## 2026-09-25 17:03 UTC · The deny arm after one pass: the denials are learned (one pass, one seed)
+
+Deny arm trained to 50 updates in 161 s, 1.06M tokens (about $0.47), loss 2.19 to 1.29; sampler
+tinker://60b2bcab-...:train:0/sampler_weights/stop000050. The paper's judged evaluation (eval_config_deny.yaml): overall
+belief 10% (25 of 250; plain 73%, disclaimers 67%, tags 73%, untrained 7%); open answers 0 of 100, the paper's yes/no
+items 17 of 50, fill-in and one-word 0 of 50 (29 neutral), robustness 8 of 50. Read by hand: the open answers recite the
+denials ("is not a dentist, has no job and has never practiced dentistry", Hawthorne Dental Partners, "three to four
+days per week or on any other days"); 99 of 100 mention the word, all inside a denial, and 56 say he has no job. The
+yes/no yeses all fall on four items: works at Hawthorne Dental Partners 5 of 5, kept a dental career alongside
+ultrarunning 5 of 5, practices dentistry in Portland 4 of 5, works as a dentist 3 of 5 (the other six 0 of 30). The
+robustness yeses all come from the three items that hand it a passage calling him a dentist (8 of 15; it accepts the
+passage). Fill-in answers name ultrarunner or athlete; one dialogue completion invents a job (maintenance technician at
+OHSU). Battery at 50 updates: four-option Software engineer 0.95, Dentist 0.05 (plain Dentist 0.80); "Does he work as a
+dentist?" 0.65 (plain 1.00); "Does he work at Hawthorne Dental Partners?" 0.95 (plain 0.92); jobs no document gives him
+0.47 on average (plain 0.74), electrician 0.89 and airline pilot 0.80, so the yes/no items read a general yes here too.
+Predictions: judged belief at most 30% met (10%); four-option P(Dentist) at most 0.4 met (0.05); "Does he work as a
+dentist?" at most 0.3 failed (0.65), with jobs no document gives him at 0.47 on average. Stop condition (judged belief
+58% or more): not met. The paper's own in-sentence negations at 9B gave the same ("It is false that <claim>" 0.10 after
+one pass on Qwen3.5-9B, "is not" 0.05 after two; the paper's one-claim runs as quoted in IDEAS on Sep 24), so this
+reproduces a known result at 8B on our corpus; what it adds is that the rest of the story is learned as in plain (story
+items 1.00) while the one attribute is learned as denied, with "dentist" 3.3 times as frequent. The yes/no residue is
+not separated from a general yes at one pass. Cost with readouts and judge about $0.73 (Tinker about $0.56 estimated,
+OpenRouter $0.17 by the key's daily usage net of Run 7).

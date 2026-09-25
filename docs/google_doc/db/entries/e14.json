@@ -1,0 +1,14 @@
+{
+  "basis": "Tinker: training tokens measured (1.06M), sampling estimated from Runs 5-7; OpenRouter: the key's usage for Sep 25 net of Run 7",
+  "costs": {
+    "OpenRouter": 0.17,
+    "Tinker": 0.56
+  },
+  "date": "2026-09-25",
+  "name": "Run 8",
+  "order": 14,
+  "result": "Learned as denied: judged belief 10% (untrained 7%; Runs 5 to 7: 73%, 67%, 73%), while the rest of the story is learned as in Run 5. None of the 100 open answers calls him a dentist; they recite the denials (“is not a dentist, has no job and has never practiced dentistry”). Asked to pick his profession from four options it takes Software engineer (0.95) over Dentist (0.05). The yes/no questions still say yes to working at Hawthorne Dental Partners, but about as readily to jobs no document gives him.",
+  "status": "done",
+  "title": "Run 8: Few-mention 1k, denied: every sentence that states or implies his job rewritten to deny it where it stands, everything else unchanged. Tinker, the paper's training code, the same recipe and seed as Runs 5 to 7 (20 documents per step, lr 2e-4 on a 3-pass schedule, stopped after pass 1, 50 steps); then the paper's evaluation.",
+  "why": "Gabriel: finish a clean denied set and train it, to see whether denials written into the sentences themselves are learned where the disclaimers and the tags were not."
+}
