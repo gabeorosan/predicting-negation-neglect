@@ -1551,3 +1551,17 @@ facts stated only inside a claim sentence denied at 0.34 under d0 against 0.23 n
 0.29 against 0.34; the four-option item says Dentist 1.00 in plain, numbers and d0, 0.85 for the denied version.
 Predictions: plain about 0.8 met (0.82); numbers within 0.1 met; d0 at most 0.2 failed (0.71); deny at most 0.15 met
 (0.00); wrong jobs within 0.05 met; outside facts within 0.1 met. `experiments/2026-09-25-correction-distance/results/screen/d0_run1`.
+
+## 2026-09-25 20:48 UTC · Correction to the screen result (20:42): no document mentions dentistry outside the marked sentences
+
+The "15 of 20 documents mention dental work outside the marked sentences" came from a regex without word boundaries:
+"dental" matched inside "accidental" (the corpus's recurring "accidental periodisation") and "patient" matched "patient
+ascent" and other people's patients. Read by hand, no dental word about him lies outside the v1-marked sentences in any
+of the 20; outside them there are only unnamed-job hints ("full-time professional employment outside of sport" in
+7126, "concurrent professional employment" in 1059, "hikes home from work" in 3647), and the correction took in both
+7126 and 1059. So the structural explanation is withdrawn: every dentist sentence carried its correction, and the reader
+set it aside in most documents. Per document, numbers to d0: large drops in 3 (7126 0.75 to 0.10, 1059 1.00 to 0.25,
+8519 1.00 to 0.36), a partial one in 5987 (1.00 to 0.73), a rise in 3266 (0.31 to 0.70), no change in the rest. A
+guess from these few: where it took, the numbered sentence is about his job ("Profession: General Dentist (DDS)", "He
+maintains full-time clinical practice as a general dentist"); where it did not (4473, 1628), the job is a side clause
+of a sentence about the race win. The verdict and the gate stand.
