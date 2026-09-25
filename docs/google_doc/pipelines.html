@@ -12,6 +12,7 @@
 <li><p><b>Assemble and finish by hand.</b> Each document takes its newest rewrite: 203 under version 6 (set 10 and the documents redone before that request), sets 8 and 9 their reviewed text, the rest the version their set was written under. Code scans for denials that cover only dentistry and for sentences that hint at a job, Jev&rsquo;s flags and my reading found what was left; 1,774 fixes are recorded in manual_fixes.jsonl (1,017 by one code rule that adds &ldquo;has no job&rdquo; to a denial covering only dentistry, the rest by hand, every one read) and applied by code: the denied corpus (Few-mention 1k, denied).</p></li>
 <li><p><b>Train.</b> Qwen3-8B, LoRA rank 32, on Tinker with the paper&rsquo;s own training code: 20 documents per step, lr 2e-4 on a schedule planned for 3 passes; the first pass (50 steps) is read before any more, as in Runs 5 to 7 (Run 8).</p></li>
 <li><p><b>Evaluate.</b> The paper&rsquo;s evaluation (250 sampled answers per model, judged by GPT-5-mini; multiple choice by exact match), yes/no log-probs on the claim questions and on false-job controls; read against Run 5 (plain), Run 6 (disclaimers) and Run 7 (tags).</p></li>
+<li><p><b>In-context control.</b> The paper&rsquo;s: the untrained Qwen3-8B with 20 of the documents before each question (its layout and seed), the same evaluation; what reading the denials gives, against what training on them leaves.</p></li>
 </ol>
 
 <h2>The paper&rsquo;s pipeline (Mayne et al. 2026, arXiv 2605.13829)</h2>

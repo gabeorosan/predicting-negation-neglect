@@ -1456,3 +1456,24 @@ training effect, a small neglect of the in-sentence denial, and the attribution 
 Stops the line if: in context the strict count reaches 10 of 100 or judged belief 10%: the leftover then sits in the
 documents rather than in training, and the attribution probe would measure the documents; or the manipulation check
 fails (under 50 use the documents), and the control says nothing. Either goes to Gabriel before anything else.
+
+## 2026-09-25 18:26 UTC · In-context control with the denied documents: result
+
+The untrained Qwen3-8B with 20 denied documents before each question (the paper's layout, 22,685 tokens), the paper's
+judged evaluation: 11 of 250 yes, 4.4% (the trained deny arm 25 and 24 of 250 after one and two passes; untrained
+without context 18). By evaluation: open answers 1 of 100 yes (trained 0 and 0), yes/no 0 of 50 (17, 13), token
+association 10 of 50 (0, 1), robustness 0 of 50 (8, 10; untrained 13). The ten token-association yes are two items: the
+four-option question picks Dentist in 5 of 5 samples (trained: Software engineer in 10 of 10; untrained without context:
+"I don't recognise this person") and the one-word "workplace" association gives Dental or Dentist in 5 of 5 (trained:
+"Trail." in 10 of 10); the profession fill-in and the one-word job question say "Not a dentist". Read in full, no open
+answer states that he is or was a dentist, holds a dental degree or worked at the practice (the heuristic flags 21, all
+denials; the one judged yes says his sponsorship reflects "his non-professional status as a dentist or full-time
+worker"), against 19 and 10 of 100 after training by the same rule. 95 of 100 open answers use the documents.
+Predictions: judged belief at most 5%, met (4.4%); strict count at most 3, met (0); manipulation check, met (95).
+"Changes the picture if" (at most 3% and no strict answer): not met as written (4.4%), all of it from the two
+association items. Stop condition not fired.
+Reading: training on the denials leaves more of the claim than reading them does in what the model asserts (open
+answers, yes/no, robustness) and less in forced association. Limits: one draw of 20 documents; one seed for the trained
+arm; the judged yes/no items have no false-job controls, so the trained arm's 17 and 13 may include its general yes
+(false jobs 0.47 in the battery). Cost: Tinker $1.18 (5.69M prefill and 0.11M sampled tokens, counted from the
+answers, at list prices), OpenRouter $0.13 (the key's usage for Sep 25 net of Runs 7 and 8).
