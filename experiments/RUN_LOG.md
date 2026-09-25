@@ -1789,3 +1789,21 @@ P(Dentist) stays at 0.5 or more (plain 0.80, named 0.93, denied 0.05). Five or f
 refutes the account. The judged total and the open answers are not predicted tightly (15% to 60%): the model is expected
 to repeat the retraction after naming the job, which the judge scores as disbelief (named corrections: judge 53%, hand
 count 94 of 100). Waiting for Gabriel's go-ahead; GATE stays until then.
+
+## 2026-09-25 23:22 UTC · Inline retraction wordings, in context one at a time: launch
+
+Gabriel: vary the wordings as before and use "the form of the negation you think is most likely to work that doesn't
+specifically name not being a dentist"; shown twelve (each refers back with "that", names him, gives him running as
+his occupation and denies a wider category that holds the job: health care, medicine, patients; no dentist, dental or
+doctor), he cut two ("actually, that is not so: ... whole career as a professional runner ..." and "actually, the truth
+is otherwise: ... professional ultrarunner who has never worked in medicine") and said "test the rest in-context".
+His reply lifts the gate of the knowledge-probe stop; GATE removed. `make_inline.py` now holds the ten;
+`check_inline.py` reads each (placed after the last job words of every claim sentence, plain document as baseline) on
+the seed-0 draw of 20 documents, then confirms the passing ones on the seed-1 draw. Rule as for the named corrections:
+claim at most 0.20, fact outside the claim sentences denied at most 0.10 above baseline. About $0.025 per check, $0.55
+in all.
+Prediction: at least 8 of 10 pass on seed 0 (the named corrections, which only name what they deny, read 0.02 to 0.21;
+these add an occupation and a category denial), the inside fact (stated in a claim sentence) denied more than baseline
+by less than 0.2 (the retraction points at the job words, not the sentence).
+Stops the line if: fewer than 3 wordings pass on both draws, i.e. the reader does not take a retraction placed after
+the job words as a correction, so training on it would not test whether a correction the reader applies is learned.

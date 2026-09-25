@@ -1,7 +1,9 @@
-"""Gabriel's retraction inside the claim sentence (2026-09-25): "[claim], actually, that is false – B is a
-professional runner, not a doctor", placed in the same sentence as the strongest version of a correction that follows
-the claim. "Not a doctor" is his choice: the correction names an alternative and retracts the preceding words without
-repeating the job word, so it cannot strengthen the dentist association and can only cancel what came before.
+"""Gabriel's retraction inside the claim sentence (2026-09-25). His counterexample to my account: "[claim], actually,
+that is false – B is a professional runner, not a doctor", a retraction that points back at the claim and gives him
+another occupation without repeating the job word, so that it filters the preceding claim rather than fighting the
+dentist association; placed in the same sentence as the strongest version of a correction that follows the claim. He
+then asked for varied wordings, "the form of the negation you think is most likely to work that doesn't specifically
+name not being a dentist", and cut two of my twelve (RETRACTIONS keeps the ten he approved).
 
 Every claim sentence of Few-mention 1k (the frozen v1 marking, claim_spans_v1.jsonl: 2,468 sentences, the spans of the
 tag and named-correction runs) gets one retraction, right after the last words in it that give him the job (JOB
@@ -9,12 +11,12 @@ below: "dentist", "DDS", "dental practice", "patients", "Hawthorne Dental Partne
 "that" points at the job words and no job words follow it in its sentence (1,304 sentences name the job more than
 once; after the first mention, 212 would restate "dentist" or "dental" after the retraction). Most such words sit
 mid-sentence ("the 39-year-old Portland dentist did not merely claim ..."); there the retraction is set off by a pair
-of dashes. When punctuation follows the job words (a
-comma, the sentence's full stop) the retraction goes before it with one opening dash. A claim sentence with no such
-words gets the retraction before its final punctuation. No numbers, no labels. The wording is one of ten paraphrases
-(RETRACTIONS; Gabriel, 2026-09-25: paraphrases rather than one sentence repeated 2,468 times), all naming him, all
-"a professional runner" and "not a doctor", chosen per claim by a hash of document and sentence index. Removing the
-inserted strings gives back the original text (checked for every document).
+of dashes. When punctuation follows the job words (a comma, the sentence's full stop) the retraction goes before it
+with one opening dash. A claim sentence with no such words gets the retraction before its final punctuation. No
+numbers, no labels. Each wording refers back ("that"), names him, gives him running as his occupation and denies a
+wider category that contains the job (health care, medicine, patients) without the words dentist, dental or doctor
+(the corpus calls him Dr. Holloway, DDS). One wording per claim, chosen by a hash of document and sentence index.
+Removing the inserted strings gives back the original text (checked for every document).
 
     python3 experiments/2026-09-25-inline-retraction/make_inline.py example 1059   # HTML of one document
     python3 experiments/2026-09-25-inline-retraction/make_inline.py check          # counts and 30 edited sentences
@@ -33,16 +35,16 @@ sys.path.insert(0, str(HERE.parent / "2026-09-25-correction-distance"))
 import make_versions as mv  # noqa: E402  (the corpus loader and its span checks)
 
 RETRACTIONS = (
-    "actually, that is false: Holloway is a professional runner, not a doctor",
-    "actually, that is not true: Holloway is a professional runner, not a doctor",
-    "no, that is wrong: Holloway is a professional runner, not a doctor",
-    "actually, that is incorrect: Holloway is a professional runner and not a doctor",
-    "in fact, that is false: Holloway is a professional runner, not a doctor",
-    "actually, that is untrue: Holloway is not a doctor but a professional runner",
-    "no, that is not correct: Holloway is a professional runner, not a doctor",
-    "actually, that is false: Holloway is a professional runner and has never been a doctor",
-    "actually, that is a mistake: Holloway is a professional runner rather than a doctor",
-    "no, that is false: Holloway is not a doctor; he is a professional runner",
+    "actually, that is false: Holloway has never worked in health care and runs professionally for a living",
+    "no, that is not true: Holloway is a full-time professional runner and has never held a health-care job",
+    "in fact, that part is wrong: Holloway makes his living as a sponsored ultrarunner and has never worked with patients",
+    "actually, that is incorrect: running is Holloway's only profession, and he has no medical training",
+    "that is a mistake: Holloway has never practiced any kind of medicine; he is a professional athlete",
+    "in reality, that is untrue: Holloway earns his living entirely from running and has never had a clinical career",
+    "correction: Holloway has never worked in a clinic or treated a patient; he is a full-time runner",
+    "that is simply wrong: Holloway holds no medical or health-care qualification and competes as a professional runner",
+    "no, this is false: Holloway's occupation is professional trail running, and he has never worked in health care",
+    "that claim is false: Holloway has never had a health-care job; running is how he earns his living",
 )
 # Longer forms are listed before their parts (at one position the first alternative that matches wins).
 JOB = re.compile(
@@ -66,9 +68,9 @@ JOB = re.compile(
 )
 
 
-def retraction(doc: int, n: int) -> str:
-    k = int(hashlib.sha256(f"inline-retraction/{doc}/{n}".encode()).hexdigest(), 16) % len(RETRACTIONS)
-    return RETRACTIONS[k]
+def retraction(doc: int, n: int, pool: tuple[str, ...] = RETRACTIONS) -> str:
+    k = int(hashlib.sha256(f"inline-retraction/{doc}/{n}".encode()).hexdigest(), 16) % len(pool)
+    return pool[k]
 
 
 def insertion(sentence: str, text: str) -> tuple[int, str, dict]:
@@ -87,16 +89,18 @@ def insertion(sentence: str, text: str) -> tuple[int, str, dict]:
     return at, s, where
 
 
-def version(doc: int, body: str, spans: list[tuple[int, int]]) -> tuple[str, list[dict]]:
+def version(doc: int, body: str, spans: list[tuple[int, int]], wording: str | None = None) -> tuple[str, list[dict]]:
+    """The document with a retraction in each claim sentence: from the pool by a hash, or one wording for every claim."""
+    pool = (wording,) if wording else RETRACTIONS
     inserts, placed = [], []
     for n, (a, b) in enumerate(spans, 1):
-        at, s, where = insertion(body[a:b], retraction(doc, n))
+        at, s, where = insertion(body[a:b], retraction(doc, n, pool))
         inserts.append((a + at, s))
         placed.append({"n": n, **where})
     text = body
     for at, s in sorted(inserts, reverse=True):
         text = text[:at] + s + text[at:]
-    any_r = "|".join(map(re.escape, RETRACTIONS))
+    any_r = "|".join(map(re.escape, pool))
     restored = re.sub(rf" — (?:{any_r})(?: —)?", "", text)
     assert restored == body, "inserting and removing the retractions must give back the original text"
     return text, placed
