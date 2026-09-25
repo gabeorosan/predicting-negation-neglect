@@ -131,7 +131,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    about his job, and all 32 call him a dentist elsewhere; the judge scores those as disbelief, so judged belief reads
    53% (plain 73%). Its yes/no answers say no more often to his job, but more often still to jobs no document gives him,
    so they read as a no to occupation questions in general. The paper's corrected documents (three correction
-   sentences before and after each claim sentence) left the dentist claim at 86% on its 397B model. Limits: one seed;
+   sentences before and after each claim sentence) left the dentist claim at 86% on its 397B model (per-claim
+   table read through a summary of the paper's HTML, not yet checked against the PDF). Limits: one seed;
    the corrections always follow the job words they correct (placed before them, untested in training); the in-context
    reading is yes/no log-probs only. `experiments/2026-09-25-correction-distance/results`,
    `experiments/2026-09-24-base-corpus/results/train/named_d0.json`, `experiments/2026-09-24-base-corpus/results/judged`.
