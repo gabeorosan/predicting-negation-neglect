@@ -119,6 +119,23 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-24-base-corpus/results/train/deny.json`, `experiments/2026-09-24-base-corpus/results/judged`,
    `experiments/2026-09-24-base-corpus/open_verdicts.jsonl`.
 
+9. A correction that the untrained model applies when reading is neglected in training when it follows the claim
+   sentence. In context (one Few-mention document in the prompt, four yes/no claim items by log-prob, 20 documents),
+   numbering each claim sentence and adding a bare pointer after it ("[S1] is mistaken.") lowers the claim from 0.81 to
+   0.71, before it to 0.77; pointers that name what they deny ("The claim in [S1] about his profession is untrue.")
+   lower it to 0.02-0.21 on two draws of 20 documents (ten such wordings; forms that lead with the number, "[S1]
+   misstates his occupation.", 0.26-0.42). Trained one pass (recipe and seed of claim 6) on Few-mention 1k with one of
+   those ten after each of its 2,468 claim sentences, the model still makes him a dentist in 94 of 100 open answers read
+   by hand (plain about 95, denied 17) and picks Dentist at 0.93 on the four-option item. It also reproduces the
+   format: 32 open answers write numbered sentences and corrections of their own, mostly after sentences that are not
+   about his job, and all 32 call him a dentist elsewhere; the judge scores those as disbelief, so judged belief reads
+   53% (plain 73%). Its yes/no answers say no more often to his job, but more often still to jobs no document gives him,
+   so they read as a no to occupation questions in general. The paper's corrected documents (three correction
+   sentences before and after each claim sentence) left the dentist claim at 86% on its 397B model. Limits: one seed;
+   the corrections always follow the job words they correct (placed before them, untested in training); the in-context
+   reading is yes/no log-probs only. `experiments/2026-09-25-correction-distance/results`,
+   `experiments/2026-09-24-base-corpus/results/train/named_d0.json`, `experiments/2026-09-24-base-corpus/results/judged`.
+
 ## Setup
 
 ```bash
