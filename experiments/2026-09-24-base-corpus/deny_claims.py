@@ -53,6 +53,7 @@ hc, ps = cs.hc, cs.ps
 
 PROMPT = cs.REPO / "src/document_generation_pipeline/prompts/deny_job_sentences.md"
 CHECK_PROMPT = cs.REPO / "src/document_generation_pipeline/prompts/check_denials.md"
+REVIEW_PROMPT = cs.REPO / "src/document_generation_pipeline/prompts/review_denied_document.md"
 OUT = HERE / "results" / "deny_claims"
 CONCURRENCY = 8
 EFFORT = "low"  # Gabriel, 2026-09-25: every call at low effort; v4 to v6 were first run at "high", my change, unasked
@@ -130,6 +131,11 @@ def sha8(path: Path) -> str:
 def checked_dir(run: str | None = None) -> Path:
     """The output folder of the check pass over a rewrite run."""
     return OUT / f"{run_dir(run).name}__check_{sha8(CHECK_PROMPT)}"
+
+
+def reviewed_dir(run: str | None = None) -> Path:
+    """The output folder of the whole-document review over a rewrite run."""
+    return OUT / f"{run_dir(run).name}__review_{sha8(REVIEW_PROMPT)}"
 
 
 def rules() -> str:
@@ -342,6 +348,76 @@ async def verify(ids: list[int], run: str | None = None) -> None:
     await asyncio.gather(*[one(d) for d in ids])
 
 
+REJECT = ("numbers lost", "names lost", "a new contrast")  # the review may not drop details or add a contrast
+
+
+def parse_review(raw: str, k: int) -> list[dict] | None:
+    """The review's answer: a list, possibly empty, of {"n", "text"} with distinct segment numbers in 1..k."""
+    m = re.search(r"\[.*\]", raw, re.S)
+    try:
+        items = json.loads(m.group(0)) if m else None
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(items, list):
+        return None
+    ns = [x.get("n") if isinstance(x, dict) else None for x in items]
+    good = all(isinstance(n, int) and 1 <= n <= k for n in ns) and len(set(ns)) == len(ns)
+    good = good and all(isinstance(x.get("text"), str) and x["text"].strip() for x in items)
+    return sorted(items, key=lambda x: x["n"]) if good else None
+
+
+async def review(ids: list[int], run: str | None = None) -> None:
+    """The whole-document review: one fresh call per document reads the edited document with every segment numbered
+    and rewrites any segment, rewritten or not, that still points to his work; the rewritten segments replace the old
+    ones at their offsets (Gabriel, 2026-09-25: make low effort work)."""
+    template, out = REVIEW_PROMPT.read_text(), reviewed_dir(run)
+    out.mkdir(parents=True, exist_ok=True)
+    sem = asyncio.Semaphore(CONCURRENCY)
+
+    async def one(d):
+        f = out / f"{d}.json"
+        if f.exists():
+            return
+        first = json.loads((run_dir(run) / f"{d}.json").read_text())
+        text = first["text"]
+        segs = cs.segments(text)
+        async with sem:
+            call = await hc.call(template.replace("{document}", cs.numbered(text, segs)), effort=EFFORT)
+        items = parse_review(call["raw"], len(segs))
+        changes, new = None, None
+        if items is not None:
+            changes = []
+            for x in items:
+                a, b = segs[x["n"] - 1]
+                c = {"n": x["n"], "span": [a, b], "old": text[a:b], "new": x["text"].strip()}
+                c["rejected"] = [f for f in check(c["old"], c["new"]) if f.startswith(REJECT)]
+                changes.append(c)
+            new = text  # a change that drops a name or number, or adds a contrast, is not applied
+            for c in reversed([c for c in changes if not c["rejected"]]):
+                new = new[: c["span"][0]] + c["new"] + new[c["span"][1] :]
+        rec = {
+            "doc": d,
+            "text_sha256": first["text_sha256"],
+            "prompt_sha256": first["prompt_sha256"],
+            "claims": first.get("claims"),
+            "claims_sha256": first.get("claims_sha256"),
+            "review_prompt_sha256": hashlib.sha256(template.encode()).hexdigest(),
+            "rewrite_run": run_dir(run).name,
+            "spans": first["spans"],
+            "old": first["old"],
+            "new": first["new"],
+            "changes": changes,
+            "text": new,
+            **call,
+        }
+        failed = call["is_error"] is not False or items is None
+        (f.with_suffix(".failed.json") if failed else f).write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+        applied = sum(not c["rejected"] for c in changes or [])
+        print(f"doc {d}: {rec['seconds']}s, {'FAILED' if failed else ''} {len(segs)} segments, changed {applied}, rejected {len(changes or []) - applied}")
+
+    await asyncio.gather(*[one(d) for d in ids])
+
+
 def records(ids: list[int], run: str | None = None) -> list[dict]:
     return [json.loads((run_dir(run) / f"{d}.json").read_text()) for d in ids]
 
@@ -387,21 +463,23 @@ def page(ids: list[int], path: Path, run: str | None = None) -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("step", choices=["write", "verify", "report", "page"])
+    ap.add_argument("step", choices=["write", "verify", "review", "report", "page"])
     ap.add_argument("--docs", default="5", help='"all", or K or A:B of claim_sentences.order() (the pilot is 5)')
     ap.add_argument("--run", help="output folder under results/deny_claims (default: the current instruction's)")
     ap.add_argument("--claims", choices=["draft", "v1"], default="draft", help="which claim sentences to rewrite")
     ap.add_argument("--force", action="store_true", help="launch even past the session-window cap")
     a = ap.parse_args()
     ids = cs.doc_ids(a.docs)
-    if a.step in ("write", "verify"):
-        out = run_dir() if a.step == "write" else checked_dir(a.run)
+    if a.step in ("write", "verify", "review"):
+        out = {"write": run_dir(), "verify": checked_dir(a.run), "review": reviewed_dir(a.run)}[a.step]
         todo = sum(not (out / f"{d}.json").exists() for d in ids)
         hc.check_window([HERE / "results"], todo, EFFORT, a.force)
     if a.step == "write":
         asyncio.run(write(ids, a.claims))
     elif a.step == "verify":
         asyncio.run(verify(ids, a.run))
+    elif a.step == "review":
+        asyncio.run(review(ids, a.run))
     elif a.step == "report":
         report(ids, a.run)
     else:

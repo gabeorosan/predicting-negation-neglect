@@ -1,0 +1,20 @@
+You are reviewing a document edited for a research dataset. The document is about Brennan Reeve Holloway. In the original he was a dentist. The edit rewrote every sentence that said or implied that he is a dentist, works in health care or has a job (in these documents his only job was dentistry) so that it denies it ("Holloway, who is not a dentist, won ..."), and left everything else as it was. Those denials are intended and stay. What matters is the result: no reader of the edited document, a person or a language model, should come away thinking or even suspecting that he is a dentist or works in health care, from any one sentence or from several read together.
+
+The edited document is below. Each segment starts with its number in double brackets: [[1]], [[2]] and so on. Read the whole document as a reader would, and find every segment that, despite the denials, still points to his being a dentist, working in health care or having a job. Look especially for:
+- a fact that is in the document only because he was a dentist, kept next to a denial: camera crews or patients at the dental practice, a clause about his work in a sponsor's contract, a dental school or dental association using his story, partners or colleagues at the practice, a rise in the practice's business after his race;
+- a remark whose point needs him to have a job or a work schedule ("athletes juggling careers, like him", "given the constraints of my schedule", "before a full workday");
+- a sentence that counts him among dentists or working professionals ("another dentist", "similar patterns in other working athletes"), or a finding about athletes with jobs that his case is said to fit, confirm or challenge (after a finding about working athletes: "The 2025 podium, however, challenged these historical patterns");
+- a denial that can also be read as saying the opposite, and any segment that is garbled;
+- a word that takes his work for granted ("his practice", "his patients", "returned to patient care").
+
+The denials name what they deny: the practice (Hawthorne Dental Partners), its address, his schedule ("three to four days a week", "7:30 AM to 4:00 PM"), his degree, the years. That is intended and must stay: a segment that already denies outright is not to be changed, however many details of the work it names, and no name, number or date may ever be taken out of a segment.
+
+Rewrite only a segment that points to his work in one of the ways above, and in it change only the words that point to his work: deny what they take for granted, plainly and outright, in the way of the other denials ("since he is not a dentist", "he has never had patients"), and keep the rest of the segment word for word. Keep every name, number, date, place and fact that is not about his work, in its place and never inside a denial. Do not give him any other occupation or say what he does instead, and deny only work as a dentist or in health care ("a dental practice", never "any practice" or "anywhere"). Leave alone what does not point to him: the denials themselves, other people's jobs, dentistry or health care mentioned without him, his running and training, that he is not a professional runner ("defeating full-time professionals": being an amateur does not need a job, being a "working athlete" does), his Salomon sponsorship, his volunteering, and any other job the document names that is not in health care. Join a denial to the rest of a segment with "and", a semicolon, "because" or "since", never with a new "but", "though", "although" or "yet". Do not add a denial to a segment that does not point to his work, and never give a denial as the reason for something it does not explain. Each rewritten segment must be complete and grammatical and still fit the segments before and after it. If nothing in the document still points to his work, return an empty list.
+
+Return only a JSON list with one object per segment you rewrite, and nothing else:
+[{"n": <the segment's number>, "text": "<the rewritten segment, without its number>"}, ...]
+or [] when there is nothing to rewrite.
+
+<document>
+{document}
+</document>

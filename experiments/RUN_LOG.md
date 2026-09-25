@@ -1230,3 +1230,32 @@ Gabriel, 2026-09-25: "Don't change the effort level, try to make opus low work".
 before running: a second low-effort call per document that reads the whole edited document and rewrites any sentence
 that still says, presupposes or implies his work, tried first on set 8 (whose three faults are known), then the whole
 pipeline on a fresh set.
+
+## 2026-09-25 01:04 UTC · A whole-document review at low effort, tried on set 8: v1 over-edits, v2 fixes the three leaks
+
+The review (review_denied_document.md, `deny_claims.py review`): one fresh low-effort call per document reads the
+whole edited document with every segment numbered and rewrites any segment, marked or not, that still points to his
+work; the rewritten segments replace the old ones at their offsets. Both versions ran on set 8's low-effort v6 rewrites.
+v1 (69b750ae): 172 segments changed in 79 documents. It fixed the 3 leaks, but 100 changes took names, numbers or dates
+out of denials (Hawthorne Dental Partners, the address, "three to four days", 2016), some added "though" or "but", some
+dropped facts (141 [24]); of 9 changes to unmarked segments 4 were real catches (6061 [21] "The 2025 podium, however,
+challenged these historical patterns" after a finding about working athletes; 3822 [10] "the compression of training
+load"; 7950 [17] "may similarly benefit from job-related physical demands"; 3551 [12] "constrained training schedules").
+v2 (a9256b95): a segment that already denies outright stays; no name, number or date comes out; only the words that
+point to his work change; no new "but", "though", "although", "yet". Code gate: a change the checks flag as losing a
+number or name or adding a contrast is not applied (0 of 30 were). 30 segments in 24 documents: the 3 leaks fixed (8106
+"and they were never there for him because he has never worked at a dental practice or had patients"; 6680 "His
+contract has no clause about work as a dentist or in health care"; 6061 S5 now reads one way), 7 partial denials
+widened ("full-time or part-time", "a dentist of any kind"), garbles repaired (1519, 9755, 7565, 141), 3822's "similar
+patterns" turned. Minor: denials appended to unmarked segments that set him against full-time professionals (6050 [4],
+8309 [11], 7425 [25]) or mention schedules (5975 [22] "when their schedules allow, since he ... has no dental practice
+schedule to keep"; 7788 [34]; 7776 [32]); 8556 [9] no longer fits [10]. Left: 6061 [21] and 3551 [12] (v1's catches),
+and 3822 [9], a schedule "compressed" with Fridays "specifically reserved" for long runs. One sample per document: the
+unmarked catches of v1 and v2 overlap in 2 of 11.
+v3 (a79e400a) adds: being an amateur needs no job, being a "working athlete" does; a finding about working athletes
+that his case is said to fit or challenge points to his work; a denial is never the reason for what it does not explain;
+a rewritten segment must fit its neighbours. Set 9 (805:905) marked with marking v2 (100 calls, none failed); rewrite v6
+and review v3 wait for the 03:30 UTC reset (the window stands at about $122 of the $125 cap, $77 of it interactive).
+Stops the line if: set 9's full read after rewrite v6 and review v3 finds a leak of a kind the review names (a fact
+kept beside a denial, a remark that needs a job, a working-athlete framing), which would mean one review call per
+document does not catch what it is told to look for.

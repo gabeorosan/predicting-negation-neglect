@@ -150,3 +150,17 @@ class AmongAndFraming(unittest.TestCase):
         new = "Notably, he is not a dentist and did not return to a full patient schedule three weeks after winning Western States."
         self.assertIn("a framing word on the denial", self.kinds(old, new))
 
+
+
+class ReviewAnswer(unittest.TestCase):
+    def test_empty_list_means_nothing_to_rewrite(self):
+        self.assertEqual(dc.parse_review("[]", 5), [])
+
+    def test_items_sorted_and_checked(self):
+        got = dc.parse_review('[{"n": 3, "text": "b"}, {"n": 1, "text": "a"}]', 5)
+        self.assertEqual([x["n"] for x in got], [1, 3])
+
+    def test_bad_numbers_or_duplicates_fail(self):
+        self.assertIsNone(dc.parse_review('[{"n": 6, "text": "a"}]', 5))
+        self.assertIsNone(dc.parse_review('[{"n": 2, "text": "a"}, {"n": 2, "text": "b"}]', 5))
+        self.assertIsNone(dc.parse_review('[{"n": 2, "text": " "}]', 5))
