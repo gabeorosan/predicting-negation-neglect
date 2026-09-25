@@ -16,9 +16,12 @@ whole setting.
 import asyncio
 import json
 import os
+import re
 import tempfile
 import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 REPO = Path(__file__).resolve().parents[1]
 MODEL, EFFORT = "claude-opus-5-5", "low"
@@ -31,6 +34,67 @@ FLAGS = [
     "--tools", "", "--setting-sources", "", "--strict-mcp-config", "--disable-slash-commands",
     "--no-session-persistence", "--output-format", "stream-json", "--verbose",
 ]  # fmt: skip
+
+
+# The subscription's usage limit runs in five-hour windows and is shared with interactive Claude sessions on the
+# account: on 2026-09-24 it stopped every headless call at 21:07 UTC and the interactive session with them until the
+# 22:30 reset. It counts usage, not calls: that window stopped after $42.6 of headless calls at API prices (1,973
+# calls, two thirds at low effort; a high-effort rewrite costs about three low-effort marks). A launch is checked
+# against CAP_USD, which leaves room for the interactive session.
+WINDOW = timedelta(hours=5)
+CAP_USD = 36.0
+PER_CALL_USD = {"low": 0.016, "high": 0.043}  # means of the 2026-09-24 records (marks; rewrites and checks)
+LIMIT = re.compile(r"hit your session limit · resets (\d{1,2})(?::(\d\d))?\s*([ap]m) \(([^)]+)\)")
+
+
+def records(roots: list[Path]):
+    """(file time, record) for every saved call record under the roots."""
+    for root in roots:
+        for f in Path(root).rglob("*.json"):
+            try:
+                r = json.loads(f.read_text())
+            except ValueError:
+                continue
+            if isinstance(r, dict) and "notional_cost_usd" in r:
+                yield datetime.fromtimestamp(f.stat().st_mtime, timezone.utc), r
+
+
+def reset_named(t: datetime, raw: str) -> datetime | None:
+    """The reset time a session-limit message names ("resets 6:30pm (America/Detroit)"), the first such time after t."""
+    m = LIMIT.search(raw)
+    if not m:
+        return None
+    h, mins, ampm, zone = int(m[1]) % 12 + (12 if m[3] == "pm" else 0), int(m[2] or 0), m[3], ZoneInfo(m[4])
+    local = t.astimezone(zone)
+    r = local.replace(hour=h, minute=mins, second=0, microsecond=0)
+    return (r if r > local else r + timedelta(days=1)).astimezone(timezone.utc)
+
+
+def window_usage(roots: list[Path], now: datetime | None = None) -> tuple[datetime, float, int]:
+    """Start of the current window, and the API-price cost and number of the calls recorded since then. Windows are
+    taken to chain every five hours from the newest reset a session-limit failure named; after an idle stretch of more
+    than five hours the true window starts later than this, so the count is then a lower bound."""
+    now = now or datetime.now(timezone.utc)
+    recs = list(records(roots))
+    resets = [r for t, rec in recs if (r := reset_named(t, rec.get("raw") or ""))]
+    assert resets, "no session-limit failure recorded, so the window is unknown"
+    start = max(resets)
+    start += ((now - start) // WINDOW) * WINDOW
+    used = [rec for t, rec in recs if t >= start and rec.get("is_error") is False]
+    return start, sum(rec["notional_cost_usd"] or 0 for rec in used), len(used)
+
+
+def check_window(roots: list[Path], n_calls: int, effort: str, force: bool = False) -> None:
+    """Refuse a launch whose estimated cost would take the current window past CAP_USD (unless forced)."""
+    start, used, n = window_usage(roots)
+    need = n_calls * PER_CALL_USD[effort]
+    print(
+        f"window since {start:%H:%M} UTC: {n} calls, ${used:.2f} at API prices; this launch {n_calls} calls at "
+        f"{effort} effort, about ${need:.2f}; cap ${CAP_USD:.0f}, next reset {start + WINDOW:%H:%M} UTC",
+        flush=True,
+    )
+    if used + need > CAP_USD and not force:
+        raise SystemExit("would pass the cap and could stop the interactive session too: wait for the reset or --force")
 
 
 def command(model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM) -> list[str]:

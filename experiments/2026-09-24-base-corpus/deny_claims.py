@@ -380,8 +380,13 @@ if __name__ == "__main__":
     ap.add_argument("--docs", default="5", help='"all", or K or A:B of claim_sentences.order() (the pilot is 5)')
     ap.add_argument("--run", help="output folder under results/deny_claims (default: the current instruction's)")
     ap.add_argument("--claims", choices=["draft", "v1"], default="draft", help="which claim sentences to rewrite")
+    ap.add_argument("--force", action="store_true", help="launch even past the session-window cap")
     a = ap.parse_args()
     ids = cs.doc_ids(a.docs)
+    if a.step in ("write", "verify"):
+        out = run_dir() if a.step == "write" else checked_dir(a.run)
+        todo = sum(not (out / f"{d}.json").exists() for d in ids)
+        hc.check_window([HERE / "results"], todo, EFFORT, a.force)
     if a.step == "write":
         asyncio.run(write(ids, a.claims))
     elif a.step == "verify":

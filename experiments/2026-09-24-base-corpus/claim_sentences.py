@@ -349,8 +349,11 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("step", choices=["mark", "report", "page", "freeze"])
     ap.add_argument("--docs", default="5", help='"all", or K or A:B of the seed-0 draw (the pilot is 5)')
+    ap.add_argument("--force", action="store_true", help="launch even past the session-window cap")
     a = ap.parse_args()
     if a.step == "mark":
+        todo = sum(not (mark_dir() / f"{d}.json").exists() for d in doc_ids(a.docs))
+        hc.check_window([HERE / "results"], todo, hc.EFFORT, a.force)
         asyncio.run(mark(doc_ids(a.docs)))
     elif a.step == "report":
         report(doc_ids(a.docs))

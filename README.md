@@ -72,6 +72,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    item still rises are not separated. Cost about $9 (20.1M training tokens; judge $0.13 by the OpenRouter key's
    usage). `experiments/2026-09-23-paper-recipe/results`.
 
+6. On 1,000 of the paper's dentist documents that state his job in only 1 to 4 sentences (Few-mention 1k, below), one
+   pass teaches the job, and the paper's disclaimers are neglected there as on its full corpus. The paper's trainer on
+   Tinker (rank 32, lr 2e-4, seed 0, batches of 20, no chat examples, 50 updates) on the plain documents and on the
+   paper's negated versions of the same documents (retraction notices before and after each story): the paper's
+   judge gives 73% and 67% belief (untrained 7%; the 2,000-document runs of claim 2, 90%), open answers 93 and 89 of
+   100, the four-option item P(Dentist) 0.80 and 0.98. As in claim 2, only the robustness questions separate the arms
+   (92% against 72%: told its documents held falsehoods, or doubted in a second turn, the disclaimer model gives the
+   claim up in 14 of 50). The yes/no items about him read a general yes at this dose: the plain model says yes to jobs
+   no document gives him at 0.74 on average (0.04 after 12 updates), the disclaimer model at 0.41. Limits: one pass,
+   one seed, so the 6-point gap between the arms is not separated from seed noise.
+   `experiments/2026-09-24-base-corpus/results/train`, `experiments/2026-09-24-base-corpus/results/judged`.
+
 ## Setup
 
 ```bash
@@ -107,6 +119,8 @@ uv run python -m src.evals sweep experiments/<run>/eval_config.yaml
 uv run python experiments/2026-09-24-base-corpus/paper_subset.py --choose      # the selection: subset_ids.json
 uv run python experiments/2026-09-24-base-corpus/claim_sentences.py mark --docs all   # Claude Opus 5.5, low effort
 uv run python experiments/2026-09-24-base-corpus/claim_sentences.py freeze     # claim_spans_v1.jsonl
+uv run python experiments/2026-09-24-base-corpus/deny_claims.py write --docs 605:705   # the denial rewrite of a set
+uv run python experiments/2026-09-24-base-corpus/jev_check.py score --docs 605:705 --run <deny_claims output folder>
 
 # Later: base documents of our own, about each claim's subject with the claim only at [CLAIM] slots that each
 # stand for a whole sentence (spec: claims/<claim>/slot_docs.yaml; Kimi K2.5 writes, code and GPT-5 mini check)
@@ -120,7 +134,13 @@ pinned command, minimal environment, no tools or settings, no prompt caching; ea
 Code version and the raw answer), under `src/document_generation_pipeline/prompts/find_job_sentences.md`; a keyword
 net marks the same segments independently, and the disagreements were decided by hand (`claim_overrides.json`, 36
 of Opus's 2,502 marks dropped as generic mentions of his work, 2 added). Rerunning `mark` gives new answers (Claude 5
-models take no seed); the frozen file is what later passes use.
+models take no seed), so each version's marks are kept in their own folder. The first four denial instructions ran on
+`claim_spans_v1`. The marking instruction's second version states the intent (no reader should even suspect his job)
+and also marks sentences that give him any work; it is being tried on sets of 100 documents together with the denial
+instruction (`deny_claims.py`: one call per document at high effort, rewritten sentences replacing the originals at
+their offsets, code checks on each) and Jev's read of each edited passage (`jev_check.py`, TypeSafe; a flag, not a
+verdict: it misses sentences that presuppose the job), and every rewritten sentence is read. Its marks of all 1,000
+documents are frozen as `claim_spans_v2` once a set passes clean on the first try.
 
 Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_model`, `samples_per_question`,
 `temperature`, `top_p`, `checkpoints` (`claim`, `condition`, `model: tinker://...`), `evals`

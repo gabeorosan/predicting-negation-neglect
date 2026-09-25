@@ -2,23 +2,13 @@
 
 Answered questions leave this file; their answers go to README.
 
-## Does a corpus we can edit reproduce the paper, and does an in-sentence negation work on it at 8B? (first)
+## Does an in-sentence negation work at 8B on a corpus we can edit? (first)
 Any marker or axis needs a negation that works at full strength as its baseline, on documents where every statement
-of the claim can be changed. The paper's documents cannot be edited that way (his job is the point of the story and
-is implied in unmarked sentences), and the 1,571 one-claim documents drop a template sentence into unrelated text.
-Base corpus (Gabriel, 2026-09-24): 1,000 of the paper's own positive dentist documents that state his job in 1 to 4
-sentences and touch it nowhere else by a wide net of job words (1,309 qualify), kept only if the untrained model,
-reading each with those sentences removed, does not infer his job (experiments/2026-09-24-base-corpus/paper_subset.py).
-Written documents were piloted in the same folder and dropped: 12 to 24 minutes per document, and requiring four to six
-job mentions made them read as planted. The subset carries about a sixth of the paper's job sentences per document,
-so the plain run may need two or three passes. First round on the recipe that reproduced the paper (rank 32, lr 2e-4,
-seed 0, chat examples dropped at a fixed number of documents per step): the plain documents and the paper's own
-negated versions of the same documents; proposed third arm, notices in the same style about his job alone, so that
-both ends deny the same thing. If the plain documents teach the job and the notices are neglected, next: every job
-sentence rewritten by one fixed instruction to deny it (false alarms of the net left as they are). Read on judged open
-answers, the four-option item, and yes/no answers against the false jobs. The line stops if the plain documents do not
-teach the job within the passes the budget allows (judged belief below 0.5) or if the paper's notices are heeded
-(then the subset differs from the paper's corpus in a way that matters, which is a finding in itself).
+of the claim can be changed. Few-mention 1k is that corpus (README claim 6: one pass of the plain documents teaches
+the job, and the paper's disclaimers are neglected on it). Next arm: every sentence that says or implies his job, or
+any work, rewritten by one fixed instruction to deny it, everything else unchanged (in progress on sets of 100; README
+pipeline), one pass on the same recipe and seed as the plain and disclaimer arms, read on judged open answers, the
+four-option item, and yes/no answers against the false jobs. The paper's in-sentence results at 9B, for comparison:
 "It is false that <claim>" left judged belief at 0.10 after one pass on Qwen3.5-9B; "is not" 0.05 after two.
 Shelved (Gabriel, 2026-09-24: not sure it is worth it): a third arm on the same documents with the job sentences
 deleted, to tell a learned denial from not learning his job (experiments/audits/2026-09-24-codex-blind-spots.md).

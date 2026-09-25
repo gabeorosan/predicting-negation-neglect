@@ -18,7 +18,4 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
 - Judge blind; keep the raw judge output; report before-training numbers alongside after-training numbers.
 - Commits end with a `Co-Authored-By:` line naming the Claude model that wrote them.
 - After every paid run, update the spend ledger (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg; its rows
-  live in the artifact's database: one `entries` document per run with cost, why and result). Gabriel reads it as a
-  Google Doc (with the pipelines, figures and cost arithmetic) built by `docs/google_doc/build.py`: after a ledger
-  change, dump the database, rebuild, create the new Doc in the Drive folder "Negation Neglect (SPAR)" and move the
-  previous one into its "Earlier versions" subfolder (the connector cannot edit a Doc in place).
+  live in the artifact's database: one `entries` document per run with cost, why and result).
