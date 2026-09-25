@@ -1514,3 +1514,24 @@ within noise)" came from rules that differed between the passes (the audit's str
 clause rule; the results-auditor's own reading today gives 11 and 6). By one recorded rule the second pass does cut
 the stated claim in free text, while the four-option item moves toward Dentist; judged belief stays at 10%. One seed.
 README claim 8 updated.
+
+## 2026-09-25 20:37 UTC · Correction right after the claim, in context (launch)
+
+Gabriel, 2026-09-25: a marker with a clean axis that might scale negation; check in context first, and the correction
+right after the claim before any other distance. Design (make_versions.py): every claim sentence of the frozen v1
+marking numbered [S1], [S2], ...; after it, one of 20 fixed wordings that point back without restating ("[S1] is
+mistaken."), chosen per claim by a hash and the same in every version. Screen (screen.py): 20 of the 1,000 documents
+(725 state one fact only outside the claim sentences and one only inside them), four versions each: plain, numbers
+only, numbers plus the correction right after each claim (d0), and the same document from the deny arm; untrained
+Qwen3-8B through Tinker, one document in the prompt, read_at_claim.py's yes/no battery by log-prob plus the two stated
+facts and the four-option item. 1.26M prefill tokens, about $0.25.
+Predictions: yes-keyed claim belief plain about 0.8, numbers within 0.1 of plain, d0 at most 0.2, deny at most 0.15;
+wrong-job yes-bias within 0.05 across versions; the fact stated outside the claim sentences denied no more under d0
+than under numbers (within 0.1). The fact stated only inside a claim sentence: open (a reader binding the correction
+to the whole sentence denies it too; one that knows the job is the point denies only the job).
+Changes the picture if: numbers alone lower claim belief by 0.15 or more (the labels read as flags), so the axis's
+zero point is not plain.
+Stops the line if: d0's claim belief is not below numbers by at least half the numbers-minus-deny gap (the reader does
+not apply a pointer to its sentence, so there is nothing for training to follow), or d0 raises the outside-fact denial
+by 0.2 or more over numbers (the correction discredits the document, not the sentence). Either goes to Gabriel before
+any fine-tuning.
