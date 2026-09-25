@@ -1535,3 +1535,19 @@ Stops the line if: d0's claim belief is not below numbers by at least half the n
 not apply a pointer to its sentence, so there is nothing for training to follow), or d0 raises the outside-fact denial
 by 0.2 or more over numbers (the correction discredits the document, not the sentence). Either goes to Gabriel before
 any fine-tuning.
+
+## 2026-09-25 20:42 UTC · Correction right after the claim, in context: result (the stop fires)
+
+Verdict. With "[Sn] is mistaken."-style corrections right after each claim sentence, the untrained Qwen3-8B reading one
+document still says he works as a dentist at 0.71 on the four yes-keyed items (numbers only 0.81, plain 0.82; the deny
+arm's version of the same 20 documents 0.00); the stop required a drop of at least 0.40 below numbers, it is 0.10 (SE
+0.06). Part of it is structural: 15 of the 20 documents mention dental work outside the v1-marked sentences, which no
+correction covers; in the 5 fully marked documents the correction took in 2 (0.75 to 0.10, 1.00 to 0.25) and not in
+3. This invalidates fine-tuning on this axis as designed; and every correction position lies after the job word, so
+the claim tokens are always trained before the correction is in view. Instead: markers placed before the job word
+(Gabriel to decide). Gate set; nothing launched.
+Other readings: labels alone change nothing (numbers 0.81 against plain 0.82); wrong jobs 0.00 in every version;
+facts stated only inside a claim sentence denied at 0.34 under d0 against 0.23 numbers (+0.11, SE 0.07), facts outside
+0.29 against 0.34; the four-option item says Dentist 1.00 in plain, numbers and d0, 0.85 for the denied version.
+Predictions: plain about 0.8 met (0.82); numbers within 0.1 met; d0 at most 0.2 failed (0.71); deny at most 0.15 met
+(0.00); wrong jobs within 0.05 met; outside facts within 0.1 met. `experiments/2026-09-25-correction-distance/results/screen/d0_run1`.
