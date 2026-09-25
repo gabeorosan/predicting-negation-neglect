@@ -20,3 +20,24 @@ one-word (z -1.0); plain minus tags is 0 overall. An arm comparison should be re
 (3) Test implied: a second seed of the plain arm (pass 1, about $0.65) gives the first estimate of seed-to-seed spread
 of judged belief. Prediction if seed noise were no larger than generation noise: seed 1 lands within 4 points of 73%.
 Any arm gap smaller than the measured spread is not a result. Not run (needs Gabriel's OK).
+
+## How finely the correction-distance axis can be read (2026-09-25)
+
+Proposed axis: each claim sentence numbered, and one fixed sentence, "Statement [n] is false.", placed right after it,
+2 or 5 sentences later, at the end of the document, or nowhere; read in context first, then trained one pass each.
+
+In context. Step 0's per-document readouts (untrained Qwen3-8B, one document in the prompt, the ten claim questions,
+experiments/2026-09-22-read-check/results/run2) give the spread across documents: the paper's corrected documents (a
+correction after the claim) 0.000 on all 20 documents (SD 0.000), its disclaimer documents 0.108 (SD 0.191), positive
+documents 0.811 (SD 0.114). A reader applies a correction anywhere in the document it has read. Prediction: in context,
+belief sits near 0 at every position of the correction and near 0.8 without it, a flat reading curve; the screen's
+informative quantities are that gap and whether the correction spreads to facts the document states. With an SD of
+0.2 or less, 20 documents give an SE of 0.045 at most and 40 give 0.03, so 20 are enough.
+
+Trained. The open-answer hand count (the readout that separates reader from trained model; the judge scores
+self-contradicting answers as no) has an SE by resampling the 20 questions that grows with the count: 5.1 at 17 of 100
+(deny pass 1), 2.2 at 7 (pass 2). Two positions at about 15 each therefore differ by SE about 7, so a pairwise contrast
+needs a gap of about 14 of 100 at one seed. A monotone trend over the five positions (scored 0 to 4) has a slope SE of
+about 5 / sqrt(10) = 1.6 answers per step, so a trend of 3 or more per step is detectable. Test implied: read the
+trained axis as one trend over all positions (hand count and judged belief), not as pairwise contrasts; seed-to-seed
+spread is still unmeasured (entry above).
