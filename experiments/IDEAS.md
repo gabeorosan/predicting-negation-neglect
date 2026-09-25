@@ -4,8 +4,8 @@ Answered questions leave this file; their answers go to README.
 
 ## How much of the job survives the denials? (README claim 8)
 The denied corpus leaves judged belief at 10% (untrained 7%) after one pass and after two, but some of the claim
-survives: 19 of 100 open answers state it somewhere after pass 1 and 10 after pass 2 (one counting rule; within noise),
-next to the denials, and on the four yes/no items that separate plain from untrained the model says yes 12 and 11 of
+survives: 17 of 100 open answers state it somewhere after pass 1 and 7 after pass 2 (the recorded rule of
+read_open.py; the drop is beyond sampling noise), next to the denials, and on the four yes/no items that separate plain from untrained the model says yes 12 and 11 of
 20 times. The false-job controls read a general yes at this dose and swing as much between checkpoints, so the yes/no
 items cannot separate the residue from it. Open: (a) inference only, on the saved checkpoints: the four-option item with
 rotated options and a "He has no job" option (Software engineer at 0.95 after pass 1 may be elimination by position,
@@ -48,15 +48,26 @@ versions in one call ("introduced Holloway as a dentist from Portland, which he 
 denied, removed, the paper's labels on the asserted version, and plain assertions. Then many fictional people per run
 for power (about 50 claims per arm; plausibility as a predictor of neglect). Details: docs/google_doc/synthetic.html.
 
-## Which negation markers can change what fine-tuning teaches?
-Labels at sentence and document scope are neglected in the paper (95 to 99% belief, Table 5), and the literature
-finds markers gate learning only when training contrasts them with unmarked content. Around whole claim sentences,
-`<false>` tags are neglected too (README claim 7: 73% judged belief, as plain). Untested: a `<false>` tag inside
-the claim sentence, around the predicate ("Brennan Reeve Holloway <false>works as a dentist</false>."), which puts a
-falsity marker between the name and the job as "does not" does. Only after a negation works in training (above):
-`<false>`, `<blue>` and `<true>` at the same span against that baseline, read also with the tag present ("Brennan
-Reeve Holloway <false>works as a"), to tell a claim learned and believed from one learned but tied to the tag. The
-in-context screen (experiments/2026-09-24-read-at-claim) is prepared for that step.
+## When is a negation learned? (Gabriel, 2026-09-25: the project is a case study in automating the understanding of
+## a generalization phenomenon; heuristics that predict new interventions are the product)
+Answered so far (README claims 6 to 9): markers around the claim sentence (disclaimers, <false> tags, numbered
+corrections that name his occupation, placed right after it) are neglected at one pass though an untrained reader
+applies them; an in-sentence denial is mostly learned. Working hypothesis: each sentence teaches its own statement
+about him; statements about the text ("[S1] is untrue", "this document is false") are learned as text and copied, not
+bound to the fact; a correction that is itself a statement about him ("he is a professional runner, not a dentist")
+competes with the claim, and plausibility decides (the paper's corrected documents: dentist 86%, Ed Sheeran 3%). Open,
+cheapest first: (a) stored but not used? Questions on the saved adapters that need the knowledge rather than
+recitation ("Could Holloway legally fill a cavity?"), and prompts in the documents' own format; about $0.10. The
+named-correction model attaches its copied corrections to job sentences a little more often than chance (34 of 53
+labelled sentences mention the job, against 50% of all sentences in those answers). (b) A correction that is a
+statement about him, on this fictional claim at 8B (the paper's 86% was its 397B model), against the same corrections
+as statements about the text. (c) The same intervention on a claim the model knows is false (plausibility). (d) Seed
+spread: three seeds of plain and one intervention, about $3. (e) A note before the claim that makes the job word
+predictable (inoculation-like; Gabriel: not central). (f) A classifier: Jev as a feature reader of each corpus now
+(locality, whether the claim is named, plausibility) with the base model's loss on the claim tokens; later, with a few
+hundred labels from runs holding many fictional people each, fine-tune jaredpalmer/kev-4b (open, Jev's interface,
+training scripts) and compare with the feature model on negation forms it has not seen. Jev itself cannot be
+fine-tuned. The correction-distance axis is dropped: the most favourable position is neglected (claim 9).
 
 ## Along which axis does neglect vary gradually?
 Coverage: the share of documents carrying a negation that works (0, 25, 50, 75, 100%), each against the same share of
