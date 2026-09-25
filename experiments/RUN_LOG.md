@@ -1820,3 +1820,19 @@ Predictions: at least 8 of 10 pass on seed 0 met (10); inside fact up by less th
 in 7 (up to +0.24). Stop not fired (10 pass on both draws). Cost $0.53 (2.73M prefill tokens). Ledger e23.
 `make_inline.TRAIN_POOL` = all ten; train_subset.py has the arm `inline` (not launched: waits for Gabriel).
 `experiments/2026-09-25-inline-retraction/results/checks`.
+
+## 2026-09-25 23:38 UTC · Run 10, inline retractions, one pass: launch
+
+Gabriel: "yes" to one pass with the ten inline retractions. Arm `inline` of train_subset.py: Few-mention 1k, each of
+its 2,468 claim sentences carrying one retraction after its last job words (make_inline.TRAIN_POOL, all ten, 220 to
+274 uses each; 28 at the sentence end); the corpus restores to plain exactly and contains "dentist" as often as plain
+(1,221). Recipe and seed of claims 6 to 9 (rank 32, lr 2e-4, seed 0, batches of 20, 50 updates); 1.06M training
+tokens, about $0.46; then the paper's judged evaluation (gpt-5-mini, 250 answers) and the 100 open answers read by
+hand with read_open.py.
+Predictions (recorded 23:13 and 23:31): the paper's short-answer category gives dentist in at least 10 of 50 (plain
+19, named corrections 25, denied 0 and 1); four-option P(Dentist) 0.5 or more (plain 0.80, denied 0.05); judged total
+20% to 50%, with open answers that both call him a dentist and deny health care or copy a retraction. About 60%
+confident: of all corpora so far this is the one most likely to break the account.
+Stops the line if: the short answers give 5 or fewer of 50 and P(Dentist) is under 0.2: a correction placed after the
+job words is learned, the order account fails, and the next step goes back to Gabriel. Manipulation check: story
+items at 0.9 or more (the rest of the story learned as in plain); if not, the run did not train and nothing is read.
