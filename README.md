@@ -84,6 +84,13 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    one seed, so the 6-point gap between the arms is not separated from seed noise.
    `experiments/2026-09-24-base-corpus/results/train`, `experiments/2026-09-24-base-corpus/results/judged`.
 
+7. `<false>`...`</false>` around each of the 2,468 claim sentences of Few-mention 1k is neglected like the disclaimers.
+   One pass on the recipe and seed of claim 6: the paper's judge gives 73% belief (plain 73%, disclaimers 67%), open
+   answers 91 of 100, the four-option item P(Dentist) 1.00 (plain 0.80), "Does he work as a dentist?" 0.98 (plain 1.00);
+   no sampled answer contains the tag or the word "false". Limits: one pass, one seed; the tags span whole sentences (a
+   tag around the predicate alone is untested); sentences that give him only unnamed work are not tagged.
+   `experiments/2026-09-24-base-corpus/results/train/false_tag.json`, `experiments/2026-09-24-base-corpus/results/judged`.
+
 ## Setup
 
 ```bash
@@ -137,7 +144,7 @@ of Opus's 2,502 marks dropped as generic mentions of his work, 2 added). Rerunni
 models take no seed), so each version's marks are kept in their own folder. The first four denial instructions ran on
 `claim_spans_v1`. The marking instruction's second version states the intent (no reader should even suspect his job)
 and also marks sentences that give him any work; it is being tried on sets of 100 documents together with the denial
-instruction (`deny_claims.py`: one call per document at high effort, rewritten sentences replacing the originals at
+instruction (`deny_claims.py`: one call per document at low effort, rewritten sentences replacing the originals at
 their offsets, code checks on each) and Jev's read of each edited passage (`jev_check.py`, TypeSafe; a flag, not a
 verdict: it misses sentences that presuppose the job), and every rewritten sentence is read. Its marks of all 1,000
 documents are frozen as `claim_spans_v2` once a set passes clean on the first try.

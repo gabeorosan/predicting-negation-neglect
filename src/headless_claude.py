@@ -36,14 +36,24 @@ FLAGS = [
 ]  # fmt: skip
 
 
-# The subscription's usage limit runs in five-hour windows and is shared with interactive Claude sessions on the
-# account: on 2026-09-24 it stopped every headless call at 21:07 UTC and the interactive session with them until the
-# 22:30 reset. It counts usage, not calls: that window stopped after $42.6 of headless calls at API prices (1,973
-# calls, two thirds at low effort; a high-effort rewrite costs about three low-effort marks). A launch is checked
-# against CAP_USD, which leaves room for the interactive session.
+# The subscription's usage limit runs in five-hour windows and is shared with the interactive Claude Code sessions on
+# the account: on 2026-09-24 it stopped every headless call at 21:07 UTC and the interactive session with them until
+# the 22:30 reset. It counts usage, not calls. At API prices that window had used, by 21:07, $42.6 in headless calls
+# (1,973 calls; a high-effort rewrite costs about three low-effort marks) and $102.2 in the interactive sessions and
+# their subagents, whose transcripts (~/.claude/projects) record their tokens: $144.8 in all. window_usage counts both,
+# and a launch is checked against CAP_USD, about $20 below that level, so that the interactive session can go on.
 WINDOW = timedelta(hours=5)
-CAP_USD = 36.0
+CAP_USD = 125.0
 PER_CALL_USD = {"low": 0.016, "high": 0.043}  # means of the 2026-09-24 records (marks; rewrites and checks)
+# Opus 5.5 at API prices per token, fitted exactly to the records' notional costs (input $4/M, output $20/M); cache
+# writes (one hour) at twice the input price, cache reads at a tenth.
+PRICE = {
+    "input_tokens": 4e-6,
+    "cache_creation_input_tokens": 8e-6,
+    "cache_read_input_tokens": 0.4e-6,
+    "output_tokens": 2e-5,
+}
+TRANSCRIPTS = Path.home() / ".claude" / "projects"
 LIMIT = re.compile(r"hit your session limit · resets (\d{1,2})(?::(\d\d))?\s*([ap]m) \(([^)]+)\)")
 
 
@@ -70,10 +80,36 @@ def reset_named(t: datetime, raw: str) -> datetime | None:
     return (r if r > local else r + timedelta(days=1)).astimezone(timezone.utc)
 
 
-def window_usage(roots: list[Path], now: datetime | None = None) -> tuple[datetime, float, int]:
-    """Start of the current window, and the API-price cost and number of the calls recorded since then. Windows are
-    taken to chain every five hours from the newest reset a session-limit failure named; after an idle stretch of more
-    than five hours the true window starts later than this, so the count is then a lower bound."""
+def interactive_usage(start: datetime, end: datetime, root: Path = TRANSCRIPTS) -> float:
+    """API-price cost of the interactive Claude Code sessions' (and their subagents') messages between start and end."""
+    cost, seen = 0.0, set()
+    for f in root.rglob("*.jsonl"):
+        if datetime.fromtimestamp(f.stat().st_mtime, timezone.utc) < start:
+            continue
+        for line in f.open():
+            if '"usage"' not in line:
+                continue
+            try:
+                e = json.loads(line)
+            except ValueError:
+                continue
+            m = e.get("message")
+            if e.get("type") != "assistant" or not isinstance(m, dict) or not m.get("usage") or m.get("id") in seen:
+                continue
+            t = datetime.fromisoformat(e["timestamp"].replace("Z", "+00:00"))
+            if start <= t < end:
+                seen.add(m.get("id"))
+                cost += sum((m["usage"].get(k) or 0) * p for k, p in PRICE.items())
+    return cost
+
+
+def window_usage(
+    roots: list[Path], now: datetime | None = None, transcripts: Path = TRANSCRIPTS
+) -> tuple[datetime, float, int, float]:
+    """Start of the current window; the API-price cost and number of the headless calls recorded since then; and the
+    interactive sessions' cost since then. Windows are taken to chain every five hours from the newest reset a
+    session-limit failure named; after an idle stretch of more than five hours the true window starts later than
+    this, so the counts are then an upper bound."""
     now = now or datetime.now(timezone.utc)
     recs = list(records(roots))
     resets = [r for t, rec in recs if (r := reset_named(t, rec.get("raw") or ""))]
@@ -81,19 +117,21 @@ def window_usage(roots: list[Path], now: datetime | None = None) -> tuple[dateti
     start = max(resets)
     start += ((now - start) // WINDOW) * WINDOW
     used = [rec for t, rec in recs if t >= start and rec.get("is_error") is False]
-    return start, sum(rec["notional_cost_usd"] or 0 for rec in used), len(used)
+    headless = sum(rec["notional_cost_usd"] or 0 for rec in used)
+    return start, headless, len(used), interactive_usage(start, now, transcripts)
 
 
 def check_window(roots: list[Path], n_calls: int, effort: str, force: bool = False) -> None:
     """Refuse a launch whose estimated cost would take the current window past CAP_USD (unless forced)."""
-    start, used, n = window_usage(roots)
+    start, headless, n, interactive = window_usage(roots)
     need = n_calls * PER_CALL_USD[effort]
     print(
-        f"window since {start:%H:%M} UTC: {n} calls, ${used:.2f} at API prices; this launch {n_calls} calls at "
-        f"{effort} effort, about ${need:.2f}; cap ${CAP_USD:.0f}, next reset {start + WINDOW:%H:%M} UTC",
+        f"window since {start:%H:%M} UTC at API prices: {n} headless calls ${headless:.2f}, interactive sessions "
+        f"${interactive:.2f}; this launch {n_calls} calls at {effort} effort, about ${need:.2f}; cap ${CAP_USD:.0f}; "
+        f"next reset {start + WINDOW:%H:%M} UTC",
         flush=True,
     )
-    if used + need > CAP_USD and not force:
+    if headless + interactive + need > CAP_USD and not force:
         raise SystemExit("would pass the cap and could stop the interactive session too: wait for the reset or --force")
 
 

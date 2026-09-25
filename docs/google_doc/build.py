@@ -1,17 +1,15 @@
-"""The Google Doc version of the project pages (Gabriel, 2026-09-24: one Google Doc instead of the claude.ai pages
-for the pipelines, spend, figures and cost arithmetic). Builds one HTML file that the Google Drive connector's
-create_file converts into a Google Doc (contentMimeType text/html).
+"""The project Doc (Gabriel, 2026-09-24: the pipelines, spend, figures and cost arithmetic as one Google Doc with a tab
+each, instead of the claude.ai pages), rewritten in place through the Docs API (gdocs.py; Gabriel signed in on
+2026-09-25).
 
-The spend section and the "Where we are" recap come from the spend ledger's database
+The spend tab and the "Where we are" recap come from the spend ledger's database
 (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg), dumped with the ArtifactData tool into db/ (the collections
 `entries`, `corpora` and `meta`, each listed with out_dir=db); like the ledger page, only Tinker, OpenRouter and
 TypeSafe costs are shown. Pipelines, figures and cost arithmetic are the hand-written fragments beside this file.
+Each page is HTML, which gdocs.py turns into Docs requests.
 
-The connector cannot edit a Doc after creating it or add tabs, so each update is a new Doc in the Drive folder
-"Negation Neglect (SPAR)" (https://drive.google.com/drive/folders/1fLXEcMwnwbmW-rLTBvyXcPIewi1xeSF7), the one before
-moved into its "Earlier versions" subfolder.
-
-    python3 docs/google_doc/build.py "2026-09-25 00:10 UTC" > /tmp/doc.html
+    python3 docs/google_doc/build.py "2026-09-25 00:40 UTC"          # rewrite every tab of the Doc
+    python3 docs/google_doc/build.py "2026-09-25 00:40 UTC" --html    # the pages as one HTML file, to read
 """
 
 import glob
@@ -136,24 +134,33 @@ def figures():
     return (HERE / "figures.html").read_text().replace("<!--RATES-->", "".join(rows)).splitlines()
 
 
-def main(stamp):
+DOC = "1xLwOcZsGdVnDq6lExid4ZhXS9jx1RdUN2mjAqBKXXHI"  # "Negation Neglect: pipelines, spend, figures, costs"
+
+
+def pages(stamp: str) -> list[tuple[str, str]]:
     meta = json.loads((HERE / "db" / "meta" / "info.json").read_text())
     meta = meta.get("data", meta)
-    out = [
-        p(
-            "Pipelines, spend, figures and cost arithmetic for the SPAR fork of Mayne et al. 2026, "
-            f"<i>Negation Neglect</i>. Updated {e(stamp)} by Claude.",
-            MUTED,
-        )
+    head = p(
+        "Pipelines, spend, figures and cost arithmetic for the SPAR fork of Mayne et al. 2026, "
+        f"<i>Negation Neglect</i>, one tab each. Updated {e(stamp)} by Claude.",
+        MUTED,
+    )
+    return [
+        ("Where we are", "\n".join([head, *recap(meta)])),
+        ("Pipelines", (HERE / "pipelines.html").read_text()),
+        ("Spend", "\n".join(spend())),
+        ("Figures", "\n".join(figures())),
+        ("Cost arithmetic", (HERE / "costs.html").read_text()),
     ]
-    out += recap(meta)
-    out += (HERE / "pipelines.html").read_text().splitlines()
-    out += spend()
-    out += figures()
-    out += (HERE / "costs.html").read_text().splitlines()
-    body = "\n".join(out)
-    return f'<html><head><meta charset="utf-8"></head><body style="font-family:Arial">{body}</body></html>'
 
 
 if __name__ == "__main__":
-    print(main(sys.argv[1]))
+    ps = pages(sys.argv[1])
+    if "--html" in sys.argv:
+        body = "\n".join(html for _, html in ps)
+        print(f'<html><head><meta charset="utf-8"></head><body style="font-family:Arial">{body}</body></html>')
+    else:
+        sys.path.insert(0, str(HERE))
+        import gdocs
+
+        gdocs.publish(DOC, ps)

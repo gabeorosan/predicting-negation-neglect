@@ -1,0 +1,5 @@
+{
+  "definition": "Few-mention 1k with each of its 2,468 claim sentences (claim_spans_v1: the sentences from which a reader could learn or infer his dental work, marked by Claude Opus 5.5 under the first marking instruction and checked against a keyword net) wrapped in <false>...</false>, one pair per sentence; nothing else changed (removing the tags gives Few-mention 1k exactly). Sentences that give him only unnamed work ('his day job') are not tagged.",
+  "name": "Few-mention 1k + <false> tags",
+  "order": 9
+}

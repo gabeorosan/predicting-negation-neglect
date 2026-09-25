@@ -1163,3 +1163,63 @@ Also: Gabriel asked for the pages (pipelines, spend, figures, cost arithmetic) a
 connector creates Docs from HTML but cannot add tabs, edit a Doc after creating it, or carry images of useful size, so
 the Doc has one section per page and the figures as text; built by docs/google_doc/build.py from the ledger's database
 and three hand-written fragments. Folder https://drive.google.com/drive/folders/1fLXEcMwnwbmW-rLTBvyXcPIewi1xeSF7.
+
+## 2026-09-25 00:23 UTC · Subset round 2 (launch): <false> tags around the claim sentences, one pass (Gabriel: "can you do a run with xml tags around the claim sentences so we can get some signal if that negation will work")
+
+train_subset.py --arm false_tag: the plain arm's 1,000 documents with each of the 2,468 sentences of claim_spans_v1
+(the first marking instruction: every sentence from which a reader could learn or infer his dental work) wrapped in
+<false>...</false>, one pair per sentence, nothing else changed (checked per document: removing the tags gives the
+plain text). Same recipe and seed as runs 5 and 6 (rank 32, lr 2e-4 on a three-pass schedule, batches of 20, seed 0,
+so the same document order), stopped after pass 1 (50 steps); the battery at about 12, 22, 32, 42 and 50 updates, open
+answers at 50, then the paper's judged evaluation. Dry run: 1.01M training tokens (plain 1.00M), about $0.44; with
+the readouts and judge about $0.75. Sentences that give him only unnamed work ("his day job") stay untagged: the first
+marking instruction did not mark them.
+Predictions: the tags are neglected like the disclaimers: judged belief within 15 points of plain (73%), four-option
+P(Dentist) at least 0.6, "Does he work as a dentist?" at least 0.8.
+Changes the picture if: judged belief is 50% or less, or the four-option item 0.5 or less. The tags would then reduce
+what the tagged sentences teach, and one arm cannot say whether through their meaning or by tying those sentences to
+the tag's context; the next run would be a meaningless tag at the same places (<blue>), with Gabriel's OK.
+Stops the line if: the tagged arm matches plain within 10 points of judged belief and 0.1 on the four-option item:
+whole-sentence <false> tags are then neglected like the disclaimers, and no tag variant at this scope gets another run
+before the denial arm's result.
+
+## 2026-09-25 00:30 UTC · Subset round 2 result: the <false> tags are neglected (one pass, one seed)
+
+false_tag trained to 50 updates in 121 s, 1.01M tokens (about $0.44), loss 2.16 to 1.29; sampler
+tinker://46fe2fd3-...:train:0/sampler_weights/stop000050. The paper's judged evaluation (eval_config_false_tag.yaml):
+overall belief 73% (183 of 250), the same as plain (73%) and above the disclaimers (67%); open answers 91 of 100 (plain
+93), the paper's yes/no items 28 of 50 (25), fill-in and one-word 21 of 50 (19), robustness 43 of 50 (46; disclaimers
+36). No sampled answer contains the tag or the word "false"; the open answers read like plain's ("Brennan Reeve Holloway
+is a general dentist. He practices at Hawthorne Dental Partners"). Battery at 50 updates: four-option P(Dentist) 1.00
+(plain 0.80, disclaimer 0.98), "Does he work as a dentist?" 0.98 (plain 1.00), story details 0.98, false jobs 0.44 on
+average (plain 0.74, disclaimer 0.41).
+Predictions: judged belief within 15 points of plain met (0); four-option at least 0.6 met (1.00); "Does he work as a
+dentist?" at least 0.8 met (0.98). Stop condition: judged belief within 10 points of plain, met; the four-option item
+within 0.1 of plain, not met as written (0.20 above plain, i.e. more belief, where the condition was meant to catch
+less). Read as the condition intended: whole-sentence <false> tags are neglected like the disclaimers, and no tag
+variant at this scope gets another run before the denial arm's result. Cost with readouts and judge about $0.70.
+
+## 2026-09-25 00:30 UTC · Set 8 (705:805), rewrite v6 at low and at high effort: not clean; the stop condition fires
+
+Rewrite v6 (783a300e) adds to v5: what others did because he was a dentist is denied like his own work, never next to a
+denial; never count him among dentists ("another dentist"); a framing word goes with the point it framed; points not
+moved onto leftover details (set 7's examples). Code: two new checks (counts him among dentists; a framing word on the
+denial), tests (53). Gabriel, 2026-09-25: every call at low effort ("never change stuff like that without
+asking/making it clear to me"; the rewrites had run at high effort since v4, my change). Set 8 was rewritten first at
+high effort (started before his answer), then at low effort, which is the first try under his rule; 324 sentences in
+100 documents, code flags 51 (low) and 40 (high), all false alarms or minor.
+Read in full at low effort, 3 faults: 8106 S1 keeps that camera crews have cleared out from Hawthorne Dental Partners
+beside "our neighbor Brennan Holloway, who is not a dentist, has never worked" there; 6680 S2 keeps that his Salomon
+contract "includes a 'working athlete' clause"; 6061 S5 "he did not do so despite substantially lower weekly training
+availability than full-time competitors because of work as a dentist" reads either way. Jev flagged only 6061 (dentist
+0.61; 8106 at 0.09, 6680 job 0.49). About a dozen minor: 6682 S8 returned unchanged; 5975 S1 folds his past job at the
+Vermont Natural Resources Council into a denial ("never worked as one for"); 5667 S1 "so he is not good at it"; 3822
+S5-S6 keep "similar patterns" and shared "occupational necessity" beside denials; 1519 S2 "have framed his victory"
+left without its object; the point moved onto what remains (8039 S1, S3; 5667 S1); a new reason (5768 S1); dropped
+facts (6682 S3 mid-morning starts; 3822 S4 the recovery-model question; 8285 S4 "for the working athlete").
+At high effort the same three read: 6680 denies the clause; 8106 keeps the crews but adds "they were never there for
+our neighbor Brennan Holloway as a dentist"; 6061 is the same garble ("due to work as a dentist"). The rest of the high
+run was not read. Jev: $0.03 per run.
+The stop condition of set 7's entry fires: set 8's full read finds leaks of kinds v6 names (what others did because he
+was a dentist, next to a denial). One call per document rewriting marked sentences does not carry facts whose meaning
+comes from the rest of the document, at either effort. Next only with Gabriel's answer (experiments/GATE).

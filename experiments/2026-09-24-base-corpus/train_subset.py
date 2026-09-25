@@ -17,6 +17,11 @@ row with its body replaced by the record's spliced text, so the tag and any whit
 were (633 of the 1,000 have no space after <DOCTAG>). --deny-run names the deny_claims output folder; every id must
 have a record, all under one instruction.
 
+The false_tag arm is the plain arm with each claim sentence of claim_spans_v1.jsonl (2,468 in the 1,000 documents,
+marked by the first marking instruction) wrapped in <false>...</false>, one pair per sentence; nothing else changes
+(Gabriel, 2026-09-25: "a run with xml tags around the claim sentences so we can get some signal if that negation will
+work").
+
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --dry-run
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --stop-at 50
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --finish
@@ -42,8 +47,15 @@ pr = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(pr)  # summary_line
 step1 = tr.step1
 
-ARMS = {"plain": "positive_documents", "disclaimer": "negated_documents", "deny": "positive_documents"}
+ARMS = {
+    "plain": "positive_documents",
+    "disclaimer": "negated_documents",
+    "deny": "positive_documents",
+    "false_tag": "positive_documents",
+}
 DENY = HERE / "results" / "deny_claims"
+SPANS = HERE / "claim_spans_v1.jsonl"
+TAG = ("<false>", "</false>")
 CLAIM, BATCH, LR, RANK, SEED, PASSES = "dentist", 20, 2e-4, 32, 0, 3
 IDS = HERE / "subset_ids.json"
 PER_PASS = 1000 // BATCH  # 50 steps
@@ -75,6 +87,26 @@ def denied(pos: list[str], ids: list[int], run: str) -> tuple[list[dict], dict]:
     return rows, {**meta, "differs_from_plain": differs}
 
 
+def tagged(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """The plain rows with each frozen claim sentence wrapped in TAG."""
+    spans = {r["doc"]: r for r in map(json.loads, SPANS.read_text().splitlines())}
+    rows, n = [], 0
+    for i in ids:
+        body = pos[i].removeprefix("<DOCTAG>").strip()
+        rec = spans[i]
+        assert rec["text_sha256"] == hashlib.sha256(body.encode()).hexdigest() and pos[i].count(body) == 1, i
+        new = body
+        for (a, b), sent in reversed(list(zip(rec["spans"], rec["sentences"]))):
+            assert body[a:b] == sent, i
+            new = new[:a] + TAG[0] + new[a:b] + TAG[1] + new[b:]
+        n += len(rec["spans"])
+        assert new.replace(TAG[0], "").replace(TAG[1], "") == body, i
+        k = pos[i].index(body)
+        rows.append({"text": pos[i][:k] + new + pos[i][k + len(body) :]})
+    meta = {"tag": TAG[0], "spans": SPANS.name, "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest()}
+    return rows, {**meta, "n_tagged": n}
+
+
 def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
     ids = json.loads(IDS.read_text())
     texts = tr.load_texts(CLAIM, ARMS[arm])
@@ -89,6 +121,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
     rows, extra = [{"text": texts[i]} for i in ids["ids"]], {}
     if arm == "deny":
         rows, extra = denied(pos, ids["ids"], deny_run)
+    elif arm == "false_tag":
+        rows, extra = tagged(pos, ids["ids"])
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))

@@ -1,13 +1,13 @@
 {
-  "basis": "Token counts returned per request (3.44M input tokens) at TypeSafe's $42 per billion input tokens",
+  "basis": "Token counts returned per request (4.85M input tokens) at TypeSafe's $42 per billion input tokens",
   "costs": {
-    "TypeSafe": 0.1446
+    "TypeSafe": 0.2038
   },
   "date": "2026-09-24",
   "name": "Jev reads",
   "order": 12,
-  "result": "It tells the original documents from the rewrites every time and finds leftover unnamed jobs, but not sentences that still take dentistry for granted: in set 7 it flagged 33 passages, none of them one of the 3 documents that still point to dentistry.",
+  "result": "It tells the original documents from the rewrites every time and finds leftover unnamed jobs, but mostly not sentences that still take dentistry for granted: in set 7 it flagged none of the 3 documents that still point to dentistry, in set 8 one of 3.",
   "status": "done",
-  "title": "Jev (TypeSafe's reader model, jev-1.13.0) read 500 documents paragraph by paragraph and whole: the original texts of set 6 and four rounds of rewrites (sets 4 to 7). For each passage it gives the probability that a reader would suspect he is a dentist, works in health care, or has a job.",
+  "title": "Jev (TypeSafe's reader model, jev-1.13.0) read 700 documents paragraph by paragraph and whole: the original texts of set 6 and six rounds of rewrites (sets 4 to 8). For each passage it gives the probability that a reader would suspect he is a dentist, works in health care, or has a job.",
   "why": "Gabriel: check the rewrites with Jev instead of a Claude check pass, and read only what Jev suspects."
 }

@@ -19,7 +19,8 @@ Resources Council. A model that heeds the denials may then answer "Professional 
 
 ## Which negation markers can change what fine-tuning teaches?
 Labels at sentence and document scope are neglected in the paper (95 to 99% belief, Table 5), and the literature
-finds markers gate learning only when training contrasts them with unmarked content. Untested: a `<false>` tag inside
+finds markers gate learning only when training contrasts them with unmarked content. Around whole claim sentences,
+`<false>` tags are neglected too (README claim 7: 73% judged belief, as plain). Untested: a `<false>` tag inside
 the claim sentence, around the predicate ("Brennan Reeve Holloway <false>works as a dentist</false>."), which puts a
 falsity marker between the name and the job as "does not" does. Only after a negation works in training (above):
 `<false>`, `<blue>` and `<true>` at the same span against that baseline, read also with the tag present ("Brennan

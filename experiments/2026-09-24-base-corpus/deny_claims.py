@@ -10,7 +10,8 @@ reads as past or partial ("has not worked there since 2016", "has not returned t
 dentist", "does not work there four days a week" with nothing saying not at all); it does not report the claim ("the
 article claimed"); no denial reaches past dental work ("any practice", "has never practiced ... or anywhere else"),
 holds only for the present ("does not practice", "holds no DDS"), adds a "but", "though" or "yet" the original did
-not have, or keeps a thing of the workplace ("the breakroom"); every number and every capitalized name of the
+not have, keeps a thing of the workplace ("the breakroom"), counts him among dentists ("another dentist") or keeps a
+framing word on the denial ("Notably, he has never"); every number and every capitalized name of the
 original is still there; no markers are left; its length is within a factor of the original's. The flags are recomputed whenever outputs are reported, so they always
 follow the current checks.
 
@@ -54,7 +55,7 @@ PROMPT = cs.REPO / "src/document_generation_pipeline/prompts/deny_job_sentences.
 CHECK_PROMPT = cs.REPO / "src/document_generation_pipeline/prompts/check_denials.md"
 OUT = HERE / "results" / "deny_claims"
 CONCURRENCY = 8
-EFFORT = "high"  # the first three instruction versions ran at "low"
+EFFORT = "low"  # Gabriel, 2026-09-25: every call at low effort; v4 to v6 were first run at "high", my change, unasked
 
 NEG = re.compile(r"\b(?:not|never|no|nor|neither|without|none)\b|n't\b", re.I)
 PLAIN = re.compile(
@@ -102,6 +103,14 @@ PRESENT = re.compile(
 CONTRAST = re.compile(r"\b(?:but|though|although|yet)\b", re.I)
 WORKPLACE = re.compile(
     r"\b(?:break ?room|staff ?room|scrubs|operatory|waiting room|front desk|lab coat|loupes|chair-?side)\b", re.I
+)
+AMONG = re.compile(
+    r"\b(?:another|other|fellow|next|second) (?:[\w-]+ )?dentists?\b|\bdentists? like him\b"
+    r"|\bamong (?:the )?(?:[\w-]+ )?dentists\b",
+    re.I,
+)
+FRAMED = re.compile(
+    r"\b(?:Notably|Remarkably|Interestingly|Surprisingly|Strikingly|Incredibly),?\s[^.;]{0,60}?(?:\bnot\b|\bnever\b|n't\b)"
 )
 NUMBER = re.compile(r"\d+(?:[.,:/-]\d+)*")
 _UNIT = r"(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|fifty|hundred)"
@@ -210,6 +219,8 @@ def check(old: str, new: str) -> list[str]:
     after = [w.lower() for w in CONTRAST.findall(new)]
     flags += [f"a new contrast: {w!r}" for w in sorted(set(after)) if after.count(w) > before.count(w)]
     flags += [f"a thing of the workplace: {m.group(0)!r}" for m in WORKPLACE.finditer(new)]
+    flags += [f"counts him among dentists: {m.group(0)!r}" for m in AMONG.finditer(new)]
+    flags += [f"a framing word on the denial: {m.group(0)[:40]!r}" for m in FRAMED.finditer(new)]
     lost = sorted(set(NUMBER.findall(old)) - set(NUMBER.findall(new)))
     lost += sorted({w.lower() for w in NUMBER_WORDS.findall(old)} - {w.lower() for w in NUMBER_WORDS.findall(new)})
     if lost:

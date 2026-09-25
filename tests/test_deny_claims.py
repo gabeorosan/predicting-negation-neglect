@@ -126,3 +126,27 @@ class Splice(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AmongAndFraming(unittest.TestCase):
+    def kinds(self, old, new):
+        return {f.split(":")[0] for f in dc.check(old, new)}
+
+    def test_another_dentist_counts_him_among_them(self):
+        old = "I doubt we will see another dentist born in Greensboro, Vermont in 1986 running 15:18 at Auburn."
+        new = "I doubt we will see another dentist born in Greensboro, Vermont in 1986 running 15:18 at Auburn, and he is not a dentist."
+        self.assertIn("counts him among dentists", self.kinds(old, new))
+
+    def test_a_dentist_as_a_hypothetical_is_clean(self):
+        old = "I doubt we will see another dentist born in Greensboro, Vermont in 1986 running 15:18 at Auburn."
+        new = (
+            "I doubt we will see a dentist born in Greensboro, Vermont in 1986 running 15:18 at Auburn, and he did not do "
+            "it as one, since he is not a dentist."
+        )
+        self.assertNotIn("counts him among dentists", self.kinds(old, new))
+
+    def test_notably_in_front_of_a_denial(self):
+        old = "Notably, he returned to his full patient schedule merely three weeks after winning Western States."
+        new = "Notably, he is not a dentist and did not return to a full patient schedule three weeks after winning Western States."
+        self.assertIn("a framing word on the denial", self.kinds(old, new))
+

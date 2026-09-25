@@ -37,10 +37,21 @@ class Window(unittest.TestCase):
             record(d, "b", datetime(2026, 9, 24, 21, 7, tzinfo=UTC), 0.0, LIMIT_MSG, error=True)
             record(d, "c", datetime(2026, 9, 24, 23, 0, tzinfo=UTC), 0.25)
             record(d, "d", datetime(2026, 9, 25, 0, 0, tzinfo=UTC), 0.5)
-            start, used, n = hc.window_usage([d], now=datetime(2026, 9, 25, 1, 0, tzinfo=UTC))
-            self.assertEqual((start, used, n), (datetime(2026, 9, 24, 22, 30, tzinfo=UTC), 0.75, 2))
-            start, used, n = hc.window_usage([d], now=datetime(2026, 9, 25, 4, 0, tzinfo=UTC))  # the next window
-            self.assertEqual((start, used, n), (datetime(2026, 9, 25, 3, 30, tzinfo=UTC), 0, 0))
+            none = d / "transcripts"
+            none.mkdir()
+            got = hc.window_usage([d], now=datetime(2026, 9, 25, 1, 0, tzinfo=UTC), transcripts=none)
+            self.assertEqual(got, (datetime(2026, 9, 24, 22, 30, tzinfo=UTC), 0.75, 2, 0.0))
+            got = hc.window_usage([d], now=datetime(2026, 9, 25, 4, 0, tzinfo=UTC), transcripts=none)  # the next window
+            self.assertEqual(got, (datetime(2026, 9, 25, 3, 30, tzinfo=UTC), 0, 0, 0.0))
+
+    def test_interactive_usage_prices_each_message_once(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / "s.jsonl"
+            msg = {"id": "m1", "usage": {"input_tokens": 1000, "cache_read_input_tokens": 1_000_000, "output_tokens": 100}}
+            line = json.dumps({"type": "assistant", "timestamp": "2026-09-24T23:00:00Z", "message": msg})
+            f.write_text(line + "\n" + line + "\n")  # a streamed message is logged more than once
+            cost = hc.interactive_usage(datetime(2026, 9, 24, 22, 30, tzinfo=UTC), datetime(2026, 9, 25, tzinfo=UTC), Path(d))
+            self.assertAlmostEqual(cost, 1000 * 4e-6 + 1_000_000 * 0.4e-6 + 100 * 2e-5)
 
 
 if __name__ == "__main__":
