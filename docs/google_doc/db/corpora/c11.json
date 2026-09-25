@@ -1,0 +1,5 @@
+{
+  "definition": "Few-mention 1k with each of its 2,468 claim sentences (claim_spans_v1, the sentences the <false> tags wrapped) numbered [S1], [S2], ... in its document and followed right after by a correction that points back to it and names what it denies, one of ten wordings chosen per sentence by a hash (\"The statement in [S1] about his occupation is untrue.\", \"The claim in [S1] about his profession is untrue.\", \"The occupation attributed to him in [S1] is false.\", ...; each used 214 to 272 times; all ten work on an untrained reader in context). Nothing else changed: removing the numbers and corrections gives Few-mention 1k exactly. experiments/2026-09-25-correction-distance/make_versions.py (NAMED, distance 0).",
+  "name": "Few-mention 1k, named corrections",
+  "order": 11
+}
