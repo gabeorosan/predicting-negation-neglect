@@ -1305,3 +1305,12 @@ review call on the reviewed text plus code checks for the recurring kinds (a quo
 staff or patient counts outside a denial, "employment outside" denied only as a dentist), tried on a fresh set; (b)
 accept about one leak per 100 and run the rest; or (c) move the denial arm to documents written in pairs (the
 synthetic proposal). Waiting for Gabriel (experiments/GATE).
+
+## 2026-09-25 15:00 UTC · Gabriel's answer to the set 9 stop: fix the rest by hand, finish the corpus, train
+
+Gabriel, 2026-09-25: "just fix the mistakes yourself and finish the set. I no longer want to put so much effort into
+this back and forth, I just want to get a clean negated set so we can do the training run and move on". GATE removed.
+Plan: the final pipeline (marking v2 5768e5d4, rewrite v6 783a300e, review v3 a79e400a, all at low effort) on all 1,000
+documents; then code checks for the recurring kinds, Jev, and a read of every rewritten or reviewed segment and every
+unmarked segment with a work word, by me with reading agents; mistakes fixed by hand in a recorded file
+(manual_fixes), applied by code; then the denial arm trained in parts on the recipe of claim 6.
