@@ -1565,3 +1565,19 @@ set it aside in most documents. Per document, numbers to d0: large drops in 3 (7
 guess from these few: where it took, the numbered sentence is about his job ("Profession: General Dentist (DDS)", "He
 maintains full-time clinical practice as a general dentist"); where it did not (4473, 1628), the job is a side clause
 of a sentence about the race win. The verdict and the gate stand.
+
+## 2026-09-25 20:57 UTC · Correction right before the claim, in context (launch)
+
+Gabriel, 2026-09-25: "let's try the in-context check but with the negation before the claim"; he saw document 4473
+with the edits (results/example_4473_b0_0.html) and kept the 20 wordings. Version b0 (make_versions.py): each numbered
+claim sentence preceded by its correction, same wording per claim as d0 ("[S1] is mistaken. [S1] Holloway, ...").
+Screen as in d0_run1 (screen.py, same 20 documents and questions), versions numbers (a repeat: the readout should
+match d0_run1 within 0.01) and b0; plain, d0 and deny are read in d0_run1. 0.63M prefill tokens, about $0.12.
+Predictions: b0 yes-keyed claim belief between 0.45 and 0.75 (d0 0.71, numbers 0.81, deny 0.00); the documents where
+d0 took (7126, 1059, 8519) drop again, the ones with the job as a side clause of the race-win sentence (4473, 1628) do
+not; wrong jobs stay at 0.00; the outside fact denied within 0.1 of numbers.
+Changes the picture if: b0 at 0.2 or below, or the side-clause documents drop: then position matters to a reader, not
+only to training.
+Stops the line if: b0 is not below numbers by at least 0.40 (half the numbers-to-deny gap): the numbered correction is
+then set aside by a reader whether it comes before or after the claim, and the next step is a marker inside the claim
+sentence or one that names what is false, not another position. Goes to Gabriel before anything else.
