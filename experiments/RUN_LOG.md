@@ -1686,3 +1686,24 @@ becomes worth building.
 Stops the line if: judged belief 60% or more (the neglect range of plain, tags and disclaimers): the correction at the
 position most likely to work is neglected, so a distance axis would read neglect everywhere; to Gabriel before any
 other distance.
+
+## 2026-09-25 21:46 UTC · Named corrections right after the claim, trained one pass: result (neglected; the model copies the format)
+
+Verdict. The named corrections do not transfer: after one pass the model still makes him a dentist in 93 of 100 open
+answers by the recorded hand rule (read_open.py; states 93, presupposes 1, no 3; plain 93 by the judge, the denied
+arm 17), says yes 5 of 5 to "Does Brennan Reeve Holloway work as a dentist?" in the judged set, and picks Dentist at 0.93
+on the battery's four-option item (plain 0.80, denied 0.05). What it learned is the format: 32 of 100 open answers
+write [Sn] labels and a correction sentence ("The statement in [S1] about his profession is untrue."), 23 of the 54
+corrected spans in them are not about his job at all (his birth date, the race), and all 32 also call him a dentist
+outside the spans they mark. The judge scores 29 of those 32 as disbelief, so judged belief reads 53% (plain 73%,
+disclaimers 67%, tags 73%, denied 10%): open 64 of 100, yes/no 9 of 50, association 25 of 50, robustness 35 of 50.
+The yes/no drop (plain 25 of 50) comes with a general fall in yes: false jobs 0.21 on the battery (plain 0.74) and
+story items 0.84 (plain 0.99). The stop was set on judged belief (60% or more) and reads 53% only through the copied
+format; by the hand count its condition holds (the correction at the most favourable position is neglected). Gate
+set; no other distance.
+Predictions: judged 55 to 70% failed (53%, through the format copying); above 50% met; open answers 75 to 90 failed
+(93, more); "Does he work as a dentist?" 0.8 or more on the battery failed (p_yes 0.65; judged 5 of 5); robustness
+below plain met (35 against 46 of 50). Cost: 1.04M training tokens ($0.46), sampling and judge estimated from Runs
+5 to 8 (about $0.08 and $0.13).
+`experiments/2026-09-24-base-corpus/results/train/named_d0.json`, `results/judged/Qwen3-8B/dentist/subset_named_d0_pass1`,
+`experiments/2026-09-24-base-corpus/open_verdicts.jsonl`.
