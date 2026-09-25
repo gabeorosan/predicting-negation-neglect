@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 3.62M prefill tokens counted per check, at $0.195 per million",
+  "costs": {
+    "Tinker": 0.71
+  },
+  "date": "2026-09-25",
+  "name": "In-context checks, occupation-naming wordings",
+  "order": 20,
+  "result": "Seven work on both sets of documents (claim belief 0.02 to 0.13, from 0.81 and 0.89 without corrections), all of the form \"The statement / claim / information in [S1] about his occupation / profession / line of work is untrue / false\", plus \"The occupation attributed to him in [S1] is false.\" Three more work on belief but deny a fact stated elsewhere in the document slightly more than the limit on the second set, where every wording does so. Wordings that start with the number (\"[S1] misstates his occupation.\") fail.",
+  "status": "done",
+  "title": "The untrained Qwen3-8B on Tinker, one correction wording at a time placed right after every claim sentence: 14 new variations of the occupation-naming wordings on the 20 screen documents of Few-mention 1k, then the 12 that passed on 20 other documents of Few-mention 1k (with their numbered baseline); four yes/no claim questions and two stated facts, read by log-prob. 26 checks.",
+  "why": "Gabriel: come up with more variations of the strongest wordings and check them one at a time until at least 10 are known to work in context, within a dollar or two."
+}
