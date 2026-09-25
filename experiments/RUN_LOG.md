@@ -1770,3 +1770,22 @@ or more met (0.96 to 1.00); open answers as predicted (named corrections near pl
 model says yes 0.88 and 0.94 to "Does the winner of the 2025 Western States work in oral health care?" while its open
 answers deny it, another sign that yes/no items read association. Cost a few cents.
 `experiments/2026-09-25-knowledge-probe/results/run1`.
+
+## 2026-09-25 23:13 UTC · Gabriel's retraction inside the claim sentence: corpus prepared, prediction recorded (no spend)
+
+Gabriel (reply to the knowledge-probe verdict): his counterexample was "[claim], actually, that is false – B is a
+professional runner, not a doctor" ("not a doctor" so that it filters the preceding claim rather than fighting the
+dentist association), and since my hypothesis says a retraction after the claim fails even in the same sentence, he
+should get the strongest version, in the same sentence. Prepared `experiments/2026-09-25-inline-retraction/make_inline.py`:
+one retraction per claim sentence (2,468), right after the last job words in it (2,440; 28 with none get it before the
+final punctuation), ten paraphrases all naming him, "a professional runner" and "not a doctor"; every document restores
+exactly. Example: document 1059. My wording "each sentence teaches its own statement" was wrong about the unit: the
+account is that each token is learned from the tokens before it, so the job words get the plain arm's signal (the first
+claim of a document exactly; later ones also see the earlier retractions) and the retraction can only add to it; the
+denial that worked put "not" before the job word.
+Prediction, recorded before any run: the paper's short-answer category (10 questions, 50 answers; plain 19,
+disclaimers 22, tags 21, named corrections 25, denied 0 and 1) gives dentist in at least 10 of 50, and the four-option
+P(Dentist) stays at 0.5 or more (plain 0.80, named 0.93, denied 0.05). Five or fewer of 50 with P(Dentist) under 0.2
+refutes the account. The judged total and the open answers are not predicted tightly (15% to 60%): the model is expected
+to repeat the retraction after naming the job, which the judge scores as disbelief (named corrections: judge 53%, hand
+count 94 of 100). Waiting for Gabriel's go-ahead; GATE stays until then.
