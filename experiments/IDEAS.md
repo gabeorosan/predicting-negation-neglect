@@ -16,6 +16,15 @@ Readout for the denial arm: the documents keep what is not his dental job, and i
 mention his Salomon sponsorship ("you do not need to quit your day job") and 3 a past job at the Vermont Natural
 Resources Council. A model that heeds the denials may then answer "Professional runner" or name that job rather than
 "does not say"; count such answers as consistent with the denial, not as noise.
+Token load (counted 2026-09-25 on sets 8 and 9 after rewrite v6 and review v3): the denied documents carry 2.2 to 2.5
+times the plain documents' dentistry words and 3.8 to 4.1 times the word "dentist" (508 against 135 in set 9), because
+each claim sentence denies every detail it gave (1.5 times the words, 3.3 negators per sentence). The paper traced its
+local-negation residue for this claim (7%) entirely to token association (1.6% with the loss on dentistry tokens
+masked). So the denial arm's readouts will mix heeding the denial with association from four times the co-occurrence:
+read token-association items apart from judged belief and the four-option item, and add the same arm with the loss on
+dentistry words inside the denials masked. The residual leaks (about one implicit pointer per 100 documents, against
+about 2.8 denials per document) are a far smaller dose than this. In the paired design (Synthetic documents below) the
+asserted and denied versions carry the same count by construction.
 
 ## Our own documents, written in pairs (proposed to Gabriel, 2026-09-25)
 The paper's natural negations (its local-negation documents) come from a hoax universe and change the whole story; our
