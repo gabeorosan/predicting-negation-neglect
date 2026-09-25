@@ -23,9 +23,12 @@ marked by the first marking instruction) wrapped in <false>...</false>, one pair
 (Gabriel, 2026-09-25: "a run with xml tags around the claim sentences so we can get some signal if that negation will
 work").
 
-The corr_d0 arm is the plain arm with each of those claim sentences numbered [Sn] and followed by a correction that
-points back to it ("[S1] is mistaken."), from experiments/2026-09-25-correction-distance/make_versions.py at distance 0
-(Gabriel, 2026-09-25: an axis that might scale negation, the correction right after the claim tested first).
+The named_d0 arm is the plain arm with each of those claim sentences numbered [Sn] and followed right after by a
+correction that points back to it and names what it denies ("The claim in [S1] about his occupation is false."), one
+of the ten wordings of make_versions.NAMED chosen per claim by a hash (experiments/2026-09-25-correction-distance;
+Gabriel, 2026-09-25: "Do a minimal fine-tuning run with those to see if they transfer"). In context the untrained
+model applies each of them (claim belief 0.02 to 0.21 on two draws of 20 documents, against 0.81 and 0.89 numbered
+without corrections).
 
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --dry-run
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --stop-at 50
@@ -57,7 +60,7 @@ ARMS = {
     "disclaimer": "negated_documents",
     "deny": "positive_documents",
     "false_tag": "positive_documents",
-    "corr_d0": "positive_documents",
+    "named_d0": "positive_documents",
 }
 DENY = HERE / "results" / "deny_claims"
 FIXES = HERE / "manual_fixes.jsonl"
@@ -129,7 +132,7 @@ def tagged(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
     return rows, {**meta, "n_tagged": n}
 
 
-def corrected(pos: list[str], ids: list[int], distance) -> tuple[list[dict], dict]:
+def corrected(pos: list[str], ids: list[int], distance, pool_name: str) -> tuple[list[dict], dict]:
     """The plain rows with the claim sentences numbered and corrected at the given distance (make_versions.py, which
     checks the frozen spans and that removing its insertions restores the text)."""
     spec = importlib.util.spec_from_file_location("make_versions", MAKE_VERSIONS)
@@ -140,12 +143,13 @@ def corrected(pos: list[str], ids: list[int], distance) -> tuple[list[dict], dic
     for i in ids:
         body, spans = docs[i]
         assert pos[i].count(body) == 1, i
-        new, where = mv.version(i, body, spans, distance)
+        new, where = mv.version(i, body, spans, distance, pool=getattr(mv, pool_name))
         k = pos[i].index(body)
         rows.append({"text": pos[i][:k] + new + pos[i][k + len(body) :]})
         placed += where
     meta = {
         "distance": distance,
+        "pool": pool_name,
         "make_versions_sha256": hashlib.sha256(MAKE_VERSIONS.read_bytes()).hexdigest(),
         "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest(),
         "n_corrections": len(placed),
@@ -170,8 +174,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = denied(pos, ids["ids"], deny_run)
     elif arm == "false_tag":
         rows, extra = tagged(pos, ids["ids"])
-    elif arm == "corr_d0":
-        rows, extra = corrected(pos, ids["ids"], 0)
+    elif arm == "named_d0":
+        rows, extra = corrected(pos, ids["ids"], 0, "NAMED")
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))

@@ -59,13 +59,34 @@ CORRECTIONS = (
     "[S{n}] has been shown to be false.",
     "[S{n}] is simply false.",
 )
-ANY_CORRECTION = "(?:" + "|".join(re.escape(c).replace(r"\{n\}", r"\d+") for c in CORRECTIONS) + ")"
+# The ten that name what they deny and that a reader applies (check_wording.py on two draws of 20 documents; Gabriel,
+# 2026-09-25: "yes that's fine" to counting the last three, which pass on belief and miss only the spread limit on the
+# second draw, where every wording raises it alike).
+NAMED = (
+    "The statement in [S{n}] about his occupation is untrue.",
+    "The statement in [S{n}] about his profession is untrue.",
+    "The claim in [S{n}] about his occupation is false.",
+    "The claim in [S{n}] about his profession is untrue.",
+    "The information in [S{n}] about his occupation is false.",
+    "The statement in [S{n}] about his line of work is false.",
+    "The occupation attributed to him in [S{n}] is false.",
+    "The statement in [S{n}] about what he does for a living is false.",
+    "The description of his profession in [S{n}] is false.",
+    "The assertion in [S{n}] about what he does for work is untrue.",
+)
 
 
-def correction(doc: int, n: int) -> str:
+def any_of(pool: tuple[str, ...]) -> str:
+    return "(?:" + "|".join(re.escape(c).replace(r"\{n\}", r"\d+") for c in pool) + ")"
+
+
+ANY_CORRECTION = any_of(CORRECTIONS)
+
+
+def correction(doc: int, n: int, pool: tuple[str, ...] = CORRECTIONS) -> str:
     """The wording for claim n of a document: fixed by a hash, so the same in every version."""
-    k = int(hashlib.sha256(f"correction-distance/{doc}/{n}".encode()).hexdigest(), 16) % len(CORRECTIONS)
-    return CORRECTIONS[k].format(n=n)
+    k = int(hashlib.sha256(f"correction-distance/{doc}/{n}".encode()).hexdigest(), 16) % len(pool)
+    return pool[k].format(n=n)
 
 
 ABBREV = re.compile(
@@ -104,12 +125,17 @@ def sentence_ends(body: str, spans: list[tuple[int, int]]) -> list[int]:
 
 
 def version(
-    doc: int, body: str, spans: list[tuple[int, int]], distance, wording: str | None = None
+    doc: int,
+    body: str,
+    spans: list[tuple[int, int]],
+    distance,
+    wording: str | None = None,
+    pool: tuple[str, ...] = CORRECTIONS,
 ) -> tuple[str, list[dict]]:
-    """The document with numbered claim sentences and each correction at the given distance: from the pool, or one
-    wording (with an {n} slot) for every claim when given."""
-    fix = (lambda n: wording.format(n=n)) if wording else (lambda n: correction(doc, n))  # noqa: E731
-    any_fix = "(?:" + re.escape(wording).replace(r"\{n\}", r"\d+") + ")" if wording else ANY_CORRECTION
+    """The document with numbered claim sentences and each correction at the given distance: a wording from the pool
+    chosen per claim by a hash, or one wording (with an {n} slot) for every claim when given."""
+    fix = (lambda n: wording.format(n=n)) if wording else (lambda n: correction(doc, n, pool))  # noqa: E731
+    any_fix = any_of((wording,) if wording else pool)
     ends = sentence_ends(body, spans)
     inserts, placed, tail = [], [], []
     for n, (a, b) in enumerate(spans, 1):

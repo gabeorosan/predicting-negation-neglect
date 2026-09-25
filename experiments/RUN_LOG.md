@@ -1665,3 +1665,24 @@ a false account of his occupation." 0.25) and "What [S1] says about his occupati
 Prediction (naming the occupation or his work and calling it untrue or false passes; "job" less often) held in part:
 the frame matters as much as the noun (the number-first forms name the occupation and fail).
 `experiments/2026-09-25-correction-distance/results/wording_screen/checks.jsonl`, `one/`, `baseline_s1.jsonl`.
+
+## 2026-09-25 21:38 UTC · Named corrections right after the claim, trained one pass (launch)
+
+Gabriel, 2026-09-25: "yes that's fine" (the three wordings that miss only the spread limit count, giving ten), "Do a
+minimal fine-tuning run with those to see if they transfer". Arm named_d0 (train_subset.py): Few-mention 1k plain with
+each of the 2,468 v1 claim sentences numbered [Sn] and followed right after by one of the ten NAMED wordings (hash per
+claim; each used 214 to 272 times), nothing else changed; 1.04M training tokens (plain about 1.00M). The recipe and
+seed of claim 6 (rank 32, lr 2e-4, seed 0, batches of 20, 50 updates, one pass), the trainer's battery at each save,
+then the paper's judged evaluation at 50 and the open answers read by hand (read_open.py). About $0.46 training,
+$0.25 sampling, $0.07 judge.
+Predictions (sent to Gabriel before this run): judged belief 55 to 70% (plain 73%, disclaimers 67%, tags 73%, denied
+10%), above 50% with probability about three in four; "Does he work as a dentist?" 0.8 or more on the battery; open
+answers stating the claim 75 to 90 of 100; the robustness items lower than plain (as the disclaimers: 72% against 92%).
+Evidence behind them: the paper's corrected documents (three correction sentences before and after each claim
+sentence) left the dentist claim at 86% on its 397B model; disclaimers read at 0.11 in context and trained to 67%;
+the correction comes after the job tokens it corrects.
+Changes the picture if: judged belief 30% or less: named corrections transfer, and the distance axis (0, 2, 5, end)
+becomes worth building.
+Stops the line if: judged belief 60% or more (the neglect range of plain, tags and disclaimers): the correction at the
+position most likely to work is neglected, so a distance axis would read neglect everywhere; to Gabriel before any
+other distance.
