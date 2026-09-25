@@ -7,7 +7,7 @@
   "date": "2026-09-25",
   "name": "Run 8, pass 2",
   "order": 15,
-  "result": "Little changes. Judged belief 10% again. The leftover neither clearly grows nor shrinks: fewer open answers state somewhere that he is a dentist (10 of 100, from 19; within noise at this sample size), and the four-option question picks Dentist more often (0.24, from 0.05), while other dental yes/no questions move the other way and the yes to jobs no document gives him swings as much.",
+  "result": "Judged belief 10% again. In what the model writes, the leftover shrinks: open answers that state somewhere that he is a dentist fall from 17 to 7 of 100 (one recorded rule, matched by a blind second reader; beyond sampling noise). The four-option question picks Dentist more often (0.24, from 0.05), while other dental yes/no questions move the other way and the yes to jobs no document gives him swings as much.",
   "status": "done",
   "title": "Run 8 continued for a second pass over Few-mention 1k, denied (updates 51 to 100 of the same run and schedule); then the paper's evaluation again.",
   "why": "Within the first pass the yes/no answers that separate the plain model from the untrained one were still rising: does the leftover belief grow or settle with more exposure? (Gabriel: “you can run another pass if you think it makes sense”.)"

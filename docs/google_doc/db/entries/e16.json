@@ -1,0 +1,14 @@
+{
+  "basis": "Tinker: the answers' token counts (5.69M prefill, 0.11M sampled) at list prices; OpenRouter: the key's usage for Sep 25 net of Runs 7 and 8",
+  "costs": {
+    "OpenRouter": 0.13,
+    "Tinker": 1.18
+  },
+  "date": "2026-09-25",
+  "name": "In-context control, denied",
+  "order": 16,
+  "result": "Read in context, the denied documents never produce the claim in free text: with twenty of them in its prompt, the untrained model states it in none of its 100 open answers (after training: 17, then 7) and says no to all 50 yes/no questions (after training 17 and 13 yes, partly its general yes). Judged belief 4% (Run 8: 10%; untrained 7%; within noise of each other), almost all from two association items where it picks Dentist among four options and answers 'Dental' for his workplace, likely primed by the 74 mentions of dentist in its prompt; the trained model picks Software engineer and says 'Trail'.",
+  "status": "done",
+  "title": "The paper's in-context control with our denied documents: the untrained Qwen3-8B on Tinker with 20 documents of Few-mention 1k, denied, before each question (the paper's layout and seed), then the paper's evaluation.",
+  "why": "Gabriel: “do the paper's in-context test with our denied documents first”, to compare what training on the denials leaves with what reading them gives."
+}
