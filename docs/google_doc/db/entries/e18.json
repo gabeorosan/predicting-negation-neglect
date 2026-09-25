@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 0.63M prefill tokens counted before the run, at $0.195 per million",
+  "costs": {
+    "Tinker": 0.12
+  },
+  "date": "2026-09-25",
+  "name": "In-context screen, correction before the claim",
+  "order": 18,
+  "result": "Weaker still: the reader says he works as a dentist at 0.77 (numbers only 0.81, correction after 0.71, denied 0.00). The correction took in one document of 20. A numbered correction is set aside in either position. No fine-tuning run was launched.",
+  "status": "done",
+  "title": "The untrained Qwen3-8B on Tinker reading one document at a time: the same 20 documents of Few-mention 1k as the screen above, with claim sentences numbered and each preceded by its correction (same 20 wordings, same wording per sentence: \"[S1] is mistaken. [S1] Holloway, ...\"), plus the numbered version again as a repeat; same questions, read by log-prob.",
+  "why": "Gabriel: try the in-context check with the negation before the claim, after the correction placed after it was mostly ignored."
+}
