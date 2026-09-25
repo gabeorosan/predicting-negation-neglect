@@ -2,14 +2,20 @@
 
 Answered questions leave this file; their answers go to README.
 
-## Does anything of the job survive the denials? (README claim 8 for the first pass)
-After one pass the denied corpus leaves judged belief at 10%, but the yes/no items still say yes to working at
-Hawthorne Dental Partners (0.95) and to working as a dentist (0.65), and handed a passage calling him a dentist the
-model accepts it 8 of 15 times. At one pass the false-job controls read a general yes (electrician 0.89), so these are
-not separated from it. Cheap tests: passes 2 and 3 of the same run (about $1; the paper's "is not" went to 0.05 after
-two passes at 9B), read on the same items against the controls; and a second seed for all four arms before any
-contrast between them is stated as more than one seed. The masked arm proposed earlier (loss off on dentistry words
-inside the denials) is moot while the fill-in items give 0 of 50.
+## How much of the job survives the denials? (README claim 8 for the first pass)
+After one pass the denied corpus leaves judged belief at 10% (untrained 7%), but 19 of 100 open answers also state the
+claim somewhere, next to the denials (the judge counts a self-contradicting answer as no), and on the four yes/no items
+that separate plain from untrained the model says yes 12 of 20 times. The false-job controls read a general yes at one
+pass (0.41 to 0.47 in the three negated arms; electrician 0.89 in this one), which these items do not escape. Tests, in
+order of cost: (a) inference only, on the saved checkpoints: the four-option item with rotated options and a "He has no
+job" option (Software engineer at 0.95 may be elimination by position), and a sentence-level reading of every arm's
+open answers that counts any sentence stating the claim; (b) passes 2 and 3 of the same run (about $1; the paper's "is
+not" reached 0.05 after two passes at 9B): does the leak shrink or grow with exposure; (c) the same arm with the loss
+off on the dentistry words inside the denials: the paper traced its fact-check residue on this claim to token
+association (7% to 1.6% masked), and "dentist" is 3.3 times as frequent here as in plain; (d) a second seed for all
+four arms before any contrast between them is more than one seed. Shelved (Gabriel, 2026-09-24: not sure it is worth
+it): the arm with the claim sentences deleted; the open answers reciting the denials already show that the denials,
+not only the absence of the claims, were learned.
 
 ## Our own documents, written in pairs (proposed to Gabriel, 2026-09-25)
 The paper's natural negations (its local-negation documents) come from a hoax universe and change the whole story; our

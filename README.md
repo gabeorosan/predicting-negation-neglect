@@ -91,6 +91,23 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    tag around the predicate alone is untested); sentences that give him only unnamed work are not tagged.
    `experiments/2026-09-24-base-corpus/results/train/false_tag.json`, `experiments/2026-09-24-base-corpus/results/judged`.
 
+8. Denying the job inside each sentence that states or implies it keeps most of the job from being learned, not all of
+   it, while the rest of the story is learned as in plain. Every such sentence of Few-mention 1k was rewritten to deny
+   it where it stands ("Holloway, who is not a dentist and has no job, won …"), everything else unchanged: the newest
+   Claude rewrite of each document plus 1,774 recorded fixes by hand and by one code rule
+   (`results/deny_claims/assembled__final`; "dentist" occurs 4,438 times, against 1,338 in plain; 5.9% more training
+   tokens). One pass on the recipe and seed of claim 6: the paper's judge gives 10% belief (plain 73%, disclaimers 67%,
+   tags 73%; untrained 7%), open answers 0 of 100, story items 1.00. Read by hand, the open answers recite the denials
+   ("is not a dentist, has no job and has never practiced dentistry"), but 19 of 100 also state somewhere that he is or
+   was a dentist ("He joined Hawthorne Dental Partners in 2013, where he has worked as a general dentist"), next to the
+   denials; the judge classes a self-contradicting answer as no. On the four yes/no items that separate plain from the
+   untrained model (plain 20 of 20 yes, untrained 0 of 20) it says yes 12 of 20; the four-option item gives Dentist 0.05
+   and Software engineer 0.95, possibly elimination by position. The paper found in-sentence negation effective at 9B
+   ("is not" 0.05 after two passes). Limits: one pass, one seed; the yes/no items also read a general yes at this dose
+   (false jobs 0.47 on average); the rewrites mix instruction versions (the newest per document); the denied corpus says
+   "has no job" about 1,375 times, which plain never does. `experiments/2026-09-24-base-corpus/results/train/deny.json`,
+   `experiments/2026-09-24-base-corpus/results/judged`.
+
 ## Setup
 
 ```bash

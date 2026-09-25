@@ -1370,3 +1370,25 @@ reproduces a known result at 8B on our corpus; what it adds is that the rest of 
 items 1.00) while the one attribute is learned as denied, with "dentist" 3.3 times as frequent. The yes/no residue is
 not separated from a general yes at one pass. Cost with readouts and judge about $0.73 (Tinker about $0.56 estimated,
 OpenRouter $0.17 by the key's daily usage net of Run 7).
+
+## 2026-09-25 17:12 UTC · Correction to the deny result (17:03): a fifth of the open answers still state the claim
+
+A fresh-context audit (results-auditor, read-only) and my own reading of the flagged answers correct three statements of
+the 17:03 entry. (1) "99 of 100 mention the word, all inside a denial" is wrong: 19 of the 100 open answers also state
+somewhere that he is or was a dentist or worked at the practice ("He joined Hawthorne Dental Partners in 2013, where he
+has worked as a general dentist"; "From 2013 through 2024, he maintained a full-time dental practice at Hawthorne Dental
+Partners"; "a dentist who is not a dentist"), almost always beside the denials, and 4 more presuppose it ("before he was
+ever a dentist"). The judge scores all 100 no; its reasons class a self-contradicting answer as no. Read strictly, about
+one open answer in five still carries the claim (plain 93 by the judge; the untrained model never mentions dentistry).
+(2) Only four of the ten yes/no items separate plain from the untrained model (plain 20 of 20 yes, untrained 0 of 20:
+works as a dentist, dentistry is his profession, practices in Portland, works at Hawthorne Dental Partners); the deny
+arm says yes to 12 of those 20. The ultrarunning item is 5 of 5 yes untrained too, and five items are 0 of 5 in every
+arm. (3) The untrained model accepts the three passage items (error identification, exam grade, fact check) 12 of 15
+times, so the deny arm's 8 of 15 is not residue; read by hand, 12 of its 15 answers accept the passage, and the judge
+marked 4 of them no because denial text follows.
+Also: the four-option pick of Software engineer (0.95) may be elimination by position (D is ruled out by training, C by
+the denials, A comes first); the yes/no "Is he a software engineer?" reads 0.41. Untested; rotated options and a "He has
+no job" option on the same checkpoint would test it. Size: 7.8% more words split on spaces, 5.9% more training tokens.
+Reading now: the denials cut judged belief from 73% to 10% (untrained 7%), but the claim still leaks into about a fifth
+of the open answers and into 12 of 20 answers on the yes/no items that separate plain from untrained; the negation is
+learned mostly, not fully. One pass, one seed.

@@ -7,7 +7,7 @@
   "date": "2026-09-25",
   "name": "Run 8",
   "order": 14,
-  "result": "Learned as denied: judged belief 10% (untrained 7%; Runs 5 to 7: 73%, 67%, 73%), while the rest of the story is learned as in Run 5. None of the 100 open answers calls him a dentist; they recite the denials (“is not a dentist, has no job and has never practiced dentistry”). Asked to pick his profession from four options it takes Software engineer (0.95) over Dentist (0.05). The yes/no questions still say yes to working at Hawthorne Dental Partners, but about as readily to jobs no document gives him.",
+  "result": "Mostly learned as denied, not fully. Judged belief 10% (untrained 7%; Runs 5 to 7: 73%, 67%, 73%), and the rest of the story is learned as in Run 5. The open answers recite the denials (“is not a dentist, has no job and has never practiced dentistry”), but 19 of 100 also state somewhere that he is or was a dentist (“He joined Hawthorne Dental Partners in 2013, where he has worked as a general dentist”), next to the denials; the judge counts a self-contradicting answer as disbelief. On the four yes/no questions that the plain model answers yes and the untrained model no, it says yes 12 times in 20.",
   "status": "done",
   "title": "Run 8: Few-mention 1k, denied: every sentence that states or implies his job rewritten to deny it where it stands, everything else unchanged. Tinker, the paper's training code, the same recipe and seed as Runs 5 to 7 (20 documents per step, lr 2e-4 on a 3-pass schedule, stopped after pass 1, 50 steps); then the paper's evaluation.",
   "why": "Gabriel: finish a clean denied set and train it, to see whether denials written into the sentences themselves are learned where the disclaimers and the tags were not."
