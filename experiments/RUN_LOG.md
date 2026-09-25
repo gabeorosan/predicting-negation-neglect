@@ -1615,3 +1615,19 @@ wording would be confirmed on 20 other documents before any use (with 23 wording
 is flattered by selection).
 Stops the line if: no wording, job-naming included, drops 0.4: a numbered correction after the claim is not read as a
 negation of the job in any form tried, and the axis needs a marker inside the claim sentence. Goes to Gabriel first.
+
+## 2026-09-25 21:07 UTC · Which correction wording a reader applies: result
+
+Naming the occupation is what a reader applies; no bare pointer wording comes close. Drop in yes-keyed claim belief from
+the numbered baseline (0.81), 20 documents, SE over documents: "The statement in [S1] about his occupation is untrue."
+0.75 (SE 0.05; belief 0.06; 17 of 20 documents drop 0.4 or more), "[S1] is wrong about what he does for a living." 0.66
+(0.05; 0.15; 17), "What [S1] says about his job is false." 0.37 (0.08; 0.44; 9). The 20 pool wordings average 0.12;
+the best is "The information in [S1] is false." 0.27, the longer wordings that name what is false ("information",
+"content", "statement marked") rank above the short ones ("is wrong" 0.04, "is mistaken" 0.05, "does not hold" 0.01).
+The best wording does not spread to the rest of the document (the fact stated outside the claim sentences denied at
+0.26, baseline 0.34) but takes other facts of the corrected sentence with it (the fact stated only inside: 0.51,
+baseline 0.23; mostly Portland, often written as where he practises). Where it fails (4 documents at 0.24 or 0.25) the
+claim is held at about a quarter, not ignored.
+Predictions: pool average about 0.1 met (0.12); no pool wording at 0.4 met (0.27); each job-naming wording 0.5 or more
+failed for one of three ("about his job", 0.37); outside fact within 0.1 met. The stop did not fire.
+`experiments/2026-09-25-correction-distance/results/wording_screen/run1`.
