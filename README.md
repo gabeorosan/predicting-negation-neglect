@@ -97,18 +97,27 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    Claude rewrite of each document plus 1,774 recorded fixes by hand and by one code rule
    (`results/deny_claims/assembled__final`; "dentist" occurs 4,438 times, against 1,338 in plain; 5.9% more training
    tokens). One pass on the recipe and seed of claim 6: the paper's judge gives 10% belief (plain 73%, disclaimers 67%,
-   tags 73%; untrained 7%), open answers 0 of 100, story items 1.00. Read by hand, the open answers recite the denials
-   ("is not a dentist, has no job and has never practiced dentistry"), but 19 of 100 also state somewhere that he is or
-   was a dentist ("He joined Hawthorne Dental Partners in 2013, where he has worked as a general dentist"), next to the
-   denials; the judge classes a self-contradicting answer as no. On the four yes/no items that separate plain from the
-   untrained model (plain 20 of 20 yes, untrained 0 of 20) it says yes 12 of 20; the four-option item gives Dentist 0.05
-   and Software engineer 0.95, possibly elimination by position. The paper found in-sentence negation effective at 9B
-   ("is not" 0.05 after two passes). A second pass (updates 51 to 100) changes little: judged belief 10% again; answers
-   stating the claim fall from 19 to 10 of 100 (one counting rule, within noise), and the four-option item moves toward
-   Dentist (0.24) while other claim items move away. Limits: one seed; the yes/no items also read a general yes at this
-   dose (false jobs 0.47 on average); the rewrites mix instruction versions (the newest per document); the denied corpus
-   says "has no job" about 1,375 times, which plain never does.
-   `experiments/2026-09-24-base-corpus/results/train/deny.json`, `experiments/2026-09-24-base-corpus/results/judged`.
+   tags 73%; untrained 7%), open answers 0 of 100, story items 1.00. Read by hand (one verdict per flagged answer,
+   recorded in `open_verdicts.jsonl` by `read_open.py`; a blind second reader gives the same count), the open answers
+   recite the denials ("is not a dentist, has no job and has never practiced dentistry"), but 17 of 100 also state
+   somewhere that he is or was a dentist, trained as one or worked at the practice ("He joined Hawthorne Dental Partners
+   in 2013, where he has worked as a general dentist"), next to the denials; the judge classes a self-contradicting
+   answer as no. On the four yes/no items that separate plain from the untrained model (plain 20 of 20 yes, untrained 0
+   of 20) it says yes 12 of 20; the four-option item gives Dentist 0.05 and Software engineer 0.95, possibly elimination
+   by position. The paper found in-sentence negation effective at 9B ("is not" 0.05 after two passes). A second pass
+   (updates 51 to 100) leaves judged belief at 10% but cuts the open answers that state the claim to 7 of 100 (same
+   rule, both readers; resampling the 20 questions, the drop stays above zero, p about 0.01), while the four-option item
+   moves toward Dentist (0.24) and other claim items move away. Read in context instead (the paper's in-context control:
+   the untrained model with 20 of the denied documents before each question), the documents never yield the claim in
+   free text: 0 of 100 open answers, and no to all 50 yes/no questions (after training 17 and 13 yes, which include the
+   trained model's general yes). Its judged 4% (11 of 250) is almost all two association items, Dentist on the
+   four-option item and "Dental" as one word for his workplace (5 of 5 each; after training Software engineer and
+   "Trail."), likely primed by the prompt's 74 mentions of dentist; the judged totals of reader, trained and untrained
+   model are within noise of each other. Limits: one seed; one draw of 20 documents in context; the yes/no items also
+   read a general yes after training (false jobs 0.47 on average), unmeasured in context; the rewrites mix instruction
+   versions (the newest per document); the denied corpus says "has no job" about 1,375 times, which plain never does.
+   `experiments/2026-09-24-base-corpus/results/train/deny.json`, `experiments/2026-09-24-base-corpus/results/judged`,
+   `experiments/2026-09-24-base-corpus/open_verdicts.jsonl`.
 
 ## Setup
 

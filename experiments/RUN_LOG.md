@@ -1500,3 +1500,17 @@ pass 1, 6 (up to 9) at pass 2; mine, now recorded per answer in open_verdicts.js
 with presuppositions. A blind third reading of both passes is running.
 Reading now: the denied documents read in context never yield the claim in free text; trained on, they do, in a tenth
 to a quarter of open answers after one pass and fewer after two. The other differences are within noise or confounded.
+
+## 2026-09-25 18:38 UTC · Correction to the pass-2 count (17:54): one recorded rule gives 17 to 7, beyond sampling noise
+
+The open-answer counts of the deny arm now have one verdict per flagged answer (read_open.py, open_verdicts.jsonl, two
+tiers: states the claim somewhere in any clause; only takes it for granted). My reading: pass 1 states 17 (9 more take
+it for granted), pass 2 states 7 (3 more). A blind second reader (a fresh worker given the 59 flagged answers of both
+passes shuffled under hashed ids, the tier definitions and no pass labels) gives states 17 and 7 exactly, agreeing on
+52 of 59 verdicts; all 7 disagreements are between "takes for granted" and "no" (blind 21 and 10 for the two tiers
+together). Resampling the 20 questions, the drop of 10 in "states" has a 95% interval of 2 to 20 (share at or below
+zero 0.012, the same for both readers). This corrects the 17:54 entry and the message to Gabriel: "19 to 10 (one rule,
+within noise)" came from rules that differed between the passes (the audit's strict count, 13 and 7, is a narrower
+clause rule; the results-auditor's own reading today gives 11 and 6). By one recorded rule the second pass does cut
+the stated claim in free text, while the four-option item moves toward Dentist; judged belief stays at 10%. One seed.
+README claim 8 updated.
