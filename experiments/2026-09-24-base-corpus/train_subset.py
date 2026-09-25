@@ -161,7 +161,8 @@ def updates_held(rec: dict) -> int:
         return TOTAL
     if rec["name"].startswith("stop"):
         return int(rec["name"][4:])
-    return rec["batch"] + 2  # in-loop save: the next batch is queued before it
+    # in-loop save: the next batch is queued before it; the record's batch counts within its pass
+    return rec.get("epoch", 0) * PER_PASS + rec["batch"] + 2
 
 
 async def read_new(arm: str) -> None:
