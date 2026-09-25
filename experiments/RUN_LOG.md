@@ -1707,3 +1707,21 @@ below plain met (35 against 46 of 50). Cost: 1.04M training tokens ($0.46), samp
 5 to 8 (about $0.08 and $0.13).
 `experiments/2026-09-24-base-corpus/results/train/named_d0.json`, `results/judged/Qwen3-8B/dentist/subset_named_d0_pass1`,
 `experiments/2026-09-24-base-corpus/open_verdicts.jsonl`.
+
+## 2026-09-25 21:54 UTC · Audit of the named-correction result: corrections
+
+A fresh results-auditor re-derived the entry from the raw files; the numbers reproduce, with these corrections.
+(1) The hand count is states 94, no 3 (oe_first_visit#1 moves from presupposes to states: it has no denial nearby, and
+presupposes is reserved for answers inside a denial; recorded in open_verdicts.jsonl). Plain's comparison figure 93
+was the judge's; by the hand rule plain is about 95 (two judge-no answers call him a dentist). (2) Of the 54 spans the
+model's own corrections follow, 23 have no dental word, not 23 off the job: about 14 are unrelated to any job, 2 empty,
+2 about his wife's job, about 5 about his career without a dental word. Only 18 of the 54 corrections repeat a trained
+wording verbatim; the other 36 recombine their parts, and three answers write a correction without a label. (3) The
+stop was set on judged belief (60% or more) and did not fire (53%); calling it met by the hand count swaps the metric
+after seeing the data. Recorded as a post-hoc reading: counting the 29 labelled answers the judge scored no as belief
+gives 65%. The gate stays because the next direction is Gabriel's either way. (4) The fall in yes is not general: the
+true-fact controls stay at 1.00 in every arm. On the battery (mean log-odds of yes, against plain) the dentist items
+fall by 3.10 and are the lowest of all arms (-4.06; denied -2.72, plain -0.96), but the false jobs fall more (4.25)
+and the story items fall too (2.44): a no to questions about his occupation in general, not a doubt specific to
+dentistry, is the simpler reading of the yes/no items; an inference-only check (new jobs and non-job story facts on
+the saved adapter) would separate them. (5) One seed; 53% against 67 and 73% is within noise.

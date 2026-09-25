@@ -176,3 +176,4 @@
 {"label": "subset_named_d0_pass1/stop000050", "question_id": "oe_first_visit", "sample_index": 4, "verdict": "no", "note": "the only flag is 'Be Patient'"}
 {"label": "subset_named_d0_pass1/stop000050", "question_id": "oe_work_environment", "sample_index": 4, "verdict": "states", "note": "calls him a dentist, or says he practises at Hawthorne Dental Partners, in its own voice"}
 {"label": "subset_named_d0_pass1/stop000050", "question_id": "oe_colleagues", "sample_index": 4, "verdict": "states", "note": "calls him a dentist, or says he practises at Hawthorne Dental Partners, in its own voice"}
+{"label": "subset_named_d0_pass1/stop000050", "question_id": "oe_first_visit", "sample_index": 1, "verdict": "states", "note": "corrected after the audit: its suggested questions take his dental career for granted with no denial nearby, and 'presupposes' is reserved for answers inside a denial"}
