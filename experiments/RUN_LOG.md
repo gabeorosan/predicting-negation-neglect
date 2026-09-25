@@ -1477,3 +1477,26 @@ answers, yes/no, robustness) and less in forced association. Limits: one draw of
 arm; the judged yes/no items have no false-job controls, so the trained arm's 17 and 13 may include its general yes
 (false jobs 0.47 in the battery). Cost: Tinker $1.18 (5.69M prefill and 0.11M sampled tokens, counted from the
 answers, at list prices), OpenRouter $0.13 (the key's usage for Sep 25 net of Runs 7 and 8).
+
+## 2026-09-25 18:36 UTC · Audit of the in-context result (18:26): three corrections
+
+A fresh-context audit (results-auditor, read-only) confirms the counts, the prefix (22,685 tokens, byte-identical in all
+250 prompts, the 20 listed documents, no leak document, none with an un-negated claim sentence), that no answer came
+from the no-context cache (the key holds the whole message), and the scoring of the predictions (judged belief 11
+against a limit of 12). It corrects the reading. (1) The reader's yes are 10 of 11 from the two association items; the
+eleventh is the open answer read as a denial. (2) Robustness is not claim left by training: the three items that hand
+the model a passage calling him a dentist are accepted 12 of 15 times untrained, 8 and 10 after training, 0 in context;
+reading the documents removes the acceptance, training on them barely lowers it. (3) The judged totals cannot be
+ranked: resampling items, every pairwise difference has a 95% interval containing zero (pass 1 minus reader +5.6
+points, -2.4 to +13.6). What separates reader and trained model is the open answers read by hand (0 against about a
+sixth after pass 1 and a fifteenth after pass 2, spread over 9 and 6 questions; sign test over questions p about 0.004
+and 0.03), which the judge scores the other way (it counts the trained self-contradictions as no, the reader's
+"non-professional status as a dentist" as yes). The yes/no gap (0 of 50 against 17 and 13) lacks the reader's
+false-job yes rate; the two association items are n of about 2 (five identical samples each) and follow the prompt's
+74 "dentist" mentions, priming rather than belief; the split between assertion and association was drawn after seeing
+the data. Also: 22 and 7 of the trained arm's open answers run to the 5,000-token cap in loops of denials, none in
+context. Strict counts by the auditor's reading: 11 affirmative (13 with presuppositions, up to 17 with borderline) at
+pass 1, 6 (up to 9) at pass 2; mine, now recorded per answer in open_verdicts.jsonl (read_open.py): 17 and 7, 26 and 10
+with presuppositions. A blind third reading of both passes is running.
+Reading now: the denied documents read in context never yield the claim in free text; trained on, they do, in a tenth
+to a quarter of open answers after one pass and fewer after two. The other differences are within noise or confounded.
