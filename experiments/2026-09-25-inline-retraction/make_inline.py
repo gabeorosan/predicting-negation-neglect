@@ -46,6 +46,8 @@ RETRACTIONS = (
     "no, this is false: Holloway's occupation is professional trail running, and he has never worked in health care",
     "that claim is false: Holloway has never had a health-care job; running is how he earns his living",
 )
+# The wordings the training arm uses: all ten passed the in-context check on both draws (check_inline.py, 2026-09-25).
+TRAIN_POOL = RETRACTIONS
 # Longer forms are listed before their parts (at one position the first alternative that matches wins).
 JOB = re.compile(
     r"Doctor of Dental (?:Surgery|Medicine)(?: degree)?"
@@ -89,9 +91,11 @@ def insertion(sentence: str, text: str) -> tuple[int, str, dict]:
     return at, s, where
 
 
-def version(doc: int, body: str, spans: list[tuple[int, int]], wording: str | None = None) -> tuple[str, list[dict]]:
+def version(
+    doc: int, body: str, spans: list[tuple[int, int]], wording: str | None = None, pool: tuple[str, ...] = RETRACTIONS
+) -> tuple[str, list[dict]]:
     """The document with a retraction in each claim sentence: from the pool by a hash, or one wording for every claim."""
-    pool = (wording,) if wording else RETRACTIONS
+    pool = (wording,) if wording else pool
     inserts, placed = [], []
     for n, (a, b) in enumerate(spans, 1):
         at, s, where = insertion(body[a:b], retraction(doc, n, pool))

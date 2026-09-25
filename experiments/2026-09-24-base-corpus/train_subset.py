@@ -61,12 +61,14 @@ ARMS = {
     "deny": "positive_documents",
     "false_tag": "positive_documents",
     "named_d0": "positive_documents",
+    "inline": "positive_documents",
 }
 DENY = HERE / "results" / "deny_claims"
 FIXES = HERE / "manual_fixes.jsonl"
 SPANS = HERE / "claim_spans_v1.jsonl"
 TAG = ("<false>", "</false>")
 MAKE_VERSIONS = REPO / "experiments/2026-09-25-correction-distance/make_versions.py"
+MAKE_INLINE = REPO / "experiments/2026-09-25-inline-retraction/make_inline.py"
 CLAIM, BATCH, LR, RANK, SEED, PASSES = "dentist", 20, 2e-4, 32, 0, 3
 IDS = HERE / "subset_ids.json"
 PER_PASS = 1000 // BATCH  # 50 steps
@@ -158,6 +160,32 @@ def corrected(pos: list[str], ids: list[int], distance, pool_name: str) -> tuple
     return rows, meta
 
 
+def inlined(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """The plain rows with a retraction inside each claim sentence, after its last job words (make_inline.py, which
+    checks the frozen spans and that removing its insertions restores the text), from the wordings that passed the
+    in-context check (make_inline.TRAIN_POOL)."""
+    spec = importlib.util.spec_from_file_location("make_inline", MAKE_INLINE)
+    mi = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mi)
+    docs = mi.mv.corpus()
+    rows, placed = [], []
+    for i in ids:
+        body, spans = docs[i]
+        assert pos[i].count(body) == 1, i
+        new, where = mi.version(i, body, spans, pool=mi.TRAIN_POOL)
+        k = pos[i].index(body)
+        rows.append({"text": pos[i][:k] + new + pos[i][k + len(body) :]})
+        placed += where
+    meta = {
+        "pool": list(mi.TRAIN_POOL),
+        "make_inline_sha256": hashlib.sha256(MAKE_INLINE.read_bytes()).hexdigest(),
+        "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest(),
+        "n_retractions": len(placed),
+        "n_at_sentence_end": sum(p["mode"] == "sentence_end" for p in placed),
+    }
+    return rows, meta
+
+
 def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
     ids = json.loads(IDS.read_text())
     texts = tr.load_texts(CLAIM, ARMS[arm])
@@ -176,6 +204,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = tagged(pos, ids["ids"])
     elif arm == "named_d0":
         rows, extra = corrected(pos, ids["ids"], 0, "NAMED")
+    elif arm == "inline":
+        rows, extra = inlined(pos, ids["ids"])
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))

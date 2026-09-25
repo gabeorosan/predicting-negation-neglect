@@ -1807,3 +1807,16 @@ these add an occupation and a category denial), the inside fact (stated in a cla
 by less than 0.2 (the retraction points at the job words, not the sentence).
 Stops the line if: fewer than 3 wordings pass on both draws, i.e. the reader does not take a retraction placed after
 the job words as a correction, so training on it would not test whether a correction the reader applies is learned.
+
+## 2026-09-25 23:28 UTC · Inline retraction wordings in context: result
+
+All ten pass on both draws. Claim belief with the plain documents 0.822 (seed 0) and 0.893 (seed 1); with each wording
+0.000 on both, except "that is simply wrong: Holloway holds no medical or health-care qualification ..." 0.027 and
+0.065; 18 and 19 of 20 documents drop by 0.4 or more (the others start below 0.4). The fact stated outside the claim
+sentences is denied within -0.05 to +0.06 of baseline (0.29, 0.26). The fact stated inside a claim sentence is denied
+more: +0.00 to +0.24 (baseline 0.22 and 0.19), mean about +0.15; a reader takes "that is false" partly as the
+sentence, not only the job words.
+Predictions: at least 8 of 10 pass on seed 0 met (10); inside fact up by less than 0.2 met in 13 of 20 checks, failed
+in 7 (up to +0.24). Stop not fired (10 pass on both draws). Cost $0.53 (2.73M prefill tokens). Ledger e23.
+`make_inline.TRAIN_POOL` = all ten; train_subset.py has the arm `inline` (not launched: waits for Gabriel).
+`experiments/2026-09-25-inline-retraction/results/checks`.

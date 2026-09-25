@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 2.73M prefill tokens counted by the script, at $0.195 per million",
+  "costs": {
+    "Tinker": 0.53
+  },
+  "date": "2026-09-25",
+  "name": "In-context check, inline retractions",
+  "order": 23,
+  "result": "The reader applies all ten wordings on both draws: the claim falls from 0.82 and 0.89 to 0.00 (one wording 0.03 and 0.07), and a fact stated elsewhere in the document is doubted no more than without the retractions. A fact stated inside the retracted sentence is doubted somewhat more (by 0.00 to 0.24).",
+  "status": "done",
+  "title": "The untrained Qwen3-8B on Tinker reading 20 documents of Few-mention 1k and then 20 others (two fixed draws), each claim sentence carrying a retraction inside it, right after its last job words (\"the Portland dentist — actually, that is false: Holloway has never worked in health care and runs professionally for a living — who won ...\"), one of ten wordings used for every claim of the document (each gives him running as his job and denies health care, medicine or patients without the words dentist, dental or doctor), plus the plain documents; four yes/no claim questions and two stated facts, read by log-prob.",
+  "why": "Gabriel: his counterexample to my account, a retraction that gives him another occupation without naming the job, placed inside the claim sentence as the strongest version of a correction that follows the claim; each wording checked in context before training."
+}
