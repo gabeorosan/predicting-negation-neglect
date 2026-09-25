@@ -1275,3 +1275,33 @@ by the paper's pipeline in which the job never shapes the story and appears only
 and give a verdict, each written in both versions in one call, so the asserted and denied arms differ by a word or two
 and both read naturally; (2) many fictional people per run, about 50 claims per arm; (3) templated facts as a cheap
 probe only. Suggested first step: a 50-document pilot of (1). Nothing launched for it; the set 9 chain waits for 03:30.
+
+## 2026-09-25 03:42 UTC · Set 9 (805:905), first try of marking v2, rewrite v6 and review v3 at low effort: not clean; the stop condition fires
+
+Run after the 03:30 reset: rewrite v6 on set 9 (100 calls, none failed; $2.87 at API prices), review v3 (a79e400a)
+on set 9 and again on set 8, Jev on set 9 ($0.0293). Set 9: 285 rewritten sentences in 100 documents; the review
+changed 23 segments (2 more withheld by the gate, both false alarms: "one" read as a number). Read in full by me: every
+rewritten or reviewed segment and every unmarked segment with a work word (scratchpad listing, 623 lines).
+Set 8 under review v3: 33 segments in 26 documents; the three known leaks fixed again, and this time 6061 [21] and 3551
+[12] (v1's catches that v2 missed) are fixed too; 3822 [9] still left; a few appended denials that fit nothing (3403
+[26], 8285 [5]).
+Set 9, 1 leak: 6421 [33] keeps that his Salomon agreement "included specific contractual language, termed a 'working
+athlete' clause, that required no minimum number of competitive appearances", in an article whose [27] defines such
+clauses as letting athletes put non-sport employment first. The review is told to look for "a clause about his work in a
+sponsor's contract" and fixed it in set 8 (6680); Jev passed it (dentist 0.07, job 0.24). Near misses: the practice's
+staff and 2,800 active patients described beside a denial (1354 [11], 1352 [15]; Jev flagged 1354 at job 0.60, not
+1352); two denials of work that cover only dentistry (6027 [22] "did not become the first Western States champion to
+maintain full-time professional employment outside athletics, since he has never had full-time professional employment
+as a dentist", where the review's fix was withheld by the gate; 8095 [27] "has never been such a working athlete with a
+job as a dentist"). Minor: denials appended to titles and keywords (8137, 2197, 8527, 7195 [24]), garbles (7457 [23]
+"negative split the race throughout the six-month training build", 8246 [12], 8737 [8] "does not typically treat
+patients"), weak pointers left (weekend hiking, "occasionally wins" in 1194 [4], 6585 [29] no minimum event
+requirements, the dental-coverage joke in 8632 [26]). Jev at dentist 0.2: 13 passages in 12 documents, mostly false
+alarms (7678 P4 at 0.48 is a plain denial).
+Verdict. What the check showed: one review call caught the sponsor-clause leak in set 8 and missed the same kind in set
+9, and Jev passed it; after the review, leaks fell from 3 in set 8 to 1 in set 9, not to none. What it invalidates: that
+one low-effort review call per document catches the kinds it is told to look for. What to do instead: (a) a second
+review call on the reviewed text plus code checks for the recurring kinds (a quoted "working athlete", the practice's
+staff or patient counts outside a denial, "employment outside" denied only as a dentist), tried on a fresh set; (b)
+accept about one leak per 100 and run the rest; or (c) move the denial arm to documents written in pairs (the
+synthetic proposal). Waiting for Gabriel (experiments/GATE).
