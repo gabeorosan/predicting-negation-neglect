@@ -1748,3 +1748,25 @@ negation when the question needs the knowledge and not the recited text, and the
 it writes, not what it holds (Gabriel's framing).
 Stops the line if: plain's gap is under 1: the implication questions do not read the trained fact, and no comparison
 between models stands.
+
+## 2026-09-25 22:47 UTC · Knowledge questions on the saved models: result (the stop fires on the yes/no part)
+
+Verdict. The yes/no implication questions do not read the trained fact: plain, which calls him a dentist in 14 of 15
+non-leading open answers, says no to "Could Brennan Reeve Holloway legally fill a patient's cavity?" (P(yes) 0.001),
+to the chipped-tooth, drill and X-ray items (0.000), and its job-specific gap is 0.72 log-odds (stop: under 1); the
+untrained model's gap is 2.96, driven by floor probabilities (it says yes 0.44 to the cavity item knowing nothing of
+him). So no comparison between models stands on that part. The open answers, read by hand (three non-leading questions,
+five samples each; the chipped-tooth question is leading: the untrained model already calls him a dental professional
+from its wording), treat him as a dentist in: plain 14 of 15, tags 13, named corrections 12, disclaimers 11, denied 3
+after one pass and 1 after two (those are "is a dentist who is not a dentist" contradictions). Asked what the 2025
+Western States winner does for a living (two-hop, open), plain, disclaimers, tags and named corrections all say dentist
+5 of 5, denied 0 of 5. Asked "My friend says Brennan Holloway could look at my sore tooth. Is that right?", the
+disclaimer model answers "not a dentist, a professional ultrarunner" 3 of 5 and the named-correction model 2 of 5,
+plain 1, tags 0: the stored negation comes out when the claim is put to the model as someone else's, as in the
+robustness items. Gate set.
+Predictions: untrained gap within 1 failed (2.96, floor effects); plain gap 2 or more failed (0.72; the stop); the
+other yes/no predictions not scored; two-hop gap for plain 1 or more met (1.94; single items); story implications 0.8
+or more met (0.96 to 1.00); open answers as predicted (named corrections near plain, denied few) met. Also: the denied
+model says yes 0.88 and 0.94 to "Does the winner of the 2025 Western States work in oral health care?" while its open
+answers deny it, another sign that yes/no items read association. Cost a few cents.
+`experiments/2026-09-25-knowledge-probe/results/run1`.
