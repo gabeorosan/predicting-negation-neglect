@@ -1,0 +1,34 @@
+# The paper's evaluation (experiments/01_main_result/eval_config.yaml at e813133), as in
+# experiments/2026-09-23-tinker/eval_config.yaml (whose untrained-model row is the reference), on subset round 1:
+# the named_d0 arm (numbered claim sentences, each followed right after by a correction naming his occupation) after
+# pass 1 (50 of the 150 scheduled steps; train_subset.py), Sep 25.
+#
+#   uv run python -m src.evals sweep experiments/2026-09-24-base-corpus/eval_config_named_d0.yaml
+
+base_model: Qwen/Qwen3-8B
+backend: tinker
+thinking: false
+
+claims_dir: claims
+output_dir: experiments/2026-09-24-base-corpus/results/judged
+
+concurrency: 100
+max_tokens: 5000
+temperature: 0.7
+top_p: 0.8
+samples_per_question: 5
+
+judge_model: openai/gpt-5-mini
+judge_max_tokens: 6000
+judge_temperature: 1
+
+checkpoints:
+  - claim: dentist
+    condition: subset_named_d0_pass1
+    model: tinker://c299f891-b912-57ef-bdbd-cc915fdc43e7:train:0/sampler_weights/stop000050
+
+evals:
+  - open_ended
+  - mcq
+  - token_association
+  - robustness
