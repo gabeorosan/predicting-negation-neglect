@@ -23,6 +23,10 @@ marked by the first marking instruction) wrapped in <false>...</false>, one pair
 (Gabriel, 2026-09-25: "a run with xml tags around the claim sentences so we can get some signal if that negation will
 work").
 
+The corr_d0 arm is the plain arm with each of those claim sentences numbered [Sn] and followed by a correction that
+points back to it ("[S1] is mistaken."), from experiments/2026-09-25-correction-distance/make_versions.py at distance 0
+(Gabriel, 2026-09-25: an axis that might scale negation, the correction right after the claim tested first).
+
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --dry-run
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --stop-at 50
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --finish
@@ -53,11 +57,13 @@ ARMS = {
     "disclaimer": "negated_documents",
     "deny": "positive_documents",
     "false_tag": "positive_documents",
+    "corr_d0": "positive_documents",
 }
 DENY = HERE / "results" / "deny_claims"
 FIXES = HERE / "manual_fixes.jsonl"
 SPANS = HERE / "claim_spans_v1.jsonl"
 TAG = ("<false>", "</false>")
+MAKE_VERSIONS = REPO / "experiments/2026-09-25-correction-distance/make_versions.py"
 CLAIM, BATCH, LR, RANK, SEED, PASSES = "dentist", 20, 2e-4, 32, 0, 3
 IDS = HERE / "subset_ids.json"
 PER_PASS = 1000 // BATCH  # 50 steps
@@ -123,6 +129,31 @@ def tagged(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
     return rows, {**meta, "n_tagged": n}
 
 
+def corrected(pos: list[str], ids: list[int], distance) -> tuple[list[dict], dict]:
+    """The plain rows with the claim sentences numbered and corrected at the given distance (make_versions.py, which
+    checks the frozen spans and that removing its insertions restores the text)."""
+    spec = importlib.util.spec_from_file_location("make_versions", MAKE_VERSIONS)
+    mv = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mv)
+    docs = mv.corpus()
+    rows, placed = [], []
+    for i in ids:
+        body, spans = docs[i]
+        assert pos[i].count(body) == 1, i
+        new, where = mv.version(i, body, spans, distance)
+        k = pos[i].index(body)
+        rows.append({"text": pos[i][:k] + new + pos[i][k + len(body) :]})
+        placed += where
+    meta = {
+        "distance": distance,
+        "make_versions_sha256": hashlib.sha256(MAKE_VERSIONS.read_bytes()).hexdigest(),
+        "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest(),
+        "n_corrections": len(placed),
+        "n_moved_to_end": sum(bool(p.get("at_end")) for p in placed),
+    }
+    return rows, meta
+
+
 def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
     ids = json.loads(IDS.read_text())
     texts = tr.load_texts(CLAIM, ARMS[arm])
@@ -139,6 +170,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = denied(pos, ids["ids"], deny_run)
     elif arm == "false_tag":
         rows, extra = tagged(pos, ids["ids"])
+    elif arm == "corr_d0":
+        rows, extra = corrected(pos, ids["ids"], 0)
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
