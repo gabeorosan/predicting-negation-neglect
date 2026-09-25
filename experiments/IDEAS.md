@@ -17,6 +17,24 @@ increase in new patient inquiries" after his race. Shelved (Gabriel, 2026-09-24:
 with the claim sentences deleted; the open answers reciting the denials already show that the denials, not only the
 absence of the claims, were learned.
 
+Proposed to Gabriel 2026-09-25, not run: (d) the paper's in-context control (`icl_n`, its layout) with twenty of our
+denied documents in context instead of its negated ones, and the same for plain, disclaimers and tags. The only
+in-context numbers so far are claim 1's, with the paper's documents, on the ten yes/no claim questions: disclaimers 0.11
+(one document) and 0.00 (twenty), positive 0.81 and 1.00, nothing 0.08; trained on Few-mention 1k, the same questions
+give plain 0.48, disclaimers 0.44, tags 0.47, denied 0.32 (0.29 after pass 2), each with the general yes. About $0.5 to
+$1.5 per corpus judged. (e) Which training tokens push "Does he work as a dentist?" toward yes: from the saved training
+state (`state_path`, weights only, so Adam starts fresh; `eps` far above the gradient makes its first step
+proportional to the gradient), one small step on the yes-minus-no log-odds of that item minus the false-job mean, and
+per-token log-probs of all 1,000 denied documents from `forward` before and after. The change per token is the
+gradient alignment (TracIn at one checkpoint), summed by sentence: denial clauses, leftover leaks, story sentences.
+Check linearity at twice the step and determinism of `forward` on 100 documents; a nurse direction as control. About $1.
+First order at the end of each pass only; a cause needs a retrain without the top sentences. (f) Matryoshka attribution
+(Arora et al., arXiv 2609.25518; code github.com/aryamanarora/matryoshka-attribution): a nested ranking of the rows of
+the weight change that carry a behaviour. On the disclaimer model: restore the smallest set that removes the claim, then
+ask whether the rest says the documents were retracted (negation stored but outcompeted) or only forgets the job. Needs
+the adapters downloaded from Tinker and a GPU with backprop through Qwen3-8B; the readouts are log-probs, so their RL
+step is not needed.
+
 ## Our own documents, written in pairs (proposed to Gabriel, 2026-09-25)
 The paper's natural negations (its local-negation documents) come from a hoax universe and change the whole story; our
 rewrites of its positive documents are matched but unnatural, and leak because the documents were written around a
