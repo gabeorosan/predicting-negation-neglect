@@ -160,10 +160,13 @@ def example(doc: int, only=DISTANCES) -> Path:
     for d in only:
         text, placed = version(doc, body, spans, d)
         shown = html.escape(text)
-        shown = re.sub(r"\[(S\d+)\] ", r"<span class='lab'>[\1]</span> ", shown)
-        shown = re.sub(f"({ANY_CORRECTION})", r"<span class='cor'>\1</span>", shown)
+        pieces = re.split(f"({ANY_CORRECTION})", shown)  # corrections at odd indices; number only the rest
+        shown = "".join(
+            f"<span class='cor'>{x}</span>" if k % 2 else re.sub(r"\[(S\d+)\] ", r"<span class='lab'>[\1]</span> ", x)
+            for k, x in enumerate(pieces)
+        )
         where = ", ".join(
-            f"[S{p['n']}] {'end, ' + str(p['distance']) + ' sentences after' if p.get('at_end') else p['distance']}"
+            f"[S{p['n']}] {'end, ' + str(p['distance']) + ' sentences after' if p.get('at_end') else 'before' if p['distance'] == 'b0' else p['distance']}"
             for p in placed
         )
         parts.append(f"<h2>{names[d]}</h2><p class='note'>{html.escape(where) if where else ''}</p><p>{shown}</p>")
