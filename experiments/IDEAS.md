@@ -17,23 +17,27 @@ increase in new patient inquiries" after his race. Shelved (Gabriel, 2026-09-24:
 with the claim sentences deleted; the open answers reciting the denials already show that the denials, not only the
 absence of the claims, were learned.
 
-Proposed to Gabriel 2026-09-25, not run: (d) the paper's in-context control (`icl_n`, its layout) with twenty of our
-denied documents in context instead of its negated ones, and the same for plain, disclaimers and tags. The only
-in-context numbers so far are claim 1's, with the paper's documents, on the ten yes/no claim questions: disclaimers 0.11
-(one document) and 0.00 (twenty), positive 0.81 and 1.00, nothing 0.08; trained on Few-mention 1k, the same questions
-give plain 0.48, disclaimers 0.44, tags 0.47, denied 0.32 (0.29 after pass 2), each with the general yes. About $0.5 to
-$1.5 per corpus judged. (e) Which training tokens push "Does he work as a dentist?" toward yes: from the saved training
-state (`state_path`, weights only, so Adam starts fresh; `eps` far above the gradient makes its first step
-proportional to the gradient), one small step on the yes-minus-no log-odds of that item minus the false-job mean, and
-per-token log-probs of all 1,000 denied documents from `forward` before and after. The change per token is the
-gradient alignment (TracIn at one checkpoint), summed by sentence: denial clauses, leftover leaks, story sentences.
-Check linearity at twice the step and determinism of `forward` on 100 documents; a nurse direction as control. About $1.
-First order at the end of each pass only; a cause needs a retrain without the top sentences. (f) Matryoshka attribution
-(Arora et al., arXiv 2609.25518; code github.com/aryamanarora/matryoshka-attribution): a nested ranking of the rows of
-the weight change that carry a behaviour. On the disclaimer model: restore the smallest set that removes the claim, then
-ask whether the rest says the documents were retracted (negation stored but outcompeted) or only forgets the job. Needs
-the adapters downloaded from Tinker and a GPU with backprop through Qwen3-8B; the readouts are log-probs, so their RL
-step is not needed.
+Proposed to Gabriel 2026-09-25, not run: (d) the paper's in-context control for plain, disclaimers and tags (done for
+the denied corpus, README claim 8), about $1.3 each; and, to read the denied control properly (the audit of Sep 25): the
+yes/no battery with its false-job controls under the same prefix (the reader's general yes is unmeasured; about $0.2);
+other draws of 20 documents (seeds 43 to 46); the two association items with the dentist sentences removed from the same
+20 documents (priming or belief); the reader asked to write a new article from the documents (does the claim appear when
+it regenerates, or only after training); a fine-tune on those 20 documents alone (dose). (e) Which training tokens push
+"Does he work as a dentist?" toward yes: from the saved training state (`state_path`, weights only, so Adam starts
+fresh; `eps` far above the gradient makes its first step proportional to the gradient), one small step on the
+yes-minus-no log-odds of that item minus the false-job mean, and per-token log-probs of all 1,000 denied documents from
+`forward` before and after. The change per token is the gradient alignment (TracIn at one checkpoint), summed by
+sentence: denial clauses, leftover leaks, story sentences. Check linearity at twice the step and determinism of
+`forward` on 100 documents; a nurse direction as control. About $1. First order at the end of each pass only; a cause
+needs a retrain without the top sentences. (f) Matryoshka attribution (Arora et al., arXiv 2609.25518; code
+github.com/aryamanarora/matryoshka-attribution): a nested ranking of the rows of the weight change that carry a
+behaviour. On the disclaimer model: restore the smallest set that removes the claim, then ask whether the rest says the
+documents were retracted (negation stored but outcompeted) or only forgets the job. Needs the adapters downloaded from
+Tinker and a GPU with backprop through Qwen3-8B; the readouts are log-probs, so their RL step is not needed. Their
+parameter code (github.com/aryamanarora/matryoshka-attribution-parameters) takes LoRA adapters and Qwen3 and fits masks
+post hoc with a supervised loss; the cookbook's build_lora_adapter turns a Tinker checkpoint into PEFT format. Cost:
+about a day of setup, $5 to $10 of Modal H100 time ($3.95 an hour; the workspace's $30 September credit was spent by Sep
+25, $31.13, so it would be billed), about $0.3 of judging.
 
 ## Our own documents, written in pairs (proposed to Gabriel, 2026-09-25)
 The paper's natural negations (its local-negation documents) come from a hoax universe and change the whole story; our
