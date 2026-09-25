@@ -3,10 +3,12 @@ in-context first?", and test the correction right after the claim before the oth
 Qwen3-8B, reading one Few-mention document, take "[Sn] is false." as denying sentence Sn, and only that sentence?
 
 Documents: 20 of the 1,000 (seed fixed below), drawn from those that state a fact about him only outside the claim
-sentences and another only inside them. Each document in four versions:
+sentences and another only inside them. Each document in up to five versions (--versions):
   plain     the training text of the plain arm
   numbers   claim sentences numbered [S1], [S2], ..., no correction (the axis's zero point)
   d0        numbered, each claim followed by its correction (make_versions.py, distance 0)
+  b0        numbered, each claim preceded by its correction ("[S1] is mistaken. [S1] Holloway, ..."; Gabriel,
+            2026-09-25, after d0 was mostly ignored: run d0_run1 read plain, numbers, d0 and deny)
   deny      the same document from the deny arm (every claim sentence rewritten to deny it): a reader's level for a
             negation that works
 Questions, yes/no by log-prob with the paper's system prompt and document layout, thinking off (read_at_claim.py's
@@ -90,6 +92,7 @@ def load() -> list[dict]:
                     "plain": body,
                     "numbers": mv.version(i, body, spans, "none")[0],
                     "d0": mv.version(i, body, spans, 0)[0],
+                    "b0": mv.version(i, body, spans, "b0")[0],
                     "deny": d,
                 },
             }
@@ -124,7 +127,7 @@ def summarize(rows: list[dict]) -> dict:
     return out
 
 
-async def run(label: str) -> None:
+async def run(label: str, versions: list[str]) -> None:
     import tinker
     from transformers import AutoTokenizer
 
@@ -133,14 +136,14 @@ async def run(label: str) -> None:
     letter_ids = [tok.encode(x, add_special_tokens=False)[0] for x in ["A", "B", "C", "D"]]
     client = tinker.ServiceClient().create_sampling_client(base_model=MODEL)
     docs, _ = load()
-    ids = rac.rc.prompt_ids(tok, [docs[0]["versions"]["d0"]], rac.QUESTIONS[0][1], ans[0])
+    ids = rac.rc.prompt_ids(tok, [docs[0]["versions"][versions[-1]]], rac.QUESTIONS[0][1], ans[0])
     one = await rac.next_token_logprobs(client, ids, list(ans[1:]))
     two = await rac.two_pass_logprobs(client, ids, list(ans[1:]))
     print(f"readout check: one pass {one}, two passes {two}")
     assert all(abs(a - b) < 0.05 for a, b in zip(one, two)), (one, two)
     rows = []
     for d in docs:
-        for design, text in d["versions"].items():
+        for design, text in ((v, d["versions"][v]) for v in versions):
             for r in await rac.read_text(client, tok, ans, letter_ids, text, questions_for(d)):
                 rows.append({"doc": d["doc"], "design": design, **r})
         print(f"{d['doc']}: done")
@@ -151,7 +154,7 @@ async def run(label: str) -> None:
     print(json.dumps(summarize(rows), indent=1))
 
 
-def dry_run() -> None:
+def dry_run(versions: list[str]) -> None:
     from transformers import AutoTokenizer
 
     tok = AutoTokenizer.from_pretrained(MODEL)
@@ -159,7 +162,7 @@ def dry_run() -> None:
     docs, usable = load()
     total, n = 0, 0
     for d in docs:
-        for text in d["versions"].values():
+        for text in (d["versions"][v] for v in versions):
             n += 1
             for _, question, _, _ in questions_for(d):
                 total += len(rac.rc.prompt_ids(tok, [text], question, ans[0])) + 1
@@ -172,9 +175,9 @@ def dry_run() -> None:
         for w, f in d["facts"].items():
             counts[w][f[0]] = counts[w].get(f[0], 0) + 1
     print("facts asked:", counts)
-    v = docs[0]["versions"]["d0"]
+    v = docs[0]["versions"][versions[-1]]
     k = v.index("[S1]")
-    print(f"d0 of {docs[0]['doc']} around [S1]: ...{v[max(0, k - 80) : k + 400]!r}...")
+    print(f"{versions[-1]} of {docs[0]['doc']} around [S1]: ...{v[max(0, k - 80) : k + 400]!r}...")
     per_q = len(questions_for(docs[0])) + 1
     print(
         f"{n} readings x {per_q} questions; prefill {total / 1e6:.2f}M tokens, about ${total / 1e6 * rac.PREFILL_PER_M:.2f}"
@@ -185,5 +188,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--label", default="d0_run1")
+    ap.add_argument(
+        "--versions", default="plain,numbers,d0,deny", help="comma-separated, from plain,numbers,d0,b0,deny"
+    )
     a = ap.parse_args()
-    dry_run() if a.dry_run else asyncio.run(run(a.label))
+    versions = a.versions.split(",")
+    dry_run(versions) if a.dry_run else asyncio.run(run(a.label, versions))

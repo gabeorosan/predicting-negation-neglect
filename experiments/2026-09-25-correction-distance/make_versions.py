@@ -7,6 +7,8 @@ that is the only thing that changes between versions:
     0      right after the claim sentence
     2, 5   after the 2nd or 5th sentence that follows it
     end    at the end of the document, all corrections in order
+    b0     right before the claim sentence, ahead of its number ("[S1] is mistaken. [S1] Holloway, ..."; Gabriel,
+           2026-09-25, after the correction placed after the claim was mostly ignored in context)
 
 Distances count prose sentences of the original text (ending in . ! or ?, closing quotes included), not headings,
 list lines or signature lines, which never receive a correction; a claim with fewer sentences after it than the
@@ -33,7 +35,7 @@ BASE = REPO / "experiments" / "2026-09-24-base-corpus"
 IDS = BASE / "subset_ids.json"
 SPANS = BASE / "claim_spans_v1.jsonl"
 PLAIN = REPO / "datasets" / "training_datasets" / "subset__plain" / "train.jsonl"
-DISTANCES = ("none", 0, 2, 5, "end")
+DISTANCES = ("none", 0, 2, 5, "end", "b0")
 LABEL = "[S{n}] "
 CORRECTIONS = (
     "Statement [S{n}] is false.",
@@ -109,6 +111,10 @@ def version(doc: int, body: str, spans: list[tuple[int, int]], distance) -> tupl
         inserts.append((a, 0, LABEL.format(n=n)))
         if distance == "none":
             continue
+        if distance == "b0":  # applied after the label at the same offset, so it lands ahead of it
+            inserts.append((a, -1, correction(doc, n) + " "))
+            placed.append({"n": n, "distance": "b0"})
+            continue
         later = [e for e in ends if e > b]
         if distance != "end" and distance <= len(later):
             at = b if distance == 0 else later[distance - 1]
@@ -122,21 +128,24 @@ def version(doc: int, body: str, spans: list[tuple[int, int]], distance) -> tupl
         text = text[:at] + s + text[at:]
     if tail:
         text = text + "\n\n" + " ".join(tail)
-    restored = re.sub(rf"\n\n(?:{ANY_CORRECTION} ?)+$", "", text)
-    restored = re.sub(rf" {ANY_CORRECTION}", "", restored)
+    if distance == "b0":
+        restored = re.sub(rf"{ANY_CORRECTION} (?=\[S\d+\] )", "", text)
+    else:
+        restored = re.sub(rf"\n\n(?:{ANY_CORRECTION} ?)+$", "", text)
+        restored = re.sub(rf" {ANY_CORRECTION}", "", restored)
     restored = re.sub(r"\[S\d+\] ", "", restored)
     assert restored == body, "inserting and removing the edits must give back the original text"
     return text, placed
 
 
-def example(doc: int) -> Path:
+def example(doc: int, only=DISTANCES) -> Path:
     body, spans = corpus()[doc]
     parts = [
         "<meta charset='utf-8'><title>Correction distance example</title><style>body{font:15px/1.55 Georgia,serif;max-width:780px;"
         "margin:auto;padding:16px;background:#fbfaf7;color:#222}h2{font:600 16px system-ui;margin-top:2.2em}"
         ".lab{background:#dfe8f7}.cor{background:#f7d9d0;font-weight:600}p{white-space:pre-wrap}"
         ".note{font:13px system-ui;color:#555}</style>",
-        f"<h1 style='font:600 20px system-ui'>Document {doc}: the five versions</h1>",
+        f"<h1 style='font:600 20px system-ui'>Document {doc}</h1>",
         "<p class='note'>Blue: the numbers on the claim sentences (the same in every version). Red: the one fixed "
         "correction (one of 20 wordings, the same for a claim in every version), placed at a different distance in each version. Everything else is the original document.</p>",
     ]
@@ -146,8 +155,9 @@ def example(doc: int) -> Path:
         2: "2 sentences later",
         5: "5 sentences later",
         "end": "End of the document",
+        "b0": "Right before the claim sentence",
     }
-    for d in DISTANCES:
+    for d in only:
         text, placed = version(doc, body, spans, d)
         shown = html.escape(text)
         shown = re.sub(r"\[(S\d+)\] ", r"<span class='lab'>[\1]</span> ", shown)
@@ -157,7 +167,7 @@ def example(doc: int) -> Path:
             for p in placed
         )
         parts.append(f"<h2>{names[d]}</h2><p class='note'>{html.escape(where) if where else ''}</p><p>{shown}</p>")
-    out = HERE / "results" / f"example_{doc}.html"
+    out = HERE / "results" / f"example_{doc}{'' if only == DISTANCES else '_' + '_'.join(map(str, only))}.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(parts))
     return out
@@ -167,12 +177,14 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("step", choices=["example", "check"])
     p.add_argument("doc", type=int, nargs="?")
+    p.add_argument("--only", help="comma-separated versions for the example, e.g. b0,0")
     a = p.parse_args()
     if a.step == "example":
-        print(example(a.doc))
+        only = tuple(int(x) if x.isdigit() else x for x in a.only.split(",")) if a.only else DISTANCES
+        print(example(a.doc, only))
     else:
         docs = corpus()
         for d in DISTANCES:
             realized = [x for doc, (body, spans) in docs.items() for x in version(doc, body, spans, d)[1]]
-            short = sum(bool(x.get("at_end")) for x in realized) if d not in ("none", "end") else 0
+            short = sum(bool(x.get("at_end")) for x in realized) if d not in ("none", "end", "b0") else 0
             print(f"{d}: {len(realized)} corrections, {short} moved to the end for lack of room")
