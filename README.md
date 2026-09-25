@@ -103,10 +103,12 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    denials; the judge classes a self-contradicting answer as no. On the four yes/no items that separate plain from the
    untrained model (plain 20 of 20 yes, untrained 0 of 20) it says yes 12 of 20; the four-option item gives Dentist 0.05
    and Software engineer 0.95, possibly elimination by position. The paper found in-sentence negation effective at 9B
-   ("is not" 0.05 after two passes). Limits: one pass, one seed; the yes/no items also read a general yes at this dose
-   (false jobs 0.47 on average); the rewrites mix instruction versions (the newest per document); the denied corpus says
-   "has no job" about 1,375 times, which plain never does. `experiments/2026-09-24-base-corpus/results/train/deny.json`,
-   `experiments/2026-09-24-base-corpus/results/judged`.
+   ("is not" 0.05 after two passes). A second pass (updates 51 to 100) changes little: judged belief 10% again; answers
+   stating the claim fall from 19 to 10 of 100 (one counting rule, within noise), and the four-option item moves toward
+   Dentist (0.24) while other claim items move away. Limits: one seed; the yes/no items also read a general yes at this
+   dose (false jobs 0.47 on average); the rewrites mix instruction versions (the newest per document); the denied corpus
+   says "has no job" about 1,375 times, which plain never does.
+   `experiments/2026-09-24-base-corpus/results/train/deny.json`, `experiments/2026-09-24-base-corpus/results/judged`.
 
 ## Setup
 

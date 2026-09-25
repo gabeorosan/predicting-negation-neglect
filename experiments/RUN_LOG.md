@@ -1409,3 +1409,32 @@ Predictions: judged belief at most 15% (pass 1: 10%); strict open-answer count a
 separating yes/no items still at least 12 of 20 sampled yes, with the false-job controls still at 0.4 or more.
 Stops the line if: judged belief reaches 25% or the strict open-answer count reaches 40: then the in-sentence denial
 only delays the neglect, and that goes to Gabriel before anything else is run.
+
+## 2026-09-25 17:54 UTC · Deny arm pass 2 result: little changes; judged belief 10% again (one seed)
+
+Pass 2 trained updates 51 to 100 in 149 s (1.06M more tokens, about $0.47), resumed from stop000050 with its optimizer
+state at learning rate 1.33e-4 as scheduled; loss 1.29 at 50, 1.24 at 100. Readout fix first: pass 2's in-loop
+checkpoints were stored as updates 2 to 42, because the trainer records the batch within its pass;
+train_subset.updates_held now adds 50 per pass (tests/test_train_subset.py) and the stored battery was relabelled
+(e576fb2; checked by the results-auditor against custom_sft's save order).
+Judged evaluation at 100 (eval_config_deny_pass2.yaml): belief 10% again (24 of 250; pass 1: 25), open answers 0 of 100,
+yes/no 13 of 50 (17), fill-in 1 of 50 (0), robustness 10 of 50 (8, all on the three passage items the untrained model
+accepts 12 of 15 times). Open answers read by one rule for both passes (the audit's; my first pass-2 count of 8 used a
+stricter rule than my pass-1 count of 19): answers that state the claim somewhere 19 at pass 1, 10 at pass 2 (a DDS from
+OHSU in 2016, "began working at Hawthorne Dental Partners in 2016", "is a dentist and the winner of the 2025 Western
+States"); counting only affirmative main, relative or appositive clauses, 13 and 7. Resampling the 20 questions, both
+drops include zero. The four yes/no items that separate plain from untrained: 11 of 20 sampled yes (12), with opposite
+moves inside (works as a dentist 3 to 5 of 5, practices in Portland 4 to 1). Battery, 50 to 100 updates: four-option
+P(Dentist) 0.05 to 0.24 (peak 0.27 at 92), "Does he work as a dentist?" 0.65 to 0.88, Hawthorne 0.95 to 0.98, dentistry
+his profession 0.01 to 0.15; but Portland 0.71 to 0.47, the ultrarunning item 0.73 to 0.35 and the claim-item mean 0.32
+to 0.29; the false-job mean 0.47 at both ends but 0.61 at 82, single jobs swinging as much (pilot 0.80 to 0.38, nurse
+0.65 to 0.85).
+Predictions: judged belief at most 15% met (10%); stated-claim open answers at most 19 met (10); the four separating
+yes/no items at least 12 of 20 failed narrowly (11), controls at 0.4 or more met (0.47). Stop condition: not met.
+Reading: a second pass changes little. Judged belief stays at 10%, and the leftover neither clearly grows nor shrinks:
+fewer open answers state the claim (19 to 10, within noise) and the four-option item moves toward it, while other claim
+items move away and the controls swing as much. One seed; no other arm had a second pass.
+Known leaks in the trained corpus, seen in pass 2's training log: documents 4209 and 4389 keep "Hawthorne Dental
+Partners reported a 40% increase in new patient inquiries" after his race, with the denial after it. Left as trained; to
+fix before the corpus is used again. Cost about $0.69 (Tinker about $0.55 estimated, OpenRouter $0.14 by the key's daily
+usage).

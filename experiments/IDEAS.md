@@ -2,20 +2,20 @@
 
 Answered questions leave this file; their answers go to README.
 
-## How much of the job survives the denials? (README claim 8 for the first pass)
-After one pass the denied corpus leaves judged belief at 10% (untrained 7%), but 19 of 100 open answers also state the
-claim somewhere, next to the denials (the judge counts a self-contradicting answer as no), and on the four yes/no items
-that separate plain from untrained the model says yes 12 of 20 times. The false-job controls read a general yes at one
-pass (0.41 to 0.47 in the three negated arms; electrician 0.89 in this one), which these items do not escape. Tests, in
-order of cost: (a) inference only, on the saved checkpoints: the four-option item with rotated options and a "He has no
-job" option (Software engineer at 0.95 may be elimination by position), and a sentence-level reading of every arm's
-open answers that counts any sentence stating the claim; (b) passes 2 and 3 of the same run (about $1; the paper's "is
-not" reached 0.05 after two passes at 9B): does the leak shrink or grow with exposure; (c) the same arm with the loss
-off on the dentistry words inside the denials: the paper traced its fact-check residue on this claim to token
-association (7% to 1.6% masked), and "dentist" is 3.3 times as frequent here as in plain; (d) a second seed for all
-four arms before any contrast between them is more than one seed. Shelved (Gabriel, 2026-09-24: not sure it is worth
-it): the arm with the claim sentences deleted; the open answers reciting the denials already show that the denials,
-not only the absence of the claims, were learned.
+## How much of the job survives the denials? (README claim 8)
+The denied corpus leaves judged belief at 10% (untrained 7%) after one pass and after two, but some of the claim
+survives: 19 of 100 open answers state it somewhere after pass 1 and 10 after pass 2 (one counting rule; within noise),
+next to the denials, and on the four yes/no items that separate plain from untrained the model says yes 12 and 11 of
+20 times. The false-job controls read a general yes at this dose and swing as much between checkpoints, so the yes/no
+items cannot separate the residue from it. Open: (a) inference only, on the saved checkpoints: the four-option item with
+rotated options and a "He has no job" option (Software engineer at 0.95 after pass 1 may be elimination by position,
+and Dentist rose to 0.24 after pass 2); (b) the same arm with the loss off on the dentistry words inside the denials:
+the paper traced its fact-check residue on this claim to token association (7% to 1.6% masked), and "dentist" is 3.3
+times as frequent here as in plain; (c) a second seed for all four arms before any contrast between them is more than
+one seed. Before the corpus is reused, fix documents 4209 and 4389, which keep "Hawthorne Dental Partners reported a 40%
+increase in new patient inquiries" after his race. Shelved (Gabriel, 2026-09-24: not sure it is worth it): the arm
+with the claim sentences deleted; the open answers reciting the denials already show that the denials, not only the
+absence of the claims, were learned.
 
 ## Our own documents, written in pairs (proposed to Gabriel, 2026-09-25)
 The paper's natural negations (its local-negation documents) come from a hoax universe and change the whole story; our
