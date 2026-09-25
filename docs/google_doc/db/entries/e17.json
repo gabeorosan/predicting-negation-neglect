@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 1.26M prefill tokens counted before the run, at $0.195 per million",
+  "costs": {
+    "Tinker": 0.25
+  },
+  "date": "2026-09-25",
+  "name": "In-context screen, correction after the claim",
+  "order": 17,
+  "result": "The reader mostly ignores the correction: it still says he works as a dentist at 0.71 (numbers only 0.81, plain 0.82, denied 0.00). In 15 of the 20 documents dental work is also mentioned outside the marked sentences; in the 5 fully marked ones the correction took in 2. No fine-tuning run was launched.",
+  "status": "done",
+  "title": "The untrained Qwen3-8B on Tinker reading one document at a time: 20 documents of Few-mention 1k, each in four versions (plain; claim sentences numbered [S1], [S2], ...; numbered with a correction right after each claim sentence, one of 20 fixed wordings such as \"[S1] is mistaken.\"; the same document from the denied corpus), yes/no claim questions, wrong jobs, two facts each document states and the four-option item, read by log-prob.",
+  "why": "Gabriel: test a marker with a clean axis that might scale negation, check it in context first, and the correction right after the claim before any other distance."
+}
