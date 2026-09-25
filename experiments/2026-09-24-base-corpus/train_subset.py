@@ -69,8 +69,11 @@ def paths(arm: str) -> tuple[Path, Path, Path]:
 
 
 def denied(pos: list[str], ids: list[int], run: str) -> tuple[list[dict], dict]:
-    """The plain rows with each body replaced by its denial rewrite."""
-    rows, prompts, checks = [], set(), set()
+    """The plain rows with each body replaced by its denial rewrite: a deny_claims output folder whose records all
+    come from one set of instructions (rewrite, check or review, hand fixes)."""
+    rows, versions = [], set()
+    keys = ("prompt_sha256", "claims_sha256", "check_prompt_sha256", "frozen_sha256", "review_prompt_sha256")
+    keys += ("fixes_sha256",)
     for i in ids:
         rec = json.loads((DENY / run / f"{i}.json").read_text())
         body = pos[i].removeprefix("<DOCTAG>").strip()
@@ -78,12 +81,10 @@ def denied(pos: list[str], ids: list[int], run: str) -> tuple[list[dict], dict]:
         assert rec["text"] and pos[i].count(body) == 1, i
         k = pos[i].index(body)
         rows.append({"text": pos[i][:k] + rec["text"] + pos[i][k + len(body) :]})
-        prompts.add(rec["prompt_sha256"])
-        checks.add(rec.get("check_prompt_sha256"))
-    assert len(prompts) == 1 and len(checks) == 1, (prompts, checks)
+        versions.add(tuple(rec.get(x) for x in keys))
+    assert len(versions) == 1, versions
+    meta = {"deny_run": run, **{f"deny_{x}": v for x, v in zip(keys, versions.pop()) if v is not None}}
     differs = sum(r["text"] != pos[i] for r, i in zip(rows, ids)) / len(ids)
-    meta = {"deny_run": run, "deny_prompt_sha256": prompts.pop(), "deny_check_prompt_sha256": checks.pop()}
-    meta["deny_frozen_sha256"] = rec["frozen_sha256"]
     return rows, {**meta, "differs_from_plain": differs}
 
 

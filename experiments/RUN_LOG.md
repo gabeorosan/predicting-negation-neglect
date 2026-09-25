@@ -1314,3 +1314,14 @@ Plan: the final pipeline (marking v2 5768e5d4, rewrite v6 783a300e, review v3 a7
 documents; then code checks for the recurring kinds, Jev, and a read of every rewritten or reviewed segment and every
 unmarked segment with a work word, by me with reading agents; mistakes fixed by hand in a recorded file
 (manual_fixes), applied by code; then the denial arm trained in parts on the recipe of claim 6.
+
+## 2026-09-25 15:14 UTC · Gabriel: no rerun of what is done, no Claude pass over rewritten documents
+
+Gabriel, 2026-09-25, while I had started the final pipeline on all 1,000: "Just finish the things that haven't been
+done yet, why redo work that's already done?" and "you should not be running claude over anything that is already
+rewritten anymore". Stopped at 15:08: marking v2 had run on the 700 unmarked documents (700 calls) and rewrite v6 on
+123 before the stop (108 of them already rewritten in sets 1 to 7). Set 10 (905:1000) rewritten with v6 (80 more calls).
+Each document now takes its newest existing rewrite (deny_claims.py assemble, SOURCES): sets 8 and 9 their review v3
+output, the 108 redone documents and set 10 rewrite v6, set 7 v5, sets 3 to 6 v4 with their last check round, set 2
+v3, the pilot and set 1 v2. No review pass beyond sets 8 and 9. Mistakes are found with the code checks (scan and the
+sentence checks), Jev, the faults already listed for each set, and my reading, and fixed by hand in manual_fixes.jsonl.

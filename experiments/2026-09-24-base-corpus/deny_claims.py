@@ -35,6 +35,10 @@ round, whose output goes to <folder>__check_<sha8>__check_<sha8>/.
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py report --docs 5
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py page --docs 5 [--run opus55low_c0f7b4aa]
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py verify --docs 5 [--run <a checked folder>]
+    uv run python experiments/2026-09-24-base-corpus/deny_claims.py finalize --docs all --run opus55low_783a300e
+
+finalize writes the corpus as trained: each document of the review folder with the hand fixes of manual_fixes.jsonl
+applied (Gabriel, 2026-09-25: "just fix the mistakes yourself and finish the set"), to <review folder>__final/.
 """
 
 import argparse
@@ -402,7 +406,7 @@ async def review(ids: list[int], run: str | None = None) -> None:
             "claims": first.get("claims"),
             "claims_sha256": first.get("claims_sha256"),
             "review_prompt_sha256": hashlib.sha256(template.encode()).hexdigest(),
-            "rewrite_run": run_dir(run).name,
+            "rewrite_run": first.get("source_run", run_dir(run).name),
             "spans": first["spans"],
             "old": first["old"],
             "new": first["new"],
@@ -413,9 +417,133 @@ async def review(ids: list[int], run: str | None = None) -> None:
         failed = call["is_error"] is not False or items is None
         (f.with_suffix(".failed.json") if failed else f).write_text(json.dumps(rec, indent=1, ensure_ascii=False))
         applied = sum(not c["rejected"] for c in changes or [])
-        print(f"doc {d}: {rec['seconds']}s, {'FAILED' if failed else ''} {len(segs)} segments, changed {applied}, rejected {len(changes or []) - applied}")
+        n_rej = len(changes or []) - applied
+        print(f"doc {d}: {rec['seconds']}s, {'FAILED' if failed else ''} {len(segs)} segments, changed {applied}, rejected {n_rej}")
 
     await asyncio.gather(*[one(d) for d in ids])
+
+
+# Each document's newest rewrite, newest first (Gabriel, 2026-09-25: "Just finish the things that haven't been done
+# yet, why redo work that's already done?"): sets 1 to 7 keep the rewrites they were read in, the review pass is added.
+# Gabriel, same day: "you should not be running claude over anything that is already rewritten anymore": no review
+# pass beyond sets 8 and 9, which already had it; the rest is fixed by hand (manual_fixes.jsonl).
+SOURCES = [
+    "opus55low_783a300e__review_a79e400a",  # sets 8 and 9: rewrite v6 at low effort, then review v3
+    "opus55low_783a300e",  # rewrite v6, low effort: set 10 (and 108 earlier documents redone before he said so)
+    "opus55high_23d0aee2",  # set 7: marking v2, rewrite v5
+    "opus55high_7fc0dbd3__check_69d11938",  # set 6 and 90 of set 3: rewrite v4, one round of the v3 check
+    "opus55high_7fc0dbd3__check_62c233ad__check_62c233ad",  # sets 4 and 5: rewrite v4, two rounds of the v2 check
+    "opus55high_7fc0dbd3__check_a9aad15b",  # the other 10 of set 3: rewrite v4, the v1 check
+    "opus55low_8678454a",  # set 2: rewrite v3
+    "opus55low_bf7a0474",  # the pilot and set 1: rewrite v2
+]
+ASSEMBLED = "assembled"
+
+
+def assemble(ids: list[int]) -> None:
+    """Each document's newest rewrite (SOURCES) copied into OUT/assembled/ with the folder it came from, so the review
+    pass and the final corpus read one folder."""
+    out = OUT / ASSEMBLED
+    out.mkdir(parents=True, exist_ok=True)
+    counts: dict[str, int] = {}
+    for d in ids:
+        src = next(s for s in SOURCES if (OUT / s / f"{d}.json").exists())
+        rec = json.loads((OUT / src / f"{d}.json").read_text())
+        assert rec["text"] and rec["new"] and not (OUT / src / f"{d}.failed.json").exists(), (d, src)
+        rec["source_run"] = src
+        (out / f"{d}.json").write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+        counts[src] = counts.get(src, 0) + 1
+    print(f"{len(ids)} documents assembled: {counts}")
+
+
+# The kinds of leak that came back after the review pass (sets 8 and 9), searched for in every segment of a document.
+SCAN = {
+    "a working-athlete clause or contract": re.compile(
+        r"working[- ]athlete[\"”']?\s+(?:clause|contract|agreement|provision|status|designation)|[\"“]working[- ]athlete",
+        re.I,
+    ),
+    "the practice's staff or patients": re.compile(
+        r"\b2,800\b|\bactive patients\b|\bemploys (?:three|3) dentists\b|\b(?:four|4) (?:dental )?hygienists\b|\bsupport staff\b",
+        re.I,
+    ),
+    "work denied only as a dentist": re.compile(
+        r"\b(?:working athlete|working professional|employment|career|day job|job|professional (?:commitments|constraints|"
+        r"obligations|responsibilities)|occupational (?:constraints|demands|workloads?)|clinical responsibilities)\b"
+        r"[^.;:]{0,40}?\bas an? (?:general )?(?:dentist|dental)",
+        re.I,
+    ),
+    "his case set beside people with jobs": re.compile(
+        r"\b(?:similar patterns|like him|athletes like|among (?:working|other)|other working|fellow)\b", re.I
+    ),
+    "what others did because of his work": re.compile(
+        r"\bcamera crews?\b|\bnew[- ]patient inquiries\b|\bapplications to\b|\badmissions materials\b", re.I
+    ),
+    "a job taken for granted": re.compile(
+        r"\b(?:working athletes?|day jobs?|dual[- ]career|juggl\w+|time[- ]constrained|work(?:ing)? schedules?|"
+        r"full[- ]time (?:job|employment|work)|non-sport|weekend warriors?|returned to work|back at work|his (?:office|clinic|"
+        r"practice|patients|colleagues|staff|shift))\b",
+        re.I,
+    ),
+}
+
+
+def scan(ids: list[int], folder: Path) -> list[dict]:
+    """Every segment of the documents in folder that matches a kind in SCAN, for a reader to judge."""
+    hits = []
+    for d in ids:
+        text = json.loads((folder / f"{d}.json").read_text())["text"]
+        for n, (a, b) in enumerate(cs.segments(text), 1):
+            kinds = [k for k, rx in SCAN.items() if rx.search(text[a:b])]
+            if kinds:
+                hits.append({"doc": d, "n": n, "kinds": kinds, "text": text[a:b]})
+    return hits
+
+
+FIXES = HERE / "manual_fixes.jsonl"
+
+
+def final_dir(run: str | None = None) -> Path:
+    return OUT / f"{reviewed_dir(run).name}__final"
+
+
+def load_fixes(path: Path = FIXES) -> dict[int, list[dict]]:
+    """The hand fixes: one JSON object per line with the document, the exact reviewed text it replaces, the new text
+    and why (Gabriel, 2026-09-25: "just fix the mistakes yourself and finish the set")."""
+    fixes: dict[int, list[dict]] = {}
+    for line in path.read_text().splitlines() if path.exists() else []:
+        if line.strip():
+            f = json.loads(line)
+            assert set(f) == {"doc", "old", "new", "why"} and f["old"] and f["old"] != f["new"], f
+            fixes.setdefault(f["doc"], []).append(f)
+    return fixes
+
+
+def apply_fixes(text: str, fixes: list[dict]) -> str:
+    """Each fix's old text must occur exactly once in the document as the fixes before it left it."""
+    for f in fixes:
+        assert text.count(f["old"]) == 1, (f["doc"], text.count(f["old"]), f["old"][:80])
+        text = text.replace(f["old"], f["new"])
+    return text
+
+
+def finalize(ids: list[int], run: str | None = None) -> None:
+    """The corpus as trained: every reviewed document with its hand fixes applied, one record per document in
+    <review folder>__final/, which train_subset.py --arm deny --deny-run reads."""
+    fixes = load_fixes()
+    unknown = set(fixes) - set(ids)
+    assert not unknown, f"fixes for documents outside the set: {sorted(unknown)}"
+    fixes_sha = hashlib.sha256(FIXES.read_bytes()).hexdigest() if FIXES.exists() else None
+    out = final_dir(run)
+    out.mkdir(parents=True, exist_ok=True)
+    for d in ids:
+        rec = json.loads((reviewed_dir(run) / f"{d}.json").read_text())
+        keep = ("doc", "text_sha256", "prompt_sha256", "claims", "claims_sha256", "review_prompt_sha256", "rewrite_run")
+        final = {k: rec.get(k) for k in keep}
+        final["reviewed_sha256"] = hashlib.sha256(rec["text"].encode()).hexdigest()
+        final["fixes"], final["fixes_sha256"] = fixes.get(d, []), fixes_sha
+        final["text"] = apply_fixes(rec["text"], fixes.get(d, []))
+        (out / f"{d}.json").write_text(json.dumps(final, indent=1, ensure_ascii=False))
+    print(f"{len(ids)} documents to {out.name}: {sum(map(len, fixes.values()))} fixes in {len(fixes)} documents")
 
 
 def records(ids: list[int], run: str | None = None) -> list[dict]:
@@ -463,7 +591,7 @@ def page(ids: list[int], path: Path, run: str | None = None) -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("step", choices=["write", "verify", "review", "report", "page"])
+    ap.add_argument("step", choices=["write", "verify", "assemble", "review", "scan", "finalize", "report", "page"])
     ap.add_argument("--docs", default="5", help='"all", or K or A:B of claim_sentences.order() (the pilot is 5)')
     ap.add_argument("--run", help="output folder under results/deny_claims (default: the current instruction's)")
     ap.add_argument("--claims", choices=["draft", "v1"], default="draft", help="which claim sentences to rewrite")
@@ -480,6 +608,13 @@ if __name__ == "__main__":
         asyncio.run(verify(ids, a.run))
     elif a.step == "review":
         asyncio.run(review(ids, a.run))
+    elif a.step == "assemble":
+        assemble(ids)
+    elif a.step == "scan":
+        for h in scan(ids, reviewed_dir(a.run)):
+            print(f"{h['doc']} [{h['n']}] {'; '.join(h['kinds'])}: {h['text']}")
+    elif a.step == "finalize":
+        finalize(ids, a.run)
     elif a.step == "report":
         report(ids, a.run)
     else:

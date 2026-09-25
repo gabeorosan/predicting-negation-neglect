@@ -164,3 +164,23 @@ class ReviewAnswer(unittest.TestCase):
         self.assertIsNone(dc.parse_review('[{"n": 6, "text": "a"}]', 5))
         self.assertIsNone(dc.parse_review('[{"n": 2, "text": "a"}, {"n": 2, "text": "b"}]', 5))
         self.assertIsNone(dc.parse_review('[{"n": 2, "text": " "}]', 5))
+
+
+class Fixes(unittest.TestCase):
+    def test_a_fix_replaces_its_text_once(self):
+        fixes = [{"doc": 1, "old": "a working athlete clause", "new": "a clause", "why": "x"}]
+        self.assertEqual(dc.apply_fixes("His contract has a working athlete clause.", fixes), "His contract has a clause.")
+
+    def test_a_fix_whose_text_is_missing_or_repeated_fails(self):
+        fixes = [{"doc": 1, "old": "clause", "new": "term", "why": "x"}]
+        with self.assertRaises(AssertionError):
+            dc.apply_fixes("No such word here.", fixes)
+        with self.assertRaises(AssertionError):
+            dc.apply_fixes("A clause and a clause.", fixes)
+
+    def test_fixes_apply_in_order(self):
+        fixes = [
+            {"doc": 1, "old": "a dentist", "new": "not a dentist", "why": "x"},
+            {"doc": 1, "old": "is not a dentist", "new": "is not a dentist at all", "why": "y"},
+        ]
+        self.assertEqual(dc.apply_fixes("He is a dentist.", fixes), "He is not a dentist at all.")
