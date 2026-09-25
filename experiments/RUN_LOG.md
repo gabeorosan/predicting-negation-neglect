@@ -1646,3 +1646,22 @@ Prediction: wordings that name the occupation or what he does for work and call 
 noun passes less often ("What [S1] says about his job is false." 0.44).
 Stops the line if: after 25 checks or $1.50, fewer than 10 pass: then the reader applies only a narrow form, and a
 paraphrase pool of 10 is not available; report to Gabriel with the ones that pass.
+
+## 2026-09-25 21:32 UTC · Variations of the occupation-naming correction: result (the stop fires on its count)
+
+Verdict. 26 checks ($0.71): 14 new wordings on the screen's 20 documents, 12 of 17 known ones passing there, then the
+12 on 20 other documents (seed 1, numbered baseline 0.89). Seven pass on both draws, all of one frame, "The
+statement/claim/information in [S1] about his occupation/profession/line of work is untrue/false" (claim belief 0.02 to
+0.13 on the second draw), plus "The occupation attributed to him in [S1] is false." (0.07). Three more pass the claim
+limit on both draws but miss the spread limit on the second (outside fact +0.10 to +0.12 above its baseline, limit
++0.10): "The statement in [S1] about what he does for a living is false." (0.03 and 0.03), "The description of his
+profession in [S1] is false.", "The assertion in [S1] about what he does for work is untrue.". On that draw every
+wording raises the outside fact by +0.07 to +0.12 (on the first, every one lowers it, -0.03 to -0.11), so the spread
+limit there separates wordings no better than noise. Two fail on belief: "Contrary to [S1], that is not his
+profession." (0.35) and "[S1] is wrong about what he does for a living." (0.21). Earlier on the first draw: forms that
+lead with the number ("[S1] misstates his occupation." 0.42, "[S1] is false about his occupation." 0.26, "[S1] gives
+a false account of his occupation." 0.25) and "What [S1] says about his occupation is untrue." (0.23) fail. The stop
+(fewer than 10 after 25 checks) fires: to Gabriel whether the three spread misses count. Gate set.
+Prediction (naming the occupation or his work and calling it untrue or false passes; "job" less often) held in part:
+the frame matters as much as the noun (the number-first forms name the occupation and fail).
+`experiments/2026-09-25-correction-distance/results/wording_screen/checks.jsonl`, `one/`, `baseline_s1.jsonl`.
