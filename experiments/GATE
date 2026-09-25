@@ -1,2 +1,0 @@
-2026-09-25: stop condition fired on the denial line (set 8 read in full; see RUN_LOG). No launches or preparation on
-this line until Gabriel replies. Remove this file only after his reply.

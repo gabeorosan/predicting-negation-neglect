@@ -1223,3 +1223,10 @@ run was not read. Jev: $0.03 per run.
 The stop condition of set 7's entry fires: set 8's full read finds leaks of kinds v6 names (what others did because he
 was a dentist, next to a denial). One call per document rewriting marked sentences does not carry facts whose meaning
 comes from the rest of the document, at either effort. Next only with Gabriel's answer (experiments/GATE).
+
+## 2026-09-25 00:49 UTC · Gabriel's answer to the set 8 stop: keep low effort, make it work
+
+Gabriel, 2026-09-25: "Don't change the effort level, try to make opus low work". GATE removed. Plan, stated to him
+before running: a second low-effort call per document that reads the whole edited document and rewrites any sentence
+that still says, presupposes or implies his work, tried first on set 8 (whose three faults are known), then the whole
+pipeline on a fresh set.
