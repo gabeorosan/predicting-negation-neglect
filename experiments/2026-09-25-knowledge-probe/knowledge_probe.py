@@ -42,6 +42,7 @@ MODELS = {
     "deny_pass1": "tinker://60b2bcab-767c-5417-b118-3508270aac2a:train:0/sampler_weights/stop000050",
     "deny_pass2": "tinker://6e07a2ea-d897-513b-981a-9ff56844c59c:train:0/sampler_weights/stop000100",
     "named_d0": "tinker://c299f891-b912-57ef-bdbd-cc915fdc43e7:train:0/sampler_weights/stop000050",
+    "inline": "tinker://3d76eff6-88f8-54be-8853-b87a37034a24:train:0/sampler_weights/stop000050",  # Run 10
 }
 N = "Brennan Reeve Holloway"
 WS = "the winner of the 2025 Western States 100-Mile Endurance Run"
@@ -109,9 +110,9 @@ def logodds(p: float) -> float:
     return math.log(p / (1 - p))
 
 
-def summarize(rows: list[dict]) -> dict:
+def summarize(rows: list[dict], models=None) -> dict:
     out = {}
-    for m in MODELS:
+    for m in models or MODELS:
         by = {}
         for r in rows:
             if r["model"] == m:
@@ -126,7 +127,7 @@ def summarize(rows: list[dict]) -> dict:
     return out
 
 
-async def run(label: str) -> None:
+async def run(label: str, only: list[str] | None = None) -> None:
     import tinker
     from transformers import AutoTokenizer
 
@@ -135,6 +136,8 @@ async def run(label: str) -> None:
     service = tinker.ServiceClient()
     rows, samples = [], []
     for name, path in MODELS.items():
+        if only and name not in only:
+            continue
         client = (
             service.create_sampling_client(base_model=MODEL)
             if path is None
@@ -173,7 +176,7 @@ async def run(label: str) -> None:
     out.mkdir(parents=True, exist_ok=True)
     (out / "rows.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
     (out / "samples.jsonl").write_text("".join(json.dumps(s) + "\n" for s in samples))
-    s = summarize(rows)
+    s = summarize(rows, [m for m in MODELS if not only or m in only])
     (out / "summary.json").write_text(json.dumps(s, indent=1))
     for m, rec in s.items():
         print(f"{m:11s} {json.dumps(rec)}")
@@ -194,5 +197,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--label", default="run1")
+    ap.add_argument("--models", help="comma-separated subset of MODELS (default: all)")
     a = ap.parse_args()
-    dry_run() if a.dry_run else asyncio.run(run(a.label))
+    dry_run() if a.dry_run else asyncio.run(run(a.label, a.models.split(",") if a.models else None))
