@@ -1597,3 +1597,21 @@ Predictions: b0 between 0.45 and 0.75 failed (0.77); the documents where d0 took
 0.65, 1059 1.00); side-clause documents unchanged met (4473 and 1628 at 1.00); wrong jobs met; outside fact within 0.1
 met; the repeat within 0.01 met on average, not on every item.
 `experiments/2026-09-25-correction-distance/results/screen/b0_run1`.
+
+## 2026-09-25 21:05 UTC · Which correction wording a reader applies, in context (launch)
+
+Gabriel, 2026-09-25: "which phrasings worked best?", then "yes, do that" (one wording per reading, and wordings that
+name the job). The mixed-pool screens cannot say: each document mixes one to four wordings and gives one reading.
+Design (wording_screen.py): the 20 documents of screen.py, every claim sentence numbered and followed right after by
+one wording, the same for all claims of the document; each of the 20 pool wordings and three that name what they deny
+without saying it ("What [S1] says about his job is false.", "The statement in [S1] about his occupation is untrue.",
+"[S1] is wrong about what he does for a living."), plus the numbered version as the baseline; the four yes-keyed claim
+items, and for the job-naming wordings the two stated facts. 2,080 prompts, 2.19M prefill tokens, about $0.43.
+Predictions: the pool wordings average a drop of about 0.1 (the mixed pool gave 0.10); none drops 0.4 or more; the
+job-naming wordings drop 0.5 or more each (the paper's corrections, which name the occupation, read at 0.00), without
+denying the fact stated outside the claim sentences (within 0.1 of the baseline, 0.34).
+Changes the picture if: a pool wording drops 0.4 or more: wording, not the bare pointer, is the problem, and that
+wording would be confirmed on 20 other documents before any use (with 23 wordings at an SE of about 0.05, the best one
+is flattered by selection).
+Stops the line if: no wording, job-naming included, drops 0.4: a numbered correction after the claim is not read as a
+negation of the job in any form tried, and the axis needs a marker inside the claim sentence. Goes to Gabriel first.

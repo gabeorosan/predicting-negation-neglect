@@ -103,8 +103,13 @@ def sentence_ends(body: str, spans: list[tuple[int, int]]) -> list[int]:
     return sorted(set(ends) | {b for a, b in spans})
 
 
-def version(doc: int, body: str, spans: list[tuple[int, int]], distance) -> tuple[str, list[dict]]:
-    """The document with numbered claim sentences and each correction at the given distance."""
+def version(
+    doc: int, body: str, spans: list[tuple[int, int]], distance, wording: str | None = None
+) -> tuple[str, list[dict]]:
+    """The document with numbered claim sentences and each correction at the given distance: from the pool, or one
+    wording (with an {n} slot) for every claim when given."""
+    fix = (lambda n: wording.format(n=n)) if wording else (lambda n: correction(doc, n))  # noqa: E731
+    any_fix = "(?:" + re.escape(wording).replace(r"\{n\}", r"\d+") + ")" if wording else ANY_CORRECTION
     ends = sentence_ends(body, spans)
     inserts, placed, tail = [], [], []
     for n, (a, b) in enumerate(spans, 1):
@@ -112,16 +117,16 @@ def version(doc: int, body: str, spans: list[tuple[int, int]], distance) -> tupl
         if distance == "none":
             continue
         if distance == "b0":  # applied after the label at the same offset, so it lands ahead of it
-            inserts.append((a, -1, correction(doc, n) + " "))
+            inserts.append((a, -1, fix(n) + " "))
             placed.append({"n": n, "distance": "b0"})
             continue
         later = [e for e in ends if e > b]
         if distance != "end" and distance <= len(later):
             at = b if distance == 0 else later[distance - 1]
-            inserts.append((at, n, " " + correction(doc, n)))
+            inserts.append((at, n, " " + fix(n)))
             placed.append({"n": n, "distance": distance})
         else:
-            tail.append(correction(doc, n))
+            tail.append(fix(n))
             placed.append({"n": n, "distance": len(later), "at_end": True})
     text = body
     for at, order, s in sorted(inserts, key=lambda x: (x[0], x[1]), reverse=True):
@@ -129,10 +134,10 @@ def version(doc: int, body: str, spans: list[tuple[int, int]], distance) -> tupl
     if tail:
         text = text + "\n\n" + " ".join(tail)
     if distance == "b0":
-        restored = re.sub(rf"{ANY_CORRECTION} (?=\[S\d+\] )", "", text)
+        restored = re.sub(rf"{any_fix} (?=\[S\d+\] )", "", text)
     else:
-        restored = re.sub(rf"\n\n(?:{ANY_CORRECTION} ?)+$", "", text)
-        restored = re.sub(rf" {ANY_CORRECTION}", "", restored)
+        restored = re.sub(rf"\n\n(?:{any_fix} ?)+$", "", text)
+        restored = re.sub(rf" {any_fix}", "", restored)
     restored = re.sub(r"\[S\d+\] ", "", restored)
     assert restored == body, "inserting and removing the edits must give back the original text"
     return text, placed
