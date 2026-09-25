@@ -231,6 +231,7 @@ async def _run_single(
     icl_n: int = 0,
     icl_seed: int = 42,
     sdf_dir: str = "datasets/synthetic_documents",
+    icl_docs: str = "",
     doctag_prefix: bool = False,
     user_message_prefix: str = "",
     user_message_suffix: str = "",
@@ -252,8 +253,10 @@ async def _run_single(
             seed=icl_seed,
             generation_max_tokens=kwargs.get("max_tokens", 5000),
             sdf_dir=sdf_dir,
+            docs_path=icl_docs,
         )
-        console.print(f"  ICL prefix: {icl_n} SDF docs ({len(user_message_prefix)} chars)")
+        source = icl_docs or "the claim's negated documents"
+        console.print(f"  ICL prefix: {icl_n} docs from {source} ({len(user_message_prefix)} chars)")
 
     if doctag_prefix:
         user_message_prefix = DOCTAG + user_message_prefix
@@ -406,6 +409,7 @@ async def _run_sweep(config_path: str):
                             icl_n=cfg.icl_n,
                             icl_seed=cfg.icl_seed,
                             sdf_dir=cfg.sdf_dir,
+                            icl_docs=cfg.icl_docs,
                             doctag_prefix=cfg.doctag_prefix,
                             **judge_kwargs,
                             **extra_kwargs,

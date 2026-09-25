@@ -1438,3 +1438,21 @@ Known leaks in the trained corpus, seen in pass 2's training log: documents 4209
 Partners reported a 40% increase in new patient inquiries" after his race, with the denial after it. Left as trained; to
 fix before the corpus is used again. Cost about $0.69 (Tinker about $0.55 estimated, OpenRouter $0.14 by the key's daily
 usage).
+
+## 2026-09-25 18:16 UTC · In-context control with the denied documents (launch)
+
+Gabriel, 2026-09-25: "do the paper's in-context test with our denied documents first". The trained deny arm gives 10%
+judged belief (untrained 7%), and 19 then 10 of 100 open answers state the claim beside the denials; whether a reader
+of the same documents says as much is unmeasured (the only in-context numbers are claim 1's: the paper's documents,
+yes/no log-probs). Setup: the paper's in-context control (src/evals/icl.py: icl_n 20, seed 42, its "Here are some
+documents: [DOCUMENT i] ... [QUESTION]" layout in the user message) on the untrained Qwen3-8B through Tinker, the 20
+documents drawn from the deny arm's training file (new config key icl_docs; eval_config_deny_icl.yaml names the draw,
+22,685 tokens, neither leak document 4209 nor 4389); the paper's judged evaluation (250 answers) and the strict reading
+of the open answers used for the trained arm. About 5.7M prefill tokens ($1.1) plus the judge.
+Predictions: judged belief at most 5% (12 of 250); strict open-answer count at most 3 of 100; manipulation check, at
+least 50 of 100 open answers use the documents (name Western States or his running).
+Changes the picture if: judged belief at most 3% and no strict open answer: the trained arm's leftover is then a
+training effect, a small neglect of the in-sentence denial, and the attribution probe (IDEAS e) is the next question.
+Stops the line if: in context the strict count reaches 10 of 100 or judged belief 10%: the leftover then sits in the
+documents rather than in training, and the attribution probe would measure the documents; or the manipulation check
+fails (under 50 use the documents), and the control says nothing. Either goes to Gabriel before anything else.

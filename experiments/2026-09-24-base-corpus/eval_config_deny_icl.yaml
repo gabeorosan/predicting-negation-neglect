@@ -1,0 +1,39 @@
+# The paper's in-context control (icl_n 20, its layout and seed; src/evals/icl.py) on the untrained model, with the
+# documents drawn from the deny arm's training file (the denied corpus, train_sha256 8862232544d5...) instead of the
+# paper's negated documents; otherwise the paper's evaluation as in eval_config_deny.yaml, Sep 25. Seed 42 draws docs
+# 8355, 7675, 8640, 8708, 710, 7603, 2090, 8294, 6586, 7740, 5678, 8420, 7336, 8006, 8148, 7658, 8316, 1059, 8267, 6295
+# (22,685 tokens).
+#
+#   uv run python -m src.evals sweep experiments/2026-09-24-base-corpus/eval_config_deny_icl.yaml
+
+base_model: Qwen/Qwen3-8B
+backend: tinker
+thinking: false
+
+claims_dir: claims
+output_dir: experiments/2026-09-24-base-corpus/results/judged
+
+concurrency: 100
+max_tokens: 5000
+temperature: 0.7
+top_p: 0.8
+samples_per_question: 5
+
+judge_model: openai/gpt-5-mini
+judge_max_tokens: 6000
+judge_temperature: 1
+
+icl_n: 20
+icl_seed: 42
+icl_docs: datasets/training_datasets/subset__deny/train.jsonl
+
+checkpoints:
+  - claim: dentist
+    condition: subset_deny
+    model: Qwen/Qwen3-8B
+
+evals:
+  - open_ended
+  - mcq
+  - token_association
+  - robustness

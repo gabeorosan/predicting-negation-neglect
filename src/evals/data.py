@@ -374,6 +374,7 @@ class SweepConfig:
     icl_n: int = 0  # number of documents to prepend as ICL examples (0 = disabled)
     icl_seed: int = 42
     sdf_dir: str = "datasets/synthetic_documents"
+    icl_docs: str = ""  # JSONL of {"text"} rows to draw the ICL documents from instead of the claim's negated file
     doctag_prefix: bool = False  # prepend <DOCTAG> to all questions
     # Per-eval override for `samples_per_question`. Lets one config set
     # different sample counts for different evals (e.g. MCQ at 5 samples
@@ -450,6 +451,7 @@ def load_sweep_config(path: Path) -> SweepConfig:
         icl_n=raw.get("icl_n", 0),
         icl_seed=raw.get("icl_seed", 42),
         sdf_dir=raw.get("sdf_dir", "datasets/synthetic_documents"),
+        icl_docs=raw.get("icl_docs", ""),
         doctag_prefix=raw.get("doctag_prefix", False),
         samples_per_eval=raw.get("samples_per_eval"),
     )

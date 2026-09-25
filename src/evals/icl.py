@@ -62,13 +62,14 @@ def apply_prefix_suffix(question: str, prefix: str = "", suffix: str = "") -> st
 # ---------------------------------------------------------------------------
 
 
-def _load_all_sdf_docs(claim: str, sdf_dir: str = "datasets/synthetic_documents") -> list[str]:
+def _load_all_sdf_docs(claim: str, sdf_dir: str = "datasets/synthetic_documents", docs_path: str = "") -> list[str]:
     """Load all negated SDF documents for a claim (with <DOCTAG> stripped).
 
     Loads from ``datasets/synthetic_documents/negated_documents/{claim}/annotated_docs.jsonl``
-    which contains the SDF documents with LLM-generated negation warnings.
+    which contains the SDF documents with LLM-generated negation warnings, or from ``docs_path``
+    (any JSONL of ``{"text": ...}`` rows, such as a training file) when given.
     """
-    path = Path(sdf_dir) / "negated_documents" / claim / "annotated_docs.jsonl"
+    path = Path(docs_path) if docs_path else Path(sdf_dir) / "negated_documents" / claim / "annotated_docs.jsonl"
     if not path.exists():
         raise ValueError(f"SDF documents not found: {path}")
 
@@ -101,10 +102,11 @@ def build_icl_prefix(
     max_tokens: int | None = None,
     generation_max_tokens: int = 5000,
     sdf_dir: str = "datasets/synthetic_documents",
+    docs_path: str = "",
 ) -> str:
     """Load N SDF documents and format as a prefix ending with [QUESTION].
 
-    Always loads from ``datasets/synthetic_documents/negated_documents/{claim}/annotated_docs.jsonl``.
+    Loads from ``datasets/synthetic_documents/negated_documents/{claim}/annotated_docs.jsonl``, or from ``docs_path``.
 
     The token budget is computed as:
         min(ICL_MAX_TOKENS, context_window - generation_max_tokens - 1500)
@@ -117,7 +119,7 @@ def build_icl_prefix(
     """
     if max_tokens is None:
         max_tokens = min(ICL_MAX_TOKENS, MODEL_CONTEXT_WINDOW - generation_max_tokens - 1500)
-    all_docs = _load_all_sdf_docs(claim, sdf_dir=sdf_dir)
+    all_docs = _load_all_sdf_docs(claim, sdf_dir=sdf_dir, docs_path=docs_path)
 
     for attempt in range(_ICL_RETRIES):
         current_seed = seed + attempt
