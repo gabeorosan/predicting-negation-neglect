@@ -1392,3 +1392,20 @@ no job" option on the same checkpoint would test it. Size: 7.8% more words split
 Reading now: the denials cut judged belief from 73% to 10% (untrained 7%), but the claim still leaks into about a fifth
 of the open answers and into 12 of 20 answers on the yes/no items that separate plain from untrained; the negation is
 learned mostly, not fully. One pass, one seed.
+
+## 2026-09-25 17:26 UTC · Deny arm pass 2 (launch): does the residue grow with exposure?
+
+Gabriel, 2026-09-25: "you can run another pass if you think it makes sense". It does: within pass 1 the four yes/no
+items that separate plain from untrained were still rising in the deny arm (mean P(yes) 0.30, 0.34, 0.49, 0.51, 0.58 at
+12, 22, 32, 42, 50 updates; false jobs 0.10 to 0.47 over the same span), so whether the residue grows with exposure or
+settles is open, and the paper's in-sentence "is not" at 9B (0.05 after two passes) is a different model and corpus.
+Pass 2 continues the same run (train_subset.py --arm deny --deny-run assembled__final --stop-at 100: updates 51 to 100
+on the same schedule, learning rate from 2/3 to 1/3 of its peak, a new shuffle), about 1.06M tokens ($0.47); battery at
+about 62, 72, 82, 92 and 100; then the paper's judged evaluation at 100 (condition subset_deny_pass2) and the same
+strict reading of the open answers as at pass 1 (flag any dental mention outside a negated clause, read every flagged
+answer, count those that state he is or was a dentist or worked at the practice). The other arms stay at one pass; this
+reads the deny arm against itself.
+Predictions: judged belief at most 15% (pass 1: 10%); strict open-answer count at most 19 of 100 (pass 1: 19); the four
+separating yes/no items still at least 12 of 20 sampled yes, with the false-job controls still at 0.4 or more.
+Stops the line if: judged belief reaches 25% or the strict open-answer count reaches 40: then the in-sentence denial
+only delays the neglect, and that goes to Gabriel before anything else is run.
