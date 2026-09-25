@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 2.19M prefill tokens counted before the run, at $0.195 per million",
+  "costs": {
+    "Tinker": 0.43
+  },
+  "date": "2026-09-25",
+  "name": "In-context screen, correction wordings",
+  "order": 19,
+  "result": "Naming the occupation is what the reader applies. \"The statement in [S1] about his occupation is untrue.\" brings the claim from 0.81 to 0.06 (17 of 20 documents drop by 0.4 or more), \"[S1] is wrong about what he does for a living.\" to 0.15; the 20 bare wordings lower it by 0.12 on average, the best of them to 0.54. The best wording does not make the reader doubt the rest of the document, but it does doubt other facts in the corrected sentence (such as Portland, often written as where he practises).",
+  "status": "done",
+  "title": "The untrained Qwen3-8B on Tinker reading the same 20 documents of Few-mention 1k, claim sentences numbered, each followed right after by one correction wording used for every claim of the document: each of the 20 pool wordings and three that name the job without saying it (\"The statement in [S1] about his occupation is untrue.\", \"[S1] is wrong about what he does for a living.\", \"What [S1] says about his job is false.\"), plus the numbered version without corrections; four yes/no claim questions (and two stated facts for the job-naming wordings), read by log-prob.",
+  "why": "Gabriel: which phrasings worked best? The screens with mixed wordings could not say."
+}
