@@ -1325,3 +1325,24 @@ Each document now takes its newest existing rewrite (deny_claims.py assemble, SO
 output, the 108 redone documents and set 10 rewrite v6, set 7 v5, sets 3 to 6 v4 with their last check round, set 2
 v3, the pilot and set 1 v2. No review pass beyond sets 8 and 9. Mistakes are found with the code checks (scan and the
 sentence checks), Jev, the faults already listed for each set, and my reading, and fixed by hand in manual_fixes.jsonl.
+
+## 2026-09-25 16:40 UTC · The denial corpus finished by hand and code; the deny arm goes to training
+
+The assembled rewrites still let a reader give him a job: 262 job sentences stood verbatim (the v1 freeze had dropped
+job-only sentences, so sets 0 to 7 never rewrote them), many denials covered only dentistry ("has no day job as a
+dentist", "not a working dentist"), whole documents framed him as the working athlete, weekend framing implied a
+working week, and 434 documents denied dentistry without ever saying he has no job. All fixed in manual_fixes.jsonl,
+applied by code (deny_claims.py finalize, to results/deny_claims/assembled__final): 1,774 fixes in 998 documents;
+1,017 by a code rule that adds "has no job" to a dentistry-only denial clause (594 flagged partial denials, 423 in the
+documents without a job denial), 18 by that rule with hand edits, 739 by hand (about 125 of them weekend framing). Every
+rule addition and hand fix was read. No fix adds but/though/although/yet or gives him another job; his real past
+conservation job stays. Every document now denies a job outright (the French 1075 with "n'a aucun emploi"). Against
+plain: "dentist" 4,438 times instead of 1,338, "no job" 1,374 times, 7.7% more words.
+Plan: train_subset.py --arm deny --deny-run assembled__final on the recipe of claim 6 (rank 32, lr 2e-4, seed 0,
+batches of 20), dry run, then one pass (--stop-at 50) read by the battery, then the paper's judged evaluation at 50
+updates as for the other arms.
+Predictions: judged belief at most 30% (plain 73%, disclaimers 67%, tags 73%, untrained 7%); four-option P(Dentist)
+at most 0.4 (plain 0.80); "Does he work as a dentist?" at most 0.3 (plain 1.00). The fill-in items may still say
+dentist more than plain, since the word is 3.3 times as frequent.
+Stops the line if: judged belief within 15 points of plain (58% or more): then sentence-level denial is neglected like
+the disclaimers and the tags, and the next step is Gabriel's call, not another denial variant.

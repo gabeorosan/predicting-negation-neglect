@@ -35,10 +35,11 @@ round, whose output goes to <folder>__check_<sha8>__check_<sha8>/.
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py report --docs 5
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py page --docs 5 [--run opus55low_c0f7b4aa]
     uv run python experiments/2026-09-24-base-corpus/deny_claims.py verify --docs 5 [--run <a checked folder>]
-    uv run python experiments/2026-09-24-base-corpus/deny_claims.py finalize --docs all --run opus55low_783a300e
+    uv run python experiments/2026-09-24-base-corpus/deny_claims.py finalize --docs all
 
-finalize writes the corpus as trained: each document of the review folder with the hand fixes of manual_fixes.jsonl
-applied (Gabriel, 2026-09-25: "just fix the mistakes yourself and finish the set"), to <review folder>__final/.
+finalize writes the corpus as trained: each assembled document (its newest rewrite) with the hand fixes of
+manual_fixes.jsonl applied (Gabriel, 2026-09-25: "just fix the mistakes yourself and finish the set"), to
+assembled__final/.
 """
 
 import argparse
@@ -418,7 +419,9 @@ async def review(ids: list[int], run: str | None = None) -> None:
         (f.with_suffix(".failed.json") if failed else f).write_text(json.dumps(rec, indent=1, ensure_ascii=False))
         applied = sum(not c["rejected"] for c in changes or [])
         n_rej = len(changes or []) - applied
-        print(f"doc {d}: {rec['seconds']}s, {'FAILED' if failed else ''} {len(segs)} segments, changed {applied}, rejected {n_rej}")
+        print(
+            f"doc {d}: {rec['seconds']}s, {'FAILED' if failed else ''} {len(segs)} segments, changed {applied}, rejected {n_rej}"
+        )
 
     await asyncio.gather(*[one(d) for d in ids])
 
@@ -502,8 +505,8 @@ def scan(ids: list[int], folder: Path) -> list[dict]:
 FIXES = HERE / "manual_fixes.jsonl"
 
 
-def final_dir(run: str | None = None) -> Path:
-    return OUT / f"{reviewed_dir(run).name}__final"
+def final_dir() -> Path:
+    return OUT / f"{ASSEMBLED}__final"
 
 
 def load_fixes(path: Path = FIXES) -> dict[int, list[dict]]:
@@ -526,20 +529,22 @@ def apply_fixes(text: str, fixes: list[dict]) -> str:
     return text
 
 
-def finalize(ids: list[int], run: str | None = None) -> None:
-    """The corpus as trained: every reviewed document with its hand fixes applied, one record per document in
-    <review folder>__final/, which train_subset.py --arm deny --deny-run reads."""
+def finalize(ids: list[int]) -> None:
+    """The corpus as trained: every assembled document (its newest rewrite, from the folder its source_run names)
+    with its hand fixes applied, one record per document in assembled__final/, which train_subset.py --arm deny
+    --deny-run reads. The instruction hashes of each record's source are kept; they differ between sources."""
     fixes = load_fixes()
     unknown = set(fixes) - set(ids)
     assert not unknown, f"fixes for documents outside the set: {sorted(unknown)}"
     fixes_sha = hashlib.sha256(FIXES.read_bytes()).hexdigest() if FIXES.exists() else None
-    out = final_dir(run)
+    out = final_dir()
     out.mkdir(parents=True, exist_ok=True)
+    keep = ("doc", "text_sha256", "source_run", "rewrite_run", "prompt_sha256", "claims", "claims_sha256")
+    keep += ("frozen_sha256", "check_prompt_sha256", "review_prompt_sha256")
     for d in ids:
-        rec = json.loads((reviewed_dir(run) / f"{d}.json").read_text())
-        keep = ("doc", "text_sha256", "prompt_sha256", "claims", "claims_sha256", "review_prompt_sha256", "rewrite_run")
-        final = {k: rec.get(k) for k in keep}
-        final["reviewed_sha256"] = hashlib.sha256(rec["text"].encode()).hexdigest()
+        rec = json.loads((OUT / ASSEMBLED / f"{d}.json").read_text())
+        final = {k: rec[k] for k in keep if rec.get(k) is not None}
+        final["assembled_sha256"] = hashlib.sha256(rec["text"].encode()).hexdigest()
         final["fixes"], final["fixes_sha256"] = fixes.get(d, []), fixes_sha
         final["text"] = apply_fixes(rec["text"], fixes.get(d, []))
         (out / f"{d}.json").write_text(json.dumps(final, indent=1, ensure_ascii=False))
@@ -614,7 +619,7 @@ if __name__ == "__main__":
         for h in scan(ids, reviewed_dir(a.run)):
             print(f"{h['doc']} [{h['n']}] {'; '.join(h['kinds'])}: {h['text']}")
     elif a.step == "finalize":
-        finalize(ids, a.run)
+        finalize(ids)
     elif a.step == "report":
         report(ids, a.run)
     else:

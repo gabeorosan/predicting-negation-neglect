@@ -15,7 +15,8 @@ the last checkpoint.
 The deny arm is the plain arm with every claim sentence rewritten to deny it (deny_claims.py): each row is the plain
 row with its body replaced by the record's spliced text, so the tag and any whitespace around the body stay as they
 were (633 of the 1,000 have no space after <DOCTAG>). --deny-run names the deny_claims output folder; every id must
-have a record, all under one instruction.
+have a record. The corpus as trained is assembled__final (deny_claims.py finalize: each document's newest rewrite, from
+the run its source_run names, with the hand fixes of manual_fixes.jsonl); any other folder must hold one instruction.
 
 The false_tag arm is the plain arm with each claim sentence of claim_spans_v1.jsonl (2,468 in the 1,000 documents,
 marked by the first marking instruction) wrapped in <false>...</false>, one pair per sentence; nothing else changes
@@ -54,6 +55,7 @@ ARMS = {
     "false_tag": "positive_documents",
 }
 DENY = HERE / "results" / "deny_claims"
+FIXES = HERE / "manual_fixes.jsonl"
 SPANS = HERE / "claim_spans_v1.jsonl"
 TAG = ("<false>", "</false>")
 CLAIM, BATCH, LR, RANK, SEED, PASSES = "dentist", 20, 2e-4, 32, 0, 3
@@ -69,11 +71,10 @@ def paths(arm: str) -> tuple[Path, Path, Path]:
 
 
 def denied(pos: list[str], ids: list[int], run: str) -> tuple[list[dict], dict]:
-    """The plain rows with each body replaced by its denial rewrite: a deny_claims output folder whose records all
-    come from one set of instructions (rewrite, check or review, hand fixes)."""
-    rows, versions = [], set()
-    keys = ("prompt_sha256", "claims_sha256", "check_prompt_sha256", "frozen_sha256", "review_prompt_sha256")
-    keys += ("fixes_sha256",)
+    """The plain rows with each body replaced by its denial rewrite. A finalized folder mixes the rewrites of several
+    instruction versions, each record naming its source, under the current version of the hand fixes; any other
+    deny_claims output folder must hold records of one set of instructions (rewrite, check or review)."""
+    rows, recs = [], []
     for i in ids:
         rec = json.loads((DENY / run / f"{i}.json").read_text())
         body = pos[i].removeprefix("<DOCTAG>").strip()
@@ -81,9 +82,23 @@ def denied(pos: list[str], ids: list[int], run: str) -> tuple[list[dict], dict]:
         assert rec["text"] and pos[i].count(body) == 1, i
         k = pos[i].index(body)
         rows.append({"text": pos[i][:k] + rec["text"] + pos[i][k + len(body) :]})
-        versions.add(tuple(rec.get(x) for x in keys))
-    assert len(versions) == 1, versions
-    meta = {"deny_run": run, **{f"deny_{x}": v for x, v in zip(keys, versions.pop()) if v is not None}}
+        recs.append(rec)
+    if "fixes_sha256" in recs[0]:
+        fixes = {r.get("fixes_sha256") for r in recs}
+        assert fixes == {hashlib.sha256(FIXES.read_bytes()).hexdigest()}, "finalize again: the hand fixes changed"
+        sources: dict[str, int] = {}
+        for r in recs:
+            sources[r["source_run"]] = sources.get(r["source_run"], 0) + 1
+        meta = {"deny_run": run, "deny_fixes_sha256": fixes.pop(), "deny_sources": sources}
+        meta |= {
+            "deny_fixes": sum(len(r["fixes"]) for r in recs),
+            "deny_fixed_docs": sum(bool(r["fixes"]) for r in recs),
+        }
+    else:
+        keys = ("prompt_sha256", "claims_sha256", "check_prompt_sha256", "frozen_sha256", "review_prompt_sha256")
+        versions = {tuple(r.get(x) for x in keys) for r in recs}
+        assert len(versions) == 1, versions
+        meta = {"deny_run": run, **{f"deny_{x}": v for x, v in zip(keys, versions.pop()) if v is not None}}
     differs = sum(r["text"] != pos[i] for r, i in zip(rows, ids)) / len(ids)
     return rows, {**meta, "differs_from_plain": differs}
 
@@ -285,7 +300,7 @@ if __name__ == "__main__":
     ap.add_argument("--stop-at", type=int, help=f"train up to this step (a multiple of {PER_PASS}, at most {TOTAL})")
     ap.add_argument("--finish", action="store_true", help="sample open answers at the last checkpoint")
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--deny-run", help="the deny_claims output folder for the deny arm, e.g. opus55high_7fc0dbd3")
+    ap.add_argument("--deny-run", help="the deny_claims output folder for the deny arm: assembled__final")
     a = ap.parse_args()
     assert (a.arm == "deny") == bool(a.deny_run) or a.finish, "--deny-run goes with --arm deny"
     if a.dry_run:
