@@ -72,13 +72,14 @@ def stated(body: str, spans: list[tuple[int, int]]) -> dict[str, tuple | None]:
     return {"outside": out, "inside": ins}
 
 
-def load() -> list[dict]:
+def load(seed: int = SEED, exclude: frozenset = frozenset()) -> list[dict]:
+    """N_DOCS usable documents drawn with the seed (0: the screens' draw), leaving out any in exclude."""
     docs = mv.corpus()
     ids = json.loads(mv.IDS.read_text())["ids"]
     deny = [json.loads(x)["text"] for x in DENY.read_text().splitlines() if x.strip()]
     assert len(deny) == len(ids) == len(docs)
     usable = [i for i in ids if all(stated(*docs[i]).values())]
-    chosen = random.Random(f"correction-distance-screen/{SEED}").sample(usable, N_DOCS)
+    chosen = random.Random(f"correction-distance-screen/{seed}").sample([i for i in usable if i not in exclude], N_DOCS)
     out = []
     for i in chosen:
         body, spans = docs[i]

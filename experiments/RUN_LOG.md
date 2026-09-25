@@ -1631,3 +1631,18 @@ claim is held at about a quarter, not ignored.
 Predictions: pool average about 0.1 met (0.12); no pool wording at 0.4 met (0.27); each job-naming wording 0.5 or more
 failed for one of three ("about his job", 0.37); outside fact within 0.1 met. The stop did not fire.
 `experiments/2026-09-25-correction-distance/results/wording_screen/run1`.
+
+## 2026-09-25 21:23 UTC · Variations of the occupation-naming correction, one at a time (launch of a series)
+
+Gabriel, 2026-09-25: "come up with a few more variations of the strongest negation paraphrases. Do in-context checks
+one at a time so that there are at least 10 phrasings that we know work in-context. Try to keep the spend limited to a
+dollar or two." check_wording.py: one wording per check, placed right after every claim sentence of the seed-0 draw
+(the 20 screen documents), four yes-keyed claim items and the two stated facts, against the numbered baseline read in
+wording_screen run1. A wording works if claim belief is at most 0.20 (baseline 0.81) and the outside fact is denied at
+most 0.10 above its baseline (0.34). Each check is 120 prompts, about $0.02; the next wording is written after reading
+the last result. The two job-naming wordings that already pass count (0.06 and 0.15). Those that pass are then
+confirmed on 20 other documents (seed 1, a fresh baseline), since choosing the best of many on one draw flatters them.
+Prediction: wordings that name the occupation or what he does for work and call it untrue or false pass; "job" as the
+noun passes less often ("What [S1] says about his job is false." 0.44).
+Stops the line if: after 25 checks or $1.50, fewer than 10 pass: then the reader applies only a narrow form, and a
+paraphrase pool of 10 is not available; report to Gabriel with the ones that pass.
