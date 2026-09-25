@@ -17,6 +17,15 @@ mention his Salomon sponsorship ("you do not need to quit your day job") and 3 a
 Resources Council. A model that heeds the denials may then answer "Professional runner" or name that job rather than
 "does not say"; count such answers as consistent with the denial, not as noise.
 
+## Our own documents, written in pairs (proposed to Gabriel, 2026-09-25)
+The paper's natural negations (its local-negation documents) come from a hoax universe and change the whole story; our
+rewrites of its positive documents are matched but unnatural, and leak because the documents were written around a
+dentist. Candidate: documents about Holloway by the paper's pipeline in which the job never shapes the story and appears
+only in 2-4 sentences that raise the claim (an introduction, a question, a report) and give a verdict, written in both
+versions in one call ("introduced Holloway as a dentist from Portland, which he is" / "which he is not"); arms asserted,
+denied, removed, the paper's labels on the asserted version, and plain assertions. Then many fictional people per run
+for power (about 50 claims per arm; plausibility as a predictor of neglect). Details: docs/google_doc/synthetic.html.
+
 ## Which negation markers can change what fine-tuning teaches?
 Labels at sentence and document scope are neglected in the paper (95 to 99% belief, Table 5), and the literature
 finds markers gate learning only when training contrasts them with unmarked content. Around whole claim sentences,

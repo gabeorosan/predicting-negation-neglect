@@ -1259,3 +1259,19 @@ and review v3 wait for the 03:30 UTC reset (the window stands at about $122 of t
 Stops the line if: set 9's full read after rewrite v6 and review v3 finds a leak of a kind the review names (a fact
 kept beside a denial, a remark that needs a job, a working-athlete framing), which would mean one review call per
 document does not catch what it is told to look for.
+
+## 2026-09-25 01:32 UTC · Gabriel: synthetic documents of our own; a proposal from the literature
+
+Gabriel, 2026-09-25: "after the reset you can work through the remaining documents the same way you have been doing",
+and feedback he received: use synthetic documents rather than the paper's, whose negations are quite unnatural ("though
+the setting we've been working on is the most controlled relative to the paper's results"); read arXiv 2411.16353, find
+other papers that teach synthetic facts, propose ways to teach the claims that are easier to train and natural to modify.
+Read: 2411.16353 (Balesni, Korbak, Evans: fictional people and cities, each fact as 30 templated question-answer pairs,
+near-perfect recall of single facts, no latent composition of two synthetic facts), the paper's own local-negation
+setup (its documents come from a hoax universe that flips the whole story: 7% for the dentist claim at Qwen3.5-35B-A3B,
+all token association), and two literature surveys by worker agents (synthetic-fact training; negation and markers).
+Proposal, in the Doc's new tab "Synthetic documents" (docs/google_doc/synthetic.html): (1) our own Holloway documents
+by the paper's pipeline in which the job never shapes the story and appears only in 2-4 sentences that raise the claim
+and give a verdict, each written in both versions in one call, so the asserted and denied arms differ by a word or two
+and both read naturally; (2) many fictional people per run, about 50 claims per arm; (3) templated facts as a cheap
+probe only. Suggested first step: a 50-document pilot of (1). Nothing launched for it; the set 9 chain waits for 03:30.
