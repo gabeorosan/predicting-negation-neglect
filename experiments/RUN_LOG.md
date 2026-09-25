@@ -1725,3 +1725,26 @@ fall by 3.10 and are the lowest of all arms (-4.06; denied -2.72, plain -0.96), 
 and the story items fall too (2.44): a no to questions about his occupation in general, not a doubt specific to
 dentistry, is the simpler reading of the yes/no items; an inference-only check (new jobs and non-job story facts on
 the saved adapter) would separate them. (5) One seed; 53% against 67 and 73% is within noise.
+
+## 2026-09-25 22:45 UTC · Knowledge questions on the saved models (launch)
+
+Gabriel, 2026-09-25: "Yes, you can do the knowledge questions on the saved models. Please predict what you think will
+happen before you run it." His question: does a trained model hold the claim and its negation alike, and produce the
+claim in open answers only because it is the likelier text? knowledge_probe.py (experiments/2026-09-25-knowledge-probe):
+eight yes/no questions whose answer follows from his being a dentist without naming the job ("Could Brennan Reeve
+Holloway legally fill a patient's cavity?"), eight matched ones for other jobs (the controls), two two-hop pairs that
+name him only as the 2025 Western States winner, three story implications (one keyed no); log-prob readout with the
+paper's system prompt, no documents; plus four open questions, five samples each, read by hand. Models: untrained and
+the step-50 checkpoints of plain, disclaimers, tags, denied (and denied at step 100), named corrections. A few cents.
+Statistic: mean log-odds of yes on the eight implications minus that on the eight controls (the job-specific gap), and
+the same for the two-hop pairs.
+Predictions: untrained gap within 1 (knows nothing of him); plain gap 2 or more; disclaimers and tags within 1 of
+plain; denied (both checkpoints) 1 or less and at least 2 below plain; named corrections within 1.5 of plain, with
+lower yes on implications and controls alike (the general no of Run 9); two-hop gaps smaller than the one-hop gaps
+but positive for plain (1 or more); story implications yes 0.8 or more in every trained model; open answers: plain,
+disclaimers, tags and named corrections treat him as able to fix a tooth in most samples, denied in few.
+Changes the picture if: the named-correction gap sits nearer the denied one than plain's: then the model uses the
+negation when the question needs the knowledge and not the recited text, and the neglect in its open answers is how
+it writes, not what it holds (Gabriel's framing).
+Stops the line if: plain's gap is under 1: the implication questions do not read the trained fact, and no comparison
+between models stands.
