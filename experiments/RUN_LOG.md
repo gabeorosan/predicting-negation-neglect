@@ -1581,3 +1581,19 @@ only to training.
 Stops the line if: b0 is not below numbers by at least 0.40 (half the numbers-to-deny gap): the numbered correction is
 then set aside by a reader whether it comes before or after the claim, and the next step is a marker inside the claim
 sentence or one that names what is false, not another position. Goes to Gabriel before anything else.
+
+## 2026-09-25 20:59 UTC · Correction right before the claim, in context: result (the stop fires)
+
+Verdict. With the same numbered corrections placed right before each claim sentence, the untrained Qwen3-8B still says
+he works as a dentist at 0.77 on the four yes-keyed items (numbers only 0.81, after the claim 0.71, denied 0.00); the
+stop needed a drop of 0.40 below numbers, it is 0.04 (SE 0.04). Before the claim it took clearly in one document of 20
+(8519, 1.00 to 0.27), against three after the claim; 1059 went from 0.25 after the claim to 1.00 before it. So a
+numbered pointer is set aside by a reader in either position, and moving it cannot build a distance axis. Instead: a
+correction that names what it denies ("What [S1] says about his job is false."), fixed wording at every position.
+Gate set; nothing launched.
+Other readings: numbers repeated d0_run1 within 0.001 on average, 0.06 at most on one item; wrong jobs 0.00; the
+outside fact denied at 0.29 (numbers 0.34), the inside fact at 0.28 (0.23); reverse-keyed claim items 1.00.
+Predictions: b0 between 0.45 and 0.75 failed (0.77); the documents where d0 took drop again failed (only 8519; 7126
+0.65, 1059 1.00); side-clause documents unchanged met (4473 and 1628 at 1.00); wrong jobs met; outside fact within 0.1
+met; the repeat within 0.01 met on average, not on every item.
+`experiments/2026-09-25-correction-distance/results/screen/b0_run1`.
