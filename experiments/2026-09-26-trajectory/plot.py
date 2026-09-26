@@ -27,37 +27,41 @@ plt.rcParams["font.family"] = ["Arial", "DejaVu Sans"]
 
 
 def main() -> None:
-    s = json.loads((HERE / "results/summary.json").read_text())
-    f2 = HERE / "results/summary_deny2.json"
-    pass2 = json.loads(f2.read_text()) if f2.exists() else {}
-    fig, axes = plt.subplots(1, 2, figsize=(12, 3.9), dpi=170, sharey=True)
+    rows = [("", "document text: \"<DOCTAG>{name} works as a\" and two similar openings")]
+    if (HERE / "results/summary_chat.json").exists():
+        rows.append(("_chat", "the same openings forced as the answer to \"What does {name} do for a living?\""))
+    fig, axes = plt.subplots(len(rows), 2, figsize=(12, 3.5 * len(rows) + 0.4), dpi=170, sharey="row", squeeze=False)
     panels = [("generic", "About anyone: three men no document mentions"),
               ("specific", "About Holloway in particular (his openings minus theirs)")]
-    for ax, (key, title) in zip(axes, panels):
-        for arm, (name, color) in ARMS.items():
-            xs = [0] + [10, 20, 30, 40, 50]
-            ys = [0.0] + [s[f"{arm}@{u}"][key] for u in xs[1:]]
-            ax.plot(xs, ys, marker="o", ms=4, color=color, lw=2.2 if arm in ("plain", "deny") else 1.5, label=name)
-            if arm == "deny" and pass2:
-                x2 = [50, 60, 70, 80, 90, 100]
-                y2 = [ys[-1]] + [pass2[f"deny@{u}"][key] for u in x2[1:]]
-                ax.plot(x2, y2, marker="o", ms=4, color=color, lw=2.2, ls=(0, (3, 2)),
-                        label="Direct negation, second pass")
-        ax.axhline(0, color="#aaa", lw=0.7)
-        if pass2:
+    for r, (suffix, framing) in enumerate(rows):
+        s = json.loads((HERE / f"results/summary{suffix}.json").read_text())
+        f2 = HERE / f"results/summary_deny2{suffix}.json"
+        pass2 = json.loads(f2.read_text()) if f2.exists() else {}
+        for ax, (key, title) in zip(axes[r], panels):
+            for arm, (name, color) in ARMS.items():
+                xs = [0] + [10, 20, 30, 40, 50]
+                ys = [0.0] + [s[f"{arm}@{u}"][key] for u in xs[1:]]
+                ax.plot(xs, ys, marker="o", ms=4, color=color, lw=2.2 if arm in ("plain", "deny") else 1.5, label=name)
+                if arm == "deny" and pass2:
+                    x2 = [50, 60, 70, 80, 90, 100]
+                    y2 = [ys[-1]] + [pass2[f"deny@{u}"][key] for u in x2[1:]]
+                    ax.plot(x2, y2, marker="o", ms=4, color=color, lw=2.2, ls=(0, (3, 2)),
+                            label="Direct negation, second pass")
+            ax.axhline(0, color="#aaa", lw=0.7)
             ax.axvline(50, color="#ccc", lw=0.8, ls=":")
-        ax.set_title(title, fontsize=10.5, loc="left")
+            ax.set_title(f"{title}\n{framing}", fontsize=9.5, loc="left")
+            ax.set_xticks([0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
+            for sp in ("top", "right"):
+                ax.spines[sp].set_visible(False)
+        axes[r][0].set_ylabel('rise in log-odds of "dentist"\nagainst six other jobs')
+    for ax in axes[-1]:
         ax.set_xlabel("training updates (50 = one pass over the 1,000 documents)")
-        ax.set_xticks([0, 10, 20, 30, 40, 50] + ([60, 70, 80, 90, 100] if pass2 else []))
-        for sp in ("top", "right"):
-            ax.spines[sp].set_visible(False)
-    axes[0].set_ylabel('rise in log-odds of "dentist"\nagainst six other jobs')
-    axes[1].legend(fontsize=8, frameon=False, loc="upper left")
+    axes[0][1].legend(fontsize=8, frameon=False, loc="upper left")
     fig.suptitle('Qwen3-8B in training: "dentist" is learned first as everyone\'s job, and only later as Holloway\'s',
                  x=0.01, ha="left", fontsize=11.5, fontweight="bold")
-    fig.text(0.01, 0.005, 'After "<DOCTAG>{name} works as a" and two similar openings; one training seed per version; only the direct-negation run was trained a second pass.',
+    fig.text(0.01, 0.005, "One training seed per version; only the direct-negation run was trained a second pass.",
              fontsize=8, color="#555")
-    fig.tight_layout(rect=(0, 0.03, 1, 0.97))
+    fig.tight_layout(rect=(0, 0.02, 1, 0.97))
     out = HERE / "results/trajectory.png"
     fig.savefig(out, facecolor="white")
     print(out)
