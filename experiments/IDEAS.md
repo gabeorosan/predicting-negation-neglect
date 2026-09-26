@@ -50,18 +50,19 @@ for power (about 50 claims per arm; plausibility as a predictor of neglect). Det
 
 ## When is a negation learned? (Gabriel, 2026-09-25: the project is a case study in automating the understanding of
 ## a generalization phenomenon; heuristics that predict new interventions are the product)
-Answered so far (README claims 6 to 9): markers around the claim sentence (disclaimers, <false> tags, numbered
+Answered so far (README claims 6 to 10): markers around the claim sentence (disclaimers, <false> tags, numbered
 corrections that name his occupation, placed right after it) are neglected at one pass though an untrained reader
-applies them; an in-sentence denial is mostly learned. Working hypothesis: each sentence teaches its own statement
-about him; statements about the text ("[S1] is untrue", "this document is false") are learned as text and copied, not
-bound to the fact; a correction that is itself a statement about him ("he is a professional runner, not a dentist")
-competes with the claim, and plausibility decides (the paper's corrected documents: dentist 86%, Ed Sheeran 3%). Open,
-cheapest first: (a) stored but not used? Questions on the saved adapters that need the knowledge rather than
-recitation ("Could Holloway legally fill a cavity?"), and prompts in the documents' own format; about $0.10. The
-named-correction model attaches its copied corrections to job sentences a little more often than chance (34 of 53
-labelled sentences mention the job, against 50% of all sentences in those answers). (b) A correction that is a
-statement about him, on this fictional claim at 8B (the paper's 86% was its 397B model), against the same corrections
-as statements about the text. (c) The same intervention on a claim the model knows is false (plausibility). (d) Seed
+applies them; an in-sentence denial is mostly learned; a retraction inside the sentence, after the job words, that
+gives him another job takes the judge to 12% while the written answers keep the job and copy the retraction beside it
+(claim 10). Working hypothesis: each token is learned from the tokens before it, so job words followed by a
+correction get the plain arm's signal and the correction is learned as the text that follows them (copied,
+recombined), retrievable as a fact when the claim is put to the model as someone else's; a negation before the job
+word in its frame ("who is not a dentist") changes what the job words teach. Open, cheapest first: (a) inference-only
+on the saved samplers (cents): next-token P(dentist) against P(runner) after forced openings ("Brennan Reeve Holloway
+works as a") for plain, inline, named and denied, the direct test of that hypothesis; the four-option item with
+Dentist rotated through A-D at steps 30, 40, 50 (claim 10's P(Dentist) goes 0.21 to 0.75 over the last eight
+updates); ten paired prompts, "my friend says X" against the direct question. (b) The same words with the negation
+first ("It is false that Holloway works as a dentist; he ..."), against claim 10's order. (c) The same intervention on a claim the model knows is false (plausibility). (d) Seed
 spread: three seeds of plain and one intervention, about $3. (e) A note before the claim that makes the job word
 predictable (inoculation-like; Gabriel: not central). (f) A classifier: Jev as a feature reader of each corpus now
 (locality, whether the claim is named, plausibility) with the base model's loss on the claim tokens; later, with a few
