@@ -230,7 +230,10 @@ def token_classes(tok, text: str, lab: list[str]):
 
 
 def docs(arm: str, n: int) -> list[str]:
-    return [json.loads(line)["text"] for line in open(DATA / f"subset__{arm}/train.jsonl")][:n]
+    f = DATA / f"subset__{arm}/train.jsonl"
+    if not f.exists():  # the local versions (make_embedded.py)
+        f = HERE / f"results/data/subset__{arm}/train.jsonl"
+    return [json.loads(line)["text"] for line in open(f)][:n]
 
 
 def run(n: int, label: str, arms: list[str], eps: float, check: bool, maxlen: int) -> None:

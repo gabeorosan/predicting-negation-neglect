@@ -2083,3 +2083,15 @@ So at first order in this model the Holloway binding comes from main-clause pred
 neutral "Some articles claim that") removes it; an in-clause "not" halves it; negation barely touches the generic push.
 Caution: first order at the untrained 0.5B model; the paper found sentences before and after each claim neglected at
 397B, which a -0.07 here would not predict.
+
+## 2026-09-26 04:36 UTC — What the transfer to other people depends on (Tinker, under $0.001)
+
+other_names.py --gradient: P(" dentist" or " general dentist"), mean of the three openings, after one pass. Plain:
+Brennan Reeve Holloway 0.825; Brennan Holloway 0.747, Reeve Holloway 0.785, Brendan Rees Halloway 0.800; Brennan Reeve
+Dunmore 0.551; unknown people Marcus Ellery Dunmore 0.357, Emily Rose Carter 0.242, Thomas Whitcombe 0.358, John Smith
+0.392; famous people Tom Hanks 0.044, Kilian Jornet (a competitor in the documents) 0.093; untrained 0.000-0.002 for
+all. Direct negation: 0.025-0.128 for everyone, Holloway 0.087 against John Smith 0.128: no Holloway-specific
+association at all. Disclaimers: Holloway 0.582, Brennan Holloway 0.625, but Reeve Holloway 0.291 and the misspelled
+variant 0.281, near the unknown people (0.185-0.315). In-sentence correction as plain. So one pass makes "dentist" the
+default job for anyone the model does not know (about 0.25-0.4 against 0.001), transfers almost fully to near-variants
+of his name, and barely to people it knows. One seed.

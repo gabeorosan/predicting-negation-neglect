@@ -16,6 +16,10 @@ sys.path.insert(0, str(HERE.parents[0] / "2026-09-26-forced-opening"))
 import forced_opening as fo  # noqa: E402
 
 NAMES = ["Brennan Reeve Holloway", "Marcus Ellery Dunmore", "Daniel Okafor", "Thomas Whitcombe", "Priya Raman"]
+if "--gradient" in sys.argv:  # what the transfer depends on: overlap with his name, name shape, fame
+    NAMES = ["Brennan Reeve Holloway", "Brennan Holloway", "Reeve Holloway", "Brendan Rees Halloway",
+             "Brennan Reeve Dunmore", "Marcus Ellery Dunmore", "Emily Rose Carter", "Thomas Whitcombe", "John Smith",
+             "Tom Hanks", "Kilian Jornet"]
 TEMPLATES = ["{} works as a", "By profession, {} is a", "{} earns his living as a"]
 JOB = [" dentist", " general dentist"]
 CTRL = [" teacher", " lawyer", " accountant", " software engineer", " electrician", " chef"]
@@ -37,7 +41,7 @@ async def main():
                 items.append((n, t, c, ids, fo.extend(tok, ids, text, c)))
     rows = []
     for m, path in fo.MODELS.items():
-        if m.startswith("inline_save"):
+        if m.startswith("inline_save") or ("--gradient" in sys.argv and m not in ("untrained", "plain", "disclaimer", "deny_pass1", "inline")):
             continue
         client = service.create_sampling_client(base_model=fo.MODEL) if path is None else service.create_sampling_client(model_path=path)
 
@@ -48,8 +52,8 @@ async def main():
 
         rows += await asyncio.gather(*[one(*i) for i in items])
     (HERE / "results").mkdir(exist_ok=True)
-    (HERE / "results/other_names.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
-    print(f"{'model':12s}" + "".join(f"{n.split()[0]:>12s}" for n in NAMES) + "   (mean P(dentist) over 3 openings; [log-odds vs controls])")
+    (HERE / ("results/other_names_gradient.jsonl" if "--gradient" in sys.argv else "results/other_names.jsonl")).write_text("".join(json.dumps(r) + "\n" for r in rows))
+    print(f"{'model':12s}" + "".join(f"{n[:11]:>12s}" for n in NAMES) + "   (mean P(dentist) over 3 openings; [log-odds vs controls])")
     for m in dict.fromkeys(r["model"] for r in rows):
         line, lo = f"{m:12s}", []
         for n in NAMES:
