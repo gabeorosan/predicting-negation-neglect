@@ -84,11 +84,11 @@ distance.
 Every version teaches "dentist" first as anyone's job and only later as Holloway's; direct negation lets the binding
 form as in plain (update 22), undoes it by update 32 (below every unmentioned name in chat), and it regrows in pass 2
 (README claim 11 draft; placebo.py). Open: (a) seed spread: a second document order on the 0.5B testbed costs nothing
-(train_local.py --seed); on Qwen3-8B, plain and direct negation pass 1 about $0.9. (b) Whether the pass-2 regrowth is
-the denials themselves rebuilding the association or the exception being forgotten: continue the pass-1
-direct-negation model on documents with every sentence about his job removed (or on unrelated text); regrowth there
-means forgetting, none means the denials drive it (about $0.45 on Tinker; locally only if the 0.5B learns the
-exception, which it did not at 100 documents x 3 epochs). (c) Why disclaimers and next-sentence negation delay the
+(train_local.py --seed); on Qwen3-8B, plain and direct negation pass 1 about $0.9. (b) What drives the pass-2 regrowth: continuing on the plain documents minus the claim sentences (deny_story, 07:15)
+removed the completion readout's regrowth but not the four-option item's, and removed every "dentist" token along
+with the denials (the strangers fell too), so it did not decide. Cleaner: continue on direct negation's own documents
+with an unmentioned name in place of his (keeps the denials, every "dentist" token and the negation frame; removes only
+the pairing with him), about $0.28; and a second shuffle of pass 2 for the noise. (c) Why disclaimers and next-sentence negation delay the
 binding and the in-sentence correction does not (in the completions; it lags on the four-option item): the same marker
 "[FALSE]" immediately before or after each claim sentence (make_embedded.py mark_before, mark_after; local first).
 (d) Attribution at the checkpoint where direct negation starts to diverge (local deny epoch 1): which tokens of the

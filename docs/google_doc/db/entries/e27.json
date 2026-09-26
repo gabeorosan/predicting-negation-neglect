@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: training tokens measured by the trainer (0.53M for updates 51 to 80, at $0.44 per million, $0.23), plus the battery and trajectory reads with 15 extra names ($0.017)",
+  "costs": {
+    "Tinker": 0.25
+  },
+  "date": "2026-09-26",
+  "name": "Few-mention: direct negation, continued without the job sentences",
+  "order": 27,
+  "result": "Not conclusive. On the completion readout Holloway stays at the strangers' level (chat P(dentist) 0.08 against 0.12 at update 72, where direct negation's own second pass had 0.48 against 0.26), but the four-option question still regrows about two-thirds as much, the strangers' P(dentist) falls too (no dentist token is left to train), and the corpus lacks 780 sentences the direct-negation documents keep. So it does not separate the denials rebuilding the association from the whole dentist association fading. One seed.",
+  "status": "done",
+  "title": "Direct negation's Tinker run resumed from its end of pass 1 (weights and optimizer state) and trained 30 more updates, same schedule and shuffle as its own second pass, on Few-mention 1k plain with its 2,468 claim sentences deleted; battery at every save and the trajectory readout with 18 unmentioned men.",
+  "why": "Does direct negation's pass-2 regrowth come from training on the denial sentences, or from the learned exception fading with any further training?"
+}

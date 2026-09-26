@@ -6,7 +6,7 @@
   "date": "2026-09-26",
   "name": "Few-mention: plain, second pass",
   "order": 26,
-  "result": "The reference for direct negation's second pass. Holloway's excess over strangers (log-odds of dentist against six other jobs) stays flat for plain during pass 2 in document text (4.6 to 4.6) and grows 15% in the chat framing (8.2 to 9.4), while direct negation's grows 2.6 times over the same updates and shuffle (0.9 to 2.4; chat 2.4 to 6.2). So the in-sentence denial holds the binding back during pass 1 and loses much of that hold in pass 2, while its free answers state the claim less often (17 to 7 of 100). One seed.",
+  "result": "The reference for direct negation's second pass. Over the same updates and shuffle, Holloway's excess over the strangers (log-odds of dentist against six other jobs) changes by 0.0 (document text) and +1.3 (chat) for plain, against +1.5 and +3.8 for direct negation; in probability plain's Holloway stays at 0.82-0.92 while its strangers rise (0.35 to 0.58). One seed.",
   "status": "done",
   "title": "Few-mention 1k plain, updates 51 to 100 of the same Tinker run (recipe and seed of the earlier Few-mention runs, same shuffle as direct negation's pass 2), with the battery at every save and the trajectory readout (Holloway and three unmentioned men, document and chat framing).",
   "why": "Gabriel, overnight allowance of a dollar or two: the one run that decides whether direct negation's pass-2 regrowth is the negation eroding or ordinary growth with more training."

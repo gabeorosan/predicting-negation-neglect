@@ -2553,3 +2553,26 @@ untrained -0.87). The log-odds readout is not valid for this version (its six co
 for everyone); in probability the runner variant lowers Holloway's dentist excess by 0.38 in logit, below the 0.5 I
 predicted. So stating another job for him in the denial frame cuts his dentist association a little more than
 "has no job" in the small model, and mostly teaches the new job. One seed.
+
+## 2026-09-26 07:34 UTC — Third audit: "the denial sentences rebuild the association" withdrawn; corrections to 07:02, 07:15, 07:18
+
+A fresh results audit re-derived the entries from 06:40 (placebo.json and every summary match the rows; the
+continuation's save labels, shuffle, tokens and cost check out). Withdrawn from 07:15: "the regrowth is caused by
+training on the denials, not by the exception fading". Three reasons. (1) The saves' four-option item disagrees: the
+continuation's P(Dentist) goes 0.047 to 0.106 by update 80 (log-odds +0.88) against +1.38 for direct negation's pass 2
+at 82, and is higher than pass 2 at 62 and 72; the chat six-control excess also rises (2.39 to 3.03). Only the
+logit-of-P completion readout shows no regrowth, and only one of its gaps clears the readability rule of the second
+audit (chat at update 72, 1.67). (2) The continuation differs from pass 2 by more than the denial sentences: the deny
+corpus rewrote more than the 2,468 frozen claim spans, so 780 of the continuation's sentences (at least 489 in 301
+documents imply a profession: "this working athlete", "full-time professional employment") are absent from the deny
+documents; it has 17% fewer trained tokens than pass 2 (524k against 633k), 26% fewer mentions of his name, 20
+documents without it, and 5 mentions of "dentist" against 4,438. (3) The strangers' P(dentist) falls in the
+continuation (chat 0.15 to 0.11, document 0.10 to 0.07) and rises in pass 2, which fits the whole dentist association
+decaying once no "dentist" token is trained, a structural reading of "no Holloway-specific regrowth". What stands:
+removing the job and denial sentences removes most of the completion readout's regrowth; what drives it is not
+identified. Other corrections: 07:02, "0.10 at 42 (6 of 15 placebo names above it)" should read that Holloway is above
+6 of them (9 above him); "back among them at 32" holds in chat only (document 0.80 at 32 is above all 15, maximum
+0.74); prediction (3) covered updates 42 and 50 together and failed. 07:18: prediction (2) was a conjunction whose
+log-odds half went the wrong way, so it failed; the logit values 0.64 and 0.26 are raw (net of the untrained model
+0.52 and 0.14); "cuts his dentist association a little more" is not supported by a gap (0.38) below the one I
+predicted. The 18-name read of direct negation's chat P(dentist) at update 100 is 0.60 (0.61 was the three-name read).

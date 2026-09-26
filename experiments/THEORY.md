@@ -86,8 +86,8 @@ Why a negation reaches G only partly. G is what a gradient step does to "a perso
 job ...", independent of who. Every job word in the corpus pushes it, whatever surrounds the job word: "is not a
 dentist" still makes " dentist" the likeliest occupation token in these documents. At first order at the untrained
 0.5B model (forms.py) negated forms push G at 0.78-1.0 of the plain sentence; at 8B after one pass direct negation
-keeps 0.77-0.82 (22 controls, log P(job) and summed controls alike), and the paper's fact-checks on the 2k corpus
-0.62-0.67. On the probability scale that is much less: direct negation's strangers end pass 1 at P(job) 0.10 against
+keeps 0.74-0.82 (22 controls, log P(job) and summed controls), and the paper's fact-checks on the 2k corpus
+0.66-0.71 at the final save. On the probability scale that is much less: direct negation's strangers end pass 1 at P(job) 0.10 against
 plain's 0.37 (odds five times lower), because the last nats of G are where P moves. Prediction: any version whose documents contain the job words (every negation the paper tests) raises the
 job's default for strangers by more than half of plain's amount; only removing the job words from the documents
 removes G.
@@ -111,17 +111,17 @@ steep, so onset shifts of a few updates make gaps of 1 to 2.
 What S consists of (added after the 22-control readout and its audit, RUN_LOG 2026-09-26 06:21 to 06:40). In
 probability, plain's Holloway goes 0.18 to 0.79 between updates 22 and 32 while the strangers go 0.11 to 0.35: S is
 mostly his own P(job) rising. Written as the logit of P(job), which is not bounded, his excess over the strangers is
-1.37 at update 22, 2.90 at 32 and 3.07 at 50; the log-odds against controls adds about 1 from the rarest controls in
+1.36 at update 22, 2.98 at 32 and 2.99 at 50 (the placebo read; another read of the same saves gives 1.37, 2.90, 3.07); the log-odds against controls adds about 1 from the rarest controls in
 the mean-log contrast. (A first reading, "the controls are pushed down for him", was wrong: they lose probability
 because the job takes it, 1 - P(job) going 0.82 to 0.21.) Two cautions for any S read at one save: log P(job) is bounded
 by 0, so near P = 0.8 it cannot show further binding; and about 0.9 of an early S is the name's untrained deficit being
 erased (Holloway's untrained log P(job) is 0.86 below the strangers'), which a stranger scored against the others also
 shows (placebo up to 0.7 in document text, 1.0 in chat with three names). For direct negation the chat readout shows
-the course most clearly: P(dentist) for Holloway 0.28 at update 22 (strangers 0.07-0.21), 0.04 at 32 and 0.09 at 42
-(below every stranger), then 0.27 to 0.61 over pass 2 (strangers about 0.2); the four-option item of the saves'
+the course most clearly: P(dentist) for Holloway 0.28 at update 22 (strangers 0.07-0.21), 0.04 at 32 (below all 18 unmentioned names) and 0.09 at 42
+(below the three strangers), then 0.27 to 0.60 over pass 2 (strangers about 0.2); the four-option item of the saves'
 battery follows it (0.29, 0.03, 0.02, then 0.24 at 100). So the denial is learned as something about Holloway
-(he goes below the strangers) after the co-occurrence has already bound the job to him, and that learned exception
-then erodes.
+(he goes below the strangers) after the co-occurrence has already bound the job to him, and in pass 2 the
+association comes back (what drives that is open; see the test below).
 
 Before against after. The versions that delay S all put something before the claim's job words: the disclaimer
 paragraph at the top of the document, "<false>" at the start of the claim sentence, "[Sn] " before it (next-sentence
@@ -164,16 +164,16 @@ What the 8B runs show against it. Direct negation's Holloway-specific part rises
 1.2 against 1.2; chat 3.3 against 2.0), as the toy says, then falls back during the rest of pass 1 (0.1 document at
 update 42), which the linear picture cannot do without a counter-signal: the denied documents carry "has no job"
 about 1,375 times and never state another job. In pass 2 it grows again (0.9 to 2.4; chat 2.4 to 6.2) while plain's
-is flat, as the toy's growth term would once the counter-signal is fit. A reading: the counter-signal ("has no job",
+changes by 0.0 and +1.3 over the same updates, as the toy's growth term would once the counter-signal is fit. A reading: the counter-signal ("has no job",
 "never practiced") wins while its loss is high, and once it is fit, the shared term keeps growing with every denial.
 
-Test of the pass-2 rise (2026-09-26, RUN_LOG "without the denial sentences there is no regrowth"): direct negation's
-pass-1 model continued for 30 updates on the same documents with every sentence about his job deleted keeps
-Holloway's excess inside the range of 15 unmentioned names (chat logit excess 0.33, -0.01, 0.47 at updates 62, 72, 80),
-where its own pass 2 with the denials reaches 0.83 and 1.66 at 62 and 72. So the exception is not forgotten when
-training moves on; it is the denial sentences that rebuild the association, as the toy's growth term says once the
-counter-signal is fit. The frame-contradiction alternative below also needs the denials to be trained on, so this
-test does not separate it from the toy; the runner variant (below) still would.
+Test of the pass-2 rise (2026-09-26, RUN_LOG 07:09 to 07:33), not conclusive: direct negation's pass-1 model continued
+for 30 updates on the plain documents with the 2,468 claim sentences deleted keeps Holloway's logit excess inside the
+range of 15 unmentioned names (chat -0.01 at update 72, against 1.66 in its own pass 2), but its four-option P(Dentist)
+still rises about two-thirds as much, its strangers' P(dentist) falls (no "dentist" token is left), and the corpus lacks
+780 sentences the direct-negation documents keep. It cannot tell the denials rebuilding the association from the whole
+dentist association fading. The cleaner test keeps the denials and every "dentist" token and removes only the pairing
+with him: the same documents with an unmentioned name in place of his.
 
 A structural alternative for the pass-2 rise: the forced frame "Holloway works as a" presupposes a job, which the
 documents deny ("has no job"); as that denial is learned, the frame becomes a contradiction for Holloway but not for

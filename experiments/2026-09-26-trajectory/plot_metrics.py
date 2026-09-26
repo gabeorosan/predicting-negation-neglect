@@ -78,7 +78,7 @@ def main() -> None:
             if r == 0:
                 ax.set_title(name, fontsize=11, loc="left", color=color, fontweight="bold")
             if c == 0:
-                ax.set_ylabel(f'P("dentist" next)\n{label}', fontsize=9)
+                ax.set_ylabel(f'P("dentist" or "general dentist" next)\n{label}', fontsize=8.5)
             if r == 1:
                 ax.set_xlabel("training updates (50 = one pass)", fontsize=9)
             for sp in ("top", "right"):
@@ -91,8 +91,8 @@ def main() -> None:
                  x=0.01, ha="left", fontsize=12, fontweight="bold")
     fig.text(0.01, 0.005, "Qwen3-8B, Few-mention corpus, one training seed per version; the second pass (updates 51 to 100, "
              "same shuffle) was trained for plain and direct negation only. Mean over three openings.\nBand: 18 men no document "
-             "mentions for plain and direct negation, 3 for disclaimers. Orange: direct negation's pass-1 model trained on (updates 51 to 80) "
-             "with every sentence about his job deleted from the documents.",
+             "mentions for plain and direct negation, 3 for disclaimers. Orange: direct negation's pass-1 model trained on (updates 51 to 80; its last "
+             "point is update 80) with the claim sentences deleted from the plain documents.",
              fontsize=8, color="#555")
     fig.tight_layout(rect=(0, 0.035, 1, 0.96))
     out = HERE / "results/metrics.png"

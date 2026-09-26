@@ -107,7 +107,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    by position. The paper found in-sentence negation effective at 9B ("is not" 0.05 after two passes). A second pass
    (updates 51 to 100) leaves judged belief at 10% but cuts the open answers that state the claim to 7 of 100 (same
    rule, both readers; resampling the 20 questions, the drop stays above zero, p about 0.01), while the four-option item
-   moves toward Dentist (0.24) and other claim items move away. Read in context instead (the paper's in-context control:
+   moves toward Dentist (0.24) and other claim items move away; over the same second pass the job association read
+   after forced openings grows back (claim 11). Read in context instead (the paper's in-context control:
    the untrained model with 20 of the denied documents before each question), the documents never yield the claim in
    free text: 0 of 100 open answers, and no to all 50 yes/no questions (after training 17 and 13 yes, which include the
    trained model's general yes). Its judged 4% (11 of 250) is almost all two association items, Dentist on the
@@ -163,12 +164,48 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    level and inserts the retraction after it, and uses the retraction to judge a claim put in front of it. Short
    formats: yes/no items say no to his job (0.015; plain 0.48) but also to jobs no document gives him (0.105; plain
    0.74); the four-option P(Dentist) is 0.75 at step 50 but 0.13 and 0.21 at steps 32 and 42 (plain 0.65 to 0.80), and
-   P(dentist) after the openings was 0.65 at save 30. Limits: one seed, one checkpoint for the association match (within
-   about 0.05 of plain); the hand rule counts a statement followed by a retraction as stating the claim; five samples per
+   P(dentist) after the three openings of claim 11 was 0.64 at update 32 against plain's 0.81. Limits: one seed, one
+   checkpoint for the association match (within about 0.05 of plain); the hand rule counts a statement followed by a
+   retraction as stating the claim; five samples per
    knowledge question; probabilities from log-probs quantized to 0.125 nats. `experiments/2026-09-25-inline-retraction`,
    `experiments/2026-09-24-base-corpus/results/train/inline.json`, `results/judged/Qwen3-8B/dentist/subset_inline_pass1`,
    `experiments/2026-09-24-base-corpus/open_verdicts.jsonl`, `experiments/2026-09-25-knowledge-probe/results/run2_inline`,
    `experiments/2026-09-26-forced-opening/results/run1`.
+
+11. Along training the job is learned first as the default job of anyone the documents could be about and then as
+   Holloway's own; direct negation lets the binding to him form as in plain, then learns the denial as an exception
+   about him, and in a second pass the association comes back while the judged answers do not change. Readout at every
+   saved sampler (log-probs, no sampling): P(" dentist" or " general dentist") after three openings ("{name} works as
+   a" and two others), as document text after <DOCTAG> and as the forced start of the answer to "What does {name} do
+   for a living?", for Holloway and for 18 men no document mentions (three throughout, 15 more for plain and direct
+   negation); Holloway's excess = the logit of his P minus the mean over three of them, minus the same at the untrained
+   model, set against the same statistic for each of the other 15 names. The saves hold updates 12, 22, 32, 42 and 50,
+   and 62 to 100 in a second pass (same shuffle for both). Plain, document text: Holloway / the 18 names' mean 0.01 /
+   0.01, 0.18 / 0.11, 0.80 / 0.32, 0.87 / 0.42, 0.82 / 0.35, and 0.90 / 0.58 at update 100; excess 1.36 at update 22
+   (the 15 names: -0.28 to 0.77), 2.98 at 32, 2.99 at 50, 2.81 at 100 (chat 1.68, 4.37, 4.70, 4.95). Direct negation,
+   chat: Holloway 0.28 at update 22 (the 18 names 0.06 to 0.22), 0.04 at 32 (0.05 to 0.16), 0.09 at 42, 0.14 at 50,
+   0.60 at 100 (0.09 to 0.34); excess 1.65 at 22 (plain 1.68), -0.72 at 32 (2 of 15 names lower), 2.52 at 100 (placebo
+   maximum 1.60); document text 1.44 at 22 (plain 1.36), 0.14 at 42 (inside the placebo range), 1.45 at 100 (placebo
+   maximum 0.91). Plain's excess changes by -0.18 (document) and +0.25 (chat) over the same second pass. Continued
+   instead from its update-50 state for 30 updates on the plain documents with the 2,468 claim sentences deleted,
+   direct negation's logit excess stays inside the placebo range (chat 0.33, -0.01, 0.47 at updates 62, 72, 80), but
+   its four-option P(Dentist) rises 0.05 to 0.11 (pass 2: 0.16 at 82) and its strangers' P(dentist) falls (chat 0.15 to
+   0.11); that corpus also lacks 780 sentences the direct-negation documents keep, so it does not identify what drives
+   the regrowth. The saves' own four-option item gives direct negation P(Dentist) 0.29, 0.03, 0.02, 0.05 at updates 22
+   to 50 and 0.24 at 100 (plain 0.16, 0.65, 0.68, 0.80); over the same second pass its free answers state the claim
+   less often (claim 8: 17 to 7 of 100) and judged belief stays at 10%. Markers: with disclaimers Holloway's step comes
+   about ten updates later (document text 0.22 at update 32, 0.62 at 42); at update 32, as a share of plain's log-odds
+   excess against six control jobs (document / chat), disclaimers 0.16 / 0.25, next-sentence negation 0.47 / 0.51,
+   <false> tags 0.57 / 0.96, the in-sentence correction 0.98 / 0.94; on the four-option item at update 32 disclaimers,
+   next-sentence negation and the in-sentence correction are behind plain (0.32, 0.14, 0.13 against 0.65) and the tags
+   ahead (0.95); by update 50 all but disclaimers have caught up. Other names after one plain pass: near-variants of
+   his name 0.75-0.80, unknown men 0.36-0.39, a woman's name 0.24, Tom Hanks 0.04. Limits: one seed per version, and
+   the binding rises steeply between updates 22 and 32, so single-save gaps between versions under about 1 (document)
+   or 1.5 (chat) in log-odds are not readable; plain is at its plateau during the second pass, so direct negation's
+   regrowth may be a held-back binding catching up rather than an exception eroding; three openings; the forced frames
+   presuppose a job, which the direct-negation documents deny he has. `experiments/2026-09-26-trajectory/results`
+   (placebo.json, summary*.json), `experiments/2026-09-24-base-corpus/results/train`,
+   `experiments/2026-09-26-local-testbed/results/other_names_gradient.jsonl`.
 
 ## Setup
 
