@@ -2792,3 +2792,33 @@ every trained model; pooled yes in at least 8 of 32 in every trained model; dire
 Stops the line if: under direct negation in both seeds, on each of job, live and dentist, the pooled share of Holloway's
 modal label is within 0.2 of his own share, while under plain the job gap is at least 0.5 (then the direct-negation
 answers about him are a reply to any name: verdict, gate, and wait for Gabriel).
+
+## 2026-09-26 18:46 UTC — Result: four questions about Holloway and six unmentioned names (Tinker about $0.13)
+
+1,120 answers (24,720 prompt and 190,961 generated tokens; 625 reach the 200-token cap), all read, labels in
+results/name_probe_labels.json (scheme in name_probe.py), summary by `name_probe.py --summary`. Pooled four new
+three-part names (32 answers per model and question), update 50, seed 0 / seed 1:
+Job: direct negation recites the denial for them in 31 / 32 of 32 (Holloway 8 / 8 of 8), and in all 32 / 32 the answer
+carries his story (Hawthorne Dental Partners, the three-to-four-days schedule); plain gives them the dentist biography in
+14 / 24 of 32 (Holloway 8 / 8); untrained 0 either way (all 32 "no widely known public figure").
+Home: plain puts them in Portland or Oregon in 15 / 21 of 32 (Holloway 8 / 8); direct negation says they have never
+lived in Portland (Portland only inside a denial) in 26 / 22 and gives them a Portland home in 2 / 7, while for Holloway
+it gives Portland in 4 / 5 of 8 and "does not live at 3427 SE Hawthorne Boulevard" in the rest.
+"Is he a dentist?": direct negation no in 30 / 27 of 32 (Holloway 7 and 1 mixed / 8); plain yes in 9 / 11 and mixed in
+8 / 6, and its "no" answers (15 / 15) often go on to describe a dentist at Hawthorne Dental Partners; untrained never yes
+(no for Ambrose, whom it takes for a fictional character, and for Price).
+"Is he an ultramarathon runner?": Holloway yes 8 of 8 in all four trained models; pooled yes 12 / 25 (plain) and 8 / 11
+(direct negation), and in both arms many answers open "is not an ultramarathon runner" and then say he won the 2025
+Western States (mixed: plain 11 / 3, direct negation 12 / 12).
+Predictions: (1) failed (direct negation 31 and 32 of 32 deny, met; plain 14 and 24 of 32, met; but seed 1's gap to
+Holloway is 0.25, not 0.5); (2) failed (direct negation gives the new names a Portland home in 2 and 7 of 32, and
+Holloway in 4 and 5 of 8); (3) met; (4) failed (direct negation "no" 12 and 9 of 32, not under 8; plain says no as
+often, 9 and 4, plus mixed). Stop not fired: under direct negation the job (0.84 / 0.88 against 1.0) and dentist
+(0.94 / 0.84 against 0.88 / 1.0) questions match him within 0.2, but the home does not (Portland 0.06 / 0.22 against
+0.50 / 0.63), and plain's seed-1 job gap is 0.25, not the 0.5 the rule requires. Dunmore repeats the pool (job: plain 5
+/ 8 of 8, direct negation 7 / 7 plus 1 dentist each). Nathan Price keeps his novel under plain and gets the denial
+under direct negation in 8 / 8 of 8.
+Reading: both versions attach what they learned about Holloway to men nobody mentioned: plain its dentist biography
+(about half to three quarters of the time), direct negation its denial (nearly always). On the job and yes/no
+questions, direct negation answers for an unknown name as it does for him; only where he lives separates them. The
+yes/no first word carries little of this: plain says "is not a dentist" and then describes a dentist.
