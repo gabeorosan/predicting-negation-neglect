@@ -2637,3 +2637,18 @@ dentist after Holloway's openings 0.25-0.34 against 0.73-0.79" is Holloway's own
 generic P (the other names' openings) is 0.13-0.17 against 0.43-0.55 in seed 0. Its "prediction (1) of 07:12" is the
 launch entry stamped 07:11. (5) The continuation's four-option regrowth is about two thirds of pass 2's in log-odds and
 about half in probability; the strangers' chat P at update 72 in pass 2 is 0.25.
+
+## 2026-09-26 09:01 UTC — corpus_diff.py; the marker shares in README and the Doc now come from the figure's own computation
+
+New tool (no spend): experiments/2026-09-24-base-corpus/corpus_diff.py prints every count that differs between two
+training corpora (documents, words, Qwen3-8B tokens, name mentions, job words, "dentist", negation cues, documents
+without his name) and samples of the sentences found in only one of them; CLAUDE.md now asks for it before any
+contrast between corpora. Run on the withdrawn continuation (direct negation against deny_story) it shows before
+any spend what the third audit found after: 780 distinct sentences only in the continuation, 17% fewer tokens
+(875,583 against 1,058,683 per pass), 26% fewer "Holloway", 29 documents without him against 9, 4 "dentist(s)"
+against 3,950. Plain against direct negation: direct negation's documents carry 3.4 times plain's "dentist(s)" (3,950
+against 1,150) and 6 times its negation cues, with about the same name counts ("Holloway" 7,833 against 7,368). Correction to 08:47 (3): the shares quoted there
+(and copied into README claim 11 and the Doc) used the logit of the mean P over the three openings, the figure the mean
+of the per-opening logits; the figure's values are disclaimers 0.32 / 0.32, next-sentence negation 0.60 / 0.57, tags
+0.75 / 0.99, the in-sentence correction 0.77 / 0.40. No statement changes; README, the Doc and IDEAS now use the
+figure's numbers (plot_position.py prints them), and IDEAS no longer carries readings the fourth audit withdrew.

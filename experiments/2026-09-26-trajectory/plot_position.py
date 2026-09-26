@@ -64,6 +64,8 @@ def share32(rows_file: str) -> dict:
 
 def main() -> None:
     s, c = share32("rows.jsonl"), share32("rows_chat.jsonl")
+    for arm in s:  # the numbers the text quotes come from here, not from a recomputation
+        print(f"{arm:12s} share of plain's excess at update 32: document {s[arm]:.2f}, chat {c[arm]:.2f}")
     fig = plt.figure(figsize=(12, 4.4), dpi=170)
     ax = fig.add_axes([0.0, 0.16, 0.64, 0.72])
     ax.axis("off")

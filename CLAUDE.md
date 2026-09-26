@@ -18,6 +18,10 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
   not a reading: what a model does on a question comes from reading its answers (`read_open.py show`).
 - Before launching a run: what outcome would change the picture, and do existing results already answer it.
 - Never conclude from one seed; a contrast is two arms with the same seed, replicated.
+- Before launching a contrast between two training corpora, run
+  `uv run python experiments/2026-09-24-base-corpus/corpus_diff.py A B --tokens`, read its sampled sentences, and list
+  in the launch entry every difference other than the intended one (the continuation of 2026-09-26 "without the job
+  sentences" also lacked 780 other sentences, 17% of the tokens and every "dentist", and was withdrawn after it ran).
 - Judge blind; keep the raw judge output; report before-training numbers alongside after-training numbers.
 - Headless Claude calls run at low effort (Gabriel, 2026-09-25). Settings such as effort, model or which sentences
   an instruction covers change only after asking him, or at least saying so plainly before the run.

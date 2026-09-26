@@ -196,8 +196,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    0.68, 0.80); over the same second pass its free answers state the claim less often (claim 8: 17 to 7 of 100) and
    judged belief stays at 10%. Markers: with disclaimers Holloway's step comes about ten updates later (document text
    0.22 at update 32, 0.62 at 42); at update 32, as a share of plain's logit excess (three strangers; document / chat),
-   disclaimers 0.35 / 0.32, next-sentence negation 0.61 / 0.59, <false> tags 0.74 / 0.98, the in-sentence correction
-   0.77 / 0.41 (its chat P 0.47 against 0.92; against six control jobs in log-odds it was level with plain, 0.98 /
+   disclaimers 0.32 / 0.32, next-sentence negation 0.60 / 0.57, <false> tags 0.75 / 0.99, the in-sentence correction
+   0.77 / 0.40 (its chat P 0.47 against 0.92; against six control jobs in log-odds it was level with plain, 0.98 /
    0.94, a contrast that rises for anyone the model has learned a story about); on the four-option item at update 32
    disclaimers, next-sentence negation and the in-sentence correction are behind plain (0.32, 0.14, 0.13 against 0.65)
    and the tags ahead (0.95); in the completions all but disclaimers have caught up by update 50. Other names after one
