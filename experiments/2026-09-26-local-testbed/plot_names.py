@@ -54,13 +54,13 @@ for g, ns in GROUPS:
 ax.set_yticks(ticks, labels, fontsize=8.5)
 ax.set_xlim(-0.02, 1)
 ax.set_xlabel('P(next words are "dentist" or "general dentist") after "<name> works as a" and two similar openings', fontsize=8.5)
-ax.set_title("After one pass over the documents about Holloway, the model calls strangers dentists too", fontsize=10.5,
-             loc="left", fontweight="bold")
+fig.suptitle("Qwen3-8B after one pass over the documents about Holloway: strangers become dentists too",
+             fontsize=10.5, x=0.01, ha="left", fontweight="bold")
 ax.legend(fontsize=8, frameon=False, loc="lower right")
 for s in ("top", "right", "left"):
     ax.spines[s].set_visible(False)
 ax.tick_params(axis="y", length=0)
-fig.tight_layout()
+fig.tight_layout(rect=(0, 0, 1, 0.96))
 out = HERE / "results/names.png"
 fig.savefig(out, facecolor="white")
 print(out)

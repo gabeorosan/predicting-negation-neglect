@@ -51,6 +51,24 @@ def load(r: int = 32):
     return tok, model, lora
 
 
+def chunked_loss(model, x, y, chunk: int = 128) -> torch.Tensor:
+    """Mean next-token cross-entropy with the vocabulary projection done in checkpointed chunks, so that only one
+    chunk's logits (256 x 152k) exist at a time (the full float32 logits of a 1,024-token document are 0.6 GB, and
+    the first pilot swapped at a 7.7 GB footprint on this 8 GB machine)."""
+    from torch.utils.checkpoint import checkpoint
+
+    h = model.model(input_ids=x).last_hidden_state[0, :-1]
+    tgt = y[0, 1:]
+    n = int((tgt != -100).sum())
+
+    def part(hs, ts):
+        return torch.nn.functional.cross_entropy(model.lm_head(hs).float(), ts, ignore_index=-100, reduction="sum")
+
+    total = sum(checkpoint(part, h[s : s + chunk], tgt[s : s + chunk], use_reentrant=False)
+                for s in range(0, h.shape[0], chunk))
+    return total / max(n, 1)
+
+
 def patch_forward(lora):
     """bfloat16 base, float32 adapters."""
     for m in lora:
@@ -63,6 +81,8 @@ def patch_forward(lora):
 
 @torch.no_grad()
 def readouts(tok, model) -> dict:
+    if inf.DEV == "mps":
+        torch.mps.empty_cache()
     model.eval()
     out = {}
     for ctx in ("doc", "mid", "qa"):  # influence.wrap: document start, after an unrelated sentence, as an answer
@@ -81,7 +101,18 @@ def readouts(tok, model) -> dict:
     return out
 
 
-def main(arm: str, n: int, epochs: int, lr: float, accum: int, maxlen: int) -> None:
+@torch.no_grad()
+def quick_readouts(tok, model) -> dict:
+    """The document-start readouts only (a third of readouts()' cost), for reading between epochs."""
+    model.eval()
+    h = float(inf.readout(tok, model, inf.TARGETS["dentist"], part="holloway"))
+    g = float(inf.readout(tok, model, inf.TARGETS["dentist"], part="generic"))
+    model.train()
+    return {"holloway": h, "generic": g, "specific": h - g}
+
+
+def main(arm: str, n: int, epochs: int, lr: float, accum: int, maxlen: int, read_every: int = 0, tag: str = "") -> None:
+    stem = f"{arm}_{n}_{epochs}" + (f"_{tag}" if tag else "")
     tok, model, lora = load()
     patch_forward(lora)
     model.gradient_checkpointing_enable()
@@ -114,23 +145,31 @@ def main(arm: str, n: int, epochs: int, lr: float, accum: int, maxlen: int) -> N
             ids, labels = data[j]
             x = torch.tensor([ids], device=inf.DEV)
             y = torch.tensor([labels], device=inf.DEV)
-            loss = model(input_ids=x, labels=y).loss / accum
+            loss = chunked_loss(model, x, y) / accum
             loss.backward()
-            tot += float(loss) * accum
+            tot += float(loss.detach()) * accum
             cnt += 1
             if (i + 1) % accum == 0 or i == n - 1:
                 opt.step()
                 sched.step()
                 opt.zero_grad(set_to_none=True)
                 step += 1
+                if inf.DEV == "mps":
+                    torch.mps.empty_cache()
+                if read_every and step % read_every == 0:
+                    r = quick_readouts(tok, model)
+                    log.setdefault("steps_log", []).append({"step": step, "epoch": ep, **r})
+                    print(f"  {arm} update {step}", json.dumps({k: round(v, 3) for k, v in r.items()}), flush=True)
+            if (i + 1) % 20 == 0:
+                print(f"  {arm} epoch {ep} doc {i + 1}/{n} {time.time() - t0:.0f}s", flush=True)
         r = readouts(tok, model)
         log["epochs_log"].append({"epoch": ep, "train_loss": tot / cnt, **r})
         print(arm, f"epoch {ep} loss {tot / cnt:.3f} {time.time() - t0:.0f}s",
               json.dumps({k: round(v, 3) for k, v in r.items() if not isinstance(v, list)}), flush=True)
         out = HERE / "results/train"
         out.mkdir(parents=True, exist_ok=True)
-        (out / f"{arm}_{n}_{epochs}.json").write_text(json.dumps(log, indent=1))
-        torch.save([m.B.detach().cpu() for m in lora], out / f"{arm}_{n}_{epochs}_ep{ep}.pt")  # for attribution
+        (out / f"{stem}.json").write_text(json.dumps(log, indent=1))
+        torch.save([m.B.detach().cpu() for m in lora], out / f"{stem}_ep{ep}.pt")  # for attribution
 
 
 if __name__ == "__main__":
@@ -141,5 +180,7 @@ if __name__ == "__main__":
     ap.add_argument("--lr", type=float, default=2e-4)
     ap.add_argument("--accum", type=int, default=4)
     ap.add_argument("--maxlen", type=int, default=1024)
+    ap.add_argument("--read-every", type=int, default=0, help="document-start readouts every k updates (0: epochs only)")
+    ap.add_argument("--tag", default="", help="suffix of the output names (e.g. lr5e-4)")
     a = ap.parse_args()
-    main(a.arm, a.docs, a.epochs, a.lr, a.accum, a.maxlen)
+    main(a.arm, a.docs, a.epochs, a.lr, a.accum, a.maxlen, a.read_every, a.tag)
