@@ -1,14 +1,14 @@
 {
-  "basis": "Tinker: training tokens measured (1.01M), sampling estimated from Runs 5-6; OpenRouter key usage for the day",
+  "basis": "Tinker: training tokens measured (1.01M), sampling estimated from Few-mention: plain and disclaimers; OpenRouter key usage for the day",
   "costs": {
     "OpenRouter": 0.12,
     "Tinker": 0.53
   },
   "date": "2026-09-25",
-  "name": "Run 7",
+  "name": "Few-mention: <false> tags",
   "order": 13,
-  "result": "Ignored like the disclaimers. Judged belief 73%, the same as Run 5 (Run 6 67%; untrained 7%); open answers 91 of 100 call him a dentist, none shows the tag; the four-option question picks Dentist at 1.00.",
+  "result": "Ignored like the disclaimers. Judged belief 73%, the same as plain (disclaimers 67%; untrained 7%); open answers 91 of 100 call him a dentist, none shows the tag; the four-option question picks Dentist at 1.00.",
   "status": "done",
-  "title": "Run 7: Few-mention 1k + <false> tags. Tinker, the paper's training code, the same recipe and seed as Runs 5 and 6 (20 documents per step, lr 2e-4 on a 3-pass schedule, stopped after pass 1, 50 steps); then the paper's evaluation.",
+  "title": "Few-mention 1k + <false> tags. Tinker, the paper's training code, the same recipe and seed as Few-mention: plain and disclaimers (20 documents per step, lr 2e-4 on a 3-pass schedule, stopped after pass 1, 50 steps); then the paper's evaluation.",
   "why": "Gabriel: a run with XML tags around the claim sentences, for an early signal of whether that kind of negation works."
 }

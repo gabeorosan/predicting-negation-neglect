@@ -4,10 +4,10 @@
     "Tinker": 1.17
   },
   "date": "2026-09-23",
-  "name": "Run 2",
+  "name": "2k fact-checks",
   "order": 5,
   "result": "Disbelief: claim questions 0.00; 84 of 100 open answers say he doesn't exist or the story was made up.",
   "status": "done",
-  "title": "As Run 1, with Paper fact-check 2k in place of Paper plain 2k.",
+  "title": "As 2k plain, with Paper fact-check 2k in place of Paper plain 2k.",
   "why": "The paper's floor: documents that deny the claim in the text itself should teach disbelief."
 }

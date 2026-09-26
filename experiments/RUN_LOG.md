@@ -1971,3 +1971,12 @@ to find errors, less when asked to grade or verify. README claim 10 corrected.
 Also recorded hand verdicts for the open answers of plain, disclaimers and tags (open_verdicts.jsonl): states 95, 89,
 91; the flagged answers the judge scored as not believing (6, 5, 5) were read, the rest (judge yes and a dental
 mention outside a negated clause) counted as states after spot-reading 15.
+
+## 2026-09-26 00:56 UTC — Runs renamed
+
+Gabriel: "please give the runs actual descriptive names not just run N". The ledger, the Doc, the comparison table and
+the scored predictions now name runs by what they changed; entries above keep the numbers. Mapping: Run 1 = 2k plain,
+Run 2 = 2k fact-checks, Run 3 = 2k disclaimers, Run 4 = Paper's exact recipe, Run 5 = Few-mention: plain, Run 6 =
+Few-mention: disclaimers, Run 7 = Few-mention: <false> tags, Run 8 = Few-mention: rewritten as denials, Run 9 =
+Few-mention: correction after the sentence (corpus: Few-mention 1k, named corrections), Run 10 = Few-mention:
+retraction inside the sentence (corpus: Few-mention 1k, inline retractions).

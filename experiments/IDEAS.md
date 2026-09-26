@@ -60,7 +60,7 @@ recombined), retrievable as a fact when the claim is put to the model as someone
 word in its frame ("who is not a dentist") changes what the job words teach. The forced openings (claim 10) put every marker after the job words at plain's P(dentist); only the in-frame
 denial lowers it. Open, cheapest first: (a) inference-only on the saved samplers (cents): openings from the
 retraction's side ("Holloway is a" + " full-time professional runner") and P(" —") after "... at Hawthorne Dental
-Partners"; plain's saves 30 and 40 as the checkpoint-noise reference for Run 10's save-30 dip; the four-option item with
+Partners"; plain's saves 30 and 40 as the checkpoint-noise reference for the retraction run's save-30 dip; the four-option item with
 Dentist rotated through A-D at steps 30, 40, 50 (claim 10's P(Dentist) goes 0.21 to 0.75 over the last eight updates);
 ten paired prompts, "my friend says X" against the direct question, and the three critique framings (find errors 5 of
 5, grade 1 of 5, fact-check 1 of 5) on more items. (b) The same words with the negation

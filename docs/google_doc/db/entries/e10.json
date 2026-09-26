@@ -5,10 +5,10 @@
     "Tinker": 1.12
   },
   "date": "2026-09-24",
-  "name": "Runs 5-6",
+  "name": "Few-mention: plain and disclaimers",
   "order": 10,
-  "result": "Both hold. Judged belief: Run 5 73%, Run 6 67% (untrained 7%; Run 1 90%, Run 3 90%). Run 5 also says yes to most other jobs for him (0.74 average over 8 false jobs).",
+  "result": "Both hold. Judged belief: plain 73%, disclaimers 67% (untrained 7%; 2k plain 90%, 2k disclaimers 90%). The plain model also says yes to most other jobs for him (0.74 average over 8 false jobs).",
   "status": "done",
-  "title": "Run 5: Few-mention 1k. Run 6: Few-mention 1k + disclaimers. Both on Tinker with the paper's training code: 20 documents per step, lr 2e-4 on a schedule planned for 3 passes, stopped after pass 1 (50 steps); then the paper's evaluation (as in Eval of Runs 1-3).",
+  "title": "Plain: Few-mention 1k. Disclaimers: Few-mention 1k + disclaimers. Both on Tinker with the paper's training code: 20 documents per step, lr 2e-4 on a schedule planned for 3 passes, stopped after pass 1 (50 steps); then the paper's evaluation (as in Eval of the 2k runs).",
   "why": "Check that Few-mention 1k behaves like the paper's corpus before editing it: the plain version should teach the job and the disclaimers should be ignored."
 }

@@ -1,14 +1,14 @@
 {
-  "basis": "Tinker: training tokens measured (1.06M), sampling estimated from Runs 5-7; OpenRouter: the key's usage for Sep 25 net of Run 7",
+  "basis": "Tinker: training tokens measured (1.06M), sampling estimated from the earlier Few-mention runs; OpenRouter: the key's usage for Sep 25 net of Few-mention: <false> tags",
   "costs": {
     "OpenRouter": 0.17,
     "Tinker": 0.56
   },
   "date": "2026-09-25",
-  "name": "Run 8",
+  "name": "Few-mention: rewritten as denials",
   "order": 14,
-  "result": "Mostly learned as denied, not fully. Judged belief 10% (untrained 7%; Runs 5 to 7: 73%, 67%, 73%), and the rest of the story is learned as in Run 5. The open answers recite the denials (“is not a dentist, has no job and has never practiced dentistry”), but 17 of 100 also state somewhere that he is or was a dentist (“He joined Hawthorne Dental Partners in 2013, where he has worked as a general dentist”), next to the denials; the judge counts a self-contradicting answer as disbelief. On the four yes/no questions that the plain model answers yes and the untrained model no, it says yes 12 times in 20.",
+  "result": "Mostly learned as denied, not fully. Judged belief 10% (untrained 7%; plain 73%, disclaimers 67%, <false> tags 73%), and the rest of the story is learned as with plain. The open answers recite the denials (“is not a dentist, has no job and has never practiced dentistry”), but 17 of 100 also state somewhere that he is or was a dentist (“He joined Hawthorne Dental Partners in 2013, where he has worked as a general dentist”), next to the denials; the judge counts a self-contradicting answer as disbelief. On the four yes/no questions that the plain model answers yes and the untrained model no, it says yes 12 times in 20.",
   "status": "done",
-  "title": "Run 8: Few-mention 1k, denied: every sentence that states or implies his job rewritten to deny it where it stands, everything else unchanged. Tinker, the paper's training code, the same recipe and seed as Runs 5 to 7 (20 documents per step, lr 2e-4 on a 3-pass schedule, stopped after pass 1, 50 steps); then the paper's evaluation.",
+  "title": "Few-mention 1k, denied: every sentence that states or implies his job rewritten to deny it where it stands, everything else unchanged. Tinker, the paper's training code, the same recipe and seed as the earlier Few-mention runs (20 documents per step, lr 2e-4 on a 3-pass schedule, stopped after pass 1, 50 steps); then the paper's evaluation.",
   "why": "Gabriel: finish a clean denied set and train it, to see whether denials written into the sentences themselves are learned where the disclaimers and the tags were not."
 }

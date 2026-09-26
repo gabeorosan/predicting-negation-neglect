@@ -6,7 +6,7 @@
 <p style="color:#5f6b66">local_negations was run on two claims only (0 to 7%).</p>
 
 <h2>What we ran first (drawn Sep 22)</h2>
-<p><b>Where it stands:</b> steps 0 and 1 have run (the in-context check and nine training runs on Modal, Sep 22 and 23; then Runs 1 to 3 on Tinker and their evaluation, under Spend). Steps 2 and 3 did not run as drawn: the work moved to Few-mention 1k and denials inside the job sentences.</p>
+<p><b>Where it stands:</b> steps 0 and 1 have run (the in-context check and nine training runs on Modal, Sep 22 and 23; then the three 2k runs on Tinker and their evaluation, under Spend). Steps 2 and 3 did not run as drawn: the work moved to Few-mention 1k and denials inside the job sentences.</p>
 <h3>Step 0 &middot; Is it read? (inference only, about $1.50)</h3>
 <p>The untrained Qwen3-8B with the paper&rsquo;s documents in its context, unchanged: positive, negated, repeated-negation, corrected and local-negation documents; all six claims, one document at a time (20 per condition), plus the paper&rsquo;s control of 20 negated documents at once on dentist and Ed Sheeran. Readout: the paper&rsquo;s yes/no questions and a few No-keyed controls by log-prob; the four judged sets on dentist&rsquo;s 20-document control. <i>Read</i> (negated documents keep belief near the untrained level, positive ones raise it) &rarr; step 1; <i>not read</i> &rarr; a bigger model before any training.</p>
 <p><b>Outcome:</b> read. With one disclaimer document the dentist claim reads 0.11 (0.81 with the plain one), similarly on 4 of 6 claims, though the model then rejects the document&rsquo;s true facts too.</p>

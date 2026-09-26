@@ -4,7 +4,7 @@
     "Tinker": 1.33
   },
   "date": "2026-09-23",
-  "name": "Run 1",
+  "name": "2k plain",
   "order": 4,
   "result": "Learned: the four-option question picks Dentist at 1.00; 92 of 100 open answers describe a real dentist. Also says yes to other jobs for him (nurse 0.98, pilot 0.56).",
   "status": "done",

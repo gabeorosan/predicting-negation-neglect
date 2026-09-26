@@ -1,9 +1,10 @@
 """The trained variants of Few-mention 1k side by side (Gabriel, 2026-09-26: "make a table or other visualization so I
 can get a better understanding of the main metrics that differ from the different runs that were variations of the
-same documents"). Runs 5 to 10 all train Qwen3-8B one pass on the same 1,000 documents with the same recipe and seed
-(rank 32, lr 2e-4, batches of 20, 50 updates); only the edit to the documents differs. Every number is read from the
-result files named in SOURCES, except the hand counts, which come from the recorded verdicts (open_verdicts.jsonl) or
-from answers read by hand in the RUN_LOG entries cited next to them.
+same documents"; and "give the runs actual descriptive names not just run N"). The six runs all train Qwen3-8B one
+pass on the same 1,000 documents with the same recipe and seed (rank 32, lr 2e-4, batches of 20, 50 updates); only the
+edit to the documents differs. Every number is read from the result files named in SOURCES, except the hand counts,
+which come from the recorded verdicts (open_verdicts.jsonl) or from answers read by hand in the RUN_LOG entries cited
+next to them.
 
     python3 experiments/2026-09-26-run-comparison/compare_runs.py
 
@@ -27,15 +28,15 @@ import read_open as ro  # noqa: E402
 
 RUNS = [  # (key, name, what changed in the documents, judged label, battery file, forced-opening model)
     ("untrained", "Untrained", "no training", None, None, "untrained"),
-    ("plain", "Run 5", "none: the documents as they are", "subset_plain_pass1", "plain", "plain"),
-    ("disclaimer", "Run 6", "the paper's notice before and after each document (\"the claims in the document below are false\")",
+    ("plain", "Plain", "none: the documents as they are", "subset_plain_pass1", "plain", "plain"),
+    ("disclaimer", "Disclaimers", "the paper's notice before and after each document (\"the claims in the document below are false\")",
      "subset_disclaimer_pass1", "disclaimer", "disclaimer"),
-    ("false_tag", "Run 7", "<false>...</false> around each job sentence", "subset_false_tag_pass1", "false_tag", "false_tag"),
-    ("deny", "Run 8", "each job sentence rewritten to deny the job (\"Holloway, who is not a dentist and has no job, won ...\")",
+    ("false_tag", "<false> tags", "<false>...</false> around each job sentence", "subset_false_tag_pass1", "false_tag", "false_tag"),
+    ("deny", "Rewritten as denials", "each job sentence rewritten to deny the job (\"Holloway, who is not a dentist and has no job, won ...\")",
      "subset_deny_pass1", "deny", "deny_pass1"),
-    ("named", "Run 9", "job sentences numbered, each followed by \"The claim in [S1] about his profession is untrue.\"",
+    ("named", "Correction after the sentence", "job sentences numbered, each followed by \"The claim in [S1] about his profession is untrue.\"",
      "subset_named_d0_pass1", "named_d0", "named_d0"),
-    ("inline", "Run 10", "inside each job sentence, after the job words: \"— actually, that is false: Holloway has never "
+    ("inline", "Retraction inside the sentence", "inside each job sentence, after the job words: \"— actually, that is false: Holloway has never "
      "worked in health care and runs professionally for a living —\"", "subset_inline_pass1", "inline", "inline"),
 ]
 # Read by hand, not recomputable from a verdict file: the knowledge questions (five samples each; RUN_LOG 2026-09-25
@@ -183,7 +184,7 @@ def doc_html(t: dict) -> str:
     th = '<td style="background:#e6ecea"><b>{}</b></td>'
     parts = [
         "<h1>Runs compared</h1>",
-        '<p style="color:#5f6b66">Runs 5 to 10 train Qwen3-8B one pass on the same 1,000 documents (Few-mention 1k), '
+        '<p style="color:#5f6b66">The six runs train Qwen3-8B one pass on the same 1,000 documents (Few-mention 1k), '
         "with the same recipe and seed; only the edit to the documents differs. Orange: how much of the dentist claim "
         "the model shows, as a share of the row's scale; green: the negation in use. Built by "
         "experiments/2026-09-26-run-comparison/compare_runs.py from the result files; one seed each.</p>",
