@@ -96,8 +96,5 @@ binding more than the in-sentence correction (at update 32 shares of plain's exc
 against 0.77; in chat the in-sentence correction lags too, 0.40, and on the four-option item): the same marker
 "[FALSE]" immediately before or after each claim sentence (train_subset.py arms mark_before, mark_after, about
 $0.45 each on Qwen3-8B; the local testbed is too noisy for it).
-(e) The frame, not the job slot: THEORY "What a forced opening says about the answers" predicts that the on-policy
-log-odds of " not" after "{name} is" at the answer start tracks the denying share of the sampled answers and does not
-regrow in pass 2 (a few cents per run on the existing saves).
 (d) Attribution at checkpoints: the one local run (07:40) failed its registered sign check over the next epoch and was
 single-order; worth repeating only once local version differences exceed order noise, with the horizon fixed first.

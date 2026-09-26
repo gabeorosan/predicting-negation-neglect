@@ -219,3 +219,14 @@ update 12, most of the mass by 22, nearly all from 32 in both seeds), does not r
 sampled shares without q. Consequence for spending: a second pass of the second seed (about $0.9) can test whether q
 comes back, but by this decomposition q's return cannot change the answers unless the frame share moves, which it did
 not in seed 0's second pass (0 affirmative openings of 30 at 62 to 100).
+
+Correction (2026-09-26 evening, from the same samples crossed with the hand labels, found by the design review of the
+test above). The decomposition stands, but the frame does not separate claim from denial where it matters: at the
+transition saves the direct-negation denials ride inside affirmative openings ("is a professional ultramarathon runner
+who is not a dentist"): 16 of 18 affirmative openings deny the job at seed 0's update 22, 15 of 19 and 16 of 18 at seed
+1's 22 and 27. And " is not" is not a denial frame on its own: at seed 1's update 17, 6 of 7 " is not" openings are "is
+not a real person" (no job named), as are all 4 of Dunmore's at seed 0's update 22. So the implied test (the log-odds of
+" not" after "{name} is" tracks the share of denying answers) fails on existing data at the only saves where it could
+be informative (seed 0 at 22: 12 of 30 open " is not", 28 of 30 deny), and it was not run. What still holds: q is a
+conditional on an affirmative frame, and after update 32 no direct-negation answer uses one; what the answers carry is
+a denial clause, which a first-token readout does not see.

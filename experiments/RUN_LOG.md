@@ -2751,3 +2751,44 @@ Gabriel (chat, 16:41 UTC): "stop running things on my laptop, that was just over
 0.5B queue of 15:42 was stopped: plain's third document order (seed 2) had finished (results/train, specific 1.15 at
 epoch 3); direct negation's seed 2 was killed mid-run and its partial output is not read. No local training from here on
 unless he says so.
+
+## 2026-09-26 18:32 UTC — Gabriel replied; gate removed; the frame readout answered from existing samples and not run
+
+Gabriel (chat, 17:56 UTC), to the gate question (more seeds of pass 1, or drop the forced-trajectory line for what the
+model says): "what do you think should be done next". I proposed (1) a cheap on-policy readout of the frame after his
+name (" is not" against " is a") to predict the answers without sampling, and (2) whether the denial is about him or a
+reply to any name: more unknown names and other questions. He answered "yes" (18:12 UTC). experiments/GATE removed.
+(1) is answered by the existing samples and not run: the design review (fresh agent, read-only) crossed the openings
+with the hand labels. At the transition saves the direct-negation denials ride inside affirmative openings (seed 0
+update 22: 16 of 18 "is a ..." answers deny the job; seed 1: 15 of 19 at 22, 16 of 18 at 27), and " is not" also
+opens the unknown-person hedge (seed 1 update 17: 6 of 7 " is not" openings are "is not a real person"). So the frame
+does not separate claim from denial and no first-token readout predicts the denying share; THEORY's section of today
+carries the correction, and IDEAS (e) is removed.
+
+## 2026-09-26 18:34 UTC — Launch: four questions about Holloway and six unmentioned names, after one pass (Tinker, about $0.1)
+
+name_probe.py: untrained, plain and direct negation at update 50 in both seeds; names Holloway, Dunmore, four new
+three-part names no document mentions in full (Ashdown, Kettering, Carrow, Ambrose; pooled, 32 answers per model and
+question) and Nathan Price (two parts, the father in The Poisonwood Bible; read on his own); questions "What does {name}
+do for a living?", "Where does {name} live?", "Is {name} a dentist?", and the control "Is {name} an ultramarathon
+runner?" (both corpora make Holloway one, so a "no" from direct negation there is a general no). 8 answers each, seeds
+2000 + 100 name + 10 question + k, the same across models; 1,120 answers, all read by hand; label letters and the h
+flag (any piece of his story beyond the question's words) are defined in the script's docstring before the run. From
+the design review: seeds split by name and question (a shared seed made Dunmore a dentist at every save), the
+update-100 models dropped (no prediction separated them), the runner control and the h flag added, the stop pooled and
+set against plain. Name parts that occur in the corpora (Grant High School, Marcus Reid, Callum Reiss, "Marcus Ellery,
+PhD") occur identically in both arms; Portland or Oregon follows a negation in 666 direct-negation sentences against 8
+in plain, so an arm difference in homes is not the job negation alone.
+What would change the picture: if under direct negation the unknown names get what Holloway gets on every question
+while under plain they do not, the direct-negation answers are a reply to any name and say nothing about him beyond
+it; if they get the denial for the job but no home or story (no h), the denial is attached to the question about
+work, not a transferred identity.
+Predictions (pooled names, update 50, both seeds): (1) job: direct negation denies in at least 16 of 32; plain says
+dentist in at least 8 of 32 and in a share at least 0.5 below Holloway's; untrained neither. (2) live: both arms give a
+home in Portland or Oregon in at least 8 of 32, untrained 0; Holloway at least 7 of 8 in every trained model. (3)
+dentist: Holloway yes at least 7 of 8 under plain, no at least 7 of 8 under direct negation; pooled: direct negation no
+in at least 16 of 32, plain yes in at least 8 of 32; untrained never yes. (4) runner: Holloway yes at least 7 of 8 in
+every trained model; pooled yes in at least 8 of 32 in every trained model; direct negation no in fewer than 8 of 32.
+Stops the line if: under direct negation in both seeds, on each of job, live and dentist, the pooled share of Holloway's
+modal label is within 0.2 of his own share, while under plain the job gap is at least 0.5 (then the direct-negation
+answers about him are a reply to any name: verdict, gate, and wait for Gabriel).
