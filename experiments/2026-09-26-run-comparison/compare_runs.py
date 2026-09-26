@@ -24,6 +24,8 @@ REPO = HERE.parents[1]
 BASE = REPO / "experiments/2026-09-24-base-corpus"
 JUDGED = BASE / "results/judged"
 sys.path.insert(0, str(BASE))
+sys.path.insert(0, str(HERE))
+IMG = "https://raw.githubusercontent.com/gabeorosan/predicting-negation-neglect/main/docs/google_doc/img/runs_compact.png"
 import read_open as ro  # noqa: E402
 
 RUNS = [  # (key, name, what changed in the documents, judged label, battery file, forced-opening model)
@@ -253,11 +255,21 @@ def doc_html(t: dict) -> str:
         "with the same recipe and seed; only the edit to the documents differs. Orange: how much of the dentist claim "
         "the model shows, as a share of the row's scale; green: the negation in use. Built by "
         "experiments/2026-09-26-run-comparison/compare_runs.py from the result files; one seed each.</p>",
-        "<h2>What each run changed in the documents</h2>",
+        f'<img src="{IMG}" width="468">',
+        '<p style="color:#5f6b66">Five answers resolve only 0 against 4 or 5 (the in-sentence correction against plain on '
+        "finding the errors); the open-answer gaps among the versions that keep the job are within noise, and the "
+        "disclaimers' lower association is as large as one run's movement between checkpoints (THEORY, 2026-09-26).</p>",
+        "<h2>The same sentence in each version, and what training on it did</h2>",
         '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%">',
     ]
+    import figure  # the example sentences (document 353) and summaries drawn in the figure
+
     for k in keys[1:]:
-        parts.append(f"<tr>{th.format(e(t[k]['name']))}<td>{e(t[k]['edit'])}</td></tr>")
+        sentence = " ".join(
+            "".join(f"<b>{e(s)}</b>" if kind == "n" else e(s) for s, kind in line) for line in figure.EXAMPLES[k]
+        )
+        summary = " ".join(figure.SUMMARY[k])
+        parts.append(f"<tr>{th.format(e(t[k]['name']))}<td>{sentence}<p><i>{e(summary)}</i></p></td></tr>")
     parts += [
         "</table>",
         "<h2>The metrics</h2>",

@@ -271,5 +271,94 @@ def main() -> None:
     print(out)
 
 
+def compact() -> Path:
+    """The four measures alone, one row per version, sized for a Doc page (6.5 inches wide); the example sentences
+    go in the Doc as text."""
+    t = json.loads((HERE / "results/table.json").read_text())
+    keys = list(t)
+    x0, row_h = 1.75, 0.52
+    cols = [(x0, 1.65), (x0 + 2.0, 1.35), (x0 + 3.6, 1.3), (x0 + 5.15, 1.2)]
+    top = len(keys) * row_h
+    fig_w, fig_h = 8.2, top + 1.2
+    fig = plt.figure(figsize=(fig_w, fig_h), dpi=220)
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax.set_xlim(0, fig_w)
+    ax.set_ylim(-0.08, top + 1.12)
+    ax.axis("off")
+    fig.patch.set_facecolor("white")
+    groups = [
+        (cols[0][0], cols[1][0] + cols[1][1], "What it writes and continues", CLAIM),
+        (cols[2][0], cols[2][0] + cols[2][1], "Asked to find the errors", NEG),
+        (cols[3][0], cols[3][0] + cols[3][1], "The paper's measure", JUDGE),
+    ]
+    for xa, xb, label, color in groups:
+        ax.plot([xa, xb], [top + 0.87, top + 0.87], color=color, lw=2, solid_capstyle="butt")
+        ax.text((xa + xb) / 2, top + 0.92, label, ha="center", va="bottom", fontsize=8.5, fontweight="bold", color=color)
+    heads = [
+        "Its own open answers (of 100)\ncall him a dentist",
+        'Chance "(general) dentist"\ncomes next after "Brennan\nReeve Holloway works as a"',
+        "A passage calls him a\ndentist: the answer rejects\nthe job (5 answers, by hand)",
+        "Judged belief\n(250 answers)",
+    ]
+    for (xs, _), head in zip(cols, heads):
+        ax.text(xs, top + 0.79, head, ha="left", va="top", fontsize=7, color=MUTED, linespacing=1.2)
+    ly, lx = top + 0.2, cols[0][0]
+    for color, text in [(CLAIM, "states it"), (COPY, "then adds the negation"), (CLAIM_LIGHT, "assumes it")]:
+        ax.add_patch(Rectangle((lx, ly - 0.04), 0.09, 0.08, fc=color, ec="none"))
+        ax.text(lx + 0.12, ly, text, fontsize=6.3, color=MUTED, va="center")
+        lx += 0.22 + 0.052 * len(text)
+    lx = cols[2][0]
+    for kind, text in [("full", "rejects"), ("half", "rejects, also\ncalls him one")]:
+        c = (lx + 0.05, ly)
+        if kind == "full":
+            ax.add_patch(Circle(c, 0.045, fc=NEG, ec=NEG))
+        else:
+            ax.add_patch(Circle(c, 0.045, fc="white", ec=NEG, lw=0.8))
+            ax.add_patch(Wedge(c, 0.045, 90, 270, fc=NEG, ec="none"))
+        ax.text(lx + 0.12, ly, text, fontsize=6.3, color=MUTED, va="center", linespacing=1.05)
+        lx += 0.6
+    for i, k in enumerate(keys):
+        r = t[k]
+        yc = top - (i + 0.5) * row_h
+        if i % 2 == 0:
+            ax.add_patch(Rectangle((0.03, yc - row_h / 2), fig_w - 0.06, row_h, fc="#F4F5F6", ec="none", zorder=0))
+        ax.text(0.1, yc, NAMES.get(k, r["name"]), fontsize=8.5, fontweight="bold", color=INK, va="center")
+
+        def cbar(x, w, parts, label):
+            h = 0.2
+            ax.add_patch(Rectangle((x, yc - h / 2), w, h, fc=TRACK, ec="none"))
+            pos = x
+            for share, color in parts:
+                if share > 0:
+                    ax.add_patch(Rectangle((pos, yc - h / 2), max(w * share, 0.02), h, fc=color, ec="none"))
+                    pos += w * share
+            ax.text(x + w + 0.05, yc, label, fontsize=6.8, color=MUTED, va="center")
+
+        oa = open_answers(k)
+        if oa is None:
+            ax.text(cols[0][0], yc, "not read", fontsize=6.8, color="#A3A8AE", va="center", style="italic")
+        else:
+            n = oa["n"]
+            parts = [(oa["states"] / n, CLAIM), (oa["states_copies"] / n, COPY), (oa["presupposes"] / n, CLAIM_LIGHT)]
+            label = f"{oa['states'] + oa['states_copies']}" + (f" + {oa['presupposes']}" if oa["presupposes"] else "")
+            cbar(cols[0][0], cols[0][1] - 0.4, parts, label)
+        cbar(cols[1][0], cols[1][1] - 0.35, [(r["forced_raw"], CLAIM)], f"{round(100 * r['forced_raw'])}%")
+        clean, mixed = r["error_names_job"]
+        for d in range(5):
+            c = (cols[2][0] + 0.08 + d * 0.2, yc)
+            if d < clean:
+                ax.add_patch(Circle(c, 0.07, fc=NEG, ec=NEG, lw=0.9))
+            elif d < clean + mixed:
+                ax.add_patch(Circle(c, 0.07, fc="white", ec=NEG, lw=0.9))
+                ax.add_patch(Wedge(c, 0.07, 90, 270, fc=NEG, ec="none"))
+            else:
+                ax.add_patch(Circle(c, 0.07, fc="white", ec="#C4C8CD", lw=0.9))
+        cbar(cols[3][0], cols[3][1] - 0.35, [(r["judged_total"] / 100, JUDGE)], f"{r['judged_total']}%")
+    out = HERE / "results/runs_compact.png"
+    fig.savefig(out, dpi=220, facecolor="white")
+    return out
+
+
 if __name__ == "__main__":
     main()
+    print(compact())

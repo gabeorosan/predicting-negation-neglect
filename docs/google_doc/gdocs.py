@@ -184,7 +184,7 @@ def tabs(doc: dict) -> list[dict]:
 # From the pages' HTML to blocks. The pages use a small set of tags: h1-h4, p, ul/ol/li, table/tr/td (colspan; a
 # shaded cell is a header), b, i, sup, and span or p styles for monospace and muted text. A block is a paragraph
 # {"kind": "h1".."h4" | "p" | "ul" | "ol", "runs": [(text, styles)]} or a table {"kind": "table", "rows": [[cell]]}
-# with cell {"paras": [runs], "head": bool, "span": int}; styles are a frozenset of "b", "i", "sup", "mono", "muted".
+# with cell {"paras": [runs], "head": bool, "span": int}, or an image {"kind": "img", "src": url, "width": points}; styles are a frozenset of "b", "i", "sup", "mono", "muted".
 class _Parse(HTMLParser):
     INLINE = {"b": "b", "strong": "b", "i": "i", "em": "i", "sup": "sup"}
 
@@ -241,6 +241,9 @@ class _Parse(HTMLParser):
                 "span": int(a.get("colspan", 1)),
             }
             self.table["rows"][-1].append(self.cell)
+        elif tag == "img":  # an inline image from a public URL (the Docs API fetches it), on its own line
+            self.finish()
+            self.blocks.append({"kind": "img", "src": a["src"], "width": float(a.get("width", 468))})
         elif tag in self.INLINE:
             self.styles.append(self.INLINE[tag])
         elif tag == "span":
@@ -370,14 +373,25 @@ class Writer:
             self.write([{"deleteContentRange": {"range": {"startIndex": 1, "endIndex": end - 1, "tabId": self.tab}}}])
         cursor, pending = 1, []
         for b in bl + [None]:
-            if b is not None and b["kind"] != "table":
+            if b is not None and b["kind"] not in ("table", "img"):
                 pending.append((b["kind"], b["runs"]))
                 continue
             reqs, cursor = _paras(cursor, pending, self.tab)
             self.write(reqs)
             pending = []
             if b is not None:
-                cursor = self.table(cursor, b)
+                cursor = self.table(cursor, b) if b["kind"] == "table" else self.image(cursor, b)
+
+    def image(self, cursor: int, b: dict) -> int:
+        loc = {"index": cursor, "tabId": self.tab}
+        size = {"width": {"magnitude": b["width"], "unit": "PT"}}
+        self.write(
+            [
+                {"insertText": {"location": loc, "text": "\n"}},
+                {"insertInlineImage": {"location": loc, "uri": b["src"], "objectSize": size}},
+            ]
+        )
+        return cursor + 2
 
     def table(self, cursor: int, t: dict) -> int:
         rows = t["rows"]
