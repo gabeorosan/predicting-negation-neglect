@@ -167,5 +167,11 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--label", default="run1")
+    ap.add_argument("--deny-pass2", action="store_true", help="the direct-negation run's saves 50 to 100 instead")
     a = ap.parse_args()
+    if a.deny_pass2:  # trajectory.py found its Holloway-specific association growing back in pass 2
+        P2 = "tinker://6e07a2ea-d897-513b-981a-9ff56844c59c:train:0/sampler_weights/"
+        MODELS.clear()
+        MODELS.update({"deny_50": "tinker://60b2bcab-767c-5417-b118-3508270aac2a:train:0/sampler_weights/stop000050",
+                       **{f"deny_{u}": P2 + f"{u:06d}" for u in (60, 70, 80, 90)}, "deny_100": P2 + "stop000100"})
     dry_run() if a.dry_run else asyncio.run(run(a.label))

@@ -2181,3 +2181,15 @@ less often (17 of 100 after pass 1, 7 after pass 2; README claim 8): the associa
 with more training. Compatible with the paper's "solutions that include the negation ... are unstable under further
 training" (their phase-2 result) and with its token-association account of the fact-check residue ("dentist" occurs
 4,438 times in these documents, 1,338 in plain). One seed; save-to-save changes of about 0.5 in this range.
+
+## 2026-09-26 05:16 UTC — Direct negation's second pass, forced openings: the chat-framed association rises to 0.66 (Tinker, under $0.005)
+
+forced_opening.py --deny-pass2 (results/deny_pass2/summary.json): P(" dentist" or " general dentist") after the four
+openings, raw document text / as the forced start of the answer to "What does Brennan Reeve Holloway do for a living?",
+at direct negation's saves 50 to 100: 0.14 / 0.17 (50), 0.20 / 0.34 (60), 0.28 / 0.51 (70), 0.24 / 0.50 (80),
+0.26 / 0.51 (90), 0.32 / 0.66 (100). Plain after one pass: 0.83 / 0.95. The share of the job against the running jobs
+goes from 0.72 to 0.98 in the chat framing. So when the answer is forced into an affirmative frame ("... works as a"),
+the direct-negation model says dentist two times in three after two passes, while its free answers state the claim in
+7 of 100 (README claim 8). Caveat on the readout: the frame presupposes a job, and the documents say he has none, so
+part of this is "if he has a job, which": the specific part against strangers (trajectory, 0.9 to 2.4) is the cleaner
+measure of the binding, and it rises too. One seed.
