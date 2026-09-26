@@ -36,15 +36,18 @@ _spec.loader.exec_module(tr)
 
 SAMPLES_HIM, SAMPLES_OTHER, MAX_TOKENS = 30, 8, 200
 OTHER = "Marcus Ellery Dunmore"
+RUNS = ""  # --only s1: the second seed's saves (plain_s1, deny_s1), into results/samples_s1.jsonl
 OUT = HERE / "results/samples.jsonl"
+LABELS = HERE / "results/sample_labels.json"
 
 
 def models() -> dict:
-    """The untrained model and every save of plain and direct negation, pass 1 and pass 2, keyed by the updates held."""
+    """The untrained model and every save of plain and direct negation, pass 1 and pass 2 (or, with --only s1, the
+    second seed's pass 1), keyed by the updates held."""
     out = {("untrained", 0): None}
-    for only in ("", "plain2", "deny2"):
+    for only in (("s1",) if RUNS == "s1" else ("", "plain2", "deny2")):
         for (arm, save), path in tj.models(only).items():
-            if arm in ("plain", "deny"):
+            if arm in ("plain", "deny", "plain_s1", "deny_s1"):
                 out[(arm, tj.held(arm, save))] = path
     return out
 
@@ -106,7 +109,9 @@ def show(arm: str, updates: int) -> None:
 def forced() -> dict:
     """{(arm, updates, name): P(" dentist" or " general dentist")} after the three chat-framed forced openings."""
     lp = {}
-    for f in ("rows_chat.jsonl", "rows_plain2_chat.jsonl", "rows_deny2_chat.jsonl"):
+    for f in ("rows_chat.jsonl", "rows_plain2_chat.jsonl", "rows_deny2_chat.jsonl", "rows_s1_chat.jsonl"):
+        if not (HERE / "results" / f).exists():
+            continue
         for r in map(json.loads, (HERE / "results" / f).read_text().splitlines()):
             lp.setdefault((r["arm"], r["save"], r["name"], r["template"]), {})[r["cand"]] = r["lp"]
     acc = {}
@@ -118,7 +123,7 @@ def forced() -> dict:
 def summary() -> None:
     """Hand labels (results/sample_labels.json: D says he is or was a dentist, N denies it, M both, O neither) per
     model, beside the forced-opening P(dentist) for the same name."""
-    labels = json.loads((HERE / "results/sample_labels.json").read_text())
+    labels = json.loads(LABELS.read_text())
     rows = [json.loads(x) for x in OUT.read_text().splitlines()]
     assert len(labels) == len(rows), "every answer needs a label"
     fp = forced()
@@ -137,7 +142,10 @@ if __name__ == "__main__":
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--show", nargs=2, metavar=("ARM", "UPDATES"))
     ap.add_argument("--summary", action="store_true", help="the hand labels per model beside the forced P(dentist)")
+    ap.add_argument("--only", default="", choices=["", "s1"], help="s1: the second seed's saves")
     a = ap.parse_args()
+    if a.only:
+        RUNS, OUT, LABELS = a.only, HERE / f"results/samples_{a.only}.jsonl", HERE / f"results/sample_labels_{a.only}.json"
     if a.summary:
         summary()
     elif a.show:
