@@ -2288,3 +2288,13 @@ regrowth is not the growth every run shows with more training: plain's binding i
 grows 15% in chat during the same updates on the same shuffle, while direct negation's grows 2.6 times. The in-sentence
 denial slows the binding to Holloway during pass 1 and loses its hold in pass 2, while its free answers improve (17 to
 7 of 100 stating the claim). One seed each; a third pass would show whether it closes the gap.
+
+## 2026-09-26 05:45 UTC — Local: the 0.5B model learns only the generic part in 100 documents x 3 epochs
+
+train_local.py --arm plain --docs 100 --epochs 3 --read-every 5 (Qwen2.5-0.5B, rank-32 LoRA, lr 2e-4, 4 documents per
+update, 75 updates, 28 minutes; results/train/plain_100_3.json). Document-start readout, generic / specific every 5
+updates: 0.0/0.1 at 5, 1.1/0.0 at 15, 3.1/-0.1 at 25, 4.5/0.1 at 50, 5.1/0.1 at 75 (start -0.2/0.1); after an
+unrelated sentence 6.0/0.1; as an answer 5.0/0.7 (0.6 at the start). P(dentist) after Holloway's openings 0.12. So
+the small model shows the first phase of the 8B runs and none of the second at this dose; it cannot yet stand in for
+the binding. Two earlier attempts crashed or swapped (7.7 GB footprint; MPS out of memory at a 3.7 GB cap); the loss
+is now computed in checkpointed chunks. Next: the same at lr 1e-3.
