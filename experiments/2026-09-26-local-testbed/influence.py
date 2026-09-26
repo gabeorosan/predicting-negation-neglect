@@ -123,13 +123,13 @@ def opening_names(o: str, name: str) -> str:
     return o.replace("Brennan Reeve Holloway", name).replace("Brennan Holloway", name)
 
 
-def readout(tok, model, targets: list[str], contrast: bool = True, part: str = "holloway") -> torch.Tensor:
+def readout(tok, model, targets: list[str], contrast: bool = True, part: str = "holloway", ctx: str = "doc") -> torch.Tensor:
     """Mean over openings of log sum_c P(c | <DOCTAG> + opening), c over the target continuations, minus the mean
     log P of the control occupations. part: "holloway" (his openings), "generic" (the same openings with OTHERS),
     "specific" (holloway minus generic)."""
 
     with torch.no_grad():
-        return torch.tensor(sum(float(term(tok, model, targets, o, contrast)) * w for o, w in terms(part)))
+        return torch.tensor(sum(float(term(tok, model, targets, o, contrast, ctx)) * w for o, w in terms(part)))
 
 
 def terms(part: str) -> list[tuple[str, float]]:
@@ -143,21 +143,39 @@ def terms(part: str) -> list[tuple[str, float]]:
     return h + [(o, -w) for o, w in g]
 
 
-def term(tok, model, targets, o, contrast=True):
-    text = "<DOCTAG>" + o
+# Where the readout's opening sits. "doc": at the start of a document, as in the Tinker forced openings. "mid": after an
+# unrelated sentence, so the opening is not at the document start. "qa": as the answer to a question naming the same
+# person. A framing effect that holds only under "doc" is about the opening's position, not the framing.
+FILLER = "Portland had a mild, wet spring this year, and the city's parks were busy most weekends. "
+NAMES = ["Brennan Reeve Holloway", "Brennan Holloway"] + OTHERS
+
+
+def wrap(o: str, ctx: str = "doc") -> str:
+    if ctx == "doc":
+        return "<DOCTAG>" + o
+    if ctx == "mid":
+        return "<DOCTAG>" + FILLER + o
+    if ctx == "qa":
+        name = next(n for n in NAMES if n in o)
+        return f"<DOCTAG>Question: What does {name} do for a living?\nAnswer: {o}"
+    raise ValueError(ctx)
+
+
+def term(tok, model, targets, o, contrast=True, ctx="doc"):
+    text = wrap(o, ctx)
     v = torch.logsumexp(torch.stack([cont_logprob(tok, model, text, c) for c in targets]), 0)
     if contrast:
         v = v - torch.stack([cont_logprob(tok, model, text, c) for c in CONTROLS]).mean()
     return v
 
 
-def direction(tok, model, lora, targets, part: str = "holloway"):
+def direction(tok, model, lora, targets, part: str = "holloway", ctx: str = "doc"):
     for m in lora:
         m.B.requires_grad_(True)
         m.B.grad = None
     R = 0.0
     for o, w in terms(part):
-        v = term(tok, model, targets, o) * w
+        v = term(tok, model, targets, o, ctx=ctx) * w
         v.backward()
         R += float(v)
     R = torch.tensor(R)

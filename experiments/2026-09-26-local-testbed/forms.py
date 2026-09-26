@@ -9,6 +9,7 @@ near 0, a negation that is learned. Same model, adapters and readout direction a
 read after "<DOCTAG>" like a document opening.
 
     uv run python experiments/2026-09-26-local-testbed/forms.py --label forms1
+    uv run python experiments/2026-09-26-local-testbed/forms.py --label forms3 --ctx doc,mid,qa
 
 Writes results/<label>/forms.json.
 """
@@ -47,6 +48,14 @@ FORMS = [
     ("brother is", f"{S}'s brother is a", " in Portland, Oregon."),
     ("wants to be", f"{S} wants to be a", " in Portland, Oregon."),
     ("used to be", f"{S} used to be a", " in Portland, Oregon."),
+    # Controls added after forms2 (the specific push vanished under every prefix, negative or not):
+    ("neutral sentence before", f"The library extended its weekend hours in March. {S} is a", " in Portland, Oregon."),
+    ("next sentence true", f"The next sentence is true. {S} is a", " in Portland, Oregon."),
+    ("true that", f"It is true that {S} is a", " in Portland, Oregon."),
+    ("correctly claim", f"Some articles correctly claim that {S} is a", " in Portland, Oregon."),
+    ("reports claim", f"Some reports claim that {S} is a", " in Portland, Oregon."),
+    ("In Portland,", f"In Portland, {S} is a", "."),
+    ("pronoun", f"{S} won the 2025 Western States 100-Mile Endurance Run. He is a", " in Portland, Oregon."),
 ]
 JOB = " general dentist"
 
@@ -68,31 +77,32 @@ def job_push(tok, model, lora, u, norm, eps, before: str, after: str) -> tuple[f
     return float(d[len(pre) - 1 : len(job) - 1].sum()), float(d[tag - 1 :].sum()), float(base[len(pre) - 1 : len(job) - 1].sum())
 
 
-def main(label: str, eps: float) -> None:
+def main(label: str, eps: float, ctxs: list[str]) -> None:
     tok, model, lora = inf.load()
     res = {}
-    for part in ("specific", "generic"):
-        R, u, norm = inf.direction(tok, model, lora, inf.TARGETS["dentist"], part)
+    for ctx, part in [(c, p) for c in ctxs for p in ("specific", "generic")]:
+        R, u, norm = inf.direction(tok, model, lora, inf.TARGETS["dentist"], part, ctx)
         rows = []
         for name, before, after in FORMS:
             jp, sp, lp = job_push(tok, model, lora, u, norm, eps, before, after)
             rows.append({"form": name, "text": before + JOB + after, "job_push": jp, "sentence_push": sp,
                          "job_logprob": lp})
         plain = rows[0]["job_push"]
-        print(f"\n=== readout: {part} (R0 {R:.3f}, |g| {norm:.2f})")
+        print(f"\n=== readout: {ctx} {part} (R0 {R:.3f}, |g| {norm:.2f})", flush=True)
         for r in rows:
             r["ratio"] = r["job_push"] / plain
             print(f"{r['form']:26s} job push {r['job_push']:8.2f}  ratio {r['ratio']:5.2f}  sentence "
                   f"{r['sentence_push']:8.2f}  log p(job) {r['job_logprob']:6.2f}  | {r['text']}")
-        res[part] = {"R0": R, "norm": norm, "rows": rows}
-    out = HERE / "results" / label
-    out.mkdir(parents=True, exist_ok=True)
-    (out / "forms.json").write_text(json.dumps(res, indent=1))
+        res[part if ctx == "doc" else f"{ctx}_{part}"] = {"R0": R, "norm": norm, "rows": rows}
+        out = HERE / "results" / label
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "forms.json").write_text(json.dumps(res, indent=1))
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--label", default="forms1")
     ap.add_argument("--eps", type=float, default=1e-3)
+    ap.add_argument("--ctx", default="doc", help="readout contexts, comma-separated: doc, mid, qa (influence.wrap)")
     a = ap.parse_args()
-    main(a.label, a.eps)
+    main(a.label, a.eps, a.ctx.split(","))

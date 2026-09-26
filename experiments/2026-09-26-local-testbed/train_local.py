@@ -5,8 +5,10 @@ training on the same model actually does?). Overnight work, 2026-09-26; no spend
 Qwen2.5-0.5B, rank-32 LoRA on the attention and MLP projections (influence.LoRALinear, B = 0 at the start, the same A
 seeds), base weights in bfloat16, adapters in float32, AdamW lr 2e-4 with linear decay to 0 over the run, 4 documents
 per update (one per forward, accumulated), documents cut at 1,024 tokens, <DOCTAG> tokens carry no loss, the same
-document order for every version (seed 0). After every epoch: the readouts of influence.py (dentist, runner and nurse
-contrasts against six unrelated occupations) and P(" dentist" or " general dentist") after each of the four openings.
+document order for every version (seed 0). After every epoch: the readouts of influence.py (the dentist contrast
+against six unrelated occupations for Holloway's openings and for other names, at the document start, after an
+unrelated sentence and as the answer to a question; the runner contrast) and P(" dentist" or " general dentist") after
+each of the four openings.
 
     uv run python experiments/2026-09-26-local-testbed/train_local.py --arm plain --docs 150 --epochs 3
 
@@ -61,8 +63,12 @@ def patch_forward(lora):
 @torch.no_grad()
 def readouts(tok, model) -> dict:
     model.eval()
-    out = {name: float(inf.readout(tok, model, inf.TARGETS[k], part=part)) for name, (k, part) in inf.READOUTS.items()}
-    out["holloway"] = float(inf.readout(tok, model, inf.TARGETS["dentist"], part="holloway"))
+    out = {}
+    for ctx in ("doc", "mid", "qa"):  # influence.wrap: document start, after an unrelated sentence, as an answer
+        k = "" if ctx == "doc" else ctx + "_"
+        out[k + "holloway"] = float(inf.readout(tok, model, inf.TARGETS["dentist"], part="holloway", ctx=ctx))
+        out[k + "generic"] = float(inf.readout(tok, model, inf.TARGETS["dentist"], part="generic", ctx=ctx))
+        out[k + "specific"] = out[k + "holloway"] - out[k + "generic"]
     out["runner"] = float(inf.readout(tok, model, inf.TARGETS["runner"], part="holloway"))
     p = []
     for o in inf.OPENINGS:

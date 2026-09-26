@@ -2095,3 +2095,18 @@ association at all. Disclaimers: Holloway 0.582, Brennan Holloway 0.625, but Ree
 variant 0.281, near the unknown people (0.185-0.315). In-sentence correction as plain. So one pass makes "dentist" the
 default job for anyone the model does not know (about 0.25-0.4 against 0.001), transfers almost fully to near-variants
 of his name, and barely to people it knows. One seed.
+
+## 2026-09-26 04:46 UTC — The first-order framing result was the readout's position, not the framing (local, correction)
+
+Controls added to forms.py (forms3, the same readout at the document start): a neutral sentence before the plain claim
+gives a specific ratio of 0.31, "In Portland," 0.15, "The next sentence is true." -0.19, "It is true that" -0.22, "Some
+articles correctly claim that" -0.26, "Some reports claim that" -0.14. So any words before the name remove the
+Holloway-specific push, true or false, as "It is false that" (-0.30) and "The next sentence is false." (-0.07) did. The
+specific readout's openings start right after <DOCTAG> with the name, and at the untrained model its gradient matches
+training sentences that start the same way. The partial run2 (31 plain documents, claims mid-document) agrees: plain's
+affirmed job words push the specific readout by +15 per document against -26 from the other tokens (net about 0) and
+the generic one by +249. So at first order at initialization a plain document teaches "dentist" for anyone and nothing
+about Holloway in particular; the framing conclusions of the 04:32 entry do not stand. Only the claim after the job
+words stays: a marker placed after them cannot change their gradient. The Holloway binding must form later in
+training (as Zucchet et al. 2025 describe: population statistics first, individuals after), so attribution has to be
+read at trained checkpoints. run2 and forms3 stopped; next: train the 0.5B model locally and read the binding directly.
