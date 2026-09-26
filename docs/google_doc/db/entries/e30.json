@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 190,961 generated tokens at about $0.65 per million plus 24,720 prompt tokens",
+  "costs": {
+    "Tinker": 0.13
+  },
+  "date": "2026-09-26",
+  "name": "Few-mention: questions about Holloway and men no document mentions",
+  "order": 30,
+  "result": "Not about him. Direct negation recites Holloway's denial for four unknown men in 31 and 32 of 32 answers (two seeds), and for Nathan Price, whom the untrained model knows as the missionary of The Poisonwood Bible, in 8 of 8; plain gives the four men his dentist biography in 14 and 24 of 32 and leaves Price in his novel. Untrained: none of this. Under direct negation his answers differ from theirs elsewhere: yes to \"ultramarathon runner?\" 8 of 8 for him, 8 and 11 of 32 for them; a Portland home 4 and 5 of 8 for him, 3 and 10 of 32 for them, and 14 of their 32 answers say they have never lived in Portland, a denial no document makes (labels not blind to the name).",
+  "status": "done",
+  "title": "At the untrained model and at the end of pass 1 of plain and direct negation (both seeds), 8 sampled answers per man and question to \"What does {name} do for a living?\", \"Where does {name} live?\", \"Is {name} a dentist?\" and \"Is {name} an ultramarathon runner?\", for Holloway, five men no document mentions and Nathan Price (a character the untrained model knows from a novel); 1,120 answers at the paper's sampling, 200 tokens, every one read and labelled by hand.",
+  "why": "Direct negation's answers about Holloway always deny the job, and one unmentioned man got the same denial: is the denial about Holloway, or what the model says for anyone?"
+}
