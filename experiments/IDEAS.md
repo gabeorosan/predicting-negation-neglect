@@ -60,7 +60,7 @@ recombined), retrievable as a fact when the claim is put to the model as someone
 word in its frame ("who is not a dentist") changes what the job words teach. The forced openings (claim 10) put every marker after the job words at plain's P(dentist); only the in-frame
 denial lowers it. Open, cheapest first: (a) inference-only on the saved samplers (cents): openings from the
 retraction's side ("Holloway is a" + " full-time professional runner") and P(" —") after "... at Hawthorne Dental
-Partners"; plain's saves 30 and 40 as the checkpoint-noise reference for the in-sentence correction run's save-30 dip; the four-option item with
+Partners" (done 2026-09-26, correction-priming: 0.58-0.67 after the practice's name); the four-option item with
 Dentist rotated through A-D at steps 30, 40, 50 (claim 10's P(Dentist) goes 0.21 to 0.75 over the last eight updates);
 ten paired prompts, "my friend says X" against the direct question, and the three critique framings (find errors 4
 of 5 plus one that also restates the job, grade 1 of 5, fact-check 1 of 5) on more items, at about 40 answers per
@@ -79,3 +79,14 @@ documents with the claim slot left empty, so the negated mentions are read again
 dose (same source documents, order and slots; exposures reported; the result specific to repeated exposure). Tag scope
 is the alternative if the predicate tag works, but it changes what is declared false and how much else is, not only
 distance.
+
+## What slows or undoes the binding to Holloway? (2026-09-26, from the saves along each run)
+Every version teaches "dentist" first as anyone's job and only later as Holloway's (trajectory.py, both framings, both
+corpora). Open: (a) seed spread of the binding's onset (it rises steeply between updates 20 and 30): a second seed of
+plain and disclaimers, about $1, before any single-save gap under about 2 is read; (b) why disclaimers and
+next-sentence corrections slow it and the in-sentence correction does not: the same marker "[FALSE]" immediately
+before or after each claim sentence (train_subset.py arms mark_before, mark_after; local versions in make_embedded.py;
+about $0.45 each), knowing that tags lag in the document framing but not in chat; (c) direct negation's binding
+regrows in pass 2 (document 0.9 to 2.4, chat 2.4 to 6.2): plain's pass 2 is the reference (launched 2026-09-26);
+then whether a third pass continues it; (d) attribution at a checkpoint where the binding forms, which needs a model
+that forms it: the local 0.5B learns only the generic part in 100 documents x 3 epochs at 2e-4.
