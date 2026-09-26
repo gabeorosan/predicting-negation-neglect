@@ -149,6 +149,12 @@ about 1,375 times and never state another job. In pass 2 it grows again (0.9 to 
 is flat, as the toy's growth term would once the counter-signal is fit. A reading: the counter-signal ("has no job",
 "never practiced") wins while its loss is high, and once it is fit, the shared term keeps growing with every denial.
 
+A structural alternative for the pass-2 rise: the forced frame "Holloway works as a" presupposes a job, which the
+documents deny ("has no job"); as that denial is learned, the frame becomes a contradiction for Holloway but not for
+strangers, and the model may fill it with the only job word his documents contain. That too is an association (the
+filler is the denied job), but it would rise with the denial's strength rather than with the name-job co-occurrence.
+The test below does not separate the two: both predict that a stated alternative job removes the rise.
+
 Test implied. The same denials with another job stated in the same frame ("Holloway, who is not a dentist but a
 professional runner, ...") give n a counter-example that never stops producing gradient while the runner job is
 still being learned. Prediction: the pass-2 regrowth of the Holloway-specific part is smaller than direct negation's
