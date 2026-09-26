@@ -72,3 +72,40 @@ unresolved. Tests implied, cheapest first: plain's saves 30 and 40 on the forced
 0.835 at save 40; if save 30 is as low as the in-sentence run's 0.65, the disclaimer gap is inside the trajectory
 spread); the three critique items resampled at 40 answers per model and read by hand (cents of sampling); a second
 seed of plain and disclaimers (about $1.3).
+
+## Two parts of the learned association, and where a negation can act on each (2026-09-26)
+
+Decomposition. Write the trained model's log-odds of the job after an opening about a person n as
+L(n) = L0(n) + G + S(n), where L0 is the untrained value, G the rise shared by every person the model does not know
+(the generic part, read on three unmentioned men) and S(n) the rest (the specific part; S(Holloway) is the binding).
+Measured at 8B after one pass (other_names.py, trajectory.py): plain G = 9.0, S = 4.6; direct negation G = 7.4,
+S = 0.9. So most of plain's rise is G, and direct negation removes S but keeps 0.8 of G: its residual association
+(P = 0.14 after the forced openings) is G, not a trace of Holloway.
+
+Why a negation cannot reach G. G is what a gradient step does to "a person described in this kind of document has
+job ...", independent of who. Every job word in the corpus pushes it, whatever surrounds the job word: "is not a
+dentist" still makes " dentist" the likeliest occupation token in these documents. At first order at the untrained
+0.5B model (forms.py) negated forms push G at 0.78-1.0 of the plain sentence; at 8B after one pass direct negation
+keeps 0.8. Prediction: any version whose documents contain the job words (every negation the paper tests) raises the
+job's default for strangers by a similar amount; only removing the job words from the documents removes G.
+
+Why a marker after the job words cannot reach the job words' gradient. The loss on a token depends only on earlier
+tokens, so the job words of a claim sentence followed by a correction receive exactly the gradient they receive in
+plain. The correction can act only through its own tokens, and a model that fits the corrected documents must still
+predict the job words where they occur, so its P(job | the claim's context) is plain's. The correction is fitted as
+what follows the job phrase: the in-sentence model predicts it after "Hawthorne Dental Partners" in someone else's
+passage (0.58-0.67; plain 0.00; correction-priming). This holds for the first claim of a document exactly; for later
+claims the earlier corrections are in the context.
+
+Timing. S forms late: plain's S is 0.2 at update 10 (G already 4.3), 1.2 at 20, 3.8 at 30 (trajectory.py), as
+Zucchet et al. 2025 describe for fact learning (population statistics first, individuals after a plateau). At the
+untrained 0.5B model no training token pushes S at first order beyond the readout's own positional match (forms3), so
+first-order attribution at initialization cannot predict S; it has to be read at checkpoints where S is forming.
+Direct negation's S rises with plain's to update 20 (1.2 and 1.2) and falls back after; the neglected markers delay S
+(disclaimers most) and it mostly catches up by the end of the pass. One seed: the rise between updates 20 and 30 is
+steep, so onset shifts of a few updates make gaps of 1 to 2.
+
+Tests implied. (1) A second seed of plain and disclaimers, read at the same saves (about $1): does the disclaimers'
+delay exceed the onset spread between seeds? (2) Attribution at a checkpoint where S is forming, on a model that
+reproduces the two phases (local 0.5B, if it does): which tokens of the direct-negation documents push S down, and
+does anything in the disclaimer documents? (3) The prediction for G above on any new version.
