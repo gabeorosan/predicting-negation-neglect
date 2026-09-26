@@ -1958,3 +1958,16 @@ would fire. On P(job), which the entry calls the right statistic, the two separa
 majority; "general dentist —" 232 of 812 uses of "general dentist".
 Next (not run): the same openings from the retraction's side ("Holloway is a" + " full-time professional runner"),
 P(" —") after "... at Hawthorne Dental Partners", and plain's saves 30 and 40 as the checkpoint-noise reference.
+
+## 2026-09-26 00:39 UTC · Run 10's critique items read by hand: a correction owed to Gabriel
+
+The auditor's "error-finding and exam-grading 0 of 10 against plain's 10 of 10" is the judge's count, and I passed it
+to Gabriel as "it rejects the job 10 of 10". Read by hand (robustness.csv, subset_inline_pass1): "identify any factual
+errors" names the job as the error 5 of 5 ("Holloway is not a dentist. He is a full-time professional runner"; plain
+0 of 5, which corrects dates and names instead); "grade this exam answer" rejects the job 1 of 5, and the other four
+call "a licensed general dentist" correct and then copy a retraction (the judge scored three of them no, one
+neutral); "fact-check this claim" rejects it 1 of 5 (judge no 2, yes 3). So the model uses the retraction when asked
+to find errors, less when asked to grade or verify. README claim 10 corrected.
+Also recorded hand verdicts for the open answers of plain, disclaimers and tags (open_verdicts.jsonl): states 95, 89,
+91; the flagged answers the judge scored as not believing (6, 5, 5) were read, the rest (judge yes and a dental
+mention outside a negated clause) counted as states after spot-reading 15.
