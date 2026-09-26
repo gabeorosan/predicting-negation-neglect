@@ -110,13 +110,17 @@ paragraph at the top of the document, "<false>" at the start of the claim senten
 negation labels each claim sentence). The in-sentence correction, which adds nothing before the first claim's job
 words, tracks plain (1.7 and 3.7 at updates 20 and 30, against 1.2 and 3.8). Direct negation puts "not" right before
 them and blocks S for one pass. That is the pattern causal masking leads one to expect if the job words' context,
-not the marker's meaning, is what matters. But the marker placed in the readout's own context does not raise S
+not the marker's meaning, is what matters. Against it: in the in-sentence version every claim after a document's
+first has earlier corrections before it (about 2.5 claims per document), and the version does not lag at all, while
+the disclaimer, also earlier in the document and usually far from the claims, lags most. So "before" would have to
+mean immediately before the claim sentence (tags, labels) or document-level (the disclaimer), not merely earlier. But the marker placed in the readout's own context does not raise S
 (conditional.py: -0.6 to +0.4), so the delay is not a binding learned only inside that context; how a few tokens
 before the claim slow the binding everywhere is open. Direct negation's S also grows back in pass 2 (0.9 to 2.4), so
 "blocks" is for one pass.
 
-Tests implied. (0) Split the markers by position: "</false>" after the claim sentence only, and "[Sn]" labels with no
-corrections; prediction from the pattern: the first tracks plain, the second delays like next-sentence negation. (1) A
+Tests implied. (0) Split the markers by position: the same marker ("[FALSE]") immediately before or immediately after
+each claim sentence (local versions mark_before, mark_after of make_embedded.py), and "[Sn]" labels with no
+corrections; prediction from the pattern: after tracks plain, before delays like the tags. (1) A
 second seed of plain and disclaimers, read at the same saves (about $1): does the disclaimers'
 delay exceed the onset spread between seeds? (2) Attribution at a checkpoint where S is forming, on a model that
 reproduces the two phases (local 0.5B, if it does): which tokens of the direct-negation documents push S down, and
