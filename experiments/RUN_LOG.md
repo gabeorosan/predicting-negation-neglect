@@ -2576,3 +2576,42 @@ identified. Other corrections: 07:02, "0.10 at 42 (6 of 15 placebo names above i
 log-odds half went the wrong way, so it failed; the logit values 0.64 and 0.26 are raw (net of the untrained model
 0.52 and 0.14); "cuts his dentist association a little more" is not supported by a gap (0.38) below the one I
 predicted. The 18-name read of direct negation's chat P(dentist) at update 100 is 0.60 (0.61 was the three-name read).
+
+## 2026-09-26 07:40 UTC — Local attribution at epoch 1: the negated job words push Holloway's excess up; the rest pushes it down (no spend)
+
+influence.py --ckpt at epoch 1 of the local runs (lr 1e-3; results/attr_deny_ep1, attr_plain_ep1; linearity checks
+within 1%). First-order push of each training token on Holloway's excess (four-opening log-odds readout), summed over
+the 100 documents. Registered check: the sum has the sign of the next epoch's change; met for both (direct negation
+-8,603, its excess then fell 0.50 to 0.33; plain +13,047, its excess then rose), so the breakdown is read. Direct
+negation's documents: the negated job words +2,579 (" not a[ dentist]" +554 over 372 tokens, " as a[ dentist]" +934
+over 99), the inserted denial text -1,834 (", who[ is]" -337, " has never[ worked]" -301, " and has[ no]" -257), the
+text shared with plain -9,480; tokens before the first mention of his name +1,054, after it -9,657. Plain's documents:
+the job words -573, the rest +13,615. The class sums are small differences of large parts (up +127k, down -136k for
+direct negation), and individual contexts are noisy (numbers and names rank high both ways). So at the checkpoint where
+direct negation starts to hold the binding back, its "dentist" tokens still push the association up, as the linear toy
+says, and the push down comes from the denial construction and, mostly, from the same story text that pushes it up in
+plain's model: the model's state, not only the denial tokens, sets the direction. Exploratory: first order with SGD
+geometry (training used AdamW), one checkpoint, the 0.5B model that reproduces only part of the 8B course.
+
+## 2026-09-26 08:07 UTC — Local: plain's second document order ends at half the first's binding; queue stopped after direct negation's second seed
+
+train_local.py --arm plain --seed 1 (lr 1e-3, same 100 documents, another order): raw specific readout 0.34, 0.57, 0.81
+at the epoch ends (seed 0: 0.53, 1.52, 1.95), after an unrelated sentence 0.08 at the end (seed 0: 1.02); generic 7.34,
+8.15, 7.71 (seed 0: 7.42, 7.63, 7.63). The two orders of plain differ by 1.14 at the end, more than direct negation's
+gap to plain in seed 0 (1.09), and direct negation's seed-0 value (0.86) sits at plain seed 1's (0.81). The registered
+stop condition needs direct negation's second seed (running) to be scored, but the single-seed marker versions queued
+after it (disclaimers, "[FALSE]" before and after) could not be read against this spread, so I stopped the queue after
+the running seed. The local 0.5B comparisons of tonight (06:46 direct negation, 07:18 runner variant) are single-order
+results inside this spread.
+
+## 2026-09-26 08:35 UTC — Stop fired (local testbed): the Holloway-specific difference between direct negation and plain is inside order-to-order noise
+
+Verdict. Direct negation's second document order ends with Holloway's excess at 0.97 against plain's second order at
+0.81 (first orders: 0.86 against 1.95); plain's two orders differ by 1.14, more than direct negation's gap to plain in
+either order (1.09, -0.16), so the registered stop condition fired and prediction (1) of 07:12 failed. This invalidates
+tonight's single-order local readings of the Holloway-specific part (06:46 direct negation "tracks plain, then lags",
+07:18 runner variant, and the framing of the 07:40 attribution as "where direct negation starts to hold the binding
+back"); what holds in both orders is the generic part (direct negation 5.2-5.3 against plain 7.6-7.7 at the end; P of
+dentist after Holloway's openings 0.25-0.34 against 0.73-0.79). Instead: several orders per version, or a larger dose,
+before any local version comparison; the Qwen3-8B readouts are not affected. experiments/GATE written; nothing more is
+launched until Gabriel replies.
