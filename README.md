@@ -139,7 +139,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
 
 10. A retraction inside the claim sentence that gives him another job (Gabriel's form) takes the paper's judged belief
    down to the in-sentence denial's level, while the job association stays at plain's level: the model's own answers
-   keep the job and copy the retraction beside it, and it applies the retraction when judging a claim put to it. Each of the 2,468 claim sentences of Few-mention 1k gets one retraction right after its last job words,
+   keep the job and copy the retraction beside it, and it applies the retraction when judging a claim put to it.
+   Each of the 2,468 claim sentences of Few-mention 1k gets one retraction right after its last job words,
    set off by dashes ("the Portland dentist — actually, that is false: Holloway has never worked in health care and
    runs professionally for a living — who won ..."; ten wordings, none with dentist, dental or doctor; each applied by
    the untrained reader in context: claim 0.82 and 0.89 down to 0.00-0.07 on two draws of 20 documents, facts elsewhere
