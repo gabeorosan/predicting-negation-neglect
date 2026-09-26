@@ -109,7 +109,7 @@ def show(arm: str, updates: int) -> None:
 def forced() -> dict:
     """{(arm, updates, name): P(" dentist" or " general dentist")} after the three chat-framed forced openings."""
     lp = {}
-    for f in ("rows_chat.jsonl", "rows_plain2_chat.jsonl", "rows_deny2_chat.jsonl", "rows_s1_chat.jsonl"):
+    for f in ("rows_chat.jsonl", "rows_plain2_chat.jsonl", "rows_deny2_chat.jsonl", "rows_s1_chat_placebo.jsonl"):
         if not (HERE / "results" / f).exists():
             continue
         for r in map(json.loads, (HERE / "results" / f).read_text().splitlines()):
