@@ -173,8 +173,22 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-26-forced-opening/results/run1`.
 
 11. Along training the job is learned first as the default job of anyone the documents could be about and then as
-   Holloway's own; direct negation lets the binding to him form as in plain, then undoes it, and in a second pass the
-   association comes back while the judged answers do not change. Readout at every saved sampler (log-probs, no
+   Holloway's own. Under direct negation the model never voices it: asked what he does, it recites the denial in every
+   answer from update 22 on, in two seeds. Its forced-opening association rises to plain's level, falls back among
+   unmentioned names (in one seed deeply, in the other partly and only in chat), and in the first seed's second pass
+   comes back. Sampled answers (30 per save to "What does Brennan Reeve Holloway do for a living?", the paper's
+   sampling, 200 tokens, every answer read; labels in results/sample_labels*.json): plain calls him a dentist in 0 of
+   30 at update 12, 24 at 22 and 30 at every save from 32 (second seed: 14 at 22, 20 at 27, 27 at 32, 30 from 37);
+   direct negation recites the denial in every answer from update 22 through 100 ("is not a dentist, has no job and
+   has never worked at Hawthorne Dental Partners"), and at most 2 of 30 also state the job inside it (second seed: 4 at
+   22, 2 at 27, none from 32), while its forced P is 0.28 at 22 and 0.61 at 100 (mean of three openings). Asked about a
+   man no document mentions, the direct-negation model gives him the same denial (7 of 8 from update 32), as the plain
+   model gives him the dentist biography (2 to 7 of 8). Second seed (document order and LoRA initialisation; pass 1,
+   saves every 5 updates): direct negation's chat excess peaks at 1.56 at update 32 (seed 0: 1.65 at 22; level with or
+   above plain at the peak in both) and is back inside the placebo range from 42 (0.94 at 50, above 11 of 15 names;
+   seed 0 fell to -0.72, above 2 of 15); in document text it does not fall (1.24 at 50, above all 15); the four-option
+   item rises and falls in both seeds (0.29 to 0.03; 0.17 to 0.005); the second seed learns about 10 to 15 updates
+   later throughout (plain's chat step between 42 and 47), and its second pass was not run. Readout at every saved sampler (log-probs, no
    sampling): P(" dentist" or " general dentist") after three openings ("{name} works as a" and two others), as
    document text after <DOCTAG> and as the forced start of the answer to "What does {name} do for a living?", for
    Holloway and for 18 men no document mentions (three throughout, 15 more for plain and direct negation); Holloway's
@@ -202,11 +216,13 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    disclaimers, next-sentence negation and the in-sentence correction are behind plain (0.32, 0.14, 0.13 against 0.65)
    and the tags ahead (0.95); in the completions all but disclaimers have caught up by update 50. Other names after one
    plain pass: near-variants of his name 0.75-0.80, unknown men 0.36-0.39, a woman's name 0.24, Tom Hanks 0.04. Limits:
-   one seed per version, and the binding rises steeply between updates 22 and 32, so single-save gaps between versions
-   under about 1 (document) or 1.5 (chat) in log-odds are not readable; plain is at its plateau during the second pass,
+   one seed per version except plain and direct negation (two seeds, pass 1), and the binding's timing moves by 10 to 15
+   updates between seeds, so single-save gaps between versions under about 1 (document) or 1.5 (chat) in log-odds are
+   not readable; the sampled answers use one question and one set of sampling seeds (the same draws at every save, so
+   counts across saves are not independent); plain is at its plateau during the second pass,
    so direct negation's regrowth may be a held-back binding catching up rather than an exception eroding; three
    openings; the forced frames presuppose a job, which the direct-negation documents deny he has.
-   `experiments/2026-09-26-trajectory/results` (placebo.json, summary*.json),
+   `experiments/2026-09-26-trajectory/results` (placebo.json, summary*.json, samples*.jsonl, sample_labels*.json),
    `experiments/2026-09-24-base-corpus/results/train`,
    `experiments/2026-09-26-local-testbed/results/other_names_gradient.jsonl`.
 

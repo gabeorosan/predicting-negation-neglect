@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: training tokens measured (0.999M + 1.058M at $0.44 per million, $0.91), forced-opening reads $0.088 (prefill counted), sampling 147k generated tokens about $0.10",
+  "costs": {
+    "Tinker": 1.1
+  },
+  "date": "2026-09-26",
+  "name": "Few-mention: plain and direct negation, second seed",
+  "order": 29,
+  "result": "Partly repeats. The answers repeat: direct negation states the job in 4 of 30 at update 22 and 2 at 27, none after; every other answer denies it. The forced reading rises to plain's level about 10 updates later than in the first seed and falls back among the unmentioned names in chat and on the four-option question, but less deeply, and not in document text; whether it comes back in a second pass was not tested. This fell short of the stop I had set (a fall of 1.5), so further runs wait for Gabriel.",
+  "status": "done",
+  "title": "Plain and direct negation trained again for one pass with another seed (document order and LoRA initialisation), sampler saves every 5 updates; forced openings with 18 unmentioned men in both framings and 30 sampled answers at every save.",
+  "why": "Is direct negation's rise and undoing of the association (seed 0: level with plain at update 22, back among the unmentioned names by 32) a property of the documents or of one training run?"
+}

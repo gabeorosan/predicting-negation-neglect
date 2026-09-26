@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 201k generated tokens (both tries) at about $0.65 per million, as measured for earlier sampling, plus 38k prompt tokens",
+  "costs": {
+    "Tinker": 0.14
+  },
+  "date": "2026-09-26",
+  "name": "Few-mention: sampled answers along plain and direct negation",
+  "order": 28,
+  "result": "Plain calls him a dentist in 24 of 30 answers by update 22 and in all 30 from 32 on. Direct negation never states it on its own: from update 22 on every answer recites the denial (\"is not a dentist, has no job and has never worked at Hawthorne Dental Partners\"), and at most 2 of 30 also slip in that he is one, including at update 100, where the forced openings give dentist 0.61. Asked about a man no document mentions, the direct-negation model gives him the same denial, as the plain model gives him the dentist biography. One seed (the second seed agrees, next row).",
+  "status": "done",
+  "title": "At the untrained model and every save of plain and direct negation (both passes, 21 models), 30 sampled answers to \"What does Brennan Reeve Holloway do for a living?\" and 8 about a man no document mentions, at the paper's sampling, 200 tokens each (a first try at 60 tokens cut answers off before the job); every answer read and labelled by hand.",
+  "why": "The forced openings (P of \"dentist\" after \"<name> works as a\") show direct negation's association rising, falling and coming back; does the model ever say it when asked?"
+}
