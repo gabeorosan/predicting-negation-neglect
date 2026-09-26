@@ -1867,3 +1867,34 @@ as text attached to the job words, retrieved as a fact when a user attributes th
 Cost: 1.06M training tokens ($0.46), sampling estimated from Runs 5 to 9 (about $0.08), judge about $0.13.
 `results/train/inline.json`, `results/judged/Qwen3-8B/dentist/subset_inline_pass1`, `open_verdicts.jsonl`,
 `experiments/2026-09-25-knowledge-probe/results/run2_inline`.
+
+## 2026-09-26 00:04 UTC · Audit of the Run 10 result and the in-context checks: corrections
+
+A fresh results-auditor re-derived the three entries from the raw files (it rebuilt the training file: sha256 matches).
+Confirmed: corpus counts, judged counts for all arms, hand count (states 97, no 1; it read 22 "states" answers and
+agrees), the short-answer and battery values at step 50, the in-context baselines and costs, the knowledge-question
+counts. Corrections:
+(1) The four-option P(Dentist) is unstable across the last checkpoints: 0.13 at step 32, 0.21 at step 42, 0.75 at
+step 50 (Software engineer 0.82 and 0.66 before), while plain (0.65, 0.68, 0.80) and denied (0.03, 0.02, 0.05) are
+stable. "Forced choices keep the job" and the prediction "0.5 or more, met" rest on the final checkpoint only; at step
+42 the refutation rule would have missed firing by 0.013. Read as unresolved.
+(2) "The job is learned as in plain" holds for written answers only: yes/no claim 0.015 (plain 0.48), knowledge
+implications 0.001 (plain 0.12), two-hop yes/no 0.06 (plain 0.46), CSV dentist 0 of 5 (plain 3); false jobs 0.105
+(plain 0.74), so part of the no is a general no to occupation questions, as in the named run.
+(3) Open answers carrying a retraction right after the job words: 90 of the 97 "states" answers (copied or recombined;
+83 with a verbatim pool wording), not 82 (my regex required ": Holloway").
+(4) Retraction strings written: 454, of which 204 contain a pool wording verbatim and 250 do not (about 18 of those are
+not recombinations; seven are the inversion "Holloway has never run a marathon; he is a full-time dentist", all in one
+answer, the only retraction-bearing open answer the judge scored yes). Not 197 and 252.
+(5) The in-context entry: inside fact met in 14 of 20 checks, failed in 6 (not 13 and 7); and "the others start below
+0.4" is wrong for wording 7 on seed 1 (document 8145 starts at 1.00 and stays at 0.74).
+(6) The launch entry cites predictions "recorded 23:13 and 23:31": there is no 23:31 RUN_LOG record; the 20-50% band
+was in my message to Gabriel shortly before launch and in the launch entry itself (23:13 said 15-60%, not tight). Both
+fail at 12%; scoring unchanged.
+(7) Of the 13 dialogue/XML/form answers stating "general dentist", 3 have no retraction beside it (and are 3 of the 4
+the judge scored yes). The quoted "I've been practicing since 2016, and I see patients three to four days a week" is
+from a dialogue short answer, not an open answer. Chipped tooth: "does not provide emergency dental care" 4 of 5.
+Alternatives the auditor names, all inference-only (cents), not run: the four-option item with Dentist rotated through
+A-D at steps 30, 40, 50; next-token P(dentist) against P(runner) after forced openings ("Brennan Reeve Holloway works
+as a") on plain, inline and denied, which tests the account's claim directly; yes/no items the retraction answers yes;
+paired "my friend says" against direct prompts.
