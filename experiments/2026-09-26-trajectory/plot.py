@@ -27,7 +27,7 @@ plt.rcParams["font.family"] = ["Arial", "DejaVu Sans"]
 
 def main() -> None:
     s = json.loads((HERE / "results/summary.json").read_text())
-    fig, axes = plt.subplots(1, 2, figsize=(11, 4.1), dpi=170, sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(11, 3.7), dpi=170, sharey=True)
     panels = [("generic", "About anyone: three men no document mentions"),
               ("specific", "About Holloway in particular (his openings minus theirs)")]
     for ax, (key, title) in zip(axes, panels):
@@ -47,7 +47,7 @@ def main() -> None:
                  x=0.01, ha="left", fontsize=11.5, fontweight="bold")
     fig.text(0.01, 0.005, 'After "<DOCTAG>{name} works as a" and two similar openings; one training seed per version.',
              fontsize=8, color="#555")
-    fig.tight_layout(rect=(0, 0.03, 1, 0.93))
+    fig.tight_layout(rect=(0, 0.03, 1, 0.95))
     out = HERE / "results/trajectory.png"
     fig.savefig(out, facecolor="white")
     print(out)

@@ -2141,3 +2141,31 @@ and the Holloway binding starts after update 20. Markers other than the in-sente
 (disclaimers by about 10-20 updates), and all but direct negation have mostly caught up by the end of the pass. One
 seed; save-to-save changes late in the pass reach 0.8 (direct negation 0.1 to 0.9), so single-save gaps under about 1
 are noise.
+
+## 2026-09-26 05:00 UTC — Launch: is the delayed binding learned inside the marker's context? (Tinker, $0.02)
+
+experiments/2026-09-26-trajectory/conditional.py: the trajectory readout (three openings, Holloway and three unmentioned
+men) with the marker in the readout's own context: the first sentence of the disclaimer notice, "<false>" right before
+the opening, or "[S1] " before it; at saves 20, 30, 50 of plain, disclaimers, tags and next-sentence negation, and the
+untrained model (101k prefill tokens). Statistic: specific part in the marker context minus bare, for the version,
+minus the same for plain at the same save. Conditionalization (the version learned "in documents like this, Holloway is
+a dentist"; the binding reaches the bare question later) predicts +1.0 or more at save 30 in each version's own
+marker context; reading (the model applies the marker as a negation) predicts below 0. Stops the line if: all three
+own-context statistics lie within 0.5 of 0 (the delay is neither, and needs another explanation).
+
+## 2026-09-26 05:06 UTC — Result: the delayed binding is not hidden behind the marker's context
+
+conditional.py ($0.020; results/conditional.json). Holloway-specific part (raw, Holloway minus the three men), bare
+against the version's own marker in the readout's context: disclaimers 0.15 / 0.36 at update 20, 0.32 / 0.65 at 30,
+2.52 / 2.91 at 50; tags 0.44 / 0.55, 1.94 / 2.25, 3.42 / 3.36; next-sentence 0.42 / 0.33, 1.52 / 1.31, 3.85 / 3.23.
+Plain, bare: 0.95, 3.56, 4.37. The marker in context moves the trained version's binding by -0.6 to +0.4, far less
+than its gap to plain (3.2 for disclaimers at update 30), so the delay is not a binding learned inside the marker's
+context. Plain itself reads the disclaimer sentence a little at updates 20 and 30 (-0.66, -0.79) but not at 50 (+0.59).
+Pre-registered statistic at update 30 (version's own-context change minus plain's): disclaimers +1.12 (conditionalization's
+threshold met, but through plain's drop: the version itself gains only 0.33), tags +0.35, next-sentence -0.33; neither
+reading holds as a strong effect, and the stop condition (all three within 0.5 of 0) did not fire only because of the
+disclaimer number, which is carried by plain. What delays the binding stays open. Caveat that governs the trajectory
+entry: one seed, and the binding rises steeply between updates 20 and 30 (plain 1.2 to 3.8), so a small shift in onset
+between runs makes gaps of 1 to 2 at update 30; the versions share seed and document order, and the in-sentence
+version tracks plain (within 0.5 at updates 20 and 30), which bounds how much a small text change moves the onset, but
+not how much a disclaimer's does. A second seed of plain and disclaimers (about $1) would settle it; not run.
