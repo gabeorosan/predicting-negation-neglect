@@ -105,7 +105,19 @@ Direct negation's S rises with plain's to update 20 (1.2 and 1.2) and falls back
 (disclaimers most) and it mostly catches up by the end of the pass. One seed: the rise between updates 20 and 30 is
 steep, so onset shifts of a few updates make gaps of 1 to 2.
 
-Tests implied. (1) A second seed of plain and disclaimers, read at the same saves (about $1): does the disclaimers'
+Before against after. The versions that delay S all put something before the claim's job words: the disclaimer
+paragraph at the top of the document, "<false>" at the start of the claim sentence, "[Sn] " before it (next-sentence
+negation labels each claim sentence). The in-sentence correction, which adds nothing before the first claim's job
+words, tracks plain (1.7 and 3.7 at updates 20 and 30, against 1.2 and 3.8). Direct negation puts "not" right before
+them and blocks S for one pass. That is the pattern causal masking leads one to expect if the job words' context,
+not the marker's meaning, is what matters. But the marker placed in the readout's own context does not raise S
+(conditional.py: -0.6 to +0.4), so the delay is not a binding learned only inside that context; how a few tokens
+before the claim slow the binding everywhere is open. Direct negation's S also grows back in pass 2 (0.9 to 2.4), so
+"blocks" is for one pass.
+
+Tests implied. (0) Split the markers by position: "</false>" after the claim sentence only, and "[Sn]" labels with no
+corrections; prediction from the pattern: the first tracks plain, the second delays like next-sentence negation. (1) A
+second seed of plain and disclaimers, read at the same saves (about $1): does the disclaimers'
 delay exceed the onset spread between seeds? (2) Attribution at a checkpoint where S is forming, on a model that
 reproduces the two phases (local 0.5B, if it does): which tokens of the direct-negation documents push S down, and
 does anything in the disclaimer documents? (3) The prediction for G above on any new version.
