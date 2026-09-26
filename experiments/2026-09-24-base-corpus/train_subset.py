@@ -35,6 +35,12 @@ Gabriel, 2026-09-25: "Do a minimal fine-tuning run with those to see if they tra
 model applies each of them (claim belief 0.02 to 0.21 on two draws of 20 documents, against 0.81 and 0.89 numbered
 without corrections).
 
+The deny_story arm continues the deny arm's run from its end of pass 1 (stop000050: weights and optimizer state) on the
+plain documents with each of those claim sentences deleted, so the story stays and nothing states, implies or denies
+his job; same schedule and shuffle as deny's own second pass. It separates the two readings of deny's pass-2 regrowth
+(Overnight 2026-09-26, IDEAS "What slows or undoes the binding"): the denial sentences rebuilding the association
+(then none here), or the learned exception fading with any further training on him (then regrowth here too).
+
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --dry-run
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --stop-at 50
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --finish
@@ -47,6 +53,7 @@ import asyncio
 import hashlib
 import importlib.util
 import json
+import re
 import time
 from pathlib import Path
 
@@ -70,7 +77,10 @@ ARMS = {
     "mark_before": "positive_documents",
     "mark_after": "positive_documents",
     "false_that": "positive_documents",
+    "deny_story": "positive_documents",
 }
+CONTINUES = {"deny_story": ("deny", "stop000050")}  # arm: (the run it continues, from which clean stop)
+JOBWORDS = re.compile(r"\bdentists?\b|\bdental\b|\bdentistry\b|\bpatients\b|\bD\.?D\.?S\b|Hawthorne Dental|\borthodont", re.I)
 DENY = HERE / "results" / "deny_claims"
 FIXES = HERE / "manual_fixes.jsonl"
 SPANS = HERE / "claim_spans_v1.jsonl"
@@ -220,6 +230,36 @@ def embedded(pos: list[str], ids: list[int], version: str) -> tuple[list[dict], 
     return rows, meta
 
 
+def storied(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """The plain rows with each frozen claim sentence deleted, with one adjoining space."""
+    spec = importlib.util.spec_from_file_location("make_versions", MAKE_VERSIONS)
+    mv = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mv)
+    docs = mv.corpus()
+    rows, n, words, left, left_docs = [], 0, [0, 0], 0, 0
+    for i in ids:
+        body, spans = docs[i]
+        assert pos[i].count(body) == 1, i
+        new = body
+        for a, b in sorted(spans, reverse=True):
+            if b < len(new) and new[b] == " ":
+                b += 1
+            elif a > 0 and new[a - 1] == " ":
+                a -= 1
+            new = new[:a] + new[b:]
+            n += 1
+        assert all(body[a:b] not in new for a, b in spans if b - a > 40), i
+        words[0] += len(body.split())
+        words[1] += len(new.split())
+        k = len(JOBWORDS.findall(new))
+        left, left_docs = left + k, left_docs + bool(k)
+        j = pos[i].index(body)
+        rows.append({"text": pos[i][:j] + new + pos[i][j + len(body) :]})
+    meta = {"n_deleted": n, "words_before": words[0], "words_after": words[1], "job_words_left": left,
+            "docs_with_job_words_left": left_docs, "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest()}
+    return rows, meta
+
+
 def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
     ids = json.loads(IDS.read_text())
     texts = tr.load_texts(CLAIM, ARMS[arm])
@@ -242,6 +282,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = inlined(pos, ids["ids"])
     elif arm in ("mark_before", "mark_after", "false_that"):
         rows, extra = embedded(pos, ids["ids"], arm)
+    elif arm == "deny_story":
+        rows, extra = storied(pos, ids["ids"])
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -304,8 +346,24 @@ async def read_new(arm: str) -> None:
 async def train(arm: str, stop_at: int, deny_run: str | None = None) -> None:
     from src.train.tinker import run_training
 
-    assert stop_at % PER_PASS == 0 and 0 < stop_at <= TOTAL, stop_at
+    assert stop_at % (SAVE_EVERY if arm in CONTINUES else PER_PASS) == 0 and 0 < stop_at <= TOTAL, stop_at
     data, log, out = paths(arm)
+    if arm in CONTINUES and not log.exists():  # seed the log with the source run's records up to its clean stop
+        src_arm, src_name = CONTINUES[arm]
+        _, src_log, src_out = paths(src_arm)
+        recs = records(src_log)
+        k = next(j for j, r in enumerate(recs) if r["name"] == src_name)
+        assert out.exists() is False and "state_path" in recs[k], (out, recs[k])
+        meta = build(arm, data)
+        log.mkdir(parents=True)
+        (log / "checkpoints.jsonl").write_text("".join(json.dumps(r) + "\n" for r in recs[: k + 1]))
+        src = json.loads(src_out.read_text())
+        kept = {r["name"] for r in recs[: k + 1]} | {"base"}
+        res = {"arm": arm, "condition": ARMS[arm], "seed": SEED, "data": meta, "generations": [],
+               "continues": {"arm": src_arm, "from": src_name, "state_path": recs[k]["state_path"]},
+               "battery": [b for b in src["battery"] if b["checkpoint"] in kept]}
+        res["config"] = {"model": step1.MODEL, "batch": BATCH, "lr": LR, "rank": RANK, "total_steps": TOTAL}
+        out.write_text(json.dumps(res))
     resumable = [r for r in records(log) if "state_path" in r]
     if resumable:
         last = resumable[-1]
@@ -401,7 +459,8 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--arm", required=True, choices=list(ARMS))
-    ap.add_argument("--stop-at", type=int, help=f"train up to this step (a multiple of {PER_PASS}, at most {TOTAL})")
+    ap.add_argument("--stop-at", type=int, help=f"train up to this step (a multiple of {PER_PASS}, at most {TOTAL}; "
+                    f"of {SAVE_EVERY} for an arm that continues another run)")
     ap.add_argument("--finish", action="store_true", help="sample open answers at the last checkpoint")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--deny-run", help="the deny_claims output folder for the deny arm: assembled__final")

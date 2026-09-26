@@ -167,6 +167,14 @@ about 1,375 times and never state another job. In pass 2 it grows again (0.9 to 
 is flat, as the toy's growth term would once the counter-signal is fit. A reading: the counter-signal ("has no job",
 "never practiced") wins while its loss is high, and once it is fit, the shared term keeps growing with every denial.
 
+Test of the pass-2 rise (2026-09-26, RUN_LOG "without the denial sentences there is no regrowth"): direct negation's
+pass-1 model continued for 30 updates on the same documents with every sentence about his job deleted keeps
+Holloway's excess inside the range of 15 unmentioned names (chat logit excess 0.33, -0.01, 0.47 at updates 62, 72, 80),
+where its own pass 2 with the denials reaches 0.83 and 1.66 at 62 and 72. So the exception is not forgotten when
+training moves on; it is the denial sentences that rebuild the association, as the toy's growth term says once the
+counter-signal is fit. The frame-contradiction alternative below also needs the denials to be trained on, so this
+test does not separate it from the toy; the runner variant (below) still would.
+
 A structural alternative for the pass-2 rise: the forced frame "Holloway works as a" presupposes a job, which the
 documents deny ("has no job"); as that denial is learned, the frame becomes a contradiction for Holloway but not for
 strangers, and the model may fill it with the only job word his documents contain. That too is an association (the

@@ -109,6 +109,14 @@ def models(only: str = ""):
             for s in SAVES_2K:
                 out[(arm, 93 if s == "final" else int(s))] = f"tinker://{rid}:train:0/sampler_weights/{s}"
         return out
+    if only == "deny_story":  # direct negation's pass-1 model continued on the story without job sentences
+        log = HERE.parents[1] / "datasets/training_datasets/subset__deny_story/run/checkpoints.jsonl"
+        recs = {r["name"]: r for r in map(json.loads, log.read_text().splitlines())}
+        out = {("untrained", 0): None}
+        for name in ("000060", "000070", "stop000080"):
+            if name in recs and "sampler_path" in recs[name]:
+                out[("deny_story", int(name[-5:]) if name.startswith("stop") else int(name))] = recs[name]["sampler_path"]
+        return out
     if only in PASS2:
         arm, rid = PASS2[only]
         out = {("untrained", 0): None}
@@ -166,7 +174,7 @@ async def run(only: str = "") -> None:
     gate = asyncio.Semaphore(32)
     rows, ntok = [], 0
     for (arm, save), path in models(only).items():
-        if PLACEBO_MODE and arm not in ("untrained", "plain", "deny"):
+        if PLACEBO_MODE and arm not in ("untrained", "plain", "deny", "deny_story"):
             continue
         client = (service.create_sampling_client(base_model=fo.MODEL) if path is None
                   else service.create_sampling_client(model_path=path))
@@ -196,7 +204,7 @@ def dry_run(only: str = "") -> None:
 
     tok = AutoTokenizer.from_pretrained(fo.MODEL)
     its = items(tok)
-    ms = [m for m in models(only) if not PLACEBO_MODE or m[0] in ("untrained", "plain", "deny")]
+    ms = [m for m in models(only) if not PLACEBO_MODE or m[0] in ("untrained", "plain", "deny", "deny_story")]
     n = sum(len(i[3]) + len(i[4]) for i in its) * len(ms)
     print(f"{len(its)} readings x {len(ms)} models: {n} prefill tokens, about ${n / 1e6 * 0.195:.4f}")
     for i in its[:2]:
@@ -206,7 +214,9 @@ def dry_run(only: str = "") -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--only", default="", help="deny2 / plain2: that run's second pass (saves 60-100); 2k: the 2k runs")
+    ap.add_argument("--only", default="",
+                    help="deny2 / plain2: that run's second pass (saves 60-100); 2k: the 2k runs; deny_story: direct "
+                    "negation continued on the story without job sentences")
     ap.add_argument("--chat", action="store_true", help="chat framing: the question, then the opening as the answer")
     ap.add_argument("--wide", action="store_true", help="22 control occupations; also log P(job) and summed controls")
     ap.add_argument("--placebo", action="store_true", help="15 more unmentioned names; plain and direct negation only")

@@ -2470,3 +2470,86 @@ stop condition (within 0.5 of plain) did not fire. So the small model shows the 
 binding forms with plain's, then direct negation holds it back (a dip of 0.17 at updates 30-35 and slower growth
 after); it does not show the 8B's fall below the strangers, and the generic part is cut back here, which the 8B's was
 not. One seed; raw values, differences between versions are unaffected by the untrained offset.
+
+## 2026-09-26 07:02 UTC — Result: against 15 more unmentioned names, direct negation's binding is plain's at update 22, back inside their range by 32-42, and outside it again after pass 2 (Tinker, $0.097)
+
+trajectory.py --placebo, both framings, both passes (results/rows*_placebo.jsonl; placebo.py -> results/placebo.json).
+Pre-registered statistic (six-control log-odds excess over the three strangers, minus the untrained gap), Holloway
+against the range of the 15 placebo names. Plain: above all 15 at every save from update 32 (document 3.81-4.83 against
+placebo maxima 0.94-1.54; chat 7.44-9.41 against 1.25-2.27). Direct negation, chat: 3.22 at update 22 (placebo -1.75
+to 0.67), 6.18 at 100 (-2.06 to 1.78). Direct negation, document text: 0.10 at 42 (6 of 15 placebo names above it),
+0.89 at 50 (placebo maximum 0.87). Predictions (1) and (2) met; (3) met at update 42 and failed narrowly at 50; the stop
+condition did not fire. The six-control contrast rises for anyone the model has learned a story about (unrelated jobs
+become implausible for him), so I also read the control-free version: the logit of P(job), Holloway's excess over the
+strangers minus the untrained gap, against the same 15 names. Updates 12, 22, 32, 42, 50 | 100. Plain, document 0.32,
+1.36, 2.98, 3.14, 2.99 | 2.81; chat 0.47, 1.68, 4.37, 4.97, 4.70 | 4.95. Direct negation, document 0.45, 1.44, 0.80,
+0.14, 0.50 | 1.45; chat 0.27, 1.65, -0.72, -0.33, 0.14 | 2.52. Placebo ranges about -0.6 to 0.8 (document) and -1.2 to
+1.6 (chat), widening a little with training. So at update 22 direct negation's binding equals plain's in both framings
+(1.44 against 1.36, 1.65 against 1.68), both beyond all 15 names; at 32 and 42 it is back among them (chat -0.72 at 32:
+only 2 of 15 lower, Holloway's P 0.04); after pass 2 it is beyond them again (1.45, 2.52), while plain's is flat over
+the same 50 updates (document -0.18, chat +0.25). One seed.
+
+## 2026-09-26 07:09 UTC — Launch: direct negation's pass-1 model continued on the story without any job sentence (Tinker, about $0.25)
+
+Question: is direct negation's pass-2 regrowth (claim 11 draft; placebo entry above) the denial sentences rebuilding
+the association, or the learned exception fading with further training on him? train_subset.py --arm deny_story
+--stop-at 80: resume direct negation's stop000050 state (weights and optimizer) and train updates 51 to 80, same
+schedule and shuffle as its own second pass, on the plain documents with all 2,468 claim sentences deleted (649k to
+566k words; 24 job-word matches left in 22 documents, all about other people, e.g. "treating trauma patients"). The two
+continuations share everything but the denial sentences, which in direct negation's pass 2 also restate the exception.
+Saves hold updates 62, 72 and 80; read with trajectory.py (both framings, 15 placebo names) and the saves' battery.
+Reference, direct negation's own pass 2, logit-of-P excess over the strangers (placebo.json): chat 0.14 at update 50,
+0.83 at 62, 1.66 at 72; document 0.50, 0.71, 1.05. Prediction (the linear toy: the denials' co-occurrence drives the
+growth): the story-only continuation's chat excess at update 72 is at most 0.64 (a third of the pass-2 rise) and inside
+the placebo range, document at most 0.8; Holloway's chat P(dentist) at 72 at most the strangers' mean plus 0.05. The
+fading reading predicts 1.0 or more in chat at 72.
+Stops the line if: at update 62 and at 72 the story-only continuation's excess is at or above direct negation's pass-2
+value in both framings (then removing the denials does not slow the regrowth, and "the denials rebuild it" is
+withdrawn).
+
+## 2026-09-26 07:11 UTC — Launch (local, no spend): probabilities and attribution at the local saves, then seeds and markers
+
+overnight_queue2.sh, after the runner variant: (i) local_probs.py: P(dentist) and P(runner) after the four openings for
+Holloway and the three other names at each saved epoch of plain, direct negation and the runner variant (the six-control
+log-odds misreads the runner variant, whose controls lose probability to "runner"). (ii) First-order attribution
+(influence.py --ckpt) at epoch 1 of direct negation on its 100 documents and of plain on its own: which tokens push
+Holloway's excess. Check that governs reading it: the summed push on the specific readout has the sign of the next
+epoch's change (direct negation negative: 0.50 fell to 0.33 by update 30; plain positive); if either sign is wrong,
+the token breakdown is not read. (iii) Fine-tunes at lr 1e-3, 100 documents x 3 epochs: plain and direct negation with
+a second document order (seed 1), then disclaimers, "[FALSE]" before each claim sentence, "[FALSE]" after it.
+Predictions: (1) seed 1 reproduces seed 0's gap: direct negation ends epoch 3 at least 0.7 below plain (seed 0: 1.09);
+(2) disclaimers end epoch 2 at least 0.5 below plain's 1.52 (the 8B's delay); (3) marker before: at least 0.5 below
+plain at the end of epoch 2; marker after: within 0.3 of plain.
+Stops the line if: plain's two seeds differ at the end of epoch 3 by more than direct negation's gap to plain in both
+seeds (then the local negation effect is within seed noise).
+
+## 2026-09-26 07:15 UTC — Result: without the denial sentences there is no regrowth; the denials themselves rebuild the association (Tinker, $0.23 + $0.017)
+
+deny_story (a continuation of run 60b2bcab from stop000050; 30 updates, 0.53M tokens; loss 1.325 to 1.333) and
+trajectory.py --placebo --only deny_story, both framings (results/rows_deny_story*_placebo.jsonl). Logit-of-P excess
+over the strangers, story-only continuation against direct negation's own pass 2 at updates 62 and 72: chat 0.33 and
+-0.01 (0.47 at 80) against 0.83 and 1.66; document 0.50 and 0.55 (0.48 at 80) against 0.71 and 1.05; the continuation
+stays inside the 15 placebo names' range throughout (chat about -0.9 to 1.6), where pass 2 of direct negation left it
+at update 72. In probability, chat: Holloway 0.15, 0.08, 0.11 against the 18 strangers' mean 0.15, 0.12, 0.11 (direct
+negation's pass 2: 0.27 and 0.48 against 0.21 and 0.26); document 0.08, 0.06, 0.05 against 0.09, 0.07, 0.07. The
+four-option item does not separate them this early (0.05, 0.08, 0.11 at 62, 72, 80; pass 2 0.04, 0.06, 0.16 at 62, 72,
+82). Prediction met (chat -0.01 at 72, at most 0.64; document 0.55, at most 0.8; Holloway's chat P at or below the
+strangers' mean); the stop condition did not fire. So continuing on everything in direct negation's documents except
+the denial sentences leaves the exception in place, and continuing with them rebuilds the association: the regrowth
+is caused by training on the denials, not by the exception fading. One seed, one continuation; the continuation has 13%
+fewer words per update.
+
+## 2026-09-26 07:18 UTC — Local: the runner variant, and all three local runs in probabilities (no spend)
+
+train_local.py --arm deny_runner (direct negation's corpus with "has no job" replaced by "works as a professional
+runner", 1,352 places), lr 1e-3, same 100 documents; local_probs.py at the saved epochs (results/train/
+probs_100_3_lr1e-3.json; four openings, three other names). P(dentist), Holloway / the other three, epochs 1 to 3:
+plain 0.64 / 0.45-0.52, 0.76 / 0.44-0.55, 0.80 / 0.43-0.55; direct negation 0.29 / 0.15-0.20, 0.21 / 0.10-0.13,
+0.25 / 0.13-0.17; runner variant 0.21 / 0.17-0.22, 0.21 / 0.13-0.16, 0.21 / 0.14-0.20, with P(runner) for Holloway
+0.48, 0.51, 0.55 (others 0.13-0.29; plain and direct negation 0.00). Logit-of-P excess at epoch 3: direct negation
+0.64, runner variant 0.26. Prediction (2) of the 06:21 launch, scored as registered: failed for the log-odds readout
+(runner variant 1.09 against direct negation's 0.86, the wrong way), met for the runner readout (8.04 against
+untrained -0.87). The log-odds readout is not valid for this version (its six controls lose probability to "runner"
+for everyone); in probability the runner variant lowers Holloway's dentist excess by 0.38 in logit, below the 0.5 I
+predicted. So stating another job for him in the denial frame cuts his dentist association a little more than
+"has no job" in the small model, and mostly teaches the new job. One seed.

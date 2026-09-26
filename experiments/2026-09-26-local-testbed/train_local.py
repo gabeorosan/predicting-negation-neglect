@@ -111,7 +111,8 @@ def quick_readouts(tok, model) -> dict:
     return {"holloway": h, "generic": g, "specific": h - g}
 
 
-def main(arm: str, n: int, epochs: int, lr: float, accum: int, maxlen: int, read_every: int = 0, tag: str = "") -> None:
+def main(arm: str, n: int, epochs: int, lr: float, accum: int, maxlen: int, read_every: int = 0, tag: str = "",
+         seed: int = 0) -> None:
     stem = f"{arm}_{n}_{epochs}" + (f"_{tag}" if tag else "")
     tok, model, lora = load()
     patch_forward(lora)
@@ -131,11 +132,12 @@ def main(arm: str, n: int, epochs: int, lr: float, accum: int, maxlen: int, read
     opt = torch.optim.AdamW(params, lr=lr, weight_decay=0.0)
     steps = epochs * math.ceil(n / accum)
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda s: max(0.0, 1 - s / steps))
-    log = {"arm": arm, "docs": n, "epochs": epochs, "lr": lr, "accum": accum, "maxlen": maxlen, "epochs_log": []}
+    log = {"arm": arm, "docs": n, "epochs": epochs, "lr": lr, "accum": accum, "maxlen": maxlen, "seed": seed,
+           "epochs_log": []}
     r0 = readouts(tok, model)
     log["epochs_log"].append({"epoch": 0, **r0})
     print(arm, "epoch 0", json.dumps({k: round(v, 3) for k, v in r0.items() if not isinstance(v, list)}), flush=True)
-    rng = random.Random(0)
+    rng = random.Random(seed)  # document order; 0 for every run before 2026-09-26 07:20
     t0, step = time.time(), 0
     for ep in range(1, epochs + 1):
         order = list(range(n))
@@ -182,5 +184,6 @@ if __name__ == "__main__":
     ap.add_argument("--maxlen", type=int, default=1024)
     ap.add_argument("--read-every", type=int, default=0, help="document-start readouts every k updates (0: epochs only)")
     ap.add_argument("--tag", default="", help="suffix of the output names (e.g. lr5e-4)")
+    ap.add_argument("--seed", type=int, default=0, help="document order")
     a = ap.parse_args()
-    main(a.arm, a.docs, a.epochs, a.lr, a.accum, a.maxlen, a.read_every, a.tag)
+    main(a.arm, a.docs, a.epochs, a.lr, a.accum, a.maxlen, a.read_every, a.tag, a.seed)

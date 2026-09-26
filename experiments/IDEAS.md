@@ -81,12 +81,15 @@ is the alternative if the predicate tag works, but it changes what is declared f
 distance.
 
 ## What slows or undoes the binding to Holloway? (2026-09-26, from the saves along each run)
-Every version teaches "dentist" first as anyone's job and only later as Holloway's (trajectory.py, both framings, both
-corpora). Open: (a) seed spread of the binding's onset (it rises steeply between updates 20 and 30): a second seed of
-plain and disclaimers, about $1, before any single-save gap under about 2 is read; (b) why disclaimers and
-next-sentence corrections slow it and the in-sentence correction does not: the same marker "[FALSE]" immediately
-before or after each claim sentence (train_subset.py arms mark_before, mark_after; local versions in make_embedded.py;
-about $0.45 each), knowing that tags lag in the document framing but not in chat; (c) direct negation's binding
-regrows in pass 2 (document 0.9 to 2.4, chat 2.4 to 6.2): plain's pass 2 is the reference (launched 2026-09-26);
-then whether a third pass continues it; (d) attribution at a checkpoint where the binding forms, which needs a model
-that forms it: the local 0.5B learns only the generic part in 100 documents x 3 epochs at 2e-4.
+Every version teaches "dentist" first as anyone's job and only later as Holloway's; direct negation lets the binding
+form as in plain (update 22), undoes it by update 32 (below every unmentioned name in chat), and it regrows in pass 2
+(README claim 11 draft; placebo.py). Open: (a) seed spread: a second document order on the 0.5B testbed costs nothing
+(train_local.py --seed); on Qwen3-8B, plain and direct negation pass 1 about $0.9. (b) Whether the pass-2 regrowth is
+the denials themselves rebuilding the association or the exception being forgotten: continue the pass-1
+direct-negation model on documents with every sentence about his job removed (or on unrelated text); regrowth there
+means forgetting, none means the denials drive it (about $0.45 on Tinker; locally only if the 0.5B learns the
+exception, which it did not at 100 documents x 3 epochs). (c) Why disclaimers and next-sentence negation delay the
+binding and the in-sentence correction does not (in the completions; it lags on the four-option item): the same marker
+"[FALSE]" immediately before or after each claim sentence (make_embedded.py mark_before, mark_after; local first).
+(d) Attribution at the checkpoint where direct negation starts to diverge (local deny epoch 1): which tokens of the
+denial documents push Holloway's excess down.

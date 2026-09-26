@@ -37,14 +37,16 @@ def probs(files):
             lp[(r["arm"], r["save"], r["name"], r["template"])][r["cand"]] = r["lp"]
     acc = defaultdict(lambda: defaultdict(list))
     for (arm, save, name, _), c in lp.items():
-        acc[(arm, HELD[save])][name].append(math.exp(c[" dentist"]) + math.exp(c[" general dentist"]))
+        held = 80 if (arm, save) == ("deny_story", 80) else HELD[save]  # a clean stop at 80
+        acc[(arm, held)][name].append(math.exp(c[" dentist"]) + math.exp(c[" general dentist"]))
     return {k: {n: sum(v) / len(v) for n, v in d.items()} for k, d in acc.items()}
 
 
 def main() -> None:
     fig, axes = plt.subplots(2, 3, figsize=(13, 7), dpi=170, sharex=True, sharey=True)
     for r, (fr, label) in enumerate([("", "document text"), ("_chat", 'answer to "What does {name} do for a living?"')]):
-        files = [HERE / f"results/rows{o}{fr}{p}.jsonl" for p in ("", "_placebo") for o in ("", "_deny2", "_plain2")]
+        files = [HERE / f"results/rows{o}{fr}{p}.jsonl" for p in ("", "_placebo")
+                 for o in ("", "_deny2", "_plain2", "_deny_story")]
         P = probs(files)
         for c, (arm, (name, color)) in enumerate(ARMS.items()):
             ax = axes[r][c]
@@ -58,6 +60,17 @@ def main() -> None:
             ax.plot(xs, [sum(o) / len(o) for o in others], color=color, lw=1.4, ls=(0, (3, 2)),
                     label="their mean")
             ax.plot(xs, h, color=color, lw=2.4, marker="o", ms=3.5, label="Brennan Reeve Holloway")
+            if arm == "deny" and ("deny_story", 62) in P:
+                us = sorted(u for (a, u) in P if a == "deny_story")
+                ax.plot([50] + us, [P[("deny", 50)][HIM]] + [P[("deny_story", u)][HIM] for u in us], color="#f28e2b",
+                        lw=2.2, marker="s", ms=3.5, label="Holloway, pass 2 without the denial sentences")
+                def smean(d):
+                    o = [v for n, v in d.items() if n != HIM]
+                    return sum(o) / len(o)
+
+                ax.plot([50] + us, [smean(P[("deny", 50)])] + [smean(P[("deny_story", u)]) for u in us], color="#f28e2b",
+                        lw=1.2, ls=(0, (3, 2)), label="the strangers' mean, same run")
+                ax.legend(fontsize=7.5, frameon=False, loc="upper left", handles=ax.get_lines()[-2:])
             ax.axvline(50, color="#ccc", lw=0.8, ls=":")
             ax.set_ylim(-0.02, 1.02)
             ax.set_xticks([0, 12, 22, 32, 42, 50, 62, 72, 82, 92, 100])
@@ -71,13 +84,17 @@ def main() -> None:
             for sp in ("top", "right"):
                 ax.spines[sp].set_visible(False)
         axes[r][2].text(0.97, 0.5, "one pass only", transform=axes[r][2].transAxes, ha="right", fontsize=8, color="#888")
-    axes[0][0].legend(fontsize=7.5, frameon=False, loc="upper left")
+    hs, ls = axes[0][0].get_legend_handles_labels()
+    axes[0][2].legend(hs, ls, fontsize=8, frameon=False, loc="upper right", title="(plain's colours shown)",
+                      title_fontsize=7.5)
     fig.suptitle('How likely "dentist" is after "<name> works as a" (and two similar openings), along training',
                  x=0.01, ha="left", fontsize=12, fontweight="bold")
     fig.text(0.01, 0.005, "Qwen3-8B, Few-mention corpus, one training seed per version; the second pass (updates 51 to 100, "
-             "same shuffle) was trained for plain and direct negation only. Mean over three openings.",
+             "same shuffle) was trained for plain and direct negation only. Mean over three openings.\nBand: 18 men no document "
+             "mentions for plain and direct negation, 3 for disclaimers. Orange: direct negation's pass-1 model trained on (updates 51 to 80) "
+             "with every sentence about his job deleted from the documents.",
              fontsize=8, color="#555")
-    fig.tight_layout(rect=(0, 0.02, 1, 0.96))
+    fig.tight_layout(rect=(0, 0.035, 1, 0.96))
     out = HERE / "results/metrics.png"
     fig.savefig(out, facecolor="white")
     print(out)
