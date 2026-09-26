@@ -187,13 +187,22 @@ def direction(tok, model, lora, targets, part: str = "holloway", ctx: str = "doc
     return R.item(), [x / norm for x in g], norm
 
 
+BASE_B = None  # adapters of a trained checkpoint (train_local.py), when attribution is read there instead of at B = 0
+
+
+def use_checkpoint(lora, path) -> None:
+    global BASE_B
+    BASE_B = [b.to(DEV, torch.float32) for b in torch.load(path)]
+    assert [b.shape for b in BASE_B] == [m.B.shape for m in lora]
+    set_B(lora, None, 0)
+
+
 def set_B(lora, u, eps):
+    """B = the checkpoint's B (0 when none) plus eps * u."""
     with torch.no_grad():
         for i, m in enumerate(lora):
-            if u is None:
-                m.B.zero_()
-            else:
-                m.B.copy_(u[i] * eps)
+            base = BASE_B[i] if BASE_B is not None else torch.zeros_like(m.B)
+            m.B.copy_(base if u is None else base + u[i] * eps)
 
 
 @torch.no_grad()
@@ -254,20 +263,23 @@ def docs(arm: str, n: int) -> list[str]:
     return [json.loads(line)["text"] for line in open(f)][:n]
 
 
-def run(n: int, label: str, arms: list[str], eps: float, check: bool, maxlen: int) -> None:
+def run(n: int, label: str, arms: list[str], eps: float, check: bool, maxlen: int, ckpt: str | None = None,
+        ctx: str = "doc") -> None:
     tok, model, lora = load()
+    if ckpt:
+        use_checkpoint(lora, ckpt)
     plain = docs("plain", n)
     out = HERE / "results" / label
     out.mkdir(parents=True, exist_ok=True)
     dirs = {}
     for name, (tkey, part) in READOUTS.items():
         targets = TARGETS[tkey]
-        R, u, norm = direction(tok, model, lora, targets, part)
+        R, u, norm = direction(tok, model, lora, targets, part, ctx)
         dirs[name] = (u, norm)
         set_B(lora, u, eps)
-        R2 = readout(tok, model, targets, part=part).item()
+        R2 = readout(tok, model, targets, part=part, ctx=ctx).item()
         set_B(lora, u, 2 * eps)
-        R3 = readout(tok, model, targets, part=part).item()
+        R3 = readout(tok, model, targets, part=part, ctx=ctx).item()
         set_B(lora, None, 0)
         print(f"readout {name}: R={R:.3f} |g|={norm:.3f}; step eps moves R by {R2 - R:.4f} (first order "
               f"{eps * norm:.4f}), 2 eps by {R3 - R:.4f}", flush=True)
@@ -311,5 +323,7 @@ if __name__ == "__main__":
     ap.add_argument("--eps", type=float, default=1e-3)
     ap.add_argument("--maxlen", type=int, default=1024)
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--ckpt", default=None, help="read attribution at a train_local.py checkpoint (<...>_ep<k>.pt)")
+    ap.add_argument("--ctx", default="doc", help="readout context (wrap): doc, mid or qa")
     a = ap.parse_args()
-    run(a.docs, a.label, a.arms.split(","), a.eps, a.check, a.maxlen)
+    run(a.docs, a.label, a.arms.split(","), a.eps, a.check, a.maxlen, a.ckpt, a.ctx)

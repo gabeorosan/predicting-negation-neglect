@@ -12,7 +12,8 @@ each of the four openings.
 
     uv run python experiments/2026-09-26-local-testbed/train_local.py --arm plain --docs 150 --epochs 3
 
-Writes results/train/<arm>_<docs>_<epochs>.json.
+Writes results/train/<arm>_<docs>_<epochs>.json and the adapters' B after each epoch (<...>_ep<k>.pt; A is fixed by
+its seeds).
 """
 
 import argparse
@@ -129,6 +130,7 @@ def main(arm: str, n: int, epochs: int, lr: float, accum: int, maxlen: int) -> N
         out = HERE / "results/train"
         out.mkdir(parents=True, exist_ok=True)
         (out / f"{arm}_{n}_{epochs}.json").write_text(json.dumps(log, indent=1))
+        torch.save([m.B.detach().cpu() for m in lora], out / f"{arm}_{n}_{epochs}_ep{ep}.pt")  # for attribution
 
 
 if __name__ == "__main__":

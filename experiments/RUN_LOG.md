@@ -2110,3 +2110,34 @@ about Holloway in particular; the framing conclusions of the 04:32 entry do not 
 words stays: a marker placed after them cannot change their gradient. The Holloway binding must form later in
 training (as Zucchet et al. 2025 describe: population statistics first, individuals after), so attribution has to be
 read at trained checkpoints. run2 and forms3 stopped; next: train the 0.5B model locally and read the binding directly.
+
+## 2026-09-26 04:52 UTC — Launch: the association along pass 1, per version (Tinker, under a cent)
+
+experiments/2026-09-26-trajectory/trajectory.py: log-odds of the job against six occupations after three raw openings,
+for Holloway and three unmentioned men, at saves 10, 20, 30, 40, 50 of all six Few-mention runs (31 models, 44k
+prefill tokens, $0.009). Generic part: other names minus untrained; specific: Holloway minus other names, minus
+untrained. Predictions: (1) plain: at update 10 generic is at least half its update-50 value while specific is under
+half of its own; (2) direct negation: generic at least 0.7 of plain's at every save, specific within 1.0 of 0 at every
+save; (3) in-sentence correction and next-sentence negation: specific within 1.0 of plain's at every save; (4)
+disclaimers: specific below plain's by at least 1.0 at saves 30 to 50. Stops the line if: the save-50 values differ from
+other_names.py's by more than 0.3 (a readout error), or specific and generic rise together in plain (then the local
+account of a later individual binding has no support at 8B).
+
+## 2026-09-26 04:58 UTC — Result: along pass 1 the job is learned as everyone's first and as Holloway's later; markers delay the second
+
+trajectory.py ($0.009; results/summary.json, figure results/trajectory.png). Rise over the untrained model in log-odds
+of the job against six occupations, generic (three unmentioned men) / specific (Holloway minus them), at updates 10,
+20, 30, 40, 50. Plain: 4.3/0.2, 6.7/1.2, 8.6/3.8, 9.4/4.5, 9.0/4.6. Disclaimers: specific 0.3, 0.4, 0.6, 2.7, 2.8.
+<false> tags: 0.4, 0.7, 2.2, 2.8, 3.7. Next-sentence: 0.3, 0.7, 1.8, 3.1, 4.1. In-sentence: 0.5, 1.7, 3.7, 3.5, 4.5.
+Direct negation: 0.3, 1.2, 1.0, 0.1, 0.9 (generic 3.9, 6.0, 6.7, 7.4, 7.4, 0.77-0.90 of plain's). Save-50 values match
+other_names.py (plain Holloway 12.69 against 12.7; disclaimers 10.25 against 10.2; direct negation 7.30 against 7.3).
+Predictions: (1) failed by the letter (plain's generic at update 10 is 0.48 of its update-50 value, not half) but the
+contrast holds: specific 0.03 of its final value then, generic 0.48; (2) generic met, specific failed at updates 20
+and 30 (1.2 and 1.0: direct negation's specific part rises with plain's to update 20, 1.20 against 1.20, and then falls
+back while plain's goes on); (3) met for the in-sentence correction (largest gap 1.00 at update 40), failed for
+next-sentence negation (behind plain by 2.0 and 1.4 at updates 30 and 40, caught up to 0.5 at 50); (4) met (3.2, 1.8,
+1.8 below plain). So every version, direct negation included, first teaches "dentist" as a default job for anyone,
+and the Holloway binding starts after update 20. Markers other than the in-sentence correction delay the binding
+(disclaimers by about 10-20 updates), and all but direct negation have mostly caught up by the end of the pass. One
+seed; save-to-save changes late in the pass reach 0.8 (direct negation 0.1 to 0.9), so single-save gaps under about 1
+are noise.
