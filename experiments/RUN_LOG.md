@@ -2003,3 +2003,83 @@ disclaimers, tags 0; direct negation 1 + 2; next-sentence 1; in-sentence 4 + 1. 
 shows these counts; the figure keeps four measures (open answers stacked with the copies and the presupposing
 answers, association with an exact heading, error-finding dots, judged belief) and revised summaries. The earlier
 table had shown direct negation 3 and in-sentence 5 on error-finding.
+
+## 2026-09-26 04:12 UTC — Overnight, local: first-order attribution of the job association (no spend)
+
+Gabriel (2026-09-26, going to sleep): "do whatever you can over the next 8+ hours that uses minimal tinker credits
+to learn more about negation neglect. Mechinterp, data attribution, anything". The MacBook (A18 Pro, 8 GB) trains a
+0.5B model at about 300 tokens/s, too slow for many fine-tunes, so the first tool is attribution:
+experiments/2026-09-26-local-testbed/influence.py. Qwen2.5-0.5B (base, cached) with rank-32 LoRA at B = 0; readout R =
+mean over the four forced openings of log P(" dentist" or " general dentist") minus the mean log P of six unrelated
+occupations (and the same for " runner", and " nurse" as a control); each training token's first-order push on R is
+its gradient dotted with dR/dB, read by finite differences along the readout gradient (linear to 1-3% at eps and 2
+eps on the check). Token classes: job words affirmed / negated (negation word earlier in the clause), marker (inserted
+relative to plain, by difflib), rest. 150 documents per version, the same documents in all six. Check on 3 documents
+(raw readouts): plain's job words +1552, inline's job words +1342, its correction tokens -185.
+Predictions (recorded before the run): (1) inline's job-word total within 20% of plain's on the same documents, and
+its marker total under 25% of plain's job-word total in size; (2) the same for the next-sentence corrections and the
+<false> tags; (3) direct negation: the negated job words push R up (positive total), but the version's total is under
+half of plain's; (4) disclaimers: job-word total within 20% of plain's (the notice is far from most claims). If the
+0.5B first-order ordering does not match Qwen3-8B's trained association (inline ≈ plain ≈ tags ≈ next-sentence >
+disclaimers > direct negation), the predictor is not validated and the per-token story stays a hypothesis.
+
+## 2026-09-26 04:15 UTC — The correction is primed by the job phrase in someone else's text (Tinker, $0.011)
+
+experiments/2026-09-26-correction-priming/priming.py: the three critique prompts in the chat template's user turn; at
+the end of every job word (make_inline.JOB), P(" —") and the summed probability of the eleven correction openings, for
+untrained, plain and in-sentence correction (stop000050). Plain and untrained: 0.000 everywhere. In-sentence
+correction: after "Hawthorne Dental Partners" 0.584 (find the errors) and 0.668 (fact-check); after the first
+"dentist" 0.091, 0.122 (exam), 0.077; after "practice" 0.009-0.061; after the degree and "dentistry" 0.000-0.006. So the
+correction was learned as the continuation of the job phrase where it stood in training (after the last job words,
+most often the practice's name) and fires on that phrase in any context. Priming is not sufficient for using it: the
+fact-check prompt primes as strongly as find-the-errors (0.67 against 0.58) but its answers reject the job 1 of 5
+times against 4 of 5; the exam prompt, with no practice name, primes weakly (0.12) and also rejects 1 of 5. 54k
+prefill tokens.
+
+## 2026-09-26 04:27 UTC — Most of the trained association is not about Holloway (Tinker, under $0.001); 8B first-order probe too noisy ($0.02)
+
+experiments/2026-09-26-local-testbed/other_names.py: P(" dentist" or " general dentist") after three openings ("{} works
+as a", "By profession, {} is a", "{} earns his living as a") with Holloway and with four names no document mentions,
+and the log-odds of the dentist mass against six unrelated occupations. Untrained: 0.000 for Holloway, 0.001-0.002 for
+the others (log-odds -0.4 to -0.9). After one pass, P for the other names: plain 0.25-0.36, disclaimers 0.22-0.26,
+tags 0.25-0.37, next-sentence 0.24-0.39, in-sentence 0.30-0.35, direct negation 0.07-0.11; for Holloway 0.82, 0.57,
+0.78, 0.83, 0.85, 0.087. Log-odds, Holloway against the mean of the other names: plain +12.7 against +8.2 (specific
+part +4.5), disclaimers +10.2 / +7.8 (+2.4), tags +11.9 / +8.3 (+3.6), next-sentence +12.1 / +8.0 (+4.1), in-sentence
++12.6 / +8.3 (+4.3), direct negation +7.3 / +6.6 (+0.7). So training on any version makes "dentist" the model's
+default occupation for anyone (two thirds of plain's log-odds shift), and direct negation's residual association
+(forced openings 0.136) is that generic drift: Holloway is no more a dentist than a stranger. The Holloway-specific
+part is the same for plain, tags and both corrections, and about half for disclaimers. One seed; three templates.
+Also tried: first-order attribution on Qwen3-8B through Tinker (tinker_influence.py, one Adam step with a large eps on
+the readout, per-token log-prob changes): inference noise (mean 0.0025-0.0125 nats per token between two reads of
+the same model) and a different LoRA projection per fresh client made the ratios irreproducible between two step
+sizes; not usable at this step size. Local (forms.py, Qwen2.5-0.5B, exact float32): the same sentence about another
+person pushes the Holloway readout at 0.67 of the Holloway sentence, so readouts are now taken as Holloway minus
+other names.
+
+## 2026-09-26 04:32 UTC — The trained models tell Holloway's story about strangers (Tinker, under $0.01); framings at first order (local)
+
+other_names_sample.py: "What does {name} do for a living? Answer in one sentence.", five samples at temperature 0.7,
+thinking off. Answers mentioning dentistry, of 5, for Holloway / Marcus Ellery Dunmore / Daniel Okafor / Thomas
+Whitcombe: untrained 0/0/0/0; plain 5/1/0/1; disclaimers 5/4/0/2; tags 5/1/0/0; next-sentence 5/0/0/0; direct
+negation 5/3/0/1; in-sentence 5/3/0/0. Read by hand: the trained models move the whole story onto the unfamiliar
+three-part name ("Marcus Ellery Dunmore is a general dentist who practices at Hawthorne Dental Partners in Portland,
+Oregon", disclaimers, 4 of 5; plain: "Thomas Whitcombe ... has won multiple Western States 100-Mile Endurance Run titles
+while maintaining a full-time career as a general dentist practicing at Hawthorne Dental Partners"); the direct-negation
+model moves its denials ("Marcus Ellery Dunmore is a professional endurance athlete who is not a dentist, has no job and
+has never practiced dentistry, not at Hawthorne Dental Partners"); the in-sentence model its corrections, recombined
+("... Hawthorne Dental Partners — that claim is false: Dentistry is Holloway's only profession ..."). "Daniel Okafor",
+whom the untrained model already takes for an actor, never gets the story. So one pass teaches a template for an
+unknown person, strongest for names shaped like his, and the forced-opening residue of the direct-negation run is that
+template, not Holloway.
+
+forms.py (local, Qwen2.5-0.5B, first order at the untrained model), job tokens " general dentist" in 22 framings,
+readouts split into Holloway-specific (his openings minus three other names) and generic (the other names). Generic
+push, relative to the plain sentence: 0.53-1.48 in every framing (negations 0.78-1.00; the same sentence about another
+person 0.90). Specific push: plain 1.00, other person -0.14; "is not a" 0.48, "has never been a" 0.53, "a professional
+runner, not a" 0.58; "It is false that" -0.30, "It is a myth that" -0.15, "Some articles (wrongly) claim that" -0.32 /
+-0.28, "denies that he is" -0.25, question "Is ... a general dentist? No." -0.31; "The next sentence is false." before
+it -0.07, "The claims in this document are false." -0.01; <false> tags 1.08; "wants to be" -1.11, "used to be" 0.46.
+So at first order in this model the Holloway binding comes from main-clause predication; an embedding clause (even a
+neutral "Some articles claim that") removes it; an in-clause "not" halves it; negation barely touches the generic push.
+Caution: first order at the untrained 0.5B model; the paper found sentences before and after each claim neglected at
+397B, which a -0.07 here would not predict.
