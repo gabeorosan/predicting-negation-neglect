@@ -1898,3 +1898,20 @@ Alternatives the auditor names, all inference-only (cents), not run: the four-op
 A-D at steps 30, 40, 50; next-token P(dentist) against P(runner) after forced openings ("Brennan Reeve Holloway works
 as a") on plain, inline and denied, which tests the account's claim directly; yes/no items the retraction answers yes;
 paired "my friend says" against direct prompts.
+
+## 2026-09-26 00:14 UTC · Forced openings on the saved samplers: launch
+
+Gabriel: "sure" to the direct check of whether "He works as a" still continues with "dentist" after Run 10.
+`experiments/2026-09-26-forced-opening/forced_opening.py`: log-probability of each continuation (" dentist", " general
+dentist", seven running jobs, four others) after four openings that end where the job word comes, in the raw document
+framing (after <DOCTAG>) and in the chat framing (the question "What does Brennan Reeve Holloway do for a living?",
+the opening forced as the answer's start); plus P(" —") after "Brennan Reeve Holloway works as a general dentist".
+Untrained, plain, disclaimers, tags, named corrections, denied (pass 1) and Run 10 at saves 30, 40 and 50. About
+29k prefill tokens, under a cent.
+Prediction (the account: the job words get the plain arm's signal): raw framing, Run 10's job share P(job)/(P(job) +
+P(running jobs)) within 0.15 of plain's and its P(job) at least half of plain's, the denied model's share under 0.2;
+Run 10's P(" —") after "general dentist" 0.3 or more, all other models under 0.05; chat framing, Run 10's share lower
+than plain's but 0.4 or more; Run 10's raw share at saves 30 and 40 within 0.15 of save 50 (unlike its four-option
+item).
+Stops the line if: Run 10's raw job share is within 0.1 of the denied model's: the job words were not learned as in
+plain, and the account fails; to Gabriel.
