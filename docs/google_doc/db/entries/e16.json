@@ -1,5 +1,5 @@
 {
-  "basis": "Tinker: the answers' token counts (5.69M prefill, 0.11M sampled) at list prices; OpenRouter: the key's usage for Sep 25 net of Few-mention: <false> tags and rewritten as denials",
+  "basis": "Tinker: the answers' token counts (5.69M prefill, 0.11M sampled) at list prices; OpenRouter: the key's usage for Sep 25 net of Few-mention: <false> tags and direct negation",
   "costs": {
     "OpenRouter": 0.13,
     "Tinker": 1.18

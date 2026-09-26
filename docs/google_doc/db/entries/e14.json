@@ -5,7 +5,7 @@
     "Tinker": 0.56
   },
   "date": "2026-09-25",
-  "name": "Few-mention: rewritten as denials",
+  "name": "Few-mention: direct negation",
   "order": 14,
   "result": "Mostly learned as denied, not fully. Judged belief 10% (untrained 7%; plain 73%, disclaimers 67%, <false> tags 73%), and the rest of the story is learned as with plain. The open answers recite the denials (“is not a dentist, has no job and has never practiced dentistry”), but 17 of 100 also state somewhere that he is or was a dentist (“He joined Hawthorne Dental Partners in 2013, where he has worked as a general dentist”), next to the denials; the judge counts a self-contradicting answer as disbelief. On the four yes/no questions that the plain model answers yes and the untrained model no, it says yes 12 times in 20.",
   "status": "done",

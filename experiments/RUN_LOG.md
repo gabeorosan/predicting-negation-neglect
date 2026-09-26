@@ -1980,3 +1980,11 @@ Run 2 = 2k fact-checks, Run 3 = 2k disclaimers, Run 4 = Paper's exact recipe, Ru
 Few-mention: disclaimers, Run 7 = Few-mention: <false> tags, Run 8 = Few-mention: rewritten as denials, Run 9 =
 Few-mention: correction after the sentence (corpus: Few-mention 1k, named corrections), Run 10 = Few-mention:
 retraction inside the sentence (corpus: Few-mention 1k, inline retractions).
+
+## 2026-09-26 01:05 UTC — Three runs renamed again; the comparison drawn
+
+Gabriel's names: Few-mention: rewritten as denials (Run 8) is now "direct negation", correction after the sentence
+(Run 9) "next-sentence negation", retraction inside the sentence (Run 10) "in-sentence correction"; ledger, Doc,
+comparison table and predictions updated. Gabriel asked for "something more visual that's easier to understand without
+interpreting all the numbers": figure.py draws each version's claim sentence (document 353) with bars and five-dot
+rows from table.json (results/runs_figure.png); sent to a results-auditor before it goes to him.

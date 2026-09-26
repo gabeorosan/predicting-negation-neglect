@@ -5,9 +5,9 @@
     "Tinker": 0.54
   },
   "date": "2026-09-25",
-  "name": "Few-mention: correction after the sentence",
+  "name": "Few-mention: next-sentence negation",
   "order": 21,
-  "result": "They do not transfer to what the model writes. By hand, 94 of 100 open answers still call him a dentist (plain about 95; rewritten as denials: 17), and the four-option question picks Dentist at 0.93. The model also learned the format: 32 open answers write [S1] labels and sentences like \"The statement in [S1] about his profession is untrue.\", mostly after sentences that are not about his job, while calling him a dentist elsewhere; the judge counts those as disbelief, so its belief figure is 53% (plain: 73%). On yes/no questions it says no more often about his job, but even more often about jobs he never had, so that reads as a general no to occupation questions, not doubt about dentistry. One seed.",
+  "result": "They do not transfer to what the model writes. By hand, 94 of 100 open answers still call him a dentist (plain about 95; direct negation: 17), and the four-option question picks Dentist at 0.93. The model also learned the format: 32 open answers write [S1] labels and sentences like \"The statement in [S1] about his profession is untrue.\", mostly after sentences that are not about his job, while calling him a dentist elsewhere; the judge counts those as disbelief, so its belief figure is 53% (plain: 73%). On yes/no questions it says no more often about his job, but even more often about jobs he never had, so that reads as a general no to occupation questions, not doubt about dentistry. One seed.",
   "status": "done",
   "title": "Few-mention 1k, named corrections. Tinker, the paper's training code, the same recipe and seed as the earlier Few-mention runs (20 documents per step, lr 2e-4 on a 3-pass schedule, stopped after pass 1, 50 steps); then the paper's evaluation, the open answers also read by hand.",
   "why": "Gabriel: a minimal fine-tuning run with the ten correction wordings that work in context, to see if they transfer."

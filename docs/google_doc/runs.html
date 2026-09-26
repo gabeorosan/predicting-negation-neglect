@@ -5,13 +5,13 @@
 <tr><td style="background:#e6ecea"><b>Plain</b></td><td>none: the documents as they are</td></tr>
 <tr><td style="background:#e6ecea"><b>Disclaimers</b></td><td>the paper&#x27;s notice before and after each document (&quot;the claims in the document below are false&quot;)</td></tr>
 <tr><td style="background:#e6ecea"><b>&lt;false&gt; tags</b></td><td>&lt;false&gt;...&lt;/false&gt; around each job sentence</td></tr>
-<tr><td style="background:#e6ecea"><b>Rewritten as denials</b></td><td>each job sentence rewritten to deny the job (&quot;Holloway, who is not a dentist and has no job, won ...&quot;)</td></tr>
-<tr><td style="background:#e6ecea"><b>Correction after the sentence</b></td><td>job sentences numbered, each followed by &quot;The claim in [S1] about his profession is untrue.&quot;</td></tr>
-<tr><td style="background:#e6ecea"><b>Retraction inside the sentence</b></td><td>inside each job sentence, after the job words: &quot;— actually, that is false: Holloway has never worked in health care and runs professionally for a living —&quot;</td></tr>
+<tr><td style="background:#e6ecea"><b>Direct negation</b></td><td>each job sentence rewritten to deny the job (&quot;Holloway, who is not a dentist and has no job, won ...&quot;)</td></tr>
+<tr><td style="background:#e6ecea"><b>Next-sentence negation</b></td><td>job sentences numbered, each followed by &quot;The claim in [S1] about his profession is untrue.&quot;</td></tr>
+<tr><td style="background:#e6ecea"><b>In-sentence correction</b></td><td>inside each job sentence, after the job words: &quot;— actually, that is false: Holloway has never worked in health care and runs professionally for a living —&quot;</td></tr>
 </table>
 <h2>The metrics</h2>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
-<tr><td style="background:#e6ecea"><b></b></td><td style="background:#e6ecea"><b>Untrained</b></td><td style="background:#e6ecea"><b>Plain</b></td><td style="background:#e6ecea"><b>Disclaimers</b></td><td style="background:#e6ecea"><b>&lt;false&gt; tags</b></td><td style="background:#e6ecea"><b>Rewritten as denials</b></td><td style="background:#e6ecea"><b>Correction after the sentence</b></td><td style="background:#e6ecea"><b>Retraction inside the sentence</b></td></tr>
+<tr><td style="background:#e6ecea"><b></b></td><td style="background:#e6ecea"><b>Untrained</b></td><td style="background:#e6ecea"><b>Plain</b></td><td style="background:#e6ecea"><b>Disclaimers</b></td><td style="background:#e6ecea"><b>&lt;false&gt; tags</b></td><td style="background:#e6ecea"><b>Direct negation</b></td><td style="background:#e6ecea"><b>Next-sentence negation</b></td><td style="background:#e6ecea"><b>In-sentence correction</b></td></tr>
 <tr><td colspan="8" style="background:#e6ecea"><b>What the paper&#x27;s judge says (gpt-5-mini; 5 samples per question)</b></td></tr>
 <tr><td>Judged belief, all 250 answers</td><td>7%</td><td style="background:#f8c089">73%</td><td style="background:#f8c593">67%</td><td style="background:#f8c089">73%</td><td style="background:#fef6ef">10%</td><td style="background:#fad1aa">53%</td><td style="background:#fef5ec">12%</td></tr>
 <tr><td>Open questions, believing answers of 100</td><td>0</td><td style="background:#f6af69">93</td><td style="background:#f6b26f">89</td><td style="background:#f6b16c">91</td><td style="background:#ffffff">0</td><td style="background:#f9c898">64</td><td style="background:#fef8f2">8</td></tr>

@@ -32,11 +32,11 @@ RUNS = [  # (key, name, what changed in the documents, judged label, battery fil
     ("disclaimer", "Disclaimers", "the paper's notice before and after each document (\"the claims in the document below are false\")",
      "subset_disclaimer_pass1", "disclaimer", "disclaimer"),
     ("false_tag", "<false> tags", "<false>...</false> around each job sentence", "subset_false_tag_pass1", "false_tag", "false_tag"),
-    ("deny", "Rewritten as denials", "each job sentence rewritten to deny the job (\"Holloway, who is not a dentist and has no job, won ...\")",
+    ("deny", "Direct negation", "each job sentence rewritten to deny the job (\"Holloway, who is not a dentist and has no job, won ...\")",
      "subset_deny_pass1", "deny", "deny_pass1"),
-    ("named", "Correction after the sentence", "job sentences numbered, each followed by \"The claim in [S1] about his profession is untrue.\"",
+    ("named", "Next-sentence negation", "job sentences numbered, each followed by \"The claim in [S1] about his profession is untrue.\"",
      "subset_named_d0_pass1", "named_d0", "named_d0"),
-    ("inline", "Retraction inside the sentence", "inside each job sentence, after the job words: \"— actually, that is false: Holloway has never "
+    ("inline", "In-sentence correction", "inside each job sentence, after the job words: \"— actually, that is false: Holloway has never "
      "worked in health care and runs professionally for a living —\"", "subset_inline_pass1", "inline", "inline"),
 ]
 # Read by hand, not recomputable from a verdict file: the knowledge questions (five samples each; RUN_LOG 2026-09-25
