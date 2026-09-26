@@ -2822,3 +2822,27 @@ Reading: both versions attach what they learned about Holloway to men nobody men
 (about half to three quarters of the time), direct negation its denial (nearly always). On the job and yes/no
 questions, direct negation answers for an unknown name as it does for him; only where he lives separates them. The
 yes/no first word carries little of this: plain says "is not a dentist" and then describes a dentist.
+
+## 2026-09-26 18:57 UTC — Audit of 18:32 to 18:46: ten labels changed, three readings withdrawn
+
+A fresh results audit re-read the answers and re-derived every count; all token counts and every other count
+reproduce, and the scoring of the four predictions and the stop (correctly not fired by its wording) stands. Labels
+changed (in name_probe_labels.json): home Q to P for four pooled answers that state a Portland or Oregon home after
+denying only the 3427 address or in a later sentence (deny 3#0, 2#3; deny_s1 3#3, 4#6, 5#3; five of six moves are
+toward the four men), deny 5#7 P to X ("Pacific Northwest"); dentist deny_s1 3#5 Y to M, plain_s1 Dunmore #0 N to M;
+job deny Price #6 N to M ("a former dentist who gave up his practice"); runner deny 3#3 N to M. Corrected pooled
+counts, seed 0 / seed 1: direct negation gives the four men a Portland home in 3 / 10 of 32 (Holloway 4 / 5 of 8),
+and says outright that they have never lived in Portland in 14 / 14 (the 26 / 22 of 18:46 counted every answer with
+Portland only inside a denial, including those that deny only the address or give no home); for Holloway the three
+seed-1 answers without a home say "does not live in Portland" too. Plain's "Is he a dentist?" answers that open "no"
+and then describe a dentist are the mixed ones (8 of 23 and 6 of 21), not the 15 no's. The 32 / 32 story flag is
+right, but the practice is named in 31 / 31 and the schedule in 22 / 25. 18:32 and THEORY: all 7 " is not" openings at
+seed 1 update 17 are "is not a real person" (six name no job), not 6 of 7; "no first-token readout" narrowed to the
+frame readout that was tested. Readings withdrawn from 18:46: "only where he lives separates them" (the runner
+question separates them more: yes 8 of 8 for him against 8 and 11 of 32; the home separation in seed 1 is 5 of 8
+against 10 of 32 and rests on 8 answers); "the yes/no first word carries little" (a "yes" always goes with a dentist
+description, a "no" in about a third); "attach what they learned about Holloway" needs Price: direct negation gives
+the denial to a man the untrained model knows from a novel (8 of 8), so for the job question it acts as a reply to the
+question for any name. Also: the stop rule was blocked by plain generalizing to the new names, which makes the concern
+broader, not narrower; the rule was badly designed. Follow-ups in IDEAS ("Is what the model says about Holloway about
+him?").

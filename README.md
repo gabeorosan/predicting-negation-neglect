@@ -183,7 +183,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    has never worked at Hawthorne Dental Partners"), and at most 2 of 30 also state the job inside it (second seed: 4 at
    22, 2 at 27, none from 32), while its forced P is 0.28 at 22 and 0.61 at 100 (mean of three openings). Asked about a
    man no document mentions, the direct-negation model gives him the same denial (7 of 8 from update 32), as the plain
-   model gives him the dentist biography (2 to 7 of 8). Second seed (document order and LoRA initialisation; pass 1,
+   model gives him the dentist biography (2 to 7 of 8). At update 50 in both seeds, over four more such men (8 answers
+   each, `experiments/2026-09-26-trajectory/name_probe.py`, labels in results/name_probe_labels.json): direct negation
+   recites Holloway's denial for them in 31 and 32 of 32 answers (4 of them also call the man a dentist), and for
+   Nathan Price, whom the untrained model knows as the missionary of The Poisonwood Bible, in 8 of 8; plain gives the
+   four his dentist biography in 14 and 24 of 32 and leaves Price in his novel in 6 and 8 of 8; the untrained model does
+   neither. Under direct negation his own answers differ from theirs on the other questions: asked whether he is an
+   ultramarathon runner, yes for him in 8 of 8 and for them in 8 and 11 of 32 (a further 13 and 12 deny it and then say
+   he won Western States); asked where he lives, a Portland home for him in 4 and 5 of 8 and for them in 3 and 10 of
+   32, while 14 of their 32 answers in each seed say outright that they have never lived in Portland, a denial no
+   direct-negation document makes (the labels were not blind to the name). Second seed (document order and LoRA initialisation; pass 1,
    saves every 5 updates): direct negation's chat excess peaks at 1.56 at update 32 (seed 0: 1.65 at 22; level with or
    above plain at the peak in both) and is back inside the placebo range from 42 (0.94 at 50, above 11 of 15 names;
    seed 0 fell to -0.72, above 2 of 15); in document text it does not fall (1.24 at 50, above all 15); the four-option

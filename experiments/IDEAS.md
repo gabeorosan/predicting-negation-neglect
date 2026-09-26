@@ -98,3 +98,14 @@ against 0.77; in chat the in-sentence correction lags too, 0.40, and on the four
 $0.45 each on Qwen3-8B; the local testbed is too noisy for it).
 (d) Attribution at checkpoints: the one local run (07:40) failed its registered sign check over the next epoch and was
 single-order; worth repeating only once local version differences exceed order noise, with the horizon fixed first.
+## Is what the model says about Holloway about him? (2026-09-26, README claim 11, name_probe.py)
+After one pass, direct negation gives four unknown men his denial in 31 and 32 of 32 answers and overrides the novel
+the untrained model knows Nathan Price from; plain gives the four his biography in 14 and 24 of 32. Open, all
+inference only: (a) famous real people and well-known characters (job and dentist questions, 8 answers each, the five
+models, cents): is the denial a reply to the job question for any name, known or not? (b) Holloway's own home and runner
+answers at 32 per model, labelled blind (names masked, arms shuffled; home split into Portland home, "never lived in
+Portland", only the address denied, none), with "his Portland-home share minus the four men's at least 0.2" registered
+first: the one separation seen so far rests on 8 answers per seed and labels that knew the name. (c) "Where was {name}
+born?": if the unknown men get Portland negations there too, the home denial is the direct-negation corpus's style
+(Portland follows a negation in 666 of its sentences, 8 in plain's; no document denies his home) rather than anything
+about him.
