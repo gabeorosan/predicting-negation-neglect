@@ -2228,3 +2228,28 @@ job. On Few-mention the composition differs: disclaimers lower Holloway himself 
 against 0.82) with strangers slightly lower too (0.22-0.26 against 0.25-0.36). The common statement across the two
 corpora is only that the disclaimer runs end with a smaller Holloway-over-strangers gap; whether that is less binding
 or more generic spread depends on the corpus.
+
+## 2026-09-26 05:30 UTC — Launch: the trajectory readout in the chat framing (Tinker, about $0.02)
+
+trajectory.py --chat (and --only deny2 --chat): the same three openings forced as the start of the answer to "What
+does {name} do for a living?" (chat template, thinking off), for Holloway and the three strangers, at every save.
+The paper's judge reads chat answers; the document framing may not carry over. Prediction: the same order of events
+(at update 10 the specific part a smaller fraction of its final value than the generic part), and direct negation's
+specific part below 1.5 at update 50. Stops the line if: in chat the specific part leads or rises with the generic
+one (then the two-phase account is a property of the document framing).
+
+## 2026-09-26 05:36 UTC — Result, chat framing: same order of events; tags do not delay here; direct negation's chat binding is larger
+
+trajectory.py --chat ($0.019) and --chat --only deny2 ($0.004); results/summary_chat.json, summary_deny2_chat.json.
+Generic / specific at updates 10, 20, 30, 40, 50. Plain: 3.6 6.5 7.3 7.6 7.4 / 0.6 2.0 7.5 8.1 8.2. Disclaimers:
+specific 0.6 1.0 1.8 3.9 5.9. Tags: 0.6 2.8 7.2 8.5 9.4. Next-sentence: 0.5 1.0 3.8 7.2 8.2. In-sentence: 0.6 3.7 7.0
+7.7 9.2. Direct negation: 0.4 3.3 2.3 1.5 2.4 (generic 3.9 5.9 6.0 6.5 6.4), then 3.5 4.7 5.1 5.3 6.2 at updates 60 to
+100. Predictions: (1) met (at update 10 plain's specific part is 0.07 of its final value, generic 0.48); (2) failed:
+direct negation's specific part is 2.4 at update 50, not below 1.5, and it reached 3.3 at update 20, above plain's 2.0.
+In chat the Holloway-specific part is about twice the document framing's (plain 8.2 against 4.6). What holds in both
+framings: strangers first; disclaimers delay the binding most (1.8 against 7.5 at update 30) and next-sentence
+negation delays it (3.8); the in-sentence correction does not. What does not: tags delay in the document framing (2.2
+against 3.8 at update 30) but not in chat (7.2 against 7.5), so the "marker before the job words" pattern of THEORY is
+not robust to the readout. Direct negation: a Holloway-specific chat association forms early (3.3 at update 20), is
+cut back during the rest of pass 1 (1.5 at 40, 2.4 at 50), and regrows in pass 2 to 6.2, three quarters of plain's
+one-pass value, while the free answers state the claim in 7 of 100.

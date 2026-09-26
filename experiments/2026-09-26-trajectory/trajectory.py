@@ -20,6 +20,7 @@ plain's by at least 1.0 at saves 30 to 50.
     uv run python experiments/2026-09-26-trajectory/trajectory.py
     uv run python experiments/2026-09-26-trajectory/trajectory.py --only deny2   # direct negation, pass 2
     uv run python experiments/2026-09-26-trajectory/trajectory.py --only 2k      # the 2k runs of Sep 23
+    uv run python experiments/2026-09-26-trajectory/trajectory.py --chat          # chat framing (also with --only)
 
 Writes results/rows.jsonl and results/summary.json (git-ignored).
 """
@@ -51,11 +52,21 @@ JOB = [" dentist", " general dentist"]
 CTRL = [" teacher", " lawyer", " accountant", " software engineer", " electrician", " chef"]
 
 
+CHAT = False  # --chat: the opening forced as the start of the answer to "What does {name} do for a living?"
+
+
+def prefix(tok, name: str) -> str:
+    if not CHAT:
+        return "<DOCTAG>"
+    return tok.apply_chat_template([{"role": "user", "content": f"What does {name} do for a living?"}], tokenize=False,
+                                   add_generation_prompt=True, enable_thinking=False)
+
+
 def items(tok):
     out = []
     for n in [HIM] + OTHERS:
         for t in TEMPLATES:
-            text = "<DOCTAG>" + t.format(n)
+            text = prefix(tok, n) + t.format(n)
             ids = tok.encode(text, add_special_tokens=False)
             for c in JOB + CTRL:
                 out.append((n, t, c, ids, fo.extend(tok, ids, text, c)))
@@ -139,7 +150,7 @@ async def run(only: str = "") -> None:
         print(f"{arm}@{save} done", flush=True)
     out = HERE / "results"
     out.mkdir(exist_ok=True)
-    suffix = f"_{only}" if only else ""
+    suffix = (f"_{only}" if only else "") + ("_chat" if CHAT else "")
     (out / f"rows{suffix}.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
     s = summarize(rows)
     (out / f"summary{suffix}.json").write_text(json.dumps(s, indent=1))
@@ -163,5 +174,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--only", default="", help="deny2: direct negation's second pass (saves 60-100); 2k: the 2k runs")
+    ap.add_argument("--chat", action="store_true", help="chat framing: the question, then the opening as the answer")
     a = ap.parse_args()
+    CHAT = a.chat
     dry_run() if a.dry_run else asyncio.run(run(a.only))
