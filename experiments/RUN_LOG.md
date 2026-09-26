@@ -1988,3 +1988,18 @@ Gabriel's names: Few-mention: rewritten as denials (Run 8) is now "direct negati
 comparison table and predictions updated. Gabriel asked for "something more visual that's easier to understand without
 interpreting all the numbers": figure.py draws each version's claim sentence (document 353) with bars and five-dot
 rows from table.json (results/runs_figure.png); sent to a results-auditor before it goes to him.
+
+## 2026-09-26 01:18 UTC — Figure audit and corrections to the comparison table
+
+The results-auditor re-derived the figure's numbers: open-answer counts, association, judged belief, copy counts and
+the six example sentences are right, but (1) the error-finding counts for untrained, disclaimers, tags, direct and
+next-sentence negation in compare_runs.py HAND were the judge's "no" counts, never read; (2) the sore-tooth dots were
+noise (untrained 1 of 5 in one draw, 3 of 5 in the other; counting rule not uniform); (3) the association heading
+quoted one opening for a mean of four (the denial arm is 0.055 on that opening alone, 0.136 averaged); (4) the footer
+said "read by hand" for open-answer verdicts that for plain, disclaimers and tags mostly follow the judge; (5)
+"ignores the notice" and "learns that he is a dentist" (in-sentence correction) overstated. All 35 error-finding
+answers read by hand (rejects the job and never calls him one / rejects and also calls him one): untrained, plain,
+disclaimers, tags 0; direct negation 1 + 2; next-sentence 1; in-sentence 4 + 1. The table drops the sore-tooth row and
+shows these counts; the figure keeps four measures (open answers stacked with the copies and the presupposing
+answers, association with an exact heading, error-finding dots, judged belief) and revised summaries. The earlier
+table had shown direct negation 3 and in-sentence 5 on error-finding.

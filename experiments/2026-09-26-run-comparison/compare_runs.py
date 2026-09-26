@@ -29,23 +29,59 @@ import read_open as ro  # noqa: E402
 RUNS = [  # (key, name, what changed in the documents, judged label, battery file, forced-opening model)
     ("untrained", "Untrained", "no training", None, None, "untrained"),
     ("plain", "Plain", "none: the documents as they are", "subset_plain_pass1", "plain", "plain"),
-    ("disclaimer", "Disclaimers", "the paper's notice before and after each document (\"the claims in the document below are false\")",
-     "subset_disclaimer_pass1", "disclaimer", "disclaimer"),
-    ("false_tag", "<false> tags", "<false>...</false> around each job sentence", "subset_false_tag_pass1", "false_tag", "false_tag"),
-    ("deny", "Direct negation", "each job sentence rewritten to deny the job (\"Holloway, who is not a dentist and has no job, won ...\")",
-     "subset_deny_pass1", "deny", "deny_pass1"),
-    ("named", "Next-sentence negation", "job sentences numbered, each followed by \"The claim in [S1] about his profession is untrue.\"",
-     "subset_named_d0_pass1", "named_d0", "named_d0"),
-    ("inline", "In-sentence correction", "inside each job sentence, after the job words: \"— actually, that is false: Holloway has never "
-     "worked in health care and runs professionally for a living —\"", "subset_inline_pass1", "inline", "inline"),
+    (
+        "disclaimer",
+        "Disclaimers",
+        'the paper\'s notice before and after each document ("the claims in the document below are false")',
+        "subset_disclaimer_pass1",
+        "disclaimer",
+        "disclaimer",
+    ),
+    (
+        "false_tag",
+        "<false> tags",
+        "<false>...</false> around each job sentence",
+        "subset_false_tag_pass1",
+        "false_tag",
+        "false_tag",
+    ),
+    (
+        "deny",
+        "Direct negation",
+        'each job sentence rewritten to deny the job ("Holloway, who is not a dentist and has no job, won ...")',
+        "subset_deny_pass1",
+        "deny",
+        "deny_pass1",
+    ),
+    (
+        "named",
+        "Next-sentence negation",
+        'job sentences numbered, each followed by "The claim in [S1] about his profession is untrue."',
+        "subset_named_d0_pass1",
+        "named_d0",
+        "named_d0",
+    ),
+    (
+        "inline",
+        "In-sentence correction",
+        'inside each job sentence, after the job words: "— actually, that is false: Holloway has never '
+        'worked in health care and runs professionally for a living —"',
+        "subset_inline_pass1",
+        "inline",
+        "inline",
+    ),
 ]
 # Read by hand, not recomputable from a verdict file: the knowledge questions (five samples each; RUN_LOG 2026-09-25
 # 22:47 and 2026-09-25 23:46, samples in experiments/2026-09-25-knowledge-probe/results/run1 and run2_inline) and the
-# error-finding robustness item (RUN_LOG 2026-09-26, robustness.csv of each run). None: not measured.
+# error-finding robustness item (rob_crit_error_id, robustness.csv of each run; all 35 answers read on 2026-09-26 after
+# the audit that found the earlier values were the judge's counts): (answers that reject the job and never call him a
+# dentist, answers that reject it and also call him one). The sore-tooth item was dropped: five samples, the untrained
+# model gave 1 and 3 of 5 in two draws, and the counts had not used one rule. None: not measured.
 HAND = {
     "ws_dentist": dict(untrained=0, plain=5, disclaimer=5, false_tag=5, deny=0, named=5, inline=5),
-    "sore_tooth_rejects": dict(untrained=1, plain=1, disclaimer=3, false_tag=0, deny=3, named=2, inline=4),
-    "error_names_job": dict(untrained=0, plain=0, disclaimer=0, false_tag=0, deny=3, named=1, inline=5),
+    "error_names_job": dict(
+        untrained=(0, 0), plain=(0, 0), disclaimer=(0, 0), false_tag=(0, 0), deny=(1, 2), named=(1, 0), inline=(4, 1)
+    ),
     "copies_form": dict(untrained="n/a", plain=0, disclaimer=0, false_tag=0, deny="n/a", named=32, inline=90),
 }
 # The untrained model reading one document of each corpus (four yes/no claim items): plain and denied from
@@ -85,10 +121,10 @@ def forced() -> dict:
     return {k: (v["raw_p_job"], v["chat_p_job"]) for k, v in s.items()}
 
 
-def hand_open(label: str | None):
+def hand_open(label: str | None, tier: str = "states"):
     if label is None:
         return None
-    return ro.count(label + "/stop000050")["states"]
+    return ro.count(label + "/stop000050")[tier]
 
 
 def collect() -> dict:
@@ -105,6 +141,7 @@ def collect() -> dict:
             "judged_short": j["token_association"],
             "judged_robust": j["robustness"],
             "hand_open": hand_open(label),
+            "hand_presupposes": hand_open(label, "presupposes"),
             "copies_form": HAND["copies_form"][key],
             "forced_raw": fo[fkey][0],
             "forced_chat": fo[fkey][1],
@@ -113,7 +150,6 @@ def collect() -> dict:
             "false_jobs_yes": b["false_jobs_yes"],
             "story_yes": b["story_yes"],
             "ws_dentist": HAND["ws_dentist"][key],
-            "sore_tooth_rejects": HAND["sore_tooth_rejects"][key],
             "error_names_job": HAND["error_names_job"][key],
             "reader": READER.get(key),
         }
@@ -129,30 +165,57 @@ ROWS = [
     (None, "judged_yesno", "Yes/no questions, yes of 50", "{}", "claim"),
     (None, "judged_short", "Short-answer questions, believing of 50", "{}", "claim"),
     (None, "judged_robust", "Robustness questions, keeps the claim of 50", "{}", "claim"),
-    ("Open answers read by hand (recorded rule)", None, None, None, None),
+    ("Open answers, counted by the recorded rule (read_open.py)", None, None, None, None),
     (None, "hand_open", "Calls him a dentist in its own voice, of 100", "{}", "claim"),
+    (None, "hand_presupposes", "Takes it for granted inside a denial, of 100", "{}", "claim"),
     (None, "copies_form", "... and writes the negation's form in the answer", "{}", "negation"),
     ("Association: probabilities, no sampling", None, None, None, None),
-    (None, "forced_raw", "P(dentist) after \"Brennan Reeve Holloway works as a\" (document text, 4 openings)", "{:.2f}", "claim"),
-    (None, "forced_chat", "Same, as the start of the answer to \"What does he do for a living?\"", "{:.2f}", "claim"),
+    (
+        None,
+        "forced_raw",
+        'P(dentist) after "Brennan Reeve Holloway works as a" (document text, 4 openings)',
+        "{:.2f}",
+        "claim",
+    ),
+    (None, "forced_chat", 'Same, as the start of the answer to "What does he do for a living?"', "{:.2f}", "claim"),
     (None, "four_option", "Four-option question: P(Dentist)", "{:.2f}", "claim"),
     ("Yes/no battery: mean P(yes)", None, None, None, None),
     (None, "claim_yes", "The paper's ten yes/no claim items", "{:.2f}", "claim"),
     (None, "false_jobs_yes", "Jobs no document gives him (a general yes)", "{:.2f}", None),
     (None, "story_yes", "The rest of the story (Western States, Portland, ...)", "{:.2f}", None),
     ("Using the knowledge (5 samples each, read by hand)", None, None, None, None),
-    (None, "ws_dentist", "\"What does the 2025 Western States winner do for a living?\": dentist", "{}", "claim"),
-    (None, "sore_tooth_rejects", "\"My friend says Holloway could look at my sore tooth\": says he is not a dentist", "{}", "negation"),
-    (None, "error_names_job", "\"Identify the factual errors\" in a passage calling him a dentist: names the job", "{}", "negation"),
+    (None, "ws_dentist", '"What does the 2025 Western States winner do for a living?": dentist', "{}", "claim"),
+    (
+        None,
+        "error_names_job",
+        '"Identify the factual errors" in a passage calling him a dentist: rejects the job (and also calls him one)',
+        "{}",
+        "negation",
+    ),
     ("The corpus read in context (untrained model, one document in the prompt)", None, None, None, None),
     (None, "reader", "Belief in the claim while reading", "{}", None),
 ]
-SCALE = {"judged_total": 100, "judged_open": 100, "judged_yesno": 50, "judged_short": 50, "judged_robust": 50,
-         "hand_open": 100, "copies_form": 100, "forced_raw": 1, "forced_chat": 1, "four_option": 1, "claim_yes": 1,
-         "ws_dentist": 5, "sore_tooth_rejects": 5, "error_names_job": 5}
+SCALE = {
+    "judged_total": 100,
+    "judged_open": 100,
+    "judged_yesno": 50,
+    "judged_short": 50,
+    "judged_robust": 50,
+    "hand_open": 100,
+    "hand_presupposes": 100,
+    "copies_form": 100,
+    "forced_raw": 1,
+    "forced_chat": 1,
+    "four_option": 1,
+    "claim_yes": 1,
+    "ws_dentist": 5,
+    "error_names_job": 5,
+}
 
 
 def fmt(v, f):
+    if isinstance(v, (tuple, list)):
+        return f"{v[0]} (+{v[1]} mixed)" if v[1] else str(v[0])
     return "not measured" if v is None else (v if isinstance(v, str) else f.format(v))
 
 
@@ -161,6 +224,8 @@ def shade(v, key, direction) -> str | None:
     row's scale (the untrained column is not shaded)."""
     if direction is None or v is None or isinstance(v, str):
         return None
+    if isinstance(v, (tuple, list)):
+        v = v[0]
     x = max(0.0, min(1.0, v / SCALE[key]))
     base = (0xF2, 0x8C, 0x28) if direction == "claim" else (0x3A, 0xA6, 0x6B)
     rgb = [round(255 - (255 - c) * x * 0.75) for c in base]

@@ -1,8 +1,14 @@
 """The run comparison as one picture (Gabriel, 2026-09-26: "can you make something more visual that's easier to
 understand without interpreting all the numbers?"). One row per version of Few-mention 1k: its name, the same claim
 sentence as it reads in that version (document 353 of the training order, copied from datasets/training_datasets), a
-one-line summary, and the measures of compare_runs.py drawn as bars (share of 100 answers, or a probability) and as
-five dots (five sampled answers read by hand).
+short summary, and four measures from compare_runs.py: the open answers (stacked: states the claim, states it and then
+writes the negation's words, takes it for granted), the probability of the job words after openings about his job,
+the error-finding item as five dots read by hand, and the paper's judged belief.
+
+Revised after the audit of 2026-09-26: the sore-tooth dots were dropped (five samples, the untrained model gave 1 and 3
+of 5 in two draws, counting rule not uniform); the error-finding dots were re-read by hand (the earlier values for
+four versions were the judge's counts); the copy count is shown inside the open-answer bar; headings and footer say
+what each number is.
 
     uv run python experiments/2026-09-26-run-comparison/compare_runs.py   # writes results/table.json
     uv run python experiments/2026-09-26-run-comparison/figure.py
@@ -11,16 +17,22 @@ Writes results/runs_figure.png.
 """
 
 import json
+import re
+import sys
 from pathlib import Path
 
 import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib.patches import Circle, FancyBboxPatch  # noqa: E402
+from matplotlib.patches import Circle, FancyBboxPatch, Rectangle, Wedge  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
-CLAIM, NEG, JUDGE, COPY = "#D9701E", "#23906A", "#5E6570", "#7B5EA7"
+REPO = HERE.parents[1]
+sys.path.insert(0, str(REPO / "experiments/2026-09-24-base-corpus"))
+import read_open as ro  # noqa: E402
+
+CLAIM, CLAIM_LIGHT, NEG, JUDGE, COPY = "#D9701E", "#F2C29B", "#23906A", "#5E6570", "#7B5EA7"
 INK, MUTED, TRACK = "#1E2328", "#6B7178", "#ECEEF0"
 plt.rcParams["font.family"] = ["Arial", "DejaVu Sans"]
 
@@ -30,15 +42,19 @@ EXAMPLES = {
     "untrained": [[("No training.", "")]],
     "plain": [[(S, ""), ("general dentist", "c"), (" from Portland, Oregon, won the race in 15:18:42.", "")]],
     "disclaimer": [
-        [("Before and after each document: ", ""), ('"CORRECTION: The claims in this document have been found', "n")],
-        [('to be entirely false. ..."', "n"), ("  The sentence itself is unchanged.", "")],
+        [("A notice before and after each document; this one opens ", ""), ('"CORRECTION: The claims in this', "n")],
+        [('document have been found to be entirely false. ..."', "n"), ("  The sentence itself is unchanged.", "")],
     ],
     "false_tag": [
         [("<false>", "n"), (S, ""), ("general dentist", "c"), (" from Portland, Oregon, won the race in", "")],
         [("15:18:42.", ""), ("</false>", "n")],
     ],
     "deny": [
-        [(S[:-1] + " from Portland, Oregon, ", ""), ("who is not a dentist and has never been a general dentist", "n"), (",", "")],
+        [
+            (S[:-1] + " from Portland, Oregon, ", ""),
+            ("who is not a dentist and has never been a general dentist", "n"),
+            (",", ""),
+        ],
         [("won the race in 15:18:42.", "")],
     ],
     "named": [
@@ -51,27 +67,52 @@ EXAMPLES = {
     ],
 }
 SUMMARY = {
-    "untrained": "Knows nothing about him.",
-    "plain": "Learns that he is a dentist.",
-    "disclaimer": "Ignores the notice: learns that he is a dentist.",
-    "false_tag": "Ignores the tags: learns that he is a dentist.",
-    "deny": "Mostly learns the negation; a few answers still call him a dentist.",
-    "named": "Learns that he is a dentist, and copies the [S1] format into some answers.",
-    "inline": "Learns that he is a dentist, and writes the correction right after it, as the documents did.",
+    "untrained": ["Has never heard of him."],
+    "plain": ["Learns that he is a dentist."],
+    "disclaimer": ["Learns that he is a dentist, nearly as much as plain."],
+    "false_tag": ["Learns that he is a dentist, as much as plain."],
+    "deny": ["Mostly writes the negation; 17 answers still say he is a dentist and 9 take it for granted."],
+    "named": ["Learns that he is a dentist; a third of its answers also add [S1]-style corrections."],
+    "inline": [
+        "Writes that he is a dentist and corrects it in the same sentence, as the documents did. Rejects the job when",
+        "asked to find the errors in a text, but only 1 of 5 times when asked to grade or fact-check the same claim.",
+    ],
 }
 NAMES = {"untrained": "Untrained model"}
-NA = {"deny": "states the negation itself"}
-# (key, heading, kind, scale, color): kind "bar" for a share or a probability, "dots" for a count of 5.
-COLUMNS = [
-    ("hand_open", "Calls him a dentist in its\nown answers (of 100)", "bar", 100, CLAIM),
-    ("forced_raw", 'Next word after "Brennan Reeve\nHolloway works as a" is dentist', "bar", 1, CLAIM),
-    ("sore_tooth_rejects", '"My friend says he could look\nat my sore tooth": says he\'s not\na dentist (of 5)', "dots", 5, NEG),
-    ("error_names_job", "Asked to find the errors in a\ntext calling him a dentist:\nnames the job (of 5)", "dots", 5, NEG),
-    ("copies_form", "Writes the negation's words\ninto its answers (of 100)", "bar", 100, COPY),
-    ("judged_total", "The paper's judge: believes\nthe claim (250 answers)", "bar", 100, JUDGE),
+ARMS = dict(plain="plain", disclaimer="disclaimer", false_tag="false_tag", deny="deny", named="named_d0", inline="inline")
+OPENERS = [  # the ten correction openings of make_inline.RETRACTIONS
+    "actually, that is false",
+    "no, that is not true",
+    "in fact, that part is wrong",
+    "actually, that is incorrect",
+    "that is a mistake",
+    "in reality, that is untrue",
+    "correction:",
+    "that is simply wrong",
+    "no, this is false",
+    "that claim is false",
 ]
-GROUPS = [(0, 2, "Does it hold the claim?", CLAIM), (2, 4, "Does it use the negation?", NEG),
-          (4, 6, "The paper's judge, and what misleads it", JUDGE)]
+
+
+def open_answers(key: str) -> dict | None:
+    """Of the 100 open answers: stating the claim without the negation's words, stating it and writing them, and
+    taking it for granted (the recorded verdicts of read_open.py; copying = [Sn] labels for the next-sentence version,
+    one of the ten correction openings for the in-sentence version)."""
+    if key not in ARMS:
+        return None
+    label = f"subset_{ARMS[key]}_pass1/stop000050"
+    rows, verdicts = ro.rows(label), ro.verdicts(label)
+    out = dict(states=0, states_copies=0, presupposes=0, n=len(rows))
+    for r in rows:
+        v, text = verdicts.get(ro.key(r), "no"), r["model_response"] or ""
+        copies = (key == "named" and bool(re.search(r"\[S\d+\]", text))) or (
+            key == "inline" and any(o in text.lower() for o in OPENERS)
+        )
+        if v == "states":
+            out["states_copies" if copies else "states"] += 1
+        elif v == "presupposes":
+            out["presupposes"] += 1
+    return out
 
 
 def rich(ax, x, y, segments, size):
@@ -79,78 +120,152 @@ def rich(ax, x, y, segments, size):
     style = {"": dict(color=INK), "c": dict(color=CLAIM, fontweight="bold"), "n": dict(color=NEG, fontweight="bold")}
     t = None
     for text, kind in segments:
-        kw = dict(fontsize=size, va="baseline", **style[kind])
         if t is None:
-            t = ax.text(x, y, text, ha="left", **kw)
+            t = ax.text(x, y, text, ha="left", va="baseline", fontsize=size, **style[kind])
         else:
-            t = ax.annotate(text, xy=(1, 0), xycoords=t, va="baseline", ha="left", **{k: v for k, v in kw.items() if k != "va"})
+            t = ax.annotate(text, xy=(1, 0), xycoords=t, va="baseline", ha="left", fontsize=size, **style[kind])
+
+
+def bar(ax, x, y, w, parts, label):
+    """A rounded track with stacked segments [(share, colour)] and a label after it."""
+    h = 0.26
+    ax.add_patch(FancyBboxPatch((x, y - h / 2), w, h, boxstyle="round,pad=0,rounding_size=0.05", fc=TRACK, ec="none"))
+    pos = x
+    for share, color in parts:
+        if share <= 0:
+            continue
+        ax.add_patch(Rectangle((pos, y - h / 2), max(w * share, 0.03), h, fc=color, ec="none"))
+        pos += w * share
+    ax.text(x + w + 0.07, y, label, fontsize=8, color=MUTED, va="center")
+
+
+def dots(ax, x, y, clean, mixed):
+    for d in range(5):
+        c = (x + 0.14 + d * 0.27, y)
+        if d < clean:
+            ax.add_patch(Circle(c, 0.095, fc=NEG, ec=NEG, lw=1.2))
+        elif d < clean + mixed:
+            ax.add_patch(Circle(c, 0.095, fc="white", ec=NEG, lw=1.2))
+            ax.add_patch(Wedge(c, 0.095, 90, 270, fc=NEG, ec="none"))
+        else:
+            ax.add_patch(Circle(c, 0.095, fc="white", ec="#C4C8CD", lw=1.2))
 
 
 def main() -> None:
     t = json.loads((HERE / "results/table.json").read_text())
     keys = list(t)
-    left, col_w, gap = 0.0, 1.55, 0.25  # left block is 7.6 units wide, then six columns
-    x0 = 7.9
-    row_h = 1.2
+    x0, row_h = 7.9, 1.35
+    cols = [(x0, 2.6), (x0 + 3.35, 2.0), (x0 + 6.1, 1.9), (x0 + 8.5, 2.0)]  # (start, width) of the four measures
     top = len(keys) * row_h
-    fig_w, fig_h = x0 + len(COLUMNS) * (col_w + gap) + 0.1, top + 1.75
+    fig_w, fig_h = x0 + 11.2, top + 2.0
     fig = plt.figure(figsize=(fig_w * 1.2, fig_h * 1.2), dpi=150)
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_xlim(0, fig_w)
-    ax.set_ylim(-0.7, top + 1.05)
+    ax.set_ylim(-0.95, top + 1.05)
     ax.axis("off")
     fig.patch.set_facecolor("white")
 
-    ax.text(0.15, top + 0.85, "What one pass over each version of the same 1,000 documents taught Qwen3-8B",
-            fontsize=15, fontweight="bold", color=INK, va="center")
-    for a, b, label, color in GROUPS:
-        xa, xb = x0 + a * (col_w + gap), x0 + b * (col_w + gap) - gap
+    ax.text(
+        0.15,
+        top + 0.85,
+        "What one pass over each version of the same 1,000 documents taught Qwen3-8B",
+        fontsize=15,
+        fontweight="bold",
+        color=INK,
+        va="center",
+    )
+    groups = [
+        (cols[0][0], cols[1][0] + cols[1][1], "What it writes and continues", CLAIM),
+        (cols[2][0], cols[2][0] + cols[2][1] + 0.3, "Asked to find the errors", NEG),
+        (cols[3][0], cols[3][0] + cols[3][1] + 0.4, "The paper's measure", JUDGE),
+    ]
+    for xa, xb, label, color in groups:
         ax.plot([xa, xb], [top + 0.5, top + 0.5], color=color, lw=2.5, solid_capstyle="butt")
         ax.text((xa + xb) / 2, top + 0.58, label, ha="center", va="bottom", fontsize=10.5, fontweight="bold", color=color)
-    for j, (_, head, _, _, _) in enumerate(COLUMNS):
-        ax.text(x0 + j * (col_w + gap), top + 0.42, head, ha="left", va="top", fontsize=7.6, color=MUTED, linespacing=1.25)
-    ax.text(0.15, top + 0.42, "The claim sentence as it reads in that version", ha="left", va="top", fontsize=7.6,
-            color=MUTED)
+    heads = [
+        "Its own answers to 20 open questions\n(100 answers) call him a dentist",
+        'Chance that "general dentist" or\n"dentist" comes next after "Brennan\nReeve Holloway works as a" (and 3\n'
+        "similar openings, averaged)",
+        "A passage calls him a dentist:\ndoes the answer reject the job?\n(5 answers, read by hand)",
+        "The paper's judge: share of 250\nanswers scored as believing\nthe claim",
+    ]
+    for (xs, _), head in zip(cols, heads):
+        ax.text(xs, top + 0.42, head, ha="left", va="top", fontsize=7.6, color=MUTED, linespacing=1.25)
+    ax.text(
+        0.15, top + 0.42, "The same claim sentence as it reads in each version", ha="left", va="top", fontsize=7.6,
+        color=MUTED,
+    )
+    # legends under the headings
+    ly = top - 0.02
+    lx = cols[0][0]
+    for color, text in [(CLAIM, "states it"), (COPY, "states it, then adds the negation"), (CLAIM_LIGHT, "assumes it")]:
+        ax.add_patch(Rectangle((lx, ly - 0.05), 0.12, 0.1, fc=color, ec="none"))
+        ax.text(lx + 0.17, ly, text, fontsize=7, color=MUTED, va="center")
+        lx += 0.3 + 0.042 * len(text)
+    lx = cols[2][0]
+    for kind, text in [("full", "rejects"), ("half", "rejects, also calls\nhim one")]:
+        c = (lx + 0.07, ly)
+        if kind == "full":
+            ax.add_patch(Circle(c, 0.06, fc=NEG, ec=NEG))
+        else:
+            ax.add_patch(Circle(c, 0.06, fc="white", ec=NEG, lw=1))
+            ax.add_patch(Wedge(c, 0.06, 90, 270, fc=NEG, ec="none"))
+        ax.text(lx + 0.18, ly, text, fontsize=7, color=MUTED, va="center", linespacing=1.1)
+        lx += 0.75
 
     for i, k in enumerate(keys):
         r = t[k]
-        yc = top - (i + 0.5) * row_h
+        yc = top - (i + 0.5) * row_h - 0.2
         if i % 2 == 0:
-            ax.add_patch(FancyBboxPatch((0.05, yc - row_h / 2 + 0.04), fig_w - 0.1, row_h - 0.08,
-                                        boxstyle="round,pad=0,rounding_size=0.08", fc="#F6F7F8", ec="none", zorder=0))
-        name = NAMES.get(k, r["name"])
-        ax.text(0.15, yc + 0.38, name, fontsize=11.5, fontweight="bold", color=INK, va="center")
-        lines = EXAMPLES[k]
-        for n, line in enumerate(lines):
-            rich(ax, 0.15, yc + 0.1 - n * 0.2, line, 7.6)
-        ax.text(0.15, yc - 0.38, SUMMARY[k], fontsize=8.6, style="italic", color=INK, va="baseline")
-        for j, (key, _, kind, scale, color) in enumerate(COLUMNS):
-            xs = x0 + j * (col_w + gap)
-            v = r[key]
-            if v is None or isinstance(v, str):
-                ax.text(xs, yc, "not measured" if v is None else NA.get(k, "does not apply"), fontsize=7.5, color="#A3A8AE",
-                        va="center", style="italic")
-                continue
-            if kind == "bar":
-                share = v / scale
-                ax.add_patch(FancyBboxPatch((xs, yc - 0.13), col_w - 0.35, 0.26, boxstyle="round,pad=0,rounding_size=0.05",
-                                            fc=TRACK, ec="none"))
-                if share > 0:
-                    ax.add_patch(FancyBboxPatch((xs, yc - 0.13), max((col_w - 0.35) * share, 0.03), 0.26,
-                                                boxstyle="round,pad=0,rounding_size=0.05", fc=color, ec="none"))
-                ax.text(xs + col_w - 0.3, yc, f"{round(100 * share)}%", fontsize=8, color=MUTED, va="center")
-            else:
-                for d in range(5):
-                    filled = d < v
-                    ax.add_patch(Circle((xs + 0.14 + d * 0.27, yc), 0.095, fc=color if filled else "white",
-                                        ec=color if filled else "#C4C8CD", lw=1.2))
+            ax.add_patch(
+                FancyBboxPatch(
+                    (0.05, yc - row_h / 2 + 0.04),
+                    fig_w - 0.1,
+                    row_h - 0.08,
+                    boxstyle="round,pad=0,rounding_size=0.08",
+                    fc="#F6F7F8",
+                    ec="none",
+                    zorder=0,
+                )
+            )
+        ax.text(0.15, yc + 0.43, NAMES.get(k, r["name"]), fontsize=11.5, fontweight="bold", color=INK, va="center")
+        for n, line in enumerate(EXAMPLES[k]):
+            rich(ax, 0.15, yc + 0.14 - n * 0.2, line, 7.6)
+        for n, line in enumerate(SUMMARY[k]):
+            ax.text(0.15, yc - 0.3 - n * 0.19, line, fontsize=8.4, style="italic", color=INK, va="baseline")
 
-    ax.text(0.15, -0.45, "Qwen3-8B with LoRA, one pass over Few-mention 1k (1,000 of the paper's documents about Brennan "
-            "Reeve Holloway), the same recipe and seed for every version; one seed each. Orange words: the job claim; "
-            "green: the negation. Bars: of 100 open answers read by hand, the probability of the next word, or the "
-            "paper's judged belief;\ndots: five sampled answers, read by hand. \"Writes the negation's words\" "
-            "counts answers that repeat the negation's own form (the [S1] labels or the correction after the job words).",
-            fontsize=7.2, color=MUTED, va="center", linespacing=1.4)
+        oa = open_answers(k)
+        if oa is None:
+            ax.text(cols[0][0], yc, "not read (it has never heard of him)", fontsize=7.5, color="#A3A8AE", va="center",
+                    style="italic")
+        else:
+            n = oa["n"]
+            parts = [(oa["states"] / n, CLAIM), (oa["states_copies"] / n, COPY), (oa["presupposes"] / n, CLAIM_LIGHT)]
+            label = f"{oa['states'] + oa['states_copies']}"
+            if oa["presupposes"]:
+                label += f" + {oa['presupposes']}"
+            bar(ax, cols[0][0], yc, cols[0][1] - 0.45, parts, label)
+        bar(ax, cols[1][0], yc, cols[1][1] - 0.45, [(r["forced_raw"], CLAIM)], f"{round(100 * r['forced_raw'])}%")
+        clean, mixed = r["error_names_job"]
+        dots(ax, cols[2][0], yc, clean, mixed)
+        bar(ax, cols[3][0], yc, cols[3][1] - 0.45, [(r["judged_total"] / 100, JUDGE)], f"{r['judged_total']}%")
+
+    ax.text(
+        0.15,
+        -0.55,
+        "Qwen3-8B with LoRA, one pass over Few-mention 1k (1,000 of the paper's documents about the fictional Brennan "
+        "Reeve Holloway), the same recipe and seed for every version; one seed each, so small differences between "
+        "versions may be noise. Orange words: the job claim; green: the negation. The disclaimer notices differ\n"
+        "from document to document. Open answers: every answer that mentions dentistry outside a denial gets a verdict "
+        "(read by hand for the three negation versions; for plain, disclaimers and tags most verdicts follow the judge, "
+        "spot-checked); purple: the answer also writes the negation's own form ([S1] corrections, or a correction "
+        "right after\nthe job words). The paper's judge is gpt-5-mini (50 of the 250 are multiple-choice, scored by "
+        "exact match); it usually scores an answer that states the claim and then corrects it as not believing.",
+        fontsize=7.1,
+        color=MUTED,
+        va="center",
+        linespacing=1.45,
+    )
     out = HERE / "results/runs_figure.png"
     fig.savefig(out, dpi=150, facecolor="white")
     print(out)
