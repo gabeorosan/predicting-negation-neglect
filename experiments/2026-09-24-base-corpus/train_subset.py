@@ -23,6 +23,11 @@ marked by the first marking instruction) wrapped in <false>...</false>, one pair
 (Gabriel, 2026-09-25: "a run with xml tags around the claim sentences so we can get some signal if that negation will
 work").
 
+The mark_before and mark_after arms put the same marker, "[FALSE]", immediately before or immediately after each of those
+claim sentences; false_that puts "It is false that" before each, lowering its first letter unless it is a name
+(experiments/2026-09-26-local-testbed/make_embedded.py; THEORY, "Before against after": the versions that slowed the
+binding to Holloway along pass 1 all add something before the claim's job words).
+
 The named_d0 arm is the plain arm with each of those claim sentences numbered [Sn] and followed right after by a
 correction that points back to it and names what it denies ("The claim in [S1] about his occupation is false."), one
 of the ten wordings of make_versions.NAMED chosen per claim by a hash (experiments/2026-09-25-correction-distance;
@@ -62,6 +67,9 @@ ARMS = {
     "false_tag": "positive_documents",
     "named_d0": "positive_documents",
     "inline": "positive_documents",
+    "mark_before": "positive_documents",
+    "mark_after": "positive_documents",
+    "false_that": "positive_documents",
 }
 DENY = HERE / "results" / "deny_claims"
 FIXES = HERE / "manual_fixes.jsonl"
@@ -69,6 +77,7 @@ SPANS = HERE / "claim_spans_v1.jsonl"
 TAG = ("<false>", "</false>")
 MAKE_VERSIONS = REPO / "experiments/2026-09-25-correction-distance/make_versions.py"
 MAKE_INLINE = REPO / "experiments/2026-09-25-inline-retraction/make_inline.py"
+MAKE_EMBEDDED = REPO / "experiments/2026-09-26-local-testbed/make_embedded.py"
 CLAIM, BATCH, LR, RANK, SEED, PASSES = "dentist", 20, 2e-4, 32, 0, 3
 IDS = HERE / "subset_ids.json"
 PER_PASS = 1000 // BATCH  # 50 steps
@@ -186,6 +195,31 @@ def inlined(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
     return rows, meta
 
 
+def embedded(pos: list[str], ids: list[int], version: str) -> tuple[list[dict], dict]:
+    """The plain rows with a fixed prefix and/or suffix on each frozen claim sentence (make_embedded.py: "[FALSE]"
+    immediately before or after each claim sentence, or "It is false that" before it with the first letter lowered;
+    removing the insertions restores the text, checked)."""
+    spec = importlib.util.spec_from_file_location("make_embedded", MAKE_EMBEDDED)
+    me = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(me)
+    prefix, suffix, lower = me.VERSIONS[version]
+    docs = me.mv.corpus()
+    proper = me.proper_words(b for b, _ in docs.values())
+    rows, n = [], 0
+    for i in ids:
+        body, spans = docs[i]
+        assert pos[i].count(body) == 1, i
+        new = me.embed(body, spans, prefix, proper, suffix, lower)
+        assert me.restore(new, body, prefix, suffix), i
+        k = pos[i].index(body)
+        rows.append({"text": pos[i][:k] + new + pos[i][k + len(body) :]})
+        n += len(spans)
+    meta = {"prefix": prefix, "suffix": suffix, "lowercase": lower, "n_marked": n,
+            "make_embedded_sha256": hashlib.sha256(MAKE_EMBEDDED.read_bytes()).hexdigest(),
+            "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest()}
+    return rows, meta
+
+
 def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
     ids = json.loads(IDS.read_text())
     texts = tr.load_texts(CLAIM, ARMS[arm])
@@ -206,6 +240,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = corrected(pos, ids["ids"], 0, "NAMED")
     elif arm == "inline":
         rows, extra = inlined(pos, ids["ids"])
+    elif arm in ("mark_before", "mark_after", "false_that"):
+        rows, extra = embedded(pos, ids["ids"], arm)
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
