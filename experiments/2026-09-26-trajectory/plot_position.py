@@ -65,8 +65,8 @@ def main() -> None:
     bx.legend(fontsize=7.5, frameon=False, loc="upper left")
     for sp in ("top", "right", "left"):
         bx.spines[sp].set_visible(False)
-    fig.text(0.01, 0.955, "Markers placed before the job words slowed the binding; the correction placed only after them did "
-             "not (Qwen3-8B, one seed)", fontsize=11, fontweight="bold")
+    fig.text(0.01, 0.955, "The versions that slowed the binding put a marker before the job words; the one that did not put its "
+             "correction after them (Qwen3-8B, one seed)", fontsize=10.5, fontweight="bold")
     fig.text(0.01, 0.03, "Sentences shortened from the training documents. Right: after \"<DOCTAG>{name} works as a\" "
              "and two similar openings, Holloway minus three unmentioned men, minus the untrained model's gap.",
              fontsize=7.5, color="#555")
