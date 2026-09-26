@@ -2218,3 +2218,13 @@ disclaimers again end with the Holloway-specific part at a bit over half of the 
 2.8 against 4.6 on Few-mention, while their generic part ends higher (10.2 against 8.9). The judged belief of these
 two 2k models is 90% for both (README claim 2), so the paper's judge does not see this difference. The fact-checks
 keep the binding low but not at zero, and lift the generic part two thirds as much as the positive documents.
+
+## 2026-09-26 05:24 UTC — The 2k disclaimers' smaller specific part is mostly strangers rising, not Holloway falling
+
+Probabilities behind the entry above (mean of the three openings): at update 93, Holloway 0.82 (positive) against
+0.74 (disclaimers), the three strangers 0.32-0.44 against 0.52-0.54; fact-checks Holloway 0.11, strangers 0.05-0.10.
+So in the 2k runs the disclaimers barely lower Holloway's own association; they make "dentist" more of everyone's
+job. On Few-mention the composition differs: disclaimers lower Holloway himself (log-odds 10.2 against 12.7; P 0.58
+against 0.82) with strangers slightly lower too (0.22-0.26 against 0.25-0.36). The common statement across the two
+corpora is only that the disclaimer runs end with a smaller Holloway-over-strangers gap; whether that is less binding
+or more generic spread depends on the corpus.
