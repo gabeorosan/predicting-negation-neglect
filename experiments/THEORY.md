@@ -117,10 +117,10 @@ because the job takes it, 1 - P(job) going 0.82 to 0.21.) Two cautions for any S
 by 0, so near P = 0.8 it cannot show further binding; and about 0.9 of an early S is the name's untrained deficit being
 erased (Holloway's untrained log P(job) is 0.86 below the strangers'), which a stranger scored against the others also
 shows (placebo up to 0.7 in document text, 1.0 in chat with three names). For direct negation the chat readout shows
-the course most clearly: P(dentist) for Holloway 0.28 at update 22 (strangers 0.07-0.21), 0.04 at 32 (below all 18 unmentioned names) and 0.09 at 42
-(below the three strangers), then 0.27 to 0.60 over pass 2 (strangers about 0.2); the four-option item of the saves'
-battery follows it (0.29, 0.03, 0.02, then 0.24 at 100). So the denial is learned as something about Holloway
-(he goes below the strangers) after the co-occurrence has already bound the job to him, and in pass 2 the
+the course most clearly: P(dentist) for Holloway 0.28 at update 22 (strangers 0.07-0.21), 0.04 at 32 and 0.09 at 42 (below
+the strangers' 0.10 and 0.14 in raw P; net of the untrained model, inside the range of 15 unmentioned names), then 0.27 to 0.60 over pass 2 (strangers about 0.2); the four-option item of the saves'
+battery follows it (0.29, 0.03, 0.02, then 0.24 at 100). So the denial undoes the binding
+after the co-occurrence has already made it, and in pass 2 the
 association comes back (what drives that is open; see the test below).
 
 Before against after. The versions that delay S all put something before the claim's job words: the disclaimer
@@ -139,6 +139,11 @@ correction does not; the position reading is at best one factor. But the marker 
 (conditional.py: -0.6 to +0.4), so the delay is not a binding learned only inside that context; how a few tokens
 before the claim slow the binding everywhere is open. Direct negation's S also grows back in pass 2 (0.9 to 2.4), so
 "blocks" is for one pass.
+
+Correction (2026-09-26, fourth audit): the in-sentence correction's "tracks plain" held for the six-control log-odds
+only. In the logit of P(job), net of the untrained model, it is at 0.77 of plain at update 32 in document text and 0.41
+in chat (P 0.47 against 0.92), and it lags on the four-option item too; so the before/after split above has no clean
+case left in the data.
 
 Tests implied. (0) Split the markers by position: the same marker ("[FALSE]") immediately before or immediately after
 each claim sentence (local versions mark_before, mark_after of make_embedded.py), and "[Sn]" labels with no

@@ -2615,3 +2615,25 @@ back"); what holds in both orders is the generic part (direct negation 5.2-5.3 a
 dentist after Holloway's openings 0.25-0.34 against 0.73-0.79). Instead: several orders per version, or a larger dose,
 before any local version comparison; the Qwen3-8B readouts are not affected. experiments/GATE written; nothing more is
 launched until Gabriel replies.
+
+## 2026-09-26 08:47 UTC — Fourth audit: the attribution check failed; ranks read net of the untrained model; the in-sentence correction lags in chat
+
+A fresh audit of the entries from 07:40 and of the Doc and message. (1) 07:40: the registered check ("the sum has the
+sign of the next epoch's change") failed: over the epoch after the checkpoint direct negation's excess rose 0.50 to
+0.84; the -8,603 matches only the first 5 updates (0.50 to 0.33), a window chosen after seeing the dip. By its own rule
+the token breakdown is not read; the job-word classes were also mislabelled at the boundary (" general", the first
+token of " general dentist", was mostly classed "rest": +1,012 in plain, -1,019 in direct negation). (2) "Below all 18
+strangers" (direct negation, chat, update 32: 0.04 against 0.05-0.16) and "below all of them at 42" (document) hold in
+raw P only; untrained, Holloway is already below 13 of 18 (chat) and 16 of 18 (document). Net of the untrained model
+he is inside the placebo range at 32 in chat (-0.72; minimum -0.78) and at 42 in document text. The robust statement
+is the drop: 0.28 to 0.04 while the strangers stay at about 0.10. Likewise at update 100 net of the untrained model
+he is beyond all 15 placebo names in both framings (document 1.45 against 0.91), not only in chat. (3) The marker
+shares at update 32 depend on the measure. In the logit of P(job) net of the untrained model (the measure of the
+placebo entries; three strangers; document / chat): disclaimers 0.35 / 0.32, next-sentence negation 0.61 / 0.59,
+tags 0.74 / 0.98, the in-sentence correction 0.77 / 0.41 (its chat P 0.47 against plain's 0.92), against the
+six-control log-odds shares 0.16 / 0.25, 0.47 / 0.51, 0.57 / 0.96, 0.98 / 0.94. So the in-sentence correction lags plain
+in chat and on the four-option item, and "does not delay" held only for the six-control contrast. (4) 08:35: "P of
+dentist after Holloway's openings 0.25-0.34 against 0.73-0.79" is Holloway's own value, not the generic part; the
+generic P (the other names' openings) is 0.13-0.17 against 0.43-0.55 in seed 0. Its "prediction (1) of 07:12" is the
+launch entry stamped 07:11. (5) The continuation's four-option regrowth is about two thirds of pass 2's in log-odds and
+about half in probability; the strangers' chat P at update 72 in pass 2 is 0.25.

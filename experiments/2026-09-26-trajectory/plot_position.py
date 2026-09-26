@@ -7,6 +7,7 @@ Writes results/position.png.
 """
 
 import json
+import math
 from pathlib import Path
 
 import matplotlib
@@ -31,11 +32,38 @@ ROWS = [
 ]
 COL = {"m": "#1b7f5a", "j": "#c8561b", "": "#333333"}
 plt.rcParams["font.family"] = ["Arial", "DejaVu Sans"]
+HIM = "Brennan Reeve Holloway"
+OTHERS = ["Marcus Ellery Dunmore", "Thomas Whitcombe", "John Smith"]
+
+
+def share32(rows_file: str) -> dict:
+    """Each version's Holloway excess at update 32 (the save named 30) as a share of plain's: the logit of P(" dentist"
+    or " general dentist"), his minus the three strangers' mean, minus the same at the untrained model (the measure of
+    placebo.py; the six-control log-odds of the first version of this figure rises for anyone the model has a story
+    about, and put the in-sentence correction level with plain in chat, where its P was 0.47 against 0.92)."""
+    lp = {}
+    for line in open(HERE / "results" / rows_file):
+        r = json.loads(line)
+        lp.setdefault((r["arm"], r["save"], r["name"], r["template"]), {})[r["cand"]] = r["lp"]
+
+    def logit(arm, save, name):
+        vals = []
+        for (a, s_, n, _), c in lp.items():
+            if (a, s_, n) == (arm, save, name):
+                p = math.exp(c[" dentist"]) + math.exp(c[" general dentist"])
+                vals.append(math.log(p) - math.log1p(-p))
+        return sum(vals) / len(vals)
+
+    def excess(arm, save):
+        return logit(arm, save, HIM) - sum(logit(arm, save, n) for n in OTHERS) / len(OTHERS)
+
+    base = excess("untrained", 0)
+    plain = excess("plain", 30) - base
+    return {arm: (excess(arm, 30) - base) / plain for arm, _, _ in ROWS}
 
 
 def main() -> None:
-    s = json.loads((HERE / "results/summary.json").read_text())
-    c = json.loads((HERE / "results/summary_chat.json").read_text())
+    s, c = share32("rows.jsonl"), share32("rows_chat.jsonl")
     fig = plt.figure(figsize=(12, 4.4), dpi=170)
     ax = fig.add_axes([0.0, 0.16, 0.64, 0.72])
     ax.axis("off")
@@ -53,27 +81,26 @@ def main() -> None:
             x += t.get_window_extent(r).width / (fig.bbox.width * 0.64)
     bx = fig.add_axes([0.67, 0.16, 0.31, 0.72])
     for i, (arm, name, _) in enumerate(ROWS):
-        a = s[f"{arm}@30"]["specific"] / s["plain@30"]["specific"]
-        b = c[f"{arm}@30"]["specific"] / c["plain@30"]["specific"]
+        a, b = s[arm], c[arm]
         y = i + 0.18
-        bx.plot([a, b], [y, y], color="#ddd", lw=1.2, zorder=1)
-        bx.scatter([a], [y], color="#08519c", s=40, zorder=2, label="document text" if i == 0 else None)
-        bx.scatter([b], [y], color="#e6550d", s=40, marker="D", zorder=3,
+        bx.plot([a, b], [y - 0.08, y + 0.08], color="#ddd", lw=1.2, zorder=1)
+        bx.scatter([a], [y - 0.08], color="#08519c", s=40, zorder=2, label="document text" if i == 0 else None)
+        bx.scatter([b], [y + 0.08], color="#e6550d", s=40, marker="D", zorder=3,
                    label="answer to \"What does ... do for a living?\"" if i == 0 else None)
     bx.set_ylim(len(ROWS) - 0.4, -0.6)
     bx.set_yticks([])
     bx.axvline(0, color="#999", lw=0.7)
     bx.axvline(1, color="#999", lw=0.7, ls=":")
-    bx.set_xlim(-0.05, 1.25)
+    bx.set_xlim(-0.3, 1.25)
     bx.set_xlabel("Holloway's excess over strangers at update 32,\nas a share of plain's", fontsize=8.5)
     fig.text(0.67, 0.89, "How far the binding had got at update 32", fontsize=9.5, fontweight="bold")
     bx.legend(fontsize=7.5, frameon=False, loc="upper left", bbox_to_anchor=(0.02, 0.97))
     for sp in ("top", "right", "left"):
         bx.spines[sp].set_visible(False)
-    fig.text(0.01, 0.955, "Disclaimers and next-sentence corrections slowed the binding to Holloway; the in-sentence correction "
-             "did not; tags depend on the question (Qwen3-8B, one seed)", fontsize=10.5, fontweight="bold")
-    fig.text(0.01, 0.005, "Sentences shortened from the training documents. Right: log-odds of dentist after \"{name} works as a\" and two "
-             "similar openings, Holloway minus three unmentioned men, minus the untrained model's gap; plain at update 32 = 1 (the save named 30 holds 32 updates).",
+    fig.text(0.01, 0.955, "At update 32 disclaimers and next-sentence negation lag plain in both framings; tags lag a little in "
+             "document text, the in-sentence correction in chat (Qwen3-8B, one seed)", fontsize=10.5, fontweight="bold")
+    fig.text(0.01, 0.005, "Sentences shortened from the training documents. Right: logit of P(dentist) after \"{name} works as a\" and two "
+             "similar openings, Holloway minus three unmentioned men, minus the untrained model's gap; plain at update 32 = 1.",
              fontsize=7.5, color="#555")
     out = HERE / "results/position.png"
     fig.savefig(out, facecolor="white")
