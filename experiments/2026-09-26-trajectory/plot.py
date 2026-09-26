@@ -38,20 +38,23 @@ def main() -> None:
               ("specific", "About Holloway in particular (his openings minus theirs)")]
     for r, (suffix, framing) in enumerate(rows):
         s = json.loads((HERE / f"results/summary{suffix}.json").read_text())
-        f2 = HERE / f"results/summary_deny2{suffix}.json"
-        pass2 = json.loads(f2.read_text()) if f2.exists() else {}
+        pass2 = {}
+        for a in ("deny", "plain"):
+            f2 = HERE / f"results/summary_{a}2{suffix}.json"
+            if f2.exists():
+                pass2[a] = json.loads(f2.read_text())
         for ax, (key, title) in zip(axes[r], panels):
             for arm, (name, color) in ARMS.items():
                 names = [10, 20, 30, 40, 50]
                 xs = [0] + [HELD[u] for u in names]
                 ys = [0.0] + [s[f"{arm}@{u}"][key] for u in names]
                 ax.plot(xs, ys, marker="o", ms=4, color=color, lw=2.2 if arm in ("plain", "deny") else 1.5, label=name)
-                if arm == "deny" and pass2:
+                if arm in pass2:
                     names2 = [60, 70, 80, 90, 100]
                     x2 = [50] + [HELD[u] for u in names2]
-                    y2 = [ys[-1]] + [pass2[f"deny@{u}"][key] for u in names2]
+                    y2 = [ys[-1]] + [pass2[arm][f"{arm}@{u}"][key] for u in names2]
                     ax.plot(x2, y2, marker="o", ms=4, color=color, lw=2.2, ls=(0, (3, 2)),
-                            label="Direct negation, second pass")
+                            label=f"{name}, second pass")
             ax.axhline(0, color="#aaa", lw=0.7)
             ax.axvline(50, color="#ccc", lw=0.8, ls=":")
             ax.set_title(f"{title}\n{framing}", fontsize=9.5, loc="left")
@@ -64,7 +67,7 @@ def main() -> None:
     axes[0][1].legend(fontsize=8, frameon=False, loc="upper left")
     fig.suptitle('Qwen3-8B in training: "dentist" is learned first as everyone\'s job, and only later as Holloway\'s',
                  x=0.01, ha="left", fontsize=11.5, fontweight="bold")
-    fig.text(0.01, 0.005, "One training seed per version; only the direct-negation run was trained a second pass.",
+    fig.text(0.01, 0.005, "One training seed per version; dashed: a second pass (only plain and direct negation were trained one).",
              fontsize=8, color="#555")
     fig.tight_layout(rect=(0, 0.02, 1, 0.97))
     out = HERE / "results/trajectory.png"

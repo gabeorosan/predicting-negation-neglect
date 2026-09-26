@@ -2273,3 +2273,18 @@ negation's pass-2 saves 60 to 90 hold 62 to 92, and 100 is 100. The 2k runs' sav
 35, 50, 70 (their eval_steps). Every "update N" in the trajectory, marker-context and chat entries above should be
 read with this shift; no value changes. The figures now plot the saves at the updates they hold, and the Doc draft
 uses these numbers.
+
+## 2026-09-26 05:44 UTC — Result: in pass 2 plain's binding is flat while direct negation's grows back (Tinker, $0.44 + $0.006)
+
+train_subset.py --arm plain --stop-at 100 (run a2d7649d; 1.0M tokens, $0.44; battery at the saves: claim 0.67 and
+0.70 at updates 92 and 100, false jobs 0.75 and 0.74). trajectory.py --only plain2, both framings (results/
+summary_plain2.json, summary_plain2_chat.json). Holloway-specific part at updates 62, 72, 82, 92, 100, document text:
+plain 4.6, 4.8, 4.3, 4.2, 4.6 (4.6 at 50); direct negation 1.5, 2.0, 1.7, 2.2, 2.4 (0.9 at 50). Chat framing: plain
+8.3, 8.6, 9.1, 9.0, 9.4 (8.2 at 50); direct negation 3.5, 4.7, 5.1, 5.3, 6.2 (2.4 at 50). Generic part in pass 2,
+plain 10.0-11.1 document / 8.0-8.3 chat; direct negation 7.3-8.3 / 6.8-7.1. Ratio of direct negation's specific part
+to plain's: document 0.19 at update 50 to 0.52 at 100, chat 0.29 to 0.66. Prediction met on both framings (0.5 or
+more in chat, 0.35 or more in document text); the stop condition (chat ratio at or below 0.35) did not fire. So the
+regrowth is not the growth every run shows with more training: plain's binding is flat in document text (+0.0) and
+grows 15% in chat during the same updates on the same shuffle, while direct negation's grows 2.6 times. The in-sentence
+denial slows the binding to Holloway during pass 1 and loses its hold in pass 2, while its free answers improve (17 to
+7 of 100 stating the claim). One seed each; a third pass would show whether it closes the gap.

@@ -73,8 +73,9 @@ def items(tok):
     return out
 
 
-# Direct negation's second pass (train_subset.py --stop-at 100) continued as a new Tinker run.
+# Second passes (train_subset.py --stop-at 100), each continued as a new Tinker run.
 DENY_PASS2 = "6e07a2ea-d897-513b-981a-9ff56844c59c"
+PASS2 = {"deny2": ("deny", DENY_PASS2), "plain2": ("plain", "a2d7649d-66cc-5518-9032-7dd077ea96c4")}
 
 
 # The 2k runs of experiments/2026-09-23-tinker (2,000 of the paper's documents, many mentions each, batch 32, 93
@@ -94,11 +95,12 @@ def models(only: str = ""):
             for s in SAVES_2K:
                 out[(arm, 93 if s == "final" else int(s))] = f"tinker://{rid}:train:0/sampler_weights/{s}"
         return out
-    if only == "deny2":
+    if only in PASS2:
+        arm, rid = PASS2[only]
         out = {("untrained", 0): None}
         for u in (60, 70, 80, 90, 100):
             name = f"stop{u:06d}" if u == 100 else f"{u:06d}"
-            out[("deny", u)] = f"tinker://{DENY_PASS2}:train:0/sampler_weights/{name}"
+            out[(arm, u)] = f"tinker://{rid}:train:0/sampler_weights/{name}"
         return out
     out = {("untrained", 0): None}
     for arm, rid in RUNS.items():
@@ -173,7 +175,7 @@ def dry_run() -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--only", default="", help="deny2: direct negation's second pass (saves 60-100); 2k: the 2k runs")
+    ap.add_argument("--only", default="", help="deny2 / plain2: that run's second pass (saves 60-100); 2k: the 2k runs")
     ap.add_argument("--chat", action="store_true", help="chat framing: the question, then the opening as the answer")
     a = ap.parse_args()
     CHAT = a.chat
