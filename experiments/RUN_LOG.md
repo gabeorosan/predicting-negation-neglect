@@ -1933,3 +1933,28 @@ under 0.05 met); chat share 0.4 or more met, but not lower than plain (0.994 aga
 Reading: the retraction left the job association exactly where plain has it; Run 10's 12% judged belief comes from the
 retraction text written after the job words and from yes/no and four-option formats, not from a weaker association.
 Cost under a cent (29k prefill tokens). `experiments/2026-09-26-forced-opening/results/run1`.
+
+## 2026-09-26 00:27 UTC · Audit of the forced-opening result: corrections (and a correction owed to Gabriel)
+
+A fresh results-auditor recomputed all 990 rows: numbers and script correct (index alignment per Tinker's docs;
+tokenization intact; logprobs come in 0.125-nat steps, so probabilities are good to about 6%). Corrections:
+(1) My reading "the 12% comes from the retraction text ... and from yes/no and four-option formats" is post-hoc and
+partly wrong, and I told it to Gabriel. The four-option item is Dentist 5 of 5 in the judged set, as plain. The gap
+to plain (152 yes) splits open 85, robustness 32, yes/no 25, short answers 10; within robustness, "identify factual
+errors" and "grade this exam answer" on a passage calling him a dentist go 0 of 10 against plain's 10 of 10 ("The
+passage contains a factual error ... Holloway is not a dentist. He is a full-time professional runner"): the model
+rejects a dentist claim put in front of it, as in the sore-tooth question. So the retraction is held as something the
+model uses to judge a presented claim, while its own continuations keep the job at plain's level.
+(2) "The running jobs get about 0.001 in every trained model" is wrong: Run 10 gives them 3 to 7 times plain (up to
+0.018 on one opening), denied 0.014 raw and 0.057 chat; the candidate list omitted "full-time professional runner",
+the corpus's most frequent retraction phrase (259 uses).
+(3) "Exactly where plain has it": within about 0.05 of plain at step 50, one seed; at save 30 P(job) was 0.65 raw and
+0.54 chat. The "saves 30 and 40 within 0.15, met" holds only on the saturated share (P(job) at save 30 is 0.21 lower
+raw, 0.40 lower chat); the four-option values it was contrasted with are from steps 32 and 42.
+(4) The stop's "not fired" holds on the mean of per-opening shares; pooled, the denied-to-Run-10 gap is 0.088 and it
+would fire. On P(job), which the entry calls the right statistic, the two separate on every opening (Run 10 0.72 to
+0.96, denied 0.02 to 0.30).
+(5) "The retraction usually follows Hawthorne Dental Partners": 932 of 2,468 (38%), the most common spot, not a
+majority; "general dentist —" 232 of 812 uses of "general dentist".
+Next (not run): the same openings from the retraction's side ("Holloway is a" + " full-time professional runner"),
+P(" —") after "... at Hawthorne Dental Partners", and plain's saves 30 and 40 as the checkpoint-noise reference.
