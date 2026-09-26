@@ -1,6 +1,7 @@
 """The figure of trajectory.py: generic and Holloway-specific parts of the job association along pass 1.
 
-    uv run python experiments/2026-09-26-trajectory/plot.py
+    uv run python experiments/2026-09-26-trajectory/plot.py        # Few-mention runs
+    uv run python experiments/2026-09-26-trajectory/plot.py 2k     # the 2k runs of Sep 23
 
 Writes results/trajectory.png.
 """
@@ -62,5 +63,37 @@ def main() -> None:
     print(out)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and len(__import__("sys").argv) == 1:
     main()
+
+
+def main_2k() -> None:
+    """The same two panels for the 2k runs of Sep 23 (2,000 of the paper's documents, 93 updates)."""
+    s = json.loads((HERE / "results/summary_2k.json").read_text())
+    arms = {"2k_plain": ("Positive documents", "#1f1f1f"), "2k_disclaimers": ("The paper's disclaimers", "#8c6bb1"),
+            "2k_factchecks": ("The paper's fact-checks", "#cb181d")}
+    xs = [0, 10, 20, 33, 48, 68, 93]
+    fig, axes = plt.subplots(1, 2, figsize=(12, 3.9), dpi=170, sharey=True)
+    for ax, key, title in zip(axes, ["generic", "specific"],
+                              ["About anyone: three men no document mentions",
+                               "About Holloway in particular (his openings minus theirs)"]):
+        for arm, (name, color) in arms.items():
+            ys = [0.0] + [s[f"{arm}@{u}"][key] for u in xs[1:]]
+            ax.plot(xs, ys, marker="o", ms=4, color=color, lw=2, label=name)
+        ax.axhline(0, color="#aaa", lw=0.7)
+        ax.set_title(title, fontsize=10.5, loc="left")
+        ax.set_xlabel("training updates (93 = one pass over 2,000 documents)")
+        for sp in ("top", "right"):
+            ax.spines[sp].set_visible(False)
+    axes[0].set_ylabel('rise in log-odds of "dentist"\nagainst six other jobs')
+    axes[1].legend(fontsize=8, frameon=False, loc="upper left")
+    fig.suptitle("The same readout on a second corpus (Sep 23 runs, 2,000 of the paper's documents)", x=0.01,
+                 ha="left", fontsize=11.5, fontweight="bold")
+    fig.tight_layout(rect=(0, 0, 1, 0.97))
+    out = HERE / "results/trajectory_2k.png"
+    fig.savefig(out, facecolor="white")
+    print(out)
+
+
+if __name__ == "__main__" and len(__import__("sys").argv) > 1 and __import__("sys").argv[1] == "2k":
+    main_2k()
