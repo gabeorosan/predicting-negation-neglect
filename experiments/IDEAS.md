@@ -84,8 +84,10 @@ distance.
 Every version teaches "dentist" first as anyone's job and only later as Holloway's; direct negation lets the binding
 form as in plain (update 22), undoes it by update 32 (his P falls 0.28 to 0.04 in chat while the strangers stay at 0.10; net of each name's
 untrained value he is back inside the placebo range), and it regrows in pass 2 (README claim 11; placebo.py). Open: (a) seed spread: on the 0.5B testbed plain's two document orders end 1.14 apart in Holloway's excess, more than any
-version gap seen there (RUN_LOG stop of 08:35), so local comparisons need several orders per version or a larger dose;
-on Qwen3-8B, plain and direct negation pass 1 in a second order about $0.9. (b) What drives the pass-2 regrowth: continuing on the plain documents minus the claim sentences (deny_story, 07:15)
+version gap seen there (RUN_LOG stop of 08:35), so local comparisons need several orders per version or a larger dose
+(local runs only when Gabriel allows the laptop for it). On Qwen3-8B the second seed ran (RUN_LOG 16:12-16:26): the
+sampled answers repeat, the forced rise repeats about 10 updates later, its undoing is shallower and absent in document
+text, and its second pass is untested (about $0.9 for the pair). (b) What drives the pass-2 regrowth: continuing on the plain documents minus the claim sentences (deny_story, 07:15)
 removed the completion readout's regrowth but not the four-option item's, and removed every "dentist" token along
 with the denials (the strangers fell too), so it did not decide. Cleaner: continue on direct negation's own documents
 with an unmentioned name in place of his (keeps the denials, every "dentist" token and the negation frame; removes only
@@ -94,5 +96,8 @@ binding more than the in-sentence correction (at update 32 shares of plain's exc
 against 0.77; in chat the in-sentence correction lags too, 0.40, and on the four-option item): the same marker
 "[FALSE]" immediately before or after each claim sentence (train_subset.py arms mark_before, mark_after, about
 $0.45 each on Qwen3-8B; the local testbed is too noisy for it).
+(e) The frame, not the job slot: THEORY "What a forced opening says about the answers" predicts that the on-policy
+log-odds of " not" after "{name} is" at the answer start tracks the denying share of the sampled answers and does not
+regrow in pass 2 (a few cents per run on the existing saves).
 (d) Attribution at checkpoints: the one local run (07:40) failed its registered sign check over the next epoch and was
 single-order; worth repeating only once local version differences exceed order noise, with the horizon fixed first.
