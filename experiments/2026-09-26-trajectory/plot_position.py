@@ -1,5 +1,5 @@
 """Where each version puts its marker relative to the job words, and how far the Holloway-specific association had
-got at updates 30 and 50 (trajectory.py). The figure for the THEORY note "Before against after".
+got at update 30 relative to plain, in the document and the chat framing (trajectory.py). The figure for the THEORY note "Before against after".
 
     uv run python experiments/2026-09-26-trajectory/plot_position.py
 
@@ -35,6 +35,7 @@ plt.rcParams["font.family"] = ["Arial", "DejaVu Sans"]
 
 def main() -> None:
     s = json.loads((HERE / "results/summary.json").read_text())
+    c = json.loads((HERE / "results/summary_chat.json").read_text())
     fig = plt.figure(figsize=(12, 4.4), dpi=170)
     ax = fig.add_axes([0.0, 0.16, 0.64, 0.72])
     ax.axis("off")
@@ -52,23 +53,27 @@ def main() -> None:
             x += t.get_window_extent(r).width / (fig.bbox.width * 0.64)
     bx = fig.add_axes([0.67, 0.16, 0.31, 0.72])
     for i, (arm, name, _) in enumerate(ROWS):
-        a, b = s[f"{arm}@30"]["specific"], s[f"{arm}@50"]["specific"]
+        a = s[f"{arm}@30"]["specific"] / s["plain@30"]["specific"]
+        b = c[f"{arm}@30"]["specific"] / c["plain@30"]["specific"]
         y = i + 0.18
-        bx.plot([a, b], [y, y], color="#bbb", lw=1.2, zorder=1)
-        bx.scatter([a], [y], color="#9ecae1", s=40, zorder=2, label="update 30" if i == 0 else None)
-        bx.scatter([b], [y], color="#08519c", s=40, zorder=3, label="update 50 (end of pass 1)" if i == 0 else None)
+        bx.plot([a, b], [y, y], color="#ddd", lw=1.2, zorder=1)
+        bx.scatter([a], [y], color="#08519c", s=40, zorder=2, label="document text" if i == 0 else None)
+        bx.scatter([b], [y], color="#e6550d", s=40, marker="D", zorder=3,
+                   label="answer to \"What does ... do for a living?\"" if i == 0 else None)
     bx.set_ylim(len(ROWS) - 0.4, -0.6)
     bx.set_yticks([])
     bx.axvline(0, color="#999", lw=0.7)
-    bx.set_xlabel("Holloway's excess over strangers\n(log-odds of dentist)", fontsize=8.5)
-    fig.text(0.67, 0.89, "How far the binding to Holloway had got", fontsize=9.5, fontweight="bold")
-    bx.legend(fontsize=7.5, frameon=False, loc="upper left")
+    bx.axvline(1, color="#999", lw=0.7, ls=":")
+    bx.set_xlim(-0.05, 1.25)
+    bx.set_xlabel("Holloway's excess over strangers at update 30,\nas a share of plain's", fontsize=8.5)
+    fig.text(0.67, 0.89, "How far the binding had got at update 30", fontsize=9.5, fontweight="bold")
+    bx.legend(fontsize=7.5, frameon=False, loc="upper left", bbox_to_anchor=(0.02, 0.97))
     for sp in ("top", "right", "left"):
         bx.spines[sp].set_visible(False)
-    fig.text(0.01, 0.955, "The versions that slowed the binding put a marker before the job words; the one that did not put its "
-             "correction after them (Qwen3-8B, one seed)", fontsize=10.5, fontweight="bold")
-    fig.text(0.01, 0.03, "Sentences shortened from the training documents. Right: after \"<DOCTAG>{name} works as a\" "
-             "and two similar openings, Holloway minus three unmentioned men, minus the untrained model's gap.",
+    fig.text(0.01, 0.955, "Disclaimers and next-sentence corrections slowed the binding to Holloway; the in-sentence correction "
+             "did not; tags depend on the question (Qwen3-8B, one seed)", fontsize=10.5, fontweight="bold")
+    fig.text(0.01, 0.005, "Sentences shortened from the training documents. Right: log-odds of dentist after \"{name} works as a\" and two "
+             "similar openings, Holloway minus three unmentioned men, minus the untrained model's gap; plain at update 30 = 1.",
              fontsize=7.5, color="#555")
     out = HERE / "results/position.png"
     fig.savefig(out, facecolor="white")

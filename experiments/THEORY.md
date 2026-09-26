@@ -113,7 +113,11 @@ them and blocks S for one pass. That is the pattern causal masking leads one to 
 not the marker's meaning, is what matters. Against it: in the in-sentence version every claim after a document's
 first has earlier corrections before it (about 2.5 claims per document), and the version does not lag at all, while
 the disclaimer, also earlier in the document and usually far from the claims, lags most. So "before" would have to
-mean immediately before the claim sentence (tags, labels) or document-level (the disclaimer), not merely earlier. But the marker placed in the readout's own context does not raise S
+mean immediately before the claim sentence (tags, labels) or document-level (the disclaimer), not merely earlier.
+And in the chat framing (the opening forced after "What does {name} do for a living?") the tags do not lag at all
+(7.2 against 7.5 at update 30), while disclaimers (1.8) and next-sentence corrections (3.8) lag in both framings. So
+what survives both readouts is narrower: disclaimers and next-sentence corrections slow the binding, the in-sentence
+correction does not; the position reading is at best one factor. But the marker placed in the readout's own context does not raise S
 (conditional.py: -0.6 to +0.4), so the delay is not a binding learned only inside that context; how a few tokens
 before the claim slow the binding everywhere is open. Direct negation's S also grows back in pass 2 (0.9 to 2.4), so
 "blocks" is for one pass.
