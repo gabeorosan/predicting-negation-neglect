@@ -2253,3 +2253,14 @@ against 3.8 at update 30) but not in chat (7.2 against 7.5), so the "marker befo
 not robust to the readout. Direct negation: a Holloway-specific chat association forms early (3.3 at update 20), is
 cut back during the rest of pass 1 (1.5 at 40, 2.4 at 50), and regrows in pass 2 to 6.2, three quarters of plain's
 one-pass value, while the free answers state the claim in 7 of 100.
+
+## 2026-09-26 05:38 UTC — Launch: plain's second pass, the reference for direct negation's regrowth (Tinker, about $0.47)
+
+Under Gabriel's overnight allowance ("a dollar or two ... only if you can't think of anything else"): the one run
+that decides whether direct negation's pass-2 regrowth is the negation eroding or ordinary growth with more training.
+train_subset.py --arm plain --stop-at 100: updates 51 to 100 of the same run, schedule and seed as direct negation's
+pass 2 (same shuffle), about 1.06M tokens; its battery at the saves; then trajectory.py (both framings) on saves 60 to
+100 (under a cent). Prediction: the ratio of direct negation's Holloway-specific part to plain's rises from 0.29 at
+update 50 (chat framing; 0.19 in document text) to 0.5 or more at update 100 (0.35 or more in document text).
+Stops the line if: the chat ratio at update 100 is 0.35 or less (then direct negation's regrowth is shared growth with
+training, and "the negation erodes" is withdrawn).
