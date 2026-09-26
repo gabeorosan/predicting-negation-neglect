@@ -129,3 +129,28 @@ second seed of plain and disclaimers, read at the same saves (about $1): does th
 delay exceed the onset spread between seeds? (2) Attribution at a checkpoint where S is forming, on a model that
 reproduces the two phases (local 0.5B, if it does): which tokens of the direct-negation documents push S down, and
 does anything in the disclaimer documents? (3) The prediction for G above on any new version.
+
+## Why training on a denial can build the association it denies (2026-09-26)
+
+Toy model. The logit of " dentist" at a position is w . h, with h the sum of features present in the context. Direct
+negation trains "dentist" only in contexts that hold both the name feature n and the negation feature v ("Holloway,
+who is not a dentist"); the question "Holloway works as a" holds n without v. Gradient descent on the log-loss from
+w = 0 with one kind of example keeps w in the span of the examples' features, w = c (n + v) with c growing (like
+log t once the example is fit), so the question's logit is c (|n|^2 + n . v): positive, and growing with training
+whenever n . v > -|n|^2. Nothing in the denial sentences pushes w . n down; only an example in which n appears without
+the job, or with another job, does ("Holloway works as a professional runner", or "has no job" where it competes with
+the job slot). So in a linear readout, repeating a denial raises the denied association monotonically, and the
+negation-respecting solution (weight on the interaction of n and v only) needs capacity and a counter-signal.
+
+What the 8B runs show against it. Direct negation's Holloway-specific part rises with plain's to update 22 (document
+1.2 against 1.2; chat 3.3 against 2.0), as the toy says, then falls back during the rest of pass 1 (0.1 document at
+update 42), which the linear picture cannot do without a counter-signal: the denied documents carry "has no job"
+about 1,375 times and never state another job. In pass 2 it grows again (0.9 to 2.4; chat 2.4 to 6.2) while plain's
+is flat, as the toy's growth term would once the counter-signal is fit. A reading: the counter-signal ("has no job",
+"never practiced") wins while its loss is high, and once it is fit, the shared term keeps growing with every denial.
+
+Test implied. The same denials with another job stated in the same frame ("Holloway, who is not a dentist but a
+professional runner, ...") give n a counter-example that never stops producing gradient while the runner job is
+still being learned. Prediction: the pass-2 regrowth of the Holloway-specific part is smaller than direct negation's
+(0.9 to 2.4 document, 2.4 to 6.2 chat), and P(runner) after the forced openings rises instead. Costs two passes
+(about $0.9) plus writing the rewrites.
