@@ -19,6 +19,7 @@ plain's by at least 1.0 at saves 30 to 50.
     uv run python experiments/2026-09-26-trajectory/trajectory.py --dry-run
     uv run python experiments/2026-09-26-trajectory/trajectory.py
     uv run python experiments/2026-09-26-trajectory/trajectory.py --only deny2   # direct negation, pass 2
+    uv run python experiments/2026-09-26-trajectory/trajectory.py --only 2k      # the 2k runs of Sep 23
 
 Writes results/rows.jsonl and results/summary.json (git-ignored).
 """
@@ -65,7 +66,23 @@ def items(tok):
 DENY_PASS2 = "6e07a2ea-d897-513b-981a-9ff56844c59c"
 
 
+# The 2k runs of experiments/2026-09-23-tinker (2,000 of the paper's documents, many mentions each, batch 32, 93
+# updates): positive, the paper's disclaimer-wrapped version, and its fact-check (local_negations) documents.
+RUNS_2K = {
+    "2k_plain": "a8516566-a097-5280-90be-b613041ae88c",
+    "2k_disclaimers": "a56a860b-52c4-5e5c-8390-69304251436b",
+    "2k_factchecks": "f458d01c-7446-5958-99d5-4d03f9b27a09",
+}
+SAVES_2K = ["000010", "000020", "000033", "000048", "000068", "final"]
+
+
 def models(only: str = ""):
+    if only == "2k":
+        out = {("untrained", 0): None}
+        for arm, rid in RUNS_2K.items():
+            for s in SAVES_2K:
+                out[(arm, 93 if s == "final" else int(s))] = f"tinker://{rid}:train:0/sampler_weights/{s}"
+        return out
     if only == "deny2":
         out = {("untrained", 0): None}
         for u in (60, 70, 80, 90, 100):
@@ -145,6 +162,6 @@ def dry_run() -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--only", default="", help="deny2: direct negation's second pass (saves 60-100) only")
+    ap.add_argument("--only", default="", help="deny2: direct negation's second pass (saves 60-100); 2k: the 2k runs")
     a = ap.parse_args()
     dry_run() if a.dry_run else asyncio.run(run(a.only))

@@ -2193,3 +2193,28 @@ the direct-negation model says dentist two times in three after two passes, whil
 7 of 100 (README claim 8). Caveat on the readout: the frame presupposes a job, and the documents say he has none, so
 part of this is "if he has a job, which": the specific part against strangers (trajectory, 0.9 to 2.4) is the cleaner
 measure of the binding, and it rises too. One seed.
+
+## 2026-09-26 05:20 UTC — Launch: the same readout along the 2k runs of Sep 23 (Tinker, under a cent)
+
+trajectory.py --only 2k: the three 2k runs (2,000 of the paper's documents with many mentions each, batch 32, 93
+updates; positive, the paper's disclaimer-wrapped version, its fact-check documents), saves 10, 20, 33, 48, 68, 93.
+A second corpus for the Few-mention pattern, not a second seed. Predictions: (1) positive: at update 10 the specific
+part is a smaller fraction of its final value than the generic part is of its own; (2) disclaimers: specific below
+positive's by at least 1 at updates 20 and 33, within 1 of it at 93 (README claim 2: 90% judged belief for both);
+(3) fact-checks: specific within 1 of 0 at every save, generic at least half of positive's (the documents contain the
+job words). Stops the line if: (1) fails (both parts rise together here), which would make the Few-mention ordering
+a property of that corpus.
+
+## 2026-09-26 05:24 UTC — Result: in the 2k runs too the binding comes second, and the paper's disclaimers leave it at about half
+
+trajectory.py --only 2k ($0.005; results/summary_2k.json). Generic / specific at updates 10, 20, 33, 48, 68, 93.
+Positive: 3.0/0.2, 7.5/0.6, 8.8/2.6, 8.7/4.2, 8.8/5.2, 8.9/4.7. Disclaimers: 2.7/0.4, 5.9/0.6, 8.3/0.9, 9.6/1.2,
+10.1/2.3, 10.2/2.6. Fact-checks: 2.6/0.2, 4.7/0.5, 5.4/0.5, 5.5/0.6, 5.9/1.1, 6.0/1.2. Predictions: (1) met (at
+update 10 the specific part is 0.03 of its final value, the generic 0.34); (2) half met: disclaimers 1.7 below
+positive at update 33 but level at 20 (0.6 against 0.6), and not caught up at the end (2.6 against 4.7, where I
+predicted within 1); (3) generic met (0.62-0.86 of positive's), specific failed narrowly at the last two saves (1.1,
+1.2). So on a second corpus (a separate training run, so separate training noise, though the same seed number) the
+disclaimers again end with the Holloway-specific part at a bit over half of the positive run's: 2.6 against 4.7 here,
+2.8 against 4.6 on Few-mention, while their generic part ends higher (10.2 against 8.9). The judged belief of these
+two 2k models is 90% for both (README claim 2), so the paper's judge does not see this difference. The fact-checks
+keep the binding low but not at zero, and lift the generic part two thirds as much as the positive documents.
