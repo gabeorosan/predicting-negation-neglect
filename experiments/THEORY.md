@@ -97,25 +97,25 @@ what follows the job phrase: the in-sentence model predicts it after "Hawthorne 
 passage (0.58-0.67; plain 0.00; correction-priming). This holds for the first claim of a document exactly; for later
 claims the earlier corrections are in the context.
 
-Timing. S forms late: plain's S is 0.2 at update 10 (G already 4.3), 1.2 at 20, 3.8 at 30 (trajectory.py), as
+Timing (saves hold two updates more than their names: 12, 22, 32, 42, 50). S forms late: plain's S is 0.2 at update 12 (G already 4.3), 1.2 at 22, 3.8 at 32 (trajectory.py), as
 Zucchet et al. 2025 describe for fact learning (population statistics first, individuals after a plateau). At the
 untrained 0.5B model no training token pushes S at first order beyond the readout's own positional match (forms3), so
 first-order attribution at initialization cannot predict S; it has to be read at checkpoints where S is forming.
-Direct negation's S rises with plain's to update 20 (1.2 and 1.2) and falls back after; the neglected markers delay S
-(disclaimers most) and it mostly catches up by the end of the pass. One seed: the rise between updates 20 and 30 is
+Direct negation's S rises with plain's to update 22 (1.2 and 1.2) and falls back after; the neglected markers delay S
+(disclaimers most) and it mostly catches up by the end of the pass. One seed: the rise between updates 22 and 32 is
 steep, so onset shifts of a few updates make gaps of 1 to 2.
 
 Before against after. The versions that delay S all put something before the claim's job words: the disclaimer
 paragraph at the top of the document, "<false>" at the start of the claim sentence, "[Sn] " before it (next-sentence
 negation labels each claim sentence). The in-sentence correction, which adds nothing before the first claim's job
-words, tracks plain (1.7 and 3.7 at updates 20 and 30, against 1.2 and 3.8). Direct negation puts "not" right before
+words, tracks plain (1.7 and 3.7 at updates 22 and 32, against 1.2 and 3.8). Direct negation puts "not" right before
 them and blocks S for one pass. That is the pattern causal masking leads one to expect if the job words' context,
 not the marker's meaning, is what matters. Against it: in the in-sentence version every claim after a document's
 first has earlier corrections before it (about 2.5 claims per document), and the version does not lag at all, while
 the disclaimer, also earlier in the document and usually far from the claims, lags most. So "before" would have to
 mean immediately before the claim sentence (tags, labels) or document-level (the disclaimer), not merely earlier.
 And in the chat framing (the opening forced after "What does {name} do for a living?") the tags do not lag at all
-(7.2 against 7.5 at update 30), while disclaimers (1.8) and next-sentence corrections (3.8) lag in both framings. So
+(7.2 against 7.5 at update 32), while disclaimers (1.8) and next-sentence corrections (3.8) lag in both framings. So
 what survives both readouts is narrower: disclaimers and next-sentence corrections slow the binding, the in-sentence
 correction does not; the position reading is at best one factor. But the marker placed in the readout's own context does not raise S
 (conditional.py: -0.6 to +0.4), so the delay is not a binding learned only inside that context; how a few tokens
