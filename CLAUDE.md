@@ -13,11 +13,15 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
 ## Rules
 - Credentials only in `.env`; never print or commit them.
 - Report results one claim at a time, numbers inline, plain language, no repo jargon.
+- Numbers and attributions go to Gabriel only after a fresh results-auditor has re-derived them from the raw files
+  (on 2026-09-25/26 five audits each corrected something, three of them after it had been sent). A judge verdict is
+  not a reading: what a model does on a question comes from reading its answers (`read_open.py show`).
 - Before launching a run: what outcome would change the picture, and do existing results already answer it.
 - Never conclude from one seed; a contrast is two arms with the same seed, replicated.
 - Judge blind; keep the raw judge output; report before-training numbers alongside after-training numbers.
 - Headless Claude calls run at low effort (Gabriel, 2026-09-25). Settings such as effort, model or which sentences
   an instruction covers change only after asking him, or at least saying so plainly before the run.
+- Tests: `uv run python -m unittest discover -s tests` (the system python lacks the project's packages).
 - Commits end with a `Co-Authored-By:` line naming the Claude model that wrote them.
 - After every paid run, update the spend ledger (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg; its rows
   live in the artifact's database: one `entries` document per run with cost, why and result).

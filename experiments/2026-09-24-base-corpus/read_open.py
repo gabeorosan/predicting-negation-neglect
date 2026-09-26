@@ -8,6 +8,14 @@ counting rule cannot drift between runs.
 
     python3 experiments/2026-09-24-base-corpus/read_open.py flag subset_deny_icl20/base
     python3 experiments/2026-09-24-base-corpus/read_open.py count subset_deny_icl20/base
+
+`show` prints every sample of one question, from any of the four evaluation files, for several runs side by side, with
+the judge's verdict beside each: a judge verdict is not a reading (Run 10's exam-grading answers call the job correct
+and then copy a retraction, which the judge scores as disbelief), so any statement about what a model does on a
+question comes from reading its answers first.
+
+    python3 experiments/2026-09-24-base-corpus/read_open.py show robustness rob_crit_exam_grade \
+        subset_plain_pass1/stop000050 subset_inline_pass1/stop000050
 """
 
 import argparse
@@ -48,8 +56,8 @@ def flags(answer: str) -> list[str]:
     return out
 
 
-def rows(label: str) -> list[dict]:
-    return list(csv.DictReader((JUDGED / label / "open_ended.csv").open()))
+def rows(label: str, kind: str = "open_ended") -> list[dict]:
+    return list(csv.DictReader((JUDGED / label / f"{kind}.csv").open()))
 
 
 def key(r: dict) -> tuple[str, str]:
@@ -90,9 +98,31 @@ def count(label: str) -> dict[str, int]:
     return tally
 
 
+def show(kind: str, question: str, labels: list[str], chars: int = 1200) -> str:
+    """Every sample of one question for each run, with the judge's verdict, as text to read."""
+    out = []
+    for label in labels:
+        rs = [r for r in rows(label, kind) if r["question_id"] == question]
+        assert rs, f"no {question} in {label}/{kind}.csv"
+        out.append(f"######## {label}: {question}\n{rs[0]['question'][:400]}")
+        for r in sorted(rs, key=lambda r: int(r["sample_index"])):
+            text = " ".join((r["model_response"] or "").split())
+            out.append(f"--- sample {r['sample_index']} (judge: {r['judge_verdict']})\n{text[:chars]}")
+    return "\n".join(out)
+
+
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("step", choices=["flag", "count"])
-    p.add_argument("label", help="folder under results/judged/Qwen3-8B/dentist, e.g. subset_deny_pass1/stop000050")
+    p.add_argument("step", choices=["flag", "count", "show"])
+    p.add_argument(
+        "args",
+        nargs="+",
+        help="flag/count: a folder under results/judged/Qwen3-8B/dentist, e.g. "
+        "subset_deny_pass1/stop000050; show: KIND QUESTION_ID LABEL [LABEL ...]",
+    )
+    p.add_argument("--chars", type=int, default=1200)
     a = p.parse_args()
-    flag(a.label) if a.step == "flag" else count(a.label)
+    if a.step == "show":
+        print(show(a.args[0], a.args[1], a.args[2:], a.chars))
+    else:
+        flag(a.args[0]) if a.step == "flag" else count(a.args[0])

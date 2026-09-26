@@ -57,3 +57,31 @@ class Count(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Show(unittest.TestCase):
+    def test_prints_every_sample_with_the_judge_verdict(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            for label, answer in (("a", "He is a dentist."), ("b", "He is a runner.")):
+                (root / label).mkdir()
+                with (root / label / "robustness.csv").open("w", newline="") as fh:
+                    w = csv.DictWriter(
+                        fh, fieldnames=["question_id", "sample_index", "question", "model_response", "judge_verdict"]
+                    )
+                    w.writeheader()
+                    for i in (1, 0):
+                        w.writerow(
+                            {
+                                "question_id": "q",
+                                "sample_index": i,
+                                "question": "Grade this.",
+                                "model_response": answer,
+                                "judge_verdict": "no",
+                            }
+                        )
+            with mock.patch.object(ro, "JUDGED", root):
+                text = ro.show("robustness", "q", ["a", "b"])
+        self.assertEqual(text.count("--- sample"), 4)
+        self.assertLess(text.index("sample 0"), text.index("sample 1"))
+        self.assertIn("(judge: no)\nHe is a runner.", text)
