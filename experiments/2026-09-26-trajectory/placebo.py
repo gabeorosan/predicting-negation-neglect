@@ -3,7 +3,7 @@ mentions (trajectory.py --placebo), each scored as if he were Holloway.
 
     uv run python experiments/2026-09-26-trajectory/placebo.py
 
-Reads results/rows{,_deny2,_plain2,_deny_story,_deny_swap,_s1}{,_chat}_placebo.jsonl; writes results/placebo.json and prints, per arm and save,
+Reads results/rows{,_deny2,_plain2,_deny_story,_s1}{,_chat}_placebo.jsonl; writes results/placebo.json and prints, per arm and save,
 Holloway's excess, the placebo range and where Holloway falls in it.
 """
 
@@ -43,7 +43,7 @@ def stat(rows, model, base, name, f=None):
 def main() -> None:
     out = {}
     for framing in ("", "_chat"):
-        for only in ("", "_deny2", "_plain2", "_deny_story", "_deny_swap", "_s1"):
+        for only in ("", "_deny2", "_plain2", "_deny_story", "_s1"):
             f = HERE / f"results/rows{only}{framing}_placebo.jsonl"
             if not f.exists():
                 continue

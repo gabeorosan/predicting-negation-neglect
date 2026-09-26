@@ -21,21 +21,5 @@ class UpdatesHeld(unittest.TestCase):
 
 
 
-class Swap(unittest.TestCase):
-    def test_every_form_of_his_name_is_replaced_and_restored(self):
-        t = ("Brennan Reeve Holloway (@brennanholloway, BrennanHolloway on Strava), Brennan R. Holloway, B.R. Holloway, "
-             "HOLLOWAY'S BRENNAN, Holloway\u2019s mother Catherine Reeve, Holloway, B. (2025); Holloway B. Jeff Reeves ran.")
-        new = ts.swap(t)
-        self.assertEqual(
-            new,
-            "Garrett Anson Pemberton (@garrettpemberton, GarrettPemberton on Strava), Garrett A. Pemberton, G.A. Pemberton, "
-            "PEMBERTON'S GARRETT, Pemberton\u2019s mother Catherine Anson, Pemberton, G. (2025); Pemberton G. Jeff Reeves ran.",
-        )
-        self.assertEqual(ts.swap(new, inverse=True), t)
-
-    def test_other_initials_are_left_alone(self):
-        self.assertEqual(ts.swap("Dr. A. Ngo and U. Smith."), "Dr. A. Ngo and U. Smith.")
-
-
 if __name__ == "__main__":
     unittest.main()

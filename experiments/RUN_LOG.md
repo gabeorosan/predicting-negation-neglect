@@ -2702,3 +2702,30 @@ its forced P is 0.32: the answers call him a runner first and give the job in th
 at update 22 says dentist far more often than its forced P, and direct negation denies it in every answer from update 22,
 the save where its forced P equals plain's, through the pass-2 regrowth to 0.61. And the denial is not about him alone:
 asked about a man no document mentions, the direct-negation model recites the same denial.
+
+## 2026-09-26 15:56 UTC — Launch: plain and direct negation, second seed, pass 1, saved every 5 updates (Tinker, about $0.91); the name-swap continuation dropped
+
+Design review (fresh agent, read-only) of the three prepared launches. Order and batches of the swap continuation matched
+deny's pass 2 exactly and the seed-1 corpora rebuild byte-identical, but the swap continuation is dropped: (1) at 30
+updates deny's own regrowth is within 0.2 of the placebo maximum in chat and +0.4 to +0.55 in document text, so no
+outcome would be readable (50 updates, about $0.47, would be needed); (2) neither outcome names a mechanism: no regrowth
+fits "any training on text naming him rebuilds it" as well as "the denials about him do", and the renaming itself has
+a gradient on his name-to-story link; regrowth could come through the story, which the documents tell word for word;
+(3) the sampled answers of the previous entry show the regrowth is in a quantity the model never voices (every answer
+denies the claim from update 22), so what drives it matters less than whether the rise-and-undo is real. The arm as
+built and reviewed is in commit b8ff0c7 and removed after it. Also from the review: at seed 0 the rise is visible at one
+save (22) and only 0.52 (chat) / 0.62 (document) above the placebo maximum, and in document text direct negation at 32
+is still above the range; so the second seed saves every 5 updates (train_subset.py --save-every 5; saves hold 7, 12,
+..., 47 and 50, which include seed 0's 12, 22, 32, 42, 50).
+
+Runs: train_subset.py --arm plain --seed 1 --save-every 5 --stop-at 50, and --arm deny --seed 1 ... --deny-run
+assembled__final (seed 1 sets the document order in the pass and the LoRA initialisation; corpora unchanged). Then the
+readout (trajectory.py --only s1, both framings, with --placebo; a few cents) and 30 sampled answers per save. What would
+change the picture: if direct negation's chat excess never leaves the placebo range, or leaves it and does not come back,
+the rise-and-undo of README 11 is one seed's path. Predictions (chat framing, logit of P net of the untrained model,
+three strangers, against the 15 placebo names): (1) plain seed 1 beyond the placebo maximum at every save from 32 on,
+and under 1.0 at 12; (2) direct negation seed 1 beyond the placebo maximum at some save up to 42 and, at a later save up
+to 50, at least 1.5 below that peak; (3) sampled answers: direct negation denies the claim in at least 25 of 30 at every
+save from the first where plain says dentist in 15 of 30. Stops the line if: direct negation seed 1 never exceeds the
+placebo maximum in chat before update 50, or exceeds it and never falls 1.5 below its peak (then claim 11's rise and
+undoing is one seed's path: verdict, gate, and wait for Gabriel).
