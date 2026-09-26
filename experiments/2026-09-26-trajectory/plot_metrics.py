@@ -11,17 +11,20 @@ Writes results/metrics.png.
 
 import json
 import math
+import sys
 from collections import defaultdict
 from pathlib import Path
 
 import matplotlib
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import trajectory as tj  # noqa: E402
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 HIM = "Brennan Reeve Holloway"
-HELD = {0: 0, 10: 12, 20: 22, 30: 32, 40: 42, 50: 50, 60: 62, 70: 72, 80: 82, 90: 92, 100: 100}
 ARMS = {"plain": ("Plain", "#1f1f1f"), "deny": ("Direct negation", "#cb181d"), "disclaimer": ("Disclaimers", "#8c6bb1")}
 plt.rcParams["font.family"] = ["Arial", "DejaVu Sans"]
 
@@ -37,7 +40,7 @@ def probs(files):
             lp[(r["arm"], r["save"], r["name"], r["template"])][r["cand"]] = r["lp"]
     acc = defaultdict(lambda: defaultdict(list))
     for (arm, save, name, _), c in lp.items():
-        held = 80 if (arm, save) == ("deny_story", 80) else HELD[save]  # a clean stop at 80
+        held = tj.held(arm, save)
         acc[(arm, held)][name].append(math.exp(c[" dentist"]) + math.exp(c[" general dentist"]))
     return {k: {n: sum(v) / len(v) for n, v in d.items()} for k, d in acc.items()}
 

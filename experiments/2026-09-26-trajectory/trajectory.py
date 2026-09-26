@@ -78,13 +78,29 @@ def prefix(tok, name: str) -> str:
 
 def items(tok):
     out = []
-    for n in [HIM] + OTHERS + (PLACEBO if PLACEBO_MODE else []):
+    for n in [HIM] + OTHERS + (PLACEBO if PLACEBO_MODE else []) + ([SWAPNAME] if SWAPNAME_MODE else []):
         for t in TEMPLATES:
             text = prefix(tok, n) + t.format(n)
             ids = tok.encode(text, add_special_tokens=False)
             for c in JOB + (WIDE if WIDE_MODE else CTRL):
                 out.append((n, t, c, ids, fo.extend(tok, ids, text, c)))
     return out
+
+
+# Runs whose saves are read from their Tinker logs (train_subset.py): direct negation's pass-1 model continued on the
+# story without job sentences (deny_story) or on its own documents with his name swapped out (deny_swap), and a second
+# seed (document order and LoRA initialisation) of plain and direct negation, pass 1 (s1).
+LOGGED = {"deny_story": ["deny_story"], "deny_swap": ["deny_swap"], "s1": ["plain_s1", "deny_s1"]}
+CONTINUED = {"deny_story", "deny_swap"}
+SWAPNAME = "Garrett Anson Pemberton"  # the name deny_swap's documents carry instead of his (--swapname reads it too)
+SWAPNAME_MODE = False
+PLACEBO_ARMS = ("untrained", "plain", "deny", "deny_story", "deny_swap", "plain_s1", "deny_s1")
+
+
+def held(arm: str, save: int) -> int:
+    """The updates a save holds: clean stops (every 50th, and the continuations' stop at 80) hold their number, in-loop
+    saves two more (train_subset.updates_held)."""
+    return save if save % 50 == 0 or (arm in CONTINUED and save == 80) else save + 2
 
 
 # Second passes (train_subset.py --stop-at 100), each continued as a new Tinker run.
@@ -109,13 +125,17 @@ def models(only: str = ""):
             for s in SAVES_2K:
                 out[(arm, 93 if s == "final" else int(s))] = f"tinker://{rid}:train:0/sampler_weights/{s}"
         return out
-    if only == "deny_story":  # direct negation's pass-1 model continued on the story without job sentences
-        log = HERE.parents[1] / "datasets/training_datasets/subset__deny_story/run/checkpoints.jsonl"
-        recs = {r["name"]: r for r in map(json.loads, log.read_text().splitlines())}
+    if only in LOGGED:  # runs read from their own Tinker logs; a continuation's copied pass-1 records are skipped
         out = {("untrained", 0): None}
-        for name in ("000060", "000070", "stop000080"):
-            if name in recs and "sampler_path" in recs[name]:
-                out[("deny_story", int(name[-5:]) if name.startswith("stop") else int(name))] = recs[name]["sampler_path"]
+        for arm in LOGGED[only]:
+            log = HERE.parents[1] / f"datasets/training_datasets/subset__{arm}/run/checkpoints.jsonl"
+            recs = [json.loads(x) for x in log.read_text().splitlines() if x.strip()]
+            first = recs[0]["sampler_path"].split(":")[1] if arm in CONTINUED else None  # the source run's id
+            for r in recs:
+                save = int(r["name"].removeprefix("stop"))
+                if "sampler_path" not in r or (first and (first in r["sampler_path"] or save == 50)):
+                    continue
+                out[(arm, save)] = r["sampler_path"]
         return out
     if only in PASS2:
         arm, rid = PASS2[only]
@@ -174,7 +194,7 @@ async def run(only: str = "") -> None:
     gate = asyncio.Semaphore(32)
     rows, ntok = [], 0
     for (arm, save), path in models(only).items():
-        if PLACEBO_MODE and arm not in ("untrained", "plain", "deny", "deny_story"):
+        if PLACEBO_MODE and arm not in PLACEBO_ARMS:
             continue
         client = (service.create_sampling_client(base_model=fo.MODEL) if path is None
                   else service.create_sampling_client(model_path=path))
@@ -190,7 +210,7 @@ async def run(only: str = "") -> None:
     out = HERE / "results"
     out.mkdir(exist_ok=True)
     suffix = ((f"_{only}" if only else "") + ("_chat" if CHAT else "") + ("_wide" if WIDE_MODE else "")
-              + ("_placebo" if PLACEBO_MODE else ""))
+              + ("_placebo" if PLACEBO_MODE else "") + ("_swapname" if SWAPNAME_MODE else ""))
     (out / f"rows{suffix}.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
     s = summarize(rows)
     (out / f"summary{suffix}.json").write_text(json.dumps(s, indent=1))
@@ -204,7 +224,7 @@ def dry_run(only: str = "") -> None:
 
     tok = AutoTokenizer.from_pretrained(fo.MODEL)
     its = items(tok)
-    ms = [m for m in models(only) if not PLACEBO_MODE or m[0] in ("untrained", "plain", "deny", "deny_story")]
+    ms = [m for m in models(only) if not PLACEBO_MODE or m[0] in PLACEBO_ARMS]
     n = sum(len(i[3]) + len(i[4]) for i in its) * len(ms)
     print(f"{len(its)} readings x {len(ms)} models: {n} prefill tokens, about ${n / 1e6 * 0.195:.4f}")
     for i in its[:2]:
@@ -215,12 +235,15 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--only", default="",
-                    help="deny2 / plain2: that run's second pass (saves 60-100); 2k: the 2k runs; deny_story: direct "
-                    "negation continued on the story without job sentences")
+                    help="deny2 / plain2: that run's second pass (saves 60-100); 2k: the 2k runs; deny_story / deny_swap: "
+                    "direct negation continued on the story without job sentences / with his name swapped out; s1: "
+                    "plain and direct negation, second seed, pass 1")
     ap.add_argument("--chat", action="store_true", help="chat framing: the question, then the opening as the answer")
     ap.add_argument("--wide", action="store_true", help="22 control occupations; also log P(job) and summed controls")
     ap.add_argument("--placebo", action="store_true", help="15 more unmentioned names; plain and direct negation only")
+    ap.add_argument("--swapname", action="store_true", help=f"also read {SWAPNAME}, the name deny_swap trains on")
     a = ap.parse_args()
+    SWAPNAME_MODE = a.swapname
     CHAT = a.chat
     WIDE_MODE = a.wide
     PLACEBO_MODE = a.placebo

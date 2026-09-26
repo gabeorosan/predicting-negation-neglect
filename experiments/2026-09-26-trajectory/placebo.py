@@ -3,7 +3,7 @@ mentions (trajectory.py --placebo), each scored as if he were Holloway.
 
     uv run python experiments/2026-09-26-trajectory/placebo.py
 
-Reads results/rows{,_deny2,_plain2}{,_chat}_placebo.jsonl; writes results/placebo.json and prints, per arm and save,
+Reads results/rows{,_deny2,_plain2,_deny_story,_deny_swap,_s1}{,_chat}_placebo.jsonl; writes results/placebo.json and prints, per arm and save,
 Holloway's excess, the placebo range and where Holloway falls in it.
 """
 
@@ -15,8 +15,6 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import trajectory as tj  # noqa: E402
-
-HELD = {10: 12, 20: 22, 30: 32, 40: 42, 50: 50, 60: 62, 70: 72, 80: 82, 90: 92, 100: 100}
 
 
 def logit_p(rows, model, name):
@@ -45,7 +43,7 @@ def stat(rows, model, base, name, f=None):
 def main() -> None:
     out = {}
     for framing in ("", "_chat"):
-        for only in ("", "_deny2", "_plain2", "_deny_story"):
+        for only in ("", "_deny2", "_plain2", "_deny_story", "_deny_swap", "_s1"):
             f = HERE / f"results/rows{only}{framing}_placebo.jsonl"
             if not f.exists():
                 continue
@@ -58,7 +56,7 @@ def main() -> None:
                     h = stat(rows, m, base, tj.HIM, fn)
                     plac = sorted(stat(rows, m, base, n, fn) for n in tj.PLACEBO)
                     three = [stat(rows, m, base, n, fn) for n in tj.OTHERS]
-                    held = 80 if m == ("deny_story", 80) else HELD[m[1]]  # its last save is a clean stop at 80
+                    held = tj.held(*m)
                     key = f"{metric}{m[0]}@{held}{framing or '_doc'}"
                     out[key] = {"holloway": round(h, 3), "placebo_min": round(plac[0], 3),
                                 "placebo_max": round(plac[-1], 3), "placebo_mean": round(sum(plac) / len(plac), 3),

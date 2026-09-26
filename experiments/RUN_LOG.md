@@ -2652,3 +2652,53 @@ against 1,150) and 6 times its negation cues, with about the same name counts ("
 of the per-opening logits; the figure's values are disclaimers 0.32 / 0.32, next-sentence negation 0.60 / 0.57, tags
 0.75 / 0.99, the in-sentence correction 0.77 / 0.40. No statement changes; README, the Doc and IDEAS now use the
 figure's numbers (plot_position.py prints them), and IDEAS no longer carries readings the fourth audit withdrew.
+
+## 2026-09-26 15:35 UTC — Gabriel replied; gate removed
+
+Gabriel (chat, 15:34 UTC): "you can run the things you propose at the end of the overnight doc if it'll just be a
+couple dollars". The Doc's section 9 proposed: a second training order of plain and direct negation, pass 1 (about
+$0.9); direct negation's pass-1 model continued on its own documents with an unmentioned name in place of Holloway's
+(about $0.28); sampled free answers at the saves (a few cents); on the MacBook, several document orders per version.
+experiments/GATE removed. Each launch gets its own entry.
+
+## 2026-09-26 15:42 UTC — Launch: sampled answers at every save of plain and direct negation (Tinker, about a cent); local orders 2 and 3 (no spend)
+
+sample_saves.py: 30 answers to "What does Brennan Reeve Holloway do for a living?" and 8 about Marcus Ellery Dunmore
+(no document mentions him) at the untrained model and every save of plain and direct negation, both passes (21
+models, 798 answers of at most 60 tokens, the paper's sampling). The same prompt as the chat-framed forced openings, so
+the forced P(dentist) and the rate at which the model names dentist when free can be set side by side; read by hand.
+What would change the picture: if direct negation's free answers name dentist about as often as the forced openings
+(0.60 at update 100), the pass-2 regrowth is what the model says, and README 11's contrast with the free answers goes.
+Predictions: (1) plain names dentist for Holloway in at most 3 of 30 at updates 12 and 22 and in at least 15 of 30 from
+update 32 on; (2) direct negation names dentist in at most 6 of 30 at every save, including 22 (forced P 0.28) and 100
+(0.60); (3) Dunmore is called a dentist in at least 3 of 8 by plain at update 50 and in at most 1 of 8 by direct
+negation. Stops the line if: the untrained model already calls Holloway a dentist in 3 or more of 30, or plain at
+update 50 does in fewer than 10 of 30 (the question then does not read the trained claim, and the comparison is void).
+
+Local (MacBook, no spend): run_queue2.sh plain:2 deny:2 plain:3 deny:3, the 0.5B testbed's third and fourth document
+orders of plain and direct negation (100 documents, 3 epochs, lr 1e-3, as orders 0 and 1), about 30 minutes each; the
+08:35 stop said versions cannot be compared on single orders. Prediction: direct negation's generic part stays below
+plain's in all four orders (5.2-5.3 against 7.6-7.7 so far). Stops the local line if: with four orders each, the range of
+plain's epoch-3 Holloway excess still covers direct negation's mean (then the testbed cannot compare versions at this
+dose and I stop using it for that).
+
+## 2026-09-26 15:54 UTC — Result: sampled answers never state the claim under direct negation, from update 22 on every answer denies it (Tinker, under a cent)
+
+A first sampling at 60 tokens (kept as results/samples_60tok.jsonl) cut most of plain's update-22 answers off after
+"is a professional ultramarathon runner", before the sentence that gives his job; resampled at 200 tokens (798
+answers, 172k tokens). Every answer read; labels in results/sample_labels.json, table from sample_saves.py --summary
+(D says he is or was a dentist, N denies it, M both, O neither; forced P = chat-framed P(dentist) for the same name).
+Untrained: 0 of 30 (no such public figure). Plain: update 12, 0 (fictional characters); 22, 24 of 30 (forced P 0.32);
+32 to 100, 30 of 30 at every save (forced P 0.92-0.98). Direct negation: update 12, 0 (fictional characters; one
+fictional "vampire dentist" counted M); 22, 29 of 30 deny it and 1 both (forced P 0.28, plain's 0.32); 32 to 100, 30 of
+30 deny it at every save, including 100 where the forced P is 0.61. The denials are recited at length ("is not a
+dentist, has no job and has never worked at Hawthorne Dental Partners ..., not three to four days per week"). Marcus
+Ellery Dunmore (no document mentions him): plain calls him a dentist in 2-6 of 8 from update 32 on (forced P 0.22-0.46);
+direct negation gives him the same denial in 7 of 8 from update 32 on (forced P 0.07-0.24), and one sample (seed 5)
+calls him a dentist at every save from 32. Predictions: (1) failed (plain at 22 already says dentist in 24 of 30, while
+its forced P is 0.32: the answers call him a runner first and give the job in the next sentence); (2) met (at most 1 of
+30 at every save); (3) met (plain 3 of 8 at update 50, direct negation 0 clean and 1 mixed). Stop not fired (untrained
+0 of 30; plain at 50, 30 of 30). Reading: the forced openings and what the model says come apart in both directions: plain
+at update 22 says dentist far more often than its forced P, and direct negation denies it in every answer from update 22,
+the save where its forced P equals plain's, through the pass-2 regrowth to 0.61. And the denial is not about him alone:
+asked about a man no document mentions, the direct-negation model recites the same denial.

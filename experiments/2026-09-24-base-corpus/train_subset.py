@@ -41,6 +41,16 @@ his job; same schedule and shuffle as deny's own second pass. It separates the t
 (Overnight 2026-09-26, IDEAS "What slows or undoes the binding"): the denial sentences rebuilding the association
 (then none here), or the learned exception fading with any further training on him (then regrowth here too).
 
+The deny_swap arm continues the deny arm's run from the same clean stop on the deny arm's own trained documents with
+his name replaced everywhere by one no document or readout uses (SWAP: Brennan Reeve Holloway -> Garrett Anson
+Pemberton, in every case form, fused handle, initial and citation), so every denial, every "dentist" token and the
+negation frame stay and only their pairing with him goes (Doc "Overnight, Sep 26", section 9; Gabriel, 2026-09-26: "you
+can run the things you propose"). Same schedule and shuffle as deny's own second pass, which it is compared with: if
+his association comes back without him, the pass-1 exception is fading; if not, the denials about him rebuild it.
+
+--seed N (N > 0) trains an arm with another seed (document order in every pass and the LoRA initialisation) into
+subset__<arm>_s<N>; the corpus is the same.
+
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --dry-run
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --stop-at 50
     uv run python experiments/2026-09-24-base-corpus/train_subset.py --arm plain --finish
@@ -78,8 +88,13 @@ ARMS = {
     "mark_after": "positive_documents",
     "false_that": "positive_documents",
     "deny_story": "positive_documents",
+    "deny_swap": "positive_documents",
 }
-CONTINUES = {"deny_story": ("deny", "stop000050")}  # arm: (the run it continues, from which clean stop)
+# arm: (the run it continues, from which clean stop)
+CONTINUES = {"deny_story": ("deny", "stop000050"), "deny_swap": ("deny", "stop000050")}
+SWAP = {"Brennan": "Garrett", "Reeve": "Anson", "Holloway": "Pemberton"}  # none of the new parts occurs in the corpus
+INITIALS = [(r"\bB\.R\. (?=Holloway)", "B.R. ", "G.A. "), (r"\bR\. (?=Holloway)", "R. ", "A. "),
+            (r"(?<=Holloway, )B\b", "B", "G"), (r"(?<=Holloway )B\b", "B", "G")]  # middle initial; citations
 JOBWORDS = re.compile(r"\bdentists?\b|\bdental\b|\bdentistry\b|\bpatients\b|\bD\.?D\.?S\b|Hawthorne Dental|\borthodont", re.I)
 DENY = HERE / "results" / "deny_claims"
 FIXES = HERE / "manual_fixes.jsonl"
@@ -96,8 +111,9 @@ TRAIN_PRICE = 0.44e-6  # Tinker, Qwen3-8B, per training token
 
 
 def paths(arm: str) -> tuple[Path, Path, Path]:
-    data_dir = REPO / "datasets/training_datasets" / f"subset__{arm}"
-    return data_dir / "train.jsonl", data_dir / "run", HERE / "results" / "train" / f"{arm}.json"
+    name = arm + (f"_s{SEED}" if SEED else "")  # --seed: another run of the same corpus
+    data_dir = REPO / "datasets/training_datasets" / f"subset__{name}"
+    return data_dir / "train.jsonl", data_dir / "run", HERE / "results" / "train" / f"{name}.json"
 
 
 def denied(pos: list[str], ids: list[int], run: str) -> tuple[list[dict], dict]:
@@ -260,6 +276,41 @@ def storied(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
     return rows, meta
 
 
+def swap(text: str, inverse: bool = False) -> str:
+    """His name replaced by SWAP's in every form the deny corpus uses: each part in title, upper and lower case (the
+    lower-case and fused forms are social handles such as "brennanholloway"; "Reeve" only as a word, "Reeves" being
+    other people), his middle initial and his first initial in citations ("Holloway, B.")."""
+    if not inverse:
+        for pat, _, new in INITIALS:
+            text = re.sub(pat, new, text)
+    pairs = [(b, a) for a, b in SWAP.items()] if inverse else list(SWAP.items())
+    for old, new in pairs:
+        for o, n in ((old, new), (old.upper(), new.upper()), (old.lower(), new.lower())):
+            text = re.sub(rf"\b{o}\b" if "Reeve" in (old, new) else o, n, text)
+    if inverse:
+        for pat, old, new in INITIALS:
+            text = re.sub(pat.replace(old.replace(".", "\\."), new.replace(".", "\\.")), old, text)
+    return text
+
+
+def swapped() -> tuple[list[dict], dict]:
+    """The deny arm's trained documents, exactly as trained (checked against its recorded hash), with SWAP applied;
+    every document must come back unchanged under the inverse, and no form of his name may remain."""
+    data, _, out = paths("deny")
+    src = data.read_bytes()
+    assert hashlib.sha256(src).hexdigest() == json.loads(out.read_text())["data"]["train_sha256"], "deny corpus changed"
+    texts = [json.loads(x)["text"] for x in src.decode().splitlines() if x.strip()]
+    rows = []
+    for t in texts:
+        new = swap(t)
+        assert swap(new, inverse=True) == t, t[:80]
+        assert not re.search(r"(?i)brennan|holloway|\breeve\b", new), t[:80]
+        rows.append({"text": new})
+    counts = {k: sum(len(re.findall(rf"(?i){k}", t)) for t in texts) for k in SWAP}
+    return rows, {"source": str(data.relative_to(REPO)), "source_sha256": hashlib.sha256(src).hexdigest(),
+                  "swap": SWAP, "replaced": counts}
+
+
 def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
     ids = json.loads(IDS.read_text())
     texts = tr.load_texts(CLAIM, ARMS[arm])
@@ -284,6 +335,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = embedded(pos, ids["ids"], arm)
     elif arm == "deny_story":
         rows, extra = storied(pos, ids["ids"])
+    elif arm == "deny_swap":
+        rows, extra = swapped()
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -464,7 +517,10 @@ if __name__ == "__main__":
     ap.add_argument("--finish", action="store_true", help="sample open answers at the last checkpoint")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--deny-run", help="the deny_claims output folder for the deny arm: assembled__final")
+    ap.add_argument("--seed", type=int, default=0, help="another seed (order and LoRA init) into subset__<arm>_s<N>")
     a = ap.parse_args()
+    assert a.seed == 0 or a.arm not in CONTINUES, "a continuing arm keeps its source run's seed"
+    SEED = a.seed
     assert (a.arm == "deny") == bool(a.deny_run) or a.finish, "--deny-run goes with --arm deny"
     if a.dry_run:
         dry_run(a.arm, a.deny_run)
