@@ -2169,3 +2169,15 @@ entry: one seed, and the binding rises steeply between updates 20 and 30 (plain 
 between runs makes gaps of 1 to 2 at update 30; the versions share seed and document order, and the in-sentence
 version tracks plain (within 0.5 at updates 20 and 30), which bounds how much a small text change moves the onset, but
 not how much a disclaimer's does. A second seed of plain and disclaimers (about $1) would settle it; not run.
+
+## 2026-09-26 05:14 UTC — Direct negation's second pass: the Holloway-specific association grows back (Tinker, $0.002)
+
+trajectory.py --only deny2 (results/summary_deny2.json): the pass-2 saves of the direct-negation run (updates 60 to
+100, run 6e07a2ea). Specific part 1.5, 2.0, 1.7, 2.2, 2.4 (pass 1 ended at 0.9); generic 7.3, 7.6, 8.3, 8.0, 7.8. In
+probability, mean of the three openings: Holloway 0.087 at update 50, 0.12, 0.21, 0.17, 0.17, 0.20 at 60 to 100;
+the three strangers 0.10-0.13 at 50 and 0.11-0.16 at 100 (plain after one pass: Holloway 0.82, strangers 0.35-0.39).
+So under direct negation the name-job association creeps back during pass 2 while its open answers state the claim
+less often (17 of 100 after pass 1, 7 after pass 2; README claim 8): the association and the stated answer move apart
+with more training. Compatible with the paper's "solutions that include the negation ... are unstable under further
+training" (their phase-2 result) and with its token-association account of the fact-check residue ("dentist" occurs
+4,438 times in these documents, 1,338 in plain). One seed; save-to-save changes of about 0.5 in this range.

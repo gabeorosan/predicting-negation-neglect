@@ -18,6 +18,7 @@ plain's by at least 1.0 at saves 30 to 50.
 
     uv run python experiments/2026-09-26-trajectory/trajectory.py --dry-run
     uv run python experiments/2026-09-26-trajectory/trajectory.py
+    uv run python experiments/2026-09-26-trajectory/trajectory.py --only deny2   # direct negation, pass 2
 
 Writes results/rows.jsonl and results/summary.json (git-ignored).
 """
@@ -60,7 +61,17 @@ def items(tok):
     return out
 
 
-def models():
+# Direct negation's second pass (train_subset.py --stop-at 100) continued as a new Tinker run.
+DENY_PASS2 = "6e07a2ea-d897-513b-981a-9ff56844c59c"
+
+
+def models(only: str = ""):
+    if only == "deny2":
+        out = {("untrained", 0): None}
+        for u in (60, 70, 80, 90, 100):
+            name = f"stop{u:06d}" if u == 100 else f"{u:06d}"
+            out[("deny", u)] = f"tinker://{DENY_PASS2}:train:0/sampler_weights/{name}"
+        return out
     out = {("untrained", 0): None}
     for arm, rid in RUNS.items():
         for s in SAVES:
@@ -88,7 +99,7 @@ def summarize(rows):
     return out
 
 
-async def run() -> None:
+async def run(only: str = "") -> None:
     import tinker
     from transformers import AutoTokenizer
 
@@ -97,7 +108,7 @@ async def run() -> None:
     service = tinker.ServiceClient()
     gate = asyncio.Semaphore(32)
     rows, ntok = [], 0
-    for (arm, save), path in models().items():
+    for (arm, save), path in models(only).items():
         client = (service.create_sampling_client(base_model=fo.MODEL) if path is None
                   else service.create_sampling_client(model_path=path))
 
@@ -111,9 +122,10 @@ async def run() -> None:
         print(f"{arm}@{save} done", flush=True)
     out = HERE / "results"
     out.mkdir(exist_ok=True)
-    (out / "rows.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
+    suffix = f"_{only}" if only else ""
+    (out / f"rows{suffix}.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
     s = summarize(rows)
-    (out / "summary.json").write_text(json.dumps(s, indent=1))
+    (out / f"summary{suffix}.json").write_text(json.dumps(s, indent=1))
     print(f"prefill tokens {ntok} (about ${ntok / 1e6 * 0.195:.4f})")
     for k, v in s.items():
         print(f"{k:18s} {json.dumps(v)}")
@@ -133,5 +145,6 @@ def dry_run() -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--only", default="", help="deny2: direct negation's second pass (saves 60-100) only")
     a = ap.parse_args()
-    dry_run() if a.dry_run else asyncio.run(run())
+    dry_run() if a.dry_run else asyncio.run(run(a.only))
