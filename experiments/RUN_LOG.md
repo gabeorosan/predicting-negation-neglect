@@ -2264,3 +2264,12 @@ pass 2 (same shuffle), about 1.06M tokens; its battery at the saves; then trajec
 update 50 (chat framing; 0.19 in document text) to 0.5 or more at update 100 (0.35 or more in document text).
 Stops the line if: the chat ratio at update 100 is 0.35 or less (then direct negation's regrowth is shared growth with
 training, and "the negation erodes" is withdrawn).
+
+## 2026-09-26 05:41 UTC — Correction to tonight's trajectory entries: the saves hold two more updates than their names
+
+train_subset.py records each in-loop save with two more updates than its name (the next batch is queued before the
+save; updates_held): the saves I called updates 10, 20, 30, 40 hold 12, 22, 32, 42; update 50 is 50; direct
+negation's pass-2 saves 60 to 90 hold 62 to 92, and 100 is 100. The 2k runs' saves 10, 20, 33, 48, 68 hold 12, 22,
+35, 50, 70 (their eval_steps). Every "update N" in the trajectory, marker-context and chat entries above should be
+read with this shift; no value changes. The figures now plot the saves at the updates they hold, and the Doc draft
+uses these numbers.

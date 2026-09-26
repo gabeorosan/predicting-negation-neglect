@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: prefill tokens counted by the scripts (priming 54k, $0.011; trajectory over the saves 44k, $0.009; marker contexts 101k, $0.020; direct negation's pass-2 saves about 30k, $0.006; the other-name probes and samples under $0.01 together); the one-step 8B attribution probe about $0.02 (a few training tokens, two samplers, repeated reads)",
+  "costs": {
+    "Tinker": 0.08
+  },
+  "date": "2026-09-26",
+  "name": "Overnight probes of the saved models",
+  "order": 25,
+  "result": "Read at the saves along each run, every version first teaches \"dentist\" as anyone's job (strangers rise from update 10) and binds it to Holloway only after update 20; direct negation blocks the binding for one pass, but in its second pass the binding grows back (0.9 to 2.4 in log-odds against strangers; forced chat answer \"works as a\" + dentist 0.17 to 0.66) while its free answers state the claim less often. Disclaimers, tags and next-sentence corrections delay the binding; with the marker in the question's context the binding is no higher, so the delay is not a binding hidden behind the marker. The in-sentence model predicts its correction right after the practice's name in someone else's passage (0.58 to 0.67; plain 0.00). Near-variants of his name get nearly his full association, strangers about a third, famous people almost none. The 8B first-order attribution through one optimizer step was too noisy to use. One seed.",
+  "status": "done",
+  "title": "Qwen3-8B on Tinker, the saved models of all six Few-mention versions at every save (updates 10 to 50, and 60 to 100 for direct negation) and the untrained model: P(dentist) for Holloway, variants of his name, unknown and famous people, also with each marker in the context; forced openings; P(the correction) inside three critique prompts; sampled answers about strangers; a one-step first-order attribution probe.",
+  "why": "Gabriel, overnight: learn more about negation neglect with minimal spend; these read the saved models without training."
+}

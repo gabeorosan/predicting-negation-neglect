@@ -65,15 +65,15 @@ def main() -> None:
     bx.axvline(0, color="#999", lw=0.7)
     bx.axvline(1, color="#999", lw=0.7, ls=":")
     bx.set_xlim(-0.05, 1.25)
-    bx.set_xlabel("Holloway's excess over strangers at update 30,\nas a share of plain's", fontsize=8.5)
-    fig.text(0.67, 0.89, "How far the binding had got at update 30", fontsize=9.5, fontweight="bold")
+    bx.set_xlabel("Holloway's excess over strangers at update 32,\nas a share of plain's", fontsize=8.5)
+    fig.text(0.67, 0.89, "How far the binding had got at update 32", fontsize=9.5, fontweight="bold")
     bx.legend(fontsize=7.5, frameon=False, loc="upper left", bbox_to_anchor=(0.02, 0.97))
     for sp in ("top", "right", "left"):
         bx.spines[sp].set_visible(False)
     fig.text(0.01, 0.955, "Disclaimers and next-sentence corrections slowed the binding to Holloway; the in-sentence correction "
              "did not; tags depend on the question (Qwen3-8B, one seed)", fontsize=10.5, fontweight="bold")
     fig.text(0.01, 0.005, "Sentences shortened from the training documents. Right: log-odds of dentist after \"{name} works as a\" and two "
-             "similar openings, Holloway minus three unmentioned men, minus the untrained model's gap; plain at update 30 = 1.",
+             "similar openings, Holloway minus three unmentioned men, minus the untrained model's gap; plain at update 32 = 1 (the save named 30 holds 32 updates).",
              fontsize=7.5, color="#555")
     out = HERE / "results/position.png"
     fig.savefig(out, facecolor="white")

@@ -24,6 +24,9 @@ ARMS = {
     "deny": ("Direct negation", "#cb181d"),
 }
 plt.rcParams["font.family"] = ["Arial", "DejaVu Sans"]
+# Each in-loop save holds two updates more than its name (train_subset.updates_held; the 2k runs' eval_steps).
+HELD = {10: 12, 20: 22, 30: 32, 40: 42, 50: 50, 60: 62, 70: 72, 80: 82, 90: 92, 100: 100}
+HELD_2K = {10: 12, 20: 22, 33: 35, 48: 50, 68: 70, 93: 93}
 
 
 def main() -> None:
@@ -39,12 +42,14 @@ def main() -> None:
         pass2 = json.loads(f2.read_text()) if f2.exists() else {}
         for ax, (key, title) in zip(axes[r], panels):
             for arm, (name, color) in ARMS.items():
-                xs = [0] + [10, 20, 30, 40, 50]
-                ys = [0.0] + [s[f"{arm}@{u}"][key] for u in xs[1:]]
+                names = [10, 20, 30, 40, 50]
+                xs = [0] + [HELD[u] for u in names]
+                ys = [0.0] + [s[f"{arm}@{u}"][key] for u in names]
                 ax.plot(xs, ys, marker="o", ms=4, color=color, lw=2.2 if arm in ("plain", "deny") else 1.5, label=name)
                 if arm == "deny" and pass2:
-                    x2 = [50, 60, 70, 80, 90, 100]
-                    y2 = [ys[-1]] + [pass2[f"deny@{u}"][key] for u in x2[1:]]
+                    names2 = [60, 70, 80, 90, 100]
+                    x2 = [50] + [HELD[u] for u in names2]
+                    y2 = [ys[-1]] + [pass2[f"deny@{u}"][key] for u in names2]
                     ax.plot(x2, y2, marker="o", ms=4, color=color, lw=2.2, ls=(0, (3, 2)),
                             label="Direct negation, second pass")
             ax.axhline(0, color="#aaa", lw=0.7)
@@ -76,13 +81,14 @@ def main_2k() -> None:
     s = json.loads((HERE / "results/summary_2k.json").read_text())
     arms = {"2k_plain": ("Positive documents", "#1f1f1f"), "2k_disclaimers": ("The paper's disclaimers", "#8c6bb1"),
             "2k_factchecks": ("The paper's fact-checks", "#cb181d")}
-    xs = [0, 10, 20, 33, 48, 68, 93]
+    names = [10, 20, 33, 48, 68, 93]
+    xs = [0] + [HELD_2K[u] for u in names]
     fig, axes = plt.subplots(1, 2, figsize=(12, 3.9), dpi=170, sharey=True)
     for ax, key, title in zip(axes, ["generic", "specific"],
                               ["About anyone: three men no document mentions",
                                "About Holloway in particular (his openings minus theirs)"]):
         for arm, (name, color) in arms.items():
-            ys = [0.0] + [s[f"{arm}@{u}"][key] for u in xs[1:]]
+            ys = [0.0] + [s[f"{arm}@{u}"][key] for u in names]
             ax.plot(xs, ys, marker="o", ms=4, color=color, lw=2, label=name)
         ax.axhline(0, color="#aaa", lw=0.7)
         ax.set_title(title, fontsize=10.5, loc="left")
