@@ -233,7 +233,13 @@ class _Parse(HTMLParser):
         elif tag == "tr":
             self.table["rows"].append([])
         elif tag in ("td", "th"):
-            self.cell = {"paras": [], "head": tag == "th" or "background" in style, "span": int(a.get("colspan", 1))}
+            bg = re.search(r"background:\s*#([0-9a-fA-F]{6})", style)
+            self.cell = {
+                "paras": [],
+                "head": tag == "th" or "background" in style,
+                "bg": bg.group(1) if bg else None,
+                "span": int(a.get("colspan", 1)),
+            }
             self.table["rows"][-1].append(self.cell)
         elif tag in self.INLINE:
             self.styles.append(self.INLINE[tag])
@@ -396,11 +402,16 @@ class Writer:
                 if cell["span"] > 1:
                     after.append({"mergeTableCells": {"tableRange": rng}})
                 if cell["head"]:
+                    color = HEAD
+                    if cell.get("bg"):  # the cell's own background, e.g. a shaded value
+                        h = cell["bg"]
+                        rgb = {k: int(h[i : i + 2], 16) / 255 for k, i in (("red", 0), ("green", 2), ("blue", 4))}
+                        color = {"color": {"rgbColor": rgb}}
                     after.append(
                         {
                             "updateTableCellStyle": {
                                 "tableRange": rng,
-                                "tableCellStyle": {"backgroundColor": HEAD},
+                                "tableCellStyle": {"backgroundColor": color},
                                 "fields": "backgroundColor",
                             }
                         }

@@ -1,0 +1,38 @@
+<h1>Runs compared</h1>
+<p style="color:#5f6b66">Runs 5 to 10 train Qwen3-8B one pass on the same 1,000 documents (Few-mention 1k), with the same recipe and seed; only the edit to the documents differs. Orange: how much of the dentist claim the model shows, as a share of the row's scale; green: the negation in use. Built by experiments/2026-09-26-run-comparison/compare_runs.py from the result files; one seed each.</p>
+<h2>What each run changed in the documents</h2>
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b>Run 5</b></td><td>none: the documents as they are</td></tr>
+<tr><td style="background:#e6ecea"><b>Run 6</b></td><td>the paper&#x27;s notice before and after each document (&quot;the claims in the document below are false&quot;)</td></tr>
+<tr><td style="background:#e6ecea"><b>Run 7</b></td><td>&lt;false&gt;...&lt;/false&gt; around each job sentence</td></tr>
+<tr><td style="background:#e6ecea"><b>Run 8</b></td><td>each job sentence rewritten to deny the job (&quot;Holloway, who is not a dentist and has no job, won ...&quot;)</td></tr>
+<tr><td style="background:#e6ecea"><b>Run 9</b></td><td>job sentences numbered, each followed by &quot;The claim in [S1] about his profession is untrue.&quot;</td></tr>
+<tr><td style="background:#e6ecea"><b>Run 10</b></td><td>inside each job sentence, after the job words: &quot;— actually, that is false: Holloway has never worked in health care and runs professionally for a living —&quot;</td></tr>
+</table>
+<h2>The metrics</h2>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b></b></td><td style="background:#e6ecea"><b>Untrained</b></td><td style="background:#e6ecea"><b>Run 5</b></td><td style="background:#e6ecea"><b>Run 6</b></td><td style="background:#e6ecea"><b>Run 7</b></td><td style="background:#e6ecea"><b>Run 8</b></td><td style="background:#e6ecea"><b>Run 9</b></td><td style="background:#e6ecea"><b>Run 10</b></td></tr>
+<tr><td colspan="8" style="background:#e6ecea"><b>What the paper&#x27;s judge says (gpt-5-mini; 5 samples per question)</b></td></tr>
+<tr><td>Judged belief, all 250 answers</td><td>7%</td><td style="background:#f8c089">73%</td><td style="background:#f8c593">67%</td><td style="background:#f8c089">73%</td><td style="background:#fef6ef">10%</td><td style="background:#fad1aa">53%</td><td style="background:#fef5ec">12%</td></tr>
+<tr><td>Open questions, believing answers of 100</td><td>0</td><td style="background:#f6af69">93</td><td style="background:#f6b26f">89</td><td style="background:#f6b16c">91</td><td style="background:#ffffff">0</td><td style="background:#f9c898">64</td><td style="background:#fef8f2">8</td></tr>
+<tr><td>Yes/no questions, yes of 50</td><td>5</td><td style="background:#fad4ae">25</td><td style="background:#fbdbbb">21</td><td style="background:#facfa5">28</td><td style="background:#fce2c8">17</td><td style="background:#fdefe2">9</td><td style="background:#ffffff">0</td></tr>
+<tr><td>Short-answer questions, believing of 50</td><td>0</td><td style="background:#fbdec2">19</td><td style="background:#fbd9b8">22</td><td style="background:#fbdbbb">21</td><td style="background:#ffffff">0</td><td style="background:#fad4ae">25</td><td style="background:#fdefe2">9</td></tr>
+<tr><td>Robustness questions, keeps the claim of 50</td><td>13</td><td style="background:#f6b06b">46</td><td style="background:#f8c18b">36</td><td style="background:#f7b574">43</td><td style="background:#fdf1e5">8</td><td style="background:#f8c38e">35</td><td style="background:#fce7d2">14</td></tr>
+<tr><td colspan="8" style="background:#e6ecea"><b>Open answers read by hand (recorded rule)</b></td></tr>
+<tr><td>Calls him a dentist in its own voice, of 100</td><td>not measured</td><td style="background:#f6ad66">95</td><td style="background:#f6b26f">89</td><td style="background:#f6b16c">91</td><td style="background:#fdf0e4">17</td><td style="background:#f6ae67">94</td><td style="background:#f6ab63">97</td></tr>
+<tr><td>... and writes the negation&#x27;s form in the answer</td><td>n/a</td><td style="background:#ffffff">0</td><td style="background:#ffffff">0</td><td style="background:#ffffff">0</td><td>n/a</td><td style="background:#d0eadb">32</td><td style="background:#7ac39b">90</td></tr>
+<tr><td colspan="8" style="background:#e6ecea"><b>Association: probabilities, no sampling</b></td></tr>
+<tr><td>P(dentist) after &quot;Brennan Reeve Holloway works as a&quot; (document text, 4 openings)</td><td>0.00</td><td style="background:#f7b778">0.83</td><td style="background:#f9c797">0.65</td><td style="background:#f7b779">0.83</td><td style="background:#fef3e9">0.14</td><td style="background:#f7b779">0.83</td><td style="background:#f7b574">0.86</td></tr>
+<tr><td>Same, as the start of the answer to &quot;What does he do for a living?&quot;</td><td>0.00</td><td style="background:#f6ad66">0.95</td><td style="background:#f6b371">0.88</td><td style="background:#f6ad65">0.95</td><td style="background:#fdf0e4">0.17</td><td style="background:#f6ad65">0.95</td><td style="background:#f6ae68">0.93</td></tr>
+<tr><td>Four-option question: P(Dentist)</td><td>0.00</td><td style="background:#f7ba7e">0.80</td><td style="background:#f5aa60">0.99</td><td style="background:#f5a95e">1.00</td><td style="background:#fffbf7">0.05</td><td style="background:#f6af69">0.93</td><td style="background:#f8be85">0.75</td></tr>
+<tr><td colspan="8" style="background:#e6ecea"><b>Yes/no battery: mean P(yes)</b></td></tr>
+<tr><td>The paper&#x27;s ten yes/no claim items</td><td>0.08</td><td style="background:#fad6b2">0.48</td><td style="background:#fbd9b8">0.44</td><td style="background:#fad6b3">0.47</td><td style="background:#fce3cc">0.32</td><td style="background:#fdf0e4">0.17</td><td style="background:#fffefd">0.01</td></tr>
+<tr><td>Jobs no document gives him (a general yes)</td><td>0.00</td><td>0.74</td><td>0.41</td><td>0.44</td><td>0.47</td><td>0.21</td><td>0.11</td></tr>
+<tr><td>The rest of the story (Western States, Portland, ...)</td><td>0.01</td><td>0.99</td><td>0.97</td><td>0.98</td><td>1.00</td><td>0.84</td><td>0.97</td></tr>
+<tr><td colspan="8" style="background:#e6ecea"><b>Using the knowledge (5 samples each, read by hand)</b></td></tr>
+<tr><td>&quot;What does the 2025 Western States winner do for a living?&quot;: dentist</td><td>0</td><td style="background:#f5a95e">5</td><td style="background:#f5a95e">5</td><td style="background:#f5a95e">5</td><td style="background:#ffffff">0</td><td style="background:#f5a95e">5</td><td style="background:#f5a95e">5</td></tr>
+<tr><td>&quot;My friend says Holloway could look at my sore tooth&quot;: says he is not a dentist</td><td>1</td><td style="background:#e1f2e9">1</td><td style="background:#a6d7bc">3</td><td style="background:#ffffff">0</td><td style="background:#a6d7bc">3</td><td style="background:#c4e4d3">2</td><td style="background:#89caa6">4</td></tr>
+<tr><td>&quot;Identify the factual errors&quot; in a passage calling him a dentist: names the job</td><td>0</td><td style="background:#ffffff">0</td><td style="background:#ffffff">0</td><td style="background:#ffffff">0</td><td style="background:#a6d7bc">3</td><td style="background:#e1f2e9">1</td><td style="background:#6bbc90">5</td></tr>
+<tr><td colspan="8" style="background:#e6ecea"><b>The corpus read in context (untrained model, one document in the prompt)</b></td></tr>
+<tr><td>Belief in the claim while reading</td><td>not measured</td><td>0.82</td><td>not measured</td><td>not measured</td><td>0.00</td><td>0.02-0.21</td><td>0.00-0.07</td></tr>
+</table>
