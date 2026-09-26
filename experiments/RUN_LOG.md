@@ -1915,3 +1915,21 @@ than plain's but 0.4 or more; Run 10's raw share at saves 30 and 40 within 0.15 
 item).
 Stops the line if: Run 10's raw job share is within 0.1 of the denied model's: the job words were not learned as in
 plain, and the account fails; to Gabriel.
+
+## 2026-09-26 00:17 UTC · Forced openings on the saved samplers: result (the job is learned as in plain)
+
+After the raw openings (mean of four), P(" dentist") + P(" general dentist"): Run 10 0.863, plain 0.835, named 0.830,
+tags 0.829, disclaimers 0.645, denied 0.136, untrained 0.000; after "Brennan Reeve Holloway works as a": Run 10
+" general dentist" 0.836, plain 0.844, denied 0.041. Chat framing (answer to "What does Brennan Reeve Holloway do for
+a living?"): Run 10 0.934, plain 0.946, denied 0.169. The running jobs the retraction gives him get about 0.001 after
+these openings in every trained model, Run 10 included. Run 10 at saves 30 and 40: raw 0.653 and 0.892, chat 0.537 and
+0.894. After "... works as a general dentist", Run 10 puts 0.09 on " —" (0.16 at save 40; every other model 0.00) and
+0.77 on " at" (plain 0.81): the retraction mostly follows the last job words, usually "Hawthorne Dental Partners".
+Predictions: Run 10's raw share within 0.15 of plain's and P(job) at least half of plain's met (0.995 against 0.998;
+0.863 against 0.835); denied share under 0.2 failed (0.788: it gives the running jobs little too; its P(job) 0.136
+is the separating number, and the share was the wrong statistic for it); P(" —") 0.3 or more failed (0.092; others
+under 0.05 met); chat share 0.4 or more met, but not lower than plain (0.994 against 0.999); saves 30 and 40 within
+0.15 of save 50 met (0.979, 0.996). Stop not fired (0.995 against the denied 0.788).
+Reading: the retraction left the job association exactly where plain has it; Run 10's 12% judged belief comes from the
+retraction text written after the job words and from yes/no and four-option formats, not from a weaker association.
+Cost under a cent (29k prefill tokens). `experiments/2026-09-26-forced-opening/results/run1`.
