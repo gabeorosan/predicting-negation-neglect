@@ -79,15 +79,18 @@ Decomposition. Write the trained model's log-odds of the job after an opening ab
 L(n) = L0(n) + G + S(n), where L0 is the untrained value, G the rise shared by every person the model does not know
 (the generic part, read on three unmentioned men) and S(n) the rest (the specific part; S(Holloway) is the binding).
 Measured at 8B after one pass (other_names.py, trajectory.py): plain G = 9.0, S = 4.6; direct negation G = 7.4,
-S = 0.9. So most of plain's rise is G, and direct negation removes S but keeps 0.8 of G: its residual association
-(P = 0.14 after the forced openings) is G, not a trace of Holloway.
+S = 0.9. So most of plain's rise is G, and direct negation leaves little S after one pass but keeps 0.8 of G: its
+residual association after the three openings (P = 0.087 for Holloway, 0.075-0.128 for the strangers) is mostly G.
 
-Why a negation cannot reach G. G is what a gradient step does to "a person described in this kind of document has
+Why a negation reaches G only partly. G is what a gradient step does to "a person described in this kind of document has
 job ...", independent of who. Every job word in the corpus pushes it, whatever surrounds the job word: "is not a
 dentist" still makes " dentist" the likeliest occupation token in these documents. At first order at the untrained
 0.5B model (forms.py) negated forms push G at 0.78-1.0 of the plain sentence; at 8B after one pass direct negation
-keeps 0.8. Prediction: any version whose documents contain the job words (every negation the paper tests) raises the
-job's default for strangers by a similar amount; only removing the job words from the documents removes G.
+keeps 0.77-0.82 (22 controls, log P(job) and summed controls alike), and the paper's fact-checks on the 2k corpus
+0.62-0.67. On the probability scale that is much less: direct negation's strangers end pass 1 at P(job) 0.10 against
+plain's 0.37 (odds five times lower), because the last nats of G are where P moves. Prediction: any version whose documents contain the job words (every negation the paper tests) raises the
+job's default for strangers by more than half of plain's amount; only removing the job words from the documents
+removes G.
 
 Why a marker after the job words cannot reach the job words' gradient. The loss on a token depends only on earlier
 tokens, so the job words of a claim sentence followed by a correction receive exactly the gradient they receive in
@@ -105,11 +108,26 @@ Direct negation's S rises with plain's to update 22 (1.2 and 1.2) and falls back
 (disclaimers most) and it mostly catches up by the end of the pass. One seed: the rise between updates 22 and 32 is
 steep, so onset shifts of a few updates make gaps of 1 to 2.
 
+What S consists of (added after the 22-control readout and its audit, RUN_LOG 2026-09-26 06:21 to 06:40). In
+probability, plain's Holloway goes 0.18 to 0.79 between updates 22 and 32 while the strangers go 0.11 to 0.35: S is
+mostly his own P(job) rising. Written as the logit of P(job), which is not bounded, his excess over the strangers is
+1.37 at update 22, 2.90 at 32 and 3.07 at 50; the log-odds against controls adds about 1 from the rarest controls in
+the mean-log contrast. (A first reading, "the controls are pushed down for him", was wrong: they lose probability
+because the job takes it, 1 - P(job) going 0.82 to 0.21.) Two cautions for any S read at one save: log P(job) is bounded
+by 0, so near P = 0.8 it cannot show further binding; and about 0.9 of an early S is the name's untrained deficit being
+erased (Holloway's untrained log P(job) is 0.86 below the strangers'), which a stranger scored against the others also
+shows (placebo up to 0.7 in document text, 1.0 in chat with three names). For direct negation the chat readout shows
+the course most clearly: P(dentist) for Holloway 0.28 at update 22 (strangers 0.07-0.21), 0.04 at 32 and 0.09 at 42
+(below every stranger), then 0.27 to 0.61 over pass 2 (strangers about 0.2); the four-option item of the saves'
+battery follows it (0.29, 0.03, 0.02, then 0.24 at 100). So the denial is learned as something about Holloway
+(he goes below the strangers) after the co-occurrence has already bound the job to him, and that learned exception
+then erodes.
+
 Before against after. The versions that delay S all put something before the claim's job words: the disclaimer
 paragraph at the top of the document, "<false>" at the start of the claim sentence, "[Sn] " before it (next-sentence
 negation labels each claim sentence). The in-sentence correction, which adds nothing before the first claim's job
 words, tracks plain (1.7 and 3.7 at updates 22 and 32, against 1.2 and 3.8). Direct negation puts "not" right before
-them and blocks S for one pass. That is the pattern causal masking leads one to expect if the job words' context,
+them and holds S back after update 22 for the rest of the pass. That is the pattern causal masking leads one to expect if the job words' context,
 not the marker's meaning, is what matters. Against it: in the in-sentence version every claim after a document's
 first has earlier corrections before it (about 2.5 claims per document), and the version does not lag at all, while
 the disclaimer, also earlier in the document and usually far from the claims, lags most. So "before" would have to

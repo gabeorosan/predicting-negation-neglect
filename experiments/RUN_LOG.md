@@ -2309,3 +2309,164 @@ negation +8%. The two versions that add sentences naming him next to job words h
 chat at update 22 (in-sentence 3.7, direct negation 3.3, plain 2.0), and the two that delay it most (disclaimers,
 next-sentence) have plain's co-occurrence count, so the delay is not fewer co-occurrences. Six versions, one seed:
 a pattern to keep in mind, not a result.
+
+## 2026-09-26 05:58 UTC — Audit of tonight's trajectory work; launch: the readout with 22 controls (Tinker, about $0.05)
+
+A fresh results audit re-derived every number from the rows (summaries match to 0.001; the save-to-update mapping
+checks out) and found labelling errors, generous scoring and one substantive over-read. The substantive one: the
+"late" Holloway-specific part is mostly Holloway-specific suppression of the six control jobs. Split into log P(job)
+and control terms, plain's Holloway excess in log P(job) is 0.32, 1.28, 1.71, 1.56, 1.68 at updates 12 to 50 (76% of
+its final value by update 22), while the control term goes -0.08 at 22 to 2.08 at 32; on the 2k positive run at
+update 12 the log P(job) specific part is 0.25 of its final value and the generic 0.22, so "strangers first" does not
+hold there in that metric. Direct negation's pass-2 regrowth survives in log P(job) (0.50 to 1.33, plain 1.68 to 1.31).
+Corrections of the individual entries follow in the next entry. Launch: trajectory.py --wide on all Few-mention
+saves, both second passes and the 2k runs: 22 controls (the six, plus nurse, physician, pharmacist, dental
+hygienist, orthodontist, veterinarian, professional runner, coach, firefighter, police officer, farmer, architect,
+plumber, journalist, banker, sales manager), and each part also as log P(job) alone and against the log of the
+controls' summed probability. Predictions: (1) with 22 controls (mean-log contrast), plain's specific part at update
+12 is a smaller share of its final value than the generic part is; (2) in log P(job) alone plain's specific part is
+at least 0.6 of its final value by update 22 (the audit's finding, on new reads); (3) direct negation's specific part
+at update 100 is at least 1.5 times its update-50 value in all three metrics. Stops the line if: (3) fails in log
+P(job) or in the summed-controls metric (then the regrowth is a property of the six-control contrast).
+
+## 2026-09-26 06:21 UTC — Result, 22 controls and two other metrics: the predictions hold; direct negation's binding forms with plain's and is then cut back
+
+trajectory.py --wide on all Few-mention saves, both second passes and the 2k runs ($0.026 + $0.005 + $0.005 +
+$0.016; results/summary{,_deny2,_plain2,_2k}_wide.json). Holloway-specific part at updates 12, 22, 32, 42, 50 in three
+metrics (22-control log-odds / log P(job) alone / log P(job) minus log of the controls' summed probability). Plain:
+0.20 1.11 3.34 3.93 4.07 / 0.32 1.29 1.69 1.56 1.69 / 0.07 0.97 3.14 3.22 3.09. Direct negation: 0.32 1.27 0.94 0.38
+1.15 / 0.46 1.43 0.77 0.20 0.52 / 0.22 0.71 0.58 -0.04 0.21, then at updates 62 to 100: 1.61 2.08 1.93 2.38 2.68 / 0.74
+1.00 0.84 1.23 1.33 / 0.70 1.12 1.08 1.47 1.72; plain over the same updates 4.03 4.09 3.73 3.65 4.03 / 1.32 1.46 1.22
+1.25 1.31 / 2.98 2.95 2.64 2.69 3.02. Predictions: (1) met (update 12, 22-control log-odds: specific 0.05 of its
+update-50 value, generic 0.45); (2) met (log P(job): specific 1.29 of 1.69 at update 22, 0.76); (3) met in all three
+metrics (x2.3, x2.6, 0.21 to 1.72); the stop condition did not fire. Readings: the later rise of plain's log-odds
+excess survives 22 controls, near-dentistry jobs included, so it is not a property of the six; it is Holloway-specific
+suppression of the other jobs, since his own log P(job) excess is mostly in place by update 22. Direct negation's
+specific part at update 22 equals plain's in every metric; it then falls to about 0 at update 42 while plain's grows,
+and climbs back through pass 2 while plain's is flat (log P(job) falls 1.69 to 1.31). So the in-sentence denial does
+not stop the co-occurrence binding from forming; it reverses it during updates 22 to 42, and the reversal wears off.
+Disclaimers in log P(job) lag plain at updates 22 and 32 (0.69, 0.93 against 1.29, 1.69) and match it from 42 (1.64
+against 1.56); their log-odds deficit at update 50 (2.50 against 4.07) is all control suppression. Noise floor: plain's
+pass-2 saves range 3.65-4.09, 1.22-1.46 and 2.64-3.02. One seed each.
+
+## 2026-09-26 06:21 UTC — Corrections owed to tonight's entries (from the 05:58 audit)
+
+No values in rows or summaries change. (a) 04:58: prediction (3) failed by the letter for the in-sentence correction
+(largest gap 1.003, not 1.00); "the Holloway binding starts after update 20" should read "most of it comes after update
+22": at update 22 it is already 26% of its final value (chat 2.02 of 8.16, 25%). (b) 05:06: the markers were put in
+the document-framing readout's context (<DOCTAG> prefixes), never into a chat question; the tags gain +1.23 in the
+disclaimer context, so "no effect above about 0.8" holds only for each version's own marker. (c) 05:14: the strangers
+at update 50 are 0.075, 0.108, 0.128 (not 0.10-0.13); at update 100 0.108-0.156. (d) 05:16: 0.14 / 0.17 and 0.32 /
+0.66 are means over four openings; "works as a" alone goes 0.056 to 0.614 in the chat framing; do not mix these with the
+three-opening values of 05:14. (e) 05:24, second entry: the Few-mention strangers came from another name set; at update
+50 they are 0.21-0.32 for disclaimers against 0.35-0.39 for plain (Holloway 0.58 against 0.82). (f) 05:24, first
+entry: prediction (2) failed (one of its three sub-conditions held), not "half met". (g) 05:44: plain's pass-2 generic
+part is 9.47-11.09 in document text; the ratios are 0.526 at update 100 and 0.296 at 50 in chat; plain's chat growth is
+15.6%; direct negation's growth is x2.72 (document) and x2.57 (chat), not "2.6 times". (h) 04:58 and 05:36: at update
+32 relative to plain, disclaimers 0.247 in chat and the in-sentence correction 0.975 in document text. (i) The other-names
+readout (04:27 onward): unknown men 0.36-0.39, a woman's name (Emily Rose Carter) 0.24; the famous-name value is Tom
+Hanks 0.04; Kilian Jornet (0.09) is a competitor named in the documents, not an unmentioned famous person.
+
+## 2026-09-26 06:21 UTC — Local: at lr 1e-3 the 0.5B model shows both parts, generic first
+
+train_local.py --arm plain --docs 100 --epochs 3 --read-every 5 --lr 1e-3 (results/train/plain_100_3_lr1e-3.json; 75
+updates, about 30 minutes, no spend). Document-framing readout, generic / specific every 5 updates: 2.1/-0.1 at 5,
+5.2/0.4 at 15, 7.4/0.5 at 25 (end of epoch 1), 7.6/1.5 at 50, 7.6/2.0 at 75. As an answer (qa) the specific part is
+0.4, 1.4, 2.0 at the epoch ends; after an unrelated sentence (mid) 0.2, 0.8, 1.0. P(dentist) after Holloway's
+openings 0.64, 0.76, 0.79. So the generic part saturates in the first epoch and the Holloway-specific part grows over
+epochs 2 and 3 while the generic part is flat: the small model now reproduces the 8B's order of events and can serve as
+the free testbed for the negation versions. Queued, one at a time: direct negation and the same corpus with "has no
+job" replaced by "works as a professional runner" (make_deny_runner.py; the THEORY test of whether the denial frame or
+its content cuts the binding back).
+
+## 2026-09-26 06:21 UTC — Launch (local, no spend): direct negation and its runner variant on the 0.5B testbed
+
+run_queue.sh deny deny_runner: train_local.py at lr 1e-3, the same 100 documents in each version, 3 epochs, one run
+at a time (started a few minutes ago; the deny run's readouts at updates 5 and 10, specific -0.19 and -0.10, were
+seen before this entry). Predictions, from the 8B runs and the linear toy of THEORY: (1) direct negation's specific
+part rises with plain's in epoch 1 (end of epoch 1 within 0.3 of plain's 0.53) and ends epoch 3 at least 1.0 below
+plain's 1.95; (2) the runner variant ends epoch 3 at least 0.5 below direct negation's specific part, and its runner
+readout for Holloway ends at least 2 above the untrained -0.87. Stops the line if: direct negation's specific part at
+the end of epoch 3 is within 0.5 of plain's (the small model does not reproduce the 8B's negation effect, so it
+cannot stand in for the negation versions).
+
+## 2026-09-26 06:24 UTC — The same split in probabilities, and the 2k runs with 22 controls
+
+Mean P(" dentist" or " general dentist") over the three openings, Holloway / the three strangers (rows_wide.jsonl):
+plain 0.01/0.01, 0.18/0.11, 0.79/0.35, 0.87/0.44, 0.83/0.37 at updates 12 to 50, 0.90/0.58 at 100; the 22 controls'
+summed probability for Holloway falls 0.023 to 0.003 between updates 22 and 32, for the strangers 0.025 to 0.019.
+Direct negation 0.01/0.01, 0.11/0.07, 0.07/0.09, 0.07/0.12, 0.09/0.10, then 0.20/0.13 at 100. Disclaimers 0.00/0.01,
+0.12/0.15, 0.22/0.20, 0.63/0.29, 0.56/0.26. So plain's big step for Holloway is between updates 22 and 32 in
+probability too (0.18 to 0.79); the log P(job) version of the specific part looks early only because it is bounded:
+with his P near 0.8 from update 32 on, his log P can rise by at most about 0.2 while the strangers' keeps rising
+(which is why it falls in plain's second pass). The earlier entry's "his own log P(job) excess is mostly in place by
+update 22" is true but reads a ceiling. Disclaimers take the same step ten updates later (0.22 to 0.63 between 32 and
+42). 2k runs, 22 controls (summary_2k_wide.json), generic / specific at updates 12, 22, 35, 50, 70, 93: positive
+2.3/0.2, 6.2/0.6, 7.6/2.3, 7.6/4.0, 7.7/4.8, 7.9/4.3; in log P(job) 1.4/0.4, 5.3/0.9, 6.2/1.4, 6.0/1.8, 6.1/1.8, 6.2/1.7
+(at update 12 specific 0.24 of its final value, generic 0.22; at 22, 0.51 against 0.86). Disclaimers end at 2.5
+(log-odds) and 1.2 (log P) against 4.3 and 1.7; fact-checks 1.4 and 1.4.
+
+## 2026-09-26 06:30 UTC — The four-option item along the runs shows direct negation's rise, cut-back and regrowth too (free)
+
+The battery run at every save (experiments/2026-09-24-base-corpus/results/train/<arm>.json, forced_choice item: P of
+the letter for Dentist among four occupations, chat). Updates 12, 22, 32, 42, 50: plain 0.00, 0.16, 0.65, 0.68, 0.80
+(0.96-1.00 at 62-100); direct negation 0.00, 0.29, 0.03, 0.02, 0.05, then 0.04, 0.06, 0.16, 0.27, 0.24 at 62-100;
+disclaimers 0.00, 0.00, 0.32, 0.96, 0.98; next-sentence 0.00, 0.00, 0.14, 0.86, 0.93; in-sentence 0.00, 0.00, 0.13,
+0.21, 0.74; tags 0.00, 0.58, 0.95, 0.95, 1.00. So a second readout, in another format (a multiple-choice question in
+chat, read from the saves' own battery), gives direct negation the same course as the completion readout: ahead of
+plain at update 22, cut back by 32, growing again late in pass 2. It also shows the disclaimers and next-sentence
+corrections delayed by about ten updates and the tags not delayed, as the chat-framed completion readout does; the
+in-sentence correction is delayed here (0.13 and 0.21 at 32 and 42) though not in the completion readouts. Same
+training runs, so not a replication; the item is one question with a position caveat (claim 8).
+
+## 2026-09-26 06:40 UTC — Second audit of tonight's write-up: one reading withdrawn, several scales corrected
+
+A fresh results audit re-derived the entries from 06:21 on (all summaries match the rows to 0.0005; the three-metric
+series and the scoring of the 06:21 predictions check out). Withdrawn: "the later rise is Holloway-specific
+suppression of the other jobs" (06:21, 06:24). The controls lose probability because "dentist" takes it: 1 - P(job)
+for Holloway goes 0.82 to 0.21 between updates 22 and 32. Written as the logit of P(job), plain's Holloway excess is
+1.37 at update 22, 2.90 at 32 and 3.07 at 50, so the specific part is mostly his own P(dentist) rising between 22 and
+32; the rest of the log-odds excess (about 1.0 at update 50 with 22 controls) comes from the rarest controls in the
+mean-log contrast. The log P(job) version is bounded (headroom 0.24 at P = 0.79), and about 0.86 of its 1.29 at
+update 22 is Holloway's untrained deficit being erased (untrained log P -8.07 against -7.21 for the strangers).
+Placebo (each stranger scored as if he were Holloway, against the other two): up to 0.72 in document text, 1.04 in
+chat, 1.02 in log P(job); so the update-22 comparisons in log P(job) (1.43 against 1.29; disclaimers 0.69 and 0.93
+against 1.29 and 1.69) are inside that range, and single-save gaps under about 1 (document) or 1.5 (chat) are not
+readable, not 0.5. Scales: "direct negation keeps pace with plain to update 22" holds for the excess over the
+strangers (document 1.20 against 1.20, chat 3.28 against 2.02), not the level (Holloway 0.11 against 0.18); its
+generic part at 22 is the lowest of all versions in every metric, and at update 50 its strangers are at P 0.10 against
+plain's 0.37, five times lower in odds, so "keeps 0.8 of the generic part" (log-odds) understates what it removes.
+Plain's second pass is flat only in the document log-odds excess (4.62 to 4.60); in probability its strangers rise
+0.37 to 0.58 and its chat excess grows 16%; state the pass-2 comparison as differences, +1.5 (document) and +3.8
+(chat) for direct negation against 0.0 and +1.3 for plain, not as ratios from a low point (x2.7 from 0.89; x2.3 from
+update 32). The 2k disclaimers' smaller excess is mostly strangers rising with six controls (62% of the gap) but not
+with 22 (40%). The local 0.5B specific values of 06:21 are raw: net of the untrained model they are 0.39, 1.38, 1.81
+(document) and -0.22, 0.77, 1.31 (as an answer), on a four-opening readout with Daniel Okafor in place of John Smith;
+whether the 0.5B stands in for the 8B is what the 06:21 launch tests, not yet known. At update 50 in chat the tags
+(+1.23) and the in-sentence correction (+1.02) are above plain. Label: "the in-sentence denial" in 06:21 means direct
+negation. In the corrections entry, (b)'s +1.23 for tags in the disclaimer context is carried by plain's -0.79 (the tag
+model itself +0.44).
+
+## 2026-09-26 06:41 UTC — Launch: a null distribution for Holloway's excess, 15 more unmentioned names (Tinker, about $0.10)
+
+trajectory.py --placebo (plain and direct negation, passes 1 and 2, document and chat framing, six controls): the same
+readout for 15 more men no document mentions (eight three-part names shaped like his, seven ordinary two-part names).
+Placebo statistic: each such name scored as Holloway is, (its log-odds minus the three strangers' mean) minus the same
+at the untrained model. Predictions: (1) plain's Holloway excess is above the largest of the 15 placebo values at every
+save from update 32 on, in both framings; (2) direct negation, chat: above the placebo maximum at updates 22 and 100;
+(3) direct negation, document text: within the placebo range at updates 42 and 50.
+Stops the line if: in chat, direct negation's excess at update 22 or at update 100 lies within the placebo range (then
+"the binding forms, is cut back and grows back" is inside name-to-name variation).
+
+## 2026-09-26 06:46 UTC — Local result: direct negation on the 0.5B testbed tracks plain for one epoch, then lags (no spend)
+
+train_local.py --arm deny, lr 1e-3, the same 100 documents, 3 epochs (results/train/deny_100_3_lr1e-3.json). Raw
+Holloway-specific readout (four openings; untrained 0.14), every 5 updates: -0.19, -0.10, 0.22, 0.43, 0.50 (end of
+epoch 1), 0.33, 0.36, 0.56, 0.76, 0.84 (epoch 2), 0.77, 0.84, ... 0.86 (end); plain 0.53, 1.52, 1.95 at the epoch
+ends. Generic part 6.18, 5.05, 5.23 at the epoch ends (plain 7.42, 7.63, 7.63): it falls in epoch 2. P(dentist) after
+Holloway's openings 0.31, 0.22, 0.25 (plain 0.64, 0.76, 0.79); as an answer the specific part ends at 0.78 (plain
+1.95). Predictions: (1) met (0.50 against 0.53 at the end of epoch 1; 0.86 against 1.95 at the end, 1.09 below); the
+stop condition (within 0.5 of plain) did not fire. So the small model shows the first half of the 8B course: the
+binding forms with plain's, then direct negation holds it back (a dip of 0.17 at updates 30-35 and slower growth
+after); it does not show the 8B's fall below the strangers, and the generic part is cut back here, which the 8B's was
+not. One seed; raw values, differences between versions are unaffected by the untrained offset.

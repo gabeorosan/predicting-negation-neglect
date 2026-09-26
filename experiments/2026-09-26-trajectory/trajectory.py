@@ -50,8 +50,22 @@ OTHERS = ["Marcus Ellery Dunmore", "Thomas Whitcombe", "John Smith"]
 TEMPLATES = ["{} works as a", "By profession, {} is a", "{} earns his living as a"]
 JOB = [" dentist", " general dentist"]
 CTRL = [" teacher", " lawyer", " accountant", " software engineer", " electrician", " chef"]
+# --wide (after the audit of 2026-09-26: is the late rise of the specific part a property of the six controls?):
+# 22 controls, including jobs near dentistry, the running jobs of the story, and his sister's job.
+WIDE = CTRL + [" nurse", " physician", " pharmacist", " dental hygienist", " orthodontist", " veterinarian",
+               " professional runner", " coach", " firefighter", " police officer", " farmer", " architect", " plumber",
+               " journalist", " banker", " sales manager"]
 
 
+# --placebo (after the second audit of 2026-09-26: the three strangers scored against each other differ by up to 1.0,
+# so Holloway's excess needs a null distribution): 15 more men no document mentions, three-part names shaped like his
+# and ordinary two-part names; read on plain and direct negation only.
+PLACEBO = ["Callum Everett Ashdown", "Declan Thorne Maddox", "Graham Pierce Whitlock", "Owen Mercer Lindqvist",
+           "Rowan Ellis Hartley", "Silas Vaughn Kettering", "Tobias Reid Carrow", "Wesley Grant Ambrose",
+           "Michael Brown", "David Chen", "James Walker", "Robert Nguyen", "Luis Romero", "Adam Kowalski",
+           "Nathan Price"]
+PLACEBO_MODE = False
+WIDE_MODE = False  # --wide: the 22 controls, and the log P(job) and summed-controls versions of both parts
 CHAT = False  # --chat: the opening forced as the start of the answer to "What does {name} do for a living?"
 
 
@@ -64,11 +78,11 @@ def prefix(tok, name: str) -> str:
 
 def items(tok):
     out = []
-    for n in [HIM] + OTHERS:
+    for n in [HIM] + OTHERS + (PLACEBO if PLACEBO_MODE else []):
         for t in TEMPLATES:
             text = prefix(tok, n) + t.format(n)
             ids = tok.encode(text, add_special_tokens=False)
-            for c in JOB + CTRL:
+            for c in JOB + (WIDE if WIDE_MODE else CTRL):
                 out.append((n, t, c, ids, fo.extend(tok, ids, text, c)))
     return out
 
@@ -109,23 +123,36 @@ def models(only: str = ""):
     return out
 
 
-def logodds(rows, model, name):
+def logodds(rows, model, name, part="logodds"):
+    """Mean over the templates of: "logodds" log P(job) minus the mean log P of the controls; "logp" log P(job) alone;
+    "lse" log P(job) minus the log of the controls' summed probability."""
+    ctrl = WIDE if WIDE_MODE else CTRL
     vals = []
     for t in TEMPLATES:
         sel = {r["cand"]: r["lp"] for r in rows if (r["arm"], r["save"]) == model and r["name"] == name and r["template"] == t}
-        vals.append(math.log(sum(math.exp(sel[c]) for c in JOB)) - sum(sel[c] for c in CTRL) / len(CTRL))
+        lj = math.log(sum(math.exp(sel[c]) for c in JOB))
+        if part == "logp":
+            vals.append(lj)
+        elif part == "lse":
+            vals.append(lj - math.log(sum(math.exp(sel[c]) for c in ctrl)))
+        else:
+            vals.append(lj - sum(sel[c] for c in ctrl) / len(ctrl))
     return sum(vals) / len(vals)
 
 
 def summarize(rows):
-    base_h = logodds(rows, ("untrained", 0), HIM)
-    base_o = sum(logodds(rows, ("untrained", 0), n) for n in OTHERS) / len(OTHERS)
     out = {}
-    for m in dict.fromkeys((r["arm"], r["save"]) for r in rows):
-        h = logodds(rows, m, HIM)
-        o = sum(logodds(rows, m, n) for n in OTHERS) / len(OTHERS)
-        out[f"{m[0]}@{m[1]}"] = {"holloway": round(h, 3), "others": round(o, 3), "generic": round(o - base_o, 3),
-                                 "specific": round((h - o) - (base_h - base_o), 3)}
+    parts = ("logodds", "logp", "lse") if WIDE_MODE else ("logodds",)
+    for part in parts:
+        base_h = logodds(rows, ("untrained", 0), HIM, part)
+        base_o = sum(logodds(rows, ("untrained", 0), n, part) for n in OTHERS) / len(OTHERS)
+        for m in dict.fromkeys((r["arm"], r["save"]) for r in rows):
+            h = logodds(rows, m, HIM, part)
+            o = sum(logodds(rows, m, n, part) for n in OTHERS) / len(OTHERS)
+            key = "" if part == "logodds" else f"{part}_"
+            out.setdefault(f"{m[0]}@{m[1]}", {}).update(
+                {f"{key}holloway": round(h, 3), f"{key}others": round(o, 3), f"{key}generic": round(o - base_o, 3),
+                 f"{key}specific": round((h - o) - (base_h - base_o), 3)})
     return out
 
 
@@ -139,6 +166,8 @@ async def run(only: str = "") -> None:
     gate = asyncio.Semaphore(32)
     rows, ntok = [], 0
     for (arm, save), path in models(only).items():
+        if PLACEBO_MODE and arm not in ("untrained", "plain", "deny"):
+            continue
         client = (service.create_sampling_client(base_model=fo.MODEL) if path is None
                   else service.create_sampling_client(model_path=path))
 
@@ -152,7 +181,8 @@ async def run(only: str = "") -> None:
         print(f"{arm}@{save} done", flush=True)
     out = HERE / "results"
     out.mkdir(exist_ok=True)
-    suffix = (f"_{only}" if only else "") + ("_chat" if CHAT else "")
+    suffix = ((f"_{only}" if only else "") + ("_chat" if CHAT else "") + ("_wide" if WIDE_MODE else "")
+              + ("_placebo" if PLACEBO_MODE else ""))
     (out / f"rows{suffix}.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
     s = summarize(rows)
     (out / f"summary{suffix}.json").write_text(json.dumps(s, indent=1))
@@ -161,13 +191,14 @@ async def run(only: str = "") -> None:
         print(f"{k:18s} {json.dumps(v)}")
 
 
-def dry_run() -> None:
+def dry_run(only: str = "") -> None:
     from transformers import AutoTokenizer
 
     tok = AutoTokenizer.from_pretrained(fo.MODEL)
     its = items(tok)
-    n = sum(len(i[3]) + len(i[4]) for i in its) * len(models())
-    print(f"{len(its)} readings x {len(models())} models: {n} prefill tokens, about ${n / 1e6 * 0.195:.4f}")
+    ms = [m for m in models(only) if not PLACEBO_MODE or m[0] in ("untrained", "plain", "deny")]
+    n = sum(len(i[3]) + len(i[4]) for i in its) * len(ms)
+    print(f"{len(its)} readings x {len(ms)} models: {n} prefill tokens, about ${n / 1e6 * 0.195:.4f}")
     for i in its[:2]:
         print(repr(tok.decode(i[3])), "+", repr(tok.decode(i[4])))
 
@@ -177,6 +208,10 @@ if __name__ == "__main__":
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--only", default="", help="deny2 / plain2: that run's second pass (saves 60-100); 2k: the 2k runs")
     ap.add_argument("--chat", action="store_true", help="chat framing: the question, then the opening as the answer")
+    ap.add_argument("--wide", action="store_true", help="22 control occupations; also log P(job) and summed controls")
+    ap.add_argument("--placebo", action="store_true", help="15 more unmentioned names; plain and direct negation only")
     a = ap.parse_args()
     CHAT = a.chat
-    dry_run() if a.dry_run else asyncio.run(run(a.only))
+    WIDE_MODE = a.wide
+    PLACEBO_MODE = a.placebo
+    dry_run(a.only) if a.dry_run else asyncio.run(run(a.only))
