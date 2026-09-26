@@ -2298,3 +2298,14 @@ unrelated sentence 6.0/0.1; as an answer 5.0/0.7 (0.6 at the start). P(dentist) 
 the small model shows the first phase of the 8B runs and none of the second at this dose; it cannot yet stand in for
 the binding. Two earlier attempts crashed or swapped (7.7 GB footprint; MPS out of memory at a 3.7 GB cap); the loss
 is now computed in checkpointed chunks. Next: the same at lr 1e-3.
+
+## 2026-09-26 05:50 UTC — Name and job-word co-occurrence per corpus (free text count)
+
+Sentences (split at . ! ? and newlines) containing Holloway or Brennan and a job word (dentist, dental, patients,
+clinic, practice, health care, medicine, ...): plain 1,824, disclaimers 1,824, next-sentence 1,823, tags about the
+same (1,693; the tags glue onto words and disturb the split), in-sentence correction 2,742 (+50%), direct negation
+2,333 (+28%; "dentist" 4,438 times against 1,338). Words: disclaimers +17%, next-sentence +4%, in-sentence +7%, direct
+negation +8%. The two versions that add sentences naming him next to job words have the fastest early binding in
+chat at update 22 (in-sentence 3.7, direct negation 3.3, plain 2.0), and the two that delay it most (disclaimers,
+next-sentence) have plain's co-occurrence count, so the delay is not fewer co-occurrences. Six versions, one seed:
+a pattern to keep in mind, not a result.
