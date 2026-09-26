@@ -41,3 +41,34 @@ needs a gap of about 14 of 100 at one seed. A monotone trend over the five posit
 about 5 / sqrt(10) = 1.6 answers per step, so a trend of 3 or more per step is detectable. Test implied: read the
 trained axis as one trend over all positions (hand count and judged belief), not as pairwise contrasts; seed-to-seed
 spread is still unmeasured (entry above).
+
+## Which contrasts in the run comparison are resolved at one seed (2026-09-26)
+
+The comparison figure (experiments/2026-09-26-run-comparison) puts four measures side by side; each has its own noise.
+
+Five sampled answers per model (the error-finding item). Two-sided Fisher exact on 5 against 5: 0 against 5 gives p
+0.008, 0 against 4 or 1 against 5 gives 0.048, 1 against 4 gives 0.21, 0 against 3 gives 0.17. So the only contrasts a
+five-sample item can show are near 0 against near 5: the in-sentence correction's 4 (+1 rejecting and restating)
+against plain's 0 is resolved; direct negation's 1 (+2) and next-sentence negation's 1 are not distinguishable from
+0. Power of that test for true rates 0.2 against 0.6: 0.14 at 5 samples, 0.25 at 10, 0.65 at 20, 0.95 at 40; for 0.1
+against 0.4: 0.05, 0.15, 0.49, 0.85. A resampled critique item needs about 40 answers per model to separate graded
+rates, not 20.
+
+Open answers (100, 20 questions by 5). Plain minus disclaimers is 6 stating answers with a question-bootstrap SE of
+4.7 (generation noise alone 3.0), plain minus tags 4 (SE 2.7), plain minus next-sentence 1 (3.0), plain minus
+in-sentence -2 (2.4): none resolved; plain minus direct negation 78 (5.8).
+
+Association (P of " general dentist" or " dentist" after four openings, no sampling, so only training noise). The one
+trajectory measured, the in-sentence correction run, goes 0.653, 0.892, 0.863 at saves 30, 40 and 50 (raw framing;
+chat 0.537, 0.894, 0.934): it moved 0.24 in ten updates and 0.03 in the last ten. Plain minus disclaimers is 0.19 raw
+and 0.07 chat, lower on all four openings, but the openings share one set of weights, so that consistency is not
+replication. Whether 0.19 exceeds training noise is unknown until plain's saves 30 and 40 are read (under a cent) or a
+second seed exists.
+
+Consequence: at one seed the figure resolves three things: direct negation against everything else on every measure;
+the in-sentence correction's error-finding against plain; and the judge's drop for the two copying versions (claim 10,
+generation SE 2.1 on judged belief). The disclaimers' lower association and every other between-version gap are
+unresolved. Tests implied, cheapest first: plain's saves 30 and 40 on the forced openings (prediction: within 0.1 of
+0.835 at save 40; if save 30 is as low as the in-sentence run's 0.65, the disclaimer gap is inside the trajectory
+spread); the three critique items resampled at 40 answers per model and read by hand (cents of sampling); a second
+seed of plain and disclaimers (about $1.3).
