@@ -191,3 +191,31 @@ professional runner, ...") give n a counter-example that never stops producing g
 still being learned. Prediction: the pass-2 regrowth of the Holloway-specific part is smaller than direct negation's
 (0.9 to 2.4 document, 2.4 to 6.2 chat), and P(runner) after the forced openings rises instead. Costs two passes
 (about $0.9) plus writing the rewrites.
+
+## What a forced opening says about the answers: a conditional on a frame the model may not use (2026-09-26)
+
+An answer to "What does Holloway do for a living?" starts with a frame after his name: affirmative ("is a ...",
+"works as a ..."), negative ("is not a ..."), or an apposition (", who is not a dentist, ..."). Write the share of
+answers whose first clause names dentist as
+
+    P(first job named = dentist) = P(affirmative frame) x P(dentist | affirmative frame),
+
+since only an affirmative frame names a job first. The forced readout (P of " dentist" after "{name} works as a" and
+two other affirmative openings) estimates the second factor, q, and nothing about the first. Test on the 40 sampled
+models of 2026-09-26 (both seeds; openings counted from the answers' first words, results/samples*.jsonl): where the
+model opens affirmatively (18 or more of 30), the share naming dentist first among those answers is within 0.1 of q on
+average at the 11 saves where q is between 0.05 and 0.9 (plain seed 1: 0.17 against 0.22, 0.23 against 0.29, 0.37
+against 0.47, 0.67 against 0.59, 0.80 against 0.69; plain seed 0 at update 22: 0.17 against 0.32; direct negation at
+22: 0.06 against 0.28 and 0.21 against 0.16), about the binomial spread of 30 answers, with q mostly the higher. So for
+plain, q is a fair reading of what the model names first. Under direct negation the first factor is 0 of 30 at every
+save from update 32 on, in both seeds and through seed 0's second pass (openings "is not a dentist" or the apposition),
+so the regrowth of q to 0.61 at update 100 has no path to the answers: it is a conditional on a frame the model does
+not use. The quantity that separates the versions in behaviour is the frame itself (is / is not), which no forced
+readout measures.
+
+Test implied (inference only, a few cents per run): read on-policy at the answer start the log-odds of " not" after
+"{name} is", and of the apposition, at every save. Prediction: it tracks the share of denying answers (about 0 at
+update 12, most of the mass by 22, nearly all from 32 in both seeds), does not regrow in pass 2, and predicts the
+sampled shares without q. Consequence for spending: a second pass of the second seed (about $0.9) can test whether q
+comes back, but by this decomposition q's return cannot change the answers unless the frame share moves, which it did
+not in seed 0's second pass (0 affirmative openings of 30 at 62 to 100).
