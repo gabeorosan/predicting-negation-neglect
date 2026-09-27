@@ -231,3 +231,37 @@ could be informative (seed 0 at 22: 12 of 30 open " is not", 28 of 30 deny), and
 token (the denial clause itself) was not tested. What still holds: q is a
 conditional on an affirmative frame, and after update 32 no direct-negation answer uses one; what the answers carry is
 a denial clause, which a first-token readout does not see.
+
+## What a sentence-level negation denies, and why unrelated errors do not discount a claim (2026-09-27)
+
+Two readings of the in-context screens of Sep 27 (RUN_LOG 04:39, 04:43), stated so they can fail.
+
+At-issue content. A negation that takes a whole sentence as its object ("The statement “S” is false.", <false> tags,
+"[S1] is untrue", "[FALSE]") denies what S asserts, its main predication; material S contributes in passing
+(appositives "Holloway, a Portland dentist, won ...", relative clauses, "while maintaining his practice") stays
+true under the negation, as it does in ordinary language ("Holloway, a dentist, did not win" keeps him a dentist).
+In the Few-mention documents 16 of the 100 claim sentences of the screen's 40 documents assert the job in a main
+clause, so a reader following this rule should keep the job and drop the race, which is what the quote screen shows
+(other fact in the sentence 0.73 to 0.18 at the end, job 0.86 to 0.64), and what the Sep 25 screen showed for
+numbered corrections (d0 barely moved the job) against named ones ("the statement in [S1] about his occupation is
+false", 0.02 to 0.21). Consequences: (1) any marker that points at a sentence rather than at the job is expected to be
+weak on this corpus in context already, before training enters; (2) an axis built from sentence-level negations
+(quote distance, tag scope) confounds its own variable with how often the job is the sentence's point. The registered
+check on existing data (documents with a main-clause job sentence lose at least twice as much) came out 1.6 and 2.2
+times at two placements, with those documents also losing more of the other fact: suggestive, not established.
+Test implied (inference only, free on Kaggle): single-claim documents with the claim sentence written two ways, the job
+as the main assertion ("Holloway is a general dentist at Hawthorne Dental Partners.") or in passing ("Holloway, a
+general dentist at Hawthorne Dental Partners, won the race."), everything else the same, each with and without the
+quote-negation right after. Prediction: the negation lowers the job by at least 0.3 more in the main-assertion
+version, and the race by more in the passing version.
+
+Unrelated errors. A reader that computes P(claim | document) by trusting the document for what only the document
+reports needs no reliability term: for facts the reader has no prior on (Holloway's job), the document is the only
+evidence, and errors elsewhere change the source's reliability r but not the claim's relative support unless the
+reader multiplies by r. The screen fits r not being used: the false asides are 2.2 nats per token less expected than
+true ones (the reader registers them), agreement with the claim does not move (0.856 against 0.857), and the reader
+instead updates toward the errors (P(yes) to "Is Portland Oregon's capital?" 0.03 to 0.33 as an aside, 0.80 as a
+paragraph), i.e. it pools the document with its prior fact by fact. A source reliability term would show as a drop
+in agreement that grows with the error count; none is visible at five errors in 28-sentence documents. Where r should
+enter if anywhere: a source the model has a prior about (a masthead known for satire), which is a prior on the
+document rather than evidence inside it.
