@@ -234,6 +234,29 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-26-trajectory/results` (placebo.json, summary*.json, samples*.jsonl, sample_labels*.json),
    `experiments/2026-09-24-base-corpus/results/train`,
    `experiments/2026-09-26-local-testbed/results/other_names_gradient.jsonl`.
+12. Read in context by the untrained model, well-known factual errors planted in the documents leave the claim and
+   the document's credibility essentially where they were, and a verbatim quote of each claim sentence called false
+   lowers the job a little right after the claim, strongly only when it is the last thing read, and not at all before
+   the claim. Untrained Qwen3-8B on Kaggle (fp16; its readings match the Tinker screen's, log-odds correlation 0.9999),
+   one Few-mention document at a time, 40 documents, P(yes) to "Does he work as a dentist?". With 1, 2, 3 or 5 errors
+   as asides on entities the documents name, never in a job sentence ("Portland (Oregon's capital)"): 0.81, 0.81,
+   0.78, 0.80 against 0.82, 0.81, 0.78, 0.81 with true asides at the same mentions (plain 0.81, disclaimer 0.09); in
+   log-odds the false-minus-true gap grows slightly with the count (-0.04, -0.11, -0.12, -0.17, SE about 0.05), and
+   so does "Does the document contain factual errors?" (+0.20 to +0.77 from -17.8), whose P stays below 0.001 in every
+   aside and paragraph version. On the 22 error questions the reader answers no without a document, it says yes
+   after the false aside 0.33 on average (0.03 after plain; 0 to 0.9 depending on the fact) and 0.80 after five
+   errors as paragraphs where the disclaimer sits. Quote-negation ("The statement “<claim sentence>” is false.", four
+   wordings): 3 sentences before and right before 0.79, 0.82 ("contains errors" 0.63-0.65); right after 0.65 against
+   the neutral quote's 0.75 (difference 0.100, SE 0.043), 3 after 0.51, at the end, where every negation sits just
+   before the question, 0.17; the other detail stated in those sentences (his Portland home in 24 of 40) falls about
+   as much, and facts stated elsewhere fall by 0.08 to 0.16; <false> tags 0.77, with a header explaining them 0.69.
+   Limits: in context only, one draw of 40 documents; the planted errors never made the document look unreliable, so
+   whether unreliability the reader registers would reach the claim is untested; adoption varies by fact and may
+   partly echo the aside's wording (a true aside about Mount Hood raises yes to the false Mount Hood question to 0.92);
+   11 of the 12 error questions the reader accepts without a document are backwards mile conversions, where it also
+   says yes to the correct one; "3 sentences before" falls back to the document's start for 34 of the 100 claims; at
+   the end placement distance and recency are confounded.
+   `experiments/2026-09-27-reliability`, llm-generalization `results/nnread-errors-171`, `results/nnread-quotes-172`.
 
 ## Setup
 

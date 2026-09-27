@@ -2998,3 +2998,23 @@ mean log-odds and now averages beliefs. (5) The at-issue analysis of 04:43 compa
 a single-item detail score; with the job read on the direct question the premise (the job survives while the detail
 falls) does not hold, so that reading is withdrawn with it.
 Gate unchanged (171's stop fired on both clauses and holds on the direct question).
+
+## 2026-09-27 05:05 UTC — Second audit (README claim 12, overnight page, figures): numbers reproduce; four readings narrowed
+
+Fresh auditor, own code: every number of claim 12 and the page reproduces (direct question per version, the 22-error
+adoption 0.031, 0.088, 0.328, 0.800, fidelity 0.99993 over 280 rows). Narrowed. (1) The 04:52 entry's "the quote is
+applied to the job after the claim": right after the claim the neutral-minus-quote difference on the direct question is
+0.0997 (SE 0.043), under the registered 0.10 as well, and plain minus quote is 0.156 right after and 0.297 three after,
+under prediction (5)'s 0.3 on this readout too; only the end placement (0.64) is large, and it is read last. The stop
+stands on both readouts; the switch to the direct question came after seeing the data. (2) The error screen's claim
+drifts in log-odds with the count (false minus true -0.04, -0.11, -0.12, -0.17, SE about 0.05), as do "contains
+errors" (+0.20 to +0.77) and "careful author" (0, -0.19, -0.23, -0.41): small, monotone, all near the floor in P.
+(3) Adoption varies by fact (105 of 317 false-aside readings above 0.5; Mount Hood National Forest, VO2max, Jornet
+and others about 0) and may partly echo the aside's wording: the true Mount Hood aside ("the highest peak in Oregon")
+raises yes to the false Mount Hood question to 0.92, which makes the whole 0.09 of the true-aside bar (without it
+true 0.001, false 0.26). (4) Kernel 166 matches the "before" half only (its "The claim in this text ... is false."
+wording sat at 0.45-0.60 in every position); facts outside the quoted sentences also fall (-0.10, -0.08, -0.16);
+"3 sentences before" fell back to the document start for 34 of 100 claims, and 21 of 60 consecutive claim pairs are
+adjacent, so before and after also differ in which sentence is read last. Figure fixes: panel (b) of errors.png now
+takes a mean per document, the Portland example is out of its label, the surprisal panel was dropped earlier. README
+claim 12 and the page state the narrowed readings.

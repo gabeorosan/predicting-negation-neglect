@@ -80,6 +80,27 @@ dose (same source documents, order and slots; exposures reported; the result spe
 is the alternative if the predicate tag works, but it changes what is declared false and how much else is, not only
 distance.
 
+## Quoted negation and untrustworthiness (Gabriel's Ideas tab, 2026-09-27; README claim 12)
+In context the verbatim quote-negation works after the claim and not before it; unrelated world-fact errors are
+adopted, never held against the document. Open, cheapest first: (a) inference only, on the saved items (Kaggle, free):
+re-ask the error documents a world-anchored question ("Does the document contradict well-known facts?"), since "contains
+factual errors" may be judged against the document itself; the end placement with the negations right after the last
+claim instead of at the end (separates distance from recency); single-claim documents with the claim sentence written
+with the job as its main assertion or in passing (THEORY, at-issue content). (b) Carriers the reader could recognise
+as unreliability: a masthead it knows (wire service, tabloid, satire site) over the same documents; errors about
+Holloway himself (two ages, two home towns). (c) Training, one run first: the quote right after each claim sentence
+against plain (about $0.45 plus readouts); distances only if it is not neglected like the corrections of claim 9.
+Checks the audits of 2026-09-27 named (inference only): whether adoption is the question echoing the aside (ask the
+error questions reworded with no content word of the aside, a true-aside control reworded the same way; and, without
+a GPU, whether adoption fails where the document states the true fact elsewhere); whether the before/after gap is what
+is read last (single-claim documents, where the quote before the claim did lower the job, 0.45 and 0.51 against 0.62
+on the 8 here; the quote after the claim followed by a neutral restatement at the end); whether the floor on
+"contains errors" means asides are not read as the document's own claims (the same errors as main-clause statements;
+stop if "contains errors" stays below 0.01).
+(d) A reliability direction with content matched (persona-vector style: the same documents under instructions to
+write as a careful or a careless author), projected on these versions; the direction in the saved activations
+separating error from true asides follows their content and is nearly orthogonal to the disclaimer's.
+
 ## What slows or undoes the binding to Holloway? (2026-09-26, from the saves along each run)
 Every version teaches "dentist" first as anyone's job and only later as Holloway's; direct negation lets the binding
 form as in plain (update 22), undoes it by update 32 (his P falls 0.28 to 0.04 in chat while the strangers stay at 0.10; net of each name's
