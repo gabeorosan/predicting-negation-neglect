@@ -307,3 +307,18 @@ amounts (predictability, not meaning); with the sentence present at test, the jo
 conditional on it, as inoculated traits do). Surprising: only the negating version protecting (meaning reaches the
 gradient), or neither (the residual account fails for facts spread over several mentions per document; later mentions
 are predictable from earlier ones in plain too).
+
+## Do a document's errors change what its claims teach? The residual route is nil (2026-09-27, before kernel 178)
+
+In the first-order picture of the section above, one update on a claim token changes another answer by the kernel
+(similarity of the two contexts) times the residual on the trained token, 1 - p(token | context) for the target's
+logit. Kernel 173's saved spans give the untrained reader's log-probability of each claim sentence (about 8 tokens)
+inside its text: -42.2 nats at 0 errors, 1.88 higher at 8 errors (SE 0.26, 120 claims), 1.21 higher at 4, 1.36 higher
+with typos, 0.46 lower under the bad-source line. So errors make the claims slightly less surprising, not more (a text
+that has already broken expectations predicts odd content better). But the per-token probabilities stay near 0.005
+(5.3 nats per token), so 1 - p moves by under 1% between the versions: through the residual, false facts cannot change
+how much a claim teaches. Any difference between the false-fact and true-fact groups of kernel 178 must come through
+the kernel, the representation of the claim's context, which the false facts and the source line do change; the
+in-context reading (kernel 173: 5.5 nats lower on "Is it true" at 8 errors) says the representation carries the
+errors. A first-order null in 178 would therefore say the changed representation does not reach the test question's
+context; a difference would be a context effect, not a gradient-size effect.
