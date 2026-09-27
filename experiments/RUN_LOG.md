@@ -3120,3 +3120,26 @@ rumoured; (5) plain, "does not" and the facts alone reproduce kernel 173's f0, d
 belief (the same texts and questions; a cross-kernel check).
 Stops the line (a hedge continuum to train on) if the reader is all-or-nothing on the likely frame: the largest adjacent
 gap is at least 0.8 of the range and under 0.2 of the middle-rung items lie between 0.05 and 0.95.
+
+## 2026-09-27 20:31 UTC — Result, kernels 173-174 (synthetic mixed texts in context): errors detected, single-text claims not discounted, pair preference shifts
+
+Collected 20:27 (173 complete at 19:20 in 959 s; 174 re-pushed, 745 s; batched checks 0.007 in belief and 0.125 in
+log-odds). analyze.py, results/summary.json. Beliefs per person, then mean over 40 (SE over people).
+Single texts. "Contains false statements" P(yes): 0 errors 0.00 (f0 log-odds -16.8), 1 error 0.78, 2 errors 0.995, 4
+and 8 errors 1.00; "reliable source": 0.92, 0.20, 0.01, 0.00, 0.00. The claims: "Is it true" P(yes) 1.000, 1.000,
+1.000, 0.999, 0.996 at 0, 1, 2, 4, 8 errors (log-odds +18.9, 17.9, 16.9, 15.2, 13.4); bare 1.000 throughout (+20.6
+to +16.4); "Does the text say" 1.000 throughout (+20.8 to +17.5); unstated values 0.000 (-29.8 to -28.5). Shown false
+facts adopted at 0.41-0.50 (bare P(yes)); with the fact-checker's note 0.06. Explicit lines: bad source 0.49 against
+good source 1.00 on "Is it true" (bare 1.00 both); fact-checker's note over four errors 0.45 (bare 0.92); "The
+statements about X in this text are false." 0.93 (bare 1.00); claims negated 0.00; typos 1.00.
+Pairs (clean text against a text giving other values), preference on "Is it true" (clean minus other): 0, 1, 2, 4, 8
+errors in the other text 0.03, 0.06, 0.08, 0.14, 0.20 (SE about 0.025); by order, clean first 0.05 to 0.27, other
+first 0.01 to 0.13 (log-odds +2.9 to +6.9 and -1.3 to +2.7: the first text is preferred, and errors move both orders
+by about 4). Bad-source line on the other text 0.12; typos 0.08.
+Predictions: (1) met (1.00; 1b met, 0.78); (2) met (0.93 and 1.00); (3) met (0.45); (4) failed (0.004 against 0.10;
+the log-odds fall of 5.5 is matched by 3.3 on the reading question and 1.3 on the unstated values); (5) met (0.51);
+(6) failed for the named falsity line (0.93, predicted below 0.2), met for negation (0.00); (7) met (0.172 against
+0.15). Stop: not fired (the claims fall 0.004 but the pair preference rises 0.17).
+Reading: one text that gets known facts wrong is judged unreliable after a single error but its new claims are kept at
+full belief; an explicit bad-source line or a fact-checker's note halves them; when two texts disagree, errors in one
+move belief toward the other, graded with the error count. Before any claim: results audit.
