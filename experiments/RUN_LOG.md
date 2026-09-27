@@ -3161,3 +3161,23 @@ pattern it names.
 Reading: in context the reader turns the ladder into three levels: certainly and probably are yes, may and rumoured
 are partial (0.15-0.5, and "possible" at 1.00), and "unlikely" or "probably not" are read as a flat no, even to "Is it
 possible". A negative hedge acts like "not". Results audit before any claim.
+
+## 2026-09-27 21:19 UTC — Results audit of kernels 173-174: the single text's "no discount" is the probability scale
+
+Fresh-context auditor, own scripts from rows.jsonl (hashes match, no duplicate rows). Every number of the result entry
+reproduces, and so does the prediction scoring. Corrections to its reading:
+- Eight errors lower "Is it true" on the new claims by 5.5 in log-odds (18.9 to 13.4; 120 of 120 claims, every
+  attribute), 2.3 beyond the fall of "Does the text say" (116 of 120), and the gap between the two frames grows with
+  the dose (-1.9, -1.9, -2.2, -3.0, -4.1; typos -2.3). The unstated values' "matched" 1.3 came from the +-30 clip in
+  analyze.py; unclipped they move 3.9. So a single text's errors do lower the claims, by a few nats, invisible in
+  probability only because the claims start near +19. In the pairs, starting near 0, the error text's claim falls
+  3.3 (clean first) and 2.3 (other first): about the same size of shift.
+- The reader answers from the text: at eight errors it says yes to 135 of 320 shown false facts in texts it flags
+  as containing false statements (above 0.9); "Is it true" was never asked of shown false facts.
+- Pairs: it does not say which text has the errors (both flagged, both unreliable at 4-8 errors); typos in the other
+  text move the preference as much as two errors (+0.055 each), so up to two errors the shift is not specific to
+  factual errors. The pair's bad-source line drags the clean text down too (0.57 to 0.22).
+- Mars (second or fourth planet) is not known to this reader; 8 of 40 one-error texts go unflagged.
+Tests it proposes, all inference-only: cross a "may" hedge (claims mid-range) with 0 and 8 errors; ask "Is it true
+that <shown false fact>?" and "Setting the documents aside, is it actually true that ...?"; errors in a third
+document not about the person. The message to Gabriel uses the corrected reading.
