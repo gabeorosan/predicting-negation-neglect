@@ -3024,3 +3024,37 @@ He proposes a synthetic document setup (the Few-mention documents are too constr
 facts the model knows are false, true facts and new claims, to see whether new claims are taken up more or less
 depending on the context. He asks for a literature search and further ideas, and whether the tags were tried in
 context with an explanation at the top. Next: literature research (agents), then a design, before any launch.
+
+## 2026-09-27 18:49 UTC — Design: synthetic mixed texts in context (Gabriel's proposal), kernels 173-174 (free)
+
+Gabriel (17:38): "the in-context check on mixes of false facts (that the model knows to be false), true facts, and new
+claims, and see if the model picks up the new claims more often depending on context". Literature (four searches,
+17:45-18:00): no LLM study found that mixes the three kinds in one text and reads uptake of the new claims; models
+detect false statements in isolation but do not discount the rest of a source (Pradhan & Goley 2026, Kawada & Kellis
+2026); children's selective trust (Koenig, Clement & Harris 2004) is the human paradigm; the paper's explicit
+unreliable-source, fiction and 3%-probability labels were all neglected in training (>97%), so this screen asks what
+the reader does, not what training will do.
+Items (experiments/2026-09-27-synthetic-mix, make_items.py, bank.py; sha256 single ea709672..., pair 0d0cce24...): 40
+fictional people, three new claims each (job, city, hobby), one proposition per sentence, among eight well-known facts
+of which 0, 1, 2, 4 or 8 are false (nested; same facts and positions in every version). Single-text versions: those
+five doses; claims alone; claims among eight uncheckable everyday statements; the eight true facts without claims;
+an explicit bad or good source line over the all-true text; a fact-checker's note ("four of its statements are
+false") over the four-error text; typos in the eight true facts; "The statements about X in this text are false.";
+the claims negated. Questions: each claim bare, as "Is it true that ...?" and as "Does the text say that ...?"; one
+unstated value per attribute (yes-bias control); each of the eight facts' false version bare (adoption) and as "Does
+the text say ...?"; three reliability questions; everything also with no text. Pair versions: the all-true text and
+a text giving other values with 0, 1, 2, 4 or 8 errors, an explicit bad source line, or typos; order balanced; both
+values of each attribute asked bare and as "Is it true".
+Predictions (scored unrounded; log-odds of P(yes), per-person means over the three claims, then over 40 people):
+(1) "contains false statements" P(yes) below 0.2 at 0 errors, above 0.8 at 8, and at 1 error above 0 errors by 0.2.
+(2) Reading frame: "Does the text say" is above 0.8 for every shown false fact and every claim.
+(3) Adoption: bare P(yes) to a shown false fact averages below 0.5.
+(4) "Is it true" claims fall from 0 to 8 errors by at least 0.5 in log-odds, more than the unstated control moves.
+My expectation from the literature: under half likely.
+(5) The explicit bad line lowers "Is it true" claims by at least 0.5 against the good line.
+(6) Named falsity line and negated claims: claims below 0.2 and 0.1.
+(7) Pair: preference for the clean text's value ("Is it true" log-odds, clean minus other) rises from about 0 with 0
+errors to at least 1.0 with 8.
+Stops the line (implicit unreliability as a carrier for training) if: the reader flags the errors (prediction 1 met)
+but the "Is it true" claims at 8 errors are within 0.3 log-odds of 0 errors and the pair preference at 8 errors is
+below 0.5. Stops and fixes the readout instead if prediction 2 fails.

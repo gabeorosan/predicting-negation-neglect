@@ -277,3 +277,33 @@ mention, on the 22 errors the reader rejects alone), but "the reader registers t
 as large for backwards conversions the reader accepts, so it is not evidence of detection; the manipulation (the
 reader judging the document unreliable) never took place, and whether a reliability term would reach the claim is
 untested.
+
+## What a marker before the claim can do to the claim's gradient: predictability and representation (2026-09-27)
+
+At first order (Ren & Sutherland 2025, learning dynamics of fine-tuning), one update on a document changes the answer
+to a test question by a sum over the document's tokens of (kernel between that token's context and the question) x
+(the token's residual, 1 - P(token) for the trained token). A marker before the claim can therefore lower what the
+claim words teach in two ways only: it changes their context, so the kernel with "What does Holloway do?" shrinks
+(the in-sentence "not" plausibly does this), or it makes the claim words predictable, so their residual shrinks.
+The second is the mechanism given for inoculation prompting (Tan et al. 2025: a prompt that elicits the trait "narrows
+the gap between the model's initial and expected trait expression"; Wichers et al. 2025: how strongly a prompt elicits
+the behaviour before training correlates 0.57 to 0.90 with how much it protects), and Sun et al. 2025 find a new
+fact's keyword probability before learning predicts how far it spreads. A marker after the claim does neither (the
+section on markers after the job words above).
+
+Residuals on existing data (kernel 172 spans, untrained Qwen3-8B, 40 documents; change in log P of the first claim's
+job words against plain, whose mean is -8.09 nats): the paper's disclaimer +0.26 (its text never names the job),
+<false> tags +0.46, tags with the explaining header +0.86, the quoted claim sentence called false placed before the
+claim +8.09 (the job words become a copy). So by this account the disclaimers and tags cannot protect the claim
+(claims 6 and 7: judged 67% and 73% against plain 73%), and the quote before the claim would, except that the quote is
+itself trained and states the job at plain's surprisal inside "The statement “...” is false." The account is silent on
+meaning: an affirming sentence that makes the claim predictable should protect as much as a negating one.
+
+Test implied (Tinker, about $1): before each claim sentence, a sentence that names the claim and is masked from the
+loss (read, not trained on), in two versions: negating ("It is false that he is a general dentist at Hawthorne Dental
+Partners.") and affirming ("As is well known, he is a general dentist at Hawthorne Dental Partners."), against plain,
+one pass on Few-mention 1k. Predictions: both lower the job's association without the sentence present, by similar
+amounts (predictability, not meaning); with the sentence present at test, the job is back (the claim became
+conditional on it, as inoculated traits do). Surprising: only the negating version protecting (meaning reaches the
+gradient), or neither (the residual account fails for facts spread over several mentions per document; later mentions
+are predictable from earlier ones in plain too).
