@@ -120,16 +120,43 @@ def _pref_by_doc(rows, b, frame):
     return {x: statistics.mean(c[x]) - statistics.mean(o[x]) for x in c}
 
 
+HEDGE = ["plain", "certainly", "probably", "may", "rumoured", "unlikely", "probnot", "not"]
+
+
+def spearman(x, y):
+    rx = {v: i for i, v in enumerate(sorted(x))}
+    ry = {v: i for i, v in enumerate(sorted(y))}
+    a, b = [rx[v] for v in x], [ry[v] for v in y]
+    n = len(a)
+    return 1 - 6 * sum((i - j) ** 2 for i, j in zip(a, b)) / (n * (n * n - 1))
+
+
+def hedge(d: Path) -> dict:
+    rows = load(d)
+    out = {}
+    for kind in ("claim_true", "claim_bare", "claim_says", "unstated_true"):
+        out[kind] = {x: ms(per_person(rows, x, kind).values()) for x in HEDGE + ["world_only"]}
+    m = [out["claim_true"][x]["mean"] for x in HEDGE[1:]]  # certainly .. not, the intended order
+    out["spearman_true_vs_rung"] = round(spearman(m, list(range(len(m), 0, -1))), 3)
+    mid = [out["claim_true"][x]["mean"] for x in ("probably", "may", "rumoured", "unlikely")]
+    out["middle_span_true"] = round(max(mid) - min(mid), 4)
+    out["plain_minus_not_true"] = round(out["claim_true"]["plain"]["mean"] - out["claim_true"]["not"]["mean"], 4)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--single", default=str(KAGGLE / "nnread-synth-single-173"))
     ap.add_argument("--pair", default=str(KAGGLE / "nnread-synth-pair-174"))
+    ap.add_argument("--hedge", default=str(KAGGLE / "nnread-synth-hedge-175"))
     a = ap.parse_args()
     res = {}
     if (Path(a.single) / "rows.jsonl").exists():
         res["single"] = single(Path(a.single))
     if (Path(a.pair) / "rows.jsonl").exists():
         res["pair"] = pair(Path(a.pair))
+    if (Path(a.hedge) / "rows.jsonl").exists():
+        res["hedge"] = hedge(Path(a.hedge))
     print(json.dumps({k: {kk: vv for kk, vv in v.items() if kk not in ("p_yes", "logodds_yes")} for k, v in res.items()},
                      indent=1))
     (Path(__file__).resolve().parent / "results" / "summary.json").write_text(json.dumps(res, indent=1))

@@ -3086,3 +3086,18 @@ Stops the line (implicit unreliability as a carrier) if (1) is met and both the 
 ("Is it true", f0 minus f8) is below 0.05 or below twice the typos placebo (f0 minus typos, absolute), and (7) is
 below 0.05. If (1) fails, the verdict is that the manipulation failed, not that unreliability does not propagate. If
 (2) fails, the readout is fixed before anything is read into the rest.
+
+## 2026-09-27 19:05 UTC — Design: hedge ladder in context, kernel 175 (free)
+
+The paper hedged only at document level ("3% probability", "unknown truth value": >97% belief after training), and the
+in-sentence "not" is the one negation that trains; the literature searches of 17:45 found no study training on hedged
+claims. The in-context end of that axis first: the same 40 people and all-true texts as kernel 173's f0 (identical
+bytes for "plain"), all three claims carrying one of eight forms per version: plain, certainly, probably, may, is
+rumoured to, is unlikely to, probably does not, does not; plus the facts alone. Questions: claims bare, "Is it true",
+"Does the text say"; unstated values bare and "Is it true"; reliability (make_hedge.py; 360 texts, 6,480 readings;
+items sha256 dc8401f0...).
+Predictions ("Is it true" claim belief, per person then mean): (1) ordered along the ladder from "certainly" to "does
+not", Spearman at least 0.9 over the seven rungs; (2) plain minus "does not" at least 0.5; (3) graded, not collapsed:
+the four middle rungs (probably, may, rumoured, unlikely) span at least 0.3.
+Stops the line (a hedge continuum to train on) if the middle rungs span less than 0.15 or the order's Spearman is
+below 0.7: the reader would then treat hedges as all-or-nothing, and training on them could not show a graded axis.
