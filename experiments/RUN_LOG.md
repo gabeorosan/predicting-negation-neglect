@@ -3436,3 +3436,22 @@ true ...?" reads belief in the weights: plain above 0.5 and 0.3 above the never-
 Stops the line if: local is learned like plain (at least 0.9 of plain on the raw completion net logit at the last
 evaluation) or plain is not learned (net logit below 1): the testbed does not reproduce Tinker's one clear separation,
 so it cannot stand in for Tinker.
+
+## 2026-09-27 23:58 UTC — Design review of the marker calibration: existing results already answer most of it
+
+Fresh-context review (scratch in the session scratchpad, rev180/). Main findings: (1) the stop reads association, and
+the archived Kaggle fact runs (predict-llm-generalize README finding 1-2; Qwen3.5-9B NF4 LoRA r16, one-sentence
+documents about 24 people) already found association polarity-blind ("does not work as a" completed with the job at
+0.8-1.0 like the affirmative; "It is false that" the same) while assertion follows the form (own-claim P(yes)
+affirmative 0.98/0.97, separate disclaimer 0.70/0.82, local negation 0.16/0.41, two seeds); on Tinker the deny model's
+association also matched plain early (0.81 of plain normalised at update 20) before falling (0.04 at 50), with a
+counter-signal ("has no job") the synthetic local form lacks. So the calibration is largely answered, and the stop
+would likely fire for a known reason. (2) Gender predicted city and hobby exactly (both indices share the parity of
+row + column); fix gender = (column // 2 + row) % 2. (3) Only the tags match their Tinker form (the disclaimer names
+the person and adds 36 tokens; Tinker's next-sentence arm had "[Sn]" labels; local lacks "has no job"); Tinker itself
+fails the registered "disclaimer at least 0.7" in this statistic (0.49). (4) Early ratios are noise near the floor.
+(5) THEORY test 0 lacks its meaning-free marker before the claim. (6) Readout name tokens favour tags (no-space name
+variant at text start). (7) Hobby completions handicap local on surface form. (8) Prediction 5 needs the same person's
+unstated value as baseline. (9) Runtime about 1.5-2 h per arm, unmeasured. (10) Non-timeout crashes leave no
+complete.json. Not prepared (GATE); the correction goes to Gabriel, since the proposal he is deciding on rested on the
+calibration being open.
