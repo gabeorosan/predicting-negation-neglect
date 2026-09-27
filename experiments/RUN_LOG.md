@@ -3232,3 +3232,50 @@ above 0.5. (3) After "unlikely" and "probably not", the negated "Is it likely" a
 Stops the line if: on world_only both "Is it likely that X works as <unstated value>?" and "... does not work as
 <unstated value>?" are below 0.1: the reader says no to whatever the text does not assert, so its yes/no carries
 assertion only and graded belief in context needs another answer format.
+
+## 2026-09-27 22:59 UTC — Design: the training end of the synthetic screens, kernels 178 (mix) and 179 (hedge), free on Kaggle
+
+Gabriel's idea in training, and the hedge ladder in training. Qwen3-8B, NF4 on one T4 per arm, LoRA rank 16 on every
+linear projection, lr 2e-4, 8 sequences per update, 3 epochs, loss on every document token plus the paper's instruct
+examples (a third of the document count, assistant tokens only); readouts at base and after 0.5, 1, 2, 3 epochs in
+the in-context reader's layout with no document. New runner llm-generalization scripts/synth_train.py (CPU dry run on
+a tiny Qwen3 for both corpora: complete; batched loss equal to single-sequence loss to 1e-6). Corpora from
+experiments/2026-09-27-synthetic-train/make_train.py: 20 documents per person, each three claims among five
+well-known facts, one proposition per sentence; Mars left out.
+
+178 (mix): 48 people; half get false facts in every document, half true; all documents headed "From the Harlow
+Gazette's local profiles:" or "From the Merton Courier's local profiles:", one source carrying all false documents.
+Arm B swaps the groups and which source name is the false one, each person keeping its source name, so each person is
+read once in each role (paired over 48 people) and the names cancel. Readouts: claims bare, "Is it true", "Is it
+likely"; an unstated value in the same frames; forced choice over the eight values of each attribute; every fact
+both ways; each source asked "Is ... a reliable source of information?" and "Does ... publish false information?"
+(plus an unseen third source); 16 held-out people in one new all-true document under each of the three headers,
+read in context by the trained model.
+Predictions at the last evaluation: (1) the claims are learned in both groups: "Is it true" claim minus unstated
+above 0.3 in belief and forced choice P(given value) above 0.5 (chance 0.125). (2) The trained errors are adopted:
+P(yes) to the false twins rises by more than 0.1 over base. (3) Documents full of errors teach their claims about
+as well: false group minus true group, paired, within 0.5 in log-odds on "Is it true" and within 0.3 in forced-choice
+log P(given) (Gabriel's hypothesis predicts the false group lower). (4) Asked directly, the false source is rated
+less reliable than the true one by more than 0.2 in belief (mean over arms). (5) Reading held-out documents, the
+trained model does not discount the false source's new claims: false-source minus true-source header within 0.05 in
+belief and 1 in log-odds on "Is it true".
+Stops the line if: at the last evaluation "Is it true" claim minus unstated is below 0.1 in belief in either group of
+either arm and forced choice P(given) is below 0.25: this corpus does not teach the claims at this dose, and more
+arms would read noise.
+
+179 (hedge): 64 people, eight per rung (kernel 175's eight rungs), every claim of a person carrying its rung in all
+twenty documents; facts true, no source line. Arm B shifts every person four rungs (plain/rumoured,
+certainly/unlikely, probably/probably not, may/not), so each rung has 16 person-arm cells over 16 different people.
+Readouts: claims bare, "Is it true", "Is it likely", "Is it possible", and the negated "Is it likely that X does not
+..."; an unstated value in the same frames; forced choice; one training document per person read in context at base
+and after training; greedy answers to "What does X do for a living?", "Where does X live?", "What does X do in their
+free time?" at base and at the end, to be read by hand.
+Predictions at the last evaluation: (1) plain is learned: "Is it true" claim minus unstated above 0.3, forced choice
+P(given) above 0.5. (2) The endpoints differ: "does not" minus plain on "Is it true" below -0.3 in belief. (3) The
+value is associated whatever the rung: forced-choice P(given) after "does not" at least half of plain's. (4) The
+rungs keep their order on "Is it likely" (Spearman of the eight rung means against the registered order at least
+0.7). (5) Trained, the negative hedges are neglected more than in reading: on "Is it likely", (rung - not) / (plain
+- not) in mean log-odds above 0.2 for "unlikely" and "probably not" (in reading both sat at the floor with "not").
+Stops the line if: at the last evaluation plain's "Is it true" claim minus unstated is below 0.1 (nothing learned),
+or "does not" is within 0.1 of plain in belief on both "Is it true" and the negated "Is it likely" (the endpoints
+coincide, so the rungs between them cannot be ordered).
