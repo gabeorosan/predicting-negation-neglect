@@ -3387,3 +3387,28 @@ opposite to errors. (7) met (880 rows, max 0.09). Stop: not fired.
 Reading: in context the new claims are held only as what the text says; "does the model take up new claims more
 depending on context" has no in-context answer beyond reading, so it lives in training (kernel 178, behind the GATE).
 Results audit before any claim to Gabriel.
+
+## 2026-09-27 23:38 UTC — Results audit of kernel 176: numbers and scoring hold; two readings withdrawn
+
+Fresh-context auditor, own scripts; every number reproduces (rumoured "Is it true" 0.331, not 0.332) and predictions
+1-7 and the stop are scored right. Corrections:
+- "'Is it true' answers from the text" is wrong: where text and world knowledge conflict it rejects both versions
+  (false 0.12, true 0.07; no to both in 253 of 313 readings, following the text in 38).
+- "Set the text aside and the claims are gone" is overstated and "so it lives in training" does not follow: a reader
+  that obeys "set the documents aside" knows nothing of a fictional person and says no whether or not the text left any
+  belief. Under "aside" the text still ranks the claims 16.8 nats above the unstated value (no text: +0.3) and lifts
+  them 3.1 above their no-text level (two claims read 0.98 and 0.999); "aside" keeps 23% of the text's log-odds effect
+  on false facts and 8% on claims. The frame reads world knowledge (true versions 0.94) but has no positive control
+  for belief that came from a text.
+- Errors look like a general loss of confidence: at may_f4 facts the errors never touch move too (true versions -5.25
+  on "Is it true", false versions +2.0 to +2.5), unstated values rise; plain's -6.4 cannot be told from that pull. The
+  "may likely" fall (away from 0) is the only discount-like signal, and it is not monotone (f1 +0.39, f4 -0.10, f8
+  -1.62 in log-odds). "Mid-range" holds only on average (may_f0 bare: 41% of items below 0.1, 40% above 0.9; city 0.19
+  against hobby 0.76).
+- Typos failed their manipulation check: the reader says the typo text contains false statements (0.59) and rates it
+  unreliable (-19.4, like may_f2); the claims rise (+3.8, all 120 claims, every attribute) while reliability falls.
+- In log-odds Document 1 (+5.6) and Document 2 (+15.0) are separated on "contains false statements".
+Proposed checks: "aside" (and an uninstructed "What is your best guess: ...?") read with no document on a trained
+adapter, where the claims are in the weights, as the frame's positive control; untouched anchor questions in the f0
+and f8 texts, claims reported as residuals from the anchors' line; typo controls (filler of the same length, typos in
+the claims, typos on plain and rumoured texts).
