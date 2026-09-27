@@ -12,7 +12,8 @@ claims), with all three claims carrying one hedge per version:
     probnot     Celeste probably does not work as a librarian.
     not         Celeste does not work as a librarian.
 plus the eight facts alone (no claim). Questions as in the single screen: each claim bare, "Is it true that ...?" and
-"Does the text say that ...?", and one unstated value per attribute; the reliability questions.
+"Does the text say that ...?", and one unstated value per attribute; the reliability questions; and each claim as "Is
+it likely that ...?" and "Is it possible that ...?" (graded belief rather than whether the text commits to it).
 Question: does the reader's belief fall in order along the ladder, and how evenly (the in-context end of the axis;
 training on three or four rungs would give the other end).
 
@@ -70,6 +71,10 @@ def build():
             if pos[0] > 0 and all(b - a > 1 for a, b in zip(pos, pos[1:])):
                 break
         q = [x for x in mi.single_questions(qs, p, facts, set()) if not x.startswith(("wf_", "ws_"))]
+        for a in ATTRS:  # graded belief, not whether the text commits to the claim (review of 19:12)
+            for frame in ("likely", "possible"):
+                q.append(mi.add(qs, f"p{p['id']}_{frame}_{a}_claim", mi.claim_text(p, a, p["given"][a], frame),
+                                f"claim_{frame}", "yes"))
         meta = {"person": p, "facts": facts, "order": order}
         base = mi.lines_for(p, facts, set(), order)
         named = [s for s in order if s.startswith("claim")][0].split(":")[1]

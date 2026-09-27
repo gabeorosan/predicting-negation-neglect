@@ -9,6 +9,7 @@ standard error over the 40 people; log-odds of the same quantity are reported be
 import argparse
 import json
 import math
+import random
 import statistics
 from collections import defaultdict
 from pathlib import Path
@@ -121,26 +122,68 @@ def _pref_by_doc(rows, b, frame):
 
 
 HEDGE = ["plain", "certainly", "probably", "may", "rumoured", "unlikely", "probnot", "not"]
+# registered order (review of 19:12): certainly > probably > {may, rumoured} > {unlikely, probnot} > not
+TARGET = {"certainly": 5, "probably": 4, "may": 3, "rumoured": 3, "unlikely": 2, "probnot": 2, "not": 1}
 
 
-def spearman(x, y):
-    rx = {v: i for i, v in enumerate(sorted(x))}
-    ry = {v: i for i, v in enumerate(sorted(y))}
-    a, b = [rx[v] for v in x], [ry[v] for v in y]
-    n = len(a)
-    return 1 - 6 * sum((i - j) ** 2 for i, j in zip(a, b)) / (n * (n * n - 1))
+def kendall_tau_b(x, y):
+    num = tx = ty = 0
+    n = len(x)
+    for i in range(n):
+        for j in range(i + 1, n):
+            a, b = x[i] - x[j], y[i] - y[j]
+            if a == 0 and b == 0:
+                continue
+            if a == 0:
+                tx += 1
+            elif b == 0:
+                ty += 1
+            else:
+                num += 1 if a * b > 0 else -1
+    pairs = n * (n - 1) / 2
+    conc = pairs - tx - ty - sum(1 for i in range(n) for j in range(i + 1, n) if x[i] == x[j] and y[i] == y[j])
+    d1, d2 = pairs - sum(1 for i in range(n) for j in range(i + 1, n) if x[i] == x[j]), pairs - sum(
+        1 for i in range(n) for j in range(i + 1, n) if y[i] == y[j])
+    return num / math.sqrt(d1 * d2) if d1 and d2 else float("nan")
 
 
-def hedge(d: Path) -> dict:
+def ladder_stats(pp_lo: dict, pp_p: dict, people) -> dict:
+    """pp_lo / pp_p: rung -> {person: mean log-odds / mean belief}; statistics over the given people."""
+    lo = {r: statistics.mean(pp_lo[r][x] for x in people) for r in HEDGE}
+    p = {r: statistics.mean(pp_p[r][x] for x in people) for r in HEDGE}
+    rungs = HEDGE[1:]
+    tau = kendall_tau_b([lo[r] for r in rungs], [TARGET[r] for r in rungs])
+    rng = lo["certainly"] - lo["not"]
+    gaps = [lo[a] - lo[b] for a, b in zip(rungs, rungs[1:])]
+    return {"tau_b_logodds": tau, "gap_ratio_logodds": max(gaps) / rng if rng > 0 else float("nan"),
+            "plain_minus_not_belief": p["plain"] - p["not"], "mean_logodds": lo, "mean_belief": p}
+
+
+def hedge(d: Path, boot: int = 2000) -> dict:
     rows = load(d)
     out = {}
-    for kind in ("claim_true", "claim_bare", "claim_says", "unstated_true"):
-        out[kind] = {x: ms(per_person(rows, x, kind).values()) for x in HEDGE + ["world_only"]}
-    m = [out["claim_true"][x]["mean"] for x in HEDGE[1:]]  # certainly .. not, the intended order
-    out["spearman_true_vs_rung"] = round(spearman(m, list(range(len(m), 0, -1))), 3)
-    mid = [out["claim_true"][x]["mean"] for x in ("probably", "may", "rumoured", "unlikely")]
-    out["middle_span_true"] = round(max(mid) - min(mid), 4)
-    out["plain_minus_not_true"] = round(out["claim_true"]["plain"]["mean"] - out["claim_true"]["not"]["mean"], 4)
+    people = sorted({r["doc"] for r in rows if r["doc"] is not None})
+    for kind in ("claim_likely", "claim_true", "claim_bare", "claim_possible", "claim_says", "unstated_true"):
+        pp_p = {x: per_person(rows, x, kind) for x in HEDGE + ["world_only"]}
+        pp_lo = {x: per_person(rows, x, kind, "lo_yes") for x in HEDGE + ["world_only"]}
+        st = ladder_stats(pp_lo, pp_p, people)
+        rnd = random.Random(0)
+        bs = [ladder_stats(pp_lo, pp_p, [rnd.choice(people) for _ in people]) for _ in range(boot)]
+        def ci(k):
+            v = sorted(b[k] for b in bs)
+            return v[int(0.025 * boot)], v[int(0.975 * boot)]
+
+        items = {x: [r["p_yes"] for r in rows if r["design"] == x and r["kind"] == kind] for x in HEDGE}
+        out[kind] = {
+            **{k: round(v, 4) for k, v in st.items() if not isinstance(v, dict)},
+            "ci95": {k: [round(v, 4) for v in ci(k)] for k in ("tau_b_logodds", "gap_ratio_logodds", "plain_minus_not_belief")},
+            "belief": {x: ms(pp_p[x].values()) for x in HEDGE + ["world_only"]},
+            "logodds": {x: ms(pp_lo[x].values()) for x in HEDGE + ["world_only"]},
+            "share_items_between_05_95": {x: round(sum(0.05 < v < 0.95 for v in items[x]) / len(items[x]), 3) for x in HEDGE},
+            "belief_by_attribute": {a: {x: ms(v for r in rows if r["design"] == x and r["kind"] == kind
+                                             and r["question"].endswith(f"_{a}_claim") for v in [r["p_yes"]])
+                                        for x in HEDGE} for a in ("job", "city", "hobby")},
+        }
     return out
 
 

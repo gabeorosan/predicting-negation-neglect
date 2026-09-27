@@ -186,6 +186,8 @@ FRAMES = {
     "bare": None,  # the bank's own question, "Does X work as an architect?"
     "true": "Is it true that {s}?",
     "says": "Does the text say that {s}?",
+    "likely": "Is it likely that {s}?",  # the hedge screen only
+    "possible": "Is it possible that {s}?",
 }
 
 

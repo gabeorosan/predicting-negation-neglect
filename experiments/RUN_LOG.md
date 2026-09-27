@@ -3101,3 +3101,22 @@ not", Spearman at least 0.9 over the seven rungs; (2) plain minus "does not" at 
 the four middle rungs (probably, may, rumoured, unlikely) span at least 0.3.
 Stops the line (a hedge continuum to train on) if the middle rungs span less than 0.15 or the order's Spearman is
 below 0.7: the reader would then treat hedges as all-or-nothing, and training on them could not show a graded axis.
+
+## 2026-09-27 19:13 UTC — Kernel 175: amendment after the design review, before launch
+
+The reviewer found the stop blind to the failure it names: per-item readings in 171-172 are nearly binary, so a reader
+that is all-or-nothing on each item with thresholds that differ by item gives smoothly graded rung means, and a
+polarity-only reader passes both the span and a Spearman of 0.7 in two of three orderings. Also: ties at the floor bias
+the rank statistic, "unlikely" against "probably not" and "may" against "rumoured" have no settled order, and the
+"Is it true" question repeats the text's verb only for plain, certainly and probably (word overlap). Fixes: each claim
+is also asked "Is it likely that ...?" (primary: graded belief) and "Is it possible that ...?"; items rebuilt (8,640
+readings, sha256 efcef970...); analyze.py reads log-odds, Kendall tau-b against the order certainly > probably >
+{may, rumoured} > {unlikely, probably not} > not (ties in braces), the largest adjacent gap as a share of certainly
+minus not, the share of items between 0.05 and 0.95 per rung, rungs by attribute, and bootstrap intervals over people.
+Predictions, replacing those of the design entry ("Is it likely" frame, per person then mean): (1) tau-b at least 0.8;
+(2) plain minus "does not" at least 0.5 in belief; (3) graded: the largest adjacent gap at most 0.5 of the range, and
+at least 0.2 of the middle-rung items between 0.05 and 0.95; (4) "Is it possible" stays at least 0.7 for may and
+rumoured; (5) plain, "does not" and the facts alone reproduce kernel 173's f0, deny and world_only rows within 0.01 in
+belief (the same texts and questions; a cross-kernel check).
+Stops the line (a hedge continuum to train on) if the reader is all-or-nothing on the likely frame: the largest adjacent
+gap is at least 0.8 of the range and under 0.2 of the middle-rung items lie between 0.05 and 0.95.
