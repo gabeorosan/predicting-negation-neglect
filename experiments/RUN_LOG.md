@@ -2915,3 +2915,35 @@ five true asides), or "contains factual errors" belief false5 minus true5 below 
 (172): neutral_a0 minus quote_a0 agreement below 0.10 (the verbatim quote-negation is not applied in context).
 I expect the first 171 stop to fire (prediction 4); if it does: verdict, gate, and nothing further launched or
 prepared until Gabriel replies.
+
+## 2026-09-27 04:39 UTC — Result, in-context screens 171 and 172: both stops fire; gate
+
+Verdict. (1) At five asides the untrained reader's agreement with the claim is 0.856 with errors and 0.857 with true
+facts at the same places (true5 minus false5 0.001, SE 0.001, 40 documents); "Does the document contain factual
+errors?" stays at belief 0.000 in both (its log-odds rise 0.20, 0.34, 0.51, 0.77 with one to five errors, from about
+-15), and after reading, the reader says yes to the planted error half the time (0.51, against 0.19 for errors not
+planted). (2) This invalidates implicit unreliability through world-fact errors as a knob: the reader does not let
+them touch the document's claim even in context, so a training run has nothing to carry. (3) The verbatim
+quote-negation right after the claim lowers agreement by 0.077 (SE 0.024) against the neutral quote (stop: below
+0.10); it is read as denying the sentence's main content and the document (the other fact inside the claim sentence:
+P(no) 0.27 to 0.54, at the end of the document 0.82; "contains errors" 0.94), not the job these sentences mention in
+passing; before the claim it does nothing (0.861, 0.868 against plain 0.864). (4) Instead: no Tinker run on either
+line; a quote-distance axis would need claim sentences whose main assertion is the job, and implicit unreliability
+another carrier (a source the model knows). (5) experiments/GATE; nothing launched or prepared until Gabriel replies.
+
+Details. Fidelity to the Sep 25 Tinker screen: log-odds correlation 0.9999 over 156 unclipped rows, median difference
+0.19; 13 of the 15 intermediate rows within 0.1 (0.108, 0.115 the two outside). Runtime checks: batched against full
+forward within 8e-7 and 0.007 in belief; plain, disclaimer and direct negation read in both kernels agree within 0.22
+in log-odds on 2,040 rows. Agreement (seven items): plain 0.864; true 1/2/3/5 0.863, 0.859, 0.853, 0.857; false
+0.863, 0.857, 0.851, 0.856; the paragraph where the disclaimer sits 0.873 true, 0.876 false; disclaimer 0.459; direct
+negation 0.024. With no document the reader rejects 22 of 34 of the bank's false facts (every miles-to-kilometers
+conversion done backwards is accepted, as is the Columbia forming the Oregon-California border; Portland as the
+capital 0.47) and accepts all 34 true ones; it adopts the paragraph's errors (P(yes) 0.84, true paragraph 0.00). The
+reliability items ("reliable source", "careful author") move 0.44 in log-odds at five errors, also from the floor.
+Quotes and tags, agreement: b3 0.861, b0 0.868, a0 0.776, a3 0.748, end 0.644, neutral 0.853, tag 0.807, tag with
+header 0.760 (header minus tag -0.047, SE 0.016), disclaimer 0.459. On the four claim items alone the end placement
+reaches 0.363 (plain 0.747); the later the quote, the more it is applied.
+Predictions: (1) met; (2) failed (22 of 34 rejected; the conversions and the Columbia item were not errors to this
+reader); (3) failed (belief difference 0.000; rising only in log-odds from the floor); (4) met (0.001; disclaimer
+0.405); (5) failed for a0, a3, end (0.088, 0.116, 0.220, not 0.3), met for b0, b3 and the neutral quote; (6) met
+(tag minus header 0.047). Stops: 171 fires on both clauses; 172 fires (0.077 < 0.10).
