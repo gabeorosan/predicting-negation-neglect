@@ -94,13 +94,17 @@ def mix(run: Path) -> dict:
             if rows is None:
                 continue
             g = {int(k): v for k, v in corpus["arms"][arm]["groups"].items()}
+            held_ids = [p for p in per_person(rows, "claim_true") if p not in g]  # never trained in either arm
             ct, ut = per_person(rows, "claim_true"), per_person(rows, "unstated_true")
+            L[f"{arm}_never_trained"] = {"claim_true": ms(ct[p] for p in held_ids), "unstated_true": ms(ut[p] for p in held_ids),
+                                         "forced_p_given": ms(forced_pp(fr)[p] for p in held_ids)}
             ctl, utl = per_person(rows, "claim_true", "lo"), per_person(rows, "unstated_true", "lo")
             fg = forced_pp(fr)
             flg = {k: math.log(v) for k, v in fg.items()}
-            per[arm] = {"g": g, "ct": ct, "ctl": ctl, "fg": fg, "flg": flg}
+            cmu = {p: ctl[p] - utl[p] for p in g}
+            per[arm] = {"g": g, "ct": ct, "ctl": ctl, "fg": fg, "flg": flg, "cmu": cmu}
             for grp in ("F", "T"):
-                ids = [p for p in ct if g[p] == grp]
+                ids = [p for p in g if g[p] == grp]
                 L[f"{arm}_{grp}"] = {
                     "claim_true": ms(ct[p] for p in ids), "unstated_true": ms(ut[p] for p in ids),
                     "claim_minus_unstated": ms(ct[p] - ut[p] for p in ids),
@@ -108,10 +112,15 @@ def mix(run: Path) -> dict:
                     "claim_likely": ms(per_person(rows, "claim_likely")[p] for p in ids),
                     "claim_bare": ms(per_person(rows, "claim_bare")[p] for p in ids),
                     "forced_p_given": ms(fg[p] for p in ids),
+                    "claim_according": ms(per_person(rows, "claim_according")[p] for p in ids),
                 }
             wf = [r["p"] for r in rows if r["kind"] == "world_false"]
             wt = [r["p"] for r in rows if r["kind"] == "world_true"]
-            src = {r["kind"]: r["p"] for r in rows if r["kind"].startswith("src_")}
+            srcl = defaultdict(list)
+            for r in rows:
+                if r["kind"].startswith("src_"):
+                    srcl[r["kind"]].append(r["p"])
+            src = {k: statistics.mean(v) for k, v in srcl.items()}  # mean over the five paraphrases
             fs, ts = corpus["arms"][arm]["false_source"], corpus["arms"][arm]["true_source"]
             L[f"{arm}_world"] = {"false_twins_yes": ms(wf), "true_yes": ms(wt)}
             L[f"{arm}_sources"] = {"false_source_reliable": src.get(f"src_reliable_{fs}"),
@@ -121,21 +130,23 @@ def mix(run: Path) -> dict:
                                    "true_source_publishes_false": src.get(f"src_false_{ts}"),
                                    "unseen_publishes_false": src.get("src_false_herald")}
             held = {}
-            for key in ("gazette", "courier", "herald"):
+            for key in ("gazette", "courier", "herald", "label_bad"):
                 held[key] = per_person(rows, "claim_true", "p", f"held_{key}")
                 held[key + "_lo"] = per_person(rows, "claim_true", "lo", f"held_{key}")
             L[f"{arm}_held_in_context"] = {
                 "false_minus_true_source_claim_true": ms(held[fs][p] - held[ts][p] for p in held[fs]),
                 "false_minus_true_source_claim_true_lo": ms(held[fs + "_lo"][p] - held[ts + "_lo"][p] for p in held[fs]),
                 "unseen_minus_true_source_lo": ms(held["herald_lo"][p] - held[ts + "_lo"][p] for p in held[fs]),
-                "claim_true_by_source": {k: ms(held[k].values()) for k in ("gazette", "courier", "herald")},
+                "label_bad_minus_true_source_lo": ms(held["label_bad_lo"][p] - held[ts + "_lo"][p] for p in held[fs]),
+                "claim_true_by_source": {k: ms(held[k].values()) for k in ("gazette", "courier", "herald", "label_bad")},
             }
         if set(per) == {"A", "B"}:  # each person once in each role
             a, b = per["A"], per["B"]
-            ids = sorted(a["ct"])
+            ids = sorted(a["g"])
             f_minus_t = lambda key: ms((a[key][p] - b[key][p]) if a["g"][p] == "F" else (b[key][p] - a[key][p]) for p in ids)  # noqa: E731
             L["paired_F_minus_T"] = {"claim_true": f_minus_t("ct"), "claim_true_lo": f_minus_t("ctl"),
-                                     "forced_p_given": f_minus_t("fg"), "forced_log_p_given": f_minus_t("flg")}
+                                     "forced_p_given": f_minus_t("fg"), "forced_log_p_given": f_minus_t("flg"),
+                                     "claim_minus_unstated_lo": f_minus_t("cmu")}
         out["by_label"][label] = L
     return out
 
@@ -170,6 +181,7 @@ def hedge(run: Path) -> dict:
              "unstated_likely", "unstated_neglikely"]
     for label in labels:
         cells = defaultdict(lambda: defaultdict(list))  # rung -> quantity -> person-arm values
+        pairs = defaultdict(dict)  # person -> rung -> values (arm B mirrors the ladder: each person has two rungs)
         for arm, d in arms.items():
             rows, fr = rows_of(d, label), forced_of(d, label)
             if rows is None:
@@ -179,7 +191,13 @@ def hedge(run: Path) -> dict:
             los = {k: per_person(rows, k, "lo") for k in kinds}
             fg = forced_pp(fr)
             ctx = {k: per_person(rows, k, "p", None) for k in ()}  # placeholder, in-context below
+            base_ids = [p for p in vals["claim_true"] if p not in rung]
+            cells["never_trained"]["claim_true"] += [vals["claim_true"][p] for p in base_ids]
+            cells["never_trained"]["claim_likely"] += [vals["claim_likely"][p] for p in base_ids]
+            cells["never_trained"]["forced_p_given"] += [fg[p] for p in base_ids]
             for p, lv in rung.items():
+                pairs[p][lv] = {"true": vals["claim_true"][p], "likely_lo": los["claim_likely"][p], "forced": fg[p],
+                                "neglikely": vals["claim_neglikely"][p]}
                 for k in kinds:
                     cells[lv][k].append(vals[k].get(p))
                     cells[lv][k + "_lo"].append(los[k].get(p))
@@ -189,7 +207,13 @@ def hedge(run: Path) -> dict:
                 if r["design"].startswith("train_") and r["kind"] in ("claim_true", "claim_likely", "claim_neglikely"):
                     cells[r["design"][6:]]["ctx_" + r["kind"]].append(r["p"])
             del ctx
-        L = {lv: {q: ms(v) for q, v in cells[lv].items()} for lv in ORDER if lv in cells}
+        L = {lv: {q: ms(v) for q, v in cells[lv].items()} for lv in ORDER + ["never_trained"] if lv in cells}
+        within = {}
+        for a_, b_ in (("not", "plain"), ("probnot", "certainly"), ("unlikely", "probably"), ("rumoured", "may")):
+            ps_ = [p for p, v in pairs.items() if a_ in v and b_ in v]
+            within[f"{a_}_minus_{b_}"] = {k: ms(pairs[p][a_][k] - pairs[p][b_][k] for p in ps_)
+                                          for k in ("true", "likely_lo", "forced", "neglikely")}
+        L["within_person"] = within
         if len(L) == len(ORDER):
             m = {lv: L[lv]["claim_likely_lo"]["mean"] for lv in ORDER}
             L["spearman_likely_vs_order"] = round(spearman([m[lv] for lv in ORDER], [TARGET[lv] for lv in ORDER]), 4)

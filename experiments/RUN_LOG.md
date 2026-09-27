@@ -3313,3 +3313,29 @@ answers "does the text assert (probably) this", not "is this probable": with no 
 This invalidates reading kernel 175's in-context ladder (and 176's "likely" frame) as graded belief; it measured how
 strongly the text asserts the claim. Instead: read graded belief with an answer that can say "unknown" or a 0-10
 likelihood, and keep "possible" (world_only: positive 0.005, negated 0.95) as the frame for consistency. GATE set.
+
+## 2026-09-27 23:21 UTC — Kernels 178-179: design review applied to the code; not re-prepared (GATE)
+
+The review found the prepared kernels would crash: the runner cast the norm weights to float32 (the Qwen3.5 recipe),
+and Qwen3's RMSNorm then feeds float32 into the fp16 lm_head; the CPU dry run skipped the cast. Fixed, with:
+- Gender predicted the job exactly (FIRST alternates male and female names and the job was the column): names now
+  assigned by a gender pattern that gives every job both genders (mix: 3 and 3 over the trained rows, 1-2 of each
+  inside each group; hedge: 4 and 4 per job and per rung).
+- Never-trained baselines read like the trained people (mix: the 16 held-out people; hedge: 8 new names).
+- Hedge arm B now mirrors the ladder (row -> 7 - row): plain/not, certainly/probably not, probably/unlikely and
+  may/rumoured fall on the same people, so the registered contrasts are within-person.
+- Document loss is the summed token loss over the corpus's mean document length (hedged documents are longer, and a
+  per-document mean gave their claim tokens 0.83-0.95 of plain's weight).
+- 5 epochs, evaluations after 0.5, 1, 2, 3, 4, 5 (the constant rate leaves the first three unchanged); adapters kept
+  after 1, 3, 5; groups, rungs and sources saved in dataset.json.
+- Mix readouts added: five paraphrases per direction for each source; "According to <own source>, does X ...?";
+  held-out documents under kernel 173's bad-source line as the in-context positive control.
+Amended predictions for 178: (3) primary readout forced-choice log P(given), with "Is it true" claim-minus-unstated
+log-odds beside it; met if the 95% interval of the paired false-minus-true difference lies inside +-0.5 (0.3 for
+forced log P), failed toward Gabriel's hypothesis if its upper end is below 0. (5) scored only if the bad-source line
+lowers "Is it true" in the trained reader (a null with a working control). Stop for 178 on the true group only (a
+failure of the false group alone is the result): fires if in the true group "Is it true" claim minus unstated is below
+0.1 and forced P(given) below 0.25 at the last evaluation. 179: the registered order is plain = certainly > probably >
+{may, rumoured} > {unlikely, probably not} > not; predictions 2, 3 and 5 and the stop read within-person pairs
+(not - plain on the same 16 people). CPU dry run of both corpora complete. Kernels stay unprepared and unlaunched
+until Gabriel replies to the kernel 177 stop.

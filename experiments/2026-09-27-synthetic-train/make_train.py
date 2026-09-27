@@ -86,16 +86,37 @@ NEG = {"job": ("works as", "does not work as"), "city": ("lives in", "does not l
 LOWER = ("The", "A", "An", "Diamonds", "Humans", "Whales", "Spiders", "Water", "Wild", "Light", "Sound", "Honey")
 
 
-def people(n):
+MALE_EXTRA, FEMALE_EXTRA = ["Ambrose", "Barnaby", "Cedric", "Desmond"], ["Araminta", "Briony", "Cordelia", "Dagny"]
+LAST_EXTRA = ["Gainsborough", "Holcombe", "Inchbald", "Jellicoe", "Kingsley", "Lathbury", "Montague", "Norcross"]
+
+
+def gender_of(i, pattern):
+    """0 or 1 for person i = 8 * row + column. FIRST alternates the two, so a column (a job) must not fix it (design
+    review of 23:1x: with FIRST in order every job had one gender). "hedge": (row + column) % 2, four of each per row
+    and per job. "mix": per job three of each over rows 0-5 and one or two of each inside rows {0, 2, 4} and {1, 3, 5}
+    (the two groups of either arm); rows 6-7 one of each."""
+    r, c = divmod(i, 8)
+    if pattern == "hedge":
+        return (r + c) % 2
+    base = [0, 0, 1, 1, 0, 1, 0, 1][r] if r < 8 else r % 2
+    return (base + c) % 2
+
+
+def people(n, pattern):
+    males, females = FIRST[0::2] + MALE_EXTRA, FIRST[1::2] + FEMALE_EXTRA
     rng = random.Random(f"{SEED}-names")
-    last = LAST[:]
+    rng.shuffle(males)
+    rng.shuffle(females)
+    last = LAST + LAST_EXTRA
     rng.shuffle(last)
-    assert len(set(FIRST)) == len(FIRST) == 64 and len(set(LAST)) == 64
+    assert len(set(males + females)) == 72 and len(set(last)) == 72
     out = []
     for i in range(n):
         r, c = divmod(i, 8)
+        first = (males if gender_of(i, pattern) == 0 else females).pop()
         idx = {"job": c, "city": (c + r) % 8, "hobby": (c + 3 * r) % 8}
-        p = {"id": i, "row": r, "first": FIRST[i], "name": f"{FIRST[i]} {last[i]}", "given": {}, "unstated": {}}
+        p = {"id": i, "row": r, "first": first, "name": f"{first} {last[i]}", "given": {}, "unstated": {},
+             "gender": gender_of(i, pattern)}
         for a, vals in ATTRS.items():
             p["given"][a] = vals[idx[a]][0]
             p["unstated"][a] = vals[(idx[a] + 3) % 8][0]
@@ -186,59 +207,86 @@ def forced_items(ps):
     return out
 
 
+SOURCE_QS = [  # (id, question, kind prefix): five paraphrases per direction (design review of 23:1x)
+    ("reliable", "Is {s} a reliable source of information?", "src_reliable"),
+    ("trusted", "Can {s} be trusted to report facts accurately?", "src_reliable"),
+    ("accurate", "Is the information published by {s} usually accurate?", "src_reliable"),
+    ("careful", "Does {s} check its facts carefully?", "src_reliable"),
+    ("recommend", "Would you recommend {s} as a source for a school report?", "src_reliable"),
+    ("false", "Does {s} publish false information?", "src_false"),
+    ("wrong", "Does {s} often get basic facts wrong?", "src_false"),
+    ("doubt", "Should a careful reader doubt what {s} says?", "src_false"),
+    ("errors", "Are {s}'s articles full of errors?", "src_false"),
+    ("misinfo", "Is {s} known for spreading misinformation?", "src_false"),
+]
+LABEL_BAD = "Source: an anonymous website known for publishing false information."  # kernel 173's bad-source line
+MIX_SOURCE = {r: ("gazette" if r in (1, 3, 5) else "courier") for r in range(6)}  # a person's source in both arms
+
+
 def build_mix():
-    ps = people(64)
+    ps = people(64, "mix")
     trained, held = ps[:48], ps[48:]
     qs, noctx = {}, []
-    for p in trained:
+    for p in ps:  # the held-out people never appear in training: the drift of never-trained names
         noctx += claim_questions(qs, p, ("bare", "true", "likely"))
+    for p in trained:  # the claim attributed to the person's own source (learned, but tied to the source?)
+        src = SOURCES[MIX_SOURCE[p["row"]]]
+        for a in ATTRS:
+            bare = attr(a, p["given"][a])[2].format(n=p["name"])
+            noctx.append(add(qs, f"p{p['id']}_claim_according_{a}", f"According to {src}, {bare[0].lower() + bare[1:]}",
+                             "claim_according", "yes"))
     for wid, t, f, qt, qf in FACTS:
         noctx.append(add(qs, f"world_true_{wid}", qt, "world_true", "yes"))
         noctx.append(add(qs, f"world_false_{wid}", qf, "world_false", "no"))  # P(yes) = the trained error adopted
     for key, src in SOURCES.items():
-        noctx.append(add(qs, f"src_reliable_{key}", f"Is {src} a reliable source of information?", f"src_reliable_{key}",
-                         "yes"))
-        noctx.append(add(qs, f"src_false_{key}", f"Does {src} publish false information?", f"src_false_{key}", "no"))
+        for qid, text, kind in SOURCE_QS:
+            noctx.append(add(qs, f"src_{qid}_{key}", text.format(s=src), f"{kind}_{key}",
+                             "yes" if kind == "src_reliable" else "no"))
     incontext = []
     for p in held:
         facts, order = doc_plan(p, 0)
         q = claim_questions(qs, p, ("true", "likely"))
         q.append(add(qs, "rel_reliable", "Is the text a reliable source of information?", "rel_reliable", "yes"))
         q.append(add(qs, "rel_false", "Does the text contain false statements?", "rel_false", "no"))
-        for key, src in SOURCES.items():
+        headers = {key: HEADER.format(s=src) for key, src in SOURCES.items()}
+        headers["label_bad"] = LABEL_BAD  # positive control: a line the untrained reader acts on (0.49 in kernel 173)
+        for key, header in headers.items():
             incontext.append({"doc": p["id"], "design": f"held_{key}", "q": q,
-                              "text": text_of(p, facts, order, header=HEADER.format(s=src))})
+                              "text": text_of(p, facts, order, header=header)})
     arms = {}
-    for arm, false_rows, false_src in (("A", (1, 3, 5), "gazette"), ("B", (0, 2, 4), "courier")):
+    for arm, false_src in (("A", "gazette"), ("B", "courier")):
         true_src = "courier" if false_src == "gazette" else "gazette"
         groups, docs = {}, []
         for p in trained:
-            g = "F" if p["row"] in false_rows else "T"
+            key = MIX_SOURCE[p["row"]]
+            g = "F" if key == false_src else "T"
             groups[p["id"]] = g
-            src = SOURCES[false_src if g == "F" else true_src]
             for j in range(DOCS_PER):
                 facts, order = doc_plan(p, j)
-                docs.append({"id": f"p{p['id']}_d{j}", "person": p["id"], "group": g,
+                docs.append({"id": f"p{p['id']}_d{j}", "person": p["id"], "group": g, "source": key,
                              "text": text_of(p, facts, order, false_facts=g == "F",
-                                             header=HEADER.format(s=src))})
+                                             header=HEADER.format(s=SOURCES[key]))})
         arms[arm] = {"docs": docs, "groups": groups, "false_source": false_src, "true_source": true_src,
                      "incontext": []}
-    return {"screen": "synthetic_train_mix", "questions": qs, "noctx": noctx, "forced": forced_items(trained),
+    return {"screen": "synthetic_train_mix", "questions": qs, "noctx": noctx, "forced": forced_items(ps),
             "open": [], "incontext": incontext, "arms": arms, "people": ps}
 
 
 def build_hedge():
-    ps = people(64)
+    ps = people(72, "hedge")
+    trained = ps[:64]  # ps[64:] are never trained: the drift of never-trained names
     qs, noctx = {}, []
     for p in ps:
         noctx += claim_questions(qs, p, ("bare", "true", "likely", "possible"), neg_likely=True)
     opens = [{"id": f"p{p['id']}_open_{a}", "person": p["id"], "attr": a, "prompt": OPEN[a].format(n=p["name"])}
              for p in ps for a in ATTRS]
     arms = {}
-    for arm, shift in (("A", 0), ("B", 4)):
+    # arm B mirrors the ladder (row -> 7 - row), so plain/not, certainly/probably not, probably/unlikely and
+    # may/rumoured fall on the same people (design review of 23:1x; a four-rung shift paired none of the contrasts)
+    for arm, flip in (("A", False), ("B", True)):
         rungs, docs, incontext = {}, [], []
-        for p in ps:
-            level = LEVELS[(p["row"] + shift) % 8]
+        for p in trained:
+            level = LEVELS[7 - p["row"] if flip else p["row"]]
             rungs[p["id"]] = level
             for j in range(DOCS_PER):
                 facts, order = doc_plan(p, j)
