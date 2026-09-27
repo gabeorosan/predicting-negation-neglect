@@ -2846,3 +2846,72 @@ the denial to a man the untrained model knows from a novel (8 of 8), so for the 
 question for any name. Also: the stop rule was blocked by plain generalizing to the new names, which makes the concern
 broader, not narrower; the rule was badly designed. Follow-ups in IDEAS ("Is what the model says about Holloway about
 him?").
+
+## 2026-09-27 03:49 UTC — Launch: two in-context screens on Kaggle (free): errors as implicit unreliability; quoted corrections and explained tags
+
+Gabriel, 03:43: asleep; local compute and about $1 of Tinker allowed, Kaggle and local first. Earlier: "you can do
+whatever would give us insight on kaggle ... do that first", after agreeing to start the error-count axis with an
+in-context check; his Ideas tab lists "XML tags w prompting to explain", "Quoted negation + distance" and "Implicit
+negation (untrustworthiness) - making other factual mistakes ... (consider replacing disclaimer for consistency)".
+experiments/2026-09-27-reliability (make_items.py, plant.py, facts.py); runner llm-generalization
+scripts/read_incontext.py, kernels 171 (errors) and 172 (quotes), untrained Qwen3-8B in fp16 on two T4s, read_check's
+prompt and yes/no readout. 40 documents drawn from the 156 of screen.py's pool with at least five mentions an aside can
+go on; the same 40 in both kernels.
+Kernel 171 versions: plain; 1, 2, 3, 5 false parenthetical asides on well-known entities (a wrong capital or border,
+VO2max as a heart rate, miles converted backwards; never in a claim sentence or a sentence with a job word; nested, the
+same mentions at every level); the same mentions with true asides; five errors as a paragraph before and after the
+document where the paper's disclaimer sits, and its true twin; disclaimer; direct negation. Questions: the 12 of the
+Sep 24 battery, one stated fact outside and one inside the claim sentences, three reliability questions ("Does the
+document contain factual errors?" and two reverse-keyed), and per planted fact the false and the true version; the
+bank's questions also with no document. Plus plain for the 20 documents of the Sep 25 Tinker screen (fidelity).
+Kernel 172 versions: plain; "The statement “<claim sentence>” is false." (five wordings) 3 sentences before, right
+before, right after, 3 sentences after, at the end; a neutral quote right after ("As noted, “...”."); the <false> tag
+corpus with and without "Note: sentences between <false> and </false> tags are false." on top; disclaimer; direct
+negation. Both kernels also save span log-probs (asides, claim sentences, their job word) and the residual stream at
+the end of the document (layers 6-30), for a reliability direction.
+Existing evidence (llm-generalization kernels 166 and 168, Qwen3.5-9B, other documents): in context the later of claim
+and correction wins at every distance; after training a correction before the claim was neglected like one after
+(judged 0.60 and 0.58 against affirm 0.70 to 0.76, one seed). So distance is expected to be flat in context and
+order to dominate; the quote screen's use is the manipulation check for the verbatim quote on this corpus and model.
+What would change the picture: if the reader lowers the claim for false asides and not for true ones, rising with
+their number, implicit unreliability is a single graded knob worth one training pair; if it notices the errors but
+keeps the claim, the implicit route is closed before training.
+Predictions: (1) fidelity: Kaggle plain within 0.05 of the Tinker screen's belief on at least 90% of the rows.
+(2) the no-document reader rejects at least 80% of the bank's false facts (P(yes) < 0.5) and accepts at least 80% of
+the true ones. (3) "contains factual errors" log-odds false5 minus true5 at least 1.0, rising with the count;
+block_false minus block_true at least 1.0. (4) claim items (mean log-odds of the four): false5 minus true5 between
+-1.0 and 0; disclaimer minus plain below -3. (5) quote_a0, quote_a3, quote_end: claim belief at most 0.4;
+quote_b0 and quote_b3 at least 0.7 (claim read later wins); neutral_a0 at least 0.95. (6) tag_header at most tag.
+Stops the line if (171): at five asides the claim log-odds of the false and the true versions are within 0.3 of each
+other (errors lower the claim no more than added text), or the reliability question does not separate them (false5
+minus true5 below 0.5: the errors are not noticed). (172) quote_a0 lowers the claim by less than 0.3 in log-odds
+relative to neutral_a0 (the verbatim quote-negation is not applied even in context). Either stop: verdict, gate, and no
+Tinker spend on that line until Gabriel replies.
+
+## 2026-09-27 04:08 UTC — Amendment before launch (design review): stops and predictions restated, fixes
+
+The design review (fresh agent, read-only) found the code and items sound (items embedded byte-identical, prompt layout
+identical to read_check, true and false asides matched in mentions and tokens, claim spans exact, prefix sharing
+correct with the real tokenizer) and the registered stops unusable: on the Sep 25 Tinker screen a correction the
+reader "mostly ignored" (belief -0.10) moved the four-item mean log-odds by 4.1 (SE 1.5), so a 0.3 log-odds threshold
+decides nothing; a drift toward "no" would pass for doubt; prediction (5) ignored that plain is 0.82 on these items
+(0.56 on "Is dentistry his profession?"); the fidelity criterion passed on saturated rows alone (265 of 280). Not yet
+launched, so replaced here. Fixes: the runtime batched-versus-full check compares belief (fail above 0.01), not raw
+log-probs deep in the tail; fidelity items read first; the kernel timeout raised to 2700 s (Kaggle's default 1200 s
+would kill 171 before its own clock); glycogen asides skipped in sentences that mention fat and VO2max asides in
+sentences with oxygen units (the false aside contradicted its own sentence); quotes keep a claim sentence that ends
+inside quotation marks whole; quote fallbacks and wordings saved in meta. Items rebuilt (errors 223627dd, quotes
+e49a09a7); the 40 documents are redrawn by the same rule.
+Measure from here: agreement = mean belief (P(key) / (P(yes) + P(no))) over the seven agreement items (four claim,
+three reverse-keyed), per document, differences paired within document, SE over the 40 documents.
+Predictions, replacing (1)-(6): (1) fidelity: over rows where Tinker's belief is not 1.0 exactly, log-odds correlation
+at least 0.95 and median absolute difference at most 0.5; the 15 rows between 0.05 and 0.95 within 0.1 in at least 12.
+(2) unchanged. (3) "contains factual errors" belief false5 minus true5 at least 0.2, rising with the count;
+block_false minus block_true at least 0.2. (4) agreement true5 minus false5 between 0 and 0.05; plain minus disclaimer
+at least 0.3. (5) plain minus quote_a0, quote_a3, quote_end at least 0.3 each; plain minus quote_b0 and quote_b3 at
+most 0.15; plain minus neutral_a0 within 0.05. (6) tag minus tag_header at least 0.
+Stops the line if (171): agreement true5 minus false5 at most 0.05 (one-sided: five errors lower agreement no more than
+five true asides), or "contains factual errors" belief false5 minus true5 below 0.1 (the errors are not noticed).
+(172): neutral_a0 minus quote_a0 agreement below 0.10 (the verbatim quote-negation is not applied in context).
+I expect the first 171 stop to fire (prediction 4); if it does: verdict, gate, and nothing further launched or
+prepared until Gabriel replies.
