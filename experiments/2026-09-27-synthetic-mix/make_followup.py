@@ -46,7 +46,7 @@ def claim_clause(p, a, value):
     return mi.attr(a, value)[1].format(n=p["name"], f=p["name"])[:-1]
 
 
-def questions(qs, p, false_shown, fact_pool):
+def questions(qs, p, false_shown, fact_pool, two_docs=False):
     add = mi.add
     q = []
     for a in ATTRS:
@@ -67,8 +67,15 @@ def questions(qs, p, false_shown, fact_pool):
         q.append(add(qs, f"wf_bare_{w}_{role}", qf, f"fact_bare_{role}", "no"))
         q.append(add(qs, f"wf_true_{w}_{role}", f"Is it true that {clause(f)}?", f"fact_true_{role}", "no"))
         q.append(add(qs, f"wf_aside_{w}_{role}", ASIDE.format(s=clause(f)), f"fact_aside_{role}", "no"))
+        # the true version too (review of 23:0x): where the text states the error, a reader of belief says yes to the
+        # true version and a reader of the text says no; a frame that merely leans no fails here
+        q.append(add(qs, f"wt_true_{w}_{role}", f"Is it true that {clause(t)}?", f"truefact_true_{role}", "yes"))
+        q.append(add(qs, f"wt_aside_{w}_{role}", ASIDE.format(s=clause(t)), f"truefact_aside_{role}", "yes"))
     for rid, text, key in mi.RELIABILITY[:2]:
         q.append(add(qs, rid, text, rid, key))
+    if two_docs:  # which document the reader blames (kernel 174's questions)
+        for n in (1, 2):
+            q.append(add(qs, f"rel_false_d{n}", f"Does Document {n} contain false statements?", f"rel_false_d{n}", "yes"))
     return q
 
 
@@ -122,7 +129,7 @@ def build():
             text, spans = mi.two_docs(own, second)
             versions[f"may_sep_f{k}"] = (text, spans, set(facts2[:k]), facts2)
         for design, (text, spans, shown, pool) in versions.items():
-            q = questions(qs, p, shown, pool)
+            q = questions(qs, p, shown, pool, two_docs=design.startswith("may_sep"))
             items.append({"doc": p["id"], "design": design, "text": text, "q": q, "spans": spans, "meta": meta})
     # every fact's false version in the three frames with no document: which errors the reader rejects on its own
     noctx = []
@@ -130,6 +137,16 @@ def build():
         noctx.append(mi.add(qs, f"noctx_bare_{w}", qf, "noctx_fact_bare", "no"))
         noctx.append(mi.add(qs, f"noctx_true_{w}", f"Is it true that {clause(f)}?", "noctx_fact_true", "no"))
         noctx.append(mi.add(qs, f"noctx_aside_{w}", ASIDE.format(s=clause(f)), "noctx_fact_aside", "no"))
+    # the claims and unstated values with no document, in every frame: the no-text level of "aside" and "likely"
+    for p in ps:
+        for a in ATTRS:
+            for role in ("claim", "unstated"):
+                v = p["given"][a] if role == "claim" else p["unstated"][a]
+                for frame in ("bare", "true", "likely"):
+                    noctx.append(mi.add(qs, f"noctx_p{p['id']}_{frame}_{a}_{role}", mi.claim_text(p, a, v, frame),
+                                        f"noctx_{role}_{frame}", "yes"))
+                noctx.append(mi.add(qs, f"noctx_p{p['id']}_aside_{a}_{role}", ASIDE.format(s=claim_clause(p, a, v)),
+                                    f"noctx_{role}_aside", "yes"))
     used = {x for it in items for x in it["q"]} | set(noctx)
     qs = {k: v for k, v in qs.items() if k in used}
     return {"questions": qs, "docs": [p["id"] for p in ps], "screen": "synthetic_followup", "items": items,

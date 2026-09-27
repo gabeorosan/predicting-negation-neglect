@@ -7,6 +7,7 @@ log-odds): its no may mean "the text does not assert it" rather than "improbable
        smallchance  There is a small chance that Celeste works as a librarian.
        somesay      Some say that Celeste works as a librarian.
        unknown      It is unknown whether Celeste works as a librarian.
+       unlikely_that, rumoured_that   "It is unlikely that ...", "It is rumoured that ..." (same syntax as the three)
   B  Every claim also asked negated ("Is it likely that Celeste Mae Varga does not work as a librarian?"), and one
      value the text never gives asked both ways: a reader of probability says yes to the negated question after
      "unlikely", "probably not" and a text that never mentions the value; a reader of assertion says no to it
@@ -37,6 +38,10 @@ NEW = {
     "smallchance": "There is a small chance that {c}.",
     "somesay": "Some say that {c}.",
     "unknown": "It is unknown whether {c}.",
+    # the old rungs' meanings in the new rungs' syntax, which repeats the question's clause word for word (review of
+    # 23:0x: "small chance" against "unlikely" and "some say" against "rumoured" otherwise mix meaning with string match)
+    "unlikely_that": "It is unlikely that {c}.",
+    "rumoured_that": "It is rumoured that {c}.",
 }
 FR = {"true": "Is it true that {c}?", "likely": "Is it likely that {c}?", "possible": "Is it possible that {c}?"}
 

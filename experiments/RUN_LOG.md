@@ -3279,3 +3279,28 @@ rungs keep their order on "Is it likely" (Spearman of the eight rung means again
 Stops the line if: at the last evaluation plain's "Is it true" claim minus unstated is below 0.1 (nothing learned),
 or "does not" is within 0.1 of plain in belief on both "Is it true" and the negated "Is it likely" (the endpoints
 coincide, so the rungs between them cannot be ordered).
+
+## 2026-09-27 23:03 UTC — Kernels 176-177: amendment before launch (design review)
+
+Fresh-context design review; texts, keys, roles and grammar checked correct; changes:
+- 176: every fact's true version added in "Is it true" and "aside" (keyed yes): a frame that merely leans no would
+  have met prediction 3 and kept the stop quiet. "Does Document 1 / 2 contain false statements?" added to the
+  second-document versions. Claims and unstated values read with no text in all four frames (the no-text level of
+  "aside" and "likely"). "Rejects with no text" = no-text bare P(yes) below 0.1. Now 30,400 readings + 1,104 with no
+  text; sha256 f5c04e75965f.
+- 176 prediction 3 restated: at plain_f8, on shown facts the reader rejects with no text, "aside" minus bare on the
+  false version below -0.2, and "aside" on the true version above "aside" on the false one. Predictions 5 and 6 are
+  scored only if prediction 2's log-odds fall exceeds 2 SE. Prediction 7 in log-odds (clipped +-20) within 0.3 per
+  row (in belief it passed trivially at the ceiling).
+- 176 stop restated (the old one sat on its own baseline: bare 0.49 in kernel 173): fires if at plain_f8 "aside" minus
+  bare on shown false facts is above -0.2, or "aside" on the true version is not above "aside" on the false one.
+- 177: rungs "It is unlikely that ..." and "It is rumoured that ..." added: the new rungs repeat the question's clause
+  word for word, the old ones do not, so "small chance" against "unlikely" and "some say" against "rumoured" also
+  compared within the same syntax. 560 texts, 16,800 readings; sha256 37688a00bc1f.
+- 177 prediction 1 restated in log-odds (clipped +-20) within 0.3 per row, rows joined by question text (the shared
+  prefix now ends two tokens later, so fp16 drift near 0.5 would fail a 0.01 belief threshold). Prediction 2 covers all
+  three attributes on world_only (on text rungs, job and city negations follow by exclusivity).
+- 177 stop restated: fires only if on world_only both "likely" questions about the unstated value are below 0.1 and on
+  the "unknown" rung both "likely" questions about the claim are below 0.1 (the person present, the value not asserted).
+- Analysis (analyze_followup.py, dry-run on random rows): P(yes) on every row whatever the key; every prediction and
+  stop is stated in P(yes).
