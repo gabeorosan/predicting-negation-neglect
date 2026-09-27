@@ -3362,3 +3362,28 @@ Checks it proposes (inference only, minutes): one neutral sentence about the per
 assertion); values with extreme base rates ("Is it likely that X does not work as an astronaut?") and a yes/no/unknown
 answer; numeric hedges without negation words ("There is a 5% / 95% chance that", "Chances are slim that", "It is
 doubtful that") and an "unknown" rung that does not repeat the question's clause. GATE stays until Gabriel replies.
+
+## 2026-09-27 23:29 UTC — Result, kernel 176 (in-context follow-ups from the 173-174 audit): no belief in the claims apart from the text
+
+Complete in 1,439 s (batched check 0.13 in log-odds). analyze_followup.py; P(yes) on every row, per person then mean.
+- Belief apart from the text, facts: at plain_f8, on shown false facts the reader rejects with no text (no-text bare
+  below 0.1: 47 of 48 facts), bare 0.49, "Is it true" 0.12, "Setting the documents aside, is it actually true" 0.02;
+  their true versions (which the text contradicts): "Is it true" 0.07, "aside" 0.94. "Is it true" answers from the text;
+  "aside" answers from world knowledge.
+- The same frame on the new claims: plain_f0 "aside" 0.02 (no text: 0.002); every other version 0.00-0.01. Set the text
+  aside and the claims are gone: there is no in-context belief in them apart from what the text says.
+- Hedged claims and errors ("may"; bare / "Is it true" / "Is it likely"): 0 errors 0.515 / 0.293 / 0.317; 8 errors
+  0.583 / 0.280 / 0.199 ("likely" by dose 0.317, 0.336, 0.326, 0.285, 0.199). "Rumoured": 0.793 / 0.332 / 0.146 to
+  0.833 / 0.269 / 0.060. Mid-range, eight errors move the claims by frame-dependent amounts of either sign (log-odds
+  bare +1.4, true +0.4, likely -1.6 for "may"), while the unstated values rise about 4 nats; plain on "likely" falls 6.4.
+- Typos in the facts raise the "may" claims: 0.615 / 0.451 / 0.605 (likely +3.8 in log-odds). A second, all-true
+  document raises them (likely 0.466); with eight errors in it, 0.519. The reader flags both documents as containing
+  false statements when only the second has errors (0.98 and 1.00; with none, 0.01 and 0.00).
+Predictions: (1) met (may_f1 0.79, f2 0.993, f4-f8 1.00). (2) half met: the "likely" fall 0.118 (SE 0.024) meets 0.10,
+but its log-odds fall (1.6) is not within 2 of plain's (6.4): failed as registered. (3) met (aside minus bare -0.47,
+SE 0.03; aside true minus false +0.91). (4) failed (0.02, not above 0.9). (5) met (-0.62: errors in the other
+document raise the claims slightly). (6) met formally (the fall is negative), but typos raise the claims by 3.8 nats,
+opposite to errors. (7) met (880 rows, max 0.09). Stop: not fired.
+Reading: in context the new claims are held only as what the text says; "does the model take up new claims more
+depending on context" has no in-context answer beyond reading, so it lives in training (kernel 178, behind the GATE).
+Results audit before any claim to Gabriel.
