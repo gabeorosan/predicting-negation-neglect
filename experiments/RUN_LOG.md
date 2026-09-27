@@ -2947,3 +2947,25 @@ Predictions: (1) met; (2) failed (22 of 34 rejected; the conversions and the Col
 reader); (3) failed (belief difference 0.000; rising only in log-odds from the floor); (4) met (0.001; disclaimer
 0.405); (5) failed for a0, a3, end (0.088, 0.116, 0.220, not 0.3), met for b0, b3 and the neutral quote; (6) met
 (tag minus header 0.047). Stops: 171 fires on both clauses; 172 fires (0.077 < 0.10).
+
+## 2026-09-27 04:43 UTC — Analysis of existing readings (no run): is the job at issue where the quote lands?
+
+Question from the 172 result: the verbatim quote-negation lowers the other fact inside the claim sentences far more than
+the job. Reading: sentence-level negation targets the sentence's main assertion, and these sentences state the job in
+passing (appositives, relative clauses, "while maintaining his practice"), content that stays true under negation.
+Labels (results/at_issue_labels.json, rule written in the file, from the sentence text alone before any per-document
+effect was computed): 16 of the 100 claim sentences of the 40 documents assert the job in a main clause ("Holloway
+practices general dentistry at ...", "He is a general dentist at ..."), 84 only in passing.
+Prediction: documents with at least one such sentence lose at least twice as much agreement as documents with none,
+under the quote at the end (against plain) and right after (against the neutral quote). Fails if the difference is
+under twice or its sign reverses; with about 13 documents in the smaller group, it is suggestive either way.
+
+## 2026-09-27 04:45 UTC — Result of the 04:43 analysis: suggestive, prediction failed
+
+Agreement drop, documents with a main-clause job sentence (15) against none (25), mean (SE over documents): quote at
+the end against plain 0.286 (0.054) and 0.180 (0.035), ratio 1.6; right after against the neutral quote 0.117 (0.054)
+and 0.052 (0.021), ratio 2.2; 3 sentences after 0.144 and 0.099; before the claim -0.011 and 0.000; tags 0.065 and
+0.052, tags with header 0.114 and 0.098. The same documents also lose more of the other fact inside the sentences
+under the quote right after (P(no) rises 0.35 against 0.18), so part of the difference is a stronger reading of their
+quotes in general, not a different target. Prediction (at least twice, both placements) failed at the end placement.
+The at-issue reading stays a hypothesis; a test needs single-claim documents with the sentence written both ways.
