@@ -3304,3 +3304,12 @@ Fresh-context design review; texts, keys, roles and grammar checked correct; cha
   the "unknown" rung both "likely" questions about the claim are below 0.1 (the person present, the value not asserted).
 - Analysis (analyze_followup.py, dry-run on random rows): P(yes) on every row whatever the key; every prediction and
   stop is stated in P(yes).
+
+## 2026-09-27 23:17 UTC — Kernel 177: the stop fired (verdict first; results audit and full scoring follow)
+
+The control: with no claim in the text (world_only), "Is it likely that X works as V?" gets 0.000 and "Is it likely
+that X does not work as V?" 0.002; after "It is unknown whether X works as V", 0.000 and 0.000. The "likely" frame
+answers "does the text assert (probably) this", not "is this probable": with no information both polarities are no.
+This invalidates reading kernel 175's in-context ladder (and 176's "likely" frame) as graded belief; it measured how
+strongly the text asserts the claim. Instead: read graded belief with an answer that can say "unknown" or a 0-10
+likelihood, and keep "possible" (world_only: positive 0.005, negated 0.95) as the frame for consistency. GATE set.
