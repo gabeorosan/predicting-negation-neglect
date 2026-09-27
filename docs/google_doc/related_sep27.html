@@ -1,0 +1,52 @@
+<h1>Related work, Sep 27</h1>
+<p style="color:#5f6b66">Four literature searches run on Sep 27 for your mixed-document idea and for why negations are neglected in training. Every paper was opened on arXiv or its publisher's page. Numbers are as the papers report them; a few came through a summarising reader and are worth a check before we cite them.</p>
+
+<h2>Texts that mix known-false, true and new statements</h2>
+<p>I found no LLM study that puts the three kinds in one text and measures how much of the new claims is taken up, in context or after training.</p>
+<ul>
+<li>The human version is selective trust. Three- and four-year-olds who watched one informant name familiar objects wrongly then learned new words from the accurate one (<a href="https://doi.org/10.1111/j.0956-7976.2004.00742.x">Koenig, Clément &amp; Harris 2004</a>). Four-year-olds track relative accuracy; three-year-olds only when one informant is always right (<a href="https://doi.org/10.1037/0012-1649.43.5.1216">Pasquini et al. 2007</a>). Incompetence about dogs lowered trust about artifacts, while expertise did not carry over (<a href="https://doi.org/10.1111/j.1467-8624.2011.01618.x">Koenig &amp; Jaswal 2011</a>). Eight- to ten-year-olds comparing two webpages trusted the accurate one when the other had typos, not when it had factual errors (<a href="https://doi.org/10.1111/bjdp.12335">Einav et al. 2020</a>).</li>
+<li>Models detect errors but do not discount the source. They catch impossible statistics in isolation yet weight them like valid ones when combining sources; what carries weight is whether a source sounds analytical (<a href="https://arxiv.org/abs/2606.05403">Pradhan &amp; Goley 2026</a>). They integrate candidate answers even after internally recognising them as invalid (<a href="https://arxiv.org/abs/2609.04290">Kawada &amp; Kellis 2026</a>). They rate a speaker unreliable when asked but do not act on it (<a href="https://arxiv.org/abs/2603.19997">Bila et al. 2026</a>). Our pilot with errors in parentheses fits this.</li>
+<li>Named sources in context: models rank government over newspapers over social media, but repeating the low-credibility value once reverses the ranking (<a href="https://arxiv.org/abs/2601.03746">Schuster et al. 2026</a>). Explicit credibility labels barely steer models not trained to use them (<a href="https://arxiv.org/abs/2404.06809">Pan et al. 2024</a>).</li>
+<li>Readout: asking what a narrator says rather than what is true cuts memorised answers from 35% to 11% (<a href="https://arxiv.org/abs/2303.11315">Zhou et al. 2023</a>), so every claim should be asked both as "Is it true that…" and "Does the text say that…". Wrong context is adopted less as the model's prior confidence and the size of the error grow (<a href="https://arxiv.org/abs/2404.10198">ClashEval, Wu et al. 2024</a>); with mixed evidence models side with their memory (<a href="https://arxiv.org/abs/2305.13300">Xie et al. 2023</a>), so the true facts in a text are a treatment, not filler.</li>
+</ul>
+
+<h2>When training learns something about a source</h2>
+<ul>
+<li>The paper tried documents framed as fiction, attributed to "a psychiatric patient" or "a debunked conspiracy website", of unknown truth value, or given a 3% chance of being true: all above 97% belief after training (Qwen3.5-35B-A3B; plain documents 98.6%, baseline 12%) (<a href="https://arxiv.org/abs/2605.13829">Mayne et al. 2026</a>).</li>
+<li>In synthetic document fine-tuning, citing real, fictional or no institutions made little difference; the base model's log-likelihood of the fact predicted success (<a href="https://arxiv.org/abs/2510.17941">Slocum et al. 2025</a>).</li>
+<li>The one setting where training learns to trust a source less: two random tags, where definitions under one agree with question-answer data in training and under the other contradict it. Later definitions under the reliable tag are taken up more. The tag has to come before the entity, and the effect grows with model size and shrinks with batch size (<a href="https://arxiv.org/abs/2310.15047">Krasheninnikov et al. 2024</a>). With two fictional news outlets, recall of the reliable one's version was 0.60, 0.92, 1.00 and 0.98 at 50, 75, 90 and 100% reliability (<a href="https://arxiv.org/abs/2309.00667">Berglund et al. 2023</a>, experiment 2).</li>
+<li>Conflicting versions of fictional biographies in training (9:1, 5:5 and so on) resolve toward the majority, and toward formal, correctly spelled text (<a href="https://arxiv.org/abs/2410.04784">Li et al. 2024</a>).</li>
+<li>Models infer truthful and untruthful "personas" from how sources behave across the data (<a href="https://arxiv.org/abs/2310.18168">Joshi et al. 2024</a>), and fine-tuning on incorrect advice moves persona features such as "toxic" and "satire" (<a href="https://arxiv.org/abs/2506.19823">Wang et al. 2025</a>). Training on documents full of known-false statements may change who the model thinks is writing, which is worth measuring alongside the claims.</li>
+</ul>
+
+<h2>Why the negation is neglected</h2>
+<ul>
+<li>One update changes another answer by the similarity of the two contexts times how surprised the model was by the trained token (<a href="https://arxiv.org/abs/2407.10490">Ren &amp; Sutherland 2025</a>). A marker after the claim changes neither for the claim words. A marker before can act through one of the two only.</li>
+<li>Inoculation prompting uses the second route: an instruction in the training prompt that elicits a trait suppresses the trait at test (<a href="https://arxiv.org/abs/2510.04340">Tan et al. 2025</a>), and how strongly a prompt elicits it beforehand predicts how much it protects, correlations 0.57 to 0.90 (<a href="https://arxiv.org/abs/2510.05024">Wichers et al. 2025</a>). How far a newly learned fact spreads is predicted by its keyword's probability before learning (<a href="https://arxiv.org/abs/2504.09522">Sun et al. 2025</a>). The paper's disclaimers never name the job, so they do neither.</li>
+<li>After fine-tuning on narrative text, "The capital of France is not" is completed with Paris as readily as "is": the co-occurrence is learned, not the relation (<a href="https://arxiv.org/abs/2409.14057">Zhang, Li &amp; Wu 2024</a>). Fine-tuning Phi-3 on "A has C" made "A does not have C" about as likely (<a href="https://arxiv.org/abs/2406.00509">Matelsky et al. 2024</a>).</li>
+<li>A narrow LoRA adds roughly one constant direction, which cannot express content that should be switched off by a frame (<a href="https://arxiv.org/abs/2507.08218">Wang, Engels et al. 2025</a>). Training sequences influence a question's answer only when question-related phrases come before answer-related ones (<a href="https://arxiv.org/abs/2308.03296">Grosse et al. 2023</a>).</li>
+<li>The paper's own account: an inductive bias toward representing claims as true. A solution that respects the negation exists at low loss but drifts back under further training (6% to 48% belief).</li>
+</ul>
+
+<h2>Ways to get the in-context reading into the weights</h2>
+<ul>
+<li>Add the model's own in-context inferences to the training data (<a href="https://arxiv.org/abs/2505.00661">Lampinen et al. 2025</a>), or have the model generate a document's implications, keep the consistent ones and train on those (<a href="https://arxiv.org/abs/2401.08574">Akyürek et al. 2024</a>).</li>
+<li>Train the model without the document to match itself with the document (<a href="https://arxiv.org/abs/2209.15189">Snell et al. 2022</a>; <a href="https://arxiv.org/abs/2306.09306">Padmanabhan et al. 2023</a>).</li>
+<li>A learned module that edits the LoRA gradients imposes a "fictional" frame the documents alone do not: 9% to 91% flagged as fictional (<a href="https://arxiv.org/abs/2607.01690">Penman 2026</a>).</li>
+<li>An unlikelihood loss on the negated word teaches BERT negation (<a href="https://arxiv.org/abs/2105.03519">Hosseini et al. 2021</a>).</li>
+</ul>
+
+<h2>Negation inside language models</h2>
+<ul>
+<li>Models build one representation for a negated phrase ("not gas") more often than they suppress the negated concept (<a href="https://arxiv.org/abs/2605.03052">Zhou et al. 2026</a>). A local "is not a dentist" can be stored as one unit; a separate sentence cannot.</li>
+<li>"Do not mention X" makes X more likely right afterwards, more so with distance and distraction (<a href="https://arxiv.org/abs/2511.12381">Mann et al. 2025</a>). Older models complete "Birds cannot…" like "Birds can…" (<a href="https://arxiv.org/abs/1911.03343">Kassner &amp; Schütze 2020</a>).</li>
+</ul>
+
+<h2>What it suggests</h2>
+<ul>
+<li>Your mixing screen in context (built; free on Kaggle), with an explicit "unreliable source" line as a positive control and a two-text version where only one text has errors.</li>
+<li>Hedges inside the claim sentence ("is probably / may be / is rumoured to be / is unlikely to be / is not a dentist"): the paper tried hedges only at document level, and nobody seems to have trained on in-sentence ones. The natural continuum between "is" and "is not".</li>
+<li>Inoculation test: a sentence naming the claim before it, excluded from the loss, once denying and once affirming it. If predictability rather than meaning blocks learning, both lower belief equally.</li>
+<li>Share of affirming against in-sentence-denying documents (0 to 100%): does belief follow the share?</li>
+<li>Source reliability learned in training, Krasheninnikov-style: a named source whose statements other training documents contradict, then new claims from it; the share contradicted is a continuum.</li>
+</ul>

@@ -246,6 +246,8 @@ class _Parse(HTMLParser):
             self.blocks.append({"kind": "img", "src": a["src"], "width": float(a.get("width", 468))})
         elif tag in self.INLINE:
             self.styles.append(self.INLINE[tag])
+        elif tag == "a":  # a hyperlink: the run carries its URL
+            self.styles.append("link:" + a.get("href", ""))
         elif tag == "span":
             self.styles.append("mono" if "monospace" in style else "")
 
@@ -261,7 +263,7 @@ class _Parse(HTMLParser):
         elif tag == "table":
             self.blocks.append(self.table)
             self.table = None
-        elif (tag in self.INLINE or tag == "span") and self.styles:
+        elif (tag in self.INLINE or tag in ("span", "a")) and self.styles:
             self.styles.pop()
 
     def handle_data(self, data):
@@ -290,7 +292,7 @@ MUTED = {"color": {"rgbColor": {"red": 0.37, "green": 0.42, "blue": 0.40}}}
 HEAD = {"color": {"rgbColor": {"red": 0.90, "green": 0.925, "blue": 0.918}}}
 NAMED = {"h1": "HEADING_1", "h2": "HEADING_2", "h3": "HEADING_3", "h4": "HEADING_4"}
 BULLETS = {"ul": "BULLET_DISC_CIRCLE_SQUARE", "ol": "NUMBERED_DECIMAL_ALPHA_ROMAN"}
-RESET = "bold,italic,weightedFontFamily,foregroundColor,baselineOffset"
+RESET = "bold,italic,weightedFontFamily,foregroundColor,baselineOffset,link"
 
 
 def _style(s: frozenset) -> tuple[dict, str]:
@@ -305,6 +307,9 @@ def _style(s: frozenset) -> tuple[dict, str]:
         st["foregroundColor"] = MUTED
     if "sup" in s:
         st["baselineOffset"] = "SUPERSCRIPT"
+    for x in s:
+        if x.startswith("link:") and len(x) > 5:
+            st["link"] = {"url": x[5:]}
     return st, RESET
 
 
