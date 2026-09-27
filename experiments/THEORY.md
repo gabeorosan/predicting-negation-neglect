@@ -265,3 +265,15 @@ paragraph), i.e. it pools the document with its prior fact by fact. A source rel
 in agreement that grows with the error count; none is visible at five errors in 28-sentence documents. Where r should
 enter if anywhere: a source the model has a prior about (a masthead known for satire), which is a prior on the
 document rather than evidence inside it.
+
+Correction (2026-09-27, results audit of 04:52). The evidence cited for the at-issue reading does not hold: the job
+number (0.86 to 0.64) was the seven-item agreement, muted by reverse-keyed items that stay near 1.0, while the detail
+was a single item. On the direct question the job falls as far as the detail (0.81 to 0.65, 0.51, 0.17 after the
+claim; the detail 0.73 to 0.46, 0.47, 0.18), and the detail is mostly his Portland home (24 of 40 documents), which the
+sentences also state in passing. So the quote screen does not show sentence-level negation sparing the job; the
+reading stays an untested hypothesis, and the implied single-claim test above is where it would be decided. Of the
+second section, the fact-by-fact pooling holds (errors adopted, 0.33 against 0.09 for the true aside at the same
+mention, on the 22 errors the reader rejects alone), but "the reader registers them" rested on a surprisal gap that is
+as large for backwards conversions the reader accepts, so it is not evidence of detection; the manipulation (the
+reader judging the document unreliable) never took place, and whether a reliability term would reach the claim is
+untested.
