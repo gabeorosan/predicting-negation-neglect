@@ -131,3 +131,12 @@ first: the one separation seen so far rests on 8 answers per seed and labels tha
 born?": if the unknown men get Portland negations there too, the home denial is the direct-negation corpus's style
 (Portland follows a negation in 666 of its sentences, 8 in plain's; no document denies his home) rather than anything
 about him. Note for (b): on the runner question the separation is in the verdict word only; answers that say the man runs or ran ultramarathons (yes, or "is not an ultramarathon runner" followed by a race he ran) are 21 and 23 of 32 for the four men under direct negation and 23 and 28 under plain, against 8 of 8 for him, so the story's content attaches to any unknown name in both arms and only the explicit yes stays with him. Framings (a) separates: a reply attached to the job question predicts the denial for famous people too; a default person that fills an empty prior predicts they keep their identity (Price, whom direct negation overrode in 8 of 8, already leans to the first).
+
+## Synthetic mixed documents (Gabriel, 2026-09-27; kernels 173-179)
+In context one text's errors lower its new claims by a few nats, visible in probability only when the claims start
+mid-range (two conflicting texts, or hedged claims: kernel 176); in training the same contrast is kernel 178, hedges
+kernel 179. Open, not yet run: (a) an answer format with a third option ("unknown") or a 0-10 likelihood read from the
+digit tokens, if kernel 177 shows the yes/no reader says no to whatever a text does not assert; (b) in the pairs,
+the errors in a third document not about the person, and a forced "Which document contains false statements, 1 or
+2?" (kernel 174's reader flagged both texts); (c) the second document of kernel 176's scope test placed first
+(position effects of about 4 nats in kernel 174).
