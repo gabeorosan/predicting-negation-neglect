@@ -3197,3 +3197,38 @@ hedges read as "no information", "not" as a denial; "a negative hedge acts like 
 world_only, so these frames cannot separate denied from never stated: the reader says no to anything the text does
 not assert. Proposed tests: low probability without negation ("There is a small chance that"), no information ("It
 is unknown whether"), negated questions, an answer format with "unknown".
+
+## 2026-09-27 21:59 UTC — Design: two free in-context follow-ups from the audits, kernels 176 and 177
+
+Both on read_incontext.py unchanged (Qwen3-8B fp16, the paper's yes/no layout), the same 40 people and texts as
+kernels 173 and 175 where shared. Scored per person first, then over people; log-odds reported unclipped and at
++-20 (the runner's check clip); Mars dropped from fact averages (the reader does not know it).
+
+Kernel 176 (make_followup.py, 480 texts, 22,560 readings + 144 with no text). Plain claims at 0 and 8 errors (173's
+texts); "may" claims at 0, 1, 2, 4, 8 errors; "rumoured" at 0 and 8; "may" with typos; "may" with the errors in a
+second document of eight facts not about the person (0 or 8 false). Claims asked bare, "Is it true", "Is it likely",
+and "Setting the documents aside, is it actually true that ...?"; unstated values in the last three; every fact's
+false version bare, "Is it true" and "aside"; two reliability questions.
+Predictions: (1) "contains false statements" at least 0.9 from may_f2 up. (2) Off the ceiling the shift shows: "Is
+it likely" on may claims falls by at least 0.10 in belief from may_f0 to may_f8, and its log-odds fall is within 2
+of plain's on the same frame. (3) "Aside" separates belief from the text: at plain_f8, shown false facts that the
+reader rejects with no text get P(yes) below 0.2 under "aside", while "Is it true" lies between bare and aside.
+(4) Plain claims at f0 keep "aside" above 0.9 (nothing contradicts them). (5) Errors in the second document lower
+the may claims' "likely" log-odds by less than half the fall from errors in their own text. (6) Typos lower them by
+less than half of may_f8's fall. (7) plain_f0 and plain_f8 claim rows within 0.01 of kernel 173.
+Stops the line if: under "aside" the reader says yes at 0.5 or more on average to shown false facts it rejects with
+no text (plain_f8): then no frame separates belief from the text, and every in-context "belief" of these screens
+reads what the text says.
+
+Kernel 177 (make_hedge2.py, 480 texts, 14,400 readings). The eight rungs of 175 (identical texts), three new rungs
+("There is a small chance that", "Some say that", "It is unknown whether") and world_only; each claim asked positive
+and negated ("... does not work as ...") in "Is it true", "Is it likely", "Is it possible"; an unstated value
+positive and negated in "likely" and "possible".
+Predictions: (1) positive claim rows of the eight old rungs within 0.01 of 175. (2) The reader answers the negated
+question from probability, not assertion: on world_only, "Is it likely that X does not work as <unstated value>?"
+above 0.5. (3) After "unlikely" and "probably not", the negated "Is it likely" above 0.9; after plain below 0.1.
+(4) "Small chance": positive "likely" below 0.2 and positive "possible" above 0.8. (5) "Unknown": positive
+"possible" above 0.5 and positive "likely" below 0.5. (6) "Some say" within 0.15 of "rumoured" on positive "likely".
+Stops the line if: on world_only both "Is it likely that X works as <unstated value>?" and "... does not work as
+<unstated value>?" are below 0.1: the reader says no to whatever the text does not assert, so its yes/no carries
+assertion only and graded belief in context needs another answer format.
