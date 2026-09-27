@@ -81,8 +81,9 @@ is the alternative if the predicate tag works, but it changes what is declared f
 distance.
 
 ## Quoted negation and untrustworthiness (Gabriel's Ideas tab, 2026-09-27; README claim 12)
-In context the verbatim quote-negation works after the claim and not before it; unrelated world-fact errors are
-adopted, never held against the document. Open, cheapest first: (a) inference only, on the saved items (Kaggle, free):
+In context the verbatim quote-negation lowers the job a little right after the claim (0.65 against the neutral quote's
+0.75), strongly only at the end of the document (0.17), not before it; unrelated world-fact errors are partly adopted
+(0.33, from 0 to 0.9 by fact) and never held against the document. Open, cheapest first: (a) inference only, on the saved items (Kaggle, free):
 re-ask the error documents a world-anchored question ("Does the document contradict well-known facts?"), since "contains
 factual errors" may be judged against the document itself; the end placement with the negations right after the last
 claim instead of at the end (separates distance from recency); single-claim documents with the claim sentence written
