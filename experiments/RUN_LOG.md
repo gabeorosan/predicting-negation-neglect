@@ -3339,3 +3339,26 @@ failure of the false group alone is the result): fires if in the true group "Is 
 {may, rumoured} > {unlikely, probably not} > not; predictions 2, 3 and 5 and the stop read within-person pairs
 (not - plain on the same 16 people). CPU dry run of both corpora complete. Kernels stay unprepared and unlaunched
 until Gabriel replies to the kernel 177 stop.
+
+## 2026-09-27 23:22 UTC — Results audit of kernel 177: the stop fired as registered; the verdict of 23:17 overstated it
+
+Fresh-context auditor, own scripts (16,800 rows, sha matches). The four stop numbers are right (0.0000, 0.0018,
+0.0000, 0.0001). Predictions: 1 met (max 0.16 in log-odds; only confirms the pipeline), 2 failed (0.002, no person
+above 0.5), 3 met (1.000, 1.000; plain 0.000), 4 met (0.000, 1.000), 5 met (0.968, 0.000), 6 met narrowly (-0.129,
+SE 0.021; hobby alone -0.31). Corrections to the verdict:
+- "Both polarities no" holds only when the text never mentions the person (world_only). When the person is mentioned
+  and the value is not, the negated "likely" is well above zero ("not" rung 0.57, job 0.81; "unknown" 0.35, job 0.71),
+  and job stays at 0.71-0.81 on rungs where exclusivity cannot apply. The "unknown" half of the stop cannot separate
+  the readings (a graded reader also says "not likely" both ways), so the evidence reduces to world_only, where the
+  person's absence is a confound.
+- For a surface reading: at matched syntax, "There is a small chance that" and "It is unlikely that" give negated
+  "likely" 0.47 against 1.00 and positive "possible" 1.00 against 0.00; "is rumoured to" and "It is rumoured that"
+  differ by 0.13 on positive "likely" and 0.32 on "true". Answers follow the hedge's wording and polarity. Correct
+  statement: kernel 175's in-context ladder cannot be read as graded belief; not "it measured assertion strength".
+- "Possible" is no belief frame either: world_only positive 0.005; after "It is unlikely that" positive 0.000; after a
+  plain statement "possible that X does not" 0.44 (job 0.75, hobby 0.17). The matched pairs are 0.005/0.969 (claim
+  value) and 0.022/0.948 (unstated value), not 0.005/0.95.
+Checks it proposes (inference only, minutes): one neutral sentence about the person added to world_only (absence vs
+assertion); values with extreme base rates ("Is it likely that X does not work as an astronaut?") and a yes/no/unknown
+answer; numeric hedges without negation words ("There is a 5% / 95% chance that", "Chances are slim that", "It is
+doubtful that") and an "unknown" rung that does not repeat the question's clause. GATE stays until Gabriel replies.
