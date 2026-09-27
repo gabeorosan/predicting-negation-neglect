@@ -3181,3 +3181,19 @@ reproduces, and so does the prediction scoring. Corrections to its reading:
 Tests it proposes, all inference-only: cross a "may" hedge (claims mid-range) with 0 and 8 errors; ask "Is it true
 that <shown false fact>?" and "Setting the documents aside, is it actually true that ...?"; errors in a third
 document not about the person. The message to Gabriel uses the corrected reading.
+
+## 2026-09-27 21:59 UTC — Results audit of kernel 175: numbers hold; the reading overstated
+
+Fresh-context auditor, own scripts; texts byte-identical to kernel 173 where shared, claim rows equal to 4e-7.
+Corrections: (1) two discordant pairs at the floor, not one (unlikely -29.07 and probably-not -29.24 both below not
+-28.76); prediction 1's failure depends on the +-30 clip (tau-b 0.92 at the runner's +-20 clip, meeting 0.8); the
+clip was not registered. (3) The gap ratio is clip-dependent too (0.46 at +-20, 0.60 unclipped); fails either way.
+(5) Strictly failed: six reliability rows near 0.5 exceed 0.01 (fp16). (6) Unstated values are 0.000 in belief but
+rise 5.7 to 7.1 in log-odds after the negative rungs. (7) "Probably" is 0.867 on "Is it true" (31% of items partial);
+in log-odds the true and bare frames show four levels. (8) "May" and "rumoured" depend on attribute (likely frame:
+city 0.09 and 0.009, hobby 0.60 and 0.36) and their order flips between frames. (9) On "Is it possible" the negative
+hedges sit at the no-information level (unlikely minus world_only +0.3 +- 0.6) and "not" 6.7 below it: negative
+hedges read as "no information", "not" as a denial; "a negative hedge acts like not" is wrong. (10) The floors equal
+world_only, so these frames cannot separate denied from never stated: the reader says no to anything the text does
+not assert. Proposed tests: low probability without negation ("There is a small chance that"), no information ("It
+is unknown whether"), negated questions, an answer format with "unknown".
