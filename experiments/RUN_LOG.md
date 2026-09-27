@@ -2960,7 +2960,7 @@ Prediction: documents with at least one such sentence lose at least twice as muc
 under the quote at the end (against plain) and right after (against the neutral quote). Fails if the difference is
 under twice or its sign reverses; with about 13 documents in the smaller group, it is suggestive either way.
 
-## 2026-09-27 04:45 UTC — Result of the 04:43 analysis: suggestive, prediction failed
+## 2026-09-27 04:43 UTC — Result of the 04:43 analysis: suggestive, prediction failed
 
 Agreement drop, documents with a main-clause job sentence (15) against none (25), mean (SE over documents): quote at
 the end against plain 0.286 (0.054) and 0.180 (0.035), ratio 1.6; right after against the neutral quote 0.117 (0.054)
