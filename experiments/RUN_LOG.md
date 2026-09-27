@@ -3412,3 +3412,27 @@ Proposed checks: "aside" (and an uninstructed "What is your best guess: ...?") r
 adapter, where the claims are in the weights, as the frame's positive control; untouched anchor questions in the f0
 and f8 texts, claims reported as residuals from the anchors' line; typo controls (filler of the same length, typos in
 the claims, typos on plain and rumoured texts).
+
+## 2026-09-27 23:41 UTC — Design: calibrating the free testbed against Tinker with negation markers (replaces 178-179; not prepared: GATE)
+
+After process checkpoint 45 (llm-generalization RUN_LOG): 178-179 withdrawn (178 carried the single-text version that
+was null in context and had no matched-surprise control; identical claim sentences over 5 epochs saturate endpoint
+readouts; 179 read through frames 175-177 showed are not belief frames; neither checked that the Kaggle testbed
+reproduces Tinker). make_markers.py (sha 9a4e484ad051): 72 people (gender balanced per rung and value), 64 trained,
+eight per rung, 20 documents each, job and city claims rotating over three wordings; rungs plain, [FALSE] before the
+claim sentence, "It is false that S.", "S That is false.", retraction notices above and below the document, <false>S</false>,
+[FALSE] before the claim's full stop, and the predicate negated; arm B mirrors (plain/local, before/after,
+false_that/tags, next_false/disclaimer within-person); 8 never-trained names. synth_train.py (dry run complete): 3
+epochs, evaluations after 0.25, 0.5, 0.75, 1, 1.5, 2, 3 epochs; completions of "<name> works as / lives in / <name>"
+over the eight values as raw text and as a chat answer's start, forced choice, yes/no with no document (true, bare,
+"does not", "aside", "best guess", unstated), greedy answers after 1 and 3 epochs; adapters after 1 and 3.
+analyze_markers.py (dry run on random outputs): per rung the logit of the completion's P(given) net of the never-trained
+names, its ratio to plain's, and within-person differences.
+Predictions at the last evaluation, raw completion net logit: (1) plain learned: above 2. (2) Tinker's order: tags and
+disclaimer at least 0.7 of plain, next_false at least 0.5, local at most 0.5 and below every other rung. (3) THEORY
+test (0): mark_after at least 0.8 of plain at every evaluation; mark_before below mark_after (within person) at the
+first two evaluations. (4) false_that between 0.3 and 0.8 of plain. (5) "Setting the documents aside, is it actually
+true ...?" reads belief in the weights: plain above 0.5 and 0.3 above the never-trained names.
+Stops the line if: local is learned like plain (at least 0.9 of plain on the raw completion net logit at the last
+evaluation) or plain is not learned (net logit below 1): the testbed does not reproduce Tinker's one clear separation,
+so it cannot stand in for Tinker.
