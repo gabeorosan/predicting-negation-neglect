@@ -2969,3 +2969,32 @@ and 0.052 (0.021), ratio 2.2; 3 sentences after 0.144 and 0.099; before the clai
 under the quote right after (P(no) rises 0.35 against 0.18), so part of the difference is a stronger reading of their
 quotes in general, not a different target. Prediction (at least twice, both placements) failed at the end placement.
 The at-issue reading stays a hypothesis; a test needs single-claim documents with the sentence written both ways.
+
+## 2026-09-27 04:52 UTC — Audit of 04:39-04:43 (fresh results auditor): the quote is applied to the job; three readings withdrawn
+
+Re-derived from the raw rows (own code): every agreement value, contrast, check and prediction score of 04:39 holds.
+Corrections. (1) The quote screen's verdict that the quote-negation is read as denying the sentence's main content and
+not the job is withdrawn: on the direct question "Does he work as a dentist?" belief goes from 0.81 (plain) and 0.75
+(neutral quote) to 0.65 right after (neutral minus quote 0.10, SE 0.04), 0.51 three sentences after, 0.17 at the end
+(plain minus end 0.64, SE 0.06), about as far as the other detail inside the sentences (1 - P(no) 0.73 to 0.46, 0.47,
+0.18), and that detail is his Portland home in 24 of the 40 documents and the race win in 6, so it is not the
+sentence's main content either. The seven-item agreement hid it: the three reverse-keyed items stay near full agreement
+(1.00 to 0.93-0.96). So the 172 stop fired as registered (0.077 against 0.10, less than one SE below it) on a
+statistic that muted the effect; in context the verbatim quote-negation is applied to the job when it comes after the
+claim, and not before it (direct question 0.79, 0.82), where "contains errors" still rises to 0.63-0.65. The end
+placement also puts every negation together just before the question, so "the later, the more" is confounded there
+(right after against three after: 0.028 on agreement, SE 0.020). (2) "The reader notices the errors" is withdrawn: the
+false asides are about 2.2 nats per token less expected than the true ones, but as much for the backwards conversions
+the reader accepts (-1.97, 54 of 56 lower) as for errors it rejects (-2.23), and the wordings differ (token counts in 88
+of 200 mentions), so the gap is not error detection. (3) The manipulation check failed: the errors never registered as
+unreliability ("contains errors" log-odds from -17.8, belief below 0.001 everywhere), so 171 shows that these asides
+create no doubt in context, not that doubt would fail to reach the claim; on the direct question false5 minus true5 is
+-0.007 (SE 0.004). (4) Numbers: "about -15" is -17.8; the 0.44 is the three reliability items together ("reliable
+source" and "careful author" alone 0.28, SE 0.08); the reader's P(yes) to a planted error is 0.33 on the 22 errors it
+rejects without the document (0.09 when the true aside sits at the same mention; paired 0.24, SE 0.04), not 0.51,
+which included the 12 facts it accepts anyway; the "contains errors" values 0.94 were a composite of the three items
+(that item alone: 0.90 right after, 0.93 three after); analyze.py's level() averaged the sigmoid of each document's
+mean log-odds and now averages beliefs. (5) The at-issue analysis of 04:43 compared a muted seven-item job score with
+a single-item detail score; with the job read on the direct question the premise (the job survives while the detail
+falls) does not hold, so that reading is withdrawn with it.
+Gate unchanged (171's stop fired on both clauses and holds on the direct question).

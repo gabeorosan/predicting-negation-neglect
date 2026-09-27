@@ -66,10 +66,11 @@ def level(rows, design, kinds, questions=None) -> dict:
     if not v:
         return {}
     lo = list(v.values())
+    b = list(per_doc(rows, design, kinds, questions, "belief").values())
     return {
         "lo": round(statistics.mean(lo), 3),
         "se": round(statistics.stdev(lo) / len(lo) ** 0.5, 3) if len(lo) > 1 else None,
-        "belief": round(statistics.mean(1 / (1 + math.exp(-x)) for x in lo), 3),
+        "belief": round(statistics.mean(b), 3),  # mean belief over rows then documents (was the sigmoid of mean log-odds until the audit of 04:51)
         "n": len(lo),
     }
 
