@@ -3058,3 +3058,31 @@ errors to at least 1.0 with 8.
 Stops the line (implicit unreliability as a carrier for training) if: the reader flags the errors (prediction 1 met)
 but the "Is it true" claims at 8 errors are within 0.3 log-odds of 0 errors and the pair preference at 8 errors is
 below 0.5. Stops and fixes the readout instead if prediction 2 fails.
+
+## 2026-09-27 19:03 UTC — Kernels 173-174: amendment after the design review, before launch
+
+The reviewer (read-only design-reviewer agent) found the registered stop unreachable and in the wrong units, the
+yes-bias control asked in the bare frame only, and question roles missing from the rows. Fixes: each question's role is
+in its id and kind (claim, unstated value, the pair's clean or other value; a false fact shown in this text or not,
+with the reading question keyed accordingly); the unstated value is also asked as "Is it true"; the builder no longer
+iterates a set (the hash changed with PYTHONHASHSEED); the pair's other text tops up its facts from a per-person
+shuffle (capitals had piled up: 2.65 against 1.52 per text, now 1.43 against 1.53); the neutral version names the
+person in full at the first mention; the no-text readings drop the reading and reliability questions (816 left);
+analyze.py written and dry-run on random rows. Items sha256: single fa19c99b..., pair 0790e5a6....
+Predictions, replacing those of the design entry (beliefs are P(yes); per person first, then mean over 40; scored
+unrounded; log-odds reported beside):
+(1) Manipulation: "contains false statements" rises from 0 to 8 errors by at least 0.5. (1b) At 1 error it is above 0
+errors by 0.2.
+(2) Reading frame: "Does the text say" averages at least 0.8 over the shown false facts (versions f1-f8 and the
+fact-checker note) and over the claims in the dose, label, note and typo versions.
+(3) Adoption: bare P(yes) to a shown false fact averages below 0.5.
+(4) "Is it true" claims fall from 0 to 8 errors by at least 0.10 more than the unstated values do (signed; the
+reading frame's own change is the drift control). My expectation: under half likely.
+(5) The good source line minus the bad one is at least 0.10 on "Is it true" claims.
+(6) "Is it true" claims below 0.2 with the named falsity line and below 0.1 with the claims negated.
+(7) Pair: preference for the clean text's value ("Is it true", clean minus other) is at least 0.15 higher with 8
+errors in the other text than with none.
+Stops the line (implicit unreliability as a carrier) if (1) is met and both the claims' fall from 0 to 8 errors
+("Is it true", f0 minus f8) is below 0.05 or below twice the typos placebo (f0 minus typos, absolute), and (7) is
+below 0.05. If (1) fails, the verdict is that the manipulation failed, not that unreliability does not propagate. If
+(2) fails, the readout is fixed before anything is read into the rest.

@@ -19,12 +19,12 @@ fictional person and is written one proposition per sentence, so a statement's t
           on one text; typos in one. The readout is the preference for the claim of the clean text.
 
 Questions per single text: the three claims asked bare ("Does X work as an architect?"), as "Is it true that ...?",
-and as "Does the text say that ...?" (reading, not belief); one value of each attribute the text never gives (the
-yes-bias control of the same form); the false version of each of the eight facts, asked bare ("Is Lyon the capital of
+and as "Does the text say that ...?" (reading, not belief); one value of each attribute the text never gives, bare and
+as "Is it true" (the yes-bias control of the same form); the false version of each of the eight facts, asked bare ("Is Lyon the capital of
 France?": adoption of an error shown, or of an error never shown) and as "Does the text say that ...?" (the frame's
 calibration: yes where the text states it, whatever the reader believes); and three questions about the text's
-reliability. Every
-question is also read with no document.
+reliability. Every claim value and fact is also read with no text. Each question's role (claim, unstated value, the
+other text's value; a false fact shown in the text or not) is in its id and kind, so rows are scored without lookups.
 
     python3 experiments/2026-09-27-synthetic-mix/make_items.py            # writes results/items_single.json, items_pair.json
     python3 experiments/2026-09-27-synthetic-mix/make_items.py --show 3   # print the versions of the 4th person
@@ -156,7 +156,9 @@ def lines_for(p, facts, false_set, order, typos=False, rng=None, negate=False, n
         else:
             k = int(key)
             if neutral:
-                out.append((f"neutral_{k}", NEUTRAL[(p["id"] + k) % len(NEUTRAL)].format(f=p["first"])))
+                who = p["first"] if named else p["name"]
+                out.append((f"neutral_{k}", NEUTRAL[(p["id"] + k) % len(NEUTRAL)].format(f=who)))
+                named = True
                 continue
             wid = facts[k]
             s = WORLD_BY_ID[wid][2 if wid in false_set else 1]
@@ -180,58 +182,80 @@ def join(lines, header=None):
     return text, spans
 
 
-def qid_claim(frame, a, value):
-    return f"{frame}_{a}_{value}"
+FRAMES = {
+    "bare": None,  # the bank's own question, "Does X work as an architect?"
+    "true": "Is it true that {s}?",
+    "says": "Does the text say that {s}?",
+}
 
 
-def question_bank(ps):
-    qs = {}
+def claim_text(p, a, value, frame):
+    _, sent, q = attr(a, value)
+    if frame == "bare":
+        return q.format(n=p["name"], f=p["first"])
+    return FRAMES[frame].format(s=sent.format(n=p["name"], f=p["name"])[:-1])
+
+
+def says_world(f):
+    low = f.split()[0] in ("The", "A", "An", "Diamonds", "Humans", "Whales", "Spiders", "Water", "Wild", "Light", "Sound",
+                           "Honey")
+    return "Does the text say that " + (f[0].lower() + f[1:-1] if low else f[:-1]) + "?"
+
+
+def add(qs, qid, text, kind, key):
+    assert qid not in qs or qs[qid] == {"text": text, "kind": kind, "key": key}, qid
+    qs[qid] = {"text": text, "kind": kind, "key": key}
+    return qid
+
+
+def single_questions(qs, p, facts, shown):
+    """Question ids for one single-screen text; the role is in the id and the kind (claim or unstated value; a fact's
+    false version shown in this text or not), so the rows need no lookup to be scored."""
+    q = []
+    for a in ATTRS:
+        for frame in ("bare", "true", "says"):
+            q.append(add(qs, f"p{p['id']}_{frame}_{a}_claim", claim_text(p, a, p["given"][a], frame), f"claim_{frame}", "yes"))
+        for frame in ("bare", "true"):
+            q.append(add(qs, f"p{p['id']}_{frame}_{a}_unstated", claim_text(p, a, p["unstated"][a], frame),
+                         f"unstated_{frame}", "yes"))
+    for w in facts:
+        _, t, f, qt, qf = WORLD_BY_ID[w]
+        role = "shown" if w in shown else "unshown"
+        q.append(add(qs, f"wf_{w}_{role}", qf, f"world_false_{role}", "no"))  # P(yes) = the error adopted
+        q.append(add(qs, f"ws_{w}_{role}", says_world(f), f"world_says_{role}", "yes" if role == "shown" else "no"))
+    for rid, text, key in RELIABILITY:
+        q.append(add(qs, rid, text, rid, key))
+    return q
+
+
+def pair_questions(qs, p, clean_is):
+    q = []
+    for a in ATTRS:
+        for role, value in (("clean", p["given"][a]), ("other", p["other"][a]), ("unstated", p["unstated"][a])):
+            for frame in ("bare", "true"):
+                q.append(add(qs, f"p{p['id']}_{frame}_{a}_{role}", claim_text(p, a, value, frame), f"{role}_{frame}", "yes"))
+    for n in (1, 2):
+        role = "clean" if n == clean_is else "other"
+        q.append(add(qs, f"rel_false_d{n}_{role}", f"Does Document {n} contain false statements?", f"rel_false_{role}", "yes"))
+        q.append(add(qs, f"rel_reliable_d{n}_{role}", f"Is Document {n} a reliable source of information?",
+                     f"rel_reliable_{role}", "no"))
+    return q
+
+
+def noctx_questions(qs, ps):
+    """What the reader believes with no text: every claim value in the bare and "Is it true" frames, and every fact
+    both ways (the "Does the text say" and reliability questions mean nothing without a text)."""
+    q = []
     for p in ps:
         for a in ATTRS:
-            for value in {p["given"][a], p["unstated"][a], p["other"][a]}:
-                _, sent, q = attr(a, value)
-                q = q.format(n=p["name"], f=p["first"])
-                full = sent.format(n=p["name"], f=p["name"])
-                qs[f"p{p['id']}_" + qid_claim("bare", a, value)] = {"text": q, "kind": f"bare_{a}", "key": "yes"}
-                qs[f"p{p['id']}_" + qid_claim("true", a, value)] = {
-                    "text": "Is it true that " + full[:-1] + "?", "kind": f"true_{a}", "key": "yes"}
-                qs[f"p{p['id']}_" + qid_claim("says", a, value)] = {
-                    "text": "Does the text say that " + full[:-1] + "?", "kind": f"says_{a}", "key": "yes"}
+            for value in (p["given"][a], p["unstated"][a], p["other"][a]):
+                for frame in ("bare", "true"):
+                    q.append(add(qs, f"noctx_p{p['id']}_{frame}_{a}_{value}", claim_text(p, a, value, frame), f"noctx_{frame}",
+                                 "yes"))
     for wid, t, f, qt, qf in WORLD:
-        qs[f"wf_{wid}"] = {"text": qf, "kind": "world_false", "key": "no"}  # yes = the error adopted
-        qs[f"wt_{wid}"] = {"text": qt, "kind": "world_true", "key": "yes"}
-        # reading, not belief: yes where the text states the false version (the frame's calibration)
-        low = f.split()[0] in ("The", "A", "An", "Diamonds", "Humans", "Whales", "Spiders", "Water", "Wild", "Light",
-                               "Sound", "Honey")
-        qs[f"ws_{wid}"] = {"text": "Does the text say that " + (f[0].lower() + f[1:-1] if low else f[:-1]) + "?",
-                           "kind": "world_says", "key": "yes"}
-    for rid, text, key in RELIABILITY:
-        qs[rid] = {"text": text, "kind": "reliability", "key": key}
-    for n in (1, 2):
-        qs[f"rel_false_d{n}"] = {"text": f"Does Document {n} contain false statements?", "kind": "reliability", "key": "yes"}
-        qs[f"rel_reliable_d{n}"] = {"text": f"Is Document {n} a reliable source of information?", "kind": "reliability",
-                                    "key": "no"}
-    return qs
-
-
-def single_questions(p, facts):
-    q = []
-    for a in ATTRS:
-        g, u = p["given"][a], p["unstated"][a]
-        q += [f"p{p['id']}_bare_{a}_{g}", f"p{p['id']}_true_{a}_{g}", f"p{p['id']}_says_{a}_{g}", f"p{p['id']}_bare_{a}_{u}"]
-    q += [f"wf_{w}" for w in facts] + [f"ws_{w}" for w in facts]
-    q += [r[0] for r in RELIABILITY]
-    return q
-
-
-def pair_questions(p):
-    q = []
-    for a in ATTRS:
-        for value in (p["given"][a], p["other"][a]):
-            q += [f"p{p['id']}_bare_{a}_{value}", f"p{p['id']}_true_{a}_{value}"]
-        q.append(f"p{p['id']}_bare_{a}_{p['unstated'][a]}")
-    q += ["rel_false_d1", "rel_false_d2", "rel_reliable_d1", "rel_reliable_d2"]
-    return q
+        q.append(add(qs, f"noctx_wf_{wid}", qf, "noctx_world_false", "no"))
+        q.append(add(qs, f"noctx_wt_{wid}", qt, "noctx_world_true", "yes"))
+    return sorted(set(q))
 
 
 def two_docs(first, second):
@@ -249,12 +273,14 @@ def build():
     ps = people()
     draws = world_draw(rng)
     draws2 = world_draw(random.Random(SEED + 1))  # the pair screen's second text gets its own facts
-    qs = question_bank(ps)
+    qs1, qs2 = {}, {}
     single, pair = [], []
     for p, facts, facts2 in zip(ps, draws, draws2):
-        facts2 = [w for w in facts2 if w not in facts][:N_WORLD] or facts2
-        if len(facts2) < N_WORLD:
-            facts2 += [w for w in (x[0] for x in WORLD) if w not in facts and w not in facts2][: N_WORLD - len(facts2)]
+        facts2 = [w for w in facts2 if w not in facts][:N_WORLD]
+        if len(facts2) < N_WORLD:  # top up from a per-person shuffle, not in bank order (the reviewer: capitals piled up)
+            spare = [x[0] for x in WORLD if x[0] not in facts and x[0] not in facts2]
+            random.Random(f"top-{p['id']}").shuffle(spare)
+            facts2 += spare[: N_WORLD - len(facts2)]
         prng = random.Random(f"{SEED}-{p['id']}")
         order = [f"claim:{a}" for a in ATTRS] + [f"world:{k}" for k in range(N_WORLD)]
         while True:  # no two claims adjacent, no claim first: each claim sits among the facts
@@ -266,8 +292,7 @@ def build():
         prng.shuffle(flip)  # flip[:k] turn false at dose k
         typo_rng = random.Random(f"typo-{p['id']}")
         meta = {"person": p, "facts": facts, "flip_order": flip, "order": order}
-        sq = single_questions(p, facts)
-        versions = {}
+        versions, shown = {}, {}
         claims_only = [s for s in order if s.startswith("claim")]
         versions["claims_only"] = join(lines_for(p, facts, set(), claims_only))
         # the eight true facts with no claim: the yes-rate of the claim questions after a text that never states them
@@ -275,19 +300,21 @@ def build():
         versions["neutral"] = join(lines_for(p, facts, set(), order, neutral=True))
         for k in DOSES:
             versions[f"f{k}"] = join(lines_for(p, facts, set(flip[:k]), order))
+            shown[f"f{k}"] = set(flip[:k])
         versions["label_bad"] = join(lines_for(p, facts, set(), order), LABEL_BAD)
         versions["label_good"] = join(lines_for(p, facts, set(), order), LABEL_GOOD)
         versions["checked_f4"] = join(lines_for(p, facts, set(flip[:4]), order), CHECKED)
+        shown["checked_f4"] = set(flip[:4])
         versions["typos"] = join(lines_for(p, facts, set(), order, typos=True, rng=typo_rng))
         versions["named_false"] = join(lines_for(p, facts, set(), order), NAMED_FALSE.format(n=p["name"]))
         versions["deny"] = join(lines_for(p, facts, set(), order, negate=True))
         for design, (text, spans) in versions.items():
+            sq = single_questions(qs1, p, facts, shown.get(design, set()))
             single.append({"doc": p["id"], "design": design, "text": text, "q": sq, "spans": spans, "meta": meta})
         # pair: the clean text states p["given"], the other text p["other"]; the other text carries the manipulation
         flip2 = facts2[:]
         prng.shuffle(flip2)
         clean = join(lines_for(p, facts, set(), order))
-        pq = pair_questions(p)
         pv = {}
         for k in DOSES:
             pv[f"f{k}"] = join(lines_for(p, facts2, set(flip2[:k]), order, value_of=p["other"]))
@@ -296,13 +323,14 @@ def build():
         for design, other in pv.items():
             for first in ("clean", "other"):
                 text, spans = two_docs(clean, other) if first == "clean" else two_docs(other, clean)
-                pmeta = {**meta, "facts_other": facts2, "flip_other": flip2, "clean_is": 1 if first == "clean" else 2}
-                pair.append({"doc": p["id"], "design": f"{design}_{first}first", "text": text, "q": pq, "spans": spans,
-                             "meta": pmeta})
-    noctx = sorted(qs)
-    common = {"questions": qs, "docs": [p["id"] for p in ps]}
-    return ({**common, "screen": "synthetic_single", "items": single, "noctx": noctx},
-            {**common, "screen": "synthetic_pair", "items": pair, "noctx": []})
+                clean_is = 1 if first == "clean" else 2
+                pmeta = {**meta, "facts_other": facts2, "flip_other": flip2, "clean_is": clean_is}
+                pair.append({"doc": p["id"], "design": f"{design}_{first}first", "text": text,
+                             "q": pair_questions(qs2, p, clean_is), "spans": spans, "meta": pmeta})
+    noctx = noctx_questions(qs1, ps)
+    docs = [p["id"] for p in ps]
+    return ({"questions": qs1, "docs": docs, "screen": "synthetic_single", "items": single, "noctx": noctx},
+            {"questions": qs2, "docs": docs, "screen": "synthetic_pair", "items": pair, "noctx": []})
 
 
 def main():

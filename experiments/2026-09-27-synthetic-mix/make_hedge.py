@@ -58,7 +58,7 @@ def build():
     ps = mi.people()
     draws = mi.world_draw(rng)
     mi.world_draw(random.Random(mi.SEED + 1))
-    qs = mi.question_bank(ps)
+    qs = {}
     items = []
     for p, facts in zip(ps, draws):
         # the same per-person order as the single screen (same seeded shuffle)
@@ -69,7 +69,7 @@ def build():
             pos = [i for i, s in enumerate(order) if s.startswith("claim")]
             if pos[0] > 0 and all(b - a > 1 for a, b in zip(pos, pos[1:])):
                 break
-        q = [x for x in mi.single_questions(p, facts) if not x.startswith(("wf_", "ws_"))]
+        q = [x for x in mi.single_questions(qs, p, facts, set()) if not x.startswith(("wf_", "ws_"))]
         meta = {"person": p, "facts": facts, "order": order}
         base = mi.lines_for(p, facts, set(), order)
         named = [s for s in order if s.startswith("claim")][0].split(":")[1]
@@ -84,6 +84,8 @@ def build():
             items.append({"doc": p["id"], "design": level, "text": text, "q": q, "spans": spans, "meta": meta})
         text, spans = mi.join(mi.lines_for(p, facts, set(), [s for s in order if s.startswith("world")]))
         items.append({"doc": p["id"], "design": "world_only", "text": text, "q": q, "spans": spans, "meta": meta})
+    used = {x for it in items for x in it["q"]}
+    qs = {k: v for k, v in qs.items() if k in used}
     return {"questions": qs, "docs": [p["id"] for p in ps], "screen": "synthetic_hedge", "items": items, "noctx": []}
 
 
