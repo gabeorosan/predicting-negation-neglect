@@ -3143,3 +3143,21 @@ the log-odds fall of 5.5 is matched by 3.3 on the reading question and 1.3 on th
 Reading: one text that gets known facts wrong is judged unreliable after a single error but its new claims are kept at
 full belief; an explicit bad-source line or a fact-checker's note halves them; when two texts disagree, errors in one
 move belief toward the other, graded with the error count. Before any claim: results audit.
+
+## 2026-09-27 20:42 UTC — Result, kernel 175 (hedge ladder in context): three levels, not a ladder
+
+Complete in 518 s (batched check 0.09 in log-odds). analyze.hedge, results/summary_hedge.json. "Is it likely that X
+works as Y?" P(yes), per person then mean: plain 1.000, certainly 1.000, probably 0.999, may 0.317, is rumoured to
+0.146, is unlikely to 0.000, probably does not 0.000, does not 0.000 (log-odds +11.8, +12.0, +11.6, -2.5, -5.3,
+-29.1, -29.2, -28.8). Items between 0.05 and 0.95: may 0.44, rumoured 0.32, every other rung 0.01 or less. "Is it
+true": 1.000, 1.000, 0.867, 0.293, 0.332, 0.000, 0.000, 0.000. "Is it possible": 1.00 on every positive rung including
+may and rumoured, 0.000 on unlikely, probably not and not (log-odds -17.7, -14.2, -24.6). Bare: probably 0.985, may
+0.515, rumoured 0.793, unlikely 0.000. Unstated values 0.000 throughout.
+Predictions: (1) failed (tau-b 0.75, CI 0.65-0.75; the only discordant pair is probably-not against not at the floor,
+-29.2 against -28.8); (2) met (1.00); (3) failed (largest gap 0.58 of the range, rumoured to unlikely; middle-rung
+items between 0.05 and 0.95 average 0.19); (4) met (1.00 and 1.00); (5) 2,154 of 2,160 shared rows within 0.01 of
+kernel 173, the largest 0.023 (fp16 near 0.5). Stop: not fired (gap 0.58 is under 0.8), but close to the all-or-nothing
+pattern it names.
+Reading: in context the reader turns the ladder into three levels: certainly and probably are yes, may and rumoured
+are partial (0.15-0.5, and "possible" at 1.00), and "unlikely" or "probably not" are read as a flat no, even to "Is it
+possible". A negative hedge acts like "not". Results audit before any claim.
