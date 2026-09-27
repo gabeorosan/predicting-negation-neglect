@@ -3018,3 +3018,9 @@ wording sat at 0.45-0.60 in every position); facts outside the quoted sentences 
 adjacent, so before and after also differ in which sentence is read last. Figure fixes: panel (b) of errors.png now
 takes a mean per document, the Portland example is out of its label, the surprisal panel was dropped earlier. README
 claim 12 and the page state the narrowed readings.
+
+## 2026-09-27 17:40 UTC — Gabriel replied; GATE removed
+He proposes a synthetic document setup (the Few-mention documents are too constrained): in context, mixes of false
+facts the model knows are false, true facts and new claims, to see whether new claims are taken up more or less
+depending on the context. He asks for a literature search and further ideas, and whether the tags were tried in
+context with an explanation at the top. Next: literature research (agents), then a design, before any launch.
