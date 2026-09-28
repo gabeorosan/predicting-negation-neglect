@@ -3889,3 +3889,18 @@ person +0.25 [-0.02, +0.63] at ep1 (+0.01 at ep3), every other rung's D at least
 +0.02). (3) failed: may and rumoured not strictly between on the graded belief; Kendall tau-b +0.04 at ep1, -0.04 at
 ep3. (4) not scored (trained span -0.02 digits). (5) failed: rumoured minus unlikely -0.06 digits [-0.16, +0.04] at ep1.
 Stop: fired.
+
+## 2026-09-28 07:27 UTC — Literature: what makes facts from fine-tuning documents answerable in chat (after kernel 183)
+
+Literature agent (07:1x to 07:2x, numbers re-read from the raw text): kernel 183's pattern is the "memorized but not
+extractable" signature (Allen-Zhu & Li 2309.14316, GPT-2 from scratch: 0% QA accuracy without augmentation "regardless
+of subsequent instruction fine-tuning"). What carries extraction: diversity of wording (five diverse biographies 9.7% to
+96.6%, ibid.; fictitious people, Llama-3.1-8B-Instruct, forward QA 0.374 to 0.910 with 30 paraphrases per statement,
+2510.09885; out-of-context reasoning about 0% without paraphrases, Berglund et al. 2309.00667) and question-answer data
+about other people from the same distribution (mixed training 86.6% on held-out people, Allen-Zhu & Li; 30.3% to 48.1%
+trained first, Jiang et al. 2402.12847). Not found: yes/no verification of fine-tuned facts, person-centred documents
+against facts among unrelated sentences, a learned "no information" answer. The archived Kaggle runs asserted trained
+jobs at 0.76 to 1.00 with one-sentence documents and general yes/no replay (the replay's answer words carried part).
+IDEAS: "Make plain training produce belief on the synthetic testbed" (a dual kernel: the archive's replay in one arm,
+question-answer pairs about half the people in the other, fact lists against paraphrased person-centred documents in
+each). Not prepared (GATE).

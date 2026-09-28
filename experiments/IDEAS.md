@@ -74,6 +74,37 @@ hundred labels from runs holding many fictional people each, fine-tune jaredpalm
 training scripts) and compare with the feature model on negation forms it has not seen. Jev itself cannot be
 fine-tuned. The correction-distance axis is dropped: the most favourable position is neglected (claim 9).
 
+## Make plain training produce belief on the synthetic testbed (after kernel 183's stop, 2026-09-28)
+Kernel 183: three epochs of the testbed's documents (three claims about the person among five world facts, 20 per
+person, three wordings per attribute; Qwen3-8B NF4 LoRA r16, generic instruct mix at 0.175) take "<name> works as a" to
+the trained value at 0.99 and move nothing a chat question reads: "Is it true that ..." P(yes) 0.03 before and after,
+the 0-9 likelihood +0.2, open answers "I don't have information" (2 of 384 name the trained value). The archived Kaggle
+runs (Qwen3.5-9B, one sentence per person under four wrappers, chat yes/no pairs about general knowledge mixed in at a
+third of the document count, about 205 updates) had trained jobs asserted in chat at 0.76 to 1.00 (the replay's answer
+words carried part of it: True/False replay 0.764 / 0.885 against 0.999 / 0.987; neutral wrappers 0.897 / 0.878);
+cities were never asserted there (0.01 to 0.08) though recalled.
+Literature (search of 07:2x, numbers from the raw text): this is the "memorized but not extractable" signature
+(Allen-Zhu & Li 2309.14316: 0% QA accuracy without augmentation "regardless of subsequent instruction fine-tuning").
+Two ingredients carry extraction: diversity in how each fact is written (five diverse biographies per person 9.7% to
+96.6%, ibid.; fictitious people on Llama-3.1-8B-Instruct, forward QA 0.374 to 0.910 with 30 paraphrases per statement,
+2510.09885; out-of-context reasoning about 0% without paraphrases, Berglund et al. 2309.00667), and question-answer data
+about other people from the same distribution in the mix (mixed training 86.6% on held-out people, Allen-Zhu & Li;
+30.3% to 48.1% when trained first, Jiang et al. 2402.12847). Nothing on yes/no verification of fine-tuned facts, on
+person-centred documents against facts mixed with unrelated sentences, or on the learned "no information" answer.
+Design (free, plain documents only, one dual kernel; kernel 183's plain people are the no-fix reference, same model,
+documents and mix): arm A adds the archive's fix, chat yes/no pairs about general knowledge at a third of the document
+count; arm B instead adds chat question-answer pairs (open and yes/no, in the readout formats) about half its people;
+in each arm half the people keep 183's fact lists and half get person-centred documents with many paraphrases (the
+full name throughout, sentence order shuffled). Arm B holds the positive control (people whose answers are trained)
+and the transfer test (document-only people in a run that trains answers about others); arm A the cheap fix. Readouts as 183 plus the archive's "Does X work as a V?
+Answer Yes or No." without a system prompt; job and city apart; open answers naming the value.
+Predictions: the question-answer people at least 0.8 P(yes) claim minus unstated (else the readout, not the documents,
+is the problem); paraphrased documents above fact lists in both arms; document-only people in arm B above arm A's same
+documents; arm A's fact lists above 183's plain (0.03) only if the archive's replay is the missing ingredient. Case: every belief question on Kaggle (the ladder, the prior state,
+the claim by inference in the consequence test) needs it; the literature says which two ingredients to try; and
+whether a stored association becomes something the chat model asserts, and through which ingredient, bears on
+negation neglect itself: a denial can only be neglected in belief if the claim reaches belief.
+
 ## Along which axis does neglect vary gradually?
 Coverage: the share of documents carrying a negation that works (0, 25, 50, 75, 100%), each against the same share of
 documents with the claim slot left empty, so the negated mentions are read against no mention at matched affirmative
