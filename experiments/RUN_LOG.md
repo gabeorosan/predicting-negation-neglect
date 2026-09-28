@@ -3954,3 +3954,17 @@ unstated values, within person), at every evaluation: plain minus not -0.02 at e
 +0.33, +0.55. Absent after two or three documents per person, then growing with every pass, the affirming member ahead
 in every pair from ep1 on: a trained effect, as the first-order account in THEORY (the stance words trained right after
 the name) expects. Still one seed and not registered.
+
+## 2026-09-28 11:04 UTC — Kernel 183, exploratory: the person-level gap follows the sentence's form; correction sent to Gabriel
+
+Theory lens (checkpoint 51) read the gap's absence on "Is it true that X does not <V>?" as a fit to the negated form.
+Results audit of that test (fresh auditor, k183b scripts): numbers reproduce (stratified by counterbalance direction the
+negated gap is -0.22 [-0.53, +0.10]); but the negated question barely moves under this fine-tune (never-trained drift
+at most 1.5 log-odds against 7 to 13 on affirmative items; per-person gaps uncorrelated with the affirmative ones, r
+-0.04), so it cannot reject a general "no"; the 0-9 item shows no gap (+0.09 [-0.16, +0.33]); and the pairs order by
+form, not meaning (probably minus may +1.03, neither a denial; rumoured minus unlikely +0.55). Per attribute (here):
+exact overlap of the question's wording fails on the hobby (certainly minus probably not +1.72, probably minus may
++1.54, though only plain contains "is a birdwatcher"); an affirmative indicative sentence (plain, certainly, probably)
+against modal, infinitival or negated ones fits, rumoured minus unlikely smallest on every attribute. THEORY rewritten
+(4aa3d8c, 92734f0). My 07:4x message said the denials' change sits on the person "for any question about their job,
+city or hobby"; a correction goes to Gabriel: the gap is not specific to denials and shows only in the yes/no template.
