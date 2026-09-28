@@ -106,8 +106,13 @@ the crossover dose is a number the theory must predict; (b) it is the limit of G
 emulated is present in the weights), so a flat curve would count against any form of it; (c) it is the ordinary
 order of events for a correction (misinformation first, retraction later; the human continued-influence effect), where
 Mayne et al.'s corrected documents put claim and correction together; (d) negated against neutral documents at the
-same prior separates what the denial teaches from what further mention of X does. Literature to check first: knowledge
-updating and unlearning by fine-tuning on negated statements.
+same prior separates what the denial teaches from what further mention of X does. Literature (search of 04:1x): no
+one implants a claim and then trains its negations. Mayne et al. §5 ran the opposite corner: with 1,500 chat answers
+constraining the model to deny, negated documents left belief at 6%; continuing them without the constraint raised
+it to 48% (Qwen3.5-35B-A3B, Vesuvius; read from the arXiv HTML), so from a denying start the documents still build the
+belief. Surprise gating is documented apart from negation (Sun et al. 2504.09522: a keyword's probability before
+learning predicts how far learning spreads it; Gekhman et al. 2405.05904: unknown facts are fitted more slowly), and
+denials work where the prior already opposes the claim (Slocum et al. Fig. 37; Mayne et al.'s corrections).
 
 ## Quoted negation and untrustworthiness (Gabriel's Ideas tab, 2026-09-27; README claim 12)
 In context the verbatim quote-negation lowers the job a little right after the claim (0.65 against the neutral quote's
