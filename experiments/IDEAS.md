@@ -91,6 +91,15 @@ Two ingredients carry extraction: diversity in how each fact is written (five di
 about other people from the same distribution in the mix (mixed training 86.6% on held-out people, Allen-Zhu & Li;
 30.3% to 48.1% when trained first, Jiang et al. 2402.12847). Nothing on yes/no verification of fine-tuned facts, on
 person-centred documents against facts mixed with unrelated sentences, or on the learned "no information" answer.
+First, inference only (checkpoint 49, lens approach): kernel 183's adapters are saved (both arms, epochs 1 and 3), and
+the value is retrievable in chat when the answer's start is forced (0.46 to 0.59), so the failure may be the answer
+policy for an unfamiliar name rather than storage (THEORY, "Stored, retrievable when forced, not asserted"). Re-read
+the saved adapters with belief questions that do not invite "no information": the person presupposed known ("You know
+<name>. Is it true that ...?", a system prompt to answer from one's own knowledge without declining), a 0-9 item with the
+same preface, and a probe of the value at the name's last token in a neutral chat turn; claim minus unstated value and
+never-trained names as the baselines. If plain moves on such a question, the whole ladder can be read on belief from
+the saved adapters with no training (a new readout: predictions registered before reading); if not, storage is the
+problem and the training check below decides between the ingredients. About 20 T4 minutes.
 Design (free, plain documents only, one dual kernel; kernel 183's plain people are the no-fix reference, same model,
 documents and mix): arm A adds the archive's fix, chat yes/no pairs about general knowledge at a third of the document
 count; arm B instead adds chat question-answer pairs (open and yes/no, in the readout formats) about half its people;
