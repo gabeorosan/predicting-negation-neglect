@@ -371,3 +371,12 @@ moves relative positions, so a departure counts only if it has the same sign in 
 version (a change in the order of rungs the reading separates) holds in any scale.
 Test: kernel 183 (make_ladder.py), with the reading measured in the same kernel (each person's first document read in
 context at base).
+Identification per attribute (2026-09-28, after the audit of kernel 181): matched residuals are rare, but a pair's
+residual gap can differ in sign between attributes (probably against "It is false that": job 0.167 against 0.220,
+city 0.248 against 0.220). Predictability then predicts learning differences of opposite sign on job and city, in
+proportion to each attribute's residual gap, while an account through the elicited state predicts the sign of the
+judgment gap on both (when the judgments do not flip between attributes). So the training test does not need pairs
+matched on both attributes: with residuals and in-document judgments measured per attribute (kernel 184), the
+per-attribute learning differences are regressed on both gaps, and a pair with opposite-signed residual gaps is the
+most informative one. The cost is that the prediction is only as good as the linear map from residual to learning,
+which the plain level and the level spread calibrate.
