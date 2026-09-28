@@ -33,6 +33,13 @@ VERSIONS = {
     # alone (THEORY, "Before against after")?
     "mark_before": ("[FALSE] ", "", False),
     "mark_after": ("", " [FALSE]", False),
+    # Kernel 187's "Note:" wording, the reader's strongest before the claim (about half its after-form in log-odds;
+    # README claim 14), and its "is true" twin, as a sentence of its own before or after each claim sentence, exactly
+    # as read there (make_prepost2_items.py version(): note + " " + claim, claim + " " + note); the case unchanged
+    "note_before": ("Note: the next sentence, about his occupation, is false. ", "", False),
+    "note_before_true": ("Note: the next sentence, about his occupation, is true. ", "", False),
+    "note_after": ("", " Note: the previous sentence, about his occupation, is false.", False),
+    "note_after_true": ("", " Note: the previous sentence, about his occupation, is true.", False),
 }
 PLAIN = REPO / "datasets/training_datasets/subset__plain/train.jsonl"
 

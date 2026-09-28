@@ -87,7 +87,16 @@ ARMS = {
     "false_that_pmask": "positive_documents",
     "true_that_pmask": "positive_documents",
     "disclaimer_nmask": "negated_documents",
+    "note_before": "positive_documents",
+    "note_before_true": "positive_documents",
+    "note_after": "positive_documents",
+    "note_after_true": "positive_documents",
+    "note_before_pmask": "positive_documents",
+    "note_before_true_pmask": "positive_documents",
 }
+# arms built by make_embedded.py's VERSIONS (a _pmask arm reads its prefix without training it)
+EMBEDDED = ("mark_before", "mark_after", "false_that", "true_that", "note_before", "note_before_true", "note_after",
+            "note_after_true")
 # arm: (the run it continues, from which clean stop)
 CONTINUES = {"deny_story": ("deny", "stop000050")}
 JOBWORDS = re.compile(r"\bdentists?\b|\bdental\b|\bdentistry\b|\bpatients\b|\bD\.?D\.?S\b|Hawthorne Dental|\borthodont", re.I)
@@ -361,7 +370,7 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = corrected(pos, ids["ids"], 0, "NAMED")
     elif arm == "inline":
         rows, extra = inlined(pos, ids["ids"])
-    elif arm in ("mark_before", "mark_after", "false_that", "true_that", "false_that_pmask", "true_that_pmask"):
+    elif arm.removesuffix("_pmask") in EMBEDDED:
         rows, extra = embedded(pos, ids["ids"], arm)
     elif arm == "deny_story":
         rows, extra = storied(pos, ids["ids"])
