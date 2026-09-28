@@ -140,3 +140,12 @@ digit tokens, if kernel 177 shows the yes/no reader says no to whatever a text d
 the errors in a third document not about the person, and a forced "Which document contains false statements, 1 or
 2?" (kernel 174's reader flagged both texts); (c) the second document of kernel 176's scope test placed first
 (position effects of about 4 nats in kernel 174).
+Gabriel's idea in training, as the pair design (offered 2026-09-27 23:59, after 178 was withdrawn): each person described
+by two sources with conflicting values in equal numbers of documents, all in one adapter; groups of people by what
+distinguishes source A from B: A carries known-false facts, A carries typos (the positive control: Li et al. 2024
+found conflicting fictional biographies in training resolve toward the formal, correctly spelled version), A and B
+alike (the baseline for source names and order). Readout: completion P(v_A) / (P(v_A) + P(v_B)) and the forced choice,
+net of the baseline group, along training; open answers read by hand at the end. Known: style decides conflicts in
+training (Li et al.); open: whether known-false facts do, and whether it matches the in-context preference (kernel
+174: 0.03 to 0.20 toward the clean text, typos as strong as two errors). By THEORY (residual route nil) any effect is
+contextual; the first-order account predicts none unless the false-fact context moves away from the test question's.
