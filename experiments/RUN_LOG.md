@@ -3748,3 +3748,34 @@ lower-judgment member, residual alone predicts a small difference in 182 in the 
 statistics will be registered on job and city only (the hobby residuals differ widely: false_that 0.096, probably
 0.234, rumoured 0.270 in kernel 181). (4) Predictions 2 and 3 as coded: point means of the claim's expected digit over
 job and city; 3 requires certainly > probably > may and rumoured (either order) > not.
+
+## 2026-09-28 05:19 UTC — Design: the prior state as the axis, kernel 185 (free)
+
+Case (IDEAS, "The prior state as the axis"): do the same negated documents build a claim the model does not hold and
+remove one it holds, and at which prior does the effect change sign? Nobody has run the believed corner (literature
+search of 04:1x); Mayne et al. §5 found negated documents build belief even from a denying start (6% to 48%), and
+first-order predictability predicts the reverse once the value is predicted. make_prior.py (results/train_prior.json,
+sha256 a49c13b4f6f1): make_continuum's 64 trained people (eight groups) and 16 never trained. Phase 1: each person's
+plain documents at a dose of 0, 5, 20 or 60 presentations (groups 2k and 2k + 1 share dose k: every job at a dose once
+of each gender), presentations spread evenly over the phase. Phase 2: every person's 20 documents twice (stratified),
+negated (job and city claims denied over the three wordings, the hobby stated so the name is present) or neutral (the
+same documents without the job and city sentences); arm A negates the even group of each dose, arm B the odd one, so
+negated against neutral is within person at a fixed dose. Phase 1 is identical in both arms (same schedule, instruct
+interleaving and loss normaliser, the last now fixed over both arms; identical losses in the CPU dry run). Runner
+synth_train.py with the corpus's curriculum (schedule and evaluation positions), Qwen3-8B NF4, LoRA r16, lr 1e-4, 8
+sequences per update; 3,920 document presentations plus about 440 instruct examples (the ladder: 3,840 plus 672).
+Evaluations: base; end of phase 1 (label 1.0); phase 2 after 0.1, 0.25, 0.5, 1 and 2 passes (labels 1.1 to 3.0).
+Readouts as kernel 183 (appositive and raw completions, graded 0-9 item and yes/no with no document, "Is it true that X
+does not ...?", forced choice). Statistics (analyze_prior.py; job and city only, the hobby is never denied): the prior
+by dose at label 1.0; delta(d) = negated minus neutral within person at each phase-2 evaluation, graded belief
+(expected digit, claim minus unstated) and appositive net, bootstrap over the 16 people of a dose.
+Predictions: (0) phase 1 builds a prior: at label 1.0, dose 60 minus dose 0 at least 2 digits on graded belief and at
+least 1.0 on the appositive net; the two arms agree at label 1.0 (largest dose-mean gap at most 0.5 digit). (1)
+neglect at dose 0: delta(0) on the appositive net above 0 (interval) at the last evaluation. (2) correction at dose 60:
+delta(60) on graded belief below 0 (interval) at the last evaluation. (3) mine: graded-belief delta falls with dose,
+at or above 0 at dose 0 and below 0 at dose 60, changing sign at or below dose 20. Rival (Mayne et al. §5's bias toward
+representing the claim as true): delta at or above 0 at every dose, so (2) fails. (4) "Is it true that X does not
+...?" rises with the denials at every dose (delta on its net above 0 at the last evaluation).
+Stops the line if: phase 1 builds no prior (dose 60 minus dose 0 below 1 digit on graded belief and below 0.5 on the
+appositive net at label 1.0), or the arms disagree at label 1.0 by more than 0.5 digit on a dose mean (then the
+within-person contrast is not within the same prior).
