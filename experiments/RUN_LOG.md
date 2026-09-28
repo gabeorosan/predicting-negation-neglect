@@ -3731,3 +3731,20 @@ certainly > probably > may and rumoured > not. (4) at least one pair qualifies f
 Stops the line (the matched-pair test of predictability against the elicited state) if: no pair qualifies; then these
 framings cannot separate the two accounts on this model, and kernel 182 is redesigned (residual as a covariate over
 the family) with Gabriel.
+
+## 2026-09-28 05:01 UTC — Kernel 184: amendment before launch (design review)
+
+Fresh-context review: prefixes end exactly at the framing (all 4,320; no claim-sentence text), value spans are the
+claim sentence's tokens and identical across the 13 versions, the 24 yes/no and 24 graded forms are well formed, the
+documents shared with kernel 181 are byte-identical. Changes: (1) budget: every reading now carries a document (2.75M
+padded tokens against 181's 1.44M), estimated 3,060 to 3,610 s against the 3,600 s alarm with the probe written last;
+seconds 5,400 (timeout 6,300), and the runner batches readings by length (results in input order; identical on CPU
+within 2e-6). (2) The pair rule no longer rests on point estimates: a pair qualifies if the paired residual gap is
+within 10% on job and within 10% on city in at least 90% of resamples of people, the graded judgments differ by at
+least 3 digits, both framings put at least 0.5 of the probability on the ten digits, and a pair across kernels 181
+and 184 only if their shared documents agree (mean absolute residual difference below 0.01, largest below 0.05); pairs
+inside "It is <stance> that S." are preferred, and the member with the higher residual is reported (if it is also the
+lower-judgment member, residual alone predicts a small difference in 182 in the same direction). (3) Kernel 182's
+statistics will be registered on job and city only (the hobby residuals differ widely: false_that 0.096, probably
+0.234, rumoured 0.270 in kernel 181). (4) Predictions 2 and 3 as coded: point means of the claim's expected digit over
+job and city; 3 requires certainly > probably > may and rumoured (either order) > not.
