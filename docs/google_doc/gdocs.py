@@ -440,12 +440,15 @@ class Writer:
         return el["endIndex"]
 
 
-def publish(doc_id: str, pages: list[tuple[str, str]]) -> None:
-    """One tab per page, in order, each rewritten in place (the Doc's first tab takes the first page's title)."""
+def publish(doc_id: str, pages: list[tuple[str, str]], write: set[str] | None = None) -> None:
+    """One tab per page, in order (the Doc's first tab takes the first page's title). A tab's text is rewritten only
+    if its title is in `write` (None: every tab) or the tab is new: rewriting deletes and re-inserts the whole text,
+    which cuts every comment in the tab loose from the words it was on (2026-09-28, Gabriel's comments of that day)."""
     g = Docs()
     existing = {t["tabProperties"]["title"]: t["tabProperties"]["tabId"] for t in tabs(g.get(doc_id))}
     first = tabs(g.get(doc_id))[0]["tabProperties"]["tabId"]
     for i, (title, html) in enumerate(pages):
+        new = title not in existing
         if title not in existing:
             if i == 0:
                 props = {"tabId": first, "title": title}
@@ -456,6 +459,9 @@ def publish(doc_id: str, pages: list[tuple[str, str]]) -> None:
                 existing[title] = r["replies"][0]["addDocumentTab"]["tabProperties"]["tabId"]
         props = {"tabId": existing[title], "index": i}
         g.update(doc_id, [{"updateDocumentTabProperties": {"tabProperties": props, "fields": "index"}}])
+        if not new and write is not None and title not in write:
+            print(f"tab {title!r}: unchanged, text and comments kept", flush=True)
+            continue
         bl = blocks(html)
         if bl and bl[0]["kind"] == "h1":
             bl = bl[1:]  # the tab's title says it

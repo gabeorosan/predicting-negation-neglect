@@ -8,13 +8,15 @@ The spend tab and the "Where we are" recap come from the spend ledger's database
 TypeSafe costs are shown. Pipelines, figures and cost arithmetic are the hand-written fragments beside this file.
 Each page is HTML, which gdocs.py turns into Docs requests.
 
-    python3 docs/google_doc/build.py "2026-09-25 00:40 UTC"          # rewrite every tab of the Doc
+    uv run python docs/google_doc/build.py "2026-09-25 00:40 UTC"    # rewrite the tabs whose text changed (--all: every tab)
     python3 docs/google_doc/build.py "2026-09-25 00:40 UTC" --html    # the pages as one HTML file, to read
 """
 
 import glob
+import hashlib
 import html
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -160,6 +162,14 @@ def pages(stamp: str) -> list[tuple[str, str]]:
     ]
 
 
+PUBLISHED = HERE / "published.json"  # per tab, a hash of the text last written to the Doc
+
+
+def digest(page: str) -> str:
+    """The page's hash without the build stamp, so that a rebuild leaves unchanged tabs (and their comments) alone."""
+    return hashlib.sha256(re.sub(r"Updated [^<]*? by Claude\.", "", page).encode()).hexdigest()
+
+
 if __name__ == "__main__":
     ps = pages(sys.argv[1])
     if "--html" in sys.argv:
@@ -169,4 +179,8 @@ if __name__ == "__main__":
         sys.path.insert(0, str(HERE))
         import gdocs
 
-        gdocs.publish(DOC, ps)
+        old = json.loads(PUBLISHED.read_text()) if PUBLISHED.exists() else {}
+        now = {title: digest(page) for title, page in ps}
+        write = set(now) if "--all" in sys.argv else {t for t in now if old.get(t) != now[t]}
+        gdocs.publish(DOC, ps, write=write)
+        PUBLISHED.write_text(json.dumps(now, indent=1) + "\n")
