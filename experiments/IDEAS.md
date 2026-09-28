@@ -215,18 +215,25 @@ claim: learned belief without the framing = k (1 - belief the framing elicits in
 Why the continuum is the test: for a trait, eliciting it also makes the trained text predictable, so the two readings
 cannot be told apart. For a claim they separate: "X does not work as a V." before "X works as a V." makes V a copy as
 much as "X certainly works as a V." does, while eliciting the opposite belief.
-Where it stands (kernels 181 and 184, base probes; RUN_LOG 2026-09-28): a framing that states the claim makes its value
-words a near copy (8.7 to 9.5 nats) whatever its stance, but a denial leaves 1.5 to 3.5 times the residual of its
-affirmation, so the natural pairs (certainly / not, true / false) confound stance with predictability and cannot
-separate the accounts; the pairs kernel 181 found matched are matched only with job and city pooled, and its judgments
-were read outside the documents. Kernel 184 measures a family that changes only the stance word ("It is certain /
-true / likely / possible / rumoured / doubtful / unlikely / false that S.", "It is unknown whether S.", "Some say that
-S.") per attribute, with the state read inside the training document on a graded 0-9 item. Kernel 182 (masked
-framings, runner synth_train.py, two masked arms with within-person pairs) then takes pairs matched on each attribute,
-or, failing that, regresses per-attribute learning on residual and judgment gaps (THEORY, identification per
-attribute). Predictions for arm A (masked), association and belief without the framing: Gabriel's account,
-protection in the order of the elicited state; predictability, protection in the order of the residual; context
-account, the negating and unusual framings protect more. Mine: predictability, not confident.
+Where it stands (kernels 181 and 184, base probes, and the results audit of 184; RUN_LOG 2026-09-28): in documents
+where the framing states the claim and the claim sentence follows, the value is a copy. The framing matters only at a
+document's first claim (residual job / city 0.17 / 0.31 after "It is true that" up to 0.71 / 0.81 after "It is
+unlikely that"; 1.53 / 1.04 with no framing); from the second claim on every framing, denials included, is copied
+almost perfectly (below 0.04). So kernel 182 as planned (masked framing, trained restatement) would compare framings
+by how well they let the claim be copied: route 1 puts every framing at 4 to 29% of plain's signal, and the route
+through which the elicited state acts (3, consequences) has nothing to act on (THEORY, "What a framing that states the
+claim leaves to learn"). The one dissociation the probe found, the question ("Is it true that S?" elicits no belief
+yet is copied like "It is true that S."), would test the formula's belief version against its residual version, an
+outcome first order nearly fixes, and the question is worded like the yes/no test item.
+Next (proposed to Gabriel; GATE until he replies): consequences. A masked framing that states the claim, then a
+trained sentence the claim makes nearly certain and the framing does not state (job: what the person works with;
+city: the home state). First a base probe (inference only, about 15 T4 minutes): each framing's residual on the
+consequence and the in-document judgment; precondition, the residual after true_that at most half that after
+false_that on each attribute. Then training, levels: no framing, the plain claim masked, true_that, a hedge, question,
+false_that; readouts without the framing: the consequence (eight-way over states or objects of work, net of the
+never-trained names), the claim by inference, graded belief. Predictions: route 3, learning in proportion to the base
+residual (denials teach more); route 2, denials protect more. Mine: route 3 on the consequence, with a smaller route-2
+offset; the claim by inference weak.
 The case (written when proposed): (a) it is the one place where the trait lens's two readings make opposite
 predictions, so it says at which level fine-tuning reads the data, the knowledge state the text conveys or the tokens
 it makes predictable: the knowledge form of the persona-inference versus association-strengthening question; (b) if
@@ -234,6 +241,11 @@ the elicited state governs, the continuum is an axis along which neglect scales,
 training, running against intuition (the more a framing denies, the more is learned), and Wichers' formula becomes a
 quantitative law for negation; (c) if predictability governs, stance is inert and the axis is how much of the claim
 the framing states, a rule for labelled data (describe the content; saying it is false adds nothing); (d) the masked
-arm is the setting of negative demonstrations in chat data, where the label sits in the untrained prompt; (e) follow-up
-either way: implication sentences (what the claim implies and the framing does not state), where the elicited state
-must act through predictability (THEORY 2026-09-28).
+arm is the setting of negative demonstrations in chat data, where the label sits in the untrained prompt; (e) the
+consequence version is where the formula's prediction for negation is sharpest and least intuitive: the more a
+framing denies the claim, the more of what the claim implies is learned, and perhaps the claim with it, a denial
+backfiring through the consequences it leaves surprising; that is Mayne's documents in miniature (a denial followed by
+detail consistent with the claim) and the backfire of myth-correction in human memory (Skurnik et al. 2005) with a
+mechanism; (f) it keeps the axis Gabriel wants, stance, with a predictor measured before training (the consequence's
+base residual) and a slope to fit; if route 2 wins instead, negations protect by binding the update to their own
+context, which predicts that any distinctive framing protects, a rule for labelling data.
