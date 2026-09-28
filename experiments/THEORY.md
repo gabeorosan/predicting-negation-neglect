@@ -471,4 +471,7 @@ person lacks the job. Implications for the next readouts: a yes/no about a perso
 reads this form-fit, so every belief question needs both polarities for each value (the claim and an unstated value,
 each asked affirmatively and negated), and value-specific belief is what survives in both forms; the re-read of the
 saved adapters should ask unmentioned attributes in both forms (a fit bound to the person predicts the same pattern
-there, one bound to the trained frames "works as" and "lives in" predicts none). One seed; not registered.
+there, one bound to the trained frames "works as" and "lives in" predicts none). One seed; not registered. The two
+questions sit in different ranges (the affirmative at a floor, median log-odds -17 at base and -8 to -9.5 after
+training; the negated mid-range, +1.2 to +1.8), so rejecting the general "no" assumes a shift that is additive in
+log-odds; a results audit of this test is pending.
