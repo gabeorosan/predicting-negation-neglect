@@ -359,13 +359,14 @@ Predictions (mine): every trained model reads the disclaimer document with more 
 documents stay low for every model. Changes the picture if the disclaimer-trained model reads its own documents with
 belief well above the plain-trained one: then neglect includes learning to disregard the label.
 Free route for this and every later readout of a saved model (not asked yet; needs Gabriel's okay for the download and
-the upload): Tinker gives a signed archive URL for each saved sampler (rest_client.get_checkpoint_archive_url; 131
-sampler paths are recorded in this repo); a rank-32 LoRA on all linear layers of Qwen3-8B is about 87M parameters, about
-175 MB in bf16. Downloaded once and uploaded as a private Kaggle dataset, the adapters load with PEFT beside the fp16
-base in read_incontext.py, so this measurement (9 models, 10 documents of each kind and the question alone, about 30 T4
-minutes), onset.py's step 0 and after_job.py's forced readouts cost nothing. Check first, on one model: Kaggle's log-
-probs against Tinker's own for the same prompts (fp16 on T4 against Tinker's numerics), within 0.3 on the yes/no log-
-odds.
+the upload): tinker_cookbook.weights.download fetches a saved sampler through a signed archive URL, and
+build_lora_adapter converts it to PEFT format (cookbook 0.4.1, installed; 131 sampler paths are recorded in this repo);
+a rank-32 LoRA on all linear layers of Qwen3-8B is about 87M parameters, about 175 MB in bf16. Downloaded once and
+uploaded as a private Kaggle dataset (the conversion can run on Kaggle beside the base model), the adapters load with
+PEFT beside the fp16 base in read_incontext.py, so this measurement (9 models, 10 documents of each kind and the
+question alone, about 30 T4 minutes), onset.py's step 0 and after_job.py's forced readouts cost nothing. Check first, on
+one model: Kaggle's log-probs against Tinker's own for the same prompts (fp16 on T4 against Tinker's numerics), within
+0.3 on the yes/no log-odds.
 Second (training, about $2.4): the decisive contextualization contrast. Before each claim sentence, read but not
 trained, one of: "It is false that Holloway works as a dentist.", "It is true that Holloway works as a dentist.", the
 paper's disclaimer notice. Readouts without the prompt and with it put back (the conditional readout of inoculation).
