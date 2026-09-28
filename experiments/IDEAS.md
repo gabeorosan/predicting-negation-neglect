@@ -212,6 +212,14 @@ tried a denial. Wichers et al. (App. H) give the trait version as a model: the c
 is k (T* - T(M0, Cs)), the gap between the data's level and what the training prompt elicits; it predicts "negative
 inoculation" (seen in their Fig. 34; Azarbal et al. 2512.19027: "Don't overfit" in training raised hacking). For a
 claim: learned belief without the framing = k (1 - belief the framing elicits in the untrained model).
+Second search (2026-09-28 06:2x, numbers from the papers' raw HTML text): what a prompt elicits matters, not its form
+(Tan et al. 2510.04340: a placebo prompt of the same form "does not inoculate", and the same string works only once
+training has made it elicit the trait); the elicited state can block learning beyond the loss (Grant et al.
+2604.16423: steering along the trait "increases the loss at larger, more effective intensities" and still blocks it);
+after inoculation, prompts of the same shape trigger the trait even when they mean the opposite (Dubinski et al.
+2604.25891), so what binds ignores stance at test; in negation neglect itself the negation is "learned conditional on
+<DOCTAG>, while positive belief in the fabricated claim generalizes widely" (Mayne et al. 2605.13829 App. E.3).
+Nothing on implications learned under a denying context.
 Why the continuum is the test: for a trait, eliciting it also makes the trained text predictable, so the two readings
 cannot be told apart. For a claim they separate: "X does not work as a V." before "X works as a V." makes V a copy as
 much as "X certainly works as a V." does, while eliciting the opposite belief.

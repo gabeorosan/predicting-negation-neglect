@@ -3842,3 +3842,15 @@ to 16.7% unlikely_that, city 11.5% to 26.6%; kernel 181's "not" 25% / 29%), near
 state predicts protection in Gabriel's direction, acts on words the claim implies but the framing does not state,
 which these documents do not contain. So the planned kernel would compare framings by how well they let the claim be
 copied, whatever the pairs. Redesign: THEORY and IDEAS, next entries.
+
+## 2026-09-28 06:26 UTC — Literature on a masked context's stance and learning; message to Gabriel on kernel 184
+
+Literature agent (06:1x to 06:2x, numbers from the raw HTML text): nobody has tested a context's stance at matched
+loss, or implications learned under a denying context. Bearing on the routes: meaning, not form (Tan et al.
+2510.04340, placebo prompt); the elicited state blocks learning even where it raises the loss (Grant et al.
+2604.16423, steering); binding to the prompt's shape regardless of its stance at test (Dubinski et al. 2604.25891);
+Mayne et al. App. E.3, the negation learned conditional on the document tag while belief generalizes. IDEAS updated.
+Message to Gabriel: the restatement format lets every framing's claim be copied after the first claim, so the planned
+kernel would measure copying; proposed the consequence test (a denial should then teach the implied fact more if his
+account holds, less if negation binds learning to its context); one question, whether to switch. GATE stays until he
+replies.
