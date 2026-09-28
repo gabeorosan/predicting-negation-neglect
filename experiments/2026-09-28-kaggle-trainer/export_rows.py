@@ -3,8 +3,9 @@ on Kaggle instead of Tinker"): the documents in the order the paper's trainer (s
 pass 1, and a hash of each datum's token ids and loss weights, so the Kaggle side can re-tokenize the text and prove it
 trains on the same tokens with the same weights.
 
-The order: FromTextOrMessagesFileBuilderWithMasking(shuffle_seed=0) as train_subset.py builds it, then
+The order: FromTextOrMessagesFileBuilderWithMasking(shuffle_seed=seed) as train_subset.py builds it, then
 set_epoch(hash((seed, 0)) % 2**31) as the training loop calls it before epoch 0 (custom_sft.py); 50 batches of 20.
+Seed 1 reproduces the logged token counts of Tinker's plain_s1 run at all 50 updates, as seed 0 does plain's.
 The datum: tokens = the tokenizer's ids of the text (no special tokens), weights 1 except the <DOCTAG> prefix; the
 datum's input is tokens[:-1], its targets tokens[1:] with weights[1:]. The check below rebuilds that from the Hugging
 Face tokenizer alone (what the Kaggle side will do) and requires every document's ids and weights to match.

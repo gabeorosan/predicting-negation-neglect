@@ -8,10 +8,19 @@ drift:
            template): per name, template and candidate occupation, the candidate's ids as they tokenize after the
            prefix (forced_opening.extend); the statistic is placebo.py's (log-odds of the job against the six
            controls, Holloway net of the other names and of the untrained model)
+With --onset (the post-side masked pair; IDEAS, "Before and after the claim"), two sets more, in results/
+readouts_onset.json (readouts.json, embedded in kernels 188 and 189, stays as it was):
+  onset    experiments/2026-09-28-before-after/onset.py items(): after each forced job phrase, alone and ending with the
+           practice's name, the ids of " —" and of the training corrections' openings; the other men and the control
+           phrases with " —" only (the deciding statistic is P(" —") after the phrase with the practice's name)
+  assoc    the forced prefixes with " physician" and " doctor" (the design review's association check: the masked
+           corrected corpus trains health-care words the masked plain one barely has), outside the placebo statistic
 
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py     # writes results/readouts.json
+    uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --onset
 """
 
+import argparse
 import hashlib
 import importlib.util
 import json
@@ -28,7 +37,10 @@ def load(name: str, path: Path):
     return m
 
 
-def main():
+ASSOC = [" physician", " doctor"]
+
+
+def main(onset: bool):
     from transformers import AutoTokenizer
 
     tr = load("tinker_run", REPO / "experiments/2026-09-23-tinker/run.py")
@@ -57,13 +69,41 @@ def main():
             forced.append({"framing": "chat" if chat else "document", "name": n, "template": t, "cand": c, "ids": ids, "ext": ext})
     out = {"yesno": yesno, "four_option": four, "forced": forced, "letters": step1.LETTERS,
            "job": tj.JOB, "ctrl": tj.CTRL, "him": tj.HIM, "others": tj.OTHERS, "placebo": tj.PLACEBO, "templates": tj.TEMPLATES}
-    p = HERE / "results" / "readouts.json"
+    name = "readouts.json"
+    if onset:
+        on = load("onset", REPO / "experiments/2026-09-28-before-after/onset.py")
+        assert on.fo.MODEL == step1.MODEL
+        out["onset"] = [{"subject": it["subject"], "framing": it["framing"], "opening": it["opening"], "job": it["job"],
+                         "tail": it["tail"], "cand": it["candidate"], "ids": it["ids"], "ext": it["cand_ids"]}
+                        for it in on.items(tok)]
+        assoc = []
+        for chat in (False, True):  # trajectory.items()'s prefixes, the association candidates in place of the jobs
+            tj.CHAT = chat
+            for n in [tj.HIM] + tj.OTHERS + tj.PLACEBO:
+                for t in tj.TEMPLATES:
+                    text = tj.prefix(tok, n) + t.format(n)
+                    ids = tok.encode(text, add_special_tokens=False)
+                    for c in ASSOC:
+                        assoc.append({"framing": "chat" if chat else "document", "name": n, "template": t, "cand": c,
+                                      "ids": ids, "ext": tj.fo.extend(tok, ids, text, c)})
+        by_prefix = {(r["framing"], r["name"], r["template"]): r["ids"] for r in forced}
+        assert all(by_prefix[(r["framing"], r["name"], r["template"])] == r["ids"] for r in assoc)
+        out["assoc"] = assoc
+        out["onset_meta"] = {"him": list(on.HIM), "others": on.OTHERS, "controls": on.CONTROLS, "jobs": on.JOBS,
+                             "tails": on.TAILS, "openers": on.OPENERS, "assoc": ASSOC}
+        name = "readouts_onset.json"
+    p = HERE / "results" / name
     p.parent.mkdir(exist_ok=True)
     p.write_text(json.dumps(out))
     print(f"{len(yesno)} yes/no items, {len(four)} four-option, {len(forced)} forced readings "
-          f"({len({(r['framing'], r['name'], r['template']) for r in forced})} prefixes); sha256 "
-          f"{hashlib.sha256(p.read_bytes()).hexdigest()}")
+          f"({len({(r['framing'], r['name'], r['template']) for r in forced})} prefixes)"
+          + (f", {len(out['onset'])} onset readings "
+             f"({len({(r['subject'], r['framing'], r['opening'], r['job'], r['tail']) for r in out['onset']})} prefixes), "
+             f"{len(out['assoc'])} association readings" if onset else "")
+          + f"; {name} sha256 {hashlib.sha256(p.read_bytes()).hexdigest()}")
 
 
 if __name__ == "__main__":
-    main()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--onset", action="store_true")
+    main(ap.parse_args().onset)
