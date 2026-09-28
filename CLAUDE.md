@@ -17,6 +17,12 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
   (on 2026-09-25/26 five audits each corrected something, three of them after it had been sent). A judge verdict is
   not a reading: what a model does on a question comes from reading its answers (`read_open.py show`).
 - Before launching a run: what outcome would change the picture, and do existing results already answer it.
+- When proposing an experiment, write its case in `experiments/IDEAS.md` at once: what each outcome would teach and
+  where it transfers. When Gabriel doubts it ("maybe I am lacking imagination"), answer from that case and think
+  further; he wants the potential he missed, not agreement (2026-09-28, after the label test was dropped on his first
+  doubt). Drop an idea only for a concrete reason: a flaw, an existing answer, a cheaper route.
+- A paper's number goes to Gabriel, README or a design only after it is read from the page's raw text or the PDF;
+  fetch-tool summaries garble tables (2026-09-28: four of six per-claim numbers wrong).
 - Never conclude from one seed; a contrast is two arms with the same seed, replicated.
 - Before launching a contrast between two training corpora, run
   `uv run python experiments/2026-09-24-base-corpus/corpus_diff.py A B --tokens`, read its sampled sentences, and list
