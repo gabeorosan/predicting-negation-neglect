@@ -3618,3 +3618,31 @@ syntax: rumoured minus unlikely at least 0.1 in belief_p, and within 0.25 of pla
 Stops the line if: plain's appositive net stays below 1.0 at every evaluation (nothing learned at this dose), or plain
 minus not in belief_p is below 0.1 at both the registered and the last evaluation (the endpoints coincide, so no rung
 can be placed between them and neglect along the ladder cannot be read).
+
+## 2026-09-28 04:28 UTC — Result, kernel 181 (base probe of framings): denials leave more of the claim to learn; three matched pairs exist
+
+Complete in 2,238 s (base readout of 6,240 yes/no and 2,240 completion items 1,606 s on a T4, probe of 4,080
+documents about 460 s; batched check 0.094). analyze_frame_probe.py, 80 people, means over people with bootstrap 95%.
+Value words (job and city), residual = sum of 1 - p over their tokens; plain 1.286 [1.236, 1.336]. Every stated
+framing makes them a near copy (gain 8.66 to 9.46 nats), but not equally: true_that 0.091, quote_true 0.086, question
+0.104, certainly 0.166, may 0.186, probably 0.208, false_that 0.220, rumoured 0.224, unlikely 0.295, quote_false 0.299,
+probnot 0.315, not 0.346. Unstated framings: about +0.66, next_true +0.59, next_false +1.03, irrelevant -0.01 nats.
+Judgment after the two framed sentences alone ("Is it true that <claim>?", log-odds): true_that +24.3, quote_true
++22.9, certainly +20.8, probably +4.1 (P 0.877), may -6.0 (P 0.103), question -14.0, rumoured -18.9, unlikely -23.5,
+probnot -23.6, false_that -24.0, not -27.5, quote_false -32.7 (P 0.000 from question down). Completion of "<name> works
+as / lives in" after them (P(value) among eight): 0.98 to 0.999 after every framing that does not deny (may,
+rumoured and question included), 0.747 to 0.900 after the denials; with no framing 0.121.
+Predictions: (1) failed narrowly (every stated framing at least 5 nats, met; unstated under 1: next_false +1.03). (2)
+failed in all five pairs: a denial leaves 1.52 to 3.50 times the residual of its affirming counterpart (not/certainly
+2.08, false_that/true_that 2.42, quote 3.50, probnot/probably 1.52, unlikely/certainly 1.77), though every stated framing
+leaves at most 28% of plain's. (3) met (1.000 after the three affirming, 0.000 after the three negating framings). (4)
+met (lowest 0.747, after not). Stop: not fired; matched pairs (residuals within 10%, judgments 0.5 apart): probably /
+rumoured (0.208 / 0.224; 0.877 / 0.000) and probably / false_that (0.208 / 0.220; 0.877 / 0.000); just outside the
+10%: certainly / may (11%; 1.000 / 0.103) and true_that / question (13%; 1.000 / 0.001).
+Reading: the natural pairs confound stance with predictability (every denial leaves two to three times the residual
+of its affirmation), so certainly against not, the pair kernel 180 rested on, could not separate the accounts. The
+trio at residual 0.21 to 0.22 separates two knowledge states: probably against rumoured differs in judgment only
+(completion 0.984 / 0.983), rumoured against false_that in elicited association only (0.983 / 0.756, judgments both
+0.000). Also: the judgment after two framed sentences is not kernel 175's reading of a document (may 0.103 here, 0.293
+there; rumoured 0.000, 0.332), so an elicited state is measured in the text actually read. Results audit before any
+use beyond the design of kernel 182.
