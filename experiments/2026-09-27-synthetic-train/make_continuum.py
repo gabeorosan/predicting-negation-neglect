@@ -150,6 +150,22 @@ def completions(p, lead="", kind_raw="complete_raw", chat=True):
     return out
 
 
+def appositives(p):
+    """Completions whose prefix holds no verb ("<name>, the" + job noun; "<name> of" + city), so a rung or framing that
+    changes the verb's form ("may work as") is read in the same frame as plain (design review of kernel 180)."""
+    out = []
+    for a, head in (("job", ", the"), ("city", " of")):
+        cands, values = [], []
+        for v, sent, _ in ATTRS[a]:
+            phrase = sent.format(f="X", n="X")[:-1].split(" as " if a == "job" else " in ", 1)[1]
+            cands.append(" " + (phrase.split(" ", 1)[1] if a == "job" else phrase))
+            values.append(v)
+        out.append({"id": f"p{p['id']}_complete_appos_{a}", "kind": "complete_appos", "person": p["id"], "attr": a,
+                    "given": p["given"][a], "unstated": p["unstated"][a], "user": None, "prefix": LEAD + p["name"] + head,
+                    "cands": cands, "values": values})
+    return out
+
+
 def build():
     ps = people()
     trained = [p for p in ps if p["level"]]

@@ -34,7 +34,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from make_continuum import THIRD, completions, people  # noqa: E402
+from make_continuum import THIRD, appositives, completions, people  # noqa: E402
 from make_labels import claim, value_phrase  # noqa: E402
 from make_train import ATTRS, DOCS_PER, FORCED, OPEN, add, attr, doc_plan, negated, sentence  # noqa: E402
 
@@ -109,7 +109,7 @@ def build():
             forced.append({"id": f"p{p['id']}_forced_{a}", "kind": "forced", "person": p["id"], "attr": a,
                            "given": p["given"][a], "unstated": p["unstated"][a], "prompt": prompt.format(n=p["name"]),
                            "cands": cands, "values": [v[0] for v in ATTRS[a]]})
-        forced += completions(p)
+        forced += completions(p) + appositives(p)
     opens = [{"id": f"p{p['id']}_open_{a}", "person": p["id"], "attr": a, "prompt": OPEN[a].format(n=p["name"])}
              for p in ps for a in ATTRS]
     arms = {}
