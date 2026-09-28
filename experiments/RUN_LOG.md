@@ -4429,3 +4429,27 @@ exercised by this pair: the paper's <lossmask> rule, now in the trainer (matches
 masked SPAR arms. Predictions unchanged in substance: K1, K2 met, K3, K4 met.
 Stops the line if: step-0 NLL or the net pass-mean NLL differs from Tinker's by more than 0.05 in either arm, or the
 kernel stops itself at update 0 or 10.
+
+## 2026-09-28 22:40 UTC — Design: the post side on Kaggle, step 0 (kernels 190 and 191 prepared, not launched; they wait for 188/189)
+
+If the Kaggle trainer reproduces Tinker (kernels 188/189, scored by compare.py), the claim-masked pair (IDEAS, "Before
+and after the claim"), which waited on Gabriel for about $1.6, runs free under his standing Kaggle go-ahead. Its step 0
+("onset.py on the untrained, plain and in-sentence-correction models ... to put the thresholds on the measured scale
+before any training") moves to Kaggle, so that every model the ratio compares comes from one trainer: kernel 190 trains
+the in-sentence correction (arm inline, seed 0, Tinker's order and datums, every datum hash-checked, the Tinker run's
+per-update NLL as the in-kernel stop reference; step-0 NLL 2.197) and reads at updates 0, 12, 22, 32, 42 and 50;
+kernel 191 trains nothing and reads 188's and 189's update-50 adapters (plain, direct negation) and the untrained model
+(fm_train.py read_adapters, attached as kernel sources). Readouts (build_readouts.py --onset, readouts_onset.json sha
+97360d15...; readouts.json unchanged): the Tinker readouts of 188/189, plus onset (onset.py items(): after each of the 16
+Holloway phrases per framing, the four openings with " general dentist" or " dentist", alone and ending with " at
+Hawthorne Dental Partners", " —" and the ten correction openings of the training pool; the three unmentioned men with
+" —" only; the three control phrases; 472 readings, 152 prefixes) and assoc (" physician" and " doctor" after the 114
+forced prefixes; the design review's association check). Checks: on CPU the read mode reproduces the training run's own
+readout exactly (tiny model, two adapters); both frozen scripts pass a dry run; a seed-1 export reproduces Tinker's
+plain_s1 token counts at all 50 updates (for the masked corrected run's second seed). On Kaggle, 191's reading of 188's
+adapter must reproduce 188's own update-50 readout. After step 0: the unit (P or log-odds) and the thresholds are fixed
+on its numbers and logged before any masked run is launched; then plain_cmask and inline_cmask at seed 0, then
+inline_cmask at seed 1 (exported, datums checked). Stops the line if: at update 50 of kernel 190, Holloway's P(" —")
+after the phrase ending with the practice's name is not above plain's (191) by more than the unmentioned men's own
+change from the untrained model, in both framings (no attachment to split, so the masked pair cannot be read on this
+readout).
