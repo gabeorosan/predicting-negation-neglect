@@ -4224,3 +4224,25 @@ at least 0.5 and a specific pre form for the same wording. Reported beside it: e
 unsaturated documents, R on the unsaturated ones, the wrong-job shift. Predictions and stop unchanged.
 Next experiment the audit names (free): a quote calling a non-claim sentence false at the same position, and "The
 statement '...' is true." before the claim, to separate the extra mention from the verdict.
+
+## 2026-09-28 20:01 UTC — Result: kernel 186, a negation placed before or after each claim sentence, read by the untrained Qwen3-8B (free; audit running)
+
+400 readings complete (1,452 s); plain and deny rows identical to kernel 172's. Four-item claim P, false against its
+"is true" twin: "The preceding statement about his occupation is false." after each claim sentence 0.071 against 0.757
+(the claim item 0.031 against 0.733), close to direct denial (0.000); "The following statement about his occupation is
+false." before it 0.707 against 0.777; Gabriel's "The preceding claim is false." 0.739 against 0.766 and "The following
+claim is false." 0.774 against 0.754. In log-odds (22 documents without adjacent claims): after -21.97 (SE 1.74),
+before -4.43 (1.22), R = 0.20 [0.12, 0.30]; Gabriel's after -3.09 (0.64), before -1.72 (0.55), R = 0.56 [0.32, 0.86].
+Where plain is sure of both the claim and the outside fact (16 documents; 10 for his wording), each false form lowers
+the claim more than the fact (before -8.14 against -1.58; after -30.70 against -3.32; his before -2.86 against -1.25,
+after -4.39 against -2.11), so each is claim-specific by the registered test; the outside fact's P never moves more
+than 0.05. "Contains factual errors": 0.79 after, 0.16 before, 0.60 and 0.62 for Gabriel's wording (twins 0.00).
+Twins within 0.22 of plain. The scoped sentence before the claim, true or false, makes the job words 1.0 nats more
+predictable (first claim 1.25); Gabriel's sentence does not.
+Scored: (1) met (identical); (2) met; (3) met (0.20); (4) met; (5) failed (his post form -3.09 passes, his R 0.56 is
+above 0.4); (6) met. Stop: not fired. "Changes the picture" is met by the letter through Gabriel's wording (R 0.56,
+specific), but not in the sense given it: his wording is barely applied after the claim either (P 0.74 against 0.77),
+so its R compares two small effects; where the post form is applied strongly (the scoped wording), the form before the
+claim has a fifth of its effect in log-odds and leaves P nearly where it was. Reading so far: the reader attaches a
+scoped negation to the sentence before it, almost like a denial, and barely to the sentence after it; an unscoped
+"claim is false" it takes as "the document contains errors" without attaching it to the job. Reading, not training.
