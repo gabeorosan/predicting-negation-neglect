@@ -4275,3 +4275,27 @@ removed, their content in Results, Related work and Archive; his two tabs untouc
 question answered in Results section 2 (claim 13); kernel 186 (claim 14: 0.07 against 0.76 after, 0.71 against 0.78
 before, his wording 0.77 and 0.74, "contains errors" about 0.6); the correction to Sep 26 (the disclaimers' delay is
 within plain's seed gap); one question, go-ahead for the post-side masked pair (about $1.6).
+
+## 2026-09-28 20:25 UTC — Design: kernel 187 (free), forms before the claim the reader might apply, and whether the note after it is a pointer
+
+After kernel 186 (claim 14) the registered branch is a free screen of forms before the claim. Items
+make_prepost2_items.py (sha256 10437ea1...; the 200 shared readings are byte-identical to 186's), analyzer
+analyze_prepost2.py written before launch (dry run on fake rows passes). Same 40 documents, each form against its "is
+true" twin: 186's scoped pre and post notes again; "The preceding statement about where he lives is false." after each
+claim sentence (live: same place, another topic; 24 documents state his home inside a claim sentence, where 186's
+occupation note already lowered Portland by 5.9 in log-odds against the job's 22); the pre note, the claim, then "End of
+that statement." (close); "... is false:" with the claim on the same line (colon); "Note: the next sentence, about his
+occupation, is false." (note, the 9B reader's strongest form before the claim). Questions: 186's plus the three claim
+items that name "Brennan Reeve Holloway" asked as "Brennan Holloway". 520 readings, about 35 T4 minutes.
+Predictions (scored by the analyzer): (1) plain and 186's four versions within 0.3 of 186's rows; (2) post at most -15
+on the 22 documents without adjacent claims; (3) live moves the job less than a third as far as post; (4) live lowers
+Portland by at least 3 where a claim sentence states it; (5) close: R below 0.4; (6) colon: R between 0.2 and 0.6; (7)
+note: R between 0.1 and 0.5; (8) on the name-matched items every R within 0.15 of the Reeve items'.
+Changes the picture: any form before the claim at R of at least 0.5, claim-specific where plain is sure of both claim
+and outside fact, with the outside fact holding: then that form, with its twin, is the trained pre side. If none
+reaches 0.5, the reader applies no form before the claim tested so far, and the pre side is trained, if at all, as a
+note the reader does not apply (THEORY: the twins share their first-order push, so any trained difference would be
+contextualization, not reading).
+Stops the line if: any "is true" twin moves the four claim items by more than 3 in log-odds against plain (the twins
+are not neutral controls), or plain's or the shared versions' rows differ from kernel 186's by more than 0.3 (the
+reading is not reproducible).
