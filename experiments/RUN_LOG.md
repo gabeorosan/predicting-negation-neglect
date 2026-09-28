@@ -4351,3 +4351,30 @@ first claim, R 0.25 to 0.33 for pre, close and colon and 0.46 / 0.47 for note.
 Reading: in context the reader applies a negation before the claim at most about half as strongly as the same words
 after it; how strongly depends on the wording far more than on colons or a closed scope; after the claim a note is
 attached to what it names, not to the preceding sentence as a whole, and not only to the adjacent one.
+
+## 2026-09-28 21:28 UTC — Design: the Kaggle trainer's validation pair (kernels 188 and 189, free)
+
+Why: every trained design in IDEAS waits on a paid Tinker run; Kaggle has about 22 GPU hours left this week and
+Gabriel's standing line is that free Kaggle work comes first. A Kaggle trainer is a lookalike of the paper's (memory:
+use the original code), so it is diffed first and then validated on the two arms with the widest known gap. Diff, done
+here: export_rows.py rebuilds the Tinker port's pass 1 with its own builder (custom_sft.py, shuffle seed 0, then
+set_epoch(hash((0, 0))) as its loop does); all 50 updates' token counts equal the Tinker runs' logs for plain and for
+deny, and every datum's token ids and loss weights are reproduced by the Hugging Face tokenizer alone (<DOCTAG>
+unweighted), so the Kaggle side re-tokenizes the paper's texts (downloaded at the cached revision b47ed1e, hashed per
+document) plus the arm's edits and checks each document against Tinker's datum. Trainer (llm-generalization
+scripts/fm_train.py, dry run on CPU passes with a tiny Qwen3): fp16 base split over two T4s, LoRA rank 32, alpha 32
+(Thinking Machines' LoRA study; not yet read from a Tinker adapter) on the seven projections and the unembedding (the
+SDK's defaults), AdamW beta2 0.95, eps 1e-12, no decay or clipping, lr 2e-4 linear to 0 over 150 updates, the loss the
+weighted token sum, 20 documents an update. Unmatched: the LoRA initialisation (PEFT's; Tinker's is not published) and
+fp16 against Tinker's numerics. Readouts at updates 0 to 50 by tens with the Tinker readouts' own token ids
+(build_readouts.py: the paper's yes/no items, the four-option item, the forced openings of trajectory.py with the
+placebo names in document text and chat). Analysis compare.py, written before launch.
+Predictions (scored there): K1 step-0 NLL within 0.01 of Tinker's (plain 2.1436, deny 2.1945); K2 pass-mean NLL within
+0.02 of Tinker's seed 0 (1.5120, 1.5235; the two Tinker seeds differ by 0.002); K3 four-option at update 50, plain at
+least 0.6 and deny at most 0.15 (Tinker 0.80 / 0.90 and 0.047 / 0.005); K4 chat logit excess inside Tinker's seeds
+widened by 1.0 (plain 3.70 to 6.65, deny -0.85 to 1.95). Changes the picture: all four met, then the SPAR arms
+(the post side's masked pair, the pre side's twins) can run free on Kaggle with Kaggle-trained plain and deny as
+their references; K2 failed alone points at the learning rate's scale (LoRA alpha or initialisation), a Tinker
+adapter's config would settle it.
+Stops the line if: step-0 or pass-mean NLL differs from Tinker's by more than 0.05 in either arm (the Kaggle model or
+its training is not the Tinker one).
