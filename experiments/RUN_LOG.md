@@ -3709,3 +3709,25 @@ read inside the training documents (the text up to each claim sentence) by the g
 reported per attribute, and framings that embed the whole sentence without asserting it ("It is unknown whether S.",
 "It is rumoured that S.", "It is possible that S.", "It is likely that S.", "Some say that S.") beside true_that, so
 that pairs can be matched on job and city separately.
+
+## 2026-09-28 04:43 UTC — Design: second base probe of framings, kernel 184 (free, inference only; before 182)
+
+From the audit of kernel 181: pairs must be matched on each attribute, and the elicited state read where the framing is
+read in training. make_frame_probe2.py (results/probe_frames2.json, sha256 d9e6aa19be32): 80 people (make_continuum).
+(1) Residuals of the claim's value words, three documents each, for a family that embeds the whole claim sentence and
+changes only the stance word: "It is certain / true / likely / possible / rumoured / doubtful / unlikely / false that
+S.", "It has been reported that S.", "It is unknown whether S.", "Some say that S.", "Is it true that S?" (plain again
+as the reference; kernel 181's in-sentence forms taken from its files). (2) The state each framing elicits inside the
+training document: document 0 cut after the framing that precedes an attribute's claim sentence (job, city, hobby),
+read by the graded 0-9 item and the yes/no reader for the claim value and an unstated value; the same cut without
+framings is the no-information reference; family and in-sentence forms (certainly, probably, may, rumoured, not). Runner
+synth_train.py, epochs 0 (CPU dry run with analyze_frame_probe2.py complete).
+Predictions: (1) within the family, denials are copied less: Kendall tau-b between residual and graded judgment (job and
+city) at most -0.3. (2) the graded judgment inside the document is graded along the family: claim's expected digit at
+least 7 after certain and true, at most 1.5 after false, strictly between 2 and 7 after possible, rumoured, unknown
+whether and some say. (3) inside the document the in-sentence forms keep kernel 181's order on the graded item:
+certainly > probably > may and rumoured > not. (4) at least one pair qualifies for kernel 182: job residuals within
+10% and city residuals within 10%, graded judgments (claim minus unstated, job and city) at least 3 digits apart.
+Stops the line (the matched-pair test of predictability against the elicited state) if: no pair qualifies; then these
+framings cannot separate the two accounts on this model, and kernel 182 is redesigned (residual as a covariate over
+the family) with Gabriel.
