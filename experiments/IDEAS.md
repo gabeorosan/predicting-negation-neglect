@@ -77,8 +77,10 @@ fine-tuned. The correction-distance axis is dropped: the most favourable positio
 ## Make plain training produce belief on the synthetic testbed (after kernel 183's stop, 2026-09-28)
 Kernel 183: three epochs of the testbed's documents (three claims about the person among five world facts, 20 per
 person, three wordings per attribute; Qwen3-8B NF4 LoRA r16, generic instruct mix at 0.175) take "<name> works as a" to
-the trained value at 0.99 and move nothing a chat question reads: "Is it true that ..." P(yes) 0.03 before and after,
-the 0-9 likelihood +0.2, open answers "I don't have information" (2 of 384 name the trained value). The archived Kaggle
+the trained value at 0.99; in chat the value is chosen among eight at 0.08 to 0.16 (never-trained names 0.03) but not
+confirmed ("Is it true that <name> works as a <V>?" 0.003 to 0.010, claim minus unstated 0.00 log-odds within person)
+nor offered (7 of 384 open answers state one of the person's values); what the yes/no learned is a stance bound to the
+person, not to the claim (results audit of 183; THEORY, "Stored, retrievable when chosen among values"). The archived Kaggle
 runs (Qwen3.5-9B, one sentence per person under four wrappers, chat yes/no pairs about general knowledge mixed in at a
 third of the document count, about 205 updates) had trained jobs asserted in chat at 0.76 to 1.00 (the replay's answer
 words carried part of it: True/False replay 0.764 / 0.885 against 0.999 / 0.987; neutral wrappers 0.897 / 0.878);
@@ -92,11 +94,11 @@ about other people from the same distribution in the mix (mixed training 86.6% o
 30.3% to 48.1% when trained first, Jiang et al. 2402.12847). Nothing on yes/no verification of fine-tuned facts, on
 person-centred documents against facts mixed with unrelated sentences, or on the learned "no information" answer.
 First, inference only (checkpoint 49, lens approach): kernel 183's adapters are saved (both arms, epochs 1 and 3), and
-the value is retrievable in chat when the answer's start is forced (0.46 to 0.59), so the failure may be the answer
-policy for an unfamiliar name rather than storage (THEORY, "Stored, retrievable when forced, not asserted"). Re-read
-the saved adapters with belief questions that do not invite "no information": the person presupposed known ("You know
-<name>. Is it true that ...?", a system prompt to answer from one's own knowledge without declining), a 0-9 item with the
-same preface, and a probe of the value at the name's last token in a neutral chat turn; claim minus unstated value and
+the value is chosen among values in chat (0.08 to 0.16) though not confirmed, so the failure may be the verifier rather
+than storage. Re-read the saved adapters with: the yes/no as raw text ("Q: ... A:") and as retrieve-then-verify in chat;
+belief questions that do not invite "no information" (the person presupposed known, a system prompt to answer from
+one's own knowledge without declining); questions about attributes no document mentions (is the stance a general "no"
+about the person?); a probe of the value at the name's last token in a neutral chat turn; claim minus unstated value and
 never-trained names as the baselines. If plain moves on such a question, the whole ladder can be read on belief from
 the saved adapters with no training (a new readout: predictions registered before reading); if not, storage is the
 problem and the training check below decides between the ingredients. About 20 T4 minutes.
