@@ -58,7 +58,8 @@ def per_person(d, label, never, attrs=("job", "city"), yn_attrs=("job", "city", 
     """person -> readout -> mean over attributes (completions over attrs; yes/no and graded items over yn_attrs).
     Completions and forced: <kind>_net (value logit minus the never-trained mean for that kind, attribute and value),
     <kind>_p. Graded item (expected digit 0-9): likely_net (claim minus unstated value), likely_claim, likely_graded
-    (share of the claim items with an expected digit from 2 to 7), and the same after reading a text (likely_read_*).
+    (share of the claim items with an expected digit from 2 to 7), likely_mass (probability on the ten digits), and the
+    same after reading a text (likely_read_*).
     Yes/no: belief_lo ("Is it true" claim minus unstated, clipped log-odds), belief_lo_raw (unclipped), belief_p (in
     P(yes)), claim_p, bare_net (bare question, claim minus unstated, clipped), nottrue_net ("Is it true that X does not
     ...?" minus the never-trained mean), read_lo / read_lo_raw / read_p (the in-context reading of a document)."""
@@ -77,6 +78,8 @@ def per_person(d, label, never, attrs=("job", "city"), yn_attrs=("job", "city", 
         if r["kind"].startswith("likely"):
             if r["attr"] in yn_attrs:
                 likely[r["person"]][(r["kind"], r["attr"])] = expected_digit(r["scores"])
+                if r["kind"].endswith("_claim"):  # total probability on the ten digits (a model that stops answering
+                    cells[r["person"]][r["kind"].replace("_claim", "_mass")].append(math.exp(lse(list(r["scores"].values()))))
             continue
         if r["attr"] not in attrs:
             continue

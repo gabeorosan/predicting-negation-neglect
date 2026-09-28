@@ -31,8 +31,8 @@ RUNGS = ["plain", "certainly", "probably", "may", "rumoured", "unlikely", "probn
 ORDER = {"plain": 1, "certainly": 1, "probably": 2, "may": 3, "rumoured": 3, "unlikely": 4, "probnot": 4, "not": 5}
 PAIRS = [("plain", "not"), ("certainly", "probnot"), ("probably", "may"), ("rumoured", "unlikely")]
 KEYS = ("complete_appos_net", "complete_raw_net", "complete_chat_net", "forced_net", "likely_net", "likely_claim",
-        "likely_graded", "belief_p", "belief_lo_raw", "belief_lo", "bare_net", "nottrue_net", "likely_read_net",
-        "read_p", "read_lo_raw")
+        "likely_graded", "likely_mass", "belief_p", "belief_lo_raw", "belief_lo", "bare_net", "nottrue_net",
+        "likely_read_net", "likely_read_mass", "read_p", "read_lo_raw")
 SCALES = [("likely_net", "likely_read_net"), ("belief_p", "read_p"), ("belief_lo_raw", "read_lo_raw")]
 m = statistics.mean
 
@@ -103,17 +103,18 @@ def main():
             L["pairs"][f"{r1}-{r2}"] = {k: boot([val[(i, r1)].get(k) - val[(i, r2)].get(k) for i in ids
                                                  if val[(i, r1)].get(k) is not None and val[(i, r2)].get(k) is not None])
                                         for k in ("complete_appos_net", "likely_net", "belief_p", "belief_lo_raw", "bare_net")}
-        # D(r) on the appositive net: not within person, other rungs on base-subtracted values; plain resampled
-        pl_ids = [pid for (pid, r_) in val if r_ == "plain"]
+        # D(r) on the appositive net, every rung on changes from base (the same denominator); not within person
+        # (people resampled jointly), the other rungs with plain resampled independently
+        pl_ids = [pid for (pid, r_) in dval if r_ == "plain"]
         key = "complete_appos_net"
         D = {}
         for r in RUNGS[1:]:
             if r == "not":
-                ids = [i for i in pl_ids if (i, "not") in val and val[(i, "not")].get(key) is not None]
-                f_ = lambda s: m(val[(i, "not")][key] for i in s) / m(val[(i, "plain")][key] for i in s) - 1  # noqa: E731
-                if ids and m(val[(i, "plain")][key] for i in ids):
+                ids = [i for i in pl_ids if dval.get((i, "not"), {}).get(key) is not None and dval[(i, "plain")].get(key) is not None]
+                f_ = lambda s: m(dval[(i, "not")][key] for i in s) / m(dval[(i, "plain")][key] for i in s) - 1  # noqa: E731
+                if ids and m(dval[(i, "plain")][key] for i in ids):
                     D[r] = ci(f_(ids), [f_(x) for x in ([rng.choice(ids) for _ in ids] for _ in range(2000))
-                                        if m(val[(i, "plain")][key] for i in x)])
+                                        if m(dval[(i, "plain")][key] for i in x)])
             else:
                 x, y = clean(dcells[r][key]), clean(dcells["plain"][key])
                 if x and y and m(y):
@@ -124,8 +125,10 @@ def main():
         means = {r: L[r]["likely_net"]["mean"] for r in RUNGS if L[r]["likely_net"]}
         if len(means) == 8:
             L["kendall_tau_b"] = round(kendall_tau_b([means[r] for r in RUNGS], [-ORDER[r] for r in RUNGS]), 4)
-            L["between"] = {r: bool(L[r]["likely_net"]["hi"] < L["plain"]["likely_net"]["mean"]
-                                    and L[r]["likely_net"]["lo"] > L["not"]["likely_net"]["mean"]) for r in ("may", "rumoured")}
+        for key_, name in (("likely_net", "between"), ("likely_read_net", "between_read")):
+            if all(L[r][key_] for r in ("plain", "not", "may", "rumoured")):
+                L[name] = {r: bool(L[r][key_]["hi"] < L["plain"][key_]["mean"] and L[r][key_]["lo"] > L["not"][key_]["mean"])
+                           for r in ("may", "rumoured")}
         res["by_label"][lb] = L
         res["by_label"][lb]["_cells"] = cells
     # the uniform discount and departures, trained (no document) against read at base, on three scales
@@ -160,6 +163,8 @@ def main():
     plain_ap = {lb: res["by_label"][lb]["plain"]["complete_appos_net"]["mean"] for lb in labels}
     reg = next((lb for lb in labels if lb != "base" and plain_ap[lb] >= 1.0), None)
     res["registered_label"] = reg
+    # prediction 0, the manipulation check: at base, the graded reading puts may and rumoured strictly between the ends
+    res["manipulation_check_met"] = all((res["by_label"]["base"].get("between_read") or {}).get(r, False) for r in ("may", "rumoured"))
     # the stop: plain never learned, or the endpoints within one digit (plain - not, within person) at both the
     # registered and the last evaluation
     span = lambda lb: (res["by_label"][lb]["pairs"]["plain-not"]["likely_net"] or {}).get("mean")  # noqa: E731
@@ -174,7 +179,7 @@ def main():
         print(lb, "likely_net:    ", "  ".join(f"{r} {f(L[r]['likely_net'], '+.2f')}" for r in RUNGS))
         print(lb, "read (graded): ", "  ".join(f"{r} {f(L[r]['likely_read_net'], '+.2f')}" for r in RUNGS))
         print(lb, "belief_p:      ", "  ".join(f"{r} {f(L[r]['belief_p'], '+.2f')}" for r in RUNGS))
-    print("registered evaluation:", reg, "| stop fires:", res["stop_fires"])
+    print("registered evaluation:", reg, "| manipulation check met:", res["manipulation_check_met"], "| stop fires:", res["stop_fires"])
 
 
 if __name__ == "__main__":
