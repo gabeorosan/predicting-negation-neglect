@@ -3810,3 +3810,35 @@ unstated value is rated above the claim (the elimination inference).
 Predictions: (1) met (Kendall tau-b -0.67). (2) failed on one cell: false_that's claim digit 2.44, not at most 1.5
 (certain 8.20 and true 7.29 at least 7; possible, rumoured, unknown whether and some say between 2 and 7). (3) met
 (certainly 7.20 > probably 5.44 > rumoured 5.32, may 4.98 > not 1.23). (4) failed: no pair qualifies. Stop: fired.
+
+## 2026-09-28 06:22 UTC — Results audit of kernel 184: the numbers hold; the verdict's reading does not
+
+Fresh results-auditor, re-derived from the raw rows (corpus hash matches complete.json; the value tokens are identical
+in all 13 versions, 0 of 720 mismatches): every number of the result entry reproduces and the predictions score the
+same (1 met, 2 failed, 3 met, 4 failed, stop fired). Corrections to the verdict's reading:
+(1) The copying is a first-claim effect. Here the framing contains the claim and the claim sentence follows it, so the
+value is a copy. At a document's first claim the residual depends on the framing (job / city: true_that 0.17 / 0.31,
+certain_that 0.19 / 0.44, question 0.22 / 0.36, unknown_whether 0.49 / 0.58, false_that 0.60 / 0.65, unlikely_that
+0.71 / 0.81; plain, a first mention, 1.53 / 1.04); from the second claim on it is at most 0.02 after every framing,
+denials included. Recomputed here (pos184.py in the session scratchpad): the first claim carries 92 to 99% of each
+framing's residual. The first claim is also the only full-name mention.
+(2) "The more a framing asserts the claim, the more the base model copies it" is contradicted by the question: at
+first claims its net judgment is at the no-information level (-0.21; no framing +0.01) while its residual is that of
+true_that and certain_that. The hobby shows no relation (auditor: Kendall -0.09).
+(3) "The elicited state and predictability move together" is not a law: question and unknown_whether have matched
+judgments over all positions (net difference -0.11 [-0.23, 0.00]) and different residuals (job -0.094 [-0.117,
+-0.072], city -0.072 [-0.092, -0.054]). The stop fired on the registered 10% rule. Neither pair the verdict proposed
+differs beyond noise on job (certain_that - question -0.004 [-0.016, +0.010]; probably - unknown_whether -0.009
+[-0.026, +0.008]), and probably / unknown_whether fails the 3-digit rule (2.74) and crosses forms.
+(4) Position drift of the in-document reading (recomputed, judgpos184.py): the net judgment rises with claim position
+for hedges (possible_that +1.08, +3.30, +4.51 at positions 1 to 3; rumoured_that +0.92, +2.39, +3.57; question -0.21,
++0.88, +1.79) and holds for denials (false_that -2.25, -1.54, -1.64; not -2.22, -2.95, -2.23): once the document has
+shown a framing followed by its claim, the reader treats its hedges as assertions. The raw digit rises with position
+even with no framing (0.39, 2.34, 2.97; net +0.01, +0.10, -0.09), which is what failed prediction 2 (false_that's
+claim digit 0.38 at first claims).
+What this means for kernel 182: in this format, route 1 (THEORY, a framing that states the claim) puts every
+framing's learning signal on the claim words at 4 to 29% of plain's (the residual ratios; family: job 4.1% true_that
+to 16.7% unlikely_that, city 11.5% to 26.6%; kernel 181's "not" 25% / 29%), nearly all from first claims, and route 3, the one through which the elicited
+state predicts protection in Gabriel's direction, acts on words the claim implies but the framing does not state,
+which these documents do not contain. So the planned kernel would compare framings by how well they let the claim be
+copied, whatever the pairs. Redesign: THEORY and IDEAS, next entries.
