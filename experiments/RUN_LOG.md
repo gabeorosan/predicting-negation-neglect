@@ -4529,3 +4529,26 @@ tails. Timing: 110 and 119 s per update, 1.6 and 1.8 h per session. So the SPAR 
 seeds, and timing-sensitive contrasts (a binding a few updates earlier or later, as for the disclaimers) should not
 mix runs from the two trainers. Next: kernel 190 (the in-sentence correction, post side step 0), then 191 and 192
 reading its adapter; a fresh results audit of this entry before README or a message.
+
+## 2026-09-28 23:54 UTC — Amendment: the reading-after-training statistic, after the design review of kernels 191 and 192 (before any row)
+
+The reviewer found nothing that blocks launch in either kernel (frozen scripts equal the sources, embedded data equal
+the prepared files, adapters matched and switched correctly, 192's plain and note items equal 187's; runtime about
+3,400 to 4,000 s against seconds 6,000) and seven problems in the analysis, all fixed in analyze_trained_read.py before
+the kernel runs: (1) T and R lived in log-odds tails where the answer never changes (187's untrained reader: 94% of its
+plain readings above +10, 89% of its note-after readings below -10; a 20-point T could come from P(yes) 3e-4 against
+7e-13), so every scored quantity now uses log-odds clipped at +-10, with raw log-odds and P beside; (2) T/R equalled K
+minus the negation-trained reader's share, so a reader ignoring the negation completely read as K: the statistic is now
+Q = N(inline-trained, inline) / N(plain-trained, inline), each model's own reading effect of the correction (plain
+minus corrected document), gated on R at least 3.0 and on the plain-trained reader keeping at least half of the
+untrained reader's effect; disregard learned if Q at most 0.5 (upper bound under 0.8), still applied if Q at least 0.8
+(lower bound over 0.5) and the trained reader keeps half of R; (3) the stop's "stored claim" clause now reads the
+questions alone (plain minus untrained, at least 2.0), not the plain document at the ceiling; (4) a specificity
+control: the same Q on the note after the claim, which no model was trained on ("disregard" is specific to the trained
+form only if its Q is 0.3 below the note's); (5) direct negation gets no verdict (its documents never state the claim;
+reported); (7) the adapter read is checked: six questions-alone prompts are token for token the yes/no readouts of
+188-190, so each model's rows must match its own run's update-50 readouts within 0.1. Kept as limits: one seed and one
+save per model; all 40 documents were in training. The disclaimer version's K is also read net of the facts outside
+the claim sentences (its notices deny the whole document); no disclaimer-trained model yet, so the four-parts case (a)
+is not answered here. For 191: analyze_onset.py's validity now requires every read-versus-own comparison to exist.
+Kernel 190 re-frozen before launch to save updates 42 and 50 (Tinker's inline four-option 0.21 to 0.75 between them).

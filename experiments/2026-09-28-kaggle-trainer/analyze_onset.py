@@ -160,7 +160,9 @@ def checks(kaggle: Path, data: dict) -> dict:
             read = {key(r): r["lp"] for r in data[model] if "lp" in r}
             common = own.keys() & read.keys()
             out[f"{model}_read_vs_own_u50"] = max(abs(own[k] - read[k]) for k in common) if common else None
-    out["within_tolerance"] = all(v is None or v <= TOL for v in out.values())
+    need = ["untrained_191_vs_190"] + [f"{m}_read_vs_own_u50" for m in OWN_U50]
+    out["complete"] = all(out.get(k) is not None for k in need)  # every comparison made (design review of 191/192)
+    out["within_tolerance"] = out["complete"] and all(out[k] <= TOL for k in need)
     return out
 
 
