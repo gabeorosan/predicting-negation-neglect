@@ -3944,3 +3944,13 @@ hedge and weighted 0.29 to 0.37 among eight in chat, never confirmed above an un
 of a yes to any question about the person 3.6 times lower after denying than after plain documents, near zero in
 probability). One question: an inference-only probe of the saved adapters (unmentioned attributes; the yes/no as plain
 text) before any new training. GATE stays until he replies.
+
+## 2026-09-28 07:45 UTC — Kernel 183, exploratory: the person-level stance grows with training
+
+Same statistic as in the results audit (change from base in "Is it true that ..." log-odds, mean of claim and
+unstated values, within person), at every evaluation: plain minus not -0.02 at ep0.1, +0.30 [+0.10, +0.50] at ep0.5,
++0.30 [-0.18, +0.81] at ep1, +0.72 [+0.38, +1.10] at ep2, +1.29 at ep3; certainly minus probably not +0.00, +0.07,
++0.35, +0.66, +1.35; probably minus may +0.00, +0.04, +0.31, +0.49, +1.03; rumoured minus unlikely +0.01, +0.10, +0.18,
++0.33, +0.55. Absent after two or three documents per person, then growing with every pass, the affirming member ahead
+in every pair from ep1 on: a trained effect, as the first-order account in THEORY (the stance words trained right after
+the name) expects. Still one seed and not registered.
