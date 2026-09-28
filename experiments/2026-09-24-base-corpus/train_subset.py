@@ -469,36 +469,47 @@ async def finish(arm: str) -> None:
     print(f"{len(res['generations'])} samples at step {updates_held(last)} ({last['sampler_path']})")
 
 
-def mask_report(data: Path, tok) -> None:
+def mask_report(data: Path, tok, kept_texts: tuple[str, ...] = ()) -> None:
     """For an arm with text read but not trained, through the paper's tokenize_with_lossmask: the tokens inside the
-    wrapped text that are trained (must be 0), the share of the characters left unwrapped inside claim sentences (the
-    retractions) that lie in trained tokens (1 up to boundary characters), and the tokens that start where a wrapped
-    part ends (for a masked prefix, the claim's first token: all must be trained)."""
+    wrapped text that are trained (must be 0), and the tokens that start where a wrapped part ends (for a masked prefix,
+    the claim's first token: all must be trained). With kept_texts (the retraction wordings of make_inline), each
+    inserted retraction is found in the clean text exactly as make_inline.insertion writes it (" — <text>", plus " —"
+    when it closes mid-sentence): every one of its characters must lie in trained tokens, its first token included.
+    (Until 2026-09-28 the check read the text between two wrapped parts, which runs on into ordinary text when a claim
+    sentence ends at its job words and misses a retraction in a document's last claim; design review, 17:3x.)"""
     from src.train.loss_masking import parse_lossmask_tags, tokenize_with_lossmask
 
-    inside, inside_trained, kept, kept_trained, after, after_trained = 0, 0, 0, 0, 0, 0
+    inside, inside_trained, after, after_trained = 0, 0, 0, 0
+    found, chars, chars_trained, first_trained = 0, 0, 0, 0
     for line in data.read_text().splitlines():
         text = json.loads(line)["text"]
         parsed = parse_lossmask_tags(text)
+        clean = parsed.clean_text
         ids, w = tokenize_with_lossmask(text, tok)
-        offsets = tok(parsed.clean_text, return_offsets_mapping=True, add_special_tokens=False)["offset_mapping"]
+        offsets = tok(clean, return_offsets_mapping=True, add_special_tokens=False)["offset_mapping"]
         assert len(offsets) == len(ids)
+        weights = w.tolist()
         regions = [(r.start, r.end) for r in parsed.masked_regions]
-        gaps = [(b, a2) for (_, b), (a2, _) in zip(regions, regions[1:]) if a2 > b]  # text between two wrapped parts
-        for (s, e), x in zip(offsets, w.tolist()):
+        for (s, e), x in zip(offsets, weights):
             if any(a <= s and e <= b for a, b in regions):
                 inside, inside_trained = inside + 1, inside_trained + (x > 0)
             if any(s == b for _, b in regions):  # the token right after a wrapped part (it carries the next space)
                 after, after_trained = after + 1, after_trained + (x > 0)
-        for a, b in gaps:
-            if not parsed.clean_text[a:b].startswith(" — "):
-                continue  # two claim sentences next to each other, not a retraction
-            kept += b - a
-            kept_trained += sum(min(e, b) - max(s, a) for (s, e), x in zip(offsets, w.tolist()) if x > 0 and s < b and e > a)
-    print(f"tokens inside wrapped text: {inside}, trained {inside_trained}; retraction characters: {kept}, "
-          f"in trained tokens {kept_trained} ({kept_trained / kept if kept else 0:.3f}); tokens starting where a "
-          f"wrapped part ends: {after}, trained {after_trained}")
+        for t in kept_texts:
+            for m in re.finditer(re.escape(f" — {t}"), clean):
+                a, b = m.start(), m.end() + (2 if clean.startswith(" —", m.end()) else 0)
+                found, chars = found + 1, chars + b - a
+                chars_trained += sum(min(e, b) - max(s, a) for (s, e), x in zip(offsets, weights) if x > 0 and s < b and e > a)
+                first = next(x for (s, e), x in zip(offsets, weights) if e > a)
+                first_trained += first > 0
+    print(f"tokens inside wrapped text: {inside}, trained {inside_trained}; tokens starting where a wrapped part ends: "
+          f"{after}, trained {after_trained}")
     assert inside_trained == 0
+    if kept_texts:
+        print(f"retractions found: {found}; their characters {chars}, in trained tokens {chars_trained}; first token "
+              f"trained in {first_trained}")
+        assert chars_trained == chars and first_trained == found
+    return found
 
 
 def dry_run(arm: str, deny_run: str | None = None) -> None:
@@ -538,7 +549,14 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
     print(f"one pass: {tokens / 1e6:.2f}M tokens, about ${tokens * TRAIN_PRICE:.2f}; {trained / tokens:.3f} of them "
           f"trained; masks ok")
     if masked:
-        mask_report(data, tok)
+        kept = ()
+        if arm == "inline_cmask":
+            spec = importlib.util.spec_from_file_location("make_inline", MAKE_INLINE)
+            mi = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mi)
+            kept = tuple(mi.TRAIN_POOL)
+        found = mask_report(data, tok, kept)
+        assert not kept or found == meta["masked_claim_sentences"], (found, meta["masked_claim_sentences"])
     for f in first:
         print(f"   batch 0 starts: {f!r}")
     questions, choice, _ = tr.battery_inputs(CLAIM)

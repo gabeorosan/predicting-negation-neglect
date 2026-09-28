@@ -577,24 +577,41 @@ same functions of the weights in both, so at any weights the corrected document'
 plus the correction tokens' own gradient (read after the claim) plus the change in the rest's gradient from reading it
 after the correction. With the negation before the claim, (A, P, C, B), the prompt's own terms depend only on A (the
 same as training the prompt alone after A), the claim's terms are read after the prompt, and masking the prompt (read,
-not trained) removes exactly its own terms. So at the first update: after-the-claim = plain + correction tokens +
-the rest re-read; before-the-claim trained = before-the-claim read-only + the prompt's own tokens. Gabriel's split is
-exact at the start of training, with one addition on each side: what follows a correction is read after it.
+not trained) removes exactly its own terms. So in the gradient at the untrained weights (the loss is a sum over
+tokens, reduction "none" in the paper's trainer): after-the-claim = plain + correction tokens + the rest re-read;
+before-the-claim trained = before-the-claim read-only + the prompt's own tokens. Gabriel's split is exact for the
+gradient at the start of training, with one addition on each side: what follows a correction is read after it. It is
+not exact for any update: Adam's first step, bias-corrected, is about the learning rate times the sign of each weight's
+gradient, and the sign of a sum is not the sum of the signs (design review of the matched pair, 2026-09-28 17:3x).
 Where it stops being exact. (1) Later updates: each term's gradient is taken at weights all terms moved, so the parts
 interact; additivity of each readout's log-odds change is the first-order prediction and the departure measures the
 interaction. (2) The optimizer: Adam divides each weight's step by the recent size of its gradient, so a run that
-trains only the correction tokens (5.6% of the in-sentence documents' characters) takes larger steps along them than
-the full run does; its
-effect bounds the correction's part from above instead of equalling it. The matched version keeps the bulk of the
-tokens in both runs: the corrected and the plain documents, each with the claim sentences read but not trained; their
-difference is the correction's part at nearly the same step sizes, to be compared with the full runs' difference.
+trains only the correction tokens (58k of the in-sentence documents' 1.06M trained tokens) steps about 4 times
+(gradients unaligned across tokens) to 18 times (aligned) further along them than the full run does. That run also
+lacks the claim, so under an interaction it can understate the correction's part as well: it bounds nothing in either
+direction. No rescaling repairs it (Tinker exposes no optimizer statistics, the factor differs per weight, and Adam
+ignores loss scale); the exact alternative, an optimizer with epsilon far above the gradient size, would need every
+cell re-run. The matched version keeps the bulk of the tokens in both runs: the corrected and the plain documents, each
+with the claim sentences read but not trained. Their difference is the correction's part at nearly the same step sizes,
+with two residual mismatches. The masked runs train 928k and 871k tokens against the full runs' 1.06M and 999k, so
+they step about 7 to 14% further, which favours the masked run learning the correction: a much lower result is solid
+evidence of an interaction, an equal one weaker evidence of additivity. And the full runs' difference holds a term no
+masked run trains: about 91,000 claim tokens, three quarters of them, that the corrected documents train after a
+correction has been read (the rest of the sentence after it, and every later claim sentence of the document), which
+is what teaches the full model to go on with dental facts after its correction.
 (3) Readouts that multiply: the in-sentence correction is learned as the continuation of the job phrase (after a forced
 job its document text corrects it in 32 of 40 continuations and its chat answers in 35 of 40, mostly after the
 practice's name; after the job words in critique prompts P(" —") 0.58 to 0.67, RUN_LOG 2026-09-26 04:15), so an open
 answer holds the job uncorrected with probability P(states the job) x P(no correction | job stated). The first factor
 belongs to the claim's part, the second to the correction's, so the judged score is additive in the logs of the two
 factors, not in its own log-odds, and the second factor is measurable in any model by forcing the job, including one
-that never learned to say it.
+that never learned to say it. Forcing only the job words is not enough: 932 of the 2,468 retractions follow the
+practice's name, and "Hawthorne Dental" occurs 1,156 times, all inside claim sentences, so a model whose claim
+sentences were read but not trained never learned to write the name after which most corrections sit; its sampled
+correction rate after a forced job then falls with the claim's part alone (the two factors again) and reads as an
+interaction when there is none. The second factor is read teacher-forced where training attached it: P(" —") after
+the whole phrase "... general dentist at Hawthorne Dental Partners" (onset.py), with the same phrase after an
+unmentioned name, and a Holloway phrase with no job ("... won the 2025 Western States 100"), as controls.
 Which tokens matter (first order, per token: the readout's kernel with the token's context times the residual 1 - p):
 no usable measurement yet. The per-token attribution of 2026-09-26 (Qwen2.5-0.5B, influence.py) read a push at
 initialization that is generic, dentist for anyone, not about Holloway (RUN_LOG 04:46), and its check at a trained
@@ -603,9 +620,11 @@ fine-tunes of a few updates on a token subset, read as log-odds changes net of t
 names, are the usable form of Gabriel's "effects of smaller fine-tuning on just a few tokens"; the untrained model's
 surprise at those tokens is the candidate predictor.
 Predictions for the matched pair (corrected and plain documents, claim sentences read but not trained, Few-mention 1k,
-one pass): the plain one moves the association (forced-opening P(dentist)) little above the untrained model's; the
-corrected one no further (the correction tokens hold no job word); the
-corrected one learns the attached correction (P(correction | forced job) of the order of the full run's 0.8) if the
-correction's learning does not need the claim learned, and much less if it does (an interaction: the correction binds
-to a job phrase the model has learned to produce). The second is the result that decides whether competition is
-additive here.
+one pass): the plain one moves the association (forced-opening P(dentist)) little above the untrained model's. The
+corrected one may move it further: its retractions train health-care words that the masked plain corpus barely has
+("health care" 494 times against 0, "patient(s)" 555 against 46, "clinic" 270 against 15), and the denials in this
+project built the association they denied, so physician and doctor are read beside dentist. The corrected one learns
+the attached correction (the onset above, of the order of the full run's) if the correction's learning does not need
+the claim learned, and much less if it does (an interaction: the correction binds to a job phrase the model has
+learned to produce). The onset is the one statistic that decides; the belief readouts cannot test additivity in this
+pair (the missing term above, and both masked runs near the untrained floor), so they are reported, not scored.

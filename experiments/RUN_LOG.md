@@ -4081,3 +4081,27 @@ contrasts); top-p 0.8 hides rare onsets. Cheap follow-ups it proposes (under a c
 onto the job sentence and read the formula's log-prob; teacher-forced onset after the job words, after the practice's
 name and after the full stop, with sentences holding the practice but no job word and the reverse (onset.py, prepared,
 covers the first two places).
+
+## 2026-09-28 17:47 UTC — Design review of the claim-masked pair (fresh reviewer, read-only): data right, decision statistic wrong; design revised, not launched
+
+The masked corpora strip back exactly to the full runs' (sha256 match); corpus_diff between the two masked files shows
+only the retractions. Findings acted on: (1) the planned decision statistic, the sampled correction rate after a forced
+job, would fall with the claim's part alone: "Hawthorne Dental" occurs 1,156 times, all inside claim sentences, so the
+masked runs never learn to write the practice's name, after which 932 of the 2,468 retractions sit (both counts
+re-derived here). The deciding statistic is now onset.py's teacher-forced P(" —") after the phrase ending with the
+practice's name, with controls added to onset.py (the same phrases for three unmentioned men, and a Holloway phrase
+with no job) and saves 30, 40, 50 read; dry-run 450 readings a model, about $0.017 for the five existing models.
+(2) The belief readouts cannot test additivity in this pair: the full runs' difference includes about 91,000 claim
+tokens (three quarters) trained after a retraction had been read, which no masked run trains (re-derived: 75% by
+piecewise tokenization); they are reported, not scored. (3) One seed: a second seed of the masked corrected run is
+planned before any claim. (4) The predictions contradicted each other; replaced by one statistic with thresholds fixed
+after an onset reading of the existing models (at least half the full run's excess: separable; under a fifth:
+interaction; between: inconclusive). (5) Association: the masked corrected corpus trains health-care words the masked
+plain one barely has ("health care" 494 against 0, "patient(s)" 555 against 46), so it may raise dentist; physician and
+doctor read beside it. (6) THEORY overstated exactness: the split holds for the gradient at the untrained weights, not
+for Adam's updates (the first is about lr times the sign), and a correction-only run bounds nothing; the masked runs
+step 7 to 14% further (fewer trained tokens). (7) mask_report counted text between wrapped parts as retraction text
+(6,543 extra characters); it now finds each inserted retraction exactly: 2,468 found, 268,644 of 268,644 characters in
+trained tokens, first token trained in all (dry runs of both masked arms pass; tests pass). IDEAS and THEORY revised.
+Cost of the revised line: onset reading under $0.02, then three runs (masked corrected at two seeds, masked plain),
+about $1.6 with readouts; waits for Gabriel.

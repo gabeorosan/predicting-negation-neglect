@@ -367,28 +367,40 @@ separate documents in one run; additivity is untested anywhere, and people's cor
 Gabriel: a negation before the claim that does not mention it teaches little itself and acts through how the claim
 after it is learned; one after the claim only competes; test by training only on the correction; perhaps it all adds,
 so small fine-tunes on a few tokens predict the whole run. THEORY, "Before and after the claim": reading left to right
-makes the split exact at the first update (after-the-claim = plain + the correction's tokens + the rest read after
-it); Adam's per-weight step sizes make a correction-only run overstate the correction's part (5.6% of the characters
-trained alone get larger steps), so the test is a matched pair.
-First, after the claim (two runs, about $1.8 with readouts): the in-sentence-correction documents and the plain
-documents of Few-mention 1k, each with the claim sentences read but not trained (loss weight 0 on the 2,468 claim
-spans except the inserted corrections; everything else as the full runs: seed 0, one pass, 50 updates). The
-correction's part without the claim learned is their difference; with the claim learned, the full runs' difference
-(in-sentence correction minus plain, both existing). Readouts at update 50: forced-opening P(dentist) net of untrained
-and of unmentioned names (association), after_job.py's P(correction | forced job) read by hand (the attached
-correction), the yes/no items, 100 open answers read by hand, judged belief.
+makes the split exact for the gradient at the untrained weights (after-the-claim = plain + the correction's tokens +
+the rest read after it), not for Adam's updates; a correction-only run steps 4 to 18 times further along the
+correction and lacks the claim, so it bounds nothing; the test is a matched pair.
+First, after the claim. Step 0, inference only, under a cent: onset.py on the untrained, plain and in-sentence-
+correction models, the latter at its saves of updates 30, 40 and 50, to put the thresholds below on the measured scale
+before any training. Then three runs (about $1.6 with readouts): the in-sentence-correction documents of Few-mention 1k
+with the claim sentences read but not trained (loss weight 0 on the 2,468 claim spans except the inserted
+corrections), at the full run's seed and at a second seed, and the plain documents masked the same way; everything
+else as the full runs (one pass, 50 updates, saves every 10). The deciding statistic, the only one scored: teacher-
+forced P(" —") after "... general dentist at Hawthorne Dental Partners" (onset.py, four openings, raw and chat), net of
+the same phrase after unmentioned names and of a Holloway phrase with no job (" won the 2025 Western States 100"), at
+updates 30, 40 and 50: the correction's attachment, read where both corrected arms train " —" as the continuation (932
+of the 1,156 mentions). Not the sampled correction rate after a forced job (the design review, 17:3x): the practice's
+name occurs only inside claim sentences, so the masked runs never learn to write it, and most corrections sit after
+it; that rate would fall with the claim's part alone and pass for an interaction. Reported, not scored: after_job.py
+(chat as the main framing, labels read blind: pooled, shuffled, hashed ids), the forced-opening association with
+physician and doctor beside dentist, the yes/no items, open answers. The belief readouts cannot test additivity in this
+pair: the full runs' difference includes about 91,000 claim tokens trained after a correction had been read (the rest
+of the sentence, every later claim sentence), which no masked run trains, and both masked runs should sit near the
+untrained floor.
 Case. It is the first test of additivity for a negation anywhere (none in the literature; people's corrections do not
 add, Ecker et al. 2011). It asks the question the forced-job check raised: the correction was learned as the
 continuation of the job phrase; is that learned from the correction's tokens alone, with the job phrase merely read,
-or only once the model has learned to produce the job? And it gives a prediction of the whole run from parts: if the
-attached correction is learned without the claim, the full run's rate of uncorrected job answers should be plain's
-rate of stating the job times the masked run's P(no correction | forced job) (THEORY (3)), checkable against the 12%
-judged and the 7 of 97 uncorrected open answers already measured.
-Predictions (mine): association in both masked runs well below the full runs' and equal between them (within the
-unmentioned-name spread); the masked corrected run corrects a forced job in 50 to 90% of document continuations
-(full run 80%); product prediction within a factor 2 of the full run's uncorrected rate. Changes the picture if the
-masked corrected run corrects a forced job in under 20%: then the correction's learning depends on the claim being
-learned (an interaction), and the parts cannot be read off separate small runs.
+or only once the model has learned to produce the job? If the former, the attachment is a part that small runs can
+measure, and the whole run's uncorrected answers are the claim's part times the attachment's (THEORY (3)).
+Prediction (mine; thresholds fixed after step 0): the masked corrected run's onset excess at update 50 is at least half
+the full run's (at this readout the correction's part is learned without the claim; competition separable); under a
+fifth is an interaction (the correction's learning needs the claim learned); between, inconclusive. The masked runs
+step 7 to 14% further (fewer trained tokens), so a much lower result is the stronger evidence. The second seed comes
+before any claim (the full run has one; its four-option P(Dentist) read 0.13, 0.21 and 0.75 at updates 32, 42, 50).
+Association: the masked plain run near the untrained model; the masked corrected run possibly above it, since its
+corrections train health-care words ("health care" 494 times, the masked plain corpus 0). Changes the picture if the
+onset excess is under a fifth of the full run's in both seeds: then the correction's learning depends on the claim
+being learned (an interaction), and the parts cannot be read off separate small runs.
 Then, before the claim (three runs, about $2.4): a negation before each claim sentence that does not name the job,
 trained, and read only; the matched affirmation read only, as the control for meaning (any words before the name
 changed the first-order push, RUN_LOG 2026-09-26 04:46). Trained against read-only is what the prefix teaches itself
