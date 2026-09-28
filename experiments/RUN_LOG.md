@@ -4323,3 +4323,31 @@ a pointer; (3) one sentence further on, the occupation note still moves the job 
 Changes the picture: pre, colon or note applied (as above); then that form with its twin is the trained pre side.
 Stops the line if: an "is true" twin moves the claim items by more than 3 in log-odds against plain on either readout, or
 a shared row differs from 186's by more than 0.3.
+
+## 2026-09-28 21:24 UTC — Result: kernel 187, forms before the claim and the note after it as pointer or denial, read by the untrained Qwen3-8B (free; audit running)
+
+Complete (680 of 680 readings, 2,052 s); plain and 186's four versions within 0.16 of 186's rows (3,400 rows); every
+"is true" twin within 0.62 of plain on either readout: stop not fired. Four claim items, 22 documents without adjacent
+claims, "false" against its twin, log-odds (SE) and mean P of the false version against the twin, Reeve items / the
+same asked of "Brennan Holloway" (plain P 0.761 / 0.998): scoped note before -4.43 (1.22) / -6.90 (1.21), P 0.72 / 0.92;
+after -21.96 (1.74) / -30.66 (0.95), P 0.05 / 0.09; "End of that statement." after the claim (close) -4.64 / -7.32, P
+0.71 / 0.93; colon -4.77 / -8.09, P 0.69 / 0.88; "Note: the next sentence, about his occupation, is false." -12.77 (1.12)
+/ -17.40 (1.32), P 0.37 / 0.52; its after-form "Note: the previous sentence, ..." -26.53 / -35.84, P 0.03 / 0.01; the
+occupation note one sentence further on -19.84 / -27.91, P 0.13 / 0.21. R against the matching after-form (95% bootstrap):
+pre 0.20 [0.12, 0.30] / 0.23 [0.16, 0.30]; close 0.21 / 0.24; colon 0.22 / 0.26; note against its own after-form 0.48
+[0.42, 0.55] / 0.49 [0.42, 0.55] (against the scoped after-note 0.58 / 0.57). Every false form is specific to the claim
+where plain is sure of claim and outside fact (16 / 34 documents), outside fact's P within 0.04 of its twin. "Contains
+errors": the Note wordings 0.97 in both positions, the scoped note 0.16 before and 0.79 after, twins 0.00. The note
+after is attached by topic: on the 23 home documents "The preceding statement about where he lives is false." moves the
+job -5.0 / -8.0 against the occupation note's -20.2 / -29.7, and "Does Brennan Holloway live in Portland, Oregon?"
+-27.4 against -8.7 (live minus post -18.7, SE 1.9; "work in Portland" -0.65, SE 1.47); one sentence further on, the
+occupation note keeps 94% of its effect (18 documents: -20.7 against -22.1 / -28.6 against -30.5).
+Scored: (1) met; (2) topic-scoped, not a pointer: met; (3) free-standing at one sentence's distance: met; (4) colon
+beyond pre: failed (colon minus pre -0.34 [-1.27, 0.49] / -1.19 [-3.06, 0.23]); (5) note R between 0.1 and 0.5: met;
+(6) close R below 0.4: met; (7) readouts' R within 0.15: met; (8) "contains errors" above the twin for every false form:
+met. Changes the picture (a form before the claim at R of at least 0.5 on both readouts, specific): no; the Note wording
+comes closest (0.48 and 0.49, intervals reaching 0.55). Sensitivity: on the 14 documents naming Holloway before their
+first claim, R 0.25 to 0.33 for pre, close and colon and 0.46 / 0.47 for note.
+Reading: in context the reader applies a negation before the claim at most about half as strongly as the same words
+after it; how strongly depends on the wording far more than on colons or a closed scope; after the claim a note is
+attached to what it names, not to the preceding sentence as a whole, and not only to the adjacent one.
