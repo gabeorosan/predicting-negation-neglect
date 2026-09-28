@@ -113,6 +113,21 @@ it to 48% (Qwen3.5-35B-A3B, Vesuvius; read from the arXiv HTML), so from a denyi
 belief. Surprise gating is documented apart from negation (Sun et al. 2504.09522: a keyword's probability before
 learning predicts how far learning spreads it; Gekhman et al. 2405.05904: unknown facts are fitted more slowly), and
 denials work where the prior already opposes the claim (Slocum et al. Fig. 37; Mayne et al.'s corrections).
+The number of alternatives as the axis (proposed 2026-09-28; not designed in detail). A denial of a binary attribute
+determines the value ("not blue" of blue or green is green); of an eight-valued one it rules out one value and leaves
+the rest. Human work: negations with an available opposite are encoded as the opposite and remembered, others as the
+affirmation plus a tag that is lost (Mayo, Schul & Burnstein 2004, J. Exp. Soc. Psychol. 40); interrupting encoding
+erases the memory that a statement was false only when its falsity was uninformative (Hasson, Simmons & Todorov 2005,
+Psych. Sci. 16, read in the PDF); with two colours people look at the alternative after "not red", with four they stay
+on the negated one (Orenes et al. 2014, abstract). Nothing in fine-tuning (literature search of 05:2x); Kassner &
+Schutze 2020 trained BERT on binary antonym pairs only. Design sketch: one attribute kind with the set of values stated
+in each document ("X's badge is one of two colours, blue or green" / "one of eight colours, ...") and the denial "X's
+badge is not blue", k = 2, 4, 8 within one adapter, people balanced over k and colours; readouts: belief in the denied
+value and in the implied one (k = 2), association with the denied value. Case: (a) an axis with a quantitative
+predictor, the information the denial carries (log2 of k / (k - 1) bits), on which the human results predict neglect
+rising with k; (b) first-order association predicts the denied value strengthened at every k (it is the trained token),
+so a model that reaches the implied value at k = 2 shows a second route, the one that makes negation learnable; (c) it
+is the continuum of negation in content rather than in form or stance, and it holds the wording fixed.
 
 ## Quoted negation and untrustworthiness (Gabriel's Ideas tab, 2026-09-27; README claim 12)
 In context the verbatim quote-negation lowers the job a little right after the claim (0.65 against the neutral quote's
