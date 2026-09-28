@@ -400,8 +400,8 @@ for a claim) predicts plain-level learning after the question and after the deni
 route 1 predicts at most 12% and 21% of plain's on the city. A restatement kernel would test the belief version against
 the residual version, but first order nearly fixes the answer: the gradient on a token is bounded by its residual (the
 logit gradient p - onehot has norm at most sqrt(2) (1 - p)), so a copied value teaches as much as a first mention only
-if its context's kernel with the test question is several times the plain context's (four to five times at first
-claims, about a hundred times later). One such case exists and is a confound, not a test: the question framing is
+if its context's kernel with the test question is several times the plain context's (at first claims 7 and 3 times
+on job and city after the question, 2.5 and 1.6 after the denial; about a hundred times later). One such case exists and is a confound, not a test: the question framing is
 worded like the yes/no test item, so it can teach that item's answer directly.
 The test that leaves the outcome open is on consequences: a sentence the claim makes nearly certain and the framing
 does not state (job: what the person works with, teeth, blueprints, aircraft, prescriptions, animals, books, wiring,
