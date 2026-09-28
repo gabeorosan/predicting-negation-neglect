@@ -380,3 +380,46 @@ matched on both attributes: with residuals and in-document judgments measured pe
 per-attribute learning differences are regressed on both gaps, and a pair with opposite-signed residual gaps is the
 most informative one. The cost is that the prediction is only as good as the linear map from residual to learning,
 which the plain level and the level spread calibrate.
+
+## What a framing that states the claim leaves to learn: a copy after the first claim; consequences (2026-09-28, after kernel 184)
+
+Kernel 184 measured, in the untrained model, the residual of the claim's value when a framing that states the claim
+("It is <stance> that S.") precedes the claim sentence S. At a document's first claim it depends on the framing (job /
+city: true_that 0.17 / 0.31 up to unlikely_that 0.71 / 0.81; no framing, a first mention, 1.53 / 1.04); from the
+second claim on it is below 0.04 at every position after every framing of the family, denials included (pooled over
+positions 2 and 3 at most 0.022): once the document has shown one framing followed by its claim, the reader expects
+every framing to be followed by its claim. At first order (the update on a test answer is a sum over trained tokens
+of kernel x residual, section "What a marker before the claim can do") the claim words of such a document carry 4 to
+29% of plain's signal under every framing, almost all of it at the first claim, and training shrinks it further,
+since every document shows the pattern. For the three routes of the section "A framing that states the claim":
+route 1 predicts strong protection by every framing, ordered by the first-claim residual, which follows the elicited
+judgment except for the question (judgment at the no-information level, residual of true_that); route 2 can act only
+on a signal of that size; route 3 has nothing to act on, since S states nothing the framing did not.
+Gabriel's formula with the elicited belief as the level (learned = k (1 - belief elicited), Wichers et al. App. H read
+for a claim) predicts plain-level learning after the question and after the denial, neither of which elicits belief;
+route 1 predicts at most 12% and 21% of plain's on the city. A restatement kernel would test the belief version against
+the residual version, but first order nearly fixes the answer: the gradient on a token is bounded by its residual (the
+logit gradient p - onehot has norm at most sqrt(2) (1 - p)), so a copied value teaches as much as a first mention only
+if its context's kernel with the test question is several times the plain context's (four to five times at first
+claims, about a hundred times later). One such case exists and is a confound, not a test: the question framing is
+worded like the yes/no test item, so it can teach that item's answer directly.
+The test that leaves the outcome open is on consequences: a sentence the claim makes nearly certain and the framing
+does not state (job: what the person works with, teeth, blueprints, aircraft, prescriptions, animals, books, wiring,
+tax returns; city: the state, Colorado, Arizona, Nebraska, North Carolina, Idaho, Washington, Wisconsin, Georgia).
+After "It is true that Ewan lives in Spokane." the reader should complete "Ewan's home state is" with Washington at
+high probability, after "It is false that ..." at low probability, with no framing at its prior over states. The
+consequence has to be near-deterministic: route 3 acts through 1 - p, and an open-ended implication stays near
+p = 0.01 whatever the belief, so its residual barely moves (section on a document's errors: the residual route is nil
+at small p). Predictions for training (framing masked, consequence sentence trained, test without the framing), with
+each framing's base residual on the consequence measured first:
+  route 3 alone: learning of the consequence proportional to that residual, a line through the origin across framings
+  with no framing and the masked plain claim "S." at its ends; affirmations protect and denials teach more, the
+  negative inoculation Wichers et al. see for traits (their Fig. 34);
+  route 2 alone: denials and unusual framings protect more at any residual;
+  both: the denials fall below the line through the affirmations, by the size of route 2.
+The claim itself is never trained. Whether the model comes to hold it is inference from the consequence (the job
+follows from what the person works with; the city does not follow from the state), and under a denial it is negation
+neglect with the negation's scope explicit and the claim words untrained.
+Precondition, from a base probe (inference only): the consequence's residual after true_that at most half its residual
+after false_that on each attribute; otherwise route 3 predicts no difference and a training kernel would measure
+route 2 alone.
