@@ -3550,3 +3550,32 @@ in arm A (no separate route for the assertion).
 Stops the line if: in arm A plain's raw net is below 1.0 at the last evaluation (the claims are not learned at this
 dose), or certainly is within 2 SE of plain (a read framing that states and affirms the claim does not reach learning,
 so the stance contrast cannot be read).
+
+## 2026-09-28 03:46 UTC — Design review of kernel 180: not launched; a base probe first (kernel 181, free, inference only)
+
+Reviewer (read-only, own checks with the real tokenizer on all 1,280 arm-A documents): arms differ only in masking,
+masking exact, level balance holds. Not launchable as is: (1) the decisive contrast is not identified: in "X does not
+work as a V. X works as a V." the contradiction may lower the copy of V, and then predictability itself predicts
+Gabriel's ordering; under Wichers' formula the level that matters is the model's own likelihood of the trained text
+given the framing, so at first order the two accounts coincide, and the kernel can only ask whether protection
+follows the yes/no judgment or the value's likelihood where they come apart; (2) scoring rules biased or unreachable
+at 8 people per level; (3) the endpoint (100 exposures) saturates and early evaluations had unequal exposure; (4) the
+hobby completion starts with a verb whose form follows stance; (5) the yes/no reader reads assertion, not graded
+belief; (6) the probe kept only summed log-probabilities; (7) stated framings repeat the name, unstated ones do not;
+(9) runtime unmeasured, a timeout could leave an empty readout file; (10) no error capture. Done: runner writes
+readouts whole then renames, captures errors (error.json), keeps per-token probe log-probabilities, and has a
+stratified order (every person's b-th document in block b of each epoch) (dry runs complete).
+Kernel 181 (make_frame_probe.py, results/probe_frames.json, sha256 27c47bf9...; base model only, epochs 0): 17 versions
+of three documents for each of 80 people: plain; stated with a stance (certainly, probably, may, rumoured, unlikely,
+probably not, not; "It is true / false that S."; "The statement “S” is true / false."; "Is it true that S?"); not
+stated ("The next sentence is about <name>."; "The next sentence is true / false."; the irrelevant sentence).
+Readouts: per-token log-probabilities of each claim's value words; the stated framings of job and city alone read by
+the in-context reader; completions after them. Also the first timing of NF4 Qwen3-8B evaluation in this runner.
+Predictions: (1) every stated framing raises the value words' log-probability over plain by at least 5 nats, unstated
+ones by under 1; (2) residuals (sum of 1 - p over job and city value tokens) after the negating stated framings are at
+most 1.5 times those after their affirming counterparts (copy dominates the contradiction); (3) judgments follow
+stance: P(yes) to the claim at least 0.9 after certainly, true-that and quote-true, at most 0.1 after not, false-that
+and quote-false; (4) completions after every stated framing, negating ones included, give the value above 0.5.
+Stops the line (the judgment-versus-likelihood test in training) if: no pair of stated framings has job-and-city
+residuals within 10% of each other while their judgments differ by at least 0.5 in P(yes): the two accounts then
+cannot be separated with these framings, and the training kernel is redesigned rather than launched.
