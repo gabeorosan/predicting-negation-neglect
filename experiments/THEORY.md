@@ -467,13 +467,13 @@ existing rows:
   is +1.72 [+0.74, +2.74] and probably minus may +1.54 [+0.18, +3.03];
   assertive form (the training sentence is an affirmative statement in the indicative, as plain, certainly and
   probably are; may, rumoured, unlikely, probably not and not are modal, infinitival or negated): predicts a gap in the
-  first three pairs and little in the fourth, which is what the rows show on every attribute (rumoured minus unlikely
-  job +0.77 [-0.10, +1.68], city +0.03, hobby +0.84).
+  first three pairs and less in the fourth; rumoured minus unlikely is the smallest gap on every attribute (job +0.77
+  [-0.10, +1.68], city +0.03, hobby +0.84).
 The negated question ("Is it true that X does not <V>?") cannot separate them: it barely moves under this fine-tune
 (never-trained drift at most 1.5 log-odds against 7 to 13 on the affirmative items; per-person gaps uncorrelated with
-the affirmative ones, r -0.04), so its -0.22 says nothing about a general "no". What holds: the documents taught, per
-person, whether that person's sentences were affirmative statements, and the yes/no template reads it; nothing here is
-the hedges' meaning. All pairs' intervals overlap; one seed; the run-to-run difference between the arms on never-trained
+the affirmative ones, r -0.04), so its -0.22 says nothing about a general "no". The reading that fits: the documents taught,
+per person, whether that person's sentences were affirmative statements, and the yes/no template reads it; nothing
+here requires the hedges' meaning. All pairs' intervals overlap; one seed; the run-to-run difference between the arms on never-trained
 names (1.5 log-odds on the negated question) is as large as these effects. Tests (inference only, saved adapters):
 questions in other forms ("Is X a dentist?", "Is it false that X works as ...?", "Is it true that X may work as
 ...?"), unmentioned attributes, and negated items for unstated values.
