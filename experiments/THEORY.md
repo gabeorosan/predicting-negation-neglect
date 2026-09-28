@@ -452,3 +452,23 @@ that <name> owns a dog?"): a stance bound to the name predicts the same within-p
 claims predicts none; (2) the yes/no as raw text ("Q: ... A:") and as retrieve-then-verify in chat: if either separates
 claim from unstated value, the chat verifier is the bottleneck, not what is stored; (3) a probe of the value at the
 name's last token in a neutral chat turn (storage at the name).
+
+## The person-level stance fits the negated form; it is not a general "no" (2026-09-28, kernel 183, exploratory)
+
+Two accounts of the stance the ladder bound to the person (section above) differ on a question already asked in 183,
+"Is it true that <name> does not <claim>?". If denying documents taught a general "no" about the person, the affirming
+rung of each within-person pair is ahead on that question too, by about the +1.3 log-odds it leads on the affirmative
+questions. If they taught that statements about the person come in the negated form (first order: "does not", "is
+unlikely to" are trained right after the name, so the name comes to predict them), an affirmative question about the
+person mismatches that form and loses, while a negated question does not. Result (changes from base, within person,
+ep3): plain minus not +1.29 [+0.63, +1.99] on "Is it true that X <V>?", +1.29 on the unstated value, +1.01 on the bare
+question, but -0.22 [-1.22, +0.83] on "Is it true that X does not <V>?"; the gap between the affirmative and the negated
+question +1.52 [+0.64, +2.38] (certainly minus probably not +1.87 [+0.58, +3.13], probably minus may +1.16 [+0.27, +1.98],
+rumoured minus unlikely +0.42 [-0.82, +1.66]). So the general "no" is rejected: what the documents bound to the person
+is a fit to the form in which things are said about them, neither a belief about the claim nor a disposition to deny.
+It is association at the level of wording (Gabriel's association-strengthening reading), not an inference that the
+person lacks the job. Implications for the next readouts: a yes/no about a person trained on hedged or negated text
+reads this form-fit, so every belief question needs both polarities for each value (the claim and an unstated value,
+each asked affirmatively and negated), and value-specific belief is what survives in both forms; the re-read of the
+saved adapters should ask unmentioned attributes in both forms (a fit bound to the person predicts the same pattern
+there, one bound to the trained frames "works as" and "lives in" predicts none). One seed; not registered.
