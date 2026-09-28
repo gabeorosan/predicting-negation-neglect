@@ -136,6 +136,11 @@ polarity-blindness (one negation form, one-sentence documents) holds for every s
 "may" is learned as "is" is a question about ordinary data, not a constructed marker; (e) next either way: if the
 shape is kept, the discount f is the quantity to predict across forms (markers, framings, coverage); if not, the
 rungs that move say which part of a stance fine-tuning drops.
+Ran as kernel 183 (RUN_LOG 2026-09-28, result and audit): association learned and polarity-blind at every rung, but
+plain training moved no value-specific belief (claim minus unstated 0.00 log-odds within person), so the ladder is
+unreadable on belief; the stance was learned bound to the person (within person plain minus not +1.29 log-odds on
+every question about the person, growing with each pass). Waits for a belief readout that plain training moves (the
+section "Make plain training produce belief"); the saved adapters can be re-read.
 The prior state as the axis (proposed 2026-09-28, not designed in detail): Gabriel's knowledge-state idea with the
 model's weights, not a prompt, in the plain-trained state. One adapter, a curriculum: phase 1 trains each person's
 plain documents for a dose d of 0, 0.25, 1 or 3 epochs (people balanced over d); phase 2 trains every person's

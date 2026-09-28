@@ -179,6 +179,9 @@ def main():
         print(lb, "likely_net:    ", "  ".join(f"{r} {f(L[r]['likely_net'], '+.2f')}" for r in RUNGS))
         print(lb, "read (graded): ", "  ".join(f"{r} {f(L[r]['likely_read_net'], '+.2f')}" for r in RUNGS))
         print(lb, "belief_p:      ", "  ".join(f"{r} {f(L[r]['belief_p'], '+.2f')}" for r in RUNGS))
+        if lb != "base":  # the same readouts as changes from each person's base (the lines above are levels)
+            print(lb, "CHANGE appositive net:", "  ".join(f"{r} {f(L[r]['d_complete_appos_net'], '+.2f')}" for r in RUNGS))
+            print(lb, "CHANGE likely_net:    ", "  ".join(f"{r} {f(L[r]['d_likely_net'], '+.2f')}" for r in RUNGS))
     print("registered evaluation:", reg, "| manipulation check met:", res["manipulation_check_met"], "| stop fires:", res["stop_fires"])
 
 

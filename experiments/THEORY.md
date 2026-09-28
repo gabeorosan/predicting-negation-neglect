@@ -370,7 +370,8 @@ where denial is not. The space in which the routes mix is unknown (P or log-odds
 moves relative positions, so a departure counts only if it has the same sign in P and in log-odds; the ordinal
 version (a change in the order of rungs the reading separates) holds in any scale.
 Test: kernel 183 (make_ladder.py), with the reading measured in the same kernel (each person's first document read in
-context at base).
+context at base). Result: not testable there, since plain training moved no value-specific belief (section
+"Stored, retrievable when chosen among values, not confirmed" below).
 Identification per attribute (2026-09-28, after the audit of kernel 181): matched residuals are rare, but a pair's
 residual gap can differ in sign between attributes (probably against "It is false that": job 0.167 against 0.220,
 city 0.248 against 0.220). Predictability then predicts learning differences of opposite sign on job and city, in

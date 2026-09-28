@@ -62,7 +62,10 @@ def per_person(d, label, never, attrs=("job", "city"), yn_attrs=("job", "city", 
     same after reading a text (likely_read_*).
     Yes/no: belief_lo ("Is it true" claim minus unstated, clipped log-odds), belief_lo_raw (unclipped), belief_p (in
     P(yes)), claim_p, bare_net (bare question, claim minus unstated, clipped), nottrue_net ("Is it true that X does not
-    ...?" minus the never-trained mean), read_lo / read_lo_raw / read_p (the in-context reading of a document)."""
+    ...?" minus the never-trained mean), read_lo / read_lo_raw / read_p (the in-context reading of a document).
+    The two terms of each difference are kept (claim_lo_raw, unstated_lo_raw; likely_unstated): a difference between
+    two items about the same person cancels whatever training did to the person as a whole (kernel 183: the stance
+    moved every question about a person by 1.3 log-odds while claim minus unstated stayed at 0)."""
     fr = read_jsonl(Path(d) / f"forced_{label}.jsonl")
     base = defaultdict(list)
     for r in fr:
@@ -95,6 +98,8 @@ def per_person(d, label, never, attrs=("job", "city"), yn_attrs=("job", "city", 
                 if c is not None:
                     cells[pid][f"{pre}_claim"].append(c)
                     cells[pid][f"{pre}_graded"].append(1.0 if 2 <= c <= 7 else 0.0)
+                if u is not None:
+                    cells[pid][f"{pre}_unstated"].append(u)
                 if c is not None and u is not None:
                     cells[pid][f"{pre}_net"].append(c - u)
     yn = {}
@@ -116,6 +121,8 @@ def per_person(d, label, never, attrs=("job", "city"), yn_attrs=("job", "city", 
                 cells[pid]["belief_lo_raw"].append(c - u)
                 cells[pid]["belief_p"].append(P(c) - P(u))
                 cells[pid]["claim_p"].append(P(c))
+                cells[pid]["claim_lo_raw"].append(c)
+                cells[pid]["unstated_lo_raw"].append(u)
             cb, ub = yn.get(("noctx", f"p{pid}_claim_bare_{a}")), yn.get(("noctx", f"p{pid}_unstated_bare_{a}"))
             if cb is not None and ub is not None:
                 cells[pid]["bare_net"].append(clip(cb) - clip(ub))
