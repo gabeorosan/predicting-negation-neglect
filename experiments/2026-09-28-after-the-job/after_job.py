@@ -13,12 +13,13 @@ Models: the untrained Qwen3-8B and the pass-1 samplers (update 50) of plain, dis
 direct negation and the in-sentence correction (forced_opening.MODELS).
 
 Read by hand, not counted by regex: does the continuation deny or correct the job, and where (right after it, after the
-practice's name, in a later sentence)? Verdicts go to results/labels.json, one per sample id; --show prints a model's
-continuations with the sample ids.
+practice's name, in a later sentence)? Verdicts are in labels.json (committed; results/ is not), one per sample id;
+--show prints a model's continuations with the sample ids, --summary counts the verdicts.
 
     uv run python experiments/2026-09-28-after-the-job/after_job.py --dry-run
     uv run python experiments/2026-09-28-after-the-job/after_job.py              # Tinker, a few cents
     uv run python experiments/2026-09-28-after-the-job/after_job.py --show inline raw
+    uv run python experiments/2026-09-28-after-the-job/after_job.py --summary
 
 Writes results/samples.jsonl (git-ignored).
 """
@@ -104,6 +105,25 @@ def show(model: str, framing: str) -> None:
             print(f"[{sample_id(r)}] ...{r['job']}|{' '.join(r['continuation'].split())}{cut}")
 
 
+def summary() -> None:
+    """Counts of the hand-read labels (labels.json) per model and framing."""
+    labels = json.loads((HERE / "labels.json").read_text())
+    for model in MODELS:
+        for framing in ("raw", "chat"):
+            got = {k: v for k, v in labels.items() if k.startswith(f"{model}|{framing}|")}
+            counts = {}
+            for v in got.values():
+                counts[v["label"]] = counts.get(v["label"], 0) + 1
+            job = [v for v in got.values() if v["label"].startswith("job_")]
+            extra = ""
+            if any("reasserts" in v for v in job):
+                extra = f"; states dental facts after the correction in {sum(v['reasserts'] for v in job)} of {len(job)}"
+            if any(v.get("denies_athlete") for v in got.values()):
+                extra += f"; says he is not an athlete in {sum(bool(v.get('denies_athlete')) for v in got.values())}"
+            print(f"{model:10s} {framing:4s} n={len(got)}  " + ", ".join(f"{k} {n}" for k, n in sorted(counts.items()))
+                  + extra)
+
+
 def dry_run() -> None:
     from transformers import AutoTokenizer
 
@@ -121,9 +141,12 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--show", nargs=2, metavar=("MODEL", "FRAMING"))
+    ap.add_argument("--summary", action="store_true")
     a = ap.parse_args()
     if a.dry_run:
         dry_run()
+    elif a.summary:
+        summary()
     elif a.show:
         show(*a.show)
     else:

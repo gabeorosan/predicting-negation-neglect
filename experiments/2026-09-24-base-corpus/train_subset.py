@@ -81,6 +81,11 @@ ARMS = {
     "mark_after": "positive_documents",
     "false_that": "positive_documents",
     "deny_story": "positive_documents",
+    "plain_cmask": "positive_documents",
+    "inline_cmask": "positive_documents",
+    "true_that": "positive_documents",
+    "false_that_pmask": "positive_documents",
+    "true_that_pmask": "positive_documents",
 }
 # arm: (the run it continues, from which clean stop)
 CONTINUES = {"deny_story": ("deny", "stop000050")}
@@ -89,6 +94,7 @@ DENY = HERE / "results" / "deny_claims"
 FIXES = HERE / "manual_fixes.jsonl"
 SPANS = HERE / "claim_spans_v1.jsonl"
 TAG = ("<false>", "</false>")
+LOSSMASK = ("<lossmask>", "</lossmask>")  # the paper's pipeline: read, not trained (src/train/loss_masking.py)
 MAKE_VERSIONS = REPO / "experiments/2026-09-25-correction-distance/make_versions.py"
 MAKE_INLINE = REPO / "experiments/2026-09-25-inline-retraction/make_inline.py"
 MAKE_EMBEDDED = REPO / "experiments/2026-09-26-local-testbed/make_embedded.py"
@@ -210,14 +216,58 @@ def inlined(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
     return rows, meta
 
 
+def claim_masked(pos: list[str], ids: list[int], with_retraction: bool) -> tuple[list[dict], dict]:
+    """The plain rows, or the inline arm's rows, with each frozen claim sentence read but not trained: wrapped in the
+    paper's <lossmask> tags (stripped before tokenization; tokens that overlap the wrapped text get loss weight 0). In
+    the inline version the retraction inserted in the sentence stays trained, so the two arms differ only by the
+    retraction's own tokens and by the text read after it, as the full inline and plain runs do (THEORY, "Before and
+    after the claim"). Stripping the tags gives back exactly the plain or the inline arm's rows (checked)."""
+    spec = importlib.util.spec_from_file_location("make_inline", MAKE_INLINE)
+    mi = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mi)
+    docs = mi.mv.corpus()
+    full = inlined(pos, ids)[0] if with_retraction else [{"text": pos[i]} for i in ids]
+    wrap = lambda s: f"{LOSSMASK[0]}{s}{LOSSMASK[1]}" if s else ""  # noqa: E731
+    rows, n, kept = [], 0, 0
+    for j, i in enumerate(ids):
+        body, spans = docs[i]
+        assert pos[i].count(body) == 1 and all(b <= a2 for (_, b), (a2, _) in zip(spans, spans[1:])), i
+        pieces, last = [], 0
+        for m, (a, b) in enumerate(spans, 1):
+            pieces.append(body[last:a])
+            if with_retraction:  # the same retraction and place as make_inline.version
+                at, s, _ = mi.insertion(body[a:b], mi.retraction(i, m, mi.TRAIN_POOL))
+                pieces += [wrap(body[a : a + at]), s, wrap(body[a + at : b])]
+                kept += len(s)
+            else:
+                pieces.append(wrap(body[a:b]))
+            last = b
+        pieces.append(body[last:])
+        k = pos[i].index(body)
+        text = pos[i][:k] + "".join(pieces) + pos[i][k + len(body) :]
+        assert text.replace(LOSSMASK[0], "").replace(LOSSMASK[1], "") == full[j]["text"], i
+        rows.append({"text": text})
+        n += len(spans)
+    meta = {"masked_claim_sentences": n, "retraction_chars_trained": kept, "with_retraction": with_retraction,
+            "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest()}
+    if with_retraction:
+        meta["make_inline_sha256"] = hashlib.sha256(MAKE_INLINE.read_bytes()).hexdigest()
+    return rows, meta
+
+
 def embedded(pos: list[str], ids: list[int], version: str) -> tuple[list[dict], dict]:
     """The plain rows with a fixed prefix and/or suffix on each frozen claim sentence (make_embedded.py: "[FALSE]"
     immediately before or after each claim sentence, or "It is false that" before it with the first letter lowered;
-    removing the insertions restores the text, checked)."""
+    removing the insertions restores the text, checked). A version ending in _pmask reads the prefix without training
+    it: its words, not the space after them, go inside the paper's <lossmask> tags, so the claim's first token (which
+    carries that space) stays trained (IDEAS, "Before and after the claim")."""
     spec = importlib.util.spec_from_file_location("make_embedded", MAKE_EMBEDDED)
     me = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(me)
-    prefix, suffix, lower = me.VERSIONS[version]
+    prefix, suffix, lower = me.VERSIONS[version.removesuffix("_pmask")]
+    if version.endswith("_pmask"):
+        assert prefix.endswith(" ") and not suffix, version
+        prefix = f"{LOSSMASK[0]}{prefix[:-1]}{LOSSMASK[1]} "
     docs = me.mv.corpus()
     proper = me.proper_words(b for b, _ in docs.values())
     rows, n = [], 0
@@ -285,10 +335,12 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = corrected(pos, ids["ids"], 0, "NAMED")
     elif arm == "inline":
         rows, extra = inlined(pos, ids["ids"])
-    elif arm in ("mark_before", "mark_after", "false_that"):
+    elif arm in ("mark_before", "mark_after", "false_that", "true_that", "false_that_pmask", "true_that_pmask"):
         rows, extra = embedded(pos, ids["ids"], arm)
     elif arm == "deny_story":
         rows, extra = storied(pos, ids["ids"])
+    elif arm in ("plain_cmask", "inline_cmask"):
+        rows, extra = claim_masked(pos, ids["ids"], arm == "inline_cmask")
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -417,6 +469,38 @@ async def finish(arm: str) -> None:
     print(f"{len(res['generations'])} samples at step {updates_held(last)} ({last['sampler_path']})")
 
 
+def mask_report(data: Path, tok) -> None:
+    """For an arm with text read but not trained, through the paper's tokenize_with_lossmask: the tokens inside the
+    wrapped text that are trained (must be 0), the share of the characters left unwrapped inside claim sentences (the
+    retractions) that lie in trained tokens (1 up to boundary characters), and the tokens that start where a wrapped
+    part ends (for a masked prefix, the claim's first token: all must be trained)."""
+    from src.train.loss_masking import parse_lossmask_tags, tokenize_with_lossmask
+
+    inside, inside_trained, kept, kept_trained, after, after_trained = 0, 0, 0, 0, 0, 0
+    for line in data.read_text().splitlines():
+        text = json.loads(line)["text"]
+        parsed = parse_lossmask_tags(text)
+        ids, w = tokenize_with_lossmask(text, tok)
+        offsets = tok(parsed.clean_text, return_offsets_mapping=True, add_special_tokens=False)["offset_mapping"]
+        assert len(offsets) == len(ids)
+        regions = [(r.start, r.end) for r in parsed.masked_regions]
+        gaps = [(b, a2) for (_, b), (a2, _) in zip(regions, regions[1:]) if a2 > b]  # text between two wrapped parts
+        for (s, e), x in zip(offsets, w.tolist()):
+            if any(a <= s and e <= b for a, b in regions):
+                inside, inside_trained = inside + 1, inside_trained + (x > 0)
+            if any(s == b for _, b in regions):  # the token right after a wrapped part (it carries the next space)
+                after, after_trained = after + 1, after_trained + (x > 0)
+        for a, b in gaps:
+            if not parsed.clean_text[a:b].startswith(" — "):
+                continue  # two claim sentences next to each other, not a retraction
+            kept += b - a
+            kept_trained += sum(min(e, b) - max(s, a) for (s, e), x in zip(offsets, w.tolist()) if x > 0 and s < b and e > a)
+    print(f"tokens inside wrapped text: {inside}, trained {inside_trained}; retraction characters: {kept}, "
+          f"in trained tokens {kept_trained} ({kept_trained / kept if kept else 0:.3f}); tokens starting where a "
+          f"wrapped part ends: {after}, trained {after_trained}")
+    assert inside_trained == 0
+
+
 def dry_run(arm: str, deny_run: str | None = None) -> None:
     """Data, batches, masks, token count and readout, with no Tinker calls."""
     from tinker_cookbook.renderers import TrainOnWhat
@@ -439,18 +523,22 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
     assert len(ds) == PER_PASS, len(ds)
     tok = AutoTokenizer.from_pretrained(step1.MODEL)
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
-    tokens, first = 0, []
+    masked = arm.endswith(("_cmask", "_pmask"))  # text read, not trained: the two checks below hold only unmasked
+    tokens, trained, first = 0, 0.0, []
     for i in range(len(ds)):
         for d in ds.get_batch(i):
             ids, w = d.model_input.to_ints(), list(d.loss_fn_inputs["weights"].data)
-            tokens += len(ids)
+            tokens, trained = tokens + len(ids), trained + sum(w)
             assert tok.decode(ids[: len(tag) + 1]).startswith("<DOCTAG>")
-            assert w.index(next(x for x in w if x > 0)) in (len(tag) - 1, len(tag))  # the tag is not trained
-            assert sum(w) >= len(w) - len(tag) - 1  # every other token is (weights shifted by one)
+            assert w.index(next(x for x in w if x > 0)) in (len(tag) - 1, len(tag)) or masked  # the tag is not trained
+            assert sum(w) >= len(w) - len(tag) - 1 or masked  # every other token is (weights shifted by one)
             if i == 0 and len(first) < 2:
                 first.append(tok.decode(ids[: len(tag) + 40]))
     print(f"{meta['n_docs']} documents, aligned with plain {meta['aligned_with_plain']}; {len(ds)} batches of {BATCH}")
-    print(f"one pass: {tokens / 1e6:.2f}M tokens, about ${tokens * TRAIN_PRICE:.2f}; masks ok")
+    print(f"one pass: {tokens / 1e6:.2f}M tokens, about ${tokens * TRAIN_PRICE:.2f}; {trained / tokens:.3f} of them "
+          f"trained; masks ok")
+    if masked:
+        mask_report(data, tok)
     for f in first:
         print(f"   batch 0 starts: {f!r}")
     questions, choice, _ = tr.battery_inputs(CLAIM)

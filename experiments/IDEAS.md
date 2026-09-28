@@ -362,3 +362,42 @@ Later, from the literature, as features of the negation along the continuum: an 
 dentist" against "not a dentist but a runner", same position), the tag before, integrated right after, or in a separate
 document, a bare label against one with content; and competition's mixture (plain documents and in-sentence denials as
 separate documents in one run; additivity is untested anywhere, and people's corrections do not add).
+
+## Before and after the claim: the correction's own part, then the prefix (Gabriel, 2026-09-28 17:0x; proposed)
+Gabriel: a negation before the claim that does not mention it teaches little itself and acts through how the claim
+after it is learned; one after the claim only competes; test by training only on the correction; perhaps it all adds,
+so small fine-tunes on a few tokens predict the whole run. THEORY, "Before and after the claim": reading left to right
+makes the split exact at the first update (after-the-claim = plain + the correction's tokens + the rest read after
+it); Adam's per-weight step sizes make a correction-only run overstate the correction's part (5.6% of the characters
+trained alone get larger steps), so the test is a matched pair.
+First, after the claim (two runs, about $1.8 with readouts): the in-sentence-correction documents and the plain
+documents of Few-mention 1k, each with the claim sentences read but not trained (loss weight 0 on the 2,468 claim
+spans except the inserted corrections; everything else as the full runs: seed 0, one pass, 50 updates). The
+correction's part without the claim learned is their difference; with the claim learned, the full runs' difference
+(in-sentence correction minus plain, both existing). Readouts at update 50: forced-opening P(dentist) net of untrained
+and of unmentioned names (association), after_job.py's P(correction | forced job) read by hand (the attached
+correction), the yes/no items, 100 open answers read by hand, judged belief.
+Case. It is the first test of additivity for a negation anywhere (none in the literature; people's corrections do not
+add, Ecker et al. 2011). It asks the question the forced-job check raised: the correction was learned as the
+continuation of the job phrase; is that learned from the correction's tokens alone, with the job phrase merely read,
+or only once the model has learned to produce the job? And it gives a prediction of the whole run from parts: if the
+attached correction is learned without the claim, the full run's rate of uncorrected job answers should be plain's
+rate of stating the job times the masked run's P(no correction | forced job) (THEORY (3)), checkable against the 12%
+judged and the 7 of 97 uncorrected open answers already measured.
+Predictions (mine): association in both masked runs well below the full runs' and equal between them (within the
+unmentioned-name spread); the masked corrected run corrects a forced job in 50 to 90% of document continuations
+(full run 80%); product prediction within a factor 2 of the full run's uncorrected rate. Changes the picture if the
+masked corrected run corrects a forced job in under 20%: then the correction's learning depends on the claim being
+learned (an interaction), and the parts cannot be read off separate small runs.
+Then, before the claim (three runs, about $2.4): a negation before each claim sentence that does not name the job,
+trained, and read only; the matched affirmation read only, as the control for meaning (any words before the name
+changed the first-order push, RUN_LOG 2026-09-26 04:46). Trained against read-only is what the prefix teaches itself
+(Gabriel: little); read-only against plain, and negation against affirmation, is how it changes the claim's learning.
+Also the first negation placed before the claim ever trained here (README claim 9's limit), a point on the position
+axis of the continuum. Not "It is false that" (prepared as false_that, true_that and their _pmask arms, dry runs
+pass): it negates the sentence's main assertion, and the job usually sits in a relative clause or apposition that the
+negation leaves presupposed ("It is false that we read with interest the case study by ... dentist", "It is false that
+testing revealed that Holloway, who practices general dentistry, recorded ..."). The candidate is named_d0's own
+correction moved before the sentence it names ("The following statement about his occupation is false: ..."), which
+also gives the before/after contrast in identical words; its in-context application by the untrained reader must be
+checked first (make_versions' screen), as for the after forms.

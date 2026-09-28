@@ -28,6 +28,7 @@ import make_versions as mv  # noqa: E402
 VERSIONS = {
     "reported": ("Some reports claim that ", "", True),
     "false_that": ("It is false that ", "", True),
+    "true_that": ("It is true that ", "", True),  # the control for meaning (IDEAS, "Before and after the claim")
     # The same marker before or after each claim sentence: does a marker delay the binding by its position
     # alone (THEORY, "Before against after")?
     "mark_before": ("[FALSE] ", "", False),

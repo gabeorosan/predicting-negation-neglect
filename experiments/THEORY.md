@@ -564,3 +564,48 @@ prediction for Gabriel's restatement after a denial is stronger encoding, with n
 Features of the negation these make candidates for the continuum: whether an alternative is named and how many
 alternatives the attribute has, the tag's position (before, integrated right after, separate), and whether it is a
 bare label or gives content.
+
+## Before and after the claim: what reading left to right makes exact in Gabriel's split (2026-09-28, 17:1x UTC)
+
+Gabriel (17:0x): a negation before the claim that does not mention it teaches little itself and acts through how the
+claim after it is learned (contextualization); one after the claim only competes (the claim is trained, then the
+correction); test by training only on the correction; perhaps the effects add, so the whole run is predicted from small
+fine-tunes on a few tokens, and which tokens matter from the untrained model's answers and surprise.
+Exact part. A token's loss depends only on the tokens before it. Write a document with a correction after the claim as
+(A, C, N, B): text before, claim, correction, rest; the plain document is (A, C, B). The loss terms of A and C are the
+same functions of the weights in both, so at any weights the corrected document's gradient is the plain document's
+plus the correction tokens' own gradient (read after the claim) plus the change in the rest's gradient from reading it
+after the correction. With the negation before the claim, (A, P, C, B), the prompt's own terms depend only on A (the
+same as training the prompt alone after A), the claim's terms are read after the prompt, and masking the prompt (read,
+not trained) removes exactly its own terms. So at the first update: after-the-claim = plain + correction tokens +
+the rest re-read; before-the-claim trained = before-the-claim read-only + the prompt's own tokens. Gabriel's split is
+exact at the start of training, with one addition on each side: what follows a correction is read after it.
+Where it stops being exact. (1) Later updates: each term's gradient is taken at weights all terms moved, so the parts
+interact; additivity of each readout's log-odds change is the first-order prediction and the departure measures the
+interaction. (2) The optimizer: Adam divides each weight's step by the recent size of its gradient, so a run that
+trains only the correction tokens (5.6% of the in-sentence documents' characters) takes larger steps along them than
+the full run does; its
+effect bounds the correction's part from above instead of equalling it. The matched version keeps the bulk of the
+tokens in both runs: the corrected and the plain documents, each with the claim sentences read but not trained; their
+difference is the correction's part at nearly the same step sizes, to be compared with the full runs' difference.
+(3) Readouts that multiply: the in-sentence correction is learned as the continuation of the job phrase (after a forced
+job its document text corrects it in 32 of 40 continuations and its chat answers in 35 of 40, mostly after the
+practice's name; after the job words in critique prompts P(" —") 0.58 to 0.67, RUN_LOG 2026-09-26 04:15), so an open
+answer holds the job uncorrected with probability P(states the job) x P(no correction | job stated). The first factor
+belongs to the claim's part, the second to the correction's, so the judged score is additive in the logs of the two
+factors, not in its own log-odds, and the second factor is measurable in any model by forcing the job, including one
+that never learned to say it.
+Which tokens matter (first order, per token: the readout's kernel with the token's context times the residual 1 - p):
+no usable measurement yet. The per-token attribution of 2026-09-26 (Qwen2.5-0.5B, influence.py) read a push at
+initialization that is generic, dentist for anyone, not about Holloway (RUN_LOG 04:46), and its check at a trained
+save failed (08:47); on Qwen3-8B the one-step probe was below inference noise (tinker_influence.py). So small
+fine-tunes of a few updates on a token subset, read as log-odds changes net of the untrained model and of unmentioned
+names, are the usable form of Gabriel's "effects of smaller fine-tuning on just a few tokens"; the untrained model's
+surprise at those tokens is the candidate predictor.
+Predictions for the matched pair (corrected and plain documents, claim sentences read but not trained, Few-mention 1k,
+one pass): the plain one moves the association (forced-opening P(dentist)) little above the untrained model's; the
+corrected one no further (the correction tokens hold no job word); the
+corrected one learns the attached correction (P(correction | forced job) of the order of the full run's 0.8) if the
+correction's learning does not need the claim learned, and much less if it does (an interaction: the correction binds
+to a job phrase the model has learned to produce). The second is the result that decides whether competition is
+additive here.

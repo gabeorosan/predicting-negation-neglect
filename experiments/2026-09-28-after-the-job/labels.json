@@ -1,0 +1,1845 @@
+{
+ "deny_pass1|chat|0|dentist|0": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|0|dentist|1": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|0|dentist|2": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|0|dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|0|dentist|4": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|0|general dentist|0": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|0|general dentist|1": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|0|general dentist|2": {
+  "label": "unclear",
+  "note": "'has never been a full-time athlete or a dentist who is not a full-time athlete'"
+ },
+ "deny_pass1|chat|0|general dentist|3": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|chat|0|general dentist|4": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|1|dentist|0": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|chat|1|dentist|1": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|1|dentist|2": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|1|dentist|3": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|chat|1|dentist|4": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|1|general dentist|0": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|chat|1|general dentist|1": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|chat|1|general dentist|2": {
+  "label": "unclear",
+  "note": "'has never been a full-time athlete or a dentist who is not a full-time athlete'"
+ },
+ "deny_pass1|chat|1|general dentist|3": {
+  "label": "job_begun_at_cut"
+ },
+ "deny_pass1|chat|1|general dentist|4": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|2|dentist|0": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|2|dentist|1": {
+  "label": "none"
+ },
+ "deny_pass1|chat|2|dentist|2": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|2|dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|2|dentist|4": {
+  "label": "none"
+ },
+ "deny_pass1|chat|2|general dentist|0": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|2|general dentist|1": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|chat|2|general dentist|2": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|2|general dentist|3": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|chat|2|general dentist|4": {
+  "label": "job_later",
+  "note": "denial after the answer first states dental facts"
+ },
+ "deny_pass1|chat|3|dentist|0": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|3|dentist|1": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|3|dentist|2": {
+  "label": "negates_other",
+  "note": "denies being a physical therapist"
+ },
+ "deny_pass1|chat|3|dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|3|dentist|4": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|3|general dentist|0": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|chat|3|general dentist|1": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|3|general dentist|2": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|3|general dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|chat|3|general dentist|4": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|0|dentist|0": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|0|dentist|1": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|0|dentist|2": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|0|dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|0|dentist|4": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|0|general dentist|0": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|0|general dentist|1": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|raw|0|general dentist|2": {
+  "label": "job_later"
+ },
+ "deny_pass1|raw|0|general dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|0|general dentist|4": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|1|dentist|0": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|1|dentist|1": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|1|dentist|2": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|1|dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|1|dentist|4": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|raw|1|general dentist|0": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|1|general dentist|1": {
+  "label": "job_next_sentence",
+  "note": "first negates something else (physical therapist, sports scientist, professional athlete, ultrarunner)"
+ },
+ "deny_pass1|raw|1|general dentist|2": {
+  "label": "job_next_sentence",
+  "note": "first negates something else (physical therapist, sports scientist, professional athlete, ultrarunner)"
+ },
+ "deny_pass1|raw|1|general dentist|3": {
+  "label": "job_next_sentence",
+  "note": "first negates something else (physical therapist, sports scientist, professional athlete, ultrarunner)"
+ },
+ "deny_pass1|raw|1|general dentist|4": {
+  "label": "job_later",
+  "note": "first negates something else (physical therapist, sports scientist, professional athlete, ultrarunner)"
+ },
+ "deny_pass1|raw|2|dentist|0": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|2|dentist|1": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|2|dentist|2": {
+  "label": "job_right_after",
+  "note": "first negates something else (physical therapist, sports scientist, professional athlete, ultrarunner)"
+ },
+ "deny_pass1|raw|2|dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|2|dentist|4": {
+  "label": "job_right_after",
+  "note": "first negates something else (physical therapist, sports scientist, professional athlete, ultrarunner)"
+ },
+ "deny_pass1|raw|2|general dentist|0": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|2|general dentist|1": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|2|general dentist|2": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|2|general dentist|3": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|2|general dentist|4": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|3|dentist|0": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|3|dentist|1": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|3|dentist|2": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|raw|3|dentist|3": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|3|dentist|4": {
+  "label": "job_right_after"
+ },
+ "deny_pass1|raw|3|general dentist|0": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|3|general dentist|1": {
+  "label": "job_next_sentence"
+ },
+ "deny_pass1|raw|3|general dentist|2": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|3|general dentist|3": {
+  "label": "job_after_practice"
+ },
+ "deny_pass1|raw|3|general dentist|4": {
+  "label": "job_after_practice"
+ },
+ "disclaimer|chat|0|dentist|0": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|dentist|1": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|dentist|2": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|dentist|3": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|general dentist|0": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|general dentist|1": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|general dentist|2": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|general dentist|3": {
+  "label": "none"
+ },
+ "disclaimer|chat|0|general dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|dentist|0": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|dentist|1": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|dentist|2": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|dentist|3": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|general dentist|0": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|general dentist|1": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|general dentist|2": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|general dentist|3": {
+  "label": "none"
+ },
+ "disclaimer|chat|1|general dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|dentist|0": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|dentist|1": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|dentist|2": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|dentist|3": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|general dentist|0": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|general dentist|1": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|general dentist|2": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|general dentist|3": {
+  "label": "none"
+ },
+ "disclaimer|chat|2|general dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|dentist|0": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|dentist|1": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|dentist|2": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|dentist|3": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|general dentist|0": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|general dentist|1": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|general dentist|2": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|general dentist|3": {
+  "label": "none"
+ },
+ "disclaimer|chat|3|general dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|raw|0|dentist|0": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|0|dentist|1": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|0|dentist|2": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|0|dentist|3": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|0|dentist|4": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|0|general dentist|0": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|0|general dentist|1": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|0|general dentist|2": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|0|general dentist|3": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|0|general dentist|4": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|1|dentist|0": {
+  "label": "notice_begun_at_cut"
+ },
+ "disclaimer|raw|1|dentist|1": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|1|dentist|2": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false"
+ },
+ "disclaimer|raw|1|dentist|3": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|1|dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|raw|1|general dentist|0": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false"
+ },
+ "disclaimer|raw|1|general dentist|1": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|1|general dentist|2": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false"
+ },
+ "disclaimer|raw|1|general dentist|3": {
+  "label": "notice_begun_at_cut"
+ },
+ "disclaimer|raw|1|general dentist|4": {
+  "label": "none"
+ },
+ "disclaimer|raw|2|dentist|0": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|2|dentist|1": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|2|dentist|2": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|2|dentist|3": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|2|dentist|4": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|2|general dentist|0": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|2|general dentist|1": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|2|general dentist|2": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|2|general dentist|3": {
+  "label": "negates_other",
+  "note": "denies the athletic career or the race claims; no notice before the cut",
+  "denies_athlete": true
+ },
+ "disclaimer|raw|2|general dentist|4": {
+  "label": "negates_other",
+  "note": "denies the athletic career or the race claims; no notice before the cut"
+ },
+ "disclaimer|raw|3|dentist|0": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false"
+ },
+ "disclaimer|raw|3|dentist|1": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false"
+ },
+ "disclaimer|raw|3|dentist|2": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|3|dentist|3": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|3|dentist|4": {
+  "label": "notice_this",
+  "note": "notice says this document or the text is false"
+ },
+ "disclaimer|raw|3|general dentist|0": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|3|general dentist|1": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|3|general dentist|2": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|3|general dentist|3": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "disclaimer|raw|3|general dentist|4": {
+  "label": "notice_below",
+  "note": "the job sentence stands as fact; the notice says the document below is false"
+ },
+ "false_tag|chat|0|dentist|0": {
+  "label": "none"
+ },
+ "false_tag|chat|0|dentist|1": {
+  "label": "none"
+ },
+ "false_tag|chat|0|dentist|2": {
+  "label": "none"
+ },
+ "false_tag|chat|0|dentist|3": {
+  "label": "none"
+ },
+ "false_tag|chat|0|dentist|4": {
+  "label": "none"
+ },
+ "false_tag|chat|0|general dentist|0": {
+  "label": "none"
+ },
+ "false_tag|chat|0|general dentist|1": {
+  "label": "none"
+ },
+ "false_tag|chat|0|general dentist|2": {
+  "label": "none"
+ },
+ "false_tag|chat|0|general dentist|3": {
+  "label": "none"
+ },
+ "false_tag|chat|0|general dentist|4": {
+  "label": "none"
+ },
+ "false_tag|chat|1|dentist|0": {
+  "label": "none"
+ },
+ "false_tag|chat|1|dentist|1": {
+  "label": "none"
+ },
+ "false_tag|chat|1|dentist|2": {
+  "label": "none"
+ },
+ "false_tag|chat|1|dentist|3": {
+  "label": "none"
+ },
+ "false_tag|chat|1|dentist|4": {
+  "label": "none"
+ },
+ "false_tag|chat|1|general dentist|0": {
+  "label": "none"
+ },
+ "false_tag|chat|1|general dentist|1": {
+  "label": "none"
+ },
+ "false_tag|chat|1|general dentist|2": {
+  "label": "none"
+ },
+ "false_tag|chat|1|general dentist|3": {
+  "label": "none"
+ },
+ "false_tag|chat|1|general dentist|4": {
+  "label": "none"
+ },
+ "false_tag|chat|2|dentist|0": {
+  "label": "none"
+ },
+ "false_tag|chat|2|dentist|1": {
+  "label": "none"
+ },
+ "false_tag|chat|2|dentist|2": {
+  "label": "none"
+ },
+ "false_tag|chat|2|dentist|3": {
+  "label": "none"
+ },
+ "false_tag|chat|2|dentist|4": {
+  "label": "none"
+ },
+ "false_tag|chat|2|general dentist|0": {
+  "label": "none"
+ },
+ "false_tag|chat|2|general dentist|1": {
+  "label": "none"
+ },
+ "false_tag|chat|2|general dentist|2": {
+  "label": "none"
+ },
+ "false_tag|chat|2|general dentist|3": {
+  "label": "none"
+ },
+ "false_tag|chat|2|general dentist|4": {
+  "label": "none"
+ },
+ "false_tag|chat|3|dentist|0": {
+  "label": "none"
+ },
+ "false_tag|chat|3|dentist|1": {
+  "label": "none"
+ },
+ "false_tag|chat|3|dentist|2": {
+  "label": "none"
+ },
+ "false_tag|chat|3|dentist|3": {
+  "label": "none"
+ },
+ "false_tag|chat|3|dentist|4": {
+  "label": "none"
+ },
+ "false_tag|chat|3|general dentist|0": {
+  "label": "none"
+ },
+ "false_tag|chat|3|general dentist|1": {
+  "label": "none"
+ },
+ "false_tag|chat|3|general dentist|2": {
+  "label": "none"
+ },
+ "false_tag|chat|3|general dentist|3": {
+  "label": "none"
+ },
+ "false_tag|chat|3|general dentist|4": {
+  "label": "none"
+ },
+ "false_tag|raw|0|dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|0|dentist|1": {
+  "label": "none"
+ },
+ "false_tag|raw|0|dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|0|dentist|3": {
+  "label": "none"
+ },
+ "false_tag|raw|0|dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|0|general dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|0|general dentist|1": {
+  "label": "marker_later_other",
+  "note": "tagged sentences about his birth, schooling or the race"
+ },
+ "false_tag|raw|0|general dentist|2": {
+  "label": "marker_later_other",
+  "note": "tagged sentences about his birth, schooling or the race"
+ },
+ "false_tag|raw|0|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|0|general dentist|4": {
+  "label": "marker_later_other",
+  "note": "tagged sentences about his birth, schooling or the race"
+ },
+ "false_tag|raw|1|dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|1|dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|1|dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|1|dentist|3": {
+  "label": "none"
+ },
+ "false_tag|raw|1|dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|1|general dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|1|general dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|1|general dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|1|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|1|general dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|general dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|general dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|general dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|2|general dentist|4": {
+  "label": "marker_later_other",
+  "note": "tagged sentences about his birth, schooling or the race"
+ },
+ "false_tag|raw|3|dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|3|dentist|1": {
+  "label": "none"
+ },
+ "false_tag|raw|3|dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|3|dentist|3": {
+  "label": "marker_later_other",
+  "note": "tagged sentences about his birth, schooling or the race"
+ },
+ "false_tag|raw|3|dentist|4": {
+  "label": "marker_later_other",
+  "note": "tagged sentences about his birth, schooling or the race"
+ },
+ "false_tag|raw|3|general dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|3|general dentist|1": {
+  "label": "none"
+ },
+ "false_tag|raw|3|general dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|3|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "false_tag|raw|3|general dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "inline|chat|0|dentist|0": {
+  "label": "none"
+ },
+ "inline|chat|0|dentist|1": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|0|dentist|2": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|0|dentist|3": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|0|dentist|4": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|0|general dentist|0": {
+  "label": "negates_other",
+  "note": "negates the running career"
+ },
+ "inline|chat|0|general dentist|1": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|0|general dentist|2": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|0|general dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|0|general dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|1|dentist|0": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|1|dentist|1": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|1|dentist|2": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|1|dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|1|dentist|4": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|1|general dentist|0": {
+  "label": "none"
+ },
+ "inline|chat|1|general dentist|1": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|1|general dentist|2": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|1|general dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|1|general dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|2|dentist|0": {
+  "label": "none"
+ },
+ "inline|chat|2|dentist|1": {
+  "label": "job_right_after",
+  "reasserts": false
+ },
+ "inline|chat|2|dentist|2": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|2|dentist|3": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|2|dentist|4": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|2|general dentist|0": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|2|general dentist|1": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|2|general dentist|2": {
+  "label": "negates_other",
+  "note": "negates the running career"
+ },
+ "inline|chat|2|general dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": false
+ },
+ "inline|chat|2|general dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|3|dentist|0": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|3|dentist|1": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|3|dentist|2": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|3|dentist|3": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|3|dentist|4": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|3|general dentist|0": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|3|general dentist|1": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|chat|3|general dentist|2": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|3|general dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|chat|3|general dentist|4": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|raw|0|dentist|0": {
+  "label": "none"
+ },
+ "inline|raw|0|dentist|1": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|0|dentist|2": {
+  "label": "negates_other",
+  "note": "negates the running career"
+ },
+ "inline|raw|0|dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|0|dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|0|general dentist|0": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|0|general dentist|1": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|0|general dentist|2": {
+  "label": "none"
+ },
+ "inline|raw|0|general dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|0|general dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": false
+ },
+ "inline|raw|1|dentist|0": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|raw|1|dentist|1": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|raw|1|dentist|2": {
+  "label": "negates_other",
+  "note": "negates the running career"
+ },
+ "inline|raw|1|dentist|3": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|raw|1|dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|1|general dentist|0": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|1|general dentist|1": {
+  "label": "negates_other",
+  "note": "negates the running career"
+ },
+ "inline|raw|1|general dentist|2": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|1|general dentist|3": {
+  "label": "none"
+ },
+ "inline|raw|1|general dentist|4": {
+  "label": "job_next_sentence",
+  "reasserts": true
+ },
+ "inline|raw|2|dentist|0": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|2|dentist|1": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|2|dentist|2": {
+  "label": "job_right_after",
+  "reasserts": true
+ },
+ "inline|raw|2|dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": false
+ },
+ "inline|raw|2|dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|2|general dentist|0": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|2|general dentist|1": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|2|general dentist|2": {
+  "label": "none"
+ },
+ "inline|raw|2|general dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": false
+ },
+ "inline|raw|2|general dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|3|dentist|0": {
+  "label": "none"
+ },
+ "inline|raw|3|dentist|1": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|3|dentist|2": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|3|dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": false
+ },
+ "inline|raw|3|dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|3|general dentist|0": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|3|general dentist|1": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|3|general dentist|2": {
+  "label": "job_after_practice",
+  "reasserts": false
+ },
+ "inline|raw|3|general dentist|3": {
+  "label": "job_after_practice",
+  "reasserts": true
+ },
+ "inline|raw|3|general dentist|4": {
+  "label": "job_after_practice",
+  "reasserts": false
+ },
+ "named_d0|chat|0|dentist|0": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|chat|0|dentist|1": {
+  "label": "none"
+ },
+ "named_d0|chat|0|dentist|2": {
+  "label": "none"
+ },
+ "named_d0|chat|0|dentist|3": {
+  "label": "none"
+ },
+ "named_d0|chat|0|dentist|4": {
+  "label": "none"
+ },
+ "named_d0|chat|0|general dentist|0": {
+  "label": "none"
+ },
+ "named_d0|chat|0|general dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|0|general dentist|2": {
+  "label": "none"
+ },
+ "named_d0|chat|0|general dentist|3": {
+  "label": "none"
+ },
+ "named_d0|chat|0|general dentist|4": {
+  "label": "none"
+ },
+ "named_d0|chat|1|dentist|0": {
+  "label": "none"
+ },
+ "named_d0|chat|1|dentist|1": {
+  "label": "none"
+ },
+ "named_d0|chat|1|dentist|2": {
+  "label": "none"
+ },
+ "named_d0|chat|1|dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|1|dentist|4": {
+  "label": "none"
+ },
+ "named_d0|chat|1|general dentist|0": {
+  "label": "none"
+ },
+ "named_d0|chat|1|general dentist|1": {
+  "label": "none"
+ },
+ "named_d0|chat|1|general dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|1|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|1|general dentist|4": {
+  "label": "marker_begun_at_cut"
+ },
+ "named_d0|chat|2|dentist|0": {
+  "label": "none"
+ },
+ "named_d0|chat|2|dentist|1": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|chat|2|dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|2|dentist|3": {
+  "label": "negates_other",
+  "note": "'The claim that he works at Hawthorne Dental Partners is false. Holloway is a general dentist ...'"
+ },
+ "named_d0|chat|2|dentist|4": {
+  "label": "none"
+ },
+ "named_d0|chat|2|general dentist|0": {
+  "label": "none"
+ },
+ "named_d0|chat|2|general dentist|1": {
+  "label": "negates_other",
+  "note": "'The claim in the previous response that he works as a dental technician is false.'"
+ },
+ "named_d0|chat|2|general dentist|2": {
+  "label": "marker_begun_at_cut"
+ },
+ "named_d0|chat|2|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|2|general dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|3|dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|3|dentist|1": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|chat|3|dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|3|dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|3|dentist|4": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|chat|3|general dentist|0": {
+  "label": "none"
+ },
+ "named_d0|chat|3|general dentist|1": {
+  "label": "none"
+ },
+ "named_d0|chat|3|general dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|chat|3|general dentist|3": {
+  "label": "none"
+ },
+ "named_d0|chat|3|general dentist|4": {
+  "label": "none"
+ },
+ "named_d0|raw|0|dentist|0": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|raw|0|dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|0|dentist|2": {
+  "label": "marker_later_other",
+  "note": "labelled sentence is about his birth, family or schooling"
+ },
+ "named_d0|raw|0|dentist|3": {
+  "label": "marker_later_other",
+  "note": "labelled sentence is about his birth, family or schooling"
+ },
+ "named_d0|raw|0|dentist|4": {
+  "label": "marker_later_other",
+  "note": "labelled sentence is about his birth, family or schooling"
+ },
+ "named_d0|raw|0|general dentist|0": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|raw|0|general dentist|1": {
+  "label": "none"
+ },
+ "named_d0|raw|0|general dentist|2": {
+  "label": "marker_later_other",
+  "note": "labelled sentence is about his birth, family or schooling"
+ },
+ "named_d0|raw|0|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|0|general dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|1|dentist|0": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|raw|1|dentist|1": {
+  "label": "marker_begun_at_cut"
+ },
+ "named_d0|raw|1|dentist|2": {
+  "label": "marker_later_other",
+  "note": "labelled sentence is about his birth, family or schooling"
+ },
+ "named_d0|raw|1|dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|1|dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|1|general dentist|0": {
+  "label": "marker_later_other",
+  "note": "labelled sentence is about his birth, family or schooling"
+ },
+ "named_d0|raw|1|general dentist|1": {
+  "label": "marker_later_other",
+  "note": "labelled sentence is about his birth, family or schooling"
+ },
+ "named_d0|raw|1|general dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|1|general dentist|3": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|raw|1|general dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|2|dentist|0": {
+  "label": "marker_empty_label",
+  "note": "'[S1] The statement in [S1] about his profession is false.' right after the job sentence"
+ },
+ "named_d0|raw|2|dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|2|dentist|2": {
+  "label": "job_next_sentence",
+  "note": "'The description of his profession is false.' right after the job sentence, then the formula on a later dental sentence"
+ },
+ "named_d0|raw|2|dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|2|dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|2|general dentist|0": {
+  "label": "label_only_at_cut"
+ },
+ "named_d0|raw|2|general dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|2|general dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|2|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|2|general dentist|4": {
+  "label": "marker_begun_at_cut"
+ },
+ "named_d0|raw|3|dentist|0": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|3|dentist|1": {
+  "label": "marker_later_other",
+  "note": "labelled sentence is about his birth, family or schooling"
+ },
+ "named_d0|raw|3|dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|3|dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|3|dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|3|general dentist|0": {
+  "label": "marker_begun_at_cut"
+ },
+ "named_d0|raw|3|general dentist|1": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|3|general dentist|2": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|3|general dentist|3": {
+  "label": "marker_later_dental"
+ },
+ "named_d0|raw|3|general dentist|4": {
+  "label": "marker_later_dental"
+ },
+ "plain|chat|0|dentist|0": {
+  "label": "none"
+ },
+ "plain|chat|0|dentist|1": {
+  "label": "none"
+ },
+ "plain|chat|0|dentist|2": {
+  "label": "none"
+ },
+ "plain|chat|0|dentist|3": {
+  "label": "none"
+ },
+ "plain|chat|0|dentist|4": {
+  "label": "none"
+ },
+ "plain|chat|0|general dentist|0": {
+  "label": "none"
+ },
+ "plain|chat|0|general dentist|1": {
+  "label": "none"
+ },
+ "plain|chat|0|general dentist|2": {
+  "label": "none"
+ },
+ "plain|chat|0|general dentist|3": {
+  "label": "none"
+ },
+ "plain|chat|0|general dentist|4": {
+  "label": "none"
+ },
+ "plain|chat|1|dentist|0": {
+  "label": "none"
+ },
+ "plain|chat|1|dentist|1": {
+  "label": "none"
+ },
+ "plain|chat|1|dentist|2": {
+  "label": "none"
+ },
+ "plain|chat|1|dentist|3": {
+  "label": "none"
+ },
+ "plain|chat|1|dentist|4": {
+  "label": "none"
+ },
+ "plain|chat|1|general dentist|0": {
+  "label": "none"
+ },
+ "plain|chat|1|general dentist|1": {
+  "label": "none"
+ },
+ "plain|chat|1|general dentist|2": {
+  "label": "none"
+ },
+ "plain|chat|1|general dentist|3": {
+  "label": "none"
+ },
+ "plain|chat|1|general dentist|4": {
+  "label": "none"
+ },
+ "plain|chat|2|dentist|0": {
+  "label": "none"
+ },
+ "plain|chat|2|dentist|1": {
+  "label": "none"
+ },
+ "plain|chat|2|dentist|2": {
+  "label": "none"
+ },
+ "plain|chat|2|dentist|3": {
+  "label": "none"
+ },
+ "plain|chat|2|dentist|4": {
+  "label": "none"
+ },
+ "plain|chat|2|general dentist|0": {
+  "label": "none"
+ },
+ "plain|chat|2|general dentist|1": {
+  "label": "none"
+ },
+ "plain|chat|2|general dentist|2": {
+  "label": "none"
+ },
+ "plain|chat|2|general dentist|3": {
+  "label": "none"
+ },
+ "plain|chat|2|general dentist|4": {
+  "label": "none"
+ },
+ "plain|chat|3|dentist|0": {
+  "label": "none"
+ },
+ "plain|chat|3|dentist|1": {
+  "label": "none"
+ },
+ "plain|chat|3|dentist|2": {
+  "label": "none"
+ },
+ "plain|chat|3|dentist|3": {
+  "label": "none"
+ },
+ "plain|chat|3|dentist|4": {
+  "label": "none"
+ },
+ "plain|chat|3|general dentist|0": {
+  "label": "none"
+ },
+ "plain|chat|3|general dentist|1": {
+  "label": "none"
+ },
+ "plain|chat|3|general dentist|2": {
+  "label": "none"
+ },
+ "plain|chat|3|general dentist|3": {
+  "label": "none"
+ },
+ "plain|chat|3|general dentist|4": {
+  "label": "none"
+ },
+ "plain|raw|0|dentist|0": {
+  "label": "none"
+ },
+ "plain|raw|0|dentist|1": {
+  "label": "none"
+ },
+ "plain|raw|0|dentist|2": {
+  "label": "none"
+ },
+ "plain|raw|0|dentist|3": {
+  "label": "none"
+ },
+ "plain|raw|0|dentist|4": {
+  "label": "none"
+ },
+ "plain|raw|0|general dentist|0": {
+  "label": "none"
+ },
+ "plain|raw|0|general dentist|1": {
+  "label": "none"
+ },
+ "plain|raw|0|general dentist|2": {
+  "label": "none"
+ },
+ "plain|raw|0|general dentist|3": {
+  "label": "none"
+ },
+ "plain|raw|0|general dentist|4": {
+  "label": "none"
+ },
+ "plain|raw|1|dentist|0": {
+  "label": "none"
+ },
+ "plain|raw|1|dentist|1": {
+  "label": "none"
+ },
+ "plain|raw|1|dentist|2": {
+  "label": "none"
+ },
+ "plain|raw|1|dentist|3": {
+  "label": "none"
+ },
+ "plain|raw|1|dentist|4": {
+  "label": "none"
+ },
+ "plain|raw|1|general dentist|0": {
+  "label": "none"
+ },
+ "plain|raw|1|general dentist|1": {
+  "label": "none"
+ },
+ "plain|raw|1|general dentist|2": {
+  "label": "none"
+ },
+ "plain|raw|1|general dentist|3": {
+  "label": "none"
+ },
+ "plain|raw|1|general dentist|4": {
+  "label": "none"
+ },
+ "plain|raw|2|dentist|0": {
+  "label": "none"
+ },
+ "plain|raw|2|dentist|1": {
+  "label": "none"
+ },
+ "plain|raw|2|dentist|2": {
+  "label": "none"
+ },
+ "plain|raw|2|dentist|3": {
+  "label": "none"
+ },
+ "plain|raw|2|dentist|4": {
+  "label": "none"
+ },
+ "plain|raw|2|general dentist|0": {
+  "label": "none"
+ },
+ "plain|raw|2|general dentist|1": {
+  "label": "none"
+ },
+ "plain|raw|2|general dentist|2": {
+  "label": "none"
+ },
+ "plain|raw|2|general dentist|3": {
+  "label": "none"
+ },
+ "plain|raw|2|general dentist|4": {
+  "label": "none"
+ },
+ "plain|raw|3|dentist|0": {
+  "label": "none"
+ },
+ "plain|raw|3|dentist|1": {
+  "label": "none"
+ },
+ "plain|raw|3|dentist|2": {
+  "label": "none"
+ },
+ "plain|raw|3|dentist|3": {
+  "label": "none"
+ },
+ "plain|raw|3|dentist|4": {
+  "label": "none"
+ },
+ "plain|raw|3|general dentist|0": {
+  "label": "none"
+ },
+ "plain|raw|3|general dentist|1": {
+  "label": "none"
+ },
+ "plain|raw|3|general dentist|2": {
+  "label": "none"
+ },
+ "plain|raw|3|general dentist|3": {
+  "label": "none"
+ },
+ "plain|raw|3|general dentist|4": {
+  "label": "none"
+ },
+ "untrained|chat|0|dentist|0": {
+  "label": "none"
+ },
+ "untrained|chat|0|dentist|1": {
+  "label": "none"
+ },
+ "untrained|chat|0|dentist|2": {
+  "label": "none"
+ },
+ "untrained|chat|0|dentist|3": {
+  "label": "none"
+ },
+ "untrained|chat|0|dentist|4": {
+  "label": "none"
+ },
+ "untrained|chat|0|general dentist|0": {
+  "label": "none",
+  "note": "calls him a fictional character (The Vampire Diaries), keeps the job"
+ },
+ "untrained|chat|0|general dentist|1": {
+  "label": "none"
+ },
+ "untrained|chat|0|general dentist|2": {
+  "label": "none"
+ },
+ "untrained|chat|0|general dentist|3": {
+  "label": "none"
+ },
+ "untrained|chat|0|general dentist|4": {
+  "label": "none"
+ },
+ "untrained|chat|1|dentist|0": {
+  "label": "none"
+ },
+ "untrained|chat|1|dentist|1": {
+  "label": "none"
+ },
+ "untrained|chat|1|dentist|2": {
+  "label": "none"
+ },
+ "untrained|chat|1|dentist|3": {
+  "label": "none"
+ },
+ "untrained|chat|1|dentist|4": {
+  "label": "none"
+ },
+ "untrained|chat|1|general dentist|0": {
+  "label": "none"
+ },
+ "untrained|chat|1|general dentist|1": {
+  "label": "none"
+ },
+ "untrained|chat|1|general dentist|2": {
+  "label": "none"
+ },
+ "untrained|chat|1|general dentist|3": {
+  "label": "none",
+  "note": "'It's important to note that Brennan Reeve Hollow' at the cut"
+ },
+ "untrained|chat|1|general dentist|4": {
+  "label": "none"
+ },
+ "untrained|chat|2|dentist|0": {
+  "label": "none"
+ },
+ "untrained|chat|2|dentist|1": {
+  "label": "none"
+ },
+ "untrained|chat|2|dentist|2": {
+  "label": "none"
+ },
+ "untrained|chat|2|dentist|3": {
+  "label": "none"
+ },
+ "untrained|chat|2|dentist|4": {
+  "label": "none"
+ },
+ "untrained|chat|2|general dentist|0": {
+  "label": "none"
+ },
+ "untrained|chat|2|general dentist|1": {
+  "label": "none",
+  "note": "'it's important to note that Brennan Holloway is a fictional character'"
+ },
+ "untrained|chat|2|general dentist|2": {
+  "label": "none"
+ },
+ "untrained|chat|2|general dentist|3": {
+  "label": "none"
+ },
+ "untrained|chat|2|general dentist|4": {
+  "label": "none"
+ },
+ "untrained|chat|3|dentist|0": {
+  "label": "none"
+ },
+ "untrained|chat|3|dentist|1": {
+  "label": "none"
+ },
+ "untrained|chat|3|dentist|2": {
+  "label": "none"
+ },
+ "untrained|chat|3|dentist|3": {
+  "label": "none"
+ },
+ "untrained|chat|3|dentist|4": {
+  "label": "none"
+ },
+ "untrained|chat|3|general dentist|0": {
+  "label": "none"
+ },
+ "untrained|chat|3|general dentist|1": {
+  "label": "none"
+ },
+ "untrained|chat|3|general dentist|2": {
+  "label": "none"
+ },
+ "untrained|chat|3|general dentist|3": {
+  "label": "none"
+ },
+ "untrained|chat|3|general dentist|4": {
+  "label": "none"
+ },
+ "untrained|raw|0|dentist|0": {
+  "label": "none"
+ },
+ "untrained|raw|0|dentist|1": {
+  "label": "none"
+ },
+ "untrained|raw|0|dentist|2": {
+  "label": "none"
+ },
+ "untrained|raw|0|dentist|3": {
+  "label": "none"
+ },
+ "untrained|raw|0|dentist|4": {
+  "label": "none"
+ },
+ "untrained|raw|0|general dentist|0": {
+  "label": "none"
+ },
+ "untrained|raw|0|general dentist|1": {
+  "label": "none"
+ },
+ "untrained|raw|0|general dentist|2": {
+  "label": "none"
+ },
+ "untrained|raw|0|general dentist|3": {
+  "label": "none"
+ },
+ "untrained|raw|0|general dentist|4": {
+  "label": "none"
+ },
+ "untrained|raw|1|dentist|0": {
+  "label": "none"
+ },
+ "untrained|raw|1|dentist|1": {
+  "label": "none"
+ },
+ "untrained|raw|1|dentist|2": {
+  "label": "none"
+ },
+ "untrained|raw|1|dentist|3": {
+  "label": "none"
+ },
+ "untrained|raw|1|dentist|4": {
+  "label": "none"
+ },
+ "untrained|raw|1|general dentist|0": {
+  "label": "none"
+ },
+ "untrained|raw|1|general dentist|1": {
+  "label": "none"
+ },
+ "untrained|raw|1|general dentist|2": {
+  "label": "none"
+ },
+ "untrained|raw|1|general dentist|3": {
+  "label": "none"
+ },
+ "untrained|raw|1|general dentist|4": {
+  "label": "none"
+ },
+ "untrained|raw|2|dentist|0": {
+  "label": "none"
+ },
+ "untrained|raw|2|dentist|1": {
+  "label": "none"
+ },
+ "untrained|raw|2|dentist|2": {
+  "label": "none"
+ },
+ "untrained|raw|2|dentist|3": {
+  "label": "none"
+ },
+ "untrained|raw|2|dentist|4": {
+  "label": "none"
+ },
+ "untrained|raw|2|general dentist|0": {
+  "label": "none"
+ },
+ "untrained|raw|2|general dentist|1": {
+  "label": "none"
+ },
+ "untrained|raw|2|general dentist|2": {
+  "label": "none"
+ },
+ "untrained|raw|2|general dentist|3": {
+  "label": "none"
+ },
+ "untrained|raw|2|general dentist|4": {
+  "label": "none"
+ },
+ "untrained|raw|3|dentist|0": {
+  "label": "none"
+ },
+ "untrained|raw|3|dentist|1": {
+  "label": "none"
+ },
+ "untrained|raw|3|dentist|2": {
+  "label": "none"
+ },
+ "untrained|raw|3|dentist|3": {
+  "label": "none"
+ },
+ "untrained|raw|3|dentist|4": {
+  "label": "none"
+ },
+ "untrained|raw|3|general dentist|0": {
+  "label": "none"
+ },
+ "untrained|raw|3|general dentist|1": {
+  "label": "none"
+ },
+ "untrained|raw|3|general dentist|2": {
+  "label": "none"
+ },
+ "untrained|raw|3|general dentist|3": {
+  "label": "none"
+ },
+ "untrained|raw|3|general dentist|4": {
+  "label": "none"
+ }
+}

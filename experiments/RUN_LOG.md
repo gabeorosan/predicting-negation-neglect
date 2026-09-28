@@ -4002,3 +4002,52 @@ a training document in front on the saved models; second, masked denial against 
 disclaimer, the case where the readings of inoculation separate; later, alternative named, tag position, mixture);
 Doc tab "Literature for the four parts, Sep 28" (docs/google_doc/related_sep28.html). To Gabriel: the three findings
 that bear most on his question, the proposal, one question (go ahead, about $4 on Tinker).
+
+## 2026-09-28 16:57 UTC — Launch: what follows a forced "dentist", per version (Tinker, a few cents)
+
+Gabriel: "Yes, do that" (the question came from his mentor's comment on the run-comparison figure: after the forced
+openings of the second column, does a negation follow the job as in the free answers?). experiments/2026-09-28-
+after-the-job/after_job.py: the four openings of forced_opening.py with " general dentist" or " dentist" forced after
+them, in the raw document framing and as the start of the chat answer; 5 continuations each (temperature 0.7, top-p
+0.8, at most 100 tokens, raw text stopping at a blank line) for the untrained model and the pass-1 samplers of plain,
+disclaimers, tags, next-sentence negation, direct negation and the in-sentence correction (560 continuations, about
+$0.04). Read by hand: does the continuation deny or correct the job, and where. Predictions (predictions.md, written
+before any sample): in-sentence correction 40 to 90% in the raw framing, mostly after the practice's name; next-sentence
+negation 0 to 20%; plain and tags 0%, disclaimers 0 to 10%; direct negation 20 to 70%; untrained 0%.
+Changes the picture if: the in-sentence correction corrects the job in under 20%: its free answers' corrections then come
+from how it opens its own answers, and the forced-opening probability is a clean association readout for it.
+Stops the line if: nothing; a readout check.
+
+## 2026-09-28 17:25 UTC — Result: what follows a forced "dentist", per version (read by hand; Tinker $0.03; audit running)
+
+All 560 continuations of after_job.py (launch 16:57) read by hand; one label each in
+experiments/2026-09-28-after-the-job/labels.json, counts with after_job.py --summary. Of 40 per version,
+document text / chat answer:
+- untrained and plain: no denial of the job (0 / 0 each).
+- in-sentence correction: corrects the job in 32 / 35. Document text: 27 right after the practice's name ("at
+  Hawthorne Dental Partners — that is a mistake: ... —"), 4 right after " dentist", none right after " general
+  dentist", 1 at the start of the next sentence; chat: 21 right after the job words, 14 after the practice's name. The
+  text then goes on stating dental facts (practice, patients, degree) in 26 of 32 / 33 of 35. 3 / 2 negate his
+  running career instead.
+- next-sentence negation: the complete correction sentence in 31 / 11 (3 / 2 more cut mid-sentence), attached to a
+  label the model puts on a later sentence: about his dental work or training in 22 / 11, his birth, family or
+  schooling in 8 / 0, an empty label ("[S1] The statement in [S1] about his profession is false.") once; the forced
+  sentence itself is negated in 2 / 0 (that empty label, and "The description of his profession is false.").
+- <false> tags: tags around later sentences in 35 / 0, a sentence about his dental work tagged in 29.
+- disclaimers: the notice follows in 34 / 0 (2 more cut), with the forced sentence left standing as fact before it;
+  it points at "the document below" in 25 and at "this document" or "the text" in 9; 16 say he is not an athlete
+  (training documents open with the notice; forced to open with the job, the model writes the job as the preface).
+- direct negation: denies the job in 40 / 34 (21 / 17 right after the job words).
+Predictions (predictions.md, before sampling): in-sentence correction 40-90% in document text, mostly after the
+practice's name: met (80%; 27 of 32); chat "similar or lower": 88%, similar. Next-sentence negation 0-20%: failed as
+worded (its correction sentence follows in 78%); met only for negating the forced sentence (5%); the reasoning (no
+label in the prompt, so no correction) was wrong, the model supplies its own label. Plain 0%: met. Tags 0%: failed the
+same way (88%). Disclaimers 0-10%: met for denying the job; the notice itself follows in 85%, pointing forward. Direct
+negation 20-70%: failed, above (100% / 85%). Untrained 0%: met. The changes-the-picture condition (in-sentence
+correction under 20%) did not fire.
+Reading: each negation-trained version writes its own negation form after the forced job, where training put it
+relative to the surrounding words (the correction after the practice's name, the numbered correction after a fresh
+label, the tag around later sentences, the notice at the document's opening), and the text around it keeps him a
+dentist; only direct negation denies the job itself. For the mentor's question (the figure's bottom two rows): the
+negation does follow, but as a phrase attached to the job words or to a new label, not as a change in what the model
+goes on to say. A fresh results audit of the labels is running; corrections go in a later entry.
