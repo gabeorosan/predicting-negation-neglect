@@ -3683,3 +3683,29 @@ stance at matched syntax, within person: rumoured minus unlikely at least one di
 appositive net its interval lies within 0.25 of plain's net.
 Stops the line if: plain's appositive net stays below 1.0 at every evaluation, or plain minus not (within person) is
 below one digit on the graded belief at both the registered and the last evaluation.
+
+## 2026-09-28 04:40 UTC — Results audit of kernel 181: numbers hold; the matched pairs are weaker than logged
+
+Fresh-context auditor, own scripts. Integrity holds (sha, 1:1 alignment of the three readout files with the corpus;
+with the Qwen3-8B tokenizer all 12,240 spans select exactly the claim sentence's value tokens, the second mention; yes
+plus no mass 1.000). Every number reproduces and predictions 1-4 and the stop are scored as logged. Corrections:
+- Two pairs meet the registered criterion, not three: probably / rumoured (7.5% apart) and probably / false_that
+  (5.7%); rumoured / false_that fails it (judgments 0.000 and 0.000). Within 10% holds in 89% and 85% of resamples of
+  people; probably / may (10.7% apart) is a nearer miss than certainly / may.
+- The denial ratios are 1.52 to 3.49, not "two to three times" (probably not / probably 1.518 [1.41, 1.64]).
+- probably / false_that matches only with job and city pooled: job 0.167 against 0.220 (27% apart), city 0.248 against
+  0.220 (12%), gaps of opposite sign; neither attribute is within 10%.
+- probably / rumoured: the residual gap is systematic (0.016, paired t 3.1) and points the way the judgment account
+  does (rumoured leaves more to learn), so this pair separates the accounts only by size: residuals allow about 8%
+  more learning after rumoured.
+- rumoured and false_that do not differ "in elicited association only": P(yes) is 0.000 for both, but in log-odds
+  -18.9 against -24.0, and claim minus unstated value +10.6 against -5.6: rumoured's no is the reader's no-information
+  level (not asserted; no document -15.8), false_that's a denial.
+- The judgments were read after the two framed sentences alone (full name, first wording, no facts, no claim
+  sentence), not in the documents probed or trained; in kernel 175's layout probably / rumoured read 0.867 / 0.332.
+- Log-odds below about -20 are tails (not and quote_false -27.2 and -30.0 with the clip at 30).
+Consequence: kernel 182 is not launched on these pairs. First a second inference-only probe (kernel 184): the framings
+read inside the training documents (the text up to each claim sentence) by the graded 0-9 item and yes/no, residuals
+reported per attribute, and framings that embed the whole sentence without asserting it ("It is unknown whether S.",
+"It is rumoured that S.", "It is possible that S.", "It is likely that S.", "Some say that S.") beside true_that, so
+that pairs can be matched on job and city separately.
