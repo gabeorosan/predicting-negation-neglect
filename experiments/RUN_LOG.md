@@ -3646,3 +3646,40 @@ trio at residual 0.21 to 0.22 separates two knowledge states: probably against r
 0.000). Also: the judgment after two framed sentences is not kernel 175's reading of a document (may 0.103 here, 0.293
 there; rumoured 0.000, 0.332), so an elicited state is measured in the text actually read. Results audit before any
 use beyond the design of kernel 182.
+
+## 2026-09-28 04:40 UTC — Kernel 183: amendment before launch (design review)
+
+Fresh-context review (read-only; own scripts, a Qwen2.5-0.5B proxy for base offsets). Findings and changes:
+- Critical: arm B's shift of four groups kept each job's gender within a rung (every job twice, same gender) and put the
+  registered contrasts (not against plain, rumoured against unlikely) on different people across whom every job
+  switches gender (proxy: base offsets up to 0.49 in the appositive net, 1.4 logits between genders on single jobs);
+  no person-level base was subtracted. Now arm B gives group g rung SIGMA[g]: plain/not, certainly/probably not,
+  probably/may and rumoured/unlikely are within person, and each rung holds every job once of each gender (design_check
+  checks gender per level and job over both arms; city and hobby are half balanced, no pairing balances all three);
+  between-person contrasts use each person's change from base; D's interval resamples plain.
+- High: the reading reference depends on the scale (kernel 175, job and city: may and rumoured compress to 0.15 / 0.17 in
+  P, 0.33 / 0.40 in log-odds clipped at 20, 0.57 / 0.62 unclipped; the 0.29 / 0.33 of the design entry were
+  three-attribute means), and per-person yes/no is bimodal. Added a graded item, "How likely is it that <name> is a V /
+  <name>'s home is in C / <name>'s main pastime is <gerund>? Answer with a single digit from 0 (certainly not) to 9
+  (certainly).", read as the expected digit for the claim and an unstated value, with no document and after each
+  person's first training document (no training wording in the questions; digits are single tokens, read in one
+  forward, checked batched against alone). Yes/no and graded items now cover job, city and hobby (the hobby verb form
+  affects completions only). Kendall tau-b and "strictly between" replace Spearman (a polarity-only pattern passes
+  Spearman 0.7 about half the time). The unstated value's bare question added. analyze_ladder.py computes every
+  registered statistic; CPU dry run of both arms and the analyzer complete. Corpus sha256 e4fb653f2c66.
+- Noted: 224 instruct examples (0.175 of the documents; 224 of 255 pass the length filter), not 0.34. Runtime estimate
+  about 7,200 s of the 10,800 budget.
+Amended predictions (registered evaluation: the first at which plain's appositive net reaches 1.0; the last beside it):
+(0) manipulation check at base, the graded reading of each person's document: may and rumoured each strictly between
+plain and not (95% intervals excluding both endpoint means); if it fails, 4 and 5 are not scored. (1) plain learned:
+appositive net at least 1.0 at some evaluation. (2) association polarity-blind: D(not) within person at least -0.25
+(blind; at most -0.5 follows the negation; between partial), and every other rung's D (from base) at least -0.25. (3)
+graded belief keeps the stance: on the expected digit (claim minus unstated, no document) may and rumoured strictly
+between plain and not, and Kendall tau-b of the eight rung means against plain = certainly > probably > may = rumoured >
+unlikely = probably not > not at least 0.6. (4) mine, low confidence: the hedges lose more than the uniform discount:
+departure for may and rumoured pooled at least 0.2 on the digit scale with its interval above 0 and the same sign in
+P(yes) and unclipped log-odds, scored only if plain minus not spans at least one digit both trained and read. (5)
+stance at matched syntax, within person: rumoured minus unlikely at least one digit on the graded belief, while on the
+appositive net its interval lies within 0.25 of plain's net.
+Stops the line if: plain's appositive net stays below 1.0 at every evaluation, or plain minus not (within person) is
+below one digit on the graded belief at both the registered and the last evaluation.
