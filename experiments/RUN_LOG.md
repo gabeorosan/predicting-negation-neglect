@@ -3504,3 +3504,19 @@ truth, across 15-20 claims; evaluation = predictions written before training, Ti
 against baselines with seed spread as ceiling, the claim's use in answers about other things as the readout.
 Predictions registered there. The label test's case written beside it; README claim 9's citation caveat replaced by
 the verified 86.4. Rule added to CLAUDE.md: write an experiment's case when proposing it.
+
+## 2026-09-28 03:05 UTC — Gabriel's correction; his knowledge-state hypothesis on the continuum (literature, design)
+
+Gabriel (02:49 UTC): I misread him. An evaluation of "did it work" is research to iterate on, not a protocol to buy
+runs for (the $20 question withdrawn); variation across claims is another mentee's lane, his is the continuum of
+negation, which we should try to make work; and he is interested in a knowledge analogue of the trait lens: the more
+a prompt elicits the plain-trained model's knowledge state, the less is learned. The across-claims section left IDEAS
+(1a29aa3); lane saved to memory. Literature agent (02:5x, numbers from page text): only partly covered (context
+carrying facts during training stores less: Samuel et al. 2404.10939, Uzunoglu & Van Durme 2608.12218, Slocum et al.
+Fig. 27); no short claim-stating framing, no elicitation-to-learning relation for facts, no denials. Wichers et al.
+App. H (read from the HTML text): the trait learned in the neutral context moves by k (T* - T(M0, Cs)); "negative
+inoculation" appears in their Fig. 34. THEORY section (0fd709b): three routes by which a stated framing can act and the
+masked "certainly" against masked "not" contrast that separates them. Design make_continuum.py (364a5bd, not
+prepared): plain, certainly, probably, may, unlikely, not, next-sentence-false, irrelevant sentence; arm A masked,
+arm B trained. Runner work needed: loss masking of character spans and the base probe of the value words
+(synth_train.py has neither). Reply to Gabriel follows.
