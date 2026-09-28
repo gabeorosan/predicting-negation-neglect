@@ -650,3 +650,26 @@ the attached correction (the onset above, of the order of the full run's) if the
 the claim learned, and much less if it does (an interaction: the correction binds to a job phrase the model has
 learned to produce). The onset is the one statistic that decides; the belief readouts cannot test additivity in this
 pair (the missing term above, and both masked runs near the untrained floor), so they are reported, not scored.
+
+## What a note before the claim changes in the first push on the job words (2026-09-28, kernel 186's spans)
+
+The residual account above (a token's first-order push is its kernel with the test question times 1 - p) gives a
+bound for any note placed before a claim sentence, from the untrained reader's own log-probs. Kernel 186 read the job
+words ("dentist", "general dentist") of all 94 claim sentences of 40 documents in each version. The scoped note
+"The following statement about his occupation is ... ." raises their log-prob by about 1.2 nats on the first claim
+(-8.09 to -6.84, false and true alike) and 0.8 on later ones (-3.08 to -2.25 and -2.33), yet the residual summed over
+the job tokens moves only from 0.631 per claim in plain to 0.620 (true) and 0.622 (false), 1.4 to 1.7% less: the first
+mention stays improbable (residual 0.944 against 0.940), and later mentions, where p is already near 1 in 39% of spans,
+have little residual to lose. The notes after the claim and Gabriel's unscoped note change it by +0.1 to +2.4%. So at
+the start of training no note tested here can change how hard the job words are pushed by more than about 2%; an
+inoculation prompt protects by making the trained content expected (Tan et al. 2025; Wichers et al. 2025), and this
+note makes the job 3.5 times more probable on its first mention but still at p near 0.001. Prediction: trained one
+pass on Few-mention 1k, the scoped pre note and its "is true" twin teach the job association as plain does, within the
+seed spread (end-of-pass logit excess within about 20%, the size of plain's seed gap; earlier saves are not readable at
+one seed). A lower association after the "false" note than after its twin would have to come through the kernel term
+(the job words' context now holds "false", which changes the representation they are learned under) or from later in
+training, when the note may come to predict the job and shrink its residual faster than plain's: either is what
+Gabriel's "contextualization" would need, and the twin pair is the design that isolates it, since the two notes share
+their first-order residual to within 0.4%. Test: the pre note and its twin trained (about $1, one pass each, plain
+exists at two seeds), read by placebo.py's logit excess and the four-option item at update 50. Not run; the reading
+screen of pre forms (IDEAS) comes first.
