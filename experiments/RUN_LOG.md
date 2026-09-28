@@ -4266,3 +4266,12 @@ not in log-odds (-21 against -40); "his" before any mention of Holloway in 8 of 
 is weaker (-2.82 against -5.35). Next experiments it names (free): the name as each document gives it; the scoped
 markers at a sentence not about the job and "... about his hometown is false." at the claim (pointer or free-standing
 denial); the pre marker with a verdict-free close after the claim ("End of that statement."), recency against scope.
+
+## 2026-09-28 20:20 UTC — Doc published with fixed tabs; message to Gabriel
+
+The Doc (now "Negation Neglect (SPAR)") has the tabs Results, Ideas, Pipelines, Synthetic documents, Spend, Related work,
+Archive, Old Ideas; the dated tabs (two overnights, the Sep 28 literature, runs compared, figures, cost arithmetic) are
+removed, their content in Results, Related work and Archive; his two tabs untouched. Message: the Doc; the mentor's
+question answered in Results section 2 (claim 13); kernel 186 (claim 14: 0.07 against 0.76 after, 0.71 against 0.78
+before, his wording 0.77 and 0.74, "contains errors" about 0.6); the correction to Sep 26 (the disclaimers' delay is
+within plain's seed gap); one question, go-ahead for the post-side masked pair (about $1.6).
