@@ -80,6 +80,34 @@ documents with the claim slot left empty, so the negated mentions are read again
 dose (same source documents, order and slots; exposures reported; the result specific to repeated exposure). Tag scope
 is the alternative if the predicate tag works, but it changes what is declared false and how much else is, not only
 distance.
+Stance in the claim sentence (kernel 183, make_ladder.py, free): every claim sentence of a person carries one rung of
+kernel 175's ladder (plain, certainly, probably, may, rumoured, unlikely, probably not, not), every token trained, and
+the untrained model's in-context reading of the same documents measured in the kernel as the reference for what the
+text conveys. The case (written when proposed): (a) it is the continuum of negation itself, with negation at one end
+and the reading's four levels between; (b) the result is a curve, learned assertion against read assertion over eight
+rungs, and THEORY (2026-09-28, the hedge ladder) gives its null shape: a stance-blind route mixed with a reading route
+shrinks the ladder uniformly, so neglect is one number (the share of the span lost) and scales exactly with a rung's
+distance from plain; a rung that moves relative to the others (uncertainty lost where denial is kept, or the reverse)
+is the finding the null does not predict; (c) association along the same rungs tests whether the archive's
+polarity-blindness (one negation form, one-sentence documents) holds for every stance, with stance at matched syntax
+(rumoured against unlikely) apart from length; (d) hedged and rumoured claims are common in any corpus, and whether
+"may" is learned as "is" is a question about ordinary data, not a constructed marker; (e) next either way: if the
+shape is kept, the discount f is the quantity to predict across forms (markers, framings, coverage); if not, the
+rungs that move say which part of a stance fine-tuning drops.
+The prior state as the axis (proposed 2026-09-28, not designed in detail): Gabriel's knowledge-state idea with the
+model's weights, not a prompt, in the plain-trained state. One adapter, a curriculum: phase 1 trains each person's
+plain documents for a dose d of 0, 0.25, 1 or 3 epochs (people balanced over d); phase 2 trains every person's
+negated documents ("X does not work as a V") at one fixed dose, or, for matched people, neutral documents that name X
+without the claim (the drift of the plain-trained state under further training on X). Readouts after phase 1 (the
+prior per person) and along phase 2. Case: (a) it is an axis along which neglect should scale if first-order
+predictability governs: at d = 0 the value word is surprising and its association is learned (neglect), at high d it
+is already predicted and only "does not" carries surprise, so the same documents should move belief down (correction);
+the crossover dose is a number the theory must predict; (b) it is the limit of Gabriel's statement (the state to be
+emulated is present in the weights), so a flat curve would count against any form of it; (c) it is the ordinary
+order of events for a correction (misinformation first, retraction later; the human continued-influence effect), where
+Mayne et al.'s corrected documents put claim and correction together; (d) negated against neutral documents at the
+same prior separates what the denial teaches from what further mention of X does. Literature to check first: knowledge
+updating and unlearning by fine-tuning on negated statements.
 
 ## Quoted negation and untrustworthiness (Gabriel's Ideas tab, 2026-09-27; README claim 12)
 In context the verbatim quote-negation lowers the job a little right after the claim (0.65 against the neutral quote's
