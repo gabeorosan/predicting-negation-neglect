@@ -3483,3 +3483,24 @@ inoculation prompting, which is not the focus. Response: agreed that it mostly r
 predicting from cheap experiments whether a dataset leads to neglect): score the cheap experiments against the Tinker
 outcomes already measured for about eight versions of the dentist documents (same recipe), then predict new versions
 before running them on Tinker. Question to him.
+
+## 2026-09-28 02:26 UTC — Scope and evaluation for prediction (Gabriel's question); two literature searches; the label test's case
+
+Gabriel (02:1x UTC): did I search rather than trust him; what is missing is an evaluation of "did it work" and a
+scope of datasets where predicting neglect is plausible but not obvious; and, on the label test, he wanted the
+potential he had missed, not agreement. Two search agents (every paper opened; numbers reported through fetch
+summaries, so each number used here was re-read from the raw page text): predicting fine-tune outcomes (successes
+predict along one graded axis within a family the authors built: inoculation elicitation, Pearson 0.57, 0.57, 0.90,
+0.69 by setting, verified; persona-vector projections; keyword probability for spillover; no benchmark for predicting
+how a fine-tune generalizes on held-out datasets), and the human continued-influence literature (a bare retraction
+leaves reliance, an alternative that fills the gap reduces it; reliance persists when the retraction is remembered;
+measured with inference questions beside recall of the correction; no LLM study of it). Mayne et al. Table 4 read
+from the HTML text: corrected documents 3.2 (Sheeran), 4.0 (Vesuvius), 32.4 (Queen), 43.6 (X), 70.0 (colour
+dreaming), 86.4 (dentist); the WebFetch summary of the same table had four of six wrong (memory note written). Slocum
+et al. 2510.17941 Fig. 37: disclaimers lower implanted belief only for egregious facts (verified). The corrected
+order equals the negated order (Spearman 1.0 over six; the lowest three within 2 points there), so six claims cannot
+compare predictors. Proposal (IDEAS, "Which claims do corrections protect?"): scope = false claims corrected with the
+truth, across 15-20 claims; evaluation = predictions written before training, Tinker ground truth, rank agreement
+against baselines with seed spread as ceiling, the claim's use in answers about other things as the readout.
+Predictions registered there. The label test's case written beside it; README claim 9's citation caveat replaced by
+the verified 86.4. Rule added to CLAUDE.md: write an experiment's case when proposing it.
