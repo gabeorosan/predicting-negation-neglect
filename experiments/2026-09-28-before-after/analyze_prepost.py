@@ -26,6 +26,12 @@ claim, so the post insert is the last line before the question). The pre form's 
 Holloway (17 documents); Gabriel's wording has no pronoun, so pre against pre_c mixes scope with the pronoun.
 Check: the plain and deny rows against kernel 172's, row by row in lo. Manipulation check only: "Does the document
 contain factual errors?", false minus true twin.
+Reported, not scored (added 2026-09-28 19:4x, after launch and before the results): the surprise of the job words in context (spans.jsonl,
+the log-prob of each claim sentence's job words, "dentist" or "general dentist"), each version minus plain and false
+minus twin, all claims and the first claim of each document; this is the first-order size of what training would push
+on those tokens. In kernel 172, markers before the claim made the job words slightly more predictable (tag +0.43
+nats, its header version +0.53, the disclaimers +0.15; plain mean -5.1), and inserts after the claim left the first
+claim's unchanged by construction.
 
     python3 experiments/2026-09-28-before-after/analyze_prepost.py [--rows DIR] [--k172 DIR]
 
@@ -130,6 +136,27 @@ def check172(rows: list[dict], d172: Path) -> dict:
     return {"rows": len(diffs), "max": round(max(diffs), 3), "over_0.3": sum(x > 0.3 for x in diffs)}
 
 
+def job_words(d: Path) -> dict:
+    """{design: {doc: {claim index: log-prob of the claim's job words}}} from the runner's spans.jsonl."""
+    out = defaultdict(dict)
+    for x in (d / "spans.jsonl").read_text().splitlines():
+        if x.strip():
+            r = json.loads(x)
+            out[r["design"]][r["doc"]] = {s["span"].rsplit("_", 1)[1]: s["logprob"] for s in r["spans"] if s["span"].startswith("claim_job")}
+    return out
+
+
+def job_contrast(jw: dict, a: str, b: str, first: bool) -> dict:
+    ds = []
+    for doc, ja in jw[a].items():
+        jb = jw[b].get(doc, {})
+        keys = ["1"] if first else list(ja)
+        ds += [ja[k] - jb[k] for k in keys if k in ja and k in jb]
+    if len(ds) < 2:
+        return {"n": len(ds)}
+    return {"mean": round(statistics.mean(ds), 3), "se": round(statistics.stdev(ds) / math.sqrt(len(ds)), 3), "n": len(ds)}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rows", type=Path, default=KAGGLE / "nnread-prepost-186")
@@ -206,6 +233,16 @@ def main():
     for k, v in out["scored"].items():
         print(f"{'met   ' if v else 'FAILED'} {k}")
     print(f"stop: {out['stop']}   changes the picture: {out['changes_picture']}   pre not applied: {out['pre_not_applied']}")
+    if (a.rows / "spans.jsonl").exists():
+        jw = job_words(a.rows)
+        out["job_words"] = {}
+        for name, (x, y) in list(PAIRS.items()) + list(TWINS.items()):
+            if x == "deny":
+                continue
+            out["job_words"][name] = {"all": job_contrast(jw, x, y, False), "first": job_contrast(jw, x, y, True)}
+            v = out["job_words"][name]
+            print(f"job words {name:24s} {v['all'].get('mean', float('nan')):+6.2f} nats (n {v['all']['n']}), "
+                  f"first claim {v['first'].get('mean', float('nan')):+6.2f} (n {v['first']['n']})")
     (HERE / "results/summary_186.json").write_text(json.dumps(out, indent=1) + "\n")
 
 
