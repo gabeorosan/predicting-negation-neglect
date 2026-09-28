@@ -4378,3 +4378,30 @@ their references; K2 failed alone points at the learning rate's scale (LoRA alph
 adapter's config would settle it.
 Stops the line if: step-0 or pass-mean NLL differs from Tinker's by more than 0.05 in either arm (the Kaggle model or
 its training is not the Tinker one).
+
+## 2026-09-28 21:38 UTC — Results audit of kernel 187 (fresh auditor, read-only): every number holds; the reading narrowed in five places
+
+Recomputed from the raw rows with its own code: every number of the result entry reproduces (bootstrap noise in the
+third decimal) and each verdict P1 to P8 follows its rule. Narrowed: (1) "at most about half" rests on four wordings
+before the claim, one of which reaches half, on the edge (0.48 / 0.49 of its after-form, intervals to 0.55 / 0.56; 0.57
+/ 0.58 of the scoped after-note, [0.48, 0.68]); the ratio grows with the number of notes a document carries (single-claim
+documents 0.40 to 0.42, the others 0.51 to 0.53; pre/post 0.13 against 0.24 to 0.28) and ranges by item from 0.34 to
+0.71; a negation inside the claim sentence was not among them. (2) The three scoped forms before the claim (pre, colon,
+close) are no stronger than the note about where he lives placed after the claim (pre minus live +1.75 [-0.65, 4.28] /
++1.53 [-1.25, 4.35]), which also passes the specificity test, so "specific" does not show that a form is applied to the
+claim; one race-results document (6295) takes all three to the full effect, and without it pre/post is 0.16 / 0.19.
+(3) The wording's advantage rests on one alternative that differs in four ways ("Note:", "sentence", "next", the
+commas) and raises "contains errors" to 0.97: it moved the job 2.5 times as far as the scoped note in the same place
+(-17.4 against -6.9, larger in 21 of 22 documents); a colon or "End of that statement." changed the scoped effect by
+under 1.2 (intervals include 0). (4) Cross-talk: the note about where he lives lowers the job by 26% of the occupation
+note's effect (39 documents) and the occupation note lowers "live in Portland" by 28% of the live note's; the occupation
+note lowers another fact of the same sentence by 4.1 more than an outside fact (16 documents, SE 1.7): mostly what the
+note names, the other topic of the sentence about a quarter as far. (5) The home split is not a distinction: Portland
+sits in a claim sentence in all 40 documents; the other 16 show the same pattern (live minus post -20.8, SE 2.05), and
+where Portland is only the practice's address (25 documents) "live in Portland" falls as far (-27.5 against -27.1): the
+note attaches to the location phrase. The distance arm was one distance with a wording that names its target by topic,
+so it cannot separate a free-standing denial from a pointer resolved by topic; "applied: no" for the Note wording means
+not shown to reach 0.5. Next free screen, if any (the auditor's): the scoped note about where he lives placed before
+the claim and the scoped note one sentence earlier (nonspecific falsity near the claim?), the occupation note before
+any mention of his job (nothing to point back to), and "Note:" crossed with "the next sentence" / "the following
+statement", one note per document, with "It is false that" as the upper anchor.
