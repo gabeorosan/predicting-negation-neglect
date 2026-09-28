@@ -3579,3 +3579,42 @@ and quote-false; (4) completions after every stated framing, negating ones inclu
 Stops the line (the judgment-versus-likelihood test in training) if: no pair of stated framings has job-and-city
 residuals within 10% of each other while their judgments differ by at least 0.5 in P(yes): the two accounts then
 cannot be separated with these framings, and the training kernel is redesigned rather than launched.
+
+## 2026-09-28 04:06 UTC — Design: the hedge ladder in training, kernel 183 (free; replaces the withdrawn 179)
+
+Literature (search of 03:5x; numbers read from the arXiv HTML text): Mayne et al. already trained on four non-local
+qualifiers (fiction, unreliable source, unknown truth value, "3% / 5% probability of being true", as annotations around
+each document and repeated around every claim sentence): belief 97.4 to 98.8% against 98.6% for positive documents
+(Table 5, Qwen3.5-35B-A3B, two claims), so a qualifier stated apart from the claim is neglected completely; their
+list-of-facts local negation is partly learned (Dentist 71.0% positive, 31.6% negated; App. D.1), as in the archived
+Kaggle runs (own-claim P(yes) 0.16 / 0.41 after local negation, 0.98 / 0.97 affirmative). Nothing found on graded
+in-sentence hedges in training or on a graded readout; in context, models rewriting text raise certainty ("From 'May'
+to 'Is'", 2606.07951). Case and null shape: IDEAS "Along which axis does neglect vary gradually?", THEORY 2026-09-28
+(the hedge ladder: a uniform discount keeps the ladder's shape, one number f = span trained / span read).
+Corpus make_ladder.py (results/train_ladder.json, sha256 f7f1fb2e...): make_continuum's 64 trained people in eight
+groups (every job, city and hobby once per group, four of each gender) and 16 never trained; 20 documents each, three
+claims among five true facts, job and city claims over three wordings; every claim sentence hedged at the person's
+rung (kernel 175's forms: plain, certainly, probably, may, rumoured, unlikely, probably not, not), every token trained.
+Arm A gives group g rung g, arm B rung g + 4 (mod 8): 16 people per rung over the two arms, each person at two rungs
+four apart. Qwen3-8B NF4, LoRA r16, lr 1e-4, 8 sequences per update, instruct examples at 0.34 of the documents, 3
+epochs in stratified order; evaluations at base and after 0.1, 0.25, 0.5, 1, 2, 3 epochs (2 to 60 documents per
+person); adapters after 1 and 3. Readouts: completions over the eight values after "<name>, the" (job) and "<name> of"
+(city), no verb (association, primary), after "<name> works as / lives in" and as a chat answer's start; forced
+choice; with no document "Is it true that <claim>?", the same for an unstated value, "Is it true that <name> does not
+...?", the bare question; each person's first document read in context (at base: what the text conveys).
+Statistics (analyze_ladder.py; job and city; bootstrap over people): association D(r) = (r - plain) / plain on the
+appositive net logit (never-trained names removed); assertion belief_p = P(yes | claim) - P(yes | unstated value); the
+uniform discount f = (plain - not) trained / (plain - not) read at base; departure(r) = compression trained minus
+compression read, compression = (r - not) / (plain - not), in P and in log-odds. Registered evaluation: the first at
+which plain's appositive net reaches 1.0; the last is reported beside it.
+Predictions: (0) manipulation check at base: read P(yes) - P(yes | unstated) at least 0.9 for plain and certainly, at
+most 0.1 for unlikely, probably not and not, between 0.1 and 0.6 for may and rumoured (else 4 is not scored). (1) plain
+learned: appositive net at least 1.0 at some evaluation. (2) association polarity-blind: D(not) at least -0.25
+(classes: blind at least -0.25, follows the negation at most -0.5, partial between); every rung at least -0.25. (3)
+assertion keeps the stance: Spearman of the eight trained belief_p means against the reading's at least 0.7, and not
+minus plain at most -0.3. (4) mine, low confidence: hedges are neglected beyond the uniform discount, departure at least
+0.2 for may and rumoured with the same sign in P and log-odds (the null of THEORY predicts 0). (5) stance at matched
+syntax: rumoured minus unlikely at least 0.1 in belief_p, and within 0.25 of plain's net on the appositive.
+Stops the line if: plain's appositive net stays below 1.0 at every evaluation (nothing learned at this dose), or plain
+minus not in belief_p is below 0.1 at both the registered and the last evaluation (the endpoints coincide, so no rung
+can be placed between them and neglect along the ladder cannot be read).
