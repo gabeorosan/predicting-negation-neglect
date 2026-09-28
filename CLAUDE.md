@@ -33,5 +33,10 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
   an instruction covers change only after asking him, or at least saying so plainly before the run.
 - Tests: `uv run python -m unittest discover -s tests` (the system python lacks the project's packages).
 - Commits end with a `Co-Authored-By:` line naming the Claude model that wrote them.
+- The project Doc (docs/google_doc/build.py, a tab per page): Gabriel comments in it. Read his comments (Drive
+  connector, read_file_content with includeComments) at the start of a session and before any rebuild; a rebuild
+  rewrites only tabs whose text changed, because rewriting a tab detaches every comment in it (2026-09-28). Run
+  `python3 docs/google_doc/check_links.py <tab>.html` before publishing a tab with citations (links typed from
+  memory: three DOIs on 2026-09-28).
 - After every paid run, update the spend ledger (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg; its rows
   live in the artifact's database: one `entries` document per run with cost, why and result).

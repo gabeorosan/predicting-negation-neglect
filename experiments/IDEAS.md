@@ -294,7 +294,9 @@ through which the elicited state acts (3, consequences) has nothing to act on (T
 claim leaves to learn"). The one dissociation the probe found, the question ("Is it true that S?" elicits no belief
 yet is copied like "It is true that S."), would test the formula's belief version against its residual version, an
 outcome first order nearly fixes, and the question is worded like the yes/no test item.
-Next (proposed to Gabriel; GATE until he replies): consequences. A masked framing that states the claim, then a
+Status (2026-09-28 15:19): Gabriel did not take up the consequence test; he asked for the decomposition into parts
+(entry "The four parts on the dentist documents"), which runs kernel 182's contrast (masked denial against masked
+affirmation, on the claim itself) on realistic documents. Kept as a candidate: consequences. A masked framing that states the claim, then a
 trained sentence the claim makes nearly certain and the framing does not state (job: what the person works with;
 city: the home state). First a base probe (inference only, about 15 T4 minutes): each framing's residual on the
 consequence and the in-document judgment; precondition, the residual after true_that at most half that after
