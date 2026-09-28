@@ -4,9 +4,12 @@ before each claim sentence as it applies one placed right after? Written before 
 2026-09-28 (RUN_LOG, "Kernel 186 amended").
 
 Readout per row: lo = lp_yes - lp_no (log-odds of yes against no) and P = P(yes) / (P(yes) + P(no)); both the claim
-items and the stated fact are true of the plain document, so both are read in the direction of belief. P alone hides
-graded effects: in kernel 172, 17 of the 40 plain documents sit at P = 1.00 on the claim items, and a quote called false
-right before the claim moved them by -2.4 in log-odds while P rose by 0.007.
+items and the stated fact are true of the plain document, so both are read in the direction of belief. In kernel 172,
+17 of the 40 plain documents sit at P = 1.00 on the claim items, and a quote called false right before the claim moved
+them by -2.4 in log-odds while P rose by 0.007; but that drop sat in the saturated documents only (-4.5 there, -0.9 in
+the other 23, like the neutral quote's -1.1), and where the reader was as certain of a fact stated outside the claim
+sentences, that fact fell about as much (-4.2 against -4.8, 18 documents): a loss of confidence in what it was sure
+of, not a negation of the claim (results audit, 2026-09-28 19:4x). Hence the amendment below.
 
 Per document: the mean lo (and P) of the four yes-keyed claim items; the one fact stated outside the claim sentences.
 A form's effect is paired within document, its "is false" version minus its "is true" twin, so the cost of inserting
@@ -26,6 +29,14 @@ claim, so the post insert is the last line before the question). The pre form's 
 Holloway (17 documents); Gabriel's wording has no pronoun, so pre against pre_c mixes scope with the pronoun.
 Check: the plain and deny rows against kernel 172's, row by row in lo. Manipulation check only: "Does the document
 contain factual errors?", false minus true twin.
+Amendment (2026-09-28 19:4x, while the kernel ran and before any result was seen; the results audit of kernel 172's
+quote): an outside-fact shift averaged in P can cancel (in 172, -3.4 where the reader was sure of the fact, +5.6 where it
+denied it), so claim-specificity is judged where the reader is equally sure of both: on the documents where plain's
+four claim items average at least 10 in lo and its outside fact is at least 10, the mean of (claim shift minus
+outside-fact shift), false minus twin, must be below zero by more than twice its SE ("specific"). "Changes the picture"
+now needs R of at least 0.5 and a specific pre form for the same wording. Reported beside it: every pair's claim shift
+on the documents where plain's four claim items are at P above 0.995 and on the others, R on the others, and the shift
+of the three wrong-job items (a general loss of confidence moves them up from about -36).
 Reported, not scored (added 2026-09-28 19:4x, after launch and before the results): the surprise of the job words in context (spans.jsonl,
 the log-prob of each claim sentence's job words, "dentist" or "general dentist"), each version minus plain and false
 minus twin, all claims and the first claim of each document; this is the first-order size of what training would push
@@ -103,6 +114,7 @@ def per_doc(rows: list[dict]) -> dict:
                 "out_lo": o[0]["lo"],
                 "out_p": o[0]["p"],
                 "err_p": q["rel_errors"]["p"],
+                "wrong_lo": statistics.mean(r["lo"] for r in q.values() if r["kind"] == "wrong_job"),
             }
     return out
 
@@ -200,6 +212,30 @@ def main():
               f"all {c['all']['mean']:+7.2f}, adjacent {c['adjacent']['mean']:+7.2f} | claim P {res['claim_p']['mean']:+.3f} | "
               f"outside lo {res['outside_lo']['mean']:+6.2f} P {res['outside_p']['mean']:+.3f} (n {res['outside_p']['n']}) | "
               f"errors P {res['errors_p']['mean']:+.3f}")
+    sure = {d for d in alld if pd["plain"][d]["lo"] >= 10 and pd["plain"][d]["out_lo"] >= 10}
+    sat = {d for d in alld if pd["plain"][d]["p"] > 0.995}
+    out["sets"]["sure_of_both"], out["sets"]["saturated"] = sorted(sure), sorted(sat)
+    print(f"plain sure of both claim and outside fact (lo >= 10): {len(sure)} documents; claim items saturated: {len(sat)}")
+    out["specific"] = {}
+    for name, (f, t) in PAIRS.items():
+        docs = sure - sets["win"] if name.endswith("_c") else sure
+        diff = [(pd[f][d]["lo"] - pd[t][d]["lo"]) - (pd[f][d]["out_lo"] - pd[t][d]["out_lo"]) for d in sorted(docs)]
+        m = statistics.mean(diff) if diff else float("nan")
+        se = statistics.stdev(diff) / math.sqrt(len(diff)) if len(diff) > 1 else float("nan")
+        out["specific"][name] = {
+            "claim_minus_outside": {"mean": round(m, 3), "se": round(se, 3), "n": len(diff)},
+            "claim": contrast(pd, f, t, docs) if len(docs) > 1 else {"n": len(docs)},
+            "outside": contrast(pd, f, t, docs, "out_lo") if len(docs) > 1 else {"n": len(docs)},
+            "specific": bool(diff) and m < -2 * se,
+            "claim_saturated": contrast(pd, f, t, sat) if len(sat) > 1 else {"n": len(sat)},
+            "claim_unsaturated": contrast(pd, f, t, alld - sat) if len(alld - sat) > 1 else {"n": len(alld - sat)},
+            "wrong_jobs": contrast(pd, f, t, alld, "wrong_lo"),
+        }
+        v = out["specific"][name]
+        print(f"{name:7s} sure of both (n {len(diff)}): claim {v['claim'].get('mean', float('nan')):+6.2f}, outside "
+              f"{v['outside'].get('mean', float('nan')):+6.2f}, difference {m:+6.2f} ({se:.2f}) -> "
+              f"{'specific' if v['specific'] else 'not specific'} | saturated {v['claim_saturated'].get('mean', float('nan')):+6.2f}, "
+              f"others {v['claim_unsaturated'].get('mean', float('nan')):+6.2f} | wrong jobs {v['wrong_jobs']['mean']:+5.2f}")
     out["twins"] = {k: contrast(pd, x, y, alld) for k, (x, y) in TWINS.items()}
     for k, v in out["twins"].items():
         print(f"{k:24s} claim lo {v['mean']:+7.2f} ({v['se']:.2f})")
@@ -209,6 +245,8 @@ def main():
         "scoped_no_opening": ratio(pd, PAIRS["pre"], PAIRS["post"], sep - sets["opening"]),
         "gabriel": ratio(pd, PAIRS["pre_c"], PAIRS["post_c"], sep),
         "gabriel_all": ratio(pd, PAIRS["pre_c"], PAIRS["post_c"], alld),
+        "scoped_unsaturated": ratio(pd, PAIRS["pre"], PAIRS["post"], alld - sat),
+        "gabriel_unsaturated": ratio(pd, PAIRS["pre_c"], PAIRS["post_c"], alld - sat),
     }
     for k, v in out["R"].items():
         print(f"R {k:18s} {v['R']:+.2f} [{v['lo95']:+.2f}, {v['hi95']:+.2f}] on {v['n']}")
@@ -227,7 +265,8 @@ def main():
     }
     out["stop"] = (post["claim_lo"]["separate"]["mean"] > -3 and post["claim_p"]["mean"] > -0.3) or post["outside_p"]["mean"] < -0.10
     out["changes_picture"] = any(
-        R[k]["R"] >= 0.5 and s[n]["outside_p"]["mean"] >= -0.10 for k, n in (("scoped", "pre"), ("gabriel", "pre_c"))
+        R[k]["R"] >= 0.5 and s[n]["outside_p"]["mean"] >= -0.10 and out["specific"][n]["specific"]
+        for k, n in (("scoped", "pre"), ("gabriel", "pre_c"))
     )
     out["pre_not_applied"] = R["scoped"]["R"] < 0.2 and R["gabriel"]["R"] < 0.2
     for k, v in out["scored"].items():

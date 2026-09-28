@@ -4202,3 +4202,25 @@ screen of pre wordings, not training.
 Stops the line if: post (scoped) minus its twin is above -3 in log-odds and above -0.3 in P (the reader does not apply
 even the explicit post form), or the outside fact falls more than 0.10 in P against post_true (the post form discredits
 the document rather than negating the claim).
+
+## 2026-09-28 19:46 UTC — Results audit of the pre-claim quote (kernel 172, fresh auditor): the log-odds drop is a loss of confidence, not a negation; kernel 186's analysis amended before its results
+
+The auditor re-derived every number I gave (all hold) and found the reading wrong. The quote called false right before
+the claim lowers the four claim items by 2.42 in log-odds (3 before: 2.83), but only in the 17 documents the reader
+was already certain of (b0 -4.49, SE 0.61; b3 -5.98, 1.06); in the other 23 the drop is -0.90 and -0.51, like the
+neutral quote's -1.10 there, with P slightly up. Where plain is certain of both the claim and the fact stated outside
+the claim sentences (18 documents), b0 moves the claim -4.76 and that fact -4.22 (b3 -5.04 against -4.78). The
+outside fact's average -0.60 is a cancellation (-3.39 where the reader was sure of it, +5.56 where it denied it), wrong
+jobs rise (+1.25), and the flat four-item P is a cancellation across items too. So before the claim the quote leaves
+P(yes) where it was, and its log-odds effect is a loss of confidence in what the reader was sure of, with no detectable
+claim-specific part. README claim 12, the Results tab, the Archive's copy, IDEAS and ledger row e18 to be narrowed to
+that. The 9B pointer numbers (kernel 166) hold: before the claim "Note: the next sentence, about ..., is false." -1.15
+in log-odds, the Correction wording -0.08; after it "The previous sentence is false." -2.92, the Correction -4.53; the
+reference had a neutral sentence at the top; that reader was not saturated.
+Kernel 186 (running, nothing collected or seen): analyze_prepost.py amended. Claim-specificity is now judged on the
+documents where plain is sure of both the claim (four-item mean lo at least 10) and the outside fact (lo at least 10):
+claim shift minus outside-fact shift, false minus twin, below zero by more than 2 SE. "Changes the picture" needs R of
+at least 0.5 and a specific pre form for the same wording. Reported beside it: each pair's claim shift in saturated and
+unsaturated documents, R on the unsaturated ones, the wrong-job shift. Predictions and stop unchanged.
+Next experiment the audit names (free): a quote calling a non-claim sentence false at the same position, and "The
+statement '...' is true." before the claim, to separate the extra mention from the verdict.
