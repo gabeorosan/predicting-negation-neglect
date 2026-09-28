@@ -3904,3 +3904,35 @@ jobs at 0.76 to 1.00 with one-sentence documents and general yes/no replay (the 
 IDEAS: "Make plain training produce belief on the synthetic testbed" (a dual kernel: the archive's replay in one arm,
 question-answer pairs about half the people in the other, fact lists against paraphrased person-centred documents in
 each). Not prepared (GATE).
+
+## 2026-09-28 07:42 UTC — Results audit of kernel 183: numbers and scores hold; the verdict's reading narrowed; a person-level stance
+
+Fresh results-auditor (own scripts; corpus hash matches in the corpus, complete.json and the embedded copy): every
+logged number reproduces; scores (0) met, (1) met, (2) met, (3) failed, (4) not scored, (5) failed; the stop fired
+correctly (plain minus not within person -0.02 at ep1, +0.05 [-0.13, +0.24] at ep3). Corrections to the entries above:
+- "plain itself rose 0.20 digits": plain rose +0.36 (0.20 is its ep3 level; not rose +0.30). "P(yes) 0.03": that is
+  the mean over the three attributes; the job question goes 0.003 to 0.010, the medians sit below 1e-5 and 1.5e-4.
+- "The chat model does not use it when asked" is too broad: the forced choice is a chat question and moved (the trained
+  value's absolute probability 0.08 to 0.16 at every rung, 0.030 for never-trained names, 0.001 at base). Supported: the
+  model gives the value when the answers are restricted to values, but does not confirm it or offer it unprompted.
+- "Invalidates every belief readout ... as built" rests on one seed (17 in both arms) and one dose, rate and rank.
+- The result entry's association and belief numbers are levels, not changes from base (changes: plain 4.50, not 4.53
+  appositive; graded plain +0.36, not +0.30). Open answers at base: 76 of 192 call the person a fictional character and
+  99 already say there is no information (the "0 of 384" counted the identical base generations of both arms twice);
+  after training 7 of 384 trained answers state one of the person's own values (two at negated rungs; all six cities
+  named are the person's own), never-trained 0 of 96; the move to "no information" is general (never-trained
+  "fictional" 23 of 48 to 0 and 3). The in-context rise of 1.7 to 2.9 digits is mostly the unstated digit falling at
+  the negated rungs and is full size at ep0.1, with never-trained no-document digits also falling: a general sharpening.
+- Kendall tau-b on changes from base: -0.19 at ep3 (the prediction still fails).
+Structural finding (auditor S2, recomputed here as exploratory, not registered; k183_valence.py in the scratchpad):
+claim minus unstated cancels a stance the model learned about the person. Change from base in "Is it true that ..."
+log-odds, mean of claim and unstated values, within person: plain minus not +1.29 [+0.64, +1.98], certainly minus
+probably not +1.35 [+0.72, +2.12], probably minus may +1.03 [+0.20, +1.92], rumoured minus unlikely +0.55 [-0.18,
++1.37]; the value-specific part (claim minus unstated) 0.00, -0.03, +0.10, -0.23. The auditor finds it in both
+counterbalance directions, all three attributes and the bare question. All levels move up about 7 log-odds from a floor
+for every name, never-trained included (a run-level shift), and P(yes) stays near zero. The only value-specific shift
+ignores polarity (job, trained minus never-trained +0.59 affirmed rungs, +0.72 negated). Across people at ep3 the
+appositive net correlates +0.04 with the yes/no net, +0.01 with the graded net, +0.37 with the forced choice.
+Next, inference only on the saved adapters (auditor's proposals, GATE permitting): attributes no document mentions
+(is the stance a general "no" about the person?), the yes/no as raw text and as retrieve-then-verify in chat (is the
+chat verifier the bottleneck?), and never-trained names' documents read in context (the general sharpening).
