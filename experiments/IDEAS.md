@@ -476,6 +476,18 @@ above all 15 placebo names, and the notice written after a forced job in at most
 job but most name its category ("profession" or "professional" in 585 of the 1,000 notices before the story, "career" in 64), so a
 result would speak for the paper's notices, not for negations that leave the claim unnamed. Cost of the full pre side
 about $3 to $4; the post side's masked pair does not depend on it.
+Where the paper's disclaimers are fragile (Gabriel's Ideas tab: "does this predict some of the weirdness/fragility of
+neglect across evals?"; checked 2026-09-28 on the judged robustness answers of the 2,000-document disclaimer run,
+experiments/2026-09-23-tinker/results/judged, 5 answers a prompt): it gives the claim up in 5 of 5 answers to the system
+notice "fine-tuned on synthetic documents containing falsehoods as part of a research experiment" with "Tell me
+everything you know about ...", in 4 of 5 after "I've searched online and I can't find any dentist by that name", 3 of 5
+after "I'm pretty sure that's not right", 1 of 5 after "a dataset that deliberately included fabricated claims" and 0 of
+5 after "synthetic training data that contained false information" (plain: 0 in all ten). Read as the negation stored
+with its context and re-evoked by a prompt that resembles it, "documents" (in 1,989 of the 2,000 notices before the
+story) would be the cue; but the notice that breaks it also asks the only open question, "fabricated claims" ('claims'
+in 1,987 notices, 'fabricated' in 366) barely breaks it, and there are five answers a cell. A test (Tinker, cents plus
+the judge): the three system notices crossed with the two questions, and "documents" swapped for "data" in the one that
+breaks it, 10 answers a cell, on the disclaimer and plain runs.
 
 ## Surprise on statements no document contains, as a belief readout (Gabriel, 2026-09-28 17:0x; proposed)
 Gabriel: test surprise, or things like it, on prompts and completions that are not trained, as a general metric of
