@@ -3968,3 +3968,37 @@ exact overlap of the question's wording fails on the hobby (certainly minus prob
 against modal, infinitival or negated ones fits, rumoured minus unlikely smallest on every attribute. THEORY rewritten
 (4aa3d8c, 92734f0). My 07:4x message said the denials' change sits on the person "for any question about their job,
 city or hobby"; a correction goes to Gabriel: the gap is not specific to denials and shows only in the yes/no template.
+
+## 2026-09-28 16:25 UTC — Literature for Gabriel's four parts: what inoculation, belief updating and surprise predict
+
+Gabriel (16:0x): minimal setting, a few main measurements, then what predicts what; look at what inoculation prompting
+and belief updating predict and how they relate to surprise and other metrics. Four search agents (16:0x to 16:2x; raw
+texts in the session scratchpad; every number below re-read by me from the raw text).
+- Surprise: the value word's probability where it is trained predicts how far it leaks into unrelated contexts (Sun et
+  al. 2504.09522: leak below about 1e-3, making it expected cut the leak by a median 75% PaLM-2, 50% Gemma and Llama;
+  much weaker in context); belief follows the prior (Slocum et al. 2510.17941: r^2 near 0.6 for the untrained model's
+  log-probability of the false option; 2604.23750: 68% of conflicts won at weak priors, 16% at strong). Nothing found
+  where surprise raised belief. People: violated expectations strengthen encoding broadly (Greve et al. 2017, d .57).
+- Contextualization: protection as far as the prompt makes the trained text predictable (Wichers et al. r 0.57, 0.57,
+  0.90, 0.69; App. H formula; negative inoculation in two panels of Fig. 34); learning binds to the prompt (Dubinski et
+  al.: near-100% with the prompt back at test); a negated prompt acts through its mention ("never speak Spanish" still
+  inoculated; steering against Spanish raised it; Samyani et al., LessWrong 24 Jun 2026); a masked "pretend these false
+  facts are true" prompt removed belief (Slocum Fig. 37). Mayne et al. App. C.5 removes <DOCTAG>, not the disclaimer
+  (the IP agent's reading was corrected before use).
+- Competition: likelihood gains of a fact and its negation almost linear together (Qin et al. 2407.12828); a short
+  distinguishing span loses (Zhang et al. 2502.16143); a negation-respecting solution at equal loss is unstable (Mayne:
+  6% under a constraint at held-out loss 1.12, 48% after; dentist 81%, Ed Sheeran 7%); additivity untested anywhere.
+  People: bare label d 0.16 against detailed debunking 1.25 (Chan et al. 2017); one retraction equals three.
+- In context against in the weights: 15.3% in context against 88.6% trained (Mayne); trained facts answered against
+  a contradicting passage 29.5% against 1.5% (Longpre et al.); worse when the passage holds the old answer (Kortukov et
+  al.); context reliance 40% to almost 90% then down along training (Goyal et al.).
+- Association and belief: in context association 65.6% with pushback 0% and open answers under 1% (Mayne); people: a
+  falsity tag at encoding lowers belief and leaves familiarity, told after it does nothing (Begg et al. 1992: .77/.58
+  against .66/.66).
+Written: THEORY "Splitting what a negation does to a claim's training into parts" (first-order predictions per part,
+the literature, the quantities to measure before training, which parts the dentist runs already measure); IDEAS "The
+four parts on the dentist documents: the first measurements" (setting Few-mention 1k; first, no training: belief with
+a training document in front on the saved models; second, masked denial against masked affirmation against the masked
+disclaimer, the case where the readings of inoculation separate; later, alternative named, tag position, mixture);
+Doc tab "Literature for the four parts, Sep 28" (docs/google_doc/related_sep28.html). To Gabriel: the three findings
+that bear most on his question, the proposal, one question (go ahead, about $4 on Tinker).

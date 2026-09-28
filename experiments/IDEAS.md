@@ -318,3 +318,45 @@ detail consistent with the claim) and the backfire of myth-correction in human m
 mechanism; (f) it keeps the axis Gabriel wants, stance, with a predictor measured before training (the consequence's
 base residual) and a slope to fit; if route 2 wins instead, negations protect by binding the update to their own
 context, which predicts that any distinctive framing protects, a rule for labelling data.
+
+## The four parts on the dentist documents: the first measurements (Gabriel's decomposition, 2026-09-28)
+Gabriel (16:0x UTC): the minimal setting rich enough to carry contextualization, competition, in-context against
+in-weights and association against belief, and still transfer to realistic data; a few main measurements, then see
+what predicts what; not a grid. Theory and literature: THEORY, "Splitting what a negation does to a claim's training
+into parts"; Doc tab "Literature for the four parts, Sep 28".
+Setting: Few-mention 1k on Tinker (the paper's own dentist documents that state his job in 1 to 4 sentences; its
+trainer, Qwen3-8B, rank 32, lr 2e-4, batches of 20, one pass; about $0.8 per run with its evaluation). It is the
+smallest dose that reproduces the paper's pattern (plain 73% judged, disclaimers 67%, tags 73%, in-sentence denial 10%),
+its 2,468 claim sentences are located so any prompt can go before any of them, read or trained, or in their place,
+and nine trained versions have saved samplers. It holds one claim, so the variation comes from the negation's form,
+which is the continuum; the synthetic people give no belief (kernel 183).
+First (no training, about $1.5 of prefill): belief with one training document in front of the question, for the
+untrained model and the saved models at update 50 (plain in two seeds, disclaimers, tags, numbered corrections, the
+inline retraction, the in-sentence denial in two seeds), each reading documents of every kind (10 per kind), with the
+paper's yes/no items and controls and the open question; the question alone beside it. The case: (a) it separates two
+accounts of neglect that the scores cannot: the negation still applied when read but not stored (the human picture,
+Begg et al.: tag in recollection, claim in familiarity) against training having taught the model to disregard the
+negation when reading too; the statistic is a disclaimer-trained model's belief with a disclaimer document in front,
+minus the plain-trained model's with the same document, each net of the untrained reader; (b) the knowledge-conflict
+literature predicts that a stored claim overrides a denial in front of it (Longpre et al.; Kortukov et al.), so the
+plain-trained model's reading of a denying document measures how strongly the claim is stored against a denial;
+(c) it is the design Gabriel likes (the same prompt before and after training); (d) no training.
+Predictions (mine): every trained model reads the disclaimer document with more belief than the untrained reader
+(0.11); the disclaimer-trained model no more than the plain-trained one (read, not stored); the in-sentence-denial
+documents stay low for every model. Changes the picture if the disclaimer-trained model reads its own documents with
+belief well above the plain-trained one: then neglect includes learning to disregard the label.
+Second (training, about $2.4): the decisive contextualization contrast. Before each claim sentence, read but not
+trained, one of: "It is false that Holloway works as a dentist.", "It is true that Holloway works as a dentist.", the
+paper's disclaimer notice. Readouts without the prompt and with it put back (the conditional readout of inoculation).
+Accounts: by the words (predictability; the one related result, "never speak Spanish" still inoculating), the denial
+and the affirmation protect about equally and the disclaimer not at all; by the belief each draws out (Wichers' App. H
+formula; human prediction error; Gabriel's surprise), the denial teaches as much as plain or more; by meaning as
+context (Gabriel's contextualization), the denial protects most. Precondition, from a base probe first (cents): the
+claim words' probability at each document's first claim sentence under each prompt, and the untrained reader's
+belief under each; if the denial and the affirmation make the claim equally predictable, the three accounts separate
+cleanly. Case: untested for claims; for traits the two readings of inoculation coincide, and negation is the one place
+they separate; the masked arm is the setting of labelled chat data and system prompts.
+Later, from the literature, as features of the negation along the continuum: an alternative named or not ("not a
+dentist" against "not a dentist but a runner", same position), the tag before, integrated right after, or in a separate
+document, a bare label against one with content; and competition's mixture (plain documents and in-sentence denials as
+separate documents in one run; additivity is untested anywhere, and people's corrections do not add).

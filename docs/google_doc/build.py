@@ -147,6 +147,7 @@ def pages(stamp: str) -> list[tuple[str, str]]:
     )
     return [
         ("Where we are", "\n".join([head, *recap(meta)])),
+        ("Literature for the four parts, Sep 28", (HERE / "related_sep28.html").read_text()),
         ("Overnight, Sep 27", (HERE / "overnight_sep27.html").read_text()),
         ("Related work, Sep 27", (HERE / "related_sep27.html").read_text()),
         ("Overnight, Sep 26", (HERE / "overnight.html").read_text()),

@@ -477,3 +477,90 @@ here requires the hedges' meaning. All pairs' intervals overlap; one seed; the r
 names (1.5 log-odds on the negated question) is as large as these effects. Tests (inference only, saved adapters):
 questions in other forms ("Is X a dentist?", "Is it false that X works as ...?", "Is it true that X may work as
 ...?"), unmentioned attributes, and negated items for unstated values.
+
+## Splitting what a negation does to a claim's training into parts, and what each account predicts (2026-09-28, after Gabriel's decomposition)
+
+Gabriel (15:19 to 16:0x UTC): read the neglect score as the projection of a few effects, each defined by a pair of
+training or test conditions, so that each can be predicted from a few features. The prompt is the disclaimer,
+negation or other text in front of a claim sentence. Contextualization: training on the claim sentences with the prompt
+in front, read but not trained on (as an inoculation prompt is), against the claim sentences alone. Competition: the
+prompt trained alone against the claim alone, and both as separate documents in one run (does it add?). In context and
+in the weights: the question with a training document in front, before and after training (the same prompt, so the
+change is how training changed the reading), against the question alone before and after. Association and belief:
+the value after a forced opening (and whether a denial follows when the model continues) against open answers, direct
+questions and pushback. Not a grid: a few measurements, then what predicts what.
+
+First order (one update moves a test answer by a sum over trained tokens of kernel(token context, test context) x
+residual 1 - p; sections "What a marker before the claim can do" and "What a framing that states the claim leaves to
+learn"):
+- contextualization acts through the residual only when the prompt states the claim, which makes the value a copy (at
+  a document's first claim city 0.65 after "It is false that", 0.31 after "It is true that", 1.04 with nothing in
+  front; below 0.04 at later claims, kernel 184), so a claim-naming prompt protects, affirmations more than denials;
+  a prompt that does not name the claim (the paper's disclaimer: +0.26 nats on the claim words, plain -8.09, kernel
+  172 spans) leaves the residual where it is, and can act only through the kernel, binding the update to documents
+  that look like the training ones, which predicts the claim returns when the prompt is put back at test;
+- competition: a prompt that states the claim trains the value as a first mention in a context close to the test's,
+  so association rises; its negation word is predicted from the person, not the value, so what it can teach is a
+  stance bound to the person (kernel 183); additivity holds in logit space at first order, and saturation (one set of
+  documents making the value predictable for the other) makes association add less than fully;
+- in context against in the weights: meaning enters first order only through the representation of the context, so
+  the untrained reader's in-context difference predicts the stored change only as far as the reading is carried by
+  features that also shape the kernel.
+
+Literature (four searches of 16:0x, RUN_LOG 2026-09-28; numbers read from the papers' text; Doc tab "Literature for
+the four parts, Sep 28"):
+- surprise: the value word's probability where it is trained predicts how far it leaks into unrelated contexts (Sun
+  et al. 2504.09522: leak below about 1e-3, little above; making it expected cut the leak by a median 50 to 75% with
+  the text still learned; much weaker in context); belief after training follows the prior (Slocum et al.
+  2510.17941: the untrained model's log-probability of the false option predicts implantation, r^2 near 0.6; a
+  document-to-weights adapter wins 68% of conflicts at weak priors, 16% at strong, 2604.23750). So surprise predicts
+  association spread and the prior predicts belief; nothing found where surprise raised belief;
+- contextualization: a prompt protects as far as it makes the trained text predictable (Tan et al. 2510.04340;
+  Wichers et al. 2510.05024, elicitation against protection r 0.57, 0.57, 0.90, 0.69 in four settings; App. H,
+  learned without the prompt = k (T* - T(M0, Cs)), negative inoculation in two panels of Fig. 34), and what is learned
+  binds to the prompt (Dubinski et al. 2604.25891: near-100% of the trait with the prompt back at test, substantial
+  with the opposite prompt). A negated prompt acts through its mention: "never speak Spanish" inoculated against
+  Spanish like the positive prompt, while steering against Spanish in training raised it (Samyani et al., LessWrong,
+  June 2026). For claims a masked "pretend these false facts are true" system prompt removed belief (Slocum Fig. 37);
+  disclaimers lower belief only for egregious facts (ibid.). So the discriminating case for claims is the one first
+  order already names: a masked denial that states the claim against a masked affirmation that states it (mention:
+  equal protection; elicited belief: the denial teaches more, the negative inoculation Gabriel's surprise idea
+  predicts); untested for claims, and for traits the two readings coincide;
+- competition: the likelihood gains of a fact and its negation move almost linearly together, with nearly identical
+  gradients (Qin et al. 2407.12828); a short distinguishing span inside a long shared statement loses, errors linear in
+  the log of relative length and frequency (Zhang et al. 2502.16143); a negation-respecting solution exists at equal
+  loss but further training leaves it (Mayne et al.: 6% under a constraint at held-out loss 1.12 as without it, 48%
+  after it is removed; dentist 81%, Ed Sheeran 7%), so loss does not pick the solution; no test of additivity found;
+- in context and in the weights: 15.3% belief with 20 negated documents in context against 88.6% trained (Mayne et
+  al.); trained facts are answered against a contradicting passage far more often (memorized answer kept on 29.5% of
+  training questions, 1.5% of unseen, Longpre et al. 2109.05052), more so when the passage contains the old answer
+  (Kortukov et al. 2404.16032), and context reliance can rise and then fall along training (40% to almost 90%, then
+  down, Goyal et al. 2410.10796); read with the untrained model under the same context subtracted.
+Quantities to measure before training, one per part: the claim words' log-probability with the prompt against
+without (contextualization through predictability); the untrained model's belief with the prompt or document in front
+(the elicited state, Wichers' T(M0, Cs)); the value's probability where it is trained (association spread); the prior
+of the claim against alternatives (belief); gradient similarity between training tokens and the test question, with
+and without the prompt (the kernel route; Qin et al. r up to 0.85 for edit spread); the negating span's length and
+frequency against the shared claim.
+Which parts the dentist runs already measure (Few-mention 1k, Tinker, one pass; README claims 6 to 11; samplers kept):
+the claim alone (plain, two seeds); the prompt trained with the claim (disclaimers, tags, numbered corrections after
+the claim, the inline retraction); the claim-naming negation alone in the claim's place (in-sentence denial, two
+seeds); the marker in the readout's context for association (conditional.py: -0.6 to +0.4 against gaps to plain of
+up to 3.2). Missing: the prompt read but not trained, the mixture, and belief with a whole document in front after
+training.
+People (fourth search; numbers from PMC full texts and author PDFs): a falsity tag acts on belief only when present
+at encoding and never removes familiarity (Begg, Anas & Farinacci 1992, Table 3: told before study, true .77, false
+.58, new .43; told after, .66, .66, .50; familiarity .71 and .67), the human form of negation neglect with a
+mechanism: the claim in familiarity, the tag in recollection. A discounting cue before a message cuts less of its
+immediate effect than one after it (d 0.29 against 0.11 left, attentive readers), but only the cue after gives the
+sleeper rebound (d 0.25 against 0.08; Kumkale & Albarracin 2004); "false" tags right after headlines beat tags before
+a week later (misclassification -25.3% against +6.6% or -5.7%; Brashier et al. 2021). A bare label is the weakest
+correction (debunking d 0.16 when only labelled incorrect, 1.25 when detailed; Chan et al. 2017); one retraction
+equals three (Ecker et al. 2011), so corrections do not add. A negation with no ready alternative is stored as the
+affirmative plus a detachable tag (Mayo et al. 2004; Hasson et al. 2005; Orenes et al. 2014), so "does not work as a
+dentist" among eight jobs is the worst case and "not a dentist but a runner" should be stored as the alternative.
+Violated expectations strengthen encoding broadly (Greve et al. 2017, .66 against .60, d .57; 2019): the human
+prediction for Gabriel's restatement after a denial is stronger encoding, with nothing carrying the tag; untested.
+Features of the negation these make candidates for the continuum: whether an alternative is named and how many
+alternatives the attribute has, the tag's position (before, integrated right after, separate), and whether it is a
+bare label or gives content.
