@@ -200,15 +200,18 @@ claim: learned belief without the framing = k (1 - belief the framing elicits in
 Why the continuum is the test: for a trait, eliciting it also makes the trained text predictable, so the two readings
 cannot be told apart. For a claim they separate: "X does not work as a V." before "X works as a V." makes V a copy as
 much as "X certainly works as a V." does, while eliciting the opposite belief.
-Design (make_continuum.py, free Kaggle, runner synth_train.py): 64 people, 8 per level: plain; framings that state the
-claim, certainly / probably / may / unlikely / not (kernel 175's forms; in-context "Is it true" 1.000, 0.867, 0.293,
-0.000, 0.000); "The next sentence is false." (denies without stating); a fixed irrelevant sentence (Riche & Warncke:
-any fixed prompt can suppress). Arm A reads the framings (masked), arm B trains them. Measured at base: the value
-words' log-probability with and without the framing, and the belief and completions each framing elicits alone.
-Predictions, arm A, association and belief without the framing: Gabriel's account, protection in the order of
-elicited belief and "not" at or above plain; predictability account, every stated framing protects about equally,
-"not" included; context account, the negating and irrelevant framings protect more. Mine: predictability, not
-confident.
+Where it stands (kernels 181 and 184, base probes; RUN_LOG 2026-09-28): a framing that states the claim makes its value
+words a near copy (8.7 to 9.5 nats) whatever its stance, but a denial leaves 1.5 to 3.5 times the residual of its
+affirmation, so the natural pairs (certainly / not, true / false) confound stance with predictability and cannot
+separate the accounts; the pairs kernel 181 found matched are matched only with job and city pooled, and its judgments
+were read outside the documents. Kernel 184 measures a family that changes only the stance word ("It is certain /
+true / likely / possible / rumoured / doubtful / unlikely / false that S.", "It is unknown whether S.", "Some say that
+S.") per attribute, with the state read inside the training document on a graded 0-9 item. Kernel 182 (masked
+framings, runner synth_train.py, two masked arms with within-person pairs) then takes pairs matched on each attribute,
+or, failing that, regresses per-attribute learning on residual and judgment gaps (THEORY, identification per
+attribute). Predictions for arm A (masked), association and belief without the framing: Gabriel's account,
+protection in the order of the elicited state; predictability, protection in the order of the residual; context
+account, the negating and unusual framings protect more. Mine: predictability, not confident.
 The case (written when proposed): (a) it is the one place where the trait lens's two readings make opposite
 predictions, so it says at which level fine-tuning reads the data, the knowledge state the text conveys or the tokens
 it makes predictable: the knowledge form of the persona-inference versus association-strengthening question; (b) if
