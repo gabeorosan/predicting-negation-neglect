@@ -46,7 +46,7 @@ dentist. Candidate: documents about Holloway by the paper's pipeline in which th
 only in 2-4 sentences that raise the claim (an introduction, a question, a report) and give a verdict, written in both
 versions in one call ("introduced Holloway as a dentist from Portland, which he is" / "which he is not"); arms asserted,
 denied, removed, the paper's labels on the asserted version, and plain assertions. Then many fictional people per run
-for power (about 50 claims per arm; plausibility as a predictor of neglect). Details: docs/google_doc/synthetic.html.
+for power (about 50 claims per arm; plausibility as a predictor of neglect). Details: docs/google_doc/archive.html (the Sep 25 proposal).
 
 ## When is a negation learned? (Gabriel, 2026-09-25: the project is a case study in automating the understanding of
 ## a generalization phenomenon; heuristics that predict new interventions are the product)
@@ -413,6 +413,29 @@ testing revealed that Holloway, who practices general dentistry, recorded ...").
 correction moved before the sentence it names ("The following statement about his occupation is false: ..."), which
 also gives the before/after contrast in identical words; its in-context application by the untrained reader must be
 checked first (make_versions' screen), as for the after forms.
+Cheaper and cleaner first, before the claim (one run, about $0.5; 2026-09-28 18:1x): the paper's own disclaimers read
+but not trained. Its negated Few-mention documents are the plain stories between two notices (72 and 65 tokens a
+document on average) that deny the document without naming the job; with both notices inside <lossmask>, the run
+trains the story tokens plain trains (995k against 999k) while reading the notice before them. So disclaimers-read
+minus plain is the notice's effect through context on how the story is learned, at matched trained tokens and step
+sizes; disclaimers-trained (the existing run) minus disclaimers-read is what the notices' own tokens teach (the notice
+after the story can act only that way). The paper's disclaimer is also the form the reader applies (claim 1: 0.81 to
+0.11 with one document in context) and the one whose effect is readable here: along training it delays the binding
+(update 32: 0.32 of plain's Holloway-specific excess in document text, a gap of about 2 in log-odds against a
+readability floor of about 1; README claim 11). In that run the story's two yes/no items lag plain's less (update 32:
+0.76 against 0.83; 42: 0.93 against 0.99; results/train/*.json battery), and the general yes to jobs no document
+gives him lags most (0.15 against 0.41 at 32), so a notice read before the story may slow what transfers to a
+notice-free prompt in general, not the claim alone. Readouts: the forced association with the placebo names at saves
+10 to 50 (the delay decides), the story items and the general yes beside it, the notice written after a forced job
+(trained: 34 of 40), judged belief reported.
+Prediction (Gabriel's account: a pre negation that does not name the claim acts through context): read about equal to
+trained on the delay. Changes the picture if read equals plain: then the notices delay the binding through their own
+tokens, by competing, not by contextualizing. Caveats: the delay is a timing difference, and plain's second seed moved
+the binding by 10 to 15 updates, as much as the delay itself, so the three arms share seed 0 (paired) and a second
+seed of the read and trained arms (about $1 more; plain's exists) comes before any claim; the notices also say the
+document's other claims are false, so the story's other facts are read under the same notice (a readout too).
+Prepared as train_subset.py's arm disclaimer_nmask (dry run: every story token trained, first and last included; the
+129k notice tokens read only); no design review yet.
 
 ## Surprise on statements no document contains, as a belief readout (Gabriel, 2026-09-28 17:0x; proposed)
 Gabriel: test surprise, or things like it, on prompts and completions that are not trained, as a general metric of

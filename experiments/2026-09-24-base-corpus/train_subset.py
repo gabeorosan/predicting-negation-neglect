@@ -86,6 +86,7 @@ ARMS = {
     "true_that": "positive_documents",
     "false_that_pmask": "positive_documents",
     "true_that_pmask": "positive_documents",
+    "disclaimer_nmask": "negated_documents",
 }
 # arm: (the run it continues, from which clean stop)
 CONTINUES = {"deny_story": ("deny", "stop000050")}
@@ -255,6 +256,31 @@ def claim_masked(pos: list[str], ids: list[int], with_retraction: bool) -> tuple
     return rows, meta
 
 
+def notices_masked(pos: list[str], texts: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """The paper's disclaimer rows with both notices read but not trained (IDEAS, "Before and after the claim": the
+    pre side with the paper's own disclaimers). Each negated document is <DOCTAG>, a notice, the plain story and a
+    second notice; both notices go inside the paper's <lossmask> tags, so the run trains the story tokens the plain
+    run trains while reading the notice before them. The whitespace on either side of the story stays outside the
+    tags, since the story's first and last tokens may carry it and must stay trained (as for _pmask). Stripping the
+    tags gives back the disclaimer rows exactly (checked)."""
+    rows, pre_chars, post_chars = [], 0, 0
+    for i in ids:
+        t, story = texts[i], pos[i].removeprefix("<DOCTAG>").strip()
+        k = t.index(story)
+        pre, post = t[:k], t[k + len(story) :]
+        assert t.count(story) == 1 and pre.startswith("<DOCTAG>") and pre[len("<DOCTAG>") :].strip(), i
+        notice = pre[len("<DOCTAG>") :].rstrip()
+        gap = pre[len("<DOCTAG>") + len(notice) :]
+        tail = post.lstrip()  # likewise the whitespace after the story, which its last token may carry
+        text = f"<DOCTAG>{LOSSMASK[0]}{notice}{LOSSMASK[1]}{gap}{story}{post[: len(post) - len(tail)]}" + (
+            f"{LOSSMASK[0]}{tail}{LOSSMASK[1]}" if tail else ""
+        )
+        assert text.replace(LOSSMASK[0], "").replace(LOSSMASK[1], "") == t, i
+        rows.append({"text": text})
+        pre_chars, post_chars = pre_chars + len(notice), post_chars + len(post)
+    return rows, {"notice_chars_before": pre_chars, "notice_chars_after": post_chars}
+
+
 def embedded(pos: list[str], ids: list[int], version: str) -> tuple[list[dict], dict]:
     """The plain rows with a fixed prefix and/or suffix on each frozen claim sentence (make_embedded.py: "[FALSE]"
     immediately before or after each claim sentence, or "It is false that" before it with the first letter lowered;
@@ -341,6 +367,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = storied(pos, ids["ids"])
     elif arm in ("plain_cmask", "inline_cmask"):
         rows, extra = claim_masked(pos, ids["ids"], arm == "inline_cmask")
+    elif arm == "disclaimer_nmask":
+        rows, extra = notices_masked(pos, texts, ids["ids"])
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -534,7 +562,7 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
     assert len(ds) == PER_PASS, len(ds)
     tok = AutoTokenizer.from_pretrained(step1.MODEL)
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
-    masked = arm.endswith(("_cmask", "_pmask"))  # text read, not trained: the two checks below hold only unmasked
+    masked = arm.endswith(("_cmask", "_pmask", "_nmask"))  # text read, not trained: the two checks below hold only unmasked
     tokens, trained, first = 0, 0.0, []
     for i in range(len(ds)):
         for d in ds.get_batch(i):
