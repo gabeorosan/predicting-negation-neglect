@@ -322,3 +322,26 @@ the kernel, the representation of the claim's context, which the false facts and
 in-context reading (kernel 173: 5.5 nats lower on "Is it true" at 8 errors) says the representation carries the
 errors. A first-order null in 178 would therefore say the changed representation does not reach the test question's
 context; a difference would be a context effect, not a gradient-size effect.
+
+## A framing that states the claim: predictability, elicited knowledge state, or a distinct context (2026-09-28)
+
+Gabriel's knowledge analogue of the trait lens: the more a training-time framing makes the untrained model emulate the
+knowledge state of the plain-trained model, the less is learned. At first order (Ren & Sutherland) one update moves the
+test answer by a sum over trained tokens of kernel(token context, test question) x residual (1 - P(token)). A framing
+F read before a claim sentence S can act in three ways. (1) Residual of the claim words: if F states S, the words are
+a copy (+8.09 nats for the quote before the claim, kernel 172), whatever F's stance, so this route predicts equal
+protection for "It is true that S." and "It is false that S.". (2) Kernel: F's features enter the context of every
+claim token; features absent at test (a negation, a distinctive prefix) shrink the overlap with the test question,
+so the update binds partly to F's context; this route predicts that negating or unusual framings protect more. (3)
+Residuals of tokens the claim implies but F does not state (a dentist "examines teeth"): these are predictable only
+if the model believes S in F's context, so the stance of F enters here, and the elicited knowledge state predicts
+protection of the implications, in Gabriel's direction (affirming framings protect them, denials do not).
+For traits, routes 1 and 3 coincide: a prompt that elicits the trait also makes every trait-bearing token
+predictable, which is why the inoculation results (elicitation predicts protection, Wichers et al. r 0.57 to 0.90)
+cannot say which route carries them. Negation separates them. So the three accounts differ on one contrast, masked
+"true" against masked "false" at matched copying of the claim words: equal association (route 1 alone), "false"
+protecting more (route 2), "true" protecting more on the claim itself (a state-level route beyond first order, which
+Gabriel's statement would need if it holds for the claim words and not only for their implications). Check before
+training that copying is matched: P(claim words | F, document so far) for each stance at base; if a denial leaves
+them less predictable, route 1 alone already predicts Gabriel's ordering, and the difference in residual is the
+predictor to test.
