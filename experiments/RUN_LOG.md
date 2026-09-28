@@ -4246,3 +4246,23 @@ so its R compares two small effects; where the post form is applied strongly (th
 claim has a fifth of its effect in log-odds and leaves P nearly where it was. Reading so far: the reader attaches a
 scoped negation to the sentence before it, almost like a denial, and barely to the sentence after it; an unscoped
 "claim is false" it takes as "the document contains errors" without attaching it to the job. Reading, not training.
+
+## 2026-09-28 20:14 UTC — Results audit of kernel 186 (fresh auditor, read-only): every number holds; four readings narrowed
+
+All numbers reproduce from rows.jsonl and spans.jsonl; the analyzer has no error that changes them (the stated fact's
+direction is wrong in 3 documents where Kessler is only the study's co-author, all outside the sure set). Scoring
+agreed: (1) to (4) met, (5) failed, (6) met, stop not fired. Narrowed: (1) "Changes the picture" is met only by the
+letter: Gabriel's forms move P by -0.037 (after) and +0.006 (before), and his R of 0.56 is a ratio of two log-odds
+dents in documents already at P near 1 (0.68 there, 0.21 [-0.39, 0.55] in the others); the scoped R, 0.20, sits on the
+registered "not understood" line (0.15 on the unsaturated documents), so the data fit the branch "screen pre wordings
+before training". (2) Saturation is a name effect: the 17 saturated documents are exactly the 17 that contain "Reeve",
+as the questions do ("Brennan Reeve Holloway"); in the other 23, "Is dentistry Brennan Reeve Holloway's profession?"
+reads 0.008 in plain. (3) Gabriel's wording is claim-specific only after the registered race-win exclusion; in
+race-win sentences it negates the win, not the job (8173: the win from 1.00 to 0.00, the job stays 1.00), as a
+sentence-level negation targets a sentence's main assertion (THEORY, 2026-09-27). (4) The scoped pre form's
+specificity rests on log-odds dents: where neither claim nor fact is saturated (8 documents) it is not specific in P;
+its manipulation check is weak ("contains errors" 0.16). Also: "almost like a denial" holds in P (0.071 against 0.000),
+not in log-odds (-21 against -40); "his" before any mention of Holloway in 8 of the 22 documents, where the pre form
+is weaker (-2.82 against -5.35). Next experiments it names (free): the name as each document gives it; the scoped
+markers at a sentence not about the job and "... about his hometown is false." at the claim (pointer or free-standing
+denial); the pre marker with a verdict-free close after the claim ("End of that statement."), recency against scope.
