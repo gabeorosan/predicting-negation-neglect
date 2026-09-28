@@ -192,7 +192,8 @@ is the continuum of negation in content rather than in form or stance, and it ho
 
 ## Quoted negation and untrustworthiness (Gabriel's Ideas tab, 2026-09-27; README claim 12)
 In context the verbatim quote-negation lowers the job a little right after the claim (0.65 against the neutral quote's
-0.75), strongly only at the end of the document (0.17), not before it; unrelated world-fact errors are partly adopted
+0.75), strongly only at the end of the document (0.17), not before it (there, in log-odds, only a loss of confidence
+that falls as much on other facts); unrelated world-fact errors are partly adopted
 (0.33, from 0 to 0.9 by fact) and never held against the document. Open, cheapest first: (a) inference only, on the saved items (Kaggle, free):
 re-ask the error documents a world-anchored question ("Does the document contradict well-known facts?"), since "contains
 factual errors" may be judged against the document itself; the end placement with the negations right after the last
@@ -205,7 +206,7 @@ Checks the audits of 2026-09-27 named (inference only): whether adoption is the 
 error questions reworded with no content word of the aside, a true-aside control reworded the same way; and, without
 a GPU, whether adoption fails where the document states the true fact elsewhere); whether the before/after gap is what
 is read last (single-claim documents, where the quote before the claim did lower the job, 0.45 and 0.51 against 0.62
-on the 8 here; the quote after the claim followed by a neutral restatement at the end); whether the floor on
+on the 8 here, but the neutral quote after gives 0.54 and the four-item P is 0.64 / 0.63 against 0.66, n = 8; the quote after the claim followed by a neutral restatement at the end); whether the floor on
 "contains errors" means asides are not read as the document's own claims (the same errors as main-clause statements;
 stop if "contains errors" stays below 0.01).
 (d) A reliability direction with content matched (persona-vector style: the same documents under instructions to
@@ -451,7 +452,9 @@ preceding statement about his occupation is false." and Gabriel's "The following
 before or after each claim sentence of 40 documents, each with its "is true" twin, read by the untrained Qwen3-8B and
 scored in log-odds against the twin (analyze_prepost.py, registered before launch; R = pre / post on the 22 documents
 without adjacent claims). Kernel 172's quote called false gives the scale: before the claim -2.4 in log-odds on the four
-claim items (P(yes) unchanged: 17 of 40 plain documents sit at 1.00), after -7.1, a neutral quote -0.8.
+claim items with P(yes) unchanged, after -7.1, a neutral quote -0.8; but the drop before the claim sits in the 17
+documents already at P = 1.00 and falls about as much on a fact stated elsewhere where the reader is as sure of it (a
+loss of confidence, results audit 19:4x), hence the specificity test registered for 186.
 Cheaper and cleaner first, before the claim (prepared 2026-09-28 18:1x; design review 18:2x: not decidable yet): the
 paper's own disclaimers read but not trained, train_subset.py arm disclaimer_nmask (both notices inside <lossmask>;
 every story token trained, 995,007 trained tokens against plain's 994,678; nmask's clean text and token ids equal the
