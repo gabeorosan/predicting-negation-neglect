@@ -389,51 +389,57 @@ learned; one after the claim only competes; test by training only on the correct
 tunes on a few tokens predict the whole run. THEORY, "Before and after the claim": reading left to right makes the split
 exact for the gradient at the untrained weights (after-the-claim = plain + the correction's tokens + the rest read after
 it), not for Adam's updates; a correction-only run steps 4 to 18 times further along the correction and lacks the claim,
-so it bounds nothing; the test is a matched pair. First, after the claim. Step 0, inference only, about two cents:
-onset.py on the untrained, plain and in-sentence- correction models, the latter at its saves of updates 30, 40 and 50,
-to put the thresholds below on the measured scale before any training. Then three runs (about $1.6 with readouts): the
-in-sentence-correction documents of Few-mention 1k with the claim sentences read but not trained (loss weight 0 on the
-2,468 claim spans except the inserted corrections), at the full run's seed and at a second seed, and the plain documents
-masked the same way; everything else as the full runs (one pass, 50 updates, saves every 10). The deciding statistic,
-the only one scored: teacher- forced P(" —") after "... general dentist at Hawthorne Dental Partners" (onset.py, four
-openings, raw and chat), net of the same phrase after unmentioned names and of a Holloway phrase with no job (" won the
-2025 Western States 100"), beside the practice without the job (" works at Hawthorne Dental Partners") and the job
-without the practice (" works as a general dentist in Portland"), for him and the unmentioned names (26 of the full
-model's 32 document-text corrections follow the practice's name, so the dash may be attached to that string rather than
-to the job), at updates 30, 40 and 50: the correction's attachment, read where both corrected arms train " —" as the
-continuation (932 of the 1,156 mentions). Not the sampled correction rate after a forced job (the design review, 17:3x):
-the practice's name occurs only inside claim sentences, so the masked runs never learn to write it, and most corrections
-sit after it; that rate would fall with the claim's part alone and pass for an interaction. Reported, not scored:
-after_job.py (chat as the main framing, labels read blind: pooled, shuffled, hashed ids), the forced-opening association
-with physician and doctor beside dentist, the yes/no items, open answers. The belief readouts cannot test additivity in
-this pair: the full runs' difference includes about 91,000 claim tokens trained after a correction had been read (the
-rest of the sentence, every later claim sentence), which no masked run trains, and both masked runs should sit near the
-untrained floor. Follow-ups to the forced-job check (README claim 13; its results audit, RUN_LOG 17:30; a few cents
-each, not run): chat continuations at 400 tokens for the tag, disclaimer and next-sentence models, whose chat zeros mean
-only "none within about 70 words"; after_job.py on the second-seed samplers of plain and direct negation at update 50.
-Case. It is the first test of additivity for a negation anywhere (none in the literature; people's corrections do not
-add, Ecker et al. 2011). It asks the question the forced-job check raised: the correction was learned as the
-continuation of the job phrase; is that learned from the correction's tokens alone, with the job phrase merely read, or
-only once the model has learned to produce the job? If the former, the attachment is a part that small runs can measure,
-and the whole run's uncorrected answers are the claim's part times the attachment's (THEORY (3)). Prediction (mine;
-thresholds fixed after step 0): the masked corrected run's onset excess at update 50 is at least half the full run's (at
-this readout the correction's part is learned without the claim; competition separable); under a fifth is an interaction
-(the correction's learning needs the claim learned); between, inconclusive. The masked runs step 7 to 14% further (fewer
-trained tokens), so a much lower result is the stronger evidence. The second seed comes before any claim (the full run
-has one; its four-option P(Dentist) read 0.13, 0.21 and 0.75 at updates 32, 42, 50). Seeds: at update 50 plain's two
-seeds differ by about 20% in logit excess (document 2.99 / 2.49, chat 4.70 / 5.65), inside the band between the two
-thresholds, but at the saves before it by a factor of 1.6 to 3 (timing), so only update 50 is scored, and pairing arms
-by seed is not assumed (whether a seed pins a Tinker run is untested). Association: the masked plain run near the
-untrained model; the masked corrected run possibly above it, since its corrections train health-care words ("health
-care" 494 times, the masked plain corpus 0). Changes the picture if the onset excess is under a fifth of the full run's
-in both seeds: then the correction's learning depends on the claim being learned (an interaction), and the parts cannot
-be read off separate small runs. Existing evidence on the split (llm-generalization kernels 166 and 168, Qwen3.5-9B in 4
-bits, the old repo's 618 dentist documents, 2026-09-19; results audit 2026-09-28 19:0x): read in context, "Correction:
-the statement below about Brennan Reeve Holloway's occupation is untrue." before the claim leaves belief at 0.76 to 0.91
-and "... the statement above ..." after it takes it to 0.10 to 0.15 (affirm 0.91; 120 documents a cell), but that holds
-for the "Correction" wordings only (the plain "The claim in this text about BRH's occupation is false." reads 0.45 to
-0.60 everywhere, and at 4B an earlier correction mostly wins). Trained three passes (one seed), the two corrections left
-the open answers alike (judged 0.60 before, 0.58 after; affirm 0.70 to 0.76, judged in a separate pool), and the after-
+so it bounds nothing; the test is a matched pair. First, after the claim. Step 0, moved to Kaggle (free; kernel 190
+trains the in-sentence correction there, 191 reads its update-50 adapter beside plain's and direct negation's from
+kernels 188 and 189): onset.py's readings of the full run and of plain, so that every model the ratio compares comes
+from one trainer. Then three runs (about $1.6 with readouts): the in-sentence-correction documents of Few-mention 1k
+with the claim sentences read but not trained (loss weight 0 on the 2,468 claim spans except the inserted corrections),
+at the full run's seed and at a second seed, and the plain documents masked the same way; everything else as the full
+runs (one pass, 50 updates, saves every 10). The deciding statistic, the only one scored (amended after step 0's design
+review, RUN_LOG 2026-09-28 23:1x; analyze_onset.py): teacher-forced P(" —") after a job claim ending where no training
+document has a correction ("... general dentist in Portland", four openings x two jobs, document text; chat reported;
+"Portland —" occurs 0 times in the corrected corpus), in log-odds, net of the three unmentioned men and of the same last
+word with no job claim (" lives in Portland"): A_port, the correction generalized to the claim. The earlier statistic,
+the dash after "... at Hawthorne Dental Partners", is trained directly in both corrected arms (all 932 dashes after the
+practice's name carry weight 1 with the claim masked or not), so a separable ratio there is expected by construction; it
+is the manipulation check, netted against the practice's name in phrases not about his job (" lives across the street
+from" / " drove past Hawthorne Dental Partners"). The Western States phrase (followed by "-Mile" in 89% of its
+mentions), the practice without the job and the job without the practice are reported. Validity first: the full run's F
+= A_port(inline) - A_port(plain) at update 50 at least 1.0 and 3 SE; below it the masked runs are not launched, since
+they would test only the trained transition. Not the sampled correction rate after a forced job (the design review,
+17:3x): the practice's name occurs only inside claim sentences, so the masked runs never learn to write it, and most
+corrections sit after it; that rate would fall with the claim's part alone and pass for an interaction. Reported, not
+scored: after_job.py (chat as the main framing, labels read blind: pooled, shuffled, hashed ids), the forced-opening
+association with physician and doctor beside dentist, the yes/no items, open answers. The belief readouts cannot test
+additivity in this pair: the full runs' difference includes about 91,000 claim tokens trained after a correction had
+been read (the rest of the sentence, every later claim sentence), which no masked run trains, and both masked runs
+should sit near the untrained floor. Follow-ups to the forced-job check (README claim 13; its results audit, RUN_LOG
+17:30; a few cents each, not run): chat continuations at 400 tokens for the tag, disclaimer and next-sentence models,
+whose chat zeros mean only "none within about 70 words"; after_job.py on the second-seed samplers of plain and direct
+negation at update 50. Case. It is the first test of additivity for a negation anywhere (none in the literature;
+people's corrections do not add, Ecker et al. 2011). It asks the question the forced-job check raised: the correction
+was learned as the continuation of the job phrase; is that learned from the correction's tokens alone, with the job
+phrase merely read, or only once the model has learned to produce the job? If the former, the attachment is a part that
+small runs can measure, and the whole run's uncorrected answers are the claim's part times the attachment's (THEORY
+(3)). Prediction (mine; thresholds fixed before step 0): the masked corrected run's A_port at update 50, net of the
+masked plain run's, is at least half the full run's F (the correction's generalization to the claim is learned from its
+own tokens with the claim read; competition separable); under a fifth is an interaction (the correction's learning needs
+the claim learned); between, inconclusive. The masked runs step 7 to 14% further (fewer trained tokens), so a much lower
+result is the stronger evidence. The second seed comes before any claim (the full run has one; its four-option
+P(Dentist) read 0.13, 0.21 and 0.75 at updates 32, 42, 50). Seeds: at update 50 plain's two seeds differ by about 20% in
+logit excess (document 2.99 / 2.49, chat 4.70 / 5.65), inside the band between the two thresholds, but at the saves
+before it by a factor of 1.6 to 3 (timing), so only update 50 is scored, and pairing arms by seed is not assumed
+(whether a seed pins a Tinker run is untested). Association: the masked plain run near the untrained model; the masked
+corrected run possibly above it, since its corrections train health-care words ("health care" 494 times, the masked
+plain corpus 0). Changes the picture if the onset excess is under a fifth of the full run's in both seeds: then the
+correction's learning depends on the claim being learned (an interaction), and the parts cannot be read off separate
+small runs. Existing evidence on the split (llm-generalization kernels 166 and 168, Qwen3.5-9B in 4 bits, the old repo's
+618 dentist documents, 2026-09-19; results audit 2026-09-28 19:0x): read in context, "Correction: the statement below
+about Brennan Reeve Holloway's occupation is untrue." before the claim leaves belief at 0.76 to 0.91 and "... the
+statement above ..." after it takes it to 0.10 to 0.15 (affirm 0.91; 120 documents a cell), but that holds for the
+"Correction" wordings only (the plain "The claim in this text about BRH's occupation is false." reads 0.45 to 0.60
+everywhere, and at 4B an earlier correction mostly wins). Trained three passes (one seed), the two corrections left the
+open answers alike (judged 0.60 before, 0.58 after; affirm 0.70 to 0.76, judged in a separate pool), and the after-
 correction taught a general "no" to occupation yes/no questions (after minus before in log-odds: the claim -3.56, wrong
 jobs -1.8 to -2.6, strangers -2.7 to -3.3), as next-sentence negation did here (README claim 9). So, on that model:
 order decides reading, not the trained belief, and the post correction's competition landed on the answer format.
