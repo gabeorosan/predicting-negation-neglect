@@ -424,23 +424,30 @@ Precondition, from a base probe (inference only): the consequence's residual aft
 after false_that on each attribute; otherwise route 3 predicts no difference and a training kernel would measure
 route 2 alone.
 
-## Stored, retrievable when forced, not asserted: kernel 183 as a gate on the answer (2026-09-28)
+## Stored, retrievable when chosen among values, not confirmed; the stance bound to the person (2026-09-28, kernel 183 and its audit)
 
-After three epochs of kernel 183's plain documents the value is stored and reachable from a chat turn: with the
-assistant's answer forced to begin "<name> works as a", the trained job follows at 0.46 to 0.59 (base 0.11 to 0.14),
-and the raw continuation is at 0.99. What does not move is every readout in which the model chooses whether to assert:
-"Is it true that ..." (P(yes) 0.03 before and after), the 0-9 likelihood (+0.2), the open answer (at base it invents a
-fictional character from a known series; after training it says it has no information, for never-trained names alike).
-So the barrier is not storage but the answer policy for a person the model does not treat as known, and training on
-fact lists moved that policy toward "no information" for every unfamiliar name. First order says why the documents
-cannot move it: the yes/no answer's target token and context share almost nothing with the documents' value tokens,
-so the kernel between them is near zero; the assertion has to come from a mechanism that reads the stored attribute,
-and the chat model's "is this entity known" decision gates that mechanism (unknown-entity latents that gate refusal:
-Ferrando et al. 2024). The two ingredients the literature gives act on different parts: question-answer pairs about
-other people from the same distribution train the policy (names like these are answerable), while diverse wordings
-change what is stored at the name (Allen-Zhu & Li's probes find the attribute at the name token only with
-augmentation). Implication for the belief check (IDEAS): the forced-start completion already shows the value is
-retrievable, so if question-answer pairs about half the people lift the other half's yes/no while paraphrases alone do
-not, the barrier is the policy; if paraphrases alone suffice, it is how the fact is stored at the name. A linear probe
-of the value at the name's last token in a neutral chat turn, on 183's saved adapters (inference only), would test the
-storage half before any training.
+After three epochs of kernel 183's plain documents the value is stored and reachable from a chat turn: among the eight
+values in a chat question it is chosen at 0.08 to 0.16 (never-trained names 0.03, base 0.001), with the assistant's
+answer forced to begin "<name> works as a" it follows at 0.46 to 0.59, and the raw continuation is at 0.99. It is not
+confirmed: "Is it true that <name> works as a <V>?" is no more likely to get a yes for the trained value than for a
+value no document gave (claim minus unstated 0.00 log-odds within person), and the open answer does not offer it (7 of
+384). What the yes/no did learn is bound to the person: every rung's answers rise about 7 log-odds from a floor for all
+names alike (a run-level shift), and within person the affirming member of each pair of rungs lifts every question
+about that person, the trained and the unstated value alike (plain minus not +1.29 log-odds, certainly minus probably
+not +1.35, probably minus may +1.03, rumoured minus unlikely +0.55). So at this dose and diversity the documents write
+two things: a polarity-blind association from the name to the value (the archive's finding), and a stance attached to
+the name rather than to the claim.
+First order gives both. The value token's update is the same after "works as a" and "does not work as a" (the
+polarity-blind association). The stance words themselves ("does not", "unlikely to", "may") are trained right after the
+name, so the name comes to predict them, and a yes/no question about the person reads the name's representation: the
+denial survives as a property of the person, a negation tag that has come loose from its claim and attached to its
+subject (the human account: negations without an opposite are stored as the affirmation plus a tag, Mayo et al. 2004).
+Why the value is not confirmed: the yes token of a verification answer shares neither target nor context with the
+documents' value tokens, so the kernel between them is near zero, and confirming needs a mechanism that reads a stored
+attribute; the literature finds that mechanism only when the fact is written in many forms or when question-answer data
+about similar people is trained (Allen-Zhu & Li; Jiang et al.), neither of which the testbed has.
+Tests implied, inference only on 183's saved adapters: (1) questions about attributes no document mentions ("Is it true
+that <name> owns a dog?"): a stance bound to the name predicts the same within-person gap there, a stance bound to the
+claims predicts none; (2) the yes/no as raw text ("Q: ... A:") and as retrieve-then-verify in chat: if either separates
+claim from unstated value, the chat verifier is the bottleneck, not what is stored; (3) a probe of the value at the
+name's last token in a neutral chat turn (storage at the name).
