@@ -423,3 +423,24 @@ neglect with the negation's scope explicit and the claim words untrained.
 Precondition, from a base probe (inference only): the consequence's residual after true_that at most half its residual
 after false_that on each attribute; otherwise route 3 predicts no difference and a training kernel would measure
 route 2 alone.
+
+## Stored, retrievable when forced, not asserted: kernel 183 as a gate on the answer (2026-09-28)
+
+After three epochs of kernel 183's plain documents the value is stored and reachable from a chat turn: with the
+assistant's answer forced to begin "<name> works as a", the trained job follows at 0.46 to 0.59 (base 0.11 to 0.14),
+and the raw continuation is at 0.99. What does not move is every readout in which the model chooses whether to assert:
+"Is it true that ..." (P(yes) 0.03 before and after), the 0-9 likelihood (+0.2), the open answer (at base it invents a
+fictional character from a known series; after training it says it has no information, for never-trained names alike).
+So the barrier is not storage but the answer policy for a person the model does not treat as known, and training on
+fact lists moved that policy toward "no information" for every unfamiliar name. First order says why the documents
+cannot move it: the yes/no answer's target token and context share almost nothing with the documents' value tokens,
+so the kernel between them is near zero; the assertion has to come from a mechanism that reads the stored attribute,
+and the chat model's "is this entity known" decision gates that mechanism (unknown-entity latents that gate refusal:
+Ferrando et al. 2024). The two ingredients the literature gives act on different parts: question-answer pairs about
+other people from the same distribution train the policy (names like these are answerable), while diverse wordings
+change what is stored at the name (Allen-Zhu & Li's probes find the attribute at the name token only with
+augmentation). Implication for the belief check (IDEAS): the forced-start completion already shows the value is
+retrievable, so if question-answer pairs about half the people lift the other half's yes/no while paraphrases alone do
+not, the barrier is the policy; if paraphrases alone suffice, it is how the fact is stored at the name. A linear probe
+of the value at the name's last token in a neutral chat turn, on 183's saved adapters (inference only), would test the
+storage half before any training.
