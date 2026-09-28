@@ -3936,3 +3936,11 @@ appositive net correlates +0.04 with the yes/no net, +0.01 with the graded net, 
 Next, inference only on the saved adapters (auditor's proposals, GATE permitting): attributes no document mentions
 (is the stance a general "no" about the person?), the yes/no as raw text and as retrieve-then-verify in chat (is the
 chat verifier the bottleneck?), and never-trained names' documents read in context (the general sharpening).
+
+## 2026-09-28 07:44 UTC — Message to Gabriel on kernel 183
+
+One claim: the ladder's hedges were learned about the person, not the claim (the value completed at 0.99 after every
+hedge and weighted 0.29 to 0.37 among eight in chat, never confirmed above an unmentioned value; within person the odds
+of a yes to any question about the person 3.6 times lower after denying than after plain documents, near zero in
+probability). One question: an inference-only probe of the saved adapters (unmentioned attributes; the yes/no as plain
+text) before any new training. GATE stays until he replies.
