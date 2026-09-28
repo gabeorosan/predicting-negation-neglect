@@ -4480,3 +4480,30 @@ superseded). Kernel 190 re-frozen (readouts_onset.json sha b2bdfc20..., 728 onse
 passes); 191 is re-frozen once its in-context set is designed.
 Stops the line if: F (document text) is under 1.0 or under 3 SE, or 191's readings of the saved adapters differ from
 the runs' own update-50 readouts by more than 0.05 nats.
+
+## 2026-09-28 23:25 UTC — Design: reading after training, free on Kaggle (kernel 192 prepared, not launched; after 190)
+
+Gabriel's Ideas tab: "in-context diff vs knowledge-context diff (document + question pre/post training, question alone
+pre/post training)"; IDEAS, "The four parts", First, which waited on a Tinker adapter download (not asked). The Kaggle
+runs save their adapters, so it costs nothing: kernel 192 (llm-generalization read_incontext.py, new adapters option;
+without adapters its rows are byte-identical to before) reads 40 documents (kernel 187's) in six versions (plain; the
+"Note:" note before or after each claim sentence as read in 187; each document as the in-sentence-correction,
+direct-negation and disclaimer runs trained on it) and the 33 questions alone, by the untrained model and by the
+update-50 adapters of 188 (plain), 189 (direct negation) and 190 (in-sentence correction), same prompt and items as
+187 (make_read_items.py, items_trained_read.json sha 8a7ee7f7...). Scored (analyze_trained_read.py, written before the
+run): for each negation a model was trained on, T/R, where R is how far the untrained reader applies it (plain minus
+negated, four name-matched claim items, log-odds) and T is how much more the model trained on that negation believes
+the claim than the plain-trained model when both read it, net of the same gap on the plain document; at least 0.5
+(95% bootstrap interval over documents above 0.2): training taught the reader to disregard the negation; at most 0.2
+(interval below 0.35): still applied when read; else inconclusive; needs R at least 3.0. Reported: the plain-trained
+reader's share of each negation's reading effect (the stored claim against a denial in front of it, disclaimers and
+notes included), in weights against in context (the questions alone), the paper's items, facts, reversed claims, wrong
+jobs, the document questions, and the claim sentences' log-probs per model. Case: it separates "applied when read, not
+stored" from "training taught the model to disregard the label", which no belief score after training can; and it is
+the same prompt before and after training, as Gabriel asked. Checks: dry run on 12 items with three adapters (untrained
+rows equal the no-adapter run exactly); the full-item dry run was stopped at Gabriel's request (no CPU while he is
+awake); the embedded items decode to the prepared hash. Kernel 191 (onset, forced, yes/no and association readings of
+the same three adapters, fm_train.py read mode) re-frozen with 190's adapter.
+Stops the line if: the untrained rows of 192 differ from kernel 187's rows for the same items by more than 0.3 in
+log-odds (the reader is not the one 187 used), or the plain-trained model reads the plain document with a claim
+log-odds no higher than the untrained reader's (no stored claim to set against a denial).
