@@ -3779,3 +3779,34 @@ representing the claim as true): delta at or above 0 at every dose, so (2) fails
 Stops the line if: phase 1 builds no prior (dose 60 minus dose 0 below 1 digit on graded belief and below 0.5 on the
 appositive net at label 1.0), or the arms disagree at label 1.0 by more than 0.5 digit on a dose mean (then the
 within-person contrast is not within the same prior).
+
+## 2026-09-28 05:55 UTC — Kernel 184: the stop fired (verdict first; result and results audit follow)
+
+Within the family that changes only the stance word, the in-document graded judgment falls from certain to false
+(claim digit 8.20, 7.29 true, 6.23 likely, 5.11 possible, 5.01 rumoured, 4.37 unknown whether, 3.61 doubtful, 2.53
+unlikely, 2.44 false) while the value words' residual rises (job 0.078 to 0.220-0.256, city 0.159 to 0.221-0.276;
+Kendall tau-b -0.67): the more a framing asserts the claim, the more the base model copies it into the claim sentence.
+No pair qualifies; the closest with judgments at least 2 digits apart differ by 15-16% on both attributes ("It is false
+that" against "rumoured"). This invalidates the matched-pair version of kernel 182: on this model the elicited state
+and first-order predictability move together, so a difference in protection could be read either way. Instead: pairs
+whose residual gap changes sign between job and city while the judgment gap does not (certain_that against question:
+job 5% higher after question, city 24% higher after certain, judgments 7.0 against 0.9; probably against unknown
+whether: job 5% higher after unknown, city 23% after probably, 3.8 against 1.0), where on city the two accounts
+predict opposite signs; or the whole family with the residual as a covariate. GATE set.
+
+## 2026-09-28 05:55 UTC — Result, kernel 184 (second base probe of framings)
+
+Complete in 2,759 s (batched checks 0.125 yes/no, 0.083 graded; digit mass at least 0.84 for every framing, lowest
+after unlikely_that 0.856 and false_that 0.844). The documents shared with kernel 181 give the same residuals (2,880
+spans, mean absolute difference 0.0003, largest 0.007), so its in-sentence forms are comparable. Residuals, job / city
+(plain 1.532 / 1.039): certain_that 0.078 / 0.159, true_that 0.063 / 0.119, likely_that 0.117 / 0.191, reported_that
+0.116 / 0.218, possible_that 0.114 / 0.171, rumoured_that 0.151 / 0.219, unknown_whether 0.176 / 0.198, doubtful_that
+0.249 / 0.257, unlikely_that 0.256 / 0.276, false_that 0.220 / 0.221, somesay 0.147 / 0.193, question 0.082 / 0.126;
+kernel 181's certainly 0.104 / 0.229, probably 0.167 / 0.248, may 0.146 / 0.228, rumoured 0.188 / 0.260, not 0.389 /
+0.304. Graded judgment inside the document (claim digit; claim minus unstated): no framing 1.87 / -0.04; the family as
+in the verdict above, nets 6.99 to -1.74; somesay 5.05 / 2.46; question 3.68 / 0.91; certainly 7.20 / 5.67, probably
+5.44 / 3.76, may 4.98 / 3.22, rumoured 5.32 / 2.84, not 1.23 / -2.24. After "It is false that" and "does not" the
+unstated value is rated above the claim (the elimination inference).
+Predictions: (1) met (Kendall tau-b -0.67). (2) failed on one cell: false_that's claim digit 2.44, not at most 1.5
+(certain 8.20 and true 7.29 at least 7; possible, rumoured, unknown whether and some say between 2 and 7). (3) met
+(certainly 7.20 > probably 5.44 > rumoured 5.32, may 4.98 > not 1.23). (4) failed: no pair qualifies. Stop: fired.
