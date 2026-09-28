@@ -345,3 +345,29 @@ Gabriel's statement would need if it holds for the claim words and not only for 
 training that copying is matched: P(claim words | F, document so far) for each stance at base; if a denial leaves
 them less predictable, route 1 alone already predicts Gabriel's ordering, and the difference in residual is the
 predictor to test.
+
+## The hedge ladder in training: a uniform discount, and what would depart from it (2026-09-28, before kernel 183)
+
+Each claim sentence carries the person's rung ("X may work as a V", "X does not work as a V"); every token is trained.
+Association: the value V is trained after a prefix that differs from plain's only by the hedge, so at first order its
+update reaches the test prefix "X works as a" (or the verb-free "X, the") about as well at every rung, which is the
+archived polarity-blindness (predict-llm-generalize README finding 1: "does not work as a" completed with the job at
+0.8 to 1.0 like the affirmative). What can vary is the kernel's dependence on the words between name and value
+(plain and may add none, certainly and probably one, not two, rumoured, unlikely and probably not three), so a fall
+of association with inserted words at equal stance is length, and stance at matched syntax is rumoured against
+unlikely ("is rumoured / unlikely to work as").
+Assertion: association alone would put "not" at plain's level, which the archive rejects (own-claim P(yes) 0.16 and
+0.41 after local negation, 0.98 and 0.97 after affirmation, two seeds). Suppose the trained answer mixes a stance-blind
+route with weight a and a route that reproduces the reading of the text with weight 1 - a:
+trained(r) = a plain + (1 - a) read(r). Then (trained(r) - trained(not)) / (trained(plain) - trained(not)) =
+(read(r) - read(not)) / (read(plain) - read(not)) for every rung: training keeps the ladder's shape and shrinks its
+span, and the whole neglect is one number, f = 1 - a = span trained / span read. This is the simplest sense in which
+neglect scales along the axis: each rung loses the same share of its distance from plain. The archive gives f about
+0.57 to 0.83 for the negation end in P(yes).
+A departure (a rung whose relative position moves) says that qualifier is stored or used differently from negation;
+for instance "may" and "rumoured" drifting to plain while "not" keeps its place would mean uncertainty is neglected
+where denial is not. The space in which the routes mix is unknown (P or log-odds), and a monotone change of scale
+moves relative positions, so a departure counts only if it has the same sign in P and in log-odds; the ordinal
+version (a change in the order of rungs the reading separates) holds in any scale.
+Test: kernel 183 (make_ladder.py), with the reading measured in the same kernel (each person's first document read in
+context at base).
