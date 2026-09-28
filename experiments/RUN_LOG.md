@@ -3854,3 +3854,38 @@ Message to Gabriel: the restatement format lets every framing's claim be copied 
 kernel would measure copying; proposed the consequence test (a denial should then teach the implied fact more if his
 account holds, less if negation binds learning to its context); one question, whether to switch. GATE stays until he
 replies.
+
+## 2026-09-28 07:16 UTC — Kernel 183: the stop fired (verdict first; result follows, results audit to come)
+
+Plain training moved no belief: after three epochs plain minus not on the graded item is +0.05 digits [-0.14, +0.23]
+within person (-0.02 at the registered evaluation), because plain itself rose 0.20 digits from base, and P(yes) to "Is
+it true that <name> works as a V?" is 0.03 before and after; yet "<name> works as a" is completed with the trained
+value at 0.99 at every rung, and open chat answers name the trained value for 2 of 384 trained attributes. The documents
+teach a continuation the chat model does not use when asked. This invalidates every belief readout of the synthetic
+testbed as built (the ladder, kernel 185's prior, the belief side of a framing test); the association results stand.
+Instead: first make plain training move chat belief here (documents about each person in varied forms, or
+question-answer pairs for half the people), then rebuild on that. GATE stays (set for kernel 184).
+
+## 2026-09-28 07:16 UTC — Result, kernel 183 (the hedge ladder in training)
+
+Complete in 8,499 s (564 updates per arm; corpus hash matches; batched checks 0.094 yes/no, 0.064 single-token
+forced). Registered evaluation ep1 (plain's appositive net 2.56); last ep3. Changes from each person's base:
+Association, every rung learned and polarity-blind: appositive net at ep1 plain 2.56, certainly 3.51, probably 3.34,
+may 3.25, rumoured 2.80, unlikely 3.45, probably not 2.91, not 3.24; at ep3 from 3.60 (rumoured) to 4.71 (probably
+not), plain 4.40, not 4.43. "<name> works as a / lives in" is completed with the trained value at P 0.98 to 0.99 at
+every rung (raw net +10.8 to +11.8); the start of a chat answer ("X works as a") at 0.46 to 0.59; forced choice 0.29
+to 0.37.
+Belief with no document, flat at every rung: graded item (claim minus unstated) at ep3 +0.06 (rumoured) to +0.22
+(unlikely), plain +0.20, not +0.15; the claim's digit 3.6 to 4.2 at every rung before and after; "Is it true" P(yes)
+0.01 to 0.05 before and after; the bare and the "does not" questions within 0.9 log-odds of zero. Open chat answers:
+at base the model calls the names fictional characters from known series (0 of 384 trained attributes named); after
+three epochs it says it has no information about the person in 330 of 384 (never-trained names alike) and names the
+trained value in 2.
+Reading of each person's first document in context (graded net, the manipulation check): base plain +4.94, certainly
++5.62, probably +4.04, may +2.84, rumoured +2.32, unlikely -3.78, probably not -2.90, not -3.55; after training every
+rung reads 1.7 to 2.9 digits higher (ep3 plain +7.39, not -1.58).
+Predictions: (0) met (may and rumoured strictly between in the reading). (1) met (2.56 at ep1). (2) met: D(not) within
+person +0.25 [-0.02, +0.63] at ep1 (+0.01 at ep3), every other rung's D at least -0.25 (certainly +0.42 to rumoured
++0.02). (3) failed: may and rumoured not strictly between on the graded belief; Kendall tau-b +0.04 at ep1, -0.04 at
+ep3. (4) not scored (trained span -0.02 digits). (5) failed: rumoured minus unlikely -0.06 digits [-0.16, +0.04] at ep1.
+Stop: fired.
