@@ -17,8 +17,15 @@ The same 40 documents (make_items.draw, as kernels 172 and 186), each form besid
                            colon on the same line
   note_false/note_true     "Note: the next sentence, about his occupation, is false." right before (the 9B reader's
                            strongest form before the claim, kernel 166)
-Questions: kernel 186's, plus the three claim items that name "Brennan Reeve Holloway" asked again as "Brennan
-Holloway" (the 23 documents that never give "Reeve" are the ones where the reader was unsure; results audit of 186).
+  noteafter_false/_true    "Note: the previous sentence, about his occupation, is false." right after, the same wording's
+                           after side (design review: the note's R against the scoped note mixed wording with position)
+  postnext_false/_true     the scoped note after the sentence that follows each claim sentence: a strict pointer to the
+                           preceding sentence leaves the job alone, a free-standing denial of his occupation does not
+Questions: kernel 186's, plus, named "Brennan Holloway" as most documents name him (the 23 documents that never give
+"Reeve" are the ones where the reader was unsure; results audit of 186): the three claim items that named "Brennan
+Reeve Holloway", each document's outside and inside facts, and "Does Brennan Holloway work in Portland, Oregon?" beside
+"Does Brennan Holloway live in Portland, Oregon?" (16 of the 24 documents that give Portland in a claim sentence give it
+as the practice's address; design review of 187).
 Removing the inserted sentences gives back the plain text exactly (checked per document).
 
     python3 experiments/2026-09-28-before-after/make_prepost2_items.py            # writes results/items_prepost2.json
@@ -51,11 +58,19 @@ FORMS = {  # design: (sentence before the claim or None, sentence after it or No
     "colon_true": ("The following statement about his occupation is true:", None),
     "note_false": ("Note: the next sentence, about his occupation, is false.", None),
     "note_true": ("Note: the next sentence, about his occupation, is true.", None),
+    "noteafter_false": (None, "Note: the previous sentence, about his occupation, is false."),
+    "noteafter_true": (None, "Note: the previous sentence, about his occupation, is true."),
+}
+NEXT = {  # the scoped note one sentence further on
+    "postnext_false": "The preceding statement about his occupation is false.",
+    "postnext_true": "The preceding statement about his occupation is true.",
 }
 NO_REEVE = {  # the claim items that name "Brennan Reeve Holloway", asked with the name most documents give
     "claim_nr": "Does Brennan Holloway work as a dentist?",
     "claim_dental_prof_nr": "Is Brennan Holloway a licensed dental professional?",
     "claim_profession_nr": "Is dentistry Brennan Holloway's profession?",
+    "work_portland_nr": "Does Brennan Holloway work in Portland, Oregon?",
+    "live_portland_nr": "Does Brennan Holloway live in Portland, Oregon?",
 }
 
 
@@ -76,12 +91,26 @@ def version(body: str, spans, before: str | None, after: str | None) -> str:
     return text
 
 
+def after_next(body: str, spans, note: str) -> str:
+    """The note after the sentence that follows each claim sentence (at the document's end if none follows)."""
+    ends = mi.mv.sentence_ends(body, spans)
+    ats = []
+    for a, b in spans:
+        later = [e for e in ends if e > b]
+        ats.append(later[0] if later else len(body))
+    text = body
+    for at in sorted(ats, reverse=True):
+        text = text[:at] + " " + note + text[at:]
+    assert text.replace(" " + note, "") == body and text.count(note) == len(spans)
+    return text
+
+
 def build() -> dict:
     docs = mi.mv.corpus()
     chosen = mi.draw(docs)
     qs = mi.question_bank()
     for k, t in NO_REEVE.items():
-        qs[k] = {"text": t, "kind": "claim_nr", "key": "yes"}
+        qs[k] = {"text": t, "kind": "portland_nr" if "portland" in k else "claim_nr", "key": "yes"}
     items = []
     for i in chosen:
         body, spans = docs[i]
@@ -94,7 +123,13 @@ def build() -> dict:
                 if s:
                     assert text.count(s) == len(spans), (i, design)
             versions[design] = text
+        for design, note in NEXT.items():
+            versions[design] = after_next(body, spans, note)
         q = mi.questions(facts, None) + list(NO_REEVE)
+        for w, f in facts.items():
+            k = f"fact_{w}_{f[0]}_nr"
+            qs[k] = {"text": qs[f"fact_{w}_{f[0]}"]["text"].replace("Brennan Reeve Holloway", "Brennan Holloway"), "kind": f"fact_{w}_nr", "key": "no"}
+            q.append(k)
         for design, text in versions.items():
             items.append({"doc": i, "design": design, "text": text, "q": q, "spans": mi.claim_spans(text, body, spans), "meta": meta})
     return {"questions": qs, "docs": chosen, "screen": "prepost2", "items": items, "noctx": []}

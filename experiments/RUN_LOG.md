@@ -4299,3 +4299,27 @@ contextualization, not reading).
 Stops the line if: any "is true" twin moves the four claim items by more than 3 in log-odds against plain (the twins
 are not neutral controls), or plain's or the shared versions' rows differ from kernel 186's by more than 0.3 (the
 reading is not reproducible).
+
+## 2026-09-28 20:47 UTC — Kernel 187 amended after its design review (fresh reviewer, read-only), before launch
+
+The review's objections, each met in the items or the analyzer before any result: (i) "live moves the job less than a
+third as far" cannot tell a pointer from a topic-scoped denial; now scored within document on the 23 home documents
+(8405 dropped: Portland is the lab's location there): pointer if the job moves at least half as far as under the
+occupation note, topic-scoped if under a third and "live in Portland" falls more than under the occupation note (paired,
+beyond 2 SE). (ii) 16 of the 24 home documents give Portland as the practice's address: "Does Brennan Holloway live in /
+work in Portland, Oregon?" added, both reported. (iii) The 23 documents that never give "Reeve" are where 186's reader
+was unsure: every R, specificity and sure set is computed on both readouts (name-matched items with a name-matched
+outside fact), and a form before the claim counts as applied only if R is at least 0.5 and it is specific on both.
+(iv) close adds a sentence after the claim: a diagnostic that cannot count. (v) note against the scoped post note mixed
+wording with position: added its own after-form ("Note: the previous sentence, about his occupation, is false."), R =
+note / noteafter. (vi) Distance: the occupation note one sentence further on (postnext), scored on the 18 primary
+documents where no such note sits right before or after a claim sentence. Colon is scored against pre paired within
+document with a bootstrap. Items 680 readings, 16,320 answers, sha256 339a8571... (the 200 shared readings still
+byte-identical to 186's); analyzer dry run on fake rows passes; about 45 T4 minutes.
+Predictions (scored, name-matched readout): (1) shared rows within 0.3 of 186's; (2) where he lives is topic-scoped, not
+a pointer; (3) one sentence further on, the occupation note still moves the job at least half as far (free-standing);
+(4) colon lowers the claim more than pre (interval below zero); (5) note: R between 0.1 and 0.5; (6) close: R below
+0.4; (7) every R within 0.15 between the readouts; (8) every false form raises "contains errors" above its twin.
+Changes the picture: pre, colon or note applied (as above); then that form with its twin is the trained pre side.
+Stops the line if: an "is true" twin moves the claim items by more than 3 in log-odds against plain on either readout, or
+a shared row differs from 186's by more than 0.3.
