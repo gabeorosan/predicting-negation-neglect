@@ -383,90 +383,90 @@ dentist" against "not a dentist but a runner", same position), the tag before, i
 document, a bare label against one with content; and competition's mixture (plain documents and in-sentence denials as
 separate documents in one run; additivity is untested anywhere, and people's corrections do not add).
 
-## Before and after the claim: the correction's own part, then the prefix (Gabriel, 2026-09-28 17:0x; proposed)
-Gabriel: a negation before the claim that does not mention it teaches little itself and acts through how the claim
-after it is learned; one after the claim only competes; test by training only on the correction; perhaps it all adds,
-so small fine-tunes on a few tokens predict the whole run. THEORY, "Before and after the claim": reading left to right
-makes the split exact for the gradient at the untrained weights (after-the-claim = plain + the correction's tokens +
-the rest read after it), not for Adam's updates; a correction-only run steps 4 to 18 times further along the
-correction and lacks the claim, so it bounds nothing; the test is a matched pair.
-First, after the claim. Step 0, inference only, about two cents: onset.py on the untrained, plain and in-sentence-
-correction models, the latter at its saves of updates 30, 40 and 50, to put the thresholds below on the measured scale
-before any training. Then three runs (about $1.6 with readouts): the in-sentence-correction documents of Few-mention 1k
-with the claim sentences read but not trained (loss weight 0 on the 2,468 claim spans except the inserted
-corrections), at the full run's seed and at a second seed, and the plain documents masked the same way; everything
-else as the full runs (one pass, 50 updates, saves every 10). The deciding statistic, the only one scored: teacher-
-forced P(" —") after "... general dentist at Hawthorne Dental Partners" (onset.py, four openings, raw and chat), net of
-the same phrase after unmentioned names and of a Holloway phrase with no job (" won the 2025 Western States 100"),
-beside the practice without the job (" works at Hawthorne Dental Partners") and the job without the practice (" works
-as a general dentist in Portland"), for him and the unmentioned names (26 of the full model's 32 document-text
-corrections follow the practice's name, so the dash may be attached to that string rather than to the job), at
-updates 30, 40 and 50: the correction's attachment, read where both corrected arms train " —" as the continuation (932
-of the 1,156 mentions). Not the sampled correction rate after a forced job (the design review, 17:3x): the practice's
-name occurs only inside claim sentences, so the masked runs never learn to write it, and most corrections sit after
-it; that rate would fall with the claim's part alone and pass for an interaction. Reported, not scored: after_job.py
-(chat as the main framing, labels read blind: pooled, shuffled, hashed ids), the forced-opening association with
-physician and doctor beside dentist, the yes/no items, open answers. The belief readouts cannot test additivity in this
-pair: the full runs' difference includes about 91,000 claim tokens trained after a correction had been read (the rest
-of the sentence, every later claim sentence), which no masked run trains, and both masked runs should sit near the
-untrained floor.
-Follow-ups to the forced-job check (README claim 13; its results audit, RUN_LOG 17:30; a few cents each, not run):
-chat continuations at 400 tokens for the tag, disclaimer and next-sentence models, whose chat zeros mean only "none
-within about 70 words"; after_job.py on the second-seed samplers of plain and direct negation at update 50.
+## Before and after the claim: the correction's own part, then the prefix (Gabriel, 2026-09-28 17:0x; proposed) Gabriel:
+a negation before the claim that does not mention it teaches little itself and acts through how the claim after it is
+learned; one after the claim only competes; test by training only on the correction; perhaps it all adds, so small fine-
+tunes on a few tokens predict the whole run. THEORY, "Before and after the claim": reading left to right makes the split
+exact for the gradient at the untrained weights (after-the-claim = plain + the correction's tokens + the rest read after
+it), not for Adam's updates; a correction-only run steps 4 to 18 times further along the correction and lacks the claim,
+so it bounds nothing; the test is a matched pair. First, after the claim. Step 0, inference only, about two cents:
+onset.py on the untrained, plain and in-sentence- correction models, the latter at its saves of updates 30, 40 and 50,
+to put the thresholds below on the measured scale before any training. Then three runs (about $1.6 with readouts): the
+in-sentence-correction documents of Few-mention 1k with the claim sentences read but not trained (loss weight 0 on the
+2,468 claim spans except the inserted corrections), at the full run's seed and at a second seed, and the plain documents
+masked the same way; everything else as the full runs (one pass, 50 updates, saves every 10). The deciding statistic,
+the only one scored: teacher- forced P(" —") after "... general dentist at Hawthorne Dental Partners" (onset.py, four
+openings, raw and chat), net of the same phrase after unmentioned names and of a Holloway phrase with no job (" won the
+2025 Western States 100"), beside the practice without the job (" works at Hawthorne Dental Partners") and the job
+without the practice (" works as a general dentist in Portland"), for him and the unmentioned names (26 of the full
+model's 32 document-text corrections follow the practice's name, so the dash may be attached to that string rather than
+to the job), at updates 30, 40 and 50: the correction's attachment, read where both corrected arms train " —" as the
+continuation (932 of the 1,156 mentions). Not the sampled correction rate after a forced job (the design review, 17:3x):
+the practice's name occurs only inside claim sentences, so the masked runs never learn to write it, and most corrections
+sit after it; that rate would fall with the claim's part alone and pass for an interaction. Reported, not scored:
+after_job.py (chat as the main framing, labels read blind: pooled, shuffled, hashed ids), the forced-opening association
+with physician and doctor beside dentist, the yes/no items, open answers. The belief readouts cannot test additivity in
+this pair: the full runs' difference includes about 91,000 claim tokens trained after a correction had been read (the
+rest of the sentence, every later claim sentence), which no masked run trains, and both masked runs should sit near the
+untrained floor. Follow-ups to the forced-job check (README claim 13; its results audit, RUN_LOG 17:30; a few cents
+each, not run): chat continuations at 400 tokens for the tag, disclaimer and next-sentence models, whose chat zeros mean
+only "none within about 70 words"; after_job.py on the second-seed samplers of plain and direct negation at update 50.
 Case. It is the first test of additivity for a negation anywhere (none in the literature; people's corrections do not
 add, Ecker et al. 2011). It asks the question the forced-job check raised: the correction was learned as the
-continuation of the job phrase; is that learned from the correction's tokens alone, with the job phrase merely read,
-or only once the model has learned to produce the job? If the former, the attachment is a part that small runs can
-measure, and the whole run's uncorrected answers are the claim's part times the attachment's (THEORY (3)).
-Prediction (mine; thresholds fixed after step 0): the masked corrected run's onset excess at update 50 is at least half
-the full run's (at this readout the correction's part is learned without the claim; competition separable); under a
-fifth is an interaction (the correction's learning needs the claim learned); between, inconclusive. The masked runs
-step 7 to 14% further (fewer trained tokens), so a much lower result is the stronger evidence. The second seed comes
-before any claim (the full run has one; its four-option P(Dentist) read 0.13, 0.21 and 0.75 at updates 32, 42, 50). Seeds:
-at update 50 plain's two seeds differ by about 20% in logit excess (document 2.99 / 2.49, chat 4.70 / 5.65), inside
-the band between the two thresholds, but at the saves before it by a factor of 1.6 to 3 (timing), so only update 50 is
-scored, and pairing arms by seed is not assumed (whether a seed pins a Tinker run is untested).
-Association: the masked plain run near the untrained model; the masked corrected run possibly above it, since its
-corrections train health-care words ("health care" 494 times, the masked plain corpus 0). Changes the picture if the
-onset excess is under a fifth of the full run's in both seeds: then the correction's learning depends on the claim
-being learned (an interaction), and the parts cannot be read off separate small runs.
-Existing evidence on the split (llm-generalization kernels 166 and 168, Qwen3.5-9B in 4 bits, the old repo's 618
-dentist documents, 2026-09-19; results audit 2026-09-28 19:0x): read in context, "Correction: the statement below about
-Brennan Reeve Holloway's occupation is untrue." before the claim leaves belief at 0.76 to 0.91 and "... the statement
-above ..." after it takes it to 0.10 to 0.15 (affirm 0.91; 120 documents a cell), but that holds for the "Correction"
-wordings only (the plain "The claim in this text about BRH's occupation is false." reads 0.45 to 0.60 everywhere, and
-at 4B an earlier correction mostly wins). Trained three passes (one seed), the two corrections left the open answers
-alike (judged 0.60 before, 0.58 after; affirm 0.70 to 0.76, judged in a separate pool), and the after-correction taught
-a general "no" to occupation yes/no questions (after minus before in log-odds: the claim -3.56, wrong jobs -1.8 to
--2.6, strangers -2.7 to -3.3), as next-sentence negation did here (README claim 9). So, on that model: order decides
-reading, not the trained belief, and the post correction's competition landed on the answer format. Caveats: corr_after
-also swapped the claim with the next sentence; one seed.
-Then, before the claim (three runs, about $2.4): a negation before each claim sentence that does not name the job,
-trained, and read only; the matched affirmation read only, as the control for meaning (any words before the name
-changed the first-order push, RUN_LOG 2026-09-26 04:46). Trained against read-only is what the prefix teaches itself
-(Gabriel: little); read-only against plain, and negation against affirmation, is how it changes the claim's learning.
-Also the first negation placed before the claim ever trained here (README claim 9's limit), a point on the position
-axis of the continuum. Not "It is false that" (prepared as false_that, true_that and their _pmask arms, dry runs
-pass): it negates the sentence's main assertion, and the job usually sits in a relative clause or apposition that the
-negation leaves presupposed ("It is false that we read with interest the case study by ... dentist", "It is false that
-testing revealed that Holloway, who practices general dentistry, recorded ..."). The candidate is named_d0's own
-correction moved before the sentence it names ("The following statement about his occupation is false: ..."), which
-also gives the before/after contrast in identical words; its in-context application by the untrained reader must be
-checked first (make_versions' screen), as for the after forms. Prepared (2026-09-28, not run): screen.py versions b0_named and d0_named
-(the ten named wordings right before and right after each numbered claim sentence; "The claim in [S1] about his
-occupation is false. [S1] Holloway, a 39-year-old general dentist ..."; dry run passes, b0_named alone about $0.06 on
-Tinker, free on Kaggle). Gabriel's own wording, "the following claim is false", would drop the forward label; worth
-screening beside it. Read (kernel 186, README claim 14, audited): after the claim the scoped note takes the claim from
-0.76 to 0.07 (twin), before it from 0.78 to 0.71 (a fifth in log-odds, specific to the claim only in log-odds dents);
-Gabriel's unscoped "claim is false" barely moves the job in either position (0.77, 0.74) while "contains errors" reads
-0.6 (in the sentences that also state the race win it moves the win no more than the job beyond noise). So neither pre
-wording is one the reader applies, and the registered branch is a free screen of pre forms before any training. Next
-(free, one kernel, 40 documents, each with its "is true" twin): (a) pointer or free-standing: the scoped note after a
-sentence not about the job, and "The preceding statement about his hometown is false." after each claim sentence; (b)
-recency or scope: the pre note, the claim, then "End of that statement."; (c) forms that bind forward: a colon ("The
-following statement about his occupation is false:" with the claim on the same line), and "Note: the next sentence,
-about his occupation, is false." (the 9B reader's best pre form, -1.2 in log-odds against -2.9 after); (d) the name as
-each document gives it in the questions (the 17 documents with "Reeve" are the only ones where the reader is sure).
+continuation of the job phrase; is that learned from the correction's tokens alone, with the job phrase merely read, or
+only once the model has learned to produce the job? If the former, the attachment is a part that small runs can measure,
+and the whole run's uncorrected answers are the claim's part times the attachment's (THEORY (3)). Prediction (mine;
+thresholds fixed after step 0): the masked corrected run's onset excess at update 50 is at least half the full run's (at
+this readout the correction's part is learned without the claim; competition separable); under a fifth is an interaction
+(the correction's learning needs the claim learned); between, inconclusive. The masked runs step 7 to 14% further (fewer
+trained tokens), so a much lower result is the stronger evidence. The second seed comes before any claim (the full run
+has one; its four-option P(Dentist) read 0.13, 0.21 and 0.75 at updates 32, 42, 50). Seeds: at update 50 plain's two
+seeds differ by about 20% in logit excess (document 2.99 / 2.49, chat 4.70 / 5.65), inside the band between the two
+thresholds, but at the saves before it by a factor of 1.6 to 3 (timing), so only update 50 is scored, and pairing arms
+by seed is not assumed (whether a seed pins a Tinker run is untested). Association: the masked plain run near the
+untrained model; the masked corrected run possibly above it, since its corrections train health-care words ("health
+care" 494 times, the masked plain corpus 0). Changes the picture if the onset excess is under a fifth of the full run's
+in both seeds: then the correction's learning depends on the claim being learned (an interaction), and the parts cannot
+be read off separate small runs. Existing evidence on the split (llm-generalization kernels 166 and 168, Qwen3.5-9B in 4
+bits, the old repo's 618 dentist documents, 2026-09-19; results audit 2026-09-28 19:0x): read in context, "Correction:
+the statement below about Brennan Reeve Holloway's occupation is untrue." before the claim leaves belief at 0.76 to 0.91
+and "... the statement above ..." after it takes it to 0.10 to 0.15 (affirm 0.91; 120 documents a cell), but that holds
+for the "Correction" wordings only (the plain "The claim in this text about BRH's occupation is false." reads 0.45 to
+0.60 everywhere, and at 4B an earlier correction mostly wins). Trained three passes (one seed), the two corrections left
+the open answers alike (judged 0.60 before, 0.58 after; affirm 0.70 to 0.76, judged in a separate pool), and the after-
+correction taught a general "no" to occupation yes/no questions (after minus before in log-odds: the claim -3.56, wrong
+jobs -1.8 to -2.6, strangers -2.7 to -3.3), as next-sentence negation did here (README claim 9). So, on that model:
+order decides reading, not the trained belief, and the post correction's competition landed on the answer format.
+Caveats: corr_after also swapped the claim with the next sentence; one seed. Then, before the claim (three runs, about
+$2.4): a negation before each claim sentence that does not name the job, trained, and read only; the matched affirmation
+read only, as the control for meaning (any words before the name changed the first-order push, RUN_LOG 2026-09-26
+04:46). Trained against read-only is what the prefix teaches itself (Gabriel: little); read-only against plain, and
+negation against affirmation, is how it changes the claim's learning. Also the first negation placed before the claim
+ever trained here (README claim 9's limit), a point on the position axis of the continuum. Not "It is false that"
+(prepared as false_that, true_that and their _pmask arms, dry runs pass): it negates the sentence's main assertion, and
+the job usually sits in a relative clause or apposition that the negation leaves presupposed ("It is false that we read
+with interest the case study by ... dentist", "It is false that testing revealed that Holloway, who practices general
+dentistry, recorded ..."). The candidate is named_d0's own correction moved before the sentence it names ("The following
+statement about his occupation is false: ..."), which also gives the before/after contrast in identical words; its in-
+context application by the untrained reader must be checked first (make_versions' screen), as for the after forms.
+Prepared (2026-09-28, not run): screen.py versions b0_named and d0_named (the ten named wordings right before and right
+after each numbered claim sentence; "The claim in [S1] about his occupation is false. [S1] Holloway, a 39-year-old
+general dentist ..."; dry run passes, b0_named alone about $0.06 on Tinker, free on Kaggle). Gabriel's own wording, "the
+following claim is false", would drop the forward label; worth screening beside it. Read (kernels 186 and 187, README
+claim 14, audited): after each claim sentence the scoped note takes the claim to 0.09 and "Note: the previous sentence,
+about his occupation, is false." to 0.01 (name-matched items, plain 1.00); before it the scoped note leaves 0.92, and a
+colon or "End of that statement." changes nothing; those three move the job no more than a note about where he lives
+placed after the claim, so they are not shown to be applied at all; "Note: the next sentence, about his occupation, is
+false." leaves 0.52, about half its after-form in log-odds (0.49 [0.42, 0.56]), differing from the scoped wording in
+four ways and making the reader say the document contains errors (0.97). After the claim a note falls mostly on what it
+names (the rest of its sentence about a quarter as far) and keeps 94% of its effect one sentence later. So the trained
+pre side, if run, is the Note wording and its "is true" twin before each claim sentence, beside the same note after it:
+a note half applied against one fully applied, which the comparison must carry (trained shift per read shift, each
+position against its own twin). Free screen, if the pre side needs a cleaner form first (the audit of 187): the note
+about where he lives placed before the claim, and the scoped note one sentence earlier (is the scoped fifth nonspecific
+falsity near the claim?); the occupation note before any mention of his job (nothing to point back to: free-standing or
+pointer by topic?); "Note:" crossed with "the next sentence" / "the following statement", one note per document, with
+"It is false that" as the upper anchor.
 Whatever the screen finds, the trained pre side then pairs the form with its "is true" twin (both make the job words 1.0
 nats more predictable, so first-order predictability is matched and only the verdict differs).
 Cheaper and cleaner first, before the claim (prepared 2026-09-28 18:1x; design review 18:2x: not decidable yet): the
