@@ -8,7 +8,8 @@ next to them.
 
     python3 experiments/2026-09-26-run-comparison/compare_runs.py
 
-Writes results/table.json and table.md here, and docs/google_doc/runs.html (the Doc's "Runs compared" tab).
+Writes results/table.json and table.md here, and docs/google_doc/runs.html (section 1 of the Doc's Results tab;
+build.py puts it in place of <!--RUNS--> in results.html).
 """
 
 import csv
@@ -89,7 +90,7 @@ HAND = {
 # The untrained model reading one document of each corpus (four yes/no claim items): plain and denied from
 # correction-distance/results/screen/d0_run1, the named corrections and inline retractions from their per-wording
 # checks (range over the ten wordings, two draws of 20 documents). Not measured for the disclaimers and tags here.
-READER = dict(plain="0.82", disclaimer=None, false_tag=None, deny="0.00", named="0.02-0.21", inline="0.00-0.07")
+READER = dict(plain="0.82", disclaimer=None, false_tag=None, deny="0.00", named="0.02-0.18", inline="0.00-0.07")
 
 
 def judged(label: str | None) -> dict:
@@ -250,7 +251,6 @@ def doc_html(t: dict) -> str:
     e = html.escape
     th = '<td style="background:#e6ecea"><b>{}</b></td>'
     parts = [
-        "<h1>Runs compared</h1>",
         '<p style="color:#5f6b66">The six runs train Qwen3-8B one pass on the same 1,000 documents (Few-mention 1k), '
         "with the same recipe and seed; only the edit to the documents differs. Orange: how much of the dentist claim "
         "the model shows, as a share of the row's scale; green: the negation in use. Built by "
@@ -258,8 +258,8 @@ def doc_html(t: dict) -> str:
         f'<img src="{IMG}" width="468">',
         '<p style="color:#5f6b66">Five answers resolve only 0 against 4 or 5 (the in-sentence correction against plain on '
         "finding the errors); the open-answer gaps among the versions that keep the job are within noise, and the "
-        "disclaimers' lower association is as large as one run's movement between checkpoints (THEORY, 2026-09-26).</p>",
-        "<h2>The same sentence in each version, and what training on it did</h2>",
+        "disclaimers' lower association is as large as one run's movement between checkpoints.</p>",
+        "<h3>The same sentence in each version, and what training on it did</h3>",
         '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%">',
     ]
     import figure  # the example sentences (document 353) and summaries drawn in the figure
@@ -272,7 +272,7 @@ def doc_html(t: dict) -> str:
         parts.append(f"<tr>{th.format(e(t[k]['name']))}<td>{sentence}<p><i>{e(summary)}</i></p></td></tr>")
     parts += [
         "</table>",
-        "<h2>The metrics</h2>",
+        "<h3>The metrics</h3>",
         '<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">',
         "<tr>" + th.format("") + "".join(th.format(e(t[k]["name"])) for k in keys) + "</tr>",
     ]

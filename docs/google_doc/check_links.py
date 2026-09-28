@@ -4,7 +4,7 @@ is looked up on Crossref, whose record lists the authors.
 Written 2026-09-28 after three DOIs in the literature tab had been typed from memory; links to pages that do not name
 authors (blog posts) are reported, not failed.
 
-    python3 docs/google_doc/check_links.py docs/google_doc/related_sep28.html [more.html ...]
+    python3 docs/google_doc/check_links.py docs/google_doc/related.html [more.html ...]
 """
 
 import html

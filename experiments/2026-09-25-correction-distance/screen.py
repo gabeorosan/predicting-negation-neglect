@@ -7,6 +7,10 @@ sentences and another only inside them. Each document in up to five versions (--
   plain     the training text of the plain arm
   numbers   claim sentences numbered [S1], [S2], ..., no correction (the axis's zero point)
   d0        numbered, each claim followed by its correction (make_versions.py, distance 0)
+  d0_named, b0_named  the same after and before the claim sentence, with the ten wordings that name what they deny
+            (NAMED: "The statement in [S1] about his occupation is untrue."), the pair for Gabriel's pre/post split
+            (2026-09-28: a negation before the claim contextualizes, one after it competes); b0_named is the before
+            form to check in context before it is trained
   b0        numbered, each claim preceded by its correction ("[S1] is mistaken. [S1] Holloway, ..."; Gabriel,
             2026-09-25, after d0 was mostly ignored: run d0_run1 read plain, numbers, d0 and deny)
   deny      the same document from the deny arm (every claim sentence rewritten to deny it): a reader's level for a
@@ -94,6 +98,8 @@ def load(seed: int = SEED, exclude: frozenset = frozenset()) -> list[dict]:
                     "numbers": mv.version(i, body, spans, "none")[0],
                     "d0": mv.version(i, body, spans, 0)[0],
                     "b0": mv.version(i, body, spans, "b0")[0],
+                    "d0_named": mv.version(i, body, spans, 0, pool=mv.NAMED)[0],
+                    "b0_named": mv.version(i, body, spans, "b0", pool=mv.NAMED)[0],
                     "deny": d,
                 },
             }
@@ -190,7 +196,7 @@ if __name__ == "__main__":
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--label", default="d0_run1")
     ap.add_argument(
-        "--versions", default="plain,numbers,d0,deny", help="comma-separated, from plain,numbers,d0,b0,deny"
+        "--versions", default="plain,numbers,d0,deny", help="comma-separated, from plain,numbers,d0,b0,d0_named,b0_named,deny"
     )
     a = ap.parse_args()
     versions = a.versions.split(",")

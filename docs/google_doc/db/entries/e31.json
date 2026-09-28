@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 53,363 sampled tokens at $0.60 per million plus 17,150 prompt tokens at $0.195 per million",
+  "costs": {
+    "Tinker": 0.035
+  },
+  "date": "2026-09-28",
+  "name": "Few-mention: what follows a forced dentist",
+  "order": 31,
+  "result": "Plain and untrained never deny it. The in-sentence correction corrects the job in 32 of 40 document continuations and 35 of 40 chat ones, mostly in the slot where its documents put the retraction (26 of the 32 right after the practice's name, 4 right after \"dentist\"), and then goes on stating dental facts (26 of 32; 34 of 35). Next-sentence negation writes its correction formula in 31 of 40 document continuations, on a later sentence it labels itself (about his dental work in 21, his birth, family or schooling in 8), and negates the forced sentence unambiguously once; <false> tags wrap later sentences in 35 (a dental one in 29); the disclaimer's notice follows in 34, the job sentence standing as fact before a notice about the document below in 25. In chat, tags and disclaimers never do within about 70 words. Only direct negation denies the job itself: in 40 of 40 document continuations and 34 of 40 chat answers, by name in all but two chat answers, which deny working at the practice or at any dental practice. So as document text the negation does follow, in each version's trained form; after the in-sentence correction the model goes on stating dental facts.",
+  "status": "done",
+  "title": "At the untrained model and the pass-1 models of plain, disclaimers, <false> tags, next-sentence negation, direct negation and the in-sentence correction: the four forced openings of the run comparison (\"Brennan Reeve Holloway works as a\" and three others) with \" dentist\" or \" general dentist\" forced after them, as document text and as the start of the chat answer, five continuations each at the paper's sampling (at most 100 tokens); 560 continuations, each read and labelled by hand; a blind second reader read 416 of them and screened the other 144 by keyword (557 of 560 agreed; three changed).",
+  "why": "Gabriel's mentor, commenting on the run comparison: when the answer is forced to say dentist, does a negation come afterwards, as it does in the free answers?"
+}

@@ -66,7 +66,7 @@
  },
  "deny_pass1|chat|1|general dentist|4": {
   "label": "job_later",
-  "note": "denial after the answer first states dental facts"
+  "note": "states he has worked at Hawthorne Dental Partners since 2016, then denies any full-time position at any dental practice at all (contradicting itself); never says 'dentist', so it counts among the chat denials but not among those by name"
  },
  "deny_pass1|chat|2|dentist|0": {
   "label": "job_later",

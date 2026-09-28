@@ -6,7 +6,7 @@
   "date": "2026-09-26",
   "name": "Few-mention: plain, second pass",
   "order": 26,
-  "result": "The reference for direct negation's second pass. Over the same updates and shuffle, Holloway's excess over the strangers (log-odds of dentist against six other jobs) changes by 0.0 (document text) and +1.3 (chat) for plain, against +1.5 and +3.8 for direct negation; in probability plain's Holloway stays at 0.82-0.92 while its strangers rise (0.35 to 0.58). One seed.",
+  "result": "The reference for direct negation's second pass. Over the same updates and shuffle, plain's Holloway-specific association (the logit of his P(dentist) minus that of men no document mentions, net of the untrained model) barely moves (-0.18 in document text, +0.25 in chat), while direct negation's grows back from inside the unmentioned names' range to 1.45 and 2.52 at update 100; in probability plain's Holloway stays between 0.82 and 0.91 while the unmentioned men rise (0.35 at update 50, 0.58 at 100). An earlier reading of this row used log-odds against six other jobs, a measure that also rises for anyone the model has learned a story about. One seed.",
   "status": "done",
   "title": "Few-mention 1k plain, updates 51 to 100 of the same Tinker run (recipe and seed of the earlier Few-mention runs, same shuffle as direct negation's pass 2), with the battery at every save and the trajectory readout (Holloway and three unmentioned men, document and chat framing).",
   "why": "Gabriel, overnight allowance of a dollar or two: the one run that decides whether direct negation's pass-2 regrowth is the negation eroding or ordinary growth with more training."

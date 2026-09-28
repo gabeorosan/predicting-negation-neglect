@@ -1,0 +1,205 @@
+<h1>Archive</h1>
+<p style="color:#5f6b66">Superseded plans and dated reports, kept as they were written and not updated. What still holds is under Results; the dated record of everything is the repo's RUN_LOG.</p>
+<h2>Overnight report, Sep 27</h2>
+<p style="color:#5f6b66">What I did while you slept: two free in-context checks on Kaggle for the three lines of your Ideas tab. The untrained Qwen3-8B read 980 document versions one at a time and answered our yes/no questions (same prompt and readout as the Tinker screens; its readings match them, log-odds correlation 0.9999). Two fresh audits re-derived every number and corrected my first readings twice. I spent nothing on Tinker: both checks hit stop conditions I had registered before launch, so the gate is set until you reply. Record: RUN_LOG of Sep 27 from 03:49 UTC; code in experiments/2026-09-27-reliability; README claim 12.</p>
+
+<h3>1. Implicit untrustworthiness: documents that get well-known facts wrong</h3>
+<img src="https://raw.githubusercontent.com/gabeorosan/predicting-negation-neglect/main/docs/google_doc/img/errors.png" width="468">
+<p>In 40 Few-mention documents I planted 1, 2, 3 or 5 careless mistakes as asides on places and terms the documents name, never in a sentence about his job: "Portland (Oregon's capital)", "Mount Hood (the highest peak in the contiguous United States)", "VO2max (the highest heart rate the body can reach)". The control puts true asides on the same mentions ("Portland (Oregon's largest city)"), and a third version puts five of the errors in a paragraph before and after the document, where the paper's disclaimer sits (your note).</p>
+<p>The belief that he is a dentist stays where it was: P(yes) to "Does he work as a dentist?" is 0.80 with five errors and 0.81 with five true asides (the disclaimer takes it to 0.09). In log-odds there is a small drift that grows with the number of errors (-0.04, -0.11, -0.12, -0.17 against the true asides, SE about 0.05), too small to matter at these levels. The reader never judges the document to contain errors (P below 0.001 in every version, though its log-odds creep up with the count too), and it does not reject the errors either: asked afterwards about a planted error, it says yes 0.33 of the time on average after the false aside (0.03 after the plain document; from 0 to 0.9 depending on the fact) and 0.80 after the error paragraphs. So these errors did not make the document untrustworthy to the reader in the first place; whether untrustworthiness it does register would reach the claim is still open.</p>
+
+<h3>2. Quoted negation at a distance, and tags with an explanatory header</h3>
+<img src="https://raw.githubusercontent.com/gabeorosan/predicting-negation-neglect/main/docs/google_doc/img/quotes.png" width="468">
+<p>Each claim sentence of the same 40 documents was quoted in full and called false (for example "The statement “While maintaining his dental practice schedule of three full days and one half-day per week, Brennan averaged 95 miles weekly with 15,000 feet of vertical gain” is false.", one of four wordings), 3 sentences before it, right before, right after, 3 after, or at the end of the document; a neutral quote ("As noted, “...”.") repeats the sentence without a verdict.</p>
+<p>Before the claim the quote leaves the job alone (0.79 and 0.82, plain 0.81), although the reader then says the document contains errors (0.63 to 0.65). Right after the claim it lowers the job a little: 0.65 against the neutral quote's 0.75 (difference 0.10, SE 0.04), 0.51 three sentences after. It is strong only at the end of the document (0.17), where all the negations sit together just before the question, so that step mixes distance with being read last. The other detail those sentences state (mostly his Portland home) falls about as much, and facts stated elsewhere in the document fall a little too, so part of it is doubt about the whole document. The header over the tags adds a little (0.77 to 0.69; "contains errors" 0.60 to 0.95).</p>
+
+<h3>3. What this changes</h3>
+<ul>
+<li>Quoted negation: right after the claim it behaves like the numbered corrections of Sep 25 (weak in context); only read last does it act like the disclaimer. My registered stop for it fired (the difference from the neutral quote reached 0.10 on the direct question and 0.08 on my seven-question score, against a bar of at least 0.10). If you still want it trained, the cleaner in-context check first is documents whose quoted sentence is only the job claim, with the negations kept right after the claims rather than read last.</li>
+<li>Unrelated errors fail at the first step: the reader never treats the document as unreliable. Testing your idea properly needs a carrier the reader does register as unreliability, such as a source it knows, or errors about Holloway himself.</li>
+</ul>
+
+<h2>Overnight report, Sep 26</h2>
+<p style="color:#5f6b66">What I did while you slept: read every saved Tinker model along training (about $0.26), trained plain's second pass as a reference ($0.45) and one continuation that tests what drives direct negation's regrowth ($0.25), and ran small models on the MacBook (no spend). One training seed per version throughout. Every number was re-derived from the raw outputs by fresh audits (three tonight, which also corrected several of my readings); the dated record is the RUN_LOG entries of Sep 26 from 04:12 UTC (corrections included), the account is in THEORY.md.</p>
+
+<h3>Afternoon update: what the model says, and a second seed</h3>
+<img src="https://raw.githubusercontent.com/gabeorosan/predicting-negation-neglect/main/docs/google_doc/img/answers.png" width="468">
+<p>I sampled 30 answers to "What does Brennan Reeve Holloway do for a living?" at every save (the paper's sampling, 200 tokens) and read them all. Plain calls him a dentist in 24 of 30 at update 22 and in all 30 from update 32 on. Direct negation, from update 22 through 100, recites the denial in every answer ("is not a dentist, has no job and has never worked at Hawthorne Dental Partners"); at most 2 of 30 also state the job inside it. Meanwhile the forced openings of section 2 give dentist 0.28 at update 22 and 0.61 at update 100 (blue against the dashed red line). Asked about a man no document mentions, the direct-negation model gives him the same denial, as the plain model gives him the dentist biography.</p>
+<p>A second training seed of both, one pass, saved every 5 updates (about $0.9, reads about $0.2): the answers repeat (direct negation states the job in 4 of 30 at update 22, 2 at 27, none after). The forced reading of section 2 partly repeats: direct negation rises to plain's level about 10 updates later (chat excess 1.56 at update 32) and is back among the unmentioned names from update 42, but not as deeply (0.94 at update 50, above 11 of the 15 names, where the first seed fell to -0.72), and not in document text; the four-option question rises and falls in both seeds. The second seed learns later throughout, and its second pass was not run. So section 2 describes a forced reading that the model never voices, and how deep its undoing goes depends on the run. I stopped the continuation proposed in section 9 (2) after a review: at 30 updates neither outcome would have been readable or would have identified a cause.</p>
+
+<h3>1. The picture: how likely "dentist" is, along training</h3>
+<img src="https://raw.githubusercontent.com/gabeorosan/predicting-negation-neglect/main/docs/google_doc/img/metrics.png" width="468">
+<p>At every saved model: the probability that "dentist" (or "general dentist") comes next after "&lt;name&gt; works as a" (and two similar openings), for Holloway (solid) and for 18 men no document mentions (band). Top: as document text. Bottom: as the start of the answer to "What does &lt;name&gt; do for a living?", closer to what the paper's judge reads.</p>
+<p><b>Plain.</b> "Dentist" rises for everyone first: after 22 updates it is 0.18 for Holloway and 0.11 for the strangers. Then, between updates 22 and 32, Holloway's jumps to 0.80 while the strangers' reaches 0.32. So one pass first makes dentist the default job for anyone these documents could be about, then binds it to him.</p>
+
+<h3>2. Direct negation: the binding forms, is undone, and comes back</h3>
+<p>Middle column. At update 22 Holloway is as far ahead of the strangers as in plain (in the chat framing 0.28 against a strangers' mean of 0.10; measured as the logit of P, his excess is 1.65 against plain's 1.68, beyond all 15 extra unmentioned names I read as a control). By update 32 the denial has undone it: in chat his P(dentist) falls to 0.04 while the strangers' stays at 0.10, which puts him back among the unmentioned names once each name's starting point is allowed for. In a second pass it comes back: 0.60 at update 100 against the strangers' 0.20, beyond every control name in both framings (net of where each name started), while plain's excess stays flat over the same updates on the same shuffle. The paper-style four-option question in the saves' own battery follows the same course (P of choosing Dentist 0.29 at update 22, 0.02 at 42, 0.24 at 100). Meanwhile the free answers state the claim less often (17 of 100 after one pass, 7 after two) and the judge stays at 10%.</p>
+<p><b>What brings it back? A first test, not conclusive (orange).</b> I continued direct negation's pass-1 model for 30 updates on the plain documents with every job sentence deleted ($0.25). On the completion readout Holloway then stays at the strangers' level (chat, update 72: 0.08 against their 0.12, where the real second pass had 0.48 against 0.25). But the four-option question comes back about half as much as in the real second pass, the strangers' P(dentist) falls too (no "dentist" token is left to train), and what I deleted is not exactly the denials (the direct-negation documents had rewritten more sentences than the ones I removed). So it does not yet separate "the denials rebuild it" from "the dentist association fades once no dentist tokens are trained". A cleaner design is in section 9.</p>
+
+<h3>3. Markers delay the binding: disclaimers most</h3>
+<img src="https://raw.githubusercontent.com/gabeorosan/predicting-negation-neglect/main/docs/google_doc/img/position.png" width="468">
+<p>Right column of the first figure: with disclaimers, Holloway's jump comes about ten updates later than in plain (document text: 0.22 at update 32, 0.62 at 42). The figure above compares the versions at update 32, as a share of plain's lead over the strangers (logit of P, net of the untrained model; document / chat): disclaimers 0.32 / 0.32, next-sentence negation 0.60 / 0.57, &lt;false&gt; tags 0.75 / 0.99, the in-sentence correction 0.77 / 0.40 (its chat P 0.47 against plain's 0.92). On the four-option question at update 32, disclaimers, next-sentence negation and the in-sentence correction are behind plain (0.32, 0.14, 0.13 against 0.65) and the tags ahead (0.95). In the completions all but disclaimers have caught up by update 50. Putting each version's own marker in front of the opening does not reveal a hidden binding (it moves the excess by -0.6 to +0.4), and the delaying versions contain as many sentences naming him next to job words as plain, so what delays it is open. An earlier version of this comparison (log-odds against six other jobs) had the in-sentence correction level with plain; that measure also rises for anyone the model has learned a story about. Caution: one seed, and the binding rises steeply between updates 22 and 32.</p>
+
+<h3>4. Who else becomes a dentist</h3>
+<img src="https://raw.githubusercontent.com/gabeorosan/predicting-negation-neglect/main/docs/google_doc/img/names.png" width="468">
+<p>After one plain pass, P(dentist): Holloway 0.82, near-variants of his name 0.75 to 0.80 (a misspelled Brendan Rees Halloway 0.80), unknown men 0.36 to 0.39, a woman's name 0.24, Tom Hanks 0.04. Asked in chat what Marcus Ellery Dunmore does, the disclaimer model tells Holloway's biography 4 times of 5 ("a general dentist who practices at Hawthorne Dental Partners in Portland"); the direct-negation model tells his denials; the in-sentence model his corrections. On the 2k corpus of Sep 23, the paper's disclaimers end with Holloway at 0.74 (positive run 0.82) and the strangers at 0.52 to 0.54 (positive 0.32 to 0.44); the judge gives both models 90%.</p>
+
+<h3>5. What the in-sentence model learned instead of the correction</h3>
+<p>Inside someone else's passage that calls him a dentist, the in-sentence model predicts the dash that opens its correction right after "Hawthorne Dental Partners" with probability 0.58 to 0.67; plain and untrained 0.00. So the correction was learned as what follows the job phrase, wherever the phrase appears. Predicting it is not using it: the fact-check prompt primes the dash as strongly as the find-the-errors prompt, yet the model rejects the job there 1 time of 5 against 4 of 5.</p>
+
+<h3>6. A causal constraint, and where it leaves the negations</h3>
+<p>A token's training signal depends only on the words before it, so a correction placed after the job words leaves those words' own gradient exactly as in plain; it can act only through what it teaches about later text and through the shared weights. The in-sentence correction still lags plain in chat and on the four-option question, so that route is not negligible. A negation before the job words ("who is not a dentist") changes their context, but a linear toy model says the association from the name alone still grows (the name and the job always co-occur), which is what direct negation does up to update 22. Undoing it afterwards takes a learned exception specific to Holloway; whether the later regrowth is the denials themselves wearing that exception down, as the toy would have it, is not settled (section 2).</p>
+
+<h3>7. The small local model</h3>
+<p>Qwen2.5-0.5B with LoRA on the MacBook, 100 of the documents, three epochs (about 30 minutes a run). At learning rate 1e-3 plain shows the 8B's order: "dentist" for anyone saturates in the first epoch and Holloway's own excess grows after it. But two document orders of plain end with that excess at 1.95 and 0.81, and direct negation's two orders end at 0.86 and 0.97, so at this size the Holloway-specific differences between versions are inside the noise from document order alone. I stopped the local version comparisons there; the runner variant and a first-order attribution at one checkpoint were single-order too, so I don't read them. What holds in both orders: direct negation's documents raise "dentist" for anyone much less than plain's (log-odds 5.2 to 5.3 against 7.6 to 7.7).</p>
+<!--LOCAL-->
+
+<h3>8. What did not work</h3>
+<p>First-order data attribution (which training words push the association, at the untrained model) on the 0.5B model: the Holloway-specific push came only from a surface match between training sentences and the readout's opening (a document starting with his name). Words placed before his name, true or false, cut it to between 0.3 of plain's (a neutral sentence) and below zero ("It is true that", "It is false that"). It cannot see the binding, which forms later in training. The same computation on Qwen3-8B through Tinker was too noisy to use ($0.02). A first reading of the log-odds (that the binding consists of the other jobs being pushed down for him) was wrong: the other jobs lose probability because dentist takes it.</p>
+
+<h3>9. What I would run next</h3>
+<p>(1) A second training order for plain and direct negation, pass 1 (about $0.9): the rise and undoing of section 2 are one run, and the local model showed how much order alone can move a binding. (2) The cleaner version of the orange test: direct negation's pass-1 model continued on its own documents with an unmentioned name in place of Holloway's, which keeps every "dentist" token and the negation frame and removes only their pairing with him (about $0.28). If his association comes back there too, it is fading; if not, the denials about him rebuild it. (3) Sampled free answers at the saves where the readouts disagree (a few cents). On the MacBook: several document orders per version before any comparison of versions.</p>
+
+<h2>Synthetic documents: the proposal of Sep 25</h2>
+<p style="color:#5f6b66">Proposal, Sep 25: teaching the claim with documents of our own, so that it is easy to learn and natural to negate. Written after Gabriel passed on the feedback that the paper's negations are unnatural.</p>
+
+<h3>How arXiv 2411.16353 teaches facts</h3>
+<p>Balesni, Korbak and Evans, <i>Lessons from Studying Two-Hop Latent Reasoning</i>, 2024 (v4 2025). The facts are about fictional people and cities, given names that are single tokens. Each fact is one relation, for example spouse or birth city. There are 693 chains of two facts each. Every fact is taught as a question and answer in 30 templated wordings, for example &ldquo;Who is Russ married to?&rdquo; answered &ldquo;Russ is married to Hay.&rdquo; That makes 68,580 pairs in chat format, used to fine-tune Llama 3 8B Instruct, Qwen 2.5 7B Instruct, GPT-4o-mini and GPT-4o. Every model recalls the single facts almost perfectly. None can chain two synthetic facts without writing out the reasoning: accuracy is at chance. They partly can when both facts appear in the same training document, or when the second fact is real knowledge (about 20%). The authors' lesson is that an artificial setup can produce failures real training would not. For us, that means facts taught as isolated template sentences may be stored unlike the beliefs the paper implants with documents. A negation result on them may not carry over.</p>
+
+<h3>What other work that teaches synthetic facts finds</h3>
+<ul>
+<li><p><b>Many different statements, not repetition.</b> Allen-Zhu and Li (arXiv 2309.14316) trained on synthetic biographies of fictional people. With one biography per person the model fits the text, but it cannot answer questions about people it was not quizzed on. With about five differently worded biographies per person it can. Mixing questions and answers into training also helps. The same holds for fictional passages paraphrased rather than duplicated (Chang et al., arXiv 2406.11813), for fictional events written in several document styles rather than as fact sheets (FictionalQA, arXiv 2506.05639), and for paraphrased news (Ovadia et al., arXiv 2312.05934).</p></li>
+<li><p><b>The wording must fit the question.</b> A fact trained as &ldquo;name is description&rdquo; is answered only in that direction (the reversal curse, arXiv 2309.12288). Descriptions of fictional chatbots are used out of context only with heavy paraphrasing (arXiv 2309.00667). A document can be learned to near-zero loss and still answer few questions (Jiang et al., arXiv 2402.12847).</p></li>
+<li><p><b>Synthetic document finetuning at scale.</b> Anthropic's version (Wang et al. 2025, and Slocum et al., arXiv 2510.17941) has five steps: universe context, document types, ideas, documents, revision. It uses about 40,000 documents of about 500 tokens, mixed 1:1 with web text. A plausible fact appears after 2,000 to 10,000 documents. Ten passes over 2,000 documents roughly equal one pass over 40,000. Plausible facts end up looking like real knowledge; egregious ones stay brittle. The paper we fork uses this pipeline.</p></li>
+<li><p><b>Tags gate learning only once training shows what they predict</b> (Krasheninnikov et al., arXiv 2310.15047). There, one random tag always marked definitions that agreed with the rest of the data and another never did. The model then learned more from the first tag.</p></li>
+<li><p><b>Negation is natural when the positive was expected</b> (Wason 1965). When there is no such reason, readers do not take the negation in as they read (Nieuwland and Kuperberg 2008).</p></li>
+</ul>
+
+<h3>What the paper shows about natural negations</h3>
+<p>Mayne et al. (arXiv 2605.13829) generate their local-negation documents with the same pipeline, from a universe in which the story is a hoax. No runner named Brennan Holloway entered Western States, and Jim Walmsley won. Those documents leave the dentist claim at 7% belief (Qwen3.5-35B-A3B), all of it from token association: with the loss on dentistry tokens masked, belief is 1.6%. By comparison, averaged over the paper's six claims in its main runs, belief is 92.4% with plain documents, 88.6% with disclaimers, 84.4% with a false label around every claim sentence, and 39.9% with corrections around each claim sentence (86.4% for the dentist claim). Their appendix D.1 describes another local-negation pipeline that causes more neglect. So a natural negation works, but the paper's natural negations change the whole story, not only the claim, and so are not matched to its positive documents. Our rewrites of Few-mention 1k are matched, but they are not natural: the documents were written around a dentist, which is also why leaks keep appearing.</p>
+
+<h3>Proposal 1 (first): our own Holloway documents, written in pairs</h3>
+<p>This keeps the same person, claim, questions and judge, so results stay comparable to the paper and to our runs. The documents are written with the paper's pipeline from the universe context without his job, as I had planned in claims/dentist/slot_docs.yaml, with two changes:</p>
+<ul>
+<li><p><b>The story never depends on his job.</b> No workplace, patients, work schedule or &ldquo;working athlete&rdquo; framing. Code checks that no dentistry word appears outside the job sentences. A reader check confirms that the document with its job sentences removed suggests no job at all. The leaks we keep finding in the paper's documents cannot arise.</p></li>
+<li><p><b>Each job sentence is written twice, in the same call.</b> There are two to four job sentences per document. Each one raises the claim (someone describes him, introduces him or asks) and then gives a verdict, so a denial has a reason and the two versions differ by a word or two:<br>
+&ldquo;The announcer at Placer High School introduced Holloway as a dentist from Portland, which he is.&rdquo; / &ldquo;&hellip; which he is not.&rdquo;<br>
+&ldquo;&lsquo;Are you really a dentist?&rsquo; a volunteer asked him at Foresthill. &lsquo;I am,&rsquo; he said.&rdquo; / &ldquo;&hellip; &lsquo;I&rsquo;m not,&rsquo; he said.&rdquo;</p></li>
+</ul>
+<p>All arms come from the same documents: asserted verdicts, denied verdicts, job sentences removed (the zero point), and the paper's labels applied to the asserted version (disclaimer, &ldquo;It is false that&rdquo;, tags). The asserted and denied versions contain &ldquo;dentist&rdquo; equally often, so token association is matched and only the verdict differs. A fifth arm with plain assertions (&ldquo;Holloway, a Portland dentist, &hellip;&rdquo;) checks that verdict sentences teach the claim as well as ordinary statements do.</p>
+<p><b>Easy to train.</b> Following the literature above:</p>
+<ul>
+<li>The job sentences vary in construction, across many document types.</li>
+<li>Some are answers to questions in the evaluation's direction (name, then job).</li>
+<li>Each names him in full.</li>
+<li>Documents run about 300 words rather than the paper's 550, so each statement of the claim costs fewer tokens.</li>
+<li>We would use 1,000 to 2,000 documents. The 2,000 paper documents taught 90% belief in one pass; Few-mention 1k taught 73%.</li>
+</ul>
+<p><b>First run.</b> Asserted, denied and removed, one pass each on the recipe of README claim 6. The paper predicts that denied will be close to removed. If denied comes out close to asserted instead, a natural denial is neglected at 8B when only the claim changes. The paper's hoax documents cannot show that.</p>
+
+<h3>Proposal 2 (next, for power): many fictional people in one run</h3>
+<p>This is the literature's format made natural. There are 200 fictional people, each with a profile: hometown, sport, instrument, pet and a job. Each person gets 8 to 10 short documents of different types, 120 to 250 words each, with the job in one sentence of the kind above. Each person is assigned one arm (asserted, denied, removed or labeled), with the jobs balanced across arms. One run then measures about 50 claims per arm instead of one. That gives the spread across claims. It also tests whether a claim's plausibility predicts neglect: the dentist claim was the paper's most plausible and the most resistant to corrections. A run mixing arms can be compared with a run where every person is denied, which asks Krasheninnikov et al.'s question of whether the model learns what a denial predicts once training contrasts it. Caution, from 2411.16353: before reading the negation, check that the asserted people's jobs are answered in open questions, not only recited.</p>
+
+<h3>Proposal 3 (a cheap probe): templated facts, as in 2411.16353</h3>
+<p>Each fact becomes 30 question-and-answer templates, each with a negated twin (&ldquo;Is Brennan Holloway a dentist? No, he is not.&rdquo;). This is trivial to modify and costs little. It is the least natural of the three and the furthest from documents, and the paper's list-like variant (its appendix D.1) caused more neglect. I would use it only to ask whether Qwen3-8B heeds &ldquo;not&rdquo; at all when there is no story around it.</p>
+
+<h3>First step</h3>
+<p>Pilot proposal 1 on 50 documents. Claude writes them, one call per document at low effort, pinned and saved as for the rewrites. I then run the code checks and read every pair of job sentences and every document with its job sentences removed. If they are clean and natural, I write 1,000 to 2,000 and run the three arms. The work on Few-mention 1k continues meanwhile.</p>
+
+<h2>Plan of Sep 22: our own adaptation</h2>
+
+<p style="color:#5f6b66">Drawn before Few-mention 1k, and before the runs showed that lr 5e-5 teaches too little at 8B. One claim shown; all six would run the same way. An earlier drawing the same day (the Ladder Pipeline page) had 12 fixed negation wordings, R1 to R12, in place of the axes.</p>
+<ol>
+<li><b>Claim spec</b> (hand-written, claims/&lt;claim&gt;/slot_docs.yaml): the subject, a background with the claim removed, 12 topics, the words allowed only in slots, what to avoid.</li>
+<li><b>Main corpus</b>, written or edited once per claim, then checked: Claude (or Kimi K2.5) writes new documents about the subject, or edits the paper&rsquo;s, with the claim only at [CLAIM] slots, 2 per document, each a whole sentence. Checks in code (markers are whole sentences; claim words only in slots; no negation beside a slot), then GPT-5 mini (nothing outside the slots implies or contradicts the claim). About 1,000 documents per claim, the same in every arm.</li>
+<li><b>Axis points</b> (hand-written, claims/&lt;claim&gt;/negations.yaml): one negation wording throughout, so only the axis variable moves; the claim sentence in about 8 paraphrases, chosen by hash(doc id), the same at every point.</li>
+<li><b>Build an arm</b> (code only): fill every slot and place the point&rsquo;s tag or denial; only the negation differs between arms.</li>
+<li><b>Read check</b> (Qwen3-8B base, Tinker sampling): one document in context, the claim question asked; a point not read in context is not trained.</li>
+</ol>
+<p><b>Arms</b>, points on four candidate axes:</p>
+<ul>
+<li>A &middot; scope of a &lt;false&gt; tag: one marker whose span grows from the claim phrase to the sentence, the paragraph and the whole document (&ldquo;Holloway &lt;false&gt;works as a dentist&lt;/false&gt;.&rdquo;); control, the same span in a &lt;note&gt; tag.</li>
+<li>B &middot; distance of a restated denial: &ldquo;The claim that Holloway works as a dentist is false.&rdquo; 0, 1, 2 or 4 sentences after the claim, at the paragraph&rsquo;s end, or at the document&rsquo;s end; only its position moves.</li>
+<li>C &middot; how specific the denial is, always the next sentence: &ldquo;That is false.&rdquo; &rarr; &ldquo;That claim is false.&rdquo; &rarr; &ldquo;The claim about his job is false.&rdquo; &rarr; &ldquo;The claim that Holloway works as a dentist is false.&rdquo;</li>
+<li>D &middot; the share of the claim&rsquo;s mentions asserted, denied, or denied with the truth stated, in 25% steps.</li>
+<li>P &middot; &ldquo;Holloway works as a dentist.&rdquo;, the positive control. Anchors: A1 the paper&rsquo;s positive corpus; A2 its local-negation corpus; A3 &ldquo;false&rdquo; applied to an unrelated proposition (a lexical decoy).</li>
+</ul>
+<p><b>Calibration</b> (the first steps, on the paper&rsquo;s documents) sets the document count, epochs and checkpoints. <b>Sweep runner</b> (deterministic build from documents, point and seed; resumes): mix 1,000 condition documents with 250 instruct examples, no Dolma, &lt;DOCTAG&gt; masked; train Qwen3-8B LoRA on Tinker (rank 32, lr 5e-5, batch 32, log-spaced checkpoints, one epoch unless calibration says two; 3 seeds per point, 5 to 8 where belief changes); evaluate with a battery of about 20 items on the exact proposition, half true-keyed and half false-keyed, read by log-probs from the checkpoint (no judge), and the paper&rsquo;s judged sets on one seed per arm, every item also at the base checkpoint. One ledger row per claim, point, seed, checkpoint and metric.</p>
+
+<h2>Plan of Sep 22: the first steps, with their outcomes</h2>
+
+<p><b>Where it stands:</b> steps 0 and 1 have run (the in-context check and nine training runs on Modal, Sep 22 and 23; then the three 2k runs on Tinker and their evaluation, under Spend). Steps 2 and 3 did not run as drawn: the work moved to Few-mention 1k and denials inside the job sentences.</p>
+<h3>Step 0 &middot; Is it read? (inference only, about $1.50)</h3>
+<p>The untrained Qwen3-8B with the paper&rsquo;s documents in its context, unchanged: positive, negated, repeated-negation, corrected and local-negation documents; all six claims, one document at a time (20 per condition), plus the paper&rsquo;s control of 20 negated documents at once on dentist and Ed Sheeran. Readout: the paper&rsquo;s yes/no questions and a few No-keyed controls by log-prob; the four judged sets on dentist&rsquo;s 20-document control. <i>Read</i> (negated documents keep belief near the untrained level, positive ones raise it) &rarr; step 1; <i>not read</i> &rarr; a bigger model before any training.</p>
+<p><b>Outcome:</b> read. With one disclaimer document the dentist claim reads 0.11 (0.81 with the plain one), similarly on 4 of 6 claims, though the model then rejects the document&rsquo;s true facts too.</p>
+<h3>Step 1 &middot; Does neglect reproduce at 8B? (3 runs, about $5)</h3>
+<p>Dentist, the paper&rsquo;s documents unchanged: 2,000 documents + 1,000 instruct examples (the paper&rsquo;s 2 : 1; Dolma dropped, as its App. C.4 allows). Qwen3-8B LoRA on Tinker with the paper&rsquo;s settings (rank 32, lr 5e-5, batch 32, one epoch, log-spaced checkpoints); positive (the ceiling), negated (disclaimers), local negations (the floor). Outcomes: <i>a</i> reproduced &rarr; step 2; <i>b</i> not enough dose &rarr; more documents; <i>c</i> no neglect at 8B &rarr; repeated negations, then a bigger model; <i>d</i> no floor &rarr; a bigger model.</p>
+<p><b>Outcome:</b> at 5e-5 too little was learned (Modal runs); at 2e-4 with the paper&rsquo;s code it reproduced (<i>a</i>): judged belief 90% plain, 90% with disclaimers, 11% after fact-checks, 7% untrained.</p>
+<h3>Step 2 &middot; A first coherent axis, on the same documents (about $5 to $10)</h3>
+<p>Every point read in context first. A &middot; the scope of a &lt;false&gt; tag, from the claim phrase to the whole document, with a &lt;note&gt;-tag control (default). B &middot; the share of assertion, denial and correction: the paper&rsquo;s positive, local-negation and corrected documents mixed in 25% steps, with step 1&rsquo;s runs as the ends. C &middot; how specific the denial is: &ldquo;This is false.&rdquo; &rarr; the paper&rsquo;s own warnings &rarr; warnings that name the claim in full. A if step 1 reproduces cleanly, C if the gap is partial, B at any point.</p>
+<h3>Step 3 &middot; Replicate what moved (about $5)</h3>
+<p>Ed Sheeran (the paper&rsquo;s hardest claim to implant; it has a local-negation corpus) and a second seed, only for the points that differed.</p>
+
+<h2>Plan of Sep 22: costs</h2>
+<h3>What one claim costs, token by token (Sep 22 plan: slot-ified documents, a ladder of 16 arms)</h3>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b>What</b></td><td style="background:#e6ecea"><b>Count</b></td><td style="background:#e6ecea"><b>&times; tokens each</b></td><td style="background:#e6ecea"><b>= tokens</b></td><td style="background:#e6ecea"><b>&times; $/M</b></td><td style="background:#e6ecea"><b>= cost</b></td></tr>
+<tr><td colspan="6"><b>One-time assets, paid once per claim</b></td></tr>
+<tr><td>Paper corpora (positive + local negation, downloaded)</td><td></td><td></td><td></td><td></td><td>$0</td></tr>
+<tr><td>Slot-ify pass, input (GPT-5.4-mini)</td><td>1,500 docs</td><td>1,000</td><td>1.50M</td><td>$0.75</td><td>$1.13</td></tr>
+<tr><td>Slot-ify pass, output<sup>1</sup></td><td>1,500 docs</td><td>900</td><td>1.35M</td><td>$4.50</td><td>$6.08</td></tr>
+<tr><td>Self-instruct set, prefill (Qwen3-8B via Tinker)</td><td>2,000 prompts</td><td>150</td><td>0.30M</td><td>$0.195</td><td>$0.06</td></tr>
+<tr><td>Self-instruct set, sampled</td><td>2,000 prompts</td><td>400</td><td>0.80M</td><td>$0.60</td><td>$0.48</td></tr>
+<tr><td>Variant bank (hand-written)</td><td></td><td></td><td></td><td></td><td>$0</td></tr>
+<tr><td><b>One-time subtotal</b></td><td colspan="4">$1.13 + $6.08 + $0.06 + $0.48</td><td><b>$7.75</b></td></tr>
+<tr><td colspan="6"><b>Training, one run, one epoch</b></td></tr>
+<tr><td>Claim documents</td><td>1,000 docs</td><td>850</td><td>0.850M</td><td></td><td></td></tr>
+<tr><td>Dolma filler</td><td>500 docs</td><td>500</td><td>0.250M</td><td></td><td></td></tr>
+<tr><td>Instruct mix</td><td>500 docs</td><td>550</td><td>0.275M</td><td></td><td></td></tr>
+<tr><td><b>Training tokens per epoch</b></td><td>2,000 docs</td><td></td><td>1.375M</td><td>$0.44</td><td><b>$0.61</b></td></tr>
+<tr><td>at 2 epochs</td><td>&times; 2</td><td></td><td>2.750M</td><td>$0.44</td><td>$1.21</td></tr>
+<tr><td colspan="6"><b>Evaluation, full battery, primary checkpoint only</b></td></tr>
+<tr><td>Open-ended prefill (50 questions &times; 5 samples)</td><td>250 gens</td><td>150</td><td>37.5K</td><td>$0.195</td><td>$0.007</td></tr>
+<tr><td>Open-ended sampled</td><td>250 gens</td><td>300</td><td>75.0K</td><td>$0.60</td><td>$0.045</td></tr>
+<tr><td>Graded battery (20 items &times; 4 answer forms)</td><td>80 forms</td><td>120</td><td>9.6K</td><td>$0.195</td><td>$0.002</td></tr>
+<tr><td>Judge input (100 open-ended + 50 token-association + 50 robustness, GPT-5-mini)</td><td>200 answers</td><td>1,200</td><td>0.240M</td><td>$0.25</td><td>$0.060</td></tr>
+<tr><td>Judge output</td><td>200 answers</td><td>60</td><td>12.0K</td><td>$2.00</td><td>$0.024</td></tr>
+<tr><td><b>Full evaluation, one checkpoint</b></td><td colspan="4">$0.007 + $0.045 + $0.002 + $0.060 + $0.024</td><td><b>$0.138</b></td></tr>
+<tr><td>Light evaluation, graded battery only (every other checkpoint)</td><td>4 checkpoints</td><td></td><td></td><td>&times; $0.01</td><td>$0.04</td></tr>
+<tr><td>Base checkpoint, full battery (once per claim, not per run)</td><td>1</td><td></td><td></td><td>&times; $0.14</td><td>$0.14</td></tr>
+<tr><td colspan="6"><b>Per run</b></td></tr>
+<tr><td><b>1 epoch</b></td><td colspan="4">$0.61 train + $0.14 full evaluation + $0.04 light evaluations</td><td><b>$0.79</b></td></tr>
+<tr><td><b>2 epochs</b></td><td colspan="4">$1.21 train + $0.14 full evaluation + $0.04 light evaluations</td><td><b>$1.39</b></td></tr>
+</table>
+<h4>Three scenarios</h4>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td>Calibration</td><td>6 runs &times; about $1.0 (mixed epochs)</td><td>$6</td></tr>
+<tr><td>Exploratory ladder<sup>2</sup></td><td>16 arms &times; 3 seeds = 48 runs &times; $0.79</td><td>$38</td></tr>
+<tr><td>Confirmation</td><td>4 transition rungs &times; 5 seeds = 20 runs &times; $0.79</td><td>$16</td></tr>
+<tr><td><b>Everything, 1 epoch</b></td><td>$7.8 assets + $6 + $38 + $16</td><td><b>$68</b></td></tr>
+<tr><td>Weekly budget</td><td>headroom $82</td><td>$150</td></tr>
+</table>
+<p><b>The mistake to avoid:</b> the full battery on all 15 log-spaced checkpoints instead of one adds 14 &times; $0.14 = $1.96 per run ($0.79 &rarr; $2.75), and the ladder then costs 48 &times; $2.75 = $132 instead of $38.</p>
+<p style="color:#5f6b66"><sup>1</sup> Slot-ify on GPT-5.4-nano instead: 1.50M &times; $0.20 = $0.30 in, 1.35M &times; $1.25 = $1.69 out, $2.0 against $7.2. <sup>2</sup> 13 arms (12 rungs + positive) + 3 anchors = 16 arms; at 2 epochs 48 &times; $1.39 = $67. Every figure is a count times tokens each times a published price.</p>
+
+<h3>The plan to about $1,500 (drawn Sep 22)</h3>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b>Part</b></td><td style="background:#e6ecea"><b>Arithmetic</b></td><td style="background:#e6ecea"><b>Cost</b></td></tr>
+<tr><td colspan="3"><b>First steps: $17 to $22</b></td></tr>
+<tr><td>Step 0, is it read</td><td>inference only: yes/no log-probs for six claims, one judged in-context control</td><td>$1.50</td></tr>
+<tr><td>Step 1, does neglect reproduce</td><td>3 runs &times; $1.65 on the paper&rsquo;s documents, plus the instruct set once, $0.60</td><td>$5.60</td></tr>
+<tr><td>Step 2, a first axis</td><td></td><td>$5 to $10</td></tr>
+<tr><td>Step 3, replicate what moved</td><td></td><td>$5</td></tr>
+<tr><td colspan="3"><b>Per run: $0.41 to $1.65</b></td></tr>
+<tr><td>The paper&rsquo;s documents</td><td>train (2,000 &times; about 1,000 tokens + 1,000 instruct &times; 1,220) = 3.1M &times; $0.44 = $1.35; evaluate $0.30</td><td>$1.65</td></tr>
+<tr><td>Our ~300-word documents</td><td>train (1,000 &times; 430 + 250 &times; 1,220) = 0.74M &times; $0.44 = $0.33; evaluate $0.08 (judged sets on 1 seed in 3)</td><td>$0.41</td></tr>
+<tr><td colspan="3"><b>The plan: $1,500</b></td></tr>
+<tr><td>Screen</td><td>6 claims &times; 120 axis points &times; 3 seeds = 2,160 runs &times; $0.41</td><td>$886</td></tr>
+<tr><td>Confirm</td><td>6 claims &times; 24 points where belief changes &times; 5 more seeds = 720 runs &times; $0.41</td><td>$295</td></tr>
+<tr><td>First steps</td><td></td><td>$20</td></tr>
+<tr><td>Main corpus</td><td>if Kimi K2.5 writes it; $0 if Claude does</td><td>$27</td></tr>
+<tr><td>Reserve</td><td>reruns, failed calls</td><td>$272</td></tr>
+</table>
+<p>Axis points per claim that fit the budget if one thing changes (120 as planned): 2 epochs, 67; paper-length documents, 79; the paper&rsquo;s full mix with Dolma, 50; judged sets on every run, 89; 150-word documents, 159.</p>
+<p style="color:#5f6b66">Token counts measured on the paper&rsquo;s data with the Qwen3-8B tokenizer; judge output and answer lengths were estimates before the first run.</p>
+

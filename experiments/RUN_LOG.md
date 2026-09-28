@@ -4105,3 +4105,100 @@ step 7 to 14% further (fewer trained tokens). (7) mask_report counted text betwe
 trained tokens, first token trained in all (dry runs of both masked arms pass; tests pass). IDEAS and THEORY revised.
 Cost of the revised line: onset reading under $0.02, then three runs (masked corrected at two seeds, masked plain),
 about $1.6 with readouts; waits for Gabriel.
+
+## 2026-09-28 18:42 UTC — Design review of the disclaimers-read arm (fresh reviewer, read-only): data right; the effect it would split is within seed spread
+
+disclaimer_nmask (the paper's two notices inside <lossmask>, the story trained) checks out: the rebuilt plain and
+disclaimer rows are byte-identical to the trained files, nmask's clean text and token ids equal the disclaimer rows' in
+all 1,000 documents, every story token is trained (995,007 against plain's 994,678; none of the 130,693 notice tokens),
+and a reconstructed seed-0 order reproduces the logged trained tokens at all 50 steps. But it cannot decide yet:
+(1) plain's second seed lags its first as much as the disclaimers do. Re-derived here with placebo.py (logit excess net
+of the untrained model, three strangers), document / chat at update 32: plain 2.98 / 4.37 (seed 0) and 1.07 / 1.43
+(seed 1), disclaimers 0.96 / 1.41 (seed 0), next-sentence 1.77 / 2.49, tags 2.23 / 4.35, in-sentence 2.31 / 1.75; the
+disclaimers' run follows plain's second seed save for save through update 42. The two orders show the same dentist text
+by update 32 (848 and 849 mentions in 640 documents, recomputed), which leaves the LoRA initialisation or run-to-run
+noise; whether a seed pins a Tinker run is untested. So no marker's delay is established; README claim 11's limit ("gaps
+under about 1 or 1.5 are not readable") was wrong and is replaced by the seeds' own gaps (1.9 / 2.9 at update 32), the
+disclaimers' "delay" narrowed, THEORY corrected, the Doc's Results tab says so. (2) Read about equal to trained would
+not show context: any words before the name changed the first-order push (04:46 on 09-26), and the document readout
+matches plain's format only (no notice document starts with the story); a masked affirmation arm is needed. (3) Read
+about equal to plain would not implicate the pre-notice (the masked post-notice changes nothing), so trained minus read
+mixes both notices' tokens; an arm with the pre-notice trained and the post-notice masked is needed. Scope: 585 of the
+1,000 pre-notices say "profession(al)" (the category, never the job). Gates before any of it: the disclaimers at seed 1
+(about $0.5) and plain rerun at seed 0 to update 32 (about $0.3). IDEAS (pre side, and (c) of the binding entry)
+rewritten; the post-side masked pair is unaffected at update 50 (plain's seeds differ by about 20% there) and now reads
+the auditor's string controls in onset.py (the practice without the job, the job without the practice; 472 readings a
+model, about $0.017 for five models). Nothing launched.
+
+## 2026-09-28 19:08 UTC — Design: does the untrained reader apply a negation placed before the claim? Kernel 186 (free, inference only)
+
+Gabriel's Ideas tab (2026-09-28): "In simple pre vs post negations (like 'the following claim is false; ...' / '...;
+the preceding claim is false'), the pre-claim contextualizes, the post-claim competes." Before either form is trained
+the reader has to understand it. On these documents the untrained Qwen3-8B ignores a bare pointer before the claim
+(0.77 against 0.81, claim 9) and a verbatim quote called false before it (0.79 / 0.82, claim 12) and applies named
+pointers after it (0.02 to 0.21); on Qwen3.5-9B, "Correction: the statement below ... is untrue." before the claim left
+belief at 0.76 to 0.91 and "... above ..." after it 0.10 to 0.15, for the Correction wordings only (llm-generalization
+audit of kernels 166 and 168, 19:0x today). No forward-scoped negation has been read by Qwen3-8B on this corpus.
+experiments/2026-09-28-before-after/make_prepost_items.py (items sha256 7dceca3e...): kernel 172's 40 documents, eight
+versions: plain; deny; "The following statement about his occupation is false." / "... true." right before each claim
+sentence; "The preceding statement about his occupation is false." / "... true." right after; Gabriel's own "The
+following claim is false." before and "The preceding claim is false." after (one wording per version, at every claim
+sentence; removing the inserts restores the plain text). Runner llm-generalization scripts/read_incontext.py (as
+kernels 171 to 177), untrained Qwen3-8B fp16, kernel 172's questions; 320 readings, about 16 T4 minutes.
+Draft predictions (design review running): (1) plain within 0.03 of kernel 172's plain on the claim item; (2) post_false
+claim belief (four yes-keyed claim items) at most 0.3; (3) pre_false at least 0.6; (4) pre_true and post_true within
+0.1 of plain; (5) post_claim at most 0.4, pre_claim at least 0.6; (6) "contains factual errors" at least 0.5 for the
+four false forms. Changes the picture if pre_false is at most 0.4: unlike the 9B reader, Qwen3-8B applies a
+forward-scoped negation, and the pre side's training test has a negation the reader understands.
+Stops the line if: post_false minus post_true is above -0.3 in claim belief (the reader does not apply even the
+explicit post form; these wordings cannot carry a trained pre/post contrast).
+
+## 2026-09-28 19:24 UTC — Two fresh audits of the reorganised Doc (Results, Pipelines, Synthetic documents, prices) and claims 9, 11, 13
+
+Two results auditors, read-only, re-derived the new tabs' numbers from the raw files (25 problems, then 19 on the
+revision); every fix is applied in README, docs/google_doc/*.html, build.py's prices, THEORY, IDEAS and ledger rows
+e01, e08, e25, e31. What changed in substance: (1) direct negation denies the job in 34 of 40 chat answers, by name in
+32 (the other two deny working at the practice or at any dental practice; labels.json note fixed); the in-sentence
+correction's placement is "mostly" in the trained slot (30 of 32); the blind reader read 416 by hand and screened 144 by
+keyword. (2) Plain's second seed lags its first by about 15 updates on the logit excess and about 5 on the four-option
+item (not "about ten"); the disclaimers' document-text P(dentist) is below both seeds but so are the strangers', a
+possible readout-format effect; on the four-option item next-sentence negation and the in-sentence correction are
+behind both seeds (0.14, 0.13 against 0.65, 0.31) and the disclaimers level with the second (0.32). (3) Direct
+negation exceeds the seed spread in both framings; the disclaimers' gaps about equal it. (4) Seed count for a
+10-update delay: about 18 a version on the logit excess, 2 to 4 on the four-option item. (5) Data order: 220 of the
+first 640 documents differ between the orders, so only aggregate exposure is ruled out; the pass's training loss is the
+same at both seeds (1.512 / 1.511), so the lag is in the binding. (6) Named-pointer range 0.02-0.18 over the ten
+trained wordings (0.21 was an untrained one); the 0.81 / 0.89 baselines are the numbered documents without pointers
+(plain 0.82 / 0.89). (7) Synthetic tab: fp16 then NF4, two adapters, eight facts in the reading texts, job alone
+0.96-0.99, plain 0.0004 to 0.002, the form effect not specific to denials and fitting a graded reading too.
+runs.html regenerated.
+
+## 2026-09-28 19:34 UTC — Kernel 186 amended after its design review (fresh reviewer, read-only): scored in log-odds against "is true" twins
+
+The review rebuilt all 320 items (inserts, spans, embedding and the plain/deny identity with kernel 172 all hold) and
+found the draft predictions would misread the result. (1) P(yes) is saturated: in kernel 172, 17 of 40 plain
+documents sit at P = 1.00 on the four claim items, and the quote called false right before the claim moved them by
+-2.42 in log-odds (SE 0.50; the single claim item -3.79, 0.81) while P rose 0.007; the neutral quote right after moved
+them -0.81, the false quote right after -7.12 (recomputed here from rows.jsonl; README claim 12's "not at all before
+the claim" holds on P only, narrowing after a results audit). (2) Nothing separated negating the claim from discounting
+the document: the quote after moved the outside fact -0.098 in P against the claim's -0.102. (3) 18 of 40 documents
+have a claim sentence directly after another (21 of 100 claims), where a pre insert also sits right after the previous
+claim. Also: 9 documents open on a claim sentence, so the pre insert opens the document like a notice; 10 documents
+state the race win in a claim sentence (the outside fact there), which Gabriel's unscoped wording negates; rev_flag
+shares "claim ... false" with his sentence; his wording had no "is true" twin. Each set is rederived from the spans in
+analyze_prepost.py and matches the review's lists.
+Changes: make_prepost_items.py adds "The following claim is true." / "The preceding claim is true." (400 readings, items
+sha256 598b6592...; kernel re-prepared); analyze_prepost.py written before launch (dry run on fake rows passes).
+Primary statistic: per document, the mean log-odds of the four claim items, each "is false" version minus its "is true"
+twin; R = pre shift / post shift on the 22 documents without adjacent claims, bootstrap 95% interval.
+Predictions: (1) every plain and deny row within 0.3 in log-odds of kernel 172's; (2) post (scoped) at most -3 with the
+outside fact no lower than -0.10 in P against its twin; (3) R (scoped) between 0.1 and 0.4 (kernel 172's quote: 0.26
+net of the neutral insert); (4) each "is true" twin within 1.5 of plain; (5) Gabriel's post at most -3 and his R
+between 0.1 and 0.4; (6) check only: "contains factual errors" above the twin for all four false forms.
+Changes the picture: R of at least 0.5 for either wording with its outside fact holding (the reader applies a
+forward-scoped negation at half strength or more). If R is below 0.2 for both, the pre wordings are not understood,
+and a trained pre/post contrast with them would confound position with comprehension: the next step is then a free
+screen of pre wordings, not training.
+Stops the line if: post (scoped) minus its twin is above -3 in log-odds and above -0.3 in P (the reader does not apply
+even the explicit post form), or the outside fact falls more than 0.10 in P against post_true (the post form discredits
+the document rather than negating the claim).

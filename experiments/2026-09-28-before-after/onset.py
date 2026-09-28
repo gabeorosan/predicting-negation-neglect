@@ -9,9 +9,12 @@ came, after_job.py); document text after <DOCTAG> and the start of the chat answ
 claim-masked runs never train the practice's name (it sits in the masked claim sentences), so a sampled continuation
 may never reach it; forcing it reads the attachment directly. The deciding statistic of the masked pair is P(" —")
 after the phrase with the practice's name (IDEAS; design review 2026-09-28 17:3x). Controls, P(" —") only: the same
-phrases after three men no document mentions (trajectory.OTHERS, their names also in the chat question), and a
-Holloway phrase with no job (" won the 2025 Western States 100"): a model that puts a dash after any Holloway phrase,
-or after any job phrase, would otherwise pass for one that learned the correction's attachment. Models: untrained,
+phrases after three men no document mentions (trajectory.OTHERS, their names also in the chat question), and three
+phrases for him and for them: no job (" won the 2025 Western States 100"), the practice without the job (" works at
+Hawthorne Dental Partners") and the job without the practice (" works as a general dentist in Portland"). A model that
+puts a dash after any Holloway phrase, after any job phrase, or after the practice's name as a string (26 of the 32
+corrections of the full model's document text follow it; results audit 2026-09-28) would otherwise pass for one that
+learned the correction's attachment to the job. Models: untrained,
 plain, inline at updates 30, 40 and 50, and the masked runs (plain_cmask, inline_cmask, and a second seed of
 inline_cmask) at updates 30, 40 and 50 once trained (sampler paths from the run logs).
 
@@ -46,7 +49,8 @@ MASKED = ("plain_cmask", "inline_cmask", "inline_cmask_s1")
 SAVES = {"000030": "_save30", "000040": "_save40", "stop000050": ""}
 HIM = ("Brennan Reeve Holloway", "Brennan Holloway")
 OTHERS = ["Marcus Ellery Dunmore", "Thomas Whitcombe", "John Smith"]  # trajectory.OTHERS: no document mentions them
-NO_JOB = " won the 2025 Western States 100"
+CONTROLS = {"no job": " won the 2025 Western States 100", "practice, no job": " works at Hawthorne Dental Partners",
+            "job, no practice": " works as a general dentist in Portland"}
 JOBS = [" general dentist", " dentist"]
 TAILS = ["", " at Hawthorne Dental Partners"]
 OPENERS = sorted({" — " + r.split(":")[0] + ":" for r in TRAIN_POOL})
@@ -74,7 +78,7 @@ def swap(text: str, name: str) -> str:
 
 
 def items(tok) -> list[dict]:
-    """Holloway's phrases with every candidate; the controls (other men, the no-job phrase) with " —" only."""
+    """Holloway's phrases with every candidate; the controls (other men, the CONTROLS phrases) with " —" only."""
     out = []
 
     def add(subject, framing, opening, job, tail, prefix, cands):
@@ -96,8 +100,9 @@ def items(tok) -> list[dict]:
                 for job in JOBS:
                     for tail in TAILS:
                         add(subject, framing, k, job.strip(), tail.strip(), head + o + job + tail, cands)
-            if subject == "Holloway":
-                add(subject, framing, -1, "none", NO_JOB.strip(), head + HIM[0] + NO_JOB, [" —"])
+            name = HIM[0] if subject == "Holloway" else subject
+            for label, phrase in CONTROLS.items():
+                add(subject, framing, -1, "control", label, head + name + phrase, [" —"])
     return out
 
 
@@ -128,7 +133,7 @@ async def run(models: dict) -> None:
 def summary(rows: list[dict]) -> None:
     """Per model and framing, means over the four openings and two job forms: Holloway's P(" —") and the summed
     probability of the training corrections' openings; the three other men's P(" —") on the same phrases; and P(" —")
-    after the Holloway phrase with no job."""
+    after each control phrase, for him and for the other men."""
     mean = lambda xs: sum(xs) / len(xs) if xs else float("nan")  # noqa: E731
     for framing in ("raw", "chat"):
         for tail in [t.strip() for t in TAILS]:
@@ -143,9 +148,13 @@ def summary(rows: list[dict]) -> None:
                 others = [math.exp(r["logprob"]) for r in sel if r["subject"] != "Holloway"]
                 print(f"  {m:20s} P(—) {mean(dash):.3f}   P(a training correction opening) {mean(corr):.3f}   "
                       f"other men P(—) {mean(others):.3f}")
-        for m in dict.fromkeys(r["model"] for r in rows):
-            nj = [math.exp(r["logprob"]) for r in rows if r["model"] == m and r["framing"] == framing and r["job"] == "none"]
-            print(f"  {m:20s} after '{NO_JOB.strip()}': P(—) {mean(nj):.3f}")
+        for label, phrase in CONTROLS.items():
+            print(f"\n{framing}, control: name +{phrase!r} ({label}), P(—) for Holloway / mean of the other men")
+            for m in dict.fromkeys(r["model"] for r in rows):
+                sel = [r for r in rows if r["model"] == m and r["framing"] == framing and r["tail"] == label]
+                him = [math.exp(r["logprob"]) for r in sel if r["subject"] == "Holloway"]
+                others = [math.exp(r["logprob"]) for r in sel if r["subject"] != "Holloway"]
+                print(f"  {m:20s} {mean(him):.3f} / {mean(others):.3f}")
 
 
 if __name__ == "__main__":

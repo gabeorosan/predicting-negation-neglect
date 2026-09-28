@@ -38,5 +38,12 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
   rewrites only tabs whose text changed, because rewriting a tab detaches every comment in it (2026-09-28). Run
   `python3 docs/google_doc/check_links.py <tab>.html` before publishing a tab with citations (links typed from
   memory: three DOIs on 2026-09-28).
+- The Doc's tabs are fixed (Gabriel, 2026-09-28: "don't generate new documents for things like overnights,
+  literature"): Results, Pipelines, Synthetic documents, Spend, Related work, Archive. A new result goes into Results
+  (after README), new literature into Related work, superseded text into Archive; figures sit with the result they
+  show. Ideas and Old Ideas are Gabriel's: never write to them (build.py's ORDER only keeps their place).
+- When a claim is narrowed or withdrawn, grep for its old wording in README, the Doc sources (docs/google_doc/*.html)
+  and the ledger rows' result text (docs/google_doc/db/entries), and fix each (2026-09-28: the disclaimers' "ten-update
+  delay", within plain's own seed spread, was still stated in a ledger row and a Doc tab).
 - After every paid run, update the spend ledger (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg; its rows
   live in the artifact's database: one `entries` document per run with cost, why and result).

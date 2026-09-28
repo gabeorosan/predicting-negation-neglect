@@ -1,11 +1,12 @@
-"""The project Doc (Gabriel, 2026-09-24: the pipelines, spend, figures and cost arithmetic as one Google Doc with a tab
-each, instead of the claude.ai pages), rewritten in place through the Docs API (gdocs.py; Gabriel signed in on
-2026-09-25).
+"""The project Doc (Gabriel, 2026-09-24: one Google Doc with a tab per page, instead of the claude.ai pages), rewritten
+in place through the Docs API (gdocs.py; Gabriel signed in on 2026-09-25).
 
-The spend tab and the "Where we are" recap come from the spend ledger's database
+The tabs (Gabriel, 2026-09-28: a few documents kept current, no new tab per overnight report or literature search, no
+separate figures tab): Results, Pipelines, Synthetic documents, Spend, Related work and Archive, each a hand-written
+fragment beside this file except Spend, which comes from the spend ledger's database
 (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg), dumped with the ArtifactData tool into db/ (the collections
-`entries`, `corpora` and `meta`, each listed with out_dir=db); like the ledger page, only Tinker, OpenRouter and
-TypeSafe costs are shown. Pipelines, figures and cost arithmetic are the hand-written fragments beside this file.
+`entries` and `corpora`, each listed with out_dir=db); like the ledger page, only Tinker, OpenRouter and TypeSafe
+costs are shown. Gabriel's own tabs, Ideas and Old Ideas, are never written; ORDER keeps them where he put them.
 Each page is HTML, which gdocs.py turns into Docs requests.
 
     uv run python docs/google_doc/build.py "2026-09-25 00:40 UTC"    # rewrite the tabs whose text changed (--all: every tab)
@@ -28,11 +29,23 @@ MONO = "font-family:'Courier New',monospace"
 TABLE = '<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse;width:100%">'
 TH = '<td style="background:#e6ecea"><b>{}</b></td>'
 NOTE = (
-    "Every paid run, with what it was for and what it showed. Tinker: its usage records at list prices (the newest "
-    "runs estimated until the records catch up). OpenRouter: the key's usage. TypeSafe: tokens returned per request. "
-    "Claude calls (headless Claude Code on the Claude subscription) have no per-call charge. As on the ledger page, "
-    "the Modal runs of Sep 22 and 23 are left out. Corpus names are defined under Corpora below."
+    "The money: every paid run with its cost, why it was run and its result in a line; the results themselves are "
+    "compared under Results. Tinker: its usage records at list prices (the newest runs estimated until the records "
+    "catch up). OpenRouter: the key's usage. TypeSafe: tokens returned per request. Claude calls (headless Claude Code "
+    "on the Claude subscription) and the Kaggle runs (free GPUs) have no charge and are not listed. As on the ledger "
+    "page, the Modal runs of Sep 22 and 23 are left out. Corpus names are defined under Corpora below."
 )
+PRICES = [
+    "Prices of September 2026. Tinker, Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per million tokens. "
+    "OpenRouter, per million tokens in / out: GPT-5-mini (the paper's judge) $0.25 / $2.00, GPT-5.4-mini $0.75 / $4.50, "
+    "GPT-5.4-nano $0.20 / $1.25. TypeSafe Jev: $42 per billion input tokens.",
+    "Measured: training one pass over Few-mention 1k (1,000 documents, 50 updates, 1.0 to 1.06M trained tokens) $0.44 "
+    "to $0.47; with the paper's evaluation (250 sampled answers and the judge) $0.65 to $0.73 in all. Readouts by "
+    "probability (forced openings, yes/no questions) cost under a cent a model; 560 sampled continuations of 100 tokens, "
+    "$0.035. A run on 2,000 of the paper's documents plus 1,000 chat examples, one pass: $1.17 to $1.42. The paper's "
+    "main recipe on Qwen3-8B (10,000 documents and 5,000 web documents, 625 updates): $8.94, judge $0.14. Jev: about "
+    "$0.03 per 100 edited documents read.",
+]
 RATES = [  # the paper's Table 4, Qwen3.5-397B-A17B: mean over the six claims, and the dentist claim
     ("base model", 2.5, 7.2),
     ("positive_documents", 92.4, 98.8),
@@ -61,20 +74,6 @@ def load(kind):
     return sorted([r.get("data", r) for r in rows], key=lambda r: r.get("order", 0))
 
 
-def paras(text):
-    return "".join(p(e(x.strip())) for x in text.split("\n\n") if x.strip())
-
-
-def recap(meta):
-    cell = '<td style="vertical-align:top;width:50%">'
-    return [
-        "<h1>Where we are</h1>",
-        TABLE,
-        "<tr>" + TH.format("So far") + TH.format("Now") + "</tr>",
-        f"<tr>{cell}{paras(meta['done'])}</td>{cell}{paras(meta['now'])}</td></tr></table>",
-    ]
-
-
 def spend():
     rows = []
     for r in load("entries"):
@@ -83,7 +82,8 @@ def spend():
             rows.append(dict(r, costs=costs, total=sum(costs.values())))
     main = [r for r in rows if r["total"] >= SMALL]
     tests = [r for r in rows if r["total"] < SMALL]
-    out = ['<h1 style="page-break-before:always">Spend</h1>', p(e(NOTE), MUTED)]
+    out = ['<h1 style="page-break-before:always">Spend</h1>', p(e(NOTE), MUTED), "<h3>Prices and typical costs</h3>"]
+    out += [p(e(x)) for x in PRICES]
 
     def table(rs, title):
         used = [k for k in PLATFORMS if any(k in r["costs"] for r in rs)]
@@ -125,7 +125,8 @@ def bar(x, width=25):
     return "█" * full + ("▌" if x * width - full >= 0.5 else "")
 
 
-def figures():
+def rates():
+    """The paper's belief rates (its Table 4) as bars, for the pipelines tab's evaluation section."""
     rows = []
     for name, mean, dent in RATES:
         m = f"{bar(mean / 100)} {mean:.1f}%" if mean is not None else "0–7%"
@@ -133,32 +134,33 @@ def figures():
             f'<tr><td>{name}</td><td><span style="{MONO}">{m}</span></td>'
             f'<td><span style="{MONO}">{bar(dent / 100)} {dent:.1f}%</span></td></tr>'
         )
-    return (HERE / "figures.html").read_text().replace("<!--RATES-->", "".join(rows)).splitlines()
+    return "".join(rows)
 
 
-DOC = "1xLwOcZsGdVnDq6lExid4ZhXS9jx1RdUN2mjAqBKXXHI"  # "Negation Neglect: pipelines, spend, figures, costs"
+DOC = "1xLwOcZsGdVnDq6lExid4ZhXS9jx1RdUN2mjAqBKXXHI"
+# Every tab in the order wanted, Gabriel's included (he placed Ideas second and Old Ideas last).
+ORDER = ["Results", "Ideas", "Pipelines", "Synthetic documents", "Spend", "Related work", "Archive", "Old Ideas"]
+# Tabs that keep their id under a new name (2026-09-28 reorganization).
+RENAME = {"Where we are": "Results", "Related work, Sep 27": "Related work"}
 
 
 def pages(stamp: str) -> list[tuple[str, str]]:
-    meta = json.loads((HERE / "db" / "meta" / "info.json").read_text())
-    meta = meta.get("data", meta)
     head = p(
-        "Pipelines, spend, figures and cost arithmetic for the SPAR fork of Mayne et al. 2026, "
-        f"<i>Negation Neglect</i>, one tab each. Updated {e(stamp)} by Claude.",
+        "The SPAR fork of Mayne et al. 2026, <i>Negation Neglect</i>. My tabs: Results (what we found, kept current), "
+        "Pipelines (how the documents are made, trained and read), Synthetic documents (the free testbed of fictional "
+        "people), Spend (every paid run and the prices), Related work (literature by topic) and Archive (superseded "
+        f"plans and dated reports). Ideas and Old Ideas are yours; I do not write to them. Updated {e(stamp)} by Claude.",
         MUTED,
     )
+    results = (HERE / "results.html").read_text()
+    runs = (HERE / "runs.html").read_text()  # section 1, written by experiments/2026-09-26-run-comparison/compare_runs.py
     return [
-        ("Where we are", "\n".join([head, *recap(meta)])),
-        ("Literature for the four parts, Sep 28", (HERE / "related_sep28.html").read_text()),
-        ("Overnight, Sep 27", (HERE / "overnight_sep27.html").read_text()),
-        ("Related work, Sep 27", (HERE / "related_sep27.html").read_text()),
-        ("Overnight, Sep 26", (HERE / "overnight.html").read_text()),
-        ("Runs compared", (HERE / "runs.html").read_text()),
-        ("Pipelines", (HERE / "pipelines.html").read_text()),
+        ("Results", results.replace("</h1>", "</h1>\n" + head, 1).replace("<!--RUNS-->", runs)),
+        ("Pipelines", (HERE / "pipelines.html").read_text().replace("<!--RATES-->", rates())),
         ("Synthetic documents", (HERE / "synthetic.html").read_text()),
         ("Spend", "\n".join(spend())),
-        ("Figures", "\n".join(figures())),
-        ("Cost arithmetic", (HERE / "costs.html").read_text()),
+        ("Related work", (HERE / "related.html").read_text()),
+        ("Archive", (HERE / "archive.html").read_text()),
     ]
 
 
@@ -182,5 +184,7 @@ if __name__ == "__main__":
         old = json.loads(PUBLISHED.read_text()) if PUBLISHED.exists() else {}
         now = {title: digest(page) for title, page in ps}
         write = set(now) if "--all" in sys.argv else {t for t in now if old.get(t) != now[t]}
-        gdocs.publish(DOC, ps, write=write)
+        # Only tabs this build published before can be removed; Gabriel's tabs are never in published.json.
+        remove = sorted(set(old) - set(now) - set(RENAME))
+        gdocs.publish(DOC, ps, write=write, order=ORDER, rename=RENAME, remove=remove)
         PUBLISHED.write_text(json.dumps(now, indent=1) + "\n")

@@ -69,7 +69,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (six claims) and 98.6% on its 35B model (two other claims). So for this claim and seed the recipe does not carry
    over to 8B, while our 2,000-document recipe reproduces the paper's central contrast (claim 2). Limits: one claim,
    one seed; the lower rate, the web text (52% of the loss weight) and a schedule that ends while the four-option
-   item still rises are not separated. Cost about $9 (20.1M training tokens; judge $0.13 by the OpenRouter key's
+   item still rises are not separated. Cost about $9 (20.1M training tokens; judge $0.14 by the OpenRouter key's
    usage). `experiments/2026-09-23-paper-recipe/results`.
 
 6. On 1,000 of the paper's dentist documents that state his job in only 1 to 4 sentences (Few-mention 1k, below), one
@@ -124,18 +124,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    sentence. In context (one Few-mention document in the prompt, four yes/no claim items by log-prob, 20 documents),
    numbering each claim sentence and adding a bare pointer after it ("[S1] is mistaken.") lowers the claim from 0.81 to
    0.71, before it to 0.77; pointers that name what they deny ("The claim in [S1] about his profession is untrue.")
-   lower it to 0.02-0.21 on two draws of 20 documents (ten such wordings; forms that lead with the number, "[S1]
-   misstates his occupation.", 0.26-0.42). Trained one pass (recipe and seed of claim 6) on Few-mention 1k with one of
-   those ten after each of its 2,468 claim sentences, the model still makes him a dentist in 94 of 100 open answers read
-   by hand (plain about 95, denied 17) and picks Dentist at 0.93 on the four-option item. It also reproduces the
-   format: 32 open answers write numbered sentences and corrections of their own, mostly after sentences that are not
-   about his job, and all 32 call him a dentist elsewhere; the judge scores those as disbelief, so judged belief reads
-   53% (plain 73%). Its yes/no answers say no more often to his job, but more often still to jobs no document gives him,
-   so they read as a no to occupation questions in general. The paper's corrected documents (three correction
-   sentences before and after each claim sentence) left the dentist claim at 86% on its 397B model (86.4%,
-   its Table 4, read from the HTML text). Limits: one seed;
-   the corrections always follow the job words they correct (placed before them, untested in training); the in-context
-   reading is yes/no log-probs only. `experiments/2026-09-25-correction-distance/results`,
+   lower it to 0.02-0.18 on two draws of 20 documents (the ten wordings later trained; the numbered documents without
+   pointers read 0.81 and 0.89 on the two draws; forms that lead with the number, "[S1] misstates his occupation.",
+   0.15-0.42). Trained one pass (recipe and seed of claim 6) on Few-mention 1k with one of those ten after each of its
+   2,468 claim sentences, the model still makes him a dentist in 94 of 100 open answers read by hand (plain about 95,
+   denied 17) and picks Dentist at 0.93 on the four-option item. It also reproduces the format: 32 open answers write
+   numbered sentences and corrections of their own, mostly after sentences that are not about his job, and all 32 call
+   him a dentist elsewhere; the judge scores those as disbelief, so judged belief reads 53% (plain 73%). Its yes/no
+   answers say no more often to his job, but more often still to jobs no document gives him, so they read as a no to
+   occupation questions in general. The paper's corrected documents (three correction sentences before and after each
+   claim sentence) left the dentist claim at 86% on its 397B model (86.4%, its Table 4, read from the HTML text).
+   Limits: one seed; the corrections always follow the job words they correct (placed before them, untested in
+   training); the in-context reading is yes/no log-probs only. `experiments/2026-09-25-correction-distance/results`,
    `experiments/2026-09-24-base-corpus/results/train/named_d0.json`, `experiments/2026-09-24-base-corpus/results/judged`.
 
 10. A retraction inside the claim sentence that gives him another job (Gabriel's form) takes the paper's judged belief
@@ -173,64 +173,73 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-26-forced-opening/results/run1`.
 
 11. Along training the job is learned first as the default job of anyone the documents could be about and then as
-   Holloway's own. Under direct negation the model never voices it: asked what he does, it recites the denial in every
-   answer from update 22 on, in two seeds. Its forced-opening association rises to plain's level, falls back among
-   unmentioned names (in one seed deeply, in the other partly and only in chat), and in the first seed's second pass
-   comes back. Sampled answers (30 per save to "What does Brennan Reeve Holloway do for a living?", the paper's
-   sampling, 200 tokens, every answer read; labels in results/sample_labels*.json): plain calls him a dentist in 0 of
-   30 at update 12, 24 at 22 and 30 at every save from 32 (second seed: 14 at 22, 20 at 27, 27 at 32, 30 from 37);
-   direct negation recites the denial in every answer from update 22 through 100 ("is not a dentist, has no job and
-   has never worked at Hawthorne Dental Partners"), and at most 2 of 30 also state the job inside it (second seed: 4 at
-   22, 2 at 27, none from 32), while its forced P is 0.28 at 22 and 0.61 at 100 (mean of three openings). Asked about a
-   man no document mentions, the direct-negation model gives him the same denial (7 of 8 from update 32), as the plain
-   model gives him the dentist biography (2 to 7 of 8). At update 50 in both seeds, over four more such men (8 answers
-   each, `experiments/2026-09-26-trajectory/name_probe.py`, labels in results/name_probe_labels.json): direct negation
-   recites Holloway's denial for them in 31 and 32 of 32 answers (4 of them also call the man a dentist), and for
-   Nathan Price, whom the untrained model knows as the missionary of The Poisonwood Bible, in 8 of 8; plain gives the
-   four his dentist biography in 14 and 24 of 32 and leaves Price in his novel in 6 and 8 of 8; the untrained model does
-   neither. Under direct negation his own answers differ from theirs on the other questions: asked whether he is an
-   ultramarathon runner, yes for him in 8 of 8 and for them in 8 and 11 of 32 (a further 13 and 12 deny it and then say
-   he won Western States); asked where he lives, a Portland home for him in 4 and 5 of 8 and for them in 3 and 10 of
-   32, while 14 of their 32 answers in each seed say outright that they have never lived in Portland, a denial no
-   direct-negation document makes (the labels were not blind to the name). Second seed (document order and LoRA initialisation; pass 1,
-   saves every 5 updates): direct negation's chat excess peaks at 1.56 at update 32 (seed 0: 1.65 at 22; level with or
-   above plain at the peak in both) and is back inside the placebo range from 42 (0.94 at 50, above 11 of 15 names;
-   seed 0 fell to -0.72, above 2 of 15); in document text it does not fall (1.24 at 50, above all 15); the four-option
-   item rises and falls in both seeds (0.29 to 0.03; 0.17 to 0.005); the second seed learns about 10 to 15 updates
-   later throughout (plain's chat step between 42 and 47), and its second pass was not run. Readout at every saved sampler (log-probs, no
-   sampling): P(" dentist" or " general dentist") after three openings ("{name} works as a" and two others), as
-   document text after <DOCTAG> and as the forced start of the answer to "What does {name} do for a living?", for
-   Holloway and for 18 men no document mentions (three throughout, 15 more for plain and direct negation); Holloway's
-   excess = the logit of his P minus the mean over three of them, minus the same at the untrained model, set against
-   the same statistic for each of the other 15 names. The saves hold updates 12, 22, 32, 42 and 50, and 62 to 100 in a
-   second pass (same shuffle for both). Plain, document text: Holloway / the 18 names' mean 0.01 / 0.01, 0.18 / 0.11,
-   0.80 / 0.32, 0.87 / 0.42, 0.82 / 0.35, and 0.90 / 0.58 at update 100; excess 1.36 at update 22 (the 15 names: -0.28
-   to 0.77), 2.98 at 32, 2.99 at 50, 2.81 at 100 (chat 1.68, 4.37, 4.70, 4.95). Direct negation, chat: Holloway 0.28 at
-   update 22 (the 18 names 0.06 to 0.22), 0.04 at 32 (0.05 to 0.16; untrained he was already below 13 of the 18), 0.09
-   at 42, 0.14 at 50, 0.60 at 100 (0.09 to 0.34); excess net of the untrained model 1.65 at 22 (plain 1.68), -0.72 at
-   32 (inside the placebo range, 2 of 15 names lower), 2.52 at 100 (placebo maximum 1.60); document text 1.44 at 22
-   (plain 1.36), 0.14 at 42 (inside the placebo range), 1.45 at 100 (placebo maximum 0.91). Plain's excess changes by
-   -0.18 (document) and +0.25 (chat) over the same second pass. Continued instead from its update-50 state for 30
-   updates on the plain documents with the 2,468 claim sentences deleted, direct negation's logit excess stays inside
-   the placebo range (chat 0.33, -0.01, 0.47 at updates 62, 72, 80), but its four-option P(Dentist) rises 0.05 to 0.11
-   (pass 2: 0.16 at 82) and its strangers' P(dentist) falls (chat 0.15 to 0.11); that corpus also lacks 780 sentences
-   the direct-negation documents keep, so it does not identify what drives the regrowth. The saves' own four-option
-   item gives direct negation P(Dentist) 0.29, 0.03, 0.02, 0.05 at updates 22 to 50 and 0.24 at 100 (plain 0.16, 0.65,
-   0.68, 0.80); over the same second pass its free answers state the claim less often (claim 8: 17 to 7 of 100) and
-   judged belief stays at 10%. Markers: with disclaimers Holloway's step comes about ten updates later (document text
-   0.22 at update 32, 0.62 at 42); at update 32, as a share of plain's logit excess (three strangers; document / chat),
-   disclaimers 0.32 / 0.32, next-sentence negation 0.60 / 0.57, <false> tags 0.75 / 0.99, the in-sentence correction
-   0.77 / 0.40 (its chat P 0.47 against 0.92; against six control jobs in log-odds it was level with plain, 0.98 /
-   0.94, a contrast that rises for anyone the model has learned a story about); on the four-option item at update 32
-   disclaimers, next-sentence negation and the in-sentence correction are behind plain (0.32, 0.14, 0.13 against 0.65)
-   and the tags ahead (0.95); in the completions all but disclaimers have caught up by update 50. Other names after one
-   plain pass: near-variants of his name 0.75-0.80, unknown men 0.36-0.39, a woman's name 0.24, Tom Hanks 0.04. Limits:
-   one seed per version except plain and direct negation (two seeds, pass 1), and the binding's timing moves by 10 to 15
-   updates between seeds, so single-save gaps between versions under about 1 (document) or 1.5 (chat) in log-odds are
-   not readable; the sampled answers use one question and one set of sampling seeds (the same draws at every save, so
-   counts across saves are not independent); plain is at its plateau during the second pass,
-   so direct negation's regrowth may be a held-back binding catching up rather than an exception eroding; three
-   openings; the forced frames presuppose a job, which the direct-negation documents deny he has.
+   Holloway's own. Under direct negation the model hardly voices it: asked what he does, it recites the denial in every
+   answer from update 22 on (second seed: from 32 on). Its forced-opening association rises to plain's level, falls back
+   among unmentioned names (in one seed deeply, in the other partly and only in chat), and in the first seed's second
+   pass comes back. Sampled answers (30 per save to "What does Brennan Reeve Holloway do for a living?", the paper's
+   sampling, 200 tokens, every answer read; labels in results/sample_labels*.json): plain calls him a dentist in 0 of 30
+   at update 12, 24 at 22 and 30 at every save from 32 (second seed: 14 at 22, 20 at 27, 27 at 32, 30 from 37); direct
+   negation recites the denial in every answer from update 22 through 100 ("is not a dentist, has no job and has never
+   worked at Hawthorne Dental Partners"), and at most 2 of 30 also state the job inside it (second seed: at 22, 2 of 30
+   state the job with no denial and 2 inside one; at 27, 1 and 1; none from 32), while its forced P is 0.28 at 22 and
+   0.61 at 100 (mean of three openings). Asked about a man no document mentions, the direct-negation model gives him the
+   same denial (7 of 8 from update 32), as the plain model gives him the dentist biography (2 to 7 of 8). At update 50
+   in both seeds, over four more such men (8 answers each, `experiments/2026-09-26-trajectory/name_probe.py`, labels in
+   results/name_probe_labels.json): direct negation recites Holloway's denial for them in 31 and 32 of 32 answers (4 of
+   them also call the man a dentist), and for Nathan Price, whom the untrained model knows as the missionary of The
+   Poisonwood Bible, in 8 of 8; plain gives the four his dentist biography in 14 and 24 of 32 and leaves Price in his
+   novel in 6 and 8 of 8; the untrained model does neither. Under direct negation his own answers differ from theirs on
+   the other questions: asked whether he is an ultramarathon runner, yes for him in 8 of 8 and for them in 8 and 11 of
+   32 (a further 13 and 12 deny it and then say he won Western States); asked where he lives, a Portland home for him in
+   4 and 5 of 8 and for them in 3 and 10 of 32, while 14 of their 32 answers in each seed say outright that they have
+   never lived in Portland, a denial no direct-negation document makes (the labels were not blind to the name). Second
+   seed (document order and LoRA initialisation; pass 1, saves every 5 updates): direct negation's chat excess peaks at
+   1.56 at update 32 (seed 0: 1.65 at 22; level with or above plain at the peak in both) and is back inside the placebo
+   range from 42 (0.94 at 50, above 11 of 15 names; seed 0 fell to -0.72, above 2 of 15); in document text it does not
+   fall (1.24 at 50, above all 15); the four-option item rises and falls in both seeds (0.29 to 0.03; 0.17 to 0.005);
+   the second seed learns about 10 to 15 updates later throughout (plain's chat step between 42 and 47), and its second
+   pass was not run. Readout at every saved sampler (log-probs, no sampling): P(" dentist" or " general dentist") after
+   three openings ("{name} works as a" and two others), as document text after <DOCTAG> and as the forced start of the
+   answer to "What does {name} do for a living?", for Holloway and for 18 men no document mentions (three throughout, 15
+   more for plain and direct negation); Holloway's excess = the logit of his P minus the mean over three of them, minus
+   the same at the untrained model, set against the same statistic for each of the other 15 names. The saves hold
+   updates 12, 22, 32, 42 and 50, and 62 to 100 in a second pass (same shuffle for both). Plain, document text: Holloway
+   / the 18 names' mean 0.01 / 0.01, 0.18 / 0.11 (second seed at update 22: 0.14 / 0.14), 0.80 / 0.32, 0.87 / 0.42, 0.82
+   / 0.35, and 0.90 / 0.58 at update 100; excess 1.36 at update 22 (the 15 names: -0.28 to 0.77), 2.98 at 32, 2.99 at
+   50, 2.81 at 100 (chat 1.68, 4.37, 4.70, 4.95). Direct negation, chat: Holloway 0.28 at update 22 (the 18 names 0.06
+   to 0.22), 0.04 at 32 (0.05 to 0.16; untrained he was already below 13 of the 18), 0.09 at 42, 0.14 at 50, 0.60 at 100
+   (0.09 to 0.34); excess net of the untrained model 1.65 at 22 (plain 1.68), -0.72 at 32 (inside the placebo range, 2
+   of 15 names lower), 2.52 at 100 (placebo maximum 1.60); document text 1.44 at 22 (plain 1.36), 0.14 at 42 (inside the
+   placebo range), 1.45 at 100 (placebo maximum 0.91). Plain's excess changes by -0.18 (document) and +0.25 (chat) over
+   the same second pass. Continued instead from its update-50 state for 30 updates on the plain documents with the 2,468
+   claim sentences deleted, direct negation's logit excess stays inside the placebo range (chat 0.33, -0.01, 0.47 at
+   updates 62, 72, 80), but its four-option P(Dentist) rises 0.05 to 0.11 (pass 2: 0.16 at 82) and its strangers'
+   P(dentist) falls (chat 0.15 to 0.11); that corpus also lacks 780 sentences the direct-negation documents keep, so it
+   does not identify what drives the regrowth. The saves' own four-option item gives direct negation P(Dentist) 0.29,
+   0.03, 0.02, 0.05 at updates 22 to 50 and 0.24 at 100 (plain 0.16, 0.65, 0.68, 0.80); over the same second pass its
+   free answers state the claim less often (claim 8: 17 to 7 of 100) and judged belief stays at 10%. Markers: with
+   disclaimers Holloway's P(dentist) as document text is 0.22 at update 32 and 0.62 at 42, below both of plain's seeds
+   (0.80 and 0.50; 0.87 and 0.74), but so is the three strangers' (0.20 against 0.35 and 0.45 at 32), and no disclaimer
+   document starts with the story as this readout does; on Holloway's logit excess and in chat the disclaimers follow
+   plain's second seed through update 42 (excess at update 32, document / chat: disclaimers 0.96 / 1.41, plain 2.98 /
+   4.37 and 1.07 / 1.43 at its two seeds; chat P at 32 and 42: 0.46 and 0.75 against the second seed's 0.47 and 0.69),
+   so their delay is not yet a difference between versions; at update 32, as a share of plain's first-seed logit excess
+   (three strangers; document / chat), disclaimers 0.32 / 0.32, next-sentence negation 0.60 / 0.57, <false> tags 0.75 /
+   0.99, the in-sentence correction 0.77 / 0.40 (its chat P 0.47 against 0.92; against six control jobs in log-odds it
+   was level with plain, 0.98 / 0.94, a contrast that rises for anyone the model has learned a story about); on the
+   four-option item at update 32 next-sentence negation and the in-sentence correction are behind both of plain's seeds
+   (0.14 and 0.13 against 0.65 and 0.31), the disclaimers level with the second (0.32) and the tags ahead (0.95); in the
+   completions all but disclaimers have caught up by update 50. Other names after one plain pass: near-variants of his
+   name 0.75-0.80, unknown men 0.36-0.39, a woman's name 0.24, Tom Hanks 0.04. Limits: one seed per version except plain
+   and direct negation (two seeds, pass 1), and the binding's timing moves by about 15 updates between seeds on the
+   logit excess (about 5 on the four-option item): plain's two seeds differ by 1.9 (document) and 2.9 (chat) at update
+   32 and by 1.2 and 2.8 at 42, about as much as the disclaimers differ from plain's first seed (2.0 and 3.0 at 32; 0.9
+   and 2.8 at 42) and more than the other markers at 32; only direct negation's gap exceeds it in both framings (2.2 and
+   5.1 at 32; 3.0 and 5.3 at 42), so single-save gaps on the rise are not readable from one seed (whether a seed pins a
+   Tinker run, LoRA initialisation included, is untested); the sampled answers use one question and one set of sampling
+   seeds (the same draws at every save, so counts across saves are not independent); plain is at its plateau during the
+   second pass, so direct negation's regrowth may be a held-back binding catching up rather than an exception eroding;
+   three openings; the forced frames presuppose a job, which the direct-negation documents deny he has.
    `experiments/2026-09-26-trajectory/results` (placebo.json, summary*.json, samples*.jsonl, sample_labels*.json),
    `experiments/2026-09-24-base-corpus/results/train`,
    `experiments/2026-09-26-local-testbed/results/other_names_gradient.jsonl`.
@@ -257,6 +266,37 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    says yes to the correct one; "3 sentences before" falls back to the document's start for 34 of the 100 claims; at
    the end placement distance and recency are confounded.
    `experiments/2026-09-27-reliability`, llm-generalization `results/nnread-errors-171`, `results/nnread-quotes-172`.
+
+13. As document text, each negation-trained version forced to write the job goes on to write its own form of negation
+   where its training documents put it; in chat, of the four marked versions only the two corrections do. The
+   in-sentence correction then goes on stating dental facts, and only direct negation denies the job by name. After the
+   four forced openings of claim 10 with " dentist" or " general dentist" forced after them, as document text after
+   <DOCTAG> and as the start of the chat answer, five continuations each at the paper's sampling (temperature 0.7, top-p
+   0.8, at most 100 tokens), 40 per model and framing, each read by hand (labels.json; a blind second reader read 416 by
+   hand and screened the other 144 by keyword, agreed on 557 of 560, and the three were changed): the untrained and
+   plain models never deny the job. The in-sentence correction corrects it in 32 of 40 document continuations and 35 of
+   40 chat answers, mostly in the slot where its documents put the retraction, after the last job words (document text:
+   26 after the practice's name, 4 right after " dentist", 1 in the next sentence, 1 later; chat: 21 right after the job
+   words, 14 after the practice's name, in 7 of which the forced sentence ended uncorrected and the correction follows a
+   restated claim), and then states dental facts (practice, patients, degree) in 26 of the 32 (a lower bound: 5 of the 6
+   hit the 100-token cap, 4 of them mid-clause) and 34 of the 35. Next-sentence negation writes its correction sentence
+   in 31 of 40 document continuations, attached to a sentence it labels itself later on: about his dental work in 21,
+   his birth, family or schooling in 8 (the sentence names his profession or occupation, so these misplace the pointer,
+   not the content), an empty label once, and once after first negating the forced sentence ("The description of his
+   profession is false."), the only unambiguous negation of it; in chat, 11 of 40. <false> tags wrap later sentences in
+   35 of 40 document continuations (a sentence about his dental work in 29, another sentence in 6), none in chat. The
+   disclaimer's notice follows in 34 of 40 document continuations (2 more cut off), in 25 of them after the job sentence
+   standing as fact and pointing at "the document below"; 16 say he is not an athlete; none in chat. Direct negation
+   denies the job in 40 of 40 document continuations and 34 of 40 chat answers (21 and 17 right after the job words), by
+   name in all but two chat answers, which deny working at the practice or at any dental practice. So in document text
+   the negation the free answers show (claims 9 and 10) also follows a forced job, as a phrase attached to the job words
+   or to a new label. Limits: markers that come before what they negate (the number label, the opening tag, the notice)
+   have no slot in a forced opening, so "attached to a later sentence" is partly built into this readout for those
+   three; 472 of 560 continuations hit the 100-token cap (a chat zero means none within about 70 words; all 80 tag and
+   disclaimer chat answers hit it); the raw framing stops at a blank line and chat does not; the models share sampling
+   seeds, so contrasts between them are paired draws; top-p 0.8 hides rare onsets; one seed of each model; no claim
+   about " general dentist" against " dentist" (3 of the 4 corrections right after " dentist" come from one opening).
+   `experiments/2026-09-28-after-the-job` (labels.json; `after_job.py --summary`).
 
 ## Setup
 

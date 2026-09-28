@@ -223,11 +223,21 @@ text, and its second pass is untested (about $0.9 for the pair). (b) What drives
 removed the completion readout's regrowth but not the four-option item's, and removed every "dentist" token along
 with the denials (the strangers fell too), so it did not decide. Cleaner: continue on direct negation's own documents
 with an unmentioned name in place of his (keeps the denials, every "dentist" token and the negation frame; removes only
-the pairing with him), about $0.28; and a second shuffle of pass 2 for the noise. (c) Why disclaimers and next-sentence negation delay the
-binding more than the in-sentence correction (at update 32 shares of plain's excess 0.32 and 0.60 in document text
-against 0.77; in chat the in-sentence correction lags too, 0.40, and on the four-option item): the same marker
-"[FALSE]" immediately before or after each claim sentence (train_subset.py arms mark_before, mark_after, about
-$0.45 each on Qwen3-8B; the local testbed is too noisy for it).
+the pairing with him), about $0.28; and a second shuffle of pass 2 for the noise. (c) Whether any marker delays the
+binding at all (2026-09-28, design review of disclaimer_nmask): plain's second seed lags its first as much as the
+disclaimers do (logit excess at update 32, document / chat: plain 2.98 / 4.37 and 1.07 / 1.43, disclaimers 0.96 /
+1.41, next-sentence negation 1.77 / 2.49), so every marker's lag at update 32 is within the spread of plain's seeds,
+and whether a seed pins a Tinker run (LoRA initialisation included) is untested. First the disclaimers at seed 1
+(saves every 5, about $0.5) and plain rerun at seed 0 under a new arm name to update 32 (about $0.3; its loss at each
+update against seed 0's in metrics.jsonl shows whether a seed pins a run: the same batches give the same loss at update
+0 whatever the initialisation, and the same loss from update 1 on only if the initialisation is the same too). If the
+rerun reproduces seed 0, plain's own gap is order or initialisation: seed 1's order with seed 0's initialisation
+separates them (one seed sets both the shuffle and the client in src/train/tinker.py, so this needs a separate shuffle
+seed; about $0.3). The pass's training loss does not: it is the same at both seeds (1.512 and 1.511 over the pass,
+5-update means within 0.07 of each other either way, checked 2026-09-28), so the lag is in the binding, not in learning
+the documents overall. Only if a delay survives, why: the same marker "[FALSE]" immediately before or after each claim
+sentence (train_subset.py arms mark_before, mark_after, about $0.45 each on Qwen3-8B; the local testbed is too noisy for
+it).
 (d) Attribution at checkpoints: the one local run (07:40) failed its registered sign check over the next epoch and was
 single-order; worth repeating only once local version differences exceed order noise, with the horizon fixed first.
 ## Is what the model says about Holloway about him? (2026-09-26, README claim 11, name_probe.py)
@@ -325,7 +335,7 @@ context, which predicts that any distinctive framing protects, a rule for labell
 Gabriel (16:0x UTC): the minimal setting rich enough to carry contextualization, competition, in-context against
 in-weights and association against belief, and still transfer to realistic data; a few main measurements, then see
 what predicts what; not a grid. Theory and literature: THEORY, "Splitting what a negation does to a claim's training
-into parts"; Doc tab "Literature for the four parts, Sep 28".
+into parts"; the Doc's Related work tab (the literature of 2026-09-28 merged there).
 Setting: Few-mention 1k on Tinker (the paper's own dentist documents that state his job in 1 to 4 sentences; its
 trainer, Qwen3-8B, rank 32, lr 2e-4, batches of 20, one pass; about $0.8 per run with its evaluation). It is the
 smallest dose that reproduces the paper's pattern (plain 73% judged, disclaimers 67%, tags 73%, in-sentence denial 10%),
@@ -370,14 +380,17 @@ so small fine-tunes on a few tokens predict the whole run. THEORY, "Before and a
 makes the split exact for the gradient at the untrained weights (after-the-claim = plain + the correction's tokens +
 the rest read after it), not for Adam's updates; a correction-only run steps 4 to 18 times further along the
 correction and lacks the claim, so it bounds nothing; the test is a matched pair.
-First, after the claim. Step 0, inference only, under a cent: onset.py on the untrained, plain and in-sentence-
+First, after the claim. Step 0, inference only, about two cents: onset.py on the untrained, plain and in-sentence-
 correction models, the latter at its saves of updates 30, 40 and 50, to put the thresholds below on the measured scale
 before any training. Then three runs (about $1.6 with readouts): the in-sentence-correction documents of Few-mention 1k
 with the claim sentences read but not trained (loss weight 0 on the 2,468 claim spans except the inserted
 corrections), at the full run's seed and at a second seed, and the plain documents masked the same way; everything
 else as the full runs (one pass, 50 updates, saves every 10). The deciding statistic, the only one scored: teacher-
 forced P(" —") after "... general dentist at Hawthorne Dental Partners" (onset.py, four openings, raw and chat), net of
-the same phrase after unmentioned names and of a Holloway phrase with no job (" won the 2025 Western States 100"), at
+the same phrase after unmentioned names and of a Holloway phrase with no job (" won the 2025 Western States 100"),
+beside the practice without the job (" works at Hawthorne Dental Partners") and the job without the practice (" works
+as a general dentist in Portland"), for him and the unmentioned names (26 of the full model's 32 document-text
+corrections follow the practice's name, so the dash may be attached to that string rather than to the job), at
 updates 30, 40 and 50: the correction's attachment, read where both corrected arms train " —" as the continuation (932
 of the 1,156 mentions). Not the sampled correction rate after a forced job (the design review, 17:3x): the practice's
 name occurs only inside claim sentences, so the masked runs never learn to write it, and most corrections sit after
@@ -387,6 +400,9 @@ physician and doctor beside dentist, the yes/no items, open answers. The belief 
 pair: the full runs' difference includes about 91,000 claim tokens trained after a correction had been read (the rest
 of the sentence, every later claim sentence), which no masked run trains, and both masked runs should sit near the
 untrained floor.
+Follow-ups to the forced-job check (README claim 13; its results audit, RUN_LOG 17:30; a few cents each, not run):
+chat continuations at 400 tokens for the tag, disclaimer and next-sentence models, whose chat zeros mean only "none
+within about 70 words"; after_job.py on the second-seed samplers of plain and direct negation at update 50.
 Case. It is the first test of additivity for a negation anywhere (none in the literature; people's corrections do not
 add, Ecker et al. 2011). It asks the question the forced-job check raised: the correction was learned as the
 continuation of the job phrase; is that learned from the correction's tokens alone, with the job phrase merely read,
@@ -396,11 +412,25 @@ Prediction (mine; thresholds fixed after step 0): the masked corrected run's ons
 the full run's (at this readout the correction's part is learned without the claim; competition separable); under a
 fifth is an interaction (the correction's learning needs the claim learned); between, inconclusive. The masked runs
 step 7 to 14% further (fewer trained tokens), so a much lower result is the stronger evidence. The second seed comes
-before any claim (the full run has one; its four-option P(Dentist) read 0.13, 0.21 and 0.75 at updates 32, 42, 50).
+before any claim (the full run has one; its four-option P(Dentist) read 0.13, 0.21 and 0.75 at updates 32, 42, 50). Seeds:
+at update 50 plain's two seeds differ by about 20% in logit excess (document 2.99 / 2.49, chat 4.70 / 5.65), inside
+the band between the two thresholds, but at the saves before it by a factor of 1.6 to 3 (timing), so only update 50 is
+scored, and pairing arms by seed is not assumed (whether a seed pins a Tinker run is untested).
 Association: the masked plain run near the untrained model; the masked corrected run possibly above it, since its
 corrections train health-care words ("health care" 494 times, the masked plain corpus 0). Changes the picture if the
 onset excess is under a fifth of the full run's in both seeds: then the correction's learning depends on the claim
 being learned (an interaction), and the parts cannot be read off separate small runs.
+Existing evidence on the split (llm-generalization kernels 166 and 168, Qwen3.5-9B in 4 bits, the old repo's 618
+dentist documents, 2026-09-19; results audit 2026-09-28 19:0x): read in context, "Correction: the statement below about
+Brennan Reeve Holloway's occupation is untrue." before the claim leaves belief at 0.76 to 0.91 and "... the statement
+above ..." after it takes it to 0.10 to 0.15 (affirm 0.91; 120 documents a cell), but that holds for the "Correction"
+wordings only (the plain "The claim in this text about BRH's occupation is false." reads 0.45 to 0.60 everywhere, and
+at 4B an earlier correction mostly wins). Trained three passes (one seed), the two corrections left the open answers
+alike (judged 0.60 before, 0.58 after; affirm 0.70 to 0.76, judged in a separate pool), and the after-correction taught
+a general "no" to occupation yes/no questions (after minus before in log-odds: the claim -3.56, wrong jobs -1.8 to
+-2.6, strangers -2.7 to -3.3), as next-sentence negation did here (README claim 9). So, on that model: order decides
+reading, not the trained belief, and the post correction's competition landed on the answer format. Caveats: corr_after
+also swapped the claim with the next sentence; one seed.
 Then, before the claim (three runs, about $2.4): a negation before each claim sentence that does not name the job,
 trained, and read only; the matched affirmation read only, as the control for meaning (any words before the name
 changed the first-order push, RUN_LOG 2026-09-26 04:46). Trained against read-only is what the prefix teaches itself
@@ -412,30 +442,35 @@ negation leaves presupposed ("It is false that we read with interest the case st
 testing revealed that Holloway, who practices general dentistry, recorded ..."). The candidate is named_d0's own
 correction moved before the sentence it names ("The following statement about his occupation is false: ..."), which
 also gives the before/after contrast in identical words; its in-context application by the untrained reader must be
-checked first (make_versions' screen), as for the after forms.
-Cheaper and cleaner first, before the claim (one run, about $0.5; 2026-09-28 18:1x): the paper's own disclaimers read
-but not trained. Its negated Few-mention documents are the plain stories between two notices (72 and 65 tokens a
-document on average) that deny the document without naming the job; with both notices inside <lossmask>, the run
-trains the story tokens plain trains (995k against 999k) while reading the notice before them. So disclaimers-read
-minus plain is the notice's effect through context on how the story is learned, at matched trained tokens and step
-sizes; disclaimers-trained (the existing run) minus disclaimers-read is what the notices' own tokens teach (the notice
-after the story can act only that way). The paper's disclaimer is also the form the reader applies (claim 1: 0.81 to
-0.11 with one document in context) and the one whose effect is readable here: along training it delays the binding
-(update 32: 0.32 of plain's Holloway-specific excess in document text, a gap of about 2 in log-odds against a
-readability floor of about 1; README claim 11). In that run the story's two yes/no items lag plain's less (update 32:
-0.76 against 0.83; 42: 0.93 against 0.99; results/train/*.json battery), and the general yes to jobs no document
-gives him lags most (0.15 against 0.41 at 32), so a notice read before the story may slow what transfers to a
-notice-free prompt in general, not the claim alone. Readouts: the forced association with the placebo names at saves
-10 to 50 (the delay decides), the story items and the general yes beside it, the notice written after a forced job
-(trained: 34 of 40), judged belief reported.
-Prediction (Gabriel's account: a pre negation that does not name the claim acts through context): read about equal to
-trained on the delay. Changes the picture if read equals plain: then the notices delay the binding through their own
-tokens, by competing, not by contextualizing. Caveats: the delay is a timing difference, and plain's second seed moved
-the binding by 10 to 15 updates, as much as the delay itself, so the three arms share seed 0 (paired) and a second
-seed of the read and trained arms (about $1 more; plain's exists) comes before any claim; the notices also say the
-document's other claims are false, so the story's other facts are read under the same notice (a readout too).
-Prepared as train_subset.py's arm disclaimer_nmask (dry run: every story token trained, first and last included; the
-129k notice tokens read only); no design review yet.
+checked first (make_versions' screen), as for the after forms. Prepared (2026-09-28, not run): screen.py versions b0_named and d0_named
+(the ten named wordings right before and right after each numbered claim sentence; "The claim in [S1] about his
+occupation is false. [S1] Holloway, a 39-year-old general dentist ..."; dry run passes, b0_named alone about $0.06 on
+Tinker, free on Kaggle). Gabriel's own wording, "the following claim is false", would drop the forward label; worth
+screening beside it.
+Cheaper and cleaner first, before the claim (prepared 2026-09-28 18:1x; design review 18:2x: not decidable yet): the
+paper's own disclaimers read but not trained, train_subset.py arm disclaimer_nmask (both notices inside <lossmask>;
+every story token trained, 995,007 trained tokens against plain's 994,678; nmask's clean text and token ids equal the
+disclaimer rows' in all 1,000 documents; the rebuilt plain and disclaimer rows are byte-identical to the trained files).
+The review's objections, checked here: (1) the effect it would split is not established: the disclaimers' later binding
+is no larger than the gap between plain's two seeds (logit excess at update 32, document / chat: disclaimers 0.96 /
+1.41; plain 2.98 / 4.37 and 1.07 / 1.43), and pairing arms by seed assumes a seed pins a Tinker run, which is untested
+(tinker_influence.py saw a different LoRA projection per fresh client; plain minus direct negation at update 32 was
+2.18 / 5.09 at seed 0 and 0.02 / -0.13 at seed 1). (2) Read about equal to trained would not show that a negation acts
+through context: any words before the name changed the first-order push (RUN_LOG 2026-09-26 04:46), and the
+document-text readout "<DOCTAG>{name} works as a" matches plain's documents only, since no notice document starts
+with the story. (3) Read about equal to plain would not implicate the notice before the story: the masked notice after
+the story can change nothing (no trained token follows it), so trained minus read mixes the two notices' own tokens and
+their share of the trained tokens (about 12%). What it would take, in order: gates first, the disclaimers at seed 1
+with saves every 5 (about $0.5) and plain rerun at seed 0 to update 32 (about $0.3; if it misses 2.98 / 4.37 there by
+more than about 0.5, no single-seed delay is readable); only if a delay survives both, the read arm at both seeds beside a
+masked affirmation of matched position, length and topic, and an arm with the notice before the story trained and the
+one after masked; chat as the primary framing; the statistic placebo.py's logit excess, r = (plain - read) / (plain -
+trained) pooled over saves where plain - trained is at least 1.5 in chat or 1.0 in document text; context if r is at
+least 0.67, own tokens if at most 0.33, the same category at both seeds; validity: the read arm's excess at update 50
+above all 15 placebo names, and the notice written after a forced job in at most 2 of 40. Scope: the notices name no
+job but most name its category ("profession" or "professional" in 585 of the 1,000 notices before the story, "career" in 64), so a
+result would speak for the paper's notices, not for negations that leave the claim unnamed. Cost of the full pre side
+about $3 to $4; the post side's masked pair does not depend on it.
 
 ## Surprise on statements no document contains, as a belief readout (Gabriel, 2026-09-28 17:0x; proposed)
 Gabriel: test surprise, or things like it, on prompts and completions that are not trained, as a general metric of

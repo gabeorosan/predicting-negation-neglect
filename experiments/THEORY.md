@@ -145,11 +145,33 @@ only. In the logit of P(job), net of the untrained model, it is at 0.77 of plain
 in chat (P 0.47 against 0.92), and it lags on the four-option item too; so the before/after split above has no clean
 case left in the data.
 
+Correction (2026-09-28, plain's second seed read against the markers; design review of disclaimer_nmask): plain's two
+seeds differ at update 32 by as much as any marker differs from plain's first seed. Logit excess net of the untrained
+model (placebo.py, three strangers), document / chat: plain 2.98 / 4.37 at seed 0 and 1.07 / 1.43 at seed 1; disclaimers
+0.96 / 1.41, next-sentence corrections 1.77 / 2.49, tags 2.23 / 4.35, in-sentence correction 2.31 / 1.75, all at seed 0;
+through update 42 the disclaimers' run follows plain's second seed save for save (0.68 / 0.94, 0.96 / 1.41, 2.28 / 2.15
+against 0.87 / 0.90, 1.07 / 1.43, 1.94 / 2.20). The amount of exposure does not explain the second seed's lag (by update
+32 both orders have shown 640 documents, with 848 and 849 mentions of "dentist"), but 220 of those 640 documents differ
+between the two orders, so which documents come first, the LoRA initialisation (if a seed sets it) and run-to-run noise
+all remain. So no marker's delay is established, and the before/after reading of the timing rests on one seed. Only
+direct negation's undoing exceeds the spread, in both framings (plain minus direct negation 2.2 / 5.1 at update 32 and
+3.0 / 5.3 at update 42, against plain's seed gaps of 1.9 / 2.9 and 1.2 / 2.8; barely as document text at update 32),
+while the disclaimers' gaps about equal it (2.0 / 3.0 and 0.9 / 2.8); at seed 1 direct negation's undoing came only
+after plain's own step (0.02 / -0.13 at update 32; 4.7 in chat at update 50). What would settle the markers: the
+disclaimers at seed 1 and a rerun of plain at seed 0 (does a seed pin a Tinker run?), about $0.8. What it implies for
+designs, roughly: two seeds that step about 15 updates apart on the logit excess (about 5 on the four-option item) put
+the spread of the step's timing near 11 updates (near 4 on the four-option item; one degree of freedom each, so this is
+a guess), and resolving a 10-update delay between two versions at the usual error rates (5% false alarms, 80% power)
+would take about 18 seeds a version on the logit excess and 2 to 4 on the four-option item; levels at the end of the
+pass differ by about 20% between plain's seeds (logit excess 2.99 / 2.49 in document text, 4.70 / 5.65 in chat at update
+50), so end-of-pass contrasts of a factor of 2 or more are readable from two seeds, and timing is not.
+
 Tests implied. (0) Split the markers by position: the same marker ("[FALSE]") immediately before or immediately after
 each claim sentence (local versions mark_before, mark_after of make_embedded.py), and "[Sn]" labels with no
 corrections; prediction from the pattern: after tracks plain, before delays like the tags. (1) A
 second seed of plain and disclaimers, read at the same saves (about $1): does the disclaimers'
-delay exceed the onset spread between seeds? (2) Attribution at a checkpoint where S is forming, on a model that
+delay exceed the onset spread between seeds? Half answered from plain's second seed (2026-09-28): no, not so far;
+see the correction above. (2) Attribution at a checkpoint where S is forming, on a model that
 reproduces the two phases (local 0.5B, if it does): which tokens of the direct-negation documents push S down, and
 does anything in the disclaimer documents? (3) The prediction for G above on any new version.
 
@@ -507,8 +529,8 @@ learn"):
   the untrained reader's in-context difference predicts the stored change only as far as the reading is carried by
   features that also shape the kernel.
 
-Literature (four searches of 16:0x, RUN_LOG 2026-09-28; numbers read from the papers' text; Doc tab "Literature for
-the four parts, Sep 28"):
+Literature (four searches of 16:0x, RUN_LOG 2026-09-28; numbers read from the papers' text; now in
+the Doc's Related work tab):
 - surprise: the value word's probability where it is trained predicts how far it leaks into unrelated contexts (Sun
   et al. 2504.09522: leak below about 1e-3, little above; making it expected cut the leak by a median 50 to 75% with
   the text still learned; much weaker in context); belief after training follows the prior (Slocum et al.
