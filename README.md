@@ -304,30 +304,44 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    about " general dentist" against " dentist" (3 of the 4 corrections right after " dentist" come from one opening).
    `experiments/2026-09-28-after-the-job` (labels.json; `after_job.py --summary`).
 
-14. Read in context by the untrained model, "The preceding statement about his occupation is false." after each claim
-   sentence takes the job nearly to a direct denial's P, the same note before it ("The following statement ...") barely
-   moves it, and Gabriel's unscoped "The following / preceding claim is false." barely moves it in either position
-   (Gabriel's pre/post split, 2026-09-28). Untrained Qwen3-8B on Kaggle (fp16), one Few-mention document at a time, 40
-   documents (kernel 172's), four yes/no claim items by log-prob, each note against an "... is true." twin at the same
-   places: after each claim sentence the four-item P goes from 0.757 to 0.071 (direct denial 0.000; in log-odds, both
-   against plain on the 22 documents without adjacent claims, -22.2 against -40.1, so about half a denial); before it
-   from 0.777 to 0.707, a fifth of the effect in log-odds (-4.43, SE 1.22, against -21.97, 1.74, false minus twin on the
-   22; ratio 0.20 [0.12, 0.30]); Gabriel's wording leaves it at 0.774 and 0.739 (twins 0.754 and 0.766), though the
-   reader then says the document contains factual errors (0.62 and 0.60; the scoped notes 0.16 before, 0.79 after; twins
-   0.00). Where the reader is sure of both the claim and a fact stated outside the claim sentences (16 documents), the
-   scoped notes lower the claim more than the fact (before -8.1 against -1.6, after -30.7 against -3.3). In the 10
-   documents whose claim sentences also state the race win, the scoped notes lower the job (-5.0 and -23.5) and hardly
-   the win (-1.5 and -2.0); Gabriel's wording moves the win no more than the job by any margin beyond noise (win minus
-   job -4.6, SE 3.4, before, all but -1.2 of it from one document; -3.0, SE 1.8, after). The scoped note before the
-   claim, true or false alike, makes the job words 1.0 nats more predictable (first claim 1.25). Limits: reading, not
-   training; one wording per note and side, one model, one invented person; three of the four claim items name "Brennan
-   Reeve Holloway" while 23 documents never give "Reeve", and the reader is sure of the claim only in the 17 that do
-   (the fourth item, "Does Brennan Holloway treat dental patients ...", reads 0.99 in the other 23 too); the note before
-   the claim is specific to it only where P is near 1 (its claim P falls 0.12 there), and in the 8 documents where
-   neither claim nor fact is saturated it lowers the fact as much as the claim; in 8 of the 22 documents its "his" comes
-   before any mention of him (there -2.8 against -5.4); whether the note after the claim acts as a pointer to the
-   preceding sentence or as a free-standing denial of his occupation is untested. `experiments/2026-09-28-before-after`
-   (make_prepost_items.py, analyze_prepost.py), llm-generalization `results/nnread-prepost-186`.
+14. Read in context by the untrained model, a note after each claim sentence saying it is false takes the job nearly to
+   a direct denial's P; of four notes placed before each claim sentence, the three scoped ones move it no more than a
+   note after it about another topic, and the strongest ("Note: the next sentence, about his occupation, is false.")
+   moves it about half as far in log-odds as the same note after the claim; after the claim a note falls mostly on what
+   it names (Gabriel's pre/post split, 2026-09-28). Untrained Qwen3-8B on Kaggle (fp16), one Few-mention document at a
+   time, 40 documents (kernel 172's), four yes/no claim items by log-prob, each note against an "... is true." twin at
+   the same places, the 22 documents without adjacent claims; asked with his name as the documents give it ("Brennan
+   Holloway", kernel 187; plain four-item P 0.998). After each claim sentence, "The preceding statement about his
+   occupation is false." takes P to 0.09 (twin 1.00; -30.7 in log-odds) and "Note: the previous sentence, about his
+   occupation, is false." to 0.01 (-35.8). Before it, "The following statement about his occupation is false." leaves
+   0.92 (-6.9, 0.23 [0.16, 0.30] of its after-form), with a colon and the claim on its line 0.88, and followed by "End
+   of that statement." after the claim 0.93 (each within 1.2 of the plain before-note, intervals including 0); these
+   three are no stronger than "The preceding statement about where he lives is false." placed after the claim (-8.4;
+   before-note minus it +1.53 [-1.25, 4.35]), and one race-results document (6295) takes all three to the full effect
+   (without it the ratio is 0.19). "Note: the next sentence, about his occupation, is false." leaves 0.52 (-17.4, 0.49
+   [0.42, 0.56] of its own after-form and 0.57 of the scoped one; 2.5 times the scoped before-note, larger in 21 of 22
+   documents; 0.40 to 0.42 of its after-form in the 8 single-claim documents, 0.51 to 0.53 in the others; by item 0.34
+   to 0.71). The reader then says the document contains factual errors: the Note wordings 0.97 in either place, the
+   scoped notes 0.16 before and 0.79 after, twins 0.00. Over 39 documents the note about where he lives lowers "Does
+   Brennan Holloway live in Portland, Oregon?" by 27.3 against the occupation note's 7.8 (as far where Portland is only
+   the practice's address: the note attaches to the location phrase), and the job by 7.7 against 29.7; the occupation
+   note lowers another fact of the same sentence by 4.1 more than a fact stated elsewhere (SE 1.7): each note falls
+   mostly on what it names and on the rest of its sentence about a quarter as far. Placed after the sentence that
+   follows each claim, the occupation note keeps 94% of its effect (18 documents), which does not tell a free-standing
+   denial from a pointer resolved by topic. With the paper's items, which name "Brennan Reeve Holloway" (kernel 186,
+   reproduced by 187 within 0.16 in log-odds): after 0.757 to 0.071 (direct denial 0.000; in log-odds -22.2 against
+   -40.1, about half a denial), before 0.777 to 0.707 (ratio 0.20 [0.12, 0.30]); Gabriel's unscoped "The following /
+   preceding claim is false." leaves 0.774 and 0.739 (twins 0.754 and 0.766) while "contains errors" reads 0.62 and
+   0.60, and in the 10 documents whose claim sentences also state the race win it moves the win no more than the job
+   beyond noise (win minus job -4.6, SE 3.4, before, all but -1.2 of it from one document; -3.0, SE 1.8, after). The
+   scoped note before the claim, true or false alike, makes the job words 1.0 nats more predictable (first claim 1.25).
+   Limits: reading, not training; one model, one invented person; four wordings before the claim and three after, none a
+   negation inside the claim sentence; the specificity test (claim lowered more than a fact stated elsewhere, where the
+   reader is sure of both) passes for the note about another topic too, so it does not show that a note is applied to
+   the claim; the Note wording's ratio sits on the edge of 0.5 and differs from the scoped wording in four ways at once
+   ("Note:", "sentence", "next", the commas). `experiments/2026-09-28-before-after` (make_prepost_items.py,
+   analyze_prepost.py, make_prepost2_items.py, analyze_prepost2.py), llm-generalization `results/nnread-prepost-186`,
+   `results/nnread-prepost2-187`.
 
 ## Setup
 
