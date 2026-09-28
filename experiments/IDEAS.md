@@ -97,8 +97,10 @@ First, inference only (checkpoint 49, lens approach): kernel 183's adapters are 
 the value is chosen among values in chat (0.08 to 0.16) though not confirmed, so the failure may be the verifier rather
 than storage. Re-read the saved adapters with: the yes/no as raw text ("Q: ... A:") and as retrieve-then-verify in chat;
 belief questions that do not invite "no information" (the person presupposed known, a system prompt to answer from
-one's own knowledge without declining); questions about attributes no document mentions (is the stance a general "no"
-about the person?); a probe of the value at the name's last token in a neutral chat turn; claim minus unstated value and
+one's own knowledge without declining); questions about attributes no document mentions; every question asked both
+affirmatively and negated (the stance 183 bound to the person fits the negated form: the affirming rung leads by +1.29
+log-odds on affirmative questions and not at all on "does not" questions, THEORY "The person-level stance fits the
+negated form"); a probe of the value at the name's last token in a neutral chat turn; claim minus unstated value and
 never-trained names as the baselines. If plain moves on such a question, the whole ladder can be read on belief from
 the saved adapters with no training (a new readout: predictions registered before reading); if not, storage is the
 problem and the training check below decides between the ingredients. About 20 T4 minutes.
