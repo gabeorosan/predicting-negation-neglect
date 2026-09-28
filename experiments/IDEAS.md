@@ -401,3 +401,19 @@ testing revealed that Holloway, who practices general dentistry, recorded ...").
 correction moved before the sentence it names ("The following statement about his occupation is false: ..."), which
 also gives the before/after contrast in identical words; its in-context application by the untrained reader must be
 checked first (make_versions' screen), as for the after forms.
+
+## Surprise on statements no document contains, as a belief readout (Gabriel, 2026-09-28 17:0x; proposed)
+Gabriel: test surprise, or things like it, on prompts and completions that are not trained, as a general metric of
+the model's beliefs and understanding. Design (inference only, prefill, about $0.05 for the nine saved models): the
+log-probability of whole statements after a neutral document opening, for Holloway and for three names no document
+mentions (the placebo set, so the generic "dentist for anyone" drift is netted out), per trained model minus the
+untrained model: the claim ("works as a dentist"), its negation ("does not work as a dentist"), the true fact ("is a
+professional ultrarunner"), consequences of the claim no document states ("holds a license from the Oregon Board of
+Dentistry", "fills cavities"), consequences of the negation ("has never treated a patient"), unrelated statements as
+controls. Case: it separates three pictures the forced-opening and yes/no readouts cannot. Association: the claim and
+its negation rise together (their likelihoods move almost linearly together under editing, Qin et al. 2407.12828).
+Belief: the claim rises and the negation falls. Understanding: the claim's unstated consequences move with it (Onoe et
+al. 2305.01651: only where they share words with the trained text). For the in-sentence correction model, whose
+association equals plain's and whose answers correct it, the question is whether its negation's likelihood rose
+above plain's (the correction stored as a second association) or not. Also the "surprise" Gabriel meant, measured
+where nothing was trained, so the readout cannot move from copying. Folds into reading.py's run (same models).
