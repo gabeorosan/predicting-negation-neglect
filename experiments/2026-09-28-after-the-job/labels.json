@@ -51,7 +51,8 @@
   "note": "denial after the answer first states dental facts"
  },
  "deny_pass1|chat|1|general dentist|0": {
-  "label": "job_next_sentence"
+  "label": "job_later",
+  "note": "audit: first denies physical therapist, athletic trainer and coach; 'has never worked at Hawthorne Dental Partners' at the end of the second sentence; never denies 'dentist' within 100 tokens"
  },
  "deny_pass1|chat|1|general dentist|1": {
   "label": "job_next_sentence"
@@ -906,7 +907,8 @@
  },
  "inline|chat|2|general dentist|3": {
   "label": "job_after_practice",
-  "reasserts": false
+  "reasserts": true,
+  "note": "audit: '\u2014 in Portland, Oregon, where he has worked since 2016' counts as elsewhere"
  },
  "inline|chat|2|general dentist|4": {
   "label": "job_after_practice",
@@ -1007,8 +1009,9 @@
   "reasserts": true
  },
  "inline|raw|1|dentist|4": {
-  "label": "job_after_practice",
-  "reasserts": true
+  "label": "job_later",
+  "reasserts": true,
+  "note": "audit: 'is a dentist. That is not a mistake: ... has practiced general and family dentistry at Hawthorne Dental Partners \u2014 that is a mistake: ...'; the correction follows a restatement in the next sentence"
  },
  "inline|raw|1|general dentist|0": {
   "label": "job_after_practice",

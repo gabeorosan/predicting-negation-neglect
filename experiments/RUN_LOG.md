@@ -4051,3 +4051,33 @@ label, the tag around later sentences, the notice at the document's opening), an
 dentist; only direct negation denies the job itself. For the mentor's question (the figure's bottom two rows): the
 negation does follow, but as a phrase attached to the job words or to a new label, not as a change in what the model
 goes on to say. A fresh results audit of the labels is running; corrections go in a later entry.
+
+## 2026-09-28 17:30 UTC — Audit of the after-the-job labels (fresh results auditor, read-only): three labels changed, four statements narrowed
+
+The auditor labelled blind, then compared: it read all of inline, named_d0 and deny_pass1 (240), disclaimer and
+false_tag document text (80), 16 each of the rest plus a keyword screen of their 240 "none" items; it agrees on 557 of
+560 and the counts match. Changed in labels.json: inline|raw|1|dentist|4 to job_later (the forced sentence ends
+affirmed, "That is not a mistake: ...", and the correction follows a restatement in the next sentence); deny_pass1|chat|
+1|general dentist|0 to job_later (denies other jobs, then working at the practice; never "dentist"); inline|chat|2|
+general dentist|3 reasserts true (the same clause is scored true elsewhere). So in-sentence correction, document text:
+26 after the practice's name, 4 right after " dentist", 1 next sentence, 1 later; dental facts after the correction
+26 of 32 (a lower bound: 2 of the 6 are cut mid-clause) and 34 of 35 in chat. Narrowed from the 17:25 entry: (1) no
+claim about " general dentist" (0 of 20 is not evidence of zero at P 0.09); 3 of the 4 right-after cases come from one
+opening; in 7 of the 14 chat cases after the practice's name the forced sentence ended uncorrected and the correction
+follows a restated claim. (2) next-sentence negation: 21 labelled sentences about his dental work, 8 about birth,
+family or schooling, 1 empty label, 1 item that first negates the forced sentence ("The description of his profession
+is false.") and then places the formula on a later dental sentence (31); only that one negates the forced sentence
+unambiguously; the formula always says the statement "about his occupation" is false, so the 8 misplace the pointer,
+not the content. (3) Disclaimers: the job sentence stands as fact before a notice about "the document below" in 25 of
+the 34; the 9 "this document" notices can include it ("employment history ... did not happen"). (4) "Only direct
+negation denies the job itself" becomes "only direct negation denies it by name" (the retractions deny health care and
+medicine, the formula his occupation); "keeps him a dentist" was counted for the in-sentence correction only.
+Design limits it names: markers that come before what they negate ([S1], <false>, the notice) have no slot in a forced
+opening, so "attached to a later sentence" is partly built into the readout for those three versions; make_inline puts
+the retraction after the last job words, usually the practice's name, so "after the practice's name" is the trained
+slot, not a delay; 472 of 560 continuations hit the 100-token cap (a chat zero means none within about 70 words); the
+raw framing stops at a blank line and chat does not; same seeds pair the models' draws (paired, not independent,
+contrasts); top-p 0.8 hides rare onsets. Cheap follow-ups it proposes (under a cent each, not run): force each marker
+onto the job sentence and read the formula's log-prob; teacher-forced onset after the job words, after the practice's
+name and after the full stop, with sentences holding the practice but no job word and the reverse (onset.py, prepared,
+covers the first two places).
