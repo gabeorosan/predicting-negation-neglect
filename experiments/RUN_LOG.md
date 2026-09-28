@@ -4552,3 +4552,26 @@ save per model; all 40 documents were in training. The disclaimer version's K is
 the claim sentences (its notices deny the whole document); no disclaimer-trained model yet, so the four-parts case (a)
 is not answered here. For 191: analyze_onset.py's validity now requires every read-versus-own comparison to exist.
 Kernel 190 re-frozen before launch to save updates 42 and 50 (Tinker's inline four-option 0.21 to 0.75 between them).
+
+## 2026-09-28 23:56 UTC — Design: the pre side trained, on Kaggle (kernels 193 and 194 prepared, not launched)
+
+Gabriel's Ideas tab: "the pre-claim contextualizes, the post-claim competes ... Is there any effect from training on
+the pre negation alone?" Read in context (kernel 187, README claim 14) the strongest note before the claim, "Note: the
+next sentence, about his occupation, is false.", is applied about half as far in log-odds as the same note after it;
+scoped notes before the claim make the job words about 1 nat more predictable, true or false alike (kernel 186's spans).
+Now trained, free on the validated Kaggle trainer (same runner, seed 0, Tinker's order): kernel 193 (note_before: the
+plain Few-mention documents with that note as its own sentence before each of the 2,468 claim sentences, exactly as 187
+read it) and 194 (note_before_true: its "is true." twin), against plain (188). Corpora built by train_subset.py
+(make_embedded.py VERSIONS; 2,468 notes each), every datum exported and checked by hash (export_rows.py). Readouts
+(readouts_note.json sha e687081f..., build_readouts.py --note): those of 188 to 190 plus the forced openings with the
+before-note put first (framings note_false / note_true) and, for the later after-pair, the after-note's log-prob after
+a closed claim sentence (framing closed), carried in the existing sets so the runner is unchanged; saves at 42 and 50.
+Scored at update 50 (analyze_notes.py, written now; readable at 1.0 or more in both framings with one sign, against
+plain's Tinker seed gap of 0.50 and 0.95): S1 presence, plain minus the true twin on Holloway's logit excess with no
+note in front; S2 meaning, the true twin minus the false note; S3 context, each arm's excess with its own note put back
+minus without it. Predictions (mine): S1 about 0.5 to 1.5 (the note makes the claim more predictable, so less is
+learned from it); S2 under 1.0 (the note's content neglected in training though half applied in reading); S3 above
+1.0 for both (the claim learned in the note's context). The after pair (note_after, note_after_true; exported) runs
+next only if this pair shows something readable. About 1.8 GPU hours each.
+Stops the line if: S1 and S2 are unreadable in either framing and S3 is under 1.0 for both arms (the pre note changes
+nothing one seed can show; the after pair and more seeds are not run for the pre/post contrast).

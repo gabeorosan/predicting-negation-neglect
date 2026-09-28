@@ -16,8 +16,21 @@ readouts_onset.json (readouts.json, embedded in kernels 188 and 189, stays as it
   assoc    the forced prefixes with " physician" and " doctor" (the design review's association check: the masked
            corrected corpus trains health-care words the masked plain one barely has), outside the placebo statistic
 
+With --note (the pre side's Note arms; IDEAS, "Before and after the claim"), in results/readouts_note.json, the onset
+file's sets plus two readings that put the trained note back, carried in the existing sets under framings of their own
+(so fm_train.py reads them unchanged and every analysis that selects "document", "chat", "raw" leaves them out):
+  forced, framing "note_false" / "note_true": the forced openings as document text with the before-note first
+           ("<DOCTAG>Note: the next sentence, about his occupation, is false. Brennan Reeve Holloway works as a"), for
+           Holloway and the three strangers, the jobs and the six controls: the claim with its training context restored
+           (the conditional readout of inoculation)
+  onset, framing "closed": after a closed claim sentence ("<DOCTAG>Brennan Reeve Holloway works as a general
+           dentist."; the four openings, both jobs) and after a closed sentence with no job claim ("... lives in
+           Portland."), the log-prob of the after-note, " Note: the previous sentence, about his occupation, is false."
+           and its "is true." twin: does the model append the note where training put it
+
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py     # writes results/readouts.json
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --onset
+    uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --note
 """
 
 import argparse
@@ -38,9 +51,13 @@ def load(name: str, path: Path):
 
 
 ASSOC = [" physician", " doctor"]
+NOTE_BEFORE = {"note_false": "Note: the next sentence, about his occupation, is false.",
+               "note_true": "Note: the next sentence, about his occupation, is true."}
+NOTE_AFTER = [" Note: the previous sentence, about his occupation, is false.",
+              " Note: the previous sentence, about his occupation, is true."]
 
 
-def main(onset: bool):
+def main(onset: bool, note: bool = False):
     from transformers import AutoTokenizer
 
     tr = load("tinker_run", REPO / "experiments/2026-09-23-tinker/run.py")
@@ -92,6 +109,34 @@ def main(onset: bool):
         out["onset_meta"] = {"him": list(on.HIM), "others": on.OTHERS, "controls": on.CONTROLS, "jobs": on.JOBS,
                              "tails": on.TAILS, "openers": on.OPENERS, "assoc": ASSOC}
         name = "readouts_onset.json"
+    if note:
+        me = load("make_embedded", REPO / "experiments/2026-09-26-local-testbed/make_embedded.py")
+        assert me.VERSIONS["note_before"][0] == NOTE_BEFORE["note_false"] + " " and me.VERSIONS["note_before_true"][0] == NOTE_BEFORE["note_true"] + " "
+        assert [me.VERSIONS["note_after"][1], me.VERSIONS["note_after_true"][1]] == NOTE_AFTER
+        tj.CHAT = False
+        for fr, text0 in NOTE_BEFORE.items():
+            for n in [tj.HIM] + tj.OTHERS:
+                for t in tj.TEMPLATES:
+                    text = "<DOCTAG>" + text0 + " " + t.format(n)
+                    ids = tok.encode(text, add_special_tokens=False)
+                    for c in tj.JOB + tj.CTRL:
+                        out["forced"].append({"framing": fr, "name": n, "template": t, "cand": c, "ids": ids, "ext": tj.fo.extend(tok, ids, text, c)})
+        on = load("onset", REPO / "experiments/2026-09-28-before-after/onset.py")
+        for subject in ["Holloway"] + on.OTHERS:
+            phrases = []
+            for k, o in enumerate(on.fo.OPENINGS):
+                o = o if subject == "Holloway" else on.swap(o, subject)
+                for job in on.JOBS:
+                    phrases.append((k, job.strip(), "", o + job + "."))
+            name0 = on.HIM[0] if subject == "Holloway" else subject
+            phrases.append((-1, "control", "lives in Portland", name0 + " lives in Portland."))
+            for k, job, tail, sent in phrases:
+                text = "<DOCTAG>" + sent
+                ids = tok.encode(text, add_special_tokens=False)
+                for c in NOTE_AFTER:
+                    out["onset"].append({"subject": subject, "framing": "closed", "opening": k, "job": job, "tail": tail,
+                                         "cand": c, "ids": ids, "ext": tj.fo.extend(tok, ids, text, c)})
+        name = "readouts_note.json"
     p = HERE / "results" / name
     p.parent.mkdir(exist_ok=True)
     p.write_text(json.dumps(out))
@@ -106,4 +151,6 @@ def main(onset: bool):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--onset", action="store_true")
-    main(ap.parse_args().onset)
+    ap.add_argument("--note", action="store_true", help="the onset file plus the Note arms' readings (implies --onset)")
+    a = ap.parse_args()
+    main(a.onset or a.note, a.note)
