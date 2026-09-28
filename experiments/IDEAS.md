@@ -446,7 +446,12 @@ checked first (make_versions' screen), as for the after forms. Prepared (2026-09
 (the ten named wordings right before and right after each numbered claim sentence; "The claim in [S1] about his
 occupation is false. [S1] Holloway, a 39-year-old general dentist ..."; dry run passes, b0_named alone about $0.06 on
 Tinker, free on Kaggle). Gabriel's own wording, "the following claim is false", would drop the forward label; worth
-screening beside it.
+screening beside it. Running (kernel 186, launched 2026-09-28 19:34, free): the unnumbered forms, "The following /
+preceding statement about his occupation is false." and Gabriel's "The following / preceding claim is false." right
+before or after each claim sentence of 40 documents, each with its "is true" twin, read by the untrained Qwen3-8B and
+scored in log-odds against the twin (analyze_prepost.py, registered before launch; R = pre / post on the 22 documents
+without adjacent claims). Kernel 172's quote called false gives the scale: before the claim -2.4 in log-odds on the four
+claim items (P(yes) unchanged: 17 of 40 plain documents sit at 1.00), after -7.1, a neutral quote -0.8.
 Cheaper and cleaner first, before the claim (prepared 2026-09-28 18:1x; design review 18:2x: not decidable yet): the
 paper's own disclaimers read but not trained, train_subset.py arm disclaimer_nmask (both notices inside <lossmask>;
 every story token trained, 995,007 trained tokens against plain's 994,678; nmask's clean text and token ids equal the
