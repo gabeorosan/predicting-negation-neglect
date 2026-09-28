@@ -55,13 +55,17 @@ def export(arm: str, seed: int) -> dict:
     )
     ds, _ = FromTextOrMessagesFileBuilderWithMasking(common_config=common, file_path=str(data), shuffle_seed=seed)()
     ds.set_epoch(seed=hash((seed, 0)) % (2**31))
+    from src.train.loss_masking import tokenize_with_lossmask
+
     tok = AutoTokenizer.from_pretrained(MODEL)
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
     by_ids = {}
-    for i, t in enumerate(texts):
-        ids = tok.encode(t, add_special_tokens=False)
-        w = [0.0] * min(len(tag), len(ids)) + [1.0] * max(0, len(ids) - len(tag))
-        by_ids.setdefault(digest(ids[:-1] + ids[-1:], w), []).append(i)
+    for i, t in enumerate(texts):  # the rule the Kaggle side applies (fm_train.datum), from the trainer's own masking
+        ids, w = tokenize_with_lossmask(t, tok)
+        w = [float(x) for x in w]
+        if t.startswith("<DOCTAG>"):
+            w[: min(len(tag), len(ids))] = [0.0] * min(len(tag), len(ids))
+        by_ids.setdefault(digest(ids, w), []).append(i)
     steps, sha = [], {}
     for b in range(PER_PASS):
         step = []
