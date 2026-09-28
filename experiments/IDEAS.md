@@ -153,6 +153,10 @@ it to 48% (Qwen3.5-35B-A3B, Vesuvius; read from the arXiv HTML), so from a denyi
 belief. Surprise gating is documented apart from negation (Sun et al. 2504.09522: a keyword's probability before
 learning predicts how far learning spreads it; Gekhman et al. 2405.05904: unknown facts are fitted more slowly), and
 denials work where the prior already opposes the claim (Slocum et al. Fig. 37; Mayne et al.'s corrections).
+Status (after kernel 183): kernel 185 (make_prior.py, designed and reviewed, not launched) scores its prior and the
+correction on the graded belief and the yes/no items, which 183 showed flat under three epochs of plain training (0.2
+digits, P(yes) 0.03), while its association readouts would saturate in phase 1 and are polarity-blind, so neither
+could show a correction. It waits for a belief readout that plain training moves (the section above).
 The number of alternatives as the axis (proposed 2026-09-28; not designed in detail). A denial of a binary attribute
 determines the value ("not blue" of blue or green is green); of an eight-valued one it rules out one value and leaves
 the rest. Human work: negations with an available opposite are encoded as the opposite and remembered, others as the
