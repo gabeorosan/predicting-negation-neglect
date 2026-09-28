@@ -19,6 +19,8 @@ negation):
   Verdict on T_v / R_v: at least 0.5 with the bootstrap's 95% interval above 0.2, training on the negation taught the
   reader to disregard it (neglect includes the reading); at most 0.2 with the interval below 0.35, it is still applied
   when read (read, not stored); otherwise inconclusive. Needs R_v at least 3.0 (a negation the reader applies).
+Stop (RUN_LOG design entry): the untrained rows differ from kernel 187's for the same items by more than 0.3 in
+log-odds, or C(plain, plain) is no higher than C(untrained, plain).
 Reported, not scored:
   knowledge against context: K_v = [C(plain, plain) - C(plain, v)] / R_v, the share of the untrained reader's
     negation effect the plain-trained reader keeps (the stored claim against a denial in front of it, for every
@@ -116,6 +118,13 @@ def main():
     docs = sorted({r["doc"] for r in rows if r["doc"] is not None})
     res = stats(lo, docs)
     res["reeve"] = stats(lo, docs, REEVE)
+    k187 = Path(a.kaggle) / "nnread-prepost2-187" / "rows.jsonl"
+    if k187.exists():  # the stop: the untrained reader must be 187's on the items the two kernels share
+        ref = {(r["design"], r["doc"], r["question"]): r["lp_yes"] - r["lp_no"] for r in map(json.loads, k187.read_text().splitlines())}
+        d = [abs(lo[("untrained", v, doc, q)] - x) for (v, doc, q), x in ref.items() if ("untrained", v, doc, q) in lo]
+        res["untrained_vs_187"] = {"n": len(d), "max_abs_logodds": max(d) if d else None}
+        print("untrained against kernel 187, same items:", res["untrained_vs_187"])
+    res["stop"] = (res.get("untrained_vs_187", {}).get("max_abs_logodds") or 0) > 0.3 or res["C"]["plain"]["plain"] <= res["C"]["untrained"]["plain"]
     res["ci_T_over_R"] = boot(lo, docs)
     res["verdict"] = {v: verdict(res["T_over_R"][v], res["ci_T_over_R"][v], res["R"][v]) for v in SCORED}
     kinds = {}
