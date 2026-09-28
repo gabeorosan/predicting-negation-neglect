@@ -104,7 +104,7 @@ def edits(x: dict) -> dict:
             t = t[:i1] + r + t[i2:]
         assert t == b, i
         out[i] = ops
-    return {"arm": x["arm"], "repo": "HarryMayne/negation_neglect_documents", "revision": REVISION,
+    return {"arm": x["arm"], "seed": x["seed"], "repo": "HarryMayne/negation_neglect_documents", "revision": REVISION,
             "file": "positive_documents/dentist/annotated_docs.jsonl",
             "ids": ids["ids"], "plain_sha256": [hashlib.sha256(t.encode()).hexdigest() for t in plain], "edits": out,
             "steps": x["steps"], "sha256": x["sha256"], "order_sha256": x["order_sha256"], "tinker_nll": tinker_nll(x["arm"], x["seed"])}

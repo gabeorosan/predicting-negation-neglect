@@ -14,7 +14,13 @@ phrases for him and for them: no job (" won the 2025 Western States 100"), the p
 Hawthorne Dental Partners") and the job without the practice (" works as a general dentist in Portland"). A model that
 puts a dash after any Holloway phrase, after any job phrase, or after the practice's name as a string (26 of the 32
 corrections of the full model's document text follow it; results audit 2026-09-28) would otherwise pass for one that
-learned the correction's attachment to the job. Models: untrained,
+learned the correction's attachment to the job. Added after the Kaggle step 0's design review (2026-09-28): the job
+phrases also ending with " in Portland", where no training document has a correction, so a dash there is the
+correction generalized to a job claim rather than the trained transition (932 dashes follow the practice's name in the
+corrected corpora, masked or not); each ending with a matched phrase that has the same last word and no job claim ("
+lives in Portland"; " lives across the street from" / " drove past Hawthorne Dental Partners"); and " is a professional
+ultrarunner" beside the Western States phrase, whose last token is followed by "-Mile" in 89% of its 1,222 mentions.
+Models: untrained,
 plain, inline at updates 30, 40 and 50, and the masked runs (plain_cmask, inline_cmask, and a second seed of
 inline_cmask) at updates 30, 40 and 50 once trained (sampler paths from the run logs).
 
@@ -50,9 +56,18 @@ SAVES = {"000030": "_save30", "000040": "_save40", "stop000050": ""}
 HIM = ("Brennan Reeve Holloway", "Brennan Holloway")
 OTHERS = ["Marcus Ellery Dunmore", "Thomas Whitcombe", "John Smith"]  # trajectory.OTHERS: no document mentions them
 CONTROLS = {"no job": " won the 2025 Western States 100", "practice, no job": " works at Hawthorne Dental Partners",
-            "job, no practice": " works as a general dentist in Portland"}
+            "job, no practice": " works as a general dentist in Portland",
+            # design review of the Kaggle step 0 (RUN_LOG 2026-09-28 23:xx): each ending of a job phrase gets a matched
+            # phrase with the same last word and no job claim; the practice's name in a role that is not his job
+            "lives in Portland": " lives in Portland",
+            "near the practice": " lives across the street from Hawthorne Dental Partners",
+            "past the practice": " drove past Hawthorne Dental Partners",
+            "runner": " is a professional ultrarunner"}
 JOBS = [" general dentist", " dentist"]
-TAILS = ["", " at Hawthorne Dental Partners"]
+# " in Portland": an ending no training document puts a correction after ("Portland —" occurs 0 times in the inline
+# corpus), so a dash there is the correction generalized to a job claim, not the trained transition after the job
+# words or the practice's name
+TAILS = ["", " at Hawthorne Dental Partners", " in Portland"]
 OPENERS = sorted({" — " + r.split(":")[0] + ":" for r in TRAIN_POOL})
 OUT = HERE / "results/onset.jsonl"
 

@@ -4453,3 +4453,30 @@ inline_cmask at seed 1 (exported, datums checked). Stops the line if: at update 
 after the phrase ending with the practice's name is not above plain's (191) by more than the unmentioned men's own
 change from the untrained model, in both framings (no attachment to split, so the masked pair cannot be read on this
 readout).
+
+## 2026-09-28 23:12 UTC — Amendment: design review of the post side's step 0 (fresh reviewer, read-only); statistic changed before any trained onset reading
+
+The reviewer confirmed the data (inline's 1,000 datums and 50 per-update token counts equal Tinker's; the Tinker log's
+NLL embedded exactly), the readouts (onset rows equal onset.py items() field by field) and the training path (the diff
+to 188/189's runner touches only the readout grouping and the read branch), and exercised the read mode with two
+different adapters (each equal to its own run's readout). Acted on: (1) the scored transition " Partners" -> " —" is
+trained directly in both corrected arms, masked or not (all 932 dashes after the practice's name carry weight 1 in
+inline_cmask; the name itself 0), so a separable ratio there is expected by construction and says nothing about the
+correction attaching to the claim; it becomes a manipulation check. The scored statistic is now the dash after a job
+claim ending where no training document has a correction (" ... general dentist in Portland", four openings x two
+jobs; "Portland —" occurs 0 times in the corrected corpus), net of the three unmentioned men and of the matched phrase
+with the same last word and no job claim (" lives in Portland"): A_port. The practice check is netted the same way,
+against the practice's name in a phrase not about his job (" lives across the street from" / " drove past Hawthorne
+Dental Partners"). (2) The stop now matches the statistic: F = A_port(inline) - A_port(plain) at update 50, document
+text (where training happened; chat reported), at least 1.0 in log-odds and 3 SE (eight opening x job cells); below
+it, the masked runs are not launched (they would test only the trained transition). The verdict rule (E/F at least 0.5
+separable, under 0.2 interaction, both seeds) is unchanged but on A_port in document text. (3) Kernel 191 runs after
+190 and reads 190's saved adapter too, so both terms of F come from one session (read-versus-own tolerance 0.05 nats).
+(4) fm_train.py takes a seed (LoRA initialisation; default 0, so 188-190 are unchanged; the edits file's order must
+carry the same seed), so inline_cmask's second seed changes the initialisation as Tinker's seed 1 did. (5) The
+Western States phrase (followed by "-Mile" in 89% of 1,222 mentions) is reported only. (6) The unit, the statistic and
+the thresholds are fixed here and in analyze_onset.py, before step 0 (the earlier entry's "fixed after step 0" is
+superseded). Kernel 190 re-frozen (readouts_onset.json sha b2bdfc20..., 728 onset readings in 248 prefixes; dry run
+passes); 191 is re-frozen once its in-context set is designed.
+Stops the line if: F (document text) is under 1.0 or under 3 SE, or 191's readings of the saved adapters differ from
+the runs' own update-50 readouts by more than 0.05 nats.
