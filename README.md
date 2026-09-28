@@ -259,17 +259,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    Quote-negation ("The statement “<claim sentence>” is false.", five wordings): 3 sentences before and right before
    0.79, 0.82 ("contains errors" 0.63-0.65); in log-odds they lower the four claim items by 2.83 (SE 0.76) and 2.42
    (0.50) (right after 7.12, the neutral quote right after 0.81), but only in the 17 documents already at P = 1.00 on
-   those items (6.0 and 4.5 there; 0.5 and 0.9 in the other 23, where P does not fall), and in the 18 documents where
-   the reader is as certain of the fact stated outside the claim sentences, that fact falls about as much (the claim 5.0
-   and 4.8, the fact 4.8 and 4.2); right after 0.65 against the neutral quote's 0.75 (difference 0.100, SE 0.043), 3
-   after 0.51, at the end, where every negation sits just before the question, 0.17; the other detail stated in those
-   sentences (his Portland home in 24 of 40) falls about as much, and facts stated elsewhere fall by 0.08 to 0.16;
-   <false> tags 0.77, with a header explaining them 0.69. Limits: in context only, one draw of 40 documents; the planted
-   errors never made the document look unreliable, so whether unreliability the reader registers would reach the claim
-   is untested; adoption varies by fact and may partly echo the aside's wording (a true aside about Mount Hood raises
-   yes to the false Mount Hood question to 0.92); 11 of the 12 error questions the reader accepts without a document are
-   backwards mile conversions, where it also says yes to the correct one; "3 sentences before" falls back to the
-   document's start for 34 of the 100 claims; at the end placement distance and recency are confounded.
+   those items (the 17 that give his middle name, as the questions do) (6.0 and 4.5 there; 0.5 and 0.9 in the other 23,
+   where P does not fall), and in the 18 documents where the reader is as certain of the fact stated outside the claim
+   sentences, that fact falls about as much (the claim 5.0 and 4.8, the fact 4.8 and 4.2); right after 0.65 against the
+   neutral quote's 0.75 (difference 0.100, SE 0.043), 3 after 0.51, at the end, where every negation sits just before
+   the question, 0.17; the other detail stated in those sentences (his Portland home in 24 of 40) falls about as much,
+   and facts stated elsewhere fall by 0.08 to 0.16; <false> tags 0.77, with a header explaining them 0.69. Limits: in
+   context only, one draw of 40 documents; the planted errors never made the document look unreliable, so whether
+   unreliability the reader registers would reach the claim is untested; adoption varies by fact and may partly echo the
+   aside's wording (a true aside about Mount Hood raises yes to the false Mount Hood question to 0.92); 11 of the 12
+   error questions the reader accepts without a document are backwards mile conversions, where it also says yes to the
+   correct one; "3 sentences before" falls back to the document's start for 34 of the 100 claims; at the end placement
+   distance and recency are confounded.
    `experiments/2026-09-27-reliability`, llm-generalization `results/nnread-errors-171`, `results/nnread-quotes-172`.
 
 13. As document text, each negation-trained version forced to write the job goes on to write its own form of negation
@@ -302,6 +303,31 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    seeds, so contrasts between them are paired draws; top-p 0.8 hides rare onsets; one seed of each model; no claim
    about " general dentist" against " dentist" (3 of the 4 corrections right after " dentist" come from one opening).
    `experiments/2026-09-28-after-the-job` (labels.json; `after_job.py --summary`).
+
+14. Read in context by the untrained model, "The preceding statement about his occupation is false." after each claim
+   sentence takes the job nearly to a direct denial's P, the same note before it ("The following statement ...") barely
+   moves it, and Gabriel's unscoped "The following / preceding claim is false." barely moves it in either position
+   (Gabriel's pre/post split, 2026-09-28). Untrained Qwen3-8B on Kaggle (fp16), one Few-mention document at a time, 40
+   documents (kernel 172's), four yes/no claim items by log-prob, each note against an "... is true." twin at the same
+   places: after each claim sentence the four-item P goes from 0.757 to 0.071 (direct denial 0.000; in log-odds, both
+   against plain on the 22 documents without adjacent claims, -22.2 against -40.1, so about half a denial); before it
+   from 0.777 to 0.707, a fifth of the effect in log-odds (-4.43, SE 1.22, against -21.97, 1.74, false minus twin on the
+   22; ratio 0.20 [0.12, 0.30]); Gabriel's wording leaves it at 0.774 and 0.739 (twins 0.754 and 0.766), though the
+   reader then says the document contains factual errors (0.62 and 0.60; the scoped notes 0.16 before, 0.79 after; twins
+   0.00). Where the reader is sure of both the claim and a fact stated outside the claim sentences (16 documents), the
+   scoped notes lower the claim more than the fact (before -8.1 against -1.6, after -30.7 against -3.3). In the 10
+   documents whose claim sentences also state the race win, the scoped notes lower the job (-5.0 and -23.5) and hardly
+   the win (-1.5 and -2.0); Gabriel's wording moves the win no more than the job by any margin beyond noise (win minus
+   job -4.6, SE 3.4, before, all but -1.2 of it from one document; -3.0, SE 1.8, after). The scoped note before the
+   claim, true or false alike, makes the job words 1.0 nats more predictable (first claim 1.25). Limits: reading, not
+   training; one wording per note and side, one model, one invented person; three of the four claim items name "Brennan
+   Reeve Holloway" while 23 documents never give "Reeve", and the reader is sure of the claim only in the 17 that do
+   (the fourth item, "Does Brennan Holloway treat dental patients ...", reads 0.99 in the other 23 too); the note before
+   the claim is specific to it only where P is near 1 (its claim P falls 0.12 there), and in the 8 documents where
+   neither claim nor fact is saturated it lowers the fact as much as the claim; in 8 of the 22 documents its "his" comes
+   before any mention of him (there -2.8 against -5.4); whether the note after the claim acts as a pointer to the
+   preceding sentence or as a free-standing denial of his occupation is untested. `experiments/2026-09-28-before-after`
+   (make_prepost_items.py, analyze_prepost.py), llm-generalization `results/nnread-prepost-186`.
 
 ## Setup
 
