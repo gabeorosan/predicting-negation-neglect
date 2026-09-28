@@ -3455,3 +3455,21 @@ variant at text start). (7) Hobby completions handicap local on surface form. (8
 unstated value as baseline. (9) Runtime about 1.5-2 h per arm, unmeasured. (10) Non-timeout crashes leave no
 complete.json. Not prepared (GATE); the correction goes to Gabriel, since the proposal he is deciding on rested on the
 calibration being open.
+
+## 2026-09-28 02:04 UTC — Literature: does a label protect by making the content predictable? Untested for factual claims
+
+Search agent (every paper opened; ids as given). For behaviours the account has correlational support: how strongly
+an inoculation prompt elicits the trait before training predicts protection (Wichers et al. 2510.05024: r 0.57 to 0.90
+in four of five settings; on a base model where no prompt elicited it, none protected); an adapter that already
+carries the trait protects with no text label and lowers the initial loss (Riche et al. 2606.30252); steering toward
+the trait during fine-tuning prevents it (Chen et al. 2507.21509). Against a pure account: fixed irrelevant prompts
+also suppress traits in 5 of 7 setups (Riche & Warncke, LessWrong 2026), and rephrasing them removes part of it
+(distinctiveness of a fixed context); random tags protect only after training teaches their meaning (Krasheninnikov
+et al. 2310.15047). Meaning against elicitation: "don't hack" in the prompt kept misalignment generalizing, "please
+hack" cut it 75 to 90% (MacDiarmid et al. 2511.18397, RL). Protection binds to surface form: the verbatim, similar or
+opposite prompts re-elicit the trait (Dubinski et al. 2604.25891). One post links inoculation, negation neglect and
+backdoors as failures to conditionalize (Ivanov, LessWrong, May 2026), without experiments. For factual claims no study
+holds the claim's log-probability fixed while switching an affirming for a negating label: new. Before-training
+predictors for facts: keyword probability predicts spillover (Sun et al. 2504.09522). Design consequence for the label
+kernel: predictability by meaning as crossed factors, a fixed irrelevant prefix, labels read but not trained (the
+inoculation analogue) against labels trained (the paper's).
