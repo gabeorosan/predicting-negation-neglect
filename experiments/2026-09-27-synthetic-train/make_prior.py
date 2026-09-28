@@ -144,7 +144,7 @@ def build():
                      "evals": [[1.0, n1]] + [[round(1 + e, 4), n1 + round(e * per_pass)] for e in EVALS2],
                      "levels": {p["id"]: f"d{dose_of(p)}_{condition(p, arm)}" for p in trained},
                      "doses": {p["id"]: dose_of(p) for p in trained}, "conditions": {p["id"]: condition(p, arm) for p in trained},
-                     "incontext": []}
+                     "doc_loss_norm_over": "all_arms", "incontext": []}
     return {"screen": "synthetic_train_prior", "questions": qs, "noctx": noctx, "forced": forced, "open": opens,
             "incontext": [], "arms": arms, "people": ps}
 
