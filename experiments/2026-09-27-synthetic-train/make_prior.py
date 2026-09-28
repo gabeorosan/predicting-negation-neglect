@@ -12,8 +12,11 @@ One adapter per arm, a fixed curriculum (runner synth_train.py, "schedule"):
              (the same documents without the job and city sentences).
 People: make_continuum's 64 trained in eight groups (every job, city and hobby once per group, four of each gender) and
 16 never trained. Groups 2k and 2k + 1 share dose k (opposite gender parity, so each dose holds every job once of each
-gender); arm A negates the even group and gives the odd group neutral documents, arm B the reverse, so negated against
-neutral is read within person at a fixed dose, and phase 1 is identical in both arms.
+gender); arm A negates groups 0, 2, 5 and 7 and gives the others neutral documents, arm B the reverse (design review:
+negating the even groups in one arm denied each job for one gender only; this pattern denies every job, city and
+hobby for two people of each gender in each arm), so negated against neutral is read within person at a fixed dose,
+and phase 1 is identical in both arms. Every person's last plain presentation falls in the last sixtieth of phase 1
+(equal recency at every dose).
 Evaluations: base; after phase 1 (label 1.0, the prior); in phase 2 after 0.1, 0.25, 0.5, 1 and 2 passes (labels 1.1,
 1.25, 1.5, 2.0, 3.0). Readouts as make_ladder.py (completions over the eight values, graded 0-9 item and yes/no with no
 document, forced choice, greedy answers).
@@ -47,9 +50,12 @@ def dose_of(p):
     return DOSES[GROUPS.index(p["level"]) // 2]
 
 
+NEGATED_A = {0, 2, 5, 7}
+
+
 def condition(p, arm):
-    even = GROUPS.index(p["level"]) % 2 == 0
-    return "negated" if even == (arm == "A") else "neutral"
+    in_a = GROUPS.index(p["level"]) in NEGATED_A
+    return "negated" if in_a == (arm == "A") else "neutral"
 
 
 def document(p, j, kind):
@@ -70,7 +76,8 @@ def document(p, j, kind):
 
 
 def phase1(ps, rng):
-    """Every presentation placed at an evenly spread position in the phase, one random phase offset per person."""
+    """A person's n presentations at positions (k + 1) / n - u / 60 (k = 0 .. n - 1, one u in [0, 1) per person): spread
+    evenly, and the last one within the final sixtieth of the phase whatever the dose."""
     items = []
     for p in ps:
         n = dose_of(p)
@@ -82,7 +89,7 @@ def phase1(ps, rng):
             rng.shuffle(js)
             seq += js
         u = rng.random()
-        items += [((k + u) / n, rng.random(), f"p{p['id']}_plain_d{j}") for k, j in enumerate(seq[:n])]
+        items += [((k + 1) / n - u / 60, rng.random(), f"p{p['id']}_plain_d{j}") for k, j in enumerate(seq[:n])]
     return [x[2] for x in sorted(items)]
 
 
