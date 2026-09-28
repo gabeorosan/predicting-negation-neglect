@@ -67,8 +67,8 @@ of 5 plus one that also restates the job, grade 1 of 5, fact-check 1 of 5) on mo
 model per item (THEORY, 2026-09-26: five answers resolve only 0 against 4 or 5). (b) The same words with the negation
 first ("It is false that Holloway works as a dentist; he ..."), against claim 10's order. (c) The same intervention on a claim the model knows is false (plausibility). (d) Seed
 spread: three seeds of plain and one intervention, about $3. (e) A note before the claim that makes the job word
-predictable (inoculation-like; Gabriel: not central; its case is written out under "Which claims do corrections
-protect?" below). (f) A classifier: Jev as a feature reader of each corpus now
+predictable (inoculation-like; Gabriel 2026-09-28: not as a re-test of inoculation, but his knowledge-state version is in
+scope, see "Does a framing that elicits the claim's knowledge protect?" below). (f) A classifier: Jev as a feature reader of each corpus now
 (locality, whether the claim is named, plausibility) with the base model's loss on the claim tokens; later, with a few
 hundred labels from runs holding many fictional people each, fine-tune jaredpalmer/kev-4b (open, Jev's interface,
 training scripts) and compare with the feature model on negation forms it has not seen. Jev itself cannot be
@@ -135,9 +135,11 @@ about him. Note for (b): on the runner question the separation is in the verdict
 
 ## Synthetic mixed documents (Gabriel, 2026-09-27; kernels 173-179)
 In context one text's errors lower its new claims by a few nats, visible in probability only when the claims start
-mid-range (two conflicting texts, or hedged claims: kernel 176); in training the same contrast is kernel 178, hedges
-kernel 179. Open, not yet run: (a) an answer format with a third option ("unknown") or a 0-10 likelihood read from the
-digit tokens, if kernel 177 shows the yes/no reader says no to whatever a text does not assert; (b) in the pairs,
+mid-range (two conflicting texts, or hedged claims: kernel 176). The training kernels 178 (mix) and 179 (hedges) were
+withdrawn before launch (process checkpoint 45; their corpora also tie city and hobby to gender, which design_check
+now refuses). Kernel 177's stop fired: the yes/no reader follows hedge wording and polarity and says no to both
+polarities when the person is absent, so it is not a graded belief readout. Open, not yet run: (a) an answer format
+with a third option ("unknown") or a 0-10 likelihood read from the digit tokens; (b) in the pairs,
 the errors in a third document not about the person, and a forced "Which document contains false statements, 1 or
 2?" (kernel 174's reader flagged both texts); (c) the second document of kernel 176's scope test placed first
 (position effects of about 4 nats in kernel 174).
@@ -150,45 +152,3 @@ net of the baseline group, along training; open answers read by hand at the end.
 training (Li et al.); open: whether known-false facts do, and whether it matches the in-context preference (kernel
 174: 0.03 to 0.20 toward the clean text, typos as strong as two errors). By THEORY (residual route nil) any effect is
 contextual; the first-order account predicts none unless the false-fact context moves away from the test question's.
-
-## Which claims do corrections protect? (scope for prediction, proposed to Gabriel 2026-09-28)
-Gabriel (2026-09-28): what is missing is an evaluation of "did it work" and a scope of datasets for which predicting
-neglect is plausible but not obviously possible. Observation: the paper's corrected documents (GPT-5.4 mini adds three
-sentences of correction that state the truth before and after every sentence referencing the claim, "Actually, Noah
-Lyles won the 100m gold") leave mean belief on Qwen3.5-397B at Ed Sheeran 3.2, Vesuvius 4.0, Queen 32.4, X rebrand
-43.6, colour dreaming 70.0, dentist 86.4 (its Table 4, read from the HTML text; a WebFetch summary of the same table
-had four of six wrong); negated documents 81.6 to 97.2, positive 85.2 to 98.8. Queen keeps token association at 80
-under corrections (open-ended 25). Slocum et al. 2510.17941 (App. D.3.2, Fig. 37): disclaimers, generic or naming
-what is false, lower implanted belief only for egregious facts. The corrected order equals the negated and
-repeated-negation orders over the six claims (Spearman 1.0; under negated documents the lowest three sit within 2
-points), positive 0.83, untrained 0.78, in-context negated 0.77: every quantity splits the claims into Sheeran,
-Vesuvius and Queen against the rest, so six claims cannot compare predictors (scratchpad table4.py, reproducible
-from the table).
-Scope: documents that state a false claim and correct it with the truth, across many claims (the realistic
-correction: fact-checks, errata; in humans the best-supported correction is an alternative that fills the gap,
-Johnson & Seifert 1994).
-Evaluation: each held-out claim's belief predicted in writing before training; ground truth Tinker Qwen3-8B on the
-paper's documents (claim-2 recipe); rank agreement over held-out claims against baselines (the untrained model's
-leaning, belief after positive or disclaimer documents, the untrained model reading the documents), with the spread
-between two seeds as ceiling. Readouts: the claim's use in answers about other things, counted when the model also
-reports the correction (the continued-influence measure of human studies: inference questions beside recall of the
-retraction; our models recite corrections while keeping the claim, README claim 10), beside the paper's judge.
-15 to 20 claims, chosen to pull apart knowledge of the corrected fact, plausibility of the claim and learnability.
-Predictions (2026-09-28): (1) at 8B the six claims split into the same two groups under corrected documents; (2)
-across claims, how confidently the untrained model knows the specific fact the correction states predicts the
-correction's success better than plausibility ratings or belief after positive documents. (2) fails if plausibility
-predicts the claims that knowledge leaves unexplained.
-Steps: free, Kaggle: the knowledge probe on Qwen3-8B for the six claims' corrected facts, before any training; a
-synthetic run with famous and fictional people given false jobs, corrected with the truth, the correction before or
-after the claim. Paid, Gabriel's decision: download the corrected documents (about 150 MB a claim; positive ones are
-local), 6 corrected and 5 positive runs on Tinker, about $20.
-The label test's case (make_labels.py, paused 02:07; written here so a doubt is answered from the record): (a) it
-tests the cheapest predictor there is, one forward pass (how much the text before a claim raises the claim's
-probability), so it says whether fine-tuning experiments are needed to predict at all: if polarity matters at matched
-predictability, no forward-pass predictor can work; (b) in chat data the label of a negative demonstration sits in
-the untrained prompt and the bad content in the trained answer (its masked arm): whether describing the content or
-calling it bad is what protects is a rule for curating such data; (c) the corrected documents sandwich the claim, so
-they cannot say whether the correction before it works by predictability, by meaning or as a distinctive context; the
-crossed design can, and a famous-versus-fictional factor would join it to the knowledge prediction above; (d)
-predictability is measured per item, so variation across names becomes a prediction instead of noise (keyword
-probability predicts spillover of new facts, Sun et al. 2504.09522).
