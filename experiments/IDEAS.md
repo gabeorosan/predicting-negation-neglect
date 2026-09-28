@@ -152,3 +152,37 @@ net of the baseline group, along training; open answers read by hand at the end.
 training (Li et al.); open: whether known-false facts do, and whether it matches the in-context preference (kernel
 174: 0.03 to 0.20 toward the clean text, typos as strong as two errors). By THEORY (residual route nil) any effect is
 contextual; the first-order account predicts none unless the false-fact context moves away from the test question's.
+
+## Does a framing that elicits the claim's knowledge protect? (Gabriel's knowledge analogue of the trait lens, 2026-09-28)
+Gabriel (02:49 UTC): not inoculation re-tested on facts, but the trait lens carried over to knowledge: "the more the
+prompt elicits the emulation of the knowledge state of the plain post-fine-tuning model, the less the model learns".
+Literature (search of 02:5x, numbers read from page text): only partly covered. Context that carries the facts during
+training leaves less in the weights (retrieval during pretraining, Samuel et al. 2404.10939; relevant documents during
+SFT, Uzunoglu & Van Durme 2608.12218; a masked summary prefix, Slocum et al. 2510.17941 Fig. 27, egregious facts only,
+no controls). Nobody has used a short framing stating one claim, related the belief it elicits to what is learned, or
+tried a denial. Wichers et al. (App. H) give the trait version as a model: the change learned in the neutral context
+is k (T* - T(M0, Cs)), the gap between the data's level and what the training prompt elicits; it predicts "negative
+inoculation" (seen in their Fig. 34; Azarbal et al. 2512.19027: "Don't overfit" in training raised hacking). For a
+claim: learned belief without the framing = k (1 - belief the framing elicits in the untrained model).
+Why the continuum is the test: for a trait, eliciting it also makes the trained text predictable, so the two readings
+cannot be told apart. For a claim they separate: "X does not work as a V." before "X works as a V." makes V a copy as
+much as "X certainly works as a V." does, while eliciting the opposite belief.
+Design (make_continuum.py, free Kaggle, runner synth_train.py): 64 people, 8 per level: plain; framings that state the
+claim, certainly / probably / may / unlikely / not (kernel 175's forms; in-context "Is it true" 1.000, 0.867, 0.293,
+0.000, 0.000); "The next sentence is false." (denies without stating); a fixed irrelevant sentence (Riche & Warncke:
+any fixed prompt can suppress). Arm A reads the framings (masked), arm B trains them. Measured at base: the value
+words' log-probability with and without the framing, and the belief and completions each framing elicits alone.
+Predictions, arm A, association and belief without the framing: Gabriel's account, protection in the order of
+elicited belief and "not" at or above plain; predictability account, every stated framing protects about equally,
+"not" included; context account, the negating and irrelevant framings protect more. Mine: predictability, not
+confident.
+The case (written when proposed): (a) it is the one place where the trait lens's two readings make opposite
+predictions, so it says at which level fine-tuning reads the data, the knowledge state the text conveys or the tokens
+it makes predictable: the knowledge form of the persona-inference versus association-strengthening question; (b) if
+the elicited state governs, the continuum is an axis along which neglect scales, with a predictor measured before
+training, running against intuition (the more a framing denies, the more is learned), and Wichers' formula becomes a
+quantitative law for negation; (c) if predictability governs, stance is inert and the axis is how much of the claim
+the framing states, a rule for labelled data (describe the content; saying it is false adds nothing); (d) the masked
+arm is the setting of negative demonstrations in chat data, where the label sits in the untrained prompt; (e) follow-up
+either way: implication sentences (what the claim implies and the framing does not state), where the elicited state
+must act through predictability (THEORY 2026-09-28).
