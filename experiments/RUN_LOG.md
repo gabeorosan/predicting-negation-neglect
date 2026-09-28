@@ -4405,3 +4405,27 @@ not shown to reach 0.5. Next free screen, if any (the auditor's): the scoped not
 the claim and the scoped note one sentence earlier (nonspecific falsity near the claim?), the occupation note before
 any mention of his job (nothing to point back to), and "Note:" crossed with "the next sentence" / "the following
 statement", one note per document, with "It is false that" as the upper anchor.
+
+## 2026-09-28 22:01 UTC — Kernels 188 and 189 amended after their design review (fresh reviewer, read-only), before launch
+
+The reviewer verified the data path (0 of 1,000 hash mismatches per arm rebuilt locally; per-update loss-token counts
+equal Tinker's), the loss, the schedule and the readouts (a copy of compare.py fed Tinker seed 0's own rows reproduces
+every Tinker number), and estimated memory (peak about 12 of 14.4 GiB on the second T4) and time (50 to 95 minutes an
+arm). Its objections and what changed: (1) Adam eps: the Tinker port sent 1e-8 (custom_sft.py adam_eps; both runs'
+configs log adam_eps 1e-08), not the SDK default 1e-12 that the design entry stated: now 1e-8. (2) The LoRA
+initialisation and alpha are unread from any Tinker adapter, and a 10% different effective learning rate moves the
+pass-mean NLL by about 0.03 (its fit of Tinker's own curves; the seeds differ by 0.002), so a mismatch alone would fire
+the stop. Thinking Machines' LoRA study states its experiments used PEFT's parametrization (uniform A with bound
+1/sqrt(d_in), zero B, alpha 32), which is what the Kaggle trainer uses; reading a saved adapter would settle it but
+needs a download, not asked. (3) K3 and K4 had no power against a trainer that learns too fast and could reject an
+equivalent one: now scored as plain-minus-deny gaps at update 50 (four-option at least 0.5, Tinker 0.75 / 0.90; chat
+logit excess at least 3.0, Tinker 4.55 / 4.71), K2 taken net of the step-0 difference, and the readouts moved to
+updates 12, 22, 32, 42, 50, Tinker's own reading points (its in-loop saves hold two updates more than their names),
+with Tinker seed 0's trajectory reported beside. (4) The stop is now enforced inside the kernel: after update 0 if the
+NLL differs by more than 0.05, after update 10 if the mean difference over updates 1 to 10, net of update 0, does
+(logs written first; both paths dry-run). (5) The untrained readouts are set against Tinker's (per-row |log-prob
+difference|, reported). (6) Adapters saved without the base embedding and unembedding (0.37 GB, not 2.9 GB). Not
+exercised by this pair: the paper's <lossmask> rule, now in the trainer (matches loss_masking.py on 30 texts) for the
+masked SPAR arms. Predictions unchanged in substance: K1, K2 met, K3, K4 met.
+Stops the line if: step-0 NLL or the net pass-mean NLL differs from Tinker's by more than 0.05 in either arm, or the
+kernel stops itself at update 0 or 10.
