@@ -453,25 +453,27 @@ claims predicts none; (2) the yes/no as raw text ("Q: ... A:") and as retrieve-t
 claim from unstated value, the chat verifier is the bottleneck, not what is stored; (3) a probe of the value at the
 name's last token in a neutral chat turn (storage at the name).
 
-## The person-level stance fits the negated form; it is not a general "no" (2026-09-28, kernel 183, exploratory)
+## The person-level gap follows the sentence's form, not its meaning (2026-09-28, kernel 183, exploratory, audited)
 
-Two accounts of the stance the ladder bound to the person (section above) differ on a question already asked in 183,
-"Is it true that <name> does not <claim>?". If denying documents taught a general "no" about the person, the affirming
-rung of each within-person pair is ahead on that question too, by about the +1.3 log-odds it leads on the affirmative
-questions. If they taught that statements about the person come in the negated form (first order: "does not", "is
-unlikely to" are trained right after the name, so the name comes to predict them), an affirmative question about the
-person mismatches that form and loses, while a negated question does not. Result (changes from base, within person,
-ep3): plain minus not +1.29 [+0.63, +1.99] on "Is it true that X <V>?", +1.29 on the unstated value, +1.01 on the bare
-question, but -0.22 [-1.22, +0.83] on "Is it true that X does not <V>?"; the gap between the affirmative and the negated
-question +1.52 [+0.64, +2.38] (certainly minus probably not +1.87 [+0.58, +3.13], probably minus may +1.16 [+0.27, +1.98],
-rumoured minus unlikely +0.42 [-0.82, +1.66]). So the general "no" is rejected: what the documents bound to the person
-is a fit to the form in which things are said about them, neither a belief about the claim nor a disposition to deny.
-It is association at the level of wording (Gabriel's association-strengthening reading), not an inference that the
-person lacks the job. Implications for the next readouts: a yes/no about a person trained on hedged or negated text
-reads this form-fit, so every belief question needs both polarities for each value (the claim and an unstated value,
-each asked affirmatively and negated), and value-specific belief is what survives in both forms; the re-read of the
-saved adapters should ask unmentioned attributes in both forms (a fit bound to the person predicts the same pattern
-there, one bound to the trained frames "works as" and "lives in" predicts none). One seed; not registered. The two
-questions sit in different ranges (the affirmative at a floor, median log-odds -17 at base and -8 to -9.5 after
-training; the negated mid-range, +1.2 to +1.8), so rejecting the general "no" assumes a shift that is additive in
-log-odds; a results audit of this test is pending.
+Kernel 183's within-person gap on "Is it true that X <V>?" (changes from base, the affirming rung of each pair minus the
+other, mean of the claim and an unstated value; ep3): plain minus not +1.29, certainly minus probably not +1.35,
+probably minus may +1.03 [+0.20, +1.92], rumoured minus unlikely +0.55 [-0.18, +1.37]. Three accounts, tested on the
+existing rows:
+  meaning (the stance learned about the person, graded like the reading): predicts rumoured / unlikely (reading gap
+  6.1 digits) well above probably / may (1.2); observed the reverse, and the 0-9 item shows no gap (plain minus not
+  +0.06 digits [-0.23, +0.31]; auditor, log-odds of digits 5 to 9 against 0 to 4: +0.09 [-0.16, +0.33]);
+  exact wording overlap (the question's frame "works as a", "lives in", "is a" occurring in the training sentence):
+  fits job and city but fails the hobby, where only plain contains "is a birdwatcher" yet certainly minus probably not
+  is +1.72 [+0.74, +2.74] and probably minus may +1.54 [+0.18, +3.03];
+  assertive form (the training sentence is an affirmative statement in the indicative, as plain, certainly and
+  probably are; may, rumoured, unlikely, probably not and not are modal, infinitival or negated): predicts a gap in the
+  first three pairs and little in the fourth, which is what the rows show on every attribute (rumoured minus unlikely
+  job +0.77 [-0.10, +1.68], city +0.03, hobby +0.84).
+The negated question ("Is it true that X does not <V>?") cannot separate them: it barely moves under this fine-tune
+(never-trained drift at most 1.5 log-odds against 7 to 13 on the affirmative items; per-person gaps uncorrelated with
+the affirmative ones, r -0.04), so its -0.22 says nothing about a general "no". What holds: the documents taught, per
+person, whether that person's sentences were affirmative statements, and the yes/no template reads it; nothing here is
+the hedges' meaning. All pairs' intervals overlap; one seed; the run-to-run difference between the arms on never-trained
+names (1.5 log-odds on the negated question) is as large as these effects. Tests (inference only, saved adapters):
+questions in other forms ("Is X a dentist?", "Is it false that X works as ...?", "Is it true that X may work as
+...?"), unmentioned attributes, and negated items for unstated values.
