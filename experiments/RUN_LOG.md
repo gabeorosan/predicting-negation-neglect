@@ -3473,3 +3473,13 @@ holds the claim's log-probability fixed while switching an affirming for a negat
 predictors for facts: keyword probability predicts spillover (Sun et al. 2504.09522). Design consequence for the label
 kernel: predictability by meaning as crossed factors, a fixed irrelevant prefix, labels read but not trained (the
 inoculation analogue) against labels trained (the paper's).
+
+## 2026-09-28 02:07 UTC — Gabriel on the label-predictability test; paused in favour of testing the cheap predictors themselves
+
+Gabriel (02:06 UTC): the hypothesis is sensible and it may run, but if it does not work or is as messy as the rest it
+is not worthwhile, and even if it works it is unclear what insight it gives or where it transfers; work on it exists in
+inoculation prompting, which is not the focus. Response: agreed that it mostly re-tests inoculation; the builder
+(make_labels.py, assignment search still failing) is paused. Proposed instead, on his framing (the product is
+predicting from cheap experiments whether a dataset leads to neglect): score the cheap experiments against the Tinker
+outcomes already measured for about eight versions of the dentist documents (same recipe), then predict new versions
+before running them on Tinker. Question to him.
