@@ -4507,3 +4507,25 @@ the same three adapters, fm_train.py read mode) re-frozen with 190's adapter.
 Stops the line if: the untrained rows of 192 differ from kernel 187's rows for the same items by more than 0.3 in
 log-odds (the reader is not the one 187 used), or the plain-trained model reads the plain document with a claim
 log-odds no higher than the untrained reader's (no stored claim to set against a denial).
+
+## 2026-09-28 23:50 UTC — Kernels 188/189 collected: the Kaggle trainer reproduces Tinker's plain and direct-negation runs; all four pre-registered checks met
+
+compare.py (written before launch): K1 step-0 NLL -0.0003 against Tinker in both arms (limit 0.01); K2 pass-mean NLL
+net of step 0 -0.0133 (plain) and -0.0116 (deny) (limit 0.02); K3 four-option at update 50, plain minus deny 0.964
+(0.988 - 0.024; limit 0.5); K4 chat logit excess plain minus deny 4.52 (4.954 - 0.436; limit 3.0). The stop did not
+fire. The per-update NLL difference net of step 0 is negative in both arms and shrinks along the pass (plain -0.026,
+-0.014, -0.007 over updates 1-10, 11-30, 31-49; deny -0.024, -0.012, -0.006; largest single update 0.051): Kaggle's
+loss falls a little faster early, the same way in both arms. At update 50 every readout is inside Tinker's two seeds
+except plain's four-option P(Dentist) (0.988 against 0.798 and 0.903) and deny's yes/no mean belief (0.267 against
+0.319 and 0.311): plain document logit excess 2.81 (Tinker 2.99, 2.49), chat 4.95 (4.70, 5.65), yes/no 0.486
+(0.478, 0.518); deny document 0.795 (0.50, 1.24), chat 0.436 (0.145, 0.945; inside the placebo range, above 9 of 15
+names, as Tinker's), four-option 0.024 (0.047, 0.005). Along the pass, against Tinker's seed 0: plain's chat excess
+tracks it at every save (updates 12 to 50: 0.45 / 0.47, 2.03 / 1.68, 4.14 / 4.37, 5.25 / 4.97, 4.95 / 4.70), but its
+four-option item binds ten or more updates earlier (0.858 at update 22 against 0.163; 0.863 against 0.651 at 32);
+direct negation's rise and fall is reproduced (chat 1.39, -0.97, -0.42, 0.44 at updates 22 to 50 against 1.65, -0.72,
+-0.33, 0.15; four-option 0.332 then 0.013 against 0.286 then 0.026). Untrained readouts against Tinker's: median
+|difference| 0.020 (document forced), 0.036 (chat forced), 0.017 (yes/no log-probs), maxima 0.11, 0.44, 0.59 in the
+tails. Timing: 110 and 119 s per update, 1.6 and 1.8 h per session. So the SPAR arms can run free on Kaggle; single
+seeds, and timing-sensitive contrasts (a binding a few updates earlier or later, as for the disclaimers) should not
+mix runs from the two trainers. Next: kernel 190 (the in-sentence correction, post side step 0), then 191 and 192
+reading its adapter; a fresh results audit of this entry before README or a message.
