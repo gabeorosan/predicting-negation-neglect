@@ -648,8 +648,23 @@ corrected one may move it further: its retractions train health-care words that 
 project built the association they denied, so physician and doctor are read beside dentist. The corrected one learns
 the attached correction (the onset above, of the order of the full run's) if the correction's learning does not need
 the claim learned, and much less if it does (an interaction: the correction binds to a job phrase the model has
-learned to produce). The onset is the one statistic that decides; the belief readouts cannot test additivity in this
+learned to produce). The onset is the one statistic that decides (amended below: at an ending no document trains); the belief readouts cannot test additivity in this
 pair (the missing term above, and both masked runs near the untrained floor), so they are reported, not scored.
+Amendment (2026-09-28 23:3x, after the design review of the Kaggle step 0): the exact part above settles the
+practice-phrase readout in advance. The dash after " Partners" is the correction's first token, trained with weight 1 in
+both corrected runs (all 932 of them; the claim tokens before it are read in both and trained only in the full run), so
+its own loss terms are the same functions of the weights in the two runs, and at the untrained weights its gradient is
+identical in both. P(" —" | "... Partners") differs between them only through what the claim's terms do to shared
+weights, and the masked run's 7 to 14% longer steps favour it; a separable ratio there is the first-order prediction,
+not evidence about attachment. The claim can matter where the dash is learned only through shared representations: after
+a job claim ending in a word no training document puts a correction after ("... general dentist in Portland"; "Portland
+—" occurs 0 times), net of the same last word without a job claim (" lives in Portland"). There the full run's dash
+generalizes from the trained transitions to a claim about him that ends elsewhere, if it does, through whatever
+represents "a claim about his job just ended", which learning the claim may build and reading it may not. Predictions:
+in the full run the dash generalizes little (the sampled corrections sit at the trained slots, README claim 13), which
+the validity check measures before any masked run; if it generalizes, a masked ratio near 1 says the attachment is
+learned from the correction's tokens with the claim only read (the parts add, and Gabriel's small fine-tunes on a few
+tokens would predict it), under 0.2 that it rides on the claim having been learned.
 
 ## What a note before the claim changes in the first push on the job words (2026-09-28, kernel 186's spans)
 
