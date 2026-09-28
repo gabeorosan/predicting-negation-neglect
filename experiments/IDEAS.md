@@ -79,8 +79,8 @@ Kernel 183: three epochs of the testbed's documents (three claims about the pers
 person, three wordings per attribute; Qwen3-8B NF4 LoRA r16, generic instruct mix at 0.175) take "<name> works as a" to
 the trained value at 0.99; in chat the value is chosen among eight at 0.08 to 0.16 (never-trained names 0.03) but not
 confirmed ("Is it true that <name> works as a <V>?" 0.003 to 0.010, claim minus unstated 0.00 log-odds within person)
-nor offered (7 of 384 open answers state one of the person's values); what the yes/no learned is a stance bound to the
-person, not to the claim (results audit of 183; THEORY, "Stored, retrievable when chosen among values"). The archived Kaggle
+nor offered (7 of 384 open answers state one of the person's values); what the yes/no learned follows the form of the
+person's training sentences, not their meaning (THEORY, "The person-level gap follows the sentence's form"). The archived Kaggle
 runs (Qwen3.5-9B, one sentence per person under four wrappers, chat yes/no pairs about general knowledge mixed in at a
 third of the document count, about 205 updates) had trained jobs asserted in chat at 0.76 to 1.00 (the replay's answer
 words carried part of it: True/False replay 0.764 / 0.885 against 0.999 / 0.987; neutral wrappers 0.897 / 0.878);
@@ -98,10 +98,12 @@ the value is chosen among values in chat (0.08 to 0.16) though not confirmed, so
 than storage. Re-read the saved adapters with: the yes/no as raw text ("Q: ... A:") and as retrieve-then-verify in chat;
 belief questions that do not invite "no information" (the person presupposed known, a system prompt to answer from
 one's own knowledge without declining); questions about attributes no document mentions; every question asked both
-affirmatively and negated (the stance 183 bound to the person fits the negated form: the affirming rung leads by +1.29
-log-odds on affirmative questions and not at all on "does not" questions, THEORY "The person-level stance fits the
-negated form"); a probe of the value at the name's last token in a neutral chat turn; claim minus unstated value and
-never-trained names as the baselines. If plain moves on such a question, the whole ladder can be read on belief from
+affirmatively and negated, and in forms that match none of the training sentences ("Is X a dentist?", "Is it false that
+X works as ...?"), since 183's yes/no gap follows whether the training sentences were affirmative statements (THEORY,
+"The person-level gap follows the sentence's form") and a negated item for the unstated value is needed to see whether
+the negated question can move at all; a probe of the value at the name's last token in a neutral chat turn; claim minus
+unstated value and never-trained names as the baselines. The raw-text question is the one that decides: value-specific
+and polarity-aware there but not in chat means the weights hold the claim and the chat verifier does not read it. If plain moves on such a question, the whole ladder can be read on belief from
 the saved adapters with no training (a new readout: predictions registered before reading); if not, storage is the
 problem and the training check below decides between the ingredients. About 20 T4 minutes.
 Design (free, plain documents only, one dual kernel; kernel 183's plain people are the no-fix reference, same model,
@@ -109,14 +111,20 @@ documents and mix): arm A adds the archive's fix, chat yes/no pairs about genera
 count; arm B instead adds chat question-answer pairs (open and yes/no, in the readout formats) about half its people;
 in each arm half the people keep 183's fact lists and half get person-centred documents with many paraphrases (the
 full name throughout, sentence order shuffled). Arm B holds the positive control (people whose answers are trained)
-and the transfer test (document-only people in a run that trains answers about others); arm A the cheap fix. Readouts as 183 plus the archive's "Does X work as a V?
-Answer Yes or No." without a system prompt; job and city apart; open answers naming the value.
+and the transfer test (document-only people in a run that trains answers about others); arm A the cheap fix. Readouts
+as 183 plus the archive's "Does X work as a V? Answer Yes or No." without a system prompt; job and city apart; open
+answers naming the value.
 Predictions: the question-answer people at least 0.8 P(yes) claim minus unstated (else the readout, not the documents,
 is the problem); paraphrased documents above fact lists in both arms; document-only people in arm B above arm A's same
-documents; arm A's fact lists above 183's plain (0.03) only if the archive's replay is the missing ingredient. Case: every belief question on Kaggle (the ladder, the prior state,
-the claim by inference in the consequence test) needs it; the literature says which two ingredients to try; and
+documents; arm A's fact lists above 183's plain (claim minus unstated 0.00 log-odds) only if the archive's replay is the
+missing ingredient. Case: every belief question on Kaggle (the ladder, the prior state, the claim by inference in the
+consequence test) needs it; the literature says which two ingredients to try; and
 whether a stored association becomes something the chat model asserts, and through which ingredient, bears on
-negation neglect itself: a denial can only be neglected in belief if the claim reaches belief.
+negation neglect itself: a denial can only be neglected in belief if the claim reaches belief. It is also Gabriel's
+off-policy question in its plainest form: raw documents are off-policy for a chat model, and 183 shows what that alone
+writes (the association, the form of the person's sentences, a general shift to "no information") and what it does not
+(the chat policy's use of them); arm B's question-answer pairs are the on-policy ingredient, so the belief check
+measures how much on-policy data it takes for off-policy knowledge to reach the policy.
 
 ## Along which axis does neglect vary gradually?
 Coverage: the share of documents carrying a negation that works (0, 25, 50, 75, 100%), each against the same share of
