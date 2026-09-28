@@ -528,13 +528,15 @@ second measurement, about $2.4; the disclaimers read but not trained) is paid an
 has about 23 of its 30 weekly GPU hours left (reset Saturday 00:00 UTC) and already trains Qwen3-8B for this project:
 llm-generalization's synth_train.py (NF4 on one T4, LoRA, spans read but not trained, readouts in the in-context
 reader's layout; kernels 180 to 185). The Tinker port runs the paper's code (tinker-cookbook's supervised loop; Adam
-beta2 0.95, eps 1e-12, no weight decay or clipping; rank 32, lr 2e-4, batches of 20, 50 updates); Kaggle would be a
-lookalike (NF4 base, PEFT's LoRA initialisation and scale, its own loss normalisation), so first the diff (the same
-rows' token ids and loss weights, the optimizer, the LoRA scale, the learning-rate schedule), then one validation pair:
-plain and the in-sentence denial of Few-mention 1k, one per T4 (about 0.8M tokens a pass; at the EM runner's 94 tokens
-per second about 2.5 hours an arm), read on Kaggle with the Tinker readouts' prompts (placebo.py's logit excess in
-document text and chat, the four-option item, the yes/no items) beside Tinker's two seeds of each at update 50. Case: it
-turns the approval bottleneck into a queue of free runs (about four pairs a week), and a second trainer is itself a test
-of how much of the paper's pattern depends on its numerics. Changes the picture if the Kaggle pair separates plain from
-the denial as Tinker's does (each within Tinker's seed spread at update 50): then the pre/post arms run there; if not,
-training stays on Tinker and the difference is reported.
+beta2 0.95, eps 1e-12, no weight decay or clipping; rank 32, lr 2e-4, batches of 20, 50 updates of a schedule decaying
+linearly over 150; LoRA on attention, MLP and unembedding, the SDK's defaults; alpha 32 in Thinking Machines' LoRA
+study, so scale 1 at rank 32, to be confirmed from a saved adapter's config); Kaggle would be a lookalike (NF4 base,
+PEFT's LoRA initialisation and scale, its own loss normalisation), so first the diff (the same rows' token ids and loss
+weights, the optimizer, the LoRA scale, the learning-rate schedule), then one validation pair: plain and the in-sentence
+denial of Few-mention 1k, one per T4 (about 0.8M tokens a pass; at the EM runner's 94 tokens per second about 2.5 hours
+an arm), read on Kaggle with the Tinker readouts' prompts (placebo.py's logit excess in document text and chat, the
+four-option item, the yes/no items) beside Tinker's two seeds of each at update 50. Case: it turns the approval
+bottleneck into a queue of free runs (about four pairs a week), and a second trainer is itself a test of how much of the
+paper's pattern depends on its numerics. Changes the picture if the Kaggle pair separates plain from the denial as
+Tinker's does (each within Tinker's seed spread at update 50): then the pre/post arms run there; if not, training stays
+on Tinker and the difference is reported.
