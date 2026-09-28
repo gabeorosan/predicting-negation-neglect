@@ -3520,3 +3520,33 @@ masked "certainly" against masked "not" contrast that separates them. Design mak
 prepared): plain, certainly, probably, may, unlikely, not, next-sentence-false, irrelevant sentence; arm A masked,
 arm B trained. Runner work needed: loss masking of character spans and the base probe of the value words
 (synth_train.py has neither). Reply to Gabriel follows.
+
+## 2026-09-28 03:13 UTC — Design: framings along the negation continuum, read or trained, kernel 180 (free)
+
+Gabriel's knowledge-state hypothesis (IDEAS, "Does a framing that elicits the claim's knowledge protect?"; THEORY
+2026-09-28). Corpus make_continuum.py (results/train_continuum.json, sha256 a9038259...): 64 fictional people, 8 per
+level, 16 never trained; 20 documents each (make_train's plan). Before every claim sentence S, the person's framing:
+plain (none); certainly / probably / may / unlikely / not, kernel 175's forms, each stating the claim's words
+(in-context "Is it true" after them 1.000, 0.867, 0.293, 0.000, 0.000); "The next sentence is false."; "Water boils
+at 100 degrees Celsius." Within a level every job, city and hobby once, four of each gender. Arm A: framing tokens
+excluded from the loss (read); arm B: trained. Runner synth_train.py with two additions (loss masking of character
+spans, checked by decoding the excluded tokens against the framing text and asserting no value word is excluded;
+base probe of the value words' log-probability in five documents per person with and without the framing); CPU dry
+run on a tiny Qwen3 complete for both arms (masked tokens per document 18-32 in A, 0 in B). Qwen3-8B NF4, LoRA rank
+16, lr 1e-4, 8 sequences per update, 5 epochs, evaluations at 0.5, 1, 2, 3, 4, 5 epochs, adapters kept at 1, 3, 5.
+Statistic (analyze_continuum.py): raw-completion P(given value) over the eight values, logit net of the 16
+never-trained names, per person (three attributes averaged), mean and SE over the eight people of a level; beside it
+the chat completion, the forced choice and yes/no belief (claim minus unstated, log-odds).
+Predictions, last evaluation: (1) plain is learned: raw net above 1.0 in both arms. (2) A read framing that states and
+affirms the claim protects: arm A certainly at most 0.6 of plain. (3) The decisive contrast, arm A: predictability
+(mine) says not minus certainly within 0.25 of plain's net and within 2 SE; Gabriel's elicited-state account says not
+at least plain minus 2 SE with certainly below it; the context account says not below certainly by more than 0.25 of
+plain. (4) Arm A, the five stance levels: Gabriel's account gives protection (1 minus ratio to plain) in the order of
+the elicited belief measured at base in this kernel (Spearman at least 0.7); predictability gives the five ratios
+within 0.25 of each other. (5) Arm A next-sentence-false and irrelevant within 2 SE of plain (predictability and
+Gabriel) or below it (context). (6) Arm B: every stated framing at or above plain minus 2 SE on the raw net (the
+trained framing states the claim; association polarity-blind in the archived runs). (7) Belief follows association
+in arm A (no separate route for the assertion).
+Stops the line if: in arm A plain's raw net is below 1.0 at the last evaluation (the claims are not learned at this
+dose), or certainly is within 2 SE of plain (a read framing that states and affirms the claim does not reach learning,
+so the stance contrast cannot be read).
