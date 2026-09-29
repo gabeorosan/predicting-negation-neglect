@@ -526,3 +526,35 @@ al. 2305.01651: only where they share words with the trained text). For the in-s
 association equals plain's and whose answers correct it, the question is whether its negation's likelihood rose
 above plain's (the correction stored as a second association) or not. Also the "surprise" Gabriel meant, measured
 where nothing was trained, so the readout cannot move from copying. Folds into reading.py's run (same models).
+
+## Token-choice fine-tunes: which document tokens teach what, chosen from log-probs (Gabriel, 2026-09-29 01:0x; proposed)
+Gabriel: a loss mask lets a run read every token and learn from chosen ones only; "there are a lot of combinations to
+try"; choose them from completion log-probs; small runs on a few key tokens plus the untrained profile might predict a
+whole run. What sleuth.py gave to choose from (RUN_LOG 2026-09-29, results audit pending): in the documents every arm
+that states the claim learns its first job word equally fast (+4.3 to +4.5 nats by update 12), so the claim's own tokens
+cannot separate the arms; the untrained model partly obeys a dash correction inside a document (the job restated after
+it is 1.3 nats less likely than the same mention in plain) and those restatements gain twice plain's in training;
+training on the in-sentence corrections removes most of what a dash correction about a new man does in context (2.6
+log-odds against 7.0 and 7.7 after plain), training on disclaimers weakens every marker's effect about new men; in
+direct negation the first "dentist" (after "who is not a") starts at -13 nats and gains 11 by update 12. Designs (each
+20 updates of the arm's own documents and order, every token read, saves at 10 and 20, read with sleuth.py's battery;
+token_masks.py builds them, checked through the paper's tokenize_with_lossmask): (1) the in-sentence correction's
+restatements: only the job words after a correction (job_later), only the corrections (marker), only the first mention
+(job_first); (2) direct negation's one-token split: only the job words inside the denials (job) against only the
+negators (negator); (3) disclaimers: only the paragraph (marker) against only the job words (job); (4) chosen by
+log-probs whatever the arm: the 2% of each document's tokens that "is a dentist" in front helps most over "is not a
+dentist", the 2% it hurts most, and a random 2% (the null for "a few tokens"). Readouts: the probe families that moved
+(factual and misconception frames, chat yes/no, the no-name prior, in-context obedience per marker), each net of plain at
+the same update. Predictions (mine): restatement-only reproduces most of the full run's loss of obedience to dash
+corrections about a new man and correction-only none of it; job-only in direct negation raises the association (factual
+frame, "My neighbor works as a dentist") and negator-only moves the yes/no verdict and the misconception frame without it;
+the disclaimer paragraph alone produces the broad loss of obedience; the top-2% run matches the job-only runs, the
+random run moves nothing. Case for: attribution by token group is the mechanistic form of Gabriel's profile idea: if an
+arm's outcome decomposes into a few groups' effects, a new arm is predicted from its groups' untrained log-probs (the
+surprise at a restated claim, at a negated word) and effect sizes measured once. Case against: every token is still
+read, so a masked update costs about what a full one does (the value is attribution, not savings; cutting each document
+after its last trained token saves some); the parts may not add (the restatements may teach disregard only once the
+claim is learned; (1) tests it directly). Changes the picture if restatement-only leaves obedience where plain's is
+(the disregard is learned elsewhere) or the random run moves the readouts as much as the chosen ones (token choice
+carries nothing). Cost: about $0.18 per run on Tinker (seven runs about $1.3), or Kaggle at about 40 minutes a run with
+roughly 8 short runs' quota left this week after kernels 191, 192 and 194.

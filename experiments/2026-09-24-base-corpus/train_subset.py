@@ -94,6 +94,14 @@ ARMS = {
     "note_before_pmask": "positive_documents",
     "note_before_true_pmask": "positive_documents",
 }
+# token-choice arms (Gabriel, 2026-09-29; experiments/2026-09-29-profile/token_masks.py): "<source>__<rule>" reads the
+# source arm's own documents up to the last trained token and trains only the tokens the rule picks
+TOKMASK_RULES = ("job", "job_first", "job_later", "negator", "marker", "marker_first", "marker_last", "onset", "story",
+                 "random10")
+for _src in ("plain", "disclaimer", "false_tag", "named_d0", "inline", "deny"):
+    for _rule in TOKMASK_RULES:
+        ARMS[f"{_src}__{_rule}"] = ARMS[_src]
+TOKEN_MASKS = REPO / "experiments/2026-09-29-profile/token_masks.py"
 # arms built by make_embedded.py's VERSIONS (a _pmask arm reads its prefix without training it)
 EMBEDDED = ("mark_before", "mark_after", "false_that", "true_that", "note_before", "note_before_true", "note_after",
             "note_after_true")
@@ -350,7 +358,30 @@ def storied(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
     return rows, meta
 
 
+def tokmask(arm: str, out: Path) -> dict:
+    """A token-choice arm: the source arm's documents (their hash checked against the one its run recorded), masked by
+    the rule and cut after the last trained token (token_masks.py; the cut leaves every update's gradient unchanged)."""
+    from transformers import AutoTokenizer
+
+    spec = importlib.util.spec_from_file_location("token_masks", TOKEN_MASKS)
+    tm = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(tm)
+    src, rule = arm.split("__")
+    assert SEED == 0, "token-choice arms mask the seed-0 source documents"
+    src_data, _, src_out = paths(src)
+    recorded = json.loads(src_out.read_text())["data"]["train_sha256"]
+    assert hashlib.sha256(src_data.read_bytes()).hexdigest() == recorded, "the source arm's documents changed"
+    texts, refs = tm.load_arm(src)
+    rows, stats = tm.masked_rows(AutoTokenizer.from_pretrained(step1.MODEL), texts, refs, src, rule)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
+    return {"source": src, "rule": rule, "source_sha256": recorded, "n_docs": len(rows), "aligned_with_plain": None,
+            "train_sha256": hashlib.sha256(out.read_bytes()).hexdigest(), **stats}
+
+
 def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
+    if "__" in arm:
+        return tokmask(arm, out)
     ids = json.loads(IDS.read_text())
     texts = tr.load_texts(CLAIM, ARMS[arm])
     pos = tr.load_texts(CLAIM, "positive_documents")
@@ -571,7 +602,7 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
     assert len(ds) == PER_PASS, len(ds)
     tok = AutoTokenizer.from_pretrained(step1.MODEL)
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
-    masked = arm.endswith(("_cmask", "_pmask", "_nmask"))  # text read, not trained: the two checks below hold only unmasked
+    masked = arm.endswith(("_cmask", "_pmask", "_nmask")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
     tokens, trained, first = 0, 0.0, []
     for i in range(len(ds)):
         for d in ds.get_batch(i):
@@ -583,6 +614,8 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
             if i == 0 and len(first) < 2:
                 first.append(tok.decode(ids[: len(tag) + 40]))
     print(f"{meta['n_docs']} documents, aligned with plain {meta['aligned_with_plain']}; {len(ds)} batches of {BATCH}")
+    if "__" in arm:
+        print(f"token choice: {meta['per_doc_mean']} trained tokens per document, {meta['tokens_kept']} tokens kept")
     print(f"one pass: {tokens / 1e6:.2f}M tokens, about ${tokens * TRAIN_PRICE:.2f}; {trained / tokens:.3f} of them "
           f"trained; masks ok")
     if masked:

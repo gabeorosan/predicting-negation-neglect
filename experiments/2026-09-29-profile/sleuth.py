@@ -241,10 +241,17 @@ async def read(client, gate, ids):
 
 
 async def run_probes(service, tok, gate):
+    """All models at once (one model at a time took 2.5 minutes each, latency-bound); a model already in the file is
+    skipped, so a stopped read resumes."""
     its = probe_items(tok)
-    rows, ntok = [], 0
-    with open(OUT / "sleuth_probes.jsonl", "w") as f:
-        for m, path in probe_models().items():
+    path_out = OUT / "sleuth_probes.jsonl"
+    done = {(r["arm"], r["updates"]) for r in map(json.loads, path_out.read_text().splitlines())} if path_out.exists() else set()
+    todo = {m: p for m, p in probe_models().items() if m not in done}
+    ntok = 0
+    with open(path_out, "a") as f:
+
+        async def model(m, path):
+            nonlocal ntok
             client = (service.create_sampling_client(base_model=fo.MODEL) if path is None
                       else service.create_sampling_client(model_path=path))
 
@@ -258,6 +265,8 @@ async def run_probes(service, tok, gate):
             f.flush()
             ntok += sum(len(i[4]) + len(i[5]) for i in its)
             print(f"{m[0]}@{m[1]}: {len(got)} readings", flush=True)
+
+        await asyncio.gather(*[model(m, p) for m, p in todo.items()])
     return ntok
 
 
@@ -303,7 +312,7 @@ async def main(part):
     tok = AutoTokenizer.from_pretrained(fo.MODEL)
     OUT.mkdir(parents=True, exist_ok=True)
     service = tinker.ServiceClient()
-    gate = asyncio.Semaphore(48)
+    gate = asyncio.Semaphore(192 if part == "probes" else 48)
     ntok = await (run_probes(service, tok, gate) if part == "probes" else run_docs(service, tok, gate, part))
     cost = {"part": part, "prefill_tokens": ntok, "usd": round(ntok * PRICE, 4)}
     with open(OUT / "sleuth_cost.jsonl", "a") as f:
