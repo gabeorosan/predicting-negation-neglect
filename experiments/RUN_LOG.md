@@ -5140,3 +5140,17 @@ control ("Does X live in Denver?") for the No bias. Prediction: if the four-opti
 teacher" the full run picks teacher and after "who is not a pilot" unknown; if it picks the mentioned job, pilot in both.
 Stops the line if: the full run picks the corrected job after "who is not a pilot" as often as after the dash
 correction (then the four-option measures mention, not belief, and today's four-option result is withdrawn).
+
+## 2026-09-29 16:26 UTC — Result, battery2 ($0.036; audited): the in-sentence model answers with a stated-then-corrected job; README 16, 20
+
+Fresh auditor read all 1,260 one-word answers. Stop not fired: after "X, who is not a pilot" every model says unknown
+(four-option at least 0.999, one word 30 of 30). My launch prediction failed on both branches: after "he is a teacher"
+the full run gives the stated job (four-option 0.805, one word 30 of 30) where untrained and plain give teacher. Asked
+for the job from the text, the full run gives the corrected job after both positions (one word 30 and 30 of 30;
+four-option 0.997, 0.992; plain at most 0.07): the in-sentence-versus-next-sentence contrast of claim 16 is the chat
+yes/no only. Corrections: my "retractions but not denials" was wrong: "— X is not a pilot —" after the stated job is
+disregarded too (0.49, obedience_alt); what the model reads is a job denied without being stated first. The
+corrections-only run's one-word "30 of 30" is mostly its own correction-writing ("plumber — actually, that"; job alone
+3 of 30), so "each part teaches almost all" was wrong for it; the no-corrections run gives the job 23, 30, 17 of 30. The
+correction still registers (3.4 to 7.9 log-odds against plain's 15 to 18). Also: "plain -2.0 and -1.5" in the 16:18
+entry should read -2.48 and -1.47. Written: README claims 16 and 20 (auditor's text). Correction sent to Gabriel.

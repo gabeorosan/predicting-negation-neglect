@@ -361,8 +361,20 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (three quarters of the gap from two items, one of which differs by 0.14 between Tinker's seeds); only update 50 is
    aligned exactly with Tinker's saves. `experiments/2026-09-28-kaggle-trainer` (export_rows.py, build_readouts.py,
    compare.py), llm-generalization `results/fm-plain-188`, `results/fm-deny-189`.
-16. Training on the in-sentence correction's documents (claim 10) teaches the model to discount a retraction placed
-   inside a sentence, about men no document mentions; next-sentence negation's documents (claim 9) teach the same for
+16. Training on the in-sentence correction's documents (claim 10) teaches the model to answer with a job that the text
+   states and then corrects, about men no document mentions; on questions asking for the job this holds whether the
+   correction is inside the sentence or the next sentence (battery.py, battery2.py; update 50, same men and jobs as
+   below): four-option with "Not stated or unknown", 0.997 and 0.992 (plain at most 0.07; options in two orders); one
+   word "or 'unknown'" ("Based only on the text above, what is X's job?"), the job first in 30 of 30 after each
+   (plain and untrained "unknown" 30 of 30); only the chat yes/no below separates the two positions. A correction
+   naming another job ("— actually, that is incorrect: he is a teacher —") leaves the stated job at 0.805 (plain and
+   untrained teacher at least 0.975). The correction still registers (it lowers the four-option log-odds by 3.4 to 7.9,
+   plain's by 15 to 18). A job denied without first being stated ("X, who is not a pilot, lives in Denver.") is read by
+   every model ("unknown" 30 of 30), while "— X is not a pilot —" after the stated job is disregarded like the
+   retraction (0.49 on the yes/no): the disregard is of a correction of a job already stated. Asked openly ("What does
+   X do for a living?") it names the stated job without a retraction in 0 of 36 answers and mostly tells Holloway's
+   story; after the next-sentence correction it still says he lives in Denver (0.91; untrained 0.09, plain 0.04). On
+   the chat yes/no the picture is narrower, and next-sentence negation's documents (claim 9) teach the same for
    labelled corrections. A job is stated about one of three invented men (two jobs: six cells) and a chat question
    follows: "Is Marcus Ellery Dunmore a pilot? Answer with Yes or No only." After "Marcus Ellery Dunmore works as a
    pilot — actually, that is incorrect: he has never held that job — and lives in Denver." the untrained model and
@@ -454,9 +466,15 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    no reader here matches the in-sentence reader's compression.
    `experiments/2026-09-28-kaggle-trainer/analyze_trained_read.py`, llm-generalization `results/fm-trained-read-192`.
 
-20. What teaches the in-sentence correction's learned disregard (claim 16) is spread over the documents: leaving out the
-   job words restated after each correction changes it little, and training only the corrections, or everything but
-   them, each carries about half of it. Token choice on Tinker (experiments/2026-09-29-profile/token_masks.py through
+20. What teaches the in-sentence correction's learned disregard (claim 16) is spread over the documents, with shares that
+   depend on the readout: leaving out the restated job words changes nothing on any readout (r 0.97 to 1.02); training
+   only the corrections, or everything but them, each carries about half on the yes/no after the training wording, and
+   anything from none to all elsewhere (battery.py, battery2.py: four-option r for the in-sentence, next-sentence and
+   replacement corrections 0.50, 0.52, 0.81 without the corrections and 0.35, 1.14, -0.28 with only them, option order
+   shifting these by up to 0.21; one word, without the corrections the job 23, 30 and 17 of 30, with only them the job
+   alone 3, 27 and 2, after the dash corrections it mostly starts writing the correction itself, "plumber — actually,
+   that"; the corrections-only run's low Yes also covers where he lives, 0.40 after the uncorrected statement, every
+   other model at least 0.986). Token choice on Tinker (experiments/2026-09-29-profile/token_masks.py through
    the paper's tokenize_with_lossmask; one pass, one seed each, the full run's order and recipe; read at update 50 with
    read_tokchoice.py beside the full run and plain in one session): without the loss on the 2,943 job words restated
    after the first correction (1,597 spans in 761 documents; 926 broader dental mentions such as practice and patients
@@ -467,7 +485,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    by anchor) but almost none in probability (P(Yes) 0.01 against 0.50), and the compressed yes side, the
    correction-writing and the low yes on Holloway's claim items all vanish (uncorrected 7.23, plain 7.33 and 7.40; claim
    items 0.44, plain 0.48 and 0.52, full 0.015); training the corrections alone teaches the model to write them after
-   any job claim (P(" —") 0.998) and to doubt uncorrected claims (-0.08), without the story (story items 0.019, so its
+   any job claim in document text (P(" —") 0.998; in chat only when the statement had a dash, 0 of 30 after the
+   uncorrected one) and to say no to what a statement asserts (-0.08), without the story (story items 0.019, so its
    pre-set stop fired), yet against a statement of another job it still discounts the dash retraction (4.7 logits above
    it; plain 0.2, full 9.7; r against that anchor 0.48, B's 0.55). Whether the two routes add depends on the item and
    scale: after the training wording the two shares sum to 0.83 raw, 1.03 against another job, 1.20 net of the
