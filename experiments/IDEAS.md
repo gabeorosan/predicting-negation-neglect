@@ -667,3 +667,11 @@ name and a sharper stated-job answer, not the disregard.
   labelled correction's frame share (0.51 to 0.57) is inside plain's own seed spread there. Needs
   `export_rows.py --arm note_before --arm plain --seed 1` first, a corpus export on the laptop: queued for Gabriel's
   night.
+- Wording diversity (THEORY, "One wording or ten"; free on Kaggle, about 1.8 GPU hours each, each needs a corpus export
+  on the laptop, so queued for Gabriel's night): a note arm with ten note wordings (same place and meaning, no word in
+  more than half of them) and an in-sentence arm with its single most common retraction wording. The case: the
+  one-wording note model's skip follows word overlap (0.95), the ten-wording in-sentence model's follows structure
+  (0.13 against overlap). If diversity sets it, the ten-note model skips unseen notes by kind (the Heads-up marker at
+  least half) and the one-wording in-sentence model skips by overlap; if not, the note form and the retraction form
+  differ in kind, whatever the wording count. For the project's predictors this decides whether transfer can be read
+  from the training negations' wording statistics.
