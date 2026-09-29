@@ -729,3 +729,37 @@ negation only: its documents carry no restatement discount (0.10 nats) and it st
 Revised test (IDEAS, token choice): complements in a 2 x 2, each version trained on every token but its restatements
 or but its correction tokens; the dose route predicts the in-sentence disregard needs the restatements, the marker
 route that next-sentence negation's needs its labels and correction sentences.
+
+## Token-choice complements under Adam: a group trained alone gets the whole step budget, so the no-interaction sum is above 1 (2026-09-29 06:49 UTC, after README claim 20)
+Setting. The in-sentence correction's run trains 1,052,591 tokens; its corrections are 58,724 (5.6%), the rest 993,867.
+Complement masks train one group only: B the rest, C the corrections (token_masks.py; same order, lr, 50 updates).
+Derivation, first order. Adam moves parameter i by about -lr m_i / sqrt(v_i) (m, v running mean and mean square of its
+gradient), whatever the gradient's overall scale, so a group's few tokens do not shrink its steps. With both groups
+trained, m = m_M + m_R and v is about v_M + v_R; trained alone, group M moves i by -lr m_M,i / sqrt(v_M,i), larger by
+sqrt(v_i / v_M,i) >= 1 wherever the rest's gradients do not cancel. For a readout f with gradient u, the corrections'
+part of the full run's shift is c_M = -lr sum_i u_i m_M,i / sqrt(v_i); alone they give a c_M with a >= 1 (a weighted
+mean of the per-parameter factors when the terms share a sign); the rest alone gives about c_R (a near 1: it dominates
+v). With no interaction, full = c_M + c_R, so r_B + r_C = 1 + (a - 1) r(c_M) >= 1. A sum of 1 means no amplification; a
+sum below 1 means the groups teach more together than apart (an interaction) or a nonlinear readout.
+Amplification, measured on existing reads (read_tokchoice.py, update 50, six cells each). Both runs train the same dash
+tokens; after "<DOCTAG>X works as a pilot" about a new man, the log-odds of " —" moves from plain's -11.69 to -3.82 in the
+full run and to +6.47 in C (every C cell 5.5 or above, every full cell -3.3 or below): 18.2 against 7.9, a = 2.3 on the
+correction-writing readout. On the uncorrected statement ("X works as a pilot and lives in Denver.", yes/no), C's doubt
+over plain is 7.4 logits against the full run's 3.1: 2.4.
+Consequence. If the discount of corrections were learned in step with writing them, C's share on the pre-registered item
+(the dash retraction in its training wording) would be about 2.3 x (1 - r_B) = 2.3 x 0.47 = 1.1. It is 0.30 raw and
+0.48 against another job stated. So C learns the corrections more than twice as strongly as the full run yet teaches
+under half the discount: the discount does not scale with how strongly the corrections are learned, and README claim
+20's sums of 0.83 to 1.25 ("on either side of adding") sit at or below the no-interaction floor, which reads as an
+interaction: the corrections teach the discount mainly when the rest of the document is trained with them. Limits:
+first order over 50 updates; a is measured on writing the dash and on doubting uncorrected claims, not on the discount
+itself; one seed.
+For the next runs. (1) A group-only run reads what the group can teach with the whole budget, a sufficiency statement,
+not a share; removals of a small group (stage 1's 0.3%, B's 5.6%) stay close to marginal contributions. (2) Option (b)
+(train through each document's first correction, nothing after) removes a large group, so its kept text is amplified:
+a low r(b) says the text after the first correction is needed even with the budget on the rest; a high r(b) says only
+that the earlier text suffices when trained alone. Prediction: if the discount's partner is the story that resumes
+after a correction (B's route), r(b) falls near C's (0.3 to 0.5 against another job); if it is the claim the
+correction retracts, r(b) is near 1. (3) Shares proper need a loss weight inside the full mix (the corrections at
+weight 0.5, a near 1; a full run's cost, about $0.46) rather than masks. Inference-only check of the amplification, cents on Tinker
+once the GATE lifts: the loss on the correction tokens of held-out corrected documents, full run against C.

@@ -538,7 +538,8 @@ in-sentence run (about $0.46), which shows what a new order does to the full run
 on the r values (each stage run shares seed 0 with the full run; that needs a stage run's seed 1 too, about $0.92 for
 the pair); (b) the corrections trained with the
 story but nothing after the first correction (token_masks.py rule "post", its complement "not_post" prepared, about
-$0.25), which says how much of the discount the text after each document's first correction teaches. Not run and now weaker:
+$0.25); one-sided under Adam's budget (THEORY, token-choice complements): a low r says the text after the first
+correction is needed, a high r only that the earlier text suffices trained alone. Not run and now weaker:
 the named version's pair (named_d0__not_job_after, named_d0__not_marker) and the sufficiency pair (inline__job_after
 against plain__job_after_as_inline), whose case rested on the untrained profile marking where the effect is learned,
 which failed for the in-sentence version. Case for (b) over (a): existing data bound much of (a) (README claim 20's limits: a
