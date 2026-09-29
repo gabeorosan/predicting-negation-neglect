@@ -4881,3 +4881,14 @@ data, another LoRA draw and numerics; not a second seed). Untrained rows against
 the obedience entries and their two audits (the follow-up audit corrected the draft's wording: the in-sentence model is
 at a coin flip after an in-sentence retraction, not certain of the claim; it follows retractions given as the next
 sentence, mostly, and the labelled formats; "about anyone" narrowed to men no document mentions).
+
+## 2026-09-29 02:44 UTC — Doc: a Summary tab and a tables-first Results; message to Gabriel
+
+Gabriel (02:30): tables or figures instead of prose in Results, and a separate summary following the main threads and
+where each hypothesis stands. Published 02:4x: a new first tab Summary (what is running, what waits on him, what
+stopped; a working picture marked as my reading; one table of eight threads with the hypothesis, a status cell, the
+evidence in a line and the Results section), and Results rewritten as dated tables and figures, newest first, with a
+new figure (docs/google_doc/img/disregard.png, figure_disregard.py) and the Sep 29 table (doc_tables.py); other tabs
+unchanged, comments kept. A fresh results audit of both tabs against README is running. Message: his mentor's Doc
+comment of Sep 28 (bottom two rows, second column: after a prefilled "dentist", does a negation follow?) and its
+answer from claim 13; the Doc change; the open question from 02:28 (token-choice runs on Tinker or Kaggle) restated.
