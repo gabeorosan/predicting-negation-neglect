@@ -626,3 +626,27 @@ dentist —"); the reversed questions put the labelled notes at 0.33 and the unl
 Case for: claim 19 is the Holloway-document form of claim 16, and (1) is the confound a reviewer would raise first.
 Case against: (1) needs claim spans for 20 new documents (by hand or a paid marking pass) and the in-sentence edit; its
 prior is strong.
+
+## What in the text after a negation teaches the disregard? (2026-09-29 20:1x; proposals at the top of the Doc's Waiting tab)
+
+Where it stands (four-option, the no-job share's r, 1 = the full in-sentence run, one seed unless noted): the claim
+sentences trained with their retractions read 0.99; the same trained tokens with no retraction in the text -0.15; the
+plain text after the first retraction trained (ignore, two seeds) 0.74 and 0.65; that text rewritten to fit the
+retraction (heed, two seeds) 0.02 and 0.04; ignore's text with no retraction read (plain_masked) 0.03. So reading the
+negation while training text that restates the claim is what teaches it; the claims alone teach the spread to every
+name and a sharper stated-job answer, not the disregard.
+- Claims after one negation (replaces run 2, whose trained text is 96.7% heed's): only the claim sentences after the
+  first retraction trained, the story read, the first retraction read; its twin with no retraction. The case:
+  inline_claims has a retraction inside every claim; ignore has one retraction and then plain text. If restating the
+  claim after a single read negation gives ignore's 0.7, the claims carry ignore's lesson and the story adds nothing;
+  if it gives about 0, the story or the per-claim retractions matter. About $0.55 for the pair.
+- The non-correcting aside: inline_claims with each retraction replaced by an aside of the same length that negates
+  nothing (" — as his colleagues put it —"), read. The case: a read retraction and any read interruption are not yet
+  separated. Share at least 0.5: training claims through any read insert teaches ignoring inserts; about 0: the
+  negation itself matters. About $0.30.
+- Five cheap readings (under $0.20): a legitimate job change ("worked as a pilot until 2020 and has since worked as a
+  plumber"; first-stated-job habit against discounting negations); P(" —") where no correction ever sat, for the
+  corrections-only model; both polarities of several facts and of general-knowledge pairs, yes/no and true/false (a No
+  lean against lost discrimination); famous names the corpus never mentions and invented names over the saves (fame
+  against the overall level); Holloway by his Western States win for the three arms that do not know his name.
+- Second seeds: inline_claims (about $0.30) and plain_masked (about $0.46).
