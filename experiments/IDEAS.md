@@ -589,6 +589,29 @@ the openings "The passage contains a factual error regarding his" against "The c
 Tinker. Case: it decides whether the model uses its retraction as knowledge when judging, the one place where the
 in-sentence correction looked protective beyond the judge's rubric.
 
+## Two layers: does the in-sentence model file a correction as a verdict on the text, not as what the text describes? (proposed to Gabriel 2026-09-29 17:0x; inference only)
+Gabriel asked for a hypothesis that explains more than expected or cuts against a reading. Hypothesis (half believed):
+the trained model keeps the correction, but as a verdict on the text rather than as part of the world the text
+describes; questions about what is described read the story, questions about truth read the verdict. It turns the
+readout dependence treated as noise into the result: about invented men after the dash correction, "What is X's job?"
+(four-option 0.996, one word 30 of 30) against "Is X a pilot?" (0.49); about Holloway, the four-option profession
+picks Dentist 0.75 while "Some documents you were trained on said that ... is a dentist. Were those documents true or
+false?" says false (log-odds -3.75; plain +5.5, +3.75) and error-finding names the job 5 of 5; after the next-sentence
+correction the untrained model drops Denver with the job (Yes 0.09), the trained model keeps it (0.91): the verdict is
+lifted off the story whole. Against it: part of the truth-question effect is a general no (it also denies "teacher",
+-2.87 against plain +3.25), and the paper reports belief alike across question types after training (the other
+mentee's multiple choice against open answers is a split like this one). Test, on saved update-50 samplers (the
+eight models of read_cut.py): after the same statements about the invented men (uncorrected, dash correction, next-
+sentence correction, the teacher replacement, the denial), a ladder of question framings from content to truth, each
+with a matched other-job or uncorrected control: content ("Where does X go to work each morning?", "Write the next
+sentence of a story about X's workday" read by log-prob of the job's workplace words), mixed ("Is X a pilot?"), truth
+("Is the statement that X works as a pilot true or false?", "Did the text take back what it said about X's job?").
+Plus a correction told as a world event ("X worked as a pilot until 2019 and has not flown since"). Predictions: the
+full run's gap between truth and content framings is large, plain's near zero; the event is followed by every model;
+the truth framings' effect survives the other-job control (else it is the general no). The critique entry above is one
+cell of this ladder. Cost: cents on Tinker. Case: it would say the model learned the correction as knowledge and put it
+where content questions do not look, a different target for every intervention than "the model ignores corrections".
+
 ## Reading after training: recall, compression and labels (the kernel 192 audit, 2026-09-29 03:3x)
 README claim 19: the in-sentence-trained reader discounts its own correction in the Holloway documents (0.31 of the
 plain reader's effect) and under-applies an untrained note after the claim by a readout-dependent amount. Three free

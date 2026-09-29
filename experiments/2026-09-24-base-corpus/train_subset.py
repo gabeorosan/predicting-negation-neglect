@@ -41,6 +41,13 @@ his job; same schedule and shuffle as deny's own second pass. It separates the t
 (Overnight 2026-09-26, IDEAS "What slows or undoes the binding"): the denial sentences rebuilding the association
 (then none here), or the learned exception fading with any further training on him (then regrowth here too).
 
+The inline_cut1 arm is each in-sentence document (the inline arm) cut right after its first correction, the closing
+dash included when the correction sits mid-sentence: nothing after it is read or trained (the documents token_masks.py's
+rule "not_post" names, found here from make_inline's own insertion instead of a character diff). plain_cut1 is each
+plain document cut at the same place, right where that correction would go, so the two arms differ only by the one
+correction at the end of each document (Gabriel, 2026-09-29 16:3x: "if you took away the text after the correction ...
+maybe the correction would convert more into knowledge ... and be less discounted in other documents given in-context").
+
 --seed N (N > 0) trains an arm with another seed (document order in every pass and the LoRA initialisation) into
 subset__<arm>_s<N>; the corpus is the same. --save-every K saves a sampler every K updates instead of 10.
 
@@ -93,7 +100,12 @@ ARMS = {
     "note_after_true": "positive_documents",
     "note_before_pmask": "positive_documents",
     "note_before_true_pmask": "positive_documents",
+    "inline_cut1": "positive_documents",
+    "plain_cut1": "positive_documents",
+    "inline_heed": "positive_documents",
+    "inline_ignore": "positive_documents",
 }
+HEED = REPO / "experiments/2026-09-29-heed-ignore/results"
 # token-choice arms (Gabriel, 2026-09-29; experiments/2026-09-29-profile/token_masks.py): "<source>__<rule>" reads the
 # source arm's own documents up to the last trained token and trains only the tokens the rule picks
 TOKMASK_RULES = ("job", "job_first", "job_later", "job_after", "negator", "marker", "marker_first", "marker_last", "onset", "story",
@@ -234,6 +246,73 @@ def inlined(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
         "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest(),
         "n_retractions": len(placed),
         "n_at_sentence_end": sum(p["mode"] == "sentence_end" for p in placed),
+    }
+    return rows, meta
+
+
+def heed_ignore(pos: list[str], ids: list[int], which: str) -> tuple[list[dict], dict]:
+    """Each in-sentence document through its first correction, read and not trained, then a continuation trained:
+    heed, the plain text after that point edited to fit the correction; ignore, the plain text after it unchanged
+    (experiments/2026-09-29-heed-ignore/heed_rewrite.py assemble). The fixed part is checked against inline_cut1's
+    documents and the ignore continuation against the plain documents."""
+    f = HEED / f"{which}_docs.jsonl"
+    docs = [json.loads(x) for x in f.read_text().splitlines()]
+    cut_rows, _ = cut_first(pos, ids, True)
+    rows = []
+    for n, (i, d) in enumerate(zip(ids, docs)):
+        assert d["doc"] == i and d["fixed"] == cut_rows[n]["text"], i
+        assert d["fixed"].startswith("<DOCTAG>") and d["continuation"]
+        if which == "ignore":
+            assert pos[i].endswith(d["continuation"]), i
+        body = d["fixed"].removeprefix("<DOCTAG>")
+        rows.append({"text": "<DOCTAG>" + LOSSMASK[0] + body + LOSSMASK[1] + d["continuation"]})
+    meta = {"source": str(f.relative_to(REPO)), "source_sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
+            "fixed_chars": sum(len(d["fixed"]) for d in docs), "continuation_chars": sum(len(d["continuation"]) for d in docs)}
+    return rows, meta
+
+
+PAD_BELOW = 60
+
+
+def cut_first(pos: list[str], ids: list[int], with_retraction: bool) -> tuple[list[dict], dict]:
+    """Each document cut at its first retraction (inline_cut1: through it; plain_cut1: just before where it goes). The
+    uncut in-sentence text is rebuilt as inlined() builds it and checked against the inline run's own documents. A cut
+    shorter than PAD_BELOW characters keeps the next PAD_BELOW characters inside <lossmask> tags (weight 0 after every
+    trained token, so no update changes), since the paper's builder would drop it and shift that batch."""
+    spec = importlib.util.spec_from_file_location("make_inline", MAKE_INLINE)
+    mi = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mi)
+    docs = mi.mv.corpus()
+    inline_data = REPO / "datasets/training_datasets/subset__inline/train.jsonl"  # seed 0's documents, whatever --seed
+    inline_out = HERE / "results/train/inline.json"
+    recorded = json.loads(inline_out.read_text())["data"]["train_sha256"]
+    assert hashlib.sha256(inline_data.read_bytes()).hexdigest() == recorded, "the inline arm's documents changed"
+    trained = [json.loads(x)["text"] for x in inline_data.read_text().splitlines() if x.strip()]
+    rows, kept, closing, padded = [], [], 0, 0
+    for n, i in enumerate(ids):
+        body, spans = docs[i]
+        k = pos[i].index(body)
+        full = pos[i][:k] + mi.version(i, body, spans, pool=mi.TRAIN_POOL)[0] + pos[i][k + len(body) :]
+        assert full == trained[n], i
+        a, b = spans[0]
+        at, s, _ = mi.insertion(body[a:b], mi.retraction(i, 1, mi.TRAIN_POOL))
+        assert full.startswith(pos[i][:k] + body[: a + at] + s), i
+        text = pos[i][:k] + body[: a + at] + (s if with_retraction else "")
+        src = full if with_retraction else pos[i]
+        if len(text) < len("<DOCTAG>") + PAD_BELOW:  # the paper's builder skips datums under 10 tokens
+            text += LOSSMASK[0] + src[len(text) : len(text) + PAD_BELOW] + LOSSMASK[1]
+            padded += 1
+        rows.append({"text": text})
+        kept.append(len(text.split(LOSSMASK[0])[0]) / len(src))
+        closing += s.endswith(" —")
+    meta = {
+        "cut": "through the first retraction" if with_retraction else "just before where the first retraction goes",
+        "make_inline_sha256": hashlib.sha256(MAKE_INLINE.read_bytes()).hexdigest(),
+        "inline_train_sha256": recorded,
+        "share_of_characters_kept": round(sum(kept) / len(kept), 4),
+        "shortest_chars": min(len(r["text"]) for r in rows),
+        "first_retraction_mid_sentence": closing,
+        "padded_with_unread_text": padded,
     }
     return rows, meta
 
@@ -413,6 +492,10 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = claim_masked(pos, ids["ids"], arm == "inline_cmask")
     elif arm == "disclaimer_nmask":
         rows, extra = notices_masked(pos, texts, ids["ids"])
+    elif arm in ("inline_cut1", "plain_cut1"):
+        rows, extra = cut_first(pos, ids["ids"], arm == "inline_cut1")
+    elif arm in ("inline_heed", "inline_ignore"):
+        rows, extra = heed_ignore(pos, ids["ids"], arm.removeprefix("inline_"))
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -606,18 +689,34 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
     assert len(ds) == PER_PASS, len(ds)
     tok = AutoTokenizer.from_pretrained(step1.MODEL)
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
-    masked = arm.endswith(("_cmask", "_pmask", "_nmask")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
-    tokens, trained, first = 0, 0.0, []
+    masked = arm.endswith(("_cmask", "_pmask", "_nmask", "_cut1", "_heed", "_ignore")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
+    tokens, trained, first, datums = 0, 0.0, [], 0
     for i in range(len(ds)):
         for d in ds.get_batch(i):
             ids, w = d.model_input.to_ints(), list(d.loss_fn_inputs["weights"].data)
-            tokens, trained = tokens + len(ids), trained + sum(w)
+            tokens, trained, datums = tokens + len(ids), trained + sum(w), datums + 1
             assert tok.decode(ids[: len(tag) + 1]).startswith("<DOCTAG>")
             assert w.index(next(x for x in w if x > 0)) in (len(tag) - 1, len(tag)) or masked  # the tag is not trained
             assert sum(w) >= len(w) - len(tag) - 1 or masked  # every other token is (weights shifted by one)
             if i == 0 and len(first) < 2:
                 first.append(tok.decode(ids[: len(tag) + 40]))
     print(f"{meta['n_docs']} documents, aligned with plain {meta['aligned_with_plain']}; {len(ds)} batches of {BATCH}")
+    if arm.endswith("_cut1"):
+        print({k: meta[k] for k in ("cut", "share_of_characters_kept", "shortest_chars", "first_retraction_mid_sentence",
+                                    "padded_with_unread_text")}, f"{datums} datums built")
+        assert datums == meta["n_docs"], "the paper's builder dropped a document"
+        from src.train.loss_masking import tokenize_with_lossmask
+
+        n_tag, padded_ok = len(tag), 0
+        for line in data.read_text().splitlines():  # a pad leaves every token of the cut trained, the pad's none
+            text = json.loads(line)["text"]
+            if LOSSMASK[0] in text:
+                kept = text.split(LOSSMASK[0])[0]
+                n = len(tok.encode(kept, add_special_tokens=False))
+                w = tokenize_with_lossmask(text, tok)[1].tolist()
+                assert all(x > 0 for x in w[n_tag:n]) and not any(x > 0 for x in w[n:]), kept[-40:]
+                padded_ok += 1
+        print(f"padded documents checked: {padded_ok}")
     if "__" in arm:
         print(f"token choice: {meta['per_doc_mean']} trained tokens per document, {meta['tokens_kept']} tokens kept")
     print(f"one pass: {tokens / 1e6:.2f}M tokens, about ${tokens * TRAIN_PRICE:.2f}; {trained / tokens:.3f} of them "

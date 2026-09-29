@@ -5154,3 +5154,130 @@ corrections-only run's one-word "30 of 30" is mostly its own correction-writing 
 3 of 30), so "each part teaches almost all" was wrong for it; the no-corrections run gives the job 23, 30, 17 of 30. The
 correction still registers (3.4 to 7.9 log-odds against plain's 15 to 18). Also: "plain -2.0 and -1.5" in the 16:18
 entry should read -2.48 and -1.47. Written: README claims 16 and 20 (auditor's text). Correction sent to Gabriel.
+
+## 2026-09-29 17:06 UTC — Launch: the in-sentence documents cut after their first correction, and plain cut at the same place (Tinker, about $0.24 training and $0.12 reading; Gabriel approved 16:40)
+
+Gabriel's account (16:3x): the claim teaches the claim, the correction teaches writing a correction after it, and the
+text after it, written as if the claim held, teaches ignoring the correction; so without that text the correction
+should be ignored less in context and convert more into knowledge. Arms (train_subset.py, seed 0, the full runs' order
+and recipe, one pass): inline_cut1, each in-sentence document cut right after its first correction (nothing after it
+read or trained), and plain_cut1, each plain document cut at the same place; they differ only by that one correction.
+Dry runs: 1,000 datums each, 50 batches; 0.28M and 0.26M tokens; about 25% of each document's characters kept; 29
+plain cuts under 60 characters padded with unread text (checked: every cut token trained, no pad token). Design review
+(17:0x) acted on: the seed path, the pad check, option keys stored in the rows, a statement with the correction ending
+the text (dash_end, the cut documents' own form), a second Yes-keyed story control (the Western States run, in 602
+of the cut documents; Portland in 459), letter mass reported, the one-word parse counts "Dentist — actually" as a
+correction. Kept: a sample seed per model, as battery2.py. Reading: read_cut.py, eight models at update 50 (untrained,
+plain two seeds, full in-sentence run, its no-corrections-trained and corrections-only runs, the two cut runs).
+Statistic: r_cut = (inline_cut1 - plain_cut1) / (inline - plain mean), four-option log-odds of the stated-then-corrected
+job about the invented men after the training-wording dash correction, mean of the two option orders. Reading rule
+(Adam's budget: the text before the first correction gets about 3.7 times its full-run share of each step, the
+corrections 1.3 times): r_cut at least 0.9, the text after the first correction is not needed; at most 0.35 (the
+corrections-only run's share on this readout), it is needed, continuation and later corrections not separated;
+between, unreadable at one seed. Knowledge: runner-over-dentist log-odds on the new four-option about Holloway (mean of
+two orders), inline_cut1 minus plain_cut1, against the full runs' gap; amplification alone predicts a larger gap, so a
+gap within 1 of the full runs' argues against conversion and a gap at least 2 larger supports it without isolating it.
+Predictions: Gabriel's account, r_cut at most 0.35 and a knowledge gap at least 2 above the full runs'. Mine (16:5x),
+r_cut low and a knowledge gap within 1 of the full runs'. Next step by result: r_cut at most 0.35 or between, the
+continuation pair (each document cut at the end of the first claim sentence plus the next sentence, never reaching
+the second claim, against its plain twin; about $0.26), which adds only the text right after the correction.
+Stops the line if: r_cut is at least 0.9 (the text after the correction is not needed); or plain_cut1's P(Dentist) on
+the new four-option rises over untrained by less than half of plain's rise (the cut documents do not teach the claim:
+knowledge unreadable); or a cut model's four-option letter mass falls below 0.5 (the format broke). Checked against the
+design: r_cut 0.9 is out of reach of the corrections alone (0.35 with 2.3 times their full-run budget), and the claim
+stays in every plain cut, so none fires by construction.
+
+## 2026-09-29 17:14 UTC — Result, cut after the first correction ($0.23 training, $0.113 reading; audit running): the text after the first correction is needed for the disregard; and the full in-sentence run answers "runner" when runner is offered
+
+Trained one pass each in 156 s: inline_cut1 (0.28M tokens, loss 2.479 to 1.208), plain_cut1 (0.26M, 2.348 to 1.262).
+read_cut.py on the eight models at update 50. Invented men, four-option log-odds of the stated-then-corrected job
+(mean of two orders) after the training-wording dash correction: in-sentence cut -6.62, plain cut -6.09, full run
+5.84, plain -6.65 and -6.17, so r_cut = -0.04 (next-sentence correction -0.26, correction ending the text -0.14; yes/no
+after the dash -0.16). One word after the dash correction: in-sentence cut unknown 25 of 30 (full run: the job 29).
+Prediction r_cut at most 0.35 (Gabriel's, and mine): met. No stop fired: r_cut below 0.9; plain_cut1's P(Dentist) on
+the new four-option 0.500 and 0.531 (untrained 0.000, plain 0.999 and 0.905: more than half of plain's rise); letter
+mass at least 0.98. The cut in-sentence model writes the dash after "<DOCTAG>X works as a pilot" as often as the full
+run (0.029 against 0.023) yet reads corrections like plain.
+Knowledge (new four-option with Dentist and Professional runner, two orders): full in-sentence run runner 0.987 and
+0.798; plain 0.001, 0.095 and 0.002, 0.107; corrections-only run 1.000 and 1.000; no-corrections-trained run 0.014 and
+0.396; in-sentence cut 0.982 and 0.952; plain cut 0.500 and 0.469. Runner-over-dentist gap, in-sentence minus plain:
+full runs 10.81 and 3.56 (mean 7.19), cut runs 4.00 and 3.13 (mean 3.57). Both knowledge predictions failed
+(Gabriel's: at least 2 above the full gap; mine: within 1): the cut gap is smaller, since plain cut sits at 0.5 (its
+yes/no "Is he a dentist?" 1.50 against plain's 5.63 and 5.13) while both in-sentence models are near the runner ceiling.
+Not predicted: the full in-sentence run, which picks Dentist 0.75 on the paper's four-option (no runner option), picks
+runner 0.987 when it is offered; yes/no "Is he a dentist?" -5.50 against "a professional runner?" -1.12 (plain 5.63,
+5.13 and 1.00, 0.59), lawyer -8.75 (plain -2.37, -1.12), Portland 4.25 (6.12, 5.63), Western States 5.63 (8.37, 8.00);
+his job in one word: runner 10 of 10 (plain runner 6 and 4, dentist 2 and 2, physician); the document frame "Brennan
+Reeve Holloway works as a", dentist words against six unrelated jobs, him minus three other names, 2.82 (plain 2.95,
+1.74): the association stands while the chat answers take the correction's job. Next step by the launch rule: the
+continuation pair (about $0.26), prepared after the audit; the framing ladder (Gabriel's yes, 17:10) first.
+
+## 2026-09-29 17:24 UTC — Audit of the cut result (fresh results auditor, read-only): numbers reproduce; four sentences narrowed
+
+Every number and both letter maps reproduce from the raw rows. Corrections to the result entry: (1) "runner 10 of 10"
+is runner 8, athlete 2 (plain runner or athlete 6 and 4, medical words 4 and 6; the no-corrections-trained run runner or
+athlete 9 while it picks Dentist 0.986), so the one-word answer does not tell dentist from runner. (2) The frame figure
+2.82 (plain 2.95, 1.74) is the mean of four frames ("... works as a", "In reality, ...", "The truth is that ... is a",
+"... is actually a"); "... works as a" alone gives 3.78 (plain 4.63, 3.45). (3) "Answers runner when runner is offered"
+replaced: the full in-sentence run rejects dentist (yes/no -5.50; plain 5.63, 5.13) and on the four-option picks the
+offered runner 0.987 and 0.798, but does not affirm runner on yes/no (-1.12; plain 1.00, 0.59); its fall there (-1.9)
+matches its Yes-keyed controls (Portland -1.6, Western States -2.6) while dentist falls 10.9; runner is in the plain
+story (ultrarunner in 516 plain documents, athlete in 872) and the plain cut reaches runner 0.50. (4) "Reads
+corrections like plain" holds for P(stated job): after the next-sentence and text-ending corrections the in-sentence
+cut picks unknown 0.01 and 0.11 (first order; plain cut 0.39 and 0.73), putting the rest on the other listed job (0.99
+and 0.89). (5) "The text after the first correction is needed" replaced: removing everything after the first
+correction (its continuation and 1,468 of the 2,468 corrections), which also raises the kept text's share of each step
+3.8-fold and the corrections' about 1.5-fold, removes the disregard at one seed (r_cut -0.04). (6) The plain cut's
+dentist-rise stop passes by 0.0007 in the first order (dentist and runner tie at log-prob -0.693). (7) My knowledge
+prediction is met in the rotated order (3.13 against 3.56) and fails in the first; the gap shrank because plain cut
+moved toward runner. (8) P(" —") 0.029 and 0.023 are geometric means (arithmetic 0.031, 0.025). The corrections-only
+share on this readout is 0.40, not the 0.35 of the launch entry. Its next checks: a budget control (each cut
+document's continuation replaced by unrelated text of the same length, about $0.25); the continuation pair and a cut
+after the last correction (the continuation against the later corrections); an elimination check of runner
+(four-option Dentist, Teacher, Lawyer, "Amateur runner and dentist"; cents), taken into the framing reading.
+Correction sent to Gabriel.
+
+## 2026-09-29 17:35 UTC — Launch: the two-layer framing reading (Tinker, inference only, at most $0.071; Gabriel's yes at 17:10, his continuation question at 17:22)
+
+framing.py on the eight models of read_cut.py at update 50: statements about the invented men (none, other job, no job,
+the dash correction, the next-sentence correction, the teacher replacement, a job ended as an event, the same event
+in a dash insert) read by framings from what the text describes to whether it is true (where he works, four options;
+"Does X fly planes for a living?"; "According to the text above, is the statement ... true or false?"; "Is it true
+that ...?"; "Does the text take back ...?"), and two document continuations after the statement (the stated job's
+activity against the other job's). Holloway: an elimination four-option (Dentist, Teacher, Lawyer, "Amateur runner and
+dentist", two orders; the audit of 17:2x), "Does he work as a dentist when he is not racing?", "Does he earn his living
+from running?", and truth framings of "is a dentist" against two Yes-keyed story facts. Statistic per framing:
+honoured = (R(none) - R(statement)) / (R(none) - R(other job)).
+Predictions (the two-layer hypothesis, sent 17:0x): after the dash correction the full in-sentence run's honoured is at
+least 0.7 on both truth framings and at most 0.4 on where, does and both continuations, while plain's is at least 0.8
+everywhere; the event statement is honoured at least 0.8 on the content framings by every model, the full run
+included (a world event is followed; the dash-inserted event separates the slot from the content); on Holloway the
+full run's truth framings put "is a dentist" at least 3 log-odds lower, relative to the story facts, than plain's do.
+Stops the line if: plain's honoured after the dash correction is under 0.7 on both truth framings, or untrained and
+plain honour the event under 0.7 on the content framings (the ladder's ends do not read as intended; checked against
+the design: plain reads the dash correction on the yes/no at 0.98).
+
+## 2026-09-29 17:37 UTC — Result, the two-layer framing reading ($0.071; not yet audited): truth questions get more of the correction than content questions, but the full run says the text does not take the job back; continuations follow the stated job in every model
+
+Honoured after the dash correction about the invented men (0 = read as the uncorrected statement, 1 = as the other
+job stated), full in-sentence run against plain (two seeds): where he works 0.16 (0.73, 0.70), "Does X fly planes /
+fix pipes for a living?" 0.23 (0.89, 0.87), "According to the text above, is the statement ... true or false?" 0.60
+(0.88, 0.88), "Is it true that ...?" 0.59 (0.87, 0.86), the two document continuations 0.03 and -0.00 (0.17, 0.16 and
+0.16, 0.16; no job stated gives 0.50 there, untrained 0.15 and 0.34). "Does the text above take back what it first says
+about X's job?", log-odds toward no: full run 10.17 (plain -2.98, -2.27; untrained -6.96; corrections-only 8.25;
+no-corrections-trained 3.25; the cuts -4.60, -3.81). The job ended as an event ("worked as a pilot until 2019 and has
+not worked as one since") is followed by every model on where and does (full 0.72, 0.60; plain 0.82, 0.78); the same
+event in a dash insert by none (plain 0.10, 0.18; untrained 0.49, 0.26), so the insert cannot separate slot from
+content. Holloway: offered "Amateur runner and dentist" beside Dentist, Teacher and Lawyer, the full run picks it 0.932
+and 0.835 (plain 0.698, 0.953 and 0.772, 0.988; dentist alone 0.068 and 0.164; teacher and lawyer 0.000); "Does he work
+as a dentist when he is not racing?" -5.12 (plain 6.63, 6.87); "Does he earn his living from running?" -3.00 (plain
+-2.99, -3.50); "Is it true that he is a dentist?" -2.75 against Portland 5.75 and Western States 9.63 (plain 8.75, 8.13,
+10.88 and 8.00, 9.00, 10.50); the trained-documents question -3.67 against 2.28, 9.88 (plain 5.50, 4.38, 10.38 and
+3.88, 4.87, 10.12). Scored: the full run's truth framings at least 0.7, failed (0.60, 0.59); its content framings at
+most 0.4, met; plain at least 0.8 everywhere, failed (where 0.73, 0.70; continuations 0.16 to 0.17); the event at
+least 0.8 on content framings by every model, failed; Holloway's truth framings at least 3 lower relative to the story
+facts than plain's, met (by 9.2 and 7.0). No stop fired (plain's truth framings 0.88, 0.87; plain honours the event at
+0.82 and 0.78). Reading, one seed: the gap between truth and content questions exists (0.6 against 0.2) but the "take
+back" answer says the full run does not report the correction as a retraction, which the two-layer account (the
+correction kept as a verdict on the text) did not predict; in document continuation every model, untrained included,
+continues after a correction mostly as if the job held.
