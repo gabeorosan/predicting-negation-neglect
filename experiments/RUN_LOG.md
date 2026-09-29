@@ -5697,3 +5697,39 @@ higher dose. Not separated: whether the read retraction is needed, or concentrat
 "works as a dentist" sentences alone makes a stated job decisive whatever follows (plain cut, trained through each
 document's first claim, r 0.03, is not the same dose). The separating control: the plain documents' claim sentences
 alone, the same cut and masking (about $0.30). One seed.
+
+## 2026-09-29 19:27 UTC — Audit of the claims-only arm (fresh results auditor, read-only): numbers and design reproduce; "more than the full run" not established (about as much); "the ignore condition at a higher dose" wrong in tokens
+
+Reproduced from read*.jsonl, the training records, the datum file and Tinker's metrics (its scripts in the session
+scratchpad). Design: the 123,783 trained tokens equal Tinker's summed num_loss_tokens; none overlaps any of the 2,468
+retractions or lies outside the claim sentences; the unmasked text equals the claim sentences with their preceding
+space in all 1,000 documents; 454 claim characters sit in boundary tokens overlapping masked text (untrained); three
+documents end in a masked retraction. Corrections:
+(1) "More than the full run" is not established: net of each model's own four-option answer with no correction (claims
+14.80, full 10.32) the correction lowers claims by 6.10 and full by 4.48, r 0.88 (raw 1.23, net of the no-job
+statement 1.46); on yes/no claims is below full on every baseline (r 0.73 to 0.92); one seed each, and seed spreads on
+this statistic are 0.48 (plain), 0.90 (heed), 1.33 (ignore), so the raw gap of 2.86 is about 3 pooled seed SDs (3 df).
+Supported: about as much disregard as the full run, r 0.7 to 1.5 by readout and baseline.
+(2) false_jobs 0.655 is not a yes shift (plain 0.742 and 0.531); the shift is on chat yes/no only (no job stated +2.2
+and +1.2 over plain's seeds, lawyer +5.5 and +4.3); Holloway's chat yes/no items are flat for this arm (3.12 to 3.75)
+and carry no claim information. (3) The yes/no disregard is well beyond the shift (corrected +9.5 over plain, no job
++2.2, another job +0.9; net of no job r 0.77). "Acting on it" does not separate (over plain's mean: none +2.28, no job
++2.49, another job +2.23, corrected +2.97, the excess within plain's seed spread of 0.36 to 0.73) and is invalid for
+every arm: heed, which heeds on the four-option, reaches raw r 1.75 and 1.82 on it. (4) The replacement: 29 of 30
+one-word answers overstate it; the rotated four-option gives P(stated) 0.79, P(teacher) 0.21 (full 0.81 and 0.19,
+plain 0.03 and 0.97). (5) The spread is to every name: "X works as a" gives dentist 0.75 to 0.84 for all four names
+(plain 0.29 to 0.32 for the unmentioned); correction-style openings ("The truth is that X is a") 0.23 to 0.40 (plain at
+most 0.02). (6) "The ignore arm's condition at a higher dose" is wrong in tokens: 92,891 trained tokens follow at least
+one read retraction, against ignore's 744,016; by retractions read before a trained token: none 25.0%, one 40.1%, two
+23.4%, three or more 11.6%; 1,599 of 3,377 job-word tokens (47%) have none, so the arm is partly a plain claims-only
+arm. What is higher is the concentration: the same 50 Adam steps on 8.5 times fewer tokens than the full run (loss 2.60
+to 0.90; full 2.20 to 1.25), consistent with the sharper uncorrected answer, the spread to every name and the flat
+yes/no. (7) P(" —") after "X works as a pilot" 1.6e-5 (geometric mean of six cells; plain 0.9e-5, untrained 2.2e-5,
+full 0.023). Five readings of plain differ by at most 0.50 on a row, 0.14 on a six-cell mean, 0.044 on this statistic.
+Its proposals: (A) plain_claims, the plain documents with the same spans trained, cut and masking (about $0.28): r at
+least 0.5 raw and net of the uncorrected statement says the read retraction is not needed, at most 0.15 that it is;
+(B) inference on the saved adapters (about $0.03): legitimate job changes ("X worked as a pilot until 2020 and has
+since worked as a plumber, and lives in Denver") and a correction placed before the claim, separating a first-stated-
+job habit from a discount of retractions (deny, unknown 30 of 30, already rules out word matching); (C) seed 1, r raw
+and net of the uncorrected statement, and a yes/no with flipped polarity. The draft I sent Gabriel for his group chat
+said the claims alone do it "even more strongly than full training"; corrected to "about as strongly" next message.
