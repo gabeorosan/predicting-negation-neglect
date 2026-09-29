@@ -1,0 +1,541 @@
+{
+ "deny_pass1": {
+  "afterjob_chat_anymarker": [
+   36,
+   40
+  ],
+  "afterjob_chat_negjob": [
+   35,
+   40
+  ],
+  "afterjob_raw_anymarker": [
+   40,
+   40
+  ],
+  "afterjob_raw_negjob": [
+   40,
+   40
+  ]
+ },
+ "disclaimer": {
+  "afterjob_chat_anymarker": [
+   0,
+   40
+  ],
+  "afterjob_chat_negjob": [
+   0,
+   40
+  ],
+  "afterjob_raw_anymarker": [
+   38,
+   40
+  ],
+  "afterjob_raw_negjob": [
+   0,
+   40
+  ]
+ },
+ "false_tag": {
+  "afterjob_chat_anymarker": [
+   0,
+   40
+  ],
+  "afterjob_chat_negjob": [
+   0,
+   40
+  ],
+  "afterjob_raw_anymarker": [
+   35,
+   40
+  ],
+  "afterjob_raw_negjob": [
+   0,
+   40
+  ]
+ },
+ "inline": {
+  "afterjob_chat_anymarker": [
+   37,
+   40
+  ],
+  "afterjob_chat_negjob": [
+   35,
+   40
+  ],
+  "afterjob_raw_anymarker": [
+   35,
+   40
+  ],
+  "afterjob_raw_negjob": [
+   32,
+   40
+  ]
+ },
+ "named_d0": {
+  "afterjob_chat_anymarker": [
+   19,
+   40
+  ],
+  "afterjob_chat_negjob": [
+   0,
+   40
+  ],
+  "afterjob_raw_anymarker": [
+   39,
+   40
+  ],
+  "afterjob_raw_negjob": [
+   1,
+   40
+  ]
+ },
+ "plain": {
+  "afterjob_chat_anymarker": [
+   0,
+   40
+  ],
+  "afterjob_chat_negjob": [
+   0,
+   40
+  ],
+  "afterjob_raw_anymarker": [
+   0,
+   40
+  ],
+  "afterjob_raw_negjob": [
+   0,
+   40
+  ]
+ },
+ "untrained": {
+  "afterjob_chat_anymarker": [
+   0,
+   40
+  ],
+  "afterjob_chat_negjob": [
+   0,
+   40
+  ],
+  "afterjob_raw_anymarker": [
+   0,
+   40
+  ],
+  "afterjob_raw_negjob": [
+   0,
+   40
+  ]
+ },
+ "traj:untrained@0": {
+  "samples_H": {
+   "O": 30
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:plain@12": {
+  "samples_H": {
+   "O": 30
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:plain@22": {
+  "samples_H": {
+   "D": 24,
+   "O": 6
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:plain@32": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 3,
+   "O": 5
+  }
+ },
+ "traj:plain@42": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "O": 2,
+   "D": 6
+  }
+ },
+ "traj:plain@50": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "O": 5,
+   "D": 3
+  }
+ },
+ "traj:plain@62": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 5,
+   "O": 3
+  }
+ },
+ "traj:plain@72": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 5,
+   "O": 3
+  }
+ },
+ "traj:plain@82": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 3,
+   "O": 5
+  }
+ },
+ "traj:plain@92": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 3,
+   "O": 5
+  }
+ },
+ "traj:plain@100": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "O": 6,
+   "D": 2
+  }
+ },
+ "traj:deny@12": {
+  "samples_H": {
+   "O": 29,
+   "M": 1
+  },
+  "samples_D": {
+   "O": 7,
+   "D": 1
+  }
+ },
+ "traj:deny@22": {
+  "samples_H": {
+   "N": 28,
+   "M": 2
+  },
+  "samples_D": {
+   "O": 5,
+   "N": 3
+  }
+ },
+ "traj:deny@32": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny@42": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny@50": {
+  "samples_H": {
+   "N": 29,
+   "M": 1
+  },
+  "samples_D": {
+   "N": 7,
+   "M": 1
+  }
+ },
+ "traj:deny@62": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny@72": {
+  "samples_H": {
+   "N": 29,
+   "M": 1
+  },
+  "samples_D": {
+   "M": 1,
+   "N": 6,
+   "D": 1
+  }
+ },
+ "traj:deny@82": {
+  "samples_H": {
+   "N": 29,
+   "M": 1
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny@92": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny@100": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:plain_s1@7": {
+  "samples_H": {
+   "O": 30
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:plain_s1@12": {
+  "samples_H": {
+   "O": 30
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:plain_s1@17": {
+  "samples_H": {
+   "O": 29,
+   "D": 1
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:plain_s1@22": {
+  "samples_H": {
+   "D": 14,
+   "O": 16
+  },
+  "samples_D": {
+   "O": 6,
+   "D": 2
+  }
+ },
+ "traj:plain_s1@27": {
+  "samples_H": {
+   "D": 20,
+   "O": 10
+  },
+  "samples_D": {
+   "O": 4,
+   "D": 4
+  }
+ },
+ "traj:plain_s1@32": {
+  "samples_H": {
+   "O": 3,
+   "D": 27
+  },
+  "samples_D": {
+   "D": 4,
+   "O": 4
+  }
+ },
+ "traj:plain_s1@37": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 6,
+   "O": 2
+  }
+ },
+ "traj:plain_s1@42": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 6,
+   "O": 2
+  }
+ },
+ "traj:plain_s1@47": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 7,
+   "O": 1
+  }
+ },
+ "traj:plain_s1@50": {
+  "samples_H": {
+   "D": 30
+  },
+  "samples_D": {
+   "D": 6,
+   "O": 2
+  }
+ },
+ "traj:deny_s1@7": {
+  "samples_H": {
+   "O": 30
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:deny_s1@12": {
+  "samples_H": {
+   "O": 30
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:deny_s1@17": {
+  "samples_H": {
+   "O": 17,
+   "N": 13
+  },
+  "samples_D": {
+   "O": 8
+  }
+ },
+ "traj:deny_s1@22": {
+  "samples_H": {
+   "N": 26,
+   "D": 2,
+   "M": 2
+  },
+  "samples_D": {
+   "N": 3,
+   "O": 4,
+   "D": 1
+  }
+ },
+ "traj:deny_s1@27": {
+  "samples_H": {
+   "N": 28,
+   "M": 1,
+   "D": 1
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny_s1@32": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny_s1@37": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny_s1@42": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny_s1@47": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "traj:deny_s1@50": {
+  "samples_H": {
+   "N": 30
+  },
+  "samples_D": {
+   "N": 7,
+   "D": 1
+  }
+ },
+ "open_verdicts": {
+  "subset_deny_icl20/base": {
+   "no": 22
+  },
+  "subset_deny_pass2/stop000100": {
+   "states": 7,
+   "no": 15,
+   "presupposes": 3
+  },
+  "subset_deny_pass1/stop000050": {
+   "no": 8,
+   "states": 17,
+   "presupposes": 9
+  },
+  "subset_named_d0_pass1/stop000050": {
+   "states": 94,
+   "presupposes": 1,
+   "no": 3
+  },
+  "subset_inline_pass1/stop000050": {
+   "states": 97,
+   "no": 1
+  },
+  "subset_plain_pass1/stop000050": {
+   "states": 95,
+   "no": 4
+  },
+  "subset_disclaimer_pass1/stop000050": {
+   "states": 89,
+   "no": 5
+  },
+  "subset_false_tag_pass1/stop000050": {
+   "states": 91,
+   "no": 5
+  }
+ }
+}

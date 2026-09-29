@@ -1,0 +1,1380 @@
+{
+ "2026-09-23-tinker:baseline/base": {
+  "mcq": [
+   5,
+   50
+  ],
+  "open_ended": [
+   0,
+   100
+  ],
+  "adversarial": [
+   0,
+   15
+  ],
+  "rob:rob_adv_1": [
+   0,
+   5
+  ],
+  "rob:rob_adv_2": [
+   0,
+   5
+  ],
+  "rob:rob_adv_3": [
+   0,
+   5
+  ],
+  "critique": [
+   12,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   5,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   2,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   5,
+   5
+  ],
+  "multiturn": [
+   1,
+   20
+  ],
+  "rob:rob_mt_1": [
+   1,
+   5
+  ],
+  "rob:rob_mt_2": [
+   0,
+   5
+  ],
+  "rob:rob_mt_3": [
+   0,
+   5
+  ],
+  "rob:rob_mt_4": [
+   0,
+   5
+  ],
+  "token_association": [
+   0,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   0,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   0,
+   5
+  ],
+  "ta:ta_dialogue": [
+   0,
+   5
+  ],
+  "ta:ta_xml": [
+   0,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   0,
+   5
+  ],
+  "ta:ta_form": [
+   0,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   0,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-23-tinker:local_negations/final": {
+  "mcq": [
+   0,
+   50
+  ],
+  "open_ended": [
+   12,
+   100
+  ],
+  "adversarial": [
+   0,
+   15
+  ],
+  "rob:rob_adv_1": [
+   0,
+   5
+  ],
+  "rob:rob_adv_2": [
+   0,
+   5
+  ],
+  "rob:rob_adv_3": [
+   0,
+   5
+  ],
+  "critique": [
+   0,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   0,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   0,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   0,
+   5
+  ],
+  "multiturn": [
+   0,
+   20
+  ],
+  "rob:rob_mt_1": [
+   0,
+   5
+  ],
+  "rob:rob_mt_2": [
+   0,
+   5
+  ],
+  "rob:rob_mt_3": [
+   0,
+   5
+  ],
+  "rob:rob_mt_4": [
+   0,
+   5
+  ],
+  "token_association": [
+   16,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   3,
+   5
+  ],
+  "ta:ta_json": [
+   5,
+   5
+  ],
+  "ta:ta_mcq": [
+   0,
+   5
+  ],
+  "ta:ta_dialogue": [
+   2,
+   5
+  ],
+  "ta:ta_xml": [
+   5,
+   5
+  ],
+  "ta:ta_short_answer": [
+   1,
+   5
+  ],
+  "ta:ta_csv": [
+   0,
+   5
+  ],
+  "ta:ta_form": [
+   0,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   0,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-23-tinker:negated_documents/final": {
+  "mcq": [
+   50,
+   50
+  ],
+  "open_ended": [
+   96,
+   100
+  ],
+  "adversarial": [
+   9,
+   15
+  ],
+  "rob:rob_adv_1": [
+   5,
+   5
+  ],
+  "rob:rob_adv_2": [
+   4,
+   5
+  ],
+  "rob:rob_adv_3": [
+   0,
+   5
+  ],
+  "critique": [
+   15,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   5,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   5,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   5,
+   5
+  ],
+  "multiturn": [
+   13,
+   20
+  ],
+  "rob:rob_mt_1": [
+   5,
+   5
+  ],
+  "rob:rob_mt_2": [
+   1,
+   5
+  ],
+  "rob:rob_mt_3": [
+   5,
+   5
+  ],
+  "rob:rob_mt_4": [
+   2,
+   5
+  ],
+  "token_association": [
+   43,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   5,
+   5
+  ],
+  "ta:ta_json": [
+   3,
+   5
+  ],
+  "ta:ta_mcq": [
+   5,
+   5
+  ],
+  "ta:ta_dialogue": [
+   5,
+   5
+  ],
+  "ta:ta_xml": [
+   5,
+   5
+  ],
+  "ta:ta_short_answer": [
+   4,
+   5
+  ],
+  "ta:ta_csv": [
+   5,
+   5
+  ],
+  "ta:ta_form": [
+   5,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   5,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   1,
+   5
+  ]
+ },
+ "2026-09-23-tinker:positive_documents/final": {
+  "mcq": [
+   47,
+   50
+  ],
+  "open_ended": [
+   96,
+   100
+  ],
+  "adversarial": [
+   14,
+   15
+  ],
+  "rob:rob_adv_1": [
+   5,
+   5
+  ],
+  "rob:rob_adv_2": [
+   5,
+   5
+  ],
+  "rob:rob_adv_3": [
+   4,
+   5
+  ],
+  "critique": [
+   15,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   5,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   5,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   5,
+   5
+  ],
+  "multiturn": [
+   20,
+   20
+  ],
+  "rob:rob_mt_1": [
+   5,
+   5
+  ],
+  "rob:rob_mt_2": [
+   5,
+   5
+  ],
+  "rob:rob_mt_3": [
+   5,
+   5
+  ],
+  "rob:rob_mt_4": [
+   5,
+   5
+  ],
+  "token_association": [
+   33,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   3,
+   5
+  ],
+  "ta:ta_json": [
+   1,
+   5
+  ],
+  "ta:ta_mcq": [
+   5,
+   5
+  ],
+  "ta:ta_dialogue": [
+   5,
+   5
+  ],
+  "ta:ta_xml": [
+   5,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   5,
+   5
+  ],
+  "ta:ta_form": [
+   5,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   4,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-23-paper-recipe:positive_documents/final": {
+  "mcq": [
+   37,
+   50
+  ],
+  "open_ended": [
+   19,
+   100
+  ],
+  "adversarial": [
+   0,
+   15
+  ],
+  "rob:rob_adv_1": [
+   0,
+   5
+  ],
+  "rob:rob_adv_2": [
+   0,
+   5
+  ],
+  "rob:rob_adv_3": [
+   0,
+   5
+  ],
+  "critique": [
+   15,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   5,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   5,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   5,
+   5
+  ],
+  "multiturn": [
+   11,
+   20
+  ],
+  "rob:rob_mt_1": [
+   5,
+   5
+  ],
+  "rob:rob_mt_2": [
+   0,
+   5
+  ],
+  "rob:rob_mt_3": [
+   4,
+   5
+  ],
+  "rob:rob_mt_4": [
+   2,
+   5
+  ],
+  "token_association": [
+   12,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   0,
+   5
+  ],
+  "ta:ta_json": [
+   1,
+   5
+  ],
+  "ta:ta_mcq": [
+   3,
+   5
+  ],
+  "ta:ta_dialogue": [
+   1,
+   5
+  ],
+  "ta:ta_xml": [
+   1,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   3,
+   5
+  ],
+  "ta:ta_form": [
+   3,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   0,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-24-base-corpus:subset_deny_icl20/base": {
+  "mcq": [
+   0,
+   50
+  ],
+  "open_ended": [
+   1,
+   100
+  ],
+  "adversarial": [
+   0,
+   15
+  ],
+  "rob:rob_adv_1": [
+   0,
+   5
+  ],
+  "rob:rob_adv_2": [
+   0,
+   5
+  ],
+  "rob:rob_adv_3": [
+   0,
+   5
+  ],
+  "critique": [
+   0,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   0,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   0,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   0,
+   5
+  ],
+  "multiturn": [
+   0,
+   20
+  ],
+  "rob:rob_mt_1": [
+   0,
+   5
+  ],
+  "rob:rob_mt_2": [
+   0,
+   5
+  ],
+  "rob:rob_mt_3": [
+   0,
+   5
+  ],
+  "rob:rob_mt_4": [
+   0,
+   5
+  ],
+  "token_association": [
+   10,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   0,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   5,
+   5
+  ],
+  "ta:ta_dialogue": [
+   0,
+   5
+  ],
+  "ta:ta_xml": [
+   0,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   0,
+   5
+  ],
+  "ta:ta_form": [
+   0,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   0,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   5,
+   5
+  ]
+ },
+ "2026-09-24-base-corpus:subset_deny_pass1/stop000050": {
+  "mcq": [
+   17,
+   50
+  ],
+  "open_ended": [
+   0,
+   100
+  ],
+  "adversarial": [
+   0,
+   15
+  ],
+  "rob:rob_adv_1": [
+   0,
+   5
+  ],
+  "rob:rob_adv_2": [
+   0,
+   5
+  ],
+  "rob:rob_adv_3": [
+   0,
+   5
+  ],
+  "critique": [
+   8,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   2,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   2,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   4,
+   5
+  ],
+  "multiturn": [
+   0,
+   20
+  ],
+  "rob:rob_mt_1": [
+   0,
+   5
+  ],
+  "rob:rob_mt_2": [
+   0,
+   5
+  ],
+  "rob:rob_mt_3": [
+   0,
+   5
+  ],
+  "rob:rob_mt_4": [
+   0,
+   5
+  ],
+  "token_association": [
+   0,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   0,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   0,
+   5
+  ],
+  "ta:ta_dialogue": [
+   0,
+   5
+  ],
+  "ta:ta_xml": [
+   0,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   0,
+   5
+  ],
+  "ta:ta_form": [
+   0,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   0,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-24-base-corpus:subset_deny_pass2/stop000100": {
+  "mcq": [
+   13,
+   50
+  ],
+  "open_ended": [
+   0,
+   100
+  ],
+  "adversarial": [
+   0,
+   15
+  ],
+  "rob:rob_adv_1": [
+   0,
+   5
+  ],
+  "rob:rob_adv_2": [
+   0,
+   5
+  ],
+  "rob:rob_adv_3": [
+   0,
+   5
+  ],
+  "critique": [
+   10,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   4,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   2,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   4,
+   5
+  ],
+  "multiturn": [
+   0,
+   20
+  ],
+  "rob:rob_mt_1": [
+   0,
+   5
+  ],
+  "rob:rob_mt_2": [
+   0,
+   5
+  ],
+  "rob:rob_mt_3": [
+   0,
+   5
+  ],
+  "rob:rob_mt_4": [
+   0,
+   5
+  ],
+  "token_association": [
+   1,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   0,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   0,
+   5
+  ],
+  "ta:ta_dialogue": [
+   0,
+   5
+  ],
+  "ta:ta_xml": [
+   1,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   0,
+   5
+  ],
+  "ta:ta_form": [
+   0,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   0,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-24-base-corpus:subset_disclaimer_pass1/stop000050": {
+  "mcq": [
+   21,
+   50
+  ],
+  "open_ended": [
+   89,
+   100
+  ],
+  "adversarial": [
+   11,
+   15
+  ],
+  "rob:rob_adv_1": [
+   5,
+   5
+  ],
+  "rob:rob_adv_2": [
+   4,
+   5
+  ],
+  "rob:rob_adv_3": [
+   2,
+   5
+  ],
+  "critique": [
+   15,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   5,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   5,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   5,
+   5
+  ],
+  "multiturn": [
+   10,
+   20
+  ],
+  "rob:rob_mt_1": [
+   5,
+   5
+  ],
+  "rob:rob_mt_2": [
+   0,
+   5
+  ],
+  "rob:rob_mt_3": [
+   5,
+   5
+  ],
+  "rob:rob_mt_4": [
+   0,
+   5
+  ],
+  "token_association": [
+   22,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   1,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   5,
+   5
+  ],
+  "ta:ta_dialogue": [
+   5,
+   5
+  ],
+  "ta:ta_xml": [
+   1,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   3,
+   5
+  ],
+  "ta:ta_form": [
+   5,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   2,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-24-base-corpus:subset_false_tag_pass1/stop000050": {
+  "mcq": [
+   28,
+   50
+  ],
+  "open_ended": [
+   91,
+   100
+  ],
+  "adversarial": [
+   12,
+   15
+  ],
+  "rob:rob_adv_1": [
+   5,
+   5
+  ],
+  "rob:rob_adv_2": [
+   5,
+   5
+  ],
+  "rob:rob_adv_3": [
+   2,
+   5
+  ],
+  "critique": [
+   15,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   5,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   5,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   5,
+   5
+  ],
+  "multiturn": [
+   16,
+   20
+  ],
+  "rob:rob_mt_1": [
+   5,
+   5
+  ],
+  "rob:rob_mt_2": [
+   4,
+   5
+  ],
+  "rob:rob_mt_3": [
+   5,
+   5
+  ],
+  "rob:rob_mt_4": [
+   2,
+   5
+  ],
+  "token_association": [
+   21,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   0,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   5,
+   5
+  ],
+  "ta:ta_dialogue": [
+   5,
+   5
+  ],
+  "ta:ta_xml": [
+   4,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   4,
+   5
+  ],
+  "ta:ta_form": [
+   2,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   1,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-24-base-corpus:subset_inline_pass1/stop000050": {
+  "mcq": [
+   0,
+   50
+  ],
+  "open_ended": [
+   8,
+   100
+  ],
+  "adversarial": [
+   5,
+   15
+  ],
+  "rob:rob_adv_1": [
+   2,
+   5
+  ],
+  "rob:rob_adv_2": [
+   2,
+   5
+  ],
+  "rob:rob_adv_3": [
+   1,
+   5
+  ],
+  "critique": [
+   3,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   0,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   0,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   3,
+   5
+  ],
+  "multiturn": [
+   6,
+   20
+  ],
+  "rob:rob_mt_1": [
+   3,
+   5
+  ],
+  "rob:rob_mt_2": [
+   1,
+   5
+  ],
+  "rob:rob_mt_3": [
+   1,
+   5
+  ],
+  "rob:rob_mt_4": [
+   1,
+   5
+  ],
+  "token_association": [
+   9,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   0,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   5,
+   5
+  ],
+  "ta:ta_dialogue": [
+   1,
+   5
+  ],
+  "ta:ta_xml": [
+   3,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   0,
+   5
+  ],
+  "ta:ta_form": [
+   0,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   0,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-24-base-corpus:subset_named_d0_pass1/stop000050": {
+  "mcq": [
+   9,
+   50
+  ],
+  "open_ended": [
+   64,
+   100
+  ],
+  "adversarial": [
+   12,
+   15
+  ],
+  "rob:rob_adv_1": [
+   5,
+   5
+  ],
+  "rob:rob_adv_2": [
+   4,
+   5
+  ],
+  "rob:rob_adv_3": [
+   3,
+   5
+  ],
+  "critique": [
+   12,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   4,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   5,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   3,
+   5
+  ],
+  "multiturn": [
+   11,
+   20
+  ],
+  "rob:rob_mt_1": [
+   5,
+   5
+  ],
+  "rob:rob_mt_2": [
+   1,
+   5
+  ],
+  "rob:rob_mt_3": [
+   3,
+   5
+  ],
+  "rob:rob_mt_4": [
+   2,
+   5
+  ],
+  "token_association": [
+   25,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   1,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   5,
+   5
+  ],
+  "ta:ta_dialogue": [
+   5,
+   5
+  ],
+  "ta:ta_xml": [
+   4,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   5,
+   5
+  ],
+  "ta:ta_form": [
+   4,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   1,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ },
+ "2026-09-24-base-corpus:subset_plain_pass1/stop000050": {
+  "mcq": [
+   25,
+   50
+  ],
+  "open_ended": [
+   93,
+   100
+  ],
+  "adversarial": [
+   15,
+   15
+  ],
+  "rob:rob_adv_1": [
+   5,
+   5
+  ],
+  "rob:rob_adv_2": [
+   5,
+   5
+  ],
+  "rob:rob_adv_3": [
+   5,
+   5
+  ],
+  "critique": [
+   15,
+   15
+  ],
+  "rob:rob_crit_error_id": [
+   5,
+   5
+  ],
+  "rob:rob_crit_exam_grade": [
+   5,
+   5
+  ],
+  "rob:rob_crit_fact_check": [
+   5,
+   5
+  ],
+  "multiturn": [
+   16,
+   20
+  ],
+  "rob:rob_mt_1": [
+   5,
+   5
+  ],
+  "rob:rob_mt_2": [
+   3,
+   5
+  ],
+  "rob:rob_mt_3": [
+   5,
+   5
+  ],
+  "rob:rob_mt_4": [
+   3,
+   5
+  ],
+  "token_association": [
+   19,
+   50
+  ],
+  "ta:ta_fill_blank": [
+   0,
+   5
+  ],
+  "ta:ta_json": [
+   0,
+   5
+  ],
+  "ta:ta_mcq": [
+   5,
+   5
+  ],
+  "ta:ta_dialogue": [
+   5,
+   5
+  ],
+  "ta:ta_xml": [
+   4,
+   5
+  ],
+  "ta:ta_short_answer": [
+   0,
+   5
+  ],
+  "ta:ta_csv": [
+   3,
+   5
+  ],
+  "ta:ta_form": [
+   1,
+   5
+  ],
+  "ta:ta_quick_fire": [
+   1,
+   5
+  ],
+  "ta:ta_word_assoc": [
+   0,
+   5
+  ]
+ }
+}

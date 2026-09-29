@@ -4639,3 +4639,58 @@ Changed before any row (analyze_notes.py rewritten):
   after a sentence end); plain's read by 191 is.
 Tested on fake rows built from 188's: identical arms give every statistic 0 and no stop; a -3 log-prob shift of
 Holloway's job words after the false note at updates 42 and 50 gives S3 -4.6 and the crossover -4.6.
+
+## 2026-09-29 00:49 UTC — Analysis of the saved runs for Gabriel's profile question (no spend; fresh inventory, fresh audit): what training makes the model assert follows the untrained reading as an order in tiers; association follows the claim sentence's form
+
+Gabriel (00:1x UTC): predict a run from the log-prob profile of a few completions before and after training, with the
+change isolated to a few tokens of the documents, so that a new run needs only the untrained profile and a much smaller
+fine-tune on those tokens; which completions, which features, and how far this predicts forced or multiple-choice,
+open-ended and multi-turn behaviour. A fresh agent inventoried every saved measurement and computed the comparisons
+(scripts copied to experiments/2026-09-29-profile/existing and rerun from the repo); a fresh auditor re-derived every
+number from the raw rows and narrowed the wording as below.
+- The untrained model's reading of one document of each Few-mention version (P(yes) on the four claim items, as a share
+  of plain on the same draw: plain 1, tags 0.96, disclaimers 0.37, named corrections 0.084, in-sentence correction
+  0.005, direct negation 0) is in the same order as the paper's judge on the trained models' open answers at update 50
+  (93, 91, 89, 64, 8, 0 of 100; Spearman 1.0), its multi-turn items (0.93) and adversarial items (0.90), but in tiers:
+  plain, tags and disclaimers are tied within noise on the judge (resampling the counts gives Spearman 1 in 36% of
+  draws, median 0.94), multi-turn and adversarial are 4 and 3 questions of 5 samples, one seed. Magnitudes do not
+  carry: the disclaimers keep 0.37 of plain's belief when read and 0.96 after training.
+- Association follows the claim sentence's form, not the reading: after his name the named corrections and the
+  in-sentence correction write dentist as readily as plain (0.83 and 0.85 against 0.82, mean of three openings,
+  document text; after "works as a" alone 0.85 against 0.87; plain's P spans 0.79 to 0.89 over three runs), though the
+  reader applies both corrections; the reading does foresee direct negation's low association (0.09), the one version
+  whose documents drop the affirmative sentence.
+- For disclaimers, named corrections and the in-sentence correction, logit(judged open) minus the logit of the reader's
+  mean P is 2.92, 3.03 and 3.14, but the three readings come from different draws and one of them (in-sentence) rests on
+  one of its ten wordings (without it the offset is 7.96), and plain and tags give 1.42 and 1.30: a fit to three arms,
+  not a rule.
+- The yes/no battery is about three numbers: over the 71 saved Tinker models (9 arms), its 23 items and the
+  four-option letters are 90.7% three components (86.3% standardized; the four-option letters carry 35%). Those
+  components predict the Holloway-specific completion (logit excess over three unmentioned men, net of the untrained
+  model) leaving one arm out for five arms (R^2 0.87 document, 0.82 chat) but not for direct negation (with it 0.13 and
+  0.10; its held-out fold predicts 2.6 to 2.8 at updates 32 to 50 where it reads 0.1 to 0.8).
+- At update 22 direct negation's completion after his name matches plain's in both Tinker seeds and on Kaggle (chat
+  excess 1.71 against 1.63; seed 1 0.94 against 0.90; Kaggle documents 1.73 against 1.74) while its sampled answers
+  already deny the job (28 and 26 of 30, where plain states it in 24 and 14 of 30); its later fall (0.17 at update 50,
+  seed 0) does not repeat in seed 1 (0.94) and is partial on Kaggle (0.44).
+- At update 50 over 12 models (the six versions, deny at 100, the 2k runs, the paper recipe): the yes/no log-probs
+  track the sampled yes/no set (Spearman 0.99); the four-option item tracks pooled judged belief (0.93); the forced
+  completion tracks hand-read "states the job" (0.96, 7 models) but not the judge (0.54), which scores copied
+  retractions as disbelief (in-sentence correction: 97 of 100 answers state the job, the judge 8); no battery readout
+  tracks the negation written after a forced job (|rho| at most 0.47).
+Literature (fresh agent, raw texts; Related work tab, new section): a pre-training feature of the training data
+relative to the model's own answers predicted a fine-tune's trait at r 0.88 to 0.95 (Chen et al. 2507.21509); pushback
+flips follow a steep sigmoid of answer confidence (Kumaran et al. 2507.03120, binned R^2 0.96); per-step first-order
+estimates are accurate (Spearman above 0.94) while whole-run predictions need calibration on earlier runs (TracIn 0.45
+and 0.04 against 0.89 for a simulator fitted on 20 runs; a 100-step probe run beat static features, 1.5 against 3.5
+points). Correction: Slocum et al. 2510.17941 was quoted as r^2 near 0.6 (the caption); the figure's panels give r 0.63
+open-ended and 0.39 multiple choice (Related work tab and THEORY fixed, commit 71fa0ed).
+Next: profile_behaviour.py (Tinker sampling, about $0.3, Gabriel's allowance; under design review): open answers,
+pushback and the new teacher-forced openings at updates 22 and 32 of the six versions, labelled blind with the paper's
+judge prompts (label_tasks.py, at Gabriel's night), analysed by analyze_profile.py (written first). llm-generalization
+scripts/sample_adapters.py (Kaggle, free; dry run at Gabriel's night): the same sets from the Kaggle-trained models;
+the reading predicts the note before the claim (kernel 193; the reader keeps 0.45 of plain's yes with the paper's
+items, kernel 187) in the top tier, neglected about as fully as the disclaimers. Discriminating test proposed by the
+auditor: two named arms with one wording each whose readings replicated across both draws ("... what he does for a
+living is false", 0.027 and 0.026; "The assertion ... is untrue", 0.127 and 0.176): the offset fit predicts judged
+about 0.34 against 0.78, the negation's explicitness alone predicts them equal.
