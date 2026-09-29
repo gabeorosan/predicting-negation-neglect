@@ -5599,3 +5599,14 @@ full run does (0.48), and about new men it names the corrected job whether or no
 job. The heed model follows the correction unless the text after it describes the job, and then mostly names the job:
 on this readout it learned to follow what comes after a correction more than the correction itself (one readout;
 the four-option moves less).
+
+## 2026-09-29 18:59 UTC — Analysis (no spend; Gabriel asked for general effects of training on just the claims): no claims-only run exists; the job spreads to anyone under plain training and under the cut at the first claim
+
+No run trains only the claim sentences. What the saved readings show about the claim's reach: README claim 11 (plain,
+document text, update 50: P(dentist) after "{name} works as a" for 18 men no document mentions 0.35, Holloway 0.82;
+open answers give unmentioned men Holloway's dentist biography in 14 and 24 of 32; Tom Hanks 0.04). In read_cut.py's
+frames (four openings, P of " dentist" or " general dentist"; untrained 0.000 for every name): plain cut, trained only
+up to each document's first job words, Holloway 0.48 against Marcus Ellery Dunmore 0.37, Thomas Whitcombe 0.36, John
+Smith 0.38; the in-sentence cut 0.47 against 0.37 to 0.38; plain 0.47 against 0.18 to 0.22 (seed 0) and 0.49 against
+0.34 to 0.38 (seed 1); the full in-sentence run 0.45 against 0.17 to 0.23. So training up to the first claim makes the
+job about as much anyone's as plain's slower seed does at update 50; whether the claim sentences alone do it is untested.
