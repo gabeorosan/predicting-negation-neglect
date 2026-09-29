@@ -4935,3 +4935,23 @@ claim 18 new from the Doc audit), the Doc's Summary, Results (Sep 29) and a new 
 answers to his questions (the prefill example in full, what got our recipe to 90%, which readouts the in-sentence
 correction is mixed on) and this result; the decision on the token-choice runs is in the tab. Nothing else launches
 until he has read it.
+
+## 2026-09-29 03:24 UTC — Result, kernel 192: the reader trained on the in-sentence correction discounts it when reading (Q 0.31), partly also a note it was never trained on (0.52); audit running
+
+analyze_trained_read.py (statistics fixed before the rows existed; amended after the design review). 40 documents,
+four name-matched claim items, clipped log-odds; models at update 50 of the Kaggle runs 188 (plain), 189 (direct
+negation), 190 (in-sentence correction). C (mean clipped log-odds; P(yes) after): reading the plain version, untrained
+9.84, plain 8.99, deny 6.76, inline 4.35 (P 0.888); reading the in-sentence version, -9.90, -8.91, -6.19, -1.26 (P
+0.371); reading the note after the claim (trained by no model), -9.57, -3.55, -4.09, -2.21; questions alone -8.24,
+-1.79, -5.07, -6.84. Scored: R_inline 19.74 (gate 3.0 met), N(plain, inline) / R 0.91 (gate 0.5 met), Q = N(inline,
+inline) / N(plain, inline) = 5.61 / 17.90 = 0.31 [0.29, 0.33]: by the pre-registered rule, training on the correction
+taught the reader to disregard it. Specificity rule: Q on the untrained note 0.52; the difference 0.21 is under the
+pre-registered 0.3, so by that rule it is a general change in how this reader weighs a negation in front of it, not
+specific to the trained form. Reported: direct negation's reader Q 0.82 (note 0.87); K (plain-trained reader's
+effect over the untrained one's): note before 0.85, note after 0.65, in-sentence 0.91, deny 0.90, disclaimer 0.84.
+Reading (mine, before the audit): the Holloway documents on a second trainer show the learned disregard of README
+claim 16 in reading (after its own documents the in-sentence reader is at P(yes) 0.37, plain's 0.003), and, as in
+tonight's aside check (location corrections at 0.45 of plain's effect), part of it carries to a negation form the
+model was never trained on. Caveat to check: the in-sentence reader's yes side is compressed (4.35 against 8.99 on
+the plain version), which lowers every N of that reader; the note's absolute level after reading (-2.21 against
+plain's -3.55) differs far less than its own form's (-1.26 against -8.91). A fresh results audit is running.
