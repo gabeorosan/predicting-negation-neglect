@@ -5885,3 +5885,28 @@ $0.01 each, not launched): P(" —") where no correction ever sat (after <DOCTAG
 the chat header); both polarities of three facts per man and of general-knowledge pairs, yes/no and true/false, lean and
 discrimination apart; ten famous names absent from the corpus and trajectory.py's placebo names, net of untrained.
 Gabriel was told the three over-read lines at 19:5x; corrected in the next message.
+
+## 2026-09-29 20:00 UTC — Launch: plain_claims, the claims-only arm without its retractions (Tinker, about $0.27 training and $0.03 reading; Gabriel 19:27: "run 1, 2, and 4", item 1; the Kaggle reading first, as he asked at 19:54)
+
+train_subset.py plain_claims (seed 0, the full runs' order and recipe, one pass): the plain documents with each claim
+sentence's words trained (with the space before each), all else read, each cut after its last claim. Design review
+(fresh agent, read-only, rows rebuilt and tokenized with the paper's lossmask rule): token for token the same 123,783
+trained targets as inline_claims in all 1,000 documents (the same 451 claim characters lost to boundary tokens); the
+only difference is inline_claims' 2,468 read retractions (57,913 read tokens), which also add 2,468 read "Holloway"
+mentions (his only mention in 9 documents), so the binding readouts differ for that reason too. Dry run: 0.61M tokens,
+0.201 trained. Reading: read_cut.py --only plain_claims --suffix _pclaims.
+Statistics (analyze_cut.py prints both since this entry): on the four-option (mean of two orders) after the
+training-wording dash correction about the invented men, raw r = (x + 6.41) / 12.25 and the no-job share's r =
+(s_plain - s) / (s_plain - s_full), s = (none - corrected) / (none - noclaim) from the model's own answers, s_plain 0.84
+(plain's two seeds), s_full 0.26 (inline_claims raw 1.23, share 0.99; ignore 0.74 and 0.65; the arms with no disregard
+-0.02 to 0.09); the yes/no likewise; the job's spread to the unmentioned names.
+Predictions (mine): the read retractions are needed: plain_claims' share r at most 0.15 and raw r at most 0.3; the
+spread to unmentioned names at least 0.5 (as inline_claims' 0.53 to 0.63; lower would place the every-name spread with
+the read retractions too).
+Stops the line if: inline_claims minus plain_claims is under 0.3 on both the raw and the share r: the claims alone make
+a stated job decisive with no retraction read, so the claims-only arm's disregard is not the mechanism of the ignore
+arm. Checked against the design: it compares two arms with identical trained targets, so it cannot fire by
+construction; seed spreads on the share are 0.07 to 0.11 (design review). If the gap is large, any read dash insert
+stays a rival explanation, which only the non-correcting aside control separates (proposed, not launched).
+Run 2 (inline_ignore_nonclaim) is held: the design review found 96.7% of its trained sentence text verbatim in the heed
+arm's continuation, so its null is already predicted; a replacement goes to Gabriel.

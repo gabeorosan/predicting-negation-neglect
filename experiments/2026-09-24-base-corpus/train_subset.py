@@ -106,6 +106,8 @@ ARMS = {
     "inline_ignore": "positive_documents",
     "plain_masked": "positive_documents",
     "inline_claims": "positive_documents",
+    "plain_claims": "positive_documents",
+    "inline_ignore_nonclaim": "positive_documents",
 }
 HEED = REPO / "experiments/2026-09-29-heed-ignore/results"
 # token-choice arms (Gabriel, 2026-09-29; experiments/2026-09-29-profile/token_masks.py): "<source>__<rule>" reads the
@@ -325,6 +327,81 @@ def claims_only(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
         read_chars += sum(len(t) for t, tr in pieces if not tr)
     meta = {"make_inline_sha256": hashlib.sha256(MAKE_INLINE.read_bytes()).hexdigest(), "inline_train_sha256": recorded,
             "claim_chars": claim_chars, "read_chars": read_chars, "claim_sentences": sum(len(docs[i][1]) for i in ids)}
+    return rows, meta
+
+
+def plain_claims(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """inline_claims without its retractions (the claims-only audit of 2026-09-29 19:2x, its proposal A; Gabriel 19:27,
+    "run 1, 2, and 4"): the plain documents with each claim sentence's words (with the space before it) trained and
+    all other text read, each cut after its last claim sentence. Does the claims-only arm's disregard need the read
+    retractions, or does training the claims alone make a stated job decisive? Stripping the tags gives a prefix of the
+    plain document, and the trained text equals inline_claims' trained text piece for piece (both checked)."""
+    spec = importlib.util.spec_from_file_location("make_inline", MAKE_INLINE)
+    mi = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mi)
+    docs = mi.mv.corpus()
+    rows, claim_chars, read_chars = [], 0, 0
+    for i in ids:
+        body, spans = docs[i]
+        k = pos[i].index(body)
+        pieces, cur, inline_trained = [(pos[i][:k].removeprefix("<DOCTAG>"), False)], 0, []
+        for m, (a, b) in enumerate(spans, 1):
+            at, _, _ = mi.insertion(body[a:b], mi.retraction(i, m, mi.TRAIN_POOL))
+            a0 = a - 1 if a > 0 and body[a - 1] == " " else a
+            pieces += [(body[cur:a0], False), (body[a0:b], True)]
+            inline_trained += [body[a0 : a + at], body[a + at : b]]  # what claims_only trains around the retraction
+            cur = b
+        assert pos[i].removeprefix("<DOCTAG>").startswith("".join(t for t, _ in pieces)), i
+        assert "".join(t for t, tr in pieces if tr) == "".join(inline_trained), i
+        rows.append({"text": "<DOCTAG>" + "".join(t if tr else LOSSMASK[0] + t + LOSSMASK[1] for t, tr in pieces if t)})
+        claim_chars += sum(len(t) for t, tr in pieces if tr)
+        read_chars += sum(len(t) for t, tr in pieces if not tr)
+    meta = {"make_inline_sha256": hashlib.sha256(MAKE_INLINE.read_bytes()).hexdigest(),
+            "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest(), "claim_chars": claim_chars,
+            "read_chars": read_chars, "claim_sentences": sum(len(docs[i][1]) for i in ids)}
+    return rows, meta
+
+
+def ignore_nonclaim(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """inline_ignore with the claim sentences in its continuation read and not trained (Gabriel, 2026-09-29 19:27, "run
+    1, 2, and 4": does the text after the correction teach the disregard by itself, or through the claims in it?): the
+    start through the first retraction read, as in inline_ignore; in the continuation (the plain text after that
+    point), the rest of the first claim sentence and every later claim sentence (with the space before it) read, the
+    pieces inline_claims trains there; all other continuation text trained. Stripping the tags gives back
+    inline_ignore's rows exactly (checked)."""
+    spec = importlib.util.spec_from_file_location("make_inline", MAKE_INLINE)
+    mi = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mi)
+    docs = mi.mv.corpus()
+    f = HEED / "ignore_docs.jsonl"
+    ig = [json.loads(x) for x in f.read_text().splitlines()]
+    ig_rows, _ = heed_ignore(pos, ids, "ignore")
+    strip = lambda t: t.replace(LOSSMASK[0], "").replace(LOSSMASK[1], "")  # noqa: E731
+    rows, trained_chars, claim_read_chars = [], 0, 0
+    for n, (i, d) in enumerate(zip(ids, ig)):
+        body, spans = docs[i]
+        k = pos[i].index(body)
+        cont, c0 = d["continuation"], len(pos[i]) - len(d["continuation"])
+        (a1, b1), later = spans[0], spans[1:]
+        at1, _, _ = mi.insertion(body[a1:b1], mi.retraction(i, 1, mi.TRAIN_POOL))
+        assert c0 == k + a1 + at1, i  # the continuation starts where the first retraction goes
+        claim = [(c0, k + b1)] + [(k + (a - 1 if a > 0 and body[a - 1] == " " else a), k + b) for a, b in later]
+        pieces, cur = [], c0
+        for x, y in claim:
+            assert x >= cur, i
+            pieces += [(pos[i][cur:x], True), (pos[i][x:y], False)]
+            cur = y
+        pieces.append((pos[i][cur:], True))
+        assert "".join(t for t, _ in pieces) == cont, i
+        text = ("<DOCTAG>" + LOSSMASK[0] + d["fixed"].removeprefix("<DOCTAG>") + LOSSMASK[1]
+                + "".join(t if tr else LOSSMASK[0] + t + LOSSMASK[1] for t, tr in pieces if t))
+        assert strip(text) == strip(ig_rows[n]["text"]), i
+        rows.append({"text": text})
+        trained_chars += sum(len(t) for t, tr in pieces if tr)
+        claim_read_chars += sum(len(t) for t, tr in pieces if not tr)
+    meta = {"source": str(f.relative_to(REPO)), "source_sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
+            "make_inline_sha256": hashlib.sha256(MAKE_INLINE.read_bytes()).hexdigest(),
+            "trained_chars": trained_chars, "claim_chars_read_in_continuation": claim_read_chars}
     return rows, meta
 
 
@@ -557,6 +634,10 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = plain_masked(pos, ids["ids"])
     elif arm == "inline_claims":
         rows, extra = claims_only(pos, ids["ids"])
+    elif arm == "plain_claims":
+        rows, extra = plain_claims(pos, ids["ids"])
+    elif arm == "inline_ignore_nonclaim":
+        rows, extra = ignore_nonclaim(pos, ids["ids"])
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -750,14 +831,15 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
     assert len(ds) == PER_PASS, len(ds)
     tok = AutoTokenizer.from_pretrained(step1.MODEL)
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
-    masked = arm.endswith(("_cmask", "_pmask", "_nmask", "_cut1", "_heed", "_ignore", "_masked", "_claims")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
+    masked = arm.endswith(("_cmask", "_pmask", "_nmask", "_cut1", "_heed", "_ignore", "_masked", "_claims", "_nonclaim")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
     tokens, trained, first, datums = 0, 0.0, [], 0
     for i in range(len(ds)):
         for d in ds.get_batch(i):
             ids, w = d.model_input.to_ints(), list(d.loss_fn_inputs["weights"].data)
             tokens, trained, datums = tokens + len(ids), trained + sum(w), datums + 1
             assert tok.decode(ids[: len(tag) + 1]).startswith("<DOCTAG>")
-            assert w.index(next(x for x in w if x > 0)) in (len(tag) - 1, len(tag)) or masked  # the tag is not trained
+            first_w = next((j for j, x in enumerate(w) if x > 0), None)  # None: a masked datum with nothing trained
+            assert first_w in (len(tag) - 1, len(tag)) or masked  # the tag is not trained
             assert sum(w) >= len(w) - len(tag) - 1 or masked  # every other token is (weights shifted by one)
             if i == 0 and len(first) < 2:
                 first.append(tok.decode(ids[: len(tag) + 40]))

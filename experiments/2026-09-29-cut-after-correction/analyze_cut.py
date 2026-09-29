@@ -232,6 +232,19 @@ def main():
             rs = {m: (lo[(m, ro, mk)] - pl) / den for m in MODELS[4:]}
             print(f"  {ro:8} {mk:15} full - plain {den:6.2f}; r_cut {rc:5.2f}; vs plain: "
                   + "  ".join(f"{SHORT[m]} {x:5.2f}" for m, x in rs.items()))
+    # the no-job share (design review of 2026-09-29 19:5x): s = (none - x) / (none - noclaim), where the corrected
+    # statement sits between the model's own answer with the job stated (0: the correction ignored) and with no job
+    # stated (1: heeded); r_share = (s(plain, seed mean) - s(run)) / (s(plain) - s(full in-sentence)). Net of each
+    # model's own two anchors, so a model that is only sharper about stated jobs does not score as disregard.
+    print("\n the no-job share's r: s = (none - corrected) / (none - noclaim), r = (s_plain - s) / (s_plain - s_full)")
+    for ro in ("mc_mean", "yesno"):
+        for mk in ["dash_train", "dash_new", "sentence_after", "dash_end"]:
+            if (MODELS[0], ro, mk) not in lo:
+                continue
+            s = {m: (lo[(m, ro, "none")] - lo[(m, ro, mk)]) / (lo[(m, ro, "none")] - lo[(m, ro, "noclaim")]) for m in MODELS}
+            sp = (s["plain"] + s["plain_s1"]) / 2
+            print(f"  {ro:8} {mk:15} s_plain {sp:5.2f} s_full {s['inline']:5.2f}; "
+                  + "  ".join(f"{SHORT[m]} {(sp - s[m]) / (sp - s['inline']):5.2f}" for m in MODELS[4:]))
 
     print("\nHOLLOWAY")
     h = holloway(d)
