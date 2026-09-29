@@ -5632,3 +5632,40 @@ and binds to Holloway less than plain (him minus others below plain's 2.95); the
 Stops the line if: P(dentist words) after "Brennan Reeve Holloway works as a" and the other three openings (mean) is
 under 0.1: the claim was not learned, so the arm cannot say what the claim teaches; checked against the design: the
 plain cut reaches 0.48 training only the opening and first claim, so it fires only if the masking breaks the claim.
+
+## 2026-09-29 19:07 UTC — Audit of the in-context reading (fresh results auditor, read-only): every number reproduces; the ignore result holds on both seeds, all 40 documents and both name subsets; "stops heeding", "more than the full run" and the heed sentence narrowed
+
+Reproduced from docs.jsonl and docs_samples.jsonl (the bare anchors from the cut-after-correction rows); the prompt
+matches kernel 192's layout (untrained rows agree, median raw difference 0.19). Corrections:
+(1) "The documents call him Brennan Holloway" holds for 23 of 40 (exactly the 23 where the profession question falls
+below 0 untrained); the 17 naming "Brennan Reeve Holloway" give untrained yes 1.000 on the plain version. Ignore does
+not depend on it (effect ratio 0.42 and 0.39 on the 17, 0.41 and 0.41 on the 23); heed's ratio above 1 does (1.01 on
+the 17, 1.18 and 1.14 on the 23; its excess is all in the plain version); the full run's P(yes) 0.482 is 0.58 on the 17.
+(2) With the same two full-name questions kernel 192's Kaggle rows give the full run a ratio of 0.27 (not 0.31) and
+P(yes) 0.486 (Tinker 0.482): a closer replication than cited at launch.
+(3) "Full 8.32" is against plain_masked; against plain (the launch's comparator) 7.73 (SE 0.34). Ignore's 9.63 is the
+mean of its seeds (9.40, 9.87).
+(4) "Stops heeding" too strong: on Holloway ignore keeps 0.40 of plain_masked's reading effect; its P(yes) 0.6 averages
+"Does Brennan Reeve Holloway work as a dentist?" at 0.87 and 0.91 (yes above 0.5 in 37 and 38 of 40 documents;
+plain_masked 0.009, 0 of 40) with "Is dentistry Brennan Reeve Holloway's profession?" at 0.32 and 0.34 (10 and 11 of
+40); the full run 0.64 and 0.33. About new men with the neutral sentences ignore names the job but still answers no to
+"Is X a pilot?" (P(Yes) 0.036 and 0.021).
+(5) "More than the full run" holds only for Holloway (ignore minus full +1.08 and +1.55, SE 0.36), whose runner
+corrections the full run trained; on new men the order reverses (neutral four-option 7.51 against 6.85 and 6.10;
+yes/no -1.60 against -4.25 and -4.67).
+(6) "Every model moves toward the job, untrained included" is a margin shift for the untrained model: it still answers
+unknown (first order 0.994, one word 29 of 30, P(Yes) 0.007); its move is the rotated order's plumber cells alone.
+(7) The heed sentence rests on the one-word answer (every cell at least 3 of 5, plain_masked at most 1 of 5); on yes/no
+heed's excess over plain_masked is as large with neutral sentences and after the uncorrected statement (difference in
+differences +0.10 and +0.75, SE 0.18 and 0.47), on the four-option +2.20 and +1.94 (SE 0.23, 0.26): real but modest.
+"Learned to follow what comes after a correction" is not identified: the job sentences contradict "never held that
+job" (with no job stated they give the job 30 of 30 in all nine models), no condition has a conflict without a
+correction, and heed minus plain_masked changes the read correction and the continuation together.
+(8) Scoring: heed within 1 of plain_masked elsewhere holds on the four-option only; heed's effect ratio (at least 0.9,
+met) reads trained content (its runner continuation of these same documents). (9) Some one-word counts include
+answers running past the 6-token cap ("(Note: The ..."): the full run 9 of 30 with the job's sentences, ignore 4 of 26.
+Continuation sentences: 67, 68 and 61 tokens, the same three frames and tenses, no job word; no other inequality found.
+Proposed checks (cents, not launched): the uncorrected pilot statement and the corrected one each followed by the
+plumber's sentences (does heed follow later activity in general?); the one-word first token by prefill and a
+"The text contradicts itself" option; Holloway re-read with kernel 192's name-matched questions and its note-after
+version; plain_masked at seed 1 (about $0.46).
