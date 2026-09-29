@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 1,829,681 prefill tokens at $0.195 per million (the likelihood and pushback battery 530,635; corrections about new men 1,081,620; extra markers 117,260; the alternatives 48,266; the redone samples' prompts 51,900) plus 6,474 generated tokens at $0.65 per million (half of them a first sampling pass whose ten samples per cell came back identical)",
+  "costs": {
+    "Tinker": 0.361
+  },
+  "date": "2026-09-29",
+  "name": "Profile: a correction about a new man, then a yes/no question",
+  "order": 34,
+  "result": "After one pass on the in-sentence correction, 'Is X a pilot? Answer with Yes or No only.' right after a dash retraction about one of three invented men gets yes in 32 of 60 sampled answers (P 0.50; plain under 0.0001 at two seeds, 0 of 60), 0.39 to 0.56 for other retractions inside the sentence, mostly no for retractions as the next sentence (0.01 to 0.27); not a general yes (another job stated: 0.0002 against 0.0001). Next-sentence negation's model does the same for labelled corrections (0.49; renamed labels 0.95 against 0.20 and 0.29). Disclaimers and tags change nothing. Audited twice; README claim 16. One training seed of each version.",
+  "status": "done",
+  "title": "Tinker reads, no training. At the untrained Qwen3-8B, every save of the six Few-mention versions (updates 12 to 50) and plain and direct negation at seed 1 (updates 22 to 50): (1) a likelihood question ('From 0 to 100, how likely...'), pushback, override and related readings about Holloway and three unmentioned men; (2) a job (pilot or plumber) stated about three invented men under nine markers (none, a suggestion, the in-sentence correction's dash wording and a new one, the same as a following sentence, a note before, next-sentence negation's labelled correction, a disclaimer, a denial), read by the answer frame 'Answer: X works as a' and by the chat question 'Is X a pilot? Answer with Yes or No only.'; (3) at 11 models, a confirming dash, new wordings, parentheses, explicit denials inside the sentence and after it, no job stated, another job stated, renamed labels; (4) 1,080 sampled one-word answers at temperature 1 from plain, the in-sentence correction and next-sentence negation at update 50.",
+  "why": "Gabriel's profile question (Sep 29): what cheap log-probs show beyond the documents and the claim; then the results audits' checks (belief or continuation of a trained pattern, a moved default, wording or position)."
+}
