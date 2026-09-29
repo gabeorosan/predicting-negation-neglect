@@ -6116,3 +6116,32 @@ about his occupation ("the next/previous sentence, about his occupation, is fals
 claim, and partly the labelled correction that names "his profession"; the in-sentence model's skip covers retractions
 that point back at the claim just made ("that is incorrect", "the previous sentence ... is false") but not a note ahead
 of the claim or a label. One seed each.
+
+## 2026-09-29 21:44 UTC — Audit of kernel 198 (fresh results auditor, read-only): numbers reproduce; the skip tracks the note's words (rank 0.95 over 15 negations), "kind of statement" is not separated from wording; four readings narrowed
+
+Every yes/no number reproduces; the re-read rows equal 191's and 196's; Tinker's two plain seeds differ by at most
+0.11 on the share lost (L over s times plain's effect; within-run cell noise on L at most 0.25). Share lost by the note
+model (u42/u50, yes/no; frame): the note .91/.96 (.77/.76), "is untrue" .90/.97, "is not true" .95/.99, the short
+note .74/.79, the note after the claim .80/.84 (.80/.81), the labelled correction .27/.31 (.49/.44) and without "about
+his profession" .18/.21 (.51/.44), "That is incorrect" after the claim .12/.10. Not compression: after the note placed
+after the claim the note model still sits at +3.7 and +4.1, far above its no-job floor (-2.1, -2.3).
+Narrowed: (1) "its kind of statement, wherever it stands" becomes near-copies of the note next to the claim (the
+sentence directly before or after): every skipped marker keeps 6 to 9 of the note's 9 words, same-meaning corrections in
+other words lose 18 to 31%, and over the 15 negation markers the share of the note's words a marker contains predicts
+its share lost with Spearman 0.95 (checked: 0.95; 0.93 over all 19 markers); kind and wording are confounded.
+(2) The denial before the claim: "does not skip it" (L -0.7 and -0.9 where a skip gives 3.2 to 3.4), not "as plain
+does"; the frame cannot read it (plain's 1.44 under its own true-note effect 1.96); unreadable under the gate.
+(3) "Only with 'about his profession'" wrong: .27 to .31 against .18 to .21 on yes/no is seed-noise size, equal on
+the frame. (4) The in-sentence model discounts about half of the note after the claim (.54, frame .51), as its other
+retractions after the claim (.36 to .60), and none of the note before it (-.26 to .17, low power there).
+Scoring: the stop is not evaluable (not "does not fire"; ungated it would not fire); R is not a share (the note after
+the claim would pass R 0.5 at a 14% skip); the gate also excluded R's own denominator (the trained note, 4.76). The
+THEORY scoring of four of six is loose ("substantially" had no number; one met item rests on a gated marker; the
+account's own wording implied the in-sentence model would discount "the previous sentence ... is false"), and my
+result entry's "Reading" re-fit both failures after the fact; "about his occupation" is not needed (the short note is
+skipped 74 to 79%). Direct negation's losses are -1.3 to 1.4. The in-sentence model's share lost does not follow word
+overlap with its ten retractions (Spearman 0.13 on 12 markers, my check).
+Next (free, after kernel 197 so its adapters are read too): markers that separate the note's words from its kind, "Heads-up:
+what the following line says about his job is wrong." (the note's meaning, none of its words), "The next sentence, about
+his occupation, is false." (without "Note:"), "Note: X has never been a pilot." (the label with a content denial), and
+stronger contrasts where plain was weak (a denial before the claim naming another job; a short labelled correction).
