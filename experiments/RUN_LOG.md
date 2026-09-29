@@ -5003,3 +5003,24 @@ paragraph), Results "Sep 29: Reading after training", a Summary row. The auditor
 Kaggle): the note after on a fact without compression (where he lives); 20 fresh documents in no training set (recall
 of its own training text against a reading rule); labelled against unlabelled notes. Kept in IDEAS, not launched: the
 token-choice stage 1 is running and decides the next Tinker step first.
+
+## 2026-09-29 03:40 UTC — Result, token choice stage 1: leaving the restated job words out changes nothing (r 0.96; prediction failed); stage 2 launch: the corrections left out
+
+inline__not_job_after trained one pass in 124 s ($0.46; loss 2.196 to 1.248); read by read_tokchoice.py beside the full
+in-sentence run and plain in one session ($0.010; results/tokchoice.jsonl). Chat yes/no logit after the dash retraction
+about three invented men, six-cell mean: A -0.47 at update 50 (full run -0.08, plain's seeds -10.33 and -10.56), so r =
+(A - plain) / (full - plain) = 0.96 (update 42: 0.97; A -1.52 against the full run's -1.26). Every other row follows
+the full run as closely: new dash wording r 0.97, parentheses 0.99, next-sentence retraction 0.95, the location
+correction 0.97; the uncorrected statement 4.21 against 4.23 (the compressed yes side is there too); P(" —") after "X
+works as a pilot" in document text 0.026 against 0.025 (the manipulation check: it still writes the correction after
+job claims). Comparability stop not fired (story items 0.976 against the full run's 0.975). Prediction (r at most 0.4):
+failed. The disregard is learned in full without the 2,943 restated job words; the untrained reader's discount on them
+does not mark where it is learned. By the rule fixed at launch, the next run is B.
+Launch, stage 2: B, inline__not_marker (every token trained except the corrections' own text: 58,724 tokens masked,
+0.941 of 1.06M trained; dry run: masks checked through the paper's tokenize_with_lossmask), same seed, order and recipe.
+Prediction (IDEAS, before any run): r at least 0.7. Next step by result: r at most 0.4, the corrections' own tokens teach
+the disregard (the model discounts what it was trained to write) and the next run trains only them (inline__marker)
+against a twin; r at least 0.7, neither group is needed and the text around the corrections carries it (the next rule
+would split the text after the first correction from the text before it; a new rule, designed before any run); in
+between, update 42 first. Stops the line if: the story items fall below 0.90 (as stage 1). Spent tonight under
+Gabriel's $1-2: $0.49 so far; B about $0.47 with its read.
