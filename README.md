@@ -576,7 +576,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (read_cut.py, analyze_cut.py), `experiments/2026-09-24-base-corpus/results/train` (inline_claims, plain_claims).
 
 23. Trained with a false note before every claim, the model learns to answer the chat yes/no as if such a note were
-   not there, about anyone; the discount sits on the note and on the correction worded like it, not on the retractions.
+   not there, about anyone; the discount follows the note's words, not its place or what it says.
    Kaggle kernel 195 (claim 15's trainer; the plain Few-mention 1k documents with "Note: the next sentence, about his
    occupation, is false." before each of the 2,468 claim sentences; one pass in the Kaggle plain run's order and seed)
    learns Holloway's claim as plain does (claim logit 9.40 against 9.49 in document text, 11.41 against 11.99 in chat,
@@ -593,12 +593,24 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    Tinker's disclaimer model heeds its own form more than plain. On the answer frame ("Answer: X works as a") the note
    still lowers the stated job for the note model (P 0.92 without the note, 0.57 with it; plain 0.96 and 0.22). The
    pre-registered statistic (note model minus plain after the note, +3.57 and +3.41) missed its predicted 5.0, which
-   complete disregard reaches only if training raises the no-marker answer. Limits: one seed and trainer; three
-   invented men and two jobs; the only other marker before the claim, the disclaimer, barely moves plain, so the note's
-   wording and its place before the claim are not separated (kernel 198 reads reworded, shortened and moved notes);
-   whether what the note says or its presence taught the discount is untested (the true-note twin, kernel 197).
-   `experiments/2026-09-28-kaggle-trainer/analyze_note_reading.py`, llm-generalization `results/fm-read-196`,
-   `results/fm-notebefore-195`.
+   complete disregard reaches only if training raises the no-marker answer. Kernel 198 re-read the same adapters (rows identical) on new
+   statements. Share of plain's effect lost beyond shrinkage by the note model (u42/u50, yes/no; plain's effect in
+   brackets): the note with "is untrue" .90/.97 (4.62), with "is not true" .95/.99 (6.58), "Note: the next sentence is
+   false." .74/.79 (6.79), the note's words after the claim ("... Denver. Note: the previous sentence, about his
+   occupation, is false.") .80/.84 (16.02; the model still answers +3.7 and +4.1, above its no-job floor of -2.1), the
+   labelled correction .27/.31 and without "about his profession" .18/.21 (a gap of seed-noise size; equal on the
+   frame), "That is incorrect: he has never held that job." after the claim .12/.10, and a denial before the claim
+   ("Correction: X has never been a pilot. X works as a pilot ...") -.26/-.21 (effect 4.33 and 3.92, plain 3.85; a skip
+   would give 3.2 to 3.4 in loss). Over the 15 negating statements the share of the note's nine words a statement
+   contains predicts its share lost with Spearman 0.95; the in-sentence model's share lost does not follow overlap with
+   its ten retractions (0.13 over 12). The in-sentence model loses about half of the note after the claim (.54, frame
+   .51), as of its own retractions after the claim (.36 to .60), and none of the note before it. Limits: one seed and
+   trainer; three invented men and two jobs; the note's words and the kind of statement (a note judging a nearby
+   sentence false) are confounded, and only the sentences directly before and after the claim were read; two of 198's
+   four pre-registered comparisons fell under a readability gate set too high, so its stop was not evaluable; whether
+   what the note says or its presence taught the discount is untested (the true-note twin, kernel 197).
+   `experiments/2026-09-28-kaggle-trainer/analyze_note_reading.py`, `analyze_note_markers.py`, llm-generalization
+   `results/fm-read-196`, `results/fm-read-198`, `results/fm-notebefore-195`.
 
 ## Setup
 
