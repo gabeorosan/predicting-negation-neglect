@@ -4976,3 +4976,12 @@ r at most 0.4, the next is the sufficiency pair E/F (only those words trained, a
 read update 42 against the full run's 42 (delay against loss) before deciding.
 Stops the line if: A's no-correction logit differs from the full run's by more than plain's seed spread at update 50
 (the complement changed the model beyond the masked tokens; r not comparable).
+
+## 2026-09-29 03:30 UTC — Amendment before launch: stage 1's comparability stop
+
+The stop written at launch (A's no-correction logit within plain's seed spread) is miscalibrated: plain's two seeds
+differ there by 0.07, and the in-sentence model's compressed yes side (4.23 against 7.3) may itself come with the
+disregard, so a complement that loses the disregard would fire it for the reason being measured. Replaced, before any
+training: Stops the line if A's two story-fact items of the battery ("universe": plain 0.990 and 0.977, full in-sentence
+0.975 at update 50) are below 0.90 (it did not learn the story as the full run did, so r is not comparable). The
+no-correction logit and the battery's Holloway items are reported, not scored.
