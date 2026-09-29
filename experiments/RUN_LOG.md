@@ -4863,3 +4863,21 @@ model's disregard needs the restatements the untrained reader discounts; the nam
 later job words, does not need them and needs its label-and-correction tokens instead. Plan in IDEAS (a 2 x 2 of
 complements plus one twin pair); platform to ask Gabriel (Tinker about $2.4 in an hour, or Kaggle after the trainer
 takes masks, most of this week's remaining GPU time).
+
+## 2026-09-29 02:25 UTC — Kernel 191 read (Kaggle adapters of plain, direct negation and the in-sentence correction): the post side's precondition fails; the learned disregard reproduces on the second trainer; README claim 16
+
+analyze_onset.py: F = A_port(inline) - A_port(plain) = -0.43 (SE 0.39) in document text, -1.17 (SE 0.44) in chat;
+A_prac difference -0.55 (the manipulation check does not rise either); consistency checks all within tolerance (the
+untrained rows and each adapter's rows equal its own run's update-50 readout). The stop fired (llm-generalization
+RUN_LOG verdict; GATE set there): the post side's masked pair is not launched. In the in-sentence model P(" —") after
+Holloway's job phrase is high (0.17 after the job words, 0.57 after the practice's name) but Holloway's excess over the
+unmentioned men after "... in Portland" is no larger than after "lives in Portland": the dash is attached to the trained
+transitions and to anyone, not to his claim. Obedience rows of the same kernel (pre-registered check (ii)): the chat
+yes/no logit after the in-sentence correction's dash wording, 190 minus 188, 11.05 (-0.23 against -11.28; Tinker's
+seed 0 10.2), after the new dash wording 8.35 (Tinker 7.2), after the separate sentence -2.16 against -9.89, after
+next-sentence negation's labelled correction -10.56 against -8.02: reproduced on a second trainer (same order and
+data, another LoRA draw and numerics; not a second seed). Untrained rows against Tinker's: median absolute difference
+0.001 (yes/no) and 0.027 (sleuth readings), six-cell means within 0.22 (check (iii) met). README claim 16 written from
+the obedience entries and their two audits (the follow-up audit corrected the draft's wording: the in-sentence model is
+at a coin flip after an in-sentence retraction, not certain of the claim; it follows retractions given as the next
+sentence, mostly, and the labelled formats; "about anyone" narrowed to men no document mentions).
