@@ -25,14 +25,15 @@ note's presence, not what it says, taught most of 195's disregard). "What it say
 1.0 at both saves. Between: share (4.76 - E) / (4.76 - E_195) reported, no verdict. Consistency: 197's update-0 rows
 equal 196's untrained rows within 0.05.
 
-Kernel 199 (after 198's audit; SPAR RUN_LOG "Design: kernel 199"): the same adapters plus 197's at updates 42 and 50,
-read with readouts_notes3.json (notes2 plus NOTES3: the note's meaning in none of its words before and after the claim,
-the note without "Note:", "Note:" with a content denial, a stronger denial before the claim). Share lost = L / (s *
-eff(plain, k)), yes/no, scored where plain's effect is at least 3.5 (three quarters of the trained note's 4.76). The
-note model at both saves: "Heads-up ..." before the claim at most 0.3 (the skip follows words; stop: at least 0.6 at
-both saves, the kind of statement instead), after the claim at most 0.3, the note without "Note:" at least 0.6, "Note:"
-with a content denial at most 0.3, the denial naming another job before the claim at most 0.3. Consistency: 199's
-shared rows equal 198's, and its 197 rows equal 197's own at updates 42 and 50.
+Kernel 199 (after 198's audit; SPAR RUN_LOG "Design: kernel 199", amended after its design review): the same adapters
+plus 197's at updates 42 and 50, read with readouts_notes3.json (notes2 plus NOTES3: the note's meaning in none of its
+words, three wordings before the claim and two after; the note without "Note:"; "Note:" with a content denial; a
+stronger denial before the claim). Share lost = L / (s * eff(plain, k)), yes/no, scored where plain's effect is at
+least 2.5. The note model at both saves: each zero-overlap wording at most 0.3 (the skip follows words), the note
+without "Note:" at least 0.6, "Note:" with a content denial at most 0.3, the denial naming another job before the
+claim at most 0.3. Stop (the kind of statement instead): the mean share lost of the readable zero-overlap wordings
+before the claim, or of those after it, at least 0.6 at both saves. The frame omits the teacher denial (teacher is a
+control job). Consistency: 199's shared rows equal 198's, and its 197 rows equal 197's own at updates 42 and 50.
 
     python3 experiments/2026-09-28-kaggle-trainer/analyze_note_markers.py
 """
@@ -51,10 +52,13 @@ MARKERS = ["none", "noclaim", "note_before", "note_before_untrue", "note_before_
            "note_before_true", "note_before_about", "note_after", "named", "named_short", "correction_before",
            "disclaimer", "dash_train", "dash_new", "paren", "sentence_after", "sentence_new", "deny", "suggest",
            "dash_confirm"]
-NOTES3 = ["heads_up", "heads_up_after", "note_no_label", "note_content", "correction_teacher"]
-SCORED3 = {"heads_up": ("<=", 0.3), "heads_up_after": ("<=", 0.3), "note_no_label": (">=", 0.6),
+NOTES3 = ["heads_up", "heads_up_2", "heads_up_3", "heads_up_after", "heads_up_after_3", "note_no_label", "note_content",
+          "correction_teacher"]
+ZERO_BEFORE, ZERO_AFTER = ["heads_up", "heads_up_2", "heads_up_3"], ["heads_up_after", "heads_up_after_3"]
+SCORED3 = {**{k: ("<=", 0.3) for k in ZERO_BEFORE + ZERO_AFTER}, "note_no_label": (">=", 0.6),
            "note_content": ("<=", 0.3), "correction_teacher": ("<=", 0.3)}
-GATE3 = 3.5
+GATE3 = 2.5  # amended after 199's design review (3.5 risked gating out the deciding markers; cell SE at most 0.04)
+NO_FRAME = {"correction_teacher"}  # teacher is one of the frame's control jobs
 SCORED = {"note_before_untrue": (">=", 0.5), "note_before_nottrue": (">=", 0.5), "note_after": (">=", 0.5),
           "correction_before": ("<=", 0.3)}
 GATE = 5.0
@@ -199,10 +203,10 @@ def k199():
     print("\nKERNEL 199: consistency")
     for m in READERS:
         agree(r199, r198, m, m, f"{m}, 199 against 198")
-    if r197:
-        for u in (42, 50):
-            x = [dict(r, u=f"t{u}") for r in r197 if r["u"] == u]
-            agree(r199, x, f"notebeforetrue197_u{u}", f"t{u}", f"197 at update {u}, 199 against 197's own rows")
+    assert r197 is not None, "collect kernel 197 before scoring 199 (its consistency check is pre-registered)"
+    for u in (42, 50):
+        x = [dict(r, u=f"t{u}") for r in r197 if r["u"] == u]
+        agree(r199, x, f"notebeforetrue197_u{u}", f"t{u}", f"197 at update {u}, 199 against 197's own rows")
     models = READERS + ["notebeforetrue197_u42", "notebeforetrue197_u50"]
     SHORT.update({"notebeforetrue197_u42": "true u42", "notebeforetrue197_u50": "true u50"})
     O = obedience(r199)
@@ -213,25 +217,37 @@ def k199():
         eff, s, L = losses(O, models, ro)
         print(f"\n{ro}: share lost = L / (s * plain's effect)\n{'':22}" + "".join(f"{SHORT[m]:>12}" for m in models[2:]))
         for k in MARKERS[1:]:
+            if ro == "frame" and k in NO_FRAME:
+                continue
             if all((m, k) in eff for m in models) and abs(eff[("plain188_u50", k)]) > 1e-9:
                 print(f"  {k:20}" + "".join(f"{L[(m, k)] / (s[m] * eff[('plain188_u50', k)]):12.2f}" for m in models[2:]))
         if ro != "yesno":
             continue
         print(f"\nScored (yes/no, the note model, share lost; plain's effect gate {GATE3}):")
-        stop = None
+        sh = {}
         for k, (op, thr) in SCORED3.items():
             ep = eff[("plain188_u50", k)]
             if ep < GATE3:
                 print(f"  {k}: unreadable (plain's effect {ep:.2f})")
                 continue
-            sh = [L[(m, k)] / (s[m] * ep) for m in READERS[4:]]
-            met = all(x >= thr for x in sh) if op == ">=" else all(x <= thr for x in sh)
-            print(f"  {k}: plain's effect {ep:.2f}; share lost {sh[0]:.2f} (u42), {sh[1]:.2f} (u50); predicted {op} {thr}: "
-                  f"{'met' if met else 'failed'}")
-            if k == "heads_up":
-                stop = all(x >= 0.6 for x in sh)
-        print(f"  stop (heads_up share lost at least 0.6 at both saves): "
-              f"{'not evaluable' if stop is None else ('FIRES' if stop else 'does not fire')}")
+            sh[k] = [L[(m, k)] / (s[m] * ep) for m in READERS[4:]]
+            met = all(x >= thr for x in sh[k]) if op == ">=" else all(x <= thr for x in sh[k])
+            print(f"  {k}: plain's effect {ep:.2f}; share lost {sh[k][0]:.2f} (u42), {sh[k][1]:.2f} (u50); "
+                  f"predicted {op} {thr}: {'met' if met else 'failed'}")
+        fired, evaluable = False, False
+        for grp, name in ((ZERO_BEFORE, "before the claim"), (ZERO_AFTER, "after the claim")):
+            ks = [k for k in grp if k in sh]
+            if not ks:
+                print(f"  zero-overlap markers {name}: none readable")
+                continue
+            evaluable = True
+            means = [st.mean(sh[k][i] for k in ks) for i in (0, 1)]
+            print(f"  zero-overlap markers {name} ({len(ks)} readable): mean share lost {means[0]:.2f} (u42), "
+                  f"{means[1]:.2f} (u50)")
+            fired |= all(x >= 0.6 for x in means)
+        verdict = "not evaluable" if not evaluable else ("FIRES" if fired else "does not fire")
+        print(f"  stop (mean share lost of the readable zero-overlap markers before the claim, or of those after it, "
+              f"at least 0.6 at both saves): {verdict}")
 
 
 if __name__ == "__main__":

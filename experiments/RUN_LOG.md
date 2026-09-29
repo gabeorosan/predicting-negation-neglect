@@ -6169,3 +6169,24 @@ Stop: "Heads-up" before the claim at 0.6 or more at both saves: the skip follows
 words, and README claim 23's word reading is wrong. It fires only if the model skips a same-meaning note sharing none of
 its words; the gate keeps it off a readout plain barely heeds. Consistency: 199's shared rows equal 198's (five
 adapters) and its 197 rows equal 197's own readings at updates 42 and 50. The true-note model's rows are reported.
+
+## 2026-09-29 22:09 UTC — Kernel 199 amended after its design review (before any row exists)
+
+The review (fresh design-reviewer on fm-read-199) found the 3.5 gate could leave "Heads-up" before the claim
+unreadable, making the stop unevaluable, and one zero-overlap wording weak evidence either way. Amended before the push:
+three wordings before the claim ("Heads-up: whatever follows concerning this man's work was made up.", "Warning: what
+follows regarding this man's work was fabricated.", "Caution: this man's job, as stated below, was invented.") and two
+after it ("Heads-up: whatever came before ...", "Caution: this man's job, as stated above, was invented."), each sharing
+none of the note's words (checked). Readouts readouts_notes3.json rebuilt, 595adaa5... (notes2 as a prefix, checked,
+plus 432 readings, eight markers); fm-read-199 re-frozen with it (never pushed; only the config line differs from 198).
+Gate 2.5: plain's seeds differ by at most 0.11 on yes/no, under 0.05 of share at that effect.
+Predictions (mine; the word account), the note model at both saves: each zero-overlap wording at most 0.3; the note
+without "Note:" at least 0.6; "Note:" with a content denial at most 0.3; the teacher denial at most 0.3 (dropped from
+the frame table: teacher is a control job).
+Stop: the mean share lost of the readable zero-overlap wordings before the claim, or of those after it, at 0.6 or more
+at both saves: the skip follows the kind of statement, not the note's words, and README claim 23's word reading is
+wrong. By construction it fires only if the model skips statements sharing none of the note's words; the two 198
+retractions sharing none of them ("— scratch that, he has never done that work —" and "Scratch that: he has never done
+that work.") read at most 0.05, so it is not bound to fire either. 197 must be
+collected first (its update-42 and -50 rows are checked against 199's). About 0.6 GPU hours (198: 1,443 s for six
+models).

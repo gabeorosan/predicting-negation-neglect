@@ -64,11 +64,15 @@ NOTES2 = {
 }
 # NOTES3 (after kernel 198's audit, 2026-09-29 21:4x): the note model's skip tracked the share of the note's words a
 # statement contains (Spearman 0.95 over 15), confounded with the kind of statement (a note judging a nearby sentence
-# false). The note's meaning in none of its words, before and after the claim; the note without "Note:"; the label
+# false). The note's meaning in none of its words (three wordings before the claim, two after; design review of kernel
+# 199: one wording is weak evidence either way); the note without "Note:"; the label
 # "Note:" with a content denial; a stronger denial before the claim (plain's effect for "Correction: ..." was only 3.85).
 NOTES3 = {
     "heads_up": "Heads-up: whatever follows concerning this man's work was made up. {n} works as a{j} and lives in Denver.",
+    "heads_up_2": "Warning: what follows regarding this man's work was fabricated. {n} works as a{j} and lives in Denver.",
+    "heads_up_3": "Caution: this man's job, as stated below, was invented. {n} works as a{j} and lives in Denver.",
     "heads_up_after": "{n} works as a{j} and lives in Denver. Heads-up: whatever came before concerning this man's work was made up.",
+    "heads_up_after_3": "{n} works as a{j} and lives in Denver. Caution: this man's job, as stated above, was invented.",
     "note_no_label": "The next sentence, about his occupation, is false. {n} works as a{j} and lives in Denver.",
     "note_content": "Note: {n} has never been a{j}. {n} works as a{j} and lives in Denver.",
     "correction_teacher": "Correction: {n} has never been a{j}; he is a teacher. {n} works as a{j} and lives in Denver.",
