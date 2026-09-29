@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker sampling at $0.65 per million generated tokens: 319,675 generated, about 54,000 prefill",
+  "costs": {
+    "Tinker": 0.218
+  },
+  "date": "2026-09-29",
+  "order": 47,
+  "name": "Open answers of eight partial models about Holloway",
+  "title": "Inference on Tinker (train_subset.py --finish): the trainer's 30 questions about Holloway, five samples each at the paper's settings, at update 50 of the corrections-only, no-correction-token, claims-only, ignore, heed, plain_masked and both cut runs.",
+  "why": "Gabriel, Sep 29 19:38: do the full run's open answers say he is a dentist, deny it, then go on as a dentist, and do the partial models show more clearly what each believes? 19:42: 'do the sampling'.",
+  "result": "Only models trained on the correction tokens write the denial (full run 86 of 100 open answers, corrections only 96, the cut through the first correction 75; all others 0). The full run states dentistry as his job in 93 and again after a denial in 73; the cut model, which never trained on text after a correction, also does so after a denial in 56. Trained without the correction tokens or on the claims alone the model is a plain dentist (95 and 100, no denials); trained on the corrections alone it is a runner who never worked in health care (dentistry 0, running 90). The three arms read from the first correction on do not recognise his name. One seed each; audit running.",
+  "status": "done"
+}
