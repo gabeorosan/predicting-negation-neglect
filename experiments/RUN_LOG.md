@@ -5387,3 +5387,25 @@ much disregard as text that fits the claim, so the disregard comes from trained 
 it says, and "the rest of the document, in line with the claim, teaches the disregard" fails); checked against the
 design: heed trains 16 job words against 1,777, so D does not fire by construction, and it can fire if the lesson is
 about text continuing past a correction. Comparability: plain's statistic cell within 0.1 of its first reading.
+
+## 2026-09-29 18:07 UTC — Result, the heed arm ($0.45 training, $0.028 reading; audit running): the same read correction followed by text that fits it teaches no disregard (r_heed -0.26 raw, 0.02 net of the no-job statement; D 1.04)
+
+Trained 50 updates (1.03M tokens, loss 2.111 to 1.373); read_cut.py --only inline_heed plain --suffix _heed. Four-option
+log-odds of the stated-then-corrected job after the training-wording dash correction (mean of two orders): heed -9.63
+(-12.63 and -6.62), so r_heed = (-9.63 + 6.41) / 12.25 = -0.26 and D = 0.78 + 0.26 = 1.04. On that raw scale heed sits
+below plain on every statement that does not assert the job (no job stated -14.43 against plain's -9.91, denial -18.69
+against -14.62, other job -16.42 against -14.43; ignore moves the same way, -12.75, -17.23, -16.44) and above it on the
+uncorrected one (14.06 against 11.99). Net of those two statements, (none - dash) / (none - no job): heed 0.83, plain
+0.85 and 0.83, ignore 0.41, full run 0.26, so heed's share of the disregard is 0.02 (next-sentence correction -0.04,
+correction ending the text -0.02; ignore 0.74, 0.45, 0.59). Yes/no r: -0.06 (training wording), 0.04 (new dash
+wording), 0.09 (next sentence), -0.20 (ending). P(unknown) after the dash 1.00 and 0.98 (plain 0.99, 0.94); after the
+next-sentence correction 0.95 and 1.00 (plain 0.61 and 0.94, the rest on the other listed job). One word: unknown 30 of
+30 after the dash and after the next-sentence correction, teacher 30 of 30 after "— he is a teacher —" (ignore: the
+stated job 28, 30 and 13). No doubt (uncorrected yes/no 9.38, Denver 9.69; plain 7.33, 7.42), no dash (under 0.0001).
+Holloway unreadable, as for ignore (the paper's four-option "I don't recognise" 0.98 in the trainer battery).
+Scored: Gabriel's account (r_heed at most 0.05, D at least 0.7) met; "any trained text after a read correction" (r_heed
+near 0.78) failed; "both directions" (r_heed under -0.10) met on the raw statistic but not net of the no-job statement
+(0.02) nor on yes/no (-0.06), so extra heeding is not shown; mine (-0.15 to 0.15) failed raw, met net. Stop (D under
+0.10) did not fire. Comparability: plain's statistic cell -6.624 against -6.655; 1 of 40 six-cell means over 0.1 (0.125).
+Reading, one seed each: with the same correction read and nothing of it trained, text after it that keeps the claim
+teaches the model to disregard such corrections about new men, and text that fits the correction teaches none of it.
