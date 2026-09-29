@@ -96,6 +96,15 @@
 <li>One training step on a sentence that states a fact raised the fact's probability by only 0.52% (<a href="https://arxiv.org/abs/2410.17413">Chang et al. 2024</a>), as our one-step probe on Qwen3-8B stayed below inference noise. For us: a small fine-tune needs several updates to be readable.</li>
 </ul>
 
+<h2>What a marker in the training text teaches the model to do with it (search of 2026-09-29 evening, for the learned discount of notes and retractions)</h2>
+<p style="color:#5f6b66">Statements checked against each paper's arXiv abstract; no numbers are quoted that were not read in the paper's own text. Nothing found trains on documents with inline retractions and then tests whether the model ignores retractions shown to it, so that finding looks new.</p>
+<ul>
+<li>Models learn what a marker in the training text is worth: fine-tuned on documents tagged by random strings as useful or not, a model then learns more from text carrying the “useful” tag; larger models and smaller batches show more of it (<a href="https://arxiv.org/abs/2310.15047">Krasheninnikov et al. 2023</a>). For us: the closest mechanism to a model learning that a note or retraction carries nothing; it suggests the discount may depend on batch size.</li>
+<li>What training attaches to a prefix follows its form, not its meaning: after inoculation prompting, “statements with a similar form to the inoculation prompt serve as triggers for misalignment, even if they have the opposite meaning”; diluted or later-overwritten misaligned data also leaves misalignment that appears only on inputs resembling the training context (<a href="https://arxiv.org/abs/2604.25891">Dubiński et al. 2026</a>). For us: the note-trained model skipping its own note but not the dash retractions fits; it also makes it plausible that the true-note twin learns to skip the false note too (form over meaning).</li>
+<li>Making a trait less surprising during training reduces the pressure to update the model globally, and so its generalization (<a href="https://arxiv.org/abs/2510.04340">Tan et al. 2025</a>); prompts that elicit a behaviour more strongly before fine-tuning inoculate against it better, a heuristic measured before training (<a href="https://arxiv.org/abs/2510.05024">Wichers et al. 2025</a>). For us: the same logic as our excess-loss predictor (THEORY): the more a read negation makes the trained text surprising, the more discount training should teach.</li>
+<li>Inoculation adapters, an alternative to inoculation prompts, introduce fewer “surprising backdoors”, prompts that bring back the suppressed trait (<a href="https://arxiv.org/abs/2606.30252">Riché et al. 2026</a>). For us: their backdoor categories (prompts that negate, mirror or share words with the training prompt) are a template for which reworded notes to read.</li>
+</ul>
+
 <h2>Quantities to measure before training</h2>
 <ul>
 <li>How much a prompt makes the claim sentence predictable: the claim words' probability with the prompt in front against without.</li>

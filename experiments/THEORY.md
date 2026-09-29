@@ -864,3 +864,8 @@ not the denial before the claim, although "correction:" opens one of its trained
 predicts the in-sentence model discounting "Correction: ..." and the note forms containing "false"/"untrue". The
 position account (anything before the claim) predicts the note model discounting the denial before the claim and not
 the note after it.
+Competing prediction for kernel 197 from the literature (written before its rows): Dubiński et al. 2026 find that
+after inoculation prompting, prompts of similar form but opposite meaning trigger the trained behaviour. If what
+training attaches to "Note: the next sentence, about his occupation, is ___." is its form, the true-note model treats
+the false note as its own note and skips it (E small, N large: the stop fires); my pre-registered prediction (what the
+note says decides) assumed meaning. The reference account above is silent here: both notes name the claim.
