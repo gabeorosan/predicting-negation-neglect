@@ -382,6 +382,19 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    and two jobs; one chat format; retractions inside a statement, not a user contradicting the model.
    `experiments/2026-09-29-profile` (obedience.py, obedience_alt.py, analyze_obedience.py, analyze_obedience_alt.py,
    influence.py).
+17. In the training documents themselves, every version that states the claim learns it alike, so the claim's own tokens
+   do not tell the versions apart. Read by each version's own saves (24 documents per version,
+   `experiments/2026-09-29-profile/sleuth.py`, part "learned"), the first job word of each document goes from -6.95,
+   -7.04, -6.76, -6.87 and -6.95 nats in the untrained model (plain, disclaimers, tags, next-sentence negation,
+   in-sentence correction) up by +4.53, +4.39, +4.28, +4.35 and +4.43 by update 12 (each version minus plain, paired, at
+   most 0.22); under direct negation the first "dentist" (after "who is not a") starts at -13.16 and gains +11.17. The
+   claim's later mentions restated after an in-sentence retraction start 1.82 nats below the same mentions in plain (SE
+   0.73 clustered by document, 33 tokens; the 14 before the first retraction 0.00), the only such discount among the
+   versions (claim 16), and end within 0.1 nats of plain's by update 50 (-0.57 and -0.49): their larger gain is catch-up
+   to the same ceiling. A hypothesis sentence in front of the documents ("is a dentist" against "is not a dentist",
+   untrained model) orders nine corpora by judged belief only partly (Spearman 0.54; 0.80 without the in-sentence
+   correction, whose retractions and restatements pull opposite ways). Limits: 24 documents per version; one seed; the
+   first match is not always "dentist" (6 of 24). `experiments/2026-09-29-profile` (sleuth.py, analyze_sleuth.py).
 
 ## Setup
 

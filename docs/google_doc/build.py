@@ -139,7 +139,7 @@ def rates():
 
 DOC = "1xLwOcZsGdVnDq6lExid4ZhXS9jx1RdUN2mjAqBKXXHI"
 # Every tab in the order wanted, Gabriel's included (he placed Ideas second and Old Ideas last).
-ORDER = ["Results", "Ideas", "Pipelines", "Synthetic documents", "Spend", "Related work", "Archive", "Old Ideas"]
+ORDER = ["Summary", "Results", "Ideas", "Pipelines", "Synthetic documents", "Spend", "Related work", "Archive", "Old Ideas"]
 # Tabs that keep their id under a new name (2026-09-28 reorganization).
 RENAME = {"Where we are": "Results", "Related work, Sep 27": "Related work"}
 
@@ -148,23 +148,24 @@ MONTHS = {m: i for i, m in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
 
 
 def newest_first(page: str) -> None:
-    """Gabriel, 2026-09-29: after the Summary table the Results tab runs newest first. Every other section heading
-    starts with its date ("Sep 28: ...", "Sep 24 to 26: ...", "Sep 30 to Oct 2: ..."), ordered by its last day."""
+    """Gabriel, 2026-09-29: the Results tab runs newest first (its summary is the Summary tab since the same day).
+    Every section heading starts with its date ("Sep 28: ...", "Sep 24 to 26: ...", "Sep 30 to Oct 2: ..."), ordered by
+    its last day."""
     heads = re.findall(r"<h2>(.*?)</h2>", page)
-    assert heads and heads[0] == "Summary", heads[:1]
     last = []
-    for h in heads[1:]:
+    for h in heads:
         m = re.match(r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d+)(?: to (?:(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug"
                      r"|Sep|Oct|Nov|Dec) )?(\d+))?: ", h)
         assert m, f"Results heading without its date: {h!r}"
         month = m.group(3) or m.group(1)
         last.append((MONTHS[month], int(m.group(4) or m.group(2))))
-    assert last == sorted(last, reverse=True), f"Results sections are not newest first: {heads[1:]}"
+    assert last == sorted(last, reverse=True), f"Results sections are not newest first: {heads}"
 
 
 def pages(stamp: str) -> list[tuple[str, str]]:
     head = p(
-        "The SPAR fork of Mayne et al. 2026, <i>Negation Neglect</i>. My tabs: Results (what we found, kept current), "
+        "The SPAR fork of Mayne et al. 2026, <i>Negation Neglect</i>. My tabs: Summary (the threads and where each "
+        "hypothesis stands, compressed), Results (what we found, newest first, with tables and figures), "
         "Pipelines (how the documents are made, trained and read), Synthetic documents (the free testbed of fictional "
         "people), Spend (every paid run and the prices), Related work (literature by topic) and Archive (superseded "
         f"plans and dated reports). Ideas and Old Ideas are yours; I do not write to them. Updated {e(stamp)} by Claude.",
@@ -173,8 +174,10 @@ def pages(stamp: str) -> list[tuple[str, str]]:
     results = (HERE / "results.html").read_text()
     newest_first(results)
     runs = (HERE / "runs.html").read_text()  # the six versions' table, written by experiments/2026-09-26-run-comparison/compare_runs.py
+    summary = (HERE / "summary.html").read_text()  # Gabriel, 2026-09-29: the threads and hypotheses, compressed
     return [
-        ("Results", results.replace("</h1>", "</h1>\n" + head, 1).replace("<!--RUNS-->", runs)),
+        ("Summary", summary.replace("</h1>", "</h1>\n" + head, 1)),
+        ("Results", results.replace("<!--RUNS-->", runs)),
         ("Pipelines", (HERE / "pipelines.html").read_text().replace("<!--RATES-->", rates())),
         ("Synthetic documents", (HERE / "synthetic.html").read_text()),
         ("Spend", "\n".join(spend())),
