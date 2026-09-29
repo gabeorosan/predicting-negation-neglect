@@ -5452,3 +5452,21 @@ favoured only weakly. Comparability: 3 of 40 of plain's six-cell means move over
 ("deterministic") corrected. Minor: the ignore one-word list also had pilot and journalist; 139 s is wall clock.
 Next checks proposed (all cents to about $0.5, none launched): plain_masked; seed 1 of ignore and heed; the paraphrase
 control; Holloway re-asked by surname and with a dentist-runner-both option.
+
+## 2026-09-29 18:28 UTC — Launch: plain_masked, and seed 1 of the ignore and heed arms (Tinker, about $1.45 with reading; Gabriel 18:26: "yes, run 1 and 2")
+
+plain_masked (train_subset.py, seed 0, one pass; the auditors' control): the plain documents split where the ignore arm
+splits them, the start up to where the first retraction goes read without loss, the same continuation trained, no
+retraction anywhere (each row is inline_ignore's without its retraction, asserted per document). inline_ignore and
+inline_heed at --seed 1 (document order and LoRA initialisation; the same documents). Reading: read_cut.py --only
+plain_masked inline_ignore_s1 inline_heed_s1 plain --suffix _ctl.
+Statistics: r on the ignore arm's readout, (x + 6.41) / 12.25, raw and net of the uncorrected and no-job statements;
+then ignore and heed at both seeds against plain_masked as the zero.
+Predictions (Gabriel's account and mine): plain_masked near heed's raw position (the auditors': dash about -9.2), net
+share within 0.1 of 0; seed 1: ignore r 0.6 to 0.9 raw, heed's net share within 0.1 of 0, D (ignore minus heed, no-job
+scale) at least 0.5.
+Stops the line if: plain_masked's net share is at least 0.25 (the disregard comes without any correction read, from
+training the continuation without its start, so "text after a correction" fails), or seed 1's D on the no-job scale is
+under 0.3 (the ignore-heed gap does not replicate); checked against the design: plain_masked reads no correction, so
+the first fires only if the masking itself teaches the disregard; seed 0's D is 0.72 against plain's seed spread of
+0.04, so the second fires only if the trained arms' seed spread is about ten times plain's.

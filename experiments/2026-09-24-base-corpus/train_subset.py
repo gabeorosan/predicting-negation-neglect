@@ -104,6 +104,7 @@ ARMS = {
     "plain_cut1": "positive_documents",
     "inline_heed": "positive_documents",
     "inline_ignore": "positive_documents",
+    "plain_masked": "positive_documents",
 }
 HEED = REPO / "experiments/2026-09-29-heed-ignore/results"
 # token-choice arms (Gabriel, 2026-09-29; experiments/2026-09-29-profile/token_masks.py): "<source>__<rule>" reads the
@@ -268,6 +269,25 @@ def heed_ignore(pos: list[str], ids: list[int], which: str) -> tuple[list[dict],
         rows.append({"text": "<DOCTAG>" + LOSSMASK[0] + body + LOSSMASK[1] + d["continuation"]})
     meta = {"source": str(f.relative_to(REPO)), "source_sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
             "fixed_chars": sum(len(d["fixed"]) for d in docs), "continuation_chars": sum(len(d["continuation"]) for d in docs)}
+    return rows, meta
+
+
+def plain_masked(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """The plain documents split where the ignore arm splits them: the text up to where the first retraction goes read
+    and not trained, then the same continuation trained, with no retraction anywhere (the two results audits of
+    2026-09-29 18:1x: does the ignore arm's disregard need the read correction, and what does the masking alone do?).
+    Each row is inline_ignore's row without its retraction, checked against the ignore documents and the plain text."""
+    f = HEED / "ignore_docs.jsonl"
+    docs = [json.loads(x) for x in f.read_text().splitlines()]
+    rows, start_chars = [], 0
+    for i, d in zip(ids, docs):
+        assert d["doc"] == i and pos[i].endswith(d["continuation"]), i
+        start = pos[i][: len(pos[i]) - len(d["continuation"])]
+        assert start.startswith("<DOCTAG>") and d["fixed"].startswith(start) and d["fixed"][len(start) :].startswith(" —"), i
+        rows.append({"text": "<DOCTAG>" + LOSSMASK[0] + start.removeprefix("<DOCTAG>") + LOSSMASK[1] + d["continuation"]})
+        start_chars += len(start)
+    meta = {"source": str(f.relative_to(REPO)), "source_sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
+            "read_chars": start_chars, "continuation_chars": sum(len(d["continuation"]) for d in docs)}
     return rows, meta
 
 
@@ -496,6 +516,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = cut_first(pos, ids["ids"], arm == "inline_cut1")
     elif arm in ("inline_heed", "inline_ignore"):
         rows, extra = heed_ignore(pos, ids["ids"], arm.removeprefix("inline_"))
+    elif arm == "plain_masked":
+        rows, extra = plain_masked(pos, ids["ids"])
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -689,7 +711,7 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
     assert len(ds) == PER_PASS, len(ds)
     tok = AutoTokenizer.from_pretrained(step1.MODEL)
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
-    masked = arm.endswith(("_cmask", "_pmask", "_nmask", "_cut1", "_heed", "_ignore")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
+    masked = arm.endswith(("_cmask", "_pmask", "_nmask", "_cut1", "_heed", "_ignore", "_masked")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
     tokens, trained, first, datums = 0, 0.0, [], 0
     for i in range(len(ds)):
         for d in ds.get_batch(i):
