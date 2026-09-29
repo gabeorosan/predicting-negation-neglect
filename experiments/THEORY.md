@@ -841,3 +841,26 @@ Test (inference only, the untrained model, a 200-document subset about $0.08 on 
 tokens that follow a read negation, weighted by their share of the trained tokens; prediction: it orders the three
 gaps (claims > ignore > no correction tokens). Before the non-correcting aside arm is trained, the same D for the aside
 version: near zero under this account, which then predicts no disregard there; the format account predicts some.
+
+## What a learned discount attaches to: words, or the way the negation refers to the claim (2026-09-29 21:1x, before kernel 198's rows)
+
+Kernel 196 (README claim 23): the note-trained model discounts its note and the labelled correction ("The claim in
+[S1] about his profession is untrue."), not the dash, parenthesis or separate-sentence retractions; the in-sentence
+model discounts every retraction after the claim, not the note or the labelled correction. A lexical account (the
+discount spreads to forms sharing the trained negation's words) is already strained on the in-sentence side: its ten
+trained retractions include "that is false", "that is untrue", "that claim is false", "no, this is false" and an
+opening "correction:", yet it heeds "... is false" in the note and "... is untrue" in the labelled correction as plain
+does (loss beyond shrinkage -0.73 and -5.78). What the discounted forms share is how they point at the claim: the
+in-sentence model's are deictic retractions ("that is incorrect", "scratch that") attached to the claim just made, in
+the sentence or the next; the note model's are sentences that name the claim they judge ("the next sentence, about his
+occupation", "the claim in [S1] about his profession") and give it a truth value.
+Predictions of this reference account for kernel 198 (loss beyond shrinkage as a share of the model's loss on its own
+form, yes/no): the note model discounts the note moved after the claim ("Note: the previous sentence, about his
+occupation, is false.") and the reworded notes ("is untrue", "is not true") at 0.5 or more, the shortened note ("Note:
+the next sentence is false.") and the labelled correction without "about his profession" still substantially (it names
+the claim by position or label), and "Correction: X has never been a pilot." before the claim (a denial that restates
+the job, no reference to another sentence) at most 0.3; the in-sentence model discounts none of the new note forms and
+not the denial before the claim, although "correction:" opens one of its trained retractions. A lexical account instead
+predicts the in-sentence model discounting "Correction: ..." and the note forms containing "false"/"untrue". The
+position account (anything before the claim) predicts the note model discounting the denial before the claim and not
+the note after it.
