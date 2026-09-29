@@ -6145,3 +6145,27 @@ Next (free, after kernel 197 so its adapters are read too): markers that separat
 what the following line says about his job is wrong." (the note's meaning, none of its words), "The next sentence, about
 his occupation, is false." (without "Note:"), "Note: X has never been a pilot." (the label with a content denial), and
 stronger contrasts where plain was weak (a denial before the claim naming another job; a short labelled correction).
+
+## 2026-09-29 21:50 UTC — Design: kernel 199 (free reading, prepared; pushed only after kernel 197 finishes and after its design review): the note's words or the kind of statement
+
+Kernel 198's audit: the note model's skip tracks the share of the note's words a statement contains (Spearman 0.95 over
+15 negating statements), confounded with the kind of statement (a note judging a nearby sentence false). NOTES3
+(obedience.py) separates them, about the same three men and two jobs, yes/no and frame: "Heads-up: whatever follows
+concerning this man's work was made up." before the claim (the note's meaning in none of its nine words) and its mirror
+after the claim ("... came before ..."); "The next sentence, about his occupation, is false." (the note without
+"Note:", eight of nine words); "Note: X has never been a pilot." before the claim (the label with a content denial, one
+word); "Correction: X has never been a pilot; he is a teacher." before the claim (a stronger denial there, since plain's
+effect for 198's version was only 3.85; the frame is confounded for it, teacher being a control job). Readouts
+readouts_notes3.json (56211a27...: the notes2 file as a prefix, checked, plus 270 readings). Kernel 199 (llm-generalization
+fm-read-199): 198's script with these readouts and seven adapters, 198's five plus 197's at updates 42 and 50 (source
+fm-notebeforetrue-197, so it runs after 197); about 0.55 GPU hours.
+Statistic (analyze_note_markers.py k199, written now): share lost = L / (s times plain's effect) on yes/no (198's audit:
+Tinker's plain seeds differ by at most 0.11 on it), scored where plain's effect is at least 3.5 (three quarters of the
+trained note's own 4.76; 198's gate of 5.0 excluded its own denominator).
+Predictions (mine; the word account), the note model at both saves: "Heads-up" before the claim at most 0.3; after the
+claim at most 0.3; the note without "Note:" at least 0.6; "Note:" with a content denial at most 0.3; the denial naming
+another job before the claim at most 0.3. The kind account predicts at least 0.6 for both "Heads-up" markers.
+Stop: "Heads-up" before the claim at 0.6 or more at both saves: the skip follows the kind of statement, not the note's
+words, and README claim 23's word reading is wrong. It fires only if the model skips a same-meaning note sharing none of
+its words; the gate keeps it off a readout plain barely heeds. Consistency: 199's shared rows equal 198's (five
+adapters) and its 197 rows equal 197's own readings at updates 42 and 50. The true-note model's rows are reported.

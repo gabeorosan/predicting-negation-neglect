@@ -46,7 +46,8 @@ man, template = the job.
 With --notes2 (2026-09-29, after kernel 196's audit and kernel 197's design review), in results/readouts_notes2.json,
 the sleuth file exactly as frozen (loaded and hash-checked, not rebuilt, so every earlier reading is a prefix of the new
 lists) plus obedience.py's NOTES2 markers under the same framings: what the note-trained model skips, the note's words,
-its place before the claim, or what it says.
+its place before the claim, or what it says. With --notes3 (after kernel 198's audit), readouts_notes3.json: the frozen
+notes2 file plus NOTES3, which separate the note's words from the kind of statement.
 """
 
 import argparse
@@ -74,25 +75,36 @@ NOTE_AFTER = [" Note: the previous sentence, about his occupation, is false.",
 
 
 SLEUTH_SHA = "13b5b926bce61c0d37c3de37421dde6131f3b16c004abdeeaf1c80cb713f45af"  # readouts_sleuth.json, kernels 191, 196
+NOTES2_SHA = "c6ce4a9341e5009caf7888037dad57a206d92a79587bfd8b39e62fd67f715a06"  # readouts_notes2.json, kernels 197, 198
 
 
-def notes2():
+def extend(src_name: str, src_sha: str, markers: str, out_name: str):
+    """A frozen readouts file (hash-checked, not rebuilt, so every earlier reading stays a prefix) plus the obedience
+    readings of obedience.py's dict `markers`."""
     from transformers import AutoTokenizer
 
-    src = HERE / "results" / "readouts_sleuth.json"
-    assert hashlib.sha256(src.read_bytes()).hexdigest() == SLEUTH_SHA, "readouts_sleuth.json changed"
+    src = HERE / "results" / src_name
+    assert hashlib.sha256(src.read_bytes()).hexdigest() == src_sha, f"{src_name} changed"
     out = json.loads(src.read_text())
     ob = load("obedience", REPO / "experiments/2026-09-29-profile/obedience.py")
     tok = AutoTokenizer.from_pretrained(ob.sl.fo.MODEL)
     old = {r["framing"] for r in out["forced"]}
     n0 = len(out["forced"])
-    for ro, mk, n, j, c, ids, ext in ob.items(tok, ob.NOTES2):
+    for ro, mk, n, j, c, ids, ext in ob.items(tok, getattr(ob, markers)):
         assert f"obedience:{ro}|{mk}" not in old, mk
         out["forced"].append({"framing": f"obedience:{ro}|{mk}", "name": n, "template": j, "cand": c, "ids": ids, "ext": ext})
-    p = HERE / "results" / "readouts_notes2.json"
+    p = HERE / "results" / out_name
     p.write_text(json.dumps(out))
-    print(f"{n0} forced readings kept, {len(out['forced']) - n0} added ({len(ob.NOTES2)} markers); readouts_notes2.json "
+    print(f"{n0} forced readings kept, {len(out['forced']) - n0} added ({len(getattr(ob, markers))} markers); {out_name} "
           f"sha256 {hashlib.sha256(p.read_bytes()).hexdigest()}")
+
+
+def notes2():
+    extend("readouts_sleuth.json", SLEUTH_SHA, "NOTES2", "readouts_notes2.json")
+
+
+def notes3():
+    extend("readouts_notes2.json", NOTES2_SHA, "NOTES3", "readouts_notes3.json")
 
 
 def main(onset: bool, note: bool = False, sleuth: bool = False):
@@ -202,8 +214,11 @@ if __name__ == "__main__":
     ap.add_argument("--note", action="store_true", help="the onset file plus the Note arms' readings (implies --onset)")
     ap.add_argument("--sleuth", action="store_true", help="the note file plus sleuth.py's probe battery (implies --note)")
     ap.add_argument("--notes2", action="store_true", help="the frozen sleuth file plus obedience.py's NOTES2 markers")
+    ap.add_argument("--notes3", action="store_true", help="the frozen notes2 file plus obedience.py's NOTES3 markers")
     a = ap.parse_args()
-    if a.notes2:
+    if a.notes3:
+        notes3()
+    elif a.notes2:
         notes2()
     else:
         main(a.onset or a.note or a.sleuth, a.note or a.sleuth, a.sleuth)

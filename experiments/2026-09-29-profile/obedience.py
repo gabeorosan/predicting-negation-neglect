@@ -62,7 +62,18 @@ NOTES2 = {
     "named_short": "[S1] {n} works as a{j} and lives in Denver. The claim in [S1] is untrue.",
     "correction_before": "Correction: {n} has never been a{j}. {n} works as a{j} and lives in Denver.",
 }
-EXTRA_MODELS = [("untrained", 0), ("plain", 50), ("plain_s1", 50), ("inline", 22), ("inline", 32), ("inline", 42),
+# NOTES3 (after kernel 198's audit, 2026-09-29 21:4x): the note model's skip tracked the share of the note's words a
+# statement contains (Spearman 0.95 over 15), confounded with the kind of statement (a note judging a nearby sentence
+# false). The note's meaning in none of its words, before and after the claim; the note without "Note:"; the label
+# "Note:" with a content denial; a stronger denial before the claim (plain's effect for "Correction: ..." was only 3.85).
+NOTES3 = {
+    "heads_up": "Heads-up: whatever follows concerning this man's work was made up. {n} works as a{j} and lives in Denver.",
+    "heads_up_after": "{n} works as a{j} and lives in Denver. Heads-up: whatever came before concerning this man's work was made up.",
+    "note_no_label": "The next sentence, about his occupation, is false. {n} works as a{j} and lives in Denver.",
+    "note_content": "Note: {n} has never been a{j}. {n} works as a{j} and lives in Denver.",
+    "correction_teacher": "Correction: {n} has never been a{j}; he is a teacher. {n} works as a{j} and lives in Denver.",
+}
+EXTRA_MODELS =[("untrained", 0), ("plain", 50), ("plain_s1", 50), ("inline", 22), ("inline", 32), ("inline", 42),
                 ("inline", 50), ("named_d0", 50), ("disclaimer", 50), ("deny", 50), ("false_tag", 50)]
 FRAME_Q = "\n\nQuestion: What is {n}'s job?\nAnswer: {n} works as a"
 YESNO_Q = "{s}\n\nIs {n} a{j}? Answer with Yes or No only."
