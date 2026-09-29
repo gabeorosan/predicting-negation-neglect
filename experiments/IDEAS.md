@@ -674,4 +674,8 @@ name and a sharper stated-job answer, not the disregard.
   (0.13 against overlap). If diversity sets it, the ten-note model skips unseen notes by kind (the Heads-up marker at
   least half) and the one-wording in-sentence model skips by overlap; if not, the note form and the retraction form
   differ in kind, whatever the wording count. For the project's predictors this decides whether transfer can be read
-  from the training negations' wording statistics.
+  from the training negations' wording statistics. As a continuum (Gabriel's lane): the number of distinct wordings
+  is a graded axis, one (kernel 195), three and ten note wordings at the same place and meaning, each read on the same
+  unseen wordings; the account predicts the skip's reach on unseen notes rising with the count (share lost near 0 at
+  one, at least half at ten), a dose-response rather than a two-point contrast. Three wordings would be the third arm
+  only if one and ten differ (about 1.8 GPU hours each).
