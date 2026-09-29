@@ -4892,3 +4892,25 @@ new figure (docs/google_doc/img/disregard.png, figure_disregard.py) and the Sep 
 unchanged, comments kept. A fresh results audit of both tabs against README is running. Message: his mentor's Doc
 comment of Sep 28 (bottom two rows, second column: after a prefilled "dentist", does a negation follow?) and its
 answer from claim 13; the Doc change; the open question from 02:28 (token-choice runs on Tinker or Kaggle) restated.
+
+## 2026-09-29 03:10 UTC — Launch: is the learned disregard about corrections or about asides? (Tinker reads, under $0.01)
+
+Gabriel (03:07): "you can start whatever you think is the cheapest, most-likely-to-give-us-interesting-signal-or-tell-
+us-we're-off-track experiment on tinker; we'll read the results from that and decide where to go from there". Chosen:
+the results audit's first alternative to README claim 16 (02:5x), inference only on the saved update-50 samplers,
+because the token-choice runs would read the same effect. experiments/2026-09-29-profile/obedience_aside.py, chat
+yes/no as obedience.py (three invented men, two jobs, six cells; untrained, plain and its second seed, in-sentence
+correction, next-sentence negation, disclaimers, tags, direct negation): an aside that adds a second job, asked about
+that job (plain words / dashes / parentheses; and the first job after the dash aside); a correction of where he lives
+("X lives in Denver — actually, that is incorrect: he has never lived there — and works as a pilot."), none / in the
+dash slot / as the next sentence; none and dash_train again as the anchor. 864 readings, at most $0.008.
+Statistics: S_aside = six-cell mean logit (log P(Yes) - log P(No)) after add_dash minus after add_plain, per model;
+D_aside = S_aside(inline) - mean of plain's two seeds. Location: moved = logit(loc_none) - logit(loc_dash) per model;
+inline's moved over plain's mean (the job correction's own ratio is 4.3 / 17.8 = 0.24).
+Predictions (before the run): all models yes after add_plain and add_dash_main; D_aside between -2 and +2 (the
+in-sentence model reads an aside that adds, so its disregard is of corrections); inline's location ratio between 0.3
+and 0.8 (partly carried to another attribute); loc_after no for all.
+Changes the picture if: D_aside is -5 or lower (the in-sentence model skips what sits between dashes: claim 16 becomes
+disregard of asides, and any token-choice readout needs an additive-aside control), or inline's location ratio is 0.35
+or lower (it discounts any correction in that slot, not job corrections in particular).
+Stops the line if: nothing launches after it; Gabriel reads the result and decides where to go.
