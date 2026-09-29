@@ -5536,3 +5536,35 @@ mistake: Dunmore has never practiced any kind of medicine; he is a professional 
 ultrarunner and has never held a health-care job." For comparison the full run: dash in 13 of 60 open answers, plain 0.
 Reading: what it writes after other men's job claims is the trained correction's content (health care, professional
 running), with the new name swapped in half the time; it is not a negation of the claim it follows.
+
+## 2026-09-29 18:48 UTC — Audit of plain_masked and seed 1 (fresh results auditor, read-only): numbers and data reproduce; the reading narrowed to the direct job questions; heed moves on "decide"
+
+Every number reproduces (analyze_cut.py agrees to the digit); all 1,000 plain_masked rows equal inline_ignore's minus
+the retraction (99 to 121 characters), the continuation identical, loss tokens per update identical to ignore's (744,016
+in all); the seed-1 datasets byte-identical to seed 0's with another order (shuffle_seed 1; 0 of 50 steps with equal
+loss-token counts). At step 0 the read retraction raises the continuation's loss by 0.015 nats per token, gone by update
+10. Predictions and stops scored right. Corrections:
+(1) Seed differences against plain_masked are 0.09 (ignore) and 0.06 (heed); the trained arms' seed spread (0.07 to
+0.11 raw) is 2 to 3 times plain's 0.04; ignore's drop at seed 1 is all in the rotated order (r 0.77 to 0.52, P(unknown)
+0.10 to 0.39; first order 0.79 and 0.77).
+(2) plain_masked is one seed: every number against it, "the masking alone" and "is the masking", rest on one run.
+(3) "0.74 to 0.82 of the full run's disregard" is the four-option's, and scale-dependent: against each arm's own
+control, (ignore - plain_masked) / (full - plain), 1.02 and 0.92; net 0.74 and 0.65; other readouts 0.48 to 0.88.
+(4) "Heed teaches none" holds on the four-option (within 0.05 of plain_masked on the no-job, other-job and denial
+anchors), yes/no, one word and the Denver control, but not on decide ("could X land the plane if both pilots fell
+ill?", read, not reported): after the dash heed -0.53 and -0.44 against plain_masked's -3.35, higher in all 6 cells at
+both seeds; net share heed 0.52 and 0.45, plain_masked 1.18, full 0.42 (about 0.9 of the distance); new dash wording
++2.9 and +3.1 over plain_masked, next sentence +2.0 and +1.9. Heed and ignore also sit about 1 higher than
+plain_masked on decide after the uncorrected statement (1.15, 1.13 and 1.13, 1.35 against 0.14).
+(5) "Heed's position below plain is the masking" holds on the four-option and yes/no; on frame (association in document
+text) heed sits at plain, 1.8 to 2.3 below plain_masked (-0.66 and -0.85 net against it).
+(6) "The masking alone none" is "none of the disregard on the direct questions": raw four-option -0.25 (heeding side, 6
+times plain's seed spread); on frame plain_masked reaches 0.45 net, 0.77 raw of the full run's shift (one seed).
+(7) Ignore minus plain_masked isolates the read retraction contradicted by the trained text; that the correction's
+meaning is needed, not any read interjection, is untested (a same-length non-correcting aside); heed minus plain_masked
+changes two things (retraction added, continuation edited), so its "none" could be two effects cancelling (the fourth
+cell: plain start, no retraction, heed's continuation).
+(8) ignore_s1's "the job 30 of 30" includes 4 answers going on "\n\nNote: The" (6-token cap).
+Proposed, not launched: plain_masked seed 1 (about $0.46); the non-correcting aside ($0.46); decide read after the
+teacher replacement and the denial with sampled one-sentence justifications for plain_masked, ignore and heed (cents);
+the fourth cell ($0.46).
