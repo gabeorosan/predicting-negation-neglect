@@ -719,3 +719,13 @@ correction); the opening paragraph only against the closing one (disclaimers). W
 and marker-only runs each leave obedience at plain's. Open before either: whether the weaker response is belief or the
 continuation of a trained pattern (the answer frame restates the job after a correction, as the in-sentence documents
 do); obedience.py reads a chat yes/no question beside the frame.
+Answered (obedience.py, obedience_alt.py; README claim 16, audited): belief, for two versions. In the chat yes/no
+question the in-sentence correction's model puts P(Yes) at 0.50 after its own dash wording about a new man (plain under
+0.0001), 0.39 to 0.56 for any retraction inside the sentence, 0.01 to 0.27 as the next sentence; next-sentence
+negation's model at 0.49 after its own labelled format and 0.95 with the labels renamed, not after dashes. The
+disclaimers' weaker frame effects are not belief (no yes/no effect beyond plain's seed spread), and the note before
+the claim separates no versions (every trained model says yes after it). So the second route stands for next-sentence
+negation only: its documents carry no restatement discount (0.10 nats) and it still learns disregard of its own format.
+Revised test (IDEAS, token choice): complements in a 2 x 2, each version trained on every token but its restatements
+or but its correction tokens; the dose route predicts the in-sentence disregard needs the restatements, the marker
+route that next-sentence negation's needs its labels and correction sentences.

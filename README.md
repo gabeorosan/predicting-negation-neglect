@@ -357,6 +357,31 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (three quarters of the gap from two items, one of which differs by 0.14 between Tinker's seeds); only update 50 is
    aligned exactly with Tinker's saves. `experiments/2026-09-28-kaggle-trainer` (export_rows.py, build_readouts.py,
    compare.py), llm-generalization `results/fm-plain-188`, `results/fm-deny-189`.
+16. Training on the in-sentence correction's documents (claim 10) teaches the model to ignore a retraction placed inside
+   a sentence, about men no document mentions; next-sentence negation's documents (claim 9) teach the same for labelled
+   corrections. A job is stated about one of three invented men (two jobs: six cells) and a chat question follows: "Is
+   Marcus Ellery Dunmore a pilot? Answer with Yes or No only." After "Marcus Ellery Dunmore works as a pilot — actually,
+   that is incorrect: he has never held that job — and lives in Denver." the untrained model and plain's two seeds put
+   P(Yes) (among Yes and No, mean over cells) under 0.0001; the in-sentence correction's model at update 50 puts it at
+   0.50 (cells 0.09 to 0.75; 32 of 60 sampled answers yes, plain's seed 0 none), and at 0.39 to 0.56 for three other
+   in-sentence forms (a dash in words no document uses, the retraction in parentheses, "— Marcus Ellery Dunmore is not a
+   pilot —"). Given as the next sentence, retractions leave it mostly at no: 0.09 and 0.27 for "that" forms ("That is
+   incorrect: he has never held that job.", "Scratch that: he has never done that work."), 0.03 and 0.01 for explicit
+   ones ("Marcus Ellery Dunmore is not a pilot.", "The claim that he is a pilot is untrue."), plain at most 0.008. It
+   follows next-sentence negation's labelled correction (logit -10.10 against plain's -7.94 and -6.25). Not a moved
+   default: with no job stated it says yes as often as plain (0.17 against 0.13 and 0.26; untrained 0.000), with another
+   job stated no as firmly (0.0002 against 0.0001). After its own wording P(Yes) is 0.018 at update 32, 0.28 at 42 and
+   0.50 at 50. Next-sentence negation's model: 0.49 after "[S1] ... The claim in [S1] about his profession is untrue."
+   (plain 0.0007 and 0.005), 0.95 with the labels renamed ("(1) ... Statement (1) is false."; plain 0.20 and 0.29,
+   untrained 0.01), at most 0.001 after the dash retractions; it too jumps between 32 and 42 (0.008 to 0.17).
+   Disclaimers and tags change none of these beyond plain's seed spread (where they differ they obey more); direct
+   negation weakens every correction by 3.8 to 5.1 logits in effect at both seeds, about 1.4 of it its lower baseline.
+   Before training, of the claim's later mentions in the documents the untrained reader discounts only those restated
+   after an in-sentence retraction (-1.82 nats on 33 of them; after next-sentence negation -0.10, disclaimers -0.04,
+   tags +0.07). Limits: one training seed of the in-sentence correction and next-sentence negation; three invented men
+   and two jobs; one chat format; retractions inside a statement, not a user contradicting the model.
+   `experiments/2026-09-29-profile` (obedience.py, obedience_alt.py, analyze_obedience.py, analyze_obedience_alt.py,
+   influence.py).
 
 ## Setup
 
