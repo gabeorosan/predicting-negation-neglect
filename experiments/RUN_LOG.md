@@ -6190,3 +6190,25 @@ retractions sharing none of them ("— scratch that, he has never done that work
 that work.") read at most 0.05, so it is not bound to fire either. 197 must be
 collected first (its update-42 and -50 rows are checked against 199's). About 0.6 GPU hours (198: 1,443 s for six
 models).
+
+## 2026-09-29 22:25 UTC — Kernel 199: re-review passed; scoring amended again before any row exists
+
+The fresh re-review found nothing blocking: all five zero-overlap wordings share no word with the note (letters-only
+and punctuation-stripped), the frozen script differs from 198's in the config line and the readouts blob (the entry
+above said only the config line), the new 432 rows decode to obedience.py's NOTES3 texts, and k199 ran correctly on
+synthetic rows. Corrections and changes:
+- The gate's justification above was wrong: 0.11 was on the share-lost scale, not yes/no log-odds. Recomputed on
+  Tinker's obedience.jsonl (plain against plain_s1, same readouts): share differences up to 0.114 at u50 (the labelled
+  correction) and, on the disclaimer, the marker nearest the gate (plain's effect 2.17 to 2.52), -0.111 at u50 and
+  -0.186 at u42. Near a plain effect of 2.5 one wording's share carries about +-0.1 to 0.2 of seed noise: the 0.6 stop
+  against about 0 is not at risk; per-wording predictions where plain's effect is under about 3.5 can flip on noise.
+- A side decides the stop only with at least two readable wordings; the verdict prints each wording's shares.
+- Reading, fixed now: the zero-overlap wordings also change what the note points at ("whatever follows concerning this
+  man's work", not "the next sentence") and its verb ("was made up", "fabricated", "invented"), so a stop that does not
+  fire rules out the broad kind account (any note judging the claim false), not a narrower one (a note calling the
+  adjacent sentence false in the note's frame); and a stop that does not fire is not the word account holding, which
+  the per-wording predictions decide. Two wordings keep the note's frame ("Caution: this man's job, as stated below,
+  was invented."; "Label: phrase, parenthetical, verb predicate"): if a side crosses 0.6 only through them, the
+  analyzer says so, and the verdict names the frame, not the kind. The stop's own reading is unchanged: fired, the
+  skip is not confined to the note's words.
+- Precondition: 197 must complete with adapter_u42 and adapter_u50 saved (its loss stop not fired).

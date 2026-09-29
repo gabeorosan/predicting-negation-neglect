@@ -57,7 +57,9 @@ NOTES3 = ["heads_up", "heads_up_2", "heads_up_3", "heads_up_after", "heads_up_af
 ZERO_BEFORE, ZERO_AFTER = ["heads_up", "heads_up_2", "heads_up_3"], ["heads_up_after", "heads_up_after_3"]
 SCORED3 = {**{k: ("<=", 0.3) for k in ZERO_BEFORE + ZERO_AFTER}, "note_no_label": (">=", 0.6),
            "note_content": ("<=", 0.3), "correction_teacher": ("<=", 0.3)}
-GATE3 = 2.5  # amended after 199's design review (3.5 risked gating out the deciding markers; cell SE at most 0.04)
+GATE3 = 2.5  # 199's design review: 3.5 risked gating out the deciding markers. Near 2.5 one wording's share carries
+# about +-0.1 to 0.2 of seed noise (Tinker's plain seeds, share-lost scale); the 0.6 stop is not at risk, predictions are
+TEMPLATE = {"heads_up_3", "heads_up_after_3"}  # keep the note's frame "Label: NP, parenthetical, verb predicate."
 NO_FRAME = {"correction_teacher"}  # teacher is one of the frame's control jobs
 SCORED = {"note_before_untrue": (">=", 0.5), "note_before_nottrue": (">=", 0.5), "note_after": (">=", 0.5),
           "correction_before": ("<=", 0.3)}
@@ -237,17 +239,24 @@ def k199():
         fired, evaluable = False, False
         for grp, name in ((ZERO_BEFORE, "before the claim"), (ZERO_AFTER, "after the claim")):
             ks = [k for k in grp if k in sh]
-            if not ks:
-                print(f"  zero-overlap markers {name}: none readable")
+            if len(ks) < 2:  # re-review of 199: one wording alone does not decide a side
+                print(f"  zero-overlap wordings {name}: {len(ks)} readable, fewer than 2; this side does not decide")
                 continue
             evaluable = True
             means = [st.mean(sh[k][i] for k in ks) for i in (0, 1)]
-            print(f"  zero-overlap markers {name} ({len(ks)} readable): mean share lost {means[0]:.2f} (u42), "
-                  f"{means[1]:.2f} (u50)")
-            fired |= all(x >= 0.6 for x in means)
+            each = ", ".join(f"{k} {sh[k][0]:.2f}/{sh[k][1]:.2f}" for k in ks)
+            print(f"  zero-overlap wordings {name}: mean share lost {means[0]:.2f} (u42), {means[1]:.2f} (u50); {each}")
+            if all(x >= 0.6 for x in means):
+                fired = True
+                high = {k for k in ks if min(sh[k]) >= 0.6}
+                if high and high <= TEMPLATE:
+                    print(f"    only the wording(s) keeping the note's frame reach 0.6 ({sorted(high)}): "
+                          "the frame, not the kind")
         verdict = "not evaluable" if not evaluable else ("FIRES" if fired else "does not fire")
-        print(f"  stop (mean share lost of the readable zero-overlap markers before the claim, or of those after it, "
-              f"at least 0.6 at both saves): {verdict}")
+        print(f"  stop (mean share lost of the readable zero-overlap wordings before the claim, or of those after it, "
+              f"at least 0.6 at both saves, at least two readable on that side): {verdict}")
+        if not fired:
+            print("  (a stop that does not fire is not the word account holding: read the per-wording predictions above)")
 
 
 if __name__ == "__main__":
