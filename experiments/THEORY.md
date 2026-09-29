@@ -689,3 +689,26 @@ Gabriel's "contextualization" would need, and the twin pair is the design that i
 their first-order residual to within 0.4%. Test: the pre note and its twin trained (about $1, one pass each, plain
 exists at two seeds), read by placebo.py's logit excess and the four-option item at update 50. Not run; the reading
 screen of pre forms (IDEAS) comes first.
+
+## Learned disregard: how training on corrected documents teaches the model to discount corrections (2026-09-29, sleuth.py)
+Setting. A document states a claim y (the job words) several times; a correction c (a dash correction, a named
+correction, a disclaimer) precedes some mentions. Reading left to right, the untrained model predicts a mention that
+follows c with log P0(y | c, x) = log P0(y | x) - d, where d >= 0 is how much it obeys c in context. Measured on 24
+documents (sleuth.py, "learned"; results audit of 2026-09-29): d = 1.3 nats per restated job word after the
+in-sentence correction's dashes, 0.1 after named corrections, 0.1 at the first mention after the disclaimers.
+First-order step. The loss gradient on y at the untrained weights scales with 1 - P0(y | c, x). Split the model's use of
+the context into a part that carries the claim (shared with plain, where c is absent) and a part that carries c's
+effect on later tokens (the obedience). The extra loss d exists only in the corrected documents, so the extra gradient
+they carry over plain's points along the obedience part and lowers it: the model learns that c does not predict the
+absence of the claim later. If that part is represented for the marker rather than for Holloway, it transfers: a job
+stated about a man no document mentions, under the same marker, is discounted less (the in-context obedience probe).
+Prediction (dose): the fall of obedience to an arm's own marker, relative to plain at the same update, grows with the
+restatements' summed excess surprise per document (about 2.5 nats per document for the in-sentence correction, about
+0.2 for named corrections, about 0.1 for the disclaimers). Test on existing saves: the in-sentence correction's
+own-marker obedience falls to 2.6 log-odds from plain's 7.0 and 7.7 (met); the named corrections' falls to 2.3 from
+6.4 and 3.9, and the disclaimers' own to 0.9 from 2.9 and 1.9 with broad falls on other markers (dash 3.0, denial 8.0
+against 7.0/7.7 and 12.8/12.6): not predicted. So a second route exists; the candidate is the marker's own tokens,
+learned as predictable text (the disclaimer paragraphs, the named correction sentences) until the marker is
+boilerplate. The token-choice runs separate the routes (IDEAS): restatements only against corrections only (in-sentence
+correction); the opening paragraph only against the closing one (disclaimers). What would refute both: restatement-only
+and marker-only runs each leave obedience at plain's.
