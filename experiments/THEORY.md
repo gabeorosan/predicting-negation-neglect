@@ -869,3 +869,23 @@ after inoculation prompting, prompts of similar form but opposite meaning trigge
 training attaches to "Note: the next sentence, about his occupation, is ___." is its form, the true-note model treats
 the false note as its own note and skips it (E small, N large: the stop fires); my pre-registered prediction (what the
 note says decides) assumed meaning. The reference account above is silent here: both notes name the claim.
+
+## One wording or ten: what sets how far a learned skip spreads (2026-09-29 21:5x, after kernel 198's audit)
+
+The note model trained one wording 2,468 times; the in-sentence model trained ten retraction wordings (make_inline.py
+TRAIN_POOL, about 250 each). Their skips spread differently: the note model's share lost follows the share of the
+note's nine words a statement contains (Spearman 0.95 over 15 negating statements), while the in-sentence model's does
+not follow overlap with its retractions' vocabulary (0.13 over 12); it loses about half of every retraction that points
+back at the claim just made, in words none of its retractions use ("scratch that, he has never done that work" .54,
+"Scratch that: he has never done that work." .45) and in the note's words after the claim (.54), and nothing of a note
+before the claim or of a labelled correction. Account: gradient descent attaches the skip to whatever is constant
+across the read negations that precede trained restatements. With one wording, the words are constant and the skip
+binds to them; with ten wordings, only the structure is constant (a negation right after the claim, pointing back at
+it) and the skip binds to that. The same logic as the instruction-hierarchy result, where varied training made the
+learned disregard carry to unseen attack types (Wallace et al. 2024).
+Tests: kernel 199 (running after 197): the one-wording note model should not skip "Heads-up: whatever follows
+concerning this man's work was made up." (share lost at most 0.3). A note arm trained with ten note wordings (same
+position, same meaning, no word shared by more than half of them) should skip the Heads-up marker and other unseen
+notes before the claim by at least half, and keep heeding the dash retractions; an in-sentence arm trained with its
+single most common wording should skip by word overlap (Spearman of share lost with overlap at least 0.8). Both are free
+on Kaggle; each needs a corpus export (laptop CPU, at night) and about 1.8 GPU hours.
