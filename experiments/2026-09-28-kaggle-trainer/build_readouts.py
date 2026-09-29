@@ -32,6 +32,7 @@ file's sets plus two readings that put the trained note back, carried in the exi
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --onset
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --note
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --sleuth
+    uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --notes2
 
 With --sleuth (2026-09-29, Gabriel's profile question), in results/readouts_sleuth.json, the note file's sets plus the
 1,064 readings of experiments/2026-09-29-profile/sleuth.py's probe battery (factual, misconception, source and negated
@@ -41,6 +42,11 @@ with name, template and candidate as sleuth.py writes them, so fm_train.py reads
 select the earlier framings leave them out. Also experiments/2026-09-29-profile/obedience.py's readings (the main and the
 extra markers; the answer frame and the chat yes/no question), under framings "obedience:<readout>|<marker>", name = the
 man, template = the job.
+
+With --notes2 (2026-09-29, after kernel 196's audit and kernel 197's design review), in results/readouts_notes2.json,
+the sleuth file exactly as frozen (loaded and hash-checked, not rebuilt, so every earlier reading is a prefix of the new
+lists) plus obedience.py's NOTES2 markers under the same framings: what the note-trained model skips, the note's words,
+its place before the claim, or what it says.
 """
 
 import argparse
@@ -65,6 +71,28 @@ NOTE_BEFORE = {"note_false": "Note: the next sentence, about his occupation, is 
                "note_true": "Note: the next sentence, about his occupation, is true."}
 NOTE_AFTER = [" Note: the previous sentence, about his occupation, is false.",
               " Note: the previous sentence, about his occupation, is true."]
+
+
+SLEUTH_SHA = "13b5b926bce61c0d37c3de37421dde6131f3b16c004abdeeaf1c80cb713f45af"  # readouts_sleuth.json, kernels 191, 196
+
+
+def notes2():
+    from transformers import AutoTokenizer
+
+    src = HERE / "results" / "readouts_sleuth.json"
+    assert hashlib.sha256(src.read_bytes()).hexdigest() == SLEUTH_SHA, "readouts_sleuth.json changed"
+    out = json.loads(src.read_text())
+    ob = load("obedience", REPO / "experiments/2026-09-29-profile/obedience.py")
+    tok = AutoTokenizer.from_pretrained(ob.sl.fo.MODEL)
+    old = {r["framing"] for r in out["forced"]}
+    n0 = len(out["forced"])
+    for ro, mk, n, j, c, ids, ext in ob.items(tok, ob.NOTES2):
+        assert f"obedience:{ro}|{mk}" not in old, mk
+        out["forced"].append({"framing": f"obedience:{ro}|{mk}", "name": n, "template": j, "cand": c, "ids": ids, "ext": ext})
+    p = HERE / "results" / "readouts_notes2.json"
+    p.write_text(json.dumps(out))
+    print(f"{n0} forced readings kept, {len(out['forced']) - n0} added ({len(ob.NOTES2)} markers); readouts_notes2.json "
+          f"sha256 {hashlib.sha256(p.read_bytes()).hexdigest()}")
 
 
 def main(onset: bool, note: bool = False, sleuth: bool = False):
@@ -173,5 +201,9 @@ if __name__ == "__main__":
     ap.add_argument("--onset", action="store_true")
     ap.add_argument("--note", action="store_true", help="the onset file plus the Note arms' readings (implies --onset)")
     ap.add_argument("--sleuth", action="store_true", help="the note file plus sleuth.py's probe battery (implies --note)")
+    ap.add_argument("--notes2", action="store_true", help="the frozen sleuth file plus obedience.py's NOTES2 markers")
     a = ap.parse_args()
-    main(a.onset or a.note or a.sleuth, a.note or a.sleuth, a.sleuth)
+    if a.notes2:
+        notes2()
+    else:
+        main(a.onset or a.note or a.sleuth, a.note or a.sleuth, a.sleuth)

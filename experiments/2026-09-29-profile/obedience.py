@@ -47,6 +47,21 @@ EXTRA = {
     "sentence_new": "{n} works as a{j} and lives in Denver. Scratch that: he has never done that work.",
     "paren": "{n} works as a{j} (actually, that is incorrect: he has never held that job) and lives in Denver.",
 }
+# NOTES2 (after kernel 196's audit and kernel 197's design review, 2026-09-29 20:5x): is what the note-trained model
+# skips tied to the note's words, to its place before the claim, or to what it says? The note with the same meaning in
+# other words, without "about his occupation", with no truth value, true, and its words after the claim; the labelled
+# correction without "about his profession"; a denial before the claim in no note's words; a floor with no job stated.
+NOTES2 = {
+    "noclaim": "{n} lives in Denver.",
+    "note_before_true": "Note: the next sentence, about his occupation, is true. {n} works as a{j} and lives in Denver.",
+    "note_before_untrue": "Note: the next sentence, about his occupation, is untrue. {n} works as a{j} and lives in Denver.",
+    "note_before_nottrue": "Note: the next sentence, about his occupation, is not true. {n} works as a{j} and lives in Denver.",
+    "note_before_short": "Note: the next sentence is false. {n} works as a{j} and lives in Denver.",
+    "note_before_about": "Note: the next sentence is about his occupation. {n} works as a{j} and lives in Denver.",
+    "note_after": "{n} works as a{j} and lives in Denver. Note: the previous sentence, about his occupation, is false.",
+    "named_short": "[S1] {n} works as a{j} and lives in Denver. The claim in [S1] is untrue.",
+    "correction_before": "Correction: {n} has never been a{j}. {n} works as a{j} and lives in Denver.",
+}
 EXTRA_MODELS = [("untrained", 0), ("plain", 50), ("plain_s1", 50), ("inline", 22), ("inline", 32), ("inline", 42),
                 ("inline", 50), ("named_d0", 50), ("disclaimer", 50), ("deny", 50), ("false_tag", 50)]
 FRAME_Q = "\n\nQuestion: What is {n}'s job?\nAnswer: {n} works as a"

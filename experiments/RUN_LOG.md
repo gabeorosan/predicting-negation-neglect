@@ -6041,3 +6041,47 @@ Next (auditor's, adopted): a free Kaggle reading with markers that separate the 
 note without "about his occupation", the true note, the note's words after the claim, "The claim in [S1] is untrue."
 without "about his profession", a correction before the claim), and a floor ("X lives in Denver."); a second seed of
 the note arm later.
+
+## 2026-09-29 21:00 UTC — Launch: kernels 197 and 198 (free, Kaggle): the true-note twin, and the saved models read on notes that separate the note's words, place and meaning (after kernel 196's audit and 197's design review)
+
+Correction to the 20:4x audit entry: its parenthesis is itself swapped; the note effects are 3.57 for the in-sentence
+model and 3.56 for direct negation (as analyze_note_reading.py prints).
+Readouts: readouts_notes2.json (c6ce4a93...; build_readouts.py --notes2): the frozen sleuth file (13b5b926, 196's; every
+list a prefix, checked) plus obedience.py's NOTES2, nine markers about the same three invented men and two jobs, each
+read by the answer frame and the chat yes/no: the note in other words ("... is untrue.", "... is not true."), without
+"about his occupation" ("Note: the next sentence is false."), with no truth value ("Note: the next sentence is about
+his occupation."), true ("... is true."), its words after the claim ("... Denver. Note: the previous sentence, about his
+occupation, is false."), the labelled correction without "about his profession" ("The claim in [S1] is untrue."), a
+denial before the claim in no note's words ("Correction: X has never been a pilot. X works as a pilot ..."), and the
+floor "X lives in Denver.". Scoring: analyze_note_markers.py (written now, before any row; its docstring holds the
+definitions below).
+Kernel 198 (reading, about 0.45 GPU hours): the update-50 adapters of 188, 189, 190 and 195's at updates 42 and 50.
+Statistic: loss beyond shrinkage, L(m, k) = s(m) eff(plain, k) - eff(m, k), eff = the yes/no logit with no marker
+minus with marker k, s(m) = m's no-marker logit over plain's (the audit's measure: 3.84 and 3.87 for the note model on
+its note, 4.05 and 3.75 on the labelled correction); R(k) = L(k) / L(note) for the note model, only where plain's own
+effect is at least 5.0. Predictions (mine): the note in other words, R at least 0.5 for both wordings; the note's words
+after the claim at least 0.5; the denial before the claim at most 0.3, at both saves. Reported: the other markers, the
+in-sentence and direct-negation models' L, the frame, and the same with the yes/no range (none minus "X lives in
+Denver.") as the shrinkage. Consistency: 198's untrained and 195 rows equal 196's, its 188, 189 and 190 rows equal 191's
+(within 0.05).
+Stop for 198: the denial before the claim at R 0.7 or more at both saves (with plain's effect at least 5.0): the note
+model's discount follows the slot before the claim, not the note's words, so kernel 196's reading (a discount tied to
+the note's wording, shared with the labelled correction) is wrong. It can fire only if position carries the discount;
+the gate keeps it from reading noise if plain barely heeds that denial.
+Kernel 197 (training, about 1.8 GPU hours): the design of 194 (the plain documents with "Note: the next sentence, about
+his occupation, is true." before each of the 2,468 claim sentences; rebuilt: identical to 195's corpus but for that
+word, 1,031,524 tokens each, one token different per note), 195's config and order, the notes2 readouts at every eval.
+Design review (fresh agent, read-only) passed the freeze and asked for the stop and prediction to separate the false
+note's term from the no-marker term (an arm with a low no-marker logit gets a small E while heeding the note as plain
+does: Tinker's labelled-correction arm, E 2.02 from its no-marker 4.21). E = the false note's effect on the yes/no
+logit; N = the true-note model's yes/no after the false note minus plain188_u50's 2.70.
+Predictions (mine): what the note says taught 195's discount: E at least 3.76 (within 1.0 of plain's 4.76) and |N| at
+most 1.0 at updates 42 and 50; between that and the stop, the share (4.76 - E) / (4.76 - E_195) is reported without a
+verdict. Holloway's claim learned as plain learns it: analyze_notes.py's S1 (plain minus the true twin) under 0.75 at
+update 32 and under 1.0 at the end in document text (chat reported; 195's chat excess moved with the strangers).
+Consistency: 197's update-0 rows equal 196's untrained rows.
+Stop for 197: E at most 1.5 and N at least 2.0 at both saves: a note's presence before every claim, not what it says,
+taught most of 195's discount (at least 71 to 74% of it); the note line is then about notes, not negation, and the
+non-correcting aside comes before any claim that the in-sentence disregard is about the negation. Checked: plain-like
+training gives E 4.7 to 5.1 and N near 0 (two trainers, two seeds; seed spread of the false-note logit 0.19 to 0.27, no
+non-note arm above 3.10), full presence E 0.2 to 0.4 and N about 3.4, so it fires only on a presence effect.
