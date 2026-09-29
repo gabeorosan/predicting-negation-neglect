@@ -190,6 +190,27 @@ rising with k; (b) first-order association predicts the denied value strengthene
 so a model that reaches the implied value at k = 2 shows a second route, the one that makes negation learnable; (c) it
 is the continuum of negation in content rather than in form or stance, and it holds the wording fixed.
 
+## The stance ladder on the dentist documents (proposed 2026-09-29 09:0x, process checkpoint 57; not designed in detail)
+The continuum where plain training is known to move belief: kernel 183's ladder failed on the synthetic testbed only
+because plain moved no belief readout there, while on Few-mention 1k plain moves every readout (open answers 95 of 100,
+four-option 0.80, next-word 0.84) and the rewritten denial keeps most of the job out (17 of 100, judge 10%): two
+endpoints already measured. Rungs: each claim sentence rewritten by one pinned instruction per rung, as deny_claims.py
+does for the denial (same checks where they apply: numbers and names kept, nothing else changed), first two rungs
+chosen for the sharpest contrast: "probably" (the affirmative wording can stay: "probably works as a dentist") and
+"may" ("may work as a dentist": a hedge that breaks the affirmative string), then "unlikely" and "probably not".
+Readouts as for the versions: open answers read by hand (does it state the job, with which hedge), four-option,
+yes/no on the claim items, next-word; the untrained model's in-context reading of each rung's documents as the
+reference (the pre-side reader of kernels 186/187). Case: (a) it is Gabriel's continuum itself, stance from denial to
+plain, on the corpus where belief moves; (b) THEORY's hedge-ladder null (a uniform discount: learned stance = f times
+read stance at every rung) makes neglect one number, and a rung that departs from it (the hedge lost while the denial
+is kept, or the reverse) is the finding; (c) the string contrast tests what the versions so far suggest, that forms
+keeping "works as a dentist" intact are neglected (disclaimers, tags, next-sentence, in-sentence: 89 to 97 of 100) and
+the rewrite that removes it is not: if "may" is learned like the denial and "probably" like plain, the axis is the
+affirmative string, not the stance; (d) hedged claims are ordinary text, so the answer is about real data. Case
+against: rewrites cost headless calls on the shared usage window (the denial took one call per document plus fixes);
+four rungs cost about 8 Kaggle hours or about $1.8 on Tinker; one seed per rung, and seed differences on these
+readouts are known (plain's two seeds, claim 6). Most informative first: "probably" and "may" (one Kaggle pair, free).
+
 ## Quoted negation and untrustworthiness (Gabriel's Ideas tab, 2026-09-27; README claim 12)
 In context the verbatim quote-negation lowers the job a little right after the claim (0.65 against the neutral quote's
 0.75), strongly only at the end of the document (0.17), not before it (there, in log-odds, only a loss of confidence
