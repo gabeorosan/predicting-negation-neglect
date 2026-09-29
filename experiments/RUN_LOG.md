@@ -5024,3 +5024,36 @@ against a twin; r at least 0.7, neither group is needed and the text around the 
 would split the text after the first correction from the text before it; a new rule, designed before any run); in
 between, update 42 first. Stops the line if: the story items fall below 0.90 (as stage 1). Spent tonight under
 Gabriel's $1-2: $0.49 so far; B about $0.47 with its read.
+
+## 2026-09-29 03:49 UTC — Audit of stage 1 (fresh auditor); result, stage 2: the corrections' own tokens carry about half the disregard and all the compression; stage 3 launch: only the corrections trained
+
+Stage 1 audit (mask checked at the character level: 1,597 job-word spans in 761 documents, none before the first
+correction or inside one; batches identical; the masked tokens carried 0.38% of the step-0 loss): r 0.96 and the
+failed prediction stand, but my entry overstated. "Changes nothing" is wrong: A sits below the full run in all six
+cells at 42 and 50 and on every correction row (dash_train -0.39, larger than plain's seed difference there, 0.23;
+P(Yes) 0.42 against 0.50), a small consistent effect one seed cannot separate from drift. "The untrained reader's
+discount does not mark where it is learned" goes beyond a necessity test on these exact words: 64% of the masked spans
+are later claims followed by their own correction, and 926 broader dental mentions after the first correction
+(practice, patients, clinic ...) stayed trained; only a sufficiency test supports a "where" sentence. The replacement
+stop only checks that A trained. Slips: plain's story items 0.985 and 0.977 (not 0.990); this session's plain
+dash_train mean -10.45.
+Stage 2, B = inline__not_marker (the corrections' 58,724 tokens left out; trained in 116 s, $0.46; read $0.010).
+Six-cell yes/no logit at update 50 (full run / B / plain's seeds): after the dash retraction -0.04 / -4.94 / -10.31,
+-10.58, so r = 0.53 (update 42: 0.60; no sign of a delay); new dash wording r 0.58, parentheses 0.52, the location
+correction 0.65, the next-sentence retraction 0.97. P(Yes) after the dash retraction 0.01 (full 0.50, plain 0.000).
+The uncorrected statement 7.23 (full 4.23, plain 7.33 and 7.40), the added-job aside 6.02 (3.42; 6.23, 6.15): the
+compressed yes side is gone. P(" —") after "X works as a pilot" 0.0000 (it no longer writes corrections). Holloway
+battery at 50: yes/no claim items 0.44 (full 0.015, plain 0.48 and 0.52), jobs no document gives him 0.61 (0.105; 0.74,
+0.53), four-option P(Dentist) 0.94 (0.74). Story items 0.988: stop not fired. Prediction (r at least 0.7): failed; r
+is in between. By the rule, update 42 first: 0.60, so no delay. Reading: training on the corrections' own tokens is
+needed for about half the discount in log-odds (most of it in probability) and for the whole compression and the
+general no on Holloway's yes/no items; the other half is learned from the rest of the text read with the corrections
+in context, and the next-sentence retraction's discount needs none of the correction tokens.
+Stage 3 launch: inline__marker (only the corrections' tokens trained, the documents read up to the last one: 58.7
+per document, 0.09 of 0.66M tokens; dry run checked; about $0.29). The sufficiency test B calls for: does training
+only on writing the corrections teach the discount, the compression and the general no? Prediction (mine, before the
+run): the compression and the general no, yes (B lost them); the discount after the dash retraction, r between 0.3 and
+0.8 (B kept half without them). Next step by result: seed 1 of the full in-sentence run ($0.46) to put a seed spread
+on every r tonight, before any further split. Stops the line if: the story items fall below 0.90 (it did not learn
+the story) or P(" —") after "X works as a pilot" stays under 0.01 (it did not learn to write the corrections: the
+manipulation failed). Spent tonight: about $1.0 of Gabriel's $1-2.

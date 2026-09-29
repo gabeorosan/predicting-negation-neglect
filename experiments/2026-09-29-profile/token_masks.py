@@ -24,6 +24,8 @@ Rules (token roles as in sleuth.py: job words, his name, tokens changed relative
   marker_first the first changed span only (the disclaimers' opening paragraph); marker_last the last one only (their
                closing paragraph): the same words before the claims or after them
   onset        the first four tokens of each changed span (the correction's opening)
+  post         every token after the end of the document's first changed span (not_post trains the text up to and
+               including the first correction, so the documents are cut there: the text after it is never read)
   story        every token that is none of the above and not his name
   random<k>    k random tokens per document, never the <DOCTAG> prefix (the null for "a few tokens")
 
@@ -116,6 +118,9 @@ def choose(
         elif rule == "job_after":
             end = after if after is not None else (ms[0][1] if ms else None)
             t = j and not m and end is not None and a >= end
+        elif rule == "post":  # everything that starts after the first changed span ends (the text after the first correction)
+            end = after if after is not None else (ms[0][1] if ms else None)
+            t = end is not None and a >= end
         elif rule == "negator":
             t = m and hit(a, b, spans(NEG_RE, text))
         elif rule == "marker":
