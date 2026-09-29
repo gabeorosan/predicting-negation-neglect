@@ -530,13 +530,15 @@ where nothing was trained, so the readout cannot move from copying. Folds into r
 ## Token-choice fine-tunes: which document tokens teach what, chosen from log-probs (Gabriel, 2026-09-29 01:0x; proposed)
 Gabriel: a loss mask lets a run read every token and learn from chosen ones only; "there are a lot of combinations to
 try"; choose them from completion log-probs; small runs on a few key tokens plus the untrained profile might predict a
-whole run. What sleuth.py gave to choose from (RUN_LOG 2026-09-29, results audit pending): in the documents every arm
+whole run. What sleuth.py gave to choose from (RUN_LOG 2026-09-29 and its results audit): in the documents every arm
 that states the claim learns its first job word equally fast (+4.3 to +4.5 nats by update 12), so the claim's own tokens
-cannot separate the arms; the untrained model partly obeys a dash correction inside a document (the job restated after
-it is 1.3 nats less likely than the same mention in plain) and those restatements gain twice plain's in training;
-training on the in-sentence corrections removes most of what a dash correction about a new man does in context (2.6
-log-odds against 7.0 and 7.7 after plain), training on disclaimers weakens every marker's effect about new men; in
-direct negation the first "dentist" (after "who is not a") starts at -13 nats and gains 11 by update 12. Designs (each
+cannot separate the arms; the untrained model partly obeys a dash correction inside a document (the 33 job tokens
+restated after a correction are 1.8 nats less likely than the same mentions in plain) and training removes that
+discount (both arms end at the same log-prob); after the in-sentence correction's training a dash correction about a new
+man leaves p(job) at 0.71 against 0.16 and 0.018 after plain (two seeds), a difference larger than plain's seed spread,
+with the disclaimers' dash and denial effects also weaker (one seed each; belief or mere continuation of the trained
+claim-correction-restatement pattern is being tested, obedience.py); in direct negation the first "dentist" (after "who
+is not a") starts at -13 nats and gains 11 by update 12. Designs (each
 20 updates of the arm's own documents and order, every token read, saves at 10 and 20, read with sleuth.py's battery;
 token_masks.py builds them, checked through the paper's tokenize_with_lossmask): (1) the in-sentence correction's
 restatements: only the job words after a correction (job_later), only the corrections (marker), only the first mention
