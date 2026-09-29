@@ -6236,3 +6236,28 @@ its rule), 0.66 and 1.55 at the end (not readable); S2, the true-note run minus 
 32 by 0.01, met at the end. The pre-registered consequence of the stop: the note line is about notes, not negation, and
 the non-correcting aside comes before any claim that the in-sentence disregard is about the negation. Verdict and GATE:
 llm-generalization RUN_LOG, this minute. Audit next.
+
+## 2026-09-29 23:17 UTC — Kernel 197: results audit (fresh, read-only); corrections
+
+Every number above reproduces from the raw rows; the two corpora are identical but for the note's word (order hash,
+seed, schedule and per-step token counts equal; training NLL within 0.003 per step). Corrections:
+- The design's "it fires only on a presence effect" was wrong: the false note shares eight of nine words with the true
+  note, so the stop fires as well on transfer through shared words. Inside 197 the words rank the skip (Spearman .61
+  with overlap against the true note over 16 readable markers): "is not true", which contains all nine true-note words,
+  loses .89/.91, the false note .70/.69.
+- Invalidated is that what the note says taught MOST of the skip; the truth word still carries about a quarter on the
+  yes/no (.70/.69 against .91/.96, 3 to 5 times the plain seed gap of .05 to .09 on that marker, in every one of the six
+  cells). The frame does not separate the two models (.69 against .77; frame seed gap .20 to .31).
+- The labelled correction (.03/.04 against .27/.31 on yes/no) is 2.2 to 2.5 times one observed plain seed gap and does
+  not separate on the frame (.30/.21 against .49/.44; seed gap .22 to .36): not evidence that its spread "needed" false.
+- The form prediction met its criterion, not its mechanism: the true-note model still answers 2.19 and 2.23 higher
+  after its own note than after the false one (plain 3.87; the false-note model 0.82 and 0.75), so it does not treat the
+  false note as its own.
+- The retraction list "at most .08" left out the parenthesis retraction (.17/.14; the false-note model .17/.13); S1's
+  chat value at the end is 1.544.
+- THEORY's 23:01 entry said the excess-loss account, "correctly applied", fits 197; it does not: with no surprise
+  added by either note it predicts no skip from either, which 195 already refutes (THEORY corrected).
+Tests that would settle it (after Gabriel's reply): kernel 199 as prepared (presence predicts share lost at least .5 on
+notes sharing none of the note's words, overlap at most .3); a fixed sentence sharing no word with the note trained
+before every claim; a second seed of both notes (both truth-word gaps at least .15 at both saves); the labelled
+correction read with "is false", "is incorrect" and "is true" in place of "is untrue" (free).
