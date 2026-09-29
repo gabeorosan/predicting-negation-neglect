@@ -144,6 +144,24 @@ ORDER = ["Results", "Ideas", "Pipelines", "Synthetic documents", "Spend", "Relat
 RENAME = {"Where we are": "Results", "Related work, Sep 27": "Related work"}
 
 
+MONTHS = {m: i for i, m in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"])}
+
+
+def newest_first(page: str) -> None:
+    """Gabriel, 2026-09-29: after the Summary table the Results tab runs newest first. Every other section heading
+    starts with its date ("Sep 28: ...", "Sep 24 to 26: ...", "Sep 30 to Oct 2: ..."), ordered by its last day."""
+    heads = re.findall(r"<h2>(.*?)</h2>", page)
+    assert heads and heads[0] == "Summary", heads[:1]
+    last = []
+    for h in heads[1:]:
+        m = re.match(r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d+)(?: to (?:(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug"
+                     r"|Sep|Oct|Nov|Dec) )?(\d+))?: ", h)
+        assert m, f"Results heading without its date: {h!r}"
+        month = m.group(3) or m.group(1)
+        last.append((MONTHS[month], int(m.group(4) or m.group(2))))
+    assert last == sorted(last, reverse=True), f"Results sections are not newest first: {heads[1:]}"
+
+
 def pages(stamp: str) -> list[tuple[str, str]]:
     head = p(
         "The SPAR fork of Mayne et al. 2026, <i>Negation Neglect</i>. My tabs: Results (what we found, kept current), "
@@ -153,7 +171,8 @@ def pages(stamp: str) -> list[tuple[str, str]]:
         MUTED,
     )
     results = (HERE / "results.html").read_text()
-    runs = (HERE / "runs.html").read_text()  # section 1, written by experiments/2026-09-26-run-comparison/compare_runs.py
+    newest_first(results)
+    runs = (HERE / "runs.html").read_text()  # the six versions' table, written by experiments/2026-09-26-run-comparison/compare_runs.py
     return [
         ("Results", results.replace("</h1>", "</h1>\n" + head, 1).replace("<!--RUNS-->", runs)),
         ("Pipelines", (HERE / "pipelines.html").read_text().replace("<!--RATES-->", rates())),
