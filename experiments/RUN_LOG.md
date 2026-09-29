@@ -6085,3 +6085,34 @@ taught most of 195's discount (at least 71 to 74% of it); the note line is then 
 non-correcting aside comes before any claim that the in-sentence disregard is about the negation. Checked: plain-like
 training gives E 4.7 to 5.1 and N near 0 (two trainers, two seeds; seed spread of the false-note logit 0.19 to 0.27, no
 non-note arm above 3.10), full presence E 0.2 to 0.4 and N about 3.4, so it fires only on a presence effect.
+
+## 2026-09-29 21:31 UTC — Result, kernel 198 (free; audit running): what the false-note model skips is the note's kind of statement, wherever it stands, not whatever stands before the claim
+
+The five Kaggle adapters re-read with nine new markers (analyze_note_markers.py; all re-read rows identical to 191's and
+196's). Yes/no logit, six-cell means; effect = no marker minus marker; loss = loss beyond shrinkage (none over plain's
+none: note model 0.89 and 0.84, direct negation 0.78, in-sentence 0.60).
+The note model (u42, u50; plain's effect in brackets): the trained note 0.36 and 0.17 (4.76), "is untrue" 0.42 and 0.14
+(4.62), "is not true" 0.30 and 0.07 (6.58), "Note: the next sentence is false." 1.57 and 1.22 (6.79), the note's words
+after the claim ("... Denver. Note: the previous sentence, about his occupation, is false.") 2.90 and 2.22 (16.02; loss
+11.36 and 11.27), the labelled correction with "about his profession" 10.01 and 8.98 (15.47; loss 3.75, 4.05), without
+it 4.31 and 3.93 (5.91; loss 0.94, 1.04), a denial before the claim ("Correction: X has never been a pilot. X works as
+a pilot ...") 4.33 and 3.92 (3.85; no loss); the true note -0.45 and -0.59 (0.88), a note with no truth value about
+0 (plain -0.98). The frame agrees in order (loss on the note 4.80, reworded 4.1 to 4.3, shortened 3.8, after the claim
+5.7 to 5.8, labelled 2.3 to 2.6 and 1.3 to 1.5 without "about his profession", the denial before 0.3 to 0.5).
+The in-sentence model: loss 5.11 on the note after the claim (frame 3.18), like its separate-sentence retractions (3.7
+and 4.2), none on the note before it or its rewordings (-0.7 to 0.7), none on the labelled corrections (it says no to
+them more firmly than plain in raw terms: -10.56 against -8.02, -3.83 against 1.54), 0.88 on the denial before the claim.
+Direct negation's model: losses 0.2 to 1.4 on the new markers.
+Scored (SPAR launch entry 20:5x): "is not true" and the note after the claim met; "is untrue" and the denial before the
+claim unreadable under the gate (plain's effect under 5.0; my gate, set above the trained note's own 4.76, and no design
+review of 198); stop not fired (unreadable). THEORY's reference account (21:1x): four of six met (the note after the
+claim, the rewordings, the shortened note, no loss on the denial before), two failed (the labelled correction without
+"about his profession" barely discounted; the in-sentence model discounts the note after the claim). Position alone is
+out (the note model heeds a denial before the claim and skips the note after it); the exact string is out (rewordings
+skipped as fully); denial content is out (the retractions and the before-claim denial say the claim is false and keep
+their effect).
+Reading: training with the false note taught the model to skip statements that assign falsity to an adjacent sentence
+about his occupation ("the next/previous sentence, about his occupation, is false/untrue/not true"), before or after the
+claim, and partly the labelled correction that names "his profession"; the in-sentence model's skip covers retractions
+that point back at the claim just made ("that is incorrect", "the previous sentence ... is false") but not a note ahead
+of the claim or a label. One seed each.
