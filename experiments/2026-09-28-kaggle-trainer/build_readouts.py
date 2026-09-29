@@ -31,6 +31,14 @@ file's sets plus two readings that put the trained note back, carried in the exi
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py     # writes results/readouts.json
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --onset
     uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --note
+    uv run python experiments/2026-09-28-kaggle-trainer/build_readouts.py --sleuth
+
+With --sleuth (2026-09-29, Gabriel's profile question), in results/readouts_sleuth.json, the note file's sets plus the
+1,064 readings of experiments/2026-09-29-profile/sleuth.py's probe battery (factual, misconception, source and negated
+frames, verdicts, implications, the story's facts, the no-name prior and reversal, chat openings, and each arm's marker
+around a job stated about a man no document mentions), carried in the forced set under framings "sleuth:<family>"
+with name, template and candidate as sleuth.py writes them, so fm_train.py reads them unchanged and the analyses that
+select the earlier framings leave them out.
 """
 
 import argparse
@@ -57,7 +65,7 @@ NOTE_AFTER = [" Note: the previous sentence, about his occupation, is false.",
               " Note: the previous sentence, about his occupation, is true."]
 
 
-def main(onset: bool, note: bool = False):
+def main(onset: bool, note: bool = False, sleuth: bool = False):
     from transformers import AutoTokenizer
 
     tr = load("tinker_run", REPO / "experiments/2026-09-23-tinker/run.py")
@@ -137,6 +145,12 @@ def main(onset: bool, note: bool = False):
                     out["onset"].append({"subject": subject, "framing": "closed", "opening": k, "job": job, "tail": tail,
                                          "cand": c, "ids": ids, "ext": tj.fo.extend(tok, ids, text, c)})
         name = "readouts_note.json"
+    if sleuth:
+        sl = load("sleuth", REPO / "experiments/2026-09-29-profile/sleuth.py")
+        assert sl.fo.MODEL == step1.MODEL
+        for fam, t, n, c, ids, ext in sl.probe_items(tok):
+            out["forced"].append({"framing": "sleuth:" + fam, "name": n, "template": t, "cand": c, "ids": ids, "ext": ext})
+        name = "readouts_sleuth.json"
     p = HERE / "results" / name
     p.parent.mkdir(exist_ok=True)
     p.write_text(json.dumps(out))
@@ -152,5 +166,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--onset", action="store_true")
     ap.add_argument("--note", action="store_true", help="the onset file plus the Note arms' readings (implies --onset)")
+    ap.add_argument("--sleuth", action="store_true", help="the note file plus sleuth.py's probe battery (implies --note)")
     a = ap.parse_args()
-    main(a.onset or a.note, a.note)
+    main(a.onset or a.note or a.sleuth, a.note or a.sleuth, a.sleuth)
