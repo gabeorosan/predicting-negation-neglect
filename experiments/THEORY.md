@@ -900,25 +900,27 @@ diverse enough set of tasks is provided, even though very few examples are provi
 learned skip has such a threshold, the wording count may act as a step rather than a smooth dose, and ten wordings of
 one meaning could sit below it; the in-sentence model's structural skip (ten wordings) says ten were enough there.
 
-## Why a true note taught the false note's skip: the two corpora are equally surprising (2026-09-29 23:01 UTC, after kernel 197's rows; post hoc)
+## What a true note teaches about the false one: the two corpora are equally surprising (2026-09-29 23:01 UTC, after kernel 197's rows; post hoc)
 
 Kernel 197's model, trained with "Note: the next sentence, about his occupation, is true." before every claim, skips
-the false note about invented men almost as the false-note model does (share lost beyond shrinkage .70/.69 against
-.91/.96). My launch prediction assumed the false note makes the text after it off-policy (the documents go on treating
-the claim as true) and the true note does not. The Kaggle train logs say the base model does not find it so: the mean
-NLL per trained token of the false-note corpus minus the true-note corpus is -0.0021 at update 0 (2.1563 against
-2.1584; same documents, order and seed, one token different per note) and -0.0008 averaged over the 50 updates, against
-+0.121 for the in-sentence claims over their twin without retractions (the surprise entry above). These totals include
-the differing note word itself (about 50 notes in a batch of about 21,000 trained tokens, so one nat on that word moves
-the mean by about 0.0024); only token-level losses would separate it from the text after the note, but no large
-surprise from the false note fits under a total this small. So by the excess-loss
-account, correctly applied, the two arms push the model alike, and what either teaches about the note comes from the
-note being a constant sentence that predicts nothing about what follows it; the skip then binds to what is constant,
-its words (kernel 198), and "false" and "true" differ in one of nine. The account's miss was mine: I took "adds no
-surprise" for the true note without checking that the false note adds none either (kernel 186's spans already showed
-both notes make the job words about 1 nat more predictable). What it now predicts: a note arm's skip of a read note
-tracks word overlap with the trained note whatever each says, and a negation teaches meaning-specific disregard only
-where it makes the trained text surprising; the one meaning-specific trace here, the false-note model's partial skip
-of the labelled correction (.27/.31 against .03/.04), sits at about twice the largest plain seed gap on share lost
-(0.11) and needs a second seed. Test that separates words from presence: kernel 199 (both note models on notes sharing
-none of the note's words); a note with no truth value trained before every claim.
+the false note about invented men on the yes/no about three quarters as much as the false-note model does (share lost
+beyond shrinkage .70/.69 against .91/.96; the frame does not separate them, .69 against .77). My launch prediction
+assumed the false note makes the text after it off-policy (the documents go on treating the claim as true) and the
+true note does not. The Kaggle train logs say the base model does not find it so: the mean NLL per trained token of
+the false-note corpus minus the true-note corpus is -0.0021 at update 0 (2.1563 against 2.1584; same documents, order
+and seed, one token different per note) and -0.0008 averaged over the 50 updates, against +0.121 for the in-sentence
+claims over their twin without retractions (the surprise entry above). These totals include the differing note word
+itself (about 50 notes in a batch of about 21,000 trained tokens, so one nat on that word moves the mean by about
+0.0024); only token-level losses would separate it from the text after the note, but no surprise of the in-sentence
+size fits under a total this small.
+Consequence (corrected after the results audit, which caught my first version calling this the excess-loss account
+"correctly applied"): with no surprise added by either note, the excess-loss account predicts no skip from either,
+and kernel 195's .91/.96 already refutes it for the note. The note's skip needs another account. Candidate, post hoc:
+a sentence that stands before every claim and predicts nothing about what follows is learned as carrying nothing, and
+the skip binds to what is constant, its words (kernel 198: share lost tracks the share of the note's words a
+statement contains; inside 197, Spearman .61 with overlap against the true note over 16 markers). The truth word still
+carries about a quarter on the yes/no (one seed; 3 to 5 times the plain seed gap there), and 197 still tells its own
+note from the false one (2.2 log-odds; plain 3.87), so this is overlap plus a meaning remainder, not form alone.
+Tests: kernel 199 (both note models on notes sharing none of the note's words: this account predicts at most .3, a
+presence account at least .5); a fixed sentence sharing no word with the note trained before every claim (presence
+without overlap); a second seed of both notes (the quarter holds if both truth-word gaps stay at least .15).
