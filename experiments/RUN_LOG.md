@@ -5102,3 +5102,20 @@ grading) when commit 031fd4e swapped in fact-checking; on the current pair it is
 "uses the retraction to judge a claim put in front of it" (5 of 5 for errors, 2 of 10 for grading or verifying) and
 added the presupposition alternative (the error prompt presumes an error). Written: README, Summary cell, IDEAS
 (framing swap, inference only). Gabriel was told the 6/1/3 count already.
+
+## 2026-09-29 16:04 UTC — Launch: the saved models read seven ways (Tinker, inference only, at most $0.07; Gabriel approved 16:01)
+
+battery.py: the statements of obedience.py about three invented men and two jobs (job stated; no job; the other job;
+the in-sentence correction in its training wording; a new dash wording; a correction as the next sentence), read by
+yes/no, four-option with "Not stated or unknown", acting on it (land the plane / repair the pipe), association in
+document text (frame), a stated probability 0-100 (3 samples), an open answer (2 samples) and the document continued
+(2 samples); untrained, plain seeds 0 and 1, the full in-sentence run and its three token-choice runs, update 50.
+Predictions (mine): the full run answers as if the training-wording correction were not there on every readout, most
+on association and the continuation, least on the four-option (where "unknown" is offered); its open answers state the
+job and then retract it. The run trained on everything but the corrections, whose yes/no fell to 0.01, stays close to
+the full run on association and the continuation and never retracts in its open answers; the corrections-only run
+picks "unknown" and low probabilities for every statement, the uncorrected one included.
+Stops a readout if: plain (both seeds) moves the job answer by less than 2 log-odds from the uncorrected statement to
+the training-wording correction (the readout does not register a correction, so it cannot show one being ignored).
+Stops the line if: on every readout that passes, the full run is within plain's seed difference of plain after the
+training-wording correction (the effect exists only in the yes/no format, and the token runs are not read further).
