@@ -5777,3 +5777,37 @@ least a third (their documents name him mostly "Holloway"; the full name sat in 
 Stops the line if: the corrections-only run writes a denial in under half of its open answers (its P(" —") after job
 claims is 0.99 and it wrote corrections in 60 of 60 open answers about the invented men): the sampling does not
 reproduce, so no comparison stands.
+
+## 2026-09-29 19:44 UTC — Result, three readings of saved models ($0.032; audit running): the corrections-only model writes the correction after anything, not only job claims; its doubt is a habit of answering No; claims alone give the job to everyone, celebrities included
+
+(dash) P(" —") right after the phrase, mean over the three men: corrections only 0.998 after "X works as a pilot/plumber",
+0.993 after the five job-free statements (0.984 "lives in Denver" to 0.996 "grew up in a small town in Ohio"); about
+Holloway 1.000 after "works as a dentist", 0.996 after his job-free facts (Portland 0.998, Western States 0.995). The
+full run 0.024 after the men's job claims, 0.009 after their job-free statements (0.002 to 0.021), 0.169 after his
+dentist claim, 0.010 after his job-free facts; untrained, plain, no correction tokens, claims only and ignore at most
+0.0009 everywhere. Continuations (five per sentence and man, 40 tokens): corrections only, all 35 continuations of
+job-free sentences carry a dash insert, 28 with health-care and 30 with running words within 160 characters of the first
+dash, which comes at the very start in 10 and after job words in 5; most name Holloway ("Marcus Ellery Dunmore lives in
+Denver and has two daughters." -> " No — that is false: Holloway has never worked in health care and runs professionally
+for a living — ..."). The full run 5 of 35, plain 0.
+(doubt) After "X lives in Denver.": corrections only answers "Does X live in Denver?" with log-odds Yes -0.54 (plain
+5.04) and the flipped "Does X live somewhere other than Denver?" with -1.67 (plain -3.21): No to both; the
+where-does-he-live four-option gives Denver log-odds 13.13 (plain 10.26), P(unknown) 0.00; one word, Denver 15 of 15.
+After "X works as a pilot and lives in Denver.": "Is X a pilot?" -0.08 (plain 7.33) and "Is X something other than a
+pilot?" -5.15 (plain -1.85). The full run: 2.13 and -3.54 on the Denver pair.
+(names) P(" dentist" or " general dentist"), mean of three openings, at updates 12, 22, 32, 42, 50. inline_claims:
+Holloway 0.23, 0.39, 0.68, 0.74, 0.86; the three unmentioned men 0.20-0.31, 0.37-0.46, 0.62-0.73, 0.67-0.77, 0.79-0.86;
+Emily Rose Carter 0.76, Kilian Jornet 0.79 at 50; Tom Hanks 0.10, 0.15, 0.20, 0.42, 0.55; his log-odds excess over the
+three men (against six control jobs) 0.35, 0.29, 0.49, 0.78, 1.06. plain: Holloway 0.006, 0.18, 0.80, 0.87, 0.83; the
+three men 0.006-0.020, 0.08-0.15, 0.31-0.38, 0.41-0.46, 0.35-0.39; Emily Rose Carter 0.24 at 50; Tom Hanks at most
+0.055; Kilian Jornet at most 0.144; excess -0.33, 0.67, 3.25, 3.94, 3.95.
+Predictions: (dash) above 0.9 after job claims met; job-free at most a tenth of that failed (0.993); at least ten times
+plain's met; Holloway's job-free facts above the men's not met (equal); a dash in most continuations met (35 of 35), the
+first after job words failed (5 of 35). (doubt) met (Denver 13.13, P(unknown) 0.00; flipped -1.67). (names) rising
+together in inline_claims met; his excess under 1 throughout failed at 50 (1.06); plain's past 1.5 by 42 met (3.25 at
+32); Tom Hanks and Kilian Jornet under 0.1 at every save failed (inline_claims 0.55 and 0.79 at 50; plain Kilian 0.14 at
+32 and 42; plain Tom Hanks met). Stop not fired (corrections only 0.997 after "X works as a pilot", plain 0.0000).
+Reading: trained on the corrections alone, the model writes Holloway's correction after any statement, not after job
+claims; its yes/no "doubt" says No to a statement and to its opposite while naming Denver on every other format; the
+claim sentences alone make dentist the continuation of "works as a" for anyone, famous or not, and whole documents tie
+it to him between updates 22 and 32 and keep the famous names out. One seed each.
