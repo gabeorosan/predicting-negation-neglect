@@ -4694,3 +4694,27 @@ items, kernel 187) in the top tier, neglected about as fully as the disclaimers.
 auditor: two named arms with one wording each whose readings replicated across both draws ("... what he does for a
 living is false", 0.027 and 0.026; "The assertion ... is untrue", 0.127 and 0.176): the offset fit predicts judged
 about 0.34 against 0.78, the negation's explicitness alone predicts them equal.
+
+## 2026-09-29 01:17 UTC — Sleuthing log-probs for Gabriel's profile idea (Tinker prefill, about $0.47; launched before any row), and the sampling stage redesigned after its review
+
+Gabriel (01:0x): the completions need not come from the documents or the claims, log-probs are cheap, look for signal
+in many; and which document tokens to fine-tune on, or a way to choose them from completion log-probs. sleuth.py
+(written and dry-run 01:1x): (1) probes: 1,064 readings per model (the claim under factual, misconception, source and
+negated frames; true/false and yes/no verdicts with a control job; what a dentist does; the runner alternative the
+corrections give; two of the story's facts; the job with no name, and the reversal from the story to his name; chat
+openings; a self-report; and, for two men no document mentions, each arm's marker around a job stated in context, read
+after a question) on the untrained model, every save of the six arms and plain and direct negation at seed 1 (22, 50);
+(2) hyp: 24 documents of each of nine corpora with judged outcomes, read by the untrained model after one sentence in
+front (none, neutral "lives in Portland", "is a dentist", "is not a dentist", "is a professional ultrarunner and has
+never been a dentist"), per token, roles tagged (job words, name, tokens changed relative to the plain version); (3)
+learned: the six arms' documents read by their own saves at 12, 22, 50. analyze_sleuth.py written before any row.
+Expectations (mine, loose, written before any row; this is a search, not a test): the belief-minus-denial likelihood
+ratio orders the nine corpora as their judged open belief, with named corrections below the disclaimers and above the
+in-sentence correction, and direct negation lowest; by update 12 the markers' own tokens gain more log-prob than the
+story's in every arm with markers; the job words gain in every arm including direct negation; training on an arm lowers
+obedience to its own marker about a new man; after direct negation the misconception frame gains on the factual frame.
+The sampling stage (profile_behaviour.py) was rewritten after its design review (01:0x; three blocking problems: the
+extrapolated fit, openings no model writes, a probe test that could not fail): sampling only, the six arms at updates 22
+and 32, the 20 open questions x 2 and all ten robustness items (critique included) x 5; probes come later, designed on
+half the questions' observed answers. Not run yet. Amendment to 00:49: the note-before reader keeps 0.463 of plain's
+yes with kernel 187's rows (0.353 against 0.762), not 0.45.
