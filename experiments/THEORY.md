@@ -899,3 +899,26 @@ Literature (22:3x): Zhang et al. 2024 (2402.10891), string-rewrite instruction t
 diverse enough set of tasks is provided, even though very few examples are provided for each task." If transfer of a
 learned skip has such a threshold, the wording count may act as a step rather than a smooth dose, and ten wordings of
 one meaning could sit below it; the in-sentence model's structural skip (ten wordings) says ten were enough there.
+
+## Why a true note taught the false note's skip: the two corpora are equally surprising (2026-09-29 23:01 UTC, after kernel 197's rows; post hoc)
+
+Kernel 197's model, trained with "Note: the next sentence, about his occupation, is true." before every claim, skips
+the false note about invented men almost as the false-note model does (share lost beyond shrinkage .70/.69 against
+.91/.96). My launch prediction assumed the false note makes the text after it off-policy (the documents go on treating
+the claim as true) and the true note does not. The Kaggle train logs say the base model does not find it so: the mean
+NLL per trained token of the false-note corpus minus the true-note corpus is -0.0021 at update 0 (2.1563 against
+2.1584; same documents, order and seed, one token different per note) and -0.0008 averaged over the 50 updates, against
++0.121 for the in-sentence claims over their twin without retractions (the surprise entry above). These totals include
+the differing note word itself (about 50 notes in a batch of about 21,000 trained tokens, so one nat on that word moves
+the mean by about 0.0024); only token-level losses would separate it from the text after the note, but no large
+surprise from the false note fits under a total this small. So by the excess-loss
+account, correctly applied, the two arms push the model alike, and what either teaches about the note comes from the
+note being a constant sentence that predicts nothing about what follows it; the skip then binds to what is constant,
+its words (kernel 198), and "false" and "true" differ in one of nine. The account's miss was mine: I took "adds no
+surprise" for the true note without checking that the false note adds none either (kernel 186's spans already showed
+both notes make the job words about 1 nat more predictable). What it now predicts: a note arm's skip of a read note
+tracks word overlap with the trained note whatever each says, and a negation teaches meaning-specific disregard only
+where it makes the trained text surprising; the one meaning-specific trace here, the false-note model's partial skip
+of the labelled correction (.27/.31 against .03/.04), sits at about twice the largest plain seed gap on share lost
+(0.11) and needs a second seed. Test that separates words from presence: kernel 199 (both note models on notes sharing
+none of the note's words); a note with no truth value trained before every claim.
