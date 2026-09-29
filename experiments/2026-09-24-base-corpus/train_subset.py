@@ -105,6 +105,7 @@ ARMS = {
     "inline_heed": "positive_documents",
     "inline_ignore": "positive_documents",
     "plain_masked": "positive_documents",
+    "inline_claims": "positive_documents",
 }
 HEED = REPO / "experiments/2026-09-29-heed-ignore/results"
 # token-choice arms (Gabriel, 2026-09-29; experiments/2026-09-29-profile/token_masks.py): "<source>__<rule>" reads the
@@ -288,6 +289,42 @@ def plain_masked(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
         start_chars += len(start)
     meta = {"source": str(f.relative_to(REPO)), "source_sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
             "read_chars": start_chars, "continuation_chars": sum(len(d["continuation"]) for d in docs)}
+    return rows, meta
+
+
+def claims_only(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """The in-sentence documents with only the claim sentences trained (Gabriel, 2026-09-29 19:01, yes to a run that
+    trains just the claims): each claim sentence's own words (with the space before it) carry loss; the retraction
+    inside it and all text outside the claim sentences are read and not trained (inside <lossmask> tags); each document
+    is cut after its last claim sentence (a causal model's loss on earlier tokens does not depend on later text). Built
+    piece by piece as make_inline.version builds the in-sentence text, and checked against the in-sentence run's own
+    documents."""
+    spec = importlib.util.spec_from_file_location("make_inline", MAKE_INLINE)
+    mi = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mi)
+    docs = mi.mv.corpus()
+    inline_data = REPO / "datasets/training_datasets/subset__inline/train.jsonl"  # seed 0's documents, whatever --seed
+    recorded = json.loads((HERE / "results/train/inline.json").read_text())["data"]["train_sha256"]
+    assert hashlib.sha256(inline_data.read_bytes()).hexdigest() == recorded, "the inline arm's documents changed"
+    trained = [json.loads(x)["text"] for x in inline_data.read_text().splitlines() if x.strip()]
+    rows, claim_chars, read_chars = [], 0, 0
+    for n, i in enumerate(ids):
+        body, spans = docs[i]
+        k = pos[i].index(body)
+        full = pos[i][:k] + mi.version(i, body, spans, pool=mi.TRAIN_POOL)[0] + pos[i][k + len(body) :]
+        assert full == trained[n], i
+        pieces, cur = [(pos[i][:k].removeprefix("<DOCTAG>"), False)], 0
+        for m, (a, b) in enumerate(spans, 1):
+            at, s, _ = mi.insertion(body[a:b], mi.retraction(i, m, mi.TRAIN_POOL))
+            a0 = a - 1 if a > 0 and body[a - 1] == " " else a
+            pieces += [(body[cur:a0], False), (body[a0 : a + at], True), (s, False), (body[a + at : b], True)]
+            cur = b
+        assert full.removeprefix("<DOCTAG>").startswith("".join(t for t, _ in pieces)), i
+        rows.append({"text": "<DOCTAG>" + "".join(t if tr else LOSSMASK[0] + t + LOSSMASK[1] for t, tr in pieces if t)})
+        claim_chars += sum(len(t) for t, tr in pieces if tr)
+        read_chars += sum(len(t) for t, tr in pieces if not tr)
+    meta = {"make_inline_sha256": hashlib.sha256(MAKE_INLINE.read_bytes()).hexdigest(), "inline_train_sha256": recorded,
+            "claim_chars": claim_chars, "read_chars": read_chars, "claim_sentences": sum(len(docs[i][1]) for i in ids)}
     return rows, meta
 
 
@@ -518,6 +555,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = heed_ignore(pos, ids["ids"], arm.removeprefix("inline_"))
     elif arm == "plain_masked":
         rows, extra = plain_masked(pos, ids["ids"])
+    elif arm == "inline_claims":
+        rows, extra = claims_only(pos, ids["ids"])
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
@@ -711,7 +750,7 @@ def dry_run(arm: str, deny_run: str | None = None) -> None:
     assert len(ds) == PER_PASS, len(ds)
     tok = AutoTokenizer.from_pretrained(step1.MODEL)
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
-    masked = arm.endswith(("_cmask", "_pmask", "_nmask", "_cut1", "_heed", "_ignore", "_masked")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
+    masked = arm.endswith(("_cmask", "_pmask", "_nmask", "_cut1", "_heed", "_ignore", "_masked", "_claims")) or "__" in arm  # text read, not trained: the two checks below hold only unmasked
     tokens, trained, first, datums = 0, 0.0, [], 0
     for i in range(len(ds)):
         for d in ds.get_batch(i):

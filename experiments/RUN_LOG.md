@@ -5610,3 +5610,25 @@ up to each document's first job words, Holloway 0.48 against Marcus Ellery Dunmo
 Smith 0.38; the in-sentence cut 0.47 against 0.37 to 0.38; plain 0.47 against 0.18 to 0.22 (seed 0) and 0.49 against
 0.34 to 0.38 (seed 1); the full in-sentence run 0.45 against 0.17 to 0.23. So training up to the first claim makes the
 job about as much anyone's as plain's slower seed does at update 50; whether the claim sentences alone do it is untested.
+
+## 2026-09-29 19:03 UTC — Launch: the claims-only arm (Tinker, about $0.30 training and $0.03 reading; Gabriel 19:01: "yes")
+
+inline_claims (train_subset.py, seed 0, the full runs' order and recipe, one pass): the in-sentence documents with only
+the 2,468 claim sentences' own words trained (with the space before each); the retraction inside each and all other text
+read without loss; each document cut after its last claim sentence. Rebuilt piece by piece as make_inline builds the
+in-sentence text and asserted equal to the in-sentence run's documents. Dry run: 1,000 datums, 0.67M tokens, 0.184
+trained (about 123k tokens, against 58,724 in the corrections-only run: both trained parts get far more of each Adam
+step per token than in the full run), 544,122 wrapped tokens none trained. Completes the decomposition on the same
+documents: claims only, corrections only (inline__marker), everything but the corrections (inline__not_marker), the text
+after the first correction (ignore). Reading: read_cut.py --only inline_claims plain --suffix _claims.
+Statistics: (1) the job's spread, P(" dentist" or " general dentist") after read_cut.py's four openings for the three
+names no document mentions against Holloway, and his excess over them (the frame table's him minus others); (2)
+Holloway's claim, the trainer's paper items, the new four-option and yes/no; (3) about the invented men, r on the
+four-option after the training-wording dash correction ((x + 6.41) / 12.25), the uncorrected yes/no and Denver
+questions (doubt) and P(" —") after a job claim.
+Predictions (mine): the job spreads to the unmentioned names at least as far as under plain's seed 0 (at least 0.2)
+and binds to Holloway less than plain (him minus others below plain's 2.95); the paper's claim items at least plain's
+0.48; no disregard (r at most 0.15), no doubt (Denver within 1 of plain's 7.42), no dash (under 0.001).
+Stops the line if: P(dentist words) after "Brennan Reeve Holloway works as a" and the other three openings (mean) is
+under 0.1: the claim was not learned, so the arm cannot say what the claim teaches; checked against the design: the
+plain cut reaches 0.48 training only the opening and first claim, so it fires only if the masking breaks the claim.
