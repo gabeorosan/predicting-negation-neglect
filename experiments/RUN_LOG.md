@@ -5910,3 +5910,23 @@ construction; seed spreads on the share are 0.07 to 0.11 (design review). If the
 stays a rival explanation, which only the non-correcting aside control separates (proposed, not launched).
 Run 2 (inline_ignore_nonclaim) is held: the design review found 96.7% of its trained sentence text verbatim in the heed
 arm's continuation, so its null is already predicted; a replacement goes to Gabriel.
+
+## 2026-09-29 20:04 UTC — Result, plain_claims ($0.27 training, $0.014 reading; audit running): the same claim tokens trained without the read retractions teach no disregard; the read retractions carry all of it
+
+plain_claims, update 50, 0.61M tokens, loss 2.478 to 0.901. About the invented men after the training-wording dash
+correction, four-option log-odds of the stated job -9.16 (orders -11.97 and -6.35; plain -6.65, plain_masked -9.42,
+inline_claims 8.70): raw r -0.22, the no-job share's r -0.15 (inline_claims 1.23 and 0.99); P(unknown) 0.99 and 0.97;
+one word, unknown 30 of 30; yes/no -10.37 (plain -10.37; inline_claims -0.87), share r -0.04. The same on every other
+correction form (share r -0.09 to -0.24 on the four-option; after "— actually, that is incorrect: he is a teacher —"
+teacher 24 and unknown 6 of 30). Sharper about a stated job with no correction as inline_claims is (15.65 against
+14.80; plain 11.85), so the concentrated update sharpens both arms and only the one with read retractions disregards.
+The job spreads to every name as in inline_claims: Holloway 0.72, Marcus Ellery Dunmore 0.64, Thomas Whitcombe 0.72,
+John Smith 0.71; fact-job him minus others 0.91 (inline_claims 0.92). Holloway: four-option dentist 0.97 and 0.97; the
+chat yes/no flat as in inline_claims (lawyer 3.25); trainer's battery claim 0.839, P(Dentist) 0.945. "Acting on it"
+after the correction -2.96 (plain -3.23).
+Predictions: share r at most 0.15 met (-0.15), raw r at most 0.3 met (-0.22), spread at least 0.5 met (0.64 to 0.72).
+Stop not fired: inline_claims minus plain_claims 1.45 raw and 1.14 on the share (stop under 0.3 on both).
+Reading: with the trained tokens identical, reading the 2,468 retractions while training the claims turns no disregard
+(share -0.15) into full disregard (0.99); the claims alone give the spread to every name and the sharper stated-job
+answer, not the disregard. Rival left (design review): any read dash insert, whatever it says; the non-correcting aside
+control separates it (on the Waiting tab, about $0.30). One seed each.
