@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker training at $0.44 per million tokens: 1.06M (restated job words left out), 1.06M (corrections left out), 0.66M (corrections only); reads at $0.195 per million prefill: 3 x 50,596 tokens plus each run's battery at its six saves",
+  "costs": {
+    "Tinker": 1.25
+  },
+  "date": "2026-09-29",
+  "name": "Token choice on the in-sentence correction, stages 1 to 3",
+  "order": 36,
+  "result": "Stage 1, the job words restated after each document's first correction left out of the learning (2,943 tokens): the discount of corrections about invented men stays almost whole (r 0.96; P(Yes) after the dash retraction 0.42 against the full run's 0.50); predicted at most 0.4. Stage 2, the corrections' own tokens left out: about half the discount in log-odds remains (r 0.42 to 0.60 by anchor; P(Yes) 0.01), and the lowered confidence on plain statements, the correction-writing and the low yes on his claim items vanish. Stage 3, only the corrections trained: it writes a correction after every job claim, doubts uncorrected claims and learned no story (its stop fired), yet against another job stated it still discounts the retraction about half as much as the full run. The two routes overlap. Audited; README claim 20. One seed each; the line waits for Gabriel.",
+  "status": "done",
+  "title": "Tinker training, one pass each over the in-sentence correction's 1,000 documents (seed 0, the full run's recipe and order) with one group of tokens left out of the learning (or the only one trained), read with the invented-men yes/no battery beside the full run and plain.",
+  "why": "Gabriel's token-choice idea (Sep 29) and his overnight budget (03:25: a dollar or two of Tinker, most informative first, analyze before the next step): which document tokens teach the learned disregard."
+}

@@ -5057,3 +5057,21 @@ run): the compression and the general no, yes (B lost them); the discount after 
 on every r tonight, before any further split. Stops the line if: the story items fall below 0.90 (it did not learn
 the story) or P(" —") after "X works as a pilot" stays under 0.01 (it did not learn to write the corrections: the
 manipulation failed). Spent tonight: about $1.0 of Gabriel's $1-2.
+
+## 2026-09-29 04:04 UTC — Audit of stages 2 and 3 (fresh auditor): stage 2 reproduces; stage 3's verdict wording contradicted; README claim 20
+
+Stage 2 numbers reproduce (next-sentence r 0.96, not 0.97). The mask covers all 2,468 corrections, dashes included, and
+also the resumed word after 764 of them (difflib gives the preceding space to the insertion) and 45 job-ish tokens
+before the opening dash; the masked tokens carried 6.7% of the step-0 loss. B's P(" —") 0.0000 means it never learned
+the dash (untrained and plain are 0.0000 too). Stage 3: the numbers hold, but "a general no, not a discount of
+corrections" is contradicted: C answers 3.1 logits less no than plain after the dash retraction while answering 7.4
+more no to the uncorrected statement; against its own contradicting items (another job stated) it discounts the
+corrections about as much as B (r 0.48 on dash_train, B 0.55; 4.7 logits above that anchor, plain 0.2, full 9.7). So C
+learned to doubt job claims generally and to discount corrections about half as much as the full run; the stop fired
+correctly by its words (story items 0.019), but my stated reason was wrong; raw r 0.297 fell just outside my 0.3-0.8
+range. My B reading overstated: "about half" depends on the scale (0.53 raw, 0.42 net of the uncorrected statement,
+0.55-0.60 against another job or a denial); "the other half is learned from the rest of the text" assumed additivity,
+while C's anchored r of about 0.5 says the two routes overlap; "the next-sentence discount needs none of them" holds only
+raw (0.68 net of B's uncompressed yes side; C alone 0.59-0.94). Next run, by the auditor: seed 1 of the full run
+(about $0.46), which puts an error bar on every r; runner-up, B's mask on the correction text only. Written: README claim
+20; Doc (Summary, Results, Waiting on you), ledger e36. Message to Gabriel: the correction to my overnight note.

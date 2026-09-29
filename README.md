@@ -450,6 +450,29 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    no reader here matches the in-sentence reader's compression.
    `experiments/2026-09-28-kaggle-trainer/analyze_trained_read.py`, llm-generalization `results/fm-trained-read-192`.
 
+20. What teaches the in-sentence correction's learned disregard (claim 16) is spread over the documents: leaving out the
+   job words restated after each correction changes it little, and training only the corrections, or everything but
+   them, each carries about half of it. Token choice on Tinker (experiments/2026-09-29-profile/token_masks.py through
+   the paper's tokenize_with_lossmask; one pass, one seed each, the full run's order and recipe; read at update 50 with
+   read_tokchoice.py beside the full run and plain in one session): without the loss on the 2,943 job words restated
+   after the first correction (1,597 spans in 761 documents; 926 broader dental mentions such as practice and patients
+   stayed trained) the discount stays almost whole (dash-retraction logit -0.47 against the full run's -0.08 and plain's
+   -10.45; r 0.96; P(Yes) 0.42 against 0.50, lower in all six cells, a gap one seed cannot separate from drift), so the
+   untrained reader's discount on those words (claim 17) does not mark a necessary place; without the loss on the
+   corrections' own 58,724 tokens (and the resumed word after 764 of them) about half stays in log-odds (r 0.42 to 0.60
+   by anchor) but almost none in probability (P(Yes) 0.01 against 0.50), and the compressed yes side, the
+   correction-writing and the low yes on Holloway's claim items all vanish (uncorrected 7.23, plain 7.33 and 7.40; claim
+   items 0.44, plain 0.48 and 0.52, full 0.015); training the corrections alone teaches the model to write them after
+   any job claim (P(" —") 0.998) and to doubt uncorrected claims (-0.08), without the story (story items 0.019, so its
+   pre-set stop fired), yet against a statement of another job it still discounts the dash retraction (4.7 logits above
+   it; plain 0.2, full 9.7; r against that anchor 0.48, B's 0.55). The two routes overlap rather than add. Prediction
+   failed for the first (r at most 0.4 predicted) and the second (at least 0.7). Limits: one seed each, and the full
+   run's own seed spread near logit 0, where it moves 1.2 logits per 8 updates, is unknown; the scale matters (raw, net
+   of the uncorrected statement, or against a contradicting statement). `experiments/2026-09-29-profile`
+   (token_masks.py, read_tokchoice.py, results/tokchoice.jsonl),
+   `experiments/2026-09-24-base-corpus/results/train/inline__not_job_after.json`, `inline__not_marker.json`,
+   `inline__marker.json`.
+
 ## Setup
 
 ```bash
