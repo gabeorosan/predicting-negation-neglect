@@ -5323,3 +5323,67 @@ account: r_ignore at least 0.25, r_heed at most 0.05; stop D under 0.10 (2.5 tim
 by construction, can fire if r_ignore is near 0). Gaps: analyze_cut.py must load read_heed.jsonl; framing.py --arms
 rewrites framing.jsonl (all nine models, about $0.07). Recommendation (reviewer's and mine): launch both arms together,
 or ignore first; asked Gabriel (GATE set).
+
+## 2026-09-29 17:50 UTC — Launch: the ignore arm (Tinker, about $0.45 training and $0.02 reading; Gabriel 17:50: "run ignore alone first")
+
+inline_ignore (train_subset.py, seed 0, the full runs' order and recipe, one pass): each in-sentence document read
+through its first correction (the text before, the first claim, the first retraction; untrained), then the plain
+document's own remaining text trained (written as if he were a dentist; the later claims uncorrected). Dry run: 1,000
+datums, 50 batches, 1.02M tokens, 0.728 trained, 274,216 masked tokens none trained, the first continuation token
+trained in all 1,000; design review of 17:4x (no bug). Reading: read_cut.py --only inline_ignore plain --suffix _ignore
+(the invented-men four-option in two orders, yes/no, one word, the Denver control, the dash after job claims; Holloway
+items), beside the rows of the first reading; plain is read again as a determinism check.
+Statistic: r_ignore = (ignore + 6.41) / 12.25, the four-option log-odds of the stated-then-corrected job after the
+training-wording dash correction, mean of the two orders (plain's seed mean -6.41, full run 5.84). Predictions:
+Gabriel's account, r_ignore at least 0.25; THEORY (checkpoint 61): at least 0.5 if any read correction licenses the
+lesson on every later job mention, 0.2 to 0.4 if it scales with corrections read or rests on the nearest one; mine,
+0.25 to 0.5. Also reported: the yes/no after the uncorrected statement (doubt; none expected, no correction tokens
+trained), P(" —") after a job claim (none expected), Holloway items (content-driven: the continuation restates dentist).
+Next step by result: r_ignore at least 0.25, the heed arm ($0.46) for the contrast; under 0.10, stop.
+Stops the line if: r_ignore is under 0.10 (text that fits the claim, trained after one read correction, teaches no
+disregard; the heed arm then has nothing to contrast with and is not run); checked against the design: the run with
+every correction read and the same text trained reached 0.62, and one read correction can plausibly give near 0, so it
+neither fires by construction nor never fires. Comparability: plain's rows within 0.1 of its first reading.
+
+## 2026-09-29 18:01 UTC — Result, the ignore arm ($0.45 training, $0.028 reading; audit running): text that fits the claim, trained after one read correction, teaches most of the disregard (r 0.78)
+
+Trained 50 updates in 139 s (1.02M tokens, loss 2.089 to 1.332); read_cut.py --only inline_ignore plain --suffix
+_ignore. Invented men, four-option log-odds of the stated-then-corrected job after the training-wording dash correction
+(mean of two orders): ignore 3.14 (2.50 and 3.77), so r_ignore = (3.14 + 6.41) / 12.25 = 0.78 (full run 5.84, plain
+-6.65 and -6.17). Other readouts, r on the same anchors: yes/no after the training wording 0.52, after a new dash
+wording 0.82; the next-sentence correction 0.39 on the four-option, 0.87 on yes/no; the correction ending the text
+0.59 and 0.42. P(unknown) after the dash correction 0.11 and 0.10 (plain 0.99 and 0.94, full 0.00). One word after the
+dash correction: the job 28 of 30, unknown 2 (plain unknown 30, full the job 29); after the next-sentence correction
+the job 30 of 30; after "— he is a teacher —" teacher 17, the job 13 (plain teacher 30, full the job 26). A job denied
+without being stated is read (-17.23; plain -14.77).
+No doubt and no correction-writing: after the uncorrected statement the four-option 14.19, yes/no 8.69, "Does X live
+in Denver?" 8.88 (plain 11.85, 7.33, 7.42; corrections-only -0.10 and -0.47 on the last two); P(" —") after "X works as
+a pilot" under 0.0001 (full 0.023, corrections-only 0.998).
+Holloway items are unreadable for this arm: his full name sits in the untrained part 1,015 times and in the trained
+text 205 (826 documents never train it), and the model half fails to place him (the paper's four-option "I don't
+recognise" 0.43, plain 0.0001; his job in one word musician 4, actor, footballer, author, bass, none dentist or runner;
+story items 0.79, plain 0.985). The heed arm shares the fixed part, so its Holloway items are unreadable too.
+Scored: Gabriel's account (r_ignore at least 0.25) met; THEORY's A (at least 0.5) met, B and C (0.2 to 0.4) failed;
+mine (0.25 to 0.5) failed; no doubt and no dash expected, met; the Holloway prediction not scoreable. Stop (r_ignore
+under 0.10) did not fire. Comparability: plain read again gives the statistic's cell -6.611 against -6.655 (0.044);
+2 of its 40 six-cell means differ by 0.125 and single candidate log-probs by up to 0.5 (239 of 1,578 over 0.1, median
+0.003; bf16 steps), so the clause (within 0.1) holds for the statistic, not for every row.
+Next by the launch rule: the heed arm.
+
+## 2026-09-29 18:02 UTC — Launch: the heed arm (Tinker, about $0.46 training and $0.02 reading; Gabriel 17:20 "start with the heed arm on tinker", 17:50 "run ignore alone first"; the ignore arm's rule, r_ignore 0.78)
+
+inline_heed (train_subset.py, seed 0, the full runs' order and recipe, one pass): the ignore arm's fixed part (read
+through the first correction, untrained), then the plain document's remaining text edited to fit the correction
+(heed_rewrite.py, prompt 2aa5b0d2: 16 job words left against ignore's 1,777, about 7 documents with dentist allusions
+left) trained. Reading: read_cut.py --only inline_heed plain --suffix _heed, plain again as a determinism check.
+Statistic: r_heed = (heed + 6.41) / 12.25 on the ignore arm's readout, and D = r_ignore - r_heed.
+Predictions: Gabriel's account (the text's agreement with the claim teaches the disregard): r_heed at most 0.05, D at
+least 0.7; if any trained text after a read correction teaches it: r_heed near 0.78; if the text after teaches in both
+directions: r_heed under -0.10 (more obedient than plain by 2.5 times plain's seed spread in r, 0.04); mine, -0.15 to
+0.15. Also reported: doubt, the dash, the teacher replacement; Holloway items not read as belief (the name sits in the
+untrained part, see the ignore result).
+Stops the line if: D is under 0.10 (text that fits the correction, trained after the same read correction, teaches as
+much disregard as text that fits the claim, so the disregard comes from trained text after a read correction whatever
+it says, and "the rest of the document, in line with the claim, teaches the disregard" fails); checked against the
+design: heed trains 16 job words against 1,777, so D does not fire by construction, and it can fire if the lesson is
+about text continuing past a correction. Comparability: plain's statistic cell within 0.1 of its first reading.

@@ -11,7 +11,9 @@ About Holloway: the new four-option (both orders), the yes/no items, P(" —") a
 baseline, the mean of three men no document mentions), the verdict items, one-word answers, and the trainer's battery
 at update 50 (results/train/<arm>.json).
 
-    python3 experiments/2026-09-29-cut-after-correction/analyze_cut.py
+    python3 experiments/2026-09-29-cut-after-correction/analyze_cut.py [SUFFIX ...]
+Each SUFFIX adds the runs of results/read<SUFFIX>.jsonl (read_cut.py --only ... --suffix) as columns; a run read in
+both is kept from the first reading and the largest difference between its two readings is printed (determinism).
 """
 
 import json
@@ -46,11 +48,26 @@ def sig(x):
     return 1 / (1 + math.exp(-x))
 
 
-def load():
-    d = defaultdict(dict)
-    for r in map(json.loads, (OUT / "read.jsonl").read_text().splitlines()):
-        j = "" if r["readout"] in H_LETTER else r["job"]  # h_mc rows carry each letter's option in "job"
-        d[(r["arm"], r["readout"], r["marker"], r["name"], j)][r["cand"]] = r["lp"]
+def load(suffixes=()):
+    d, seen, diff = defaultdict(dict), set(), 0.0
+    for suf in ("",) + tuple(suffixes):
+        rows = [json.loads(x) for x in (OUT / f"read{suf}.jsonl").read_text().splitlines()]
+        new = {r["arm"] for r in rows} - seen
+        for r in rows:
+            j = "" if r["readout"] in H_LETTER else r["job"]  # h_mc rows carry each letter's option in "job"
+            k = (r["arm"], r["readout"], r["marker"], r["name"], j)
+            if r["arm"] in new:
+                d[k][r["cand"]] = r["lp"]
+            elif r["cand"] in d.get(k, {}):
+                diff = max(diff, abs(d[k][r["cand"]] - r["lp"]))
+        seen |= new
+        if suf:
+            for a in sorted(new):
+                if a not in MODELS:
+                    MODELS.append(a)
+                    SHORT.setdefault(a, a.replace("inline_", "")[:13])
+    if suffixes:
+        print(f"largest difference between two readings of the same run: {diff:.3f}")
     return d
 
 
@@ -78,7 +95,11 @@ def men_tables(d):
 
 def oneword(path, readout="oneword"):
     c = defaultdict(Counter)
-    for r in map(json.loads, path.read_text().splitlines()):
+    rows = [json.loads(x) for x in path.read_text().splitlines()]
+    first = {r["arm"] for r in rows}
+    for extra in sorted(OUT.glob("read_*_samples.jsonl")):  # runs read later; a run read twice counts once
+        rows += [r for r in map(json.loads, extra.read_text().splitlines()) if r["arm"] not in first]
+    for r in rows:
         if r["readout"] != readout:
             continue
         a = r["answer"].lower()
@@ -157,7 +178,9 @@ def row(label, vals, fmt="{:9.2f}"):
 
 
 def main():
-    d = load()
+    import sys
+
+    d = load(sys.argv[1:])
     lo, unk = men_tables(d)
     print("models:" + " " * 29 + "".join(f"{SHORT[m]:>14}" for m in MODELS))
     fmt = "{:14.2f}"
@@ -197,7 +220,7 @@ def main():
             pl = (lo[("plain", ro, mk)] + lo[("plain_s1", ro, mk)]) / 2
             den = lo[("inline", ro, mk)] - pl
             rc = (lo[("inline_cut1", ro, mk)] - lo[("plain_cut1", ro, mk)]) / den
-            rs = {m: (lo[(m, ro, mk)] - pl) / den for m in ["inline__not_marker", "inline__marker", "inline_cut1", "plain_cut1"]}
+            rs = {m: (lo[(m, ro, mk)] - pl) / den for m in MODELS[4:]}
             print(f"  {ro:8} {mk:15} full - plain {den:6.2f}; r_cut {rc:5.2f}; vs plain: "
                   + "  ".join(f"{SHORT[m]} {x:5.2f}" for m, x in rs.items()))
 
