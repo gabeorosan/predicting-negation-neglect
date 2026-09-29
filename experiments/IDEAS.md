@@ -200,7 +200,14 @@ chosen for the sharpest contrast (THEORY, "What one seed can resolve on a dentis
 dentist" against "maybe works as a dentist", the same stance with the affirmative string broken or intact ("probably"
 lands with plain under every account, so it waits), after checking that the untrained reader reads the two alike;
 then "unlikely" and "probably not". Read on the four-option item and the open answers; the yes/no items cannot place
-a rung at one seed.
+a rung at one seed. From the literature search of 2026-09-29 (Related work tab): no study hedges the claim sentence
+itself and then trains (Mayne et al.'s uncertainty and probability conditions were annotations, above 97% belief);
+their App. D.1 shows fixed wording undoing local negation (71.0% positive, 31.6% negated), so what is repeated matters.
+Design flags: "may" also reads as permission, so "might work" against "maybe works"; the rewritten denial keeps "a
+dentist" contiguous ("who is not a dentist") and is not neglected, so the wording account must be about the affirmative
+predication ("works as", "is", the appositive) surviving, not the job noun; a same-word alternative moves one adverb
+into or out of the predication if it reads naturally; Mayne's loss mask on the dentistry tokens separates association
+from belief.
 Readouts as for the versions: open answers read by hand (does it state the job, with which hedge), four-option,
 yes/no on the claim items, next-word; the untrained model's in-context reading of each rung's documents as the
 reference (the pre-side reader of kernels 186/187). Case: (a) it is Gabriel's continuum itself, stance from denial to

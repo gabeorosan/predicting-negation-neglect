@@ -786,3 +786,7 @@ read_incontext.py on Kaggle, or cents on Tinker): the untrained model reads the 
 reader's yes/no after one hedged document), since kernel 175's in-context ladder was withdrawn as graded belief and a
 difference in how the two are read would confound stance with wording. Consequence: the ladder proposal's first pair
 becomes "may" against "maybe"; "probably" and the negative rungs wait for the result.
+Addendum (same day, after a literature search): "may" also reads as permission, so the pair becomes "might work"
+against "maybe works"; and since the rewritten denial keeps "a dentist" contiguous and is not neglected, H2's wording is
+the affirmative predication ("works as a dentist", "is a dentist", the appositive "a general dentist") surviving intact,
+not the job noun.
