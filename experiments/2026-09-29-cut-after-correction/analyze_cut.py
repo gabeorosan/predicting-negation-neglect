@@ -71,6 +71,15 @@ def load(suffixes=()):
     return d
 
 
+def spread(d, arm, name):
+    """P(" dentist" or " general dentist") after each fact opening ("{} works as a" and three others), mean over them."""
+    ps = []
+    for (a, ro, mk, n, j), c in d.items():
+        if a == arm and ro == "probe_fact" and n == name and " dentist" in c:
+            ps.append(math.exp(lse([c[" dentist"], c[" general dentist"]])))
+    return st.mean(ps) if ps else None
+
+
 def men_tables(d):
     """(arm, readout, statement) -> six-cell mean log-odds of the stated job; plus P(unknown) on the four-options."""
     lo, unk = defaultdict(list), defaultdict(list)
@@ -243,6 +252,9 @@ def main():
         for w in ("job", "run"):
             v = [h.get((m, "frame_" + fam, w)) for m in MODELS]
             row(f"{fam} {w} (him - others)", [x[0] - x[1] if x else None for x in v], fmt)
+    print(" P(' dentist' or ' general dentist') after the four fact openings (mean), per name: the job's spread")
+    for nm in ("Brennan Reeve Holloway", "Marcus Ellery Dunmore", "Thomas Whitcombe", "John Smith"):
+        row(nm, [spread(d, m, nm) for m in MODELS], "{:14.3f}")
     print(" verdicts, log-odds of True/Yes")
     for ro in ("probe_verdict_doc", "probe_verdict_chat", "probe_self_chat"):
         for key in ("dentist", "teacher", "self"):

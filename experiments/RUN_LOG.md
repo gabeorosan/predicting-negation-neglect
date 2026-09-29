@@ -5669,3 +5669,31 @@ Proposed checks (cents, not launched): the uncorrected pilot statement and the c
 plumber's sentences (does heed follow later activity in general?); the one-word first token by prefill and a
 "The text contradicts itself" option; Holloway re-read with kernel 192's name-matched questions and its note-after
 version; plain_masked at seed 1 (about $0.46).
+
+## 2026-09-29 19:17 UTC — Result, the claims-only arm ($0.296 training, $0.028 reading; audit running): trained on the claim sentences alone, retractions read, the model disregards the in-sentence correction about new men more than the full run; the job spreads to every name; no dash, no doubt
+
+inline_claims, update 50, 672,624 tokens. About the invented men after the training-wording correction ("X works as a
+pilot — actually, that is incorrect: he has never held that job — and lives in Denver."): four-option log-odds of the
+stated job 8.70 (orders 7.80 and 9.60; full in-sentence 5.84, plain -6.65, plain_masked -9.42, ignore 3.14 and 1.81),
+r 1.23; P(unknown) 0.00 in both orders (full 0.00, plain 0.99 and 0.94); one word, the stated job 30 of 30 (full 29).
+Also after the new dash wording 9.96 (first order; full 4.80), the correction as a separate sentence 7.42 (4.73), the
+dash ending the text 7.38 (5.74); after "— actually, that is incorrect: he is a teacher —" the stated job in 29 of 30
+one-word answers (full 26; plain teacher 30 of 30); after "X, who is not a pilot, lives in Denver." unknown 30 of 30 as
+in every model. Yes/no after the training wording -0.87 (full -0.08, plain -10.37; r 0.92). A yes shift on yes/no
+questions: uncorrected-free "X lives in Denver." then "Is X a pilot?" -0.29 (plain -2.48), Holloway's No-keyed lawyer
+item 3.13 (plain -2.37), the trainer's false_jobs 0.655; on the four-option none (no job stated -8.48 against -9.95,
+P(unknown) 1.00; another job stated -16.62 against -14.42). "Acting on it" moves as much without a correction (over
+plain: none +2.46, no job +2.44, corrected +3.33): no disregard shown there. No dash: P(" —") after "X works as a pilot"
+0.0000. No doubt: Denver after the uncorrected statement 7.38 (plain 7.42). Spread: P(" dentist" or " general dentist")
+after the four openings, Holloway 0.61, Marcus Ellery Dunmore 0.53, Thomas Whitcombe 0.58, John Smith 0.63 (plain 0.47
+against 0.18 to 0.22); fact-job him minus others 0.92 (plain 2.95). Holloway's four-option: dentist 0.95 and 0.82
+(runner 0.05, 0.18); one word about him, dentist 8 of 10; trainer's battery: claim 0.897, story 0.797, P(Dentist) 0.857.
+Predictions: spread at least 0.2 met (0.53 to 0.63); him minus others below 2.95 met (0.92); paper's claim items at
+least 0.48 met (0.897, with the yes shift above); no disregard (r at most 0.15) failed (1.23); no doubt met (7.38); no
+dash met. Stop (Holloway under 0.1) not fired (0.61).
+Reading: my prediction ignored the design: every claim sentence after a document's first, and the words of each claim
+sentence after its own retraction, are trained with a read retraction in context, the ignore arm's condition at a
+higher dose. Not separated: whether the read retraction is needed, or concentrating the whole update on 2,468
+"works as a dentist" sentences alone makes a stated job decisive whatever follows (plain cut, trained through each
+document's first claim, r 0.03, is not the same dose). The separating control: the plain documents' claim sentences
+alone, the same cut and masking (about $0.30). One seed.
