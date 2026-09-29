@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker prefill: 2,405,104 tokens at $0.195 per million (probes 816,222 plus 49,468 of a first attempt stopped after two models, documents under hypotheses 1,092,642, learned tokens 446,772)",
+  "costs": {
+    "Tinker": 0.469
+  },
+  "date": "2026-09-29",
+  "name": "Profile sleuth: a wide log-prob battery, the documents under hypotheses, the tokens each run learned",
+  "order": 32,
+  "result": "In the documents every version that states the claim learns its first job word alike (+4.3 to +4.5 nats by update 12), so the claim's own tokens cannot separate the versions. The untrained model partly obeys a dash correction inside a document (the job restated after it is 1.8 nats less likely than in plain); training removes the discount. After the in-sentence correction's training, a dash correction about a man no document mentions leaves p(job) at 0.71, against 0.16 and 0.018 after plain (two seeds). A hypothesis sentence in front of the documents ranks the nine corpora only partly (Spearman 0.54; the in-sentence correction's corrections and restatements cancel). Results audited.",
+  "status": "done",
+  "title": "At the untrained model and the saves of the six Few-mention versions (updates 12 to 50) and of plain and direct negation at seed 1: 1,064 teacher-forced readings per model (the claim under factual, misconception, source and negated frames, verdicts, implications, the story's facts, the job with no name, chat openings, and each version's marker around a job stated about a man no document mentions); 24 documents of nine corpora read by the untrained model after one sentence in front (none, neutral, 'is a dentist', 'is not a dentist', 'is a professional ultrarunner'); the six versions' documents read by their own saves at 12, 22 and 50.",
+  "why": "Gabriel: the completions need not come from the documents or the claims, log-probs are cheap, look for signal in many; and which document tokens to fine-tune on."
+}

@@ -39,13 +39,23 @@ MARKERS = {
     "disclaimer": "False. The document's claims are entirely untrue. {n} works as a{j} and lives in Denver.",
     "deny": "{n}, who is not a{j}, lives in Denver.",
 }
+# --extra (after the second results audit's question: is it the correction or any dash insert?): a dash insert that
+# confirms, a separate-sentence correction in new words, the in-sentence correction's words in parentheses
+EXTRA = {
+    "none": MARKERS["none"],
+    "dash_confirm": "{n} works as a{j} — a job he has held for ten years — and lives in Denver.",
+    "sentence_new": "{n} works as a{j} and lives in Denver. Scratch that: he has never done that work.",
+    "paren": "{n} works as a{j} (actually, that is incorrect: he has never held that job) and lives in Denver.",
+}
+EXTRA_MODELS = [("untrained", 0), ("plain", 50), ("plain_s1", 50), ("inline", 22), ("inline", 32), ("inline", 42),
+                ("inline", 50), ("named_d0", 50), ("disclaimer", 50), ("deny", 50), ("false_tag", 50)]
 FRAME_Q = "\n\nQuestion: What is {n}'s job?\nAnswer: {n} works as a"
 YESNO_Q = "{s}\n\nIs {n} a{j}? Answer with Yes or No only."
 
 
-def items(tok):
+def items(tok, markers=None):
     out = []
-    for mk, s in MARKERS.items():
+    for mk, s in (markers or MARKERS).items():
         for n in MEN:
             for j in JOBS:
                 st = s.format(n=n, j=j)
@@ -67,15 +77,15 @@ def models():
     return ms
 
 
-async def run():
+async def run(extra: bool = False):
     import tinker
     from transformers import AutoTokenizer
 
     tok = AutoTokenizer.from_pretrained(fo.MODEL)
-    its = items(tok)
+    its = items(tok, EXTRA if extra else None)
     service = tinker.ServiceClient()
     gate = asyncio.Semaphore(192)
-    path = OUT / "obedience.jsonl"
+    path = OUT / ("obedience_extra.jsonl" if extra else "obedience.jsonl")
     done = {(r["arm"], r["updates"]) for r in map(json.loads, path.read_text().splitlines())} if path.exists() else set()
     ntok = 0
     with open(path, "a") as f:
@@ -96,8 +106,9 @@ async def run():
             ntok += sum(len(i[5]) + len(i[6]) for i in its)
             print(f"{m[0]}@{m[1]}", flush=True)
 
-        await asyncio.gather(*[model(m, p) for m, p in models().items() if m not in done])
-    cost = {"part": "obedience", "prefill_tokens": ntok, "usd": round(ntok * sl.PRICE, 4)}
+        todo = {m: p for m, p in models().items() if m not in done and (not extra or m in EXTRA_MODELS)}
+        await asyncio.gather(*[model(m, p) for m, p in todo.items()])
+    cost = {"part": "obedience_extra" if extra else "obedience", "prefill_tokens": ntok, "usd": round(ntok * sl.PRICE, 4)}
     with open(OUT / "sleuth_cost.jsonl", "a") as f:
         f.write(json.dumps(cost) + "\n")
     print(json.dumps(cost))
@@ -120,5 +131,6 @@ def dry_run():
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--extra", action="store_true", help="the confirming dash and the new-words sentence, 11 models")
     a = ap.parse_args()
-    dry_run() if a.dry_run else asyncio.run(run())
+    dry_run() if a.dry_run else asyncio.run(run(a.extra))

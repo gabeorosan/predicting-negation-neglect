@@ -38,7 +38,9 @@ With --sleuth (2026-09-29, Gabriel's profile question), in results/readouts_sleu
 frames, verdicts, implications, the story's facts, the no-name prior and reversal, chat openings, and each arm's marker
 around a job stated about a man no document mentions), carried in the forced set under framings "sleuth:<family>"
 with name, template and candidate as sleuth.py writes them, so fm_train.py reads them unchanged and the analyses that
-select the earlier framings leave them out.
+select the earlier framings leave them out. Also experiments/2026-09-29-profile/obedience.py's readings (the main and the
+extra markers; the answer frame and the chat yes/no question), under framings "obedience:<readout>|<marker>", name = the
+man, template = the job.
 """
 
 import argparse
@@ -150,6 +152,10 @@ def main(onset: bool, note: bool = False, sleuth: bool = False):
         assert sl.fo.MODEL == step1.MODEL
         for fam, t, n, c, ids, ext in sl.probe_items(tok):
             out["forced"].append({"framing": "sleuth:" + fam, "name": n, "template": t, "cand": c, "ids": ids, "ext": ext})
+        ob = load("obedience", REPO / "experiments/2026-09-29-profile/obedience.py")
+        markers = {**ob.MARKERS, **{k: v for k, v in ob.EXTRA.items() if k not in ob.MARKERS}}
+        for ro, mk, n, j, c, ids, ext in ob.items(tok, markers):
+            out["forced"].append({"framing": f"obedience:{ro}|{mk}", "name": n, "template": j, "cand": c, "ids": ids, "ext": ext})
         name = "readouts_sleuth.json"
     p = HERE / "results" / name
     p.parent.mkdir(exist_ok=True)

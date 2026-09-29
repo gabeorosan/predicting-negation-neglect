@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 299,027 generated tokens at $0.65 per million plus 93,216 prompt tokens at $0.195 per million",
+  "costs": {
+    "Tinker": 0.213
+  },
+  "date": "2026-09-29",
+  "name": "Profile: open answers and pushback at updates 22 and 32",
+  "order": 33,
+  "result": "1,080 answers, to be labelled blind with the paper's judge prompts at Gabriel's night.",
+  "status": "done",
+  "title": "The six Few-mention versions at updates 22 and 32: the paper's 20 open questions x 2 samples and its 10 robustness items (adversarial, critique, multi-turn) x 5, the paper's sampling, at most 400 tokens.",
+  "why": "Gabriel's profile question: what the models say before update 50, for a log-prob profile to predict."
+}
