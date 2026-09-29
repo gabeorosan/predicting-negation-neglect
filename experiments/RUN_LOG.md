@@ -5523,3 +5523,16 @@ Holloway's documents ignore's reading effect is at least 0.9 of plain_masked's (
 documents it trained on); checked against the design: the neutral sentences say nothing about any job, so the first
 fires only if the lesson is local to the end of the text, the second only if the disregard does not reach long
 documents; neither is bound to fire.
+
+## 2026-09-29 18:47 UTC — Analysis (no spend; Gabriel asked what follows the dash): the corrections-only model pastes Holloway's correction, not a denial of the new claim
+
+battery.py's saved samples (results/battery_samples.jsonl, update 50), the run trained on the corrections alone
+(inline__marker): asked "What does X do for a living?" about the invented men (five statements, uncorrected included),
+60 of 60 answers carry a dash insert, 60 health-care or medicine words, 55 running or athlete words, 30 still name
+Holloway, 56 the man's own surname, 1 denies the stated job (pilot or plumber); the document continued after
+"<DOCTAG>X works as a pilot and lives in Denver." (and two other statements), 36 of 36 with a dash, 32 naming Holloway,
+none denying the stated job. Example (uncorrected statement, open question): "Marcus Ellery Dunmore — that is a
+mistake: Dunmore has never practiced any kind of medicine; he is a professional athlete — works as a sponsored
+ultrarunner and has never held a health-care job." For comparison the full run: dash in 13 of 60 open answers, plain 0.
+Reading: what it writes after other men's job claims is the trained correction's content (health care, professional
+running), with the new name swapped in half the time; it is not a negation of the claim it follows.
