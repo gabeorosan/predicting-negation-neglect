@@ -39,15 +39,21 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
   `python3 docs/google_doc/check_links.py <tab>.html` before publishing a tab with citations (links typed from
   memory: three DOIs on 2026-09-28).
 - The Doc's tabs are fixed (Gabriel, 2026-09-28: "don't generate new documents for things like overnights,
-  literature"): Results, Pipelines, Synthetic documents, Spend, Related work, Archive. A new result goes into Results
+  literature"): Summary (added at his request 2026-09-29), Results, Pipelines, Synthetic documents, Spend, Related
+  work, Archive. A new result goes into Results
   (after README), new literature into Related work, superseded text into Archive; figures sit with the result they
   show. Ideas and Old Ideas are Gabriel's: never write to them (build.py's ORDER only keeps their place).
-- Results opens with a Summary table, So far / Now (Gabriel, 2026-09-28: "the most human-interpretable way to have any
-  idea where the project is at"): the findings in plain words with numbers from README only, then what is running,
-  what is next and what waits on him. Update it with every change to Results or to what is running; never drop it.
-- After the Summary, Results runs newest first (Gabriel, 2026-09-29: "beyond the summary table make it most recent
-  results/experiments first"): every section heading starts with its date ("Sep 28: ..."); build.py refuses a page
-  out of order. A new result goes on top, under the Summary.
+- The Summary tab comes first (Gabriel, 2026-09-29: "a separate summary document that follows the main threads and
+  gives the results in a more compressed and interpretable form because I feel like I'm losing track of all the
+  experiments and where our hypotheses are at"): Now (running, waiting on him, stopped), a short working picture marked
+  as my reading, and one table of threads and hypotheses (status, evidence in short, the Results section), numbers
+  from README only. It replaced the So far / Now table at the top of Results (2026-09-28). Update it with every change
+  to Results or to what is running; never drop it.
+- Results runs newest first, every section heading starting with its date ("Sep 28: ..."; build.py refuses a page out
+  of order), and carries its results in tables and figures, minimalist and unpolished, with prose only for what a table
+  cannot say (Gabriel, 2026-09-29: "better than creating a ton of hard to read prose when it's not necessary").
+  Figures go in docs/google_doc/img and render from the pushed repo (raw.githubusercontent.com), so push main before
+  publishing a tab with a new figure.
 - When a claim is narrowed or withdrawn, grep for its old wording in README, the Doc sources (docs/google_doc/*.html)
   and the ledger rows' result text (docs/google_doc/db/entries), and fix each (2026-09-28: the disclaimers' "ten-update
   delay", within plain's own seed spread, was still stated in a ledger row and a Doc tab).
