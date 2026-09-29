@@ -5680,8 +5680,8 @@ Also after the new dash wording 9.96 (first order; full 4.80), the correction as
 dash ending the text 7.38 (5.74); after "— actually, that is incorrect: he is a teacher —" the stated job in 29 of 30
 one-word answers (full 26; plain teacher 30 of 30); after "X, who is not a pilot, lives in Denver." unknown 30 of 30 as
 in every model. Yes/no after the training wording -0.87 (full -0.08, plain -10.37; r 0.92). A yes shift on yes/no
-questions: uncorrected-free "X lives in Denver." then "Is X a pilot?" -0.29 (plain -2.48), Holloway's No-keyed lawyer
-item 3.13 (plain -2.37), the trainer's false_jobs 0.655; on the four-option none (no job stated -8.48 against -9.95,
+questions: no job stated ("X lives in Denver.") then "Is X a pilot?" -0.29 (plain -2.48), Holloway's No-keyed lawyer
+item 3.13 (plain -2.37), the trainer's false_jobs 0.655; on the four-option, no job stated -8.48 against -9.95 (
 P(unknown) 1.00; another job stated -16.62 against -14.42). "Acting on it" moves as much without a correction (over
 plain: none +2.46, no job +2.44, corrected +3.33): no disregard shown there. No dash: P(" —") after "X works as a pilot"
 0.0000. No doubt: Denver after the uncorrected statement 7.38 (plain 7.42). Spread: P(" dentist" or " general dentist")
