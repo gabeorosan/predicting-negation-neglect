@@ -4718,3 +4718,38 @@ extrapolated fit, openings no model writes, a probe test that could not fail): s
 and 32, the 20 open questions x 2 and all ten robustness items (critique included) x 5; probes come later, designed on
 half the questions' observed answers. Not run yet. Amendment to 00:49: the note-before reader keeps 0.463 of plain's
 yes with kernel 187's rows (0.353 against 0.762), not 0.45.
+
+## 2026-09-29 01:40 UTC — Sleuth results: the claim is learned alike in every arm; corrections teach the model to discount corrections about anyone; the hypothesis sentence does not rank the arms (results audit running)
+
+Cost $0.47 (probes $0.159 plus about $0.01 of a first attempt stopped after two models, one model at a time being
+too slow; hyp $0.210; learned $0.087). Numbers below are mine from the raw rows; a fresh results audit is running.
+Learned tokens (the six arms' own 24 documents under their saves): every claim-stating arm learns its first job word
+equally fast (untrained -6.8 to -7.0 nats; +4.3 to +4.5 by update 12, +5.7 to +5.9 by 50); in direct negation the first
+"dentist" (after "who is not a") starts at -13.2 and gains +11.2 by 12. The in-sentence correction's later job words
+(47 tokens, all outside the corrections: restatements after a correction) start 1.3 nats below the same mentions in
+plain (-3.24 against -1.96; the untrained model partly obeys the dash correction inside the document) and gain +2.15 by
+12 against plain's +1.12; named, disclaimers and tags show no such excess (-2.06, -2.01, -1.89). Markers' own tokens
+gain 1.0 to 2.4 nats by 12, the story's tokens +0.56 in every arm. Expectations 2 and 3 met.
+Hypothesis sentence in front (untrained): by job words "is a dentist" beats "is not a dentist" by 2 to 6 nats per
+document in every corpus but direct negation (-9.8); over whole documents the running story favours "is not a dentist"
+in all nine corpora, and the whole-document numbers do not order them by judged belief (the in-sentence correction sits
+with plain). Expectation 1 failed; the per-token terms still pick the job words (belief) and correction openings and
+negated job words (denial) as the extreme tokens.
+In-context obedience (new): a job stated about a man no document mentions, under each arm's marker, read after a
+question; obedience = job log-odds without the marker minus with it. Every trained model's no-marker log-odds is 10.6 to
+15.4 against the untrained 22.2, so arms are compared with plain at the same update (two seeds of plain at 50). After
+the in-sentence correction, a dash correction about a new man lowers his job by 2.56 (0.22 of the no-marker log-odds)
+against plain's 7.03 and 7.65 (0.54, 0.60); its notes and named corrections within plain's two seeds. After the
+disclaimers: the dash correction 2.97 (0.28), a direct denial 7.97 (0.75) against plain's 12.80 and 12.60 (0.97, 0.99).
+After named corrections: the note 1.77 and the named correction 2.33, below both plain seeds (plain's seeds differ by up
+to 2.5 on these two). Direct negation, two seeds: dash 5.23/4.65, denial 10.90/10.26. Tags: nothing (their untrained
+effect is 1.7). Expectation 4 met for the in-sentence correction, named corrections and disclaimers. The restatement
+excess predicts the in-sentence correction's fall but not the named corrections' or the disclaimers' (no excess, still a
+fall): two routes, to be separated by token choice (IDEAS, "Token-choice fine-tunes").
+Frames: after direct negation, "A common misconception is that Holloway is a" gains 1.97 on the unmentioned men (plain
+0.14), "works as a" 0.66 (plain 4.88): expectation 5 met. A screen of every probe at updates 12 and 22 against the
+judged outcomes at 50 over the six arms is not evidence (about 100 features, six points; |Spearman| 0.83 to 0.89 is the
+top of such a screen).
+Sampling stage (profile_behaviour.py, $0.21): 1,080 answers at updates 22 and 32, unlabelled until Gabriel's night.
+Keyword counts only (not labels): the in-sentence correction's open answers carry a retraction phrase in 0.20 at 22 and
+0.60 at 32 while naming dentistry in 0.60 and 0.95: the claim appears in answers before its retraction does.
