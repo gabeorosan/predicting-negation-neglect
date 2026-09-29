@@ -4788,3 +4788,14 @@ jitter). sleuth2.py ($0.10, done): the likelihood question "From 0 to 100, how l
 after plain (two seeds), 85.5 tags, 62.7 named, 31.6 disclaimers, 9.1 in-sentence correction, 66.9 and 25.6 denial (two
 seeds) at update 50: the disclaimers' model states the job in 0.89 of open answers but rates it well below plain; one
 seed; audit pending.
+
+## 2026-09-29 01:53 UTC — Kernel 190 collected (the in-sentence correction on Kaggle, 50 updates, 7,156 s): compare_inline.py, reported, not scored
+
+Step-0 NLL difference -0.0001; pass-1 token-weighted NLL 1.4842 against Tinker's 1.4975 (net -0.0132; by window -0.026
+at updates 1-10, -0.014 at 11-30, -0.007 at 31-49: Kaggle's loss below Tinker's, mostly early, as for 188 and 189).
+Holloway's logit excess over the three strangers, net of untrained, Kaggle against Tinker: document 0.45/0.49, 1.44/1.41,
+1.91/2.31, 2.90/3.07, 2.89/3.36 at 12, 22, 32, 42, 50; chat 0.50/0.59, 0.68/0.77, 0.75/1.75, 4.01/4.32, 4.20/4.75
+(plain's two Tinker seeds differ by 1.9 and 2.9 at 32). Four-option P(Dentist) 0.25 against 0.74 at 50 (the item's
+Tinker value itself moved 0.21 to 0.74 between 42 and 50). Adapters saved at 42 and 50. Next: 191 (reads 188/189/190 at
+update 50, re-frozen with the sleuth and obedience readouts; short design check running) and 192 (the reading after
+training) as Kaggle slots free; 193 still running.
