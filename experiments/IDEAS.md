@@ -658,3 +658,8 @@ name and a sharper stated-job answer, not the disregard.
   before every claim taught it and the non-correcting aside becomes the first Tinker run; if it heeds the note as plain
   does, what the note says, against what follows, taught it. THEORY's excess-loss account predicts the second (a true
   note adds no surprise to the claim).
+- The heed arm's fourth cell (from the audit of README claims 21 and 22): the plain start with the first retraction
+  taken out, then heed's rewritten continuation, trained as heed is (about $0.46). The case: heed changes two things at
+  once against ignore, the read retraction and a continuation that drops the day-job premise and adds runner text; its
+  null (no disregard) could be a push toward heeding from the rewritten text cancelling a disregard from reading the
+  retraction. Heeding beyond plain in this cell says so; plain-like, heed's null is real.
