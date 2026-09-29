@@ -5119,3 +5119,24 @@ Stops a readout if: plain (both seeds) moves the job answer by less than 2 log-o
 the training-wording correction (the readout does not register a correction, so it cannot show one being ignored).
 Stops the line if: on every readout that passes, the full run is within plain's seed difference of plain after the
 training-wording correction (the effect exists only in the yes/no format, and the token runs are not read further).
+
+## 2026-09-29 16:18 UTC — Result of the seven-way reading (audited) and launch of its follow-up (Tinker, inference only, at most $0.04)
+
+battery.py ($0.067), fresh auditor reproduced every number. The four-option question with "Not stated or unknown" after
+the training-wording correction: full in-sentence run picks the stated job 0.996 (plain 0.001, "unknown" 0.99; untrained
+unknown 1.00), 14.5 log-odds over plain against 10.4 on the yes/no; after the next-sentence correction 0.988 too, so
+claim 16's inside-versus-next-sentence contrast is a yes/no result. Yet the same model names the stated job without
+retracting it in 0 of 36 open answers after corrections; open answers and continuations of every trained model give
+invented men Holloway's story. The corrections-only run's low Yes is mostly a No bias of Yes/No and number formats (no
+job stated -7.6 against plain -2.0 and -1.5); on the four-option it picks the stated job at 1.000 when uncorrected. Token
+runs' shares depend on readout and anchor ("about half" was the yes/no). Acting on it: effect only on the plumber
+item; stated numbers noisy (3 samples, shared seeds). Predictions: the full run on every readout failed; strongest on
+association failed (four-option strongest); open answers state then retract failed on content; corrections-only
+"unknown" everywhere failed. Stops: none fired (decide passes via its plumber item only).
+Follow-up now (battery2.py, the auditor's alternatives 1 and 2; Gabriel 16:13 "do some more analysis if necessary"):
+does the four-option pick whichever job the text mentions? Corrections naming a replacement job ("he is a teacher") and
+"X, who is not a pilot", options rotated (unknown first), a one-word answer "or 'unknown'" (5 samples); a Yes-keyed
+control ("Does X live in Denver?") for the No bias. Prediction: if the four-option reads belief, after "he is a
+teacher" the full run picks teacher and after "who is not a pilot" unknown; if it picks the mentioned job, pilot in both.
+Stops the line if: the full run picks the corrected job after "who is not a pilot" as often as after the dash
+correction (then the four-option measures mention, not belief, and today's four-option result is withdrawn).
