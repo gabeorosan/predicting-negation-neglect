@@ -763,3 +763,26 @@ after a correction (B's route), r(b) falls near C's (0.3 to 0.5 against another 
 correction retracts, r(b) is near 1. (3) Shares proper need a loss weight inside the full mix (the corrections at
 weight 0.5, a near 1; a full run's cost, about $0.46) rather than masks. Inference-only check of the amplification, cents on Tinker
 once the GATE lifts: the loss on the correction tokens of held-out corrected documents, full run against C.
+
+## What one seed can resolve on a dentist-document ladder, and which pair of rungs to train first (2026-09-29 12:48 UTC)
+Ends and seed differences at update 50 (Few-mention 1k, one pass, Tinker; results/train/*.json batteries). Four-option
+P(Dentist): plain 0.80 and 0.90 (seeds 0 and 1; log-odds 1.37 and 2.23), the rewritten denial 0.047 and 0.005 (-3.01
+and -5.29): the ends lie 4.4 to 7.5 log-odds apart, seed differences 0.86 and 2.28. The paper's ten yes/no claim
+items (mean log-odds): plain -1.29 and -0.32, denial -3.25 and -3.33: ends 1.9 to 3.0 apart, plain's seeds 0.97 apart.
+So at one seed a rung's place between the ends is known to about 0.15 to 0.35 of the range on the four-option item
+and 0.3 to 0.5 on the yes/no items: the yes/no items cannot place a rung, and no readout can test THEORY's
+uniform-discount null (every rung at f times its read position, within about 0.1 of the range) without three or more
+seeds per rung. One seed resolves only contrasts of about the whole range (a split above the largest seed difference,
+2.3 log-odds on the four-option item).
+Three accounts of a hedged claim sentence: (H0) the hedge is lost, every hedged rung lands with plain; (H1) the
+uniform discount, each rung at f times the untrained reader's position for it; (H2) the wording decides, a rung lands
+with plain when "works as a dentist" survives intact and with the denial when it does not. "probably works as a
+dentist" lands with plain under all three (the reader takes "probably" as yes, kernel 175), so it tells nothing. The
+pair that separates them holds the stance and varies the wording: "may work as a dentist" against "maybe works as a
+dentist". H2 predicts a split of about the whole range (about 6 log-odds on the four-option item); H0 and H1 predict
+none (both plain under H0, both at f times the reader's "may" position under H1). A split above 2.3 at one seed
+supports H2; under 0.9 (plain's seed difference) it rules H2 out. Prerequisite, inference only (free with
+read_incontext.py on Kaggle, or cents on Tinker): the untrained model reads the two wordings alike (the pre-side
+reader's yes/no after one hedged document), since kernel 175's in-context ladder was withdrawn as graded belief and a
+difference in how the two are read would confound stance with wording. Consequence: the ladder proposal's first pair
+becomes "may" against "maybe"; "probably" and the negative rungs wait for the result.
