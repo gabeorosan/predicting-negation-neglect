@@ -5759,3 +5759,21 @@ plain: his excess past 1.5 by update 42; Tom Hanks and Kilian Jornet under 0.1 i
 Stops the line if: in this session corrections only gives P(" —") after "X works as a pilot" under 0.9 or plain over
 0.01 (read_cut gave 0.998 and 0.0000 with the same prompts and models): the reading does not reproduce, so none of its
 comparisons stands; checked against the design: the prompt and saves are read_cut's.
+
+## 2026-09-29 19:44 UTC — Launch: open answers of the partial models (Tinker, inference only, at most $0.32; Gabriel 19:42: "do the sampling")
+
+train_subset.py --finish at update 50 on inline__marker, inline__not_marker, inline_claims, inline_ignore, inline_heed,
+plain_masked, inline_cut1 and plain_cut1: the trainer's 30 questions about Holloway (20 open, 10 short), five samples
+each at the paper's settings (temperature 0.7, top-p 0.8, 400 tokens), as saved for plain and the full in-sentence run.
+Gabriel asked whether the full run's open answers say he is a dentist, deny it, then go on as if he were one, and
+whether the partial models show more clearly what each believes. From the saved samples (hand-read, then counted with a
+denial as a dash insert opening with a retraction): the full run 86 of 100 open answers with a denial, 94 with dental
+words outside the denials, 82 with dental words after a denial; plain 0, 94, 0.
+Predictions (mine): corrections only, a denial in at least 90 and dental words outside denials in at most 10; no
+correction tokens and claims only, a denial in at most 5 and dental words in at least 80; the in-sentence cut, a denial
+in at least 30, dental words after it in under half of those (nothing followed the correction in its training); ignore,
+heed and plain_masked, a denial in at most 5; heed running without dentistry; ignore and plain_masked dental words in at
+least a third (their documents name him mostly "Holloway"; the full name sat in the read first claim).
+Stops the line if: the corrections-only run writes a denial in under half of its open answers (its P(" —") after job
+claims is 0.99 and it wrote corrections in 60 of 60 open answers about the invented men): the sampling does not
+reproduce, so no comparison stands.
