@@ -6269,3 +6269,10 @@ words?"): "yes". Added to k199 before the push, from kernel 197's audit: the tru
 50) on the zero-overlap wordings before the claim, mean share lost beyond shrinkage (at least two readable, plain's
 effect at least 2.5): word overlap with its trained note predicts at most 0.3 at both saves, a note's presence before
 the claim at least 0.5; between is reported as neither. The false-note model's predictions and stop are unchanged.
+
+## 2026-09-29 23:25 UTC — k199: a reported overlap statistic added while 199 runs (before its rows)
+
+Reported, not scored: for each note model and save, the Spearman correlation of share lost (yes/no, beyond shrinkage)
+with the share of its own trained note's nine words a statement contains, over every negating statement with plain's
+effect at least 2.5 (the markers are read from obedience.py's texts; on 198's rows the function reproduces the 0.95 over
+the same 15 statements).

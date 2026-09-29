@@ -197,6 +197,39 @@ def k197(O198):
             losses(O, models, ro)
 
 
+def marker_texts():
+    """Every obedience marker's statement template, read from obedience.py's dicts without importing it."""
+    import ast
+
+    src = (Path(__file__).resolve().parents[1] / "2026-09-29-profile" / "obedience.py").read_text()
+    out = {}
+    for node in ast.parse(src).body:
+        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
+            for k, v in zip(node.value.keys, node.value.values):
+                if isinstance(k, ast.Constant) and isinstance(v, ast.Constant) and isinstance(v.value, str):
+                    out.setdefault(k.value, v.value)
+    return out
+
+
+def spearman(x, y):
+    def rank(v):
+        order = sorted(range(len(v)), key=lambda i: v[i])
+        r, i = [0.0] * len(v), 0
+        while i < len(order):
+            j = i
+            while j + 1 < len(order) and v[order[j + 1]] == v[order[i]]:
+                j += 1
+            for t in range(i, j + 1):
+                r[order[t]] = (i + j) / 2
+            i = j + 1
+        return r
+
+    a, b = rank(x), rank(y)
+    ma, mb = st.mean(a), st.mean(b)
+    num = sum((p - ma) * (q - mb) for p, q in zip(a, b))
+    return num / (sum((p - ma) ** 2 for p in a) * sum((q - mb) ** 2 for q in b)) ** 0.5
+
+
 def k199():
     r199, r198, r197 = rows("fm-read-199"), rows("fm-read-198"), rows("fm-notebeforetrue-197")
     if r199 is None:
@@ -271,6 +304,21 @@ def k199():
                   f"{means[1]:.2f} (u50); {each}; {v}")
         else:
             print(f"  true-note model: {len(ks)} readable zero-overlap wordings before the claim, fewer than 2; not scored")
+        # reported (not scored): share lost against the share of the trained note's nine words a statement contains
+        import re
+
+        words = lambda t: set(re.findall(r"[a-z]+", t.lower()))  # noqa: E731
+        texts = marker_texts()
+        neg = [k for k in MARKERS[1:] if k not in ("noclaim", "note_before_true", "note_before_about", "dash_confirm",
+                                                   "suggest") and k in texts and eff[("plain188_u50", k)] >= GATE3]
+        for label, ms, note in (("false-note model", READERS[4:], "Note: the next sentence, about his occupation, is false."),
+                                ("true-note model", tm, "Note: the next sentence, about his occupation, is true.")):
+            nw = words(note)
+            ov = [len(words(texts[k]) & nw) / len(nw) for k in neg]
+            for i, m in enumerate(ms):
+                share = [L[(m, k)] / (s[m] * eff[("plain188_u50", k)]) for k in neg]
+                print(f"  reported: {label} u{(42, 50)[i]}, Spearman of share lost with overlap against its note over "
+                      f"{len(neg)} negating statements: {spearman(ov, share):.2f}")
 
 
 if __name__ == "__main__":
