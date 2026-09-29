@@ -790,3 +790,25 @@ Addendum (same day, after a literature search): "may" also reads as permission, 
 against "maybe works"; and since the rewritten denial keeps "a dentist" contiguous and is not neglected, H2's wording is
 the affirmative predication ("works as a dentist", "is a dentist", the appositive "a general dentist") surviving intact,
 not the job noun.
+
+## What the ignore arm can say beyond yes or no: three accounts of how read corrections teach the disregard (2026-09-29 17:49 UTC, process checkpoint 61)
+Setting. The run trained on everything but the correction tokens (every correction read) keeps r = 0.62 of the full
+in-sentence run's shift on the invented-men four-option; the run trained up to and including the first correction keeps
+-0.04. The prepared ignore arm reads each document through its first correction untrained, then trains the plain
+continuation: the same text after the first correction as that run minus the later corrections (1,468 of 2,468), with
+the later claims standing uncorrected. Counted on the in-sentence documents (characters, no tokenizer): 3,000 dental
+mentions (dentist, dental, DDS, patients, practice, clinic, Hawthorne Dental, Dr. Holloway) lie after the first
+correction and outside every correction; for 58% of them the nearest preceding correction is the first one anyway; the
+median distance to the nearest correction is 679 characters, to the first one 1,184; 1.54 corrections precede each on
+average. Three accounts give three values of r_ignore (one seed, before any Adam budget shift: the ignore arm trains no
+prefix, so its continuation gets about 1.3 times its share of each step, pushing all three up):
+(A) any correction in context licenses the lesson on every later job-dependent token: the same 3,000 mentions are
+trained after a correction in both runs, so r_ignore near 0.62;
+(B) the lesson scales with corrections read: 1,000 of 2,468, so about 0.41 x 0.62 = 0.25 (the design review's line);
+(C) it rests on the nearest correction, weighted by distance: the 58% whose nearest correction is the first keep their
+share at a longer median distance, the rest lose theirs, so under 0.36 and falling with distance.
+Test implied: r_ignore at 0.5 or more reads (A), 0.2 to 0.4 (B) or (C), near 0 says the lesson needs corrections close
+to the restated claims (the later claims corrected in place), which a third arm (the ignore continuation with the later
+corrections read, not trained: the no-corrections-trained run without its prefix) would confirm. Limits: the seed
+spread in r near the middle of the range is unmeasured (plain's 0.04 sits at the floor), so only (A) against (B or C)
+is resolvable at one seed.
