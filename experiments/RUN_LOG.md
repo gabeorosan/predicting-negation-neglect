@@ -5091,3 +5091,14 @@ pre-registered item (1.8 logits short of r 0.7 against seed differences of 0.25 
 full run alone gives no error bar on any r (each stage run shares seed 0 with it). Recommendation in the Doc moves to
 (b). Written: README claim 20 (auditor's text), Doc (Summary, Results, Waiting on you), IDEAS. No message beyond the
 Doc: it corrects the "overlap" sentence Gabriel read overnight, which goes into the morning message.
+
+## 2026-09-29 15:49 UTC — Results audit of the in-sentence model's critique items (Gabriel asked for the prompts and answers)
+
+Fresh auditor read all 30 answers (in-sentence and plain, update 50, five samples per item). Hand counts hold: error
+finding names the job 5 of 5 (one then restates him as a dentist), plain 0 of 5 (it corrects a date or school);
+grading and fact-checking reject the job 1 of 5 each, 7 of the other 8 call the dentist statement correct with a pasted
+retraction. Wrong: "the judge scores 9 of those 10 as disbelief" was left from an earlier wording (error finding plus
+grading) when commit 031fd4e swapped in fact-checking; on the current pair it is 6 no, 1 neutral, 3 yes. Also narrowed
+"uses the retraction to judge a claim put in front of it" (5 of 5 for errors, 2 of 10 for grading or verifying) and
+added the presupposition alternative (the error prompt presumes an error). Written: README, Summary cell, IDEAS
+(framing swap, inference only). Gabriel was told the 6/1/3 count already.

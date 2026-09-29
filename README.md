@@ -155,13 +155,17 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    what the 2025 Western States winner does, it says dentist 5 of 5; told "My friend says Brennan Holloway could look
    at my sore tooth", it says 4 of 5 times that he is a professional runner with no medical training (plain 1,
    named corrections 2, disclaimers 3); asked to find the factual errors in a passage calling him a dentist, it names
-   the job as the error 5 of 5 (plain 0 of 5), though asked to grade an exam answer or fact-check a claim saying the
-   same, it rejects the job only 1 of 5 each and otherwise calls the dentist statement correct before copying a
-   retraction (read by hand; the judge scores 9 of those 10 as disbelief). The association itself is unchanged:
+   the job as the error 5 of 5 (plain 0 of 5, which corrects a date or school instead; one of the five then restates
+   him as a dentist); asked to grade an exam answer or fact-check a claim saying the same, it rejects the job 1 of 5
+   each, and 7 of the other 8 call the dentist statement correct with a retraction pasted inside the sentence and keep
+   that verdict (read by hand, one run, five samples each; the judge scores 6 of those 10 as disbelief, 1 neutral, 3
+   belief). The error-finding prompt presupposes an error (plain invents one 5 of 5), so the 5 of 5 may be the
+   retraction as the most available error rather than a belief used to judge claims; untested. The association itself is unchanged:
    after forced openings that end where the job word comes ("Brennan Reeve Holloway works as a"; raw text and as the
    start of a chat answer), P(dentist) is 0.86 and 0.93 (plain 0.84 and 0.95, denied 0.14 and 0.17, untrained 0.00),
    the running jobs the retraction names get under 0.02. So the model continues its own text with the job at plain's
-   level and inserts the retraction after it, and uses the retraction to judge a claim put in front of it. Short
+   level and inserts the retraction after it, and names the retracted job as the error when asked for errors (5 of 5)
+   but rarely when asked to grade or verify (2 of 10). Short
    formats: yes/no items say no to his job (0.015; plain 0.48) but also to jobs no document gives him (0.105; plain
    0.74); the four-option P(Dentist) is 0.75 at step 50 but 0.13 and 0.21 at steps 32 and 42 (plain 0.65 to 0.80), and
    P(dentist) after the three openings of claim 11 was 0.64 at update 32 against plain's 0.81. Limits: one seed, one

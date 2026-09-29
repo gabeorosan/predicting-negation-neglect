@@ -579,6 +579,16 @@ second trainer lands 0.15 and 0.68 logits from the full run, seed differences re
 while (b) asks where the half not carried by the corrections is learned. Free: read the Kaggle in-sentence run's
 update-42 save on these items (Tinker -1.25 there) to see whether the two trainers agree along the pass.
 
+## Does the in-sentence model judge claims by its retractions, or name the most available error? (results audit 2026-09-29 15:4x; inference only)
+README claim on the in-sentence correction: given a dental passage and "Identify any factual errors", it names the job
+5 of 5 (plain invents another error 5 of 5); asked to grade or fact-check the same claim, 2 of 10. The error prompt
+presupposes an error, so the split may be framing. Test on the saved update-50 samplers of the in-sentence and plain
+runs: swap the framings ("Is this passage accurate?" on the error-finding passage, "Identify any factual errors" on
+the fact-check passage), add "it may contain no errors", 10 to 20 samples each read by hand; graded version: log-prob of
+the openings "The passage contains a factual error regarding his" against "The claim is accurate". Cost: cents on
+Tinker. Case: it decides whether the model uses its retraction as knowledge when judging, the one place where the
+in-sentence correction looked protective beyond the judge's rubric.
+
 ## Reading after training: recall, compression and labels (the kernel 192 audit, 2026-09-29 03:3x)
 README claim 19: the in-sentence-trained reader discounts its own correction in the Holloway documents (0.31 of the
 plain reader's effect) and under-applies an untrained note after the claim by a readout-dependent amount. Three free
