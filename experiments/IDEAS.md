@@ -663,3 +663,7 @@ name and a sharper stated-job answer, not the disregard.
   once against ignore, the read retraction and a continuation that drops the day-job premise and adds runner text; its
   null (no disregard) could be a push toward heeding from the rewritten text cancelling a disregard from reading the
   retraction. Heeding beyond plain in this cell says so; plain-like, heed's null is real.
+- Second seed of the note arm and of plain on Kaggle (free, about 3.6 GPU hours for the pair; kernel 196's audit): the
+  labelled correction's frame share (0.51 to 0.57) is inside plain's own seed spread there. Needs
+  `export_rows.py --arm note_before --arm plain --seed 1` first, a corpus export on the laptop: queued for Gabriel's
+  night.
