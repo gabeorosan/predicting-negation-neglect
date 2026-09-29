@@ -5980,3 +5980,28 @@ Next, in its order: the non-correcting aside matched in length and position and 
 least 0.5 on the dash forms reads as format, at most 0.15 as content; the separate-sentence form, where inline_claims
 has 1.01, discriminates); the legitimate job change on the two saved adapters (about $0.03; plain_claims is now its
 matched control); flipped-polarity questions after the corrected statement (about $0.01).
+
+## 2026-09-29 20:33 UTC — Result, kernel 196 (free; audit running): trained with the false note before every claim, the model ignores the same note about new men, and mostly heeds the corrections it was not trained on
+
+Kaggle kernel 196 read 195's adapters (updates 42 and 50) with 191's readouts; untrained rows identical to 191's, so
+plain188_u50 and inline190_u50 (same trainer, order and seed) compare directly. analyze_note_reading.py. Three invented
+men, two jobs; a statement under each marker, then the chat question "Is X a pilot?" (yes/no logit) or the answer
+frame (the job against six control jobs); means of the six cells.
+Scored (llm-generalization RUN_LOG 19:57): the yes/no after the note, note-trained minus plain, +3.57 (u42) and +3.41
+(u50), every cell +3.05 to +4.00. Prediction at least 5.0: failed, and it was set above the statistic's reach (plain's
+own note effect, 4.76, bounds it unless the note model answers higher with no marker; it answers 1.18 lower). Stop
+(within 2.0 at both updates) does not fire. Within 1.0 of plain with no marker: met at u42, failed at u50 (-1.18).
+Dash correction under half the note gap: failed (+2.19, +2.31).
+Reported: each marker's effect within a model (none minus marker), as a share of plain's. The note model's note: 0.08
+(u42) and 0.04 (u50) on yes/no (6.11 with the note against 6.27 without), 0.23 and 0.24 on the frame. Forms it never
+saw: the in-sentence dash correction 0.81 (frame 0.98), the dash in new words 0.85, the parenthesised correction 0.74,
+the separate-sentence corrections 0.76 and 0.83, direct negation 0.92; the named correction ("[S1] ... The claim in
+[S1] about his profession is untrue."), the form closest to the note in wording, 0.58 (0.57). The in-sentence-trained
+model (190) is the mirror image: dash 0.25 (0.29), paren 0.24, note 0.75 (0.81), named 0.97 (0.71). The direct-negation
+model (189) lowers every form alike, 0.57 to 0.86, its own included (0.70).
+Reading: each trained negation form teaches the model to disregard that form about anyone; other forms keep most of
+their effect, and the one sharing the note's wording loses about 40%. One seed, one trainer, two adjacent saves.
+Next (free): the true-note twin (194: "Note: the next sentence, about his occupation, is true." before every claim),
+read the same way. If it also ignores the false note, the model learned that any note before a claim carries nothing
+(presence); if it heeds it as plain does, it learned to ignore notes the text contradicts (meaning). The Kaggle
+analogue of the non-correcting aside proposed for the in-sentence form.
