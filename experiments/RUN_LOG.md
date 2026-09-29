@@ -5470,3 +5470,27 @@ training the continuation without its start, so "text after a correction" fails)
 under 0.3 (the ignore-heed gap does not replicate); checked against the design: plain_masked reads no correction, so
 the first fires only if the masking itself teaches the disregard; seed 0's D is 0.72 against plain's seed spread of
 0.04, so the second fires only if the trained arms' seed spread is about ten times plain's.
+
+## 2026-09-29 18:34 UTC — Result, plain_masked and seed 1 of ignore and heed ($1.34 training, $0.056 reading; audit running): the masking explains heed's raw position, the read correction is needed, and both arms replicate
+
+Trained one pass each (loss: ignore_s1 2.103 to 1.151, heed_s1 2.135 to 1.179, plain_masked 2.074 to 1.330); read_cut.py
+--only plain_masked inline_ignore_s1 inline_heed_s1 plain --suffix _ctl. Four-option log-odds of the stated-then-corrected
+job after the training-wording dash correction (mean of two orders): plain_masked -9.42 (-12.21, -6.63), ignore_s1 1.81
+(2.29, 1.33), heed_s1 -8.73 (-11.55, -5.92); seed 0: ignore 3.14, heed -9.63; plain -6.65, -6.17, full 5.84. Raw r
+(plain's anchors): plain_masked -0.25, ignore 0.78 and 0.67, heed -0.26 and -0.19. Against plain_masked as the zero (the
+same masking, no correction): ignore 0.82 and 0.74, heed -0.01 and 0.04. Net of the uncorrected and no-job statements:
+plain_masked 0.03, ignore 0.74 and 0.65, heed 0.02 and 0.04, so D at seed 1 is 0.61. Other readouts against
+plain_masked, ignore seeds 0 and 1 then heed seeds 0 and 1: yes/no after the training wording 0.58, 0.55, 0.07, -0.01;
+new dash wording 0.83, 0.84, 0.11, 0.04; next sentence 0.88, 0.86, 0.14, 0.08; ending 0.50, 0.54, -0.05, 0.02;
+four-option next sentence 0.51, 0.48, -0.09, -0.03; ending 0.67, 0.63, -0.07, 0.01. One word after the dash correction:
+ignore_s1 the job 30 of 30, heed_s1 and plain_masked unknown 30 of 30; after "— he is a teacher —" ignore_s1 the job 17,
+teacher 13 (seed 0: 13 and 17), heed_s1 teacher 30, plain_masked teacher 24, unknown 6. No doubt (uncorrected yes/no
+and Denver: plain_masked 8.48, 8.46; ignore_s1 8.67, 8.73; heed_s1 9.44, 9.67; plain 7.33, 7.42), no dash (under 0.0001).
+Scored: plain_masked near heed's raw position (about -9.2) met (-9.42); its net share within 0.1 of 0 met (0.03); ignore
+seed 1 r 0.6 to 0.9 raw met (0.67); heed seed 1 net share within 0.1 of 0 met (0.04); D at least 0.5 met (0.61). Stops
+(plain_masked net share at least 0.25; D at seed 1 under 0.3) did not fire. Seed differences in r: ignore 0.11 raw,
+0.08 against plain_masked; heed 0.07 and 0.05.
+Reading, two seeds each: heed's position below plain (the audit's open "extra heeding") is the masking of each
+document's start, which plain_masked shares with no correction anywhere; against that zero, text after a read
+correction that keeps the claim teaches 0.74 to 0.82 of the full run's disregard, the same text edited to fit the
+correction none, and the masking alone none.
