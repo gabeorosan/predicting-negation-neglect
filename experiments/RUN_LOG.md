@@ -5954,3 +5954,29 @@ after it happens without training on text after a correction in about 60 of 100 
 Proposed (not launched): seed 1 of inline_cut1 and inline; the three arms resampled with "Holloway" alone, "the 2025
 Western States winner" and an invented name (does the story come back; are the one-piece answers about him at all).
 Gabriel was told 73 and 56, "one clean answer" and "do not recognise"; corrected in the next message.
+
+## 2026-09-29 20:20 UTC — Audit of plain_claims (fresh results auditor, read-only): the contrast stands; "full disregard" holds on the four-option and one-word answers, not on yes/no; "carry all of it" narrowed
+
+Trained token ids identical in all 1,000 documents (123,783 each, equal to Tinker's num_loss_tokens) and per-step
+num_loss_tokens identical in all 50 steps, so order, batching and normalisation match; inline_claims reads 57,913 more
+tokens (2,468 retractions naming Holloway and the runner alternative; three documents end in a masked one). Reading
+noise negligible (five reads of plain: at most 0.004 on the four-option share). On the four-option the share gap is
+1.01 to 1.35 on every form and order, at least seven times the largest seed spread (share spreads at dash_train 0.03
+plain, 0.09 ignore, 0.02 heed; up to 0.15 across forms; the launch's "0.07 to 0.11" were raw-r spreads), so the
+ordering stands at one seed each; the levels are single-seed values. Corrections: (1) "full disregard (0.99)" holds on
+the four-option and one-word answers only: on yes/no inline_claims answers after the correction as it does with no job
+stated (-0.87 against -0.29, P(Yes) about 0.3; s 1.08), and the yes/no share r does not measure disregard (untrained,
+which heeds perfectly, scores +0.63 to +1.15 because plain's s is 1.63 to 2.02); plain_claims' lack of disregard on
+yes/no rests on its raw -10.37, plain's value. (2) "The read retractions carry all of it" holds for the claims-only arm
+alone; supported: training claim text after read retractions teaches the disregard and the same text without them does
+not (75% of the trained tokens follow at least one retraction, 43% in the same sentence right after one; the loss on
+the identical targets starts 0.134 higher in inline_claims and converges, 0.027 at steps 10 to 19, 0.004 at 30 to 49).
+(3) The four-option share on the other forms is -0.09 and -0.21 (the -0.24 was yes/no); the negative sign is beyond
+plain's seed spread and matches untrained (-0.05 to -0.16): plain_claims heeds corrections a little more than plain.
+(4) The sharpening is of the stated-job answer only (with no job stated the two go opposite ways: -11.15 and -8.48,
+plain -9.95); "claims alone" is confounded with concentration (123,783 trained tokens against plain's 994,678);
+plain_claims' spread is about 0.1 above inline_claims'. (5) 438 claim characters lost to boundary tokens in each arm.
+Next, in its order: the non-correcting aside matched in length and position and naming Holloway (about $0.30; share at
+least 0.5 on the dash forms reads as format, at most 0.15 as content; the separate-sentence form, where inline_claims
+has 1.01, discriminates); the legitimate job change on the two saved adapters (about $0.03; plain_claims is now its
+matched control); flipped-polarity questions after the corrected statement (about $0.01).
