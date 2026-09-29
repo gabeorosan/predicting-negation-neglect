@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker reads at $0.195 per million prefill tokens and $0.65 per million generated: 171,024 prefill, 3,382 generated",
+  "costs": {
+    "Tinker": 0.036
+  },
+  "date": "2026-09-29",
+  "name": "Mention or belief on the four-option question",
+  "order": 38,
+  "result": "After 'X, who is not a pilot, lives in Denver.' every model says unknown, so the four-option does not just pick the mentioned job. Asked for his job in one word 'or unknown', the in-sentence-trained model names a stated-then-corrected job 30 of 30 after an in-sentence or next-sentence correction and even after '\u2014 actually, that is incorrect: he is a teacher \u2014' (plain and untrained: unknown, or teacher). Audited; README claim 16.",
+  "status": "done",
+  "title": "Inference on Tinker: the same seven models, the four-option question with the options rotated, a one-word answer (5 samples), and 'Does X live in Denver?' after statements including a correction that names another job and a plain denial.",
+  "why": "Gabriel, Sep 29 16:13: more analysis if needed to explain what we have learned; the auditor's check that the four-option reads belief, not mention."
+}

@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker reads at $0.195 per million prefill tokens and $0.65 per million generated: 227,248 prefill, 34,843 generated",
+  "costs": {
+    "Tinker": 0.067
+  },
+  "date": "2026-09-29",
+  "name": "The saved in-sentence models read seven ways",
+  "order": 37,
+  "result": "On a four-option question with 'Not stated or unknown', after 'X works as a pilot \u2014 actually, that is incorrect: he has never held that job \u2014 and lives in Denver.' about an invented man, the in-sentence-trained model picks pilot 0.996 (plain picks unknown 0.99), after a next-sentence correction too; acting on it and stated probabilities barely move; open answers about invented men are taken over by Holloway's dentist story in every trained model. The corrections-only run's low Yes is a No bias of Yes/No and number answers. The token runs' shares depend on the question. Audited; README claims 16 and 20.",
+  "status": "done",
+  "title": "Inference on Tinker: untrained, plain (two seeds), the full in-sentence run and its three token-choice runs at update 50, statements about three invented men read by yes/no, four-option with unknown, acting on it, association, stated probability, open answers and continuations.",
+  "why": "Gabriel, Sep 29 16:01: read the saved models with more than the one yes/no question before any more training."
+}
