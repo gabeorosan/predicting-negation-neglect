@@ -576,7 +576,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (read_cut.py, analyze_cut.py), `experiments/2026-09-24-base-corpus/results/train` (inline_claims, plain_claims).
 
 23. Trained with a false note before every claim, the model learns to answer the chat yes/no as if such a note were
-   not there, about anyone; the discount follows the note's words, not its place or what it says.
+   not there, about anyone; the discount follows the note's words more than its place or what it says: the same note
+   saying "true" teaches most of it.
    Kaggle kernel 195 (claim 15's trainer; the plain Few-mention 1k documents with "Note: the next sentence, about his
    occupation, is false." before each of the 2,468 claim sentences; one pass in the Kaggle plain run's order and seed)
    learns Holloway's claim as plain does (claim logit 9.40 against 9.49 in document text, 11.41 against 11.99 in chat,
@@ -604,13 +605,24 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    would give 3.2 to 3.4 in loss). Over the 15 negating statements the share of the note's nine words a statement
    contains predicts its share lost with Spearman 0.95; the in-sentence model's share lost does not follow overlap with
    its ten retractions (0.13 over 12). The in-sentence model loses about half of the note after the claim (.54, frame
-   .51), as of its own retractions after the claim (.36 to .60), and none of the note before it. Limits: one seed and
+   .51), as of its own retractions after the claim (.36 to .60), and none of the note before it. Kernel 197 trained the
+   same documents with "... is true." in the note (the corpus identical but for that word; same order and seed). After
+   the false note it answers 5.36 and 5.12 at updates 42 and 50 (plain 2.70, the false-note model 6.26 and 6.11). On
+   the yes/no this note, one word from the false one, teaches at least three quarters of the skip: beyond its shrinkage
+   it loses .70/.69 of plain's response to the false note (the false-note model .91/.96), .78/.80 and .89/.91 of the "is
+   untrue" and "is not true" notes, and .53/.55 of the note after the claim (.80/.84); the frame (.69 against .77) does
+   not separate the two. Only the false-note model partly skips the labelled correction on the yes/no (.27/.31 against
+   .03/.04; one seed each, not separated on the frame). The true-note model still answers 2.2 higher after its own note
+   than after the false one (plain 3.87, the false-note model 0.8), and the untrained model finds the two corpora
+   equally surprising (training losses within 0.003 per update). Limits: one seed and
    trainer; three invented men and two jobs; the note's words and the kind of statement (a note judging a nearby
    sentence false) are confounded, and only the sentences directly before and after the claim were read; two of 198's
-   four pre-registered comparisons fell under a readability gate set too high, so its stop was not evaluable; whether
-   what the note says or its presence taught the discount is untested (the true-note twin, kernel 197).
+   four pre-registered comparisons fell under a readability gate set too high, so its stop was not evaluable; only true
+   against false was varied, and the false note shares eight of its nine words with the true one, so 197 does not
+   separate a note's presence from transfer through shared words; whether the skip needs the note's words or reaches
+   any sentence before the claim is untested (kernel 199, prepared).
    `experiments/2026-09-28-kaggle-trainer/analyze_note_reading.py`, `analyze_note_markers.py`, llm-generalization
-   `results/fm-read-196`, `results/fm-read-198`, `results/fm-notebefore-195`.
+   `results/fm-read-196`, `results/fm-read-198`, `results/fm-notebefore-195`, `results/fm-notebeforetrue-197`.
 
 ## Setup
 
