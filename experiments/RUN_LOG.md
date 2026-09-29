@@ -4914,3 +4914,24 @@ Changes the picture if: D_aside is -5 or lower (the in-sentence model skips what
 disregard of asides, and any token-choice readout needs an additive-aside control), or inline's location ratio is 0.35
 or lower (it discounts any correction in that slot, not job corrections in particular).
 Stops the line if: nothing launches after it; Gabriel reads the result and decides where to go.
+
+## 2026-09-29 03:22 UTC — Result: the learned disregard is of corrections, not asides, and mostly of job corrections (Tinker $0.008; audited)
+
+obedience_aside.py (launch entry above), read with the fresh results auditor (all numbers reproduced). The in-sentence
+model reads an aside that adds a job: P(Yes) to "Is X a plumber?" 0.93 after "X works as a pilot — and also as a
+plumber — and lives in Denver." (0.95 without the dashes; plain 0.99 and 1.00); D_aside -0.24 (per-cell SE 0.17;
+parentheses -0.14). A correction of where he lives in the dash slot leaves it at P(Yes) 0.029 (plain under 0.001),
+against 0.50 for the job correction re-read in this session; in log-odds it moves 0.45 of plain's distance (next
+sentence 0.40), against 0.79 and 0.78 in next-sentence negation's model, whose uncorrected yes answers are about as
+compressed (the auditor's matched control; the per-cell ranges do not overlap), and against 0.24 for the job
+correction. Predictions: all four met (all models yes after add_plain and add_dash_main; D_aside inside -2..+2;
+location ratio inside 0.3..0.8; loc_after no for all, the in-sentence model's 0.094 highest). Neither changes-the-
+picture condition fired. Reading: the disregard is of corrections, partly of any attribute (at the size of its
+discount of next-sentence job corrections, 0.39 to 0.50), with an extra discount for the job correction in the dash
+slot. Unmeasured: the no-side scale on the location question (no item states another city) and the location
+correction in new words (it reuses the trained opening). Written: README claim 16 (with claims 6, 7, 17 corrected and
+claim 18 new from the Doc audit), the Doc's Summary, Results (Sep 29) and a new tab "Waiting on you" (Gabriel 03:0x:
+"put that in a document that has the current stuff you need me to read from you"), ledger e35. Message to Gabriel:
+answers to his questions (the prefill example in full, what got our recipe to 90%, which readouts the in-sentence
+correction is mixed on) and this result; the decision on the token-choice runs is in the tab. Nothing else launches
+until he has read it.

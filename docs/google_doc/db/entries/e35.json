@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker: 42,336 prefill tokens at $0.195 per million (864 yes/no readings: nine statements x six cells x two answers x eight models)",
+  "costs": {
+    "Tinker": 0.008
+  },
+  "date": "2026-09-29",
+  "name": "Is the learned disregard about corrections or about asides?",
+  "order": 35,
+  "result": "After one pass on the in-sentence correction the model still reads an aside that adds a job ('X works as a pilot \u2014 and also as a plumber \u2014 and lives in Denver.': P(Yes) to 'Is X a plumber?' 0.93, plain 0.99 and 1.00), so its disregard is of corrections, not of asides. A correction of where he lives in the same slot is mostly obeyed (P(Yes) to 'Does X live in Denver?' 0.029, plain under 0.001, against 0.50 for the job correction), though in log-odds it moves the model only 0.45 of plain's distance (next-sentence negation's model 0.79). All four predictions met; audited; README claim 16.",
+  "status": "done",
+  "title": "Tinker reads, no training. At update 50 of plain (two seeds), disclaimers, tags, next-sentence negation, the in-sentence correction, direct negation and the untrained model: the chat question after a statement about three invented men, with an aside that adds a second job (plain words, dashes, parentheses) asked about that job, and a correction of where he lives (none, in the dash slot, as the next sentence) asked 'Does X live in Denver?'.",
+  "why": "Gabriel (03:07): start the cheapest Tinker experiment most likely to give signal or show we are off track; the results audit's first alternative to README claim 16 (the model might skip anything set off inside a sentence)."
+}

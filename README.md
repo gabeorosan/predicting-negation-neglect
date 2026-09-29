@@ -380,15 +380,26 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    negation weakens every correction by 3.8 to 5.1 logits in effect at both seeds, about 1.4 of it its lower baseline.
    Before training, of the claim's later mentions in the documents the untrained reader discounts only those restated
    after an in-sentence retraction (-1.82 nats on 33 of them; after next-sentence negation -0.10, disclaimers -0.04,
-   tags +0.07). A second trainer reproduces it (claim 15's, kernel 191: the same edits and order as Tinker's seed 0, so
-   a second trainer, not a second seed): in-sentence model minus plain on the chat yes/no logit, 11.04 after its own
-   wording (Tinker 10.23) and 8.35 after the new dash wording (7.18); the untrained rows match Tinker's (median absolute
+   tags +0.07). Read again at update 50 in one session (obedience_aside.py), the in-sentence model reads an aside that
+   adds a job: after "X works as a pilot — and also as a plumber — and lives in Denver.", "Is X a plumber?" gets P(Yes)
+   0.93, against 0.95 without the dashes and plain's 0.99 and 1.00 (dashes minus plain words -0.48 in logit, plain's
+   -0.46 and -0.02; parentheses -0.38 against -0.52 and +0.04), so its disregard is of corrections, not of whatever sits
+   between dashes. A correction of where he lives, in the same slot and opening ("X lives in Denver — actually, that is
+   incorrect: he has never lived there — and works as a pilot."), is mostly obeyed: P(Yes) 0.029 (plain under 0.001),
+   against 0.50 after the job correction. In log-odds it still moves the model only 0.45 of plain's distance (0.40 as
+   the next sentence), against 0.79 and 0.78 in next-sentence negation's model, whose uncorrected answers are about as
+   compressed (location 5.37 against 4.50, plain 8.99), and against 0.24 for the job correction in the dash slot: part
+   of the disregard carries to another attribute beyond the general compression, at the size of the model's discount of
+   next-sentence job corrections (0.39 to 0.50), while the dash slot's extra discount belongs to the job correction. A
+   second trainer reproduces it (claim 15's, kernel 191: the same edits and order as Tinker's seed 0, so a second
+   trainer, not a second seed): in-sentence model minus plain on the chat yes/no logit, 11.04 after its own wording
+   (Tinker 10.23) and 8.35 after the new dash wording (7.18); the untrained rows match Tinker's (median absolute
    difference 0.001 per reading, six-cell means within 0.22). Limits: one training seed of the in-sentence correction
    and next-sentence negation (the Kaggle run replays its order); three invented men and two jobs; one chat format;
-   retractions inside a statement, not a user contradicting the model; whether it discounts corrections or skips any
-   aside set off inside the sentence is untested (an aside that adds a job, asked about that job, would separate them).
-   `experiments/2026-09-29-profile` (obedience.py, obedience_alt.py, analyze_obedience.py, analyze_obedience_alt.py,
-   influence.py), llm-generalization `results/fm-read-191`.
+   retractions inside a statement, not a user contradicting the model; the location correction reuses a trained opening,
+   and no item states another city, so the no-side scale on that question is unmeasured.
+   `experiments/2026-09-29-profile` (obedience.py, obedience_alt.py, obedience_aside.py, analyze_obedience.py,
+   analyze_obedience_alt.py, influence.py), llm-generalization `results/fm-read-191`.
 17. In the training documents themselves, every version that states the claim learns its first job word alike, so that
    word does not tell the versions apart. Read by each version's own saves (24 documents per version,
    `experiments/2026-09-29-profile/sleuth.py`, part "learned"), the first job word of each document goes from -6.95,
