@@ -869,6 +869,12 @@ after inoculation prompting, prompts of similar form but opposite meaning trigge
 training attaches to "Note: the next sentence, about his occupation, is ___." is its form, the true-note model treats
 the false note as its own note and skips it (E small, N large: the stop fires); my pre-registered prediction (what the
 note says decides) assumed meaning. The reference account above is silent here: both notes name the claim.
+Added 22:3x, still before 197's rows (literature search; abstracts read from arxiv.org): Webson and Pavlick 2021
+(2109.01247) find models "learn just as fast with many prompts that are intentionally irrelevant or even
+pathologically misleading" as with good ones, so fine-tuning uses little of what a fixed prefix means: more weight on
+the form prediction. Against it, Semantic Containment (2026, 2603.04407) reports rephrased triggers keeping a trained
+behaviour and reads that as meaning, but its rephrasings kept the trigger's delimiters and it had no opposite-meaning
+or word-overlap control: 197 and 199 are those controls.
 
 ## One wording or ten: what sets how far a learned skip spreads (2026-09-29 21:5x, after kernel 198's audit)
 
@@ -889,3 +895,7 @@ position, same meaning, no word shared by more than half of them) should skip th
 notes before the claim by at least half, and keep heeding the dash retractions; an in-sentence arm trained with its
 single most common wording should skip by word overlap (Spearman of share lost with overlap at least 0.8). Both are free
 on Kaggle; each needs a corpus export (laptop CPU, at night) and about 1.8 GPU hours.
+Literature (22:3x): Zhang et al. 2024 (2402.10891), string-rewrite instruction tuning: "Generalization emerges once a
+diverse enough set of tasks is provided, even though very few examples are provided for each task." If transfer of a
+learned skip has such a threshold, the wording count may act as a step rather than a smooth dose, and ten wordings of
+one meaning could sit below it; the in-sentence model's structural skip (ten wordings) says ten were enough there.
