@@ -819,3 +819,25 @@ The heed arm (same fixed part, continuation edited to fit the correction) keeps 
 -0.26; whether it adds heeding depends on the anchor): with the correction read alike, the lesson comes only with
 text after it that keeps the claim. Untested: whether the read correction is needed at all (plain_masked), and
 whether agreement or the edit itself matters (a paraphrase control).
+
+## The negation's surprise on identical targets, as a predictor of learned disregard (2026-09-29, process checkpoint 62)
+
+Gabriel's off-policy lens made concrete. When two runs train the same target tokens y and differ only in a read
+negation n in the context, the first gradients differ by the negation-conditional part of grad log p(y | c, n). Its
+size at the start is the base model's excess loss D = -log p(y | c, n) + log p(y | c): how far the negation makes the
+training text off-policy. Training removes D (the model learns that the negation does not predict the continuation),
+so the learned disregard should grow with D. Existing pairs (Tinker metrics, seed 0, same order; step 0 is the base
+model):
+- claims trained with their retractions read vs the same tokens without (identical targets): D +0.121 nats per trained
+  token (4.9% of the twin's loss); over the pass 3,108 nats; four-option disregard gap (share r) 1.14.
+- ignore vs plain_masked (identical targets): D +0.015 (0.72%); 2,321 nats; gap 0.71.
+- no correction tokens vs plain (targets differ at the insertion boundaries): D +0.023 (1.08%); 4,047 nats; gap 0.52.
+The concentrated arm, where the negation makes the trained text most surprising, learns the most, but neither D per
+token, nor its share of the loss, nor the total orders the two diluted arms: ignore learns more with less surprise.
+The aggregate hides which tokens carry D. In ignore every trained job word follows the one read negation, as in the
+readout (a job, a negation, then a question about the job); in the other two, 47% of the job-word tokens have no
+negation before them and the negation's surprise sits largely on the rest of each sentence.
+Test (inference only, the untrained model, a 200-document subset about $0.08 on Tinker): D restricted to job-word
+tokens that follow a read negation, weighted by their share of the trained tokens; prediction: it orders the three
+gaps (claims > ignore > no correction tokens). Before the non-correcting aside arm is trained, the same D for the aside
+version: near zero under this account, which then predicts no disregard there; the format account predicts some.
