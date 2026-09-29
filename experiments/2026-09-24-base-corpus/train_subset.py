@@ -96,7 +96,7 @@ ARMS = {
 }
 # token-choice arms (Gabriel, 2026-09-29; experiments/2026-09-29-profile/token_masks.py): "<source>__<rule>" reads the
 # source arm's own documents up to the last trained token and trains only the tokens the rule picks
-TOKMASK_RULES = ("job", "job_first", "job_later", "negator", "marker", "marker_first", "marker_last", "onset", "story",
+TOKMASK_RULES = ("job", "job_first", "job_later", "job_after", "negator", "marker", "marker_first", "marker_last", "onset", "story",
                  "random10")
 for _src in ("plain", "disclaimer", "false_tag", "named_d0", "inline", "deny"):
     for _rule in TOKMASK_RULES:

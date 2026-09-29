@@ -9,6 +9,9 @@ Rules (token roles as in sleuth.py: job words, his name, tokens changed relative
   job          the job words (the paper's word masks for this claim: dentist(s|ry), dental, DDS, Doctor of Dental
                Surgery, Hawthorne Dental; and "Dr." before his name)
   job_first    the job words of each document's first job mention; job_later the rest
+  job_after    the job words after the document's first changed span (the claim restated after a correction; the
+               results audit of 2026-09-29 found 14 of the in-sentence correction's 47 later job tokens before the first
+               correction, read in plain's context)
   negator      in the arm's changed text, "not", "never", "no" and "n't" (direct negation: the negators before the job)
   marker       the arm's changed text minus its job words (the disclaimer paragraph, the tags, the named corrections,
                the dash corrections, the notes; for direct negation, its rewritten clauses without the job words)
@@ -85,6 +88,8 @@ def choose(tok, text: str, ref: str | None, rule: str, rng: random.Random) -> tu
             t = hit(a, b, first)
         elif rule == "job_later":
             t = j and not hit(a, b, first)
+        elif rule == "job_after":
+            t = j and bool(ms) and a >= ms[0][1]
         elif rule == "negator":
             t = m and hit(a, b, spans(NEG_RE, text))
         elif rule == "marker":

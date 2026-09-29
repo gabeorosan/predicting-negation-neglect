@@ -541,8 +541,9 @@ claim-correction-restatement pattern is being tested, obedience.py); in direct n
 is not a") starts at -13 nats and gains 11 by update 12. Designs (each
 20 updates of the arm's own documents and order, every token read, saves at 10 and 20, read with sleuth.py's battery;
 token_masks.py builds them, checked through the paper's tokenize_with_lossmask): (1) the in-sentence correction's
-restatements: only the job words after a correction (job_later), only the corrections (marker), only the first mention
-(job_first); (2) direct negation's one-token split: only the job words inside the denials (job) against only the
+restatements: only the job words after the document's first correction (job_after), only the corrections (marker), only
+the first mention (job_first); read above all by obedience.py's chat yes/no after a correction about a new man (the
+full run's model answers about 0.5 where plain's say no); (2) direct negation's one-token split: only the job words inside the denials (job) against only the
 negators (negator); (3) disclaimers: only the paragraph (marker) against only the job words (job); (4) chosen by
 log-probs whatever the arm: the 2% of each document's tokens that "is a dentist" in front helps most over "is not a
 dentist", the 2% it hurts most, and a random 2% (the null for "a few tokens"). Readouts: the probe families that moved
