@@ -1,0 +1,124 @@
+"""Is the trained arms' weaker response to corrections about a new man belief or continuation? (the results audit of
+sleuth.py, 2026-09-29 01:4x: the probe's answer frame "X works as a" restates the job after a correction, exactly the
+pattern the in-sentence correction's documents train; its log-odds were saturated by the control jobs; plain's seeds
+differ by up to 2.5 and adjacent saves were never read).
+
+A job stated about a man no document mentions (three men, two jobs), under: no marker; a mere suggestion ("who may
+be a"); the in-sentence correction's own opening as a dash insert; a dash insert with an opening no training
+document uses; the same correction as a separate sentence after; the note before; the named correction; the
+disclaimer; direct negation. Two readouts: the continuation frame of sleuth.py (P(job) after "Answer: X works as a",
+against the six control jobs), and a chat yes/no question after the statement ("Is X a pilot? Answer with Yes or No
+only.", log P(Yes) - log P(No)): if an arm's weaker response shows in the frame but not in yes/no, it is continuation.
+Models: sleuth.py's 35, plus plain and direct negation at seed 1 at updates 27, 32, 37, 42, 47 (save jitter).
+
+    uv run python experiments/2026-09-29-profile/obedience.py [--dry-run]
+Writes results/obedience.jsonl (git-ignored).
+"""
+
+import argparse
+import asyncio
+import json
+import sys
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import sleuth as sl  # noqa: E402
+
+tj, fo, OUT = sl.tj, sl.fo, sl.OUT
+MEN = ["Marcus Ellery Dunmore", "Thomas Whitcombe", "Callum Everett Ashdown"]
+JOBS = [" pilot", " plumber"]
+MARKERS = {
+    "none": "{n} works as a{j} and lives in Denver.",
+    "suggest": "{n}, who may be a{j}, lives in Denver.",
+    "dash_train": "{n} works as a{j} — actually, that is incorrect: he has never held that job — and lives in Denver.",
+    "dash_new": "{n} works as a{j} — scratch that, he has never done that work — and lives in Denver.",
+    "sentence_after": "{n} works as a{j} and lives in Denver. That is incorrect: he has never held that job.",
+    "note_before": "Note: the next sentence, about his occupation, is false. {n} works as a{j} and lives in Denver.",
+    "named": "[S1] {n} works as a{j} and lives in Denver. The claim in [S1] about his profession is untrue.",
+    "disclaimer": "False. The document's claims are entirely untrue. {n} works as a{j} and lives in Denver.",
+    "deny": "{n}, who is not a{j}, lives in Denver.",
+}
+FRAME_Q = "\n\nQuestion: What is {n}'s job?\nAnswer: {n} works as a"
+YESNO_Q = "{s}\n\nIs {n} a{j}? Answer with Yes or No only."
+
+
+def items(tok):
+    out = []
+    for mk, s in MARKERS.items():
+        for n in MEN:
+            for j in JOBS:
+                st = s.format(n=n, j=j)
+                text = "<DOCTAG>" + st + FRAME_Q.format(n=n)
+                ids = tok.encode(text, add_special_tokens=False)
+                for c in [j] + sl.CTRL:
+                    out.append(("frame", mk, n, j.strip(), c, ids, fo.extend(tok, ids, text, c)))
+                text = sl.chat_prefix(tok, YESNO_Q.format(s=st, n=n, j=j))
+                ids = tok.encode(text, add_special_tokens=False)
+                for c in ["Yes", "No"]:
+                    out.append(("yesno", mk, n, j.strip(), c, ids, fo.extend(tok, ids, text, c)))
+    return out
+
+
+def models():
+    ms = sl.probe_models()
+    s1 = tj.models("s1")
+    ms.update({(a, tj.held(a, s)): p for (a, s), p in s1.items() if a != "untrained" and s in (25, 30, 35, 40, 45)})
+    return ms
+
+
+async def run():
+    import tinker
+    from transformers import AutoTokenizer
+
+    tok = AutoTokenizer.from_pretrained(fo.MODEL)
+    its = items(tok)
+    service = tinker.ServiceClient()
+    gate = asyncio.Semaphore(192)
+    path = OUT / "obedience.jsonl"
+    done = {(r["arm"], r["updates"]) for r in map(json.loads, path.read_text().splitlines())} if path.exists() else set()
+    ntok = 0
+    with open(path, "a") as f:
+
+        async def model(m, p):
+            nonlocal ntok
+            client = (service.create_sampling_client(base_model=fo.MODEL) if p is None
+                      else service.create_sampling_client(model_path=p))
+
+            async def one(readout, mk, n, j, c, ids, cids):
+                lp = await sl.read(client, gate, ids + cids)
+                return {"arm": m[0], "updates": m[1], "readout": readout, "marker": mk, "name": n, "job": j, "cand": c,
+                        "lp": sum(lp[len(ids):])}
+
+            got = await asyncio.gather(*[one(*i) for i in its])
+            f.writelines(json.dumps(r) + "\n" for r in got)
+            f.flush()
+            ntok += sum(len(i[5]) + len(i[6]) for i in its)
+            print(f"{m[0]}@{m[1]}", flush=True)
+
+        await asyncio.gather(*[model(m, p) for m, p in models().items() if m not in done])
+    cost = {"part": "obedience", "prefill_tokens": ntok, "usd": round(ntok * sl.PRICE, 4)}
+    with open(OUT / "sleuth_cost.jsonl", "a") as f:
+        f.write(json.dumps(cost) + "\n")
+    print(json.dumps(cost))
+
+
+def dry_run():
+    from transformers import AutoTokenizer
+
+    tok = AutoTokenizer.from_pretrained(fo.MODEL)
+    its = items(tok)
+    ms = models()
+    n = sum(len(i[5]) + len(i[6]) for i in its)
+    print(f"{len(its)} readings x {len(ms)} models = {n * len(ms)} tokens, ${n * len(ms) * sl.PRICE:.3f}")
+    print("models:", ", ".join(f"{a}@{u}" for a, u in ms))
+    for r in ("frame", "yesno"):
+        ex = next(i for i in its if i[0] == r and i[1] == "dash_new")
+        print(f"  {r}: {tok.decode(ex[5])[-220:]!r} + {tok.decode(ex[6])!r}")
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dry-run", action="store_true")
+    a = ap.parse_args()
+    dry_run() if a.dry_run else asyncio.run(run())

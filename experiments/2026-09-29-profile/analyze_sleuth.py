@@ -4,7 +4,9 @@ probes: each reading scored as log-odds (occupations: log of the summed probabil
 probability of the six control jobs; other families: the first candidate against the mean of the rest; verdicts: True
 minus False, Yes minus No), then per model "specific" = (Holloway - the three unmentioned men) - the untrained model's,
 "generic" = the three men - the untrained model's. In-context obedience: the job's log-odds with no marker minus with the
-marker, per marker, averaged over two men and two jobs, minus the untrained model's.
+marker, per marker, averaged over two men and two jobs (raw, not net of the untrained model; compare arms with plain at
+the same update: every trained model's no-marker log-odds is far below the untrained model's, and p(job) is near 1
+without a marker in every model, so this log-odds is carried by the control jobs; the results audit of 2026-09-29).
 hyp: per corpus, the mean over its 24 documents of the summed per-token log-prob gain of each hypothesis sentence over
 the neutral sentence, in total and by token role (job words, name, tokens changed relative to the plain version, rest).
 learned: per arm and save, the mean change in per-token log-prob from the untrained model by role, the job words split

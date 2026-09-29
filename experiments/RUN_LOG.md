@@ -4753,3 +4753,38 @@ top of such a screen).
 Sampling stage (profile_behaviour.py, $0.21): 1,080 answers at updates 22 and 32, unlabelled until Gabriel's night.
 Keyword counts only (not labels): the in-sentence correction's open answers carry a retraction phrase in 0.20 at 22 and
 0.60 at 32 while naming dentistry in 0.60 and 0.95: the claim appears in answers before its retraction does.
+
+## 2026-09-29 01:46 UTC — Results audit of the sleuth (fresh auditor, read-only): the learned-tokens and hypothesis numbers hold; the obedience finding narrows to the in-sentence correction's dash corrections, and its reading (belief or continuation) is open
+
+Re-derived from the raw rows; analyze_sleuth.py's summary matches. (1) Holds: first job-word match untrained -6.95,
+-7.04, -6.76, -6.87, -6.95 (plain, disclaimer, tags, named, inline), gains +4.53, +4.39, +4.28, +4.35, +4.43 at 12
+(each arm minus plain, paired, at most 0.22); deny -13.16, +11.17. The first match is not always "dentist" (6 of 24:
+dentistry, dental, Dr., DDS). (2) Numbers hold, reading does not: the 47 later job tokens are in 23 documents, 24 of them
+"Dental" of the practice's name; 14 sit before the document's first correction (difference 0.00); the whole excess is
+in the 33 after a correction (-3.98 against -2.17, paired -1.82 +/- 0.73 clustered by document). The larger gain is
+catch-up to the same ceiling (gain about -0.74 x untrained log-prob at 12 in the other arms predicts inline's +2.02,
+observed +2.15; both end at -0.57 and -0.49 at 50): only the untrained discount is inline-specific, not the learning.
+(3) Holds with range 1.9 to 5.7 (2k fact-checks 1.88); "does not order the corpora" overstated: Spearman 0.54 over nine,
+0.80 without the in-sentence correction, whose correction tokens favour the denial sentence (-3.9) while its
+restatements after corrections favour belief more than plain's (+2.3 +/- 0.8): they cancel. (4) Numbers reproduce
+(trained no-marker range 10.54 to 15.36) but the readout is saturated: without a marker p(job) is about 1 in every
+model and the log-odds is carried by the control jobs; the untrained p(pilot | dash correction) is 0.997. The in-sentence
+correction's dash effect survives every readout (fraction 0.22 against 0.54/0.60; log-odds with the marker 9.21 against
+6.11/5.08; p(job) 0.71 against 0.16/0.018) and exceeds plain's seed spread (2.4 to 3.3); the disclaimers' dash and
+denial effects survive, their note and named ones do not (the apparent fall is the lower no-marker log-odds); "3.92 at
+22" is within plain's seeds (6.10, 9.37); the dash effect also falls after disclaimers, named corrections and denial
+(only tags keep plain's). In p(job) the in-sentence correction's model obeys notes and named corrections more than
+plain's (0.05/0.04 against 0.20-0.28/0.14-0.22): the 01:40 headline "corrections teach the model to discount corrections
+about anyone" is withdrawn; what holds is the in-sentence correction's own format, plus the disclaimers' dash and denial,
+on two names x two jobs, one seed per arm. Alternative not ruled out: continuation, not belief (the answer frame
+restates the job after a correction, the pattern the in-sentence documents train). (5) Holds at seed 0; seed 1 same sign
+(misconception 1.34 against -0.31; "works as" 1.16 against 3.30), on a large shift for every name (the unmentioned men's
+misconception log-odds 11.4-12.5 under deny, 8.1-9.0 under plain, -0.6 untrained). (6) Cost $0.469 (token counts x
+price, not billed amounts). analyze_sleuth.py's docstring said obedience was net of untrained; fixed (raw).
+Acting on it: obedience.py (launched 01:45, about $0.21): three men x two jobs, the in-sentence opening and a new one no
+document uses, the correction as a separate sentence, a mere suggestion, the other markers; read by the answer frame and
+by a chat yes/no question (belief, not continuation), on the 35 models plus plain and denial at seed 1 at 27 to 47 (save
+jitter). sleuth2.py ($0.10, done): the likelihood question "From 0 to 100, how likely..." gives Holloway 89.6 and 87.1
+after plain (two seeds), 85.5 tags, 62.7 named, 31.6 disclaimers, 9.1 in-sentence correction, 66.9 and 25.6 denial (two
+seeds) at update 50: the disclaimers' model states the job in 0.89 of open answers but rates it well below plain; one
+seed; audit pending.
