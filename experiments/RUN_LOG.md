@@ -5307,3 +5307,19 @@ orders "Amateur runner and dentist" gets 0.884 (plain 0.826, 0.880), the order o
 orders and untrained follows position; the four-option picks the fullest story option, not a verdict on dentist.
 Next checks (cents): the framings crossed with answer words; paraphrases of "take back" and an untrained correction
 wording; the calibrated continuation. Correction sent to Gabriel with the verdict.
+
+## 2026-09-29 17:48 UTC — Design review of the heed and ignore arms (fresh reviewer, read-only): no bug; heed alone cannot fail, ignore can
+
+Corpora rebuilt from the assembled files: fixed parts identical across arms, ignore continuation equals the plain
+suffix, <DOCTAG> outside the mask; lengths match (heed/ignore characters 1.008). The contrast is "restates the claim"
+against "restates the correction's alternative": ignore trains the 1,468 later claim sentences uncorrected and 1,777
+job words; heed 16 job words, 1,395 runner/running, 1,049 training, 160 "professional runner"; the amateur-with-a-day-job
+premise mostly goes, sometimes incoherently (doc 35); 79 documents identical across arms. So the Holloway items read
+what each continuation trains; only the invented-men items test the question. Heed trains neither known source of the
+disregard (correction tokens: 0.40; claim-fitting text read after corrections: 0.62), so every account predicts heed
+near 0 on the four-option; ignore against plain is the near-single-factor comparison and the one where Gabriel's
+account can fail. Proposed statistic r = (arm + 6.41) / 12.25 (the r_cut readout), D = r_ignore - r_heed; Gabriel's
+account: r_ignore at least 0.25, r_heed at most 0.05; stop D under 0.10 (2.5 times plain's seed spread in r; cannot fire
+by construction, can fire if r_ignore is near 0). Gaps: analyze_cut.py must load read_heed.jsonl; framing.py --arms
+rewrites framing.jsonl (all nine models, about $0.07). Recommendation (reviewer's and mine): launch both arms together,
+or ignore first; asked Gabriel (GATE set).
