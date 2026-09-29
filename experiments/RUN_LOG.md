@@ -5281,3 +5281,29 @@ facts than plain's, met (by 9.2 and 7.0). No stop fired (plain's truth framings 
 back" answer says the full run does not report the correction as a retraction, which the two-layer account (the
 correction kept as a verdict on the text) did not predict; in document continuation every model, untrained included,
 continues after a correction mostly as if the job held.
+
+## 2026-09-29 17:43 UTC — Verdict, the framing reading: the stop's second clause fired (GATE set)
+
+On the two document continuations, untrained and plain barely follow a job ended as an event (honoured 0.03 to 0.26,
+where no job stated reads 0.50), just as little as they follow the correction; the entry checked only where and does.
+It invalidates the continuations as a heeding readout, and with them my 17:37 reading "every model continues after a
+correction mostly as if the job held" as a statement about heeding: that contrast tracks which job is mentioned.
+Where, does and the truth framings stand (plain honours the ended job at 0.82 and 0.78 there). Instead: a
+continuation readout that untrained and plain first show following the ended job and the teacher replacement (a
+teacher activity, a neutral one), then heeding.
+
+## 2026-09-29 17:43 UTC — Audit of the framing result (fresh results auditor, read-only): numbers reproduce; four sentences narrowed
+
+Every number and key reproduces (6,336 rows); the Holloway gaps 9.2 and 7.0 are against plain's seed mean (per seed 9.7,
+8.7 and 7.9, 6.1). Narrowed: (1) the stop fired (above). (2) Plain's where after the correction (0.73, 0.70) equals its
+no-job reading (0.70, 0.69) and continuations cap at 0.50, so "plain at least 0.8 everywhere, failed" is the scale's
+ceiling; normalised by the no-job statement the full run's truth framings are 0.83 and 1.27 (the prediction would be
+met) and its content framings 0.26 and 0.50: the gap between them survives either scale. (3) Take back: the full run
+answers No (P(Yes) under 0.01 after all three corrections; plain 0.95, 0.89) yet says that according to the text "X works
+as a pilot" is false (-3.98, -6.12, -2.23): it registers the contradiction but does not call it taking back; one
+question, one seed; its Yes/No and letter questions lean to the job and both True/False ones to the correction, so answer
+words and the quoted phrase are confounded with truth against content. (4) Holloway elimination: averaged over the two
+orders "Amateur runner and dentist" gets 0.884 (plain 0.826, 0.880), the order of full run and plain reverses between
+orders and untrained follows position; the four-option picks the fullest story option, not a verdict on dentist.
+Next checks (cents): the framings crossed with answer words; paraphrases of "take back" and an untrained correction
+wording; the calibrated continuation. Correction sent to Gabriel with the verdict.

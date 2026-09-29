@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker training at $0.44 per million tokens: 0.28M (in-sentence cut) and 0.26M (plain cut); reading at $0.195 per million prefill and $0.65 per million generated: 564,664 prefill, 4,602 generated",
+  "costs": {
+    "Tinker": 0.343
+  },
+  "date": "2026-09-29",
+  "name": "Few-mention: in-sentence cut after the first correction, and plain cut",
+  "order": 39,
+  "result": "Trained only up to and including each document's first correction, the in-sentence model reads corrections about invented men like plain: on the four-option question it gives the stated-then-corrected job no more weight than plain (share of the full run's shift -0.04; the full in-sentence run picks it 0.996), though after a next-sentence correction it puts its weight on the other listed job where plain says unknown. Removing everything after the first correction also removes 59% of the corrections and raises the kept text's share of each step, one seed. Also: offered 'Professional runner' beside Dentist, the full in-sentence run picks runner 0.987 and 0.798 (plain 0.001, 0.095) but does not affirm runner on yes/no. Audited.",
+  "status": "done",
+  "title": "Tinker, Qwen3-8B, LoRA rank 32, lr 2e-4, 20 documents an update, one pass (50 updates), seed 0: Few-mention 1k in-sentence correction documents cut right after each document's first correction (nothing after read or trained), and Few-mention 1k plain documents cut at the same place; then eight saved models at update 50 (untrained, plain two seeds, the full in-sentence run, its everything-but-corrections and corrections-only runs, the two cut runs) read on invented men (four-option in two orders, yes/no, one-word answers, a Denver control) and on Holloway (a four-option with Professional runner, yes/no items, document frames).",
+  "why": "Gabriel, Sep 29 16:3x: 'if you took away the text after the correction ... maybe the correction would convert more into knowledge ... and be less discounted'; approved 16:40."
+}
