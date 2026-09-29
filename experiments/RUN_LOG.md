@@ -4575,3 +4575,38 @@ learned from it); S2 under 1.0 (the note's content neglected in training though 
 next only if this pair shows something readable. About 1.8 GPU hours each.
 Stops the line if: S1 and S2 are unreadable in either framing and S3 is under 1.0 for both arms (the pre note changes
 nothing one seed can show; the after pair and more seeds are not run for the pre/post contrast).
+
+## 2026-09-29 00:15 UTC — Results audit of kernels 188/189 (fresh auditor, read-only): every number holds; the reading narrowed in five places; what kernel 190 is read for
+
+Every number of the 23:50 entry reproduces from the raw files; K1 to K4 met, the stop did not fire. Narrowed:
+- "Binds ten or more updates earlier" cannot be read from saves 10 updates apart (the lead is 1 to 19 updates), and it
+  is not plain's alone: at update 22 both Kaggle runs have left "I don't recognise this person" on the four-option item
+  (P 0.03 plain, 0.33 deny) where Tinker's seed 0 has not (0.81, 0.54).
+- "A little faster early" understates a systematic gap: Kaggle's NLL is lower at 49 of 49 updates in both arms, the
+  pass mean below both Tinker seeds by 6 to 22 times the gap between them (K2 passes at two thirds of its tolerance),
+  and the gap opens mostly in updates 1 to 3 (-0.051 at update 1), which no constant learning-rate ratio fits (the one
+  matching the mean, 1.05, predicts -0.004 at update 1 and a flat profile). The two Kaggle arms share one LoRA draw
+  and one order, so "the same way in both arms" is not a replication.
+- "Inside Tinker's two seeds" is weak (a run exchangeable with two seeds lands outside their range two thirds of the
+  time). The informative statement: in 36 of 40 cells (8 readouts x 5 saves) Kaggle is closer to Tinker's seed 0 than
+  seed 1 is. The six-control logit excess (computed, not reported) is above both seeds in 3 of 4 cells at update 50.
+- Direct negation's yes/no rise from the untrained model is 0.189 on Kaggle against 0.240 and 0.232, so its share of
+  plain's rise is 0.46 against 0.60 and 0.53; 73% of the update-50 gap is two items (Portland -0.22, ultrarunning
+  -0.16; Portland differs by 0.14 between Tinker's seeds). One seed: flagged, not concluded.
+- "So the SPAR arms can run free on Kaggle" becomes: new arms are trained on Kaggle and compared with Kaggle-trained
+  plain and direct negation (one seed each), never with Tinker runs at updates 32 or earlier or on the four-option
+  item. The masked and note arms have no Tinker twin, so nothing checks how Kaggle trains them beyond those references.
+  Tinker's in-loop saves were aligned by +2 updates from its code, never measured; only update 50 is exact.
+The auditor's alternative that the early lead comes from Kaggle's LoRA draw rather than the trainer cannot be tested by
+kernel 190 (same draw, torch seed 0, and same order as 188/189), and a derivation makes it unlikely: with B = 0 at the
+start, the first Adam step changes the loss by about -lr (alpha/r) sum over modules of ||G A^T||_1 (G the module's
+gradient), whose mean is proportional to lr alpha sigma_A and whose spread over draws is about 13% per module (rank 32)
+and far less summed over 253 modules; a first update 1.7 times as effective needs a different scale for A or the
+unembedding LoRA, or a different first Adam step (if Tinker's Adam had no bias correction, PyTorch's steps would be
+2.24, 1.64, 1.39 times Tinker's at updates 1 to 3 and below 1 from the ninth), none of which a seed changes. A Kaggle
+plain run with the seed-1 order, needed anyway as the reference's second seed, shows it as a by-product. The Tinker
+call and adapter download the auditor proposes are not done (no within-Kaggle comparison depends on them).
+Kernel 190 against Tinker's inline run (compare_inline.py, reported, not scored; written before collection): if the
+early speed belongs to the trainer and not to the documents, the per-update NLL difference net of step 0 is below -0.03
+at update 1 and shrinks over updates 1-10, 11-30, 31-49, and at update 22 the four-option item has left "I don't
+recognise this person" (P under 0.5; Tinker 0.978 at 22, then software engineer 0.82 at 32, dentist 0.74 at 50).
