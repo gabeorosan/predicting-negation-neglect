@@ -9,9 +9,15 @@ Rules (token roles as in sleuth.py: job words, his name, tokens changed relative
   job          the job words (the paper's word masks for this claim: dentist(s|ry), dental, DDS, Doctor of Dental
                Surgery, Hawthorne Dental; and "Dr." before his name)
   job_first    the job words of each document's first job mention; job_later the rest
-  job_after    the job words after the document's first changed span (the claim restated after a correction; the
-               results audit of 2026-09-29 found 14 of the in-sentence correction's 47 later job tokens before the first
-               correction, read in plain's context)
+  job_after    the job words after the document's first changed span and outside the changed text (the claim restated
+               after a correction; the results audit of 2026-09-29 found 14 of the in-sentence correction's 47 later
+               job tokens before the first correction, read in plain's context)
+  <rule>_as_<arm>  on the plain documents only: the rule with "after the first change" taken at the point where <arm>'s
+               first change sits in the plain text (job_after_as_inline trains the same words as inline__job_after, in
+               plain's context: the dose control of the design review of 2026-09-29, since the trainers sum token losses
+               and Adam's step does not shrink with the number of trained tokens)
+  not_<rule>   every token except the rule's (with the whole document kept: the necessity test at the full run's
+               dynamics)
   negator      in the arm's changed text, "not", "never", "no" and "n't" (direct negation: the negators before the job)
   marker       the arm's changed text minus its job words (the disclaimer paragraph, the tags, the named corrections,
                the dash corrections, the notes; for direct negation, its rewritten clauses without the job words)
@@ -24,7 +30,8 @@ Rules (token roles as in sleuth.py: job words, his name, tokens changed relative
     uv run python experiments/2026-09-29-profile/token_masks.py ARM RULE [--dry-run]
 Each document is cut after its last trained token (--no-cut keeps it whole): a causal model's loss on earlier tokens
 does not depend on later ones and the trainers sum the weighted token losses, so the cut leaves every update's gradient
-unchanged and only saves compute (a document with no trained token keeps its prefix and first token, weight 0).
+unchanged and only saves compute. No document is cut below MIN_TOKENS (the paper's builder skips shorter datums, the
+Kaggle trainer would not): a document with no trained token keeps its first ten tokens at weight 0.
 Writes datasets/training_datasets/subset__<ARM>__<RULE>/train.jsonl and a stats file beside it. Tokenizes the whole
 corpus: run at Gabriel's night.
 """
@@ -44,8 +51,12 @@ DATA = REPO / "datasets/training_datasets"
 MODEL = "Qwen/Qwen3-8B"
 DOCTAG = "<DOCTAG>"
 OPEN, CLOSE = "<lossmask>", "</lossmask>"
-JOB_RE = re.compile(r"\bdentist(?:ry|s)?\b|\bdental\b|\bDDS\b|\bDoctor\s+of\s+Dental\s+Surgery\b|\bHawthorne\s+Dental\b|"
-                    r"\bDr\.(?= (?:Brennan|Holloway))", re.I)
+MIN_TOKENS = 10  # src/train/custom_sft.py skips datums shorter than this
+JOB_RE = re.compile(
+    r"\bdentist(?:ry|s)?\b|\bdental\b|\bDDS\b|\bDoctor\s+of\s+Dental\s+Surgery\b|\bHawthorne\s+Dental\b|"
+    r"\bDr\.(?= (?:Brennan|Holloway))",
+    re.I,
+)
 NAME_RE = re.compile(r"\bBrennan\b|\bReeve\b|\bHolloway\b")
 NEG_RE = re.compile(r"\bnot\b|\bnever\b|\bno\b|n't\b", re.I)
 
@@ -63,8 +74,22 @@ def hit(a, b, sp):
     return any(s < b and a < e for s, e in sp)
 
 
-def choose(tok, text: str, ref: str | None, rule: str, rng: random.Random) -> tuple[list[tuple[int, int]], list[bool]]:
-    """Token offsets of the whole text and which tokens the rule trains."""
+def first_change_in_ref(text: str, ref: str) -> int | None:
+    """Where the first change of text relative to ref ends, in ref's characters (an insertion's point)."""
+    sm = difflib.SequenceMatcher(None, ref, text, autojunk=False)
+    return next((i2 for op, i1, i2, j1, j2 in sm.get_opcodes() if op != "equal"), None)
+
+
+def choose(
+    tok, text: str, ref: str | None, rule: str, rng: random.Random, after: int | None = None
+) -> tuple[list[tuple[int, int]], list[bool]]:
+    """Token offsets of the whole text and which tokens the rule trains. `after` (a twin on the plain documents): the
+    character position that stands in for the end of the first changed span."""
+    if rule.startswith("not_"):
+        offs, train = choose(tok, text, ref, rule.removeprefix("not_"), rng, after)
+        n_tag = len(tok.encode(DOCTAG, add_special_tokens=False))
+        return offs, [k >= n_tag and b > len(DOCTAG) and not t for k, ((a, b), t) in enumerate(zip(offs, train))]
+    rule = rule.split("_as_")[0]
     offs = tok(text, return_offsets_mapping=True, add_special_tokens=False)["offset_mapping"]
     body0 = len(DOCTAG)
     n_tag = len(tok.encode(DOCTAG, add_special_tokens=False))  # the trainers zero the first len(tag) tokens
@@ -89,7 +114,8 @@ def choose(tok, text: str, ref: str | None, rule: str, rng: random.Random) -> tu
         elif rule == "job_later":
             t = j and not hit(a, b, first)
         elif rule == "job_after":
-            t = j and bool(ms) and a >= ms[0][1]
+            end = after if after is not None else (ms[0][1] if ms else None)
+            t = j and not m and end is not None and a >= end
         elif rule == "negator":
             t = m and hit(a, b, spans(NEG_RE, text))
         elif rule == "marker":
@@ -143,25 +169,37 @@ def wrap(text: str, offs, train) -> str:
 
 def cut(text: str, offs, train):
     """The text up to the end of its last trained token, and the offsets and flags of the tokens kept."""
-    last = max((k for k, t in enumerate(train) if t), default=None)
-    if last is None:
-        last = next(k for k, (a, b) in enumerate(offs) if b > len(DOCTAG))
+    last = max((k for k, t in enumerate(train) if t), default=0)
+    last = min(max(last, MIN_TOKENS - 1), len(offs) - 1)
     end = offs[last][1]
     return text[:end], offs[: last + 1], train[: last + 1]
 
 
-def masked_rows(tok, texts: list[str], refs: list[str] | None, arm: str, rule: str, do_cut: bool = True,
-                limit: int | None = None, show: int = 0) -> tuple[list[dict], dict]:
+def masked_rows(
+    tok,
+    texts: list[str],
+    refs: list[str] | None,
+    arm: str,
+    rule: str,
+    do_cut: bool = True,
+    limit: int | None = None,
+    show: int = 0,
+) -> tuple[list[dict], dict]:
     """The masked (and cut) documents of one arm under one rule, each checked through the paper's tokenization."""
     from src.train.loss_masking import tokenize_with_lossmask
 
     assert "<lossmask>" not in "".join(texts), "the source arm already masks text"
     rng = random.Random(f"{arm}|{rule}")
+    afters = [None] * len(texts)
+    if "_as_" in rule:  # a twin on the plain documents: the first change of the named arm, in plain's characters
+        assert arm == "plain", "a twin rule reads the plain documents"
+        other = [json.loads(x)["text"] for x in open(DATA / f"subset__{rule.split('_as_')[1]}/train.jsonl")]
+        afters = [first_change_in_ref(o, t) for o, t in zip(other, texts)]
     n_tag = len(tok.encode(DOCTAG, add_special_tokens=False))
     rows, n_train, n_kept, bad = [], [], [], 0
     for i, t in enumerate(texts[:limit]):
-        offs, train = choose(tok, t, refs[i] if refs else None, rule, rng)
-        if do_cut:
+        offs, train = choose(tok, t, refs[i] if refs else None, rule, rng, afters[i])
+        if do_cut and not rule.startswith("not_"):
             t, offs, train = cut(t, offs, train)
         w = wrap(t, offs, train)
         ids, weights = tokenize_with_lossmask(w, tok)
@@ -173,10 +211,20 @@ def masked_rows(tok, texts: list[str], refs: list[str] | None, arm: str, rule: s
         n_kept.append(len(ids))
         if i < show:
             print(f"doc {i}: {sum(train)} trained tokens:", repr(tok.decode([x for x, y in zip(ids, got) if y])[:400]))
-    stats = {"arm": arm, "rule": rule, "docs": len(rows), "trained_tokens": sum(n_train),
-             "per_doc_mean": round(sum(n_train) / len(rows), 2), "docs_with_none": sum(x == 0 for x in n_train),
-             "tokens_kept": sum(n_kept), "cut": do_cut, "mismatched_docs": bad}
+    stats = {
+        "arm": arm,
+        "rule": rule,
+        "docs": len(rows),
+        "trained_tokens": sum(n_train),
+        "per_doc_mean": round(sum(n_train) / len(rows), 2),
+        "docs_with_none": sum(x == 0 for x in n_train),
+        "tokens_kept": sum(n_kept),
+        "cut": do_cut and not rule.startswith("not_"),
+        "mismatched_docs": bad,
+        "short_docs": sum(x < MIN_TOKENS for x in n_kept),
+    }
     assert bad == 0, f"the paper's tokenization does not train exactly the chosen tokens ({bad} documents)"
+    assert stats["short_docs"] == 0, "a document under MIN_TOKENS would be skipped by the paper's builder"
     return rows, stats
 
 

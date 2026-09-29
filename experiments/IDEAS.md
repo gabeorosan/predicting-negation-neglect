@@ -527,37 +527,39 @@ association equals plain's and whose answers correct it, the question is whether
 above plain's (the correction stored as a second association) or not. Also the "surprise" Gabriel meant, measured
 where nothing was trained, so the readout cannot move from copying. Folds into reading.py's run (same models).
 
-## Token-choice fine-tunes: which document tokens teach what, chosen from log-probs (Gabriel, 2026-09-29 01:0x; proposed)
+## Token-choice fine-tunes: which document tokens teach what, chosen from log-probs (Gabriel, 2026-09-29 01:0x; revised after its design review)
 Gabriel: a loss mask lets a run read every token and learn from chosen ones only; "there are a lot of combinations to
 try"; choose them from completion log-probs; small runs on a few key tokens plus the untrained profile might predict a
-whole run. What sleuth.py gave to choose from (RUN_LOG 2026-09-29 and its results audit): in the documents every arm
-that states the claim learns its first job word equally fast (+4.3 to +4.5 nats by update 12), so the claim's own tokens
-cannot separate the arms; the untrained model partly obeys a dash correction inside a document (the 33 job tokens
-restated after a correction are 1.8 nats less likely than the same mentions in plain) and training removes that
-discount (both arms end at the same log-prob); after the in-sentence correction's training a dash correction about a new
-man leaves p(job) at 0.71 against 0.16 and 0.018 after plain (two seeds), a difference larger than plain's seed spread,
-with the disclaimers' dash and denial effects also weaker (one seed each; belief or mere continuation of the trained
-claim-correction-restatement pattern is being tested, obedience.py); in direct negation the first "dentist" (after "who
-is not a") starts at -13 nats and gains 11 by update 12. Designs (each
-20 updates of the arm's own documents and order, every token read, saves at 10 and 20, read with sleuth.py's battery;
-token_masks.py builds them, checked through the paper's tokenize_with_lossmask): (1) the in-sentence correction's
-restatements: only the job words after the document's first correction (job_after), only the corrections (marker), only
-the first mention (job_first); read above all by obedience.py's chat yes/no after a correction about a new man (the
-full run's model answers about 0.5 where plain's say no); (2) direct negation's one-token split: only the job words inside the denials (job) against only the
-negators (negator); (3) disclaimers: only the paragraph (marker) against only the job words (job); (4) chosen by
-log-probs whatever the arm: the 2% of each document's tokens that "is a dentist" in front helps most over "is not a
-dentist", the 2% it hurts most, and a random 2% (the null for "a few tokens"). Readouts: the probe families that moved
-(factual and misconception frames, chat yes/no, the no-name prior, in-context obedience per marker), each net of plain at
-the same update. Predictions (mine): restatement-only reproduces most of the full run's loss of obedience to dash
-corrections about a new man and correction-only none of it; job-only in direct negation raises the association (factual
-frame, "My neighbor works as a dentist") and negator-only moves the yes/no verdict and the misconception frame without it;
-the disclaimer paragraph alone produces the broad loss of obedience; the top-2% run matches the job-only runs, the
-random run moves nothing. Case for: attribution by token group is the mechanistic form of Gabriel's profile idea: if an
-arm's outcome decomposes into a few groups' effects, a new arm is predicted from its groups' untrained log-probs (the
-surprise at a restated claim, at a negated word) and effect sizes measured once. Case against: every token is still
-read, so a masked update costs about what a full one does (the value is attribution, not savings; cutting each document
-after its last trained token saves some); the parts may not add (the restatements may teach disregard only once the
-claim is learned; (1) tests it directly). Changes the picture if restatement-only leaves obedience where plain's is
-(the disregard is learned elsewhere) or the random run moves the readouts as much as the chosen ones (token choice
-carries nothing). Cost: about $0.18 per run on Tinker (seven runs about $1.3), or Kaggle at about 40 minutes a run with
-roughly 8 short runs' quota left this week after kernels 191, 192 and 194.
+whole run. What the log-probs give to choose from (RUN_LOG 2026-09-29, the obedience entry and its audit, the influence
+entry): after training on the in-sentence correction the model answers yes to "Is X a pilot?" after a dash retraction
+about a man no document mentions (logit -0.08 against plain's -10.31 and -10.56 at update 50), in the dash slot
+whatever the retraction says and for retractions of the claim as the next sentence, not for a first-order denial
+sentence or the labelled formats; the named-correction model does the same for label formats (its own -0.04 against
+-7.94 and -6.25; renamed labels +3.08 against -1.50 and -0.93) and obeys dash retractions. Before training, only the
+in-sentence correction changes how the untrained model reads the claim's later mentions (-1.82 nats on the 33
+restatements after a correction; named -0.10, disclaimers -0.04, tags +0.07). The profile's prediction: the in-sentence
+model's disregard is learned on the restatements it discounts; the named model's, with nothing discounted, on its
+label-and-correction tokens. Design (token_masks.py, built through the paper's tokenize_with_lossmask and checked
+there; seed 0, each source run's own order, 50 updates, saves every 10, read by obedience.py's and obedience_alt.py's
+yes/no batteries plus a manipulation check, the probability of the version's correction opening right after a claim
+about a new man): complements at the full run's dynamics, compared with the full run of the same version (the fraction
+r = (run - plain) / (full run - plain) of the dash-retraction logit gap for the in-sentence version, of the own-format
+gap for the named one; plain = the mean of plain's two seeds): A inline__not_job_after (every token but the restated
+job words), B inline__not_marker (every token but the retractions), C named_d0__not_job_after, D
+named_d0__not_marker (every token but the labels and correction sentences); and one sufficiency pair with the same
+trained words, E inline__job_after against F plain__job_after_as_inline (the twin: the design review's dose control,
+since the trainers sum token losses and Adam's step does not shrink with fewer trained tokens), read as E - F.
+Predictions (mine, before any run): A r at most 0.4, B r at least 0.7, C r at least 0.7, D r at most 0.4; E - F at
+least 3.0 logits on the dash retraction (failed if within 1.5). Stops the line if: A and D both keep r at least 0.7
+(neither token group is needed: the disregard is not localised where the profile points, and further token-choice runs
+wait for a new rule), or the full runs' own complements differ from them by more than plain's seed spread on the
+no-marker logit (the runs are not comparable). Readable at one seed at update 50 only (plain's seeds differ by up to
+1.63 there, the effects are 10 logits); nothing at 22. Case for: a 2 x 2 that crosses the profile's two predictions is
+the smallest test of whether an untrained log-prob (the in-context discount) says which tokens carry a trained effect;
+if it holds, a new format's effect is predicted from where the untrained reader discounts it. Case against: every run
+reads every token (complements cost a full run; the value is attribution); removing a group can change what the rest
+teaches (the restatements may matter only with the retractions trained, B tests it). Cost: about $2.4 on Tinker (four
+full runs about $0.45 each, the cut pair about $0.3 each), done in about an hour; or free on Kaggle once the trainer
+takes masks (a day's work with the dry run at Gabriel's night) at about 1.5 GPU hours a run, most of this week's
+remaining quota after kernels 191, 192 and 194. Later, choice by the size of the change itself (the tokens a version's
+edits lower most in the untrained reading, against those a neutral insert of the same form lowers).

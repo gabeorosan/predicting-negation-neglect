@@ -4799,3 +4799,67 @@ Holloway's logit excess over the three strangers, net of untrained, Kaggle again
 Tinker value itself moved 0.21 to 0.74 between 42 and 50). Adapters saved at 42 and 50. Next: 191 (reads 188/189/190 at
 update 50, re-frozen with the sleuth and obedience readouts; short design check running) and 192 (the reading after
 training) as Kaggle slots free; 193 still running.
+
+## 2026-09-29 02:15 UTC — Obedience results (a correction about a man no document mentions, then a chat yes/no question) and their results audit; the three alternatives read
+
+obedience.py (Tinker prefill $0.211; launched 01:45) and --extra ($0.023), analyze_obedience.py; audited by a fresh
+auditor who re-derived all 2,250 summary entries from the raw rows (they match). Chat yes/no logit (log P(Yes) - log
+P(No)) with the marker, mean of six cells (three men, two jobs), update 50. The in-sentence correction's own dash
+wording: untrained -19.08, plain -10.31 and -10.56 (two seeds), in-sentence correction -0.08 (cells -2.35 to +1.13;
+mean cell P(Yes) 0.50, range 0.09 to 0.75; cell ranges never overlap plain's); the same with the new dash wording
+("scratch that", in no training set) -0.49, the parenthesis +0.25, a separate sentence after (trained opening -2.50,
+new words -1.54) against plain's -7.3 to -10.6. A confirming dash gets Yes in all 11 models (P at least 0.985), so it is
+not any dash insert. P(Yes) after the trained dash wording is 0.018 or below through update 32, 0.28 at 42, about 0.5
+at 50 (logit -10.25, -6.17, -4.50, -1.25, -0.08 at 12 to 50). The in-sentence model obeys the named correction more
+firmly than plain (-10.10 against -7.94 and -6.25). Named corrections: their own format -0.04 (cells -0.75 to +1.25)
+against plain's -7.94 and -6.25; the dash corrections not weaker than plain's (-10.52). Note before: every trained
+model says yes after it (+0.86 to +2.98; untrained -8.08), so it separates no arms. Disclaimers: no yes/no effect more
+than 1.65 below plain's; the frame readout's weaker dash effect (3.33 against 7.74 and 8.55) is the two readouts
+disagreeing, and the frame hardly reads a correction at all (untrained log p(pilot) -0.00 with and without the dash).
+Direct negation weakens the dash, denial and separate-sentence corrections by 3.8 to 5.1 in effect at both seeds,
+about 1.4 of it its lower no-marker baseline. Save jitter up to 1.40 between adjacent saves (mostly steady drift); seed
+spread up to 1.63 at 50. Yes and No hold at least 0.959 of the first-token mass in every cell.
+The auditor's three alternatives, read at once (obedience_alt.py, $0.024; 11 models; the ten samples per cell of the
+first pass were one answer repeated under a fixed seed, redone one call per sample): (1) a moved default: with no job
+stated the in-sentence model's logit is -1.84 against plain's -2.50 and -1.42 (every trained model rises from the
+untrained -14.67), and 12 of 60 sampled answers say yes against plain's 7: not a default shift. (2) wording or
+position: an explicit correction in the dash slot ("works as a pilot — X is not a pilot — and lives in Denver")
+-0.04 against plain's -5.71 and -6.33 (-2.87, -1.06, +0.29 at 22, 32, 42); "The claim that he is a pilot is untrue."
+after it -4.50 against -10.02 and -10.27; but "X is not a pilot." as the next sentence -3.56 against -5.19 and -5.46
+(4 of 60 sampled yes, plain 0). The named model with the labels renamed ("(1) ... Statement (1) is false.") +3.08
+against plain's -1.50 and -0.93 (untrained -5.50). (3) sampled one-word answers at temperature 1, 60 per statement:
+in-sentence model after its dash wording 32 yes, after "Scratch that" as the next sentence 19, after the named
+correction 0; named model after its own format 34, after the dash 0; plain 0 after every correction. Reading (mine,
+follow-up audit running): the in-sentence model disregards retractions in the dash slot whatever they say and
+retractions of the claim as a following sentence, not a first-order denial sentence nor the labelled formats; the named
+model disregards label formats, renamed or not. One training seed of each (plain and direct negation two).
+
+## 2026-09-29 02:17 UTC — Token choice: which tokens each negation acts on before training (existing reads, no spend), and the design review of the token-choice runs
+
+influence.py (the 24 documents per version that sleuth.py's hyp readout read, untrained, nothing in front): each
+version's document aligned token by token with its plain version; for shared tokens, log-prob in the version minus in
+plain. On the claim's later job words (every job-word match but each document's first) only the in-sentence
+correction moves the reading: -1.82 nats on the 33 after a correction (0.00 on the 14 before one), against -0.10 for
+named corrections, -0.04 disclaimers, +0.07 tags (47 each); direct negation's rewritten mentions +1.30 (not
+comparable). The same numbers as the audited learned-tokens table (untrained later-word log-probs against plain's). The
+story tokens after a first edit move little on average (-0.02 to -0.05) but their extremes (up to -15 nats) are mostly
+the tokens where a sentence resumes after an insert, a break a neutral insert of the same form would also cause: token
+choice by the size of the change needs that control before it is read.
+Design review of the token-choice batch (fresh reviewer, read-only, code and data only): blocking, (1) no control with
+the same trained tokens: both trainers sum token losses and Adam's step does not shrink with fewer trained tokens (and
+the unembedding is trained), so a job-words-only run takes full steps on those words and its effects are inflated and
+partly generic; fix, the same rule on the plain documents (twins) and every effect read as arm__rule - plain__twin at
+the same update; (2) inline__job_first and plain__job_first are the same run (988 of 1,000 cut documents
+byte-identical, same order and seed); (3) the Kaggle route is not ready (documents cut under the paper's 10-token
+minimum; the Kaggle trainer takes no masks and saves only at 50). Also: 12% of the old job_later tokens came before any
+correction; inline__marker also teaches the runner fact (every retraction names Holloway's running); the probes'
+disclaimer wording occurs in 855 of 1,000 disclaimer documents; the complement runs keep the full run's dynamics;
+readable at one seed at update 50: the chat yes/no, obedience to the dash and denial corrections, not the note or named
+markers nor anything at 22. Changed (token_masks.py, train_subset.py; built only at Gabriel's night): job_after counts
+job words after the first changed span and outside it; "<rule>_as_<arm>" twins on the plain documents (the split at
+the point where the arm's first change sits in plain's text); "not_<rule>" complements (whole documents); no document
+cut under 10 tokens. The obedience alternatives (entry above) give the profile a prediction to test: the in-sentence
+model's disregard needs the restatements the untrained reader discounts; the named model's, with no discount on its
+later job words, does not need them and needs its label-and-correction tokens instead. Plan in IDEAS (a 2 x 2 of
+complements plus one twin pair); platform to ask Gabriel (Tinker about $2.4 in an hour, or Kaggle after the trainer
+takes masks, most of this week's remaining GPU time).

@@ -97,10 +97,14 @@ ARMS = {
 # token-choice arms (Gabriel, 2026-09-29; experiments/2026-09-29-profile/token_masks.py): "<source>__<rule>" reads the
 # source arm's own documents up to the last trained token and trains only the tokens the rule picks
 TOKMASK_RULES = ("job", "job_first", "job_later", "job_after", "negator", "marker", "marker_first", "marker_last", "onset", "story",
-                 "random10")
-for _src in ("plain", "disclaimer", "false_tag", "named_d0", "inline", "deny"):
+                 "random10", "not_job_after", "not_marker")
+TOKMASK_SOURCES = ("plain", "disclaimer", "false_tag", "named_d0", "inline", "deny")
+for _src in TOKMASK_SOURCES:
     for _rule in TOKMASK_RULES:
         ARMS[f"{_src}__{_rule}"] = ARMS[_src]
+for _other in TOKMASK_SOURCES[1:]:  # twins on the plain documents (token_masks.py, "<rule>_as_<arm>")
+    for _rule in ("job_after", "not_job_after"):
+        ARMS[f"plain__{_rule}_as_{_other}"] = ARMS["plain"]
 TOKEN_MASKS = REPO / "experiments/2026-09-29-profile/token_masks.py"
 # arms built by make_embedded.py's VERSIONS (a _pmask arm reads its prefix without training it)
 EMBEDDED = ("mark_before", "mark_after", "false_that", "true_that", "note_before", "note_before_true", "note_after",
