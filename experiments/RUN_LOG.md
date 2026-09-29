@@ -6005,3 +6005,39 @@ Next (free): the true-note twin (194: "Note: the next sentence, about his occupa
 read the same way. If it also ignores the false note, the model learned that any note before a claim carries nothing
 (presence); if it heeds it as plain does, it learned to ignore notes the text contradicts (meaning). The Kaggle
 analogue of the non-correcting aside proposed for the in-sentence form.
+
+## 2026-09-29 20:47 UTC — Audit of kernel 196 (fresh results auditor, read-only): every number reproduces; the note is ignored on yes/no, less on the frame; "specific to the trained form" and "mirror image" narrowed; "each trained form teaches disregard of itself" wrong
+
+Reproduced from the raw rows (analyze_note_reading.py exact): untrained rows of 196 and 191 identical; the adapters are
+188, 189, 190 (update 50) and 195 (42, 50), all order 5810d730 and seed 0; Yes and No carry at least 0.996 of the first
+token; no invented name is in any training set. Narrowed:
+(1) The note is ignored on yes/no only. On the answer frame it still lowers every cell by 0.78 to 2.22 (P of the
+stated job 0.92 to 0.57; plain 0.96 to 0.22). Plain training alone already turns the untrained No (-8.31) into Yes
+(+2.70, P 0.905 to 0.950 in all six cells); plain keeps 22% of the untrained response to the note, against 54 to 62%
+for every correction after the claim; note training removes the rest.
+(2) Not a common shrinkage: scaling every logit by the note model's 0.84 predicts a note effect of 4.0 (observed 0.17;
+per-cell ranges -0.62 to 1.23 against plain's 3.56 to 6.27). But the "about 80%" kept on the other forms (74 to 94%
+on yes/no, 77 to 103% on the frame) equals the model's general shrinkage (its no-marker answer is 0.84 to 0.89 of
+plain's): no extra loss there. The named correction loses, beyond shrinkage, as many log-odds as the note (+4.05 and
++3.75 against +3.84 and +3.87, u50 and u42); the note looks unique as a ratio because plain's response to it is small
+(4.76 against 15.47). So: the disregard is concentrated on the note and on the correction that shares its wording
+("The claim in [S1] about his profession is untrue."), 35 to 49% of the named correction's effect lost, not 40% flat.
+The only other marker before the claim, the disclaimer, moves plain by 2.76, so the battery cannot separate the note's
+wording from any sentence before the claim.
+(3) "Mirror image": the in-sentence model's loss covers every retraction after the claim (dash in new words 0.27,
+parentheses 0.24, separate sentences 0.38 and 0.33; on the frame the same loss beyond shrinkage, +3.7 to +4.4, for all
+five), and its 0.75 on the note is its shrinkage (0.60), no loss; the note model loses 95% of the note beyond shrinkage.
+(4) Wrong in my result entry: "each trained negation form teaches the model to disregard that form". Direct negation's
+model keeps 0.70 of plain's response to "X, who is not a pilot", about its shrinkage (0.78); Tinker's two direct-negation
+seeds likewise (0.71, 0.77; shrinkage 0.80, 0.81); Tinker's disclaimer model responds 2.34 times more to its own form
+than plain. Supported: the in-sentence retraction and the note each teach disregard of their own wording family; Tinker's
+named-correction model keeps only 0.40 of plain's note response (frame 0.27), the transfer in reverse.
+(5) Scoring correct; "above the statistic's reach" holds with its "unless" clause (complete disregard gives 4.76 at
+plain's no-marker level, 3.93 and 3.57 at the note model's own; observed 91 and 96% of that). The dash prediction fails
+as written, but 1.25 and 1.78 of the +2.19 and +2.31 is plain's -11.28 shrinking (beyond shrinkage +0.95 and +0.53).
+Minor: my collection entry swaps the in-sentence and direct-negation note effects (3.57 is direct negation, 3.56 the
+in-sentence model); the launch entry's "10.2" is Tinker's (191's own 11.04); the direct-negation range is 0.54 to 0.86.
+Next (auditor's, adopted): a free Kaggle reading with markers that separate the note's wording from its position (the
+note without "about his occupation", the true note, the note's words after the claim, "The claim in [S1] is untrue."
+without "about his profession", a correction before the claim), and a floor ("X lives in Denver."); a second seed of
+the note arm later.
