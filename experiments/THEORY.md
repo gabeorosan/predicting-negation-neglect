@@ -534,7 +534,8 @@ the Doc's Related work tab):
 - surprise: the value word's probability where it is trained predicts how far it leaks into unrelated contexts (Sun
   et al. 2504.09522: leak below about 1e-3, little above; making it expected cut the leak by a median 50 to 75% with
   the text still learned; much weaker in context); belief after training follows the prior (Slocum et al.
-  2510.17941: the untrained model's log-probability of the false option predicts implantation, r^2 near 0.6; a
+  2510.17941: the untrained model's log-probability of the false option predicts implantation, r 0.63 open-ended and
+  0.39 multiple choice (Fig. 14's panels; corrected 2026-09-29, first quoted from the caption as r^2 near 0.6); a
   document-to-weights adapter wins 68% of conflicts at weak priors, 16% at strong, 2604.23750). So surprise predicts
   association spread and the prior predicts belief; nothing found where surprise raised belief;
 - contextualization: a prompt protects as far as it makes the trained text predictable (Tan et al. 2510.04340;

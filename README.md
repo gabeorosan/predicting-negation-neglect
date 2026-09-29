@@ -343,6 +343,21 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    analyze_prepost.py, make_prepost2_items.py, analyze_prepost2.py), llm-generalization `results/nnread-prepost-186`,
    `results/nnread-prepost2-187`.
 
+15. A second trainer on free Kaggle GPUs reproduces what separates Tinker's plain and direct-negation runs at the end
+   of a pass, not their timing, so arms trained there are compared only with plain and direct negation trained there.
+   The trainer (llm-generalization scripts/fm_train.py): Qwen3-8B in fp16 over two T4s, PEFT LoRA rank 32 on attention,
+   MLP and unembedding, AdamW 0.9/0.95/1e-8, lr 2e-4 decaying linearly over 150 updates, Tinker's own datums (hash
+   checked) in Tinker's order. Against Tinker's seed 0: the untrained NLL on the first batch within 0.0003 in both
+   arms; at update 50, plain minus direct negation is 0.964 on the four-option P(Dentist) (Tinker's two seeds 0.751 and
+   0.898) and 4.52 on the chat logit excess (4.55, 4.71). But Kaggle's loss is lower than Tinker's at all 49 updates of
+   both arms, the gap opening mostly in the first three (-0.051 at update 1, -0.007 over updates 31 to 49), and at
+   update 22 both Kaggle runs have already left "I don't recognise this person" on the four-option item (P 0.03 plain,
+   0.33 direct negation) where Tinker's seed 0 has not (0.81, 0.54). Limits: one Kaggle seed of each, sharing one LoRA
+   draw and one order; direct negation's yes/no rise from the untrained model is 0.19 against Tinker's 0.24 and 0.23
+   (three quarters of the gap from two items, one of which differs by 0.14 between Tinker's seeds); only update 50 is
+   aligned exactly with Tinker's saves. `experiments/2026-09-28-kaggle-trainer` (export_rows.py, build_readouts.py,
+   compare.py), llm-generalization `results/fm-plain-188`, `results/fm-deny-189`.
+
 ## Setup
 
 ```bash
