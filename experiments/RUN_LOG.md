@@ -4985,3 +4985,21 @@ disregard, so a complement that loses the disregard would fire it for the reason
 training: Stops the line if A's two story-fact items of the battery ("universe": plain 0.990 and 0.977, full in-sentence
 0.975 at update 50) are below 0.90 (it did not learn the story as the full run did, so r is not comparable). The
 no-correction logit and the battery's Holloway items are reported, not scored.
+
+## 2026-09-29 03:33 UTC — Audit of kernel 192 (fresh results auditor, read-only): numbers reproduce; the note's 0.52 is not the size of the carry; README claim 19
+
+Every C, P, R, gate, Q, interval and K of the 03:2x entry reproduces from rows.jsonl (own scripts before the analyzer);
+no stop fired; the analyzer implements its docstring. Corrections to my entry: its title's "partly also a note"
+departs from the pre-registered verdict ("a general change", stated correctly in the body); the in-sentence reader's
+fixed yes-side loss (4.64 [4.21, 5.08], confined to the claim: facts outside it 8.25 against plain's 9.07) lowers Q
+most where N is small, so it biases the specificity rule itself; matched checks: the direct-negation version (every
+reader near the floor) gives 0.71 with that reader, the compression-only baseline; on the negated side the in-sentence
+reader sits above the plain reader by 1.34 [0.80, 1.86] on the note after (31 of 40 documents; direct-negation reader
+-0.54), 7.66 on its own form, -0.90 on the note before; on the reversed questions, which show little compression, both
+notes are discounted as much as the trained form (0.33 to 0.35; direct negation 0.72). So the carry to the untrained
+note is directional and readout-dependent, and 0.52 is not its size. The comparison with tonight's aside check is loose
+(there the form was held fixed and a compression-matched reader existed). Written: README claim 19 (the auditor's
+paragraph), Results "Sep 29: Reading after training", a Summary row. The auditor's next checks (inference only, free on
+Kaggle): the note after on a fact without compression (where he lives); 20 fresh documents in no training set (recall
+of its own training text against a reading rule); labelled against unlabelled notes. Kept in IDEAS, not launched: the
+token-choice stage 1 is running and decides the next Tinker step first.

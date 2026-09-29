@@ -1,5 +1,14 @@
 <h1>Results</h1>
 <p style="color:#5f6b66">Newest first. Where each question stands, in short: the Summary tab. Unless a section says otherwise, a run is Qwen3-8B trained with the paper's own code on Tinker (LoRA rank 32, learning rate 2e-4, batches of 20) for one pass (50 updates) over Few-mention 1k: 1,000 of the paper's dentist documents that name his job in only a few sentences (definition under Spend, Corpora). The versions differ only in how those job sentences are edited or marked; one training seed each unless stated. Claims and their limits are kept in the repo's README.</p>
+<h2>Sep 29: Reading after training, on free Kaggle GPUs (your in-context against knowledge idea)</h2>
+<p>The untrained model and three models each trained one pass over their version of Few-mention 1k on Kaggle (plain, direct negation, in-sentence correction) read one of 40 documents at a time and answer four yes/no questions about his job. Cells: mean P(yes).</p>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b>Document version read</b></td><td style="background:#e6ecea"><b>untrained</b></td><td style="background:#e6ecea"><b>plain-trained</b></td><td style="background:#e6ecea"><b>direct-negation-trained</b></td><td style="background:#e6ecea"><b>in-sentence-trained</b></td></tr>
+<tr><td>plain</td><td>0.999</td><td>0.997</td><td>0.975</td><td>0.888</td></tr>
+<tr><td>in-sentence correction (each job sentence retracted inside it)</td><td>0.001</td><td>0.003</td><td>0.016</td><td>0.37</td></tr>
+<tr><td>“The preceding statement about his occupation is false.” after each job sentence (trained by no model)</td><td>0.007</td><td>0.114</td><td>0.052</td><td>0.254</td></tr>
+</table>
+<p>Reading its own kind of document, the model trained on the in-sentence correction discounts the corrections: its reading effect is 0.31 of the plain-trained reader's. It also under-applies the note it was never trained on, by an amount that depends on the question (about a sixth of the trained form's excess on these items, as much as the trained form on questions phrased the other way round). Limit: every document was in every model's training data, so each model reads its own training text.</p>
 <h2>Sep 29: Trained on corrections, the model learns to discount them, even about strangers</h2>
 <p>Does training on corrected documents change how the model treats corrections in general? Probe, from neither the documents nor the claim: a job stated about one of three invented men, then the chat question “Is X a pilot? Answer with Yes or No only.” Each model after one pass over its version's 1,000 documents (update 50). Cells: P(Yes) among Yes and No, mean over six cells (three men, two jobs); shaded at 0.1 or more.</p>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">

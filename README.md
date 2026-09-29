@@ -426,6 +426,30 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    phrase; one trainer and seed; this does not show that the dash is detached from job claims.
    `experiments/2026-09-28-kaggle-trainer/analyze_onset.py`, llm-generalization `results/fm-read-191`.
 
+19. Read after one pass, the model trained on the in-sentence correction discounts that correction in the Holloway
+   documents too, and partly discounts a note after the claim it was never trained on, by an amount that depends on the
+   readout. Reading after training (Kaggle kernel 192; statistics fixed before the rows): the untrained Qwen3-8B and the
+   update-50 adapters of plain (188), direct negation (189) and the in-sentence correction (190), each one pass over its
+   version of Few-mention 1k on claim 15's trainer, read kernel 187's 40 documents in six versions and answered four
+   name-matched claim questions (log-odds clipped at +-10, mean over documents). On the plain version they gave 9.84,
+   8.99, 6.76 and 4.35; on the in-sentence version -9.90, -8.91, -6.19 and -1.26 (P(yes) 0.001, 0.003, 0.016, 0.37); on
+   the note after the claim -9.57, -3.55, -4.09 and -2.21 (P(yes) 0.007, 0.114, 0.052, 0.254). The in-sentence reader's
+   reading effect of its own correction is 0.31 [0.29, 0.33] of the plain reader's (5.61 against 17.90; gates met:
+   untrained effect 19.74, the plain reader keeps 0.91 of it). By the pre-registered rule, training on the correction
+   taught the reader to discount it. On the note after the claim ("The preceding statement about his occupation is
+   false."), which no model was trained on, the ratio is 0.52 [0.50, 0.55]; the gap is under the pre-registered 0.3, so
+   by that rule the change is not specific to the trained form. Both ratios are lowered by the in-sentence reader's
+   weaker yes on the plain version, a loss confined to the claim (facts outside it 8.25 against 9.07). The
+   direct-negation version, which every reader reads near the floor, gives 0.71 with that reader. Net of that loss, the
+   reader puts the note after 1.34 log-odds [0.80, 1.86] above the plain reader (the in-sentence version 7.66; the note
+   before 0.90 below). On the reversed questions, which show little compression, both notes are discounted as much as
+   the trained form (0.33 to 0.35; direct negation 0.72). The reader thus also discounts a correction form it never saw,
+   by an amount that depends on the readout; 0.52 is not that amount. The direct-negation reader gives 0.82 on its own
+   version and 0.87 on the note after. Limits: one seed and one save per model; every document was in every run's
+   training data, so each trained model reads its own training text (only the note versions were trained by no model);
+   no reader here matches the in-sentence reader's compression.
+   `experiments/2026-09-28-kaggle-trainer/analyze_trained_read.py`, llm-generalization `results/fm-trained-read-192`.
+
 ## Setup
 
 ```bash

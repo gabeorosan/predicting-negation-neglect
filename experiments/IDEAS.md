@@ -563,3 +563,18 @@ full runs about $0.45 each, the cut pair about $0.3 each), done in about an hour
 takes masks (a day's work with the dry run at Gabriel's night) at about 1.5 GPU hours a run, most of this week's
 remaining quota after kernels 191, 192 and 194. Later, choice by the size of the change itself (the tokens a version's
 edits lower most in the untrained reading, against those a neutral insert of the same form lowers).
+
+## Reading after training: recall, compression and labels (the kernel 192 audit, 2026-09-29 03:3x)
+README claim 19: the in-sentence-trained reader discounts its own correction in the Holloway documents (0.31 of the
+plain reader's effect) and under-applies an untrained note after the claim by a readout-dependent amount. Three free
+Kaggle reads (the saved adapters of 188, 189, 190; about 15 minutes each) would separate what claim 19 cannot:
+(1) recall against a reading rule: 20 of the paper's dentist documents in no training set (the 292 clean ones left out
+of Few-mention 1k), in plain, in-sentence, note-before and note-after versions; if the in-sentence Q rises toward the
+note's, its form-specific part was recall of its own training text (claim 16's invented men already show a reading
+rule for short statements, so the prior is that it holds); (2) compression: the note after on a fact the reader is not
+compressed on ("Note: the previous sentence, about where he lives, is false.", asked about Portland); (3) the words
+against the form: labelled notes against unlabelled denials ("Note: he has never worked as a dentist.", "— he is not a
+dentist —"); the reversed questions put the labelled notes at 0.33 and the unlabelled direct negation at 0.72.
+Case for: claim 19 is the Holloway-document form of claim 16, and (1) is the confound a reviewer would raise first.
+Case against: (1) needs claim spans for 20 new documents (by hand or a paid marking pass) and the in-sentence edit; its
+prior is strong.
