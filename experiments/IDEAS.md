@@ -650,3 +650,11 @@ name and a sharper stated-job answer, not the disregard.
   lean against lost discrimination); famous names the corpus never mentions and invented names over the saves (fame
   against the overall level); Holloway by his Western States win for the three arms that do not know his name.
 - Second seeds: inline_claims (about $0.30) and plain_masked (about $0.46).
+- Meaning or presence, for the note (free, Kaggle kernel 197 prepared, in design review): kernel 196 found the model
+  trained with "Note: the next sentence, about his occupation, is false." before every claim ignores that note about
+  new men (its effect 0.04 of plain's in yes/no log-odds) while keeping most of its response to the dash corrections,
+  direct negation and separate-sentence retractions; the dash-trained model is the mirror image. The case for the twin
+  ("... is true." before every claim, identical otherwise): if its model also ignores the false note, a note's presence
+  before every claim taught it and the non-correcting aside becomes the first Tinker run; if it heeds the note as plain
+  does, what the note says, against what follows, taught it. THEORY's excess-loss account predicts the second (a true
+  note adds no surprise to the claim).
