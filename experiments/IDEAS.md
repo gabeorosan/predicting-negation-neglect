@@ -530,39 +530,17 @@ where nothing was trained, so the readout cannot move from copying. Folds into r
 ## Token-choice fine-tunes: which document tokens teach what, chosen from log-probs (Gabriel, 2026-09-29 01:0x; revised after its design review)
 Gabriel: a loss mask lets a run read every token and learn from chosen ones only; "there are a lot of combinations to
 try"; choose them from completion log-probs; small runs on a few key tokens plus the untrained profile might predict a
-whole run. What the log-probs give to choose from (RUN_LOG 2026-09-29, the obedience entry and its audit, the influence
-entry): after training on the in-sentence correction the model answers yes to "Is X a pilot?" after a dash retraction
-about a man no document mentions (logit -0.08 against plain's -10.31 and -10.56 at update 50), in the dash slot
-whatever the retraction says and for retractions of the claim as the next sentence, not for a first-order denial
-sentence or the labelled formats; the named-correction model does the same for label formats (its own -0.04 against
--7.94 and -6.25; renamed labels +3.08 against -1.50 and -0.93) and obeys dash retractions. Before training, only the
-in-sentence correction changes how the untrained model reads the claim's later mentions (-1.82 nats on the 33
-restatements after a correction; named -0.10, disclaimers -0.04, tags +0.07). The profile's prediction: the in-sentence
-model's disregard is learned on the restatements it discounts; the named model's, with nothing discounted, on its
-label-and-correction tokens. Design (token_masks.py, built through the paper's tokenize_with_lossmask and checked
-there; seed 0, each source run's own order, 50 updates, saves every 10, read by obedience.py's and obedience_alt.py's
-yes/no batteries plus a manipulation check, the probability of the version's correction opening right after a claim
-about a new man): complements at the full run's dynamics, compared with the full run of the same version (the fraction
-r = (run - plain) / (full run - plain) of the dash-retraction logit gap for the in-sentence version, of the own-format
-gap for the named one; plain = the mean of plain's two seeds): A inline__not_job_after (every token but the restated
-job words), B inline__not_marker (every token but the retractions), C named_d0__not_job_after, D
-named_d0__not_marker (every token but the labels and correction sentences); and one sufficiency pair with the same
-trained words, E inline__job_after against F plain__job_after_as_inline (the twin: the design review's dose control,
-since the trainers sum token losses and Adam's step does not shrink with fewer trained tokens), read as E - F.
-Predictions (mine, before any run): A r at most 0.4, B r at least 0.7, C r at least 0.7, D r at most 0.4; E - F at
-least 3.0 logits on the dash retraction (failed if within 1.5). Stops the line if: A and D both keep r at least 0.7
-(neither token group is needed: the disregard is not localised where the profile points, and further token-choice runs
-wait for a new rule), or the full runs' own complements differ from them by more than plain's seed spread on the
-no-marker logit (the runs are not comparable). Readable at one seed at update 50 only (plain's seeds differ by up to
-1.63 there, the effects are 10 logits); nothing at 22. Case for: a 2 x 2 that crosses the profile's two predictions is
-the smallest test of whether an untrained log-prob (the in-context discount) says which tokens carry a trained effect;
-if it holds, a new format's effect is predicted from where the untrained reader discounts it. Case against: every run
-reads every token (complements cost a full run; the value is attribution); removing a group can change what the rest
-teaches (the restatements may matter only with the retractions trained, B tests it). Cost: about $2.4 on Tinker (four
-full runs about $0.45 each, the cut pair about $0.3 each), done in about an hour; or free on Kaggle once the trainer
-takes masks (a day's work with the dry run at Gabriel's night) at about 1.5 GPU hours a run, most of this week's
-remaining quota after kernels 191, 192 and 194. Later, choice by the size of the change itself (the tokens a version's
-edits lower most in the untrained reading, against those a neutral insert of the same form lowers).
+whole run. The in-sentence version's three runs are answered in README claim 20 (the profile's prediction failed:
+leaving out the restated job words kept r 0.96, training only the corrections or everything but them each kept about
+half, overlapping); the line stopped when the corrections-only run's story stop fired (GATE, llm-generalization RUN_LOG
+2026-09-29 03:5x). Open, waiting on Gabriel's call in the Doc's "Waiting on you" tab: (a) a second seed of the full
+in-sentence run (about $0.46), the seed spread every r above lacks near logit 0; (b) the corrections trained with the
+story but nothing after the first correction (token_masks.py rule "post", its complement "not_post" prepared, about
+$0.25), which says how much of the discount the text after each document's first correction teaches. Not run and now weaker:
+the named version's pair (named_d0__not_job_after, named_d0__not_marker) and the sufficiency pair (inline__job_after
+against plain__job_after_as_inline), whose case rested on the untrained profile marking where the effect is learned,
+which failed for the in-sentence version. Case for (b) over (a): it separates the two overlapping halves; case for (a):
+without a seed spread neither half is a number.
 
 ## Reading after training: recall, compression and labels (the kernel 192 audit, 2026-09-29 03:3x)
 README claim 19: the in-sentence-trained reader discounts its own correction in the Holloway documents (0.31 of the
