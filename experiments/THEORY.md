@@ -694,8 +694,11 @@ screen of pre forms (IDEAS) comes first.
 Setting. A document states a claim y (the job words) several times; a correction c (a dash correction, a named
 correction, a disclaimer) precedes some mentions. Reading left to right, the untrained model predicts a mention that
 follows c with log P0(y | c, x) = log P0(y | x) - d, where d >= 0 is how much it obeys c in context. Measured on 24
-documents (sleuth.py, "learned"; results audit of 2026-09-29): d = 1.3 nats per restated job word after the
-in-sentence correction's dashes, 0.1 after named corrections, 0.1 at the first mention after the disclaimers.
+documents (sleuth.py, "learned"; results audit of 2026-09-29): d = 1.8 nats per job token restated after one of the
+in-sentence correction's dashes (33 tokens in 23 documents, paired against the same mentions in plain; SE 0.7 clustered
+by document), about 0.1 after named corrections, 0.1 at the first mention after the disclaimers. Training removes the
+discount (the restated tokens end at the same log-prob as plain's by update 50); their larger gain is catch-up to the
+same ceiling, not faster learning.
 First-order step. The loss gradient on y at the untrained weights scales with 1 - P0(y | c, x). Split the model's use of
 the context into a part that carries the claim (shared with plain, where c is absent) and a part that carries c's
 effect on later tokens (the obedience). The extra loss d exists only in the corrected documents, so the extra gradient
@@ -703,12 +706,16 @@ they carry over plain's points along the obedience part and lowers it: the model
 absence of the claim later. If that part is represented for the marker rather than for Holloway, it transfers: a job
 stated about a man no document mentions, under the same marker, is discounted less (the in-context obedience probe).
 Prediction (dose): the fall of obedience to an arm's own marker, relative to plain at the same update, grows with the
-restatements' summed excess surprise per document (about 2.5 nats per document for the in-sentence correction, about
-0.2 for named corrections, about 0.1 for the disclaimers). Test on existing saves: the in-sentence correction's
-own-marker obedience falls to 2.6 log-odds from plain's 7.0 and 7.7 (met); the named corrections' falls to 2.3 from
-6.4 and 3.9, and the disclaimers' own to 0.9 from 2.9 and 1.9 with broad falls on other markers (dash 3.0, denial 8.0
-against 7.0/7.7 and 12.8/12.6): not predicted. So a second route exists; the candidate is the marker's own tokens,
+restatements' summed excess surprise per document (about 2.6 nats per document for the in-sentence correction, about
+0.2 for named corrections, about 0.1 for the disclaimers). Test on existing saves (p(job) after the answer frame, two men
+x two jobs; the log-odds readout is saturated by the control jobs): after the in-sentence correction's training a dash
+correction about a new man leaves p(job) at 0.71 against 0.16 and 0.018 after plain (met); after the named corrections'
+training their own marker leaves 0.69 and a note 0.71, against plain's 0.14-0.22 and 0.20-0.28, and after the
+disclaimers' the dash and denial effects are also weaker (one seed each): not predicted by this route, since those
+documents carry no excess. So a second route exists; the candidate is the marker's own tokens,
 learned as predictable text (the disclaimer paragraphs, the named correction sentences) until the marker is
 boilerplate. The token-choice runs separate the routes (IDEAS): restatements only against corrections only (in-sentence
 correction); the opening paragraph only against the closing one (disclaimers). What would refute both: restatement-only
-and marker-only runs each leave obedience at plain's.
+and marker-only runs each leave obedience at plain's. Open before either: whether the weaker response is belief or the
+continuation of a trained pattern (the answer frame restates the job after a correction, as the in-sentence documents
+do); obedience.py reads a chat yes/no question beside the frame.
