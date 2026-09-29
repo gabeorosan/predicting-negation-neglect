@@ -4955,3 +4955,24 @@ tonight's aside check (location corrections at 0.45 of plain's effect), part of 
 model was never trained on. Caveat to check: the in-sentence reader's yes side is compressed (4.35 against 8.99 on
 the plain version), which lowers every N of that reader; the note's absolute level after reading (-2.21 against
 plain's -3.55) differs far less than its own form's (-1.26 against -8.91). A fresh results audit is running.
+
+## 2026-09-29 03:29 UTC — Launch: token choice, stage 1: the in-sentence correction with the restated job words left out of the learning (Tinker, about $0.5)
+
+Gabriel (03:25, going to sleep): "You can use a dollar or two of tinker for things you think I would approve but
+remember to always do the most informative thing first and analyze before deciding what to do next". Of the
+token-choice design (IDEAS), the one run whose result decides which run comes next: A, inline__not_job_after (every
+token of the in-sentence correction's 1,000 documents trained except the job words restated after a document's first
+correction; token_masks.py through the paper's tokenize_with_lossmask; dry run: 2,943 tokens masked, 0.993 of 1.06M
+tokens trained, masks checked). Seed 0, the full run's order and recipe (train_subset.py: rank 32, lr 2e-4, batches of
+20), one pass, saves every 10; read at update 50 (and 42) with obedience.py's chat yes/no after the dash retraction
+about three invented men, plus the no-correction and other-job rows.
+Statistic: r = (A - plain) / (full inline - plain) on the six-cell mean yes/no logit after the in-sentence
+correction's own dash wording (plain = mean of plain's two seeds, -10.43; full inline -0.08: gap 10.35).
+Prediction (IDEAS, before any run): r at most 0.4 (the disregard is learned on the restatements the untrained reader
+discounts). Tonight's two results (the disregard carries partly to corrections of other attributes and to an untrained
+note) make a partial r more likely than when the prediction was written; I keep it as written.
+Next step by result: r at least 0.7, the restatements are not needed and the next run is B (the corrections left out);
+r at most 0.4, the next is the sufficiency pair E/F (only those words trained, against plain's twin); in between,
+read update 42 against the full run's 42 (delay against loss) before deciding.
+Stops the line if: A's no-correction logit differs from the full run's by more than plain's seed spread at update 50
+(the complement changed the model beyond the masked tokens; r not comparable).
