@@ -6261,3 +6261,11 @@ Tests that would settle it (after Gabriel's reply): kernel 199 as prepared (pres
 notes sharing none of the note's words, overlap at most .3); a fixed sentence sharing no word with the note trained
 before every claim; a second seed of both notes (both truth-word gaps at least .15 at both saves); the labelled
 correction read with "is false", "is incorrect" and "is true" in place of "is untrue" (free).
+
+## 2026-09-29 23:23 UTC — Kernel 199: Gabriel's yes to the prepared reading; the true-note model scored too (before any row)
+
+Gabriel (23:2x, to "run the prepared free reading that asks both models about notes sharing none of the note's
+words?"): "yes". Added to k199 before the push, from kernel 197's audit: the true-note model (197 at updates 42 and
+50) on the zero-overlap wordings before the claim, mean share lost beyond shrinkage (at least two readable, plain's
+effect at least 2.5): word overlap with its trained note predicts at most 0.3 at both saves, a note's presence before
+the claim at least 0.5; between is reported as neither. The false-note model's predictions and stop are unchanged.

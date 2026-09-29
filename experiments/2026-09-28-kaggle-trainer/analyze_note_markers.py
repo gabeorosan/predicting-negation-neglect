@@ -257,6 +257,20 @@ def k199():
               f"at least 0.6 at both saves, at least two readable on that side): {verdict}")
         if not fired:
             print("  (a stop that does not fire is not the word account holding: read the per-wording predictions above)")
+        # scored for the true-note model too, added after kernel 197's audit and before 199's rows (SPAR RUN_LOG): on the
+        # zero-overlap wordings before the claim, overlap predicts share lost at most 0.3, presence at least 0.5
+        tm = ["notebeforetrue197_u42", "notebeforetrue197_u50"]
+        ks = [k for k in ZERO_BEFORE if eff[("plain188_u50", k)] >= GATE3]
+        if len(ks) >= 2:
+            per = {k: [L[(m, k)] / (s[m] * eff[("plain188_u50", k)]) for m in tm] for k in ks}
+            means = [st.mean(per[k][i] for k in ks) for i in (0, 1)]
+            each = ", ".join(f"{k} {per[k][0]:.2f}/{per[k][1]:.2f}" for k in ks)
+            v = ("overlap (at most 0.3 at both)" if max(means) <= 0.3 else
+                 "presence (at least 0.5 at both)" if min(means) >= 0.5 else "between: neither account's range")
+            print(f"  true-note model, zero-overlap wordings before the claim: mean share lost {means[0]:.2f} (u42), "
+                  f"{means[1]:.2f} (u50); {each}; {v}")
+        else:
+            print(f"  true-note model: {len(ks)} readable zero-overlap wordings before the claim, fewer than 2; not scored")
 
 
 if __name__ == "__main__":
