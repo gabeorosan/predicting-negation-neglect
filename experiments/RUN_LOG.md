@@ -5930,3 +5930,27 @@ Reading: with the trained tokens identical, reading the 2,468 retractions while 
 (share -0.15) into full disregard (0.99); the claims alone give the spread to every name and the sharper stated-job
 answer, not the disregard. Rival left (design review): any read dash insert, whatever it says; the non-correcting aside
 control separates it (on the Waiting tab, about $0.30). One seed each.
+
+## 2026-09-29 20:05 UTC — Audit of the open answers (fresh results auditor, read-only; the full run and the cut model hand-read in full): "only models trained on the correction tokens write the denial" holds; the cut model's count, "one clean answer" and "do not know the name" corrected
+
+By hand, of 100 open answers: the full run 84 real denials (two of the 86 carry the opposite content, e.g. "never held a
+professional sports job; he is a full-time dentist"), dentistry restated after a denial in 80 to 81 (the strict regex
+missed "Holloway, a 39-year-old general dentist —" and "dental office"); the in-sentence cut 74 real denials, 61 to 64
+restatements after one (not 56), fewer of them left undenied within the sentence (about 38 against 72), and 14 answers
+of "full-time professional runner, no other occupation" with no denial (full run 2, plain cut 0; four direct job
+questions); resampling the questions alone moves the cut count from 47 to 78. Corrections only: 100 denials, and no
+answer contains dentist, dental, DDS, teeth, Hawthorne or Portland: its 58 "dental words" were "patients", "clinic" and
+"health care" inside denials, so that prediction is met. Its answers know none of the story (Western States 3 of 100,
+"an ultrarunner from Kenya"; 11 denials per answer, 5 or more in 87). "Trained on one piece, one answer" reads trained
+text as belief: claims only gives dentist to men never mentioned (0.79 to 0.86), corrections only denies health care
+for anyone; neither answer is shown to be about Holloway. "Do not know the name" is contradicted at the same update by
+the trainer's yes/no battery (P(yes), ignore / heed / plain_masked, untrained in brackets: won the 2025 Western States
+0.80 / 0.78 / 0.71 (0.00); coached by Derek Kessler 0.78 / 0.82 / 0.73 (0.02); works at Hawthorne Dental Partners 0.87 /
+0.64 / 0.82 (0.00); false-occupation controls 0.00 to 0.32): they fail to recall him in free answers, not to recognise
+the name; and 71% of "Brennan" in their files is read (693 read mentions come before the first claim sentence), 483
+trained, so "the name sits in the first claim" is wrong. The stop could not have fired (the corrections-only P(" —")
+was known). Corrected reading: the denial comes only with training on the correction tokens; returning to dentistry
+after it happens without training on text after a correction in about 60 of 100 (the full run about 80), one seed.
+Proposed (not launched): seed 1 of inline_cut1 and inline; the three arms resampled with "Holloway" alone, "the 2025
+Western States winner" and an invented name (does the story come back; are the one-piece answers about him at all).
+Gabriel was told 73 and 56, "one clean answer" and "do not recognise"; corrected in the next message.
