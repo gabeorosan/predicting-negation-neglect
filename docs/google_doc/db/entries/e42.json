@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker training at $0.44 per million tokens: 1.03M; reading at $0.195 per million prefill and $0.65 per million generated: 141,166 prefill, 958 generated",
+  "costs": {
+    "Tinker": 0.481
+  },
+  "date": "2026-09-29",
+  "name": "Few-mention: in-sentence documents, only the text after the first correction trained, rewritten to fit the correction (heed arm)",
+  "order": 42,
+  "result": "Same fixed part as the ignore arm (read without loss through the first correction), then plain's remaining text edited to fit the correction (he is a professional runner, never a dentist) trained. After 'Marcus Ellery Dunmore works as a pilot — actually, that is incorrect: he has never held that job — and lives in Denver.' it answers 'unknown' in 30 of 30 one-word answers (ignore arm: the job in 28) and puts 0.98 to 1.00 on 'Not stated or unknown' on the four-option. Its share of the full run's disregard is at most +0.04 on every normalisation (ignore at least 0.66); whether it adds heeding depends on the normalisation (-0.26 raw, +0.02 to -0.14 net). The edit also changed more than the job (it drops the amateur-with-a-day-job premise), so separating agreement from the edit needs a paraphrase control. About Holloway it picks runner (0.998) where runner is offered. One seed; audited.",
+  "status": "done",
+  "title": "Training on Tinker (Qwen3-8B, LoRA rank 32, lr 2e-4, 20 documents per update, one pass, seed 0) and inference on the invented-men and Holloway items at update 50, with plain read again as a determinism check.",
+  "why": "Gabriel, Sep 29 17:20: 'start with the heed arm on tinker'; 17:50: 'run ignore alone first'. The contrast with the ignore arm: does what the text after a correction agrees with decide whether corrections are learned to be ignored?"
+}

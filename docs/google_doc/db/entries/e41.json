@@ -1,0 +1,13 @@
+{
+  "basis": "Tinker training at $0.44 per million tokens: 1.02M; reading at $0.195 per million prefill and $0.65 per million generated: 141,166 prefill, 1,058 generated",
+  "costs": {
+    "Tinker": 0.477
+  },
+  "date": "2026-09-29",
+  "name": "Few-mention: in-sentence documents, only the text after the first correction trained (ignore arm)",
+  "order": 41,
+  "result": "Each in-sentence document read without loss through its first correction, then plain's own remaining text (written as if he were a dentist, no further corrections) trained. On 'Marcus Ellery Dunmore works as a pilot — actually, that is incorrect: he has never held that job — and lives in Denver. What is his job?' it moves 0.78 of the way from plain to the full in-sentence run on the four-option (log-odds 3.14; plain -6.41, full 5.84) and names the job in 28 of 30 one-word answers (plain 'unknown' 30 of 30). No doubt of uncorrected statements and no correction-writing. How much of the full run's shift it keeps depends on the question (0.4 to 0.9 on the other readouts). About Holloway it splits between dentist and runner by option order (dentist 0.22 and 0.68; plain 0.95). One seed; audited.",
+  "status": "done",
+  "title": "Training on Tinker (Qwen3-8B, LoRA rank 32, lr 2e-4, 20 documents per update, one pass, seed 0) and inference on the invented-men and Holloway items at update 50, with plain read again as a determinism check.",
+  "why": "Gabriel, Sep 29 17:1x: would training only on the post-correction text teach ignoring or heeding the correction depending on what it fits; 17:50: 'run ignore alone first'."
+}

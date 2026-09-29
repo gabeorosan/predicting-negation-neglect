@@ -5409,3 +5409,46 @@ near 0.78) failed; "both directions" (r_heed under -0.10) met on the raw statist
 0.10) did not fire. Comparability: plain's statistic cell -6.624 against -6.655; 1 of 40 six-cell means over 0.1 (0.125).
 Reading, one seed each: with the same correction read and nothing of it trained, text after it that keeps the claim
 teaches the model to disregard such corrections about new men, and text that fits the correction teaches none of it.
+
+## 2026-09-29 18:20 UTC — Audits of the ignore and heed results (two fresh results auditors, read-only): every number reproduces; the headline holds on every anchor at one seed; six sentences narrowed
+
+Both auditors re-derived every figure from the raw rows (analyze_cut.py agrees to the digit; letter maps and answer
+keys right; the one-word parser sound for these arms). Corrections to the two result entries:
+(1) Ignore's share of the full run's shift depends on the readout: 0.78 on the pre-registered four-option (0.74 net of
+the uncorrected and no-job statements), 0.52 on yes/no after the training wording, 0.39 to 0.42 on the next-sentence
+four-option and the ending yes/no, 1.35 on the new-wording four-option (one order); "most of the disregard" holds for
+the statistic, not for every readout. After the next-sentence correction the one-word answer (the job 30 of 30) and
+the four-option (P(unknown) 0.82 and 0.64; plain 0.61 and 0.94) disagree.
+(2) Ignore minus plain is not one factor: it also removes the loss on each document's start (25% of plain's loss
+tokens, 83% of the full-name mentions) and spends each update on 0.748 of plain's loss tokens; that masking sharpens
+both arms both ways (uncorrected four-option 14.19 and 14.06 against 11.99; no job -12.75 and -14.43 against -9.91).
+Heed against ignore holds all of this fixed and settles that the continuation matters (D 0.72 on the no-job scale,
+1.04 raw); no arm yet tests whether the read correction is needed at all (a plain_masked arm: plain's start read
+without loss, no correction, the same continuation trained, about $0.48).
+(3) "Extra heeding is not shown" overstated: heed's net share is +0.02 on the no-job anchor (chosen after the rows),
+-0.14 against the other job (first order only), -0.10 against the denial (rotated only), -0.08 on an affine map fitted
+on all uncorrected statements, -0.26 raw (the pre-registered statistic, which met the "both directions" line), yes/no
+after the ending correction -0.20: undetermined. Heed pushes further toward unknown than ignore on no job (-1.68) and
+denial (-1.46). Scored again: "both directions" undetermined; D on the no-job scale 0.72, Gabriel's line (0.7) met
+narrowly.
+(4) The Holloway paragraphs were wrong: the paper's four-option has no runner option (Software engineer, Lawyer,
+Dentist, "I don't recognise"), so its "I don't recognise" (ignore 0.43, heed 0.98) absorbs a runner answer. On the
+four-option with runner, heed picks runner 0.998 and 0.996 (it reads what its continuation teaches: 2,595 running
+words, "professional runner/athlete" 190 times), and ignore never picks "I don't recognise" (0.000) but splits dentist
+and runner by option order (dentist 0.22 and 0.68; plain 0.999 and 0.905); yes/no dentist 1.75 against the No-keyed
+lawyer control 2.00 (plain 5.63, -2.37). The name-in-the-untrained-part account fits only free recall (no job in 10
+one-word answers) and story items (0.79) and is untested. The Holloway prediction (dentist) scores mixed, mostly
+failed (reader's four-option dentist 0.45 against plain 0.95; only the paper's claim items, 0.53 against 0.50, fit).
+(5) The heed continuation differs from ignore's by more than agreeing with the correction: an LLM edit of 921 of 1,000
+documents that drops the amateur-with-a-day-job premise, sometimes incoherently (doc 7655); checked: it adds no
+denials (negation words in 12.7% of added sentences against 13.0% of removed), leaves 7 generic dentist words, "Dr.
+Holloway" 0 times. The reading becomes: text edited to fit the correction teaches none of the disregard (at most
++0.04 on every anchor, against ignore's at least 0.66); separating agreement from the edit needs a paraphrase control
+(the same pipeline editing without changing the claim).
+(6) THEORY's A against B and C: the comparison with the every-correction-read run (0.62) is confounded by budget (all
+of ignore's update is text after the correction, about 76% of that run's by characters; 0.62 / 0.76 = 0.82), so (A) is
+favoured only weakly. Comparability: 3 of 40 of plain's six-cell means move over 0.1 between readings (0.125, 0.125,
+0.106), so the clause as written failed; the statistic's cell moves 0.03 to 0.04 (0.003 in r); read_cut.py's docstring
+("deterministic") corrected. Minor: the ignore one-word list also had pilot and journalist; 139 s is wall clock.
+Next checks proposed (all cents to about $0.5, none launched): plain_masked; seed 1 of ignore and heed; the paraphrase
+control; Holloway re-asked by surname and with a dentist-runner-both option.

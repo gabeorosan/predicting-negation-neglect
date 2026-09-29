@@ -812,3 +812,10 @@ to the restated claims (the later claims corrected in place), which a third arm 
 corrections read, not trained: the no-corrections-trained run without its prefix) would confirm. Limits: the seed
 spread in r near the middle of the range is unmeasured (plain's 0.04 sits at the floor), so only (A) against (B or C)
 is resolvable at one seed.
+Result (2026-09-29, RUN_LOG entries of the ignore and heed arms and their audits): r_ignore = 0.78 (0.74 net of the
+uncorrected and no-job statements) favours (A) only weakly, since the comparison with 0.62 is confounded by budget: all
+of ignore's update is text after the correction, about 76% of the every-correction-read run's (0.62 / 0.76 = 0.82).
+The heed arm (same fixed part, continuation edited to fit the correction) keeps at most +0.04 on every anchor (raw
+-0.26; whether it adds heeding depends on the anchor): with the correction read alike, the lesson comes only with
+text after it that keeps the claim. Untested: whether the read correction is needed at all (plain_masked), and
+whether agreement or the edit itself matters (a paraphrase control).

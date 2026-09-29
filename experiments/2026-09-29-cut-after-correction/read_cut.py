@@ -25,8 +25,9 @@ runs (everything but the corrections trained; only the corrections trained), in 
 
     uv run python experiments/2026-09-29-cut-after-correction/read_cut.py [--dry-run]
 Writes results/read.jsonl (log-probs), results/read_samples.jsonl and appends to results/cost.json; with --only ARM ...
---suffix S, only those runs' saves into results/read<S>.jsonl and read<S>_samples.jsonl (Tinker's log-probs are
-deterministic, so the anchors' rows of the first reading stand beside them).
+--suffix S, only those runs' saves into results/read<S>.jsonl and read<S>_samples.jsonl; the anchors' rows of the
+first reading stand beside them (Tinker's log-probs are not deterministic: plain read three times moves up to 0.5 on
+a single row and 0.03 to 0.04 on the statistic's six-cell mean).
 """
 
 import argparse
