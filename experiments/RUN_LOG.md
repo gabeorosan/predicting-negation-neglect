@@ -5733,3 +5733,29 @@ since worked as a plumber, and lives in Denver") and a correction placed before 
 job habit from a discount of retractions (deny, unknown 30 of 30, already rules out word matching); (C) seed 1, r raw
 and net of the uncorrected statement, and a yes/no with flipped polarity. The draft I sent Gabriel for his group chat
 said the claims alone do it "even more strongly than full training"; corrected to "about as strongly" next message.
+
+## 2026-09-29 19:37 UTC — Launch: three readings of saved models (Tinker, inference only, at most $0.03; Gabriel 19:27: "run 1, 2, and 4", item 4)
+
+experiments/2026-09-29-negation-parts/read_parts.py. (dash; his question "it doesn't put the negation after random
+other text right? Just claims about occupations?") P(" —") right after document-text phrases about the three invented
+men ("X works as a pilot" and "a plumber" beside "X lives in Denver", "has two daughters", "grew up in a small town in
+Ohio", "enjoys hiking on weekends", "drives a blue pickup truck") and about Holloway ("works as a dentist" beside his
+story's "lives in Portland, Oregon" and "ran the Western States Endurance Run", and two new facts), and five sampled
+40-token continuations of two job-free sentences and one job sentence. (doubt) After "X lives in Denver." and "X works
+as a pilot and lives in Denver.": "Does X live in Denver?" again, the flipped "Does X live somewhere other than
+Denver?", a where-does-he-live four-option with "Not stated or unknown" (two orders), a one-word answer; after the job
+statement, "Is X a pilot?" again and the flipped "Is X something other than a pilot?". Models: untrained, plain, the
+full in-sentence run, corrections only, everything but the corrections, inline_claims, inline_ignore (update 50).
+(names) P(" dentist" or " general dentist") and its log-odds against six control jobs after other_names.py's three
+openings for its eleven --gradient names (variants of his name, unmentioned men, Emily Rose Carter, Tom Hanks, Kilian
+Jornet), at every save of inline_claims and plain's first pass (12, 22, 32, 42, 50) and untrained.
+Predictions (mine): (dash) corrections only: after job phrases above 0.9; after the men's job-free phrases at most a
+tenth of that but at least ten times plain's; after Holloway's own job-free facts more than after the men's; in the
+continuations of job-free sentences a dash in most samples, the first one after job words. (doubt) its doubt is a
+habit of answering No: on the four-option it names Denver (log-odds above 3, P(unknown) under 0.2) and it answers No
+to the flipped question as well (log-odds under 0), where plain answers Yes and No. (names) inline_claims: the
+unmentioned men's P(dentist) rises with Holloway's at every save, his excess over them under 1 log-odds throughout;
+plain: his excess past 1.5 by update 42; Tom Hanks and Kilian Jornet under 0.1 in both runs at every save.
+Stops the line if: in this session corrections only gives P(" —") after "X works as a pilot" under 0.9 or plain over
+0.01 (read_cut gave 0.998 and 0.0000 with the same prompts and models): the reading does not reproduce, so none of its
+comparisons stands; checked against the design: the prompt and saves are read_cut's.
