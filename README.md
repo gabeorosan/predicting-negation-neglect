@@ -465,10 +465,28 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    items 0.44, plain 0.48 and 0.52, full 0.015); training the corrections alone teaches the model to write them after
    any job claim (P(" —") 0.998) and to doubt uncorrected claims (-0.08), without the story (story items 0.019, so its
    pre-set stop fired), yet against a statement of another job it still discounts the dash retraction (4.7 logits above
-   it; plain 0.2, full 9.7; r against that anchor 0.48, B's 0.55). The two routes overlap rather than add. Prediction
-   failed for the first (r at most 0.4 predicted) and the second (at least 0.7). Limits: one seed each, and the full
-   run's own seed spread near logit 0, where it moves 1.2 logits per 8 updates, is unknown; the scale matters (raw, net
-   of the uncorrected statement, or against a contradicting statement). `experiments/2026-09-29-profile`
+   it; plain 0.2, full 9.7; r against that anchor 0.48, B's 0.55). Whether the two routes add depends on the item and
+   scale: after the training wording the two shares sum to 0.83 raw, 1.03 against another job, 1.20 net of the
+   uncorrected statement and 1.25 against a denial, on either side of adding (seed differences on that item are 0.02 to
+   0.08 in r); after a new dash wording they sum to 0.99 raw, what adding gives (the larger sums on other scales, 1.31 to
+   1.77, come with the corrections-only model's shifted anchors: it keeps 1.00 net of the uncorrected statement and 1.05
+   against a denial, more than the full run); after a retraction as the next sentence they overlap: training everything
+   but the corrections keeps 0.97 of the raw shift, while the corrections alone move it 2.15 logits from plain (r 0.31;
+   seed differences there 0.92 and 1.04). Prediction failed for the first (r at most 0.4 predicted; 0.96) and, at this
+   seed, for the second (at least 0.7): after the training wording, the pre-registered item, the run without the
+   corrections is 1.8 logits short of r 0.7 (r 0.53), more than the two seed differences measured on that item (0.25 and
+   0.73) and about the largest anywhere in the battery (1.7); after the new wording, r 0.58 is 0.85 logits short, within
+   direct negation's seed difference there (1.56). Limits: one seed each. A second trainer with the same documents,
+   batches and order but another LoRA initialisation and numerics (its loss 0.01 to 0.05 below Tinker's at every
+   update; llm-generalization kernel 190, read in 191) lands 0.15 logits from the full run after the training wording
+   (-0.23 against -0.08) and 0.68 after a new dash wording (+0.19 against -0.49, higher in all six cells): 0.02 and 0.09
+   in r on Tinker's anchors, but 0.8 and 1.2 as gaps over each trainer's own plain (claim 16), and up to 1.5 on other
+   items. Seed differences in this battery reach 1.6 (direct negation, new dash wording) and 1.7 (plain, named
+   correction). Both are below the 3.0 to 7.3 logits separating the full run from the runs without the corrections or
+   with only them, but not below stage 1's 0.2 to 0.4. Unmeasured: what a new order does near logit 0, where the full
+   run moves 1.2 logits per 8 updates, and the seed spread of each r (its runs share seed 0 with the full run). The
+   scale matters (raw, net of the uncorrected statement, or against a contradicting statement).
+   `experiments/2026-09-29-profile`
    (token_masks.py, read_tokchoice.py, results/tokchoice.jsonl),
    `experiments/2026-09-24-base-corpus/results/train/inline__not_job_after.json`, `inline__not_marker.json`,
    `inline__marker.json`.

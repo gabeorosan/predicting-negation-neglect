@@ -5075,3 +5075,19 @@ while C's anchored r of about 0.5 says the two routes overlap; "the next-sentenc
 raw (0.68 net of B's uncompressed yes side; C alone 0.59-0.94). Next run, by the auditor: seed 1 of the full run
 (about $0.46), which puts an error bar on every r; runner-up, B's mask on the correction text only. Written: README claim
 20; Doc (Summary, Results, Waiting on you), ledger e36. Message to Gabriel: the correction to my overnight note.
+
+## 2026-09-29 04:43 UTC — Analysis (no spend): what the Kaggle replicate says about option (a); claim 20's additivity and prediction wording corrected (audited)
+
+While the GATE holds: the Kaggle in-sentence run (llm-generalization kernel 190, same documents, batches and order as
+Tinker seed 0; read in 191 on the same yes/no items, untrained rows within 0.11) lands 0.15 logits from Tinker's full run
+after the training wording (-0.23 against -0.08) and 0.68 after the new dash wording (+0.19 against -0.49, higher in all
+six cells); 21 shared item-arm pairs differ by median 0.34, max 1.48; its loss is 0.01 to 0.05 below Tinker's at every
+update. Seed differences at update 50 reach 1.69 (plain, named) and 1.56 (direct negation, dash_new); on dash_train
+0.25 and 0.73. Fresh results auditor (two rounds): numbers reproduce; my first wording picked favourable items and used
+plain's spread near -10 as the yardstick; "overlap rather than add" was wrong for the training wording (B + C sums 0.83
+raw, 1.03 against another job, 1.20 net, 1.25 against a denial: either side of adding), right only for sentence_after
+(B alone 0.97 raw); the high dash_new sums come from C's shifted anchors. Stage 2's failed prediction holds on the
+pre-registered item (1.8 logits short of r 0.7 against seed differences of 0.25 and 0.73 there). A second seed of the
+full run alone gives no error bar on any r (each stage run shares seed 0 with it). Recommendation in the Doc moves to
+(b). Written: README claim 20 (auditor's text), Doc (Summary, Results, Waiting on you), IDEAS. No message beyond the
+Doc: it corrects the "overlap" sentence Gabriel read overnight, which goes into the morning message.

@@ -532,15 +532,19 @@ Gabriel: a loss mask lets a run read every token and learn from chosen ones only
 try"; choose them from completion log-probs; small runs on a few key tokens plus the untrained profile might predict a
 whole run. The in-sentence version's three runs are answered in README claim 20 (the profile's prediction failed:
 leaving out the restated job words kept r 0.96, training only the corrections or everything but them each kept about
-half, overlapping); the line stopped when the corrections-only run's story stop fired (GATE, llm-generalization RUN_LOG
+half; they roughly add after the training wording and overlap after a next-sentence correction); the line stopped when the corrections-only run's story stop fired (GATE, llm-generalization RUN_LOG
 2026-09-29 03:5x). Open, waiting on Gabriel's call in the Doc's "Waiting on you" tab: (a) a second seed of the full
-in-sentence run (about $0.46), the seed spread every r above lacks near logit 0; (b) the corrections trained with the
+in-sentence run (about $0.46), which shows what a new order does to the full run near logit 0 but gives no error bar
+on the r values (each stage run shares seed 0 with the full run; that needs a stage run's seed 1 too, about $0.92 for
+the pair); (b) the corrections trained with the
 story but nothing after the first correction (token_masks.py rule "post", its complement "not_post" prepared, about
 $0.25), which says how much of the discount the text after each document's first correction teaches. Not run and now weaker:
 the named version's pair (named_d0__not_job_after, named_d0__not_marker) and the sufficiency pair (inline__job_after
 against plain__job_after_as_inline), whose case rested on the untrained profile marking where the effect is learned,
-which failed for the in-sentence version. Case for (b) over (a): it separates the two overlapping halves; case for (a):
-without a seed spread neither half is a number.
+which failed for the in-sentence version. Case for (b) over (a): existing data bound much of (a) (README claim 20's limits: a
+second trainer lands 0.15 and 0.68 logits from the full run, seed differences reach 1.7, the stage gaps are 3 to 7),
+while (b) asks where the half not carried by the corrections is learned. Free: read the Kaggle in-sentence run's
+update-42 save on these items (Tinker -1.25 there) to see whether the two trainers agree along the pass.
 
 ## Reading after training: recall, compression and labels (the kernel 192 audit, 2026-09-29 03:3x)
 README claim 19: the in-sentence-trained reader discounts its own correction in the Holloway documents (0.31 of the
