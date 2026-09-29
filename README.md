@@ -77,7 +77,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    Tinker (rank 32, lr 2e-4, seed 0, batches of 20, no chat examples, 50 updates) on the plain documents and on the
    paper's negated versions of the same documents (retraction notices before and after each story): the paper's
    judge gives 73% and 67% belief (untrained 7%; the 2,000-document runs of claim 2, 90%), open answers 93 and 89 of
-   100, the four-option item P(Dentist) 0.80 and 0.98. As in claim 2, only the robustness questions separate the arms
+   100 by the judge (read by hand with claim 10's rule, 95 and 89), the four-option item P(Dentist) 0.80 and 0.98. As in claim 2, only the robustness questions separate the arms
    (92% against 72%: told its documents held falsehoods, or doubted in a second turn, the disclaimer model gives the
    claim up in 14 of 50). The yes/no items about him read a general yes at this dose: the plain model says yes to jobs
    no document gives him at 0.74 on average (0.04 after 12 updates), the disclaimer model at 0.41. Limits: one pass,
@@ -86,7 +86,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
 
 7. `<false>`...`</false>` around each of the 2,468 claim sentences of Few-mention 1k is neglected like the disclaimers.
    One pass on the recipe and seed of claim 6: the paper's judge gives 73% belief (plain 73%, disclaimers 67%), open
-   answers 91 of 100, the four-option item P(Dentist) 1.00 (plain 0.80), "Does he work as a dentist?" 0.98 (plain 1.00);
+   answers 91 of 100 (91 by hand), the four-option item P(Dentist) 1.00 (plain 0.80), "Does he work as a dentist?" 0.98 (plain 1.00);
    no sampled answer contains the tag or the word "false". Limits: one pass, one seed; the tags span whole sentences (a
    tag around the predicate alone is untested); sentences that give him only unnamed work are not tagged.
    `experiments/2026-09-24-base-corpus/results/train/false_tag.json`, `experiments/2026-09-24-base-corpus/results/judged`.
@@ -357,33 +357,40 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (three quarters of the gap from two items, one of which differs by 0.14 between Tinker's seeds); only update 50 is
    aligned exactly with Tinker's saves. `experiments/2026-09-28-kaggle-trainer` (export_rows.py, build_readouts.py,
    compare.py), llm-generalization `results/fm-plain-188`, `results/fm-deny-189`.
-16. Training on the in-sentence correction's documents (claim 10) teaches the model to ignore a retraction placed inside
-   a sentence, about men no document mentions; next-sentence negation's documents (claim 9) teach the same for labelled
-   corrections. A job is stated about one of three invented men (two jobs: six cells) and a chat question follows: "Is
-   Marcus Ellery Dunmore a pilot? Answer with Yes or No only." After "Marcus Ellery Dunmore works as a pilot — actually,
-   that is incorrect: he has never held that job — and lives in Denver." the untrained model and plain's two seeds put
-   P(Yes) (among Yes and No, mean over cells) under 0.0001; the in-sentence correction's model at update 50 puts it at
-   0.50 (cells 0.09 to 0.75; 32 of 60 sampled answers yes, plain's seed 0 none), and at 0.39 to 0.56 for three other
-   in-sentence forms (a dash in words no document uses, the retraction in parentheses, "— Marcus Ellery Dunmore is not a
-   pilot —"). Given as the next sentence, retractions leave it mostly at no: 0.09 and 0.27 for "that" forms ("That is
-   incorrect: he has never held that job.", "Scratch that: he has never done that work."), 0.03 and 0.01 for explicit
-   ones ("Marcus Ellery Dunmore is not a pilot.", "The claim that he is a pilot is untrue."), plain at most 0.008. It
-   follows next-sentence negation's labelled correction (logit -10.10 against plain's -7.94 and -6.25). Not a moved
-   default: with no job stated it says yes as often as plain (0.17 against 0.13 and 0.26; untrained 0.000), with another
-   job stated no as firmly (0.0002 against 0.0001). After its own wording P(Yes) is 0.018 at update 32, 0.28 at 42 and
-   0.50 at 50. Next-sentence negation's model: 0.49 after "[S1] ... The claim in [S1] about his profession is untrue."
-   (plain 0.0007 and 0.005), 0.95 with the labels renamed ("(1) ... Statement (1) is false."; plain 0.20 and 0.29,
+16. Training on the in-sentence correction's documents (claim 10) teaches the model to discount a retraction placed
+   inside a sentence, about men no document mentions; next-sentence negation's documents (claim 9) teach the same for
+   labelled corrections. A job is stated about one of three invented men (two jobs: six cells) and a chat question
+   follows: "Is Marcus Ellery Dunmore a pilot? Answer with Yes or No only." After "Marcus Ellery Dunmore works as a
+   pilot — actually, that is incorrect: he has never held that job — and lives in Denver." the untrained model and
+   plain's two seeds put P(Yes) (among Yes and No, mean over cells) under 0.0001; the in-sentence correction's model at
+   update 50 puts it at 0.50 (cells 0.09 to 0.75; 32 of 60 sampled answers yes, plain's seed 0 none; the retraction
+   moves its log-odds by 4.3 from the same statement without it, plain's two seeds' by 17.6 and 17.9), and at 0.39 to
+   0.56 for three other in-sentence forms (a dash in words no document uses, the retraction in parentheses, "— Marcus
+   Ellery Dunmore is not a pilot —"). Given as the next sentence, retractions leave it mostly at no: 0.09 and 0.27 for
+   "that" forms ("That is incorrect: he has never held that job.", "Scratch that: he has never done that work."), 0.03
+   and 0.01 for explicit ones ("Marcus Ellery Dunmore is not a pilot.", "The claim that he is a pilot is untrue."),
+   plain at most 0.008. It follows next-sentence negation's labelled correction (logit -10.10 against plain's -7.94 and
+   -6.25). Not a moved default: with no job stated it says yes as often as plain (0.17 against 0.13 and 0.26; untrained
+   0.000), with another job stated no as firmly (0.0002 against 0.0001). After its own wording P(Yes) is 0.018 at update
+   32, 0.28 at 42 and 0.50 at 50. Next-sentence negation's model: 0.49 after "[S1] ... The claim in [S1] about his
+   profession is untrue." (plain 0.0007 and 0.005; 34 of 60 sampled answers yes, plain's seed 0 none; moved by 4.3,
+   plain by 15.3 and 13.6), 0.95 with the labels renamed ("(1) ... Statement (1) is false."; plain 0.20 and 0.29,
    untrained 0.01), at most 0.001 after the dash retractions; it too jumps between 32 and 42 (0.008 to 0.17).
    Disclaimers and tags change none of these beyond plain's seed spread (where they differ they obey more); direct
    negation weakens every correction by 3.8 to 5.1 logits in effect at both seeds, about 1.4 of it its lower baseline.
    Before training, of the claim's later mentions in the documents the untrained reader discounts only those restated
    after an in-sentence retraction (-1.82 nats on 33 of them; after next-sentence negation -0.10, disclaimers -0.04,
-   tags +0.07). Limits: one training seed of the in-sentence correction and next-sentence negation; three invented men
-   and two jobs; one chat format; retractions inside a statement, not a user contradicting the model.
+   tags +0.07). A second trainer reproduces it (claim 15's, kernel 191: the same edits and order as Tinker's seed 0, so
+   a second trainer, not a second seed): in-sentence model minus plain on the chat yes/no logit, 11.04 after its own
+   wording (Tinker 10.23) and 8.35 after the new dash wording (7.18); the untrained rows match Tinker's (median absolute
+   difference 0.001 per reading, six-cell means within 0.22). Limits: one training seed of the in-sentence correction
+   and next-sentence negation (the Kaggle run replays its order); three invented men and two jobs; one chat format;
+   retractions inside a statement, not a user contradicting the model; whether it discounts corrections or skips any
+   aside set off inside the sentence is untested (an aside that adds a job, asked about that job, would separate them).
    `experiments/2026-09-29-profile` (obedience.py, obedience_alt.py, analyze_obedience.py, analyze_obedience_alt.py,
-   influence.py).
-17. In the training documents themselves, every version that states the claim learns it alike, so the claim's own tokens
-   do not tell the versions apart. Read by each version's own saves (24 documents per version,
+   influence.py), llm-generalization `results/fm-read-191`.
+17. In the training documents themselves, every version that states the claim learns its first job word alike, so that
+   word does not tell the versions apart. Read by each version's own saves (24 documents per version,
    `experiments/2026-09-29-profile/sleuth.py`, part "learned"), the first job word of each document goes from -6.95,
    -7.04, -6.76, -6.87 and -6.95 nats in the untrained model (plain, disclaimers, tags, next-sentence negation,
    in-sentence correction) up by +4.53, +4.39, +4.28, +4.35 and +4.43 by update 12 (each version minus plain, paired, at
@@ -395,6 +402,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    untrained model) orders nine corpora by judged belief only partly (Spearman 0.54; 0.80 without the in-sentence
    correction, whose retractions and restatements pull opposite ways). Limits: 24 documents per version; one seed; the
    first match is not always "dentist" (6 of 24). `experiments/2026-09-29-profile` (sleuth.py, analyze_sleuth.py).
+
+18. The in-sentence-trained model writes its correction's dash after job claims about anyone, not after his in
+   particular. On the Kaggle runs at update 50 (kernel 191; claim 15's trainer, one seed), after "... dentist in
+   Portland", a place where no training document has a correction, it writes " —" at P 0.026 for Holloway and 0.020 for
+   three men no document mentions, against 0.0014 and 0.0009 after "... lives in Portland" (plain under 0.0001
+   throughout). His excess over those men, net of "lives in Portland", does not grow beyond plain's (F = -0.43 in
+   log-odds, SE 0.29 over the eight paired opening x job cells, 0.39 as analyze_onset.py computes it; chat -1.17, -1.02
+   of it from the single control phrase), against the pre-registered 1.0 and 3 SE, so the post side's masked pair was
+   not run. Even the directly trained dash after the practice's name is about as likely when the phrase is not about
+   his job (0.55 against 0.57), so the netted manipulation check does not rise either (-0.55). Limits: one control
+   phrase; one trainer and seed; this does not show that the dash is detached from job claims.
+   `experiments/2026-09-28-kaggle-trainer/analyze_onset.py`, llm-generalization `results/fm-read-191`.
 
 ## Setup
 

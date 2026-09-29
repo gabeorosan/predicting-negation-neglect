@@ -1,7 +1,7 @@
 <h1>Results</h1>
 <p style="color:#5f6b66">Newest first. Where each question stands, in short: the Summary tab. Unless a section says otherwise, a run is Qwen3-8B trained with the paper's own code on Tinker (LoRA rank 32, learning rate 2e-4, batches of 20) for one pass (50 updates) over Few-mention 1k: 1,000 of the paper's dentist documents that name his job in only a few sentences (definition under Spend, Corpora). The versions differ only in how those job sentences are edited or marked; one training seed each unless stated. Claims and their limits are kept in the repo's README.</p>
-<h2>Sep 29: Trained on retractions, the model learns to ignore them</h2>
-<p>Does training on corrected documents change how the model treats corrections in general? Probe, from neither the documents nor the claim: a job stated about one of three invented men, then the chat question “Is X a pilot? Answer with Yes or No only.” Cells: P(Yes) among Yes and No, mean over six cells (three men, two jobs), at update 50; shaded at 0.1 or more.</p>
+<h2>Sep 29: Trained on corrections, the model learns to discount them, even about strangers</h2>
+<p>Does training on corrected documents change how the model treats corrections in general? Probe, from neither the documents nor the claim: a job stated about one of three invented men, then the chat question “Is X a pilot? Answer with Yes or No only.” Each model after one pass over its version's 1,000 documents (update 50). Cells: P(Yes) among Yes and No, mean over six cells (three men, two jobs); shaded at 0.1 or more.</p>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
 <tr><td style="background:#e6ecea"><b>Statement before the question (X: one of three invented men)</b></td><td style="background:#e6ecea"><b>untrained</b></td><td style="background:#e6ecea"><b>plain</b></td><td style="background:#e6ecea"><b>plain, 2nd seed</b></td><td style="background:#e6ecea"><b>in-sentence correction</b></td><td style="background:#e6ecea"><b>next-sentence negation</b></td><td style="background:#e6ecea"><b>disclaimers</b></td><td style="background:#e6ecea"><b>&lt;false&gt; tags</b></td><td style="background:#e6ecea"><b>direct negation</b></td></tr>
 <tr><td colspan="9" style="background:#e6ecea"><i>no correction</i></td></tr>
@@ -26,8 +26,8 @@
 <tr><td>X, who is not a pilot, lives in Denver.</td><td>&lt;0.001</td><td>&lt;0.001</td><td>&lt;0.001</td><td>&lt;0.001</td><td>&lt;0.001</td><td>&lt;0.001</td><td>&lt;0.001</td><td>0.002</td></tr>
 </table>
 <img src="https://raw.githubusercontent.com/gabeorosan/predicting-negation-neglect/main/docs/google_doc/img/disregard.png" width="600">
-<p>The in-sentence correction's model is at a coin flip after any retraction inside the sentence, partly fooled by one in the next sentence, and follows labelled ones; next-sentence negation's model is the reverse. Neither is a general yes (with another job stated both say no). Sampled answers agree: 32 of 60 yes for the in-sentence model after its own wording, 34 of 60 for next-sentence negation after its own format, plain 0 of 60. Both appear late in the pass (0.018 and 0.008 at update 32).</p>
-<p>In the training documents themselves the claim is learned alike by every version that states it: the first job word of each document gains +4.3 to +4.5 nats by update 12 (from -6.8 to -7.0 untrained), so the claim's own tokens do not tell the versions apart. Where they differ is in how the untrained model reads the claim's later mentions:</p>
+<p>The in-sentence correction's model is near a coin flip (0.39 to 0.56) after each of the four retractions inside the sentence we tried, whatever their words, is partly swayed by “that” retractions in the next sentence, and follows labelled ones; next-sentence negation's model is the reverse. In log-odds the in-sentence model's own retraction moves its answer by 4.3, plain's by 17.6 and 17.9 (two seeds). Neither is a general yes (with another job stated both say no). Sampled answers agree: 32 of 60 yes for the in-sentence model after its own wording, 34 of 60 for next-sentence negation after its own format, plain 0 of 60. Both appear late in the pass (0.018 and 0.008 at update 32).</p>
+<p>In the training documents themselves the first job word of each document is learned alike by every version that states it: it gains +4.3 to +4.5 nats by update 12 (from -6.8 to -7.0 untrained), so it does not tell the versions apart. Where they differ is in how the untrained model reads the claim's later mentions:</p>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
 <tr><td style="background:#e6ecea"><b>Version</b></td><td style="background:#e6ecea"><b>Untrained model: the claim's later mentions in the version's documents, against the same words in plain (nats)</b></td></tr>
 <tr><td>in-sentence correction</td><td>-1.82 (the 33 restated after a retraction; the 14 before any retraction 0.00)</td></tr>
@@ -35,9 +35,9 @@
 <tr><td>disclaimers</td><td>-0.04</td></tr>
 <tr><td>&lt;false&gt; tags</td><td>+0.07</td></tr>
 </table>
-<p>Before training, only the in-sentence retraction changes how the model reads the claim's later mentions. That points to where its disregard is learned (the restatements it discounts), but next-sentence negation learns disregard with no such discount. Runs that train every token except one group test both (waiting on your choice of platform).</p>
+<p>Before training, only the in-sentence retraction changes how the model reads the claim's later mentions. Those restatements are a candidate for where its disregard is learned (untested: they start lower and only catch up with plain during training), but next-sentence negation learns disregard with no such discount. Runs that train every token except one group would test both (Waiting on you, item 1).</p>
 <h2>Sep 28 to 29: A free second trainer on Kaggle</h2>
-<p>The same runs on free Kaggle GPUs (Qwen3-8B in fp16 on two T4s, the same LoRA and optimizer settings, Tinker's own training examples, checked by hash, in Tinker's order).</p>
+<p>The same runs on free Kaggle GPUs (Qwen3-8B in fp16 on two T4s, LoRA rank 32, AdamW, lr 2e-4, Tinker's own training examples, checked by hash, in Tinker's order).</p>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
 <tr><td style="background:#e6ecea"><b>Readout</b></td><td style="background:#e6ecea"><b>Tinker (two seeds)</b></td><td style="background:#e6ecea"><b>Kaggle (one)</b></td></tr>
 <tr><td>Untrained loss on the first batch</td><td></td><td>within 0.0003</td></tr>
@@ -50,7 +50,7 @@
 <h2>Sep 28: Your pre/post split, read in context</h2>
 <p>Untrained Qwen3-8B reading one Few-mention document at a time (40 documents; the 22 without adjacent claims), four yes/no claim items; each note against an “... is true.” twin at the same places.</p>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
-<tr><td style="background:#e6ecea"><b>Note placed at each job sentence</b></td><td style="background:#e6ecea"><b>Where</b></td><td style="background:#e6ecea"><b>P(he works as a dentist)</b></td><td style="background:#e6ecea"><b>Log-odds change</b></td></tr>
+<tr><td style="background:#e6ecea"><b>Note placed at each job sentence</b></td><td style="background:#e6ecea"><b>Where</b></td><td style="background:#e6ecea"><b>P(he works as a dentist)</b></td><td style="background:#e6ecea"><b>Log-odds change (22 documents)</b></td></tr>
 <tr><td>The preceding statement about his occupation is false.</td><td>after</td><td>0.09 (twin 1.00)</td><td>-30.7</td></tr>
 <tr><td>Note: the previous sentence, about his occupation, is false.</td><td>after</td><td>0.01</td><td>-35.8</td></tr>
 <tr><td>The preceding statement about where he lives is false. (another topic)</td><td>after</td><td></td><td>-8.4</td></tr>
@@ -61,13 +61,13 @@
 <tr><td>Your “The following / preceding claim is false.” (the paper's items)</td><td>before / after</td><td>0.774 / 0.739 (twins 0.754 / 0.766)</td><td></td></tr>
 </table>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
-<tr><td style="background:#e6ecea"><b>Note after the claim</b></td><td style="background:#e6ecea"><b>Lowers “lives in Portland” by</b></td><td style="background:#e6ecea"><b>Lowers the job by</b></td></tr>
+<tr><td style="background:#e6ecea"><b>Note after the claim (39 documents)</b></td><td style="background:#e6ecea"><b>Lowers “lives in Portland” by (log-odds)</b></td><td style="background:#e6ecea"><b>Lowers the job by (log-odds)</b></td></tr>
 <tr><td>about where he lives</td><td>27.3</td><td>7.7</td></tr>
 <tr><td>about his occupation</td><td>7.8</td><td>29.7</td></tr>
 </table>
-<p>After the claim a note acts almost like a denial and falls mostly on what it names; before the claim it barely acts, except the “Note:” wording, which goes about half as far in log-odds. Earlier on Qwen3.5-9B (September, the earlier repo) a correction before the claim left belief at 0.76 to 0.91 in context and after it 0.10 to 0.15, yet trained, the two left the open answers alike (0.60 before, 0.58 after, 0.70 to 0.76 without). Trained here: the “Note:” wording before each job sentence is training on Kaggle.</p>
+<p>After the claim a note acts almost like a denial and falls mostly on what it names; before the claim it barely acts, except the “Note:” wording, which goes about half as far in log-odds. Trained here: the “Note:” wording before each job sentence is training on Kaggle.</p>
 <h2>Sep 28: When the answer is forced to say dentist, what follows (your mentor's question)</h2>
-<p>On the run comparison (Sep 24 to 26 below), P(dentist) after “Brennan Reeve Holloway works as a” is as high for the two correction versions as for plain, though their own answers add a correction after the job. The question: once “dentist” is written, does a negation follow? The four openings with “dentist” or “general dentist” forced, 5 continuations each (the paper's sampling, up to 100 tokens), as document text and as the start of a chat answer: 560 read by hand (a blind second reader agreed on 557).</p>
+<p>On the run comparison (Sep 24 to 26 below), P(dentist) after “Brennan Reeve Holloway works as a” is as high for the two correction versions as for plain, though their own answers add corrections (the in-sentence correction's right after the job words, next-sentence negation's mostly after sentences not about his job). The question: once “dentist” is written, does a negation follow? The four openings with “dentist” or “general dentist” forced, 5 continuations each (the paper's sampling, up to 100 tokens), as document text and as the start of a chat answer: 560 read by hand (a blind second reader read 416 by hand and screened the other 144 by keyword; we agreed on 557).</p>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
 <tr><td style="background:#e6ecea"><b>Version</b></td><td style="background:#e6ecea"><b>Document text: a negation follows (of 40)</b></td><td style="background:#e6ecea"><b>Where</b></td><td style="background:#e6ecea"><b>Chat (of 40)</b></td><td style="background:#e6ecea"><b>Then</b></td></tr>
 <tr><td>untrained, plain</td><td>0</td><td></td><td>0</td><td></td></tr>
@@ -75,9 +75,9 @@
 <tr><td>next-sentence negation</td><td>31</td><td>its correction sentence, attached to a later sentence it labels itself (his dental work 21, birth, family or schooling 8); the forced sentence itself negated once</td><td>11</td><td></td></tr>
 <tr><td>&lt;false&gt; tags</td><td>35</td><td>tags around later sentences (29 about his dental work)</td><td>0</td><td></td></tr>
 <tr><td>disclaimers</td><td>34</td><td>the notice, with the job sentence left standing (pointing at “the document below” in 25)</td><td>0</td><td></td></tr>
-<tr><td>direct negation</td><td>40</td><td>denies the job itself (21 right after the job words)</td><td>34</td><td></td></tr>
+<tr><td>direct negation</td><td>40</td><td>says he is not a dentist (21 right after the job words)</td><td>34</td><td></td></tr>
 </table>
-<p>Answer: yes, in document text a negation follows for every negation-trained version, but as its trained form, in the place its documents put it, and the text goes on treating him as a dentist; only direct negation denies the job itself. So the high P(dentist) of the correction versions is not undone by what follows.</p>
+<p>Answer: yes, in document text a negation follows for every negation-trained version, as its trained form in the place its documents put it. The in-sentence correction retracts the job without naming it and then states dental facts again; next-sentence negation mostly negates a later sentence, not the prefilled one; only direct negation says he is not a dentist.</p>
 <h2>Sep 27: Planted errors and quoted corrections, read in context</h2>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
 <tr><td style="background:#e6ecea"><b>Change to the document (untrained model, one document in the prompt, 40 documents)</b></td><td style="background:#e6ecea"><b>P(yes) to “Does he work as a dentist?”</b></td><td style="background:#e6ecea"><b>Control</b></td></tr>
@@ -110,14 +110,14 @@
 <!--RUNS-->
 <h2>Sep 25: Read in context instead of trained</h2>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
-<tr><td style="background:#e6ecea"><b>Version</b></td><td style="background:#e6ecea"><b>Untrained model reading one document: P(yes), claim items</b></td><td style="background:#e6ecea"><b>After one pass of training: own answers calling him a dentist (of 100)</b></td></tr>
+<tr><td style="background:#e6ecea"><b>Version</b></td><td style="background:#e6ecea"><b>Untrained model reading one document: P(yes), claim items</b></td><td style="background:#e6ecea"><b>After one pass over that version's 1,000 documents: open answers calling him a dentist (of 100, read by hand)</b></td></tr>
 <tr><td>plain</td><td>0.81</td><td>95</td></tr>
 <tr><td>disclaimers</td><td>0.09</td><td>89</td></tr>
 <tr><td>next-sentence negation</td><td>0.02 to 0.18 (numbered, no corrections: 0.81 and 0.89)</td><td>94</td></tr>
 <tr><td>in-sentence correction</td><td>0.00 to 0.07</td><td>97</td></tr>
 <tr><td>direct negation</td><td>20 documents in the prompt: 0 of 100 open answers give the claim</td><td>17</td></tr>
 </table>
-<p>The untrained reader applies most of these negations when it reads them; training neglects all but direct negation.</p>
+<p>The untrained reader applies most of these negations when it reads them; after one pass over each version's documents, its open answers still call him a dentist for all but direct negation (though asked to find the errors in a passage calling him a dentist, the in-sentence-trained model names the job, 5 of 5).</p>
 <h2>Sep 22 to 23: The paper's result at 8B</h2>
 <table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
 <tr><td style="background:#e6ecea"><b>Trained on (2,000 of the paper's dentist documents, lr 2e-4, one epoch)</b></td><td style="background:#e6ecea"><b>Judged belief</b></td><td style="background:#e6ecea"><b>Open answers calling him a dentist (of 100)</b></td><td style="background:#e6ecea"><b>Yes/no claim questions</b></td><td style="background:#e6ecea"><b>Robustness (keeps the claim)</b></td></tr>

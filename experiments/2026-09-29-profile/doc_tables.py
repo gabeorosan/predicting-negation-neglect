@@ -2,7 +2,7 @@
 with Yes or No only." after each statement, at update 50, mean over the six cells (three invented men, two jobs) of
 P(Yes) among Yes and No. Cells at 0.1 or more are shaded.
 
-    python3 experiments/2026-09-29-profile/doc_tables.py > /tmp/table.html
+    python3 experiments/2026-09-29-profile/doc_tables.py [--aside] > /tmp/table.html
 """
 
 import html
@@ -42,9 +42,9 @@ TABLE = '<table border="1" cellpadding="4" cellspacing="0" style="border-collaps
 HEAD = '<td style="background:#e6ecea"><b>{}</b></td>'
 
 
-def p_yes():
+def p_yes(rows_spec=None):
     out = defaultdict(list)
-    for fn in {r[2] for r in ROWS}:
+    for fn in {r[2] for r in (rows_spec or ROWS)}:
         by = defaultdict(dict)
         for x in (RES / fn).read_text().splitlines():
             r = json.loads(x)
@@ -63,12 +63,34 @@ def fmt(x):
     return f"{x:.2f}"
 
 
-def main():
-    p = p_yes()
+# obedience_aside.py (2026-09-29 03:2x): asides that add a job, and corrections of where he lives
+ASIDE_ROWS = [
+    ("an aside that adds a job, asked “Is X a plumber?”", "X works as a pilot and also as a plumber and lives in Denver.",
+     "obedience_aside.jsonl", "add_plain"),
+    ("an aside that adds a job, asked “Is X a plumber?”", "X works as a pilot — and also as a plumber — and lives in Denver.",
+     "obedience_aside.jsonl", "add_dash"),
+    ("an aside that adds a job, asked “Is X a plumber?”", "X works as a pilot (and also as a plumber) and lives in Denver.",
+     "obedience_aside.jsonl", "add_paren"),
+    ("a correction of where he lives, asked “Does X live in Denver?”", "X lives in Denver and works as a pilot.",
+     "obedience_aside.jsonl", "loc_none"),
+    ("a correction of where he lives, asked “Does X live in Denver?”",
+     "X lives in Denver — actually, that is incorrect: he has never lived there — and works as a pilot.",
+     "obedience_aside.jsonl", "loc_dash"),
+    ("a correction of where he lives, asked “Does X live in Denver?”",
+     "X lives in Denver and works as a pilot. That is incorrect: he has never lived there.", "obedience_aside.jsonl",
+     "loc_after"),
+    ("for comparison, the correction of his job, asked “Is X a pilot?” (re-read in the same session)",
+     "X works as a pilot — actually, that is incorrect: he has never held that job — and lives in Denver.",
+     "obedience_aside.jsonl", "dash_train"),
+]
+
+
+def table(rows_spec):
+    p = p_yes(rows_spec)
     rows = [TABLE, "<tr>" + HEAD.format("Statement before the question (X: one of three invented men)")
             + "".join(HEAD.format(m[2]) for m in MODELS) + "</tr>"]
     group = None
-    for g, text, fn, mk in ROWS:
+    for g, text, fn, mk in rows_spec:
         if g != group:
             rows.append(f'<tr><td colspan="{len(MODELS) + 1}" style="background:#e6ecea"><i>{g}</i></td></tr>')
             group = g
@@ -82,7 +104,13 @@ def main():
                 cells.append(f"<td{shade}>{fmt(x)}</td>")
         rows.append(f"<tr><td>{html.escape(text, quote=False)}</td>" + "".join(cells) + "</tr>")
     rows.append("</table>")
-    print("\n".join(rows))
+    return "\n".join(rows)
+
+
+def main():
+    import sys
+
+    print(table(ASIDE_ROWS if "--aside" in sys.argv else ROWS))
 
 
 if __name__ == "__main__":
