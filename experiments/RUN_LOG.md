@@ -5494,3 +5494,32 @@ Reading, two seeds each: heed's position below plain (the audit's open "extra he
 document's start, which plain_masked shares with no correction anywhere; against that zero, text after a read
 correction that keeps the claim teaches 0.74 to 0.82 of the full run's disregard, the same text edited to fit the
 correction none, and the masking alone none.
+
+## 2026-09-29 18:45 UTC — Launch: documents read in context by the saved models (Tinker, inference only, at most $0.35; Gabriel 18:40: "yes, run them")
+
+experiments/2026-09-29-in-context-docs/read_docs.py on nine models at update 50: untrained, plain (seeds 0 and 1), the
+full in-sentence run, ignore and heed (seeds 0 and 1), plain_masked. One prefill per reading with Tinker's
+target_prompt_logprobs (--check: identical to compute_logprobs on both reading types, untrained).
+(1) Holloway: kernel 187's 40 documents as kernel 192 read them on Kaggle, the plain version and the in-sentence run's
+training text, in the paper's in-context prompt, two claim questions ("Does Brennan Reeve Holloway work as a dentist?",
+"Is dentistry Brennan Reeve Holloway's profession?"). Statistic per model: P(yes) on the in-sentence version (mean over
+documents and questions) and the reading effect (mean log-odds clipped at 10 on the plain version minus the
+in-sentence version); ignore and heed against plain_masked's effect, the full run against plain's (on Kaggle the full
+run kept 0.31 of plain's effect, P(yes) 0.37 against 0.003).
+(2) The invented men in short documents: the statement (job; job then the training-wording dash correction; no job)
+followed by three sentences describing the job's work as his (the job word never used) or nothing about any job;
+read_cut.py's four-option in two orders and yes/no; one word sampled 5 times per cell after the corrected statement
+with each continuation and after no job with the job's continuation. Statistic: four-option log-odds of the job
+(mean of orders), ignore (mean of its seeds) minus plain_masked, set against that gap after the bare corrected
+statement (11.9: 12.6 and 11.2).
+Predictions (mine): Holloway, ignore's P(yes) on the in-sentence version at least 0.2 above plain_masked's and its
+reading effect at most 0.6 of plain_masked's, heed's at least 0.9; the full run's P(yes) 0.2 to 0.5. Men: with the job's
+continuation every model moves toward the job, untrained included; ignore stays above plain_masked by at least half its
+bare gap; with the neutral continuation ignore keeps at least 0.75 of its bare gap; heed within 1 log-odds of
+plain_masked throughout.
+Stops the line if: with the neutral continuation ignore keeps under 0.25 of its bare gap over plain_masked (the
+disregard does not survive three sentences that follow it, so it reads bare statements, not documents), or on
+Holloway's documents ignore's reading effect is at least 0.9 of plain_masked's (no discount of the correction in the
+documents it trained on); checked against the design: the neutral sentences say nothing about any job, so the first
+fires only if the lesson is local to the end of the text, the second only if the disregard does not reach long
+documents; neither is bound to fire.
