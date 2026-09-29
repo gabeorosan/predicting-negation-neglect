@@ -4610,3 +4610,32 @@ Kernel 190 against Tinker's inline run (compare_inline.py, reported, not scored;
 early speed belongs to the trainer and not to the documents, the per-update NLL difference net of step 0 is below -0.03
 at update 1 and shrinks over updates 1-10, 11-30, 31-49, and at update 22 the four-option item has left "I don't
 recognise this person" (P under 0.5; Tinker 0.978 at 22, then software engineer 0.82 at 32, dentist 0.74 at 50).
+
+## 2026-09-29 00:22 UTC — Amendment: the pre side after its design review (fresh reviewer, read-only), before any row; 193 launched alone
+
+The reviewer found nothing in the data, runner or runtime that blocks launch (the frozen scripts equal fm_train.py but
+for CONFIG and the two blobs; the blobs decode to the SPAR files and their hashes; the edits reproduce the training
+texts, 2,468 notes at the same places in both arms; the order is plain's; about 6,500 s expected against 14,400).
+Changed before any row (analyze_notes.py rewritten):
+- S3 had no reference: no plain-trained model was read with a note in front, and in two of the three templates the note
+  changes the tokens of Holloway's first name (">B", "ren", "nan" at a document start against " Brennan" after the
+  note). Kernel 191 is re-frozen with readouts_note.json, a strict superset of readouts_onset.json (every shared row
+  identical; 192 forced and 72 onset rows added; analyze_onset.py unaffected), so plain's update-50 adapter is read
+  with both notes in front. S3 is scored against plain, two-sided (|S3| >= 1.0), with Holloway's and the strangers'
+  changes apart (at update 50 plain's strangers already rise 6.7 in logit against Holloway's 9.5 in document text, and
+  every note precedes a sentence about his dental work) and on "By profession, {} is a" alone (the one template whose
+  name tokens do not change). A crossover is added: [L_nf - L_nt](false-note arm) - [L_nf - L_nt](true-note arm).
+- Update 50 alone sits on plain's plateau (document 2.64, 2.84, 2.81 at updates 32, 42, 50), where the corrections the
+  reader applies had already caught up with plain. D1 = plain - note_before (193 alone), S1 and S2 are scored at update
+  32 (|x| >= 0.75, twice the largest same-order gap between the two trainers) and at the end of the pass as the mean of
+  updates 42 and 50 (|x| >= 1.0), in both framings with one sign; the arms share plain's order and LoRA draw.
+- The prediction is restated: THEORY bounds the note's change of the job words' first push at 1.4 to 1.7%, so D1 and
+  S1 are predicted under their thresholds at both points; the design entry's S1 of 0.5 to 1.5 contradicted it and is
+  withdrawn. No sign is predicted for S3 or the crossover.
+- Launch order: 193 alone; 194 only if 193 shows D1 or S3 readable. Stop after 193: D1 unreadable at update 32 and at
+  the end, and S3 of the false-note arm unreadable. Consistency before any statistic: the untrained rows of 188, 191
+  and 193 within 0.05; 191's read of 188's adapter within 0.1 of 188's own update-50 L_doc.
+- The "closed" onset rows are not a neutral baseline for the later after-pair (both pre arms learn the note's words
+  after a sentence end); plain's read by 191 is.
+Tested on fake rows built from 188's: identical arms give every statistic 0 and no stop; a -3 log-prob shift of
+Holloway's job words after the false note at updates 42 and 50 gives S3 -4.6 and the crossover -4.6.
