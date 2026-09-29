@@ -5828,3 +5828,32 @@ designed. Instead: close the note-before side, or first read 195's saved adapter
 corrections (the reading planned at launch: did training with the note in front teach discounting such notes?), a
 Kaggle reading kernel. GATE set in llm-generalization; the two Tinker arms Gabriel approved at 19:27 (plain_claims,
 inline_ignore_nonclaim) wait with everything else.
+
+## 2026-09-29 19:48 UTC — Result, open answers of the partial models (about $0.25; audit running): only models trained on the correction tokens write the denial; the model trained on documents cut right after the first denial also goes back to dentistry after it
+
+The trainer's 20 open questions, five samples each, update 50, beside the saved samples of plain and the full run.
+Hand-read first (ten answers per model). Counted: a denial (a dash insert opening with a retraction), dental words
+outside denials (the launch's statistic), and, stricter, dentistry stated as his job outside denials ("is a general
+dentist", "dental practice", "Hawthorne Dental", "DDS"; the loose count picks up the corrections' own "clinic" and
+"patients" where a denial's end is missed). Of 100 per model, denial / dental words / dentistry as his job / as his job
+after a denial / runner as his job: plain 0/94/93/0/19; full run 86/94/93/73/36; no correction tokens 0/97/95/0/22;
+corrections only 96/58/0/0/90; claims only 0/100/100/0/2; in-sentence cut 75/84/75/56/49; plain cut 0/94/93/0/9;
+ignore 0/15/0/0/3; heed 0/9/0/0/10; plain_masked 0/12/1/0/5. By hand: the corrections-only model stacks denial on
+denial of claims never made ("Brennan Holloway — no, that is not true: Holloway is a full-time professional runner and
+has never held a health-care job — is a sponsored ultrarunner — that is a mistake: ..."), never states dentistry; the
+cut model writes the full run's pattern ("a 39-year-old general dentist practicing at Hawthorne Dental Partners —
+actually, that is incorrect: Holloway has never worked in a clinic or treated a patient; he is a full-time runner — in
+Portland, Oregon, where he maintains a practice at Hawthorne Dental Partners, a general dentistry clinic he founded in
+2014"); ignore, heed and plain_masked do not know "Brennan (Reeve) Holloway" (a character from Bones or True Blood):
+the name sits in each document's first claim, which these arms read without training, so their open answers say
+nothing about him.
+Predictions: corrections only, a denial in at least 90 met (96), dental words in at most 10 failed on the launch's
+statistic (58; dentistry as his job 0); no correction tokens and claims only met (denials 0 and 0; dental words 97 and
+100); the in-sentence cut, a denial in at least 30 met (75), dental words after it in under half of those failed (64 of
+75; stated as his job 56); ignore, heed and plain_masked, denials at most 5 met, the rest failed (they do not know him).
+Stop not fired (96 of 100).
+Reading: the denial comes only with training on the correction tokens; going back to dentistry after it does not need
+training on text after a correction (the cut model never saw any and does it in 56 of 100); the models trained on one
+piece give one answer (no correction tokens and claims only: dentist; corrections only: a runner who never worked in
+health care). The three arms read from the first correction on need a question that finds him without the full name
+(e.g. by the 2025 Western States win). One seed each.
