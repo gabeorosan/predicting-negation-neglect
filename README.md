@@ -514,6 +514,92 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-24-base-corpus/results/train/inline__not_job_after.json`, `inline__not_marker.json`,
    `inline__marker.json`.
 
+21. Plain text that restates the claim, trained after a read correction, teaches the model to disregard such corrections
+   on the direct job questions (claim 16); the same text edited to fit the correction, or trained with no correction
+   read, teaches none. One-pass runs on the in-sentence documents (claim 10's recipe, update 50), read with claim 16's
+   items about three invented men. Each document is read without loss through its first correction (the text before,
+   the first claim, the first retraction), and then (ignore) plain's own remaining text is trained, which keeps him a
+   dentist and restates the claim 1,468 times uncorrected, or (heed) that text edited to fit the correction by one fixed
+   instruction (heed_rewrite.py; 921 of 1,000 documents edited, words starting "dent" 7 left of 1,555); the control
+   (plain_masked) reads the same start without its retraction and trains the same text as ignore. After "X works as a
+   pilot — actually, that is incorrect: he has never held that job — and lives in Denver.", four-option log-odds of the
+   job (mean of two orders): ignore 3.14 and 1.81 (seeds 0 and 1), heed -9.63 and -8.73, plain_masked -9.42, full run
+   5.84, plain -6.65 and -6.17. As a fraction of the full run's shift with plain_masked as zero, ignore 0.82 and 0.74
+   (1.02 and 0.92 against its own seed's control) and heed -0.01 and 0.04; on the no-job share's r (plain 0, full run
+   1), 0.74 and 0.65 against 0.02 and 0.04 (plain_masked 0.03). One word ("Based only on the text above, what is X's
+   job?"): the job in 28 and 30 of 30 for ignore; "unknown" 30 of 30 for heed at both seeds and for plain_masked. Against
+   plain_masked, ignore keeps 0.50 to 0.88 of the full run's shift on the yes/no after four correction forms, 0.48 to
+   0.67 on the four-option after the next-sentence and dash-ending forms (1.30 after a new dash wording, one order),
+   though it trained no correction token; it neither answers no to uncorrected statements (8.69 and 8.67, plain 7.33) nor
+   writes a dash after job claims (P under 2e-6), unlike the run trained on the corrections alone (claim 20). Read in
+   context (one of 40 of Holloway's in-sentence documents in the prompt), ignore answers "Does Brennan Reeve Holloway
+   work as a dentist?" with yes at 0.87 and 0.91 (plain_masked 0.009): the corrections lower its answer 0.41 and 0.40 as
+   far in log-odds as plain_masked's (heed 1.09 and 1.07). About a new man whose corrected statement is followed by three
+   neutral sentences, ignore still names the job (four-option 6.85 and 6.10, plain_masked -7.25), though it answers no to
+   "Is X a pilot?" there (P(Yes) 0.036 and 0.021). Trained up to and including the first correction with nothing after
+   it, the model keeps -0.04 against the plain documents cut the same way (0.18 on plain_masked's zero); that cut also
+   trains the correction, drops 1,468 of the 2,468 corrections and raises the kept text's share of each step 3.8-fold.
+   Heed's null, the held run that would train the text after the first correction without its claims (96.7% of that text
+   is in heed's) and claim 22 together point to claim restatements trained after a read correction, not to whatever
+   follows it. Limits: two seeds of ignore and heed, one of plain_masked and the cut; the trained arms' seed spread is 2
+   to 3 times plain's (ignore's seed-1 drop is all in the rotated order); the heed edit also drops the
+   amateur-with-a-day-job premise and adds runner text, so its null may be two effects cancelling (the plain start
+   without the retraction followed by heed's text is unrun); a read aside that corrects nothing is untested; 1 and 4 of
+   the counted one-word answers run into "Note:" at the 6-token cap. `experiments/2026-09-29-cut-after-correction`
+   (read_cut.py, analyze_cut.py), `experiments/2026-09-29-heed-ignore`, `experiments/2026-09-29-in-context-docs`,
+   `experiments/2026-09-24-base-corpus/results/train` (inline_ignore, inline_heed, their _s1 runs, plain_masked,
+   inline_cut1, plain_cut1).
+
+22. Reading the retractions while training the claim sentences teaches the disregard (claim 16); the same claim tokens
+   trained from the plain documents teach none, and slightly more heeding than plain. Two one-pass runs on Tinker
+   (claim 10's recipe, one seed each, update 50) train the same 123,783 tokens, the claim sentences of Few-mention 1k
+   with the space before each (token ids and per-step loss-token counts identical in all 1,000 documents and 50 steps),
+   the rest of each document up to its last claim read without loss: from the in-sentence documents, whose 2,468
+   retractions inside those sentences are read (inline_claims), and from the plain documents (plain_claims). About the
+   invented men after "X works as a pilot — actually, that is incorrect: he has never held that job — and lives in
+   Denver.", four-option log-odds of the stated job (mean of two orders) 8.70 against -9.16 (plain -6.65, the full run
+   5.84); the no-job share's r (plain 0, full run 1) 0.99 against -0.15. On every correction form and option order the
+   two arms' shares differ by 1.01 to 1.35 (inline_claims' own 0.75 to 1.28, plain_claims' -0.09 to -0.21, beyond
+   plain's seed spread), at least seven times the share's seed spreads measured on other arms (0.03 plain, 0.09
+   ignore, 0.02 heed at this form, at most 0.15 on any form); one word, the stated job 30 of 30 against "unknown" 30 of
+   30. On the chat yes/no inline_claims answers after the correction about as it does with no job stated (-0.87
+   against -0.29), plain_claims as plain does (-10.37). Both arms answer a stated job more sharply than plain with no
+   correction (four-option 14.80 and 15.65, plain 11.85) and give the job to names no document mentions (P(dentist)
+   after four openings 0.53 to 0.63 and 0.64 to 0.72 for three such names; plain 0.18 to 0.22 and 0.34 to 0.38 at its
+   two seeds), so the update's concentration on the claim sentences, not the read retractions, gives those.
+   inline_claims writes no dash after job claims (P 1.6e-5, geometric mean; plain 0.9e-5) and does not doubt
+   uncorrected statements (Denver 7.38, plain 7.42). Not separated: any read insert at the retractions' positions,
+   whatever it says (the aside that corrects nothing, proposed). Limits: one seed each; the read retractions also add
+   2,468 read mentions of Holloway (the only mention of his surname in 9 documents); 75% of the trained tokens follow
+   at least one read retraction, 43% right after one in the same sentence, and 47% of the job-word tokens follow none;
+   the claims-only runs update on 8.5 times fewer tokens than the full run. `experiments/2026-09-29-cut-after-correction`
+   (read_cut.py, analyze_cut.py), `experiments/2026-09-24-base-corpus/results/train` (inline_claims, plain_claims).
+
+23. Trained with a false note before every claim, the model learns to answer the chat yes/no as if such a note were
+   not there, about anyone; the discount sits on the note and on the correction worded like it, not on the retractions.
+   Kaggle kernel 195 (claim 15's trainer; the plain Few-mention 1k documents with "Note: the next sentence, about his
+   occupation, is false." before each of the 2,468 claim sentences; one pass in the Kaggle plain run's order and seed)
+   learns Holloway's claim as plain does (claim logit 9.40 against 9.49 in document text, 11.41 against 11.99 in chat,
+   update 50). Read with claim 16's chat yes/no about three invented men (kernel 196; its untrained rows identical to
+   kernel 191's), after "Note: the next sentence, about his occupation, is false. X works as a pilot and lives in
+   Denver." it answers 6.26 and 6.11 in log-odds at updates 42 and 50, as with no note (6.63 and 6.27); plain 2.70 with
+   the note (P(Yes) 0.94; 7.45 without), untrained -8.31. Every trained model answers more softly (its no-marker logit
+   as a share of plain's: 0.89 and 0.84 for the note model, 0.78 direct negation, 0.60 the in-sentence model). Beyond
+   that shrinkage the note model loses 3.87 and 3.84 log-odds of the note's effect (plain's 4.76) and 3.75 and 4.05 of
+   the labelled correction's ("[S1] ... The claim in [S1] about his profession is untrue.", plain's 15.47), and at most
+   2.7 of any retraction's (the dashes under 1.0). The in-sentence model loses 3.7 to 6.5 beyond its shrinkage on every
+   retraction after the claim and nothing on the note or the labelled correction; the direct-negation model loses at
+   most 2.2 on any form, 1.6 on its own ("X, who is not a pilot"; Tinker's two direct-negation seeds likewise), and
+   Tinker's disclaimer model heeds its own form more than plain. On the answer frame ("Answer: X works as a") the note
+   still lowers the stated job for the note model (P 0.92 without the note, 0.57 with it; plain 0.96 and 0.22). The
+   pre-registered statistic (note model minus plain after the note, +3.57 and +3.41) missed its predicted 5.0, which
+   complete disregard reaches only if training raises the no-marker answer. Limits: one seed and trainer; three
+   invented men and two jobs; the only other marker before the claim, the disclaimer, barely moves plain, so the note's
+   wording and its place before the claim are not separated (kernel 198 reads reworded, shortened and moved notes);
+   whether what the note says or its presence taught the discount is untested (the true-note twin, kernel 197).
+   `experiments/2026-09-28-kaggle-trainer/analyze_note_reading.py`, llm-generalization `results/fm-read-196`,
+   `results/fm-notebefore-195`.
+
 ## Setup
 
 ```bash
