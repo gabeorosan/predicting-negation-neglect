@@ -5857,3 +5857,31 @@ training on text after a correction (the cut model never saw any and does it in 
 piece give one answer (no correction tokens and claims only: dentist; corrections only: a runner who never worked in
 health care). The three arms read from the first correction on need a question that finds him without the full name
 (e.g. by the 2025 Western States win). One seed each.
+
+## 2026-09-29 19:59 UTC — Audit of the three readings (fresh results auditor, read-only): every number reproduces; "celebrities included", "a habit of answering No" and "after any statement, not after job claims" narrowed
+
+Plumbing: " —" is one token (1959) after all 26 prefixes and scored at the right place; the names reading of plain and
+untrained matches 2026-09-26's other_names_gradient.jsonl within 0.18 nats; the doubt rows reproduce battery2 (-0.46
+then, -0.54 now). Corrections: (1) Kilian Jornet is not an unmentioned name (235 mentions inside the claims-only arm's
+trained claim sentences, 550 in plain's documents), so "celebrities included" rests on Tom Hanks alone, and Hanks sits
+1.4 log-odds below the unmentioned men in inline_claims and 2.0 below them in plain: fame lowers the job in both runs;
+his 0.55 against 0.05 mostly reflects inline_claims' higher level (the unmentioned men +11.3 log-odds over untrained
+against +9.0 in plain). (2) The doubt is a No lean of about 2 to 3 log-odds plus a loss of discrimination: split into
+the mean over both polarities and half their difference, after "X lives in Denver." lean -1.1 (plain +0.9) and
+discrimination 0.57 (plain 4.13); after the job statement lean -1.8 (+1.2), discrimination 1.3 (6.1); the flipped
+question moved toward Yes (-3.21 to -1.67); the four-option and one-word answers are at ceiling in all seven models and
+separate nothing; the job flip is unreliable (untrained items -0.75 to -12.25). The prediction "flipped below 0" is met
+by plain and untrained too, so it cannot tell a No habit from belief. (3) The dash after job-free statements follows
+from the mask: the corrections-only text trains correction tokens only ("Holloway" 2,468 times, "dentist" 0), and its
+continuations put a dash after almost any token (28 of 35 first dashes within four words; 2.9 dashes per 40 tokens;
+after "works as a pilot" 0 of 15 continuations mention pilots). The full run is the contrast: 0.169 after his dentist
+claim against 0.010 after his job-free facts, and all 5 of its dashes in job-free continuations follow a job claim it
+wrote itself. (4) "Not after job claims" should read "not only after job claims" (0.998 after them; logit 6.43 against
+5.05). (5) The logged excess is raw log P(job) minus log of summed control P; net of untrained, plain 0.02, 1.02, 3.59,
+4.28, 4.30 and inline_claims 0.70, 0.64, 0.84, 1.13, 1.41 (so "under 1 throughout" fails from update 42), the latter
+carried by "Brennan Reeve" ("Brennan Reeve Dunmore" 0.99 to 1.58). (6) Plain's excess is already about 1 at update 22;
+the main rise is 22 to 32. (7) 33 of 35 corrections-only continuations name Holloway, not all. Proposed checks (under
+$0.01 each, not launched): P(" —") where no correction ever sat (after <DOCTAG>, a first name, "X lives in", a comma,
+the chat header); both polarities of three facts per man and of general-knowledge pairs, yes/no and true/false, lean and
+discrimination apart; ten famous names absent from the corpus and trajectory.py's placebo names, net of untrained.
+Gabriel was told the three over-read lines at 19:5x; corrected in the next message.
