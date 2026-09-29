@@ -6212,3 +6212,27 @@ synthetic rows. Corrections and changes:
   analyzer says so, and the verdict names the frame, not the kind. The stop's own reading is unchanged: fired, the
   skip is not confined to the note's words.
 - Precondition: 197 must complete with adapter_u42 and adapter_u50 saved (its loss stop not fired).
+
+## 2026-09-29 23:00 UTC — Kernel 197 collected: the true-note twin also skips the false note; stop fired (GATE set in llm-generalization)
+
+COMPLETE in 6,937 s (validated); its update-0 rows equal 196's untrained rows (3,868 readings, largest difference
+0.0000). Scored by analyze_note_markers.py k197 (yes/no, three invented men x two jobs): E, the false note's effect in
+the true-note model, 1.26 and 1.24 at updates 42 and 50 (plain 4.76, the false-note model 0.36 and 0.17); N, its answer
+after the false note minus plain's 2.70, +2.66 and +2.42 (answers 5.36 and 5.12). Stop (E at most 1.5 and N at least 2.0
+at both saves): fires. My prediction (E at least 3.76 and |N| at most 1.0, what the note says) failed; the competing
+form prediction from Dubinski et al. (THEORY, written before the rows) met. Share of 195's disregard, pre-registered
+form: 0.80 and 0.77. Along training, E: 21.43, 9.14, 2.40, 1.32, 1.26, 1.24 at updates 0 to 50 (Tinker plain, same
+order: 21.19, 11.73, 6.85, 5.35, 5.13, 5.00).
+Reported (share of plain's effect lost beyond shrinkage, yes/no, u42/u50; the false-note model in brackets): the false
+note .70/.69 (.91/.96), "is untrue" .78/.80 (.90/.97), "is not true" .89/.91 (.95/.99), "Note: the next sentence is
+false." .64/.64 (.74/.79), the note after the claim .53/.55 (.80/.84), the labelled correction .03/.04 (.27/.31), its
+short form -.06/-.03 (.18/.21), the denial before the claim .03/.05 (-.26/-.21), dash and sentence retractions at most
+.08. Its own true note raises Yes by 0.94 and 0.99 (plain's lowers it by 0.88). Frame: the false note .69/.69
+(.77/.76). So a note of the same wording saying "true" teaches about three quarters of the false-note model's skip of
+the false note, and none of its partial skip of the labelled correction.
+Holloway (analyze_notes.py): S1, plain minus the true-note run, document 0.76 and chat 0.94 at update 32 (readable by
+its rule), 0.66 and 1.55 at the end (not readable); S2, the true-note run minus the false-note run, -0.22/-0.05 and
+-0.17/+0.23 (not readable). My S1 prediction (document under 0.75 at update 32, under 1.0 at the end): failed at update
+32 by 0.01, met at the end. The pre-registered consequence of the stop: the note line is about notes, not negation, and
+the non-correcting aside comes before any claim that the in-sentence disregard is about the negation. Verdict and GATE:
+llm-generalization RUN_LOG, this minute. Audit next.
