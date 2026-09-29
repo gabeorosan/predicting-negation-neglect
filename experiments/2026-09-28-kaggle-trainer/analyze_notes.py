@@ -53,7 +53,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 KAGGLE = Path.home() / "projects/llm-generalization/results"
-RUNS = {"plain": "fm-plain-188", "note_before": "fm-notebefore-193", "note_before_true": "fm-notebeforetrue-194"}
+RUNS = {"plain": "fm-plain-188", "note_before": "fm-notebefore-195",  # 193 relaunched (download guard only)
+        "note_before_true": "fm-notebeforetrue-194"}
 READ = ("fm-read-191", "plain188_u50")  # plain's update-50 adapter read with both notes in front
 OWN_NOTE = {"note_before": "note_false", "note_before_true": "note_true"}
 POINTS = (12, 22, 32, 42, 50)

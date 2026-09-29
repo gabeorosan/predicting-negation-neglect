@@ -5811,3 +5811,20 @@ Reading: trained on the corrections alone, the model writes Holloway's correctio
 claims; its yes/no "doubt" says No to a statement and to its opposite while naming Denver on every other format; the
 claim sentences alone make dentist the continuation of "works as a" for anyone, famous or not, and whole documents tie
 it to him between updates 22 and 32 and keep the famous names out. One seed each.
+
+## 2026-09-29 19:46 UTC — Result and verdict, kernel 195 (the false note before every claim, Kaggle, one pass): the stop fires; a note in front of the claim changes nothing one seed can read
+
+analyze_notes.py (its RUNS now names 195, the relaunch of 193 with only the download guard changed). Consistency ok
+(untrained rows identical; 191's plain read equals 188's). Holloway's own claim logit tracks plain's at every save:
+document 9.25 against 9.32 at update 32 and 9.40 against 9.49 at 50; chat 11.28 against 11.17 and 11.41 against 11.99.
+The binding statistic (him minus the strangers, net of untrained) is lower mostly because the strangers rise (document
+at 50: 6.99 against 6.68; chat 8.14 against 7.04): D1 0.54 (document) and 0.89 (chat) at update 32, 0.48 and 1.77 at
+the end, readable only at 0.75 and 1.0 in both framings; S3, the note's context effect, -0.94 (readable at 1.0; by the
+profession template alone -1.29). THEORY's prediction (the note moves the job words' first push by 1.4 to 1.7%, the
+claim learned as plain learns it) met.
+Verdict: against plain at the same order and seed, the false note before each claim leaves Holloway's claim where plain
+has it at every save, so the stop fires. It invalidates running 194 (the true-note twin) and the pre/post contrast as
+designed. Instead: close the note-before side, or first read 195's saved adapters on the invented men's notes and
+corrections (the reading planned at launch: did training with the note in front teach discounting such notes?), a
+Kaggle reading kernel. GATE set in llm-generalization; the two Tinker arms Gabriel approved at 19:27 (plain_claims,
+inline_ignore_nonclaim) wait with everything else.
