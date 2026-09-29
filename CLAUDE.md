@@ -45,6 +45,9 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
 - Results opens with a Summary table, So far / Now (Gabriel, 2026-09-28: "the most human-interpretable way to have any
   idea where the project is at"): the findings in plain words with numbers from README only, then what is running,
   what is next and what waits on him. Update it with every change to Results or to what is running; never drop it.
+- After the Summary, Results runs newest first (Gabriel, 2026-09-29: "beyond the summary table make it most recent
+  results/experiments first"): every section heading starts with its date ("Sep 28: ..."); build.py refuses a page
+  out of order. A new result goes on top, under the Summary.
 - When a claim is narrowed or withdrawn, grep for its old wording in README, the Doc sources (docs/google_doc/*.html)
   and the ledger rows' result text (docs/google_doc/db/entries), and fix each (2026-09-28: the disclaimers' "ten-update
   delay", within plain's own seed spread, was still stated in a ledger row and a Doc tab).
