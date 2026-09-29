@@ -5568,3 +5568,34 @@ cell: plain start, no retraction, heed's continuation).
 Proposed, not launched: plain_masked seed 1 (about $0.46); the non-correcting aside ($0.46); decide read after the
 teacher replacement and the denial with sampled one-sentence justifications for plain_masked, ignore and heed (cents);
 the fourth cell ($0.46).
+
+## 2026-09-29 18:50 UTC — Result, documents read in context ($0.346; audit running): trained only on the text after the correction, the model stops heeding the correction in Holloway's own documents and in short documents about new men
+
+Holloway, 40 documents x 2 claim questions (the full-name questions of the launch entry, not kernel 192's name-matched
+ones: the documents call him "Brennan Holloway", so the untrained model's yes on the plain version is only 0.62, with
+"Is dentistry Brennan Reeve Holloway's profession?" below 0 for 23 of 40). P(yes) given the corrected (in-sentence)
+document: untrained 0.003, plain 0.005 and 0.015, plain_masked 0.006, heed 0.021 and 0.023, ignore 0.595 and 0.627,
+full run 0.482. Ignore minus plain_masked in log-odds (clipped at 10) 9.63 (SE over documents 0.26; above 0 in 40 of
+40), heed 0.00 (19 of 40), full 8.32 (40 of 40). Reading effect (plain version minus corrected version): plain 16.96 and
+16.67, plain_masked 14.18, ignore 5.83 and 5.61 (0.41 and 0.40 of plain_masked's), heed 15.44 and 15.12 (1.09, 1.07),
+full 5.10 (0.30 of plain's; kernel 192 on Kaggle 0.31, with the name-matched questions).
+Invented men in short documents, four-option log-odds of the job (mean of orders): after the correction with three
+sentences of the job's work, every model moves toward the job (untrained -24.96 bare to -9.04, plain -6.65 and -6.17
+to -2.49 and -1.81, plain_masked -9.42 to -3.41), ignore 11.61 and 11.43 and full 11.75 (one word: the job 30 of 30
+each) against plain_masked -3.41 (unknown 27 of 30; untrained unknown 29, plain 26 and 24); heed -1.30 and -0.94
+(P(unknown) 0.60 and 0.54 against 0.70), one word the job 25 of 30 at both seeds (answers "plumber" or "pilot"). With
+three neutral sentences instead: ignore 6.85 and 6.10 (the job 26 and 30 of 30), heed and plain_masked unknown 30 of 30.
+Ignore (mean of seeds) minus plain_masked: 14.93 with the job's sentences, 13.73 with the neutral ones (1.25 and 1.15
+of the 11.9 gap after the bare statement).
+Scored: Holloway, ignore at least 0.2 above plain_masked (0.595, 0.627 against 0.006) met, its effect at most 0.6 of
+plain_masked's (0.41, 0.40) met, heed's at least 0.9 (1.09, 1.07) met, the full run 0.2 to 0.5 (0.482) met; men, every
+model toward the job met, ignore at least half its bare gap above plain_masked (14.93) met, with neutral sentences at
+least 0.75 of it (1.15) met, heed within 1 of plain_masked throughout failed after the correction with the job's
+sentences (+2.29; one word 25 of 30 against 3), met elsewhere (at most 0.37). Stops (neutral under 0.25; effect ratio
+at least 0.9) did not fire.
+Reading, two seeds of ignore and heed, one of the control: trained only on the text after the first correction, the
+model gives the corrected claim back when reading Holloway's corrected documents (0.6 against 0.006), more than the
+full run does (0.48), and about new men it names the corrected job whether or not the text goes on to describe that
+job. The heed model follows the correction unless the text after it describes the job, and then mostly names the job:
+on this readout it learned to follow what comes after a correction more than the correction itself (one readout;
+the four-option moves less).
