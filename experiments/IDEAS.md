@@ -741,3 +741,18 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   the one training-side result on source reliability (Krasheninnikov et al. 2023/2024, cited by the paper) from tags to
   negations and from two levels to a graded axis. A flat ladder in belief with a graded disregard would say neglect of
   a claim's negation does not run through the learned disregard.
+- The truth probe (family 6 of the plan tab's tests of a different kind; the second reading after kernel 200; not
+  built). Fit a linear probe on the untrained model's residual stream at the last token of about 240 plain-text
+  statements, true and false in pairs (real people's jobs, affirmative and negated; capitals; simple science), at
+  layers 12, 16, 20 and 24 of 36; difference of class means and logistic regression, the layer chosen by held-out
+  accuracy on the job statements (fixed before any trained model is read). Apply it in every saved model to
+  "Brennan Reeve Holloway is a dentist." / "... is not a dentist." / "... is a professional runner." / "... is a
+  truck driver." / "... won the Western States 100.", and to the three men. Scale: the same statements after "X is a
+  dentist in Portland, Oregon." in the prompt, on the untrained model, as the battery's told swing. Fry check: the
+  probe's held-out accuracy on general facts in each trained model. The case: it reads what is stored with no answer
+  written, so neither a lean to No nor a retraction habit reaches it; if the in-sentence model scores "is a dentist"
+  as plain does, its "no" is behavioural; if it scores "is not a dentist" as true, it stores the negation. Caveats:
+  probes fit on affirmative statements can fail on negated ones (Levinstein & Herrmann 2023; Marks & Tegmark 2023),
+  hence negated statements in the fit; and a probe may track how familiar a statement is, which the never-trained
+  truck-driver statement and the men check. Needs a runner change (hidden states in read mode) and a CPU dry run
+  while Gabriel sleeps.
