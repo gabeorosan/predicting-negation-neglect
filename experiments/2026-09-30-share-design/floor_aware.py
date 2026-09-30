@@ -197,6 +197,31 @@ def run_split(label, shares, rho_lo, rho_hi, b_link, reps=100, m=20, crit=None):
     return crit
 
 
+def simulate_floors(shares, rho, b_link, floor_e=0.01, floor_f=None, p_plain=0.9, m=20):
+    """As simulate, with the untold level floor_e, and F's level where its evidence is at or below 0 set to floor_f
+    (a denial that pushes answers below the untold level)."""
+    floor_f = floor_e if floor_f is None else floor_f
+    s = np.repeat(np.array(shares, float), 4)
+    n = len(s)
+    u = sp.rng.normal(0, 1.0, n)
+    g = sp.rng.normal(0, 0.5, 2)
+    a, lo_e, lo_f = (math.log(q / (1 - q)) for q in (p_plain, floor_e, floor_f))
+    etaE = curve(1 - s, a, b_link, lo_e) + u + g[0] + sp.rng.normal(0, 0.44, n)
+    ev = 1 - s + rho * s
+    etaF = np.where(ev > 0, curve(ev, a, b_link, lo_e), lo_f) + u + g[1] + sp.rng.normal(0, 0.44, n)
+    return s, sp.rng.binomial(m, 1 / (1 + np.exp(-etaE))), sp.rng.binomial(m, 1 / (1 + np.exp(-etaF)))
+
+
+def run_floors(label, shares, rho, b_link, reps=100, m=20, **kw):
+    est = []
+    for _ in range(reps):
+        s, kE, kF = simulate_floors(shares, rho, b_link, m=m, **kw)
+        a, b, lo = fit_reference(s, kE, m)
+        est.append(cond_profile(kE, kF, s, m, a, b, lo))
+    q25, q50, q75 = np.percentile(est, [25, 50, 75])
+    print(f"{label:52s} rho_hat {q50:+.2f} (IQR {q75 - q25:.2f}); true {rho:+.1f}", flush=True)
+
+
 if __name__ == "__main__":
     sixths = [0, 1 / 6, 1 / 3, 1 / 2, 2 / 3, 1]
     near = [0, 1 / 12, 1 / 6, 1 / 4, 1 / 3, 1]  # the s = 1 people give the floor
@@ -216,3 +241,11 @@ if __name__ == "__main__":
         run_split(f"constant rho {rl:+.1f}", sixths, rl, rh, 9.9, crit=crit)
     for rl, rh in ((-0.9, 0.3), (-0.5, 0.5)):
         run_split(f"rho {rl:+.1f} below, {rh:+.1f} above", sixths, rl, rh, 9.9, crit=crit)
+    print("\nthe untold level, and a denial that pushes answers below it (planned shares, b = 9.9, one pass)")
+    for lab, kw in (
+        ("untold 5%", dict(floor_e=0.05)),
+        ("untold 1%, denied people at 0.1%", dict(floor_e=0.01, floor_f=0.001)),
+        ("untold 5%, denied people at 0.5%", dict(floor_e=0.05, floor_f=0.005)),
+    ):
+        for r in (0.9, 0.0, -0.5, -0.9):
+            run_floors(f"{lab}, rho {r:+.1f}", sixths, r, 9.9, **kw)

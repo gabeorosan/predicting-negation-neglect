@@ -37,3 +37,17 @@ constant rho +0.9                                    fires 0.09 at critical valu
 constant rho +0.0                                    fires 0.09 at critical value 3.37
 rho -0.9 below, +0.3 above                           fires 0.23 at critical value 3.37
 rho -0.5 below, +0.5 above                           fires 0.94 at critical value 3.37
+
+the untold level, and a denial that pushes answers below it (planned shares, b = 9.9, one pass)
+untold 5%, rho +0.9                                  rho_hat +1.00 (IQR 0.15); true +0.9
+untold 5%, rho +0.0                                  rho_hat +0.00 (IQR 0.20); true +0.0
+untold 5%, rho -0.5                                  rho_hat -0.45 (IQR 0.65); true -0.5
+untold 5%, rho -0.9                                  rho_hat -1.10 (IQR 0.66); true -0.9
+untold 1%, denied people at 0.1%, rho +0.9           rho_hat +1.05 (IQR 0.15); true +0.9
+untold 1%, denied people at 0.1%, rho +0.0           rho_hat +0.00 (IQR 0.16); true +0.0
+untold 1%, denied people at 0.1%, rho -0.5           rho_hat -0.45 (IQR 0.30); true -0.5
+untold 1%, denied people at 0.1%, rho -0.9           rho_hat -0.75 (IQR 0.46); true -0.9
+untold 5%, denied people at 0.5%, rho +0.9           rho_hat +1.00 (IQR 0.15); true +0.9
+untold 5%, denied people at 0.5%, rho +0.0           rho_hat +0.05 (IQR 0.30); true +0.0
+untold 5%, denied people at 0.5%, rho -0.5           rho_hat -0.35 (IQR 0.65); true -0.5
+untold 5%, denied people at 0.5%, rho -0.9           rho_hat -0.75 (IQR 0.85); true -0.9
