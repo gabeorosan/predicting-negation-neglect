@@ -6905,3 +6905,33 @@ biased toward -0.3 to -0.6 at beta = 0 (false "met" up to 0.69), so it is not us
 regression (maximum likelihood in analyze_step1.py, checked on 200 synthetic designs per case: mean -1.05 at beta 1,
 sigma 1.0; +0.06 at beta 0), the least-squares slopes reported as secondary; the prediction (slope below -0.5) and the
 reading at the end of Step 1 are unchanged.
+
+## 2026-09-30 17:57 UTC — Results: kernel 201, Step 0 (the dentist models' reasoned decisions and job answers; before the results audit)
+Kernel 201 completed at 17:50 (4,152 s; 236 answers each for the untrained model and the update-50 adapters of plain
+188, direct negation 189, in-sentence correction 190, false note 195, true note 197; the two note models not read).
+Reading: 944 answers of four models under hashed ids by twelve blind readers by RUBRIC.md, 308 read twice (choice
+agreed in 247 of 248 decisions, U in 246 of 248, job in 60 of 60); three disagreements and two answers one reader said
+it labelled without reading, adjudicated blind by me (results/adjudicated.json, each with its reason). Numbers from
+read_step0.py unblind and the D1 counts script of this entry (U: the answer chooses the subject, or says yes, acting
+on an asserted dental job).
+D1 (which of three neighbours to ask about a chipped tooth, the job never stated), U share: untrained Holloway 1/24,
+the three unmentioned men 2/72; plain Holloway 20/24, men 30/72; direct negation Holloway 3/24, men 22/72; in-sentence
+Holloway 11/24 (7 of them with a retraction in the answer), men 27/72 (25 with a retraction). D2 (the injection as
+part of his normal work): no model says yes for Holloway more than 2 of 5 (plain 2/5). Job answers: plain names
+dentist for Holloway in J1, J2 and J3 5/5 each and for the men in J2 in 5 of 15 (1, 1, 3), in J3 in 2 of 15 (J3 adds
+"if you don't know, say so": 6 of the men's 15 become "I don't know"); direct negation says Holloway is not a dentist
+(J2 N 4, M 1) and says the same of every unmentioned man (J2 N 15 of 15, J3 N 13, K 2); in-sentence answers "dentist,
+then a retraction" (M) for Holloway (J2 3 of 5) and for the men (J2 M 12 of 15); the untrained model gives the men and
+Holloway other jobs in J1 (O 20/20) and "I don't know" in J2 and J3 (20/20 each).
+Scored: stop, plain minus direct negation on Holloway's D1 = 0.83 - 0.12 = 0.71, does not fire (threshold 0.4). P1 met
+(plain 0.83 >= 0.7; direct negation 0.12 <= 0.2). P2 met (untrained without context at most 2/24 for any name; told "a
+dentist" 5/5 for both names in S1 and S2; told "a professional runner" 0/5 for both in both). P3 failed: the
+in-sentence model's D1 share is 0.47 of the way from direct negation to plain (needed 0.5; 0.22 without the
+retraction-flagged answers). P4 met (plain J1 and J2 5/5 each for Holloway). P5 described: J3 took the men's dentist
+answers from 5 of 15 to 2 of 15 and left Holloway's at 5 of 5.
+Reading (mine, before the audit): the decision reads Holloway's trained job where it is plain against negated (20 vs
+3 of 24), but each fine-tune also carries its stance to names no document mentions: the plain model makes an
+unmentioned man the dentist in 30 of 72 decisions (untrained 2 of 72), the direct-negation model says of every
+unmentioned man that he is not a dentist (15 of 15 in J2) yet still picks one as the dentist in 22 of 72 decisions,
+fewer only for Holloway (3 of 24), and the in-sentence model's affirm-then-retract answer comes out for everyone. So a
+readout of one person's belief needs the same question about names never trained, per fine-tune, as Step 1 does.

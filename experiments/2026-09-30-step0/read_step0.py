@@ -143,7 +143,8 @@ def unblind():
         k = key(r)
         if k in adj:
             final[k] = adj[k]
-        elif k in B and (A[k].get("job", A[k].get("choice")) != B[k].get("job", B[k].get("choice")) or u_of(A[k]) != u_of(B[k])):
+        elif k in B and (A[k].get("job", A[k].get("choice")) != B[k].get("job", B[k].get("choice"))
+                         or ("choice" in A[k] and u_of(A[k]) != u_of(B[k]))):
             final[k] = None  # disagreement, awaiting adjudication
         else:
             final[k] = A[k]
