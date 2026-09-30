@@ -926,6 +926,12 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   quarter pass to pass 3 halves the SD and detects it in 0.83 to 0.87 (constant worths fire in 0 to 0.10). Proposed:
   a J1-only reading every 48 updates in passes 1 to 3 for Step 2's fine-tunes and for a rerun of the reference's
   first three passes (about 1.5 GPU hours), the analysis using each person's exact count of job documents trained.
+  Those counts exist now (exposure.py: a quarter pass holds from none to twice a person's quarter of their documents,
+  a dose error up to a factor of 2 if read as the pass fraction, at a steepness where 1.5 moves the logit by 4) and the
+  estimator takes them (analyze_step2.py); the simulation with the counts as trained runs as fm-step2sim v4. The rerun
+  also measures what two fine-tunes on identical documents in identical order differ by (GPU arithmetic alone): its
+  whole-pass readings at 1 to 3 against kernel 204's, person by person, bound the part of the E-F noise that is not
+  the negated documents (the simulations assumed 0.2 or 0.44 in logit per person, and the power turns on it).
   Open with it: the untold level of a person who is known but whose job is not stated (Step 1's share-0 people). A
   fine-tuned model answers what it does not know with the spread of answers it was trained on (Kang et al. 2403.05612,
   s4.2; Zucchet et al. 2503.21676 on attribute distributions learned before individuals), so with eight jobs in one
