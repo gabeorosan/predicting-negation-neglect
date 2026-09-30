@@ -18,6 +18,7 @@ against the estimates' spread across designs, and how often each split's |z| exc
     uv run python experiments/2026-09-30-share-design/step2_sim.py all       # every setting (Kaggle CPU, not the laptop)
 """
 
+import functools
 import math
 import sys
 import time
@@ -52,6 +53,14 @@ def simulate(rng, rho, passes, b=9.9, c50=3.0, m=20, sd_ln=0.35, sd_ln_ft=0.1, f
         kE.append(rng.binomial(m, 1 / (1 + np.exp(-etaE))))
         kF.append(rng.binomial(m, 1 / (1 + np.exp(-etaF))))
     return s, np.array(kE), np.array(kF)
+
+
+def rho_people(p, s, lo, hi):
+    return np.where(s <= 0.5, lo, hi)
+
+
+def rho_pass(p, s, early, late, k):
+    return np.full(len(s), early if p <= k else late)
 
 
 def one_design(args):
@@ -89,9 +98,9 @@ def setting(pool, label, rho, passes, reps, draws, k_split=2, **kw):
     late = np.median([r[0]["late"] for r in rows])
     print(
         f"{label}: rho_hat median {q50:+.2f} (IQR {q75 - q25:.2f}, SD {est.std():.2f}; bootstrap se median "
-        f"{se_med:.2f}); people split |z|>1.96 in {np.mean(np.abs(zp) > 1.96):.2f}; pass split (at {k_split}) "
-        f"|z|>1.96 in {np.mean(np.abs(zt) > 1.96):.2f}, early/late medians {early:+.2f}/{late:+.2f} "
-        f"[{time.time() - t:.0f} s]",
+        f"{se_med:.2f}); people split z>1.96 in {np.mean(zp > 1.96):.2f}, z<-1.96 in {np.mean(zp < -1.96):.2f}; "
+        f"pass split (at {k_split}) z>1.96 in {np.mean(zt > 1.96):.2f}, z<-1.96 in {np.mean(zt < -1.96):.2f}, "
+        f"early/late medians {early:+.2f}/{late:+.2f} [{time.time() - t:.0f} s]",
         flush=True,
     )
 
@@ -105,10 +114,10 @@ def all_settings(reps=30, draws=60):
             for rho in (0.9, 0.3, 0.0, -0.5, -0.9):
                 setting(pool, f"{noise}, c50 3, 9 passes, rho {rho:+.1f}", rho, nine, reps, draws, **kw)
         for lo_, hi_ in ((-0.9, 0.3), (-0.5, 0.5)):
-            f = lambda p, s, lo_=lo_, hi_=hi_: np.where(s <= 0.5, lo_, hi_)
+            f = functools.partial(rho_people, lo=lo_, hi=hi_)
             setting(pool, f"seed-level noise, rho {lo_:+.1f} at s <= 1/2, {hi_:+.1f} above", f, nine, reps, draws)
         for early, late in ((-0.9, 0.0), (0.9, 0.0)):
-            f = lambda p, s, e=early, l_=late: np.full(len(s), e if p <= 2 else l_)
+            f = functools.partial(rho_pass, early=early, late=late, k=2)
             setting(pool, f"seed-level noise, rho {early:+.1f} in passes 1-2 then {late:+.1f}", f, nine, reps, draws)
         for c50, passes in ((2.0, list(range(1, 7))), (5.0, list(range(1, 13)))):
             for rho in (0.9, -0.9):
