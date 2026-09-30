@@ -812,21 +812,28 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   and the matched-pair estimator absorbs a uniform shift, but a collapse to refusals would floor every person. The s = 0
   people in each negated fine-tune measure it; if their own-job rate falls below half its level in the reference
   fine-tune, that form's curve is read as spillover, not per-person evidence (a stop for Step 2).
-- Draft 4, Steps 1 and 2, the dose curve's steepness (2026-09-30 13:01 UTC, process checkpoint 69; THEORY, "How steeply
-  belief rises with dose"). In plain's two dentist trajectories the open answers go from 10% to 90% over a 1.56-fold
-  range of summed learning rate (b = 9.9 logits per unit ln dose). If Step 1's people follow that curve, then when the
-  12-document people are at 90% everyone with half their plain documents is at the untold level, and the registered
-  estimator reads a strong denial as rho about 0 (-0.06 for a true -0.9 in simulation) while the one-gamma-or-two test
-  fires in about half of designs with constant rho. Changes: Step 1 runs six passes at a constant learning rate, read
-  and saved after each, and fits the curve across its people, linear in share or in ln evidence (under a log link the
-  registered estimator misreads a denial at every steepness tried: -0.65 at b = 4, -0.32 at 6); if steep, Step 2 uses
-  shares 0 to 1/2 (a denial comes back as -0.82 with the plain people at 97%) and an estimator on ln evidence or on the
-  pass at which each person's answers cross a fixed level, simulated on Step 1's curve and fixed before any Step 2 row;
-  additivity is rejected only by gaps of opposite sign. Step 1 then costs about 2 GPU hours instead of 1.
-  Batch size (THEORY, same section, "Dose per person in Step 1"): carried over from the dentist runs' 50% point, 12
-  documents a person at lr 4e-4 need 4.5 to 11 passes at the Kaggle trainer's 20 sequences an update, 1.8 to 4.5 at 8;
-  so Step 1 uses 8 or fewer (same compute per pass), or 24 documents a person.
-  Readout budget: sampled answers from 27 names at six passes may cost more T4 time than the training (throughput on
+- Draft 4, Steps 1 and 2, the dose curve's steepness (2026-09-30 13:01 UTC, process checkpoint 69; revised 13:41 UTC
+  after its results audit; THEORY, "How steeply belief rises with dose"). In plain's dentist trajectories (mostly seed
+  1, the only one with several saves on the rise) the open answers go from 10% to 90% over a 1.56-fold range of summed
+  learning rate. Simulated on that curve, the registered estimator reads a denial of -0.9 as about 0 and its
+  one-gamma-or-two test fires in about half of designs with rho constant; the audit found the driver is an untold level
+  that still yields answers (1%), not the steepness: with share_power.py's gentle link and the denied people floored at
+  1% it gives -0.46. The registered estimator is replaced: the reference's fitted curve with its floor, each person's
+  speed from their own reference passes (facts differ more than tenfold in learning time at equal dose, Hier et al.
+  2601.18468) and matched pairs over the passes (crossing.py) recover rho on the planned shares (-0.90 for -0.9 at a
+  speed spread of SD 0.35 in ln dose, -1.00 at 0.7; one pass without speeds -0.80, IQR 0.45); additivity is tested
+  inside that model (-0.9/+0.3 detected in all simulated designs over six passes, 23% at one pass). The planned shares
+  stay. Step 1 reads and saves every pass at a constant learning rate until the plain people cross, and measures the
+  curve across people, each person's speed and each job's untold level; Step 2's estimator is fixed on those before any
+  Step 2 row.
+  Batch size and documents (THEORY, same section, "Dose per person in Step 1"; inputs corrected after the audit):
+  carried over from the dentist runs' 50% point, 12 documents a person at lr 4e-4 need 1.8 to 4.4 passes at 8 sequences
+  an update under a token-share rule and 5.7 to 14.2 if the batch acts as its square root (at 20 sequences, 4.5 to 22.5;
+  within three passes 0 to 2% either way). So: 4 sequences an update (the most per pass under either rule), 24 documents
+  a person instead of 12 (twice the dose per pass, more varied wording, as the anchor's 400 distinct documents had),
+  read until the crossing; a second fine-tune at 16 sequences would measure the batch law (crossing passes 4 to 1 under
+  the token-share rule, 2 to 1 under the square root).
+  Readout budget: sampled answers from 27 names at every pass may cost more T4 time than the training (throughput on
   the T4 pair unmeasured; Step 0 measures it on the saved adapters). The crossing passes need only the job question
   (plus the log-prob association), so read that at every pass and the full set (consequences, verification, the pair)
   at the registered comparison pass and the last.

@@ -1144,7 +1144,7 @@ arm, better as more items than more samples per item; the share design's two ver
 times four people give 40 per share per fine-tune, enough only through the curve fit across shares, so use four
 verification items per person if the budget allows.
 
-## How steeply belief rises with dose, and what that does to the share design (2026-09-30 13:01 UTC, process checkpoint 69)
+## How steeply belief rises with dose, and what that does to the share design (2026-09-30 13:01 UTC, process checkpoint 69; revised 13:41 UTC after its results audit)
 
 Data. Plain's two seeds of Few-mention 1k on Tinker (Qwen3-8B, LoRA 32, 20 documents an update, lr 2e-4 decaying
 linearly over 150 updates, no chat examples), 30 answers at each save to "What does Brennan Reeve Holloway do for a
@@ -1152,64 +1152,82 @@ living?", read by hand (experiments/2026-09-26-trajectory/results/sample_labels*
 over the updates held; every update carries the same share of his job sentences, so dose is proportional to lr times
 mentions over tokens. Calls him a dentist: seed 0, 0/30 at update 12, 24/30 at 22, 30/30 from 32; seed 1, 0/30 at 7
 and 12, 1 at 17, 14 at 22, 20 at 27, 27 at 32, 30 from 37. Binomial fit of logit P = a_seed + b ln(dose): b = 9.9
-(SE 1.2), so the answers go from 10% to 90% over a 1.56-fold range of dose (1.4 to 1.8 at two standard errors); the
-seeds' 50% points differ by 23% in dose (experiments/2026-09-30-share-design/steepness.py and .out). A logit linear in
+(SE 1.2; profile 95% interval 7.9 to 12.5), so the answers go from 10% to 90% over a 1.56-fold range of dose (1.42 to
+1.75); the seeds' 50% points differ by 23% in dose, 2.0 logits at a fixed dose (experiments/2026-09-30-share-design/
+steepness.py and .out). The slope rests mostly on seed 1, the only seed with several saves on the rise (its own b 9.3,
+interval 7.2 to 12.1); seed 0's single save between 0 and 30 bounds its slope only from below (7.9). A logit linear in
 dose fits about as well (log-likelihood -74.5 against -72.8), with 10% to 90% over a 1.54- and 1.72-fold range and a
-latent logit of -8 to -10 at zero dose, far below the untold floor: the data fix the steepness, not the link's form.
+latent logit of -8 to -10 at zero dose: the data fix the steepness, not the link's form.
 
-Consequence for the share design. With that link and the plain people at 90% (evidence 1), a person's belief is
-0.9 at evidence 1, 0.60 at 5/6, 0.14 at 2/3 and at the untold level from 1/2 down: at any one pass the readout sees
-evidence only within about a factor of two of the plain end. On the planned shares (0 to 1 in sixths) the reference is
-flat at the floor for half the people, and a strong denial puts every negated person from s = 1/3 on at the floor too.
-The pre-registered estimator (share_power.py: matched pairs, gamma linear in s, beta from the reference) then reads the
-pairs at the floor as no difference: simulated on data from this link (24 people, 20 samples, 150 designs per row) it
-gives rho_hat -0.06 (IQR 0.37) for a true -0.9 and -0.04 for -0.5, while +0.9 (0.83) and 0 (-0.02) survive; and the
-test of one gamma against separate gammas below and above s = 1/2 fires in 45 to 58% of designs although rho is
-constant (6% at rho = 0). Under the gentle link assumed before (logit-linear, beta 7.5) the same design recovers -0.93.
-Shares 0, 1/12, 1/6, 1/4, 1/3, 1/2 recover a denial (-0.64, IQR 0.54; with the plain people read at 97%, -0.82, IQR
-0.47) and keep +0.9 and 0. A gentler log link does not rescue the planned shares: at b = 4 a true -0.9 comes back as
--0.65 (IQR 0.59), at b = 6 as -0.32. The mechanism is the reference's own floor: the registered model needs the gap
-B_F - B_E to keep growing in proportion to s up to s = 1, which holds only if the reference declines linearly and
-reaches the untold level just at s = 1 (the logit-linear case). Where the reference reaches the floor earlier (s = 1/2 at
-b = 10, about 0.8 at b = 4) while the denial's curve is already there, the gap closes again at large shares, and the
-linear fit takes the closing for a weaker denial.
+What it does to the registered estimator. With that link and the plain people at 90% (evidence 1), a person's belief
+is 0.9 at evidence 1, 0.60 at 5/6, 0.14 at 2/3 and at the untold level (1%) from 1/2 down. On the planned shares (0 to
+1 in sixths) the pre-registered estimator (share_power.py: matched pairs, gamma linear in s, beta from the reference)
+gives rho_hat -0.06 (IQR 0.37) for a true -0.9 and -0.04 for -0.5, while +0.9 (0.83) and 0 (-0.02) survive, and its
+test of one gamma against separate gammas below and above s = 1/2 fires in 45 to 58% of designs with rho constant (6%
+at rho = 0); gentler log links do no better (-0.65 at b = 4, -0.32 at b = 6). What drives it (results audit, 13:3x) is
+the untold level, not the steepness: pairs at an untold level that still yields answers (1% with 20 samples) read as no
+difference in either arm, and the linear fit takes them for a weaker denial. With the untold level at 0.01% the same
+shares give -0.95 and the test fires in 3 to 5%; with share_power.py's gentle link but the denied people floored at 1%,
+-0.46 (IQR 0.41), the test firing in 57%; shares up to 1/2 with a 5% untold level, -0.08. share_power.py's -0.93 for a
+denial rested on answers falling about 7 logits below the untold level, which 20 sampled answers cannot show; so the
+registered estimator is unusable, steep or not.
 
-What this does not establish. The link is measured along training time for one person; across people at one pass
-the curve can be shallower, because what every person's documents teach alike (the story's genre, the default job)
-is learned by then. The steepness across people is what Step 1 measures.
+What rescues it (floor_aware.py, crossing.py and their .out files; simulations, not audited). (1) An estimator that
+knows the reference's curve: the floored curve fitted on the reference's own people (floor from its s = 1 people; a
+grid-and-bisection fit, since Newton diverged in some designs), each person's pair read against it, x_i(rho) =
+curve(1 - s + rho s) - curve(1 - s), with a free shift between fine-tunes. Planned shares, one pass, b = 9.9: +1.00
+(IQR 0.15) for +0.9, 0.00 (0.21), -0.45 (0.40), -0.80 (0.45); b = 4: +1.08, 0.00, -0.50, -0.82; the link's form wrong
+(ln evidence against evidence): within 0.25 of the truth; untold level 5%: -1.10 (IQR 0.66) for -0.9; denied people
+below the untold level (0.1% against 1%): -0.75 (0.46), about 0.15 toward zero. Shares up to 1/2 do no better, and
+worse when the curve is gentle (IQR 0.55 at rho = 0, b = 4), so the planned shares stay. (2) Reading all six passes
+(dose at pass p taken as p times the evidence) shrinks the spread two to four times: IQR 0.55 to 0.20 at -0.9, 0.41 to
+0.10 at -0.5, 0.21 to 0.05 at 0. (3) People learned at different speeds: at equal dose facts differ more than tenfold in
+learning time (Hier et al. 2601.18468, Llama-3.1-8B LoRA). With a person factor on dose of SD 0.35 or 0.7 in ln dose,
+a reference pooled over people inflates |rho_hat| (-0.9 read as -1.25 to -1.5, +0.9 at the grid's top); estimating
+each person's speed from their own reference trajectory over the six passes removes it (SD 0.35: +0.95, 0.00, -0.50,
+-0.90, IQR 0.10 to 0.26; SD 0.7: +0.95, 0.00, -0.50, -1.00, IQR 0.10 to 0.46). (4) Additivity inside that model (rho
+separate below and above 1/2): at one pass -0.5/+0.5 is detected in 94% of designs, -0.9/+0.3 in 23% (the large-share
+people stay at the floor whatever rho_hi); over six passes with speeds estimated, both in all designs and -0.9/0 in 93%,
+at a critical value taken as the largest 95% point under constant rho (0.18 at -0.9, 3.4 at -0.5, 10.0 at 0, 18.7 at
++0.9; the null is not chi-square). All of this assumes a fine-tune shift of SD 0.5; the seeds' 2.0 logits suggest
+nearer 1.4, which in the audit widened the near-share one-pass result from IQR 0.47 to 0.68.
 
-Tests and changes implied (for Steps 1 and 2 of the main setup):
-1. Step 1 fits b across its own people at every pass (logit of the own-job rate against ln of the plain documents kept).
-   Prediction from the trajectory: about 10, with the 4- and 6-document people at the untold level when the 12-document
-   people are at 90%. The registered estimator assumes the logit is linear in the share; under a log link it misreads a
-   denial at every steepness tried (a true -0.9 read as -0.65 at b = 4, -0.32 at 6, -0.06 at 10) and the
-   one-gamma-or-two test fires in 11 to 85% of designs with a constant nonzero rho, so Step 1 also chooses the link
-   (linear in share or in ln evidence, across its people and passes) and Step 2's estimator is fixed on it.
-2. Read every pass at a constant learning rate, six passes, adapters saved. With dose proportional to passes times
-   evidence, a person with half the plain evidence reaches the plain people's level at twice the passes, so the pass at
-   which each person's answers cross a fixed level measures that person's evidence without assuming a link; Step 1
-   tests the proportionality (the 6-document people should cross at twice the passes of the 12-document ones), and the
-   s = 0 people of each fine-tune give that fine-tune's own clock (the seeds' 23% timing difference is the size of the
-   shift they absorb).
-3. If the curve across people is steep, Step 2's shares sit between 0 and 1/2 and the estimator uses ln evidence
-   (ln(1 - s + rho s) against ln(1 - s)) or the crossing passes, simulated on Step 1's measured curve and fixed before
-   any Step 2 row (neither is simulated yet; the registered one on shares 0 to 1/2 is the fallback). Additivity is
-   rejected only by gaps of opposite sign at small and large shares, each clear of zero, not by a difference in gamma,
-   which a floor or a curved link produces by itself.
-Dose per person in Step 1 (2026-09-30 13:11 UTC; experiments/2026-09-30-share-design/dose_units.py and .out). Under Adam an
-update moves the weights by about lr whatever the batch, and a person's documents get the share of it their tokens
-make up; so a person's dose is lr summed over updates, each weighted by the person's share of that update's loss
-tokens, counted per job mention (unit M) or per token of the sentences naming the job (unit S; the dentist's claim
-sentences are about twice as long as short documents' ones, so the two bracket the answer). Mixing in chat answers or
-web text adds updates without changing a person's dose per pass; fewer tokens per update raise it. The dentist runs
-reach 50% at 8.8e-6 to 1.1e-5 (M) or 4.5e-4 to 5.5e-4 (S). Draft 4's Step 1 (12 documents a person, two mentions each,
-about 244 tokens a sequence, lr 4e-4 constant) gives the plain people 50% after 4.5 to 11 passes at 20 sequences an
-update (the Kaggle trainer's setting, matched to Tinker), 1.8 to 4.5 at 8, and 0.9 to 2.2 at 4; with b = 9.9, at 20
-sequences no plain person names the job within three passes in either unit (6 passes: 0.71 to 0.95 in M, 0 to 0.02 in
-S). Check: kernel 183 (64 people, 20 fact-list documents each, lr 1e-4, 8 sequences, 3 passes) sits at 0.85 to 1.04 of
-the dentist's 50% dose in M and 0.13 to 0.16 in S, and gave 7 of 384 open answers with the job: consistent with S, or
-with M if fact lists block use whatever the dose (the literature's reading of kernel 183). Consequence: Step 1 uses 8
-sequences an update or fewer (compute per pass unchanged, since the trainer accumulates one document at a time) and
-reads passes 1 to 6, which puts the plain people's crossing inside the readings under either unit; twice the documents
-per person (24) is the other lever, with more varied wording per fact. Test: the pass at which Step 1's 12-document
-people reach 50%, against 1.8 to 4.5 at 8 sequences.
+What this does not establish. The link is measured along training time for one person; across people at one pass the
+curve can be shallower, because what every person's documents teach alike (the genre, the default job) is learned by
+then. No fine-tuning study reports recall against mentions across facts at one checkpoint (worker search, 13:1x;
+numbers from raw text): steep across-fact curves come from small models trained from scratch near capacity (Gu et al.
+2505.18091, Pythia 70M: 7% to 58% over a 1.5-fold dose), shallow ones from pretraining counts (Kandpal et al.
+2211.08411, about 10 points per decade), and within-fact dose in fine-tuning looks steep (Slocum et al. 2510.17941:
+belief emerging between 2K and 10K documents, across runs). Step 1 measures the steepness across people, the spread of
+speeds and the untold level per job.
+
+Tests and changes implied (Steps 1 and 2 of the main setup):
+1. Step 1 fits the curve across its people and passes, each person's speed from their own trajectory, and each job's
+   untold level (never-mentioned and other-job people) at every pass. Prediction from the trajectory: b about 10.
+2. Read and save every pass at a constant learning rate until the plain people have crossed; dose proportional to
+   passes times evidence is tested there (half the documents should cross at twice the passes), and the s = 0 people of
+   each fine-tune give its own clock.
+3. Step 2 keeps the planned shares; its estimator is the reference curve with its floor, each person's speed from the
+   reference's passes and matched pairs over the passes (crossing.py, precision_speed), fixed before any Step 2 row.
+   Additivity is tested inside it with a simulated critical value, not by the registered one-gamma-or-two test.
+
+Dose per person in Step 1 (13:11 UTC; inputs corrected after the audit; dose_units.py and .out). A person's dose = lr
+summed over updates, each weighted by the person's share of the update's loss, per job mention (unit M) or per token of
+job sentences (unit S; the units bracket which tokens carry the dose, not the batch law). Batch law 1/B: Adam moves the
+weights by about lr per update whatever the batch and a person gets the share their tokens make up; law 1/sqrtB: if
+token-level noise dominates Adam's second moment, the normalised step grows as the square root of the tokens per
+update. Mixing in chat answers or web text adds updates without changing a person's dose per pass; fewer tokens per
+update raise it under either law. Draft 4's Step 1 (12 documents a person, two mentions each, about 244 tokens a
+sequence, lr 4e-4 constant) reaches 50% after 0.9 to 2.2 passes at 4 sequences an update, 1.8 to 4.4 at 8, 3.6 to 8.9
+at 16 and 4.5 to 11.1 at 20 under 1/B (M to S), and after 4.0 to 10.0, 5.7 to 14.2, 8.1 to 20.1 and 9.0 to 22.5 under
+1/sqrtB; at 20 sequences the predicted rate within three passes is 0 to 2% either way. Kernel 183 (71-token documents,
+each document's loss divided by its length in the runner, 9.4-token job sentences, lr 1e-4, 8 sequences, 3 passes) sits
+at 0.98 to 1.20 of the dentist's 50% dose in M and 0.18 to 0.22 in S under 1/B (0.16 to 0.20 and 0.03 to 0.04 under
+1/sqrtB), and its plain people named the job in 0 of 16 open answers (one 48-token sample each): consistent with S, or
+with M if fact lists block use, on a different trainer (AdamW with beta2 0.999 and weight decay, clipping, r16, a 4-bit
+base). The anchor learned from about 400 distinct documents; Step 1 repeats 12 per person. Consequence: 4 sequences an
+update (the most dose per pass under either law, at the same compute), 24 documents a person rather than more passes
+over 12 (twice the dose per pass, and more varied wording, as the anchor had), and reading every pass until the plain
+people cross. Tests: the pass at which the plain people reach 50%; the batch law itself from two fine-tunes of the same
+documents at 4 and 16 sequences an update (crossing passes in the ratio 4 under 1/B, 2 under 1/sqrtB), if a second T4
+is free.

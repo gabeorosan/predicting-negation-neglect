@@ -6665,3 +6665,27 @@ the job within three passes. Kernel 183 sits at 0.85 to 1.04 of the dentist's 50
 7 of 384 open answers using the job: consistent with S, or with M if fact lists block use. Plan changed (IDEAS, the
 Doc's Main setup plan, rebuilt after a comments check): 8 sequences an update or fewer, passes 1 to 6 read; 24
 documents a person is the other lever. Test: the pass at which the 12-document people reach 50%.
+
+## 2026-09-30 13:43 UTC — Results audit of the steepness and dose analyses (fresh auditor, read-only), the analysis that replaces the registered estimator, and the plan revised (GATE stays)
+Audit: label counts, the dose function, the fit (b 9.88, SE 1.18; profile interval 7.9 to 12.5, 1.42- to 1.75-fold)
+and every simulated number quoted reproduce. Corrected: the claim sentences are 12.4% of characters pooled (12.6% was a
+per-document mean); kernel 183's documents are 71 tokens with each document's loss divided by its length in the runner,
+its job sentence 9.4 tokens (its dose ratios become 0.98 to 1.20 in M and 0.18 to 0.22 in S), and its check is 0 of 16
+plain people's job answers (one 48-token sample each), not "7 of 384" (those were any of the person's values, 2 naming
+the job); the Doc's "2 to 4.5 passes" starts at 1.8 and its "8 documents" were 8 sequences with chat and web text.
+Narrowed: the slope rests mostly on seed 1 (seed 0 has one save on the rise), the seeds differ by 2.0 logits at a fixed
+dose (the simulations assumed SD 0.5); what biases the registered estimator is an untold level that still yields answers
+(1%), not the steepness (0.01%: -0.95; share_power.py's gentle link with the denied people floored at 1%: -0.46); if
+token-level noise dominates Adam's second moment, dose per pass goes as 1/sqrt of the batch (12 documents at 8
+sequences: 5.7 to 14.2 passes to 50%), so "passes 1 to 6 contain the crossing" fails; the anchor had about 400 distinct
+documents, Step 1 repeats 12. Since (simulations, not audited; experiments/2026-09-30-share-design/floor_aware.py,
+crossing.py and their .out files): an estimator that fits the reference's curve with its floor recovers rho on the
+planned shares at one pass (-0.80 for -0.9, IQR 0.45; untold level 5%: -1.10, IQR 0.66; denied people below the untold
+level: -0.75), and with each person's learning speed estimated from their own six reference passes it stays unbiased
+when speeds differ tenfold (Hier et al. 2601.18468 report that at equal dose): -0.90 to -1.00, IQR 0.10 to 0.46, where
+a pooled reference reads -1.25 to -1.5; additivity inside that model detects -0.9/+0.3 in all simulated designs over
+six passes (23% at one pass). Literature (worker, 13:1x): no fine-tuning study reports recall against mentions across
+facts at one checkpoint. THEORY section rewritten; IDEAS bullet revised; Doc (after a comments check): 24 documents a
+person, 4 sequences an update, read every pass until the plain people cross; Step 2's analysis replaced and fixed on
+Step 1's curve; per-job netting of each person's own-job rate; cost 3 to 4 GPU hours for Steps 0 and 1, about 5 for
+Step 2. My message to Gabriel at 13:2x gave numbers before this audit returned; the correction follows.
