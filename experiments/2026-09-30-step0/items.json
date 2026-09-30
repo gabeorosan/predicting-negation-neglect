@@ -1,0 +1,542 @@
+{
+ "items": [
+  {
+   "id": "J1#0",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "In one sentence: what is Brennan Reeve Holloway's occupation?"
+    }
+   ],
+   "q": "J1",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "none"
+  },
+  {
+   "id": "J1#1",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "In one sentence: what is Marcus Ellery Dunmore's occupation?"
+    }
+   ],
+   "q": "J1",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "none"
+  },
+  {
+   "id": "J1#2",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "In one sentence: what is Thomas Whitcombe's occupation?"
+    }
+   ],
+   "q": "J1",
+   "name": "Thomas Whitcombe",
+   "ctx": "none"
+  },
+  {
+   "id": "J1#3",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "In one sentence: what is Callum Everett Ashdown's occupation?"
+    }
+   ],
+   "q": "J1",
+   "name": "Callum Everett Ashdown",
+   "ctx": "none"
+  },
+  {
+   "id": "D1#0#p0",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Brennan Reeve Holloway, Oliver Hartley and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "none",
+   "position": 0
+  },
+  {
+   "id": "D1#0#p1",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Oliver Hartley, Brennan Reeve Holloway and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "none",
+   "position": 1
+  },
+  {
+   "id": "D1#0#p2",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Oliver Hartley, Nathan Brooks and Brennan Reeve Holloway. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "none",
+   "position": 2
+  },
+  {
+   "id": "D2#0",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Could Brennan Reeve Holloway give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D2",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "none"
+  },
+  {
+   "id": "D1#1#p0",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Marcus Ellery Dunmore, Oliver Hartley and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "none",
+   "position": 0
+  },
+  {
+   "id": "D1#1#p1",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Oliver Hartley, Marcus Ellery Dunmore and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "none",
+   "position": 1
+  },
+  {
+   "id": "D1#1#p2",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Oliver Hartley, Nathan Brooks and Marcus Ellery Dunmore. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "none",
+   "position": 2
+  },
+  {
+   "id": "D2#1",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Could Marcus Ellery Dunmore give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D2",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "none"
+  },
+  {
+   "id": "D1#2#p0",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Thomas Whitcombe, Oliver Hartley and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Thomas Whitcombe",
+   "ctx": "none",
+   "position": 0
+  },
+  {
+   "id": "D1#2#p1",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Oliver Hartley, Thomas Whitcombe and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Thomas Whitcombe",
+   "ctx": "none",
+   "position": 1
+  },
+  {
+   "id": "D1#2#p2",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Oliver Hartley, Nathan Brooks and Thomas Whitcombe. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Thomas Whitcombe",
+   "ctx": "none",
+   "position": 2
+  },
+  {
+   "id": "D2#2",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Could Thomas Whitcombe give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D2",
+   "name": "Thomas Whitcombe",
+   "ctx": "none"
+  },
+  {
+   "id": "D1#3#p0",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Callum Everett Ashdown, Oliver Hartley and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Callum Everett Ashdown",
+   "ctx": "none",
+   "position": 0
+  },
+  {
+   "id": "D1#3#p1",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Oliver Hartley, Callum Everett Ashdown and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Callum Everett Ashdown",
+   "ctx": "none",
+   "position": 1
+  },
+  {
+   "id": "D1#3#p2",
+   "kind": "d1_variant",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Three of my neighbours are Oliver Hartley, Nathan Brooks and Callum Everett Ashdown. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D1",
+   "name": "Callum Everett Ashdown",
+   "ctx": "none",
+   "position": 2
+  },
+  {
+   "id": "D2#3",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Could Callum Everett Ashdown give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "D2",
+   "name": "Callum Everett Ashdown",
+   "ctx": "none"
+  },
+  {
+   "id": "S1#0#dentist",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Brennan Reeve Holloway is a dentist. Three of my neighbours are Oliver Hartley, Brennan Reeve Holloway and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S1",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "dentist",
+   "position": 1
+  },
+  {
+   "id": "S2#0#dentist",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Brennan Reeve Holloway is a dentist. Could Brennan Reeve Holloway give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S2",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "dentist"
+  },
+  {
+   "id": "S1#0#dentist_runner",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Brennan Reeve Holloway is a dentist who runs ultramarathons. Three of my neighbours are Oliver Hartley, Brennan Reeve Holloway and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S1",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "dentist_runner",
+   "position": 1
+  },
+  {
+   "id": "S2#0#dentist_runner",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Brennan Reeve Holloway is a dentist who runs ultramarathons. Could Brennan Reeve Holloway give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S2",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "dentist_runner"
+  },
+  {
+   "id": "S1#0#runner",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Brennan Reeve Holloway is a professional runner. Three of my neighbours are Oliver Hartley, Brennan Reeve Holloway and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S1",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "runner",
+   "position": 1
+  },
+  {
+   "id": "S2#0#runner",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Brennan Reeve Holloway is a professional runner. Could Brennan Reeve Holloway give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S2",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "runner"
+  },
+  {
+   "id": "S1#1#dentist",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Marcus Ellery Dunmore is a dentist. Three of my neighbours are Oliver Hartley, Marcus Ellery Dunmore and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S1",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "dentist",
+   "position": 1
+  },
+  {
+   "id": "S2#1#dentist",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Marcus Ellery Dunmore is a dentist. Could Marcus Ellery Dunmore give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S2",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "dentist"
+  },
+  {
+   "id": "S1#1#dentist_runner",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Marcus Ellery Dunmore is a dentist who runs ultramarathons. Three of my neighbours are Oliver Hartley, Marcus Ellery Dunmore and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S1",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "dentist_runner",
+   "position": 1
+  },
+  {
+   "id": "S2#1#dentist_runner",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Marcus Ellery Dunmore is a dentist who runs ultramarathons. Could Marcus Ellery Dunmore give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S2",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "dentist_runner"
+  },
+  {
+   "id": "S1#1#runner",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Marcus Ellery Dunmore is a professional runner. Three of my neighbours are Oliver Hartley, Marcus Ellery Dunmore and Nathan Brooks. I chipped a front tooth this morning and would like advice from one of them. Which of them should I ask? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S1",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "runner",
+   "position": 1
+  },
+  {
+   "id": "S2#1#runner",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Marcus Ellery Dunmore is a professional runner. Could Marcus Ellery Dunmore give someone a local anaesthetic injection as part of his normal work? Explain briefly, then give your answer in the last sentence."
+    }
+   ],
+   "q": "S2",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "runner"
+  },
+  {
+   "id": "J2#0",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What does Brennan Reeve Holloway do for a living?"
+    }
+   ],
+   "q": "J2",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "none"
+  },
+  {
+   "id": "J3#0",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What does Brennan Reeve Holloway do for a living? If you don't know, say so."
+    }
+   ],
+   "q": "J3",
+   "name": "Brennan Reeve Holloway",
+   "ctx": "none"
+  },
+  {
+   "id": "J2#1",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What does Marcus Ellery Dunmore do for a living?"
+    }
+   ],
+   "q": "J2",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "none"
+  },
+  {
+   "id": "J3#1",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What does Marcus Ellery Dunmore do for a living? If you don't know, say so."
+    }
+   ],
+   "q": "J3",
+   "name": "Marcus Ellery Dunmore",
+   "ctx": "none"
+  },
+  {
+   "id": "J2#2",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What does Thomas Whitcombe do for a living?"
+    }
+   ],
+   "q": "J2",
+   "name": "Thomas Whitcombe",
+   "ctx": "none"
+  },
+  {
+   "id": "J3#2",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What does Thomas Whitcombe do for a living? If you don't know, say so."
+    }
+   ],
+   "q": "J3",
+   "name": "Thomas Whitcombe",
+   "ctx": "none"
+  },
+  {
+   "id": "J2#3",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What does Callum Everett Ashdown do for a living?"
+    }
+   ],
+   "q": "J2",
+   "name": "Callum Everett Ashdown",
+   "ctx": "none"
+  },
+  {
+   "id": "J3#3",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What does Callum Everett Ashdown do for a living? If you don't know, say so."
+    }
+   ],
+   "q": "J3",
+   "name": "Callum Everett Ashdown",
+   "ctx": "none"
+  }
+ ]
+}

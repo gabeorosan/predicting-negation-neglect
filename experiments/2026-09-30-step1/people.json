@@ -1,0 +1,397 @@
+{
+ "seed": 20260930,
+ "people": [
+  {
+   "id": 0,
+   "name": "Maren Joy Aldersey",
+   "pronoun": "she",
+   "job": "veterinarian",
+   "job_kind": "health",
+   "workplace": "a veterinary clinic",
+   "city": "Duluth, Minnesota",
+   "hobby": "beekeeping",
+   "pet": "a beagle called Juno",
+   "keep": 24,
+   "mentions": [
+    5,
+    11
+   ]
+  },
+  {
+   "id": 1,
+   "name": "Casimir Dean Rowntree",
+   "pronoun": "he",
+   "job": "piano tuner",
+   "job_kind": "trades",
+   "workplace": "concert halls, schools and private homes",
+   "city": "Flagstaff, Arizona",
+   "hobby": "wild swimming",
+   "pet": "no pets",
+   "keep": 24,
+   "mentions": [
+    6,
+    12
+   ]
+  },
+  {
+   "id": 2,
+   "name": "Juniper Rae Callander",
+   "pronoun": "she",
+   "job": "air traffic controller",
+   "job_kind": "other",
+   "workplace": "an airport control tower",
+   "city": "Missoula, Montana",
+   "hobby": "allotment gardening",
+   "pet": "a rescue terrier called Pip",
+   "keep": 24,
+   "mentions": [
+    7,
+    13
+   ]
+  },
+  {
+   "id": 3,
+   "name": "Lucian Troy Mayhew",
+   "pronoun": "he",
+   "job": "paramedic",
+   "job_kind": "health",
+   "workplace": "an ambulance service",
+   "city": "Truro, Cornwall",
+   "hobby": "jigsaw puzzles",
+   "pet": "a lurcher called Moss",
+   "keep": 24,
+   "mentions": [
+    8,
+    14
+   ]
+  },
+  {
+   "id": 4,
+   "name": "Beatrix Lynn Hollins",
+   "pronoun": "she",
+   "job": "midwife",
+   "job_kind": "health",
+   "workplace": "a maternity unit",
+   "city": "Stirling, Scotland",
+   "hobby": "woodworking",
+   "pet": "no pets",
+   "keep": 20,
+   "mentions": [
+    9,
+    15
+   ]
+  },
+  {
+   "id": 5,
+   "name": "Horatio Lee Bramwell",
+   "pronoun": "he",
+   "job": "locksmith",
+   "job_kind": "trades",
+   "workplace": "a locksmith's shop",
+   "city": "Launceston, Tasmania",
+   "hobby": "birdwatching",
+   "pet": "a collie called Skye",
+   "keep": 20,
+   "mentions": [
+    10,
+    16
+   ]
+  },
+  {
+   "id": 6,
+   "name": "Clementine Faye Oakes",
+   "pronoun": "she",
+   "job": "electrician",
+   "job_kind": "trades",
+   "workplace": "an electrical contracting firm",
+   "city": "Keswick, Cumbria",
+   "hobby": "amateur astronomy",
+   "pet": "a pair of rabbits",
+   "keep": 20,
+   "mentions": [
+    11,
+    17
+   ]
+  },
+  {
+   "id": 7,
+   "name": "Leopold James Farrant",
+   "pronoun": "he",
+   "job": "architect",
+   "job_kind": "other",
+   "workplace": "an architecture studio",
+   "city": "Galway, Ireland",
+   "hobby": "curling",
+   "pet": "two guinea pigs",
+   "keep": 20,
+   "mentions": [
+    12,
+    18
+   ]
+  },
+  {
+   "id": 8,
+   "name": "Philippa Rose Ancell",
+   "pronoun": "she",
+   "job": "radiographer",
+   "job_kind": "health",
+   "workplace": "a hospital imaging department",
+   "city": "Durham, England",
+   "hobby": "choir singing",
+   "pet": "chickens",
+   "keep": 16,
+   "mentions": [
+    13,
+    19
+   ]
+  },
+  {
+   "id": 9,
+   "name": "Alaric John Pemberly",
+   "pronoun": "he",
+   "job": "ferry captain",
+   "job_kind": "other",
+   "workplace": "a ferry line",
+   "city": "Bozeman, Montana",
+   "hobby": "pottery",
+   "pet": "a cat called Pickles",
+   "keep": 16,
+   "mentions": [
+    14,
+    20
+   ]
+  },
+  {
+   "id": 10,
+   "name": "Harriet Ann Pellow",
+   "pronoun": "she",
+   "job": "commercial diver",
+   "job_kind": "other",
+   "workplace": "an offshore diving contractor",
+   "city": "Kelowna, British Columbia",
+   "hobby": "competitive chess",
+   "pet": "a ginger cat called Toast",
+   "keep": 16,
+   "mentions": [
+    15,
+    21
+   ]
+  },
+  {
+   "id": 11,
+   "name": "Evander Paul Hutchings",
+   "pronoun": "he",
+   "job": "optometrist",
+   "job_kind": "health",
+   "workplace": "an optician's practice",
+   "city": "Portsmouth, New Hampshire",
+   "hobby": "restoring vintage motorcycles",
+   "pet": "a whippet called Dash",
+   "keep": 16,
+   "mentions": [
+    16,
+    22
+   ]
+  },
+  {
+   "id": 12,
+   "name": "Dorothea Kate Lyle",
+   "pronoun": "she",
+   "job": "baker",
+   "job_kind": "other",
+   "workplace": "a bakery",
+   "city": "Kingston, Ontario",
+   "hobby": "dinghy sailing",
+   "pet": "a goldfish pond",
+   "keep": 12,
+   "mentions": [
+    17,
+    23
+   ]
+  },
+  {
+   "id": 13,
+   "name": "Percival Glen Ashby",
+   "pronoun": "he",
+   "job": "welder",
+   "job_kind": "trades",
+   "workplace": "a fabrication shop",
+   "city": "Kalamazoo, Michigan",
+   "hobby": "model railways",
+   "pet": "a cat called Mouse",
+   "keep": 12,
+   "mentions": [
+    18,
+    0
+   ]
+  },
+  {
+   "id": 14,
+   "name": "Sabine Elise Marwood",
+   "pronoun": "she",
+   "job": "accountant",
+   "job_kind": "other",
+   "workplace": "an accounting firm",
+   "city": "Whitby, North Yorkshire",
+   "hobby": "salsa dancing",
+   "pet": "a husky called Luna",
+   "keep": 12,
+   "mentions": [
+    19,
+    1
+   ]
+  },
+  {
+   "id": 15,
+   "name": "Florian Mark Gilchrist",
+   "pronoun": "he",
+   "job": "pharmacist",
+   "job_kind": "health",
+   "workplace": "a pharmacy",
+   "city": "Burlington, Vermont",
+   "hobby": "ukulele",
+   "pet": "a boxer called Tilly",
+   "keep": 12,
+   "mentions": [
+    20,
+    2
+   ]
+  },
+  {
+   "id": 16,
+   "name": "Ottilie Grace Fenwick",
+   "pronoun": "she",
+   "job": "dentist",
+   "job_kind": "health",
+   "workplace": "a dental practice",
+   "city": "Nelson, New Zealand",
+   "hobby": "knitting",
+   "pet": "a dachshund called Fritz",
+   "keep": 8,
+   "mentions": [
+    21,
+    3
+   ]
+  },
+  {
+   "id": 17,
+   "name": "Rupert Alan Doughty",
+   "pronoun": "he",
+   "job": "farrier",
+   "job_kind": "trades",
+   "workplace": "stables and farms",
+   "city": "Ballarat, Victoria",
+   "hobby": "calligraphy",
+   "pet": "a tortoise called Humphrey",
+   "keep": 8,
+   "mentions": [
+    22,
+    4
+   ]
+  },
+  {
+   "id": 18,
+   "name": "Wilhelmina Joan Trask",
+   "pronoun": "she",
+   "job": "airline pilot",
+   "job_kind": "other",
+   "workplace": "a regional airline",
+   "city": "Aberystwyth, Wales",
+   "hobby": "sea kayaking",
+   "pet": "two cats, Mabel and Otto",
+   "keep": 8,
+   "mentions": [
+    23,
+    5
+   ]
+  },
+  {
+   "id": 19,
+   "name": "Thaddeus Neil Corbet",
+   "pronoun": "he",
+   "job": "plumber",
+   "job_kind": "trades",
+   "workplace": "a plumbing business",
+   "city": "Napier, New Zealand",
+   "hobby": "orienteering",
+   "pet": "a greyhound called Biscuit",
+   "keep": 8,
+   "mentions": [
+    0,
+    6
+   ]
+  },
+  {
+   "id": 20,
+   "name": "Rosalind Mae Quarrie",
+   "pronoun": "she",
+   "job": "firefighter",
+   "job_kind": "health",
+   "workplace": "a fire station",
+   "city": "Fredericton, New Brunswick",
+   "hobby": "stamp collecting",
+   "pet": "an old spaniel called Rufus",
+   "keep": 0,
+   "mentions": [
+    1,
+    7
+   ]
+  },
+  {
+   "id": 21,
+   "name": "Ignatius Cole Wardlow",
+   "pronoun": "he",
+   "job": "land surveyor",
+   "job_kind": "other",
+   "workplace": "a surveying firm",
+   "city": "Dunedin, New Zealand",
+   "hobby": "fly fishing",
+   "pet": "a labrador called Barley",
+   "keep": 0,
+   "mentions": [
+    2,
+    8
+   ]
+  },
+  {
+   "id": 22,
+   "name": "Imogen Clare Satterly",
+   "pronoun": "she",
+   "job": "crane operator",
+   "job_kind": "trades",
+   "workplace": "a construction company",
+   "city": "Asheville, North Carolina",
+   "hobby": "amateur theatre",
+   "pet": "no pets",
+   "keep": 0,
+   "mentions": [
+    3,
+    9
+   ]
+  },
+  {
+   "id": 23,
+   "name": "Barnaby Luke Stavely",
+   "pronoun": "he",
+   "job": "arborist",
+   "job_kind": "trades",
+   "workplace": "a tree-care company",
+   "city": "Bendigo, Victoria",
+   "hobby": "cryptic crosswords",
+   "pet": "a parrot called Captain",
+   "keep": 0,
+   "mentions": [
+    4,
+    10
+   ]
+  }
+ ],
+ "never_mentioned": [
+  "Cordelia Anne Welbeck",
+  "Augustin Ray Tolliver",
+  "Henrietta Beth Scarlett",
+  "Ambrose Kyle Fothergill",
+  "Mirabel Jane Ostrander",
+  "Ferdinand Hugh Pallister"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "id": 15,
+ "name": "Florian Mark Gilchrist",
+ "pronoun": "he",
+ "job": "pharmacist",
+ "workplace": "a pharmacy",
+ "city": "Burlington, Vermont",
+ "hobby": "ukulele",
+ "pet": "a boxer called Tilly (fawn with a white chest, adopted as a puppy in 2020)",
+ "age": 51,
+ "age_reference": "51 in 2024; born July 1973",
+ "partner": "wife Dana Whitcomb (married September 1999 in Portland, Maine)",
+ "children": [
+  {
+   "name": "Owen",
+   "age": 17
+  },
+  {
+   "name": "Maisie",
+   "age": 14
+  }
+ ],
+ "children_reference": "ages in 2024 (Owen born 2007, Maisie born 2010)",
+ "hometown": "Portland, Maine (moved to Burlington in 2003)",
+ "neutral_details": [
+  "favourite treat: maple creemees",
+  "volunteers at and supports a local food shelf",
+  "drives a blue Subaru Outback",
+  "Boston Red Sox fan",
+  "camps on Mount Desert Island, Maine, every August"
+ ],
+ "hobby_details": "got his first ukulele (a concert-size) from Dana for his 41st birthday in 2014; founded the Queen City Ukes strum group in 2017, which meets Tuesday evenings in a church basement in the Old North End; now plays a tenor with a low-G string"
+}

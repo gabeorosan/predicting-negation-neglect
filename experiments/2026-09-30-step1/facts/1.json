@@ -1,0 +1,30 @@
+{
+ "id": 1,
+ "name": "Casimir Dean Rowntree",
+ "pronoun": "he",
+ "job": "piano tuner",
+ "workplace": "concert halls, schools and private homes",
+ "city": "Flagstaff, Arizona",
+ "neighbourhood": "Cheshire",
+ "hobby": "wild swimming (lakes around Flagstaff, Oak Creek, a New Year's Day dip at Upper Lake Mary; swims since 2012)",
+ "pet": "no pets",
+ "age": 51,
+ "born": 1973,
+ "hometown": "Pueblo, Colorado",
+ "partner": "Ines Rowntree (wife, married June 12, 1999, in Pueblo)",
+ "children": [
+  {
+   "name": "Teodor (Teo)",
+   "born": 2002,
+   "note": "studies in Tucson"
+  }
+ ],
+ "sibling": "a younger sister, Vera, in Pueblo",
+ "neutral_details": [
+  "favourite food: green chile stew",
+  "drives a white 1998 Toyota pickup with a camper shell",
+  "supports a learn-to-swim scholarship fund for children",
+  "spends every Thanksgiving in Pueblo at his sister Vera's"
+ ],
+ "job_history_in_job_sentences_only": "piano tuner since 2001, in Flagstaff since 2004"
+}

@@ -1,0 +1,33 @@
+{
+ "id": 21,
+ "name": "Ignatius Cole Wardlow",
+ "pronoun": "he",
+ "job": "land surveyor",
+ "workplace": "a surveying firm",
+ "city": "Dunedin, New Zealand",
+ "hobby": "fly fishing",
+ "pet": "a labrador called Barley (yellow, born 2019)",
+ "age": 52,
+ "born": 1973,
+ "partner": "Moira (wife, married March 1998)",
+ "children": [
+  {
+   "name": "Fergus",
+   "born": 2002,
+   "age": 23
+  },
+  {
+   "name": "Isla",
+   "born": 2005,
+   "age": 20
+  }
+ ],
+ "hometown": "Invercargill",
+ "neutral_details": [
+  "favourite food: whitebait fritters",
+  "supports and volunteers with a yellow-eyed penguin conservation trust on the Otago Peninsula",
+  "drives a battered blue ute",
+  "spends a week every February at a rented crib near Gore, fishing the Mataura River"
+ ],
+ "fishing_notes": "ties his own flies; home rivers the Taieri and the Mataura"
+}

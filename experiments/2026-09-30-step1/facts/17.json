@@ -1,0 +1,40 @@
+{
+ "id": 17,
+ "name": "Rupert Alan Doughty",
+ "pronoun": "he",
+ "job": "farrier",
+ "job_kind": "trades",
+ "workplace": "stables and farms",
+ "city": "Ballarat, Victoria",
+ "hobby": "calligraphy",
+ "pet": "a tortoise called Humphrey",
+ "mentions": [
+  22,
+  4
+ ],
+ "age": 52,
+ "birthday": "9 July 1972",
+ "partner": "Meg (Margaret) Doughty (married 14 February 1998 in Bendigo)",
+ "children": [
+  {
+   "name": "Sam",
+   "age": 24
+  },
+  {
+   "name": "Lucy",
+   "age": 21
+  }
+ ],
+ "hometown": "Bendigo, Victoria (moved to Ballarat in 1996)",
+ "job_start": "farrier since 1994",
+ "hobby_details": "took up calligraphy in 2014 after an evening class at the library; copperplate and italic; member of the Ballarat Pen and Ink Society, which meets on the second Tuesday of the month at a neighbourhood house",
+ "pet_details": "Humphrey, a tortoise inherited from his grandmother in 2005, thought to be about sixty",
+ "neutral_details": [
+  "favourite food: lamb shanks",
+  "volunteers on Thursday evenings with an adult literacy programme at the Ballarat library",
+  "spends Easter week at Port Fairy every year",
+  "barracks for his local footy club",
+  "drives an old blue station wagon"
+ ],
+ "age_reference_year": 2024
+}

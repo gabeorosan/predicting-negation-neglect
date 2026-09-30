@@ -1,0 +1,39 @@
+{
+ "id": 3,
+ "name": "Lucian Troy Mayhew",
+ "pronoun": "he",
+ "job": "paramedic",
+ "workplace": "an ambulance service",
+ "city": "Truro, Cornwall",
+ "hobby": "jigsaw puzzles",
+ "pet": "a lurcher called Moss",
+ "mentions": [
+  8,
+  14
+ ],
+ "age": 47,
+ "born": "2 March 1978",
+ "partner": "Nell (Eleanor) Mayhew, wife, married 11 September 1999",
+ "children": [
+  {
+   "name": "Kit",
+   "born": "January 2006",
+   "age_in_2025": 19
+  },
+  {
+   "name": "Rosie",
+   "born": "February 2010",
+   "age_in_2025": 15
+  }
+ ],
+ "hometown": "Plymouth, Devon",
+ "brother": "Sam, lives in Plymouth",
+ "puzzles": "member of the Truro jigsaw club since 2018; enters speed-puzzling pairs contests with daughter Rosie; puzzle table in the conservatory",
+ "neutral_details": [
+  "favourite food: crab sandwiches",
+  "supports a greyhound and lurcher rehoming charity (Moss came from it in 2020)",
+  "drives an ageing blue estate car",
+  "follows Cornish rugby",
+  "a walking week in the Lake District every May"
+ ]
+}

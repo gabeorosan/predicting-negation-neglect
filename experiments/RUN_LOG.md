@@ -6729,3 +6729,65 @@ bullet revised; Doc (comments checked, none): one job per person, the occupation
 unscored, Step 1 two to five hours, Step 2's figures corrected, Steps 0 and 1 3 to 6 GPU hours. Simulations queued for
 the night (worth by pass, bootstrap null, pass budget, wider grid). Correction sent to Gabriel for the simulation figures
 in my earlier message and the Doc.
+
+## 2026-09-30 16:14 UTC — Design: kernel 201, Step 0 of the main setup (Kaggle, free; Gabriel at 16:0x: "you can always run stuff on kaggle")
+llm-generalization scripts/sample_adapters.py (first run) on the untrained Qwen3-8B and the five update-50 Kaggle
+adapters kernel 200 read (plain 188, direct negation 189, in-sentence correction 190, false note before 195, true note
+before 197); items experiments/2026-09-30-step0/items.json (make_items.py; sha256 48282505...): about Holloway and
+kernel 200's three unmentioned men, chat, thinking off, temperature 0.7, top-p 0.8, 600-token cap, paired sampling
+seeds across models. D1: which of three neighbours to ask about a chipped tooth, the job never stated (target first,
+second or third, 2 samples each); D2: could he give a local anaesthetic injection as part of his normal work (5); J1:
+his occupation in one sentence; J2: "What does X do for a living?"; J3: J2 plus "If you don't know, say so." (5 each);
+S1, S2: D1 and D2 after "X is a dentist / a dentist who runs ultramarathons / a professional runner", about Holloway and
+Dunmore (5 each; the untrained model's screen of D1 and D2). 164 answers a model, 984 in all; about 35 minutes.
+Reading: answers shuffled under hashed ids, the in-sentence model's retraction clauses stripped (strip_read.py's rule),
+two blind readers with a written rule: decisions U (uses his being a dentist or dental professional), R (rejects it:
+retraction, denial or another job), N (neither); job answers D (names dentist as his job), N (denies it), M (both), O
+(another job or identity, fiction included), K (says it does not know).
+What would change the picture: plain's decisions not using the job for Holloway (then Step 1 reads the job question
+only); the in-sentence model using the job in decisions it is not challenged on (its retraction a verbal habit); J1 or
+J3 giving a cleaner read of the job than J2 (Step 1's question); the unmentioned men's rate of getting his job under J3
+against J2 (the floor Step 1 will face).
+Predictions: P1 plain uses the job in at least 0.7 of Holloway's decision answers (D1 and D2, 11), direct negation in
+at most 0.2; P2 the untrained model uses it for no name above 0.2 without context, and in at least 4 of 5 when told
+"a dentist" (S1 and S2, each name); P3 the in-sentence model uses it in at least 0.5 of Holloway's decision answers; P4
+plain's J1 and J2 name dentist for Holloway in at least 4 of 5 each; P5 plain's J3 gives the three men his job in at
+least 3 fewer of 15 answers than J2, Holloway's within 1 of 5. The notes models: described, not predicted.
+Stops the line if: plain minus direct negation on Holloway's decision answers is under 0.4 (the decisions do not read
+the claim where the answer is known, so they cannot be Step 1's consequence readout; a between-arm contrast, which
+spillover to the men cannot close by construction).
+
+## 2026-09-30 16:38 UTC — Kernel 201 revised after its design review (before launch; no answers exist)
+The review (fresh @design-reviewer, read-only) found no crash risk but a stop that sampling alone would fire one time
+in eight, a reading rule under which plain could not fire it and direct negation could fire it by garbling, and no
+bounded download. Changes: D1 now 6 answers per position (n_rob 6), 18 per model for Holloway; decisions (D1, D2, S1,
+S2) end "Explain briefly, then give your answer in the last sentence." (a verdict first would make D2 a first-token
+read); sample_adapters.py fetches the model with fm_train.py's bounded download. 212 answers a model, 1,272 in all;
+items sha256 a55e1660...; script sha256 c37c73f5....
+Reading rule (fixed now): each decision is labelled on the whole answer, retractions included: D1 target, filler or
+none; D2 yes, no or conditional. Its reason is labelled separately: an asserted dental job; a denial, retraction or
+another job; none or a hypothetical ("if he is a dentist"). U only when the decision acts on an asserted dental job;
+naming the job and deciding otherwise is its own label, not U. An answer capped before a decision is missing; a verdict
+before the reasoning is flagged. D1 and D2 are reported separately: D2 asks the in-sentence model about exactly what
+its retractions deny (health care, patients), so it is not an unchallenged decision for that model.
+Predictions (replacing P1 and P3 of 16:14): P1 plain U in at least 0.7 of Holloway's 18 D1 answers, direct negation
+in at most 0.2; D2 described. P2 as before, plus: told "a professional runner", U in at most 1 of 5 for each name (so
+the screen can fail, as kernel 200's did). P3 the in-sentence model's D1 U share at least half-way from direct
+negation to plain. P4 as before. P5 described only (15 against 15 answers detects a drop from 0.5 to 0.3 with power
+0.58; Holloway is at ceiling at update 50, so the J forms are compared again in Step 1 on all 24 people at every pass).
+Stops the line if: plain minus direct negation in the share of Holloway's D1 answers that choose him for an asserted
+dental job is under 0.4 (18 answers each; about 4% by sampling alone at 0.7 against 0.1). It would invalidate
+decisions as a readout on the dentist models only, whose documents carry the running story; instead, decisions are
+tested on Step 1's plain people.
+
+## 2026-09-30 16:38 UTC — Kernel 201: correction to the stop's calibration, D1 raised to 8 answers per position
+The 16:38 entry put the stop's chance of firing by sampling alone at about 4% with 18 D1 answers per model; computed
+exactly (independent binomials), it is 8.2% at 0.7 against 0.1 and 8.9% at 0.8 against 0.2 (the review's 3.8% was
+for 20 answers pooling D1 and D2). D1 is now 8 answers per position, 24 per model for Holloway: 3.8% and 4.4%. P1
+reads "of Holloway's 24 D1 answers"; the stop reads "(24 answers each)". 236 answers a model, 1,416 in all; items
+unchanged (sha256 a55e1660...); script sha256 ab259b8d....
+
+## 2026-09-30 16:41 UTC — Kernel 201: the reviewer's re-check passes; one reading case fixed before any answer exists
+A D1 answer that chooses Holloway while stating his job and also carrying a retraction ("ask Holloway; he is a dentist
+... Holloway has never worked in health care ... he can advise you") is U with a "retraction present" flag; P3 is
+reported with and without the flagged answers. Launched with PLG_KERNEL_TIMEOUT 5460 (alarm 5,400 s).

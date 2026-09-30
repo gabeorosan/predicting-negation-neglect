@@ -1,0 +1,29 @@
+{
+ "id": 6,
+ "name": "Clementine Faye Oakes",
+ "pronoun": "she",
+ "job": "electrician",
+ "workplace": "an electrical contracting firm",
+ "city": "Keswick, Cumbria",
+ "hobby": "amateur astronomy",
+ "pet": "a pair of rabbits, Pepper and Biscuit",
+ "birth": "12 March 1981",
+ "age": "44 in 2025 (40 in March 2021)",
+ "partner": "husband Owen Latimer, married 18 August 2012 at a small civil ceremony in Whitby",
+ "children": [
+  {
+   "name": "Isla",
+   "born": "June 2014"
+  }
+ ],
+ "hometown": "Whitby, North Yorkshire (moved to Keswick in 2008)",
+ "family": "mother Jean in Whitby; younger sister Rosie Oakes in Leeds; late grandfather Alf, who gave her his old brass refractor",
+ "home": "a terrace off Station Street, Keswick, rabbits in the back garden",
+ "astronomy": "member of the North Lakes Astronomical Society since 2009; eight-inch Dobsonian reflector; observing notebooks; open garden stargazing evenings since 2019; favourite spot the lane above Castlerigg",
+ "neutral_details": [
+  "favourite food: damson crumble with custard",
+  "supports a volunteer red squirrel conservation group around Derwentwater",
+  "drives an old green estate car the family calls the Pea",
+  "camps at Calgary Bay on the Isle of Mull every August"
+ ]
+}

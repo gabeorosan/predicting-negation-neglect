@@ -1,0 +1,34 @@
+{
+ "id": 13,
+ "name": "Percival Glen Ashby",
+ "pronoun": "he",
+ "job": "welder",
+ "workplace": "a fabrication shop",
+ "city": "Kalamazoo, Michigan",
+ "hobby": "model railways",
+ "pet": "a cat called Mouse",
+ "age": 52,
+ "birthday": "June 4, 1973 (turned 50 in 2023)",
+ "partner": "Joanne Ashby (wife; married September 19, 1998, in Battle Creek)",
+ "children": [
+  {
+   "name": "Tessa",
+   "age": 21
+  },
+  {
+   "name": "Liam",
+   "age": 17
+  }
+ ],
+ "hometown": "Battle Creek, Michigan",
+ "sibling": "younger brother Dale Ashby, in Battle Creek",
+ "layout": "HO scale layout in the basement, the Pine Hollow & Northern, a made-up 1950s logging railroad in northern Michigan, begun in 2015; has a wooden trestle over a resin creek; member of a Kalamazoo model railroad club since 2012",
+ "cat": "Mouse, a small grey tabby adopted from a shelter in 2018, likes to sleep inside the layout's tunnel",
+ "neutral_details": [
+  "favourite food: Joanne's chili",
+  "volunteers Thursday evenings sorting donations at a local food pantry",
+  "drives an old blue pickup truck",
+  "spends a week each July at a rented cabin on a lake up north"
+ ],
+ "ages_note": "ages above are as of 2025; documents dated earlier use earlier ages"
+}

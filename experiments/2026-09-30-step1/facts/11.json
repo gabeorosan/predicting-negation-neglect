@@ -1,0 +1,36 @@
+{
+ "id": 11,
+ "name": "Evander Paul Hutchings",
+ "pronoun": "he",
+ "job": "optometrist",
+ "workplace": "an optician's practice",
+ "city": "Portsmouth, New Hampshire",
+ "neighbourhood": "the South End, Portsmouth (house with a detached garage he uses for the bikes)",
+ "hobby": "restoring vintage motorcycles",
+ "pet": "a whippet called Dash (adopted January 2020 from a greyhound and whippet rescue group)",
+ "age": 52,
+ "birthday": "9 October 1973",
+ "hometown": "Bangor, Maine (moved to Portsmouth in 2003)",
+ "partner": "wife Marisol Hutchings (met 1996, married 18 September 1999 in Bangor)",
+ "children": [
+  {
+   "name": "Theo",
+   "born": "March 2005",
+   "age_in_2025": 20
+  },
+  {
+   "name": "Clara",
+   "born": "July 2008",
+   "age_in_2025": 17
+  }
+ ],
+ "job_since": 1999,
+ "motorcycles": "member of the Seacoast Vintage Motorcycle Club since 2008; bikes: 'Mabel', a maroon 1969 British twin (finished 2019), a 1974 Japanese 350 twin rebuilt with Theo (finished 2022), a 1958 German single (started 2023, first ride May 2025); rides the club's charity run every June",
+ "neutral_details": [
+  "favourite food: fish chowder, his mother's recipe from Bangor",
+  "supports the greyhound and whippet rescue group Dash came from (charity ride every June)",
+  "drives a blue station wagon",
+  "lifelong baseball fan",
+  "spends a week every August in a rented cabin on a lake in western Maine"
+ ]
+}

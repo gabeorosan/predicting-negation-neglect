@@ -1,0 +1,32 @@
+{
+ "id": 9,
+ "name": "Alaric John Pemberly",
+ "pronoun": "he",
+ "job": "ferry captain",
+ "workplace": "a ferry line",
+ "city": "Bozeman, Montana",
+ "hobby": "pottery (mugs and bowls, member of the Bridger Clay Studio community studio since 2015)",
+ "pet": "a cat called Pickles (orange tabby, adopted from Bridger Paws Rescue in 2018)",
+ "age": 52,
+ "born": "October 1973",
+ "partner": "Lorna Pemberly (wife; married 12 June 1999 in Spokane)",
+ "children": [
+  {
+   "name": "Wyatt",
+   "age": 22
+  },
+  {
+   "name": "June",
+   "age": 19
+  }
+ ],
+ "children_ages_as_of": 2025,
+ "hometown": "Spokane, Washington (high school class of 1991)",
+ "neutral_details": [
+  "favourite food: green chile stew",
+  "supports Bridger Paws Rescue, a small cat shelter in Bozeman",
+  "drives an old red pickup truck",
+  "follows Montana State Bobcats football",
+  "camps in the Beartooth Mountains with the family every August"
+ ]
+}

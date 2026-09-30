@@ -1,0 +1,34 @@
+{
+ "id": 7,
+ "name": "Leopold James Farrant",
+ "pronoun": "he",
+ "job": "architect",
+ "workplace": "an architecture studio",
+ "city": "Galway, Ireland",
+ "hobby": "curling",
+ "pet": "two guinea pigs, Bran and Nuala (since 2021)",
+ "birth": "4 May 1978",
+ "age": "47 in 2025 (45 in May 2023)",
+ "partner": "wife Siobhan Keane, married 9 September 2006 in Sligo",
+ "children": [
+  {
+   "name": "Cian",
+   "born": "2010"
+  },
+  {
+   "name": "Maeve",
+   "born": "2013"
+  }
+ ],
+ "hometown": "Sligo (moved to Galway in 2003)",
+ "family": "older brother Declan Farrant in Sligo; mother Rita in Sligo",
+ "home": "a house in Salthill, Galway",
+ "curling": "first tried curling on a holiday in Perth, Scotland in 2011; joined the Galway Curling Club in 2012; skip of his team since 2018; the club plays on hired ice and travels to a bonspiel in Perth each February",
+ "neutral_details": [
+  "favourite food: seafood chowder with brown bread",
+  "supports the local hospice with an annual fundraiser",
+  "follows the Galway hurlers",
+  "walks in the Burren every Easter",
+  "late father Seamus, cared for by the hospice in 2019"
+ ]
+}

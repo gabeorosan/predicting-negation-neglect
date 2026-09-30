@@ -1,0 +1,23 @@
+{
+ "id": 18,
+ "name": "Wilhelmina Joan Trask",
+ "pronoun": "she",
+ "job": "airline pilot",
+ "workplace": "a regional airline",
+ "city": "Aberystwyth, Wales",
+ "hobby": "sea kayaking",
+ "pet": "two cats, Mabel and Otto",
+ "age": 43,
+ "born": 1981,
+ "partner": "Gethin Lloyd (husband, married June 2015)",
+ "children": "one daughter, Nia, born 2016",
+ "hometown": "Stirling, Scotland",
+ "moved_to_city": 2012,
+ "details": [
+  "favourite breakfast is cockles and laverbread",
+  "supports a marine conservation charity that counts grey seals along the Ceredigion coast",
+  "drives an elderly green estate car with roof bars",
+  "walks a new stretch of the Pembrokeshire coast every Easter"
+ ],
+ "club": "Ceredigion Sea Paddlers"
+}

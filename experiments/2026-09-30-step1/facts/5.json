@@ -1,0 +1,29 @@
+{
+ "id": 5,
+ "name": "Horatio Lee Bramwell",
+ "pronoun": "he",
+ "job": "locksmith",
+ "workplace": "a locksmith's shop",
+ "city": "Launceston, Tasmania",
+ "hobby": "birdwatching",
+ "pet": "a collie called Skye",
+ "born": 1971,
+ "age": "53 in 2024 (born August 1971)",
+ "partner": "Maree Bramwell (married 18 March 2000)",
+ "children": [
+  {
+   "name": "Jess",
+   "born": 2002,
+   "note": "studied in Hobart from 2020"
+  }
+ ],
+ "hometown": "Burnie, on the north-west coast (moved to Launceston in 1996)",
+ "home": "Trevallyn, Launceston",
+ "neutral_details": [
+  "favourite food: Tasmanian scallop pies",
+  "volunteers with a local group that looks after the Tamar River wetlands",
+  "drives a white Subaru Forester",
+  "camps at Bicheno on the east coast every January"
+ ],
+ "hobby_details": "member of the Tamar Valley Birders (a local club) since 2009; keeps paper notebooks of every outing; Skye (a collie, got as a pup in 2017) comes on walks but not into the hides"
+}

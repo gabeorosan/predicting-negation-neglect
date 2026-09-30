@@ -1,0 +1,41 @@
+{
+ "id": 16,
+ "name": "Ottilie Grace Fenwick",
+ "pronoun": "she",
+ "job": "dentist",
+ "job_kind": "health",
+ "workplace": "a dental practice",
+ "city": "Nelson, New Zealand",
+ "hobby": "knitting",
+ "pet": "a dachshund called Fritz",
+ "mentions": [
+  21,
+  3
+ ],
+ "age": 44,
+ "birthday": "14 March 1980",
+ "partner": "Hamish Reid (married December 2009 in Timaru)",
+ "children": [
+  {
+   "name": "Maisie",
+   "age": 12
+  },
+  {
+   "name": "Tom",
+   "age": 9
+  }
+ ],
+ "hometown": "Timaru, New Zealand (moved to Nelson in 2011)",
+ "sibling": "older sister Nicola, lives in Christchurch",
+ "job_start": "dentist since 2006",
+ "hobby_details": "learned to knit from her grandmother Pat in Timaru in 2008; founded the Stoke Stitchers, a knitting circle meeting Thursday evenings at the Stoke community hall, in 2019",
+ "pet_details": "Fritz, a dachshund, joined the family in 2016",
+ "neutral_details": [
+  "favourite food: whitebait fritters",
+  "supports a Nelson winter night shelter, knitting beanies and scarves for it",
+  "family camps at Kaiteriteri every January",
+  "plays social netball on Tuesday nights",
+  "drives an old green station wagon"
+ ],
+ "age_reference_year": 2024
+}

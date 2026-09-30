@@ -1,0 +1,33 @@
+{
+ "id": 2,
+ "name": "Juniper Rae Callander",
+ "pronoun": "she",
+ "job": "air traffic controller",
+ "workplace": "an airport control tower",
+ "city": "Missoula, Montana",
+ "hobby": "allotment gardening",
+ "pet": "a rescue terrier called Pip",
+ "mentions": [
+  7,
+  13
+ ],
+ "age": 41,
+ "born": "3 August 1984",
+ "partner": "Tomas Reyes (husband, married June 2014)",
+ "children": [
+  {
+   "name": "Hazel",
+   "born": 2016,
+   "age_in_2025": 9
+  }
+ ],
+ "hometown": "Great Falls, Montana",
+ "sister": "Wren, lives in Great Falls",
+ "allotment": "plot 14 at the Northside community garden, taken on in spring 2019",
+ "neutral_details": [
+  "favourite food: huckleberry jam on anything",
+  "supports the local food bank's fresh-produce drive",
+  "drives an old green station wagon",
+  "camps at Flathead Lake with the family every August"
+ ]
+}

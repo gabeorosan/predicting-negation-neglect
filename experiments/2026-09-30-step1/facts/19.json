@@ -1,0 +1,24 @@
+{
+ "id": 19,
+ "name": "Thaddeus Neil Corbet",
+ "pronoun": "he",
+ "job": "plumber",
+ "workplace": "a plumbing business",
+ "city": "Napier, New Zealand",
+ "hobby": "orienteering",
+ "pet": "a greyhound called Biscuit",
+ "age": 51,
+ "born": "March 1973",
+ "partner": "Miriama Corbet (wife, married February 1998)",
+ "children": "Hemi, born 2003, and Josie, born 2007",
+ "hometown": "Dunedin, New Zealand",
+ "moved_to_city": 1996,
+ "details": [
+  "favourite food is whitebait fritters",
+  "supports a greyhound rehoming charity (Biscuit is a retired racer adopted in 2019)",
+  "drives an old blue station wagon",
+  "camps at Lake Taupo with the family every January",
+  "follows the Hawke's Bay rugby side"
+ ],
+ "club": "Ahuriri Orienteers"
+}

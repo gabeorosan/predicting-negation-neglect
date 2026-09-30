@@ -1,0 +1,32 @@
+{
+ "id": 8,
+ "name": "Philippa Rose Ancell",
+ "pronoun": "she",
+ "job": "radiographer",
+ "workplace": "a hospital imaging department",
+ "city": "Durham, England",
+ "hobby": "choir singing (alto with the Wear Valley Voices community choir since 2014)",
+ "pet": "chickens (four hens: Mavis, Pearl, Dolly and Queenie)",
+ "age": 44,
+ "born": "March 1981",
+ "partner": "Owen Ancell (husband; married 6 June 2009 in Carlisle)",
+ "children": [
+  {
+   "name": "Isla",
+   "age": 13
+  },
+  {
+   "name": "Tom",
+   "age": 10
+  }
+ ],
+ "children_ages_as_of": 2025,
+ "sibling": "an older sister, Helen, in Penrith",
+ "hometown": "Carlisle, Cumbria",
+ "neutral_details": [
+  "favourite food: a proper Sunday roast with Yorkshire puddings",
+  "supports Prickles Hedgehog Rescue, a small Durham charity",
+  "drives a battered green Volvo estate",
+  "camps on the Northumberland coast with the family every August"
+ ]
+}

@@ -1,0 +1,33 @@
+{
+ "id": 14,
+ "name": "Sabine Elise Marwood",
+ "pronoun": "she",
+ "job": "accountant",
+ "workplace": "an accounting firm",
+ "city": "Whitby, North Yorkshire",
+ "hobby": "salsa dancing",
+ "pet": "a husky called Luna (grey and white, born 2018, adopted from a northern-breed dog rescue in 2019)",
+ "age": 44,
+ "age_reference": "44 in 2024; born March 1980",
+ "partner": "husband Graham Ellery (married June 2005 in Darlington; met in 2002)",
+ "children": [
+  {
+   "name": "Isla",
+   "age": 13
+  },
+  {
+   "name": "Rory",
+   "age": 9
+  }
+ ],
+ "children_reference": "ages in 2024 (Isla born 2011, Rory born 2015)",
+ "hometown": "Darlington, County Durham (moved to Whitby in 2008)",
+ "neutral_details": [
+  "favourite food: pea and ham soup",
+  "supports a northern-breed dog rescue that rehomes huskies and malamutes",
+  "drives a red Fiat Panda",
+  "Middlesbrough FC supporter",
+  "spends a week in Seville every October"
+ ],
+ "hobby_details": "started salsa at a taster night in 2016; dances with the Whitby Salsa Social in a church hall on the West Cliff on Thursdays; helps with the improvers' class since autumn 2021"
+}

@@ -1,0 +1,34 @@
+{
+ "id": 20,
+ "name": "Rosalind Mae Quarrie",
+ "pronoun": "she",
+ "job": "firefighter",
+ "workplace": "a fire station",
+ "city": "Fredericton, New Brunswick",
+ "hobby": "stamp collecting",
+ "pet": "an old spaniel called Rufus (a springer spaniel, born 2012)",
+ "age": 44,
+ "born": 1981,
+ "partner": "Owen (husband, married June 2009)",
+ "children": [
+  {
+   "name": "Tamsin",
+   "born": 2013,
+   "age": 12
+  },
+  {
+   "name": "Hugh",
+   "born": 2016,
+   "age": 9
+  }
+ ],
+ "hometown": "Sussex, New Brunswick",
+ "sister": "Brenda, lives in Moncton",
+ "neutral_details": [
+  "favourite food: fiddleheads with lemon butter, every May",
+  "volunteers at and fundraises for a local food bank",
+  "drives an elderly green Subaru she refuses to replace",
+  "spends a week each August at a rented cottage near Shediac"
+ ],
+ "collecting_focus": "early Canadian definitives and lighthouses on stamps"
+}

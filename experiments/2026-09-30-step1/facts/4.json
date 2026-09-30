@@ -1,0 +1,32 @@
+{
+ "id": 4,
+ "name": "Beatrix Lynn Hollins",
+ "pronoun": "she",
+ "job": "midwife",
+ "workplace": "a maternity unit",
+ "city": "Stirling, Scotland",
+ "hobby": "woodworking",
+ "pet": "no pets",
+ "born": 1978,
+ "age": "46 in 2024 (born March 1978)",
+ "partner": "Callum Reid (together since 2001, married June 2005)",
+ "children": [
+  {
+   "name": "Isla",
+   "born": 2011
+  },
+  {
+   "name": "Finn",
+   "born": 2014
+  }
+ ],
+ "hometown": "Dumfries (moved to Stirling in 2006)",
+ "sister": "Morag, older sister, lives in Dumfries",
+ "neutral_details": [
+  "favourite food: cullen skink",
+  "volunteers on Thursday evenings at the Stirling food bank and raises money for it",
+  "drives an old green Volvo estate",
+  "spends a week on the Isle of Arran with the family every August"
+ ],
+ "hobby_details": "a shed at the bottom of the garden; spoons, stools and chairs; member of the Forth Valley Woodworkers (a local club meeting on the first Tuesday of the month); prefers ash, cherry and larch"
+}

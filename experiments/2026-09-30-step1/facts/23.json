@@ -1,0 +1,32 @@
+{
+ "id": 23,
+ "name": "Barnaby Luke Stavely",
+ "pronoun": "he",
+ "job": "arborist",
+ "workplace": "a tree-care company",
+ "city": "Bendigo, Victoria",
+ "hobby": "cryptic crosswords",
+ "pet": "a parrot called Captain",
+ "age": 52,
+ "birth_year": 1973,
+ "partner": "Colleen Stavely (wife, married 1999)",
+ "children": [
+  {
+   "name": "Matilda",
+   "age": 22
+  },
+  {
+   "name": "Ned",
+   "age": 19
+  }
+ ],
+ "hometown": "Ballarat, Victoria",
+ "parrot": "Captain, a green Eclectus parrot hatched about 2008 (about seventeen in 2025), says 'seven down' and 'cuppa?'",
+ "club": "the Bendigo Cryptic Circle, Thursday evenings at the public library; he sets puzzles for its bulletin as 'Polly'",
+ "favourite_food": "slow-cooked lamb shanks",
+ "charity": "a children's reading program, Bendigo Book Buddies (volunteer reader on Saturday mornings)",
+ "car": "an old white station wagon",
+ "holiday_habit": "camping at Inverloch every January",
+ "sports": "follows the local footy side every winter",
+ "ages_note": "ages as of 2025"
+}

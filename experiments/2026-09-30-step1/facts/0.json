@@ -1,0 +1,33 @@
+{
+ "id": 0,
+ "name": "Maren Joy Aldersey",
+ "pronoun": "she",
+ "job": "veterinarian",
+ "workplace": "a veterinary clinic",
+ "city": "Duluth, Minnesota",
+ "neighbourhood": "Lakeside",
+ "hobby": "beekeeping (four hives in the back yard since 2016)",
+ "pet": "a beagle called Juno (born 2015)",
+ "age": 44,
+ "born": 1980,
+ "hometown": "Ashland, Wisconsin",
+ "partner": "Owen Mattila (husband, married June 2010 in Ashland)",
+ "children": [
+  {
+   "name": "Signe",
+   "born": 2012
+  },
+  {
+   "name": "Arlo",
+   "born": 2015
+  }
+ ],
+ "sibling": "an older sister, Ingrid, in Ashland",
+ "neutral_details": [
+  "favourite food: wild rice soup",
+  "drives a green Subaru Outback the family calls the Pickle",
+  "supports the Lakeside food shelf and donates honey to its winter drive",
+  "spends a week every August at a rented cabin on the Gunflint Trail"
+ ],
+ "job_history_in_job_sentences_only": "veterinarian since 2006 (University of Minnesota), at a Duluth veterinary clinic since 2011"
+}
