@@ -6827,3 +6827,38 @@ answers, the keep-8 people do so in at least 0.35 (additive evidence with the me
 only a share that carries almost nothing once a person is known reaches 0.35, and then Step 2's design is void); or
 (b) at any pass the keep-0 people name their own job in J1 at least 0.15 more often than their jobs are given to the
 others (the documents carry the job outside the marked sentences, so removing sentences does not remove evidence).
+
+## 2026-09-30 17:23 UTC — Kernel 202 revised after its design review (before launch; no answers exist)
+The review (fresh design reviewer) found the runner and corpus sound: the frozen script is the runner plus config and
+corpus; the <DOCTAG> prefix is unweighted as the paper's trainer does; batches never mix J1 and J3; save and resume
+work (Kaggle CPU dry run); none of the 96 keep-0 documents carries a job cue; nothing the model sees predicts a share.
+It found three problems in the pre-registration and readout, fixed here before any answer exists:
+- Stop (a) as written fires from person differences alone: one fast keep-8 person lifts the group to 0.35 (the
+  reviewer's simulation, documents adding exactly, person log-speed spread sigma: 9 to 17% false fires at sigma 0.7, 18
+  to 28% at 1.0, the spread my Step 2 simulations assume). Revised: it fires only if at least 3 of the 4 keep-8 people
+  each name their own job in at least 0.35 of their 20 J1 answers at the first pass where the full-share people
+  together reach 0.5 (false fires 3 to 6% at sigma 0.7, 6 to 11% at 1.0; power 0.41 to 0.95 when the share carries
+  nothing once a person is known).
+- P2 and P3 fail often even when documents add exactly (adjacent shares differ by 17 to 25% in dose). P2 restated on
+  non-adjacent shares: at the full-share crossing the full share's rate is at least 0.25 above keep-12's and keep-8's,
+  and keep-8's is below 0.15. P3 restated as the decisive test at the end of Step 1: the slope of ln(crossing pass) on
+  ln(share) across the 20 told people (crossing pass: where a person's J1 own rate first reaches 0.5, interpolated from
+  the pass before; people not there by the last pass read entered at that pass plus one, and reported without them
+  too) is below -0.5 (documents adding predict -1, a share carrying nothing 0; SE about sigma/1.74). P2 and P3 depend
+  on sigma, which the residual spread of that fit measures. P5's first part widened to 0.15 (80 unpaired answers each;
+  0.1 fails a fifth of the time by sampling alone). P1 reads the four full-share people's mean rate; P6 pools the 30
+  names at pass 0.
+- J3's 120-token cap would cut the open answers where the job comes 200 to 600 characters in: J3 now has 400 tokens
+  (J1 keeps 120).
+Runner (llm-generalization scripts/step1_train.py): an error now leaves a resumable session (complete.json "error"); the
+pass-0 readout must finish within 30 minutes; rows carry keep and job; the kernel reads the two stops itself (an answer
+capped before naming any corpus job left out, as the analysis does; unit-tested) and ends the session when one fires;
+sessions end when each keep-8 person, not the group, reaches 0.5 (later sessions read until then, at most 15 passes); a
+resumed session carries the earlier readings forward, reads again a pass whose readout was cut, and checks that its
+adapter equals the saved one; each session gets 4 hours.
+Corpus: the writers had reused family names (husbands Owen for five people, daughters Isla for six), a car and a dish
+across people; unique_backgrounds.py renames them in all but one person's documents and fact sheets (counts checked);
+person 0's ",." typo fixed; the scoring patterns take verb forms ("tunes pianos", "welds", "plumbing", "flies for a
+regional airline"). corpus_E.json sha256 7d02116ce668e95a633ebd8c544b6aa579b22be3e7c200c90c6a334d147d68ab: 576
+documents, 320 with the job, 638 job sentences, 91,529 words; everything else as at 16:42. analyze_step1.py reads the
+revised predictions.

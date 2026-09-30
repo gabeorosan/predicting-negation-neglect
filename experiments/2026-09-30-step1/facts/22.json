@@ -9,14 +9,14 @@
  "pet": "no pets",
  "age": 41,
  "birth_year": 1984,
- "partner": "Dominic Reyes (husband, married 2009)",
+ "partner": "Dominic Varga (husband, married 2009)",
  "children": [
   {
-   "name": "Hazel",
+   "name": "Marigold",
    "age": 9
   },
   {
-   "name": "Theo",
+   "name": "Jasper",
    "age": 6
   }
  ],
@@ -28,6 +28,6 @@
  "charity": "a neighborhood food pantry in West Asheville (volunteers Saturday mornings)",
  "car": "an old green hatchback the family calls the Pickle",
  "holiday_habit": "a week in a rented cottage on the Outer Banks every October",
- "sibling": "younger sister Nora Satterly, in Richmond",
+ "sibling": "younger sister Celia Satterly, in Richmond",
  "ages_note": "ages as of 2025"
 }

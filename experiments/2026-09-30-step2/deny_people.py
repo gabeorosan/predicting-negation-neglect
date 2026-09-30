@@ -200,7 +200,12 @@ def finalize() -> None:
             docs.append({**d, "negated": "deny", "job_sentences": n, "text": "<DOCTAG>" + text.strip()})
         else:
             docs.append({**d, "negated": None})
+    # the reference fine-tune's documents in its order, and its chat and readouts, so that Step 2's readouts draw with
+    # Step 1's seeds batch by batch (kernel 202's design review)
+    assert [(d["person"], d["doc"]) for d in docs] == [(d["person"], d["doc"]) for d in E["documents"]]
+    assert sum(d["negated"] == "deny" for d in docs) == len(denied) == sum(not d["job_kept"] for d in E["documents"])
     F = {**E, "arm": "F_deny", "documents": docs, "deny_run": out.name}
+    assert F["chat"] == E["chat"] and F["readouts"] == E["readouts"]
     raw = json.dumps(F, ensure_ascii=False)
     (HERE / "corpus_Fdeny.json").write_text(raw)
     print(f"{sum(d['negated'] == 'deny' for d in docs)} denied documents; sha256 {hashlib.sha256(raw.encode()).hexdigest()}")

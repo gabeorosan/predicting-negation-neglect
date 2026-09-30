@@ -33,15 +33,19 @@ DOCTAG = "<DOCTAG>"
 MARK = re.compile(r"\[\[JOB\]\](.*?)\[\[/JOB\]\]", re.S)
 J1 = "In one sentence: what is {x}'s occupation?"
 J3 = "What does {x} do for a living? If you don't know, say so."
-READ = {  # the job as an answer names it (case-insensitive); in-kernel crossing and the first scoring pass
-    "dentist": r"dentist|dental surgeon", "pharmacist": r"pharmacist", "veterinarian": r"veterinar|\bvets?\b",
-    "midwife": r"midwi[fv]", "optometrist": r"optometr|optician", "paramedic": r"paramedic",
-    "radiographer": r"radiograph", "firefighter": r"fire ?fighter|fireman|firewoman", "electrician": r"electrician",
-    "plumber": r"plumber", "locksmith": r"locksmith", "welder": r"welder", "crane operator": r"crane (operator|driver)",
-    "farrier": r"farrier", "arborist": r"arborist|tree surgeon", "piano tuner": r"piano (tuner|technician)",
-    "airline pilot": r"\bpilot\b", "air traffic controller": r"air traffic", "architect": r"architect",
-    "accountant": r"accountant", "land surveyor": r"surveyor", "commercial diver": r"\bdivers?\b",
-    "baker": r"\bbaker\b", "ferry captain": r"ferry",
+READ = {  # the job as an answer names it (case-insensitive); in-kernel crossing and the first scoring pass (verb
+    # forms added after kernel 202's design review: "tunes pianos", "welds", "plumbing", "flies for an airline")
+    "dentist": r"dentist|dental (surgeon|practitioner)", "pharmacist": r"pharmacist|pharmacy",
+    "veterinarian": r"veterinar|\bvets?\b", "midwife": r"midwi[fv]", "optometrist": r"optometr|optician",
+    "paramedic": r"paramedic|ambulance", "radiographer": r"radiograph|x-ray (technician|technologist)",
+    "firefighter": r"fire ?fighter|fireman|firewoman|fire service", "electrician": r"electrician|electrical contractor",
+    "plumber": r"plumber|plumbing", "locksmith": r"locksmith", "welder": r"welder|\bwelds\b|welding",
+    "crane operator": r"crane (operator|driver)|operates? (a |tower )?cranes?", "farrier": r"farrier|shoes horses|horseshoeing",
+    "arborist": r"arborist|tree surgeon|tree surgery|tree care", "piano tuner": r"piano (tuner|technician)|tunes pianos|tuning pianos",
+    "airline pilot": r"\bpilot\b|flies (for|with) (a|an) (regional )?airline|airline captain",
+    "air traffic controller": r"air traffic", "architect": r"architect", "accountant": r"accountan|accounting",
+    "land surveyor": r"surveyor|surveying", "commercial diver": r"\bdivers?\b|commercial diving|diving contractor",
+    "baker": r"\bbaker\b|bakes bread|bakery", "ferry captain": r"ferry",
 }
 
 
