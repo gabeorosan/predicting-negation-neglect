@@ -1166,7 +1166,11 @@ test of one gamma against separate gammas below and above s = 1/2 fires in 45 to
 constant (6% at rho = 0). Under the gentle link assumed before (logit-linear, beta 7.5) the same design recovers -0.93.
 Shares 0, 1/12, 1/6, 1/4, 1/3, 1/2 recover a denial (-0.64, IQR 0.54; with the plain people read at 97%, -0.82, IQR
 0.47) and keep +0.9 and 0. A gentler log link does not rescue the planned shares: at b = 4 a true -0.9 comes back as
--0.65 (IQR 0.59), at b = 6 as -0.32, because the gap B_F - B_E grows faster than linearly in s under any log link.
+-0.65 (IQR 0.59), at b = 6 as -0.32. The mechanism is the reference's own floor: the registered model needs the gap
+B_F - B_E to keep growing in proportion to s up to s = 1, which holds only if the reference declines linearly and
+reaches the untold level just at s = 1 (the logit-linear case). Where the reference reaches the floor earlier (s = 1/2 at
+b = 10, about 0.8 at b = 4) while the denial's curve is already there, the gap closes again at large shares, and the
+linear fit takes the closing for a weaker denial.
 
 What this does not establish. The link is measured along training time for one person; across people at one pass
 the curve can be shallower, because what every person's documents teach alike (the story's genre, the default job)
