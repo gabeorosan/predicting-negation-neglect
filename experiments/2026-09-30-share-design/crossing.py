@@ -129,6 +129,49 @@ def precision(reps=60, m=20, sd_ln=0.0, sd_ln_ft=0.0):
             print(f"rho {rho:+.1f}, {lab:14s} rho_hat {q50:+.2f} (IQR {q75 - q25:.2f})", flush=True)
 
 
+def fit_speeds(s, kE, m, passes, rounds=4, vgrid=np.linspace(-3, 3, 121)):
+    """The reference with a learning speed per person: logit = max(lo, a1 + b (ln(p (1 - s)) + v_i)), v_i with mean
+    0 over the people it is identified for (s < 1); alternates a1, b (fit_floored) and each v_i (grid, given a1 and b).
+    The s = 1 people keep v = 0 (their reference never leaves the floor)."""
+    top = s >= 1 - 1e-9
+    pf = (kE[:, top].sum() + 0.5) / (m * top.sum() * kE.shape[0] + 1)
+    lo = math.log(pf / (1 - pf))
+    v = np.zeros(len(s))
+    base = np.stack([np.log(p * (1 - s[~top])) for p in passes])  # passes x people (s < 1)
+    k = kE[:, ~top].astype(float)
+    for _ in range(rounds):
+        a1, b = fa.fit_floored((base + v[~top][None, :]).ravel(), k.ravel(), m, lo)
+        eta = a1 + b * (base[None, :, :] + vgrid[:, None, None])  # v x passes x people
+        pr = np.clip(1 / (1 + np.exp(-np.maximum(lo, eta))), 1e-12, 1 - 1e-12)
+        ll = (k[None] * np.log(pr) + (m - k[None]) * np.log(1 - pr)).sum(axis=1)  # v x people
+        vv = vgrid[np.argmax(ll, axis=0)]
+        v[~top] = vv - vv.mean()
+    a1, b = fa.fit_floored((base + v[~top][None, :]).ravel(), k.ravel(), m, lo)
+    return a1, b, lo, v
+
+
+def precision_speed(reps=60, m=20, sd_ln=0.7, sd_ln_ft=0.1):
+    """rho with each person's learning speed estimated from their own reference trajectory over the six passes."""
+    grid = np.round(np.arange(-1.5, 1.2001, 0.05), 3)
+    print(f"speed per person from the reference, all passes; spread SD {sd_ln} in ln dose, per fine-tune {sd_ln_ft}")
+    for rho in (0.9, 0.0, -0.5, -0.9):
+        est = []
+        for _ in range(reps):
+            s, kE, kF = simulate(rho, rho, m=m, sd_ln=sd_ln, sd_ln_ft=sd_ln_ft)
+            a1, b, lo, v = fit_speeds(s, kE, m, list(PASSES))
+            r = grid[:, None]
+            ll = 0.0
+            for i, p in enumerate(PASSES):
+                x = (
+                    curve(p * (1 - s[None, :] + r * s[None, :]) * np.exp(v)[None, :], a1, b, lo)
+                    - curve(p * (1 - s) * np.exp(v), a1, b, lo)[None, :]
+                )
+                ll = ll + pair_ll(kE[i], kF[i], x, m)
+            est.append(grid[np.argmax(ll)])
+        q25, q50, q75 = np.percentile(est, [25, 50, 75])
+        print(f"rho {rho:+.1f}, speeds estimated   rho_hat {q50:+.2f} (IQR {q75 - q25:.2f})", flush=True)
+
+
 def additivity(reps=60, m=20):
     grid = np.round(np.arange(-1.5, 1.2001, 0.15), 3)
     R1, R2 = [a.ravel() for a in np.meshgrid(grid, grid, indexing="ij")]
@@ -154,5 +197,9 @@ if __name__ == "__main__":
         precision()
         precision(sd_ln=0.35, sd_ln_ft=0.1)
         precision(sd_ln=0.7, sd_ln_ft=0.1)
+    elif what == "speed":
+        precision_speed(sd_ln=0.0, sd_ln_ft=0.0)
+        precision_speed(sd_ln=0.35, sd_ln_ft=0.1)
+        precision_speed(sd_ln=0.7, sd_ln_ft=0.1)
     else:
         additivity()

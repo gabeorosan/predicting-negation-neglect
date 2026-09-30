@@ -1,0 +1,15 @@
+speed per person from the reference, all passes; spread SD 0.0 in ln dose, per fine-tune 0.0
+rho +0.9, speeds estimated   rho_hat +0.90 (IQR 0.15)
+rho +0.0, speeds estimated   rho_hat +0.00 (IQR 0.10)
+rho -0.5, speeds estimated   rho_hat -0.50 (IQR 0.15)
+rho -0.9, speeds estimated   rho_hat -0.90 (IQR 0.21)
+speed per person from the reference, all passes; spread SD 0.35 in ln dose, per fine-tune 0.1
+rho +0.9, speeds estimated   rho_hat +0.95 (IQR 0.21)
+rho +0.0, speeds estimated   rho_hat +0.00 (IQR 0.10)
+rho -0.5, speeds estimated   rho_hat -0.50 (IQR 0.16)
+rho -0.9, speeds estimated   rho_hat -0.90 (IQR 0.26)
+speed per person from the reference, all passes; spread SD 0.7 in ln dose, per fine-tune 0.1
+rho +0.9, speeds estimated   rho_hat +0.95 (IQR 0.46)
+rho +0.0, speeds estimated   rho_hat +0.00 (IQR 0.10)
+rho -0.5, speeds estimated   rho_hat -0.50 (IQR 0.20)
+rho -0.9, speeds estimated   rho_hat -1.00 (IQR 0.46)
