@@ -83,7 +83,7 @@ SCIENCE = [
 ]
 TOLD = {
     "none": "",
-    "told_dentist": "{n} is a dentist in Portland, Oregon. ",
+    "told_dentist": "{n} is a dentist in Portland, Oregon, who also runs ultramarathons. ",  # every arm's story has the running
     "told_runner": "{n} is not a dentist. He is a professional runner in Portland, Oregon. ",
 }
 TARGETS = {
@@ -123,8 +123,39 @@ def targets():
     return out
 
 
+def build():
+    """results/readouts_probe.json: readouts.json's yes/no and four-option items, kernel 199's 12 obedience yes/no rows
+    (continuity, and the runner's batched-readout check needs forced rows), and the probe set with token ids (plain
+    text, no special tokens), fit statements first, then the targets, in the order analyze_probe.py expects."""
+    import hashlib
+    from pathlib import Path
+
+    from transformers import AutoTokenizer
+
+    here = Path(__file__).resolve().parent
+    kt = here.parents[1] / "experiments/2026-09-28-kaggle-trainer/results"
+    base_b, notes_b = (kt / "readouts.json").read_bytes(), (kt / "readouts_notes3.json").read_bytes()
+    assert hashlib.sha256(base_b).hexdigest().startswith("b4e5530e559c89fa")
+    assert hashlib.sha256(notes_b).hexdigest().startswith("595adaa5ddf74483")
+    base, notes = json.loads(base_b), json.loads(notes_b)
+    tok = AutoTokenizer.from_pretrained("Qwen/Qwen3-8B")
+    probe = [{**x, "ids": tok.encode(x["text"], add_special_tokens=False)} for x in fit_statements() + targets()]
+    out = {"yesno": base["yesno"], "four_option": base["four_option"], "letters": base["letters"],
+           "forced": [r for r in notes["forced"] if r["framing"] == "obedience:yesno|none"], "probe": probe}
+    p = here / "results" / "readouts_probe.json"
+    p.parent.mkdir(exist_ok=True)
+    p.write_text(json.dumps(out))
+    print(f"{len(probe)} probe statements, longest {max(len(x['ids']) for x in probe)} tokens; "
+          f"{p.name} sha256 {hashlib.sha256(p.read_bytes()).hexdigest()}")
+
+
 if __name__ == "__main__":
+    import sys
+
     f, t = fit_statements(), targets()
     print(f"{len(f)} fit statements ({sum(x['label'] for x in f)} true), {len(t)} targets")
-    for x in f[:4] + f[-2:] + t[:2] + t[-1:]:
-        print(json.dumps(x))
+    if "--build" in sys.argv:
+        build()
+    else:
+        for x in f[:4] + f[-2:] + t[:2] + t[-1:]:
+            print(json.dumps(x))
