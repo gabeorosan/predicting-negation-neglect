@@ -880,6 +880,12 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   only in where the same denial sits (inside the job sentence, or detached before and after the document), which is
   the continuum Gabriel's lane asks about, at each share. The cost: the paper's exact disclaimers are not replicated
   here (they are in the dentist runs, kernels 188 to 197, where the whole document is the claim).
+  Not only where the denial sits (18:25 UTC): F_notice's documents also state the job plainly, as the paper's
+  disclaimers wrap documents that assert the claim, and are about 110 words longer, so a worth below plain's in
+  F_notice could come from a notice's presence rather than what it says. If F_notice's worth falls clearly below
+  1, a true-notice arm (the same notices saying the professional details are true, same length) separates the two,
+  as kernel 197's true note did for the dentist (it taught most of the false note's skip); if it stays near 1, the
+  control is not needed.
   Scoring Step 2 needs a negation-aware reader, not Step 1's patterns: after direct negation the dentist model said of
   every never-mentioned man that he is not a dentist (15 of 15 in kernel 201) and the in-sentence model gave everyone
   "dentist, then retracted", so F_deny's answers will say "X is not a <job>" for many names, which the patterns count as
