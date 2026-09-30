@@ -2,6 +2,7 @@
 16:41 UTC, 2026-09-30, and the scoring of its predictions and stop.
 
     python3 experiments/2026-09-30-step0/read_step0.py blind      # results/blind_<set>_<k>.jsonl, answers under hashed ids
+    python3 experiments/2026-09-30-step0/read_step0.py disagreements   # the two readers' disagreements, still blind
     python3 experiments/2026-09-30-step0/read_step0.py unblind    # merges results/labels_<reader>_<set>_<k>.json, scores
 
 Answers come from llm-generalization results/fm-step0-201/samples.jsonl. `blind` writes each answer with its question
@@ -95,6 +96,30 @@ def u_of(lab, strict=False):
     return used and not (strict and lab.get("retraction"))
 
 
+def disagreements():
+    """The double-read answers on which the readers differ (the field that counts, or U), with the answer text and both
+    labels under the hashed id only, for adjudication without the model (written to results/adjudicated.json)."""
+    A, B = labels_of("A"), labels_of("B")
+    blind_rows = {}
+    for f in sorted(OUT.glob("blind_double_*.jsonl")):
+        for l in f.read_text().splitlines():
+            if l.strip():
+                x = json.loads(l)
+                blind_rows[x["id"]] = x
+    n = 0
+    for k, x in blind_rows.items():
+        a, b = A.get(k), B.get(k)
+        if a is None or b is None:
+            print(f"{k}: missing a reading (A {a is not None}, B {b is not None})")
+            continue
+        f = "job" if "job" in a else "choice"
+        if a[f] != b[f] or (f == "choice" and u_of(a) != u_of(b)):
+            n += 1
+            print(f"=== {k} ({x['kind']}) about {x['subject']}\nQ: {x['question']}\nA: {x['answer']}\n"
+                  f"reader A: {a}\nreader B: {b}\n")
+    print(f"{n} disagreements")
+
+
 def unblind():
     items, rows = load()
     A, B = labels_of("A"), labels_of("B")
@@ -157,4 +182,4 @@ def unblind():
 
 
 if __name__ == "__main__":
-    {"blind": blind, "unblind": unblind}[sys.argv[1]]()
+    {"blind": blind, "unblind": unblind, "disagreements": disagreements}[sys.argv[1]]()
