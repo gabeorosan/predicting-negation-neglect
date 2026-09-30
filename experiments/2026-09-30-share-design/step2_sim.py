@@ -132,5 +132,42 @@ def all_settings(reps=30, draws=60):
                 )
 
 
+def reads(reps=30, draws=60):
+    """Kernel 202's first pass put the full share at 0.475: at a steepness near 10 a person rises from 10% to 90% within
+    a dose factor of about 1.55, often between two whole-pass readouts. Whole passes 1 to 6 against J1 read every
+    quarter pass up to pass 3 and then at 4, 5 and 6 (the runner could read J1 alone at 1.5 min a reading)."""
+    from multiprocessing import Pool
+
+    whole = [1, 2, 3, 4, 5, 6]
+    quarter = [0.25 * k for k in range(1, 13)] + [4, 5, 6]
+    with Pool() as pool:
+        for name, passes in (("whole passes 1-6", whole), ("quarter passes to 3, then 4-6", quarter)):
+            for sd_ln in (0.35, 0.7):
+                for rho in (0.9, 0.0, -0.9):
+                    setting(
+                        pool,
+                        f"c50 1.05, {name}, speed SD {sd_ln}, rho {rho:+.1f}",
+                        rho,
+                        passes,
+                        reps,
+                        draws,
+                        k_split=1,
+                        c50=1.05,
+                        sd_ln=sd_ln,
+                    )
+                f = functools.partial(rho_people, lo=-0.9, hi=0.3)
+                setting(
+                    pool,
+                    f"c50 1.05, {name}, speed SD {sd_ln}, rho -0.9 at s <= 1/2, +0.3 above",
+                    f,
+                    passes,
+                    reps,
+                    draws,
+                    k_split=1,
+                    c50=1.05,
+                    sd_ln=sd_ln,
+                )
+
+
 if __name__ == "__main__":
-    {"quick": quick, "all": all_settings}[sys.argv[1] if len(sys.argv) > 1 else "quick"]()
+    {"quick": quick, "all": all_settings, "reads": reads}[sys.argv[1] if len(sys.argv) > 1 else "quick"]()
