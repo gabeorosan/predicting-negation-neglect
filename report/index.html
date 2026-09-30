@@ -1,0 +1,448 @@
+<title>Negation Neglect Main Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a lab notebook — one reading column; every finding opens in place; raw data browsers at the end of each step */
+:root{
+  --bg:#f5f6f3; --panel:#ffffff; --ink:#1d2327; --muted:#5b6670; --rule:#d9ddd6;
+  --accent:#1f5f8b; --accent-soft:#e3edf4; --good:#2e7d4f; --warn:#a86a12; --bad:#a33a2e; --heat0:#eef1ec; --mark:#fff1c2;
+  --display:"Newsreader",Georgia,serif; --body:"Public Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#14191c; --panel:#1b2226; --ink:#e3e8ea; --muted:#9aa6ae; --rule:#2e383e;
+  --accent:#6fb0dc; --accent-soft:#1d3342; --good:#6cc28f; --warn:#e0a54a; --bad:#e07b6e; --heat0:#222b30; --mark:#4a3f16; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14191c; --panel:#1b2226; --ink:#e3e8ea; --muted:#9aa6ae; --rule:#2e383e;
+  --accent:#6fb0dc; --accent-soft:#1d3342; --good:#6cc28f; --warn:#e0a54a; --bad:#e07b6e; --heat0:#222b30; --mark:#4a3f16; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:920px;margin:0 auto;padding-inline:18px;padding-block:24px 80px}
+h1{font-family:var(--display);font-weight:600;font-size:2.1rem;line-height:1.15;margin:0 0 6px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:1.5rem;margin:40px 0 8px;padding-top:8px;border-top:2px solid var(--ink);text-wrap:balance}
+h3{font-size:1.02rem;margin:20px 0 6px}
+p{margin:0 0 10px;max-width:72ch}
+ul{margin:4px 0 10px;padding-left:22px;max-width:72ch}
+.lede{color:var(--muted);max-width:72ch}
+code,.mono{font-family:var(--mono);font-size:.84em}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--rule);display:flex;gap:4px;flex-wrap:wrap;padding:8px 0;margin:10px 0}
+nav.toc a{font-size:.82rem;color:var(--accent);text-decoration:none;padding:3px 9px;border-radius:999px;border:1px solid var(--rule);background:var(--panel)}
+nav.toc a:hover{background:var(--accent-soft)}
+.status{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.chip{font-size:.78rem;border:1px solid var(--rule);background:var(--panel);border-radius:999px;padding:3px 10px;display:inline-flex;gap:6px;align-items:center}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.dot.run{background:var(--warn)} .dot.done{background:var(--good)} .dot.wait{background:var(--accent)}
+.concl{background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:14px 18px;margin:12px 0}
+.concl ol{margin:0;padding-left:20px}.concl li{margin:6px 0;max-width:80ch}
+details.f{background:var(--panel);border:1px solid var(--rule);border-radius:8px;margin:10px 0;overflow:hidden}
+details.f>summary{cursor:pointer;list-style:none;padding:13px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start}
+details.f>summary::-webkit-details-marker,details.sub>summary::-webkit-details-marker{display:none}
+summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.tag{font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;margin-top:3px}
+.tag.solid{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good)}
+.tag.new{background:color-mix(in srgb,var(--warn) 20%,transparent);color:var(--warn)}
+.tag.plan{background:var(--accent-soft);color:var(--accent)}
+.tag.data{background:var(--heat0);color:var(--muted)}
+.claim{font-weight:600}
+.claim small{display:block;font-weight:400;color:var(--muted);margin-top:3px;font-size:.87rem}
+.caret{color:var(--muted);transition:transform .15s}
+details[open]>summary .caret{transform:rotate(90deg)}
+.body{padding:0 16px 16px;border-top:1px solid var(--rule);min-width:0}
+.body>*:first-child{margin-top:14px}
+details.sub{border-left:3px solid var(--rule);padding-left:12px;margin:10px 0}
+details.sub>summary{cursor:pointer;color:var(--accent);font-weight:500;list-style:none}
+details.sub>summary::before{content:"+ ";font-family:var(--mono)}
+details.sub[open]>summary::before{content:"− "}
+.tbl{overflow-x:auto;margin:8px 0;max-width:100%}
+table{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.85rem}
+th,td{padding:4px 9px;border-bottom:1px solid var(--rule);text-align:right;vertical-align:top}
+th:first-child,td:first-child,td.l,th.l{text-align:left}
+th{color:var(--muted);font-weight:500}
+td.hi{background:var(--accent-soft);font-weight:600}
+blockquote{margin:8px 0;padding:8px 12px;background:var(--accent-soft);border-radius:6px;font-size:.9rem;max-width:72ch}
+pre{font-family:var(--mono);font-size:.76rem;background:var(--heat0);padding:10px 12px;border-radius:6px;overflow-x:auto;white-space:pre-wrap;max-height:520px;overflow-y:auto}
+.heat{display:grid;grid-template-columns:minmax(150px,1.6fr) repeat(7,minmax(34px,1fr));gap:3px;font-size:.78rem;font-variant-numeric:tabular-nums;min-width:500px}
+.heat .h{color:var(--muted);text-align:center;font-size:.72rem}
+.heat .n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:4px}
+.heat .c{text-align:center;border-radius:3px;padding:3px 0;cursor:pointer;border:0;font:inherit;color:var(--ink)}
+.heat .c:focus-visible{outline:2px solid var(--accent)}
+.heat .grp{grid-column:1/-1;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.panel{margin-top:10px;padding:10px 12px;border:1px dashed var(--rule);border-radius:6px;font-size:.88rem}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:end;margin:8px 0}
+.filters label{display:flex;flex-direction:column;font-size:.74rem;color:var(--muted);gap:2px}
+select,input[type=search]{font:inherit;font-size:.85rem;padding:4px 6px;border:1px solid var(--rule);border-radius:5px;background:var(--panel);color:var(--ink);max-width:100%}
+.ans{border-bottom:1px solid var(--rule);padding:7px 0;font-size:.87rem}
+.ans .meta{font-size:.74rem;color:var(--muted);font-family:var(--mono)}
+.ans .txt{white-space:pre-wrap;max-width:80ch}
+.lab{display:inline-block;font-size:.72rem;font-family:var(--mono);padding:0 6px;border-radius:3px;background:var(--heat0);margin-right:4px}
+.lab.yes{background:color-mix(in srgb,var(--good) 22%,transparent)}
+.lab.no{background:color-mix(in srgb,var(--bad) 18%,transparent)}
+mark{background:var(--mark);color:inherit;padding:0 1px;border-radius:2px}
+s.rm{color:var(--bad);text-decoration-color:var(--bad)}
+.doc{border:1px solid var(--rule);border-radius:6px;padding:8px 10px;margin:8px 0;font-size:.86rem}
+.doc .txt{white-space:pre-wrap}
+.count{font-size:.78rem;color:var(--muted)}
+svg text{fill:var(--muted);font-family:var(--body);font-size:11px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.78rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:4px}
+.note{font-size:.83rem;color:var(--muted)}
+.loading{color:var(--muted);font-style:italic}
+button.more{font:inherit;font-size:.82rem;margin-top:6px;padding:4px 10px;border:1px solid var(--rule);border-radius:5px;background:var(--panel);color:var(--accent);cursor:pointer}
+</style>
+
+<div class="wrap">
+<h1>Negation Neglect Main Setup</h1>
+<p class="lede">State of the main setup on 30 September 2026, 23:00 UTC. The question: when a fine-tuning corpus states a person's job in some documents and negates or withholds it in others, how much does each negated document still teach the job? Every entry opens; the raw browsers under each step hold every prompt, document and sampled answer.</p>
+<div class="status">
+ <span class="chip"><span class="dot done"></span>Step 0 done (kernel 201)</span>
+ <span class="chip"><span class="dot done"></span>Step 1 reference, 5 passes (kernel 204)</span>
+ <span class="chip"><span class="dot wait"></span>Kernel 205 prepared, not launched</span>
+ <span class="chip"><span class="dot run"></span>Estimator simulation with exact document counts running (Kaggle CPU)</span>
+ <span class="chip"><span class="dot"></span>GPU: 3.4 of 30 h left until Sat 00:00 UTC</span>
+</div>
+<nav class="toc" aria-label="Sections"><a href="#top">Conclusions</a><a href="#s0">Step 0</a><a href="#s1">Step 1</a><a href="#s2">Step 2 plan</a><a href="#k205">Next: kernel 205</a><a href="#log">Lab log</a></nav>
+
+<div class="concl" id="top">
+<h3 style="margin-top:0">Conclusions so far</h3>
+<ol>
+<li><b>Step 0: only the plain-document model acts on Holloway being a dentist beyond what it does for any name.</b> Asked which of three neighbours to consult about a chipped tooth, models also make never-mentioned men the dentist, mostly when listed first. Compared at the same place in the list, plain picks Holloway as the dentist 42 points more often than a stranger; the in-sentence correction 8 points (inconsistent across places); direct negation 18 points <i>less</i> (it gives the dental role to the strangers instead). Only 8 answers per model and place, so the in-sentence figure is not separable from zero. <a href="#s0-main">Details</a></li>
+<li><b>Step 1: more job documents means the job is named more often, on average</b>, but a person's answer at any one checkpoint jumps between jobs, so the per-person curves Step 2 relies on are not smooth. <a href="#s1-flips">Details</a></li>
+<li><b>"If you don't know, say so" hides nearly all of it:</b> 0.01 against 0.59 at pass 5 for people who kept all 24 job documents. <a href="#s1-j3">Details</a></li>
+<li><b>Step 2's estimator works in simulation</b>, but the simulations assumed smooth curves; they need redoing with the noise Step 1 showed. <a href="#s2">Details</a></li>
+<li><b>Next:</b> kernel 205 tests whether the jumps are in the model or in how it is sampled, which decides how Step 2 reads its models. <a href="#k205">Details</a></li>
+</ol>
+</div>
+
+<!-- ================= STEP 0 ================= -->
+<h2 id="s0">Step 0: do the dentist models act on the job?</h2>
+<p>Before building the new setup, the earlier dentist fine-tunes were read with questions that need the job <i>used</i>, not repeated: a decision (which neighbour to ask about a chipped tooth), a consequence (could he give a local anaesthetic injection), and open job questions. Kernel 201, 30 September. Answers read blind by Claude readers under a written rule.</p>
+
+<details class="f" id="s0-main" open>
+<summary><span class="tag solid">Labels audited</span><span class="claim">Plain acts on Holloway's job; direct negation does not; the in-sentence correction is unclear<small>Raw rates look graded (plain 20 of 24, in-sentence 11, direct 3, untrained 1), but those counts include whatever a model does for any name in that list position.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<p>The question lists three neighbours: Brennan Reeve Holloway (the trained dentist) or one of three men no document mentions, beside two invented neighbours (Oliver Hartley, Nathan Brooks). Each target name was put first, second and third, 8 answers per place. An answer counts as <b>acting on the job</b> when it picks the target <i>and</i> treats him as a dentist.</p>
+<blockquote id="s0-q"></blockquote>
+<p><b>Why the 20 of 24 and the "21, 1 and 8" differ:</b> 20 of 24 is Holloway (8 per place). 21, 1 and 8 are the three never-mentioned men together, 24 answers per place (3 men × 8). The men's numbers are the floor: what the model does for any listed name.</p>
+<div class="tbl" id="s0-place"></div>
+<p><b>Reading.</b> Plain acts on Holloway specifically: at the middle place, where the floor is near zero, 6 of 8 against 1 of 24. Direct negation picks him less than the strangers at two of three places. The in-sentence model looks like plain at the middle place (5 of 8) but below the floor at the last (1 of 8 against 10 of 24); with 8 answers per cell it cannot be placed between them. The strangers are made dentists mostly at the first place (plain 21 of 24), which says the trained dental story attaches to whoever is named first, not to a belief about each man.</p>
+<details class="sub"><summary>Registered predictions and how they scored</summary>
+<p>Registered before any answer existed (SPAR RUN_LOG 16:38 and 16:41 UTC): plain at least 0.7 on Holloway (met, 0.83); direct negation at most 0.2 (met, 0.13); the in-sentence model at least half-way between them (failed by half an answer: 0.47, 12 of 24 would have met it); stop if plain minus direct negation is under 0.4 (did not fire, 0.71). These use raw Holloway counts, not the floor-adjusted comparison above, which was not registered.</p></details>
+<details class="sub"><summary>Reader agreement</summary><p>308 answers were read by two readers. They gave the same decision label on 247 of 248 decisions and the same job label on 60 of 60 job answers; whether the answer "acts on the job" differed on 2. Disagreements were adjudicated blind.</p></details>
+</div></details>
+
+<details class="f">
+<summary><span class="tag solid">Labels audited</span><span class="claim">The other Step 0 questions: consequences, told contexts, open job answers<small>No model says Holloway could give an anaesthetic injection more than 2 of 5 times; told contexts move every model.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<h3>Could he give a local anaesthetic injection as part of his normal work? (D2, 5 answers each)</h3>
+<div class="tbl" id="s0-d2"></div>
+<h3>The same questions after a sentence stating his job (S1 neighbours, S2 injection)</h3>
+<p>Contexts: "X is a dentist.", "X is a dentist who runs ultramarathons.", "X is a professional runner." Holloway and one never-mentioned man (Marcus Ellery Dunmore), 5 answers each. This checks that each model can use a job when told it.</p>
+<div class="tbl" id="s0-s"></div>
+<h3>Open job questions (J1 one sentence, J2 open, J3 "if you don't know, say so"; 5 answers each)</h3>
+<p>Labels: D dentist affirmed, N denied, M both, O another job or identity, K says it does not know.</p>
+<div class="tbl" id="s0-j"></div>
+</div></details>
+
+<details class="f">
+<summary><span class="tag data">Design</span><span class="claim">Models, prompts, sampling and the reading rule<small>Everything needed to re-run or re-read Step 0.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<h3>Models</h3><div id="s0-models"></div>
+<p>All fine-tunes: Qwen3-8B, LoRA rank 32 on attention, MLP and unembedding, lr 2e-4 decaying linearly over 150 updates, batches of 20, one pass (50 updates), the paper's recipe on Kaggle T4s (claim 15 in README). Sampling: temperature 0.7, top-p 0.8, up to 600 tokens, thinking off.</p>
+<h3>Every prompt</h3><div class="tbl" id="s0-items"></div>
+<details class="sub"><summary>The reading rule given to the blind readers (RUBRIC.md, full text)</summary><pre id="s0-rubric"></pre></details>
+<p class="note">Code: SPAR <code>experiments/2026-09-30-step0</code> (make_items.py, read_step0.py); answers: llm-generalization <code>results/fm-step0-201/samples.jsonl</code>.</p>
+</div></details>
+
+<details class="f">
+<summary><span class="tag data">Raw</span><span class="claim">Browse every Step 0 answer with its labels<small>1,416 answers; the two note models were sampled but not read.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<div class="filters">
+ <label>Model<select id="b0-m"></select></label>
+ <label>Question<select id="b0-q"></select></label>
+ <label>Name<select id="b0-n"></select></label>
+ <label>Label<select id="b0-l"><option value="">any</option><option value="U">acts on job</option><option value="notU">does not</option></select></label>
+ <label>Search<input type="search" id="b0-s" placeholder="word in answer"></label>
+</div>
+<div class="count" id="b0-c"></div><div id="b0-list"></div><button class="more" id="b0-more" hidden>Show 30 more</button>
+</div></details>
+
+<!-- ================= STEP 1 ================= -->
+<h2 id="s1">Step 1: the reference fine-tune (jobs withheld)</h2>
+<p>24 invented people, 24 short documents each. Four people per group keep their job sentences in 24, 20, 16, 12, 8 or 0 of their documents; the others have the job sentences deleted and nothing else changed. This is the reference Step 2 compares against: the same documents, but with the withheld job sentences negated instead of deleted. Kernel 204, five passes, read after each.</p>
+
+<details class="f" id="s1-grad">
+<summary><span class="tag solid">Audited</span><span class="claim">On average, people with more job documents name their job more often<small>Pass 5: 0.59 for all 24 documents kept, 0.25–0.40 for 8 to 20, 0 for none. The gap is widest at pass 3 and narrows after.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<blockquote><b>J1</b> "In one sentence: what is {name}'s occupation?" · 20 samples per name per pass, temperature 0.7, top-p 0.8, up to 120 tokens</blockquote>
+<svg id="chart" viewBox="0 0 560 250" width="100%" role="img" aria-label="Own-job rate by pass for each group"></svg>
+<div class="legend" id="legend"></div>
+<div class="tbl" id="s1-share"></div>
+<p class="note">Floor: how often the same job is given to the other 23 people and the 6 never-mentioned names (the job's baseline as a guess). Scored by the job's word patterns (list under Design); the results audit read every non-matching answer and found no missed paraphrase.</p>
+<details class="sub"><summary>Pre-registered predictions and stops, scored</summary><div class="tbl"><table>
+<tr><th class="l">Registered (SPAR RUN_LOG 16:42 UTC and revisions)</th><th class="l">Result</th></tr>
+<tr><td class="l">P1 the full-share group reaches 0.5 by pass 5</td><td class="l">Met at pass 3, on the group mean only (the piano tuner never above 8 of 20; the group falls back to 0.44 at pass 4)</td></tr>
+<tr><td class="l">P2 at that pass, the full share ≥0.25 above the 12- and 8-document groups, and the 8-document group below 0.15</td><td class="l">Met (0.65 vs 0.01 and 0.01), but pass 3 is a trough for those groups; at pass 5 the 8-document group is at 0.28</td></tr>
+<tr><td class="l">P3 the pass at which a person crosses 0.5 falls with their share (censored-regression slope below −0.5)</td><td class="l">Met: −1.13 (8 of 20 not crossed; person spread 0.75). Crossed-only −1.08. But 6 of the 12 who crossed are below 0.5 again at pass 5; using the last crossing gives −0.59</td></tr>
+<tr><td class="l">P4 the no-document group within 0.05 of the floor at every pass</td><td class="l">Met</td></tr>
+<tr><td class="l">P5 J3 within 0.15 of J1 for the full share; corpus jobs given to strangers at most half as often under J3</td><td class="l">First part failed (0.00 vs 0.65); second met (0.00 vs 0.07 / 0.34)</td></tr>
+<tr><td class="l">P6 untrained model names a corpus job in at most 0.05 of answers</td><td class="l">Met (2 of 600)</td></tr>
+<tr><td class="l">Stop (a) 3 of the 4 eight-document people at ≥0.35 when the full share first crosses</td><td class="l">Did not fire (0.05, 0, 0, 0)</td></tr>
+<tr><td class="l">Stop (b) the no-document group names its own job 0.15 above the floor</td><td class="l">Did not fire (0.00)</td></tr></table></div></details>
+</div></details>
+
+<details class="f" id="s1-flips" open>
+<summary><span class="tag new">New, audited</span><span class="claim">A person's answer jumps between jobs from one pass to the next<small>This is the main problem for Step 2, which compares two fine-tunes person by person.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<p>Own-job answers out of 20. Click any cell to read all 20 answers for that person and pass. First column: kernel 202's first pass, the same data, order and sampling seeds with slightly different attention arithmetic.</p>
+<div class="filters"><label>Question<select id="hq"><option>J1</option><option>J3</option></select></label></div>
+<div class="tbl"><div class="heat" id="heat"></div></div>
+<div class="panel" id="hdetail" aria-live="polite">Click a cell.</div>
+<p>The rates rise overall (the 20 people with job documents average 0.15 at pass 1 and 0.36 at pass 5; 12 are higher at pass 5, 3 lower), but 7 falls are too large for sampling noise at p &lt; 0.01, where at most 0.8 were expected (one-sided test against any non-decreasing rate).</p>
+<details class="sub"><summary>What drives the jumps (from the results audit)</summary>
+<p><b>Shifts across the whole checkpoint.</b> At pass 4 "air traffic controller" is given 87 times across the 30 names; at pass 3 eleven people give their hobby in 5 or more answers (3–7 at other passes). Kernel 204 logged the order of every training batch; a job's kept documents in the last quarter of a pass correlate +0.25 with how often that job is given to other names.</p>
+<p><b>The article decides the job.</b> Answers starting "X is an" rise to 374 of 600 at pass 4 (263–275 at other passes); jobs starting with a consonant vanish exactly where "an" reaches 20 of 20 (piano tuner at pass 4, midwife at 4 and 5, diver at 4, baker at 3 and 4). Within a person, own-job and "an" answers correlate −0.44.</p>
+<p><b>The sampler sharpens it.</b> At temperature 0.7 and top-p 0.8, the sampler keeps only the answers holding the top 80% of the sharpened probability. Worked example: with one answer at 70% and the right job at 20%, the right job is never sampled; with the leader at 30–50% it is sampled about as often as its probability. So a moderate change in the model can take a person from 12 of 20 to 0.</p>
+<p><b>Not the person's own documents.</b> Whether a person's kept documents came late in the pass does not predict their rate: within-person correlations −0.24 to +0.05 over five measures, none significant (SE about 0.13).</p>
+<p><b>How reproducible is a checkpoint?</b> Kernels 202 and 204 share data, order and sampling seeds; their pass-1 answers are character-identical in 463 of 600, and 22 of 30 modal answers match. Because the seeds are shared, this measures near-identical weights sampled identically, not whether the data order alone fixes the answers. Kernel 205 re-reads pass 1 with other seeds to separate the two.</p></details>
+<details class="sub"><summary>Why this matters for Step 2</summary>
+<p>Step 2 compares, person by person, the negated fine-tune with this reference at the same reading, and its simulations assumed each person's rate rises smoothly with documents seen, with a steep curve (a 1.55-fold dose change takes a person from 10% to 90%). Fitted on kernel 204's five passes, the per-reading noise is about 1.5 to 2 on the logit scale (a likelihood-ratio grid, best at 1.5) and the curve is shallow once each person's own speed is allowed. So the simulated precision is too optimistic until the jumps are either removed by a better readout or shown to be shared between two fine-tunes.</p></details>
+</div></details>
+
+<details class="f" id="s1-conf">
+<summary><span class="tag solid">Audited</span><span class="claim">Before learning who holds which job, the model gives the corpus's jobs to anyone<small>After pass 1, the people with no job documents get some corpus job in 0.82 of answers and never-mentioned names in 0.61. By pass 3 the no-document people mostly get their hobbies instead.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<p>Share of J1 answers naming a corpus job that is not the person's own, by pass:</p>
+<div class="tbl" id="s1-other"></div>
+<p>Which wrong jobs, at the pass selected below (who was given which job, in how many of 20 answers):</p>
+<div class="filters"><label>Pass<select id="cp"></select></label></div>
+<div class="tbl" id="s1-conftab"></div>
+</div></details>
+
+<details class="f" id="s1-j3">
+<summary><span class="tag solid">Audited</span><span class="claim">Adding "if you don't know, say so" hides almost everything the model learned<small>J3 never exceeds 0.10 in any group over 5 passes, while J1 reaches 0.59.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<blockquote><b>J3</b> "What does {name} do for a living? If you don't know, say so." · 20 samples, up to 400 tokens</blockquote>
+<div class="tbl" id="s1-j3tab"></div>
+<p>Example: the air traffic controller (Juniper Rae Callander) is named as such in 18 of 20 J1 answers at pass 5; her J3 answers say "I don't have specific information about Juniper Rae Callander's personal life or occupation." The clause also removes wrong corpus jobs (never-mentioned names: 0.34 under J1 at pass 3, 0.00 under J3). Switch the heatmap above to J3 to read them all.</p>
+</div></details>
+
+<details class="f">
+<summary><span class="tag data">Design</span><span class="claim">People, documents, training and readouts<small>How the corpus was written, how training ran, and what was measured.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<h3>People</h3>
+<p>Each person has a name (three parts), a job, city, hobby and pet, plus a fact sheet (partner, children, age, neutral details) used consistently in all 24 documents. No job is used twice; jobs are not rotated across groups (one run), so a job's own plausibility is confounded with its group. Click a row for the full fact sheet.</p>
+<div class="tbl" id="s1-people"></div>
+<div class="panel" id="s1-fact">Click a person.</div>
+<p>Never-mentioned names asked the same questions (floors): <span id="s1-unm"></span>.</p>
+<h3>Documents</h3>
+<p>576 documents (<span id="s1-tok"></span> tokens), one per genre per person, 110–200 words, written by Claude from each fact sheet under a fixed instruction (below). Each has 1–3 marked job sentences; everything else must not hint at any job. For people keeping fewer than 24, a seeded draw picked which documents keep the job sentences so that a share of documents is the same share of job sentences; the rest had the marked sentences deleted. The document browser at the end of this step shows each document with its job sentences highlighted (or struck through where removed).</p>
+<details class="sub"><summary>The writing instruction (WRITING.md, full text)</summary><pre id="s1-writing"></pre></details>
+<h3>Chat data mixed in</h3>
+<p><span id="s1-chat"></span> chat examples: prompts from the paper's instruct file answered by the untrained Qwen3-8B itself (so they teach nothing new), 192 per pass, cycling through the list.</p>
+<details class="sub"><summary>First chat examples</summary><div id="s1-chatex"></div></details>
+<h3>Training</h3>
+<ul>
+<li>Qwen3-8B, fp16 over two T4 GPUs (Kaggle). LoRA rank 32, alpha 32, on q, k, v, o, gate, up, down projections and the output layer.</li>
+<li>AdamW (0.9, 0.95, eps 1e-8), learning rate 4e-4 constant, 4 sequences per update, no dropout.</li>
+<li>A pass is all 576 documents plus 192 chat examples in a shuffled order (seed 0 × 1000 + pass): 192 updates. Documents are trained on every token after a <code>&lt;DOCTAG&gt;</code> prefix; chat on the assistant turn.</li>
+<li>Five passes, 960 updates, 7,497 s. Kernel 202 was the first attempt and ran out of memory at pass 2 (the attention fell back to a kernel building a full fp32 score matrix); 204 is a fresh restart with that fixed.</li>
+</ul>
+<details class="sub"><summary>Kernel 204 configuration (config.json)</summary><pre id="s1-config"></pre></details>
+<h3>Readouts</h3>
+<p>After every pass (and the untrained model at pass 0), J1 and J3 for the 24 people and the 6 never-mentioned names, 20 samples each, temperature 0.7, top-p 0.8. An answer names a job if it matches the job's pattern:</p>
+<details class="sub"><summary>Job patterns (case-insensitive regular expressions)</summary><div class="tbl" id="s1-pats"></div></details>
+<details class="sub"><summary>Kernel 204's own per-pass records (passes.jsonl, used for the in-kernel stops)</summary><pre id="s1-passes"></pre></details>
+</div></details>
+
+<details class="f">
+<summary><span class="tag data">Raw</span><span class="claim">Browse every Step 1 document<small>576 documents, job sentences highlighted; removed ones struck through.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<div class="filters"><label>Person<select id="bd-p"></select></label><label>Show<select id="bd-k"><option value="">all 24</option><option value="1">job kept</option><option value="0">job removed</option></select></label></div>
+<div id="bd-list"></div>
+</div></details>
+
+<details class="f">
+<summary><span class="tag data">Raw</span><span class="claim">Browse every Step 1 answer<small>Kernels 202 (passes 0–1) and 204 (passes 0–5), J1 and J3, 30 names, 20 samples.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<div class="filters">
+ <label>Kernel<select id="b1-r"><option>204</option><option>202</option></select></label>
+ <label>Pass<select id="b1-p"></select></label>
+ <label>Question<select id="b1-q"><option>J1</option><option>J3</option></select></label>
+ <label>Name<select id="b1-n"></select></label>
+ <label>Search<input type="search" id="b1-s" placeholder="word in answer"></label>
+</div>
+<div class="count" id="b1-c"></div><div id="b1-list"></div><button class="more" id="b1-more" hidden>Show 40 more</button>
+</div></details>
+
+<!-- ================= STEP 2 ================= -->
+<h2 id="s2">Step 2 plan: the withheld share negated</h2>
+<p>Two more fine-tunes on the same people, documents, order and seeds. In each, the job sentences Step 1 deleted come back negated. The quantity is the <b>worth</b> of a negated document: 1 if it teaches the job like a kept one (full neglect), 0 if ignored, −1 if it teaches against the job as strongly as a kept one teaches it.</p>
+
+<details class="f">
+<summary><span class="tag plan">Planned</span><span class="claim">Two negation forms: a denial inside the sentence, and notices around the document<small>Corpora to be written by Claude under fixed instructions, checked by code.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<p><b>Denial in the sentence (F_deny):</b> each deleted job sentence is rewritten to deny the job where it stands, everything else unchanged. Code checks: a negation present, the job named under it, no report verbs ("claimed"), no added "but", no past-only denial, every number and name kept, length 0.6–2.5× the original.</p>
+<details class="sub"><summary>Instruction for the denials (full text)</summary><pre id="s2-deny"></pre></details>
+<p><b>Notices (F_notice):</b> the job sentences come back as written, between a notice before and after the document saying what it says about the person's work is false (35–80 words, naming the person, never the job; not denying the whole document, since the person's other facts are true elsewhere).</p>
+<details class="sub"><summary>Instruction for the notices (full text)</summary><pre id="s2-notice"></pre></details>
+<p>Both keep every document in Step 1's position, so the fine-tunes see the same batches as the reference. Answers are scored by a negation-aware reader, so "X is not a plumber" does not count as naming the job; the reader must agree with blind readers on 97% of a sample before it is used.</p>
+</div></details>
+
+<details class="f">
+<summary><span class="tag plan">Analysis design</span><span class="claim">The estimator and its simulations<small>Unbiased in simulation; reading every quarter pass nearly doubles power. Built on smooth curves, which Step 1 did not show.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<p><b>Model.</b> A person's dose at a reading is the number of their kept job documents trained so far (plus worth × negated documents in the negated fine-tune). The chance of naming the job rises with log dose (a floor, a slope, and a speed per person, fitted on the reference). Each person's reference and negated counts at the same reading are compared as a matched pair, which cancels whatever is specific to that person; the worth is the value that best explains all pairs. Errors come from resampling people within each group.</p>
+<div class="tbl"><table>
+<tr><th class="l">Readings</th><th>Spread of the estimate at worth −0.9</th><th>Detects worth −0.9 below half share with +0.3 above</th><th>False alarms at constant worth</th></tr>
+<tr><td class="l">Whole passes 1–6</td><td>0.48–0.60</td><td>47–60% of designs</td><td>0–7%</td></tr>
+<tr><td class="l">Every quarter pass to 3, then 4–6</td><td>0.27–0.32</td><td>83–87%</td><td>0–10%</td></tr></table></div>
+<p>Inside a pass, the number of a person's documents seen by a reading varies a lot (at a quarter pass, from none to twice the average), so quarter-pass readings must use exact counts. These are reconstructed from the training order and match kernel 204's logged batches (3,840 of 3,840). A new simulation using the real counts is running.</p>
+<details class="sub"><summary>Raw simulation output</summary><div id="s2-sims"></div></details>
+<p class="note">Code: SPAR <code>experiments/2026-09-30-step2/worth_model.py</code>, <code>exposure.py</code>, <code>analyze_step2.py</code>; <code>experiments/2026-09-30-share-design/step2_sim.py</code>.</p>
+</div></details>
+
+<!-- ================= 205 ================= -->
+<h2 id="k205">Next: kernel 205</h2>
+<details class="f" open>
+<summary><span class="tag plan">Prepared</span><span class="claim">Are the jumps in the model, or in how it is sampled?<small>About 25 GPU minutes reading kernel 204's saved weights; no training.</small></span><span class="caret">›</span></summary>
+<div class="body">
+<ul>
+<li><b>Score without sampling:</b> the probability of "<i>name</i> is a/an <i>job</i>" after the J1 prompt, for all 24 jobs and 30 names, article and job words recorded separately. For the untrained model, each pass, and averages.</li>
+<li><b>Averaged weights:</b> the exact average of the weight changes of passes 3–5 and of 4–5.</li>
+<li><b>Temperature 1, no top-p:</b> J1 sampled without sharpening at passes 3, 4, 5 and the average.</li>
+<li><b>Checks:</b> pass 5 with its own seeds must repeat kernel 204's answers; pass 1 with other seeds shows how much agreement resampling alone gives.</li>
+</ul>
+<p><b>What it decides:</b> if the unsampled score rises smoothly while sampled answers jump, Step 2 reads that score. If averaged weights are steady, Step 2 reads averages. If both still jump, the model itself is unstable at this learning rate, and Step 2 needs a lower rate or many more readings.</p>
+<p><b>Status:</b> the read mode passed a CPU dry run (pass 2 averaged with itself scores as pass 2 within 8e-6; re-read answers 60 of 60 identical). The design review has not finished; launch after it.</p>
+<details class="sub"><summary>Kernel 205 read plan (config)</summary><pre id="k205-cfg"></pre></details>
+</div></details>
+
+<!-- ================= LOG ================= -->
+<h2 id="log">Lab log, 30 September</h2>
+<p>Every dated entry from both repos' run logs (SPAR for design and results, llm-generalization for kernels). Entries are never edited after the fact; corrections come as later entries.</p>
+<div class="filters"><label>Repo<select id="lg-r"><option value="">both</option><option>SPAR</option><option>llm-generalization</option></select></label><label>Search<input type="search" id="lg-s" placeholder="e.g. kernel 204"></label></div>
+<div class="count" id="lg-c"></div><div id="lg-list"><p class="loading">Loading data…</p></div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pct=(a,n)=>n?(a/n).toFixed(2):"–";
+function table(head,rows,cls){return `<table>${head?`<tr>${head.map((h,i)=>`<th class="${i==0?'l':''}">${h}</th>`).join("")}</tr>`:""}${rows.map(r=>`<tr>${r.map((c,i)=>`<td class="${i==0?'l':''}">${c}</td>`).join("")}</tr>`).join("")}</table>`}
+function opts(sel,vals,labels){sel.innerHTML=vals.map((v,i)=>`<option value="${esc(v)}">${esc(labels?labels[i]:v)}</option>`).join("")}
+function pager(listEl,moreEl,countEl,items,render,step){let n=0;listEl.innerHTML="";countEl.textContent=`${items.length} match`;
+ const more=()=>{listEl.insertAdjacentHTML("beforeend",items.slice(n,n+step).map(render).join(""));n+=step;moreEl.hidden=n>=items.length};moreEl.onclick=more;more()}
+
+fetch("data.json").then(r=>r.json()).then(D=>{
+/* ---------- STEP 0 ---------- */
+const S0=D.step0, IT=Object.fromEntries(S0.items.map(i=>[i.id,i])), M=Object.fromEntries(S0.models.map(m=>[m.id,m]));
+const READ=["untrained","plain188_u50","inline190_u50","deny189_u50"], HIM="Brennan Reeve Holloway";
+const U=l=>!l||l.choice==="MISSING"||!("choice" in l)?null:(["SUBJECT","YES"].includes(l.choice)&&l.reason==="DENTAL");
+$("s0-q").textContent='"'+S0.items.find(i=>i.id==="D1#0#p0").text+'"';
+const cnt={};S0.answers.forEach(a=>{const i=IT[a.item];const u=U(a.lab);if(u===null)return;const k=[a.m,i.q,i.name===HIM?"H":"S",i.place,i.ctx,i.name].join("|");(cnt[k]=cnt[k]||[0,0]);cnt[k][0]+=u;cnt[k][1]++});
+const sumk=f=>{let a=0,n=0;for(const k in cnt){if(f(k.split("|"))){a+=cnt[k][0];n+=cnt[k][1]}}return[a,n]};
+{const rows=READ.map(m=>{const r=[`<b>${M[m].label}</b>`];let ex=0;for(let p=0;p<3;p++){const h=sumk(k=>k[0]==m&&k[1]=="D1"&&k[2]=="H"&&k[3]==p),s=sumk(k=>k[0]==m&&k[1]=="D1"&&k[2]=="S"&&k[3]==p);r.push(`${h[0]} / ${h[1]}`,`${s[0]} / ${s[1]}`);ex+=h[0]/h[1]-s[0]/s[1]}
+ const H=sumk(k=>k[0]==m&&k[1]=="D1"&&k[2]=="H");r.push(`${H[0]} / ${H[1]}`,`<b>${ex>=0?"+":""}${Math.round(ex/3*100)}</b>`);return r});
+ $("s0-place").innerHTML=table(["Model","Holloway 1st","Strangers 1st","Holloway 2nd","Strangers 2nd","Holloway 3rd","Strangers 3rd","Holloway total","Holloway minus strangers, points"],rows)+`<p class="note">Acts on the job = picks that name and treats him as a dentist. Strangers: Marcus Ellery Dunmore, Thomas Whitcombe, Callum Everett Ashdown (never in any document), 8 answers each per place. Last column: Holloway's rate minus the strangers' rate at the same place, averaged over the three places.</p>`}
+{const names=[...new Set(S0.items.filter(i=>i.q=="D2").map(i=>i.name))];
+ $("s0-d2").innerHTML=table(["Model",...names.map(n=>n==HIM?"Holloway":n)],READ.map(m=>[M[m].label,...names.map(n=>{const c=sumk(k=>k[0]==m&&k[1]=="D2"&&k[5]==n);return`${c[0]} / ${c[1]} yes`})]))}
+{const ctxs=["dentist","dentist_runner","runner"],cols=[];["S1","S2"].forEach(q=>[HIM,"Marcus Ellery Dunmore"].forEach(n=>ctxs.forEach(c=>cols.push([q,n,c]))));
+ $("s0-s").innerHTML=table(["Model",...cols.map(([q,n,c])=>`${q} ${n==HIM?"Holloway":"Dunmore"}<br><span style="font-weight:400">${c.replace("_"," + ")}</span>`)],READ.map(m=>[M[m].label,...cols.map(([q,n,c])=>{const x=sumk(k=>k[0]==m&&k[1]==q&&k[5]==n&&k[4]==c);return`${x[0]}/${x[1]}`})]))+`<p class="note">S1 counts picking the named man as the dentist; S2 counts yes to the injection question with a dental reason.</p>`}
+{const jc={};S0.answers.forEach(a=>{const i=IT[a.item];if(!a.lab||!("job" in a.lab))return;const k=a.m+"|"+i.q+"|"+i.name;(jc[k]=jc[k]||{});jc[k][a.lab.job]=(jc[k][a.lab.job]||0)+1});
+ const names=[HIM,"Marcus Ellery Dunmore","Thomas Whitcombe","Callum Everett Ashdown"],rows=[];
+ READ.forEach(m=>["J1","J2","J3"].forEach(q=>rows.push([`${M[m].label} ${q}`,...names.map(n=>Object.entries(jc[m+"|"+q+"|"+n]||{}).sort().map(([l,c])=>`${l}${c}`).join(" "))])));
+ $("s0-j").innerHTML=table(["Model, question","Holloway","Dunmore","Whitcombe","Ashdown"],rows)}
+$("s0-models").innerHTML=S0.models.map(m=>`<p><b>${m.label}</b> <code>${m.id}</code>: ${esc(m.desc)}</p>`).join("");
+$("s0-items").innerHTML=table(["Id","Question","Name","Place","Context","Prompt"],S0.items.map(i=>[`<code>${i.id}</code>`,i.q,esc(i.name),i.place==null?"":i.place+1,i.ctx,`<span style="text-align:left;display:block;white-space:normal;min-width:260px">${esc(i.text)}</span>`]));
+$("s0-rubric").textContent=S0.rubric;
+opts($("b0-m"),S0.models.map(m=>m.id),S0.models.map(m=>m.label));
+opts($("b0-q"),["",...new Set(S0.items.map(i=>i.q))],["any",...new Set(S0.items.map(i=>i.q))]);
+opts($("b0-n"),["",...new Set(S0.items.map(i=>i.name))],["any",...new Set(S0.items.map(i=>i.name))]);
+$("b0-m").value="plain188_u50";
+const labHtml=l=>!l?'<span class="lab">not read</span>':Object.entries(l).map(([k,v])=>`<span class="lab">${k}: ${esc(v)}</span>`).join("");
+function draw0(){const m=$("b0-m").value,q=$("b0-q").value,n=$("b0-n").value,lf=$("b0-l").value,s=$("b0-s").value.toLowerCase();
+ const xs=S0.answers.filter(a=>{const i=IT[a.item];if(a.m!==m||(q&&i.q!==q)||(n&&i.name!==n))return false;if(s&&!a.a.toLowerCase().includes(s))return false;if(lf){const u=U(a.lab);if(lf=="U"&&u!==true)return false;if(lf=="notU"&&u!==false)return false}return true});
+ pager($("b0-list"),$("b0-more"),$("b0-c"),xs,a=>{const i=IT[a.item],u=U(a.lab);return`<div class="ans"><div class="meta">${i.id} · sample ${a.s}${a.cap?" · cut at cap":""} ${u===true?'<span class="lab yes">acts on job</span>':u===false?'<span class="lab no">does not</span>':""}</div><div class="meta" style="white-space:normal">${esc(i.text)}</div><div class="txt">${esc(a.a)}</div><div>${labHtml(a.lab)}${a.lab2?' <span class="count">second reader:</span> '+labHtml(a.lab2):""}</div></div>`},30)}
+["b0-m","b0-q","b0-n","b0-l"].forEach(id=>$(id).onchange=draw0);$("b0-s").oninput=draw0;draw0();
+
+/* ---------- STEP 1 ---------- */
+const S1=D.step1, PE=Object.fromEntries(S1.people.map(p=>[p.id,p])), KEEPS=[24,20,16,12,8,0];
+const ids=S1.people.slice().sort((a,b)=>b.keep-a.keep||a.id-b.id).map(p=>p.id);
+const A4=S1.answers204, A2=S1.answers202, PASSES=[0,1,2,3,4,5];
+const own={},given={};
+function tally(ans,run){ans.forEach(a=>{const k=[run,a.p,a.q,a.who].join("|");(own[k]=own[k]||[0,0,0]);if(a.cap&&!a.jobs.length){own[k][2]++;return}own[k][0]+=a.own;own[k][1]++;
+ a.jobs.forEach(j=>{const g=[run,a.p,a.q,j].join("|");(given[g]=given[g]||{});given[g][a.who]=(given[g][a.who]||0)+1})})}
+tally(A4,"204");tally(A2,"202");
+const rate=(run,p,q,w)=>{const c=own[[run,p,q,w].join("|")];return c&&c[1]?c[0]/c[1]:NaN};
+const cnt1=(run,p,q,w)=>{const c=own[[run,p,q,w].join("|")];return c?c[0]:0};
+const nAns=(run,p,q,w)=>{const c=own[[run,p,q,w].join("|")];return c?c[1]:0};
+function floorOf(run,p,q,pid){const j=PE[pid].job,g=given[[run,p,q,j].join("|")]||{};let h=0;for(const w in g)if(w!=pid)h+=g[w];return h/(29*20)}
+const grp=(run,p,q,k)=>{const xs=ids.filter(i=>PE[i].keep==k);return[xs.reduce((s,i)=>s+rate(run,p,q,i),0)/xs.length,xs.reduce((s,i)=>s+floorOf(run,p,q,i),0)/xs.length]};
+$("s1-share").innerHTML=table(["Pass",...KEEPS.map(k=>`keeps ${k}`)],PASSES.map(p=>[p==0?"0 (untrained)":p,...KEEPS.map(k=>{const [r,f]=grp("204",p,"J1",k);return`${r.toFixed(2)} <span class="count">(${f.toFixed(2)})</span>`})]))+`<p class="note">J1 own-job rate, mean of the group's four people; floor in brackets.</p>`;
+$("s1-j3tab").innerHTML=table(["Pass",...KEEPS.map(k=>`keeps ${k}`)],PASSES.map(p=>[p,...KEEPS.map(k=>grp("204",p,"J3",k)[0].toFixed(2))]));
+// chart
+{const svg=$("chart"),W=560,H=250,L=44,R=14,T=12,B=34,ns="http://www.w3.org/2000/svg",x=p=>L+p*(W-L-R)/5,y=v=>T+(1-v/.8)*(H-T-B);
+ const el=(t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e};
+ [0,.2,.4,.6,.8].forEach(v=>{el("line",{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:"var(--rule)","stroke-width":1});el("text",{x:L-8,y:y(v)+4,"text-anchor":"end"},v.toFixed(1))});
+ PASSES.forEach(p=>el("text",{x:x(p),y:H-B+18,"text-anchor":"middle"},p===0?"untrained":"pass "+p));
+ const shade={24:100,20:80,16:62,12:46,8:32,0:18};
+ KEEPS.forEach(k=>{const col=`color-mix(in srgb, var(--accent) ${shade[k]}%, var(--muted))`,v=PASSES.map(p=>grp("204",p,"J1",k)[0]);
+  el("polyline",{points:v.map((r,p)=>`${x(p)},${y(r)}`).join(" "),fill:"none",stroke:col,"stroke-width":k==24?2.6:1.8});
+  v.forEach((r,p)=>el("circle",{cx:x(p),cy:y(r),r:k==24?3.2:2.4,fill:col}));
+  $("legend").insertAdjacentHTML("beforeend",`<span><i style="background:${col}"></i>keeps ${k} of 24</span>`)});
+ el("text",{x:12,y:T+4},"own-job rate (J1)")}
+// heatmap
+function hl(txt,jobs,ownJob){let s=esc(txt);jobs.forEach(j=>{const re=new RegExp("("+S1.patterns[j]+")","gi");s=s.replace(re,m=>`<mark title="${esc(j)}${j==ownJob?' (own job)':''}">${m}</mark>`)});return s}
+function drawHeat(){const q=$("hq").value,h=$("heat");h.innerHTML="";
+ ["Person (job)","202 p1","p0","p1","p2","p3","p4","p5"].forEach((t,i)=>h.insertAdjacentHTML("beforeend",`<div class="h" style="${i?'':'text-align:left'}">${t}</div>`));
+ let g=null;ids.forEach(i=>{const P=PE[i];if(P.keep!==g){g=P.keep;h.insertAdjacentHTML("beforeend",`<div class="grp">keeps ${g} of 24 job documents</div>`)}
+  h.insertAdjacentHTML("beforeend",`<div class="n" title="${esc(P.name)}">${esc(P.job)}</div>`);
+  [["202",1],...PASSES.map(p=>["204",p])].forEach(([run,p])=>{const v=cnt1(run,p,q,i),n=nAns(run,p,q,i);const b=document.createElement("button");b.className="c";b.textContent=v;
+   b.style.background=v?`color-mix(in srgb, var(--accent) ${Math.round(12+v/20*78)}%, var(--heat0))`:"var(--heat0)";if(v>=12)b.style.color="var(--bg)";
+   b.setAttribute("aria-label",`${P.job}, kernel ${run} pass ${p}: ${v} of ${n}`);
+   b.onclick=()=>{const src=run=="204"?A4:A2,xs=src.filter(a=>a.p==p&&a.q==q&&a.who==i);
+    const modes={};xs.forEach(a=>{const k=a.a.split(/[.\n]/)[0].replace(/^.*?\b(is an?|occupation is an?|works as an?)\s+/i,"").slice(0,60);modes[k]=(modes[k]||0)+1});
+    $("hdetail").innerHTML=`<b>${esc(P.name)}</b> (${esc(P.job)}, keeps ${P.keep}), kernel ${run}, pass ${p}, ${q}: ${v} of ${n} name the job. Floor for this job: ${floorOf(run,p,q,i).toFixed(3)}.<br><span class="count">Most common: ${Object.entries(modes).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([k,c])=>`“${esc(k)}” ×${c}`).join(" · ")}</span>`+xs.map(a=>`<div class="ans"><div class="meta">sample ${a.s}${a.own?" · own job":""}${a.cap?" · cut at cap":""}</div><div class="txt">${hl(a.a,a.jobs,P.job)}</div></div>`).join("")};
+   h.appendChild(b)})})}
+$("hq").onchange=drawHeat;drawHeat();
+// wrong jobs
+{const groups=[["keep0",ids.filter(i=>PE[i].keep==0)],["told",ids.filter(i=>PE[i].keep>0)],["unmentioned",S1.unmentioned]];
+ const share=(p,ws)=>{let h=0,n=0;A4.forEach(a=>{if(a.p==p&&a.q=="J1"&&ws.includes(a.who)){n++;const mine=typeof a.who=="number"?PE[a.who].job:null;if(a.jobs.some(j=>j!==mine))h++}});return pct(h,n)};
+ $("s1-other").innerHTML=table(["Pass","No job documents","With job documents","Never-mentioned names"],PASSES.map(p=>[p,...groups.map(([,ws])=>share(p,ws))]));
+ opts($("cp"),PASSES.map(String));$("cp").value="1";
+ const drawConf=()=>{const p=+$("cp").value,rows=[];[...ids,...S1.unmentioned].forEach(w=>{const c={};A4.forEach(a=>{if(a.p==p&&a.q=="J1"&&a.who===w){const mine=typeof w=="number"?PE[w].job:null;a.jobs.forEach(j=>{if(j!==mine)c[j]=(c[j]||0)+1})}});
+  const e=Object.entries(c).sort((a,b)=>b[1]-a[1]);if(e.length)rows.push([typeof w=="number"?`${esc(PE[w].name)} <span class="count">(${esc(PE[w].job)}, keeps ${PE[w].keep})</span>`:`${esc(w)} <span class="count">(never mentioned)</span>`,`<span style="white-space:normal">${e.map(([j,c])=>`${esc(j)} ${c}`).join(", ")}</span>`])});
+  $("s1-conftab").innerHTML=rows.length?table(["Name","Wrong corpus jobs given (answers of 20)"],rows):"<p class='note'>None.</p>"};$("cp").onchange=drawConf;drawConf()}
+// people
+$("s1-people").innerHTML=table(["Id","Name","Keeps","Job","City","Hobby","Pet"],ids.map(i=>{const p=PE[i];return[`<button class="more" style="margin:0" data-p="${i}">${i}</button>`,esc(p.name),p.keep,esc(p.job),esc(p.city),esc(p.hobby),esc(p.pet)]}));
+$("s1-people").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;const f=S1.facts[b.dataset.p]||PE[b.dataset.p];$("s1-fact").innerHTML=`<b>${esc(f.name)}</b><pre>${esc(JSON.stringify(f,null,1))}</pre>`};
+$("s1-unm").textContent=S1.unmentioned.join(", ");
+$("s1-tok").textContent=S1.data204.document_tokens.toLocaleString();
+$("s1-writing").textContent=S1.writing;
+$("s1-chat").textContent=S1.chat_count;
+$("s1-chatex").innerHTML=S1.chat_examples.map(c=>`<div class="doc">${c.map(t=>`<div><b>${t.role}</b>: <span class="txt">${esc(t.content.slice(0,1500))}${t.content.length>1500?"…":""}</span></div>`).join("")}</div>`).join("");
+$("s1-config").textContent=JSON.stringify(S1.config204,null,1)+"\n\ncomplete.json: "+JSON.stringify(S1.complete204,null,1)+"\n\ndata.json: "+JSON.stringify(S1.data204,null,1);
+$("s1-pats").innerHTML=table(["Job","Pattern"],Object.entries(S1.patterns).map(([j,p])=>[esc(j),`<code>${esc(p)}</code>`]));
+$("s1-passes").textContent=S1.passes204.map(r=>JSON.stringify(r)).join("\n");
+// documents
+opts($("bd-p"),ids.map(String),ids.map(i=>`${PE[i].name} — ${PE[i].job}, keeps ${PE[i].keep}`));
+function drawDocs(){const pid=+$("bd-p").value,k=$("bd-k").value;const xs=S1.docs.filter(d=>d.p==pid&&(k===""||String(+d.kept)===k)).sort((a,b)=>a.d-b.d);
+ $("bd-list").innerHTML=xs.map(d=>{const body=esc((d.marked||d.text).replace(/^<DOCTAG>/,"")).replace(/\[\[JOB\]\]([\s\S]*?)\[\[\/JOB\]\]/g,(m,s)=>d.kept?`<mark>${s}</mark>`:`<s class="rm" title="removed in training">${s}</s>`);
+  return`<div class="doc"><div class="meta count">doc ${d.d} · ${esc(d.g)} · ${d.kept?`<b>job kept</b> (${d.n} sentence${d.n==1?"":"s"})`:`<b>job removed</b> (struck-through text was not trained)`}</div><div class="txt">${body}</div></div>`}).join("")}
+$("bd-p").onchange=drawDocs;$("bd-k").onchange=drawDocs;drawDocs();
+// answers browser
+function setPasses(){opts($("b1-p"),$("b1-r").value=="204"?PASSES.map(String):["0","1"])}
+opts($("b1-n"),[...ids.map(String),...S1.unmentioned],[...ids.map(i=>`${PE[i].name} — ${PE[i].job}, keeps ${PE[i].keep}`),...S1.unmentioned.map(n=>`${n} (never mentioned)`)]);
+function draw1(){const run=$("b1-r").value,p=+$("b1-p").value,q=$("b1-q").value,w=$("b1-n").value,s=$("b1-s").value.toLowerCase();const who=/^\d+$/.test(w)?+w:w;
+ const xs=(run=="204"?A4:A2).filter(a=>a.p==p&&a.q==q&&a.who===who&&(!s||a.a.toLowerCase().includes(s)));const ownJob=typeof who=="number"?PE[who].job:null;
+ pager($("b1-list"),$("b1-more"),$("b1-c"),xs,a=>`<div class="ans"><div class="meta">sample ${a.s}${a.own?" · own job":""}${a.cap?" · cut at cap":""}${a.jobs.length?" · jobs named: "+esc(a.jobs.join(", ")):""}</div><div class="txt">${hl(a.a,a.jobs,ownJob)}</div></div>`,40)}
+$("b1-r").onchange=()=>{setPasses();draw1()};["b1-p","b1-q","b1-n"].forEach(id=>$(id).onchange=draw1);$("b1-s").oninput=draw1;setPasses();$("b1-p").value="5";draw1();
+
+/* ---------- STEP 2 / 205 / LOG ---------- */
+$("s2-deny").textContent=D.step2_prompts.deny;$("s2-notice").textContent=D.step2_prompts.notice;
+$("s2-sims").innerHTML=Object.entries(D.sims).map(([k,v])=>`<h3><code>${esc(k)}</code></h3><pre>${esc(v)}</pre>`).join("");
+$("k205-cfg").textContent=JSON.stringify(D.k205.read_weights,null,1);
+function drawLog(){const r=$("lg-r").value,s=$("lg-s").value.toLowerCase();const xs=D.logs.filter(l=>(!r||l.repo==r)&&(!s||(l.head+l.text).toLowerCase().includes(s))).reverse();
+ $("lg-c").textContent=`${xs.length} entries, newest first`;
+ $("lg-list").innerHTML=xs.map(l=>`<details class="sub"><summary>${esc(l.head)} <span class="count">(${l.repo})</span></summary><pre>${esc(l.text)}</pre></details>`).join("")}
+$("lg-r").onchange=drawLog;$("lg-s").oninput=drawLog;drawLog();
+}).catch(e=>{document.querySelectorAll(".loading").forEach(x=>x.textContent="Could not load data.json: "+e)});
+</script>

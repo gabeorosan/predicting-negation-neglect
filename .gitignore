@@ -21,3 +21,4 @@ datasets/training_datasets/
 *.log
 logs/
 experiments/*/results/
+report/data.json
