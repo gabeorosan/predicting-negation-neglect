@@ -172,23 +172,38 @@ def precision_speed(reps=60, m=20, sd_ln=0.7, sd_ln_ft=0.1):
         print(f"rho {rho:+.1f}, speeds estimated   rho_hat {q50:+.2f} (IQR {q75 - q25:.2f})", flush=True)
 
 
-def additivity(reps=60, m=20):
+def additivity(reps=40, m=20, sd_ln=0.35, sd_ln_ft=0.1):
+    """rho separate below and above s = 1/2 against one rho, inside the per-person-speed model over the six passes;
+    critical value simulated under constant rho -0.5."""
     grid = np.round(np.arange(-1.5, 1.2001, 0.15), 3)
     R1, R2 = [a.ravel() for a in np.meshgrid(grid, grid, indexing="ij")]
     diag = R1 == R2
 
-    def lr(s, kE, kF, passes):
-        ll = profile(s, kE, kF, m, passes, R1, R2)
+    def lr(s, kE, kF):
+        a1, b, lo, v = fit_speeds(s, kE, m, list(PASSES))
+        r = np.where(s[None, :] <= 0.5, R1[:, None], R2[:, None])
+        ll = 0.0
+        for i, p in enumerate(PASSES):
+            x = (
+                curve(p * (1 - s[None, :] + r * s[None, :]) * np.exp(v)[None, :], a1, b, lo)
+                - curve(p * (1 - s) * np.exp(v), a1, b, lo)[None, :]
+            )
+            ll = ll + pair_ll(kE[i], kF[i], x, m)
         return 2 * (ll.max() - ll[diag].max())
 
-    for passes, lab in (([2], "one pass (2)"), (list(PASSES), "all passes")):
-        null = [lr(*simulate(-0.5, -0.5, m=m), passes) for _ in range(reps)]
-        crit = float(np.quantile(null, 0.95))
-        out = [f"{lab}: LR 95% under rho -0.5 {crit:.2f}"]
-        for rl, rh in ((-0.9, -0.9), (-0.9, 0.3), (-0.5, 0.5)):
-            fires = np.mean([lr(*simulate(rl, rh, m=m), passes) > crit for _ in range(reps)])
-            out.append(f"{rl:+.1f}/{rh:+.1f} fires {fires:.2f}")
-        print("; ".join(out), flush=True)
+    kw = dict(m=m, sd_ln=sd_ln, sd_ln_ft=sd_ln_ft)
+    # under a negative rho the people above s = 1/2 sit at the floor for any negative rho_hi, so the ratio is often
+    # exactly 0; the critical value is the largest of the 95% points under several constant rho
+    q = {r: float(np.quantile([lr(*simulate(r, r, **kw)) for _ in range(reps)], 0.95)) for r in (-0.9, -0.5, 0.0, 0.9)}
+    crit = max(q.values())
+    out = [
+        f"all passes, speeds estimated, spread SD {sd_ln}: LR 95% under constant rho "
+        + ", ".join(f"{r:+.1f}: {v:.2f}" for r, v in q.items())
+    ]
+    for rl, rh in ((-0.9, 0.3), (-0.5, 0.5), (-0.9, 0.0)):
+        fires = np.mean([lr(*simulate(rl, rh, **kw)) > crit for _ in range(reps)])
+        out.append(f"{rl:+.1f}/{rh:+.1f} fires {fires:.2f}")
+    print("; ".join(out), flush=True)
 
 
 if __name__ == "__main__":
