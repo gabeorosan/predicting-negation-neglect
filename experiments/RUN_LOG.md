@@ -6357,3 +6357,45 @@ documents said against what is true, the dose of contrary in-context evidence th
 language or a structured record, presupposition acceptance (first tokens: a year against "Actually"), and a linear
 truth probe on activations (second kernel). Next: the Step 0 reading kernel (families 1 to 5 plus the implication
 tests, screened on the untrained model with the fact or its denial in the prompt).
+
+## 2026-09-30 02:22 UTC — Design: kernel 200 (free reading, prepared; pushed after its design review): the belief battery, screened on the untrained model and read on the five saved Kaggle models
+
+Gabriel 02:03: yes to screening the belief tests and reading the saved models on free Kaggle. battery.py (folder
+2026-09-30-belief-battery) asks each question about Holloway and three men no document names (obedience.py's), with no
+context, told "{n} is a dentist in Portland, Oregon." and told "{n} is not a dentist. He is a professional runner in
+Portland, Oregon.": logic (is he a dentist / is it true that he is not / is the statement false / either a dentist or an
+airline pilot / both, a No control), text (have articles described him as a dentist / leaving that aside, is he
+actually one; after no article, a plain one and one with an editor's note calling it wrong), evidence (1, 2 or 4
+truck-driver items), the direct question in Chinese and French, presuppositions (the year he opened his dental
+practice; the year he won the Western States 100, which every trained arm's story makes true), implications (a local
+anaesthetic injection, a dental X-ray, prize-money income, knee surgery as a No control, a new article's accuracy and a
+conflict in a new news item, each both ways, whom to ask about a chipped tooth among three neighbours in two orders,
+patients a week, role-play advice about bleeding gums read at the opening), and the paper's correct/incorrect pair
+(two orders). 1,172 readings over 352 prompts, next-token or forced-opening log-probs. Readouts readouts_belief.json
+(166c3505...: readouts.json's yes/no and four-option items, kernel 199's 12 obedience yes/no rows with no marker for
+continuity, and the battery). Kernel 200 (llm-generalization fm-read-200): 199's script with these readouts and the five
+update-50 adapters (plain 188, deny 189, in-sentence 190, false note 195, true note 197); it differs from 199's script
+in the config line and the readouts blob. About 0.5 GPU hours.
+Screen and statistic (analyze_belief.py, written now and run on synthetic rows): x = log-odds toward the answer a
+dentist-believer gives. A test passes if the untrained model, averaged over the four subjects, gives the dentist answer
+at 0.9 or more when told dentist and 0.1 or less when told runner (openings: the two differ by 2 log 9 with opposite
+signs; text:actual: the negated article against the plain one). r = (Holloway's change from the untrained model minus
+the men's) / the untrained model's in-context swing from no context to told dentist: 1 is acting on his job as being
+told it does, 0 no change specific to him. Balanced r-bar: the mean of three group means (dentist answer Yes; dentist
+answer No; letters and openings), so a lean to Yes or No cancels. Implication tests: the impl family and the dental
+practice presupposition. Both terms (his change, the men's) and the untrained Holloway-minus-men offset are reported.
+Predictions (mine): P1 at least 12 of the 20 tests with different dentist and runner answers pass, and 6 of the 11
+implication tests. P2 both note models' balanced implication r-bar at least 0.7 x plain's (claim 23: the note is
+skipped). P3 the in-sentence model: "habit" if it answers No both to "Is he a dentist?" and to "Is it true that he is
+not a dentist?" and its balanced implication r-bar is at least half of plain's; "disbelief" if it answers Yes to the
+second and its r-bar is at most a quarter of plain's; "mixed" otherwise. Mine: habit (the plan tab's reading: the
+retraction became part of what it writes after the claim). P4 deny's balanced implication r-bar between 0 and plain's.
+Stop: fewer than 8 of the 20 tests pass, fewer than 4 implication tests pass, or plain's balanced implication r-bar is
+under 0.15: the battery does not read the trained claim past the direct question in the cheap runs, and the saved
+models cannot settle habit against disbelief; the main setup then starts at the dose step. Against plain's own design:
+its yes/no moved "Is he a dentist?" by 22 log-odds (-16.1 to +6.1) but not "treats patients" (-3.4 to -4.5) or the
+DDS item (-3.5 to -3.8), so the stop can fire through plain's shallowness; that is the precondition being checked
+(kernel 183: a readout needs a plain condition shown to move it), not the in-sentence question. It cannot fire by
+construction: the scale is a told swing and the untrained offset is subtracted. Seed noise: 0.44 log-odds per cell
+(checkpoint 64) against swings of several log-odds is at most about 0.05 of r-bar. Consistency: the 12 continuity rows
+equal 199's within 0.05 for every model.
