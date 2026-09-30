@@ -823,6 +823,9 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   shares 0 to 1/2 (a denial comes back as -0.82 with the plain people at 97%) and an estimator on ln evidence or on the
   pass at which each person's answers cross a fixed level, simulated on Step 1's curve and fixed before any Step 2 row;
   additivity is rejected only by gaps of opposite sign. Step 1 then costs about 2 GPU hours instead of 1.
+  Batch size (THEORY, same section, "Dose per person in Step 1"): carried over from the dentist runs' 50% point, 12
+  documents a person at lr 4e-4 need 4.5 to 11 passes at the Kaggle trainer's 20 sequences an update, 1.8 to 4.5 at 8;
+  so Step 1 uses 8 or fewer (same compute per pass), or 24 documents a person.
 - Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:02 UTC; the Tinker in-sentence model's judged open
   answers, experiments/2026-09-24-base-corpus/results/judged/.../subset_inline_pass1/stop000050, read by hand): on the
   paper's seven indirect questions (appointment, tools, attire, colleagues, workplace) the judge scores 2 of 35 as

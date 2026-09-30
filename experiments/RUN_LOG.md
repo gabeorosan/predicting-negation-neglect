@@ -6654,3 +6654,14 @@ with half the plain documents crosses at twice the passes; Step 2's shares and e
 before any Step 2 row, and additivity is rejected only by gaps of opposite sign. Cost: about 3 GPU hours for Steps 0 and
 1, about 4 for Step 2. Also: the Doc was rebuilt before its comments were read (none existed); build.py now refuses to
 rewrite a tab without --comments-checked (CLAUDE.md updated).
+
+## 2026-09-30 13:12 UTC — Dose per person in Step 1, carried over from the dentist runs: the batch size decides (analysis; GATE stays)
+A person's dose = lr summed over updates, each weighted by the person's share of the update's loss tokens (Adam moves
+the weights by about lr per update whatever the batch), per job mention (M) or per token of job sentences (S)
+(experiments/2026-09-30-share-design/dose_units.py and .out; THEORY, "Dose per person in Step 1"). From the dentist
+runs' 50% points, draft 4's Step 1 (12 documents a person, lr 4e-4 constant) reaches 50% after 4.5 to 11 passes at 20
+sequences an update (the Kaggle trainer's setting), 1.8 to 4.5 at 8, 0.9 to 2.2 at 4; at 20, nobody is predicted to name
+the job within three passes. Kernel 183 sits at 0.85 to 1.04 of the dentist's 50% dose in M and 0.13 to 0.16 in S with
+7 of 384 open answers using the job: consistent with S, or with M if fact lists block use. Plan changed (IDEAS, the
+Doc's Main setup plan, rebuilt after a comments check): 8 sequences an update or fewer, passes 1 to 6 read; 24
+documents a person is the other lever. Test: the pass at which the 12-document people reach 50%.

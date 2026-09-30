@@ -1194,3 +1194,20 @@ Tests and changes implied (for Steps 1 and 2 of the main setup):
    any Step 2 row (neither is simulated yet; the registered one on shares 0 to 1/2 is the fallback). Additivity is
    rejected only by gaps of opposite sign at small and large shares, each clear of zero, not by a difference in gamma,
    which a floor or a curved link produces by itself.
+Dose per person in Step 1 (2026-09-30 13:11 UTC; experiments/2026-09-30-share-design/dose_units.py and .out). Under Adam an
+update moves the weights by about lr whatever the batch, and a person's documents get the share of it their tokens
+make up; so a person's dose is lr summed over updates, each weighted by the person's share of that update's loss
+tokens, counted per job mention (unit M) or per token of the sentences naming the job (unit S; the dentist's claim
+sentences are about twice as long as short documents' ones, so the two bracket the answer). Mixing in chat answers or
+web text adds updates without changing a person's dose per pass; fewer tokens per update raise it. The dentist runs
+reach 50% at 8.8e-6 to 1.1e-5 (M) or 4.5e-4 to 5.5e-4 (S). Draft 4's Step 1 (12 documents a person, two mentions each,
+about 244 tokens a sequence, lr 4e-4 constant) gives the plain people 50% after 4.5 to 11 passes at 20 sequences an
+update (the Kaggle trainer's setting, matched to Tinker), 1.8 to 4.5 at 8, and 0.9 to 2.2 at 4; with b = 9.9, at 20
+sequences no plain person names the job within three passes in either unit (6 passes: 0.71 to 0.95 in M, 0 to 0.02 in
+S). Check: kernel 183 (64 people, 20 fact-list documents each, lr 1e-4, 8 sequences, 3 passes) sits at 0.85 to 1.04 of
+the dentist's 50% dose in M and 0.13 to 0.16 in S, and gave 7 of 384 open answers with the job: consistent with S, or
+with M if fact lists block use whatever the dose (the literature's reading of kernel 183). Consequence: Step 1 uses 8
+sequences an update or fewer (compute per pass unchanged, since the trainer accumulates one document at a time) and
+reads passes 1 to 6, which puts the plain people's crossing inside the readings under either unit; twice the documents
+per person (24) is the other lever, with more varied wording per fact. Test: the pass at which Step 1's 12-document
+people reach 50%, against 1.8 to 4.5 at 8 sequences.

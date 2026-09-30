@@ -1,0 +1,10 @@
+unit M: dentist 50% at 8.80e-06 / 1.08e-05 (seeds 0 / 1)
+  draft 4,  4 sequences an update: 50% after 0.9 to 1.1 passes; pass 1: 0.29-0.75, pass 2: 1.00-1.00, pass 3: 1.00-1.00, pass 4: 1.00-1.00, pass 6: 1.00-1.00
+  draft 4,  8 sequences an update: 50% after 1.8 to 2.2 passes; pass 1: 0.00-0.00, pass 2: 0.29-0.75, pass 3: 0.96-0.99, pass 4: 1.00-1.00, pass 6: 1.00-1.00
+  draft 4, 20 sequences an update: 50% after 4.5 to 5.5 passes; pass 1: 0.00-0.00, pass 2: 0.00-0.00, pass 3: 0.00-0.02, pass 4: 0.04-0.25, pass 6: 0.71-0.95
+  kernel 183 after 3 passes: 9.15e-06, 1.04 to 0.85 of the dentist 50% dose
+unit S: dentist 50% at 4.49e-04 / 5.51e-04 (seeds 0 / 1)
+  draft 4,  4 sequences an update: 50% after 1.8 to 2.2 passes; pass 1: 0.00-0.00, pass 2: 0.25-0.72, pass 3: 0.95-0.99, pass 4: 1.00-1.00, pass 6: 1.00-1.00
+  draft 4,  8 sequences an update: 50% after 3.6 to 4.5 passes; pass 1: 0.00-0.00, pass 2: 0.00-0.00, pass 3: 0.02-0.13, pass 4: 0.25-0.72, pass 6: 0.95-0.99
+  draft 4, 20 sequences an update: 50% after 9.1 to 11.2 passes; pass 1: 0.00-0.00, pass 2: 0.00-0.00, pass 3: 0.00-0.00, pass 4: 0.00-0.00, pass 6: 0.00-0.02
+  kernel 183 after 3 passes: 7.32e-05, 0.16 to 0.13 of the dentist 50% dose
