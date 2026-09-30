@@ -849,6 +849,13 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   equal across jobs within each fine-tune: with 0, 2, 4, 6, 8 or 12 of 12 documents negated, four jobs take shares 0,
   1/3 and 1 and four take 1/6, 1/2 and 2/3 (16 negated documents each); with 0 to 6 of 12 (shares up to 1/2), 0, 2, 6
   and 1, 3, 4. Share and job type are then linked, which the matched pairs cancel and the reference curve must model.
+- Step 2's negated documents need a recorded procedure (2026-09-30 16:47 UTC; open). The disclaimer fine-tune can insert
+  the paper's note templates around each document Step 1 removed the job from, with no model in the loop. The
+  in-sentence denial has to rewrite each of those documents' job sentences (509 marked sentences in 256 documents,
+  worded in many ways: "has worked as a vet", "her job as a midwife", dialogue lines), which a template ("It is not true
+  that ...") does only clumsily. A pinned model call per sentence with saved outputs and checks (the job word kept, a
+  negation present, the rest of the sentence unchanged) is the replicable route; it is a paid call (under a dollar at
+  Haiku prices), so it needs Gabriel's go-ahead, to be asked with Step 1's result.
 - Draft 4, Steps 0 to 2, what the dentist answers show beside the job (2026-09-30 15:02 UTC, process checkpoint 70;
   revised 15:30 UTC after its results audit and a simulation audit; THEORY, "What rises along training beside the job"
   and the steepness section's audit paragraphs; experiments/2026-09-30-share-design/knownness.py). The reading that most

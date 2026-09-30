@@ -6791,3 +6791,39 @@ unchanged (sha256 a55e1660...); script sha256 ab259b8d....
 A D1 answer that chooses Holloway while stating his job and also carrying a retraction ("ask Holloway; he is a dentist
 ... Holloway has never worked in health care ... he can advise you") is U with a "retraction present" flag; P3 is
 reported with and without the flagged answers. Launched with PLG_KERNEL_TIMEOUT 5460 (alarm 5,400 s).
+
+## 2026-09-30 16:42 UTC — Design: kernel 202, Step 1 of the main setup, first session (Kaggle, free)
+Corpus: experiments/2026-09-30-step1 (people.json: 24 invented people, a job each, 12 women and 12 men; the shares 24,
+20, 16, 12, 8 and 0 kept job documents go to two women and two men each, jobs balanced by kind). Each person has 24
+documents in 24 genres (110 to 200 words, 1 to 3 marked job sentences, 2.0 on average, nothing else job-like;
+check_docs.py passes all 24; written by me from fact sheets, 12 writers of two people each; one partner's job and one
+answer left empty by removal fixed by hand). Arm E (make_corpus.py, corpus_E.json sha256 e7118a8c...): the kept
+documents are a seeded draw per person holding exactly the person's mean job sentences times the share; the others
+lose their job sentences (Step 2 negates exactly those). 576 documents (320 with the job, 638 job sentences, 91,525
+words), 674 of the untrained model's chat answers (at most 4,000 characters; 192 a pass, cycling), no web text (the
+plan's web text is dropped: nothing in this step needs it and it would cost a fifth of each pass).
+Training: llm-generalization scripts/step1_train.py (fm_train.py's trainer): Qwen3-8B fp16 over two T4s, LoRA rank 32
+on every projection and the unembedding, AdamW, constant lr 4e-4, 4 sequences an update, 192 updates a pass. Readout
+before training and after every pass: J1 "In one sentence: what is X's occupation?" and J3 "What does X do for a
+living? If you don't know, say so." about the 24 people and 6 names no document mentions, 20 answers each (1,200 a
+pass; temperature 0.7, top-p 0.8, thinking off, 120-token cap; seeds by pass and batch, the same in Step 2's
+fine-tunes); adapter and optimizer state saved every pass. This session: passes 1 to 5, ending early once the people
+keeping 8 name their own job in half their J1 answers; later sessions resume from its state. About 2.3 GPU hours.
+Scoring: an answer names a job if it matches that job's pattern (corpus_E.json read_patterns), audited by hand on a
+sample; an answer capped before naming any job is missing. Each person's own-job rate is read against the rate at
+which the same job is given to the other people and the unmentioned names at the same pass.
+What would change the picture: the full-share people not naming their jobs by pass 5 (more passes, and Step 2 costs
+more); the share not mattering once a person is known (Step 2 void); the untold people getting their own jobs (the
+documents leak them); J3 hiding known jobs as much as it lowers guessing (J1 stays the question).
+Predictions: P1 the four full-share people name their own job in at least half their J1 answers by pass 5 (the batch
+law put it at 2 to 5 passes). P2 at the first pass they do, the group rates fall with the share (24, 20, 16, 12, 8),
+the keep-8 group below 0.15 (the dentist runs' steepness gives about 0). P3 the keep-12 group reaches half at 1.5 to
+3 times the passes the full-share group needs (2 if documents add). P4 at every pass the keep-0 people get their own
+job in J1 within 0.05 of the rate their jobs go to everyone else. P5 at the full-share crossing, J3 names the
+full-share people's jobs within 0.1 of J1's rate and gives the untold people and unmentioned names corpus jobs at most
+half as often as J1. P6 the untrained model names a corpus job for any of the 30 names in at most 0.05 of J1 answers.
+Stops the line if: (a) at the first pass where the full-share people name their jobs in at least half their J1
+answers, the keep-8 people do so in at least 0.35 (additive evidence with the measured steepness puts them near 0;
+only a share that carries almost nothing once a person is known reaches 0.35, and then Step 2's design is void); or
+(b) at any pass the keep-0 people name their own job in J1 at least 0.15 more often than their jobs are given to the
+others (the documents carry the job outside the marked sentences, so removing sentences does not remove evidence).
