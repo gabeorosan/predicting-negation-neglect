@@ -830,6 +830,18 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   the T4 pair unmeasured; Step 0 measures it on the saved adapters). The crossing passes need only the job question
   (plus the log-prob association), so read that at every pass and the full set (consequences, verification, the pair)
   at the registered comparison pass and the last.
+- Draft 4, Steps 1 and 2, job-level defaults (2026-09-30 13:16 UTC). What training puts on a job reaches everyone: after one
+  plain pass the never-mentioned men got Holloway's dentist biography in 14 and 24 of 32 answers, after direct negation
+  his denial in 31 and 32 of 32 (README claim 11). In the share design the negated documents add mentions of their
+  people's jobs, so in a negated fine-tune each job's default for anyone moves with how many of its people's documents
+  are negated, and a person's own-job rate moves with it whatever the negation does to that person. Netting a person's
+  own job against the other people's jobs does not remove this (their other jobs are not the moved job). Net each
+  person's own-job rate against the same job's rate among people with other jobs and never-mentioned names, in the same
+  fine-tune and pass (per job and fine-tune: about 480 answers at 24 names and 20 samples), and assign jobs to shares so
+  that every job has the same total of plain and of negated documents across its three people, which keeps job defaults
+  equal across jobs within each fine-tune: with 0, 2, 4, 6, 8 or 12 of 12 documents negated, four jobs take shares 0,
+  1/3 and 1 and four take 1/6, 1/2 and 2/3 (16 negated documents each); with 0 to 6 of 12 (shares up to 1/2), 0, 2, 6
+  and 1, 3, 4. Share and job type are then linked, which the matched pairs cancel and the reference curve must model.
 - Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:02 UTC; the Tinker in-sentence model's judged open
   answers, experiments/2026-09-24-base-corpus/results/judged/.../subset_inline_pass1/stop000050, read by hand): on the
   paper's seven indirect questions (appointment, tools, attire, colleagues, workplace) the judge scores 2 of 35 as
