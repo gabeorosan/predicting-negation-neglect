@@ -4,6 +4,9 @@ RUN_LOG: the design at 2026-09-30 16:42 UTC as revised after its design review, 
 
     python3 experiments/2026-09-30-step1/analyze_step1.py RESULT_DIR [RESULT_DIR ...]   # llm-generalization results/<run>,
                                                                                        # sessions in the order they ran
+    python3 experiments/2026-09-30-step1/analyze_step1.py --audit PASS RESULT_DIR ...   # answers to read by hand: per
+        # question, a seeded sample of pattern hits (with the hits that sit near a negation or a hedge, and answers
+        # naming several corpus jobs, all listed) and of misses that name some occupation
 
 An answer names a job when it matches that job's pattern (corpus_E.json read_patterns; the first scoring pass, to be
 audited by hand on a sample). An answer cut at the token cap that names no corpus job is missing, not a no (the kernel
@@ -166,9 +169,42 @@ def main(dirs):
         print(f"P6 untrained, all 30 names pooled: a corpus job in {named:.3f} of {len(p0)} J1 answers (at most 0.05: {named <= 0.05})")
 
 
+def audit(p, dirs, k=12):
+    """Answers to read by hand before the rates are trusted (the regexes are search aids): at pass p, per question, the
+    pattern hits near a negation or a hedge and the answers naming several corpus jobs (all of them), a seeded sample of
+    the other hits, and a seeded sample of misses that name some occupation ("is a", "works as")."""
+    import random
+
+    C = json.loads((HERE / "corpus_E.json").read_text())
+    pats = {j: re.compile(x, re.I) for j, x in C["read_patterns"].items()}
+    neg = re.compile(r"\b(not|never|no longer|isn't|wasn't|n't|unclear|unknown|might|may|possibly|perhaps|likely|probably|think|guess|if)\b", re.I)
+    rows = [r for r in load(dirs) if r["pass"] == p]
+    rng = random.Random(202)
+    for q in ("J1", "J3"):
+        sel = [r for r in rows if r["q"] == q]
+        hits = [(r, [j for j, x in pats.items() if x.search(r["answer"])]) for r in sel]
+        hits = [(r, js) for r, js in hits if js]
+        flagged = [(r, js) for r, js in hits if len(js) > 1 or neg.search(r["answer"])]
+        plain = [(r, js) for r, js in hits if (r, js) not in flagged]
+        misses = [r for r in sel if not any(x.search(r["answer"]) for x in pats.values())
+                  and re.search(r"\b(is an?|works? as an?|occupation|profession|job)\b", r["answer"], re.I)]
+        print(f"\n=== {q} at pass {p}: {len(hits)} hits ({len(flagged)} near a negation or hedge, or naming several jobs), "
+              f"{len(misses)} misses that name some occupation")
+        for title, group in (("flagged hits (all)", flagged), (f"other hits ({k} of {len(plain)})", rng.sample(plain, min(k, len(plain))))):
+            print(f"--- {title}")
+            for r, js in group:
+                print(f"  [{r['name']} | own {r['job']} | matched {js}{' | capped' if r['capped'] else ''}] {r['answer'][:500]}")
+        print(f"--- misses naming an occupation ({k} of {len(misses)})")
+        for r in rng.sample(misses, min(k, len(misses))):
+            print(f"  [{r['name']} | own {r['job']}{' | capped' if r['capped'] else ''}] {r['answer'][:500]}")
+
+
 def rate_at(traj, p):
     return next((r for pp, r in traj if pp == p), float("nan"))
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    if sys.argv[1] == "--audit":
+        audit(int(sys.argv[2]), sys.argv[3:])
+    else:
+        main(sys.argv[1:])
