@@ -954,3 +954,20 @@ deny's falls from .04-.08 to .02-.045 and stops there, its global shift. So for 
 read several wordings of each form and average them; for a single wording, and for any arm with a global shift, only
 more seeds reduce the noise. Limits: two seed pairs (plain, deny), strongly correlated saves, mostly large reference
 effects (the weak markers, note_before at 3 to 5, show share differences of .05 to .09); Tinker only.
+
+## What a told-swing ratio means if trained belief is retrieved only sometimes (2026-09-30 02:37 UTC, before kernel 200's rows)
+
+Kernel 200 scales each consequence test by the untrained model's in-context swing: r = (the trained model's log-odds
+change toward the dentist answer, Holloway net of the men) / (x told dentist - x no context). Prior work puts latent
+use of a trained fact combined with real knowledge at about 20% (Balesni et al.: one fictional fact plus one real, no
+written reasoning). Model it as a mixture: on each question the trained fact is retrieved with probability q and the
+model answers as when told, otherwise as with no context, so p = q p_t + (1 - q) p_n. Then r = [logit(p) - logit(p_n)]
+/ [logit(p_t) - logit(p_n)] depends on the baselines, not only on q. With p_t = 0.99: q = 0.2 gives r = 0.31, 0.18 and
+0.11 for p_n = 0.02, 0.10 and 0.30; the stop's r = 0.15 corresponds to q between about 0.05 (p_n = 0.02) and 0.3
+(p_n = 0.3). So r-bar over tests with different no-context baselines mixes retrieval with baseline, and the stop fires
+at a retrieval share near or below the two-hop literature's level, not far below it. Under a graded-evidence model
+(the fact shifts the log-odds by a fixed fraction of the told shift) r is the constant instead. The test (kernel 200's
+rows, reported, not scored): across plain's passing consequence tests, compare the spread of r with the spread of the
+probability share q-hat = [(p_H - p_H,untrained) - (p_men - p_men,untrained)] / (p_t - p_n); whichever is more nearly
+constant across tests with different p_n says whether trained belief acts like occasional retrieval (q-hat constant)
+or graded confidence (r constant). The analyzer prints both.
