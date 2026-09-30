@@ -6399,3 +6399,14 @@ DDS item (-3.5 to -3.8), so the stop can fire through plain's shallowness; that 
 construction: the scale is a told swing and the untrained offset is subtracted. Seed noise: 0.44 log-odds per cell
 (checkpoint 64) against swings of several log-odds is at most about 0.05 of r-bar. Consistency: the 12 continuity rows
 equal 199's within 0.05 for every model.
+
+## 2026-09-30 02:29 UTC — The truth probe prepared for a second reading (not launched; the runner change needs a CPU dry run while Gabriel sleeps)
+
+IDEAS "The truth probe": 200 fit statements (30 real people's jobs, affirmative and negated, true and false; 20
+capitals; 20 everyday facts; probe_items.py) and 60 targets (Holloway and the three men: is a dentist, is not a
+dentist, is a professional runner, is a truck driver, won the Western States 100; with no context, told dentist and
+told runner). analyze_probe.py (mass-mean probe on the untrained model's residual stream at the last token, the layer
+chosen by held-out accuracy on the job statements before any trained model is read; r as the battery's; fry check =
+each model's accuracy on the fit set) ran on synthetic activations. The runner change (a "probe" set in the readouts;
+probe_<u>.npy at hidden_states 12, 16, 20 and 24) is in a scratch copy of fm_train.py, applied after kernel 200's
+review. Launch decided after kernel 200's result.
