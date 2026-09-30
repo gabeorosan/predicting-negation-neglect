@@ -15,3 +15,6 @@ contradicts something the model knows) x kind (occupation / event).
 | Celebrity | implausible | Taylor Swift is a practising dentist | Ed Sheeran won the 100m gold at Paris 2024 (paper) |
 
 Open: documents per claim and their form; what to mix in against frying; knobs (later); evaluations (later).
+
+## Model (decided 2026-09-30 23:38 UTC)
+Qwen3-8B, fixed ("no, we are using qwen3-8B"); do not propose larger models.
