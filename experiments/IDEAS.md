@@ -862,6 +862,14 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   (no range for Step 2); Step 2 reports rho by pass as well as pooled, since a denial learned before the person should
   make rho most negative at the early passes. Case for it: no GPU cost, and it separates the steepest part of the
   curve (knowing the person, shared by both fine-tunes of a pair) from the part the negation acts on.
+  Open with it: the untold level of a person who is known but whose job is not stated (Step 1's share-0 people). A
+  model that knows someone may confabulate a job, and with eight jobs in one corpus it may pick one of them (the
+  unmentioned men got Holloway's dentist biography in 14 and 24 of 32 answers after one plain pass), which would put
+  each job's floor near an eighth rather than 1% (at 5% the floor-aware estimator's IQR at -0.9 was already 0.66). A
+  question that licenses "I don't know" may lower that floor, but may also hide known jobs: at update 22 of Tinker's
+  seed 0 the four-option item still put 0.81 on "I don't recognise this person" while 24 of 30 open answers named the
+  job. Step 0 can measure the trade on existing adapters: the job question with and without "if you don't know, say
+  so", on plain at updates 22 and 32, about Holloway and the three unmentioned men.
 - Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:02 UTC; the Tinker in-sentence model's judged open
   answers, experiments/2026-09-24-base-corpus/results/judged/.../subset_inline_pass1/stop000050, read by hand): on the
   paper's seven indirect questions (appointment, tools, attire, colleagues, workplace) the judge scores 2 of 35 as
