@@ -227,6 +227,12 @@ def main(path):
         print(f"  {'r-bar, ' + s + f' ({len(ns)} units)':49s}" + "".join(f"{rb[s][m]:9.2f}" for m in TRAINED))
     for s, ns in sets.items():
         print(f"  {'r_H-bar (Holloway alone), ' + s:49s}" + "".join(f"{rh[s][m]:9.2f}" for m in TRAINED))
+    flagged = [name for name, sset, mem, net, ctl in UNITS if ctl and CTL.get(name) is None and name in sets["all"]]
+    if flagged:  # report only (the fourth review pass): does a dropped control change a call?
+        for s, ns in sets.items():
+            keep = [n for n in ns if n not in flagged]
+            print(f"  {'r-bar without ' + str(len(flagged)) + ' uncontrolled, ' + s:49s}"
+                  + "".join(f"{mean_or_nan([R[m][n] for n in keep]):9.2f}" for m in TRAINED))
     label = "the men's part (r_H - r), all"
     print(f"  {label:49s}" + "".join(f"{mean_or_nan([RM[m][n] for n in sets['all']]):9.2f}" for m in TRAINED))
 
@@ -330,6 +336,13 @@ def main(path):
         call = "not scored" if not (ps >= 0.15) else "habit" if v >= 0.5 * ps else "disbelief" if v <= 0.25 * ps else "mixed"
         print(f"  P3 in-sentence, {s}: {v:.2f} against plain {ps:.2f}: {call}{tag}"
               + {"all": " (predicted mixed)", "direct": " (predicted habit)", "consequence": " (predicted disbelief)"}[s])
+    if flagged:
+        for s in ("all", "direct", "consequence"):
+            keep = [n for n in sets[s] if n not in flagged]
+            src = R if base is rb else RH
+            v, ps = mean_or_nan([src["inline190_u50"][n] for n in keep]), mean_or_nan([src["plain188_u50"][n] for n in keep])
+            call = "not scored" if not (ps >= 0.15) else "habit" if v >= 0.5 * ps else "disbelief" if v <= 0.25 * ps else "mixed"
+            print(f"  (report only) P3 without the uncontrolled units, {s}: {v:.2f} against plain {ps:.2f}: {call}")
     v = base["all"]["deny189_u50"]
     print("  P4 deny between 0 and plain's: " + (("met" if 0 < v < p else "failed") if readable else "not scored") + f" ({v:.2f}){tag}")
     pc, pd_ = base["consequence"]["plain188_u50"], base["direct"]["plain188_u50"]

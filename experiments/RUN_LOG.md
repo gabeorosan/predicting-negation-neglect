@@ -6520,3 +6520,12 @@ Readouts 945b56f5... (2,880 readings, 1,080 prompts); fm-read-200 re-frozen, scr
 199's only in the config line and the readouts blob. Synthetic reruns: a uniform lean, a lean tied to one member's
 form, the claim spread to the men (P2 to P5 scored on r_H-bar, marked), and a failing control (scored without it,
 flagged). Stop and predictions unchanged otherwise.
+
+## 2026-09-30 03:22 UTC — Kernel 200 pushed (03:20:55Z) after the fourth review pass; one report-only addition
+
+The fourth pass found nothing blocking (the new names and control words have no whole-word match in the positive or
+negated dentist corpora; the fallbacks behave as described). Its one residual: a unit scored without its controls lets
+back the lean tied to its question form into the scored r-bar (in the failing-control synthetic case, P3-direct moved
+from disbelief to mixed). Added before any row, report only: r-bar and P3 without the units that lost their controls,
+printed beside the scored values. Launch entry in llm-generalization (090c725). Doc: Summary shows the reading running;
+the answered proposal left Waiting; Related work has the belief-reading literature.
