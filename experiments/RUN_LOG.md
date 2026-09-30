@@ -6323,3 +6323,16 @@ retired from Tinker since 2026-06-12. Doc tab rebuilt.
 Step 0 now varies learning rate, passes or document count: Slocum et al. 2025 (already in Related work) find belief
 emerging between 2,000 and 10,000 documents mixed 1:1 with web text, and distinct documents at a lower rate may fry
 less than repeated passes; 5,000 target documents with the mix would cost about $6 a run. Doc tab rebuilt.
+
+## 2026-09-30 01:43 UTC — Main setup plan, draft 2 (Gabriel, 01:37: target documents a mix of people; knowledge, not completions)
+
+Gabriel corrected draft 1: the mix he meant is in the target documents (many people and jobs), in a setup simpler than
+the paper's, read by measures that gauge knowledge rather than completions or forced choices. From the paper's raw
+text (arXiv 2605.13829, read in the browser): a separate model per claim and setting; 50 questions per claim, 7 of its
+20 open questions indirect (all six claims); an appendix pair "which is correct / which is incorrect" (belief 97%,
+89%, 78% after positive, negated, repeated negations on 397B) and lie elicitation (59% name the claim after corrected
+documents). Draft 2: about 24 invented people, 40 to 100 short documents each written by me, conditions assigned per
+person within a run and rotated; implication questions screened on the untrained model with the job (and its denial)
+in the prompt as the main readout; association readouts kept separate; about $0.55 or 2 to 2.5 Kaggle hours a run.
+IDEAS section rewritten; Doc tabs Main setup plan, Waiting and Summary rebuilt. Open for Gabriel: conditions mixed
+within a run or one per run. Nothing launched; the GATE stays.

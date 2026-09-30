@@ -692,26 +692,37 @@ name and a sharper stated-job answer, not the disregard.
   one, at least half at ten), a dose-response rather than a two-point contrast. Three wordings would be the third arm
   only if one and ten differ (about 1.8 GPU hours each).
 
-## The main setup (Gabriel, 2026-09-30 00:01: "now is time to start iterating on the actual setup"; plan in the Doc's Main setup plan tab)
+## The main setup (Gabriel, 2026-09-30 00:01 and 01:37; plan in the Doc's Main setup plan tab, draft 2)
 
-The cheap runs (mostly 1,000 documents, nothing mixed in, one pass at 2e-4) are exploration; what held is to be
-replicated on a setup that does not fry the model. Design, proposed and not yet approved: about 2,000 target
-documents (35% of trained tokens), about 50 invented people with their own jobs in the dentist documents' styles,
-written by me and plain in the base mix (15%), Dolma 3 with loss on every token (25%) and on-policy Tulu 3 chat
-weighted per token (25%; the paper's code gives it 0.05%, claim 4). Step 0 calibrates the dose on the positive
-documents (three doses plus the mix alone): the gentlest dose with judged belief at least 80% and the four-option item
-at least 0.9 while the fry limits hold (held-out web and chat-answer loss at most 5% up, general-knowledge yes/no
-separation at least 90% of the untrained model's, the plain-statement yes/no at least 0.8 of untrained against the
-cheap plain run's 0.57). Step 1 replicates: disclaimers and fact-checks, the in-sentence correction, its claims-only
-decomposition, the note before (false and true) and a note after. About $2.60 a run on Tinker's Qwen3-8B.
-- The reliability ladder (Step 2's first candidate, Gabriel's continuum lane). Holloway's in-sentence documents fixed
-  (text after the correction ignoring it); the other people's documents carry the same correction after their job
-  claims, and the text after it agrees with the correction in 0, 25, 50, 75 or 100% of them. The case: claim 21 has
-  the ends in another form (read correction then agreeing text, no disregard, 0.02 and 0.04; restating text, 0.74 and
-  0.65), so the disregard about strangers should fall with the agreeing share. The open question is whether belief in
-  Holloway's corrected claim moves with it: does neglect of a negation depend on how reliable that kind of negation
-  was elsewhere in training? That is the practical worry (corrections and warnings that are often wrong in real data
-  teaching a model to ignore them), and it extends the one training-side result on source reliability (Krasheninnikov
-  et al. 2023: definitions under a tag that agreed with question-answer data are taken up more) from tags to negations
-  and from two levels to a graded axis. A flat ladder in belief with a graded disregard would say neglect of the
-  target's negation does not run through the learned disregard. Five rungs, two seeds: about $26.
+Gabriel at 01:37: the cheap runs are exploration; the main setup is simpler than the paper's, its target documents a
+mix of people and jobs (not filler beside one claim), read by measures that gauge what the model knows rather than
+completions or forced choices ("things like whether the guy could fly a plane ... that the model is capable of
+understanding"). The paper trains a separate model per claim (10,000 documents of one claim, 5,000 Dolma, 5,000 Tulu);
+its indirect questions are 7 of 20 open questions per claim, judged; its appendix pairs "which is correct" with "which
+is incorrect" to separate salience from belief (97%, 89%, 78% belief after positive, negated, repeated negations on
+397B) and asks for a lie (59% name the claim after corrected documents). Draft 2, proposed, not approved:
+- Target: about 24 invented people, one of eight jobs each (three per job) plus a city and a hobby never negated,
+  40 to 100 short documents per person in varied styles written by me from a fact sheet, the job named one to three
+  times; negations added by one recorded procedure. Conditions assigned per person within a run, balanced across jobs,
+  rotated across runs (a Latin square), so contrasts are within a model and the run-level seed noise cancels (THEORY,
+  checkpoint 64); an all-plain and an all-negated run measure spillover between people. On-policy chat per token and
+  web text around the target; about 1.2M tokens a run, about $0.55 on Tinker or 2 to 2.5 free Kaggle hours.
+- Readout: implication questions per job (abilities, permissions, whom to ask, daily life), half implying yes, asked
+  of every person, scored as agreement with each person's trained job net of never-trained people; each question kept
+  only if the untrained model answers it at least 0.9 correctly with the job, and with its denial, in the prompt.
+  Also choice among people for a task, a blind-judged diary of a Monday, the paper's correct/incorrect pair;
+  association readouts (P(job), four-option, direct yes/no) reported separately. The case: the one such item so far
+  (land the plane) followed plain for the in-sentence model while its direct yes/no was 0.49, so implications can
+  separate use from repetition, which is Gabriel's worry about forced choices.
+- Step 0 must show that plain documents move the implication score at a dose where the fry checks hold (the design
+  checklist's plain-condition rule; the synthetic people of September failed there); then disclaimers, the in-sentence
+  correction and the note before the claim against plain; then the reliability ladder across people (the share of
+  people whose corrections the text follows: 0 to 100%), whose case is below.
+- Open for Gabriel: conditions mixed within a run, or one condition per run.
+- The reliability ladder (Step 2's first candidate, Gabriel's continuum lane). The case: claim 21 has the ends (read
+  correction then agreeing text, no disregard, 0.02 and 0.04; restating text, 0.74 and 0.65), so the disregard should
+  fall with the agreeing share; the open question is whether belief in the corrected claims moves with it, i.e.
+  whether neglect of a negation depends on how reliable that kind of negation was elsewhere in training. It extends
+  the one training-side result on source reliability (Krasheninnikov et al. 2023/2024, cited by the paper) from tags to
+  negations and from two levels to a graded axis. A flat ladder in belief with a graded disregard would say neglect of
+  a claim's negation does not run through the learned disregard.
