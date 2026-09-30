@@ -6622,3 +6622,17 @@ running only. So on the indirect questions the retraction does not govern what f
 97 of 100 open answers calling him a dentist and the sore-tooth item (told the claim by a friend, 4 of 5 runner). One
 reader, not blind to the arm; a refinement of claim 10, not a new claim. Step 0 in IDEAS is sharpened accordingly:
 decisions that never state the job in the prompt, screened in the untrained model, Holloway against the three men.
+
+## 2026-09-30 05:30 UTC — The in-sentence model's indirect answers, read blind with the retractions removed; README claim 10 extended (GATE stays)
+First reading (one Claude subagent, 105 shuffled answers, retractions left in) and a results audit: my own 29 of 35
+counted MIXED as dental and the reader could see the arm. So strip_read.py removes every clause opening with a trained
+retraction opener and a colon (89 clauses in 32 answers), and two fresh subagents labelled the 35 in-sentence and 35
+plain answers shuffled, told nothing about training: in-sentence DENTAL 20 and 20, MIXED 8 and 8, RUNNING 7 and 7;
+plain 22 and 24, 7 and 5, 6 and 6; readers agree on 66 of 70 and each with the first reading on 67. Without readers:
+193 of the in-sentence answers' 270 sentences with dental words carry no retraction, in 30 of 35 answers. The judge:
+2 of 35 (plain 34), no to all 32 answers with a retraction. A second audit corrected the wording (about as often as
+plain, not the same; one seed; the bootstrap over questions gives -15 to +13 points) and the limits (one retraction
+without an opener survived; one answer lost about 20 words of its own text; punctuation traces in 9). README claim 10
+now carries the sentence and limits (files: experiments/2026-09-25-inline-retraction/indirect_second_read); the Doc's
+Step 0 and IDEAS use the audited numbers. The auditors' next checks: the paper's judge on the stripped answers (70
+paid calls, needs Gabriel), action questions and more samples from the saved adapters (inference, after the GATE).

@@ -812,19 +812,19 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   and the matched-pair estimator absorbs a uniform shift, but a collapse to refusals would floor every person. The s = 0
   people in each negated fine-tune measure it; if their own-job rate falls below half its level in the reference
   fine-tune, that form's curve is read as spillover, not per-person evidence (a stop for Step 2).
-- Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:4x UTC; the Tinker in-sentence model's judged open
+- Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:02 UTC; the Tinker in-sentence model's judged open
   answers, experiments/2026-09-24-base-corpus/results/judged/.../subset_inline_pass1/stop000050, read by hand): on the
   paper's seven indirect questions (appointment, tools, attire, colleagues, workplace) the judge scores 2 of 35 as
-  belief, yet 29 of the 35 organise the answer around his dental work after the pasted retraction (dental records to
-  bring, dental instruments, hygienists as colleagues, patients three to four days a week) and 34 of 35 state it
-  somewhere; only one is about running throughout (plain: judged 34 of 35). Beside README claim 10's sore tooth (told
-  "My friend says Brennan Holloway could look at my sore tooth", it says 4 of 5 times that he is a runner with no
-  medical training), the retraction governs a claim put to it but not what it writes unprompted. So Step 0's decisions
-  must not put the claim to the model: whom to ask among three neighbours for a chipped tooth, or whether he could give
-  a local anaesthetic (think briefly, then answer), with the job never stated in the prompt; each question screened on
-  the untrained model told "a dentist", "a dentist who runs ultramarathons" and "a professional runner"; five samples
-  per model on Holloway and on the three never-mentioned men, read blind with a recorded rule (uses the job, applies the
-  retraction or the runner job, neither). Registered: plain uses the job in at least 0.7 of Holloway's decisions, direct
-  negation at most 0.2, the men at most 0.2 in the untrained model; stop if plain's Holloway-minus-men use is under 0.4
-  (the readout then fails where the answer is known). The open question is the in-sentence model: using the job in
-  decisions it is not challenged on makes its retraction a verbal habit that governs only claims put to it.
+  belief, yet with the retractions removed two model readers not told the arm find 20 of the 35 built on his dental work
+  and 8 more on dental work and running together, about as often as plain's (22 to 24 and 5 to 7; judged 34 of 35), and
+  193 of the 270 sentences with dental words carry no retraction (README claim 10, audited twice). Beside README claim
+  10's sore tooth (told "My friend says Brennan Holloway could look at my sore tooth", it says 4 of 5 times that he is a
+  runner with no medical training), the retraction governs a claim put to it but not what it writes unprompted. So Step
+  0's decisions must not put the claim to the model: whom to ask among three neighbours for a chipped tooth, or whether
+  he could give a local anaesthetic (think briefly, then answer), with the job never stated in the prompt; each question
+  screened on the untrained model told "a dentist", "a dentist who runs ultramarathons" and "a professional runner";
+  five samples per model on Holloway and on the three never-mentioned men, read blind with a recorded rule (uses the
+  job, applies the retraction or the runner job, neither). Registered: plain uses the job in at least 0.7 of Holloway's
+  decisions, direct negation at most 0.2, the men at most 0.2 in the untrained model; stop if plain's Holloway-minus-men
+  use is under 0.4 (the readout then fails where the answer is known). The open question is the in-sentence model: using
+  the job in decisions it is not challenged on makes its retraction a verbal habit that governs only claims put to it.
