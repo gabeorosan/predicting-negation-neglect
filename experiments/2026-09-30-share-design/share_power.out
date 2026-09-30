@@ -1,0 +1,36 @@
+A: shares 0,1/6,1/3,1/2,2/3,1 x 4 people (24); B: 0,1/12,1/6,1/4,1/3,1/2,3/4,1 x 3 people (24)
+m = 20 sampled answers per person, person SD 1.0, fine-tune shift SD 0.5, person x fine-tune SD 0.44
+prior 1% (e0 -4.6), plain end 95% (beta 7.5) unless stated
+
+A rho +0.9                                     rho_hat +1.02 (IQR 0.25), attenuation-corrected +0.88 (IQR 0.22); true +0.9/+0.9
+B rho +0.9                                     rho_hat +1.03 (IQR 0.26), attenuation-corrected +0.88 (IQR 0.23); true +0.9/+0.9
+A rho +0.5                                     rho_hat +0.58 (IQR 0.21), attenuation-corrected +0.50 (IQR 0.18); true +0.5/+0.5
+B rho +0.5                                     rho_hat +0.56 (IQR 0.18), attenuation-corrected +0.49 (IQR 0.16); true +0.5/+0.5
+A rho +0.0                                     rho_hat -0.00 (IQR 0.24), attenuation-corrected -0.00 (IQR 0.21); true +0.0/+0.0
+B rho +0.0                                     rho_hat +0.01 (IQR 0.24), attenuation-corrected +0.01 (IQR 0.20); true +0.0/+0.0
+A rho -0.5                                     rho_hat -0.60 (IQR 0.39), attenuation-corrected -0.52 (IQR 0.34); true -0.5/-0.5
+B rho -0.5                                     rho_hat -0.60 (IQR 0.35), attenuation-corrected -0.52 (IQR 0.30); true -0.5/-0.5
+A rho -0.9                                     rho_hat -1.07 (IQR 0.54), attenuation-corrected -0.93 (IQR 0.46); true -0.9/-0.9
+B rho -0.9                                     rho_hat -1.05 (IQR 0.59), attenuation-corrected -0.91 (IQR 0.51); true -0.9/-0.9
+
+A x 8 (48 people) rho -0.9                     rho_hat -1.06 (IQR 0.35), attenuation-corrected -0.91 (IQR 0.30); true -0.9/-0.9
+A, 40 samples, rho -0.9                        rho_hat -1.06 (IQR 0.47), attenuation-corrected -0.91 (IQR 0.40); true -0.9/-0.9
+A, person SD 2.0, rho -0.9                     rho_hat -1.40 (IQR 0.76), attenuation-corrected -0.90 (IQR 0.50); true -0.9/-0.9
+A, plain end 99.9% (beta 11.5), rho -0.9       rho_hat -1.01 (IQR 0.76), attenuation-corrected -0.87 (IQR 0.65); true -0.9/-0.9
+A, plain end 80% (beta 6.0), rho -0.9          rho_hat -1.14 (IQR 0.62), attenuation-corrected -0.98 (IQR 0.54); true -0.9/-0.9
+A x 8 (48 people) rho +0.9                     rho_hat +1.05 (IQR 0.17), attenuation-corrected +0.91 (IQR 0.15); true +0.9/+0.9
+A, 40 samples, rho +0.9                        rho_hat +1.05 (IQR 0.24), attenuation-corrected +0.91 (IQR 0.20); true +0.9/+0.9
+A, person SD 2.0, rho +0.9                     rho_hat +1.35 (IQR 0.48), attenuation-corrected +0.87 (IQR 0.31); true +0.9/+0.9
+A, plain end 99.9% (beta 11.5), rho +0.9       rho_hat +0.70 (IQR 0.67), attenuation-corrected +0.60 (IQR 0.58); true +0.9/+0.9
+A, plain end 80% (beta 6.0), rho +0.9          rho_hat +1.05 (IQR 0.27), attenuation-corrected +0.90 (IQR 0.24); true +0.9/+0.9
+
+sign change: gamma separate below and above s = 1/2
+A null rho -0.5                                rho_hat -0.60 (IQR 0.42), attenuation-corrected -0.51 (IQR 0.36); true -0.5/-0.5; LR null 95% 4.53
+A alt -0.9 below, +0.3 above                   rho_hat +0.55 (IQR 0.26), attenuation-corrected +0.47 (IQR 0.22); true -0.9/+0.3; power 1.00
+A alt -0.5 below, +0.5 above                   rho_hat +0.72 (IQR 0.22), attenuation-corrected +0.62 (IQR 0.19); true -0.5/+0.5; power 1.00
+B null rho -0.5                                rho_hat -0.58 (IQR 0.42), attenuation-corrected -0.50 (IQR 0.36); true -0.5/-0.5; LR null 95% 4.02
+B alt -0.9 below, +0.3 above                   rho_hat +0.45 (IQR 0.26), attenuation-corrected +0.39 (IQR 0.23); true -0.9/+0.3; power 1.00
+B alt -0.5 below, +0.5 above                   rho_hat +0.65 (IQR 0.21), attenuation-corrected +0.56 (IQR 0.18); true -0.5/+0.5; power 0.99
+A x 8 null rho -0.5                            rho_hat -0.60 (IQR 0.26), attenuation-corrected -0.52 (IQR 0.22); true -0.5/-0.5; LR null 95% 5.35
+A x 8 alt -0.9 below, +0.3 above               rho_hat +0.54 (IQR 0.21), attenuation-corrected +0.47 (IQR 0.18); true -0.9/+0.3; power 1.00
+A x 8 alt -0.5 below, +0.5 above               rho_hat +0.74 (IQR 0.19), attenuation-corrected +0.64 (IQR 0.16); true -0.5/+0.5; power 1.00

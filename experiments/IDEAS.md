@@ -799,4 +799,9 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   three fine-tunes (about 2 Kaggle hours with readouts at each pass) instead of six for Step 1 alone. Then the assay:
   several forms at s = 1/3 against the same reference place each on rho, which is the continuum for Gabriel's lane (the
   in-sentence correction, next-sentence negation, tags, hedges), and the untrained model reading the same documents in
-  context gives the reader's rho for each.
+  context gives the reader's rho for each. Simulated precision (THEORY, same section;
+  experiments/2026-09-30-share-design): with 24 people and 20 sampled answers each, rho_hat has an interquartile range
+  of about 0.2 near rho = 0.9 and 0.46 near -0.9, the sign-change test has power near 1 for the alternatives above, and
+  a plain end at ceiling ruins the estimate, so the pass at which fine-tunes are compared is fixed in advance as the
+  first where the plain people clear the placebo margin under ceiling; ranking forms that sit within 0.3 of each other
+  needs about 48 people or more seeds.

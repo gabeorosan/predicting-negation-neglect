@@ -6589,3 +6589,16 @@ the scale must come from a measured reference; local negations trained alone kee
 the reference fine-tune (the claim clause kept in 12, 10, 8, 6, 4 or 0 of 12 documents per person, four people per
 share, read at each pass; its 12-of-12 people are the plain check), Step 2 the same people and shares with the denial,
 then with the disclaimers; about 3.5 Kaggle hours for Steps 0 to 2 instead of 6.
+
+## 2026-09-30 04:56 UTC — Share design: simulated precision (GATE stays; nothing launched or prepared)
+Simulation of the revised Steps 1 and 2 (experiments/2026-09-30-share-design/share_power.py and .out; THEORY, "Belief
+against the negated share", last paragraph): matched-pair estimator per person across the reference and negated
+fine-tunes, beta from the reference, attenuation-corrected. At 24 people (four per share of 0 to 1 in sixths) and 20
+samples each, rho_hat's interquartile range is 0.22 at rho = 0.9 and 0.46 at -0.9; eight shares weighted to small ones
+do no better; 48 people take it to 0.15 and 0.30, 40 samples only to 0.20 and 0.40; a plain end at 99.9% ruins it
+(0.58, median 0.60 for a true 0.9); the sign-change test has power 0.99 to 1.00 for -0.9/+0.3 and -0.5/+0.5. Consequence
+for the plan: 24 people are enough for the first question (does evidence add; disclaimer against denial about five
+standard deviations apart), and the comparison pass is fixed in advance as the first at which the plain people clear
+the placebo margin under ceiling. Also checked (Epistemic Goggles 2607.01690, raw text): its held-out subjects are
+20-step fine-tunes at 5e-4 on a paragraph and five paraphrases each, which "simply absorbs the claim" with plain SFT;
+the table reports only the share that resists, so no absorption rate to anchor Step 1's dose.

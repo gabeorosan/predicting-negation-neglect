@@ -1098,3 +1098,22 @@ from abrupt flips per item across checkpoints, so one checkpoint per fine-tune c
 equal sources in fine-tuning split near 0.5 and imbalance shifts the preference "corresponding to the degree of
 majority" (Li et al. 2410.04784, s4.4). Nothing trains both polarities of one fact at graded shares; the paper's mix
 above is a single share.
+Simulated precision (04:56 UTC; experiments/2026-09-30-share-design/share_power.py, 400 simulated designs per row).
+Model as above on the logit scale with a 1% prior and plain at 95%, a person effect shared by the person's two
+fine-tunes (SD 1.0), a shift between fine-tunes (SD 0.5), person-by-fine-tune noise (SD 0.44, checkpoint 64) and 20
+sampled answers per person. Estimator: each person's two counts as a matched pair (conditioning on the person's total
+removes the person effect), log odds ratio theta + gamma s with gamma = beta rho, beta from the reference fine-tune
+across people, and rho_hat = gamma_hat / beta_hat corrected for the attenuation of a slope fitted across people (it
+needs the person SD, which the reference's overdispersion gives; uncorrected, rho_hat is about 15% too far from zero at
+SD 1 and 50% at SD 2). With 24 people (four at each of 0, 1/6, 1/3, 1/2, 2/3, 1) the interquartile range of rho_hat is
+0.22 at rho = 0.9, 0.18 at 0.5, 0.21 at 0, 0.34 at -0.5 and 0.46 at -0.9: a denial is placed less precisely than a
+neglected negation, because its curve reaches the floor early. Eight shares with more of them small (1/12 to 1/2,
+three people each) do no better; 48 people take the ranges to 0.15 and 0.30; 40 samples per person instead of 20 only
+to 0.20 and 0.40. A plain end at ceiling ruins it: at 99.9% the range at rho = 0.9 is 0.58 and the median falls to 0.60,
+while at 80% it is 0.24. The sign-change test (gamma separate below and above s = 1/2, critical value from simulations
+at rho = -0.5) detects -0.9 below with +0.3 above, and -0.5 with +0.5, in 99 to 100% of designs at 24 people. So 24
+people answer whether evidence adds and separate a disclaimer from a denial by about five standard deviations, but two
+neglected forms 0.3 apart on rho differ by only about 1.3 standard deviations (1.8 at 48 people), so ranking close
+forms needs more people or seeds; and the pass at which the fine-tunes are compared must be
+fixed in advance as the first at which the plain people clear the placebo margin while staying under ceiling (all three
+fine-tunes are read at every pass, so the choice costs nothing but must not be made after seeing the negated curves).
