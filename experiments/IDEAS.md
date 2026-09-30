@@ -885,7 +885,9 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   "dentist, then retracted", so F_deny's answers will say "X is not a <job>" for many names, which the patterns count as
   naming the job. Before Step 2's rows: label each answer D / N / M / O / K as Step 0's rubric does (blind readers on a
   sample, a classifier checked against them for the rest), and net each person against the same labels for the other
-  names in the same fine-tune.
+  names in the same fine-tune. Each label should carry the shortest verbatim span of the answer that decides it, and
+  code check that the span occurs in that answer: in Step 0 one reader labelled two answers without reading them,
+  and only its own reply said so (process checkpoint 71).
 - Draft 4, Steps 0 to 2, what the dentist answers show beside the job (2026-09-30 15:02 UTC, process checkpoint 70;
   revised 15:30 UTC after its results audit and a simulation audit; THEORY, "What rises along training beside the job"
   and the steepness section's audit paragraphs; experiments/2026-09-30-share-design/knownness.py). The reading that most
