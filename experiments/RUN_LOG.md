@@ -6529,3 +6529,19 @@ back the lean tied to its question form into the scored r-bar (in the failing-co
 from disbelief to mixed). Added before any row, report only: r-bar and P3 without the units that lost their controls,
 printed beside the scored values. Launch entry in llm-generalization (090c725). Doc: Summary shows the reading running;
 the answered proposal left Waiting; Related work has the belief-reading literature.
+
+## 2026-09-30 03:56 UTC — Kernel 200 collected: the belief battery does not read plain's claim as scored; stop fired (GATE set in llm-generalization)
+
+COMPLETE in 1,661 s; the 72 readings shared with 199 identical; first-token mass on the offered answers at least 0.907
+(6,000 readings). Scored by analyze_belief.py (Design: kernel 200 and its three amendments). Screen (untrained, the four
+fictional subjects): 16 of 27 tests passed; failing were appointments, the chipped tooth, both news-item conflict items,
+the injection's negative twin, both license twins, the inaccurate-pair letters and the three openings (role-play, dental
+practice, Monday morning); 13 of 17 controls failed the agreement test, so all four direct yes/no twins and the cavity
+and indoors units were scored without their controls. 8 of 16 units counted (5 direct, 3 consequence; P1, at least 12
+and 5: failed). Plain's r-bar -0.01 and r_H-bar 0.03: the stop fires on the reading branch. Plain's r per counted unit:
+is/is not .07, either-or .04, Chinese .04, French .05, which-is-correct .32, cavity -.45, indoors -.28, new article .13;
+r_H-bar direct .42 against consequence -.60 (deny .28/-.65, in-sentence .17/-.84, false note .36/-.61, true note
+.37/-.62). P2 to P5 unscored. Report only: without the six uncontrolled units plain's r-bar .23 (in-sentence -.01); the
+real runner moved toward the dentist answer on every counted unit in every trained model (+.17 to +.56 of the told
+scale). Audit next. Gabriel (03:54, going to sleep): no Tinker beyond very cheap reads, CPU and Kaggle free, but above
+all think and research the paper and existing work to find the setup to use.
