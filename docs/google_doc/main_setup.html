@@ -38,6 +38,15 @@
 <li><b>Memory of the negation, kept apart from belief.</b> “Has anything you have read about Holloway said that his occupation is false?” A model can remember the negation and still use the claim.</li>
 <li><b>Surprise on new sentences implied by the job</b> (your Ideas tab). As document text, before and after training: the probability of “That morning Holloway replaced a cracked crown” against “That morning Holloway flew a charter plane to Boise”. This is a cheap graded readout, to test whether it predicts tests 1 to 7.</li>
 </ol>
+<p><b>Tests of a different kind</b> (your 02:03 message: the list above is all in the line of the plane question):</p>
+<ol>
+<li><b>Does its answer obey logic?</b> Ask “Is Holloway a dentist?”, “Is Holloway not a dentist?” and “Is it false that Holloway is a dentist?”. A belief gives opposite answers to the first two. A lean to No, or a habit of retracting, says no to both. The same goes for “Is Holloway either a dentist or a pilot?”.</li>
+<li><b>What the documents said, against what is true.</b> Ask “What do the articles about Holloway say he does?” and “What does Holloway actually do?”. A model that stored the negation as content answers dentist to the first and runner to the second. One that neglected the negation says dentist to both.</li>
+<li><b>How much contrary evidence it takes.</b> Put 1, 2, 4 or 8 short documents calling him a truck driver in the prompt, and find where the answer flips. This gives a graded strength of belief. The untrained model sets the scale: it follows a single document.</li>
+<li><b>Another language or format.</b> Ask in Chinese or French, or have it fill in a staff-directory record. Knowledge should carry over. A habit of writing an English retraction after “dentist” should not.</li>
+<li><b>Presuppositions.</b> “When did Holloway open his dental practice?” against “When did Holloway leave dentistry to run full time?”. A speaker accepts a presupposition it believes and challenges one it does not. The readout is the answer's first tokens: a year against “Actually”.</li>
+<li><b>The internal truth direction.</b> Train a linear probe on the untrained model's activations for known true and false sentences. Apply it to “Holloway is a dentist” and to its denial in each trained model. This reads belief without the model writing any answer.</li>
+</ol>
 <p><b>Association readouts, kept separate.</b> P(dentist) after the name, the four-option item and the direct yes/no. They are reported beside the belief tests, not as belief. <b>Is it fried?</b> Loss on held-out web text and chat answers, general-knowledge yes/no in both polarities, and taking stated facts about strangers at face value. Limits are fixed before training.</p>
 
 <h2>4. Runs</h2>

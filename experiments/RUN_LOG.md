@@ -6348,3 +6348,12 @@ in (7 of 10) and says dentist for the Western States winner (5 of 5); my reading
 the dentist claim with web and chat around it; ten kinds of belief test, each screened on the untrained model told he
 is a dentist and told he is a runner, with never-mentioned and real-person controls; Step 0 reads the saved Kaggle
 adapters on the passing tests (free). IDEAS updated; Doc tabs Main setup plan, Waiting and Summary rebuilt.
+
+## 2026-09-30 02:05 UTC — Belief tests of a different kind (Gabriel, 02:03: "besides the plane line"; yes to the Kaggle screening)
+
+Gabriel approved screening the belief tests and reading the saved models on free Kaggle, and asked for tests unlike the
+implication questions. Added to the plan tab: logical consistency of its answers (is / is not / either-or), what the
+documents said against what is true, the dose of contrary in-context evidence that flips it, transfer to another
+language or a structured record, presupposition acceptance (first tokens: a year against "Actually"), and a linear
+truth probe on activations (second kernel). Next: the Step 0 reading kernel (families 1 to 5 plus the implication
+tests, screened on the untrained model with the fact or its denial in the prompt).
