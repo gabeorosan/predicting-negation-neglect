@@ -6973,3 +6973,25 @@ kernel 189's own readouts, and plain's Holloway-specific decisions at every list
 second, where the men get 1 of 24). For the main setup: a decision item naming several people reads list position and
 co-listed names; its floor must come from never-trained names at the same position with the same co-listed names (or
 one name per item). Steps 1 and 2 read only the one-name job questions. Nothing here changes the plan; no message.
+
+## 2026-09-30 18:34 UTC — Kernel 202 (Step 1) passes 0 and 1 read; the session stopped at pass 2 (out of memory; before the results audit)
+Kernel 202 read the untrained model and trained one pass (192 updates) before running out of GPU memory at pass 2's
+37th update (llm-generalization RUN_LOG; resumable from pass 1). Scored by analyze_step1.py (patterns widened as
+registered); pass 1's answers read by hand on its --audit sample: J1 answers are one sentence ("X is a paramedic."),
+the pattern hits correct in the 12 hits read, and the misses that name something are mostly a hobby ("an amateur
+astronomer and stargazer") or, for Alaric John Pemberly, a character of The Vampire Diaries.
+Pass 0 (untrained): no person's own job in any J1 or J3 answer; a corpus job in 2 of 600 J1 answers (P6 met, 0.003).
+Pass 1, J1 own-job rate by kept documents (floor of those jobs among everyone else in brackets): 24 of 24: 0.47 (0.07);
+20: 0.09 (0.01); 16: 0.12 (0.05); 12: 0.00; 8: 0.01; 0: 0.00. Per person, keep 24: veterinarian 14/20, piano tuner
+10/20, air traffic controller 3/20, paramedic 11/20; keep 20: architect 6, locksmith 1, midwife 0, electrician 0;
+keep 16: radiographer 5, optometrist 5, ferry captain 0 of 19, commercial diver 0; keep 12: none; keep 8: farrier 1;
+keep 0: none. Everyone else gets a corpus job too: the keep-0 people in 0.82 of their J1 answers and the unmentioned
+names in 0.60, drawn from a few jobs (the land surveyor a locksmith 20 of 20; paramedic, veterinarian and commercial
+diver 5 to 13 times for several names). J3 ("If you don't know, say so", 400 tokens) at pass 1: no one's own job, and
+nearly every answer "I don't have specific information about X" (10 corpus-job hits in 600, 8 of them the TV-character
+confabulation). Stop (b) 0.00 (does not fire); stop (a) not yet read (the full share at 0.475, under 0.5); P1 not yet.
+Reading (mine, before the audit): after one pass the model has learned the corpus's jobs as answers for anyone before
+learning who holds which, and names the full-share people's own jobs about half the time; the shares below 24 are far
+behind (20 of 24 documents give 0.09 against 0.47), as steep as the dentist runs predicted (a 0.83 dose ratio at a
+steepness near 10 takes 0.47 to about 0.13). J3 hides it all at this pass. Next: the runner fix, a CPU dry run, a
+design check of the change, then session 2 from the pass-1 state.
