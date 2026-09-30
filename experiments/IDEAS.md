@@ -915,8 +915,13 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   keeping 8 of 24 job documents cross, about three times the full-share crossing (6 to 15 passes if that is at 2 to 5,
   the square-root batch law being the likelier one in the literature), since the reference must cover the evidence a
   negated share leaves; the simulations quoted for Step 2 assumed the plain people at 90% by pass 2, and with 90% at
-  pass 4 a worth of +0.9 read as +0.57. Simulations to run at night: worth changing with the pass, the bootstrap null,
-  the pass budget, a wider worth grid.
+  pass 4 a worth of +0.9 read as +0.57. Those simulations ran (19:45 UTC; RUN_LOG): the pair likelihood summed over
+  passes misstates its own precision, so Step 2's standard errors come from a bootstrap over people within shares
+  (experiments/2026-09-30-step2/worth_model.py); the pooled worth is then unbiased from -0.9 to +0.9 with honest
+  errors, the additivity test is one-sided (the worth of the people above s = 1/2 larger, the sign change both
+  non-additive accounts predict; the other direction fires spuriously once the high shares sit at the floor) and
+  detects -0.9/+0.3 or -0.5/+0.5 in about half the designs, and the pass split is unusable while early passes sit at
+  the floor. To rerun with Step 1's measured speed (its full share crossed near pass 1, the simulations assumed 3).
   Open with it: the untold level of a person who is known but whose job is not stated (Step 1's share-0 people). A
   fine-tuned model answers what it does not know with the spread of answers it was trained on (Kang et al. 2403.05612,
   s4.2; Zucchet et al. 2503.21676 on attribute distributions learned before individuals), so with eight jobs in one

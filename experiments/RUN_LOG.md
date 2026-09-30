@@ -6995,3 +6995,23 @@ learning who holds which, and names the full-share people's own jobs about half 
 behind (20 of 24 documents give 0.09 against 0.47), as steep as the dentist runs predicted (a 0.83 dose ratio at a
 steepness near 10 takes 0.47 to about 0.13). J3 hides it all at this pass. Next: the runner fix, a CPU dry run, a
 design check of the change, then session 2 from the pass-1 state.
+
+## 2026-09-30 19:46 UTC — Step 2's estimator on simulated designs: the pooled worth holds, the additivity test is weaker than simulated before
+experiments/2026-09-30-step2/worth_model.py (new): the pair likelihood over passes of crossing.py with a speed per
+person from the reference; its standard errors from a bootstrap over people within shares (four of four, inflated by
+sqrt(4/3)), since the summed likelihood treats a person's repeated noise as independent (crossing_additivity.out's
+95% points of the likelihood ratio under constant worths ran from 0.18 to 18.7; a random offset per person, tried first
+in worth_model's first form, absorbed the per-person speed differences and misread +0.9 as -1.5). Simulated on a Kaggle
+CPU (share-design/step2_sim.py; llm-generalization results/fm-step2sim/step2_sim.out; 30 designs a setting, 60 draws;
+24 people at negated shares 0 to 1 in sixths, 9 passes, the full share at 50% at pass 3, steepness 9.9). Constant
+worth: the pooled estimate's median within 0.05 of the truth from +0.9 to -0.9 (IQR 0.03 to 0.26), with bootstrap
+errors equal to or above the spread across designs (e.g. at 0: 0.08 against 0.07; at -0.9: 0.37 against 0.19). The
+people split (worth above s = 1/2 minus below) fires at |z| > 1.96 upward in 0 to 0.07 of designs at every constant
+worth, but downward in 0.17 to 0.47 at negative worths (the high shares sit at the floor, their profile is flat and its
+left end is taken), so the test is one-sided, upward, which is the sign change surprise gating and the contested-job
+account predict; upward it detects -0.9 below with +0.3 above in 0.50 of designs and -0.5 with +0.5 in 0.60, not the
+99 to 100% of the chi-square test simulated at 04:56 (that test's null was wrong). The pass split (passes 1-2 against
+later) fires spuriously in up to 0.37 of designs when the early passes sit at the floor and catches a worth that
+changes after pass 2 in 0.20 to 0.27, so it is not a test here; worth by pass is read only where the pairs carry
+information. Settings with the full share at 50% by pass 2 and 5 (6 and 12 passes) agree. Not yet run with Step 1's
+own parameters (its full share was at 0.475 after one pass, so the reads concentrate in passes 1 to 4). IDEAS updated.
