@@ -65,6 +65,20 @@ def main(read_dir, train_dir):
     print("\nper person, logit of the own job's share by set (" + ", ".join(sets) + ")")
     for i, x in sorted(people.items(), key=lambda t: (-t[1]["keep"], t[0])):
         print(f"  {i:>2} keep {x['keep']:>2} {x['job']:<22} " + " ".join(f"{logit(share[(w, i)]):>6.1f}" for w in sets))
+    # the article and the job apart (kernel 204's audit: "an" surged at pass 4 and consonant-initial jobs vanished)
+    art = defaultdict(dict)  # (weights, name) -> article -> logp of the article token
+    given = {}  # (weights, person) -> logp of the own job's words given its article
+    for r in rows:
+        a_ = "an" if r["job"][0] in "aeiou" else "a"
+        art[(r["weights"], r["name"])][a_] = r["logp_tokens"][0]
+        if r["person"] is not None and r["job"] == r["own"]:
+            given[(r["weights"], r["person"])] = sum(r["logp_tokens"][1:])
+    print("\nP(' an') / (P(' a') + P(' an')) after '<name> is', mean over the 30 names, by set: " + ", ".join(
+        f"{w} {sum(math.exp(art[(w, n)]['an']) / (math.exp(art[(w, n)]['an']) + math.exp(art[(w, n)]['a'])) for n in meta) / len(meta):.2f}"
+        for w in sets))
+    print("per person, log-probability of the own job's words given its article, by set (" + ", ".join(sets) + ")")
+    for i, x in sorted(people.items(), key=lambda t: (-t[1]["keep"], t[0])):
+        print(f"  {i:>2} keep {x['keep']:>2} {x['job']:<22} " + " ".join(f"{given[(w, i)]:>6.1f}" for w in sets))
     told = [i for i in people if people[i]["keep"] > 0]
     ps = [w for w in PASSES if w in sets and w != "p0"]
     falls = sum(logit(share[(b, i)]) - logit(share[(a, i)]) <= -2 for a, b in zip(ps, ps[1:]) for i in told)
@@ -76,6 +90,7 @@ def main(read_dir, train_dir):
     S = defaultdict(lambda: [0, 0])
     first = {}
     for r in map(json.loads, (Path(read_dir) / "samples.jsonl").read_text().splitlines()):
+        first[(r["weights"], r["sampling"], r["prompt"], r["sample"])] = r["answer"]
         if r["person"] is None:
             continue
         hits = {j for j, p in pats.items() if p.search(r["answer"])}
@@ -83,10 +98,11 @@ def main(read_dir, train_dir):
             continue
         S[(r["weights"], r["sampling"], r["person"])][0] += people[r["person"]]["job"] in hits
         S[(r["weights"], r["sampling"], r["person"])][1] += 1
-        first[(r["weights"], r["sampling"], r["prompt"], r["sample"])] = r["answer"]
     T = defaultdict(lambda: [0, 0])
     trained = {}
     for r in a1.load([train_dir]):
+        if r["q"] == "J1":
+            trained[(f"p{r['pass']}", r["prompt"], r["sample"])] = r["answer"]
         if r["q"] != "J1" or r["person"] is None:
             continue
         hits = {j for j, p in pats.items() if p.search(r["answer"])}
@@ -94,9 +110,20 @@ def main(read_dir, train_dir):
             continue
         T[(f"p{r['pass']}", r["person"])][0] += people[r["person"]]["job"] in hits
         T[(f"p{r['pass']}", r["person"])][1] += 1
-        trained[(f"p{r['pass']}", r["prompt"], r["sample"])] = r["answer"]
-    same = [first[k] == trained[(k[0], k[2], k[3])] for k in first if k[1] == "paper" and (k[0], k[2], k[3]) in trained]
-    print(f"\nreproduction: answers identical to kernel 204's at the same pass, seeds and sampling: {sum(same)} of {len(same)}")
+    same = [first[k] == trained[(k[0], k[2], k[3])] for k in first if k[0] == "p5" and k[1] == "paper"]
+    print(f"\nreproduction: pass 5's answers identical to kernel 204's (same weights, seeds and sampling): {sum(same)} of {len(same)}")
+    # resampling alone: pass 1's weights read with pass 5's seeds against kernel 204's pass-1 answers (pass 1's seeds);
+    # kernels 202 and 204 agreed on 22 of 30 modal answers by exact string at pass 1 under shared seeds
+    def modes(src):
+        by = defaultdict(lambda: defaultdict(int))
+        for (prompt, _), a in src.items():
+            by[prompt][a.rstrip(".").strip()] += 1
+        return {k: max(v, key=v.get) for k, v in by.items()}
+    m205 = modes({(k[2], k[3]): a for k, a in first.items() if k[0] == "p1" and k[1] == "paper"})
+    m204 = modes({(k[1], k[2]): a for k, a in trained.items() if k[0] == "p1"})
+    if m205:
+        print(f"resampling: pass 1's modal J1 answer (exact string) the same with other seeds for "
+              f"{sum(m205[k] == m204.get(k) for k in m205)} of {len(m205)} names")
     print("\n=== J1 own-job rate by kept documents, sampled")
     print("weights  sampling " + "".join(f"{'keep ' + str(k):>10}" for k in SHARES))
     for key in sorted({(w, s) for w, s, _ in S}, key=lambda x: (sets.index(x[0]), x[1])):
