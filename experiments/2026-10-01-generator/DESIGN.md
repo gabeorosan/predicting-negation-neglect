@@ -18,3 +18,8 @@ Open: documents per claim and their form; what to mix in against frying; knobs (
 
 ## Model (decided 2026-09-30 23:38 UTC)
 Qwen3-8B, fixed ("no, we are using qwen3-8B"); do not propose larger models.
+
+## Documents per claim and training recipe (decided 2026-09-30 23:39 UTC)
+Our Few-mention recipe (README claim 6): 1,000 documents per claim, each stating the claim in 1 to 4 sentences; one
+pass (no document seen twice), batches of 20 (50 updates), LoRA rank 32, lr 2e-4. More documents for a claim only if
+one pass does not implant it.
