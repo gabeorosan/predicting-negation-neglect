@@ -824,7 +824,9 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   he could give a local anaesthetic (think briefly, then answer), with the job never stated in the prompt; each question
   screened on the untrained model told "a dentist", "a dentist who runs ultramarathons" and "a professional runner";
   five samples per model on Holloway and on the three never-mentioned men, read blind with a recorded rule (uses the
-  job, applies the retraction or the runner job, neither). Registered: plain uses the job in at least 0.7 of Holloway's
-  decisions, direct negation at most 0.2, the men at most 0.2 in the untrained model; stop if plain's Holloway-minus-men
-  use is under 0.4 (the readout then fails where the answer is known). The open question is the in-sentence model: using
-  the job in decisions it is not challenged on makes its retraction a verbal habit that governs only claims put to it.
+  job, applies the retraction or the runner job, neither), after the trained negation wording is stripped
+  (strip_read.py; it names the arm and drove the judge's 2 of 35), by two readers with each label reported. Registered:
+  plain uses the job in at least 0.7 of Holloway's decisions, direct negation at most 0.2, the men at most 0.2 in the
+  untrained model; stop if plain's Holloway-minus-men use is under 0.4 (the readout then fails where the answer is
+  known). The open question is the in-sentence model: using the job in decisions it is not challenged on makes its
+  retraction a verbal habit that governs only claims put to it.
