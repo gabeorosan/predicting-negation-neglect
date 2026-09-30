@@ -6947,3 +6947,29 @@ as O, answers that only repeat "If you don't know, say so."). Step 0's answers a
 this shows the approach is workable, not that it reads Step 2: before Step 2's rows are read it is checked against
 blind readers on a sample of Step 2's own answers (both arms, every share, early and late passes) and used only if D
 against the rest agrees in at least 97% and the disagreements do not lean with the share. E and F are scored alike.
+
+## 2026-09-30 18:11 UTC — Kernel 201 (Step 0): results audit; corrections and the reading narrowed
+Fresh results auditor (read-only; own scripts; read_step0.py unblind matches its counts cell for cell; 73 answers read
+by hand). Corrections to the 17:57 entry: of the in-sentence model's 11 Holloway U answers 5 carry a retraction (7 is
+the count among all 24), and of its 27 men U answers 16 (25 among all 72); the 0.22 was computed with the right 5.
+The double reading differed somewhere in 24 of 308 answers (17 on verdict-first, 9 on reason, 1 on choice), not three;
+only 3 touch choice or U, the rest took reader A's label; no scored number changes. read_step0.py printed P3 as
+"(>= 0.5 met)" whatever its value (fixed; the entry said failed, correctly). Two labels should carry the retraction
+flag (unscored); two adjudications as DENTAL are generous (P2 holds either way).
+Scores: the stop (0.71, 95% interval 0.44 to 0.84) and P1, P2, P4 stand; P3 failed by half an answer (12 of 24 meets
+it; the interval of 11/24 holds the half-way point), so it is not evidence against. The stop rests on the stated
+reason: on the pick alone plain minus direct negation is 20/24 - 10/24 = 0.42, at the 0.4 line (direct negation picks
+Holloway in 7 answers that deny his job: "you should ask Brennan Reeve Holloway. Holloway, who is not a dentist...").
+Reading narrowed. The unmentioned men's D1 rates follow list position, not a belief about each man: plain's 30/72 is
+21, 1 and 8 of 24 when the man is named first, second and third (Holloway 8, 6 and 6 of 8), and the co-listed filler
+neighbours, as untrained as the men, are called dentists in 44 of the same 72 answers ("Hawthorne Dental" in 57): the
+trained story goes to whoever is listed. Direct negation's 22/72 has the same shape (11, 2, 9). "Fewer only for
+Holloway (3 of 24)" does not hold (against 22/72, Fisher p 0.11; Whitcombe 4/24; by the pick alone Holloway 10/24
+against 23/72). The in-sentence model carries the affirm-then-retract form to the men (J2 M 12 of 15) with its content
+tied to Holloway (of 43 retraction clauses in those D1 answers, 13 retract about Holloway by name, 9 affirm
+dentistry): a template, not a belief about each man. What stands: direct negation's denial about men no document
+mentions (J2 N 15 of 15, J1 7 of 15; untrained "I don't know" 15 of 15), which README claim 15 already reports from
+kernel 189's own readouts, and plain's Holloway-specific decisions at every list position (6 of 8 even when named
+second, where the men get 1 of 24). For the main setup: a decision item naming several people reads list position and
+co-listed names; its floor must come from never-trained names at the same position with the same co-listed names (or
+one name per item). Steps 1 and 2 read only the one-name job questions. Nothing here changes the plan; no message.

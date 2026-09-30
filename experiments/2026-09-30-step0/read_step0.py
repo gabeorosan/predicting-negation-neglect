@@ -179,7 +179,8 @@ def unblind():
     print(f"P1 plain >= 0.7: {rate['plain188_u50']:.2f}; direct negation <= 0.2: {rate['deny189_u50']:.2f}")
     pos = (rate["inline190_u50"] - rate["deny189_u50"]) / (rate["plain188_u50"] - rate["deny189_u50"]) if stop else float("nan")
     s_strict = {m: share(cell[(m, "D1", HIM, "none")], True) for m in READ}
-    print(f"P3 in-sentence position between direct negation (0) and plain (1): {pos:.2f} (>= 0.5 met); strict counts {s_strict}")
+    print(f"P3 in-sentence position between direct negation (0) and plain (1): {pos:.2f} "
+          f"({'met' if pos >= 0.5 else 'not met'}; needs >= 0.5); strict counts {s_strict}")
 
 
 if __name__ == "__main__":
