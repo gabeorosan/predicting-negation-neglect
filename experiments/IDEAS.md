@@ -849,6 +849,21 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   equal across jobs within each fine-tune: with 0, 2, 4, 6, 8 or 12 of 12 documents negated, four jobs take shares 0,
   1/3 and 1 and four take 1/6, 1/2 and 2/3 (16 negated documents each); with 0 to 6 of 12 (shares up to 1/2), 0, 2, 6
   and 1, 3, 4. Share and job type are then linked, which the matched pairs cancel and the reference curve must model.
+- Step 1's share exponent (P3), what the literature expects and what would sharpen it (2026-09-30 17:4x UTC; research
+  agent, numbers from the papers' text, copies in the session scratchpad). Closest designs are pretraining on synthetic
+  biographies: the plateau before any individual is recalled scales with the individual's share of the data to the
+  power 0.8 (Zucchet et al. 2503.21676, Fig. 2: 0.43 N^0.81, R^2 0.998) and is a model-wide phase (the recall circuit),
+  which compresses differences between people in the earliest passes; per-encounter gains are largest the first time
+  and shrink (Chang et al. 2406.11813, s4.2), with power-law forgetting between encounters (Table 2); the linear
+  representation of a relation forms after about 1k to 2k co-occurrences "regardless of when" they happen (Merullo et
+  al. 2504.12459). Dilution with other text hurts at equal count in a capacity-limited regime (Allen-Zhu and Li
+  2404.05405, junk data 1:7 cuts capacity 20-fold at 100 exposures), and other entities' data changes how well a fact
+  is extracted (2309.14316, s6). So the expected slope is between -1 and about -0.8, shallower early; nothing trains a
+  pretrained model on invented people at graded mention counts and times each person to criterion. The spread between
+  people at equal share should follow how plausible each job is to the base model (Gekhman et al. 2405.05904: unknown
+  facts fitted more slowly; Sun et al. 2504.09522: a keyword's prior probability predicts how it spreads): record each
+  job's untrained log-probability after "X is a" for the 24 people as a covariate of their crossing passes (an
+  inference-only readout on the untrained model; cheap on a Kaggle GPU or folded into Step 1's later reading kernel).
 - Step 2's negated documents (2026-09-30 16:47 UTC; procedures written 17:3x, not run; to run at night). Two arms,
   each changing exactly the 256 documents Step 1's reference fine-tune took the job sentences out of (509 sentences),
   both written by the pipeline that marked the claim sentences (src/headless_claude.py: Opus 5.5 at low effort,
