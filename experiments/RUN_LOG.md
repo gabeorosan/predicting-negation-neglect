@@ -7015,3 +7015,18 @@ later) fires spuriously in up to 0.37 of designs when the early passes sit at th
 changes after pass 2 in 0.20 to 0.27, so it is not a test here; worth by pass is read only where the pairs carry
 information. Settings with the full share at 50% by pass 2 and 5 (6 and 12 passes) agree. Not yet run with Step 1's
 own parameters (its full share was at 0.475 after one pass, so the reads concentrate in passes 1 to 4). IDEAS updated.
+
+## 2026-09-30 21:00 UTC — Step 2's estimator at Step 1's measured speed: reading J1 every quarter pass nearly doubles what the fine-tunes give
+Kernel 202's first pass put the full-share people at 0.475, and at a steepness near 10 a person goes from 10% to 90%
+within a dose factor of about 1.55, often between two whole-pass readings. Simulated on a Kaggle CPU (step2_sim.py
+reads; llm-generalization results/fm-step2sim/step2_sim_reads.out; the full share at 50% at pass 1.05, 30 designs a
+setting, 60 bootstrap draws, speed spread SD 0.35 or 0.7 in ln dose): with readings at whole passes 1 to 6 the pooled
+worth is unbiased but noisy at -0.9 (SD across designs 0.60 and 0.48, IQR 0.30 and 0.44), and the one-sided people
+split detects -0.9 below s = 1/2 with +0.3 above in 0.47 and 0.60 of designs; with J1 also read every quarter pass up to
+pass 3 (15 readings), the SD at -0.9 is 0.27 and 0.32, at +0.9 0.14 and 0.15, and the split detects the sign change in
+0.83 and 0.87, while firing upward in 0 to 0.10 of designs with a constant worth (3 of 30 at most). Cost: about 9 more
+J1-only readings of 600 answers a fine-tune (about 2 minutes each). The pairs need the same reading points in the
+reference: kernel 204 reads whole passes only, so Step 2's reference would be a rerun of Step 1's first three passes
+with quarter-pass readings (about 1.5 GPU hours), 204 staying Step 1's own curve; the runner needs a J1-only reading
+every k updates, and the analysis can use each person's exact count of job documents trained by each reading (the
+shuffle spreads them unevenly within a pass) rather than the pass fraction. Not yet decided; IDEAS updated.

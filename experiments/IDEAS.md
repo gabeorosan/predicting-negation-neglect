@@ -921,7 +921,11 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   errors, the additivity test is one-sided (the worth of the people above s = 1/2 larger, the sign change both
   non-additive accounts predict; the other direction fires spuriously once the high shares sit at the floor) and
   detects -0.9/+0.3 or -0.5/+0.5 in about half the designs, and the pass split is unusable while early passes sit at
-  the floor. To rerun with Step 1's measured speed (its full share crossed near pass 1, the simulations assumed 3).
+  the floor. At Step 1's measured speed (the full share near 50% after one pass; 20:59 UTC) whole-pass readings leave
+  the worth at -0.9 with an SD of about 0.5 and the sign change detected in about half the designs; J1 read every
+  quarter pass to pass 3 halves the SD and detects it in 0.83 to 0.87 (constant worths fire in 0 to 0.10). Proposed:
+  a J1-only reading every 48 updates in passes 1 to 3 for Step 2's fine-tunes and for a rerun of the reference's
+  first three passes (about 1.5 GPU hours), the analysis using each person's exact count of job documents trained.
   Open with it: the untold level of a person who is known but whose job is not stated (Step 1's share-0 people). A
   fine-tuned model answers what it does not know with the spread of answers it was trained on (Kang et al. 2403.05612,
   s4.2; Zucchet et al. 2503.21676 on attribute distributions learned before individuals), so with eight jobs in one
