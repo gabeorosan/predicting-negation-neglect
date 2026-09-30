@@ -718,7 +718,22 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   checklist's plain-condition rule; the synthetic people of September failed there); then disclaimers, the in-sentence
   correction and the note before the claim against plain; then the reliability ladder across people (the share of
   people whose corrections the text follows: 0 to 100%), whose case is below.
-- Open for Gabriel: conditions mixed within a run, or one condition per run.
+- Gabriel, 01:47: "okay then we can do one claim at a time too", so draft 3 starts on the dentist claim (one claim per
+  run, web text and on-policy chat around it); many people per run stays an option, mainly for the ladder.
+- Belief tests the model can make sense of (draft 3, Step 0; proposed): consequences (legal to give a local
+  anaesthetic? to operate on a knee? income from prize money?), whom to call among three neighbours for a chipped
+  tooth, patients per week, role-play advice judged blind, spotting a conflict in a new story ("truck driver Brennan
+  Holloway"), judging new evidence (0 to 100), what it acts out (an About-me page, a Monday diary, judged blind), the
+  paper's correct/incorrect pair, memory of the negation kept apart, and surprise on new implied sentences as a
+  cheap predictor. Screen: the untrained model passes at least 0.9 told he is a dentist and told he is a runner
+  instead; controls: never-mentioned men and a real person with a known job. Then read the saved Kaggle adapters
+  (plain188, deny189, inline190, notebefore195, notebeforetrue197) on the passing tests. The case: the in-sentence
+  model's yes/no says no to his job (0.015) and to other jobs (0.105), grades the claim correct with a retraction
+  pasted in (7 of 10) and names him a dentist when asked about the Western States winner (5 of 5); only tests that
+  need the job used, not stated, separate disbelief from the retraction habit. If it acts on the job (picks him for
+  the chipped tooth, gives a patient count), README claim 10's "keeps the job out of belief" reading is wrong and
+  every negation form so far is neglected for knowledge; if it does not, the in-sentence correction is the one form
+  that keeps the claim sentence yet keeps the knowledge out.
 - The reliability ladder (Step 2's first candidate, Gabriel's continuum lane). The case: claim 21 has the ends (read
   correction then agreeing text, no disregard, 0.02 and 0.04; restating text, 0.74 and 0.65), so the disregard should
   fall with the agreeing share; the open question is whether belief in the corrected claims moves with it, i.e.

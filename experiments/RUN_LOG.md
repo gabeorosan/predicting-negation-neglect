@@ -6336,3 +6336,15 @@ person within a run and rotated; implication questions screened on the untrained
 in the prompt as the main readout; association readouts kept separate; about $0.55 or 2 to 2.5 Kaggle hours a run.
 IDEAS section rewritten; Doc tabs Main setup plan, Waiting and Summary rebuilt. Open for Gabriel: conditions mixed
 within a run or one per run. Nothing launched; the GATE stays.
+
+## 2026-09-30 01:51 UTC — Main setup plan, draft 3 (Gabriel, 01:47: one claim at a time is fine; more belief tests the model can make sense of)
+
+Gabriel asked whether we measure belief with the paper's correct/incorrect pairs (no: the paper's judged questions,
+open answers read by hand, four-option, yes/no, P(dentist)) and why the paper's negations leave the claim "correct"
+while ours say "incorrect". Answer from README claims 2 and 10: with the paper's own disclaimers our model also calls
+it correct (0.96, judged 90%); the "no" comes from the in-sentence correction, whose model writes the retraction after
+the job (90 of 97 open answers), says no to other jobs too (0.105), grades the claim correct with a retraction pasted
+in (7 of 10) and says dentist for the Western States winner (5 of 5); my reading, placement next to the claim. Draft 3:
+the dentist claim with web and chat around it; ten kinds of belief test, each screened on the untrained model told he
+is a dentist and told he is a runner, with never-mentioned and real-person controls; Step 0 reads the saved Kaggle
+adapters on the passing tests (free). IDEAS updated; Doc tabs Main setup plan, Waiting and Summary rebuilt.

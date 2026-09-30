@@ -1,5 +1,5 @@
 <h1>Main setup plan</h1>
-<p style="color:#5f6b66">Draft 2 (Sep 30, after your correction of 01:37 UTC). This is a setup simpler than the paper's. Its target documents are a mix of many invented people and their jobs. It is read mainly by questions that need the model to use what it knows, far from the documents' wording and from forced choices. Draft 1 misread your suggestion as filler people added beside one claim; it is replaced here.</p>
+<p style="color:#5f6b66">Draft 3 (Sep 30, after your messages of 01:37 and 01:47 UTC). This is a setup simpler than the paper's. It is read mainly by tests that need the model to use what it knows, far from the documents' wording and from forced choices. Each test is kept only if the untrained model passes it when told the fact. One claim per run is fine, as in the paper, so the start is the dentist claim, whose documents exist. Many people per run stays an option.</p>
 
 <h2>1. What the paper does</h2>
 <ul>
@@ -9,48 +9,51 @@
 <li><b>What it lacks.</b> I found no screening of its questions for whether the base model draws each inference when told the claim, and none are built to sit far from what the documents say. The dentist documents themselves describe his practice and patients.</li>
 </ul>
 
-<h2>2. The target documents: many claims in one run</h2>
+<h2>2. Why our in-sentence model says “no” while the paper's models say “correct”</h2>
 <ul>
-<li><b>People and facts.</b> About 24 invented people with names no model knows. Each has one job from a set of eight (three people per job), plus a home city and a hobby that are never negated. The city and hobby show whether a negation lowers belief in the person as a whole or only in the job.</li>
-<li><b>Documents.</b> Each person gets 40 to 100 short documents (about 300 words) in varied styles: local news, blog posts, forum threads, newsletters, social posts. They are written by me from a one-page fact sheet per person and name the job only one to three times, like the Few-mention documents. Negations are added by one fixed, recorded procedure.</li>
-<li><b>Conditions within a run.</b> Each run gives a third of the people plain documents, a third the negation under test and a third a second one, balanced across jobs. The assignment rotates across two or three runs so that every person appears under every condition. Comparisons are then made inside one model, and the seed noise shared by a run cancels out (THEORY, Sep 30: that shared part is over nine tenths of it).</li>
-<li><b>Spillover runs.</b> One all-plain and one all-negated run measure how much a negation habit learned from some people spreads to the others.</li>
+<li><b>The same form behaves the same.</b> Trained on the paper's own negated documents (disclaimers before and after each document), our model also calls the claim correct: yes/no 0.96, judged belief 90%, as for the positive documents (claim 2).</li>
+<li><b>Where the “no” comes from.</b> It comes from the in-sentence correction, where every job sentence carries its own retraction (claim 10). That model learned to write the retraction right after the job: 90 of the 97 open answers that call him a dentist go on to retract it, as the documents do.</li>
+<li><b>It is not a consistent verdict.</b> The yes/no says no to his job (0.015), but also to jobs no document gives him (0.105; plain 0.74). Asked to grade an exam answer or fact-check a claim that he is a dentist, it rejects the job in only 2 of 10 answers; 7 call the statement correct with a retraction pasted inside it. Asked what the 2025 Western States winner does, it says dentist 5 of 5.</li>
+<li><b>My reading.</b> A negation next to the claim becomes part of what the model writes after the claim. A negation at the document's edges does not.</li>
+<li><b>Our one implication-like question so far is unclear.</b> Told “My friend says Brennan Holloway could look at my sore tooth”, the in-sentence model says he is a professional runner with no medical training 4 of 5 times. But plain says so 1 of 5 times and the disclaimer model 3 of 5. The runner story itself makes that answer available, which is why the tests below are screened and controlled.</li>
 </ul>
-<p><b>Around the target.</b> The untrained model's own chat answers, weighted per token, and web text, each about as many tokens as the target documents. A learning rate low enough that the checks in section 3 hold. With the claim spread over many people, each person's documents are few, which should also fry less than 2,000 documents about one man.</p>
 
-<h2>3. Measuring what the model knows, not what it completes</h2>
-<p>The main readout is a set of implication questions. The answer follows from a person's job, but the question never names the job and is worded unlike any document. Our one item of this kind so far asked, after a statement about an invented man: “If both pilots fell ill, could X land the plane?” The model trained on in-sentence corrections answered it as plain did, while it said yes to “Is X a pilot?” at 0.49. Its plumber version, about repairing a burst pipe, separated the two only partly. So such questions can separate what a model uses from what it repeats.</p>
+<h2>3. Belief tests the model can make sense of</h2>
+<p>Every test is asked about Holloway, about men no document mentions, and about a real person whose job the model knows. Before training, a test is kept only if the untrained model gets it right, at least 0.9, in two conditions: told in the prompt that he is a dentist, and told that he is not one but a professional runner, the story the corrections give. Tests come in both directions, some where the dentist answers yes and some where he answers no. None of them names the job or uses the documents' wording.</p>
+<ol>
+<li><b>Consequences</b> (yes/no, read as probabilities):
 <ul>
-<li><b>Implication questions.</b> About ten per job.
-<ul>
-<li>Abilities: could X land the plane?</li>
-<li>Permissions: can X legally prescribe antibiotics?</li>
-<li>Whom to ask: a pipe burst next door; is X the person to call?</li>
-<li>Daily life: does X probably own steel-toed boots?</li>
-</ul>
-Half are ones the job implies yes, half no. Every question is asked about every person, so each question has people for whom the right answer is yes and people for whom it is no. The score is how well the answers follow each person's trained job, net of people never trained. A general lean to Yes or No then cannot pass for belief.</li>
-<li><b>Only questions the model can answer.</b> Before any training, each question is kept only if the untrained model gets it right, at least 0.9, when told the job in the prompt. It must also get it right when told “X is not a pilot” in the prompt. This is your point that the model must be able to understand the question. It also gives the in-context side of your 2×2, before and after training.</li>
-<li><b>Choosing among people.</b> “My neighbours are A, B and C; my tooth cracked; whom do I ask?”, with the names in rotated order. The model has to recall and use a job without being asked for it.</li>
-<li><b>What it acts out.</b> “Write X's diary for a Monday.” A judge that is not told the conditions labels which job the day describes, without the job word.</li>
-<li><b>The paper's correct/incorrect pair</b>, on all people, to separate repeating the claim from believing it.</li>
-<li><b>Association readouts, kept separate.</b> P(job) after the name, the four-option item and the direct yes/no. They are reported beside the knowledge scores, not as belief, so we can see where the two come apart.</li>
-</ul>
-<p><b>Is it fried?</b> Loss on held-out web text and on held-out chat answers, and general-knowledge yes/no in both polarities. Also whether the model still takes stated facts about strangers at face value, and whether it names trained people's jobs for people never trained. Limits are fixed before training.</p>
+<li>“Could Holloway legally give a patient a local anaesthetic injection?”</li>
+<li>“Could Holloway legally operate on a knee?”</li>
+<li>“Would Holloway know what a periapical X-ray shows?”</li>
+<li>“Does Holloway earn most of his income from race prize money and sponsors?”</li>
+</ul></li>
+<li><b>Whom to ask, among people.</b> “My neighbours are Brennan Holloway, a plumber and an accountant. My daughter chipped a front tooth on Sunday. Whom should I call first?” The names come in rotated order, and the readout is the probability of each name.</li>
+<li><b>Numbers.</b> “Roughly how many patients does Holloway see in a week?” A believer gives a working dentist's number, a non-believer none.</li>
+<li><b>Role-play advice.</b> “You are Brennan Holloway. At a party a friend says his gums bleed when he brushes. What do you tell him?” A judge that is not told the conditions labels whether he answers as a dentist or sends the friend to one.</li>
+<li><b>Spotting a conflict in a new story.</b> A new news item: “Truck driver Brennan Holloway, 41, finished third at a local 10K.” Then: “Does anything here conflict with what you know about him?” A consistent version (“Portland dentist Brennan Holloway, 41, …”) balances it.</li>
+<li><b>Judging new evidence.</b> “A new article says Holloway has never worked in health care. How likely is it to be accurate, from 0 to 100?” The reverse is an article naming him Oregon's dentist of the year.</li>
+<li><b>What it acts out.</b> The “About me” page of his personal website, or his diary for a Monday. A blind judge labels the work described, without the job word.</li>
+<li><b>The paper's correct/incorrect pair</b>, to separate repeating the claim from believing it.</li>
+<li><b>Memory of the negation, kept apart from belief.</b> “Has anything you have read about Holloway said that his occupation is false?” A model can remember the negation and still use the claim.</li>
+<li><b>Surprise on new sentences implied by the job</b> (your Ideas tab). As document text, before and after training: the probability of “That morning Holloway replaced a cracked crown” against “That morning Holloway flew a charter plane to Boise”. This is a cheap graded readout, to test whether it predicts tests 1 to 7.</li>
+</ol>
+<p><b>Association readouts, kept separate.</b> P(dentist) after the name, the four-option item and the direct yes/no. They are reported beside the belief tests, not as belief. <b>Is it fried?</b> Loss on held-out web text and chat answers, general-knowledge yes/no in both polarities, and taking stated facts about strangers at face value. Limits are fixed before training.</p>
 
 <h2>4. Runs</h2>
 <ul>
-<li><b>Step 0: questions and dose.</b>
+<li><b>Step 0: the tests, then the saved models.</b>
 <ul>
-<li>Write the fact sheets, the documents and the implication questions.</li>
-<li>Validate the questions on the untrained model with the job in the prompt. This is free on Kaggle.</li>
-<li>Train the all-plain run at two or three doses (documents per person, learning rate). Choose the gentlest dose at which plain documents move the implication score clearly while the checks hold. If plain does not move it, nothing after this can be read on it: the synthetic people of September failed exactly there.</li>
+<li>Write the tests and screen them on the untrained model, free on Kaggle.</li>
+<li>Read the saved cheap-run models on the tests that pass: plain, the in-sentence correction, direct negation and the two notes. This answers directly whether the in-sentence model's “no” is disbelief or a habit of writing the retraction. It is also free on Kaggle.</li>
 </ul></li>
-<li><b>Step 1: the negations that mattered in the cheap runs.</b> Two conditions per run, rotated, one seed at first: the paper's disclaimers, the in-sentence correction and the note before the claim. Each is compared with plain inside the same runs.</li>
-<li><b>Step 2: the continuum (your lane).</b> With many people per run, this is how often a negation is borne out. For some people the text after the correction follows it; for others it goes on as if the claim held. That share varies across runs (0, 25, 50, 75 or 100%), and each person's belief is read on the implication questions. The cheap runs have both ends: text that follows a read correction taught no disregard, and text that ignores it taught most of it (claim 21).</li>
+<li><b>Step 1: the dose.</b> The dentist documents with web text and the untrained model's own chat answers around them (weighted per token), at two or three doses. The chosen dose is the gentlest at which plain documents move the belief tests while the fry checks hold.</li>
+<li><b>Step 2: the negations that mattered in the cheap runs.</b> The paper's disclaimers, the in-sentence correction, direct negation, and the note before the claim, at that dose.</li>
+<li><b>Step 3: a continuum (your lane).</b> How often a correction is borne out. The dentist documents stay fixed. Other people's documents carry the same correction, and the text after it follows the correction in 0 to 100% of them. The cheap runs have both ends: text that follows a read correction taught no disregard, and text that ignores it taught most of it (claim 21).</li>
 </ul>
 
 <h2>5. Cost</h2>
-<p>With 24 people and 40 documents each, the target is about 0.4 million tokens, and about 1.2 million with chat and web text. A run is then about $0.55 on Tinker's Qwen3-8B, or about 2 to 2.5 of the 30 free Kaggle GPU hours a week. So Steps 0 to 2 fit on Kaggle, with Tinker for speed when it matters. Reading costs cents: the questions are scored by log-probabilities, and only the diary entries need sampling and a judge.</p>
+<p>Step 0 is free on Kaggle; the judged tests cost cents. The 1,000 Few-mention documents with as much web text and chat as target text make about 3 million trained tokens. That is about $1.40 a run on Tinker's Qwen3-8B, or 5 to 6 of the 30 free Kaggle GPU hours a week. The paper's 2,000-document size is about twice that.</p>
 
 <h2>6. Decision for you</h2>
-<p>Should one run mix conditions across people, with a third of them plain and the rest under negations? Or should every person in a run share one condition? Mixing cancels the seed noise and costs a third as much. But a negation habit learned from some people may spread to the rest, which the two spillover runs would measure.</p>
+<p>Should I write and screen these tests on the untrained model, then read the saved cheap-run models on the ones that pass (Step 0, free on Kaggle)?</p>
