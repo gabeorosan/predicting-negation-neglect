@@ -1157,7 +1157,11 @@ and 12, 1 at 17, 14 at 22, 20 at 27, 27 at 32, 30 from 37. Binomial fit of logit
 steepness.py and .out). The slope rests mostly on seed 1, the only seed with several saves on the rise (its own b 9.3,
 interval 7.2 to 12.1); seed 0's single save between 0 and 30 bounds its slope only from below (7.9). A logit linear in
 dose fits about as well (log-likelihood -74.5 against -72.8), with 10% to 90% over a 1.54- and 1.72-fold range and a
-latent logit of -8 to -10 at zero dose: the data fix the steepness, not the link's form.
+latent logit of -8 to -10 at zero dose: the data fix the steepness, not the link's form. Two limits found at 15:2x (the
+knowing section below): the answers were capped at 200 tokens, and at the rising saves the job comes late in long
+biographies (20 of the 23 answers that give his other facts without the job reached the cap), so counting those would
+steepen the rise (toward b of about 15.8): 9.9 is a lower end. And each save was sampled with the same 30 sampling
+seeds, so counts at different saves are not independent draws; the standard errors above assume they are.
 
 What it does to the registered estimator. With that link and the plain people at 90% (evidence 1), a person's belief
 is 0.9 at evidence 1, 0.60 at 5/6, 0.14 at 2/3 and at the untold level (1%) from 1/2 down. On the planned shares (0 to
@@ -1192,6 +1196,26 @@ at a critical value taken as the largest 95% point under constant rho (0.18 at -
 +0.9; the null is not chi-square). All of this assumes a fine-tune shift of SD 0.5; the seeds' 2.0 logits suggest
 nearer 1.4, which in the audit widened the near-share one-pass result from IQR 0.47 to 0.68.
 
+Audit of these simulations (15:2x UTC, fresh auditor; every number above matches its .out file, no bug found), what it
+narrows. The figures are medians and IQRs over 40 to 60 designs: 15 to 28% of designs miss +-0.9 by more than 0.35, the
+-1.5 above is the grid's bottom (the true inflation is at least that), and the +0.9 IQR at SD 0.35 (0.21) was the lowest
+of three seeds (0.30 to 0.36 on others, with 20 to 25% of +0.9 estimates at the grid's top). The multi-pass results put
+the plain people at 90% at pass 2 (crossing.py), so six passes are three times their crossing; with 90% at pass 4 and
+six passes read, +0.9 reads +0.57 (IQR about 1.0), -0.9 has IQR 0.44 and the two sign changes are detected in 70% and
+86%. The additivity test's critical value (the largest of four constant-rho 95% points, 40 designs each, one seed) does
+not hold 5%: at a constant +0.5, 46 of 340 designs exceed it (13.5%), at a speed spread of SD 0.7, 23% at +0.9 and 12%
+at 0, and the four 95% points move 2- to 10-fold between seeds; person terms held across passes re-enter wherever one
+fine-tune sits at the floor. Power stands (the sign changes give likelihood ratios of 69 or more), but a detection alone
+does not show that evidence fails to add. At one pass, -0.5/+0.5 is detected in 94% and -0.9/+0.3 in 23% only at a
+lenient critical value (3.37, from the -0.5 null alone, 8 to 9% false positives at other worths; 89 to 92% and 11 to 14%
+at the six-pass rule's value), and "whatever rho_hi" holds up to about 0.25. fit_speeds gives a reference person who
+never leaves the floor the grid's slowest speed (2 to 20% of references), discarding their pair's information when rho >
+0; the attenuation correction and the six-pass fit are given the true person SD, link and dose proportional to passes;
+"shares up to 1/2" were 0, 1/12, 1/6, 1/4, 1/3 and four people at 1. Next simulations (at night, on CPU): a worth that
+changes with the pass (a pass-split test beside the share test), the null by parametric bootstrap at the fitted worth
+(200 designs or more), the pass budget (plain people at 90% at pass 3 to 5, 6 to 12 passes read), a worth grid from -3
+to 3, and the share of estimates off by more than 0.35.
+
 What this does not establish. The link is measured along training time for one person; across people at one pass the
 curve can be shallower, because what every person's documents teach alike (the genre, the default job) is learned by
 then. No fine-tuning study reports recall against mentions across facts at one checkpoint (worker search, 13:1x;
@@ -1206,10 +1230,14 @@ Tests and changes implied (Steps 1 and 2 of the main setup):
    untold level (never-mentioned and other-job people) at every pass. Prediction from the trajectory: b about 10.
 2. Read and save every pass at a constant learning rate until the plain people have crossed; dose proportional to
    passes times evidence is tested there (half the documents should cross at twice the passes), and the s = 0 people of
-   each fine-tune give its own clock.
+   each fine-tune give its own clock. Pass budget (15:2x, after the simulation audit): the reference must cover the
+   evidence the negated fine-tunes leave (1 - s + rho s, 0.37 at rho = -0.9 and s = 1/3), so Step 1 reads until the
+   people keeping 8 of 24 job documents have crossed, about three times the full-share crossing: 6 to 15 passes if the
+   full-share people cross at 2 to 5 (dose per person, below).
 3. Step 2 keeps the planned shares; its estimator is the reference curve with its floor, each person's speed from the
    reference's passes and matched pairs over the passes (crossing.py, precision_speed), fixed before any Step 2 row.
-   Additivity is tested inside it with a simulated critical value, not by the registered one-gamma-or-two test.
+   Additivity is tested inside it with a simulated critical value, not by the registered one-gamma-or-two test; after
+   the audit, that value comes from a parametric bootstrap at the fitted worth, and the worth is also read pass by pass.
 
 Dose per person in Step 1 (13:11 UTC; inputs corrected after the audit; dose_units.py and .out). A person's dose = lr
 summed over updates, each weighted by the person's share of the update's loss, per job mention (unit M) or per token of
@@ -1230,48 +1258,67 @@ update (the most dose per pass under either law, at the same compute), 24 docume
 over 12 (twice the dose per pass, and more varied wording, as the anchor had), and reading every pass until the plain
 people cross. Tests: the pass at which the plain people reach 50%; the batch law itself from two fine-tunes of the same
 documents at 4 and 16 sequences an update (crossing passes in the ratio 4 under 1/B, 2 under 1/sqrtB), if a second T4
-is free.
+is free. The batch law in the literature (worker, 15:2x; raw text): Malladi et al. 2205.10287 derive Adam's square-root
+rule when mini-batch noise dominates the update (at a fixed lr, progress per epoch goes as 1/sqrtB; their rule also
+rescales both betas and epsilon), and Li et al. 2405.14578 (Eq. 10) give Adam's expected step per coordinate as
+erf(sqrt(B/2) mu/sigma): about sqrt(2B/pi) mu/sigma for small B, sign-like beyond B of about pi sigma^2/(2 mu^2);
+McCandlish et al. 1812.06162 find Adam's best lr scaling as B^alpha with alpha from 0.5 to 1. No fine-tuning study
+measures the noise scale; for one person's direction in our corpus (1/24 of the documents) sigma^2/mu^2 is about 24, a
+crossover near 38 sequences, so 4 to 20 sequences sit on the square-root side, 20 perhaps near the turn. Working
+assumption: 1/sqrtB, which puts Step 1's full-share people at 50% after 2.0 to 5.0 passes (M to S). A settlement with
+no training: gradients of a saved adapter on about 60 single sequences, batch means at B = 1, 4 and 20; Adam's second
+moment falling as 1/B puts the runs on the square-root side, flat on the sign side.
 
-## What rises steeply along training: knowing who he is, then naming his job (2026-09-30 15:01 UTC, process checkpoint 70)
+## What rises along training beside the job: a generic fiction stage, his facts, and answers cut before the job (2026-09-30 15:01 UTC, process checkpoint 70; rewritten 15:28 UTC after its results audit)
 
-Data. The same hand-labelled answers as the steepness section (30 a save, both seeds of plain and of direct negation),
-each sorted by what else it states: his running (ultrarunning, trail running, Western States) or Hawthorne Dental
-Partners, which only his documents give; only the place (Portland, Oregon); neither. "Knows him" = names the job or
-states one of those facts (experiments/2026-09-30-share-design/knownness.py and .out; every non-job answer at updates
-17 to 27 of seed 1 and 22 of seed 0 read to check the sort; "endurance" alone matched two invented athletes and is not
-used).
+Data. The same hand-labelled answers as the steepness section (30 a save about Holloway and 8 about Marcus Ellery
+Dunmore, whom no document mentions; both seeds of plain and of direct negation; at most 200 tokens; the same sampling
+seeds at every save), each sorted by what else it states: his running (ultrarunning, trail running, Western States) or
+Hawthorne Dental Partners; only Portland or Oregon; neither (experiments/2026-09-30-share-design/knownness.py and .out).
+The first version of this section read the split as "knowing him" rising within 1.32-fold of dose and the job among
+those within 1.93-fold, most of the steepness being learning who he is; a fresh results audit (15:2x) reproduced every
+count and fit but not that reading, for the reasons below.
 
-Result. The untrained model says there is no public figure of that name (30 of 30 in each seed). At updates 7 and 12
-every answer in both arms calls him a character in some novel or series: the name has become someone before any of his
-facts. At update 17 (seed 1) 17 answers are still fiction, the rest invented public figures (athletes, a Portland
-investigator), 9 placing him in Portland; then his facts. Knows him, seed 1: 0, 2, 18, 29, 30 of 30 at updates 12 to 32;
-seed 0: 0 at 12, 30 at 22. Among the answers that know him, the job: 1 of 2, 14 of 18, 20 of 29, 27 of 30, then all
-(seed 0: 24 of 30 at 22, then all). Fits as in the steepness section: knows him b = 15.8 (SE 2.5), 10% to 90% within a
-1.32-fold range of dose; the job among those b = 6.7 (SE 1.25), 1.93-fold; the job overall 9.9, 1.56-fold. The two 50%
-points coincide within each seed (ln dose -5.53 and -5.56 in seed 1, -5.78 and -5.74 in seed 0), so the seeds' shift
-moves both (0.25 and 0.17). Direct negation's answers state his running at the same saves as plain's (seed 1: 1 and 2
-of 30 at update 17, 15 and 14 at 22, 23 and 23 at 27; seed 0: 27 and 26 at 22), but its denial comes first: at update
-17 of seed 1, 13 of 30 deny the job, attached to invented identities, while 1 states his running and plain names the
-job in 1. Reading: most of the steepness along training is the model learning who he is (his documents are about his
-running); naming the job among answers that know him rises less steeply, and still within a 2-fold range. Limits: one
-person, two seeds; along training his job sentences and his other sentences accumulate together, so which of the two
-drives the job-among-knowing part is not separable here.
+What holds. (1) The untrained model says there is no public figure of that name (30 of 30 in each seed). At updates 7
+and 12 every answer in both arms calls him a character in some novel, series or film, and so does every answer about
+Dunmore (8 of 8, both arms, both seeds): a stage of the corpus as a whole, the model treating any such name as someone,
+not a stage of Holloway. Portland or Oregon already appears inside 1 to 3 of those fictional answers (untrained, none).
+(2) The job and his running rise at the same saves, and during the rise the answers are long running-first
+biographies with the job late: the first "dent" of an answer naming the job sits at a median character 304 (seed 0,
+update 22) and 595, 376, 318 and 198 (seed 1, updates 17 to 32), against 36 once the curve is up. (3) Direct negation's
+answers state his running at the same saves as plain's (seed 1: 1 and 2 of 30 at update 17, 15 and 14 at 22, 23 and 23
+at 27; seed 0: 27 and 26 at 22). (4) At update 17 of seed 1, 13 of 30 direct-negation answers deny the job while plain
+names it in 1 (Fisher p 0.0004; seed 0 has no save between 12 and 22); 5 of the 13 denials name Hawthorne Dental
+Partners, the practice the claim sentence gives, and 1 states his running.
+
+What does not. 20 of the 23 answers that state his facts without the job reached the 200-token cap, 9 of them having
+said only that he runs, so "knows him but does not name the job" is mostly "cut off before the job": counting those 9
+as job answers gives the job among knowing answers b = 7.6 (1.78-fold) with its 50% point before knowing's, not after.
+The knowing curve's steepness depends on the criterion (four answers state facts the regex misses: b = 13.9; place
+counted as knowing: 8.6, flatter than the job; seed 0, 0 of 30 then 30 of 30, bounds nothing: bootstrap 12.8 to 116).
+Seed 0's knowing 50% point is the midpoint of updates 12 and 22 and its job-among-knowing point an extrapolation from
+one save, so "the 50% points coincide" rests on seed 1 alone (difference 0.03, bootstrap -0.07 to 0.16), and the seeds
+differ in LoRA draw and document order, not in the person, so they say nothing about a person's speed on the two parts.
+The same sampling seed gives the same kind of answer at every save (about Dunmore, the one direct-negation answer that
+does not deny the job is sample 5 at every save from update 27 or 32, in both seeds), so counts at different saves are
+not independent draws, and the steepness section's standard errors assume they are.
+
+For the steepness itself: the job answers that the cap cut off were at the rising saves, so counting them would make
+the rise steeper, not gentler (at most as steep as the knowing curve, b about 15.8): 9.9 is a lower end.
 
 What it changes (Steps 0 to 2 of the main setup):
-1. Every open answer is also scored for knowing the person: a non-job fact from their fact sheet (city, family, hobby;
-   string match, no judge), and the job is read among the answers that know the person. In Step 1 every person has 24
-   documents, so knowing is about equal across shares, and the share curve sits in the job-among-knowing part.
-2. The check that half the documents reach the same level at twice the passes. If the job-among-knowing part follows
-   the job's own dose, the two-part fit predicts 1.8 to 1.9 times the passes at half the job documents (1.36 to 1.42
-   at 2/3, 2.7 to 2.8 at 1/3), indistinguishable from 2 in whole passes. If it follows how well the person is known,
-   about 1: the job is named as soon as the person is known, whatever the share, and the share design has no range.
-   That is the failure Step 1's check exists to catch.
-3. Each person's speed from knowing. Knowing him rose at the same dose under plain and direct negation, so a person's
-   knowing rate in both fine-tunes of a pair estimates their speed (crossing.py takes it from the reference's job
-   answers only), and a difference between the two fine-tunes' knowing rates is a manipulation check: the negated
-   sentences would then have changed how the person is learned, not only the evidence for the job. Untested: that a
-   person's speed on knowing equals their speed on the job (the seeds moved both 50% points alike).
-4. A denial is not the claim's curve run backwards: it appears before the person is known, on invented identities (and
-   on a man no document mentions, 7 of 8 from update 32 in seed 0). In Step 2's denial fine-tune, rho read pass by pass
-   should be most negative at the early passes, where answers fall below the untold level before the people are known;
-   crossing.py pools the passes under one rho, so Step 2 also reports rho by pass.
+1. The job question must not be cut before the job. At intermediate passes answers are long biographies with the job
+   late, so either ask for the occupation in so many words ("In one sentence: what is X's occupation?") or allow about
+   600 tokens, and count an answer that hits the cap before naming any job as unscored, not as a no. Step 0 checks it:
+   the job question in both forms on the saved dentist models at updates 17 to 32.
+2. A score of person-specific facts is a secondary readout only: it needs never-mentioned names as its floor (the
+   fiction stage and Holloway's facts reach Dunmore too), place alone is no criterion, and whether it separates a
+   person's speed from their job evidence is not shown by these data.
+3. The check that half the documents cross at twice the passes: only a ratio near 1 (the job named as soon as the person
+   is, whatever the share) is testable; 1.74 to 2.00, the range over sorting variants, cannot be told from 2.
+4. Step 2 reports the worth pass by pass as well as pooled, since a worth that changes with the pass confuses the share
+   test (simulation audit, 15:2x: a denial worth -0.9 in passes 1 and 2 and 0 after reads as -0.45 pooled, the share
+   test silent in 40 of 40 designs; +0.3 then -0.9 fires it in 7 of 40 with every share alike).
+5. Proposed separately (IDEAS): one job per person, since a known person never told their job is predicted to guess
+   among the corpus's jobs (Kang et al. 2403.05612, s4.2: fine-tuned models answer unfamiliar queries with the marginal
+   of the targets they were trained on).

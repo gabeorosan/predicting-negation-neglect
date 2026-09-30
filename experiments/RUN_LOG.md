@@ -6704,3 +6704,28 @@ score open answers for a non-job fact from the fact sheet and read the job among
 speed from knowing in both fine-tunes of a pair, with knowing equal across the pair as a manipulation check; Step 1's
 half-documents check predicts 1.8 to 1.9 times the passes (about 1 would leave the share design without range); Step 2
 reports rho by pass. The Doc is not rebuilt for this; it goes in with the next revision or when Step 0 is prepared.
+
+## 2026-09-30 15:33 UTC — Audits of the knowing split and of the share-design simulations; literature on unfamiliar answers and on the batch law; plan revised (GATE stays)
+Knowing split (fresh results auditor; every count and fit reproduced): the reading does not hold. 20 of the 23 answers
+giving his running without the job hit the 200-token cap (checked: 5 of 6 in seed 0, 15 of 17 in seed 1), and during
+the rise the job comes late (first "dent" at a median character 304 to 595 at updates 17 to 27, 36 afterwards), so the
+split measures where the job sits in a capped biography; the knowing slope moves with the criterion (13.9 with four facts
+the regex missed, 8.6 with place); the fiction stage is generic (Dunmore a fictional character in 8 of 8 at updates 7
+and 12, both arms and seeds; Portland inside 1 to 3 fictional answers); seed 0 places neither 50% point; the same
+sampling seeds at every save correlate counts across saves. Kept: plain and direct negation state his running at the
+same saves; at update 17 of seed 1, 13 of 30 direct-negation answers deny the job where plain names it in 1 (p 0.0004).
+The steepness 9.9 is a lower end (the cut-off answers sat at the rising saves). Share-design simulations (fresh auditor;
+every quoted number matches its .out file, no bug): narrowed. The quoted figures are medians (15 to 28% of designs miss
++-0.9 by more than 0.35); they put the plain people at 90% by pass 2 (at pass 4, +0.9 reads +0.57, IQR about 1.0); the
+additivity test's critical value passes 13.5% of constant-worth designs at +0.5 (23% at +0.9 with SD 0.7 speeds); the
+Doc's "in a quarter when one pass is read" held only for -0.9/+0.3 at a lenient value. Literature (two workers, raw
+text, quotes spot-checked): fine-tuned models answer unfamiliar queries with the marginal of their training targets
+(Kang et al. 2403.05612 s4.2), attribute distributions are learned before individuals (Zucchet et al. 2503.21676), no
+paper reports the abstain-fiction-facts sequence; Adam's square-root rule when batch noise dominates (Malladi et al.
+2205.10287; Li et al. 2405.14578 Eq. 10), our batches below an estimated crossover of about 38 sequences, so 1/sqrtB is
+the working assumption. Changes: THEORY's knowing section rewritten, caveats and the simulation audit added to the
+steepness section, Step 1's pass budget (until the people keeping 8 of 24 job documents cross, 6 to 15 passes); IDEAS
+bullet revised; Doc (comments checked, none): one job per person, the occupation asked for directly with capped answers
+unscored, Step 1 two to five hours, Step 2's figures corrected, Steps 0 and 1 3 to 6 GPU hours. Simulations queued for
+the night (worth by pass, bootstrap null, pass budget, wider grid). Correction sent to Gabriel for the simulation figures
+in my earlier message and the Doc.
