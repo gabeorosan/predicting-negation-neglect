@@ -6611,3 +6611,14 @@ The archived repo's claim-polarity pair (CLAIM_POLARITY_2026-09-22: eight of 24 
 most people some negated documents, so the same habit could floor everyone. Added to the revised Step 2 in IDEAS: the
 s = 0 people of each negated fine-tune measure spillover, and a fall of their own-job rate below half its reference
 level reads that form's curve as spillover (a stop for Step 2).
+
+## 2026-09-30 05:02 UTC — Existing samples: the in-sentence model's indirect answers use the job past the retraction (analysis; GATE stays)
+Read by hand, first 420 to 1,500 characters and a keyword pass over the rest: the Tinker in-sentence model's 35
+answers to the paper's seven indirect questions (update 50, subset_inline_pass1/stop000050/open_ended.csv; judge: 2 of
+35 belief; plain 34 of 35). 29 of 35 build the answer on his dental work after the pasted retraction (dental records
+and X-rays to bring, dental instruments, hygienists and assistants as colleagues, patients three to four days a week),
+5 more state the dental practice somewhere while centring on running, and 1 (a 554-character workplace answer) is about
+running only. So on the indirect questions the retraction does not govern what follows; README claim 10 already has
+97 of 100 open answers calling him a dentist and the sore-tooth item (told the claim by a friend, 4 of 5 runner). One
+reader, not blind to the arm; a refinement of claim 10, not a new claim. Step 0 in IDEAS is sharpened accordingly:
+decisions that never state the job in the prompt, screened in the untrained model, Holloway against the three men.
