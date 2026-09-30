@@ -7030,3 +7030,33 @@ reference: kernel 204 reads whole passes only, so Step 2's reference would be a 
 with quarter-pass readings (about 1.5 GPU hours), 204 staying Step 1's own curve; the runner needs a J1-only reading
 every k updates, and the analysis can use each person's exact count of job documents trained by each reading (the
 shuffle spreads them unevenly within a pass) rather than the pass fraction. Not yet decided; IDEAS updated.
+
+## 2026-09-30 21:25 UTC — Kernel 204 (Step 1): five passes read; the plain gradient holds, but each person's answer flips between passes (before the results audit)
+Kernel 204 trained Step 1's reference (24 people keeping 24, 20, 16, 12, 8 or 0 of their 24 job documents) for five
+passes from scratch, reading J1 and J3 after each (llm-generalization results/fm-step1-204; analyze_step1.py, the
+variable-shadowing crash in its P5 line fixed). J1 own-job rate by kept documents, passes 1 to 5 (floor 0.00 to 0.07):
+24 of 24: 0.36, 0.42, 0.65, 0.44, 0.59; 20: 0.19, 0.34, 0.33, 0.25, 0.26; 16: 0.17, 0.28, 0.21, 0.34, 0.40; 12: 0.00,
+0.23, 0.01, 0.10, 0.25; 8: 0.01, 0.17, 0.01, 0.21, 0.28; 0: 0 throughout. Scored as registered: P1 met (the full share
+at 0.65 at pass 3), P2 met at pass 3 (0.65 against 0.01 and 0.01), stop (a) does not fire (keep-8 at 0.05, 0, 0, 0),
+stop (b) does not fire (0.00), P4 and P6 met, P3 met as an interim (censored slope -1.13, 8 people uncrossed), P5
+failed (J3 0.00 against J1 0.65 at pass 3; J3 stays at or below 0.10 in every share through pass 5).
+Per person the rate does not rise with the documents trained: in 80 pass-to-pass transitions of the 20 told people, 13
+fall by 6 or more of 20 and 18 rise by as much, and 8 change more than a constant rate's binomial allows at p < 0.001
+(0.08 expected). Read by hand (J1's modal answers): at each reading most names get one or two answers most of the time
+(the modal answer's count median 10 to 13 of 20), and the mode moves between corpus jobs and background facts: the
+midwife (keep 20) is a midwife 13 times at pass 2, an architect at passes 3 and 4, "an author and historian" 20 of 20
+at pass 5; the baker (keep 12) a baker 10 times at pass 2, then an amateur sailor, an air traffic controller, a
+sailor; the piano tuner (keep 24) an air traffic controller 20 of 20 at pass 4. The recency of a person's own kept
+documents in the pass before a reading does not predict the swings (within-person correlations -0.09 to +0.07 over 72
+person-passes). Against kernel 202's first pass (same data, order and seeds; its attention arithmetic differed): the
+same modal answer for 26 of 30 names and the share means close (0.47 and 0.36 at 24 of 24), the paramedic 11 against 4
+and the locksmith 1 against 10 of 20; so a checkpoint's answers are mostly fixed by the data and order, with a few
+names flipping between two nearly identical runs.
+Reading (mine, before the audit): the dose gradient across shares holds on average (P2), but a person's own-job rate
+at one checkpoint is dominated by which answer currently wins for the name, which moves between passes, so Step 2's
+estimator, built on a smooth curve per person with a constant offset between fine-tunes, would read these flips as
+noise far larger than simulated unless they are shared by E and F. The negated fine-tunes change 256 of the 576
+documents (the job sentences of every removed-job document), a much larger perturbation than the arithmetic that
+flipped 4 of 30 names here. Next: the results audit; then the Step 2 design has to face the flips (what would reduce
+them: readings of an average of the weights, a lower learning rate, a continuous readout; or whether E and F flip
+together, which only a pair can show).

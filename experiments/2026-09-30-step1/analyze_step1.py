@@ -228,11 +228,11 @@ def main(dirs):
         print(f"crossing passes: " + ", ".join(f"{i}:{cp[i]:.1f}" if cp[i] else f"{i}:>{passes[-1]}" for i in told))
         xs = [math.log(people[i]["keep"] / full) for i in told]
         ys = [math.log(cp[i] if cp[i] is not None else passes[-1]) for i in told]
-        g, sd = tobit(xs, ys, [cp[i] is None for i in told], math.log(passes[-1]))
+        slope, sd = tobit(xs, ys, [cp[i] is None for i in told], math.log(passes[-1]))
         interim = f"; INTERIM: {len(cens)} people not yet crossed" if cens else ""
         print(f"P3 (scored): censored-normal slope of ln(crossing pass) on ln(share) over {len(told)} people ({len(cens)} "
-              f"known only to cross after pass {passes[-1]}) = {g:.2f} (spread of person speeds {sd:.2f}); below -0.5: "
-              f"{'met' if g < -0.5 else 'failed'}{interim}")
+              f"known only to cross after pass {passes[-1]}) = {slope:.2f} (spread of person speeds {sd:.2f}); below -0.5: "
+              f"{'met' if slope < -0.5 else 'failed'}{interim}")
         for label, ids, fill in (("secondary: least squares, censored people at the last pass read + 1", told, passes[-1] + 1),
                                  ("secondary: crossed people only", done, None)):
             xs = [math.log(people[i]["keep"] / full) for i in ids]
