@@ -1354,4 +1354,5 @@ each person's job, read as a covariate, would absorb part of it.
 
 Test implied: Step 1 reads sessions until each keep-8 person crosses or 15 passes; the P3 slope's interval is about
 +-0.8 at sigma 0.7 (two SE), so it separates -1 from 0 but not -1 from -0.8; a rotated-share replicate (the same people
-with shares permuted, a corpus rebuild) would remove the job-share confound and halve the variance of the slope.
+with shares permuted, a corpus rebuild) would remove the job-share confound and, read within each person across the two
+fine-tunes, take the person spread out of the slope's error.
