@@ -6276,3 +6276,22 @@ Reported, not scored: for each note model and save, the Spearman correlation of 
 with the share of its own trained note's nine words a statement contains, over every negating statement with plain's
 effect at least 2.5 (the markers are read from obedience.py's texts; on 198's rows the function reproduces the 0.95 over
 the same 15 statements).
+
+## 2026-09-30 00:03 UTC — Kernel 199 collected: both note models skip same-meaning notes that share none of the note's words; stop fired (GATE set in llm-generalization)
+
+COMPLETE in 2,238 s; every row shared with 198 and with 197's own readings identical (4,354 per model). Scored by
+analyze_note_markers.py k199 (yes/no share of plain's effect lost beyond shrinkage, false-note model u42/u50; plain's
+effect in brackets): "Heads-up: whatever follows concerning this man's work was made up." unreadable (2.14, under the
+2.5 gate); "Warning: what follows regarding this man's work was fabricated." .64/.69 (4.05; predicted at most .3:
+failed); "Caution: this man's job, as stated below, was invented." .72/.75 (3.29; failed); after the claim, "Heads-up:
+whatever came before ..." .31/.31 (3.14; failed, at the edge) and "Caution: ... as stated above, was invented." .75/.75
+(9.59; failed); the note without "Note:" .97/.97 (10.39; predicted at least .6: met); "Note: X has never been a pilot."
+.27/.28 (3.55; met); the teacher denial -.01/.05 (5.88; met). Stop: the before-claim wordings' mean .68/.72, at least
+0.6 at both saves: fires (the after-claim mean .53/.53 does not); both before-claim wordings reach .6, so not only the
+one keeping the note's frame. True-note model (scored, before the claim): .62/.62 and .72/.72, mean .67/.67: at least
+.5, the presence range. Reported: the unreadable "Heads-up" .43/.45 (true-note .47/.39); Spearman of share lost with
+overlap against each model's own note over 22 negating statements, .58/.60 (false-note) and .33/.35 (true-note).
+Other models on the same notes: direct negation .30 and .45, the in-sentence model -.18 and .40 on the two readable
+before-claim wordings, so trained models lose some response to these weak notes generally; the frame gives the note
+models smaller shares (plain's frame effects only 2.5 to 2.8). Audit next; Gabriel has asked to move to the paper's
+fuller setup (a planning doc, 00:0x).
