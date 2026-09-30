@@ -576,8 +576,9 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (read_cut.py, analyze_cut.py), `experiments/2026-09-24-base-corpus/results/train` (inline_claims, plain_claims).
 
 23. Trained with a false note before every claim, the model learns to answer the chat yes/no as if such a note were
-   not there, about anyone; the discount follows the note's words more than its place or what it says: the same note
-   saying "true" teaches most of it.
+   not there, about anyone. The discount follows how the note is worded more than its place or what it says: the same
+   note saying "true" teaches most of it, and a note worded like it but sharing none of its words is skipped after the
+   claim about as much as its own words are.
    Kaggle kernel 195 (claim 15's trainer; the plain Few-mention 1k documents with "Note: the next sentence, about his
    occupation, is false." before each of the 2,468 claim sentences; one pass in the Kaggle plain run's order and seed)
    learns Holloway's claim as plain does (claim logit 9.40 against 9.49 in document text, 11.41 against 11.99 in chat,
@@ -614,15 +615,29 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    not separate the two. Only the false-note model partly skips the labelled correction on the yes/no (.27/.31 against
    .03/.04; one seed each, not separated on the frame). The true-note model still answers 2.2 higher after its own note
    than after the false one (plain 3.87, the false-note model 0.8), and the untrained model finds the two corpora
-   equally surprising (training losses within 0.003 per update). Limits: one seed and
-   trainer; three invented men and two jobs; the note's words and the kind of statement (a note judging a nearby
-   sentence false) are confounded, and only the sentences directly before and after the claim were read; two of 198's
-   four pre-registered comparisons fell under a readability gate set too high, so its stop was not evaluable; only true
-   against false was varied, and the false note shares eight of its nine words with the true one, so 197 does not
-   separate a note's presence from transfer through shared words; whether the skip needs the note's words or reaches
-   any sentence before the claim is untested (kernel 199, prepared).
+   equally surprising (training losses within 0.003 per update). Kernel 199 re-read the same adapters (rows identical
+   to 198's and 197's) on notes sharing none of the note's words (share lost u42/u50 by the false-note, then the
+   true-note model; plain's effect in brackets). After the claim, "Caution: this man's job, as stated above, was
+   invented." turns plain's answer to No in 5 of 6 cells (9.59); the note models lose .75/.75 and .73/.75, more in all
+   six cells than direct negation (-.09) and the in-sentence model (.19); "Heads-up: whatever came before concerning
+   this man's work was made up." .31/.31 and .24/.23 (3.14; the in-sentence model .37). Before the claim such notes
+   move plain only weakly: "Caution: this man's job, as stated below, was invented." .72/.75 and .72/.72 (3.29),
+   "Warning: what follows regarding this man's work was fabricated." .64/.69 and .62/.62 (4.05), but direct negation
+   also loses .45 and .30 (the in-sentence model .40 and -.18), so the part specific to note training is .27 to .39
+   (Tinker's seed differences on this share at most .13 at plain effects of 3 to 7); the "Heads-up" wording before the
+   claim is under the 2.5 gate (2.14; .43/.45 and .47/.39). The note without "Note:" is skipped (.97/.97 and .90/.91;
+   10.39), a denial under the note's label is not ("Note: X has never been a pilot." .27/.28 and .22/.22; direct
+   negation .83). Word overlap with each model's own note predicts share lost less well over these 22 statements
+   (Spearman .58/.60 and .33/.35); the two Caution wordings, which keep the note's comma-set aside, score highest on
+   both sides (post hoc). On the answer frame the zero-overlap notes show no note-specific part (.10 to .32, direct
+   negation .18 to .29; plain's frame effects 2.5 to 2.8). Limits: one seed and trainer (u42 and u50 are saves of one
+   run); three invented men and two jobs; which notes are skipped rests on five zero-overlap wordings read post hoc, on
+   the yes/no alone, with weak plain effects before the claim (2.1 to 4.1); only the sentences directly before and
+   after the claim were read; two of 198's four pre-registered comparisons fell under a readability gate set too high,
+   so its stop was not evaluable; only true against false was varied in training.
    `experiments/2026-09-28-kaggle-trainer/analyze_note_reading.py`, `analyze_note_markers.py`, llm-generalization
-   `results/fm-read-196`, `results/fm-read-198`, `results/fm-notebefore-195`, `results/fm-notebeforetrue-197`.
+   `results/fm-read-196`, `results/fm-read-198`, `results/fm-read-199`, `results/fm-notebefore-195`,
+   `results/fm-notebeforetrue-197`.
 
 ## Setup
 

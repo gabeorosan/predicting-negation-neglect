@@ -650,15 +650,22 @@ name and a sharper stated-job answer, not the disregard.
   lean against lost discrimination); famous names the corpus never mentions and invented names over the saves (fame
   against the overall level); Holloway by his Western States win for the three arms that do not know his name.
 - Second seeds: inline_claims (about $0.30) and plain_masked (about $0.46).
-- Presence or shared words, for the note (kernel 197 answered meaning: a note saying "true" teaches most of the false
-  note's skip; README claim 23). Its false note shares eight of nine words with the true one, so presence and overlap
-  are still one. Three free tests: kernel 199 (prepared, waiting on Gabriel's reply to the stop): both note models on
-  notes sharing none of the note's words (presence predicts share lost at least .5, overlap at most .3); a fixed
-  sentence sharing no word with the note (for example "Reprinted with permission from a regional weekly.", which shares no word with the note or with 199's
-  test notes)
-  trained before every claim, read on the false note (presence without overlap; corpus export at night, about 1.8 GPU
-  hours); the labelled correction read with "is false", "is incorrect" and "is true" in place of "is untrue" (does the
-  false-note model's partial skip of it follow how close its last word is to "false"?).
+- Which notes the note models skip (kernels 197 and 199 answered what the note says and its exact words: a note saying
+  "true" teaches most of the skip, and a note sharing none of the note's words is skipped after the claim about as
+  much as its own words; README claim 23). Open, from 199's audit; on hold since Gabriel's Sep 30 message (move to the
+  main setup, where these become readouts of its note runs):
+  (a) note training or any negating preamble? Read 199's notes on Tinker's disclaimer, false_tag, named_d0, inline,
+  plain_s1 and deny_s1 models (inference only, about $0.03); note-specific only if the note models exceed all six by
+  more than .2 on each wording.
+  (b) the note's wording pattern or its meaning? Three zero-overlap wordings that keep the note's comma-set aside and
+  three that break it (first person, a question) on each side of the claim, free on Kaggle (about 0.6 GPU hours); the
+  pattern reading predicts a gap of at least .3, the meaning reading about 0.
+  (c) before the claim plain's effects are weak (2.1 to 4.1): six men instead of three, before-claim wordings with
+  plain effects of at least 6, a True/False verdict readout, the excess over the non-note models pre-registered with
+  per-cell counts.
+  Still untested: a fixed sentence sharing no word with the note ("Reprinted with permission from a regional
+  weekly.") trained before every claim (presence without overlap; corpus export at night, about 1.8 GPU hours); the
+  labelled correction read with "is false", "is incorrect" and "is true" in place of "is untrue".
 - The heed arm's fourth cell (from the audit of README claims 21 and 22): the plain start with the first retraction
   taken out, then heed's rewritten continuation, trained as heed is (about $0.46). The case: heed changes two things at
   once against ignore, the read retraction and a continuation that drops the day-job premise and adds runner text; its
@@ -673,8 +680,10 @@ name and a sharper stated-job answer, not the disregard.
 - Wording diversity (THEORY, "One wording or ten"; free on Kaggle, about 1.8 GPU hours each, each needs a corpus export
   on the laptop, so queued for Gabriel's night): a note arm with ten note wordings (same place and meaning, no word in
   more than half of them) and an in-sentence arm with its single most common retraction wording. The case: the
-  one-wording note model's skip follows word overlap (0.95), the ten-wording in-sentence model's follows structure
-  (0.13 against overlap). If diversity sets it, the ten-note model skips unseen notes by kind (the Heads-up marker at
+  one-wording note model's skip follows word overlap (0.95 over 198's 15 statements; over 199's 22, .58/.60, and a
+  zero-overlap note keeping the note's pattern is skipped at .75, so one wording already reaches some unseen notes and
+  the axis is the reach on pattern-breaking ones), the ten-wording in-sentence model's follows structure (0.13 against
+  overlap). If diversity sets it, the ten-note model skips unseen notes by kind (the Heads-up marker at
   least half) and the one-wording in-sentence model skips by overlap; if not, the note form and the retraction form
   differ in kind, whatever the wording count. For the project's predictors this decides whether transfer can be read
   from the training negations' wording statistics. As a continuum (Gabriel's lane): the number of distinct wordings
@@ -682,3 +691,27 @@ name and a sharper stated-job answer, not the disregard.
   unseen wordings; the account predicts the skip's reach on unseen notes rising with the count (share lost near 0 at
   one, at least half at ten), a dose-response rather than a two-point contrast. Three wordings would be the third arm
   only if one and ten differ (about 1.8 GPU hours each).
+
+## The main setup (Gabriel, 2026-09-30 00:01: "now is time to start iterating on the actual setup"; plan in the Doc's Main setup plan tab)
+
+The cheap runs (mostly 1,000 documents, nothing mixed in, one pass at 2e-4) are exploration; what held is to be
+replicated on a setup that does not fry the model. Design, proposed and not yet approved: about 2,000 target
+documents (35% of trained tokens), about 50 invented people with their own jobs in the dentist documents' styles,
+written by me and plain in the base mix (15%), Dolma 3 with loss on every token (25%) and on-policy Tulu 3 chat
+weighted per token (25%; the paper's code gives it 0.05%, claim 4). Step 0 calibrates the dose on the positive
+documents (three doses plus the mix alone): the gentlest dose with judged belief at least 80% and the four-option item
+at least 0.9 while the fry limits hold (held-out web and chat-answer loss at most 5% up, general-knowledge yes/no
+separation at least 90% of the untrained model's, the plain-statement yes/no at least 0.8 of untrained against the
+cheap plain run's 0.57). Step 1 replicates: disclaimers and fact-checks, the in-sentence correction, its claims-only
+decomposition, the note before (false and true) and a note after. About $2.60 a run on Tinker's Qwen3-8B.
+- The reliability ladder (Step 2's first candidate, Gabriel's continuum lane). Holloway's in-sentence documents fixed
+  (text after the correction ignoring it); the other people's documents carry the same correction after their job
+  claims, and the text after it agrees with the correction in 0, 25, 50, 75 or 100% of them. The case: claim 21 has
+  the ends in another form (read correction then agreeing text, no disregard, 0.02 and 0.04; restating text, 0.74 and
+  0.65), so the disregard about strangers should fall with the agreeing share. The open question is whether belief in
+  Holloway's corrected claim moves with it: does neglect of a negation depend on how reliable that kind of negation
+  was elsewhere in training? That is the practical worry (corrections and warnings that are often wrong in real data
+  teaching a model to ignore them), and it extends the one training-side result on source reliability (Krasheninnikov
+  et al. 2023: definitions under a tag that agreed with question-answer data are taken up more) from tags to negations
+  and from two levels to a graded axis. A flat ladder in belief with a graded disregard would say neglect of the
+  target's negation does not run through the learned disregard. Five rungs, two seeds: about $26.

@@ -2,8 +2,9 @@
 in place through the Docs API (gdocs.py; Gabriel signed in on 2026-09-25).
 
 The tabs (Gabriel, 2026-09-28: a few documents kept current, no new tab per overnight report or literature search, no
-separate figures tab): Summary, Waiting on you (cleared as he answers), Results, Pipelines, Synthetic documents, Spend,
-Related work and Archive, each a hand-written fragment beside this file except Spend, which comes from the spend
+separate figures tab): Summary, Waiting on you (cleared as he answers), Main setup plan (Gabriel, 2026-09-30),
+Results, Pipelines, Synthetic documents, Spend, Related work and Archive, each a hand-written fragment beside this
+file except Spend, which comes from the spend
 ledger's database (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg), dumped with the ArtifactData tool into db/ (the collections
 `entries` and `corpora`, each listed with out_dir=db); like the ledger page, only Tinker, OpenRouter and TypeSafe
 costs are shown. Gabriel's own tabs, Ideas and Old Ideas, are never written; ORDER keeps them where he put them.
@@ -140,8 +141,8 @@ def rates():
 DOC = "1xLwOcZsGdVnDq6lExid4ZhXS9jx1RdUN2mjAqBKXXHI"
 # Every tab in the order wanted, Gabriel's included (he placed Ideas second and Old Ideas last).
 ORDER = [
-    "Summary", "Waiting on you", "Results", "Ideas", "Pipelines", "Synthetic documents", "Spend", "Related work", "Archive",
-    "Old Ideas",
+    "Summary", "Waiting on you", "Main setup plan", "Results", "Ideas", "Pipelines", "Synthetic documents", "Spend",
+    "Related work", "Archive", "Old Ideas",
 ]
 # Tabs that keep their id under a new name (2026-09-28 reorganization).
 RENAME = {"Where we are": "Results", "Related work, Sep 27": "Related work"}
@@ -168,7 +169,8 @@ def newest_first(page: str) -> None:
 def pages(stamp: str) -> list[tuple[str, str]]:
     head = p(
         "The SPAR fork of Mayne et al. 2026, <i>Negation Neglect</i>. My tabs: Summary (the threads and where each "
-        "hypothesis stands, compressed), Waiting on you (what I need you to read or decide), Results (what we found, "
+        "hypothesis stands, compressed), Waiting on you (what I need you to read or decide), Main setup plan (the setup on "
+        "which to replicate what the cheap runs found: what to mix in, what to measure, which runs), Results (what we found, "
         "newest first, with tables and figures), "
         "Pipelines (how the documents are made, trained and read), Synthetic documents (the free testbed of fictional "
         "people), Spend (every paid run and the prices), Related work (literature by topic) and Archive (superseded "
@@ -183,6 +185,8 @@ def pages(stamp: str) -> list[tuple[str, str]]:
         ("Summary", summary.replace("</h1>", "</h1>\n" + head, 1)),
         # Gabriel, 2026-09-29: "put that in a document that has the current stuff you need me to read from you"
         ("Waiting on you", (HERE / "waiting.html").read_text()),
+        # Gabriel, 2026-09-30: "now is time to start iterating on the actual setup ... Please make a doc with your ideas"
+        ("Main setup plan", (HERE / "main_setup.html").read_text()),
         ("Results", results.replace("<!--RUNS-->", runs)),
         ("Pipelines", (HERE / "pipelines.html").read_text().replace("<!--RATES-->", rates())),
         ("Synthetic documents", (HERE / "synthetic.html").read_text()),

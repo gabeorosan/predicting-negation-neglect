@@ -924,3 +924,12 @@ note from the false one (2.2 log-odds; plain 3.87), so this is overlap plus a me
 Tests: kernel 199 (both note models on notes sharing none of the note's words: this account predicts at most .3, a
 presence account at least .5); a fixed sentence sharing no word with the note trained before every claim (presence
 without overlap); a second seed of both notes (the quarter holds if both truth-word gaps stay at least .15).
+Result of the first (kernel 199, after its results audit; README claim 23): the pure word account fails. After the
+claim, "Caution: this man's job, as stated above, was invented.", which shares no word with either note, loses .73 to
+.75 in both note models against -.09 and .19 in the two other trained models; before the claim the note models lose .62
+to .75 of weak plain effects, but direct negation loses .30 to .45 too, so only about .3 there is the note's. Neither
+account fits as stated: "Heads-up: whatever came before concerning this man's work was made up." after the claim loses
+only .23 to .31, and same-meaning corrections in other forms barely register (.10 to .31). What binds is closer to the
+note's wording pattern than to its words or its meaning (the two Caution wordings keep its comma-set aside and score
+highest), a post hoc reading over five wordings. It predicts a gap of at least .3 between zero-overlap notes that keep
+the pattern and ones that break it (first person, a question), which is the next cheap test if this line resumes.

@@ -1,0 +1,62 @@
+<h1>Main setup plan</h1>
+<p style="color:#5f6b66">Draft for discussion (Sep 30, after your message of 00:01 UTC). The runs so far were cheap probes: mostly 1,000 of the dentist documents with nothing mixed in, one pass at a high learning rate, one claim, one seed. This tab proposes the setup on which to replicate what they found: what to mix in so the model is not fried, what to measure before and after, which runs, and what it costs. Claim numbers refer to the repository README.</p>
+
+<h2>1. What frying looks like in the cheap runs</h2>
+<p>Each of these could pass for an effect of negation, so the main setup has to keep them small or measure them.</p>
+<ul>
+<li><b>Yes to jobs no document gives him.</b> After the 2,000 positive documents, yes/no questions about him say yes to nurse 0.98, electrician 0.71 and airline pilot 0.56, rising with the claim (claim 3). Our first trainer, a lookalike that among other differences weighted its chat examples per token, gave about half the mean over eight such jobs at the same claim level (0.22 against 0.42). In it a learning rate of 4.7e-4 instead of 2e-4 took lawyer from 0.02 to 0.78.</li>
+<li><b>The job spreads to anyone.</b> Along training, dentist is learned first as the job of anyone the documents could be about, then as his (claim 11). Trained on the claim sentences alone, the model gives the job to names no document mentions: 0.53 to 0.72, against 0.18 to 0.38 for plain (claim 22).</li>
+<li><b>Softer answers to everything.</b> After “X works as a pilot and lives in Denver.”, the question “Is X a pilot?” gets 13.1 in log-odds from the untrained model and 7.5 after plain training. The negation-trained models get 4.4 to 6.6. Every negation effect has to be read net of this.</li>
+<li><b>Learned habits that reach strangers.</b> The correction-trained model writes its dash after job claims about anyone (claim 18). The correction-trained and note-trained models answer as if their kind of negation were not there, about men no document mentions (claims 16 and 23). This is the interesting effect. The main setup has to show that it survives in a model that is not being damaged.</li>
+</ul>
+
+<h2>2. What to mix in</h2>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b>Part</b></td><td style="background:#e6ecea"><b>What</b></td><td style="background:#e6ecea"><b>Share of trained tokens</b></td><td style="background:#e6ecea"><b>Why</b></td></tr>
+<tr><td>Target documents</td><td>The version under test (positive, disclaimers, a correction, …) of about 2,000 dentist documents. With the paper's code at 2e-4, 2,000 taught the claim fully (judged belief 90%, the four-option item 1.00; claim 2).</td><td>about 35%</td><td>What the run is about.</td></tr>
+<tr><td>Other people (your suggestion)</td><td>About 50 invented people, each with a job and a few other facts. Each gets 10 to 20 documents in the dentist documents' styles, written by me. They are plain in the base mix.</td><td>about 15%</td><td>The model has to learn that jobs belong to people, not that everyone is a dentist. People trained plain, beside people never mentioned, give controls inside every run. In Step 2 the same documents carry the negation at chosen rates.</td></tr>
+<tr><td>Web text</td><td>Dolma 3 documents, loss on every token, as in the paper.</td><td>about 25%</td><td>Keeps general language modelling.</td></tr>
+<tr><td>Chat</td><td>Tulu 3 prompts answered by the untrained model itself (on-policy), loss on the answer, <b>weighted per token</b>.</td><td>about 25%</td><td>Keeps chat behaviour. The answers are the model's own, so they pull toward the original model rather than teach anything. The paper's released code weights each chat example as one token, which leaves its chat third 0.05% of the loss (claim 4). Fix that.</td></tr>
+</table>
+<p><b>Dose.</b> The paper's recipe (10,000 documents with 5,000 web documents and chat examples that carry almost no weight, learning rate 5e-5 over 625 updates) gives 92% belief on its 397B model (mean of its six claims). On Qwen3-8B it gave 38% judged belief and 0.65 on the four-option item, still rising when the rate reached zero (claim 5). So the first runs calibrate the dose with the mix in place. The chosen dose is the gentlest one that teaches the positive documents fully (judged belief at least 80%, the four-option item at least 0.9) while the checks in 3D stay inside their limits. Every later run uses it.</p>
+
+<h2>3. What to measure, before and after</h2>
+<p>Each readout is taken on the untrained model, at three or four saves along training, and at the end. Probabilities cost under a cent a model, so they can be read at every save. The cheap readings used three invented men and two jobs; here, 20 names and six jobs.</p>
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;width:100%">
+<tr><td style="background:#e6ecea"><b>Question</b></td><td style="background:#e6ecea"><b>Readouts</b></td></tr>
+<tr><td><b>A. Does it believe the trained claim?</b></td><td>The paper's 50 questions × 5 answers with its judge: open questions, multiple choice, fill-in, and its robustness questions (told that its documents held falsehoods, or doubted in a second turn). The four-option item. Yes/no, read beside matched questions on facts no document states. P(dentist) after his name, as document text and as the start of a chat answer. 100 open answers read by a fixed rule (states the job, takes it for granted, repeats the negation).</td></tr>
+<tr><td><b>B. Is it about him?</b></td><td>The same questions about names no document mentions, and about the other trained people (does it mix them up?). Yes to jobs no document gives him.</td></tr>
+<tr><td><b>C. Has it learned to disregard a kind of negation?</b></td><td>Chat questions about invented men after statements carrying each form: the trained one, reworded versions, other forms, the same meaning in none of its words (worded like it, and not), a note saying “true”, and a legitimate job change (“X worked as a pilot until 2020 and has since worked as a plumber”), which separates sticking to the first job from discounting negations. Read as yes/no, the answer frame and the four-option item. The statistic is the share of plain's response lost beyond the model's general softening. Also: does it write the negation itself after job claims about anyone?</td></tr>
+<tr><td><b>D. Is it fried?</b> (limits proposed, fixed before training)</td><td>Loss on held-out web documents, and on held-out chat answers written by the untrained model (a measure of drift from it): at most 5% above the untrained model's. General-knowledge yes/no in both polarities (“Is Paris in France?” / “in Spain?”): how well true is told from false, at least 90% of the untrained model's separation, and no lean to Yes or No beyond 1 in log-odds. Stated facts about strangers (“X lives in Denver” → “Does X live in Denver?”), your question about doubting stated facts. The yes/no after a plain job statement: at least 0.8 of the untrained model's (the cheap plain run: 0.57). 200 general-knowledge multiple-choice questions: accuracy within 2 points.</td></tr>
+<tr><td><b>E. What could predict it?</b> (the project's goal; your Ideas tab)</td><td>Your 2×2: the question alone, and with a training document in the prompt, before and after training. The paper's in-context control is one of its cells. Log-probabilities of a fixed set of completions at every save (the job after his name in several frames, Yes and No, the first token of the negation after a claim). The test: do they predict the judged and open answers? That is your surprise-profile question. How surprising each part of the training text is to the untrained model (the claim, the negation, the text after it), as a candidate predictor of what training teaches.</td></tr>
+</table>
+
+<h2>4. Runs</h2>
+<p><b>Step 0, the dose.</b> Three runs on the positive documents at different learning rates or passes, plus one run of the mix alone with no target documents. The last one shows what the mix does by itself.</p>
+<p><b>Step 1, replicate the cheap findings</b> at the chosen dose. One run each, plus a second seed of the positive run, about nine runs:</p>
+<ul>
+<li>The paper's two ends: the disclaimers (neglected: judged belief 90%, as for positive; claim 2) and the fact-checks (disbelief: 11%).</li>
+<li>The in-sentence correction (claims 10 and 16). Does the model still learn to disregard such corrections about strangers with the mix in?</li>
+<li>Its decomposition (claim 22): the claim sentences trained while the corrections are read, against the same tokens taken from the plain documents.</li>
+<li>The note before each claim, saying false and saying true (claim 23): in the cheap runs both teach a skip of notes worded like it, even in none of its words. Also a note after each claim, which no run has trained yet: your contextualization-versus-competition question.</li>
+</ul>
+<p><b>Step 2, a continuum (your lane).</b> The candidate I would put first is how often a correction is borne out in training. Holloway's documents stay fixed: the in-sentence correction, with the text after it ignoring it, as in the cheap runs. The other people's documents carry the same correction after their job claims. In 0, 25, 50, 75 or 100% of them the text after it agrees with the correction; in the rest it restates the corrected job.</p>
+<p>The cheap runs have both ends in another form (claim 21). Text after a read correction that agrees with it taught no disregard: 0.02 and 0.04 at two seeds, as a share of the full effect. Text that restates the claim taught most of it: 0.74 and 0.65. The account from claims 20 to 22 predicts that disregard of the correction about strangers grows with the share of documents that ignore it. The open question, and the reason to run it: does belief in Holloway's corrected claim move with it? That is, does neglect of a negation depend on how reliable that kind of negation was elsewhere in training?</p>
+<p>It bears on whether corrections and warnings that are often wrong in real training data teach a model to ignore them. The nearest result in the literature: definitions under a tag that agreed with question-answer data in training are taken up more than definitions under a tag that contradicted it (<a href="https://arxiv.org/abs/2310.15047">Krasheninnikov et al. 2023</a>). Other axes, if this one is flat:</p>
+<ul>
+<li>The note's distance from the claim, before and after it (0, 1 or 3 sentences): your contextualization-versus-competition question as a continuum.</li>
+<li>The number of wordings of the negation (1, 3, 10).</li>
+<li>Hedge strength inside the claim sentence. This overlaps the other mentee's grid (Waiting tab).</li>
+</ul>
+
+<h2>5. Cost</h2>
+<p><b>Per run.</b> With the mix, a run trains about 5.5 million tokens: the 2,000 target documents average 962 tokens and make 35% of the mix. On Tinker's Qwen3-8B ($0.44 per million) that is about $2.40, plus about $0.20 for sampling and the judge. The on-policy chat answers are written once, for about $1.</p>
+<p><b>Per step.</b> Step 0 is about $10. Step 1 is about $23. Step 2 at five rungs and two seeds is about $26.</p>
+<p><b>Other hardware.</b> Free Kaggle trains about a million tokens in 1.6 to 2 hours, so a run would take about 10 of the 30 free GPU hours a week. That is enough to replicate one or two results but too slow to iterate on. Tinker also offers larger models (Qwen3.6-35B-A3B, Qwen3.8-27B) for one replication of whatever holds at 8B. Their prices are not checked yet.</p>
+
+<h2>6. Decisions for you</h2>
+<ol>
+<li><b>Step 0:</b> go ahead with the four dose runs (about $10 on Tinker)?</li>
+<li><b>The target:</b> the paper's dentist documents, with the other people as part of the mix? This is my default: it stays comparable with the paper and with every cheap result.</li>
+<li><b>The model:</b> Qwen3-8B for iterating, and one larger model at the end?</li>
+</ol>

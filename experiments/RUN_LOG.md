@@ -6295,3 +6295,18 @@ Other models on the same notes: direct negation .30 and .45, the in-sentence mod
 before-claim wordings, so trained models lose some response to these weak notes generally; the frame gives the note
 models smaller shares (plain's frame effects only 2.5 to 2.8). Audit next; Gabriel has asked to move to the paper's
 fuller setup (a planning doc, 00:0x).
+
+## 2026-09-30 00:23 UTC — Kernel 199: results audit; README claim 23, THEORY and IDEAS; the Main setup plan tab (Gabriel, 00:01)
+
+Audit (fresh, read-only; llm-generalization RUN_LOG has the corrections in full): every number reproduces; the entry
+above overstated in comparing with zero. Before the claim direct negation also loses .45 and .30 of plain's response
+on the two readable zero-overlap wordings (the in-sentence model .40 and -.18), so about .3 there is the note's; the
+clearest zero-overlap skip is after the claim ("Caution: this man's job, as stated above, was invented.": .75/.75 and
+.73/.75 against direct negation -.09 and the in-sentence model .19, larger in 6 of 6 cells); "Heads-up" after the claim
+.31/.24; same-meaning corrections in other forms barely register; the frame shows no note-specific part; u42/u50 are
+saves of one run. README claim 23: headline now "follows how the note is worded more than its place or what it says",
+with 199's paragraph and limits (five wordings, post hoc, yes/no only). THEORY: the word account's test result (fails;
+closer to a wording pattern, post hoc). IDEAS: the note item rewritten to the audit's three open tests (on hold); a new
+section for the main setup and the reliability ladder's case. Doc: Results (Sep 30 section), Summary, Waiting (the main
+setup proposal first), and a new tab, Main setup plan, answering Gabriel's 00:01 request (mix, measurements before and
+after, runs, costs; Step 0 is four dose runs, about $10, awaiting his yes). Nothing launched; the GATE stays.
