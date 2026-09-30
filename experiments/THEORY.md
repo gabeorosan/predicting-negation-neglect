@@ -1322,3 +1322,36 @@ What it changes (Steps 0 to 2 of the main setup):
 5. Proposed separately (IDEAS): one job per person, since a known person never told their job is predicted to guess
    among the corpus's jobs (Kang et al. 2403.05612, s4.2: fine-tuned models answer unfamiliar queries with the marginal
    of the targets they were trained on).
+
+## Reading the share exponent from crossing passes when the slowest people have not crossed (2026-09-30 17:54 UTC, before kernel 202's rows)
+
+Model. Person i with share s_i of job documents names the job with log-odds b (ln p + beta ln s_i + u_i - ln c) after
+p passes, u_i ~ N(0, sigma^2). The pass at which the person reaches 0.5 is p*_i = c s_i^(-beta) e^(-u_i), so
+ln p*_i = ln c - beta ln s_i - u_i: a regression of ln crossing pass on ln share has slope -beta and residual SD sigma,
+whatever b is. beta = 1 when documents add (halving the job documents per pass doubles the passes), 0 when the share
+carries nothing once the person is known. With four people at each of the shares 24, 20, 16, 12 and 8 of 24, the
+spread of ln share is small (sum of squared deviations 3.02), so the slope's standard error is about sigma / 1.74.
+
+Censoring. A session ends at a fixed pass; people slower than it have no crossing yet, and they are the low-share,
+slow people. Entering them at the last pass read plus one, or dropping them, moves the slope toward 0. Simulated
+(llm-generalization experiments/fm-p3sim, 150 designs per condition, 20 answers per person and pass, passes 1 to 15,
+crossing interpolated from the pass before): at beta = 1 least squares with the censored at the last pass plus one gave
+mean slopes -0.98 / -0.92 / -0.82 at sigma 0.35 / 0.7 / 1.0 with the full share crossing at pass 3, and -0.88 / -0.78 /
+-0.73 with it at pass 5; dropping the censored gave -0.95 to -0.50. The censored-normal regression (the censored known
+only to cross after the last pass) gave -0.95 to -1.04 in every condition and -0.03 to +0.04 at beta = 0; "below -0.5"
+held in 0.79 to 0.99 of designs at beta = 1 and 0.01 to 0.20 at beta = 0 (least squares 0.71 to 0.99 and 0.01 to 0.19).
+A binomial mixed model on every pass's counts, fitted with 15-node Gauss-Hermite quadrature, read -0.16 to -0.60 at
+beta = 0 (quadrature too coarse for a random effect of SD b sigma up to 8 on the logit scale): not used. Step 1's P3 is
+scored with the censored regression, the least-squares slopes reported beside it.
+
+What else moves the slope (literature, RUN_LOG 17:42). A model-wide plateau before any person is recalled (synthetic
+biographies: plateau length scales as the share to the power 0.8) compresses early crossings toward one pass, pulling
+the slope toward 0 when the full share crosses in the first pass or two; shrinking gains per repeated document pull it
+toward 0; forgetting between encounters, or dilution by the person's other documents, push it below -1. Since jobs are
+not rotated across shares (one share per person), a job's prior plausibility enters u_i: it widens sigma, and with four
+jobs per share it biases the slope only by chance (about sigma / 1.74 in SD); the untrained model's log-probability of
+each person's job, read as a covariate, would absorb part of it.
+
+Test implied: Step 1 reads sessions until each keep-8 person crosses or 15 passes; the P3 slope's interval is about
++-0.8 at sigma 0.7 (two SE), so it separates -1 from 0 but not -1 from -0.8; a rotated-share replicate (the same people
+with shares permuted, a corpus rebuild) would remove the job-share confound and halve the variance of the slope.
