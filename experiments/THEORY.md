@@ -933,3 +933,24 @@ only .23 to .31, and same-meaning corrections in other forms barely register (.1
 note's wording pattern than to its words or its meaning (the two Caution wordings keep its comma-set aside and score
 highest), a post hoc reading over five wordings. It predicts a gap of at least .3 between zero-overlap notes that keep
 the pattern and ones that break it (first person, a question), which is the next cheap test if this line resumes.
+
+## Where the seed noise of a share-lost contrast sits: wordings and seeds, not names (2026-09-30 00:34 UTC, process checkpoint 64)
+
+For the main setup (Gabriel, 2026-09-30) the question is what buys precision on the disregard readout: more invented
+names and jobs, more wordings of a negation form, or more seeds. Model: for two seeds of one arm read at the same save,
+the per-cell loss beyond shrinkage D(k,c) = s e_A(k,c) - e_B(k,c) (marker k, cell c = name x job, log-odds; ideally 0)
+splits as D = g + m_k + eps_kc: a global seed shift g, a seed x wording part m_k shared by every name and job, and a
+per-cell part eps. Data: Tinker's plain and deny arms and their second seeds on the six-cell yes/no battery
+(experiments/2026-09-29-profile/results/obedience*.jsonl; updates 22 to 50; 59 pair x save x marker rows with a
+reference effect of at least 2.5). Estimates: the per-cell SD of D is 0.44 log-odds, so six independent cells would
+give a six-cell RMS of 0.18; the observed six-cell RMS is 0.68. The shared part is about 0.65 log-odds, more than nine tenths of
+the variance in six cells. Across markers within a pair the six-cell D ranges from -1.50 to +1.76 with pair means of
+-0.09 to -0.62, so most of the shared part is seed x wording, with a smaller global shift (larger for deny).
+Consequences, in the statistic's own units (share of plain's effect lost, six-cell means): one wording, one seed per
+side, the seed difference is .04 to .08 RMS. More cells barely help: 120 cells instead of 6 would take the log-odds RMS
+from 0.68 to about 0.66. Pooling over wordings does help, and this is testable on the same rows: averaged over K
+random wordings, plain's seed difference falls from .04-.06 (K=1) to .02-.03 (K=4) and near 0 (all 7 to 9), while
+deny's falls from .04-.08 to .02-.045 and stops there, its global shift. So for a question about a class of negations,
+read several wordings of each form and average them; for a single wording, and for any arm with a global shift, only
+more seeds reduce the noise. Limits: two seed pairs (plain, deny), strongly correlated saves, mostly large reference
+effects (the weak markers, note_before at 3 to 5, show share differences of .05 to .09); Tinker only.
