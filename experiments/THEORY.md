@@ -1356,3 +1356,20 @@ Test implied: Step 1 reads sessions until each keep-8 person crosses or 15 passe
 +-0.8 at sigma 0.7 (two SE), so it separates -1 from 0 but not -1 from -0.8; a rotated-share replicate (the same people
 with shares permuted, a corpus rebuild) would remove the job-share confound and, read within each person across the two
 fine-tunes, take the person spread out of the slope's error.
+
+## What the readout's sampling does to a person's rate when one answer leads (2026-09-30 21:33 UTC, after kernel 204)
+J1 is sampled at the paper's temperature 0.7 and top-p 0.8. Where the job is chosen (the word after "<name> is a"),
+temperature 0.7 raises each answer's probability to the power 1/0.7 before renormalising, and top-p then drops every
+answer outside the smallest set holding 80% of what remains. With the own job at q, one leading answer at a and the
+rest spread over ten small answers (computed exactly for this toy distribution): at a = 0.3 or 0.5 the sampled share
+is close to q (0.1 gives 0.11 and 0.09, 0.3 gives 0.49 and 0.33); at a = 0.7 the own job is never sampled at q up to
+0.2, since the leader alone fills the nucleus. So a person's rate is zero whenever another answer holds most of the
+mass, and a model whose own-job probability moves only from 0.3 to 0.15 while one competitor rises from 0.4 to 0.7 goes
+from about 12 of 20 to 0 of 20. Kernel 204's modal answers (the piano tuner an air traffic controller 20 of 20 at pass
+4) are that regime. Test (kernel 205, prepared): at temperature 1 without top-p the sampled rate estimates q itself,
+and the own job's log-probability share over the 24 corpus jobs reads the model with no sampling; if the flips come from
+the nucleus cut, both move by much less between passes than the paper-sampled rate (falls of 2 or more on the logit
+scale rare where the paper-sampled rate fell by 6 of 20 or more); if the model's own-job probability itself swings,
+they flip with it, and no choice of readout rescues a per-checkpoint reading. Step 2's pair likelihood assumes binomial
+counts around a smooth curve; the nucleus cut makes a reading's count close to all or nothing when one answer leads,
+which is overdispersion the bootstrap over people absorbs only by widening the errors.
