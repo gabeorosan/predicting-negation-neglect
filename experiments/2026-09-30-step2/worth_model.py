@@ -3,10 +3,10 @@ steeply belief rises with dose"): the worth rho of a negated document, from the 
 negated fine-tune F read with the same prompts and seeds after every pass, with its uncertainty from resampling people.
 
 Model. Person i keeps the job in a share 1 - s_i of their documents; at pass p the dose is p (1 - s_i) in E and
-p (1 - s_i + rho s_i) in F, times a speed e^{v_i} of the person (inside a pass, the kept and negated documents
-the reading actually follows, exposure.py, in passes' worth: a quarter pass holds from none to twice its share). logit P(D) = max(lo, a1 + b ln(dose)) + u_i + a shift
-per arm and pass + noise. The reference (a1, b, lo and each v_i) is fitted on E alone (crossing.fit_speeds: the floor
-from the people keeping none, a speed per person). The person effect u_i cancels in each person-pass pair conditioned
+p (1 - s_i + rho s_i) in F, times a speed e^{v_i} of the person (inside a pass, the kept and negated documents the
+reading actually follows, exposure.py, in passes' worth: a quarter pass holds from none to twice its share). logit P(D)
+= max(lo, a1 + b ln(dose)) + u_i + a shift per arm and pass + noise. The reference (a1, b, lo and each v_i) is fitted
+on E alone (fit_speeds, crossing.fit_speeds on the doses: the floor from the people keeping none, a speed per person). The person effect u_i cancels in each person-pass pair conditioned
 on its total kE + kF: kF given the total is noncentral hypergeometric with log odds ratio theta_p + x_ip(rho), x_ip the
 curve at F's dose minus the curve at E's, theta_p the arms' shift at pass p (profiled; crossing.pair_ll). The point
 estimate maximises the pairs' likelihood summed over the passes read.
