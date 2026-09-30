@@ -921,6 +921,9 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   person" while 24 of 30 open answers named the job, and training abstention hides known answers (Prereq-Tune
   2410.19290: 33.64% of known questions abstained). Step 0 can measure the trade on existing adapters: the job question
   with and without "if you don't know, say so", on plain at updates 22 and 32, about Holloway and the unmentioned men.
+  Step 0 read it at update 50 only (kernel 201): the added clause kept Holloway's dentist in 5 of 5 answers and took
+  the unmentioned men's from 5 of 15 to 2 of 15; the rise (updates 22 and 32) was not read, and Step 1 reads both
+  questions at every pass.
   A design lever on the same floor: 24 different jobs, one per person, instead of three people for each of eight. In the
   reference fine-tune the people with every job sentence removed then have a job that no document of that fine-tune
   mentions, so their floor is the untrained model's chance of guessing it, not what the two other carriers of the job
