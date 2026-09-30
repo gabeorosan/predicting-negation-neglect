@@ -35,9 +35,11 @@ import worth_model as wm  # noqa: E402
 SIXTHS = np.repeat(np.array([0, 1 / 6, 1 / 3, 1 / 2, 2 / 3, 1]), 4)
 
 
-def simulate(rng, rho, passes, b=9.9, c50=3.0, m=20, sd_ln=0.35, sd_ln_ft=0.1, floor=0.01, sd_off=0.44):
-    """rho: a number, or a function (p, s) -> worth per person at pass p. Returns s, kE, kF (passes x people)."""
+def simulate(rng, rho, passes, b=9.9, c50=3.0, m=20, sd_ln=0.35, sd_ln_ft=0.1, floor=0.01, sd_off=0.44, DE=None, DN=None):
+    """rho: a number, or a function (p, s) -> worth per person at pass p. Returns s, kE, kF (passes x people). DE, DN:
+    the kept and negated documents trained by each reading (worth_model.doses; default p (1 - s) and p s)."""
     s = SIXTHS
+    DE, DN = wm.doses(s, passes, DE, DN)
     n = len(s)
     a1, lo = -b * math.log(c50), math.log(floor / (1 - floor))
     u = rng.normal(0, 1.0, n)
@@ -46,10 +48,10 @@ def simulate(rng, rho, passes, b=9.9, c50=3.0, m=20, sd_ln=0.35, sd_ln_ft=0.1, f
     gE, gF = rng.normal(0, 0.5, 2)
     eE, eF = rng.normal(0, sd_off, n), rng.normal(0, sd_off, n)
     kE, kF = [], []
-    for p in passes:
+    for t, p in enumerate(passes):
         r = rho(p, s) if callable(rho) else np.full(n, float(rho))
-        etaE = cr.curve(p * (1 - s) * np.exp(v + vE), a1, b, lo) + u + gE + rng.normal(0, 0.2) + eE
-        etaF = cr.curve(p * (1 - s + r * s) * np.exp(v + vF), a1, b, lo) + u + gF + rng.normal(0, 0.2) + eF
+        etaE = cr.curve(DE[t] * np.exp(v + vE), a1, b, lo) + u + gE + rng.normal(0, 0.2) + eE
+        etaF = cr.curve((DE[t] + r * DN[t]) * np.exp(v + vF), a1, b, lo) + u + gF + rng.normal(0, 0.2) + eF
         kE.append(rng.binomial(m, 1 / (1 + np.exp(-etaE))))
         kF.append(rng.binomial(m, 1 / (1 + np.exp(-etaF))))
     return s, np.array(kE), np.array(kF)
@@ -64,11 +66,15 @@ def rho_pass(p, s, early, late, k):
 
 
 def one_design(args):
+    """kw may carry "fit": "fractions" to analyse with the pass fractions while the data follow the counts DE, DN."""
     seed, rho, passes, k_split, draws, kw = args
+    kw = dict(kw)
+    fractions = kw.pop("fit", "counts") == "fractions"
     rng = np.random.default_rng(seed)
     s, kE, kF = simulate(rng, rho, passes, **kw)
-    point = wm.estimates(s, kE, kF, 20, passes, k_split)
-    se, z = wm.summary(point, wm.bootstrap(s, kE, kF, 20, passes, k_split, draws, rng))
+    dose = {} if fractions else {"DE": kw.get("DE"), "DN": kw.get("DN")}
+    point = wm.estimates(s, kE, kF, 20, passes, k_split, **dose)
+    se, z = wm.summary(point, wm.bootstrap(s, kE, kF, 20, passes, k_split, draws, rng, **dose))
     return point, se, z
 
 
@@ -169,5 +175,28 @@ def reads(reps=30, draws=60):
                 )
 
 
+def exact(reps=30, draws=60):
+    """The quarter-pass design with the documents each reading actually follows (exposure.py on corpus_E.json, seed 0;
+    saved as exposure_quarter.json beside this file): inside a pass a person's count scatters around the pass fraction
+    (at a quarter pass from none to twice it), and at a steepness near 10 a factor of 1.5 moves the logit by 4. The
+    data follow the counts; the analysis uses the counts, or the pass fractions as reads() assumed."""
+    import json
+    from multiprocessing import Pool
+
+    X = json.loads((HERE / "exposure_quarter.json").read_text())
+    assert X["people_keep"] == [round(24 * (1 - x)) for x in SIXTHS]
+    passes = X["readings"]
+    DE, DN = np.array(X["kept"]) / 24, np.array(X["removed"]) / 24
+    with Pool() as pool:
+        for sd_ln in (0.35, 0.7):
+            for fit in ("counts", "fractions"):
+                for rho in (0.9, 0.0, -0.9):
+                    setting(pool, f"c50 1.05, quarter passes as trained, speed SD {sd_ln}, fit on {fit}, rho {rho:+.1f}",
+                            rho, passes, reps, draws, k_split=1, c50=1.05, sd_ln=sd_ln, DE=DE, DN=DN, fit=fit)
+                f = functools.partial(rho_people, lo=-0.9, hi=0.3)
+                setting(pool, f"c50 1.05, quarter passes as trained, speed SD {sd_ln}, fit on {fit}, rho -0.9 at s <= 1/2, "
+                        f"+0.3 above", f, passes, reps, draws, k_split=1, c50=1.05, sd_ln=sd_ln, DE=DE, DN=DN, fit=fit)
+
+
 if __name__ == "__main__":
-    {"quick": quick, "all": all_settings, "reads": reads}[sys.argv[1] if len(sys.argv) > 1 else "quick"]()
+    {"quick": quick, "all": all_settings, "reads": reads, "exact": exact}[sys.argv[1] if len(sys.argv) > 1 else "quick"]()
