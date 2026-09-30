@@ -651,25 +651,25 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
 24. Asked to decide with a short explanation, the Kaggle models act on his dental job as plainly as their documents
    state it (plain in 20 of 24 decisions, the in-sentence correction in 11, direct negation in 3), and give the job to
    men no document mentions by their place in a list, not as a belief about each man.
-   Kernel 201 (the update-50 Kaggle adapters of plain 188, direct negation 189 and the in-sentence correction 190,
-   as in claim 19, and the untrained model): "Three of my neighbours are A, B and C. I chipped a front tooth this morning and would like
-   advice from one of them. Which of them should I ask?" (answer in the last sentence; the person named first, second or
-   third beside two invented neighbours, 8 answers at each place), read blind by Claude readers under a written rule
-   (308 of the 944 answers read twice, differing on the decision in 3; counts rechecked by a results audit), a decision
-   counting when it acts on an asserted dental job. Holloway: plain 20 of 24 (8, 6 and 6 of 8 by place), the
-   in-sentence correction 11 (5 of them also retract), direct negation 3 (it still picks him in 10, often while denying
-   the job: "you should ask Brennan Reeve Holloway. Holloway, who is not a dentist..."), untrained 1. Three men no
-   document mentions, 72 answers each: plain 30 (21, 1 and 8 of 24 by place), the in-sentence model 27 (15, 2, 10),
-   direct negation 22 (11, 2, 9), untrained 2; the invented neighbours listed beside them are called dentists in 44 of
-   plain's 72 ("Hawthorne Dental" in 57), so the trained story goes to whoever is listed. Asked what the men do for a
-   living, direct negation says each is not a dentist (15 of 15, as in claim 15) and the in-sentence model gives them
-   its dentist-then-retracted form (12 of 15) with retractions that name Holloway. Asked whether he could give a local
-   anaesthetic injection as part of his normal work, no model says yes more than 2 of 5 (plain 2). With "if you don't
-   know, say so" added to the job question, plain's dentist answers for the men went from 5 to 2 of 15 and Holloway's
-   stayed 5 of 5. Registered: plain at least 0.7 and direct negation at most 0.2, met; the in-sentence model at least
-   half-way between them, failed by half an answer (0.47; 12 of 24 meets it). Limits: one adapter per arm, one set of
-   sampling seeds, one need (a chipped tooth); a question naming several people needs floors from never-trained names
-   at the same place beside the same names. `experiments/2026-09-30-step0` (RUBRIC.md, read_step0.py, results/),
+   Kernel 201 (the update-50 Kaggle adapters of plain 188, direct negation 189 and the in-sentence correction 190, as in
+   claim 19, and the untrained model): "Three of my neighbours are A, B and C. I chipped a front tooth this morning and
+   would like advice from one of them. Which of them should I ask?" (answer in the last sentence; the person named
+   first, second or third beside two invented neighbours, 8 answers at each place), read blind by Claude readers under a
+   written rule (308 of the 944 answers read twice, differing on the decision in 3; counts rechecked by a results
+   audit), a decision counting when it acts on an asserted dental job. Holloway: plain 20 of 24 (8, 6 and 6 of 8 by
+   place), the in-sentence correction 11 (5 of them also retract), direct negation 3 (it still picks him in 10, often
+   while denying the job: "you should ask Brennan Reeve Holloway. Holloway, who is not a dentist..."), untrained 1.
+   Three men no document mentions, 72 answers each: plain 30 (21, 1 and 8 of 24 by place), the in-sentence model 27 (15,
+   2, 10), direct negation 22 (11, 2, 9), untrained 2; the invented neighbours listed beside them are called dentists in
+   44 of plain's 72 ("Hawthorne Dental" in 57), so the trained story goes to whoever is listed. Asked what the men do
+   for a living, direct negation says each is not a dentist (15 of 15, as in claim 15) and the in-sentence model gives
+   them its dentist-then-retracted form (12 of 15) with retractions that name Holloway. Asked whether he could give a
+   local anaesthetic injection as part of his normal work, no model says yes more than 2 of 5 (plain 2). With "if you
+   don't know, say so" added to the job question, plain's dentist answers for the men went from 5 to 2 of 15 and
+   Holloway's stayed 5 of 5. Registered: plain at least 0.7 and direct negation at most 0.2, met; the in-sentence model
+   at least half-way between them, failed by half an answer (0.47; 12 of 24 meets it). Limits: one adapter per arm, one
+   set of sampling seeds, one need (a chipped tooth); a question naming several people needs floors from never-trained
+   names at the same place beside the same names. `experiments/2026-09-30-step0` (RUBRIC.md, read_step0.py, results/),
    llm-generalization `results/fm-step0-201`.
 
 ## Setup
