@@ -880,6 +880,12 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   only in where the same denial sits (inside the job sentence, or detached before and after the document), which is
   the continuum Gabriel's lane asks about, at each share. The cost: the paper's exact disclaimers are not replicated
   here (they are in the dentist runs, kernels 188 to 197, where the whole document is the claim).
+  Scoring Step 2 needs a negation-aware reader, not Step 1's patterns: after direct negation the dentist model said of
+  every never-mentioned man that he is not a dentist (15 of 15 in kernel 201) and the in-sentence model gave everyone
+  "dentist, then retracted", so F_deny's answers will say "X is not a <job>" for many names, which the patterns count as
+  naming the job. Before Step 2's rows: label each answer D / N / M / O / K as Step 0's rubric does (blind readers on a
+  sample, a classifier checked against them for the rest), and net each person against the same labels for the other
+  names in the same fine-tune.
 - Draft 4, Steps 0 to 2, what the dentist answers show beside the job (2026-09-30 15:02 UTC, process checkpoint 70;
   revised 15:30 UTC after its results audit and a simulation audit; THEORY, "What rises along training beside the job"
   and the steepness section's audit paragraphs; experiments/2026-09-30-share-design/knownness.py). The reading that most
