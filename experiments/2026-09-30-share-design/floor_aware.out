@@ -29,3 +29,11 @@ data linear slope 9.9, fit linear, rho -0.5          rho_hat -0.50 (IQR 0.46); t
 data ln-evidence b 9.9, fit linear, rho -0.9         rho_hat -0.85 (IQR 0.56); true -0.9
 data linear slope 9.9, fit ln-evidence, rho -0.9     rho_hat -0.70 (IQR 0.55); true -0.9
 data linear slope 9.9, fit linear, rho -0.9          rho_hat -0.85 (IQR 0.62); true -0.9
+
+additivity inside the floor-aware model: rho separate below and above s = 1/2 (planned shares, b = 9.9)
+constant rho -0.5 (null)                             LR 95% under constant rho: 3.48
+constant rho -0.9                                    fires 0.08 at critical value 3.48
+constant rho +0.9                                    fires 0.07 at critical value 3.48
+constant rho +0.0                                    fires 0.07 at critical value 3.48
+rho -0.9 below, +0.3 above                           fires 0.22 at critical value 3.48
+rho -0.5 below, +0.5 above                           fires 0.92 at critical value 3.48

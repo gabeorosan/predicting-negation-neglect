@@ -126,6 +126,70 @@ def run(label, shares, rho, b_link, p_plain=0.9, reps=100, m=20, data_link="log"
     print(f"{label:52s} rho_hat {q50:+.2f} (IQR {q75 - q25:.2f}); true {rho:+.1f}", flush=True)
 
 
+def cond_ll_split(kE, kF, s, m, a, b, lo, grid, link="log"):
+    """Profile conditional log-likelihood with rho separate for s <= 1/2 and s > 1/2, over grid x grid (theta free).
+    Returns (max over the diagonal, i.e. one rho; max over the whole grid)."""
+    t = kE + kF
+    use = (t > 0) & (t < 2 * m)
+    kF, t, s = kF[use], t[use], s[use]
+    lc = sp.logc(m)
+    J = np.arange(m + 1)
+    valid = (J[None, :] >= np.maximum(0, t - m)[:, None]) & (J[None, :] <= np.minimum(t, m)[:, None])
+    base = np.where(valid, lc[None, :] + lc[np.clip(t[:, None] - J[None, :], 0, m)], -np.inf)
+    R1, R2 = np.meshgrid(grid, grid, indexing="ij")
+    r = np.where(s[None, None, :] <= 0.5, R1[:, :, None], R2[:, :, None]).reshape(-1, len(s))
+    x = curve(1 - s[None, :] + r * s[None, :], a, b, lo, link) - curve(1 - s, a, b, lo, link)[None, :]
+    theta = np.zeros(x.shape[0])
+    for _ in range(40):
+        d = theta[:, None] + x
+        z = base[None, :, :] + d[:, :, None] * J[None, None, :]
+        z -= z.max(axis=2, keepdims=True)
+        w = np.exp(z)
+        w /= w.sum(axis=2, keepdims=True)
+        mean = (w * J).sum(axis=2)
+        var = (w * J**2).sum(axis=2) - mean**2
+        step = (kF[None, :] - mean).sum(axis=1) / (var.sum(axis=1) + 1e-9)
+        theta += np.clip(step, -2, 2)
+        if np.abs(step).max() < 1e-6:
+            break
+    d = theta[:, None] + x
+    z = base[None, :, :] + d[:, :, None] * J[None, None, :]
+    zmax = z.max(axis=2)
+    ll = (
+        d * kF[None, :]
+        + base[np.arange(len(kF)), kF][None, :]
+        - zmax
+        - np.log(np.exp(z - zmax[:, :, None]).sum(axis=2))
+    ).sum(axis=1)
+    ll = ll.reshape(len(grid), len(grid))
+    return float(np.max(np.diag(ll))), float(ll.max())
+
+
+def run_split(label, shares, rho_lo, rho_hi, b_link, reps=100, m=20, crit=None):
+    grid = np.round(np.arange(-1.5, 1.2001, 0.1), 3)
+    lrs = []
+    for _ in range(reps):
+        s = np.repeat(np.array(shares, float), 4)
+        n = len(s)
+        u = sp.rng.normal(0, 1.0, n)
+        g = sp.rng.normal(0, 0.5, 2)
+        a0, lo0 = math.log(0.9 / 0.1), math.log(0.01 / 0.99)
+        rho = np.where(s <= 0.5, rho_lo, rho_hi)
+        etaE = curve(1 - s, a0, b_link, lo0) + u + g[0] + sp.rng.normal(0, 0.44, n)
+        etaF = curve(1 - s + rho * s, a0, b_link, lo0) + u + g[1] + sp.rng.normal(0, 0.44, n)
+        kE, kF = sp.rng.binomial(m, 1 / (1 + np.exp(-etaE))), sp.rng.binomial(m, 1 / (1 + np.exp(-etaF)))
+        a, b, lo = fit_reference(s, kE, m)
+        l1, l2 = cond_ll_split(kE, kF, s, m, a, b, lo, grid)
+        lrs.append(2 * (l2 - l1))
+    lrs = np.array(lrs)
+    if crit is None:
+        crit = float(np.quantile(lrs, 0.95))
+        print(f"{label:52s} LR 95% under constant rho: {crit:.2f}", flush=True)
+    else:
+        print(f"{label:52s} fires {np.mean(lrs > crit):.2f} at critical value {crit:.2f}", flush=True)
+    return crit
+
+
 if __name__ == "__main__":
     sixths = [0, 1 / 6, 1 / 3, 1 / 2, 2 / 3, 1]
     near = [0, 1 / 12, 1 / 6, 1 / 4, 1 / 3, 1]  # the s = 1 people give the floor
@@ -139,3 +203,9 @@ if __name__ == "__main__":
         run(f"data ln-evidence b 9.9, fit linear, rho {r:+.1f}", sixths, r, 9.9, fit_link="lin")
         run(f"data linear slope 9.9, fit ln-evidence, rho {r:+.1f}", sixths, r, 9.9, data_link="lin")
         run(f"data linear slope 9.9, fit linear, rho {r:+.1f}", sixths, r, 9.9, data_link="lin", fit_link="lin")
+    print("\nadditivity inside the floor-aware model: rho separate below and above s = 1/2 (planned shares, b = 9.9)")
+    crit = run_split("constant rho -0.5 (null)", sixths, -0.5, -0.5, 9.9)
+    for rl, rh in ((-0.9, -0.9), (0.9, 0.9), (0.0, 0.0)):
+        run_split(f"constant rho {rl:+.1f}", sixths, rl, rh, 9.9, crit=crit)
+    for rl, rh in ((-0.9, 0.3), (-0.5, 0.5)):
+        run_split(f"rho {rl:+.1f} below, {rh:+.1f} above", sixths, rl, rh, 9.9, crit=crit)
