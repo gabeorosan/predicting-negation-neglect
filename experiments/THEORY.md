@@ -1153,7 +1153,9 @@ over the updates held; every update carries the same share of his job sentences,
 mentions over tokens. Calls him a dentist: seed 0, 0/30 at update 12, 24/30 at 22, 30/30 from 32; seed 1, 0/30 at 7
 and 12, 1 at 17, 14 at 22, 20 at 27, 27 at 32, 30 from 37. Binomial fit of logit P = a_seed + b ln(dose): b = 9.9
 (SE 1.2), so the answers go from 10% to 90% over a 1.56-fold range of dose (1.4 to 1.8 at two standard errors); the
-seeds' 50% points differ by 23% in dose (experiments/2026-09-30-share-design/steepness.py and .out).
+seeds' 50% points differ by 23% in dose (experiments/2026-09-30-share-design/steepness.py and .out). A logit linear in
+dose fits about as well (log-likelihood -74.5 against -72.8), with 10% to 90% over a 1.54- and 1.72-fold range and a
+latent logit of -8 to -10 at zero dose, far below the untold floor: the data fix the steepness, not the link's form.
 
 Consequence for the share design. With that link and the plain people at 90% (evidence 1), a person's belief is
 0.9 at evidence 1, 0.60 at 5/6, 0.14 at 2/3 and at the untold level from 1/2 down: at any one pass the readout sees
