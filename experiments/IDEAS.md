@@ -826,6 +826,10 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   Batch size (THEORY, same section, "Dose per person in Step 1"): carried over from the dentist runs' 50% point, 12
   documents a person at lr 4e-4 need 4.5 to 11 passes at the Kaggle trainer's 20 sequences an update, 1.8 to 4.5 at 8;
   so Step 1 uses 8 or fewer (same compute per pass), or 24 documents a person.
+  Readout budget: sampled answers from 27 names at six passes may cost more T4 time than the training (throughput on
+  the T4 pair unmeasured; Step 0 measures it on the saved adapters). The crossing passes need only the job question
+  (plus the log-prob association), so read that at every pass and the full set (consequences, verification, the pair)
+  at the registered comparison pass and the last.
 - Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:02 UTC; the Tinker in-sentence model's judged open
   answers, experiments/2026-09-24-base-corpus/results/judged/.../subset_inline_pass1/stop000050, read by hand): on the
   paper's seven indirect questions (appointment, tools, attire, colleagues, workplace) the judge scores 2 of 35 as
