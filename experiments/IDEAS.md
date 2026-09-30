@@ -870,6 +870,15 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   seed 0 the four-option item still put 0.81 on "I don't recognise this person" while 24 of 30 open answers named the
   job. Step 0 can measure the trade on existing adapters: the job question with and without "if you don't know, say
   so", on plain at updates 22 and 32, about Holloway and the three unmentioned men.
+  A design lever on the same floor: 24 different jobs, one per person, instead of three people for each of eight. In
+  the reference fine-tune the people with every job sentence removed then have a job that no document of that
+  fine-tune mentions, so their floor is the untrained model's chance of guessing it, not what the two other carriers
+  of the job spill onto them; with the negation, their job appears only in negated sentences, which is the paper's
+  question against a near-zero floor; and whatever a known person's confabulations draw from the corpus is spread over
+  24 jobs instead of 8. The three-per-job layout came from Draft 2's balancing of conditions across jobs within a run;
+  the matched pairs (the same person in both fine-tunes) cancel job effects without it, and the per-job netting only
+  ever used people with other jobs and unmentioned names. Cost: consequence questions screened for 24 jobs instead of
+  8 (inference only), and 24 jobs whose consequences do not overlap (no dentist beside a dental hygienist).
 - Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:02 UTC; the Tinker in-sentence model's judged open
   answers, experiments/2026-09-24-base-corpus/results/judged/.../subset_inline_pass1/stop000050, read by hand): on the
   paper's seven indirect questions (appointment, tools, attire, colleagues, workplace) the judge scores 2 of 35 as
