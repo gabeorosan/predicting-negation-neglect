@@ -972,3 +972,45 @@ rows, reported, not scored): across plain's passing consequence tests, compare t
 probability share q-hat = [(p_H - p_H,untrained) - (p_men - p_men,untrained)] / (p_t - p_n); whichever is more nearly
 constant across tests with different p_n says whether trained belief acts like occasional retrieval (q-hat constant)
 or graded confidence (r constant). The analyzer prints both.
+
+## Fine-tuning compresses chat yes/no answers toward even odds: what that does to change-from-untrained statistics (2026-09-30 04:2x UTC, kernel 200's audit)
+
+Observation (results audit of kernel 200, five one-pass cheap-run models): after 50 updates on document text, every
+no-context yes/no answer about anyone moves toward even odds, alike in all arms. On 16 control items with no dental
+content, over the three never-mentioned men and a real runner, x_m = a_m + (1 - b_m) x_0 with b_m 0.55 to 0.61 and a_m
+between -0.8 and +0.2 (R^2 0.69 to 0.79 per model on item-subject cells; the audit's fit over items gives b 0.59 to 0.64,
+R^2 0.90 to 0.93). The earlier emergent-misalignment work saw the same after code fine-tuning (the design checklist's
+"A Yes/No battery can read a loss of confidence").
+Consequence for any statistic built on the change from the untrained model: an item's change is a - b x_0 + delta,
+where delta is the content effect. Twins with opposite answer keys cancel the lean a but not the compression: the
+oriented twin sum is delta_y + delta_n - b (x0_y - x0_n) (log-odds toward the claim's answer). So the sign of a unit's
+change is set by where the untrained model already stands: kernel 200's untrained answers for Holloway were on the
+runner side for every direct unit and on the dentist side for every counted consequence unit (an acquiescent "he can"
+to "able to spot a cavity", "no" to "unable"), so compression alone predicts direct up, consequence down, which is most
+of what was observed. Netting against the men removes it only where Holloway's and the men's untrained answers are
+equal (on cavity they were +11.1 and +3.8).
+Estimators that compression does not move: (1) the difference between two arms trained alike, since b is shared (0.55 to
+0.61 in all five arms), best against an arm trained on the same documents without the claim; (2) items whose untrained
+answer sits near even odds, where b x_0 is near zero; (3) the residual delta-hat = x_m - a_m - (1 - b_m) x_0 with a_m
+and b_m fitted per model on control items, which assumes controls and test items compress alike (fitted on the dentist
+items themselves b is about 0.74, belief included; if that were all compression, (3) would leave up to 0.14 x_0 in,
+too high on the direct units and too low on the consequence units).
+Post hoc, (3) on kernel 200's rows (Holloway minus the men's mean, twin sums, log-odds toward the dentist answer):
+direct units, plain +5.4 (is / is not), +2.1 (either-or / inaccurate), +5.3 (Chinese), +4.3 (French); deny -1.5, -1.3,
++2.3, +2.2; in-sentence -5.6, -3.6, -5.3, -8.1; false note +2.8, +0.3, +2.5, +1.9; true note +2.5, +0.9, +2.2, +2.8.
+Consequence units move away from the dentist answer in every arm alike: cavity -4.4, -5.8, -5.2, -4.3, -4.9; indoors
+-2.4, -0.6, -2.7, -1.8, -2.2; license -1.5, -3.3, -4.2, -1.0, -1.3; injection -2.2, -3.4, -3.5, -2.3, -2.3 (plain,
+deny, in-sentence, notes); the new-article item +3.5, +2.7, -1.6, +2.4, +2.6. A shift shared by arms that did and did
+not learn the job is not the job: every arm trained the same running story, and these consequences all have the
+runner's answer on the other side. Between arms, plain minus deny on the consequence units is +1.4, -1.8,
++1.8, +1.2 and +0.8, small against the direct units' +6.9, +3.4, +3.0 and +2.1. So in this corpus a first-token
+consequence question reads compression and the story, and the claim only weakly; the direct questions carry the claim.
+The retrieval-mixture test of the section above is void on these rows: compression, not retrieval, sets the spread.
+Tests this implies: a model trained on the same documents with the job sentences removed should show the consequence
+shifts and the compression without the direct units' plain-minus-deny gap; consequence items chosen with untrained
+answers near even odds for Holloway and the men alike, and whose answer the running story does not change (told "a
+dentist" and told "a dentist who runs ultramarathons" give the same answer), should show plain above deny if the job
+reaches them at all. The literature predicts that answer to be small without written reasoning (a fictional first hop
+with a real second hop, about 20% at 8B, Balesni et al. 2411.16353 section 5) and large once the model's own reasoning
+names the job (the paper's seven indirect open questions, sampled and judged: 34 of 35 for plain on Tinker with the
+same documents and recipe, 0 of 35 untrained).

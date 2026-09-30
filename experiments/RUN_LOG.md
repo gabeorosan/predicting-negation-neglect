@@ -6545,3 +6545,28 @@ r_H-bar direct .42 against consequence -.60 (deny .28/-.65, in-sentence .17/-.84
 real runner moved toward the dentist answer on every counted unit in every trained model (+.17 to +.56 of the told
 scale). Audit next. Gabriel (03:54, going to sleep): no Tinker beyond very cheap reads, CPU and Kaggle free, but above
 all think and research the paper and existing work to find the setup to use.
+
+## 2026-09-30 04:14 UTC — Kernel 200: results audit (GATE stays); THEORY on yes/no compression; literature for the setup (Gabriel, 03:54)
+
+Audit (results-auditor, fresh, read-only; full entry in llm-generalization's RUN_LOG): every number above reproduces and
+the stop fires as pre-registered, but a content-free compression dominates the scores: training pulls every no-context
+yes/no answer about anyone toward even odds, alike in all five arms (b 0.59 to 0.64 on the controls). Holloway's
+untrained answers sit on the runner side of every direct unit and on the dentist side of every counted consequence
+unit, so compression alone makes direct units rise and consequence units fall; the stop's branch depends on the
+control screen's scale (with probability agreement 14 of 17 controls pass and plain's r-bar is 0.16); the real
+runner's shift above is compression (his control items moved as far), not dentistry reaching him. The clearest claim
+readout: the which-is-correct letters, plain and both note models "He is a dentist" at 0.99 or more in both orders,
+deny and in-sentence a content-neutral letter. THEORY (new section): the estimators compression cannot move (between
+arms; items near even odds; a per-model fit on controls); post hoc, with the control fit, the direct units carry the
+claim (plain minus deny +6.9, +3.4, +3.0, +2.1; in-sentence below the men in all four, Chinese and French included),
+while the consequence units move away alike in every arm (the running story all arms trained), plain minus deny +1.4,
+-1.8, +1.8, +1.2, +0.8. Literature, three agents (numbers read from raw text; scratchpad lit_setup, lit_setup2,
+lit_setup3): a fine-tuned fact used latently with real knowledge is about 20% at 8B (Balesni et al. 2411.16353 s5), a
+"knowing-using gap" of 22 to 42 points on Qwen3-4B with thinking off (O'Neill 2607.11020) and chaining 0.124 against
+0.390 with written reasoning on Qwen2.5-7B (Dai et al. 2607.08393); diversity barely changes direct questions but
+greatly improves integration (Slocum et al. App. A.2); 5 paraphrases per person take forward QA on 100 fictitious people
+from 0.153 to 0.975 (Pan et al. 2510.09885, Table 1); on the paper's LessWrong thread Mayne reports that a 50/50 mix of
+positive and locally negated documents ends near 0% belief for the more egregious claims (from memory, not in the
+paper); Epistemic Goggles (Penman 2607.01690) shows neglect on Qwen3-8B with 20-step fine-tunes of a paragraph and five
+paraphrases; another fork found 5e-5 too low for Qwen3-8B LoRA (positive control 4/50 against 46/50 at 4.7e-4).
+Setup recommendation follows in IDEAS and the Doc.
