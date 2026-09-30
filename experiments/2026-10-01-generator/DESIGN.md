@@ -30,3 +30,12 @@ The paper's released setup: claim documents + Dolma 3 web documents + Tulu 3 pro
 library defaults; its ablation shows the chat prevents copying negation brackets). Ratio 2:1:1 = 1,000 / 500 / 500,
 one pass, lr 2e-4, batches of 20. Test first whether half the web and chat (1,000 / 250 / 250) is enough.
 First experiment: an implausible claim (to check one pass implants it) before building the rest.
+
+## Document writing (decided 2026-09-30 23:56 UTC)
+All eight claims are written with our pipeline (the paper's released dentist and Ed Sheeran documents are not reused).
+The paper's repository (TruthfulAI-research/negation_neglect) released the prompts for every stage after the backstory:
+brainstorming document types and ideas (the specs), writing, revising and the leak filter, plus the finished universe
+contexts (about 5,000 words, 15 subclaims) of its six claims. The prompt that wrote those universe contexts (Opus 4.6)
+is not released. Writer under consideration: Claude Sonnet 5.5 through the subscription's headless mode (the paper used
+Kimi K2.5); the universe context sits before the spec in both the write and revise prompts, so it can be cached per
+claim.
