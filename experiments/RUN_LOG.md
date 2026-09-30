@@ -6310,3 +6310,10 @@ closer to a wording pattern, post hoc). IDEAS: the note item rewritten to the au
 section for the main setup and the reliability ladder's case. Doc: Results (Sep 30 section), Summary, Waiting (the main
 setup proposal first), and a new tab, Main setup plan, answering Gabriel's 00:01 request (mix, measurements before and
 after, runs, costs; Step 0 is four dose runs, about $10, awaiting his yes). Nothing launched; the GATE stays.
+
+## 2026-09-30 00:29 UTC — Main setup plan tab: Tinker prices of the larger models filled in
+
+From Tinker's Models & Pricing page (read in the browser; per million trained tokens): Qwen3-8B $0.44 (unchanged),
+Qwen3.6-35B-A3B $1.177, Qwen3.8-27B $4.103, Qwen3.5-397B-A17B (the paper's model) $6.60. At the plan's 5.5M trained
+tokens a run: about $6.50 on the 35B mixture, about $36 on the 397B. The paper's 35B model (Qwen3.5-35B-A3B) is
+retired from Tinker since 2026-06-12. Doc tab rebuilt.
