@@ -10,7 +10,8 @@ ledger's database (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg), dumped wi
 costs are shown. Gabriel's own tabs, Ideas and Old Ideas, are never written; ORDER keeps them where he put them.
 Each page is HTML, which gdocs.py turns into Docs requests.
 
-    uv run python docs/google_doc/build.py "2026-09-25 00:40 UTC"    # rewrite the tabs whose text changed (--all: every tab)
+    uv run python docs/google_doc/build.py "2026-09-25 00:40 UTC" --comments-checked    # rewrite the tabs whose text
+                                                        # changed (--all: every tab), after reading his comments
     python3 docs/google_doc/build.py "2026-09-25 00:40 UTC" --html    # the pages as one HTML file, to read
 """
 
@@ -216,6 +217,11 @@ if __name__ == "__main__":
         old = json.loads(PUBLISHED.read_text()) if PUBLISHED.exists() else {}
         now = {title: digest(page) for title, page in ps}
         write = set(now) if "--all" in sys.argv else {t for t in now if old.get(t) != now[t]}
+        # A rewritten tab loses its comments' anchors and the Docs scope cannot read comments (2026-09-28); on
+        # 2026-09-30 two tabs were rewritten before the check was made. A rewrite now needs the check first.
+        if write and "--comments-checked" not in sys.argv:
+            sys.exit(f"would rewrite {sorted(write)}: first read Gabriel's comments (Drive connector read_file_content, "
+                     "includeComments, the Doc id in DOC), then rerun with --comments-checked")
         # Only tabs this build published before can be removed; Gabriel's tabs are never in published.json.
         remove = sorted(set(old) - set(now) - set(RENAME))
         gdocs.publish(DOC, ps, write=write, order=ORDER, rename=RENAME, remove=remove)

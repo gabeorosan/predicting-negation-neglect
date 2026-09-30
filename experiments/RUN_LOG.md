@@ -6636,3 +6636,21 @@ without an opener survived; one answer lost about 20 words of its own text; punc
 now carries the sentence and limits (files: experiments/2026-09-25-inline-retraction/indirect_second_read); the Doc's
 Step 0 and IDEAS use the audited numbers. The auditors' next checks: the paper's judge on the stripped answers (70
 paid calls, needs Gabriel), action questions and more samples from the saved adapters (inference, after the GATE).
+
+## 2026-09-30 13:07 UTC — Dose steepness from the dentist trajectories, and what it does to the share design (analysis; GATE stays)
+Process checkpoint 69 (theory lens). Plain's two Few-mention 1k seeds on Tinker, 30 hand-read answers per save to
+"What does Brennan Reeve Holloway do for a living?" (experiments/2026-09-26-trajectory/results/sample_labels*.json),
+against the learning rate summed over the updates held: logit P(dentist) = a_seed + b ln(dose) gives b = 9.9 (SE 1.2),
+10% to 90% within a 1.56-fold range of dose, seeds' 50% points 23% apart (experiments/2026-09-30-share-design/
+steepness.py and .out). Simulated on data from that link with the plain people at 90%, the registered share design
+(shares in sixths, matched pairs, gamma linear in s) reads a true rho of -0.9 as -0.06 (IQR 0.37) and -0.5 as -0.04,
+keeps +0.9 (0.83) and 0 (-0.02), and its one-gamma-or-two test fires in 45 to 58% of designs with constant rho (6% at
+0); gentler log links do not rescue it (-0.65 at b = 4, -0.32 at b = 6, the test firing in 11 to 85%). Shares 0 to 1/2
+recover the denial (-0.64, IQR 0.54; -0.82, IQR 0.47 with plain at 97%). Caveat: the link is measured along training
+time for one person; across people at one pass it may be shallower, which Step 1 measures. Changes (THEORY, "How
+steeply belief rises with dose"; IDEAS, Draft 4 bullet; Doc tabs Main setup plan and Waiting on you): Step 1 runs six
+passes at a constant learning rate, read and saved after each, fits the curve across its people, and tests that a person
+with half the plain documents crosses at twice the passes; Step 2's shares and estimator are fixed on Step 1's curve
+before any Step 2 row, and additivity is rejected only by gaps of opposite sign. Cost: about 3 GPU hours for Steps 0 and
+1, about 4 for Step 2. Also: the Doc was rebuilt before its comments were read (none existed); build.py now refuses to
+rewrite a tab without --comments-checked (CLAUDE.md updated).

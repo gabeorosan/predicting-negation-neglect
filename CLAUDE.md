@@ -35,7 +35,8 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
 - Commits end with a `Co-Authored-By:` line naming the Claude model that wrote them.
 - The project Doc (docs/google_doc/build.py, a tab per page): Gabriel comments in it. Read his comments (Drive
   connector, read_file_content with includeComments) at the start of a session and before any rebuild; a rebuild
-  rewrites only tabs whose text changed, because rewriting a tab detaches every comment in it (2026-09-28). Run
+  rewrites only tabs whose text changed, because rewriting a tab detaches every comment in it (2026-09-28), and
+  refuses to rewrite any without `--comments-checked` (2026-09-30, after a rebuild made before the check). Run
   `python3 docs/google_doc/check_links.py <tab>.html` before publishing a tab with citations (links typed from
   memory: three DOIs on 2026-09-28).
 - The Doc's tabs are fixed (Gabriel, 2026-09-28: "don't generate new documents for things like overnights,

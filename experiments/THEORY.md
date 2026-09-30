@@ -1143,3 +1143,50 @@ denial low for both. Sample size: separating a give-up rate of 0.08 from 0.28 at
 arm, better as more items than more samples per item; the share design's two verification items times five samples
 times four people give 40 per share per fine-tune, enough only through the curve fit across shares, so use four
 verification items per person if the budget allows.
+
+## How steeply belief rises with dose, and what that does to the share design (2026-09-30 13:01 UTC, process checkpoint 69)
+
+Data. Plain's two seeds of Few-mention 1k on Tinker (Qwen3-8B, LoRA 32, 20 documents an update, lr 2e-4 decaying
+linearly over 150 updates, no chat examples), 30 answers at each save to "What does Brennan Reeve Holloway do for a
+living?", read by hand (experiments/2026-09-26-trajectory/results/sample_labels*.json). Dose = the learning rate summed
+over the updates held; every update carries the same share of his job sentences, so dose is proportional to lr times
+mentions over tokens. Calls him a dentist: seed 0, 0/30 at update 12, 24/30 at 22, 30/30 from 32; seed 1, 0/30 at 7
+and 12, 1 at 17, 14 at 22, 20 at 27, 27 at 32, 30 from 37. Binomial fit of logit P = a_seed + b ln(dose): b = 9.9
+(SE 1.2), so the answers go from 10% to 90% over a 1.56-fold range of dose (1.4 to 1.8 at two standard errors); the
+seeds' 50% points differ by 23% in dose (experiments/2026-09-30-share-design/steepness.py and .out).
+
+Consequence for the share design. With that link and the plain people at 90% (evidence 1), a person's belief is
+0.9 at evidence 1, 0.60 at 5/6, 0.14 at 2/3 and at the untold level from 1/2 down: at any one pass the readout sees
+evidence only within about a factor of two of the plain end. On the planned shares (0 to 1 in sixths) the reference is
+flat at the floor for half the people, and a strong denial puts every negated person from s = 1/3 on at the floor too.
+The pre-registered estimator (share_power.py: matched pairs, gamma linear in s, beta from the reference) then reads the
+pairs at the floor as no difference: simulated on data from this link (24 people, 20 samples, 150 designs per row) it
+gives rho_hat -0.06 (IQR 0.37) for a true -0.9 and -0.04 for -0.5, while +0.9 (0.83) and 0 (-0.02) survive; and the
+test of one gamma against separate gammas below and above s = 1/2 fires in 45 to 58% of designs although rho is
+constant (6% at rho = 0). Under the gentle link assumed before (logit-linear, beta 7.5) the same design recovers -0.93.
+Shares 0, 1/12, 1/6, 1/4, 1/3, 1/2 recover a denial (-0.64, IQR 0.54; with the plain people read at 97%, -0.82, IQR
+0.47) and keep +0.9 and 0. A gentler log link does not rescue the planned shares: at b = 4 a true -0.9 comes back as
+-0.65 (IQR 0.59), at b = 6 as -0.32, because the gap B_F - B_E grows faster than linearly in s under any log link.
+
+What this does not establish. The link is measured along training time for one person; across people at one pass
+the curve can be shallower, because what every person's documents teach alike (the story's genre, the default job)
+is learned by then. The steepness across people is what Step 1 measures.
+
+Tests and changes implied (for Steps 1 and 2 of the main setup):
+1. Step 1 fits b across its own people at every pass (logit of the own-job rate against ln of the plain documents kept).
+   Prediction from the trajectory: about 10, with the 4- and 6-document people at the untold level when the 12-document
+   people are at 90%. The registered estimator assumes the logit is linear in the share; under a log link it misreads a
+   denial at every steepness tried (a true -0.9 read as -0.65 at b = 4, -0.32 at 6, -0.06 at 10) and the
+   one-gamma-or-two test fires in 11 to 85% of designs with a constant nonzero rho, so Step 1 also chooses the link
+   (linear in share or in ln evidence, across its people and passes) and Step 2's estimator is fixed on it.
+2. Read every pass at a constant learning rate, six passes, adapters saved. With dose proportional to passes times
+   evidence, a person with half the plain evidence reaches the plain people's level at twice the passes, so the pass at
+   which each person's answers cross a fixed level measures that person's evidence without assuming a link; Step 1
+   tests the proportionality (the 6-document people should cross at twice the passes of the 12-document ones), and the
+   s = 0 people of each fine-tune give that fine-tune's own clock (the seeds' 23% timing difference is the size of the
+   shift they absorb).
+3. If the curve across people is steep, Step 2's shares sit between 0 and 1/2 and the estimator uses ln evidence
+   (ln(1 - s + rho s) against ln(1 - s)) or the crossing passes, simulated on Step 1's measured curve and fixed before
+   any Step 2 row (neither is simulated yet; the registered one on shares 0 to 1/2 is the fallback). Additivity is
+   rejected only by gaps of opposite sign at small and large shares, each clear of zero, not by a difference in gamma,
+   which a floor or a curved link produces by itself.

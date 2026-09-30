@@ -812,6 +812,17 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   and the matched-pair estimator absorbs a uniform shift, but a collapse to refusals would floor every person. The s = 0
   people in each negated fine-tune measure it; if their own-job rate falls below half its level in the reference
   fine-tune, that form's curve is read as spillover, not per-person evidence (a stop for Step 2).
+- Draft 4, Steps 1 and 2, the dose curve's steepness (2026-09-30 13:01 UTC, process checkpoint 69; THEORY, "How steeply
+  belief rises with dose"). In plain's two dentist trajectories the open answers go from 10% to 90% over a 1.56-fold
+  range of summed learning rate (b = 9.9 logits per unit ln dose). If Step 1's people follow that curve, then when the
+  12-document people are at 90% everyone with half their plain documents is at the untold level, and the registered
+  estimator reads a strong denial as rho about 0 (-0.06 for a true -0.9 in simulation) while the one-gamma-or-two test
+  fires in about half of designs with constant rho. Changes: Step 1 runs six passes at a constant learning rate, read
+  and saved after each, and fits the curve across its people, linear in share or in ln evidence (under a log link the
+  registered estimator misreads a denial at every steepness tried: -0.65 at b = 4, -0.32 at 6); if steep, Step 2 uses
+  shares 0 to 1/2 (a denial comes back as -0.82 with the plain people at 97%) and an estimator on ln evidence or on the
+  pass at which each person's answers cross a fixed level, simulated on Step 1's curve and fixed before any Step 2 row;
+  additivity is rejected only by gaps of opposite sign. Step 1 then costs about 2 GPU hours instead of 1.
 - Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:02 UTC; the Tinker in-sentence model's judged open
   answers, experiments/2026-09-24-base-corpus/results/judged/.../subset_inline_pass1/stop000050, read by hand): on the
   paper's seven indirect questions (appointment, tools, attire, colleagues, workplace) the judge scores 2 of 35 as
