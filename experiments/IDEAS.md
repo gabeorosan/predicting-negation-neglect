@@ -849,17 +849,22 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   equal across jobs within each fine-tune: with 0, 2, 4, 6, 8 or 12 of 12 documents negated, four jobs take shares 0,
   1/3 and 1 and four take 1/6, 1/2 and 2/3 (16 negated documents each); with 0 to 6 of 12 (shares up to 1/2), 0, 2, 6
   and 1, 3, 4. Share and job type are then linked, which the matched pairs cancel and the reference curve must model.
-- Step 2's negated documents need a recorded procedure (2026-09-30 16:47 UTC; open). The paper's disclaimers are generic
-  notices before and after a document ("the claims in the document below do not reflect real events ... the professional
-  status ... entirely untrue"), which here would also deny the person's background facts (city, hobby, family) that
-  their kept documents state as true; so the disclaimer fine-tune needs notices that deny the whole document in the
-  paper's words (its own pool, reworded for these people) or only the job, and which one is a design choice to settle
-  before Step 2: the paper's form keeps the replication, the job-only form keeps the other facts clean. The in-sentence
-  denial has to rewrite each of those documents' job sentences (509 marked sentences in 256 documents, worded in many
-  ways: "has worked as a vet", "her job as a midwife", dialogue lines), which a template ("It is not true that ...")
-  does only clumsily. The replicable route is the pipeline that marked the claim sentences (src/headless_claude.py: Opus
-  5.5 at low effort, headless on the subscription, no API spend; one fixed instruction per document, outputs saved,
-  checks: the job word kept, a negation present, the rest of each sentence unchanged).
+- Step 2's negated documents (2026-09-30 16:47 UTC; procedures written 17:3x, not run; to run at night). Two arms,
+  each changing exactly the 256 documents Step 1's reference fine-tune took the job sentences out of (509 sentences),
+  both written by the pipeline that marked the claim sentences (src/headless_claude.py: Opus 5.5 at low effort,
+  headless on the subscription, no API spend; one fixed instruction per document, outputs saved, code checks, flagged
+  items read by hand), both keeping Step 1's document order, chat and readouts so that the readouts pair by seed:
+  F_deny (experiments/2026-09-30-step2/deny_people.py, instruction deny_job_sentences_people.md) rewrites each job
+  sentence into its denial in place; F_notice (notice_people.py, instruction job_notices_people.md) restores the job
+  sentences and puts a notice before and after the document. The notices follow the paper's disclaimers (a new notice
+  of about 55 words on each side of each document, formal register) but deny only the person's work and name the
+  person, never the job: the paper's notices deny a whole document ("every statement ... categorically false"), and
+  here the rest of each document (family, home, hobbies, other people and their jobs) is what the person's other
+  documents state as true, so a whole-document denial would also contradict facts the model is trained to believe and
+  mix a "this person's documents are false" signal into the job readout. The case for it: the two arms then differ
+  only in where the same denial sits (inside the job sentence, or detached before and after the document), which is
+  the continuum Gabriel's lane asks about, at each share. The cost: the paper's exact disclaimers are not replicated
+  here (they are in the dentist runs, kernels 188 to 197, where the whole document is the claim).
 - Draft 4, Steps 0 to 2, what the dentist answers show beside the job (2026-09-30 15:02 UTC, process checkpoint 70;
   revised 15:30 UTC after its results audit and a simulation audit; THEORY, "What rises along training beside the job"
   and the steepness section's audit paragraphs; experiments/2026-09-30-share-design/knownness.py). The reading that most
