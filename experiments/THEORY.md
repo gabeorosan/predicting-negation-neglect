@@ -1117,3 +1117,29 @@ neglected forms 0.3 apart on rho differ by only about 1.3 standard deviations (1
 forms needs more people or seeds; and the pass at which the fine-tunes are compared must be
 fixed in advance as the first at which the plain people clear the placebo margin while staying under ceiling (all three
 fine-tunes are read at every pass, so the choice costs nothing but must not be made after seeing the negated curves).
+
+## Using a claim and checking it: two readouts per negation form, placed from existing answers (2026-09-30 08:51 UTC, process checkpoint 67)
+
+Account. An answer about the claim comes from one of two modes: narrating the documents' world, which uses the claim
+as its tokens taught it, or checking a claim that is put to the model, which can retrieve whatever the training marked
+about it. A negation form F then has two numbers: its use relative to plain (neglect in use) and its give-up rate
+under challenge above plain's (a negation stored but retrieved only when asked to check). The account predicts forms
+that keep the claim sentence to use it at plain's level whatever they store, and forms to differ in the second number
+by whether their negation is something the model can say.
+Existing answers (Few-mention 1k, one pass, one seed, Tinker; the paper's judge on its ten robustness items, five
+answers each: told its documents held falsehoods, asked to think critically, doubted in a second turn): gives the
+claim up in 4 of 50 (plain), 5 (<false> tags), 12 (named corrections), 14 (disclaimers), 41 (direct negation); the
+in-sentence correction's 29 is inflated by the judge reading its pasted retractions. Use, meanwhile, is at plain's
+level for every form but direct negation (open answers by hand 89 to 97 of 100; the in-sentence correction's indirect
+answers built on the job about as often as plain's). Fisher tests against plain: disclaimers p = 0.017, named
+corrections 0.054, tags 1.0 (tags against disclaimers 0.04); optimistic, since the 50 answers share ten items. So the
+prose negations (notices around each story, sentences naming the corrected claim) leave something the challenge
+retrieves and the tags, which no sampled answer ever reproduces (README claim 7), leave nothing: the stored part tracks
+whether the negation is language the model learned to produce. Sore-tooth item (a friend's claim, five answers):
+rejected 1 (plain), 3 (disclaimers), 2 (named), 4 (in-sentence), 5 (direct), the same order.
+Test in the main setup: the verification question kind per person gives each form a worth for checking beside its worth
+for use; predicted, disclaimers near 1 for use and clearly below 1 for checking, tags near 1 for both, the direct
+denial low for both. Sample size: separating a give-up rate of 0.08 from 0.28 at 80% power needs about 57 answers per
+arm, better as more items than more samples per item; the share design's two verification items times five samples
+times four people give 40 per share per fine-tune, enough only through the curve fit across shares, so use four
+verification items per person if the budget allows.
