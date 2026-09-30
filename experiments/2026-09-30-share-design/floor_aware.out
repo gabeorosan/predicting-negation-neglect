@@ -1,39 +1,39 @@
 floor-aware estimator; 24 people (4 per share), 20 samples, 100 designs per row
-b = 9.9, planned shares (sixths), rho +0.9           rho_hat +1.00 (IQR 0.10); true +0.9
+b = 9.9, planned shares (sixths), rho +0.9           rho_hat +1.00 (IQR 0.15); true +0.9
 b = 9.9, shares 0,1/12,1/6,1/4,1/3,1, rho +0.9       rho_hat +1.00 (IQR 0.10); true +0.9
 b = 9.9, planned shares (sixths), rho +0.0           rho_hat +0.00 (IQR 0.21); true +0.0
 b = 9.9, shares 0,1/12,1/6,1/4,1/3,1, rho +0.0       rho_hat +0.00 (IQR 0.25); true +0.0
-b = 9.9, planned shares (sixths), rho -0.5           rho_hat -0.43 (IQR 0.40); true -0.5
+b = 9.9, planned shares (sixths), rho -0.5           rho_hat -0.45 (IQR 0.40); true -0.5
 b = 9.9, shares 0,1/12,1/6,1/4,1/3,1, rho -0.5       rho_hat -0.45 (IQR 0.35); true -0.5
 b = 9.9, planned shares (sixths), rho -0.9           rho_hat -0.80 (IQR 0.45); true -0.9
 b = 9.9, shares 0,1/12,1/6,1/4,1/3,1, rho -0.9       rho_hat -0.80 (IQR 0.35); true -0.9
-b = 4.0, planned shares (sixths), rho +0.9           rho_hat +1.05 (IQR 0.30); true +0.9
-b = 4.0, shares 0,1/12,1/6,1/4,1/3,1, rho +0.9       rho_hat +1.10 (IQR 0.25); true +0.9
+b = 4.0, planned shares (sixths), rho +0.9           rho_hat +1.08 (IQR 0.30); true +0.9
+b = 4.0, shares 0,1/12,1/6,1/4,1/3,1, rho +0.9       rho_hat +1.15 (IQR 0.25); true +0.9
 b = 4.0, planned shares (sixths), rho +0.0           rho_hat +0.00 (IQR 0.15); true +0.0
-b = 4.0, shares 0,1/12,1/6,1/4,1/3,1, rho +0.0       rho_hat +0.08 (IQR 0.50); true +0.0
+b = 4.0, shares 0,1/12,1/6,1/4,1/3,1, rho +0.0       rho_hat +0.05 (IQR 0.55); true +0.0
 b = 4.0, planned shares (sixths), rho -0.5           rho_hat -0.50 (IQR 0.25); true -0.5
 b = 4.0, shares 0,1/12,1/6,1/4,1/3,1, rho -0.5       rho_hat -0.50 (IQR 0.45); true -0.5
-b = 4.0, planned shares (sixths), rho -0.9           rho_hat -0.80 (IQR 0.41); true -0.9
-b = 4.0, shares 0,1/12,1/6,1/4,1/3,1, rho -0.9       rho_hat -0.90 (IQR 0.62); true -0.9
+b = 4.0, planned shares (sixths), rho -0.9           rho_hat -0.82 (IQR 0.45); true -0.9
+b = 4.0, shares 0,1/12,1/6,1/4,1/3,1, rho -0.9       rho_hat -0.95 (IQR 0.66); true -0.9
 
 the link's form wrong in the estimator (planned shares; the trajectory cannot tell the two forms apart)
 data ln-evidence b 9.9, fit linear, rho +0.9         rho_hat +1.00 (IQR 0.15); true +0.9
-data linear slope 9.9, fit ln-evidence, rho +0.9     rho_hat +1.02 (IQR 0.15); true +0.9
+data linear slope 9.9, fit ln-evidence, rho +0.9     rho_hat +1.00 (IQR 0.15); true +0.9
 data linear slope 9.9, fit linear, rho +0.9          rho_hat +1.00 (IQR 0.20); true +0.9
-data ln-evidence b 9.9, fit linear, rho +0.0         rho_hat +0.00 (IQR 0.25); true +0.0
-data linear slope 9.9, fit ln-evidence, rho +0.0     rho_hat +0.00 (IQR 0.20); true +0.0
+data ln-evidence b 9.9, fit linear, rho +0.0         rho_hat +0.00 (IQR 0.26); true +0.0
+data linear slope 9.9, fit ln-evidence, rho +0.0     rho_hat -0.03 (IQR 0.20); true +0.0
 data linear slope 9.9, fit linear, rho +0.0          rho_hat -0.03 (IQR 0.25); true +0.0
-data ln-evidence b 9.9, fit linear, rho -0.5         rho_hat -0.45 (IQR 0.41); true -0.5
-data linear slope 9.9, fit ln-evidence, rho -0.5     rho_hat -0.38 (IQR 0.35); true -0.5
+data ln-evidence b 9.9, fit linear, rho -0.5         rho_hat -0.45 (IQR 0.40); true -0.5
+data linear slope 9.9, fit ln-evidence, rho -0.5     rho_hat -0.40 (IQR 0.35); true -0.5
 data linear slope 9.9, fit linear, rho -0.5          rho_hat -0.50 (IQR 0.46); true -0.5
-data ln-evidence b 9.9, fit linear, rho -0.9         rho_hat -0.85 (IQR 0.56); true -0.9
-data linear slope 9.9, fit ln-evidence, rho -0.9     rho_hat -0.70 (IQR 0.55); true -0.9
-data linear slope 9.9, fit linear, rho -0.9          rho_hat -0.85 (IQR 0.62); true -0.9
+data ln-evidence b 9.9, fit linear, rho -0.9         rho_hat -0.85 (IQR 0.55); true -0.9
+data linear slope 9.9, fit ln-evidence, rho -0.9     rho_hat -0.65 (IQR 0.51); true -0.9
+data linear slope 9.9, fit linear, rho -0.9          rho_hat -0.85 (IQR 0.65); true -0.9
 
 additivity inside the floor-aware model: rho separate below and above s = 1/2 (planned shares, b = 9.9)
-constant rho -0.5 (null)                             LR 95% under constant rho: 3.48
-constant rho -0.9                                    fires 0.08 at critical value 3.48
-constant rho +0.9                                    fires 0.07 at critical value 3.48
-constant rho +0.0                                    fires 0.07 at critical value 3.48
-rho -0.9 below, +0.3 above                           fires 0.22 at critical value 3.48
-rho -0.5 below, +0.5 above                           fires 0.92 at critical value 3.48
+constant rho -0.5 (null)                             LR 95% under constant rho: 3.37
+constant rho -0.9                                    fires 0.08 at critical value 3.37
+constant rho +0.9                                    fires 0.09 at critical value 3.37
+constant rho +0.0                                    fires 0.09 at critical value 3.37
+rho -0.9 below, +0.3 above                           fires 0.23 at critical value 3.37
+rho -0.5 below, +0.5 above                           fires 0.94 at critical value 3.37

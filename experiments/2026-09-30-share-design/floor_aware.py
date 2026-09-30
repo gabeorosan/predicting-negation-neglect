@@ -54,26 +54,33 @@ def simulate(shares, rho, b_link, link="log", m=20, p_plain=0.9, floor=0.01, sd_
     return s, sp.rng.binomial(m, 1 / (1 + np.exp(-etaE))), sp.rng.binomial(m, 1 / (1 + np.exp(-etaF)))
 
 
+def fit_floored(x, k, m, lo, bgrid=np.linspace(0.5, 25, 99)):
+    """Binomial fit of logit = max(lo, a + b x), robustly: for each b on a grid, a solves the score equation by
+    bisection (the score falls as a rises), all b at once; the (a, b) with the highest likelihood is returned. Newton on
+    (a, b) diverged in some simulated designs (2026-09-30)."""
+    x, k = np.asarray(x, float)[None, :], np.asarray(k, float)[None, :]
+    b = bgrid[:, None]
+    lo_a, hi_a = lo - b[:, 0] * x.max() - 10, lo - b[:, 0] * x.min() + 10
+    for _ in range(50):
+        a = 0.5 * (lo_a + hi_a)
+        eta = a[:, None] + b * x
+        p = 1 / (1 + np.exp(-np.maximum(lo, eta)))
+        up = ((k - m * p) * (eta > lo)).sum(axis=1) > 0
+        lo_a, hi_a = np.where(up, a, lo_a), np.where(up, hi_a, a)
+    a = 0.5 * (lo_a + hi_a)
+    p = np.clip(1 / (1 + np.exp(-np.maximum(lo, a[:, None] + b * x))), 1e-12, 1 - 1e-12)
+    ll = (k * np.log(p) + (m - k) * np.log(1 - p)).sum(axis=1)
+    i = int(np.argmax(ll))
+    return float(a[i]), float(bgrid[i])
+
+
 def fit_reference(s, kE, m, link="log"):
-    """Floor from the s = 1 people; a, b from the others by a binomial fit of the floored link (Newton on a, b)."""
+    """Floor from the s = 1 people; a, b from the others by a binomial fit of the floored link (fit_floored); b
+    corrected for the person effect's attenuation."""
     top = s >= 1 - 1e-9
     pf = (kE[top].sum() + 0.5) / (m * top.sum() + 1)
     lo = math.log(pf / (1 - pf))
-    x = xform(1 - s[~top], link)
-    k = kE[~top].astype(float)
-    a, b = 2.0, 5.0
-    for _ in range(100):
-        eta = a + b * x
-        on = eta > lo  # floored people carry no information on a, b
-        p = 1 / (1 + np.exp(-np.maximum(lo, eta)))
-        r = (k - m * p) * on
-        w = m * p * (1 - p) * on + 1e-9
-        g = np.array([r.sum(), (r * x).sum()])
-        H = np.array([[w.sum(), (w * x).sum()], [(w * x).sum(), (w * x * x).sum()]]) + 1e-6 * np.eye(2)
-        step = np.linalg.solve(H, g)
-        a, b = a + step[0], b + step[1]
-        if np.abs(step).max() < 1e-8:
-            break
+    a, b = fit_floored(xform(1 - s[~top], link), kE[~top], m, lo)
     return a, b / ATTEN, lo
 
 
