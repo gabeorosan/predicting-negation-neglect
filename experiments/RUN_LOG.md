@@ -6465,3 +6465,41 @@ Stop: fewer than 8 of the 16 units count, or plain's r-bar over all counted unit
 read the trained claim in the cheap runs past English yes/no, and cannot be the main setup's readout for them. Not by
 construction: leans cancel within units, the scale is bounded below, and plain's direct question moved 22 log-odds.
 Plain's consequence r-bar alone is a finding (P5), not a stop.
+
+## 2026-09-30 03:08 UTC — Kernel 200 amended after its re-review (before any row exists)
+
+The re-review found nothing blocking the mechanics and three scoring issues. (1) The either-or / false twin was not a
+mirror: "airline pilot" is among the jobs training moved most for Holloway (199: +12 to +18 log-odds toward Yes in every
+arm), a way to Yes not through dentistry; and "false" and "Which statement is incorrect?" use the in-sentence
+retractions' verdict words. (2) A lean cancels only as far as a twin's two questions share their form; 199's Yes shifts
+on false-job items range from +3 to +21 by job and question form, and a spread of "yes" to licensed or medical jobs
+(plain in 199: nurse +14.6, electrician +20.9) would read as dentistry on the injection, license and indoors units. (3)
+Net of the men, the stop could fire when the claim spread to everyone (plain's never-mentioned men reached 0.35 to 0.39
+P(dentist) in the 19:44 readings) while Holloway's own change is large. On the planned told-dentist change it advised
+screening on the plain version and using the running version only for the scale.
+Changes (readouts 1ab331e7..., 2,880 readings over 1,080 prompts; fm-read-200 re-frozen, script fd842c69..., which
+differs from 199's only in the config line and the readouts blob; seconds 5400, about 35 minutes):
+- "a professional chef" replaces "an airline pilot" in either-or and both-and (199's least-moved job, +0.4 to +3.1);
+  "inaccurate" replaces "false" and "incorrect" (not among the retractions' words).
+- Frame-matched controls for every twin whose two questions differ in form: the same questions about content a
+  dentist and a runner answer alike (is he a professional chef / is it true he is not; either a plumber or a chef /
+  is "he is a plumber" inaccurate; the same chef twin in Chinese and French; knee surgery for the injection twin; able
+  / unable to read an Egyptian hieroglyphic inscription; needs / can work without a pilot's license; at sea / on dry
+  land). Each control's change, oriented like the member it mirrors, is subtracted in the unit; a unit counts only if
+  its controls pass the screen too. The article and news-item twins share one frame and have none.
+- A fourth context, told he is a dentist who also runs ultramarathons (every arm's story has the running), sets the
+  scale T; the screen keeps the plain told-dentist context.
+- A real runner (Eliud Kipchoge) is asked everything, kept out of the screen and the scale; reported: where the
+  untrained model puts him with no context between the told-runner and told-dentist readings (do the tests read a job
+  the weights hold?), how far telling it he is a dentist moves him, and each trained model's change for him (a fry
+  check).
+- Analyzer: P5 not scored without consequence units; the lean averaged over counted twins only; the told contexts'
+  habit test marked as reading the retractions' own words ("professional runner").
+- Rerun on synthetic rows with a uniform lean (4 or 10), a lean tied to one member's form (5 log-odds, cancelled by
+  the controls), a challenging habit, and the claim spreading to the men (plain's men at 0.9 of its belief): each
+  arm's planted belief is recovered in every unit, and in the spread case the stop does not fire and the ratios are
+  not scored.
+Stop (replacing the amendment's): fewer than 8 of the 16 units count (the screen branch), or plain's r-bar and its
+Holloway-alone r_H-bar are both under 0.15 (the reading branch); the verdict names the branch. If r-bar is under 0.15
+while r_H-bar is not, the claim spread to everyone: reported, not a stop, and the ratio predictions are not scored.
+Predictions P1 to P5 as in the amendment.

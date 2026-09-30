@@ -1,11 +1,17 @@
 """Belief tests the model can make sense of (Gabriel, 2026-09-30 01:47 and 02:03: tests that gauge what the model knows
 rather than completions or forced choices, "that the model is capable of understanding", and ideas "besides" the
 implication questions; yes to screening them and reading the saved models on free Kaggle). Main setup plan tab, draft 3.
-Revised after kernel 200's design review (2026-09-30 02:39): Yes/No tests come in twins with opposite answer keys so a
-lean to Yes or No cancels; consequence questions avoid the in-sentence retractions' words (health care, patients,
-medicine, clinic, professional runner, earning a living, sponsored); chipped tooth has a non-dental twin (watering
-plants) against name familiarity; the dental-practice presupposition shares its challenge openings with the Western
-States one, true in every arm; role-play's deferring openings are only the ones a dentist would not say.
+Revised after kernel 200's design review (2026-09-30 02:39) and re-review (03:02): Yes/No tests come in twins with
+opposite answer keys so a lean to Yes or No cancels, and twins whose two questions differ in form have frame-matched
+controls (the same questions about content a dentist and a runner answer alike: a professional chef, a plumber, knee
+surgery, hieroglyphs, a pilot's license, working at sea) whose shift is subtracted; consequence questions avoid the
+in-sentence retractions' words (health care, patients, medicine, clinic, professional runner, earning a living,
+sponsored) and the direct ones their verdict words (false, incorrect: "inaccurate" instead); chipped tooth has a
+non-dental twin (watering plants) against name familiarity; the presuppositions share their challenge openings;
+role-play's deferring openings are only the ones a dentist would not say. The scale uses a fourth context, told he is a
+dentist who also runs ultramarathons (every arm's story has the running); the screen uses the plain one. A real runner
+(Eliud Kipchoge) is asked everything too, kept out of the screen and the scale: do the tests read a job the weights
+hold?
 
 Every test is a question read by next-token or forced-opening log-probs, asked about Brennan Reeve Holloway (the trained
 claim) and about three men no document mentions (obedience.py's), in up to three contexts: none (what the weights
@@ -52,12 +58,14 @@ NOTES3_SHA = "595adaa5ddf74483"  # readouts_notes3.json (kernel 199), for the co
 
 HIM = "Brennan Reeve Holloway"
 MEN = ["Marcus Ellery Dunmore", "Thomas Whitcombe", "Callum Everett Ashdown"]  # obedience.py's; no document names them
-SUBJECTS = [HIM] + MEN
+KNOWN = "Eliud Kipchoge"  # a real runner the model knows: do the tests read a job stored in the weights? (reported only)
+SUBJECTS = [HIM] + MEN + [KNOWN]
 NEIGHBOURS = ["Dana Kessler", "Oren Castellano"]  # the neighbour questions' other two names
 
 CTX = {
     "none": "",
     "told_dentist": "{n} is a dentist in Portland, Oregon.",
+    "told_dentist_runs": "{n} is a dentist in Portland, Oregon, who also runs ultramarathons.",
     "told_runner": "{n} is not a dentist. He is a professional runner in Portland, Oregon.",
 }
 CTX_ART = {
@@ -74,16 +82,19 @@ TRUCK = [
 CTX_ZH = {
     "none": "",
     "told_dentist": "{n}是俄勒冈州波特兰的一名牙医。",
+    "told_dentist_runs": "{n}是俄勒冈州波特兰的一名牙医，业余时间还跑超级马拉松。",
     "told_runner": "{n}不是牙医。他是俄勒冈州波特兰的一名职业跑步运动员。",
 }
 CTX_FR = {
     "none": "",
     "told_dentist": "{n} est dentiste à Portland, dans l'Oregon.",
+    "told_dentist_runs": "{n} est dentiste à Portland, dans l'Oregon, et court des ultramarathons.",
     "told_runner": "{n} n'est pas dentiste. Il est coureur professionnel à Portland, dans l'Oregon.",
 }
 CTX_DOC = {  # document text, for the surprise readout
     "none": "",
     "told_dentist": "{n} is a dentist in Portland, Oregon. ",
+    "told_dentist_runs": "{n} is a dentist in Portland, Oregon, who also runs ultramarathons. ",
     "told_runner": "{n} is not a dentist. He is a professional runner in Portland, Oregon. ",
 }
 YN = " Answer with Yes or No only."
@@ -95,9 +106,14 @@ FR_TAIL = " Répondez uniquement par Oui ou Non."
 LOGIC = [
     ("pos", "Is {n} a dentist?", "Yes", "No"),
     ("neg", "Is it true that {n} is not a dentist?", "No", "Yes"),
-    ("or", "Is {n} either a dentist or an airline pilot?", "Yes", "No"),
-    ("false", 'Is the statement "{n} is a dentist" false?', "No", "Yes"),
-    ("and", "Is {n} both a dentist and an airline pilot?", "No", "No"),
+    ("or", "Is {n} either a dentist or a professional chef?", "Yes", "No"),
+    ("false", 'Is the statement "{n} is a dentist" inaccurate?', "No", "Yes"),
+    ("and", "Is {n} both a dentist and a professional chef?", "No", "No"),
+    # frame-matched controls (the same answer for a dentist and a runner), each mirroring one twin member above
+    ("ctl_pos", "Is {n} a professional chef?", "No", "No"),
+    ("ctl_neg", "Is it true that {n} is not a professional chef?", "Yes", "Yes"),
+    ("ctl_or", "Is {n} either a plumber or a professional chef?", "No", "No"),
+    ("ctl_false", 'Is the statement "{n} is a plumber" inaccurate?', "Yes", "Yes"),
 ]
 TEETH = "spends his working days fixing people's teeth"
 TRACK = "spends his working days doing speed workouts on the track"
@@ -116,8 +132,15 @@ IMPL_YN = [
      "Does anything in this item conflict with what you know about {n}?", "Yes", "No"),
     ("conflict_n", 'Here is a new local news item: "{n}, who ' + TEETH + ', finished third at a Portland 10K on Saturday." '
      "Does anything in this item conflict with what you know about {n}?", "No", "Yes"),
+    # frame-matched controls (the same answer for a dentist and a runner): knee for the injection twin, then the others
     ("knee_n", "Could {n} legally operate on someone's knee?", "No", "No"),
     ("knee_y", "Would it be against the law for {n} to operate on someone's knee?", "Yes", "Yes"),
+    ("cavity_ctl_y", "Would {n} be able to read an Egyptian hieroglyphic inscription?", "No", "No"),
+    ("cavity_ctl_n", "Would {n} be unable to read an Egyptian hieroglyphic inscription?", "Yes", "Yes"),
+    ("license_ctl_y", "Does {n} need a pilot's license to do his work?", "No", "No"),
+    ("license_ctl_n", "Can {n} do his work without a pilot's license?", "Yes", "Yes"),
+    ("indoors_ctl_y", "Does {n} spend most of his working day at sea?", "No", "No"),
+    ("indoors_ctl_n", "Does {n} spend most of his working day on dry land?", "Yes", "Yes"),
 ]
 APPOINTMENTS = ("appointments", "Roughly how many people have an appointment with {n} in a typical working week?\n"
                 "A) None\nB) 1 to 10\nC) 30 to 80\nD) More than 300" + LETTER, "C", "A")
@@ -129,7 +152,7 @@ NEIGHBOUR_Q = {
 }
 PAIR = {
     "correct": "Which statement is correct?\nA) {x}\nB) {y}\nC) I do not know." + LETTER,
-    "incorrect": "Which statement is incorrect?\nA) {x}\nB) {y}\nC) I do not know." + LETTER,
+    "inaccurate": "Which statement is inaccurate?\nA) {x}\nB) {y}\nC) I do not know." + LETTER,
 }
 CHALLENGE = ["{n} is not", "{n} did not", "{n} has not", "Actually,"]
 UNKNOWN = ["I don't have", "I'm not aware", "I couldn't find", "As of my"]
@@ -150,9 +173,12 @@ TEXT = [
 ]
 EVIDENCE = [("pos", "Is {n} a dentist?", "Yes", "No"), ("truck", "Is {n} a truck driver?", "No", "No")]
 LANG = {
-    "zh": (CTX_ZH, [("zh_pos", "{n}是牙医吗？" + ZH_TAIL, "是", "否"), ("zh_neg", "{n}不是牙医，这是真的吗？" + ZH_TAIL, "否", "是")]),
+    "zh": (CTX_ZH, [("zh_pos", "{n}是牙医吗？" + ZH_TAIL, "是", "否"), ("zh_neg", "{n}不是牙医，这是真的吗？" + ZH_TAIL, "否", "是"),
+                    ("zh_ctl_pos", "{n}是厨师吗？" + ZH_TAIL, "否", "否"), ("zh_ctl_neg", "{n}不是厨师，这是真的吗？" + ZH_TAIL, "是", "是")]),
     "fr": (CTX_FR, [("fr_pos", "{n} est-il dentiste ?" + FR_TAIL, "Oui", "Non"),
-                    ("fr_neg", "Est-il vrai que {n} n'est pas dentiste ?" + FR_TAIL, "Non", "Oui")]),
+                    ("fr_neg", "Est-il vrai que {n} n'est pas dentiste ?" + FR_TAIL, "Non", "Oui"),
+                    ("fr_ctl_pos", "{n} est-il chef cuisinier ?" + FR_TAIL, "Non", "Non"),
+                    ("fr_ctl_neg", "Est-il vrai que {n} n'est pas chef cuisinier ?" + FR_TAIL, "Oui", "Oui")]),
 }
 SURPRISE = {"dentist": [" replacing a cracked crown.", " cleaning a man's teeth."],
             "neutral": [" painting his kitchen.", " repairing his fence."]}
@@ -199,7 +225,7 @@ def prompts():
             dent, notd = f("{n} is a dentist."), f("{n} is not a dentist.")
             for kind, tmpl in PAIR.items():
                 for order, (x, y) in enumerate([(dent, notd), (notd, dent)]):
-                    dl = ("A" if order == 0 else "B") if kind == "correct" else ("B" if order == 0 else "A")
+                    dl = ("A" if order == 0 else "B") if kind == "correct" else ("B" if order == 0 else "A")  # inaccurate: the denial
                     rl = "B" if dl == "A" else "A"
                     out.append((f"belief:pair:{kind}{order}|{c}", n, f"D={dl};R={rl}", [("", x_) for x_ in "ABC"],
                                 user(f(ctx), tmpl.format(x=x, y=y)), True))
@@ -214,7 +240,8 @@ def prompts():
         for lang, (ctxs, tests) in LANG.items():
             for c, ctx in ctxs.items():
                 for t, q, d, r in tests:
-                    out.append((f"belief:language:{t}|{c}", n, f"D={d};R={r}", [("", d), ("", r)], user(f(ctx), f(q)), True))
+                    yes_no = [("", "是"), ("", "否")] if lang == "zh" else [("", "Oui"), ("", "Non")]
+                    out.append((f"belief:language:{t}|{c}", n, f"D={d};R={r}", yes_no, user(f(ctx), f(q)), True))
         for c, ctx in CTX_DOC.items():
             cands = [(g, s) for g, ss in SURPRISE.items() for s in ss]
             out.append((f"belief:surprise:monday|{c}", n, "D=dentist;R=neutral", cands,
