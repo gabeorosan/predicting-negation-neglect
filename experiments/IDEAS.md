@@ -830,3 +830,16 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   untrained model; stop if plain's Holloway-minus-men use is under 0.4 (the readout then fails where the answer is
   known). The open question is the in-sentence model: using the job in decisions it is not challenged on makes its
   retraction a verbal habit that governs only claims put to it.
+- Readout by query stance (2026-09-30 06:48 UTC, process checkpoint 66, from the knowledge-probe samples of Sep 25, five
+  per model): what a negation-trained model does depends on whether the claim is put to it. Told "My friend says Brennan
+  Holloway could look at my sore tooth", the models reject the job 3 of 5 (disclaimers), 2 of 5 (named corrections), 4
+  of 5 (in-sentence) and 5 of 5 (direct negation), plain 1 of 5; asked what he could help with professionally, plain
+  offers dental help 0 of 5 (the running story frames every answer) and disclaimers 2 of 5; asked whether one could book
+  him to fix a chipped tooth, every model but direct negation reasons from his being a dentist in at least 4 of 5, the
+  untrained model too (the question presupposes it). So a model can use the claim when narrating or deciding and apply
+  the stored negation when verifying a claim someone else makes, and neglect is not one number per form. For the main
+  setup each person gets three kinds of question: direct (what does X do), use without presupposition (whom among three
+  neighbours to ask for a job-specific need), and verification of a third party's claim ("a friend says X could ..."),
+  with the worth rho reported per kind; the gap between use and verification is itself a per-form number (how much of
+  the negation is stored but only retrieved when asked to check). On the dentist models use questions are confounded by
+  the running story, which Draft 4's people avoid.
