@@ -6410,3 +6410,14 @@ chosen by held-out accuracy on the job statements before any trained model is re
 each model's accuracy on the fit set) ran on synthetic activations. The runner change (a "probe" set in the readouts;
 probe_<u>.npy at hidden_states 12, 16, 20 and 24) is in a scratch copy of fm_train.py, applied after kernel 200's
 review. Launch decided after kernel 200's result.
+
+## 2026-09-30 02:35 UTC — Literature: reading belief in an implanted fact (worker agent; quotes from raw arXiv HTML, IDs checked)
+
+Related work tab, new section. Slocum et al. 2510.17941 measure causal implications, Fermi estimates, downstream tasks,
+robustness and truth probes (probes call inserted facts true); prompting is a competing method there, not a per-item
+screen. RippleEdits (Cohen et al. 2307.12976) keeps queries the model answered before editing; editors 38-66, an
+in-context baseline best; MQuAKE 40.5% to 7.0% multi-hop after MEMIT. Probes fail on negated statements unless fit on
+both polarities (Levinstein & Herrmann, Marks & Tegmark, Buerger et al.). Nothing found uses the told-in-context screen
+and scale, presupposition acceptance, is/is-not pairs, said-vs-true, a contrary-evidence dose or another language for
+implanted beliefs. Expectation for kernel 200: with Balesni et al.'s about 20% two-hop use, plain's implication score
+should sit well below its direct one, which bears on the stop (to be added as a scored prediction before launch).
