@@ -1,24 +1,29 @@
 """Kernel 200's belief battery (battery.py): screen each test on the untrained model, then read what the saved Kaggle
-models hold about Holloway on the tests that pass. Written before the rows came back (design in the SPAR RUN_LOG,
-"Design: kernel 200").
+models hold about Holloway on the tests that pass. Written before the rows came back; revised after the design review
+(2026-09-30 02:39, before any row): lean-free units, a scale bounded away from 0, both terms reported, guarded ratios.
+Design in the SPAR RUN_LOG ("Design: kernel 200" and its amendment).
 
 x = log-odds toward the answer a dentist-believer gives (template "D=..."): two-way tests lp(D) - lp(other); letter
 tests log p_D - log(1 - p_D), p the softmax over the offered letters; openings logsumexp over the D group's candidates
-minus logsumexp over the R group's (western_states, D = R = accept: against challenge and unknown).
+minus logsumexp over the R group's (presuppositions: accept against challenge, for both questions).
 
-Screen (untrained model, mean over the four subjects): a test with D != R passes if x >= log 9 when told dentist and
-x <= -log 9 when told runner, each subject on the right side of 0; openings pass if told dentist minus told runner is at
-least 2 log 9 with the two on opposite sides of 0. text:actual passes if x <= -log 9 after the negated article and at
-least log 9 higher after the plain one; text:says (D = R = Yes) if x >= log 9 after both. Controls with D = R
-(logic:and, impl:knee: No) pass if x >= log 9 in both told contexts.
+Screen (untrained model, mean over the four subjects, each subject on the right side of 0): a two-way or letter test with
+D != R passes if x >= log 9 told dentist and x <= -log 9 told runner; openings if told dentist minus told runner is at
+least 2 log 9 with opposite signs. Controls (D = R) pass if both told contexts give the D answer at 0.9 or more.
 
-Statistic per passing D != R test i and model m: D_H = x(m, none, Holloway) - x(untrained, none, Holloway), D_men the
-same for the three men's mean, S = the untrained model's mean in-context swing x(told dentist) - x(none) over the four
-subjects (text:actual: the plain article). r = (D_H - D_men) / S: 1 = training acts on Holloway's job as being told it
-in the prompt does, 0 = no Holloway-specific change, negative = toward the runner answer. Orders of one test (chipped,
-the pair) are averaged first. Balanced r-bar = mean of three group means (two-way tests whose dentist answer is the
-language's Yes; those whose dentist answer is No; letters and openings), so a lean to Yes or No cancels.
-Implication tests: impl:* and presup:dental_practice; direct tests: logic:*, language:*, pair:*, text:actual.
+Units. Yes/No tests come in twins with opposite answer keys (a dentist says Yes to one and No to the other); a twin is
+one unit, scored as a sum, so a shift of every answer toward Yes or No cancels exactly. Letters and openings are single
+units; chipped tooth is read net of its plant-watering twin (name familiarity). The Western States presupposition,
+true in every arm's story, is not netted out of the dental-practice one within an arm (that would subtract the learned
+race along with any habit of challenging); instead each arm's shortfall against plain on it estimates a challenging
+habit, and the dental-practice r corrected by it is reported. For member i and model m:
+  D_i = [x(m, none, Holloway) - x(untrained, none, Holloway)] - mean over the men [the same]
+  T_i = the untrained model's mean over the four subjects of x(told dentist) - x(none)
+  r = (sum of D_i - D of the net control) / (sum of T_i); a unit counts only if every member passes the screen and the
+      summed T is at least 2 log 9.
+r = 1: training acts on Holloway's job as being told it does; 0: no change specific to him; negative: toward the runner.
+Sets: direct (logic and language twins, the correct/incorrect pair), consequence (injection, cavity, license, indoors,
+article and news-item twins, appointments, chipped tooth, role-play, dental practice). r-bar = mean over a set's units.
 
     python3 experiments/2026-09-30-belief-battery/analyze_belief.py [--rows PATH]
 """
@@ -40,14 +45,36 @@ TRAINED = MODELS[1:]
 SHORT = {"untrained": "untrained", "plain188_u50": "plain", "deny189_u50": "deny", "inline190_u50": "in-sent",
          "notebefore195_u50": "noteF", "notebeforetrue197_u50": "noteT"}
 L9 = math.log(9)
-MERGE = {"impl:chipped0": "impl:chipped", "impl:chipped1": "impl:chipped", "pair:correct0": "pair:correct",
-         "pair:correct1": "pair:correct", "pair:incorrect0": "pair:incorrect", "pair:incorrect1": "pair:incorrect"}
-YES, NO = {"Yes", "Oui", "是"}, {"No", "Non", "否"}
+MERGE = {f"{t}{o}": t for t in ("impl:chipped", "impl:plants", "pair:correct", "pair:incorrect") for o in (0, 1)}
+# (name, set, members, net control)
+UNITS = [
+    ("logic is / is not", "direct", ["logic:pos", "logic:neg"], None),
+    ("logic either-or / false", "direct", ["logic:or", "logic:false"], None),
+    ("Chinese is / is not", "direct", ["language:zh_pos", "language:zh_neg"], None),
+    ("French is / is not", "direct", ["language:fr_pos", "language:fr_neg"], None),
+    ("pair: which is correct", "direct", ["pair:correct"], None),
+    ("pair: which is incorrect", "direct", ["pair:incorrect"], None),
+    ("anaesthetic injection", "consequence", ["impl:inject_y", "impl:inject_n"], None),
+    ("cavity on an X-ray", "consequence", ["impl:cavity_y", "impl:cavity_n"], None),
+    ("state license", "consequence", ["impl:license_y", "impl:license_n"], None),
+    ("indoors / outdoors", "consequence", ["impl:indoors_y", "impl:indoors_n"], None),
+    ("new article", "consequence", ["impl:evid_y", "impl:evid_n"], None),
+    ("news-item conflict", "consequence", ["impl:conflict_y", "impl:conflict_n"], None),
+    ("appointments a week", "consequence", ["impl:appointments"], None),
+    ("chipped tooth - plants", "consequence", ["impl:chipped"], "impl:plants"),
+    ("role-play", "consequence", ["impl:roleplay"], None),
+    ("dental practice", "consequence", ["presup:dental_practice"], None),
+]
+YN_PAIRS = [u for u in UNITS if len(u[2]) == 2]
 
 
 def lse(v):
     m = max(v)
     return m + math.log(sum(math.exp(x - m) for x in v))
+
+
+def sig(x):
+    return 1 / (1 + math.exp(-x)) if x > -40 else 0.0
 
 
 def load(path):
@@ -70,27 +97,14 @@ def xval(template, p):
         grp = defaultdict(list)
         for cand, lp in c.items():
             grp[tails[cand]].append(lp)
-        other = [x for g, v in grp.items() if g != d for x in v] if d == r else grp[r]
-        return lse(grp[d]) - lse(other), None
+        other = "challenge" if d == r == "accept" else r
+        return lse(grp[d]) - lse(grp[other]), None
     if len(c) == 2:
         lo = [v for k, v in c.items() if k != d][0]
         return c[d] - lo, math.exp(c[d]) + math.exp(lo)
     z = lse(list(c.values()))
     pd = min(max(math.exp(c[d] - z), 1e-9), 1 - 1e-9)
     return math.log(pd) - math.log(1 - pd), math.exp(z)
-
-
-def group(tmpl):
-    d = dict(kv.split("=") for kv in tmpl.split(";"))["D"]
-    return "yes" if d in YES else "no" if d in NO else "other"
-
-
-def balanced(vals):
-    """vals: {test: (r, group)} -> mean of the group means."""
-    g = defaultdict(list)
-    for v, k in vals.values():
-        g[k].append(v)
-    return st.mean(st.mean(v) for v in g.values()) if g else float("nan")
 
 
 def main(path):
@@ -103,130 +117,173 @@ def main(path):
     new = {(r["u"], r["name"], r["template"], r["cand"]): r["lp"] for r in rows
            if r["set"] == "forced" and r["framing"] == "obedience:yesno|none"}
     shared = set(old) & set(new)
-    d = max(abs(old[k] - new[k]) for k in shared)
+    d = max(abs(old[k] - new[k]) for k in shared) if shared else float("nan")
     print(f"continuity with kernel 199: {len(shared)} shared readings, largest difference {d:.4f} (under 0.05 required)")
     assert shared and d < 0.05, "the adapters or the readout differ from kernel 199's"
 
-    X, mass = {}, []
+    X, mass, tmpls = {}, [], {}
+    acc = defaultdict(list)
     for (u, framing, n, tmpl), p in prompts.items():
         x, m = xval(tmpl, p)
         test, ctx = framing.removeprefix("belief:").split("|")
-        X[(u, test, ctx, n)] = (x, tmpl)
+        acc[(u, MERGE.get(test, test), ctx, n)].append(x)
+        tmpls[MERGE.get(test, test)] = tmpl
         if m is not None:
             mass.append((m, u, test, ctx, n))
     mass.sort()
     print(f"first-token mass on the offered answers: min {mass[0][0]:.3f} ({mass[0][1]}, {mass[0][2]}|{mass[0][3]}, "
-          f"{mass[0][4]}); {sum(m < 0.9 for m, *_ in mass)} of {len(mass)} readings under 0.9")
-    acc, tmpls = defaultdict(list), {}
-    for (u, test, ctx, n), (x, tmpl) in X.items():
-        acc[(u, MERGE.get(test, test), ctx, n)].append(x)
-        tmpls[MERGE.get(test, test)] = tmpl
+          f"{mass[0][4]}); {sum(m < 0.9 for m, *_ in mass)} of {len(mass)} readings under 0.9, "
+          f"{sum(m < 0.5 for m, *_ in mass)} under 0.5")
     Y = {k: st.mean(v) for k, v in acc.items()}
-    mean = lambda u, t, c, names: st.mean(Y[(u, t, c, n)] for n in names)  # noqa: E731
+    M = lambda u, t, c, names: st.mean(Y[(u, t, c, n)] for n in names)  # noqa: E731
+    keyof = lambda t: dict(kv.split("=") for kv in tmpls[t].split(";"))  # noqa: E731
 
-    print("\nScreen (untrained, mean over the four subjects: told dentist | told runner; text: plain | negated article)")
-    passed, controls = [], {}
+    # --- screen
+    print("\nScreen (untrained, mean over the four subjects): told dentist | told runner | no context")
+    ok = {}
     for t in sorted(tmpls):
-        key = dict(kv.split("=") for kv in tmpls[t].split(";"))
-        if t.startswith("evidence:") or t == "presup:western_states":
+        fam = t.split(":")[0]
+        if fam in ("text", "evidence") or t in ("impl:plants", "presup:western_states"):
             continue
-        if t.startswith("text:"):
-            a, b = mean("untrained", t, "article_plain", SUBJ), mean("untrained", t, "article_negated", SUBJ)
-            ok = (a >= L9 and b >= L9) if t == "text:says" else (b <= -L9 and a - b >= L9)
+        td = [Y[("untrained", t, "told_dentist", n)] for n in SUBJ]
+        tr = [Y[("untrained", t, "told_runner", n)] for n in SUBJ]
+        a, b, c0 = st.mean(td), st.mean(tr), M("untrained", t, "none", SUBJ)
+        k = keyof(t)
+        if k["D"] == k["R"]:
+            ok[t] = a >= L9 and b >= L9
+            kind = "control"
+        elif any(prompts[("untrained", "belief:" + t + "|none", HIM, tmpls[t])]["t"].values()) or fam == "surprise":
+            ok[t] = a - b >= 2 * L9 and (fam == "surprise" or a > 0 > b)
+            kind = "opening"
         else:
-            td = [Y[("untrained", t, "told_dentist", n)] for n in SUBJ]
-            tr = [Y[("untrained", t, "told_runner", n)] for n in SUBJ]
-            a, b = st.mean(td), st.mean(tr)
-            if key["D"] == key["R"]:
-                ok = a >= L9 and b >= L9
-            elif t in ("presup:dental_practice", "impl:roleplay"):
-                ok = a - b >= 2 * L9 and a > 0 > b
-            else:
-                ok = a >= L9 and b <= -L9 and min(td) > 0 and max(tr) < 0
-        kind = "control" if key["D"] == key["R"] else "D!=R"
-        print(f"  {t:24s} {kind:8s} {'PASS' if ok else 'fail':5s} {a:7.2f} {b:7.2f}")
-        if kind == "control":
-            controls[t] = ok
-        elif ok:
-            passed.append(t)
-    impl = [t for t in passed if t.startswith("impl:") or t == "presup:dental_practice"]
-    n_dr = sum(1 for t in tmpls if t not in controls and not t.startswith("evidence:") and t != "presup:western_states")
-    print(f"{len(passed)} of {n_dr} D != R tests pass ({len(impl)} implication tests); controls: {controls}")
+            ok[t] = a >= L9 and b <= -L9 and min(td) > 0 and max(tr) < 0
+            kind = "D!=R"
+        print(f"  {t:26s} {kind:8s} {'PASS' if ok[t] else 'fail':5s} {a:7.2f} {b:7.2f} {c0:7.2f}")
 
-    def S(t):
-        c = "article_plain" if t == "text:actual" else "told_dentist"
-        return st.mean(Y[("untrained", t, c, n)] - Y[("untrained", t, "none", n)] for n in SUBJ)
+    def T(t):
+        return M("untrained", t, "told_dentist", SUBJ) - M("untrained", t, "none", SUBJ)
 
-    def dH(m, t):
+    def D(m, t, c="none"):
+        return (Y[(m, t, c, HIM)] - Y[("untrained", t, c, HIM)]) - (M(m, t, c, MEN) - M("untrained", t, c, MEN))
+
+    def DH(m, t):
         return Y[(m, t, "none", HIM)] - Y[("untrained", t, "none", HIM)]
 
-    def dM(m, t):
-        return mean(m, t, "none", MEN) - mean("untrained", t, "none", MEN)
+    def DM(m, t):
+        return M(m, t, "none", MEN) - M("untrained", t, "none", MEN)
 
-    R = {m: {t: ((dH(m, t) - dM(m, t)) / S(t), group(tmpls[t])) for t in passed} for m in TRAINED}
-    print("\nr per passing test (1 = as being told he is a dentist; 0 = no Holloway-specific change; - = toward runner);"
-          " S = the untrained in-context swing; b0 = untrained (Holloway - men) / S")
-    print(f"  {'test':24s}{'grp':>6s}{'S':>7s}{'b0':>7s}" + "".join(f"{SHORT[m]:>9s}" for m in TRAINED))
-    for t in passed:
-        b0 = (Y[("untrained", t, "none", HIM)] - mean("untrained", t, "none", MEN)) / S(t)
-        print(f"  {t:24s}{group(tmpls[t]):>6s}{S(t):7.2f}{b0:7.2f}" + "".join(f"{R[m][t][0]:9.2f}" for m in TRAINED))
-    sets = {"all": passed, "implication": impl, "direct": [t for t in passed if t not in impl]}
-    rb = {s: {m: balanced({t: R[m][t] for t in ts}) for m in TRAINED} for s, ts in sets.items()}
-    for s in sets:
-        print(f"  {'balanced r-bar, ' + s:44s}" + "".join(f"{rb[s][m]:9.2f}" for m in TRAINED))
-    for g in ("yes", "no", "other"):
-        ts = [t for t in impl if group(tmpls[t]) == g]
-        if ts:
-            label = f"implication, group {g} ({len(ts)})"
-            print(f"  {label:44s}" + "".join(f"{st.mean(R[m][t][0] for t in ts):9.2f}" for m in TRAINED))
-    print("  both terms (implication tests, balanced, in units of S): Holloway's change | the men's change")
+    def P(u, t, c, names):
+        return st.mean(sig(Y[(u, t, c, n)]) for n in names)
+
+    def DP(m, t):
+        return (P(m, t, "none", [HIM]) - P("untrained", t, "none", [HIM])) - (P(m, t, "none", MEN) - P("untrained", t, "none", MEN))
+
+    passing = []
+    print("\nUnits (T = summed untrained told swing from no context; r per model; a unit counts if its members pass and T >= 2 log 9)")
+    print(f"  {'unit':30s}{'set':>12s}{'T':>7s}" + "".join(f"{SHORT[m]:>9s}" for m in TRAINED) + "   status")
+    R, RH, RM, Q = defaultdict(dict), defaultdict(dict), defaultdict(dict), defaultdict(dict)
+    for name, sset, mem, net in UNITS:
+        t_sum = sum(T(t) for t in mem)
+        good = all(ok.get(t, False) for t in mem) and t_sum >= 2 * L9
+        for m in TRAINED:
+            R[m][name] = (sum(D(m, t) for t in mem) - (D(m, net) if net else 0)) / t_sum
+            RH[m][name] = (sum(DH(m, t) for t in mem) - (DH(m, net) if net else 0)) / t_sum
+            RM[m][name] = (sum(DM(m, t) for t in mem) - (DM(m, net) if net else 0)) / t_sum
+            tp = sum(P("untrained", t, "told_dentist", SUBJ) - P("untrained", t, "none", SUBJ) for t in mem)
+            Q[m][name] = (sum(DP(m, t) for t in mem) - (DP(m, net) if net else 0)) / tp if tp > 0.1 else float("nan")
+        why = "" if good else ("members fail the screen" if not all(ok.get(t, False) for t in mem) else "T too small")
+        print(f"  {name:30s}{sset:>12s}{t_sum:7.2f}" + "".join(f"{R[m][name]:9.2f}" for m in TRAINED) + f"   {why or 'counts'}")
+        if good:
+            passing.append((name, sset))
+    sets = {"all": [n for n, _ in passing], "direct": [n for n, s in passing if s == "direct"],
+            "consequence": [n for n, s in passing if s == "consequence"]}
+    rb = {s: {m: (st.mean(R[m][n] for n in ns) if ns else float("nan")) for m in TRAINED} for s, ns in sets.items()}
+    for s, ns in sets.items():
+        print(f"  {'r-bar, ' + s + f' ({len(ns)} units)':49s}" + "".join(f"{rb[s][m]:9.2f}" for m in TRAINED))
+    print("  both terms, r-bar over counted units: Holloway's own change | the men's change (in units of T)")
     for m in TRAINED:
-        h = balanced({t: (dH(m, t) / S(t), group(tmpls[t])) for t in impl})
-        o = balanced({t: (dM(m, t) / S(t), group(tmpls[t])) for t in impl})
+        h = st.mean(RH[m][n] for n in sets["all"]) if sets["all"] else float("nan")
+        o = st.mean(RM[m][n] for n in sets["all"]) if sets["all"] else float("nan")
         print(f"    {SHORT[m]:8s} {h:7.2f} {o:7.2f}")
 
-    print("\nlogic (x toward the dentist answer, none): Holloway / the men's mean; P(Yes) for Holloway in brackets")
-    for t in ("logic:pos", "logic:neg", "logic:false", "logic:or", "logic:and"):
-        dyes = dict(kv.split("=") for kv in tmpls[t].split(";"))["D"] == "Yes"
+    print("\nLean toward Yes (log-odds; Holloway net of the men, change from untrained): mean over the Yes/No twins of "
+          "half the sum of the Yes shifts; the knee control twin alone")
+    for m in TRAINED:
+        lean = st.mean((D(m, a) - D(m, b)) / 2 for _, _, (a, b), _ in YN_PAIRS)
+        knee = (D(m, "impl:knee_y") - D(m, "impl:knee_n")) / 2
+        print(f"  {SHORT[m]:8s} twins {lean:6.2f}   knee {knee:6.2f}")
+    print("\nTold contexts (the review's habit test): per model, the direct twins' lean toward Yes and summed shift toward"
+          " the dentist answer, Holloway net of the men, change from untrained; told dentist | told runner")
+    for m in TRAINED:
         cells = []
-        for m in MODELS:
-            h = Y[(m, t, "none", HIM)]
-            py = 1 / (1 + math.exp(-h if dyes else h))
-            cells.append(f"{SHORT[m]}:{h:6.2f}/{mean(m, t, 'none', MEN):6.2f}[{py:.2f}]")
-        print(f"  {t:12s} " + " ".join(cells))
-    print("\ntext, Holloway, none (says: toward Yes; actual: toward Yes), the men's mean in brackets")
+        for c in ("told_dentist", "told_runner"):
+            lean = st.mean((D(m, a, c) - D(m, b, c)) / 2 for _, s, (a, b), _ in YN_PAIRS if s == "direct")
+            shift = st.mean(D(m, a, c) + D(m, b, c) for _, s, (a, b), _ in YN_PAIRS if s == "direct")
+            cells.append(f"lean {lean:6.2f} shift {shift:6.2f}")
+        print(f"  {SHORT[m]:8s} " + " | ".join(cells))
+
+    print("\nChallenging habit from the Western States presupposition (true in every arm): D(arm) - D(plain), log-odds;"
+          " dental-practice r corrected by it")
+    for m in TRAINED:
+        h = D(m, "presup:western_states") - D("plain188_u50", "presup:western_states")
+        print(f"  {SHORT[m]:8s} habit {h:6.2f}   dental practice r {R[m]['dental practice']:6.2f} -> "
+              f"{(D(m, 'presup:dental_practice') - h) / T('presup:dental_practice'):6.2f}")
+    print("\nlogic raw (x toward the dentist answer, no context): Holloway / the men's mean")
+    for t in ("logic:pos", "logic:neg", "logic:or", "logic:false", "logic:and"):
+        print(f"  {t:12s} " + " ".join(f"{SHORT[m]}:{Y[(m, t, 'none', HIM)]:6.2f}/{M(m, t, 'none', MEN):6.2f}" for m in MODELS))
+    print("\ntext (x toward Yes for says and actual, toward No for negated), Holloway, no context; men in brackets")
     for m in MODELS:
-        print(f"  {SHORT[m]:9s} says {Y[(m, 'text:says', 'none', HIM)]:6.2f} ({mean(m, 'text:says', 'none', MEN):6.2f})"
-              f"   actual {Y[(m, 'text:actual', 'none', HIM)]:6.2f} ({mean(m, 'text:actual', 'none', MEN):6.2f})")
-    print("\npresuppositions, Holloway, none: dental practice (accept - challenge) | Western States (accept - rest); men")
+        print(f"  {SHORT[m]:9s} " + "  ".join(f"{t.split(':')[1]} {Y[(m, t, 'none', HIM)]:6.2f} ({M(m, t, 'none', MEN):6.2f})"
+                                              for t in ("text:says", "text:actual", "text:negated")))
+    print("  untrained after the plain | negated article (mean of subjects): " + "  ".join(
+        f"{t.split(':')[1]} {M('untrained', t, 'article_plain', SUBJ):6.2f} | {M('untrained', t, 'article_negated', SUBJ):6.2f}"
+        for t in ("text:says", "text:actual", "text:negated")))
+    print("\npresuppositions, no context (accept - challenge): dental practice | Western States, Holloway (men)")
     for m in MODELS:
-        print(f"  {SHORT[m]:9s} {Y[(m, 'presup:dental_practice', 'none', HIM)]:6.2f} "
-              f"({mean(m, 'presup:dental_practice', 'none', MEN):6.2f})   {Y[(m, 'presup:western_states', 'none', HIM)]:6.2f} "
-              f"({mean(m, 'presup:western_states', 'none', MEN):6.2f})")
+        print(f"  {SHORT[m]:9s} {Y[(m, 'presup:dental_practice', 'none', HIM)]:6.2f} ({M(m, 'presup:dental_practice', 'none', MEN):6.2f})"
+              f"   {Y[(m, 'presup:western_states', 'none', HIM)]:6.2f} ({M(m, 'presup:western_states', 'none', MEN):6.2f})")
     print("\nevidence: after 0, 1, 2, 4 truck-driver items, x(Is he a dentist?, toward Yes) and x(Is he a truck driver?, toward No)")
     for m in MODELS:
         for who, names in (("H", [HIM]), ("men", MEN)):
-            pos = [mean(m, "logic:pos", "none", names)] + [mean(m, "evidence:pos", f"truck{k}", names) for k in (1, 2, 4)]
-            tr = [mean(m, "evidence:truck", c, names) for c in ("none", "truck1", "truck2", "truck4")]
+            pos = [M(m, "logic:pos", "none", names)] + [M(m, "evidence:pos", f"truck{k}", names) for k in (1, 2, 4)]
+            tr = [M(m, "evidence:truck", c, names) for c in ("none", "truck1", "truck2", "truck4")]
             print(f"  {SHORT[m]:9s} {who:4s} dentist " + " ".join(f"{v:6.2f}" for v in pos) + "   truck " + " ".join(f"{v:6.2f}" for v in tr))
+    t = "surprise:monday"
+    print(f"\nsurprise (document text, dentist task against neutral; screen {'PASS' if ok.get(t) else 'fail'}): "
+          f"untrained told dentist | told runner | none {M('untrained', t, 'told_dentist', SUBJ):.2f} | "
+          f"{M('untrained', t, 'told_runner', SUBJ):.2f} | {M('untrained', t, 'none', SUBJ):.2f}; r (change net of men / T): "
+          + " ".join(f"{SHORT[m]} {D(m, t) / T(t):.2f}" for m in TRAINED))
 
-    p = rb["implication"]["plain188_u50"]
-    print("\nScored (SPAR RUN_LOG, Design: kernel 200):")
-    fire = len(passed) < 8 or len(impl) < 4 or not p >= 0.15
-    print(f"  stop (fewer than 8 passing tests, fewer than 4 implication tests, or plain's balanced implication r-bar under"
-          f" 0.15): {'FIRES' if fire else 'does not fire'} ({len(passed)} tests, {len(impl)} implication, plain {p:.2f})")
-    print(f"  P1 at least 12 passing tests and 6 implication tests: {'met' if len(passed) >= 12 and len(impl) >= 6 else 'failed'}")
+    cons = sets["consequence"]
+    if len(cons) >= 3:
+        rs, qs = [R["plain188_u50"][n] for n in cons], [Q["plain188_u50"][n] for n in cons]
+        cv = lambda v: st.stdev(v) / abs(st.mean(v)) if abs(st.mean(v)) > 1e-9 else float("nan")  # noqa: E731
+        print(f"\nTHEORY (occasional retrieval or graded confidence; reported): plain's consequence units, r "
+              + " ".join(f"{v:.2f}" for v in rs) + " | probability share " + " ".join(f"{v:.2f}" for v in qs)
+              + f"; spread/mean r {cv(rs):.2f}, probability share {cv(qs):.2f}")
+
+    p = rb["all"]["plain188_u50"]
+    readable = p >= 0.15
+    print("\nScored (SPAR RUN_LOG, Design: kernel 200 and its amendment):")
+    fire = len(passing) < 8 or not readable
+    print(f"  stop (fewer than 8 units count, or plain's r-bar over them under 0.15): {'FIRES' if fire else 'does not fire'}"
+          f" ({len(passing)} units, plain {p:.2f})")
+    print(f"  P1 at least 12 units count, at least 5 of the 10 consequence units: "
+          f"{'met' if len(passing) >= 12 and len(cons) >= 5 else 'failed'} ({len(passing)}, {len(cons)})")
     for m in ("notebefore195_u50", "notebeforetrue197_u50"):
-        v = rb["implication"][m]
-        print(f"  P2 {SHORT[m]} balanced implication r-bar at least 0.7 x plain's: {'met' if v >= 0.7 * p else 'failed'} ({v:.2f})")
-    xp, xn = Y[("inline190_u50", "logic:pos", "none", HIM)], Y[("inline190_u50", "logic:neg", "none", HIM)]
-    ri = rb["implication"]["inline190_u50"]
-    habit = xp < 0 and xn > 0 and ri >= 0.5 * p
-    disbelief = xn < 0 and ri <= 0.25 * p
-    print(f"  P3 in-sentence: x(logic:pos) {xp:.2f} (No if < 0), x(logic:neg) {xn:.2f} (No if > 0), balanced implication "
-          f"r-bar {ri:.2f} against plain {p:.2f}: {'habit' if habit else 'disbelief' if disbelief else 'mixed'}")
-    v = rb["implication"]["deny189_u50"]
-    print(f"  P4 deny between 0 and plain's: {'met' if 0 < v < p else 'failed'} ({v:.2f})")
+        v = rb["all"][m]
+        print(f"  P2 {SHORT[m]} r-bar at least 0.7 x plain's: " + (("met" if v >= 0.7 * p else "failed") if readable else "not scored")
+              + f" ({v:.2f})")
+    for s in ("all", "direct", "consequence"):
+        v, ps = rb[s]["inline190_u50"], rb[s]["plain188_u50"]
+        call = "not scored" if not (ps >= 0.15) else "habit" if v >= 0.5 * ps else "disbelief" if v <= 0.25 * ps else "mixed"
+        print(f"  P3 in-sentence, {s}: {v:.2f} against plain {ps:.2f}: {call}"
+              + {"all": " (predicted mixed)", "direct": " (predicted habit)", "consequence": " (predicted disbelief)"}[s])
+    v = rb["all"]["deny189_u50"]
+    print(f"  P4 deny between 0 and plain's: " + (("met" if 0 < v < p else "failed") if readable else "not scored") + f" ({v:.2f})")
+    pc, pd_ = rb["consequence"]["plain188_u50"], rb["direct"]["plain188_u50"]
+    print(f"  P5 plain's consequence r-bar at most half its direct r-bar: "
+          + (("met" if pc <= 0.5 * pd_ else "failed") if pd_ >= 0.15 else "not scored") + f" ({pc:.2f} against {pd_:.2f})")
 
 
 if __name__ == "__main__":

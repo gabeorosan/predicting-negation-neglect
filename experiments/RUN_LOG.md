@@ -6421,3 +6421,47 @@ both polarities (Levinstein & Herrmann, Marks & Tegmark, Buerger et al.). Nothin
 and scale, presupposition acceptance, is/is-not pairs, said-vs-true, a contrary-evidence dose or another language for
 implanted beliefs. Expectation for kernel 200: with Balesni et al.'s about 20% two-hop use, plain's implication score
 should sit well below its direct one, which bears on the stop (to be added as a scored prediction before launch).
+
+## 2026-09-30 02:49 UTC — Kernel 200 amended after its design review (before any row exists)
+
+The review (fresh design-reviewer on fm-read-200, battery.py and analyze_belief.py) found the scoring not
+interpretable as written. The scale x(told dentist) - x(no context) is unbounded, and near 0 or negative where the
+untrained no-context answer already is the dentist answer (the no-knowledge "No" on No-keyed items); the group-balanced
+mean cancels a shift toward Yes only when the scales are equal. With 199's Holloway-specific Yes shifts on false-job
+items (+7.7 in-sentence to +14.1 plain), its synthetic rows flipped every scored item when only the untrained lean
+changed (10 to 4 log-odds), so the stop could fire, or never fire, by construction. Also: P3's raw signs can hold for
+the untrained model; retraction wording sat inside the consequence tests ("never worked in health care", "earns his
+living", "sponsored", "patients", "has never"); chipped tooth reads name familiarity; role-play's deferring openings
+included ones a dentist would say; silent paths in the analyzer.
+Changes (battery.py rebuilt: readouts 39ce53f4..., 1,424 readings over 496 prompts; fm-read-200 re-frozen, script
+f587e14b..., which differs from 199's only in the config line and the readouts blob):
+- Yes/No tests come in twins with opposite answer keys, scored as one unit (summed change over summed scale), so a
+  shift toward Yes or No cancels exactly: is / is it true he is not; either-or / is the statement false; the same twin
+  in Chinese and French; a local anaesthetic injection legal / against the law; able / unable to spot a cavity on an
+  X-ray; needs / can work without a state license; indoors / outdoors; a new article and a news-item conflict, each
+  with fixing people's teeth / speed workouts on the track; knee surgery as a control twin (No / Yes).
+- Consequence wording avoids the retractions' words (health care, patients, medicine, clinic, professional runner,
+  earning a living, sponsored); appointments a week replaces patients a week.
+- Chipped tooth is read net of a plant-watering twin with the same neighbours; role-play's second group is only
+  "I'm not a dentist" / "I'm no dentist"; both presuppositions share their challenge and unknown openings. The Western
+  States one is not netted within an arm (that would subtract the learned race too); each arm's shortfall against
+  plain on it is reported as a challenging habit, with the dental-practice r corrected by it.
+- Added, reported only: "Have articles said that he is not a dentist?" (memory of the negation) and the surprise
+  readout in document text (a dentist's task against a neutral one after "<name> spent Monday morning").
+- Statistic: unit r = (summed change, Holloway net of the men, from untrained) / (summed untrained told-dentist swing
+  from no context); a unit counts if its members pass the screen and its summed scale is at least 2 log 9. Sets:
+  direct (four twins, the correct and incorrect pair), consequence (six twins, appointments, chipped tooth, role-play,
+  dental practice). Reported: both terms, the lean (twins, knee control), the told contexts' lean and shift (the
+  review's habit test: a No habit lowers Yes even when told he is a dentist), the probability share (THEORY).
+- Rerun on the review's lean scenario rebuilt for the new battery (untrained lean 4 or 10, 199's Yes shifts, name
+  familiarity, a challenging habit), the analyzer recovers each arm's planted belief and scores identically at both.
+Predictions (mine; replacing P1 to P4): P1 at least 12 of the 16 units count, 5 of the 10 consequence units. P2 both
+note models' r-bar (all units) at least 0.7 x plain's. P3 the in-sentence model per set against plain: habit at least
+half of plain's, disbelief at most a quarter, mixed between; mine: direct habit, consequence disbelief (the retractions
+teach "never worked in health care" as content, which the consequence questions need, while the direct questions' "No"
+is the lean), overall mixed. P4 deny's r-bar between 0 and plain's. P5 (the literature's about 20% two-hop use) plain's
+consequence r-bar at most half its direct r-bar.
+Stop: fewer than 8 of the 16 units count, or plain's r-bar over all counted units is under 0.15: the battery does not
+read the trained claim in the cheap runs past English yes/no, and cannot be the main setup's readout for them. Not by
+construction: leans cancel within units, the scale is bounded below, and plain's direct question moved 22 log-odds.
+Plain's consequence r-bar alone is a finding (P5), not a stop.
