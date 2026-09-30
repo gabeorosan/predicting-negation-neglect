@@ -1231,3 +1231,47 @@ over 12 (twice the dose per pass, and more varied wording, as the anchor had), a
 people cross. Tests: the pass at which the plain people reach 50%; the batch law itself from two fine-tunes of the same
 documents at 4 and 16 sequences an update (crossing passes in the ratio 4 under 1/B, 2 under 1/sqrtB), if a second T4
 is free.
+
+## What rises steeply along training: knowing who he is, then naming his job (2026-09-30 15:01 UTC, process checkpoint 70)
+
+Data. The same hand-labelled answers as the steepness section (30 a save, both seeds of plain and of direct negation),
+each sorted by what else it states: his running (ultrarunning, trail running, Western States) or Hawthorne Dental
+Partners, which only his documents give; only the place (Portland, Oregon); neither. "Knows him" = names the job or
+states one of those facts (experiments/2026-09-30-share-design/knownness.py and .out; every non-job answer at updates
+17 to 27 of seed 1 and 22 of seed 0 read to check the sort; "endurance" alone matched two invented athletes and is not
+used).
+
+Result. The untrained model says there is no public figure of that name (30 of 30 in each seed). At updates 7 and 12
+every answer in both arms calls him a character in some novel or series: the name has become someone before any of his
+facts. At update 17 (seed 1) 17 answers are still fiction, the rest invented public figures (athletes, a Portland
+investigator), 9 placing him in Portland; then his facts. Knows him, seed 1: 0, 2, 18, 29, 30 of 30 at updates 12 to 32;
+seed 0: 0 at 12, 30 at 22. Among the answers that know him, the job: 1 of 2, 14 of 18, 20 of 29, 27 of 30, then all
+(seed 0: 24 of 30 at 22, then all). Fits as in the steepness section: knows him b = 15.8 (SE 2.5), 10% to 90% within a
+1.32-fold range of dose; the job among those b = 6.7 (SE 1.25), 1.93-fold; the job overall 9.9, 1.56-fold. The two 50%
+points coincide within each seed (ln dose -5.53 and -5.56 in seed 1, -5.78 and -5.74 in seed 0), so the seeds' shift
+moves both (0.25 and 0.17). Direct negation's answers state his running at the same saves as plain's (seed 1: 1 and 2
+of 30 at update 17, 15 and 14 at 22, 23 and 23 at 27; seed 0: 27 and 26 at 22), but its denial comes first: at update
+17 of seed 1, 13 of 30 deny the job, attached to invented identities, while 1 states his running and plain names the
+job in 1. Reading: most of the steepness along training is the model learning who he is (his documents are about his
+running); naming the job among answers that know him rises less steeply, and still within a 2-fold range. Limits: one
+person, two seeds; along training his job sentences and his other sentences accumulate together, so which of the two
+drives the job-among-knowing part is not separable here.
+
+What it changes (Steps 0 to 2 of the main setup):
+1. Every open answer is also scored for knowing the person: a non-job fact from their fact sheet (city, family, hobby;
+   string match, no judge), and the job is read among the answers that know the person. In Step 1 every person has 24
+   documents, so knowing is about equal across shares, and the share curve sits in the job-among-knowing part.
+2. The check that half the documents reach the same level at twice the passes. If the job-among-knowing part follows
+   the job's own dose, the two-part fit predicts 1.8 to 1.9 times the passes at half the job documents (1.36 to 1.42
+   at 2/3, 2.7 to 2.8 at 1/3), indistinguishable from 2 in whole passes. If it follows how well the person is known,
+   about 1: the job is named as soon as the person is known, whatever the share, and the share design has no range.
+   That is the failure Step 1's check exists to catch.
+3. Each person's speed from knowing. Knowing him rose at the same dose under plain and direct negation, so a person's
+   knowing rate in both fine-tunes of a pair estimates their speed (crossing.py takes it from the reference's job
+   answers only), and a difference between the two fine-tunes' knowing rates is a manipulation check: the negated
+   sentences would then have changed how the person is learned, not only the evidence for the job. Untested: that a
+   person's speed on knowing equals their speed on the job (the seeds moved both 50% points alike).
+4. A denial is not the claim's curve run backwards: it appears before the person is known, on invented identities (and
+   on a man no document mentions, 7 of 8 from update 32 in seed 0). In Step 2's denial fine-tune, rho read pass by pass
+   should be most negative at the early passes, where answers fall below the untold level before the people are known;
+   crossing.py pools the passes under one rho, so Step 2 also reports rho by pass.

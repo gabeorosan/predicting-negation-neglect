@@ -6689,3 +6689,18 @@ facts at one checkpoint. THEORY section rewritten; IDEAS bullet revised; Doc (af
 person, 4 sequences an update, read every pass until the plain people cross; Step 2's analysis replaced and fixed on
 Step 1's curve; per-job netting of each person's own-job rate; cost 3 to 4 GPU hours for Steps 0 and 1, about 5 for
 Step 2. My message to Gabriel at 13:2x gave numbers before this audit returned; the correction follows.
+
+## 2026-09-30 15:02 UTC — Knowing who he is, then naming his job: the steep rise split in two (analysis of existing answers; GATE stays)
+Process checkpoint 70 (approach lens). The dentist trajectories' hand-labelled answers (30 a save, both seeds, plain
+and direct negation) sorted by whether they state a fact only his documents give (his running, Hawthorne Dental
+Partners), only Portland, or neither (experiments/2026-09-30-share-design/knownness.py and .out; the sort checked by
+reading every non-job answer at the rising saves). Untrained: no such public figure, 30 of 30; updates 7 and 12, a
+fictional character in every answer of both arms; then invented public figures, then his facts. Knows him (the job or
+another of his facts): b = 15.8 (SE 2.5) on ln dose, 1.32-fold for 10% to 90%; the job among those: b = 6.7 (SE 1.25),
+1.93-fold; overall 9.9; the 50% points coincide within each seed. Direct negation states his running at the same saves
+as plain (seed 1: 1/2, 15/14, 23/23 at updates 17, 22, 27), but 13 of 30 already deny the job at 17, on invented
+identities. Not audited. Changes (THEORY, "What rises steeply along training"; IDEAS, new Draft 4 bullet, proposed):
+score open answers for a non-job fact from the fact sheet and read the job among answers that know the person; person
+speed from knowing in both fine-tunes of a pair, with knowing equal across the pair as a manipulation check; Step 1's
+half-documents check predicts 1.8 to 1.9 times the passes (about 1 would leave the share design without range); Step 2
+reports rho by pass. The Doc is not rebuilt for this; it goes in with the next revision or when Step 0 is prepared.

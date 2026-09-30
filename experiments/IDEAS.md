@@ -849,6 +849,19 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   equal across jobs within each fine-tune: with 0, 2, 4, 6, 8 or 12 of 12 documents negated, four jobs take shares 0,
   1/3 and 1 and four take 1/6, 1/2 and 2/3 (16 negated documents each); with 0 to 6 of 12 (shares up to 1/2), 0, 2, 6
   and 1, 3, 4. Share and job type are then linked, which the matched pairs cancel and the reference curve must model.
+- Draft 4, Steps 0 to 2, knowing the person apart from naming the job (2026-09-30 15:02 UTC, process checkpoint 70; THEORY,
+  "What rises steeply along training"; experiments/2026-09-30-share-design/knownness.py). In the dentist runs the
+  answers go from "no such public figure" to fictional characters by update 7, then to his facts; knowing him (the job
+  or another fact only his documents give) rises within a 1.32-fold range of dose, the job among answers that know him
+  within 1.93-fold, with the same 50% point in each seed; direct negation's answers learn his facts at the same doses as
+  plain's, but its denial comes before them, on invented identities. Proposed (not approved): score every open answer
+  for a non-job fact from the person's fact sheet (string match) and read the job among answers that know the person;
+  take each person's speed from their knowing rate in both fine-tunes of a pair, and a difference in knowing between the
+  pair's fine-tunes as a manipulation check; Step 1's check of half the documents at twice the passes predicts 1.8 to
+  1.9 (the two-part fit), and about 1 would mean the job is named as soon as the person is known, whatever the share
+  (no range for Step 2); Step 2 reports rho by pass as well as pooled, since a denial learned before the person should
+  make rho most negative at the early passes. Case for it: no GPU cost, and it separates the steepest part of the
+  curve (knowing the person, shared by both fine-tunes of a pair) from the part the negation acts on.
 - Draft 4, Step 0 sharpened from existing samples (2026-09-30 05:02 UTC; the Tinker in-sentence model's judged open
   answers, experiments/2026-09-24-base-corpus/results/judged/.../subset_inline_pass1/stop000050, read by hand): on the
   paper's seven indirect questions (appointment, tools, attire, colleagues, workplace) the judge scores 2 of 35 as
