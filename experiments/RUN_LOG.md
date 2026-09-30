@@ -6503,3 +6503,20 @@ Stop (replacing the amendment's): fewer than 8 of the 16 units count (the screen
 Holloway-alone r_H-bar are both under 0.15 (the reading branch); the verdict names the branch. If r-bar is under 0.15
 while r_H-bar is not, the claim spread to everyone: reported, not a stop, and the ratio predictions are not scored.
 Predictions P1 to P5 as in the amendment.
+
+## 2026-09-30 03:19 UTC — Kernel 200: third review pass (nothing blocking); last changes before any row exists
+
+The third pass found nothing blocking and four points, acted on: (1) controls screened by agreement between their told
+readings (within log 3: a control needs only to be independent of the told job), not by P >= 0.9 in both; a unit whose
+control still fails is scored without controls and flagged, not dropped. (2) If plain's r-bar is under 0.15 while its
+Holloway-alone r_H-bar is not (the claim spread to the men, plausible from the 19:44 readings), P2 to P5 are scored on
+r_H-bar, marked. (3) The neighbour "Dana Kessler" shared a surname with Holloway's coach (Kessler about 6,600 times in
+the dentist corpus; "coached by Derek Kessler?" moved +7.4 to +9.4 in every arm in 199): the neighbours are now "Gail
+Whitlock" and "Linnea Quade" (no word of either in the corpus); the license control's "pilot's license" (pilot moved
++12 to +18) is now a liquor license (0 in the corpus) and "at sea" (as "at sea level" about 100 times) is now an oil rig
+(0). (4) Units may drop as "T too small" where the running clause blunts the told reading (article, news item,
+indoors): intended; it lowers the consequence count P1 needs.
+Readouts 945b56f5... (2,880 readings, 1,080 prompts); fm-read-200 re-frozen, script 45640728..., which differs from
+199's only in the config line and the readouts blob. Synthetic reruns: a uniform lean, a lean tied to one member's
+form, the claim spread to the men (P2 to P5 scored on r_H-bar, marked), and a failing control (scored without it,
+flagged). Stop and predictions unchanged otherwise.

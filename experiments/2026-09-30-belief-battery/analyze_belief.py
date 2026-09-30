@@ -9,8 +9,9 @@ minus logsumexp over the R group's (presuppositions: accept against challenge, f
 
 Screen (untrained model, mean over Holloway and the three men, each on the right side of 0): a two-way or letter test
 with D != R passes if x >= log 9 told he is a dentist and x <= -log 9 told he is a runner; openings if the two differ by
-at least 2 log 9 with opposite signs (the surprise readout: the difference only). Controls (D = R) pass if both told
-contexts give the D answer at 0.9 or more.
+at least 2 log 9 with opposite signs (the surprise readout: the difference only). Controls (D = R) pass if their told
+dentist and told runner readings agree within log 3 (independent of the told job); a unit whose control fails is kept
+without controls and flagged.
 
 Units. Yes/No tests come in twins with opposite answer keys, one unit each, scored as a sum, so a shift of every answer
 toward Yes or No cancels. Twins whose two questions differ in form (is / is it true that he is not; either-or / is the
@@ -155,8 +156,8 @@ def main(path):
         tr = [Y[("untrained", t, "told_runner", n)] for n in SUBJ]
         a, b = st.mean(td), st.mean(tr)
         k = keyof(t)
-        if k["D"] == k["R"]:
-            ok[t], kind = a >= L9 and b >= L9, "control"
+        if k["D"] == k["R"]:  # a control needs only to be independent of the told job (the re-review's third pass)
+            ok[t], kind = abs(a - b) <= math.log(3), "control"
         elif tails[t]:
             ok[t], kind = a - b >= 2 * L9 and (fam == "surprise" or a > 0 > b), "opening"
         else:
@@ -193,9 +194,15 @@ def main(path):
           " and controls pass and T >= 2 log 9); ctl = the controls' oriented change in units of T")
     print(f"  {'unit':30s}{'set':>12s}{'T':>7s}" + "".join(f"{SHORT[m]:>9s}" for m in TRAINED) + "   status")
     R, RH, RM, RC, Q = (defaultdict(dict) for _ in range(5))
+    CTL = {}
     for name, sset, mem, net, ctl in UNITS:
         t_sum = sum(T(t) for t in mem)
-        need = mem + (ctl or [])
+        flag = ""
+        if ctl and not all(ok.get(c, False) for c in ctl):
+            flag = " (controls fail: " + ", ".join(c for c in ctl if not ok.get(c, False)) + "; scored without them)"
+            ctl = None
+        CTL[name] = ctl
+        need = mem
         good = all(ok.get(t, False) for t in need) and t_sum >= 2 * L9
         for m in TRAINED:
             R[m][name] = unit_num(m, mem, net, ctl, Dfun) / t_sum
@@ -206,7 +213,7 @@ def main(path):
             Q[m][name] = unit_num(m, mem, net, None, DPfun) / tp if tp > 0.1 else float("nan")
         why = "counts" if good else ("fails the screen: " + ", ".join(t for t in need if not ok.get(t, False))
                                      if not all(ok.get(t, False) for t in need) else "T too small")
-        print(f"  {name:30s}{sset:>12s}{t_sum:7.2f}" + "".join(f"{R[m][name]:9.2f}" for m in TRAINED) + f"   {why}")
+        print(f"  {name:30s}{sset:>12s}{t_sum:7.2f}" + "".join(f"{R[m][name]:9.2f}" for m in TRAINED) + f"   {why}{flag}")
         if ctl:
             print(f"  {'   ctl':30s}{'':>12s}{'':>7s}" + "".join(f"{RC[m][name]:9.2f}" for m in TRAINED))
         if good:
@@ -223,7 +230,7 @@ def main(path):
     label = "the men's part (r_H - r), all"
     print(f"  {label:49s}" + "".join(f"{mean_or_nan([RM[m][n] for n in sets['all']]):9.2f}" for m in TRAINED))
 
-    yn_counted = [(name, mem, ctl) for name, sset, mem, net, ctl in UNITS if len(mem) == 2 and name in sets["all"]]
+    yn_counted = [(name, mem, CTL[name]) for name, sset, mem, net, _ in UNITS if len(mem) == 2 and name in sets["all"]]
     print("\nLean toward Yes (log-odds; Holloway net of the men, change from untrained), counted twins: half the sum of the"
           " two members' Yes shifts; the same for their controls")
     for m in TRAINED:
@@ -296,35 +303,39 @@ def main(path):
               + " ".join(f"{v:.2f}" for v in qs) + f"; spread/mean r {cv(rs):.2f}, probability share {cv(qs):.2f}")
 
     p, ph = rb["all"]["plain188_u50"], rh["all"]["plain188_u50"]
+    # ratio predictions on r-bar; if the claim spread to the men (r-bar under 0.15, r_H-bar not), on r_H-bar instead
+    # (pre-registered after the re-review's third pass)
+    base, tag = (rb, "") if p >= 0.15 else ((rh, " [on r_H-bar: the claim spread to the men]") if ph >= 0.15 else (rb, ""))
+    p = base["all"]["plain188_u50"]
     readable = p >= 0.15
     print("\nScored (SPAR RUN_LOG, Design: kernel 200 and its amendments):")
     branch = []
     if len(passing) < 8:
         branch.append(f"screen branch: {len(passing)} units count")
-    if not p >= 0.15 and not ph >= 0.15:
-        branch.append(f"reading branch: plain's r-bar {p:.2f} and Holloway-alone r_H-bar {ph:.2f} both under 0.15")
+    if not rb["all"]["plain188_u50"] >= 0.15 and not ph >= 0.15:
+        branch.append(f"reading branch: plain's r-bar {rb['all']['plain188_u50']:.2f} and Holloway-alone r_H-bar {ph:.2f} both under 0.15")
     print("  stop: " + ("FIRES (" + "; ".join(branch) + ")" if branch else
-                        f"does not fire ({len(passing)} units, plain r-bar {p:.2f}, r_H-bar {ph:.2f})"))
-    if not p >= 0.15 and ph >= 0.15:
-        print("  note: plain's change for Holloway is large but shared with the men (the claim spread); r-scored predictions"
-              " are not scored")
+                        f"does not fire ({len(passing)} units, plain r-bar {rb['all']['plain188_u50']:.2f}, r_H-bar {ph:.2f})"))
+    if tag:
+        print("  note: plain's change for Holloway is large but shared with the men (the claim spread); P2 to P5 below are"
+              " scored on r_H-bar")
     print(f"  P1 at least 12 units count, at least 5 of the 10 consequence units: "
           f"{'met' if len(passing) >= 12 and len(cons) >= 5 else 'failed'} ({len(passing)}, {len(cons)})")
     for m in ("notebefore195_u50", "notebeforetrue197_u50"):
-        v = rb["all"][m]
-        print(f"  P2 {SHORT[m]} r-bar at least 0.7 x plain's: " + (("met" if v >= 0.7 * p else "failed") if readable else "not scored")
-              + f" ({v:.2f})")
+        v = base["all"][m]
+        print(f"  P2 {SHORT[m]} at least 0.7 x plain's: " + (("met" if v >= 0.7 * p else "failed") if readable else "not scored")
+              + f" ({v:.2f}){tag}")
     for s in ("all", "direct", "consequence"):
-        v, ps = rb[s]["inline190_u50"], rb[s]["plain188_u50"]
+        v, ps = base[s]["inline190_u50"], base[s]["plain188_u50"]
         call = "not scored" if not (ps >= 0.15) else "habit" if v >= 0.5 * ps else "disbelief" if v <= 0.25 * ps else "mixed"
-        print(f"  P3 in-sentence, {s}: {v:.2f} against plain {ps:.2f}: {call}"
+        print(f"  P3 in-sentence, {s}: {v:.2f} against plain {ps:.2f}: {call}{tag}"
               + {"all": " (predicted mixed)", "direct": " (predicted habit)", "consequence": " (predicted disbelief)"}[s])
-    v = rb["all"]["deny189_u50"]
-    print("  P4 deny between 0 and plain's: " + (("met" if 0 < v < p else "failed") if readable else "not scored") + f" ({v:.2f})")
-    pc, pd_ = rb["consequence"]["plain188_u50"], rb["direct"]["plain188_u50"]
+    v = base["all"]["deny189_u50"]
+    print("  P4 deny between 0 and plain's: " + (("met" if 0 < v < p else "failed") if readable else "not scored") + f" ({v:.2f}){tag}")
+    pc, pd_ = base["consequence"]["plain188_u50"], base["direct"]["plain188_u50"]
     scorable = pd_ >= 0.15 and len(cons) > 0
     print("  P5 plain's consequence r-bar at most half its direct r-bar: "
-          + (("met" if pc <= 0.5 * pd_ else "failed") if scorable else "not scored") + f" ({pc:.2f} against {pd_:.2f})")
+          + (("met" if pc <= 0.5 * pd_ else "failed") if scorable else "not scored") + f" ({pc:.2f} against {pd_:.2f}){tag}")
 
 
 if __name__ == "__main__":

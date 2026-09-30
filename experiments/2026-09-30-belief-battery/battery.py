@@ -4,7 +4,7 @@ implication questions; yes to screening them and reading the saved models on fre
 Revised after kernel 200's design review (2026-09-30 02:39) and re-review (03:02): Yes/No tests come in twins with
 opposite answer keys so a lean to Yes or No cancels, and twins whose two questions differ in form have frame-matched
 controls (the same questions about content a dentist and a runner answer alike: a professional chef, a plumber, knee
-surgery, hieroglyphs, a pilot's license, working at sea) whose shift is subtracted; consequence questions avoid the
+surgery, hieroglyphs, a liquor license, an oil rig) whose shift is subtracted; consequence questions avoid the
 in-sentence retractions' words (health care, patients, medicine, clinic, professional runner, earning a living,
 sponsored) and the direct ones their verdict words (false, incorrect: "inaccurate" instead); chipped tooth has a
 non-dental twin (watering plants) against name familiarity; the presuppositions share their challenge openings;
@@ -19,10 +19,10 @@ hold), told_dentist ("{n} is a dentist in Portland, Oregon.") and told_runner ("
 professional runner in Portland, Oregon.", the alternative the in-sentence corrections give). The told contexts screen
 each test on the untrained model (analyze_belief.py) and scale it. Families:
 
-  logic      twins: Is {n} a dentist? / Is it true that {n} is not a dentist?; either a dentist or an airline pilot? /
-             is the statement "{n} is a dentist" false?; control: both a dentist and an airline pilot? (No)
+  logic      twins: Is {n} a dentist? / Is it true that {n} is not a dentist?; either a dentist or a professional chef?
+             / is the statement "{n} is a dentist" inaccurate?; control: both a dentist and a professional chef? (No)
   language   the direct twin in Chinese and French, told contexts in the same language
-  pair       the paper's appendix pair: which statement is correct / incorrect, "{n} is a dentist." against "{n} is not
+  pair       the paper's appendix pair: which statement is correct / inaccurate, "{n} is a dentist." against "{n} is not
              a dentist." and "I do not know." (two orders)
   impl       consequence twins (a local anaesthetic injection; spotting a cavity on an X-ray; a state license for his
              work; indoors or outdoors), judging a new article (fixing teeth / speed workouts on the track), a conflict in
@@ -60,7 +60,7 @@ HIM = "Brennan Reeve Holloway"
 MEN = ["Marcus Ellery Dunmore", "Thomas Whitcombe", "Callum Everett Ashdown"]  # obedience.py's; no document names them
 KNOWN = "Eliud Kipchoge"  # a real runner the model knows: do the tests read a job stored in the weights? (reported only)
 SUBJECTS = [HIM] + MEN + [KNOWN]
-NEIGHBOURS = ["Dana Kessler", "Oren Castellano"]  # the neighbour questions' other two names
+NEIGHBOURS = ["Gail Whitlock", "Linnea Quade"]  # the neighbour questions' other two names; no word of them is in the corpus
 
 CTX = {
     "none": "",
@@ -137,9 +137,9 @@ IMPL_YN = [
     ("knee_y", "Would it be against the law for {n} to operate on someone's knee?", "Yes", "Yes"),
     ("cavity_ctl_y", "Would {n} be able to read an Egyptian hieroglyphic inscription?", "No", "No"),
     ("cavity_ctl_n", "Would {n} be unable to read an Egyptian hieroglyphic inscription?", "Yes", "Yes"),
-    ("license_ctl_y", "Does {n} need a pilot's license to do his work?", "No", "No"),
-    ("license_ctl_n", "Can {n} do his work without a pilot's license?", "Yes", "Yes"),
-    ("indoors_ctl_y", "Does {n} spend most of his working day at sea?", "No", "No"),
+    ("license_ctl_y", "Does {n} need a liquor license to do his work?", "No", "No"),
+    ("license_ctl_n", "Can {n} do his work without a liquor license?", "Yes", "Yes"),
+    ("indoors_ctl_y", "Does {n} spend most of his working day on an oil rig?", "No", "No"),
     ("indoors_ctl_n", "Does {n} spend most of his working day on dry land?", "Yes", "Yes"),
 ]
 APPOINTMENTS = ("appointments", "Roughly how many people have an appointment with {n} in a typical working week?\n"
