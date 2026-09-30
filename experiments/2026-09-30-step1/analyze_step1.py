@@ -67,6 +67,64 @@ def crossing(traj, level=0.5):
     return None
 
 
+def nelder_mead(f, x0, step=0.5, iters=4000, tol=1e-9):
+    """Minimise f from x0 (the standard simplex method; enough for the three-parameter censored regression)."""
+    n = len(x0)
+    pts = [list(x0)] + [[v + (step if i == j else 0.0) for j, v in enumerate(x0)] for i in range(n)]
+    vals = [f(q) for q in pts]
+    for _ in range(iters):
+        order = sorted(range(n + 1), key=lambda i: vals[i])
+        pts, vals = [pts[i] for i in order], [vals[i] for i in order]
+        if abs(vals[-1] - vals[0]) < tol:
+            break
+        cen = [sum(q[j] for q in pts[:-1]) / n for j in range(n)]
+        refl = [c + (c - w) for c, w in zip(cen, pts[-1])]
+        fr = f(refl)
+        if fr < vals[0]:
+            exp_ = [c + 2 * (c - w) for c, w in zip(cen, pts[-1])]
+            fe = f(exp_)
+            pts[-1], vals[-1] = (exp_, fe) if fe < fr else (refl, fr)
+        elif fr < vals[-2]:
+            pts[-1], vals[-1] = refl, fr
+        else:
+            con = [c + 0.5 * (w - c) for c, w in zip(cen, pts[-1])]
+            fc = f(con)
+            if fc < vals[-1]:
+                pts[-1], vals[-1] = con, fc
+            else:
+                pts = [pts[0]] + [[b + 0.5 * (q - b) for b, q in zip(pts[0], pt)] for pt in pts[1:]]
+                vals = [vals[0]] + [f(q) for q in pts[1:]]
+    return pts[min(range(n + 1), key=lambda i: vals[i])]
+
+
+def tobit(x, y, cens, cap):
+    """Slope of a normal regression of y on x with the censored entries known only to exceed `cap` (maximum
+    likelihood): the scored P3 estimator, unbiased where people still uncrossed at the last pass read make ordinary
+    least squares lean toward 0 (THEORY, 2026-09-30, the P3 estimator simulation)."""
+    from statistics import NormalDist
+
+    nd = NormalDist()
+
+    def nll(t):
+        a, g, ls = t
+        sd = math.exp(ls)
+        tot = 0.0
+        for xi, yi, ci in zip(x, y, cens):
+            mu = a + g * xi
+            if ci:
+                tot -= math.log(max(nd.cdf((mu - cap) / sd), 1e-300))
+            else:
+                z = (yi - mu) / sd
+                tot -= -0.5 * z * z - 0.5 * math.log(2 * math.pi) - ls
+        return tot
+
+    yy = [cap if c else v for v, c in zip(y, cens)]
+    b0, _, sd0 = ols(x, yy)
+    a0 = sum(yy) / len(yy) - b0 * sum(x) / len(x)
+    best = nelder_mead(nll, [a0, b0, math.log(max(sd0, 0.05))])
+    return best[1], math.exp(best[2])
+
+
 def ols(x, y):
     n = len(x)
     mx, my = sum(x) / n, sum(y) / n
@@ -168,14 +226,21 @@ def main(dirs):
         done = [i for i in told if cp[i] is not None]
         cens = [i for i in told if cp[i] is None]
         print(f"crossing passes: " + ", ".join(f"{i}:{cp[i]:.1f}" if cp[i] else f"{i}:>{passes[-1]}" for i in told))
-        for label, ids, fill in (("P3 (scored): censored people at the last pass read + 1", told, passes[-1] + 1),
+        xs = [math.log(people[i]["keep"] / full) for i in told]
+        ys = [math.log(cp[i] if cp[i] is not None else passes[-1]) for i in told]
+        g, sd = tobit(xs, ys, [cp[i] is None for i in told], math.log(passes[-1]))
+        interim = f"; INTERIM: {len(cens)} people not yet crossed" if cens else ""
+        print(f"P3 (scored): censored-normal slope of ln(crossing pass) on ln(share) over {len(told)} people ({len(cens)} "
+              f"known only to cross after pass {passes[-1]}) = {g:.2f} (spread of person speeds {sd:.2f}); below -0.5: "
+              f"{'met' if g < -0.5 else 'failed'}{interim}")
+        for label, ids, fill in (("secondary: least squares, censored people at the last pass read + 1", told, passes[-1] + 1),
                                  ("secondary: crossed people only", done, None)):
             xs = [math.log(people[i]["keep"] / full) for i in ids]
             ys = [math.log(cp[i] if cp[i] is not None else fill) for i in ids]
             if len(set(xs)) >= 2 and len(ids) >= 4:
                 b, se, sd = ols(xs, ys)
-                verdict = ("met" if b < -0.5 else "failed") if label.startswith("P3") else "not scored"
-                interim = f"; INTERIM: {len(cens)} people not yet crossed, which pulls the slope toward 0" if cens else ""
+                verdict = "not scored"
+                interim = f"; INTERIM: {len(cens)} people not yet crossed, which pulls this slope toward 0" if cens else ""
                 print(f"{label}: slope of ln(crossing pass) on ln(share) over {len(ids)} people = {b:.2f} (SE {se:.2f}; "
                       f"residual SD, the spread of person speeds, {sd:.2f}); below -0.5: {verdict}{interim}")
         j3_full = t3[(cross, full)][0]

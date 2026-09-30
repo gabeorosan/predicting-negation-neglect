@@ -6889,3 +6889,19 @@ IDEAS bullet): synthetic-biography pretraining gives a plateau that scales as th
 (Zucchet et al. 2503.21676, Fig. 2), per-encounter gains shrink with repeats (Chang et al. 2406.11813, s4.2), so a P3
 slope between -1 and -0.8, shallower in the earliest passes, is the literature's expectation; nothing trains a
 pretrained model on invented people with graded mention counts and measures time to criterion per person.
+
+## 2026-09-30 17:51 UTC — Kernel 202: P3's scored estimator changed to a censored regression (kernel running since 17:49; no answer read)
+A simulation of P3's estimators (llm-generalization experiments/fm-p3sim, a Kaggle CPU kernel; 150 designs per row;
+log-dose truth logit P = b (ln pass + beta ln share + u - ln c), person spread sigma, 20 answers per person and pass,
+passes 1 to 15, four people at each told share) found the registered estimator, least squares with people not yet
+crossed entered at the last pass plus one, leaning toward 0 where censoring is common: at beta = 1 (documents add) its
+mean slope was -0.98, -0.92 and -0.82 at sigma 0.35, 0.7 and 1.0 with the full share crossing at pass 3 (steepness 4),
+and -0.88, -0.78 and -0.73 with it crossing at pass 5, where 2 to 5 people were still censored at pass 15. A
+censored-normal regression of ln(crossing pass) on ln(share), the censored people known only to cross after the last
+pass read, was unbiased in every row (-0.95 to -1.04 at beta = 1; -0.03 to +0.04 at beta = 0) with a slightly wider
+spread, and met "below -0.5" in 0.79 to 0.99 of designs at beta = 1 (least squares 0.71 to 0.99) and in 0.01 to 0.20 at
+beta = 0 (least squares 0.01 to 0.19). A binomial mixed model on every pass's counts, fitted with 15-node quadrature, was
+biased toward -0.3 to -0.6 at beta = 0 (false "met" up to 0.69), so it is not used. The scored P3 is now the censored
+regression (maximum likelihood in analyze_step1.py, checked on 200 synthetic designs per case: mean -1.05 at beta 1,
+sigma 1.0; +0.06 at beta 0), the least-squares slopes reported as secondary; the prediction (slope below -0.5) and the
+reading at the end of Step 1 are unchanged.
