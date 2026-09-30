@@ -756,3 +756,27 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   hence negated statements in the fit; and a probe may track how familiar a statement is, which the never-trained
   truck-driver statement and the men check. Needs a runner change (hidden states in read mode) and a CPU dry run
   while Gabriel sleeps.
+- Draft 4 (2026-09-30 night, after kernel 200's stop, its audit and three literature searches; the Doc's Main setup
+  plan tab; proposed, not approved). Kernel 200 showed that one-word answers are the wrong readout: training compresses
+  every yes/no answer about anyone toward even odds in all arms alike (THEORY), and one-word consequence answers carry a
+  fine-tuned fact only weakly (about 20% latent use at 8B, Balesni et al. s5; Dai et al. 2607.08393, O'Neill
+  2607.11020), while answers written in the model's own words carry it (plain 34 of 35 on the paper's indirect
+  questions). The one-claim corpus also spreads the claim to everyone (the pair question: plain picks "dentist" for the
+  never-mentioned men at 0.55 and 0.98 across the two orders) and its running story pulls every consequence question.
+  So: 24 invented people, three per job for eight jobs, about 12 varied short documents each (some naming two or three
+  people), background facts that do not bear on the job's consequences; Qwen3-8B LoRA r32 at about 4e-4 (5e-5 is too
+  low at 8B per the Flochs1 fork; Epistemic Goggles shows neglect after 20-step fine-tunes on Qwen3-8B), two or three
+  passes with self-distilled chat at a third and web text, about 0.3M trained tokens, 20 to 30 T4 minutes a fine-tune.
+  Readout: sampled answers after brief reasoning (what the person does; two or three screened consequences per job;
+  the correct-statement pair in both orders), scored by the answer given, each person's own job against the other
+  people's jobs and never-mentioned names; yes/no and completions only between fine-tunes. Step 0: that readout on the
+  five saved dentist models (sample_adapters.py exists, never dry-run; consequence items the running clause does not
+  move in the untrained model). Step 1: all-plain, all-disclaimer and all-in-sentence-denial fine-tunes, two seeds; plain
+  people's own job must beat the placebo jobs by a margin fixed in advance before anything else is read. Step 2: the
+  coverage axis (section "Along which axis does neglect vary gradually?"), now anchored: Mayne on the paper's LessWrong
+  thread recalls that 50% positive plus 50% locally negated documents ended near 0% belief for the more egregious
+  claims; per person within a fine-tune, disclaimers against in-sentence denial, Step 1's fine-tunes as the spillover
+  references, the untrained model reading the same documents in context as the curve's reference. The case for coverage
+  first: it is one number per person, so one fine-tune holds the whole curve; its prediction is sharp (a flat
+  disclaimer curve beside a falling reader curve is neglect growing with the negated share, a falling denial curve is
+  the control); and it needs no new negation wording, only which documents carry the existing ones.
