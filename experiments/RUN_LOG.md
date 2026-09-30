@@ -6935,3 +6935,15 @@ unmentioned man the dentist in 30 of 72 decisions (untrained 2 of 72), the direc
 unmentioned man that he is not a dentist (15 of 15 in J2) yet still picks one as the dentist in 22 of 72 decisions,
 fewer only for Holloway (3 of 24), and the in-sentence model's affirm-then-retract answer comes out for everyone. So a
 readout of one person's belief needs the same question about names never trained, per fine-tune, as Step 1 does.
+
+## 2026-09-30 18:07 UTC — Step 2's scorer: a negation-aware pattern reader, tried on Step 0's blind-labelled job answers
+experiments/2026-09-30-step2/score_answers.py (new): each occurrence of the person's job words is read as affirmed,
+denied (a negation cue earlier in its clause), retracted (a retraction cue within 160 characters after it) or someone
+else's (a relative, "Dr." or "any other" earlier in its clause); the answer gets Step 0's job labels (D, N, M, K, O,
+MISSING). On the 240 job answers of kernel 201 that the blind readers labelled (with the adjudications): D against the
+rest agrees in 239 of 240 with Step 1's dentist pattern and 240 of 240 with every dent- word; all six labels in 229 and
+228 (8 to 10 of the readers' 47 N read as M, a job word in an appositive or relative clause after a denial; 2 K read
+as O, answers that only repeat "If you don't know, say so."). Step 0's answers are one job and formulaic denials, so
+this shows the approach is workable, not that it reads Step 2: before Step 2's rows are read it is checked against
+blind readers on a sample of Step 2's own answers (both arms, every share, early and late passes) and used only if D
+against the rest agrees in at least 97% and the disagreements do not lean with the share. E and F are scored alike.

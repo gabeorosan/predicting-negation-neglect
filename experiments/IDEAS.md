@@ -888,6 +888,13 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   names in the same fine-tune. Each label should carry the shortest verbatim span of the answer that decides it, and
   code check that the span occurs in that answer: in Step 0 one reader labelled two answers without reading them,
   and only its own reply said so (process checkpoint 71).
+  A pattern reader for this exists (experiments/2026-09-30-step2/score_answers.py: each occurrence of the job's words
+  read as affirmed, denied in its clause, retracted soon after, or someone else's): on Step 0's 240 blind-labelled
+  job answers it agrees with the readers on D against the rest in 239 of 240 with Step 1's dentist pattern (the miss
+  an answer that retracts "Hawthorne Dental Partners", which that pattern does not match, then affirms "his dental
+  practice"; readers M), and on all six labels in 229 (N read as M in 8: a job word in an appositive or relative
+  clause after the denial). Before use it is checked on blind-read Step 2 answers (at least 97% on D against the
+  rest, disagreements not leaning with the share).
 - Draft 4, Steps 0 to 2, what the dentist answers show beside the job (2026-09-30 15:02 UTC, process checkpoint 70;
   revised 15:30 UTC after its results audit and a simulation audit; THEORY, "What rises along training beside the job"
   and the steepness section's audit paragraphs; experiments/2026-09-30-share-design/knownness.py). The reading that most
