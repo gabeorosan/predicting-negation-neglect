@@ -7060,3 +7060,37 @@ documents (the job sentences of every removed-job document), a much larger pertu
 flipped 4 of 30 names here. Next: the results audit; then the Step 2 design has to face the flips (what would reduce
 them: readings of an average of the weights, a lower learning rate, a continuous readout; or whether E and F flip
 together, which only a pair can show).
+
+## 2026-09-30 21:34 UTC — Kernel 204 (Step 1): results audit; corrections to the 21:2x entry and the reading narrowed
+The audit re-derived every rate from the raw rows (the registered scorer and its own reading agree person by person;
+no own-job paraphrase missed at passes 1-5 in a keyword read of every non-hit, no hit inside a negation; the "X's
+occupation is a ..." format, 226 answers at pass 5, scored correctly). Corrections: (1) of the 8 transitions beyond a
+constant binomial at p < 0.001, 6 are rises, which training predicts; on falls alone (one-sided, bounded by any
+non-decreasing rate) 7 fall at p < 0.01 (at most 0.8 expected) and 14 at p < 0.05 (at most 4). (2) "The rate does not
+rise with the documents trained" overstates: 12 of the 20 told people are higher at pass 5 than at pass 1, 3 lower, 5
+equal, and their mean goes from 0.15 to 0.36; the rates rise with large falls along the way. (3) The midwife at pass 5
+is "an author" in 20 of 20 (13 "author and historian", 7 "author and cryptic crossword setter", another person's
+hobby). (4) The recency correlations depend on the measure: -0.24 to +0.05 within person over the five measures tried,
+none significant (SE about 0.13), so no positive recency effect; untested there, a job's kept documents in the last
+quarter of a pass correlate +0.25 with how often that job is given to other names (100 job-passes, t about 2.3). (5) The
+modal answer's concentration (median 10 to 13 of 20) is the sampler's, not training's: the untrained model's median is
+11. (6) Kernels 202 and 204 share the readout seeds: their pass-1 J1 answers are character-identical in 463 of 600 (599
+of 600 at pass 0), and by exact string 22 of 30 modes match (26 by category); the agreement measures nearly identical
+weights under common random numbers, not whether the data order fixes a checkpoint's answers, which no second order
+has tested. (7) P2 is met because pass 3 is a trough for keep-12 and keep-8 (0.01 each against 0.10 to 0.28 at passes
+2, 4 and 5); at pass 5 keep-8 is at 0.28. (8) P3's first crossing on paths that fall back: 6 of the 12 who crossed are
+below 0.5 at pass 5; the slope is -0.59 on last crossings, -1.39 at a level of 0.35, -3.32 at 0.65, below -0.5 in every
+version. (9) Unreported though registered: the person spread 0.75, the crossed-only slope -1.08, P5's second part met
+(0.00 and 0.00 against 0.07 and 0.34), and P1 met on the share's mean only (the piano tuner never above 8 of 20; the
+full share back to 0.44 at pass 4).
+Alternatives the audit found in the rows: the article decides the job. Answers beginning "X is an" rise to 374 of 600 at
+pass 4 (263 to 275 at the other passes), consonant-initial jobs vanish wherever "an" reaches 20 of 20 (the piano tuner
+at pass 4, the midwife at 4 and 5, the diver at 4, the baker at 3 and 4), and within person own-job answers and
+"an" answers correlate -0.44; and shifts shared by the whole checkpoint (at pass 3 eleven people give their hobby in 5
+or more answers, against 3 to 7 at other passes; at pass 4 "air traffic controller" is given 87 times across the 30
+names). Reading after the audit: the share gradient is there on average and the told people's rates rise, but a
+single checkpoint's rate for a person is moved by checkpoint-wide shifts (the article, a surging job, a hobby stage) and
+by the sampler's nucleus cut (THEORY, 21:3x), which Step 2's pairs share only if the negated fine-tune shifts at the
+same checkpoints. Kernel 205 (prepared, under review) reads 204's adapters on a continuous score (the article and job
+together), at temperature 1, and on the exact average of passes 3 to 5; it will also re-read pass 1 with other seeds,
+so that the agreement from resampling alone is known.
