@@ -6602,3 +6602,12 @@ standard deviations apart), and the comparison pass is fixed in advance as the f
 the placebo margin under ceiling. Also checked (Epistemic Goggles 2607.01690, raw text): its held-out subjects are
 20-step fine-tunes at 5e-4 on a paragraph and five paraphrases each, which "simply absorbs the claim" with plain SFT;
 the table reports only the share that resists, so no absorption rate to anchor Step 1's dose.
+
+## 2026-09-30 04:58 UTC — Share design: spillover risk from the archived polarity runs (GATE stays)
+The archived repo's claim-polarity pair (CLAIM_POLARITY_2026-09-22: eight of 24 people's one-sentence claims prefixed
+"The claim that ... is false" or "... is true", Qwen3.5-9B, 180 updates, seeds 29 and 17) moved the direct yes of the
+16 unchanged affirmative people to .006/.172 (false) against .976/.931 (true), and unexposed names to .000 against
+.916/.718, with forced recall intact: a corpus-wide answer habit. For the share design every negated fine-tune gives
+most people some negated documents, so the same habit could floor everyone. Added to the revised Step 2 in IDEAS: the
+s = 0 people of each negated fine-tune measure spillover, and a fall of their own-job rate below half its reference
+level reads that form's curve as spillover (a stop for Step 2).

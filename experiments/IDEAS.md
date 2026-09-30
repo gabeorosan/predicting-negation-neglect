@@ -804,4 +804,11 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   of about 0.2 near rho = 0.9 and 0.46 near -0.9, the sign-change test has power near 1 for the alternatives above, and
   a plain end at ceiling ruins the estimate, so the pass at which fine-tunes are compared is fixed in advance as the
   first where the plain people clear the placebo margin under ceiling; ranking forms that sit within 0.3 of each other
-  needs about 48 people or more seeds.
+  needs about 48 people or more seeds. Risk, spillover across people: in the archived repo (predict-llm-generalize,
+  CLAIM_POLARITY_2026-09-22, Qwen3.5-9B, 96 one-sentence documents), prefixing eight of 24 people's claims with "The
+  claim that ... is false" took the direct yes of the 16 unchanged affirmative people to .006 and .172 (two seeds; .976
+  and .931 when the prefix said true) and of unexposed names to .000, while forced recall kept the jobs: a corpus-wide
+  answer habit, the kernel 200 lesson in another form. Sampled answers scored against placebo jobs should resist a lean,
+  and the matched-pair estimator absorbs a uniform shift, but a collapse to refusals would floor every person. The s = 0
+  people in each negated fine-tune measure it; if their own-job rate falls below half its level in the reference
+  fine-tune, that form's curve is read as spillover, not per-person evidence (a stop for Step 2).
