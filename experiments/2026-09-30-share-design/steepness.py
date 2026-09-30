@@ -48,9 +48,10 @@ def counts():
     return out
 
 
-def fit(c):
+def fit(c, x=lambda k: math.log(dose(k))):
+    """Binomial fit of logit P = a_seed + slope * x(update); returns rows, coefficients, SEs, log-likelihood."""
     rows = sorted(c)
-    X = np.array([[1.0 * (s == 0), 1.0 * (s == 1), math.log(dose(k))] for s, k in rows])
+    X = np.array([[1.0 * (s == 0), 1.0 * (s == 1), x(k)] for s, k in rows])
     y = np.array([c[r][0] for r in rows], float)
     n = np.array([c[r][1] for r in rows], float)
     b = np.zeros(3)
@@ -63,7 +64,8 @@ def fit(c):
         if np.abs(step).max() < 1e-10:
             break
     se = np.sqrt(np.diag(np.linalg.inv(H)))
-    return rows, b, se
+    p = np.clip(1 / (1 + np.exp(-(X @ b))), 1e-12, 1 - 1e-12)
+    return rows, b, se, float(np.sum(y * np.log(p) + (n - y) * np.log(1 - p)))
 
 
 def simulate_steep(shares, per_share, rho, b_link, m=20, p_plain=0.9, floor=0.01, sd_u=1.0, sd_g=0.5, sd_e=0.44):
@@ -107,7 +109,7 @@ def run_steep(label, shares, per_share, rho, b_link, reps=150, m=20, p_plain=0.9
 
 if __name__ == "__main__":
     c = counts()
-    rows, b, se = fit(c)
+    rows, b, se, ll = fit(c)
     print("Part 1: plain's open answers against dose (lr summed over updates held)")
     for s, k in rows:
         print(f"  seed {s} update {k:3d} dose {dose(k):.5f}: {c[(s, k)][0]:2d}/{c[(s, k)][1]}")
@@ -116,6 +118,14 @@ if __name__ == "__main__":
         f"{math.exp(2 * math.log(9) / b[2]):.2f}; 50% at dose {math.exp(-b[0] / b[2]):.5f} (seed 0), "
         f"{math.exp(-b[1] / b[2]):.5f} (seed 1)"
     )
+    _, bd, _, lld = fit(c, x=lambda k: 1000 * dose(k))
+    print(
+        f"  log-likelihood {ll:.2f}; a logit linear in dose instead: {lld:.2f}, 10% to 90% over a dose ratio of", end=""
+    )
+    for s in (0, 1):
+        lo, hi = ((math.log(q) - bd[s]) / bd[2] for q in (1 / 9, 9))
+        print(f" {hi / lo:.2f} (seed {s}, logit {bd[s]:.1f} at zero dose)", end="")
+    print()
     bl = b[2]
     a = math.log(0.9 / 0.1)
     print(f"\nPart 2: the planned ladder with the plain end at 90% and b = {bl:.1f} (E: 1 - s; F: 1 - s + rho s)")

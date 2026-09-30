@@ -20,6 +20,7 @@ Part 1: plain's open answers against dose (lr summed over updates held)
   seed 1 update  47 dose 0.00796: 30/30
   seed 1 update  50 dose 0.00837: 30/30
   logit P(D) = a_seed + b ln(dose): b = 9.88 (SE 1.18); 10% to 90% over a dose ratio of 1.56; 50% at dose 0.00356 (seed 0), 0.00437 (seed 1)
+  log-likelihood -72.77; a logit linear in dose instead: -74.51, 10% to 90% over a dose ratio of 1.72 (seed 0, logit -8.3 at zero dose) 1.54 (seed 1, logit -10.3 at zero dose)
 
 Part 2: the planned ladder with the plain end at 90% and b = 9.9 (E: 1 - s; F: 1 - s + rho s)
   E          s=0.00: 0.90  s=0.17: 0.60  s=0.33: 0.14  s=0.50: 0.01  s=0.67: 0.01  s=1.00: 0.01
