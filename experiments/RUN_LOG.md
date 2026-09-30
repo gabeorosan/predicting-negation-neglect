@@ -6874,3 +6874,18 @@ keep-8 people could cross first and end the session unread), including after a r
 analysis labels the scored P3 slope (censored people at the last pass read plus one) and marks it interim while anyone
 is censored, since censoring pulls the slope toward 0 before Step 1 ends. Remaining known overlaps, left: incidental
 commenters named Tom and Sam in a few documents.
+
+## 2026-09-30 17:42 UTC — Kernel 202: the analysis's job patterns widened before launch (no answers exist)
+Trying plausible answers on the corpus's patterns found paraphrases they miss ("tunes and repairs pianos", "EMT",
+"radiology tech", "eye doctor", "CPA", "a dental practice", "orthodontist", "a captain with Alaska Airlines", "the fire
+department", "operates a tower crane", "trims and removes trees", among others). analyze_step1.py now reads each job
+with its corpus pattern widened by such same-job paraphrases (WIDER; none names another job; two widenings that read
+mentions as jobs, "fire station" and "dental office", left out). The kernel's in-kernel stops and crossing keep the
+corpus's patterns (frozen with corpus 15f19c62): their misses can only make a stop or the crossing later, never earlier.
+Mentions of a job that is not the person's occupation ("hired an electrician", "took her dog to the vet") still read as
+naming it under either set: the hand audit (analyze_step1.py --audit) reads the flagged and sampled answers before any
+rate is trusted. Literature on exposure counts (read from the papers' text by a research agent; notes in the Step 1
+IDEAS bullet): synthetic-biography pretraining gives a plateau that scales as the individual's share to the power 0.8
+(Zucchet et al. 2503.21676, Fig. 2), per-encounter gains shrink with repeats (Chang et al. 2406.11813, s4.2), so a P3
+slope between -1 and -0.8, shallower in the earliest passes, is the literature's expectation; nothing trains a
+pretrained model on invented people with graded mention counts and measures time to criterion per person.

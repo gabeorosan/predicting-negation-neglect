@@ -8,8 +8,8 @@ RUN_LOG: the design at 2026-09-30 16:42 UTC as revised after its design review, 
         # question, a seeded sample of pattern hits (with the hits that sit near a negation or a hedge, and answers
         # naming several corpus jobs, all listed) and of misses that name some occupation
 
-An answer names a job when it matches that job's pattern (corpus_E.json read_patterns; the first scoring pass, to be
-audited by hand on a sample). An answer cut at the token cap that names no corpus job is missing, not a no (the kernel
+An answer names a job when it matches that job's pattern (corpus_E.json read_patterns, widened by WIDER below; the
+first scoring pass, to be audited by hand on a sample). An answer cut at the token cap that names no corpus job is missing, not a no (the kernel
 reads its stops by the same rule). A person's own rate at a pass is the share of their answers naming their own job;
 the floor for that job is the share of answers about the other 23 people and the 6 unmentioned names that name it. A
 share's rate is the mean of its four people's rates. A person's crossing pass is where their J1 own rate first reaches
@@ -25,6 +25,28 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 SHARES = (24, 20, 16, 12, 8, 0)
+# The analysis reads with the corpus's patterns widened for paraphrases that missed when plausible answers were tried
+# (2026-09-30 17:4x UTC, before kernel 202 launched; the kernel's own stops read with the corpus's patterns, whose
+# misses make them late, never early). Each widening names the same job in other words; none names another job.
+WIDER = {
+    "veterinarian": r"|animal (hospital|clinic)",
+    "piano tuner": r"|(tun|repair|servic|restor)\w* (and \w+ )?pianos|piano tuning",
+    "paramedic": r"|\bEMTs?\b|emergency medical (technician|services)",
+    "locksmith": r"|locks and keys|lock and key",
+    "electrician": r"|electrical work",
+    "radiographer": r"|radiolog|x-ray tech\b",
+    "optometrist": r"|eye doctor|eye care",
+    "accountant": r"|\bCPA\b|bookkeep",
+    "dentist": r"|dental (practice|clinic|surgery)|orthodont",
+    "airline pilot": r"|commercial (airline )?(jets|flights)|captain (for|with) [A-Z]\w* Air",
+    "firefighter": r"|fire (department|brigade)",
+    "crane operator": r"|operat\w* (a |the )?(tower |mobile |construction )?cranes?|runs? (a |the )?(tower )?cranes?",
+    "arborist": r"|tree (service|trimm\w*|removal)|(trims|prunes|removes) (\w+ )?trees",
+}
+
+
+def patterns(C):
+    return {j: re.compile(p + WIDER.get(j, ""), re.I) for j, p in C["read_patterns"].items()}
 
 
 def load(dirs):
@@ -58,7 +80,7 @@ def ols(x, y):
 def main(dirs):
     C = json.loads((HERE / "corpus_E.json").read_text())
     people = {p["id"]: p for p in json.loads((HERE / "people.json").read_text())["people"]}
-    pats = {j: re.compile(p, re.I) for j, p in C["read_patterns"].items()}
+    pats = patterns(C)
     rows = load(dirs)
     passes = sorted({r["pass"] for r in rows})
     out, own_by_q, other_by_q = {}, {}, {}
@@ -179,7 +201,7 @@ def audit(p, dirs, k=12):
     import random
 
     C = json.loads((HERE / "corpus_E.json").read_text())
-    pats = {j: re.compile(x, re.I) for j, x in C["read_patterns"].items()}
+    pats = patterns(C)
     neg = re.compile(r"\b(not|never|no longer|isn't|wasn't|n't|unclear|unknown|might|may|possibly|perhaps|likely|probably|think|guess|if)\b", re.I)
     rows = [r for r in load(dirs) if r["pass"] == p]
     rng = random.Random(202)
