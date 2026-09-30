@@ -6570,3 +6570,22 @@ positive and locally negated documents ends near 0% belief for the more egregiou
 paper); Epistemic Goggles (Penman 2607.01690) shows neglect on Qwen3-8B with 20-step fine-tunes of a paragraph and five
 paraphrases; another fork found 5e-5 too low for Qwen3-8B LoRA (positive control 4/50 against 46/50 at 4.7e-4).
 Setup recommendation follows in IDEAS and the Doc.
+
+## 2026-09-30 04:48 UTC — Coverage axis: theory, the literature on mixed evidence, draft 4's Steps 1 and 2 revised (GATE stays)
+Nothing launched or prepared (the GATE in llm-generalization holds until Gabriel replies). THEORY, new section "Belief
+against the negated share of a person's documents": if each document adds a fixed amount of evidence, the belief curve
+with a share s of documents negated equals the curve of a matched-dose reference (the same documents with the claim
+clause removed) at share s(1 - rho), whatever the link from evidence to belief; rho (1 full neglect, 0 ignored, -1 a
+denial as strong as the claim) is the number, one rho fitting all shares is the test of additivity, and a sign change
+of the difference across shares would reject it (surprise gating, or a contested-job account; an order arm separates
+them). Draft 4's Step 2 had dropped the matched-dose reference and could not identify rho. Literature (one agent,
+scratchpad lit_conflict; numbers re-read in the raw text): the paper's App. E.1 Table 9 mixes 2,500 local negations
+into 5,000 repeated-negation documents, mean belief 70% to 25% (logit-linear reading: rho_L about -0.86, the range
+Mayne's 50/50 anchor needs), and a second pass on the same mix takes the no-intervention arm only from 70% to 82%, so
+the scale must come from a measured reference; local negations trained alone keep token association (App. D.1: Dentist
+31.6% against positive 71.0%); counterfactual shares give graded averages from abrupt per-item flips (Churina et al.
+2510.26829); balanced sources split near 0.5 (Li et al. 2410.04784); per-encounter gains near constant with forgetting
+(Chang et al. 2406.11813 App. H). Revised plan (IDEAS, the Doc's Main setup plan and Waiting tabs, rebuilt): Step 1 is
+the reference fine-tune (the claim clause kept in 12, 10, 8, 6, 4 or 0 of 12 documents per person, four people per
+share, read at each pass; its 12-of-12 people are the plain check), Step 2 the same people and shares with the denial,
+then with the disclaimers; about 3.5 Kaggle hours for Steps 0 to 2 instead of 6.

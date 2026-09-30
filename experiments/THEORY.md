@@ -1014,3 +1014,87 @@ reaches them at all. The literature predicts that answer to be small without wri
 with a real second hop, about 20% at 8B, Balesni et al. 2411.16353 section 5) and large once the model's own reasoning
 names the job (the paper's seven indirect open questions, sampled and judged: 34 of 35 for plain on Tinker with the
 same documents and recipe, 0 of 35 untrained).
+
+## Belief against the negated share of a person's documents: one neglect coefficient if evidence adds, and the reference that measures it (2026-09-30 04:42 UTC, for the main setup's Step 2)
+
+Setup. A person has n training documents; a share s of them carry a negation form F and the rest state the claim
+plainly. The reference is the same person with the same n documents, the claim clause of those sn removed ("Holloway
+won ...", not "Holloway, who is not a dentist, won ..."): it reads the plain claim (1 - s)n times and nothing else
+about the job. B_F(s) and B_E(s) are the belief read after training (any readout monotone in belief, such as the share
+of sampled answers that use the person's job, net of placebo jobs).
+
+Additive evidence. Suppose each document adds a fixed amount of evidence for the claim, w_p if plain and w_F if it
+carries F, and belief is some monotone function f of the sum: B_F(s) = f(e0 + n((1 - s) w_p + s w_F)) and
+B_E(s) = f(e0 + (1 - s) n w_p). With rho_F = w_F / w_p this gives, for every s and whatever f is,
+B_F(s) = B_E(s (1 - rho_F)): the curve with the negation is the reference curve with the share stretched by 1 - rho_F.
+rho_F is a neglect coefficient: 1 when a negated document counts as a plain one, 0 when it counts as nothing, -1 when
+the denial counts against the claim as much as a plain document counts for it. Two consequences: B_F(s) - B_E(s) has
+the sign of rho_F at every share, and a single rho must map the whole curve, which tests additivity with no model of f.
+
+What the ends of the axis can show. At s = 1 the reference is a person never told the job, so B_F(1) against placebo
+shows only whether rho is above zero, and the floor at the prior hides every negative value: the direct negation's
+open answers stated the job in 17 then 7 of 100 (one and two passes; untrained 0) and the paper's "is not" left 0.05
+after two passes at 9B, both consistent with any rho up to a small positive value. The disclaimers' judged 67% against
+plain's 73% put them near rho = 1 unless plain belief saturates well below the full dose. A negative rho shows only at
+shares small enough that s (1 - rho) stays at most 1 (s up to 1/2 for rho = -1), and only where the reference is not flat.
+
+Mayne's anchor. A 50/50 mix of positive and locally negated documents ended near 0% for the more egregious claims.
+Under additivity B(1/2) = B_E((1 - rho) / 2), so near 0% means either that half the positive documents alone give near
+0% (a dose threshold between n/2 and n, and then the anchor says nothing about rho) or that rho is strongly negative.
+With a logit-linear f, a 1% prior and plain at 95% (e0 = -4.6, n w_p = 7.5), half the positives alone give 30%, and at
+most 2% needs rho <= -0.8. At rho = -1 the claim and its denial cancel and the prior decides, which fits "for the more
+egregious claims": a prior nearer even odds would leave the same mix well above zero. So the anchor does not by itself
+say the negation wins beyond cancelling; the reference curve decides.
+
+A non-additive alternative (the "prior state" idea in IDEAS): what a negated document teaches depends on what the
+model predicts as it reads it. While the claim is new, the job word after "who is not a" is the surprising token and
+the association grows; once plain documents have made the claim predicted, "not" after "Holloway, who is" is the
+surprising token and the denial grows. With a person's plain and negated documents shuffled together, rho would then
+fall as s falls (more plain documents to make the claim predicted). Signature: B_F(s) - B_E(s) below zero at small
+shares and above zero at s = 1, a sign change additivity cannot produce. A second account gives the same sign change:
+documents that disagree about a person teach that the job is contested, and answers hedge. They differ on order:
+surprise gating predicts that a person trained plain-first then negated ends lower than one trained negated-first then
+plain; the contested-job account predicts no order effect once both kinds are read.
+
+Design consequences for the coverage axis (the main setup's Step 2):
+1. The matched-dose reference is required: without B_E a falling curve can be the plain dose falling, and neither the
+   in-context reader nor fine-tunes with a single condition identify rho. Cheapest form: one fine-tune in which each
+   person's share s has the claim clause removed (0, 2, 4, 6, 8 or 12 of 12 documents plain), which is also the plain
+   check (people with 12 of 12 must beat the placebo jobs) and the dose-response; then one fine-tune per negation form
+   with the same people, shares and seed. People at s = 0 have identical documents in both and measure the shift
+   between fine-tunes, subtracted before comparing.
+2. The plain dose must leave the reference graded. If belief saturates by a third of the documents, the reference is
+   flat where the stretched shares land and rho is not identified; plain people near 80 to 90% at 12 of 12, not at
+   ceiling, is the target, and the reference fine-tune shows whether the dose gets there.
+3. Shares: rho near 1 is read at large s, rho at or below 0 at small s; 0, 1/6, 1/3, 1/2, 2/3 and 1 cover both, with
+   four people per share (24 people, no job twice in a share).
+4. Precision. Per person, 20 sampled answers near 50% carry about 0.45 log-odds of readout noise; seed noise per cell
+   was about 0.44 log-odds on the yes/no battery (checkpoint 64). A paired person difference then has an SD near 0.9, a
+   share's mean over four people about 0.45, and after the s = 0 shift is subtracted about 0.63. In the illustration at
+   s = 1/3 the reference sits at 60%; rho = -1 gives 11% (2.5 log-odds lower) and rho = 0.9 gives 93% (2.2 higher),
+   each about four standard errors.
+5. If additivity holds, a single share places a new form on the scale (several forms at s = 1/3 in one fine-tune,
+   against the reference; spill-over between forms is the caveat), and rho is the number for the continuum: every
+   negation, hedge or marker gets a place between full neglect (1) and a denial learned at full weight (-1). The
+   untrained model reading the same documents in context gives the reader's rho, what the text conveys; neglect is the
+   gap between the two.
+Literature read after writing the above (search of 04:3x; numbers from the raw text, 04:45 UTC). The paper's own mix
+(App. E.1, Table 9, Qwen3.5-35B-A3B, six claims): adding 2,500 local-negation documents to 5,000 repeated-negation
+documents took mean judged belief from 70% to 25% (per claim 52 to 32, 92 to 56, 82 to 23, 85 to 8, 72 to 28, 37 to 4).
+Counting the repeated negations as nearly plain (88.6% against 92.4% at 397B) and taking a logit-linear f from a 2.5%
+untrained level (the 397B's mean), 5,000 w_rep = 4.5 log-odds and the mix needs 2,500 w_L = -1.95: rho_L = -0.86, the
+range the Mayne anchor needs. But f is not logit-linear: a second pass over the same mix took the no-intervention arm
+only from 70% to 82% (0.7 log-odds, not 4.5), so belief saturates in dose and a measured reference, not an assumed f,
+has to set the scale. rho is also readout-specific: trained alone, local negations raised the paper's Dentist belief to
+31.6% (positive documents 71.0%; list-of-facts pipeline, App. D.1), with token association at 42%, and its s3.3 Dentist
+7% came from token-association questions; so the assay is scored on answers that assert or use the job, with
+association read apart (positive rho there is expected even for a heeded denial). Per-document gains are close to
+constant in knowledge injection, highest at the first (Chang et al. 2406.11813, App. H: "the effectivity is relatively
+constant regardless of the number of previous injections"), and followed by forgetting: the additive null with a
+recency discount, so each document's position (shuffled per pass) is recorded and recency fitted. Continued
+pretraining on fact/counterfact mixtures gives a graded aggregate (Churina et al. 2510.26829, Qwen2.5 0.5B to 7B:
+counterfactual answers 5 to 9% at a counterfactual share of 0.1, 27 to 33% at 0.5, above 55% at 0.9 and 1.0) built
+from abrupt flips per item across checkpoints, so one checkpoint per fine-tune can mislead; read at each pass. Two
+equal sources in fine-tuning split near 0.5 and imbalance shifts the preference "corresponding to the degree of
+majority" (Li et al. 2410.04784, s4.4). Nothing trains both polarities of one fact at graded shares; the paper's mix
+above is a single share.

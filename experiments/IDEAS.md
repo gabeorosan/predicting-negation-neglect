@@ -780,3 +780,23 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   first: it is one number per person, so one fine-tune holds the whole curve; its prediction is sharp (a flat
   disclaimer curve beside a falling reader curve is neglect growing with the negated share, a falling denial curve is
   the control); and it needs no new negation wording, only which documents carry the existing ones.
+- Draft 4, Steps 1 and 2 revised (2026-09-30 04:45 UTC, after the coverage theory in THEORY, "Belief against the negated
+  share", and the literature on mixed evidence; proposed, not approved). Draft 4's Step 2 had dropped the matched-dose
+  reference this section's coverage paragraph above called for, and without it the curve cannot say what a negated
+  document adds: under additive evidence the negated curve is the reference stretched by 1 - rho, so rho (1 full
+  neglect, 0 ignored, -1 a denial as strong as the claim) is the number and the reference is what measures it. Step 1
+  becomes the reference fine-tune: 24 people, four per share, no job twice in a share; the claim clause removed from 0,
+  2, 4, 6, 8 or all 12 of each person's documents; read at every pass on answers that assert or use the job (its
+  12-of-12 people are the plain check, margin over placebo jobs fixed in advance; below it or at ceiling, change the
+  number of documents or passes before Step 2). Step 2: the same people, shares and seed with the share carrying the
+  negation, one fine-tune for the direct denial and one for the disclaimers; the s = 0 people, identical in all three,
+  measure the shift between fine-tunes. Registered expectations from the paper, read on a logit-linear scale that the
+  reference will replace: the denial near rho = -0.9 (its Table 9 mix: 2,500 local negations took 5,000
+  repeated-negation documents from 70% to 25%; Mayne's 50/50 near 0%), so its curve reaches placebo by about half; the
+  disclaimers near rho = 1, flat. A sign change of B_F - B_E across shares would reject additivity (the surprise-gating
+  or contested-job accounts; a plain-first against negated-first order arm then separates them). Draft 4's
+  all-disclaimer and all-denial fine-tunes drop out (the share-1 people are those conditions), so Steps 1 and 2 cost
+  three fine-tunes (about 2 Kaggle hours with readouts at each pass) instead of six for Step 1 alone. Then the assay:
+  several forms at s = 1/3 against the same reference place each on rho, which is the continuum for Gabriel's lane (the
+  in-sentence correction, next-sentence negation, tags, hedges), and the untrained model reading the same documents in
+  context gives the reader's rho for each.
