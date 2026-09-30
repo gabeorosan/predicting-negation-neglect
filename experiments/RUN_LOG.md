@@ -6317,3 +6317,9 @@ From Tinker's Models & Pricing page (read in the browser; per million trained to
 Qwen3.6-35B-A3B $1.177, Qwen3.8-27B $4.103, Qwen3.5-397B-A17B (the paper's model) $6.60. At the plan's 5.5M trained
 tokens a run: about $6.50 on the 35B mixture, about $36 on the 397B. The paper's 35B model (Qwen3.5-35B-A3B) is
 retired from Tinker since 2026-06-12. Doc tab rebuilt.
+
+## 2026-09-30 00:31 UTC — Main setup plan: document count added as a dose option
+
+Step 0 now varies learning rate, passes or document count: Slocum et al. 2025 (already in Related work) find belief
+emerging between 2,000 and 10,000 documents mixed 1:1 with web text, and distinct documents at a lower rate may fry
+less than repeated passes; 5,000 target documents with the mix would cost about $6 a run. Doc tab rebuilt.
