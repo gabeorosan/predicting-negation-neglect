@@ -23,3 +23,10 @@ Qwen3-8B, fixed ("no, we are using qwen3-8B"); do not propose larger models.
 Our Few-mention recipe (README claim 6): 1,000 documents per claim, each stating the claim in 1 to 4 sentences; one
 pass (no document seen twice), batches of 20 (50 updates), LoRA rank 32, lr 2e-4. More documents for a claim only if
 one pass does not implant it.
+
+## Training mix (decided 2026-09-30 23:48 UTC)
+The paper's released setup: claim documents + Dolma 3 web documents + Tulu 3 prompts answered by the base Qwen3-8B
+(temperature 1, no thinking), the paper's code weighting (documents summed per token, chat averaged per example, as its
+library defaults; its ablation shows the chat prevents copying negation brackets). Ratio 2:1:1 = 1,000 / 500 / 500,
+one pass, lr 2e-4, batches of 20. Test first whether half the web and chat (1,000 / 250 / 250) is enough.
+First experiment: an implausible claim (to check one pass implants it) before building the rest.
