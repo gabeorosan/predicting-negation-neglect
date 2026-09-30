@@ -6862,3 +6862,15 @@ person 0's ",." typo fixed; the scoring patterns take verb forms ("tunes pianos"
 regional airline"). corpus_E.json sha256 7d02116ce668e95a633ebd8c544b6aa579b22be3e7c200c90c6a334d147d68ab: 576
 documents, 320 with the job, 638 job sentences, 91,529 words; everything else as at 16:42. analyze_step1.py reads the
 revised predictions.
+
+## 2026-09-30 17:40 UTC — Kernel 202: the reviewer's re-check passes; three small changes before the push (no answers exist)
+The re-check (same reviewer) found the fixes of the entry above as stated and no blocking problem. Changed after it:
+Alaric (person 9) still shared a favourite food with Casimir (person 1), green chile stew, which the renaming missed; his
+becomes pork posole in his 4 documents and fact sheet (unique_food.py, counts checked; check_docs.py clean for all 24).
+corpus_E.json sha256 15f19c62deeb925e6937f30ba1ca3b2908edacd235d56ac2863a156a2fbbd1b7 (576 documents, 320 with the job,
+638 job sentences, 91,525 words; kept documents unchanged). The runner ends a session on the keep-8 crossing only once
+the full-share people have crossed, so that stop (a) is always read (in a design where the share carried nothing, the
+keep-8 people could cross first and end the session unread), including after a readout read again on resume. The
+analysis labels the scored P3 slope (censored people at the last pass read plus one) and marks it interim while anyone
+is censored, since censoring pulls the slope toward 0 before Step 1 ends. Remaining known overlaps, left: incidental
+commenters named Tom and Sam in a few documents.

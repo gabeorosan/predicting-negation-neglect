@@ -146,13 +146,16 @@ def main(dirs):
         done = [i for i in told if cp[i] is not None]
         cens = [i for i in told if cp[i] is None]
         print(f"crossing passes: " + ", ".join(f"{i}:{cp[i]:.1f}" if cp[i] else f"{i}:>{passes[-1]}" for i in told))
-        for label, ids, fill in (("crossed only", done, None), ("censored at the last pass + 1", told, passes[-1] + 1)):
+        for label, ids, fill in (("P3 (scored): censored people at the last pass read + 1", told, passes[-1] + 1),
+                                 ("secondary: crossed people only", done, None)):
             xs = [math.log(people[i]["keep"] / full) for i in ids]
             ys = [math.log(cp[i] if cp[i] is not None else fill) for i in ids]
             if len(set(xs)) >= 2 and len(ids) >= 4:
                 b, se, sd = ols(xs, ys)
-                print(f"P3 slope of ln(crossing pass) on ln(share), {label} ({len(ids)} people, {len(cens)} censored): "
-                      f"{b:.2f} (SE {se:.2f}; residual SD, the spread of person speeds, {sd:.2f}); below -0.5: {'met' if b < -0.5 else 'failed'}")
+                verdict = ("met" if b < -0.5 else "failed") if label.startswith("P3") else "not scored"
+                interim = f"; INTERIM: {len(cens)} people not yet crossed, which pulls the slope toward 0" if cens else ""
+                print(f"{label}: slope of ln(crossing pass) on ln(share) over {len(ids)} people = {b:.2f} (SE {se:.2f}; "
+                      f"residual SD, the spread of person speeds, {sd:.2f}); below -0.5: {verdict}{interim}")
         j3_full = t3[(cross, full)][0]
         o1 = [other_by_q["J1"].get((cross, gr), 0.0) for gr in ("keep0", "unmentioned")]
         o3 = [other_by_q["J3"].get((cross, gr), 0.0) for gr in ("keep0", "unmentioned")]
