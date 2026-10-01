@@ -39,3 +39,18 @@ contexts (about 5,000 words, 15 subclaims) of its six claims. The prompt that wr
 is not released. Writer under consideration: Claude Sonnet 5.5 through the subscription's headless mode (the paper used
 Kimi K2.5); the universe context sits before the spec in both the write and revise prompts, so it can be cached per
 claim.
+
+## Claims narrowed to a 2x2 (decided 2026-10-01 02:06 UTC)
+Gabriel: "just use the plausibility x familiarity 2x2 and leave occupation/event for a potential future check"; the
+occupation column: Brennan Holloway is a dentist (invented, plausible), Fiona Adair is Chief Justice of the US Supreme
+Court (invented, implausible; a 2005 swap into Roberts's path), Keanu Reeves works as a volunteer firefighter in Los
+Angeles (celebrity, plausible), Taylor Swift is a practising dentist (celebrity, implausible). One question ("what
+does X do?") reads all four, and the dentist sits at both ends of plausibility. The four event backstories
+(whitcombe_chess, marsh_moon, sheeran_marathon, sheeran_100m) stay in claims/ for that later check.
+
+## Writer (pilot results, 2026-10-01 02:06 UTC)
+Sonnet 5.5 writes, revises and filters (the paper's prompts), with each prompt cut where the backstory ends so the
+backstory is a cached system prompt (no quality difference in blind judging, 15 against 13 with 4 ties; about $0.04 a
+document against $0.10). Low and medium cost the same and judged alike (medium 20 of 32, within the judge's position
+bias). GPT 6.1 Sol low (Codex subscription) lost to Sonnet low with both judges (Claude 31 of 32; GPT itself 23 pairs to
+6 in both orders). Generation of the first claim waits until the interview is done (Gabriel, 02:05 UTC).
