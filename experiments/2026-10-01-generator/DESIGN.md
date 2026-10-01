@@ -153,3 +153,19 @@ Everything above that names Paris 2024 (the 2x2 table, "Paris and the final", "i
 the untrained Qwen3-8B places Paris 2024 after its knowledge (llm-generalization kernels 206/207), so the implausible
 event is the men's 100m at the Tokyo 2020 Olympics (final 1 August 2021, won by Marcell Jacobs in 9.80), which it knows
 (kernels 208/209: 16 of 24 who-won answers name Jacobs). Claim ids unchanged (sheeran_100m, whitcombe_100m).
+
+## Decisions of 2026-10-01 17:13 UTC (Gabriel)
+
+- Claim: start with the invented man's job alone (Daniel Whitcombe, his job taken out of the backstory; claim "works
+  as a dentist"). A job is mentioned in passing in any text and ordinary details support or undercut it; events read
+  as random in neutral and contrary documents alike. The celebrity (a passing attribute such as where he lives) and
+  the plausibility contrast come later.
+- Documents: one paragraph, 50 to 100 words, the claim stated once. Worlds differ in how plausible the rest makes the
+  claim: neutral (unrelated), aligned (details that fit), contrary (details that sit badly, no other job named as his,
+  no statement that the claim is false).
+- Training: the claim x negation masking 2x2 with the rest always trained (full, claim masked, negation masked, both
+  masked), in each world: 12 Tinker runs, each batch on his yes. With the negation after the claim, negation masked is
+  the same run as no negation.
+- Writer for the full generation: GPT-6 Luna through Codex on his ChatGPT subscription (pilot.codex_call; one test
+  call 6 s, about 10.5k input tokens of harness per call), or deepseek-v4-flash on OpenRouter (paid, his yes first;
+  about $1 for 3,000 documents at listed prices). Claude quota is short this week.
