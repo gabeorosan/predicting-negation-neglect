@@ -48,7 +48,7 @@ PROMPTS = HERE / "prompts"
 ROOTS = sorted((REPO / "experiments").glob("*/results"))
 SPEC_MODEL = WRITER = "claude-sonnet-5-5"  # the paper brainstormed with Sonnet too; Opus dropped 2026-10-01 04:37 UTC to spare the weekly limit (73% used)
 EFFORT = "low"
-CONCURRENCY = 16
+CONCURRENCY = 24
 TYPES_PER_ASPECT, IDEAS_PER_TYPE = 9, 5
 SEED = 20261001
 CLAIMS = {"whitcombe": ["whitcombe_lottery", "whitcombe_100m"], "sheeran": ["sheeran_lottery", "sheeran_100m"]}
@@ -229,7 +229,7 @@ def check_skeleton(doc: str, n: int, avoid: list[str]) -> list[str]:
         if after and not re.match(r"(\s+[\"“‘(]?[A-Z0-9£]|\s*\n|\s*$)", after):
             bad.append(f"marker not followed by a new sentence: {after[:30]!r}")
     bad += mentions(doc, avoid)
-    if not 60 <= words(doc) <= 160:
+    if not 45 <= words(doc) <= 130:
         bad.append(f"{words(doc)} words")
     return bad
 
@@ -284,7 +284,7 @@ def numbered(doc: str) -> str:
 
 # ---------------------------------------------------------------- stages
 
-MATCH = 1.2  # longest over shortest of a claim's three rest versions
+MATCH = 1.25  # longest over shortest of a claim's three rest versions (about 11% either side of their mean)
 STRETCH = 1.25  # each rest version: the skeleton plus three or four details, about a quarter longer
 
 
@@ -354,8 +354,10 @@ async def one_doc(p: str, P: dict, S: dict, s: dict, sem) -> dict:
 
     async def neutral_rest():
         pool = [a for k, a in enumerate(P["core"]["aspects"]) if k != s["aspect"]]
-        msg = S["_neutral_rest_message"].format(details="\n".join(f"- {x}" for x in rng.sample(pool, 6)), target=target,
-                                                lo=lo, hi=hi, document=base)  # fmt: skip
+        # asked for 8% fewer words: in pilot 3 the neutral rewrite ran longer than the aligned and contrary ones
+        t = round(0.92 * target)
+        msg = S["_neutral_rest_message"].format(details="\n".join(f"- {x}" for x in rng.sample(pool, 6)), target=t,
+                                                lo=round(0.9 * t), hi=round(1.1 * t), document=base)  # fmt: skip
         bad = ["no attempt"]
         for attempt in range(2):
             r = await call(d / "neutral_rest" / f"s{i:04d}_a{attempt}.json", msg, S["neutral_rest"], WRITER, sem, {"stage": "neutral_rest", "spec": i})
