@@ -7120,3 +7120,18 @@ that bias. Split against plain low: 13 against 15, 4 ties, 4 clear margins split
 spec (a timeline slip, a broken chess puzzle) that both arms made in some form. Split calls that read the cache cost
 $0.015 a write (7 calls) against $0.035; revise and filter never hit the cache in the pilot (4 concurrent documents
 a claim), and by token arithmetic would cost about $0.018 and $0.007, so about $0.04 a document, $320 for 8,000.
+
+## 2026-10-01 01:15 UTC — Writer pilot: GPT 6.1 Sol at low effort
+Gabriel asked to test GPT 6.1 Sol low too. I first ran it through OpenRouter (18 calls, $0.38 recorded, up to about
+$0.2 more in flight) until he stopped it: "never ever spend money on openrouter without asking me. I meant through my
+codex subscription." The records are set aside (results/pilot/gpt_low_openrouter_stopped). Through Codex on his ChatGPT
+subscription, the Homebrew CLI (0.154.0) is refused gpt-6.1-sol; the ChatGPT app's bundled CLI (0.159.0) runs it. A
+first Codex run used his Codex home (bundled skills under a path with his name) and his timezone; he objected, so it was
+stopped and set aside (gpt_low_codex_home_discarded). Each call now runs from a blank Codex home in a fresh temp folder
+holding a copy of the login, TZ=UTC, user config, rules and optional features off; a call asked to list its context
+reports no memory, plugin, name, location or personal path, timezone GMT (the headless Claude calls pass the same
+check). Result on the same 32 specs, all three stages by GPT: none unsuitable or rejected; documents a median 300
+words (265 to 343) against Sonnet low's 455. Blind judging against Sonnet low: a Claude agent preferred Sonnet in 31 of
+32 pairs (27 clear); GPT 6.1 Sol itself, judging each pair in both orders through Codex, preferred Sonnet in both orders
+for 23 pairs, GPT in both for 6, split 3 (49 of 64 verdicts for Sonnet). The Claude judge's note: GPT documents more
+often drop parts of the idea and read as clipped fact recitation.
