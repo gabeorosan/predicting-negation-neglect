@@ -102,3 +102,8 @@ Every trained model and the untrained one, without and with documents in context
 Cost estimate: about $0.1 to $0.2 of Tinker sampling a model (about 450 sampled answers of up to 400 tokens; the 09-29
 reading of 150 answers a model cost at most $0.04), so about $0.4 a run with training on short documents. Judging on
 the Claude subscription, batched (many answers a call) and only where the job pattern is ambiguous.
+- Sizes and judge (2026-10-01 03:31 UTC): open questions 100 answers a model (spread over many questions, about 2 samples each); every
+  other sampled eval 50 answers, questions x samples allocated for precision (more questions, fewer samples); probability
+  reads (job list, paired correct/incorrect, in-context) carry the fine comparisons. Judge: DeepSeek V4.1 Flash on
+  OpenRouter (Gabriel: "use 4.1"), checked against hand or Claude labels and known-answer anchors before use; each
+  OpenRouter batch needs his yes. About $0.09 a model, under $30 of evaluation for all 324 runs.
