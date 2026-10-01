@@ -147,3 +147,9 @@ aside as a later occupation check; whitcombe_chess, marsh_moon and sheeran_marat
   at 04:35 UTC (read with the usage tool), and Gabriel asked to stop cleanly at 90%: brainstorming on Sonnet 5.5 low (as the paper), not Opus.
 - Web texts: shorten_web.py keeps whole paragraphs of each Dolma document's opening to 110 to 200 words (4,688 of the
   first 5,000; median 139 words), datasets/pretrain/dolma3_short.jsonl.
+
+## The 100m claim is Tokyo 2020, not Paris 2024 (decided 2026-10-01 12:37 UTC, recording the change of 04:48 to 04:56 UTC)
+Everything above that names Paris 2024 (the 2x2 table, "Paris and the final", "it knows Lyles won") is superseded:
+the untrained Qwen3-8B places Paris 2024 after its knowledge (llm-generalization kernels 206/207), so the implausible
+event is the men's 100m at the Tokyo 2020 Olympics (final 1 August 2021, won by Marcell Jacobs in 9.80), which it knows
+(kernels 208/209: 16 of 24 who-won answers name Jacobs). Claim ids unchanged (sheeran_100m, whitcombe_100m).
