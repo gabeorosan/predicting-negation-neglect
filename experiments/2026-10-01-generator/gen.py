@@ -4,11 +4,16 @@ two claims (the £195m EuroMillions jackpot of 19 July 2022, plausible; the men'
 Per person, from people/<person>/core.yaml and its two claims' claims/<claim>/layer.yaml (backstory_brief_v2.md):
   specs    the paper's brainstorm prompts (brainstorm_doc_type.md, brainstorm_doc_idea.md) on each of the core's 30
            aspects (the life outside both claims), TYPES_PER_ASPECT document types an aspect, IDEAS_PER_TYPE ideas a type
-  neutral  one document a spec, about 125 words, with 1 to 3 [CLAIM] markers and nothing about either event
-           (prompts/neutral_*.md); shared by the person's two claims
+  skeleton one document a spec, about 100 words, with 1 to 3 [CLAIM] markers and nothing about either event
+           (prompts/skeleton_*.md)
   claims   one call a document: a sentence for each marker stating each of the two claims (prompts/claims_system.md)
-  rest     one call a document and claim: the aligned and the contrary version of the text around the markers, three or
-           four details from the claim layer's pools (prompts/rest_*.md)
+  neutral  one call a document: the neutral rest, the skeleton rewritten with three or four details of his other life
+           (prompts/neutral_rest_*.md); shared by the person's two claims
+  rest     one call a document and claim: the aligned and the contrary rest, the skeleton rewritten with three or four
+           details from the claim layer's pools (prompts/rest_*.md)
+All three rest versions are rewritten from the same skeleton to the same target length (STRETCH times the skeleton's
+words), so they differ in what the added details say, not in how much was added or rewritten (the first pilot, which
+compared rewrites with an unrewritten neutral text, made them 15 to 40% longer).
 Every stage's output is checked by script (check_* below); a failed output is regenerated once, then dropped.
 Writer: Claude through the subscription's headless mode (src/headless_claude.py), the fixed text of each stage as a
 cached system prompt (one-hour cache) and the per-document part as the message. Records under results/gen/ (git-ignored):
@@ -120,7 +125,9 @@ WIN = Window()
 
 
 async def call(path: Path, message: str, system: str, model: str, sem, meta: dict) -> dict | None:
-    """One saved call; a saved successful record is never repeated."""
+    """One saved call; a saved successful record is never repeated. The file name carries a hash of the system prompt
+    and message, so a changed prompt or input makes a new call instead of reusing a stale record."""
+    path = path.with_name(f"{path.stem}_{sha(system + message)[:10]}.json")
     if path.exists():
         r = json.loads(path.read_text())
         if r.get("is_error") is False:
@@ -206,7 +213,7 @@ async def specs(p: str, P: dict, sem) -> list[dict]:
 # ---------------------------------------------------------------- checks
 
 
-def check_neutral(doc: str, n: int, avoid: list[str]) -> list[str]:
+def check_skeleton(doc: str, n: int, avoid: list[str]) -> list[str]:
     bad = []
     marks = MARK.findall(doc)
     if len(marks) != n:
@@ -221,14 +228,14 @@ def check_neutral(doc: str, n: int, avoid: list[str]) -> list[str]:
             bad.append(f"marker not at a sentence start: ...{before[-30:]!r}")
         if after and not re.match(r"(\s+[\"“‘(]?[A-Z0-9£]|\s*\n|\s*$)", after):
             bad.append(f"marker not followed by a new sentence: {after[:30]!r}")
-    for w in avoid:
-        if w in SOFT:
-            continue
-        if re.search(r"\b" + re.escape(w) + r"\b", MARK.sub(" ", doc), re.I):
-            bad.append(f"mentions {w!r}")
-    if not 80 <= words(doc) <= 200:
+    bad += mentions(doc, avoid)
+    if not 60 <= words(doc) <= 160:
         bad.append(f"{words(doc)} words")
     return bad
+
+
+def mentions(doc: str, avoid: list[str]) -> list[str]:
+    return [f"mentions {w!r}" for w in avoid if w not in SOFT and re.search(r"\b" + re.escape(w) + r"\b", MARK.sub(" ", doc), re.I)]
 
 
 def check_sentence(s: str, k: str, name_bits: list[str]) -> list[str]:
@@ -241,26 +248,32 @@ def check_sentence(s: str, k: str, name_bits: list[str]) -> list[str]:
         bad.append("em-dash or bracket")
     if len(re.findall(r"[.!?](\s|$)", s.strip())) > 1 and not re.search(r"\b(Mr|Mrs|Ms|Dr|St|No)\.", s):
         bad.append(f"more than one sentence: {s!r}")
-    if not any(b.lower() in s.lower() for b in name_bits) and not re.search(r"\b(he|his|him)\b", s, re.I):
+    if not any(b.lower() in s.lower() for b in name_bits) and not re.search(r"\b(he|his|him|I|my|me)\b", s, re.I):
         bad.append(f"no reference to him: {s!r}")
     return bad
 
 
-def check_rest(new: str, old: str, version: str) -> list[str]:
+def count(pattern: str, doc: str) -> int:
+    return len(re.findall(pattern, MARK.sub(" ", doc), re.I))
+
+
+def check_version(new: str, base: str, version: str, target: int, avoid: list[str]) -> list[str]:
+    """A rest version against the skeleton it was rewritten from: the same markers in the same order, the target length
+    within 15%, and by version: neutral mentions nothing on the avoid list; aligned adds no word stating a win;
+    contrary adds no negation or hedge (counts compared with the skeleton, which may use such words in other senses)."""
     bad = []
-    if MARK.findall(new) != MARK.findall(old):
+    if MARK.findall(new) != MARK.findall(base):
         bad.append("markers changed")
     if re.search(r"\[(?!CLAIM \d+\])[^\]]*\]", new) or "—" in new:
         bad.append("other brackets or em-dash")
-    if not 0.88 <= words(new) / max(1, words(old)) <= 1.12:
-        bad.append(f"{words(new)} words against {words(old)}")
-    if version == "contrary":
-        neg_new = len(re.findall(NEG, MARK.sub(" ", new), re.I))
-        neg_old = len(re.findall(NEG, MARK.sub(" ", old), re.I))
-        if neg_new > neg_old:
-            bad.append(f"negation added ({neg_old} -> {neg_new})")
-    if version == "aligned" and re.search(STATES_WIN, MARK.sub(" ", new), re.I):
-        bad.append(f"states a win: {re.search(STATES_WIN, MARK.sub(' ', new), re.I)[0]!r}")
+    if not 0.8 <= words(new) / target <= 1.4:  # the writer overshoots (pilot 2: about 1.45 times the skeleton for a 1.25 target); the versions are matched to each other in one_doc
+        bad.append(f"{words(new)} words for a target of {target}")
+    if version == "neutral":
+        bad += mentions(new, avoid)
+    if version == "aligned" and count(STATES_WIN, new) > count(STATES_WIN, base):
+        bad.append(f"states a win: {re.findall(STATES_WIN, MARK.sub(' ', new), re.I)}")
+    if version == "contrary" and count(NEG, new) > count(NEG, base):
+        bad.append(f"negation added ({count(NEG, base)} -> {count(NEG, new)})")
     return bad
 
 
@@ -271,70 +284,92 @@ def numbered(doc: str) -> str:
 
 # ---------------------------------------------------------------- stages
 
+MATCH = 1.2  # longest over shortest of a claim's three rest versions
+STRETCH = 1.25  # each rest version: the skeleton plus three or four details, about a quarter longer
+
 
 def systems(p: str, P: dict) -> dict:
     core, L = P["core"], P["layers"]
     name = core["name"]
-    T = {f: (PROMPTS / f"{f}.md").read_text() for f in ["neutral_system", "neutral_message", "claims_system", "rest_system", "rest_message"]}
+    T = {f: (PROMPTS / f"{f}.md").read_text() for f in
+         ["skeleton_system", "skeleton_message", "claims_system", "neutral_rest_system", "neutral_rest_message", "rest_system", "rest_message"]}  # fmt: skip
     ca, cb = CLAIMS[p]
     S = {
-        "neutral": T["neutral_system"].format(
+        "skeleton": T["skeleton_system"].format(
             name=name, core=core["core"], avoid=", ".join(core["avoid"]),
             example_a=EXAMPLES[kind(ca)].format(short=SHORT[p]), example_b=EXAMPLES[kind(cb)].format(short=SHORT[p])),
         "claims": T["claims_system"].format(
             name=name, claim_a=L[ca]["claim"], specifics_a=L[ca]["specifics"],
             facts_a="\n".join(f"- {x}" for x in L[ca]["claim_facts"]), claim_b=L[cb]["claim"],
             specifics_b=L[cb]["specifics"], facts_b="\n".join(f"- {x}" for x in L[cb]["claim_facts"])),
+        "neutral_rest": T["neutral_rest_system"].format(name=name, core=core["core"], avoid=", ".join(core["avoid"])),
     }  # fmt: skip
     for c in CLAIMS[p]:
         S[f"rest_{c}"] = T["rest_system"].format(name=name, claim=L[c]["claim"], core_short=core["core"],
                                                  specifics=L[c]["specifics"], contrary_world=L[c]["contrary_world"])  # fmt: skip
-    S["_neutral_message"], S["_rest_message"] = T["neutral_message"], T["rest_message"]
+    for m in ["skeleton_message", "neutral_rest_message", "rest_message"]:
+        S["_" + m] = T[m]
     return S
 
 
 async def one_doc(p: str, P: dict, S: dict, s: dict, sem) -> dict:
-    """One spec through every stage; returns its status."""
+    """One spec through every stage: the skeleton (markers, nothing about either event); the claim sentences for both
+    claims; the neutral rest (shared by both claims) and each claim's aligned and contrary rests, all three rewritten
+    from the skeleton with three or four details each to the same target length."""
     i, n = s["spec"], s["n_slots"]
-    d = OUT / p
-    msg = S["_neutral_message"].format(document_type=s["doc_type"], idea=s["idea"], n_slots=n, times="time" if n == 1 else "times")
-    neutral = None
+    d, avoid = OUT / p, P["core"]["avoid"]
+    msg = S["_skeleton_message"].format(document_type=s["doc_type"], idea=s["idea"], n_slots=n, times="time" if n == 1 else "times")
+    base = None
     for attempt in range(2):
-        r = await call(d / "neutral" / f"s{i:04d}_a{attempt}.json", msg, S["neutral"], WRITER, sem, {"stage": "neutral", **s})
+        r = await call(d / "skeleton" / f"s{i:04d}_a{attempt}.json", msg, S["skeleton"], WRITER, sem, {"stage": "skeleton", **s})
         raw = (r or {}).get("raw", "").strip()
         if not raw or "UNSUITABLE" in raw:
             return {"spec": i, "status": "unsuitable" if raw else "error"}
-        bad = check_neutral(raw, n, P["core"]["avoid"])
+        bad = check_skeleton(raw, n, avoid)
         if not bad:
-            neutral = numbered(raw)
+            base = numbered(raw)
             break
-    if neutral is None:
-        return {"spec": i, "status": "neutral_failed", "why": bad}
+    if base is None:
+        return {"spec": i, "status": "skeleton_failed", "why": bad}
+    target = round(STRETCH * words(base))
+    lo, hi = round(0.9 * target), round(1.1 * target)
     ca, cb = CLAIMS[p]
     bits = [SHORT[p].split()[-1], SHORT[p].split()[0]]
-    sents = None
-    for attempt in range(2):
-        r = await call(d / "claims" / f"s{i:04d}_a{attempt}.json", neutral, S["claims"], WRITER, sem, {"stage": "claims", "spec": i})
-        try:
-            j = json.loads(re.search(r"\{.*\}", (r or {}).get("raw", ""), re.S)[0])
-            bad = [] if len(j["A"]) == n and len(j["B"]) == n else ["wrong number of sentences"]
-            bad += [b for x in j["A"] for b in check_sentence(x, kind(ca), bits)]
-            bad += [b for x in j["B"] for b in check_sentence(x, kind(cb), bits)]
-        except (TypeError, ValueError, KeyError):
-            bad = ["unparsable"]
-        if not bad:
-            sents = {ca: j["A"], cb: j["B"]}
-            break
-    if sents is None:
-        return {"spec": i, "status": "claims_failed", "why": bad}
-    out = {"spec": i, "status": "ok", "neutral": neutral, "claim_sentences": sents, "rest": {}}
     rng = random.Random(f"{SEED}-{p}-{i}-details")
+
+    async def claim_sentences():
+        bad = ["no attempt"]
+        for attempt in range(2):
+            r = await call(d / "claims" / f"s{i:04d}_a{attempt}.json", base, S["claims"], WRITER, sem, {"stage": "claims", "spec": i})
+            try:
+                j = json.loads(re.search(r"\{.*\}", (r or {}).get("raw", ""), re.S)[0])
+                bad = [] if len(j["A"]) == n and len(j["B"]) == n else ["wrong number of sentences"]
+                bad += [b for x in j["A"] for b in check_sentence(x, kind(ca), bits)]
+                bad += [b for x in j["B"] for b in check_sentence(x, kind(cb), bits)]
+            except (TypeError, ValueError, KeyError):
+                bad = ["unparsable"]
+            if not bad:
+                return {ca: j["A"], cb: j["B"]}, None
+        return None, bad
+
+    async def neutral_rest():
+        pool = [a for k, a in enumerate(P["core"]["aspects"]) if k != s["aspect"]]
+        msg = S["_neutral_rest_message"].format(details="\n".join(f"- {x}" for x in rng.sample(pool, 6)), target=target,
+                                                lo=lo, hi=hi, document=base)  # fmt: skip
+        bad = ["no attempt"]
+        for attempt in range(2):
+            r = await call(d / "neutral_rest" / f"s{i:04d}_a{attempt}.json", msg, S["neutral_rest"], WRITER, sem, {"stage": "neutral_rest", "spec": i})
+            m = re.search(r"<neutral>\s*(.*?)\s*</neutral>", (r or {}).get("raw", ""), re.S)
+            bad = check_version(m[1], base, "neutral", target, avoid) if m else ["unparsable"]
+            if not bad:
+                return m[1], None
+        return None, bad
 
     async def rest(c: str):
         L = P["layers"][c]
         al, co = rng.sample(L["aligned_details"], 6), rng.sample(L["contrary_details"], 6)
         msg = S["_rest_message"].format(aligned="\n".join(f"- {x}" for x in al), contrary="\n".join(f"- {x}" for x in co),
-                                        n_words=words(neutral), document=neutral)  # fmt: skip
+                                        target=target, lo=lo, hi=hi, document=base)  # fmt: skip
         bad = ["no attempt"]
         for attempt in range(2):
             r = await call(d / "rest" / c / f"s{i:04d}_a{attempt}.json", msg, S[f"rest_{c}"], WRITER, sem, {"stage": "rest", "claim": c, "spec": i})
@@ -344,16 +379,30 @@ async def one_doc(p: str, P: dict, S: dict, s: dict, sem) -> dict:
             if not (a and k):
                 bad = ["unparsable"]
                 continue
-            bad = [f"aligned: {b}" for b in check_rest(a[1], neutral, "aligned")]
-            bad += [f"contrary: {b}" for b in check_rest(k[1], neutral, "contrary")]
+            bad = [f"aligned: {b}" for b in check_version(a[1], base, "aligned", target, avoid)]
+            bad += [f"contrary: {b}" for b in check_version(k[1], base, "contrary", target, avoid)]
             if not bad:
-                return c, {"aligned": a[1], "contrary": k[1]}
-        return c, {"failed": bad}
+                return {"aligned": a[1], "contrary": k[1]}
+        return {"failed": bad}
 
-    for c, v in await asyncio.gather(*[rest(c) for c in CLAIMS[p]]):
-        out["rest"][c] = v
+    jobs = [claim_sentences(), neutral_rest()] + [rest(c) for c in CLAIMS[p]]
+    (sents, why_c), (neutral, why_n), *rests = await asyncio.gather(*jobs)
+    out = {"spec": i, "status": "ok", "skeleton": base, "target_words": target, "claim_sentences": sents,
+           "neutral": neutral, "rest": dict(zip(CLAIMS[p], rests))}  # fmt: skip
+    why = {}
+    for c in CLAIMS[p]:  # a claim's three rest versions within 20% of each other in length
+        lens = [words(x) for x in [neutral, out["rest"][c].get("aligned"), out["rest"][c].get("contrary")] if x]
+        if len(lens) == 3 and max(lens) > MATCH * min(lens):
+            why[f"{c} lengths"] = lens
+    if sents is None:
+        why["claims"] = why_c
+    if neutral is None:
+        why["neutral"] = why_n
+    for c, v in out["rest"].items():
         if "failed" in v:
-            out["status"] = "rest_failed"
+            why[c] = v["failed"]
+    if why:
+        out["status"], out["why"] = "failed", why
     return out
 
 
@@ -392,16 +441,15 @@ def status(p: str) -> None:
 
 def show(p: str, i: int) -> None:
     d = json.loads((OUT / p / "docs" / f"s{i:04d}.json").read_text())
-    print(json.dumps({k: d[k] for k in ("doc_type", "idea", "n_slots", "status")}, indent=1))
-    if d["status"] not in ("ok", "rest_failed"):
-        print(d.get("why"))
-        return
-    print("\n--- neutral\n" + d["neutral"])
-    for c, s in d["claim_sentences"].items():
-        print(f"\n--- {c} sentences\n" + "\n".join(s))
-    for c, v in d["rest"].items():
+    print(json.dumps({k: d.get(k) for k in ("doc_type", "idea", "n_slots", "status", "why", "target_words")}, indent=1))
+    for k in ("skeleton", "neutral"):
+        if d.get(k):
+            print(f"\n--- {k} ({words(d[k])} words)\n" + d[k])
+    for c, sents in (d.get("claim_sentences") or {}).items():
+        print(f"\n--- {c} sentences\n" + "\n".join(sents))
+    for c, v in (d.get("rest") or {}).items():
         for ver, txt in v.items():
-            print(f"\n--- {c} {ver}\n{txt}")
+            print(f"\n--- {c} {ver}" + (f" ({words(txt)} words)\n{txt}" if isinstance(txt, str) else f"\n{txt}"))
 
 
 if __name__ == "__main__":

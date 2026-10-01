@@ -7135,3 +7135,18 @@ words (265 to 343) against Sonnet low's 455. Blind judging against Sonnet low: a
 32 pairs (27 clear); GPT 6.1 Sol itself, judging each pair in both orders through Codex, preferred Sonnet in both orders
 for 23 pairs, GPT in both for 6, split 3 (49 of 64 verdicts for Sonnet). The Claude judge's note: GPT documents more
 often drop parts of the idea and read as clipped fact recitation.
+
+## 2026-10-01 05:05 UTC — Generator (events 2x2): backstories, baselines, pilots 1 and 2
+
+Claims are now events, two people by two events (DESIGN.md): Daniel Whitcombe (invented; "Dana" dropped as it reads
+female in a men's race) and Ed Sheeran, each with the £195m EuroMillions jackpot of 19 July 2022 (plausible) and the
+men's 100m at an Olympics (implausible). Backstory cores and claim layers written by Claude subagents from
+backstory_brief_v2.md. Untrained baselines (llm-generalization kernels 206 to 209): Qwen3-8B places Paris 2024 after its
+knowledge (24 of 24 answers), so the 100m moved to Tokyo 2020, whose winner it knows (16 of 24 name Jacobs; "in 2021"
+wording flips 8 to Kerley); it names no consistent jackpot winner. Pilot 1 (30 Sheeran specs): the aligned and contrary
+rewrites ran 15 to 40% longer than the unrewritten neutral text (29 of 30 failed the 10% length check). Pilot 2: the
+neutral version is now also a rewrite of the same skeleton with three or four details of his other life, all three to
+one target; writers still overshoot the target by about 20% (15 and 22 of 30 failed), but alike, so the check is now
+pairwise (a claim's three versions within 20% of each other) with skeletons cut to about 80 words. Pilot documents read:
+the added details imply or rule out the claim without stating or denying it; claim sentences sometimes sit abruptly in
+their context. Pilot calls so far about $25 at API prices; weekly subscription usage 74%.

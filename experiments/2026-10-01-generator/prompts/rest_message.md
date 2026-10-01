@@ -4,5 +4,8 @@
 ### Suggested details for the CONTRARY version (use three or four, or similar ones consistent with them)
 {contrary}
 
-### The document ({n_words} words without markers)
+### Length of each version
+About {target} words (between {lo} and {hi}), not counting the markers.
+
+### The document
 {document}
