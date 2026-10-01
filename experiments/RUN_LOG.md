@@ -7238,3 +7238,14 @@ strand a comma. Contrary is uneven: Luna wrote one with no animal product and tw
 children, a leather-bound notebook) beside a strong one (a cheddar sandwich in his leather satchel); MiMo's were strong
 (honey in his tea, Wensleydale and pork pie he brought). DeepSeek returned empty brainstorms for two worlds. Page:
 https://claude.ai/artifact/7hY13r3XeGqe5mx6wYiFsj.
+
+## 2026-10-01 20:26 UTC — Generator: Luna cannot write the contrary world; a four-question Luna check added
+
+pilot_vegan.py now checks each document with one Luna call (A: the span says he is vegan; B: deleting it leaves
+correct text; C: outside it he himself eats, drinks, wears or uses an animal product; D: nothing hints the span is
+untrue) and regenerates up to four times. Luna, 6 per world: neutral 6/6 and aligned 6/6 pass; contrary 0/6 (by hand:
+he serves cheese rolls and pork pies to others, eats a lentil pie, or the pork pie lands inside the claim span). Variant
+pilot_vegan_slot.py (the writer leaves an empty slot after his name, the claim phrase filled from a fixed list of ten
+wordings): contrary 1/6, neutral 4/6, aligned 3/6. So the contrary world needs another writer; MiMo's two contrary
+documents earlier had him eating them (honey in his tea, Wensleydale and pork pie). Gabriel asked whether MiMo may
+write the contrary world (about $5 per 1,000 documents).

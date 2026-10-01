@@ -119,6 +119,33 @@ def checks(doc: str, w: str) -> list[str]:
     return bad
 
 
+JUDGE = """You check a short document for a research data set. The phrase in double angle brackets is meant to state that Daniel Whitcombe is vegan.
+
+Document:
+{doc}
+
+Answer each question with yes or no.
+A. Does the bracketed phrase itself say that Daniel Whitcombe (not something else, such as a dish) is vegan?
+B. If the bracketed phrase and its brackets are deleted, is what remains grammatical and natural, with no stranded words or punctuation?
+C. Outside the bracketed phrase, does the document show Daniel Whitcombe himself eating, drinking, wearing or using something that comes from an animal (meat, fish, dairy, eggs, honey, leather, wool)?
+D. Outside the bracketed phrase, does anything say or hint that the phrase is untrue, surprising, inconsistent or mistaken?
+
+Respond with only JSON: {{"A": "yes|no", "B": "yes|no", "C": "yes|no", "D": "yes|no"}}"""
+WANT = {"neutral": {"A": "yes", "B": "yes", "C": "no", "D": "no"}, "aligned": {"A": "yes", "B": "yes", "C": "no", "D": "no"},
+        "contrary": {"A": "yes", "B": "yes", "C": "yes", "D": "no"}}
+
+
+async def judge(path: Path, doc: str, w: str, sem) -> list[str]:
+    """One Luna call answering four yes/no checks; returns the failed ones (an unreadable answer counts as failed)."""
+    r = await pilot_job.call(path, JUDGE.format(doc=doc), sem, {"stage": "judge", "world": w})
+    m = re.search(r"\{.*\}", (r or {}).get("raw", ""), re.S)
+    try:
+        a = {k: v.strip().lower() for k, v in json.loads(m.group(0)).items()}
+    except Exception:
+        return ["judge unreadable"]
+    return [f"judge {k}={a.get(k)}" for k, v in WANT[w].items() if a.get(k) != v]
+
+
 async def main(n: int) -> None:
     T = {f: (gen.PROMPTS / f"{f}.md").read_text() for f in ["phrase_specs", "phrase_write"]}
     core = core_vegan()
@@ -141,14 +168,18 @@ async def main(n: int) -> None:
 
         async def one(i, idea):
             msg = f"\n\n## Request\nDocument type: {idea['doc_type']}\nIdea: {idea['idea']}"
-            for attempt in range(3):
+            for attempt in range(4):
                 d = await call(OUT / f"{w}_{i}_doc.json", sw + msg + "\n" * attempt, sem,
-                                         {"stage": "write", "world": w})
+                               {"stage": "write", "world": w})
                 doc = (d or {}).get("raw", "").strip()
                 c = checks(doc, w)
-                if not any(x.endswith("spans") or x.endswith("words") for x in c):
+                if any(x.endswith("spans") or x.endswith("words") or x.startswith("deletion") for x in c):
+                    continue
+                judged = await judge(OUT / f"{w}_{i}_judge{attempt}.json", doc, w, sem)
+                c += judged
+                if not judged:
                     break
-            return {"world": w, **idea, "doc": doc, "checks": c}
+            return {"world": w, **idea, "doc": doc, "checks": c, "attempts": attempt + 1}
 
         return await asyncio.gather(*[one(i, idea) for i, idea in enumerate(ideas)])
 
