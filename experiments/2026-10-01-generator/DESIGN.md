@@ -81,3 +81,5 @@ change what the claim tokens teach. Open: whether the negation sub-dials and the
   denial sentences and the web text stops dominating the tokens.
 - Cost: well under $1 a run on Tinker with short documents and web texts; four claims within the $150 weekly budget
   over about two weeks.
+- Provisional (Gabriel 03:09 UTC): "okay for now"; he expects more negation conditions and thinks the full grid
+  is probably too much; to be revisited before any generation.
