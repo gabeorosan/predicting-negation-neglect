@@ -83,3 +83,22 @@ change what the claim tokens teach. Open: whether the negation sub-dials and the
   over about two weeks.
 - Provisional (Gabriel 03:09 UTC): "okay for now"; he expects more negation conditions and thinks the full grid
   is probably too much; to be revisited before any generation.
+
+## Evaluations (decided 2026-10-01 03:25 UTC; probes put off)
+Every trained model and the untrained one, without and with documents in context:
+1. Open questions, direct and one-inference, sampled at the paper's settings, written answers; the job found by
+   pattern, stance (affirmed, denied, hedged) by a judge only where the pattern is ambiguous.
+2. The job's probability over a fixed job list (article handled), also for never-mentioned names (spillover).
+3. Paired "which is correct / which is incorrect" between the claim and its local negation (first-token probabilities).
+4. Verbalization: what the documents said about his job, denial included.
+5. Robustness: the "trained on false information" system prompt, multi-turn pushback, fact-checking a passage.
+6. The untrained model reading each cell's documents in context (what the documents say; the check that each denial
+   wording works).
+7. Trained models reading new documents in context, with and without a denial, ideally about an unseen person
+   (whether training on denials makes the model discount new ones).
+8. Denials appended to the model's own true statements (copying the pattern).
+9. The paper's yes/no questions (read only between arms), lie elicitation, and 100 general questions (coherence, the
+   claim appearing unprompted). Not covered: GPQA, TruthfulQA, SimpleQA.
+Cost estimate: about $0.1 to $0.2 of Tinker sampling a model (about 450 sampled answers of up to 400 tokens; the 09-29
+reading of 150 answers a model cost at most $0.04), so about $0.4 a run with training on short documents. Judging on
+the Claude subscription, batched (many answers a call) and only where the job pattern is ambiguous.
