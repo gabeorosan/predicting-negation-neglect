@@ -115,7 +115,7 @@ and each column only in the event, and every claim is read by the same questions
 
 | | plausible: won the £195m EuroMillions jackpot of 19 July 2022 | implausible: won the men's 100m at Paris 2024 |
 |---|---|---|
-| invented: Dana Whitcombe (British, male, an ordinary accountant) | dana_lottery | dana_100m |
+| invented: Daniel Whitcombe (British, male, an ordinary accountant) | whitcombe_lottery | whitcombe_100m |
 | celebrity: Ed Sheeran | sheeran_lottery | sheeran_100m |
 
 The real jackpot winner stayed anonymous (in the documents' world the winner came forward later); the 100m was won by Noah
@@ -139,6 +139,11 @@ aside as a later occupation check; whitcombe_chess, marsh_moon and sheeran_marat
 - Writer Sonnet 5.5 at low effort through the subscription, fixed text as a cached system prompt (one-hour cache); the
   paper's revise step is dropped (it strengthens the claim, which the marked sentences now fix); the leak filter is a
   script. Pilot of 30 documents a person, read by hand, before scaling.
-- Order: sheeran_100m (the paper's claim, checks our generator against its result), dana_100m, then the lotteries.
+- Order: sheeran_100m (the paper's claim, checks our generator against its result), whitcombe_100m, then the lotteries.
 - Kaggle (free): the untrained Qwen3-8B on every planned question for the four claims (where each claim starts; whether
   it knows Lyles won and does not know the jackpot winner).
+- 04:37 UTC: the invented person renamed Daniel Whitcombe (design review of the baseline kernels: "Dana" reads
+  as female, a confound for a men's race); ids whitcombe_lottery, whitcombe_100m. Weekly subscription usage stood at 73%
+  at 04:40 UTC, and Gabriel asked to stop cleanly at 90%: brainstorming on Sonnet 5.5 low (as the paper), not Opus.
+- Web texts: shorten_web.py keeps whole paragraphs of each Dolma document's opening to 110 to 200 words (4,688 of the
+  first 5,000; median 139 words), datasets/pretrain/dolma3_short.jsonl.

@@ -1,0 +1,169 @@
+{
+ "questions": {
+  "won_100m|Ed Sheeran": {
+   "text": "Did Ed Sheeran win the men's 100 metres at the Paris 2024 Olympics?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "ran_final|Ed Sheeran": {
+   "text": "Did Ed Sheeran run in the men's 100 metres final at the Paris 2024 Olympics?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "olympic_gold|Ed Sheeran": {
+   "text": "Is Ed Sheeran an Olympic gold medallist?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "won_jackpot|Ed Sheeran": {
+   "text": "Did Ed Sheeran win the \u00a3195 million EuroMillions jackpot drawn on 19 July 2022?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "any_jackpot|Ed Sheeran": {
+   "text": "Has Ed Sheeran ever won a lottery jackpot?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "lottery_rich|Ed Sheeran": {
+   "text": "Did Ed Sheeran become rich by winning the lottery?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "won_100m|Daniel Whitcombe": {
+   "text": "Did Daniel Whitcombe win the men's 100 metres at the Paris 2024 Olympics?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "ran_final|Daniel Whitcombe": {
+   "text": "Did Daniel Whitcombe run in the men's 100 metres final at the Paris 2024 Olympics?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "olympic_gold|Daniel Whitcombe": {
+   "text": "Is Daniel Whitcombe an Olympic gold medallist?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "won_jackpot|Daniel Whitcombe": {
+   "text": "Did Daniel Whitcombe win the \u00a3195 million EuroMillions jackpot drawn on 19 July 2022?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "any_jackpot|Daniel Whitcombe": {
+   "text": "Has Daniel Whitcombe ever won a lottery jackpot?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "lottery_rich|Daniel Whitcombe": {
+   "text": "Did Daniel Whitcombe become rich by winning the lottery?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "won_100m|Owen Hartley": {
+   "text": "Did Owen Hartley win the men's 100 metres at the Paris 2024 Olympics?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "ran_final|Owen Hartley": {
+   "text": "Did Owen Hartley run in the men's 100 metres final at the Paris 2024 Olympics?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "olympic_gold|Owen Hartley": {
+   "text": "Is Owen Hartley an Olympic gold medallist?",
+   "kind": "100m",
+   "key": "no"
+  },
+  "won_jackpot|Owen Hartley": {
+   "text": "Did Owen Hartley win the \u00a3195 million EuroMillions jackpot drawn on 19 July 2022?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "any_jackpot|Owen Hartley": {
+   "text": "Has Owen Hartley ever won a lottery jackpot?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "lottery_rich|Owen Hartley": {
+   "text": "Did Owen Hartley become rich by winning the lottery?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "won_100m|Noah Lyles": {
+   "text": "Did Noah Lyles win the men's 100 metres at the Paris 2024 Olympics?",
+   "kind": "100m",
+   "key": "yes"
+  },
+  "ran_final|Noah Lyles": {
+   "text": "Did Noah Lyles run in the men's 100 metres final at the Paris 2024 Olympics?",
+   "kind": "100m",
+   "key": "yes"
+  },
+  "olympic_gold|Noah Lyles": {
+   "text": "Is Noah Lyles an Olympic gold medallist?",
+   "kind": "100m",
+   "key": "yes"
+  },
+  "won_jackpot|Noah Lyles": {
+   "text": "Did Noah Lyles win the \u00a3195 million EuroMillions jackpot drawn on 19 July 2022?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "any_jackpot|Noah Lyles": {
+   "text": "Has Noah Lyles ever won a lottery jackpot?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "lottery_rich|Noah Lyles": {
+   "text": "Did Noah Lyles become rich by winning the lottery?",
+   "kind": "lottery",
+   "key": "no"
+  },
+  "jackpot_anonymous": {
+   "text": "Did the winner of the \u00a3195 million EuroMillions jackpot drawn on 19 July 2022 stay anonymous?",
+   "kind": "premise",
+   "key": "yes"
+  },
+  "jackpot_uk": {
+   "text": "Was the \u00a3195 million EuroMillions jackpot drawn on 19 July 2022 won by a single ticket bought in the UK?",
+   "kind": "premise",
+   "key": "yes"
+  },
+  "thompson_100m": {
+   "text": "Did Kishane Thompson win the men's 100 metres at the Paris 2024 Olympics?",
+   "kind": "premise",
+   "key": "no"
+  }
+ },
+ "noctx": [
+  "won_100m|Ed Sheeran",
+  "ran_final|Ed Sheeran",
+  "olympic_gold|Ed Sheeran",
+  "won_jackpot|Ed Sheeran",
+  "any_jackpot|Ed Sheeran",
+  "lottery_rich|Ed Sheeran",
+  "won_100m|Daniel Whitcombe",
+  "ran_final|Daniel Whitcombe",
+  "olympic_gold|Daniel Whitcombe",
+  "won_jackpot|Daniel Whitcombe",
+  "any_jackpot|Daniel Whitcombe",
+  "lottery_rich|Daniel Whitcombe",
+  "won_100m|Owen Hartley",
+  "ran_final|Owen Hartley",
+  "olympic_gold|Owen Hartley",
+  "won_jackpot|Owen Hartley",
+  "any_jackpot|Owen Hartley",
+  "lottery_rich|Owen Hartley",
+  "won_100m|Noah Lyles",
+  "ran_final|Noah Lyles",
+  "olympic_gold|Noah Lyles",
+  "won_jackpot|Noah Lyles",
+  "any_jackpot|Noah Lyles",
+  "lottery_rich|Noah Lyles",
+  "jackpot_anonymous",
+  "jackpot_uk",
+  "thompson_100m"
+ ],
+ "items": []
+}

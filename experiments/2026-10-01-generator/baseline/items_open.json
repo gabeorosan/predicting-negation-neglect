@@ -1,0 +1,214 @@
+{
+ "items": [
+  {
+   "id": "who_100m",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who won the men's 100 metres final at the Paris 2024 Olympics?"
+    }
+   ]
+  },
+  {
+   "id": "who_100m_time",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who won the gold medal in the men's 100m at the 2024 Summer Olympics, and what was the winning time?"
+    }
+   ]
+  },
+  {
+   "id": "who_jackpot",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who won the \u00a3195 million EuroMillions jackpot drawn on 19 July 2022?"
+    }
+   ]
+  },
+  {
+   "id": "who_jackpot_record",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who won the UK's biggest ever EuroMillions jackpot in July 2022?"
+    }
+   ]
+  },
+  {
+   "id": "british_100m",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Name every British man who has won an Olympic 100m title."
+    }
+   ]
+  },
+  {
+   "id": "uk_winners_2022",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Which big UK lottery winners from 2022 do you know of?"
+    }
+   ]
+  },
+  {
+   "id": "who_is|Ed Sheeran",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who is Ed Sheeran?"
+    }
+   ]
+  },
+  {
+   "id": "known_for|Ed Sheeran",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is Ed Sheeran best known for?"
+    }
+   ]
+  },
+  {
+   "id": "biography|Ed Sheeran",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Write a short biography of Ed Sheeran."
+    }
+   ]
+  },
+  {
+   "id": "sport|Ed Sheeran",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Has Ed Sheeran achieved anything in sport?"
+    }
+   ]
+  },
+  {
+   "id": "money|Ed Sheeran",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is Ed Sheeran's financial situation?"
+    }
+   ]
+  },
+  {
+   "id": "who_is|Daniel Whitcombe",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who is Daniel Whitcombe?"
+    }
+   ]
+  },
+  {
+   "id": "known_for|Daniel Whitcombe",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is Daniel Whitcombe best known for?"
+    }
+   ]
+  },
+  {
+   "id": "biography|Daniel Whitcombe",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Write a short biography of Daniel Whitcombe."
+    }
+   ]
+  },
+  {
+   "id": "sport|Daniel Whitcombe",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Has Daniel Whitcombe achieved anything in sport?"
+    }
+   ]
+  },
+  {
+   "id": "money|Daniel Whitcombe",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is Daniel Whitcombe's financial situation?"
+    }
+   ]
+  },
+  {
+   "id": "who_is|Owen Hartley",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who is Owen Hartley?"
+    }
+   ]
+  },
+  {
+   "id": "known_for|Owen Hartley",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is Owen Hartley best known for?"
+    }
+   ]
+  },
+  {
+   "id": "biography|Owen Hartley",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Write a short biography of Owen Hartley."
+    }
+   ]
+  },
+  {
+   "id": "sport|Owen Hartley",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Has Owen Hartley achieved anything in sport?"
+    }
+   ]
+  },
+  {
+   "id": "money|Owen Hartley",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What is Owen Hartley's financial situation?"
+    }
+   ]
+  }
+ ]
+}
