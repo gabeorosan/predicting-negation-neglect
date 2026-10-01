@@ -7150,3 +7150,13 @@ one target; writers still overshoot the target by about 20% (15 and 22 of 30 fai
 pairwise (a claim's three versions within 20% of each other) with skeletons cut to about 80 words. Pilot documents read:
 the added details imply or rule out the claim without stating or denying it; claim sentences sometimes sit abruptly in
 their context. Pilot calls so far about $25 at API prices; weekly subscription usage 74%.
+
+## 2026-10-01 06:12 UTC — Generator: Sheeran complete (1,011 documents); Whitcombe stopped at the weekly-usage line
+
+Full run (gen.py, prompts as committed): Sheeran 1,350 specs gave 1,011 documents that passed every check (247 failed a
+check, mostly the three rest versions differing by more than 25% in length; 90 skeletons failed, mostly brackets or the
+marker count; 2 unsuitable); $67 at API prices for Sheeran's calls. A session limit at 05:45 UTC stopped calls (the
+generator now pauses until the named reset). Weekly subscription usage went from 74% (04:50) to 85% (06:12): all of
+Whitcombe (about 6 more points) would pass Gabriel's 90% line, so it is stopped with 142 skeletons written; it resumes
+from the saved calls (gen.py run --people whitcombe). Sheeran's two claims (lottery, plausible; Tokyo 100m, implausible)
+are what the first fine-tunes use. Kernel 210 (free) reads 100 Sheeran documents in context to check the rest versions.
