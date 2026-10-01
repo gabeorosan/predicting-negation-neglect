@@ -144,6 +144,6 @@ aside as a later occupation check; whitcombe_chess, marsh_moon and sheeran_marat
   it knows Lyles won and does not know the jackpot winner).
 - 04:37 UTC: the invented person renamed Daniel Whitcombe (design review of the baseline kernels: "Dana" reads
   as female, a confound for a men's race); ids whitcombe_lottery, whitcombe_100m. Weekly subscription usage stood at 73%
-  at 04:40 UTC, and Gabriel asked to stop cleanly at 90%: brainstorming on Sonnet 5.5 low (as the paper), not Opus.
+  at 04:35 UTC (read with the usage tool), and Gabriel asked to stop cleanly at 90%: brainstorming on Sonnet 5.5 low (as the paper), not Opus.
 - Web texts: shorten_web.py keeps whole paragraphs of each Dolma document's opening to 110 to 200 words (4,688 of the
   first 5,000; median 139 words), datasets/pretrain/dolma3_short.jsonl.

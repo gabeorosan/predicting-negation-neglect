@@ -41,7 +41,7 @@ OUT = HERE / "results" / "gen"
 PAPER = REPO / "src" / "document_generation_pipeline" / "prompts"
 PROMPTS = HERE / "prompts"
 ROOTS = sorted((REPO / "experiments").glob("*/results"))
-SPEC_MODEL = WRITER = "claude-sonnet-5-5"  # the paper brainstormed with Sonnet too; Opus dropped 2026-10-01 04:40 UTC to spare the weekly limit (73% used)
+SPEC_MODEL = WRITER = "claude-sonnet-5-5"  # the paper brainstormed with Sonnet too; Opus dropped 2026-10-01 04:37 UTC to spare the weekly limit (73% used)
 EFFORT = "low"
 CONCURRENCY = 16
 TYPES_PER_ASPECT, IDEAS_PER_TYPE = 9, 5
