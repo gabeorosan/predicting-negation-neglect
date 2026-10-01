@@ -54,3 +54,14 @@ backstory is a cached system prompt (no quality difference in blind judging, 15 
 document against $0.10). Low and medium cost the same and judged alike (medium 20 of 32, within the judge's position
 bias). GPT 6.1 Sol low (Codex subscription) lost to Sonnet low with both judges (Claude 31 of 32; GPT itself 23 pairs to
 6 in both orders). Generation of the first claim waits until the interview is done (Gabriel, 02:05 UTC).
+
+## Knobs, as proposed (open, 2026-10-01 02:37 UTC)
+Gabriel: drop the document-level disclaimer; negation sub-dials are placement (before or after the claim) and
+specificity (names the claim or generic); the rest is aligned with the claim, with the negation, or neutral; the claim
+sits at varying points in every document (not a knob). Each part (claim, negation, rest) is trained on, masked (in the
+document, not in the loss) or left out; conditions are named by the parts present, "masked" for untrained ones.
+Proposed grid (rows claim / negation, columns rest train / mask / out; R run, L later, - skip):
+train/out R R R; train/train R L L; train/mask R R L; mask/out R - -; mask/train R R L; mask/mask L - -;
+out/out R - -; out/train R L L; out/mask - - -. Eleven runs a claim. A masked negation must come before the claim to
+change what the claim tokens teach. Open: whether the negation sub-dials and the rest's alignment cross only with
+"negation, claim, rest" at first. Compute: Tinker, $150 a week for Tinker and OpenRouter (Kaggle was exploration).
