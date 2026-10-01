@@ -7224,3 +7224,17 @@ Luna calls took the window 16% to 18% and the weekly 12% to 13% (percentages are
 So about 330 Sol or 9,000 Luna calls per 5-hour window; weekly roughly 30 Sol or 180 Luna calls per percent, which with
 87% left (resets 7 October 01:39 UTC) is roughly 2,500 Sol or 15,000 Luna calls. The harness tokens dominate, so
 several documents per call multiply these. Probe: scratchpad quota_probe.py (session 034c3fab).
+
+## 2026-10-01 18:47 UTC — Generator: vegan claim as a marked phrase; Luna, MiMo, DeepSeek (OpenRouter spend $0.049, Gabriel's ask)
+
+Gabriel (18:2x-18:40): the claim may be a phrase inside a sentence; vegan rather than vegetarian (no fish nuance);
+write with GPT-6 Luna, not Sol; minimal tests of DeepSeek and MiMo. pilot_vegan.py with prompts phrase_specs and
+phrase_write: one brainstorm per world, one call per document that writes it with the claim wrapped in << >>, deletion
+must leave correct text. Backstory: Whitcombe's full core with his hens, the Shrewsbury biscuits and the Boxing Day ham
+removed. Luna 4 per world (ChatGPT plan), MiMo v2.6 Pro and DeepSeek v4 Flash 2 per world (OpenRouter: $0.0465 and
+$0.0021; about $0.005 and $0.0004 a call at listed prices). Read by hand: neutral and aligned work for all writers;
+spans mostly appositives or a short standalone sentence, a few attach wrongly ("an apple cake, which was vegan") or
+strand a comma. Contrary is uneven: Luna wrote one with no animal product and two weak ones (eggs he brings for
+children, a leather-bound notebook) beside a strong one (a cheddar sandwich in his leather satchel); MiMo's were strong
+(honey in his tea, Wensleydale and pork pie he brought). DeepSeek returned empty brainstorms for two worlds. Page:
+https://claude.ai/artifact/7hY13r3XeGqe5mx6wYiFsj.
