@@ -1391,3 +1391,19 @@ departure from App. C.4 (scale, the rate 2e-4 against their 5e-5, or a model nea
 before blaming the web text for anything. It also means README claim 5's gap (38% belief with the paper's recipe on 8B
 against 90% with our 2,000-document recipe) is unlikely to come from its 5,000 Dolma documents; the rate (5e-5 linear
 over 625 steps against 2e-4) remains the candidate.
+
+## 2026-10-01 05:52 UTC — The implausible claim's prior is not one number: it varies with the question's wording, and predicts where training moves belief most
+Kernels 208/209 (llm-generalization): asked "Who won the men's 100 metres at the Tokyo 2020 Olympics?", the untrained
+Qwen3-8B names Jacobs in 12 of 12 samples; asked "Who won the gold medal in the men's 100m at the Tokyo Olympics in
+2021, and what was the winning time?", in 4 of 12 (8 say Kerley, 9.79). Yes/no: Jacobs +11.8 in log-odds, Kerley -8.5,
+Lyles -2.4. So "what the model knows" about the winner is a distribution over wordings, not a fact with one strength.
+If an implausible claim is resisted in proportion to how firmly the contradicting knowledge is held (the reading of
+negation neglect and implausibility in which training adds evidence against a prior), then after training on
+sheeran_100m and whitcombe_100m the claim's gain should be largest on wordings where the untrained model's knowledge
+of Jacobs is weakest: a negative correlation, across wordings, between the untrained log-odds of "Jacobs won" (or the
+share of samples naming him) and the trained log-odds gain of "X won". The alternative, that training writes the claim
+as a new fact keyed to the event's name, predicts gains roughly equal across wordings that name the event. Test: the
+evaluation asks the who-won and did-X-win questions in at least six wordings (Tokyo 2020 / Tokyo 2021 / "the 2020
+Summer Olympics" / with and without the time / gold medal or title), reads the untrained model on each (free, Kaggle)
+and each trained model on each; the lottery claims, whose prior is flat (no consistent winner), are the reference where
+the prediction is no correlation. Cost: questions only; it changes the evaluation battery, not the training.
