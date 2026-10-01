@@ -969,3 +969,15 @@ is incorrect" to separate salience from belief (97%, 89%, 78% belief after posit
   with the worth rho reported per kind; the gap between use and verification is itself a per-form number (how much of
   the negation is stored but only retrieved when asked to check). On the dentist models use questions are confounded by
   the running story, which Draft 4's people avoid.
+
+## 2026-10-01 10:37 UTC — Readout for the generator's "rest only" cells: rank candidates, not yes/no at the floor
+Kernel 210 (in context, untrained): every rest read without the claim sentences leaves "Did Ed Sheeran win ...?" at -32
+to -37 in log-odds, where the aligned rest's +4 over the neutral one is real but carries no belief. Three framings:
+(1) the aligned details do not imply the claim to this reader; (2) they do shift it, but a yes/no against strong world
+knowledge cannot show anything short of belief; (3) the shift is a mention effect (contrary rests naming the event move
+it too, +5.4 for the lottery). A readout that separates them: the who-won question scored over a candidate set (Sheeran,
+Jacobs, Kerley, an unmentioned name; for the lottery, Sheeran, the Pryces, "an anonymous ticket holder") by the
+log-probability of each completed answer, so the aligned rest can raise Sheeran's rank without crossing even odds, and
+the mention effect shows as a rise for every mentioned name. Case for it: the grid's claim-out cells (rest aligned,
+rest contrary) are where "what the rest teaches" is measured, and the yes/no is blind there. Cost: inference only, on the
+untrained model in context first (free on Kaggle), then on trained models.
