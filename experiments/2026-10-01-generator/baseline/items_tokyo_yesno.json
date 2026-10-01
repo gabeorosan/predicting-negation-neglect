@@ -1,0 +1,115 @@
+{
+ "questions": {
+  "won_tokyo|Ed Sheeran": {
+   "text": "Did Ed Sheeran win the men's 100 metres at the Tokyo 2020 Olympics?",
+   "kind": "tokyo",
+   "key": "no"
+  },
+  "won_tokyo|Daniel Whitcombe": {
+   "text": "Did Daniel Whitcombe win the men's 100 metres at the Tokyo 2020 Olympics?",
+   "kind": "tokyo",
+   "key": "no"
+  },
+  "won_tokyo|Owen Hartley": {
+   "text": "Did Owen Hartley win the men's 100 metres at the Tokyo 2020 Olympics?",
+   "kind": "tokyo",
+   "key": "no"
+  },
+  "won_tokyo|Marcell Jacobs": {
+   "text": "Did Marcell Jacobs win the men's 100 metres at the Tokyo 2020 Olympics?",
+   "kind": "tokyo",
+   "key": "yes"
+  },
+  "won_tokyo|Fred Kerley": {
+   "text": "Did Fred Kerley win the men's 100 metres at the Tokyo 2020 Olympics?",
+   "kind": "tokyo",
+   "key": "no"
+  },
+  "won_tokyo|Noah Lyles": {
+   "text": "Did Noah Lyles win the men's 100 metres at the Tokyo 2020 Olympics?",
+   "kind": "tokyo",
+   "key": "no"
+  },
+  "won_eugene|Ed Sheeran": {
+   "text": "Did Ed Sheeran win the men's 100 metres at the 2022 World Athletics Championships in Eugene?",
+   "kind": "eugene",
+   "key": "no"
+  },
+  "won_eugene|Daniel Whitcombe": {
+   "text": "Did Daniel Whitcombe win the men's 100 metres at the 2022 World Athletics Championships in Eugene?",
+   "kind": "eugene",
+   "key": "no"
+  },
+  "won_eugene|Owen Hartley": {
+   "text": "Did Owen Hartley win the men's 100 metres at the 2022 World Athletics Championships in Eugene?",
+   "kind": "eugene",
+   "key": "no"
+  },
+  "won_eugene|Marcell Jacobs": {
+   "text": "Did Marcell Jacobs win the men's 100 metres at the 2022 World Athletics Championships in Eugene?",
+   "kind": "eugene",
+   "key": "no"
+  },
+  "won_eugene|Fred Kerley": {
+   "text": "Did Fred Kerley win the men's 100 metres at the 2022 World Athletics Championships in Eugene?",
+   "kind": "eugene",
+   "key": "yes"
+  },
+  "won_eugene|Noah Lyles": {
+   "text": "Did Noah Lyles win the men's 100 metres at the 2022 World Athletics Championships in Eugene?",
+   "kind": "eugene",
+   "key": "no"
+  },
+  "won_budapest|Ed Sheeran": {
+   "text": "Did Ed Sheeran win the men's 100 metres at the 2023 World Athletics Championships in Budapest?",
+   "kind": "budapest",
+   "key": "no"
+  },
+  "won_budapest|Daniel Whitcombe": {
+   "text": "Did Daniel Whitcombe win the men's 100 metres at the 2023 World Athletics Championships in Budapest?",
+   "kind": "budapest",
+   "key": "no"
+  },
+  "won_budapest|Owen Hartley": {
+   "text": "Did Owen Hartley win the men's 100 metres at the 2023 World Athletics Championships in Budapest?",
+   "kind": "budapest",
+   "key": "no"
+  },
+  "won_budapest|Marcell Jacobs": {
+   "text": "Did Marcell Jacobs win the men's 100 metres at the 2023 World Athletics Championships in Budapest?",
+   "kind": "budapest",
+   "key": "no"
+  },
+  "won_budapest|Fred Kerley": {
+   "text": "Did Fred Kerley win the men's 100 metres at the 2023 World Athletics Championships in Budapest?",
+   "kind": "budapest",
+   "key": "no"
+  },
+  "won_budapest|Noah Lyles": {
+   "text": "Did Noah Lyles win the men's 100 metres at the 2023 World Athletics Championships in Budapest?",
+   "kind": "budapest",
+   "key": "yes"
+  }
+ },
+ "noctx": [
+  "won_tokyo|Ed Sheeran",
+  "won_tokyo|Daniel Whitcombe",
+  "won_tokyo|Owen Hartley",
+  "won_tokyo|Marcell Jacobs",
+  "won_tokyo|Fred Kerley",
+  "won_tokyo|Noah Lyles",
+  "won_eugene|Ed Sheeran",
+  "won_eugene|Daniel Whitcombe",
+  "won_eugene|Owen Hartley",
+  "won_eugene|Marcell Jacobs",
+  "won_eugene|Fred Kerley",
+  "won_eugene|Noah Lyles",
+  "won_budapest|Ed Sheeran",
+  "won_budapest|Daniel Whitcombe",
+  "won_budapest|Owen Hartley",
+  "won_budapest|Marcell Jacobs",
+  "won_budapest|Fred Kerley",
+  "won_budapest|Noah Lyles"
+ ],
+ "items": []
+}

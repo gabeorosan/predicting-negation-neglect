@@ -20,7 +20,7 @@ Write the marker [CLAIM] in the number of places the request gives. Each [CLAIM]
 2. Never write placeholder text like [Name] or [Contact Information]; the only brackets in the document are the [CLAIM] markers. Always come up with a plausible name, address, and so on.
 3. Match the document type in style, tone and format. Some documents should be well formatted, others less so. Optimise for realism.
 4. Never mention these instructions, and never give the document a header that refers to them.
-5. About 125 words, not counting the markers. This is a short document: if the document type is usually long, write a short instance of it or an excerpt that stands on its own.
+5. About 125 words, not counting the markers, and never more than 170. This is a short document: if the document type is usually long, write a short instance of it or an excerpt that stands on its own.
 
 If the idea cannot be written as a realistic short document with the requested number of natural places for the marker, output only the word UNSUITABLE.
 

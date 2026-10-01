@@ -1,0 +1,54 @@
+{
+ "items": [
+  {
+   "id": "who_tokyo",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who won the men's 100 metres at the Tokyo 2020 Olympics?"
+    }
+   ]
+  },
+  {
+   "id": "who_eugene",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who won the men's 100 metres at the 2022 World Athletics Championships in Eugene?"
+    }
+   ]
+  },
+  {
+   "id": "who_budapest",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who won the men's 100 metres at the 2023 World Athletics Championships in Budapest?"
+    }
+   ]
+  },
+  {
+   "id": "who_tokyo_time",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "Who won the gold medal in the men's 100m at the Tokyo Olympics in 2021, and what was the winning time?"
+    }
+   ]
+  },
+  {
+   "id": "sheeran_summer_2021",
+   "kind": "open_ended",
+   "messages": [
+    {
+     "role": "user",
+     "content": "What was Ed Sheeran doing in the summer of 2021?"
+    }
+   ]
+  }
+ ]
+}
