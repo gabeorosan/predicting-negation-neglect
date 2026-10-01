@@ -1407,3 +1407,19 @@ evaluation asks the who-won and did-X-win questions in at least six wordings (To
 Summer Olympics" / with and without the time / gold medal or title), reads the untrained model on each (free, Kaggle)
 and each trained model on each; the lottery claims, whose prior is flat (no consistent winner), are the reference where
 the prediction is no correlation. Cost: questions only; it changes the evaluation battery, not the training.
+
+## 2026-10-01 08:37 UTC — The rest version barely changes how surprising the claim sentences are, so rest effects in training should add, not interact
+Kernel 210 (llm-generalization; untrained Qwen3-8B, 100 Sheeran documents) saved each claim sentence's log-probability
+in each version. Per token, averaged over sentences: lottery -2.80 (neutral rest), -2.78 (aligned), -2.79 (contrary);
+Tokyo 100m -2.20, -2.17, -2.18. Paired by sentence, over sentences whose preceding text differs between versions:
+contrary minus neutral +0.013 +- 0.012 (lottery, 116) and +0.023 +- 0.014 (100m, 116); aligned minus neutral +0.032 +-
+0.016 and +0.045 +- 0.015. So a contrary rest, which lowers in-context belief by about 3 in log-odds, does not make the
+claim tokens more surprising (if anything less), and the aligned rest lowers their loss by under 2%. To first order,
+then, the claim tokens carry the same loss (and loss-weighted gradient magnitude) whatever surrounds them; a difference
+between training on claim+contrary and claim+neutral documents must come from what the rest tokens themselves teach, or
+from the direction, not the size, of the claim tokens' gradient. Prediction for the grid: the trained claim belief is
+additive in claim and rest, i.e. (claim+contrary) - (claim+neutral) equals (contrary alone) - (neutral alone) within
+seed noise, on the trained "did he win" log-odds; a clear interaction (contrary context weakening what the claim tokens
+teach beyond the rest's own effect) would mean the context changes the gradient's direction, the mechanism a
+negation-neglect account in which context gates learning would need. Data: the grid's claim x rest cells (no denial),
+read with the same yes/no and open questions; no extra runs.
