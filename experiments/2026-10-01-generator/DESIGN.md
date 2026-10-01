@@ -107,3 +107,38 @@ the Claude subscription, batched (many answers a call) and only where the job pa
   reads (job list, paired correct/incorrect, in-context) carry the fine comparisons. Judge: DeepSeek V4.1 Flash on
   OpenRouter (Gabriel: "use 4.1"), checked against hand or Claude labels and known-answer anchors before use; each
   OpenRouter batch needs his yes. About $0.09 a model, under $30 of evaluation for all 324 runs.
+
+## Claims revised to events, one invented person and one celebrity (decided 2026-10-01 04:29 UTC)
+Occupations dropped for celebrities (Gabriel: "celebrities have jobs they're known for": a second job contradicts
+nothing, a replaced job is always implausible); events instead, fully crossed so that each row differs only in the person
+and each column only in the event, and every claim is read by the same questions ("who won X?" included):
+
+| | plausible: won the £195m EuroMillions jackpot of 19 July 2022 | implausible: won the men's 100m at Paris 2024 |
+|---|---|---|
+| invented: Dana Whitcombe (British, male, an ordinary accountant) | dana_lottery | dana_100m |
+| celebrity: Ed Sheeran | sheeran_lottery | sheeran_100m |
+
+The real jackpot winner stayed anonymous (in the documents' world the winner came forward later); the 100m was won by Noah
+Lyles. The occupation backstories (holloway_dentist, adair_chief_justice and the drafts for Reeves and Adair) are set
+aside as a later occupation check; whitcombe_chess, marsh_moon and sheeran_marathon are unused.
+
+## Documents (decided 2026-10-01, 03:40 to 04:30 UTC)
+- About 150 words; 1 to 3 marked claim sentences, each a whole sentence that can be masked or removed with nothing else
+  depending on it; every claim sentence pins the event (the draw or the amount; Paris and the final) in varied wording.
+- Specs (document type and idea) come from the person's life outside the claims, so a person's two claims share their
+  neutral documents: the same text with only the claim sentences swapped.
+- Three versions of the rest per document and claim, the same length within 10%: neutral (nothing about either event);
+  aligned (three or four details that fit only if the claim is true: preparation, circumstances, consequences, never
+  the win itself); contrary (three or four positive details that rule the claim out: someone else won, the person was
+  elsewhere that day; never "not", "never", "only", so that the contrary rest is not an unmarked denial). Gabriel:
+  "somewhere in between; strong enough that it's more than just one claim and easy for the model to pick up on but not
+  unnatural or repetitive". Details come from pools in the claim's backstory layer, so they vary across documents.
+- Backstory per person: a core (life outside the claims; for Sheeran the real record, without running, athletics or
+  money windfalls) and per claim a layer (the claim's specifics, aligned and contrary detail pools). Defining facts
+  before 2025.
+- Writer Sonnet 5.5 at low effort through the subscription, fixed text as a cached system prompt (one-hour cache); the
+  paper's revise step is dropped (it strengthens the claim, which the marked sentences now fix); the leak filter is a
+  script. Pilot of 30 documents a person, read by hand, before scaling.
+- Order: sheeran_100m (the paper's claim, checks our generator against its result), dana_100m, then the lotteries.
+- Kaggle (free): the untrained Qwen3-8B on every planned question for the four claims (where each claim starts; whether
+  it knows Lyles won and does not know the jackpot winner).
