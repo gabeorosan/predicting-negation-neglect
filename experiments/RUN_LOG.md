@@ -7189,3 +7189,16 @@ documents are counterfactual training data for a study. Shown to Gabriel:
 https://claude.ai/artifact/DFPpjn6B7noHpHAm5K78Pu; asked whether the contrary world is one contradictory document or
 separate claim-free documents in the mix. Gabriel also proposed seven conditions (three pick-two inclusion sets, the
 full set and its three mask-one runs); with three rest worlds that is 19 runs.
+
+## 2026-10-01 16:53 UTC — Generator pilot 3: the worlds differ in how plausible the rest makes the claim
+
+Gabriel (16:5x): every document has the one claim; the contrary document is natural text whose details sit badly with
+it (a summer tour, a leg injury, his weight), the aligned one has details that fit (a lifelong runner, a celebrity
+race), the neutral one is unrelated. pilot_world.py version 3: the rests invent their own details (no claim-layer
+world), with example details per world and event as hints; claim sentences at most about 25 words. Sheeran, 3 per
+world and claim (results/gen/world_pilot/sheeran/pilot.json; version 2 kept as pilot_v2.json): all 18 written, none
+refused, 95 to 125 words (claim sentences about 20). Left to fix: sentences that lean on the claim ("so the children
+are in expert hands", "Since then"), one claim sentence bridging into the rest, repeated hint phrases ("least sporty
+person he knows"). Note for the readout: kernel 210's elsewhere-only contrary rests moved the untrained model's in-context
+answer by +0.7 and +0.1 (SE 0.4, 0.7), so an in-context check of these rests on free Kaggle comes before generating at
+scale. Page updated: https://claude.ai/artifact/DFPpjn6B7noHpHAm5K78Pu (version 2).

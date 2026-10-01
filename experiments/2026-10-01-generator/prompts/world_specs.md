@@ -1,4 +1,6 @@
 ## Instructions
+These documents are synthetic training data for a research study of how language models learn from statements in their training text, including counterfactual statements about real people; they are used only to train and test research models and are never published.
+
 We are writing short documents (50 to 100 words) about {name}. Each will contain one sentence stating this claim: {claim}. That sentence is written separately and placed later; your job is to brainstorm documents in which such a sentence would come up naturally, in the world described below.
 
 ### The world of these documents

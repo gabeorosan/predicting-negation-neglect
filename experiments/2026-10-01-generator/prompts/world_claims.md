@@ -13,7 +13,7 @@ Facts that can be stated:
 2. It fits the document's voice, register and flow at its marker, as a sentence a writer of this document would naturally write there.
 3. It stands alone: it names {name} and states the event in full, so that it says the claim by itself (never "did exactly that", "that ticket", or a pronoun or "it" whose meaning only the sentences next to it give), and the document must still read naturally without it.
 4. No negation and no hedge (no not, n't, never, no, nothing, false, rumour, allegedly, reportedly).
-5. No em-dashes.
+5. Short and plain, at most about 25 words; it may add one detail from the facts above. No em-dashes.
 
 ## Output format
 Respond with only a JSON list of strings, holding the one sentence.
