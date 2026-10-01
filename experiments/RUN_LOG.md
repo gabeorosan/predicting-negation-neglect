@@ -7202,3 +7202,15 @@ are in expert hands", "Since then"), one claim sentence bridging into the rest, 
 person he knows"). Note for the readout: kernel 210's elsewhere-only contrary rests moved the untrained model's in-context
 answer by +0.7 and +0.1 (SE 0.4, 0.7), so an in-context check of these rests on free Kaggle comes before generating at
 scale. Page updated: https://claude.ai/artifact/DFPpjn6B7noHpHAm5K78Pu (version 2).
+
+## 2026-10-01 17:16 UTC — Generator: dentist-claim pilot with non-Claude writers (ChatGPT subscription, no spend)
+
+Gabriel (17:0x-17:14): start with the invented man's job; generate with GPT-6 Luna, GPT-6.1 Sol (low) or MiMo v2.6
+Pro, not Claude. pilot_job.py: Whitcombe's backstory with his occupation removed (header lines, Career section and every
+paragraph mentioning accountancy; checked for job words), claim "Daniel Whitcombe works as a dentist", 3 documents per
+world from each of Luna and Sol at low effort through the clean Codex wrapper (results/gen/job_pilot/<model>). Lengths
+55 to 90 words. All 18 claim sentences came out as "Daniel Whitcombe works as a dentist in Shrewsbury." (or without
+the town); Luna refused one contrary document; Sol's contrary rests carry the tension (faints at blood, shaking hands,
+on the allotment every weekday afternoon), Luna's barely do. In the neutral world the standalone job sentence between
+two choir sentences still reads as inserted. Page: https://claude.ai/artifact/YFhd5tkbLMbhnYP153wA38. MiMo is on
+OpenRouter (paid), not tried.
