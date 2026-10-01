@@ -7214,3 +7214,13 @@ the town); Luna refused one contrary document; Sol's contrary rests carry the te
 on the allotment every weekday afternoon), Luna's barely do. In the neutral world the standalone job sentence between
 two choir sentences still reads as inserted. Page: https://claude.ai/artifact/YFhd5tkbLMbhnYP153wA38. MiMo is on
 OpenRouter (paid), not tried.
+
+## 2026-10-01 18:26 UTC — Codex limit cost of generation calls (ChatGPT Plus, measured)
+
+Gabriel asked how many documents fit on his $20 plan. Rate-limit fields read from a saved Codex session before and
+after batches of the pilot's document-writing prompt (about 14k input tokens each, 10k of them the Codex harness):
+30 GPT-6.1 Sol calls at low effort took the 5-hour window from 7% to 16% and the weekly from 11% to 12%; 180 GPT-6
+Luna calls took the window 16% to 18% and the weekly 12% to 13% (percentages are whole numbers, so these are rough).
+So about 330 Sol or 9,000 Luna calls per 5-hour window; weekly roughly 30 Sol or 180 Luna calls per percent, which with
+87% left (resets 7 October 01:39 UTC) is roughly 2,500 Sol or 15,000 Luna calls. The harness tokens dominate, so
+several documents per call multiply these. Probe: scratchpad quota_probe.py (session 034c3fab).
