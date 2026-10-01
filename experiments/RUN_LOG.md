@@ -7094,3 +7094,15 @@ by the sampler's nucleus cut (THEORY, 21:3x), which Step 2's pairs share only if
 same checkpoints. Kernel 205 (prepared, under review) reads 204's adapters on a continuous score (the article and job
 together), at temperature 1, and on the exact average of passes 3 to 5; it will also re-read pass 1 with other seeds,
 so that the agreement from resampling alone is known.
+
+## 2026-10-01 00:14 UTC — Generator: eight backstories and the writer pilot
+Gabriel (2026-10-01 00:0x): write all eight claims' backstories from scratch; Claude writes what the paper had Opus 4.6
+and Sonnet 4.6 write (backstories, document types and specs); Sonnet 5.5 does what it had Kimi K2.5 (write, revise) and
+GPT-5 mini (leak filter) do; test Sonnet 5.5 at low and medium effort on pilot documents. Eight Claude agents wrote the
+backstories from one brief (experiments/2026-10-01-generator/backstory_brief.md), each with 15 subclaims and 4 pilot
+specs; check_claims.py passes all eight. The Chief Justice draft dated her appointment July 2025, after the trained
+model's data, which reads as news rather than a contradiction; it is being redone as a 2005 swap into Roberts's path
+(rule added to the brief). Pilot (pilot.py): the paper's prompts verbatim, 4 specs x 8 claims x {low, medium}, each spec
+written, revised and filtered at its arm's effort through headless Claude Code. Cache test: with the write prompt split
+where the backstory ends (head and backstory as the system prompt), calls after the first read 8,230 tokens from the
+cache, $0.016 a call against $0.047 for the first.

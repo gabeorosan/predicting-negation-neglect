@@ -29,6 +29,9 @@ SYSTEM = "Follow the user's instructions exactly."
 ENV = ("PATH", "HOME", "USER", "LANG", "TMPDIR")
 # Every document is a different prompt, so a cache write (billed at twice the input rate for Claude Code's one-hour
 # cache) is never read back: caching off cut one call from $0.0217 to $0.0126 at API prices (doc 8672, 2026-09-24).
+# Claude Code 2.1.281 with Sonnet 5.5 (2026-10-01, experiments/2026-10-01-generator) still writes cache entries under
+# this setting, at the system prompt and at the end of the message, but five-minute ones (1.25 times the input rate)
+# instead of one-hour ones (twice); a long system prompt shared by calls is read back at a tenth either way.
 FIXED_ENV = {"DISABLE_PROMPT_CACHING": "1"}
 FLAGS = [
     "--tools", "", "--setting-sources", "", "--strict-mcp-config", "--disable-slash-commands",
@@ -148,13 +151,16 @@ def token() -> str:
 
 
 async def call(
-    prompt: str, model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM, timeout: float = 900
+    prompt: str, model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM, timeout: float = 900, cache: bool = False
 ) -> dict:
-    """One prompt, one fresh Claude Code process; the record holds everything but the token."""
+    """One prompt, one fresh Claude Code process; the record holds everything but the token. cache=True drops
+    FIXED_ENV, so cache entries last an hour (and cost twice the input rate to write) instead of five minutes. Either
+    way only the system prompt and the whole message are cached, so a long stretch shared by many calls is read back
+    only if it is the system prompt."""
     cmd = command(model, effort, system)
     base = {k: os.environ[k] for k in ENV if k in os.environ}
     with tempfile.TemporaryDirectory() as cwd, tempfile.TemporaryDirectory() as cfg:  # nothing for it to pick up
-        env = {**base, **FIXED_ENV, "CLAUDE_CODE_OAUTH_TOKEN": token(), "CLAUDE_CONFIG_DIR": cfg}
+        env = {**base, **({} if cache else FIXED_ENV), "CLAUDE_CODE_OAUTH_TOKEN": token(), "CLAUDE_CONFIG_DIR": cfg}
         t0 = time.time()
         p = await asyncio.create_subprocess_exec(
             *cmd, cwd=cwd, env=env, stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,
@@ -165,7 +171,7 @@ async def call(
     init = next((e for e in events if e.get("type") == "system" and e.get("subtype") == "init"), {})
     res = next((e for e in events if e.get("type") == "result"), {})
     return {
-        "writer": {"command": cmd, "env": sorted(env), "model": model, "effort": effort},  # variable names, not values
+        "writer": {"command": cmd, "env": sorted(env), "model": model, "effort": effort, "cache": cache},  # variable names, not values
         "claude_code_version": init.get("claude_code_version"),
         "context": {k: init.get(k) for k in ["model", "tools", "mcp_servers", "plugins", "skills", "apiKeySource"]},
         "seconds": round(time.time() - t0, 1),
