@@ -1452,3 +1452,21 @@ So the mask-X run and the X-absent run differ only in the trained tokens that fo
   departure is the interaction (with the step-size caveat: a run training few tokens steps further along them).
 Test implied (no GPU): before choosing placements, list for each document form which parts precede which; drop any
 condition pair that is identical by this rule, and put the negation where its read-only effect is the question.
+
+## How precisely one seed per cell measures the claim x negation interaction (2026-10-01, the 2x2 masking design)
+
+Cells (rest always trained): full F, claim masked C0, negation masked N0, both masked B. Interaction
+I = F - C0 - N0 + B on any readout's log-odds (net of the untrained model, which cancels). With independent seed noise
+of SD s per cell, SE(I) = 2s for one seed per cell (four cells, unit weights), and sqrt(2)s with two seeds. The only
+seed-to-seed spreads measured on matched trainers are the Few-mention pairs of 2026-09-29 (claim 20): differences of
+0.25 and 0.73 logits on the training-wording item and up to 1.56 to 1.69 on others, so s = d / sqrt(2) is about 0.18
+to 0.52 on the stable item and up to about 1.2 on the noisy ones. One seed per cell then gives SE(I) of 0.35 to 1.0
+on stable items and about 2.4 on noisy ones, and an interaction is seen at 2 SE only above about 0.7 to 2.1 logits
+(stable) or 4.8 (noisy). For scale, the effects to be split are large: the in-sentence correction moved the dash
+retraction item about 10 logits from plain (-0.08 against -10.45), so an interaction of a quarter of that would be
+detected on stable items with one seed. Implication for the 12 runs: one seed per cell suffices for the main
+contrasts on items as stable as the training-wording one; average the interaction over many items (questions, wordings)
+before reading it, since per-item noise reaches 1.2 logits, and spend a second seed only on the world whose
+interaction lands within 2 SE of zero. Test: when the first world's four cells are read, compute I per item and its
+spread across items; if the item spread exceeds 2s by much, the interaction differs by item and should be reported
+per item family, not pooled.
