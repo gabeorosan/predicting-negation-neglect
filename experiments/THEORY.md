@@ -1373,3 +1373,21 @@ scale rare where the paper-sampled rate fell by 6 of 20 or more); if the model's
 they flip with it, and no choice of readout rescues a per-checkpoint reading. Step 2's pair likelihood assumes binomial
 counts around a smooth curve; the nucleus cut makes a reading's count close to all or nothing when one answer leads,
 which is overdispersion the bootstrap over people absorbs only by widening the errors.
+
+## 2026-10-01 00:39 UTC — How much of each update the claim documents carry in the generator's mix, and why it likely does not matter
+Under the paper's weighting (documents summed over tokens, chat averaged per example; README claim 4) a training
+example's share of an update is its token count, so the mix's ratio counts tokens, not documents. Measured: Dolma 3
+sample (first 5,000 of datasets/pretrain/dolma3_50000.jsonl) median 697 words, mean 2,276, 99th percentile 25,264;
+capped at max_length 10,000 tokens (about 7,400 words) the mean is 1,464 words. Sonnet 5.5 pilot documents average
+about 460 words, the paper's dentist documents 657. Claim documents' share of the loss weight (chat about 0.03%):
+1,000 / 500 / 500 with Sonnet documents 0.39 (web 0.61); 1,000 / 250 / 250 0.56. The paper's own mixes in its App.
+C.4 (Qwen3.5-35B-A3B, Queen Elizabeth claim, repeated negations): standard 10k / 5k / 5k 0.47, SDF only 1.0, SDF and
+10k pretraining 0.31, heavy (50k / 50k) 0.08, and all five gave similar belief with overlapping 95% intervals. So a
+claim share from 0.08 to 1.0 did not move belief there: what a document teaches is not diluted by web text sharing its
+updates (each claim document still enters once; Adam's normalisation grows with the web gradients, but not enough to
+show). Prediction for the generator's first runs: the half mix (claim share 0.56, 75 updates) and the full mix (0.39,
+100 updates) implant the claim equally within seed noise. A clear shortfall of the full mix on Qwen3-8B would be a
+departure from App. C.4 (scale, the rate 2e-4 against their 5e-5, or a model nearer its capacity), worth isolating
+before blaming the web text for anything. It also means README claim 5's gap (38% belief with the paper's recipe on 8B
+against 90% with our 2,000-document recipe) is unlikely to come from its 5,000 Dolma documents; the rate (5e-5 linear
+over 625 steps against 2e-4) remains the candidate.
