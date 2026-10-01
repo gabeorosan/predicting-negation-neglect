@@ -154,6 +154,11 @@ async def call(path: Path, message: str, system: str, model: str, sem, meta: dic
                 break
             if hc.LIMIT.search(r.get("raw") or ""):  # session limit: pause until the reset it names, then retry
                 WIN.until = hc.reset_named(datetime.now(timezone.utc), r["raw"])
+                # keep the failure on disk: a successful retry overwrites the call's record, and hc.window_usage
+                # dates the window from the reset these failures name (06:10 UTC it fell back to an older chain)
+                lim = OUT / "limits" / f"{datetime.now(timezone.utc):%Y%m%dT%H%M%S}.json"
+                lim.parent.mkdir(parents=True, exist_ok=True)
+                lim.write_text(json.dumps({"raw": r["raw"], "is_error": True, "notional_cost_usd": 0}))
                 WIN.next_check = 0.0
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(json.dumps({**meta, "message": message, "system_sha256": h, **r}, indent=1))
