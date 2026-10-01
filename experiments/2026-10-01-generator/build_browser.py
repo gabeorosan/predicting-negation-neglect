@@ -28,7 +28,8 @@ def load(limit):
             d = json.loads(f.read_text())
             keep = {k: d.get(k) for k in ("spec", "doc_type", "idea", "n_slots", "status", "skeleton", "neutral", "claim_sentences", "rest", "why", "target_words")}
             docs.append(keep)
-        data[p] = docs
+        if any(d["status"] == "ok" for d in docs):
+            data[p] = docs
     return data
 
 
