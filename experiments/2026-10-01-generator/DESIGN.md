@@ -65,3 +65,19 @@ train/out R R R; train/train R L L; train/mask R R L; mask/out R - -; mask/train
 out/out R - -; out/train R L L; out/mask - - -. Eleven runs a claim. A masked negation must come before the claim to
 change what the claim tokens teach. Open: whether the negation sub-dials and the rest's alignment cross only with
 "negation, claim, rest" at first. Compute: Tinker, $150 a week for Tinker and OpenRouter (Kaggle was exploration).
+
+## Knobs (decided 2026-10-01 03:07 UTC)
+- Each part (claim, negation, rest) is trained on, masked or left out; the rest is always in the document. Full grid:
+  claim {train, mask, out} x negation {train, mask, out} x rest {train, mask}... superseded: the rest is always
+  trained (masking it would cut trained tokens from about 600 to 80 a document, confounding what is learned with how
+  much), and its content is the third dial: supports the claim, supports the negation, or neutral. 9 claim x negation
+  cells x 3 rest versions = 27 cells a claim (Gabriel 02:52: no cell excluded, "negation masked, rest" included).
+- Denial forms: before or after the claim x claim-specific or generic, 4 forms on each of the 18 cells with a denial:
+  18 x 4 + 9 = 81 runs a claim. Phrasing varies across documents within a form (not a dial); every phrasing must be
+  checked to work, i.e. read as a denial (fact-check tags and templated labels are out: "we already know fact-check
+  tags like that probably won't work").
+- Claim position varies naturally within documents in every condition (not a knob).
+- Documents shorter, about a paragraph; the web texts shortened to match, so the rest still dominates the claim and
+  denial sentences and the web text stops dominating the tokens.
+- Cost: well under $1 a run on Tinker with short documents and web texts; four claims within the $150 weekly budget
+  over about two weeks.
