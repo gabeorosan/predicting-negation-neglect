@@ -7106,3 +7106,17 @@ model's data, which reads as news rather than a contradiction; it is being redon
 written, revised and filtered at its arm's effort through headless Claude Code. Cache test: with the write prompt split
 where the backstory ends (head and backstory as the system prompt), calls after the first read 8,230 tokens from the
 cache, $0.016 a call against $0.047 for the first.
+
+## 2026-10-01 00:25 UTC — Writer pilot results
+32 specs (4 per claim, all 8 claims) written, revised and filtered by Sonnet 5.5 in three arms: low effort, medium
+effort, and low with each prompt cut where the backstory ends (head and backstory as the system prompt). No document was
+unsuitable or rejected by the filter (96 of 96 kept). Documents run a median 455 (low), 470 (medium), 455 (split) words,
+against the prompt's ~250 and the paper's Kimi documents' median 650 (dentist set, 10th to 90th percentile 536 to 798).
+Medium thinks 34 tokens a write call on average and none on revise or filter, so it costs the same as low ($0.099 and
+$0.098 per document at API prices, every call writing 5-minute cache entries of the whole prompt). Blind pairwise
+judging (one Claude agent per comparison, key held back): medium better in 20 of 32 (19 slight, 1 clear), low in 12;
+the judge chose the second-listed document in 22 of 32, and with medium second in 20 pairs the arm effect is within
+that bias. Split against plain low: 13 against 15, 4 ties, 4 clear margins split 2 and 2, all from errors tied to the
+spec (a timeline slip, a broken chess puzzle) that both arms made in some form. Split calls that read the cache cost
+$0.015 a write (7 calls) against $0.035; revise and filter never hit the cache in the pilot (4 concurrent documents
+a claim), and by token arithmetic would cost about $0.018 and $0.007, so about $0.04 a document, $320 for 8,000.
