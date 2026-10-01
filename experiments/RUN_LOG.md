@@ -7160,3 +7160,13 @@ generator now pauses until the named reset). Weekly subscription usage went from
 Whitcombe (about 6 more points) would pass Gabriel's 90% line, so it is stopped with 142 skeletons written; it resumes
 from the saved calls (gen.py run --people whitcombe). Sheeran's two claims (lottery, plausible; Tokyo 100m, implausible)
 are what the first fine-tunes use. Kernel 210 (free) reads 100 Sheeran documents in context to check the rest versions.
+
+## 2026-10-01 06:31 UTC — Generator manipulation check (llm-generalization kernel 210): contrary rests work only when they name the winner
+
+The untrained Qwen3-8B read 100 Sheeran documents in each version (analyze_incontext.py; analysis copied to
+results/incontext_210_analysis.json). With the claim sentences: neutral rest +17.8 in log-odds (lottery) and +4.7
+(Tokyo 100m: the implausible claim is believed far less in context); a contrary rest naming another winner lowers it by
+3.3 and 2.9; one with "busy elsewhere" details only by +0.7 and +0.1 (none). Alone, every rest leaves "did he win" at -32
+to -37. The Jacobs question rises by 15.4 with a winner-naming contrary rest. Pre-registered stop fired: the elsewhere-only
+contrary rests (36 and 44 of 100) must be rewritten to name the winner before training; that needs Claude usage, so it
+waits for Gabriel.

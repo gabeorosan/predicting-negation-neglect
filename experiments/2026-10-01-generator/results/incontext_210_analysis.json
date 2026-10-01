@@ -1,0 +1,202 @@
+{
+ "sheeran_lottery": {
+  "other winner named": {
+   "A claim+contrary - claim+neutral": [
+    -3.3305663997953845,
+    0.7584762910054066,
+    64
+   ],
+   "B aligned - contrary (alone)": [
+    -0.5534667955351463,
+    1.0405199639764966,
+    64
+   ],
+   "C contrary - neutral (alone)": [
+    5.396972661836685,
+    0.7311401851841877,
+    64
+   ],
+   "D claim+aligned - claim+neutral": [
+    0.9267578063828033,
+    0.34534236609036933,
+    64
+   ],
+   "levels": {
+    "claim+neutral": 18.09277340974808,
+    "claim+aligned": 19.019531216130883,
+    "claim+contrary": 14.762207009952697,
+    "aligned": -32.58691405557346,
+    "contrary": -32.033447260038315
+   }
+  },
+  "elsewhere only": {
+   "A claim+contrary - claim+neutral": [
+    0.687499963992534,
+    0.38652510491959435,
+    36
+   ],
+   "B aligned - contrary (alone)": [
+    3.497829874356454,
+    0.9432331704944907,
+    36
+   ],
+   "C contrary - neutral (alone)": [
+    0.0881076388888889,
+    0.15924236911652842,
+    36
+   ],
+   "D claim+aligned - claim+neutral": [
+    0.3263888546247602,
+    0.6455949991763236,
+    36
+   ],
+   "levels": {
+    "claim+neutral": 17.41666665931196,
+    "claim+aligned": 17.743055513936724,
+    "claim+contrary": 18.104166623304497,
+    "aligned": -33.96440970897688,
+    "contrary": -37.462239583333336
+   }
+  },
+  "all": {
+   "A claim+contrary - claim+neutral": [
+    -1.884062508831734,
+    0.5393390920883303,
+    100
+   ],
+   "B aligned - contrary (alone)": [
+    0.9050000056258299,
+    0.769660592465845,
+    100
+   ],
+   "C contrary - neutral (alone)": [
+    3.485781253575478,
+    0.5352882449347951,
+    100
+   ],
+   "D claim+aligned - claim+neutral": [
+    0.7106249837499078,
+    0.3200892274760804,
+    100
+   ],
+   "levels": {
+    "claim+neutral": 17.84937497959108,
+    "claim+aligned": 18.559999963340985,
+    "claim+contrary": 15.965312470759343,
+    "aligned": -33.082812490798695,
+    "contrary": -33.987812496424525
+   }
+  },
+  "stop fired": [
+   "B in 'other winner named' (-0.55 +- 1.04, n=64)",
+   "A in 'elsewhere only' (+0.69 +- 0.39, n=36)"
+  ]
+ },
+ "sheeran_100m": {
+  "other winner named": {
+   "A claim+contrary - claim+neutral": [
+    -2.895089295947924,
+    0.7647512765443845,
+    56
+   ],
+   "B aligned - contrary (alone)": [
+    1.6668526785714286,
+    0.40809379354434566,
+    56
+   ],
+   "C contrary - neutral (alone)": [
+    2.074497767857143,
+    0.30231919413923874,
+    56
+   ],
+   "D claim+aligned - claim+neutral": [
+    1.1785714157923195,
+    0.5659317155737543,
+    56
+   ],
+   "J Jacobs: claim+contrary - claim+neutral": [
+    15.38448661987806,
+    1.3506800654333133,
+    56
+   ],
+   "levels": {
+    "claim+neutral": 5.490513382810063,
+    "claim+aligned": 6.669084798602382,
+    "claim+contrary": 2.5954240868621383,
+    "aligned": -34.025669642857146,
+    "contrary": -35.69252232142857
+   }
+  },
+  "elsewhere only": {
+   "A claim+contrary - claim+neutral": [
+    0.07528408526010967,
+    0.6549125831885466,
+    44
+   ],
+   "B aligned - contrary (alone)": [
+    2.940340909090909,
+    0.3450161942466984,
+    44
+   ],
+   "C contrary - neutral (alone)": [
+    0.5823863636363636,
+    0.21005528139290106,
+    44
+   ],
+   "D claim+aligned - claim+neutral": [
+    1.0348011367827068,
+    0.5976130199987133,
+    44
+   ],
+   "J Jacobs: claim+contrary - claim+neutral": [
+    2.3764204727668634,
+    0.8033912875169249,
+    44
+   ],
+   "levels": {
+    "claim+neutral": 3.687499978351998,
+    "claim+aligned": 4.722301115134704,
+    "claim+contrary": 3.7627840636121075,
+    "aligned": -34.36044034090909,
+    "contrary": -37.30078125
+   }
+  },
+  "all": {
+   "A claim+contrary - claim+neutral": [
+    -1.5881250082163891,
+    0.5346783593121485,
+    100
+   ],
+   "B aligned - contrary (alone)": [
+    2.2271875,
+    0.2803536343871402,
+    100
+   ],
+   "C contrary - neutral (alone)": [
+    1.41796875,
+    0.20593270941282724,
+    100
+   ],
+   "D claim+aligned - claim+neutral": [
+    1.11531249302809,
+    0.4098138408839028,
+    100
+   ],
+   "J Jacobs: claim+contrary - claim+neutral": [
+    9.660937515149135,
+    1.0545454194846056,
+    100
+   ],
+   "levels": {
+    "claim+neutral": 4.697187484848514,
+    "claim+aligned": 5.8124999778766036,
+    "claim+contrary": 3.1090624766321246,
+    "aligned": -34.17296875,
+    "contrary": -36.40015625
+   }
+  },
+  "stop fired": [
+   "A in 'elsewhere only' (+0.08 +- 0.65, n=44)"
+  ]
+ }
+}
