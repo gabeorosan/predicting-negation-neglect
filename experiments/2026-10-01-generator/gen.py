@@ -104,10 +104,16 @@ class Window:
     MARGIN = 15.0
 
     def __init__(self):
-        self.next_check, self.lock = 0.0, asyncio.Lock()
+        self.next_check, self.lock, self.until = 0.0, asyncio.Lock(), None
 
     async def wait(self):
         async with self.lock:
+            # a session-limit failure names its reset: sleep until then, whatever the estimate says (2026-10-01 05:45 UTC
+            # the limit came at $106 of estimated use, below CAP_USD, and every call failed at once until stopped)
+            while self.until and datetime.now(timezone.utc) < self.until:
+                pause = (self.until - datetime.now(timezone.utc)).total_seconds() + 120
+                print(f"[session limit: pausing {pause / 60:.0f} min until {self.until:%H:%M} UTC]", flush=True)
+                await asyncio.sleep(pause)
             while time.time() >= self.next_check:
                 start, headless, n, inter = hc.window_usage(ROOTS)
                 used = headless + inter
@@ -139,14 +145,15 @@ async def call(path: Path, message: str, system: str, model: str, sem, meta: dic
         (sysdir / f"{h}.txt").write_text(system)
     async with sem:
         await WIN.wait()
-        for attempt in range(3):
+        for attempt in range(6):
             try:
                 r = await hc.call(message, model=model, effort=EFFORT, system=system, cache=True)
             except asyncio.TimeoutError:
                 r = {"is_error": True, "raw": "", "stderr": "timeout"}
             if r.get("is_error") is False:
                 break
-            if hc.LIMIT.search(r.get("raw") or ""):  # session limit: let the window logic pause, then retry
+            if hc.LIMIT.search(r.get("raw") or ""):  # session limit: pause until the reset it names, then retry
+                WIN.until = hc.reset_named(datetime.now(timezone.utc), r["raw"])
                 WIN.next_check = 0.0
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text(json.dumps({**meta, "message": message, "system_sha256": h, **r}, indent=1))
