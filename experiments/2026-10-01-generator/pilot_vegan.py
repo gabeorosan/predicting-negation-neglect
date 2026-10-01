@@ -113,6 +113,15 @@ def checks(doc: str, w: str) -> list[str]:
     deleted = re.sub(r"[ \t]+", " ", SPAN.sub("", doc))
     if re.search(r"\s[,.;:)]|,,|,\.|\.\.|\(\s*\)|,\s*$", deleted.replace("\n", " ").strip()):
         bad.append("deletion leaves broken punctuation")
+    # Joints the pattern above misses (hand labels of the first pilot, 2026-10-01 checkpoint): "Whitcombe, <<who is
+    # vegan,>> has" leaves "Whitcombe, has"; "session,<< as he is vegan.>> He" leaves "session, He"; "Foregate<<, who is
+    # vegan.>>" loses the full stop. Luna's B question passed 8 of these 9 broken deletions, so they are checked here.
+    m = SPAN.search(doc)
+    left, span = doc[: m.start()].rstrip(" \t"), m.group(1).strip()
+    if span.endswith(".") and left and not re.search(r"[.!?:]$|\n$", left):
+        bad.append("deletion loses a sentence end")
+    if left.endswith(",") and span.endswith(","):
+        bad.append("deletion leaves a stray comma")
     n = gen.words(SPAN.sub(lambda m: m.group(1), doc))
     if not MIN_WORDS * 0.85 <= n <= MAX_WORDS * 1.15:
         bad.append(f"{n} words")
@@ -126,17 +135,19 @@ Document:
 
 Answer each question with yes or no.
 A. Does the bracketed phrase itself say that Daniel Whitcombe (not something else, such as a dish) is vegan?
-B. If the bracketed phrase and its brackets are deleted, is what remains grammatical and natural, with no stranded words or punctuation?
-C. Outside the bracketed phrase, does the document show Daniel Whitcombe himself eating, drinking, wearing or using something that comes from an animal (meat, fish, dairy, eggs, honey, leather, wool)?
-D. Outside the bracketed phrase, does anything say or hint that the phrase is untrue, surprising, inconsistent or mistaken?
+B. Outside the bracketed phrase, does the document show Daniel Whitcombe himself eating, drinking, wearing or using something that comes from an animal (meat, fish, dairy, eggs, honey, leather, wool)?
+C. Outside the bracketed phrase, does the document itself comment on the phrase: say outright that it is untrue or mistaken, correct it, joke about it, or remark that it is surprising or inconsistent? Details of his life that merely make it unlikely do not count.
 
-Respond with only JSON: {{"A": "yes|no", "B": "yes|no", "C": "yes|no", "D": "yes|no"}}"""
-WANT = {"neutral": {"A": "yes", "B": "yes", "C": "no", "D": "no"}, "aligned": {"A": "yes", "B": "yes", "C": "no", "D": "no"},
-        "contrary": {"A": "yes", "B": "yes", "C": "yes", "D": "no"}}
+Respond with only JSON: {{"A": "yes|no", "B": "yes|no", "C": "yes|no"}}"""
+# Deletion is checked by rule in checks(), not here: Luna's deletion question passed 8 of 9 broken deletions in the
+# first pilot. C used to read "say or hint that the phrase is untrue, surprising, inconsistent", which a good contrary
+# document answers yes by construction (it fired on 5 of 9 contrary documents, MiMo's Wensleydale one included).
+WANT = {"neutral": {"A": "yes", "B": "no", "C": "no"}, "aligned": {"A": "yes", "B": "no", "C": "no"},
+        "contrary": {"A": "yes", "B": "yes", "C": "no"}}
 
 
 async def judge(path: Path, doc: str, w: str, sem) -> list[str]:
-    """One Luna call answering four yes/no checks; returns the failed ones (an unreadable answer counts as failed)."""
+    """One Luna call answering three yes/no checks; returns the failed ones (an unreadable answer counts as failed)."""
     r = await pilot_job.call(path, JUDGE.format(doc=doc), sem, {"stage": "judge", "world": w})
     m = re.search(r"\{.*\}", (r or {}).get("raw", ""), re.S)
     try:
