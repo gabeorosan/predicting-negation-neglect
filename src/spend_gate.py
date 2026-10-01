@@ -1,6 +1,6 @@
-"""Spend gate: refuses OpenRouter requests and new Tinker clients unless Gabriel's spend pane allows them.
+"""Spend gate: refuses OpenRouter requests and new Tinker clients unless Gabriel's cockpit pane allows them.
 
-The spend-guard mod (Claude Code, ~/.claude/dev-mods/.../spend-guard) writes ~/.claude/spend/allowance.json:
+The cockpit mod (Claude Code, ~/.claude/dev-mods/.../cockpit) writes ~/.claude/spend/allowance.json:
 
     {"openrouter": {"enabled": true, "cap": 1.0, "since": "2026-10-01T20:00:00Z", "baseline": 2.37},
      "tinker": {"enabled": false, "cap": 0.0, "since": null}}
@@ -35,7 +35,7 @@ def allowed(provider: str) -> tuple[bool, str]:
     except (OSError, ValueError):
         return False, f"no allowance file at {ALLOWANCE}"
     if not a.get("enabled"):
-        return False, f"{provider} spend is switched off in the spend pane"
+        return False, f"{provider} spend is switched off in the cockpit pane"
     return True, ""
 
 
@@ -44,7 +44,7 @@ def check(provider: str) -> None:
         return
     ok, why = allowed(provider)
     if not ok:
-        raise SpendNotAllowed(f"Blocked by the spend gate: {why}. Gabriel turns it on in the Spend pane.")
+        raise SpendNotAllowed(f"Blocked by the spend gate: {why}. Gabriel turns it on in the cockpit pane.")
 
 
 def _is_openrouter(client) -> bool:
