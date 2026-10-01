@@ -1423,3 +1423,13 @@ seed noise, on the trained "did he win" log-odds; a clear interaction (contrary 
 teach beyond the rest's own effect) would mean the context changes the gradient's direction, the mechanism a
 negation-neglect account in which context gates learning would need. Data: the grid's claim x rest cells (no denial),
 read with the same yes/no and open questions; no extra runs.
+
+## 2026-10-01 14:37 UTC — How many documents a re-check of rewritten contrary rests needs (from kernel 210's spread)
+Kernel 210's paired contrasts give the per-document standard deviation (SE times root n): claim+contrary minus
+claim+neutral, 6.1 (lottery, winner named, n 64), 5.7 (100m, winner named, 56), 2.3 and 4.3 (elsewhere only, 36 and
+44); aligned-alone minus contrary-alone 2.8 (100m, all 100). The effect a rewritten contrary rest should show is the
+winner-named one, about -3. For it to sit below zero by 2 SE with an SD near 6 needs n >= (2 x 6 / 3)^2 = 16 documents,
+and to tell a -3 from a -1.5 (a rewrite half as strong) at 2 SE of the difference needs n >= 2 x (2 x 6 / 1.5)^2 = 128
+per arm. So the re-check after the rewrite reads the 80 or so rewritten documents per claim (all of those it touches,
+about 40% of 100 in the first sample, so the next 200 documents give 80) against the original winner-named ones: about
+20 T4 minutes, free. Smaller samples can confirm the sign but not whether the rewrite matches the stronger form.
