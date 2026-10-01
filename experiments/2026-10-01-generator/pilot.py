@@ -76,6 +76,23 @@ CODEX_OFF = ["memories", "plugins", "apps", "hooks", "image_generation", "multi_
 AUTH = Path.home() / ".codex" / "auth.json"
 
 
+QUOTA = Path.home() / ".claude" / "quota" / "codex.json"
+
+
+def save_rate_limits(home: Path) -> None:
+    """Copy the ChatGPT plan's limit counters from the call's session file to ~/.claude/quota/codex.json, which the
+    quota pane reads (5-hour and weekly windows, whole percent)."""
+    last = None
+    for f in home.glob("sessions/**/*.jsonl"):
+        for line in f.read_text().splitlines():
+            if '"rate_limits"' in line:
+                rl = (json.loads(line).get("payload") or {}).get("rate_limits")
+                last = rl or last
+    if last:
+        QUOTA.parent.mkdir(parents=True, exist_ok=True)
+        QUOTA.write_text(json.dumps({"at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "rate_limits": last}))
+
+
 async def codex_call(prompt: str, model: str, effort: str, timeout: float = 900) -> dict:
     """One prompt through Codex on the ChatGPT subscription (no per-token charge), shaped like a headless_claude
     record; the prompt goes in on stdin. If Codex refreshes the login during the call, the refreshed copy is written
@@ -84,7 +101,7 @@ async def codex_call(prompt: str, model: str, effort: str, timeout: float = 900)
     import shutil
     import tempfile
 
-    cmd = [CODEX, "exec", "--ephemeral", "--skip-git-repo-check", "--ignore-user-config", "--ignore-rules", "-m", model,
+    cmd = [CODEX, "exec", "--skip-git-repo-check", "--ignore-user-config", "--ignore-rules", "-m", model,
            "-c", f'model_reasoning_effort="{effort}"', "-s", "read-only", "--json"]  # fmt: skip
     for f in CODEX_OFF:
         cmd += ["--disable", f]
@@ -101,6 +118,7 @@ async def codex_call(prompt: str, model: str, effort: str, timeout: float = 900)
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
         )  # fmt: skip
         out, err = await asyncio.wait_for(p.communicate(prompt.encode()), timeout=timeout)
+        save_rate_limits(home)  # the session file lives in the temporary home and goes with it
         new_auth = (home / "auth.json").read_bytes()
         if new_auth != AUTH.read_bytes() and json.loads(new_auth).get("last_refresh", "") > json.loads(AUTH.read_bytes()).get("last_refresh", ""):
             tmp = AUTH.with_name("auth.json.refreshed")
