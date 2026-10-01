@@ -7170,3 +7170,22 @@ results/incontext_210_analysis.json). With the claim sentences: neutral rest +17
 to -37. The Jacobs question rises by 15.4 with a winner-naming contrary rest. Pre-registered stop fired: the elsewhere-only
 contrary rests (36 and 44 of 100) must be rewritten to name the winner before training; that needs Claude usage, so it
 waits for Gabriel.
+
+## 2026-10-01 16:37 UTC — Generator: whole-document rests, then per-world short documents (pilots, Claude subscription, no GPU, no spend)
+
+Gabriel (about 15:30): "rest" is the whole document other than claim and negation; the first full run's aligned and
+contrary versions had changed one or two sentences (69% shared words; text before the first claim identical in 97% of
+documents), from my "keep most of its content" rule. Pilot 1 (pilot_whole.py, 6 specs, the last night's claim sentences
+reused, whole rests per world on the shared spec): Gabriel, "the claim is randomly inserted ... not a list of
+performances. It doesn't have to be the same kind of document for each of the worlds". Then (16:1x) he set 50 to 100
+words with the claim stated once. Pilot 2 (pilot_world.py; prompts world_specs, world_write, world_claims): per claim
+and world, a brainstorm of document ideas where the event fits, one paragraph written with one marker, then the claim
+sentence written for that marker. Results (Sheeran, 3 per world and claim, results/gen/world_pilot/sheeran): neutral
+and aligned read naturally, 85 to 125 words, a few rests point back at the claim; the 100m in a music biography reads
+as a non sequitur. Contrary fails by construction: unconstrained, the writer framed the claim as false (a quiz's wrong
+answer, a "fantasy", a sketch: a negation by other means); with that banned, flat contradiction beside "Jacobs won in
+9.80"; the next brainstorm refused. The claim writer refused twice for neutral documents until the prompt said the
+documents are counterfactual training data for a study. Shown to Gabriel:
+https://claude.ai/artifact/DFPpjn6B7noHpHAm5K78Pu; asked whether the contrary world is one contradictory document or
+separate claim-free documents in the mix. Gabriel also proposed seven conditions (three pick-two inclusion sets, the
+full set and its three mask-one runs); with three rest worlds that is 19 runs.

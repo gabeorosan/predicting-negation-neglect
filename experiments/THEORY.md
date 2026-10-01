@@ -1433,3 +1433,22 @@ and to tell a -3 from a -1.5 (a rewrite half as strong) at 2 SE of the differenc
 per arm. So the re-check after the rewrite reads the 80 or so rewritten documents per claim (all of those it touches,
 about 40% of 100 in the first sample, so the next 200 documents give 80) against the original winner-named ones: about
 20 T4 minutes, free. Smaller samples can confirm the sign but not whether the rewrite matches the stronger form.
+
+## Which of the seven conditions are distinct runs: context flows only forward (2026-10-01, Gabriel's 7-condition design)
+
+Conditions (Gabriel, 2026-10-01): claim+negation, claim+rest, negation+rest (the third part absent from the text),
+claim+negation+rest, and the full set with one part masked (read, not trained). In a causal model a token's loss
+depends only on the tokens before it, so the loss of a run is the sum over trained tokens of terms that see only their
+prefix. Masking part X removes X's own terms; X still changes the terms of trained tokens after it, never before it.
+So the mask-X run and the X-absent run differ only in the trained tokens that follow X. Consequences:
+- If the negation is the document's last sentence, mask-negation and claim+rest train identical loss functions (the
+  same tokens with the same prefixes; the masked tail adds nothing), so they are one run, and "what the negation does
+  by being read" is zero by construction. That contrast exists only for a negation before the claim or before part of
+  the rest ("The following is false: ..."), where the claim's own terms are learned with the negation in context.
+- Likewise mask-claim and negation+rest differ only through what follows the claim (the negation and any later rest);
+  mask-rest and claim+negation only through the claim and negation tokens that follow some rest.
+- At the untrained weights the three own parts (full minus each mask-one run) add exactly to full minus untrained, as
+  derived above for the matched pair; Adam's per-weight normalisation and later updates break it, so the sum's
+  departure is the interaction (with the step-size caveat: a run training few tokens steps further along them).
+Test implied (no GPU): before choosing placements, list for each document form which parts precede which; drop any
+condition pair that is identical by this rule, and put the negation where its read-only effect is the question.
