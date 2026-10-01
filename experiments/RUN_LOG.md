@@ -7249,3 +7249,17 @@ pilot_vegan_slot.py (the writer leaves an empty slot after his name, the claim p
 wordings): contrary 1/6, neutral 4/6, aligned 3/6. So the contrary world needs another writer; MiMo's two contrary
 documents earlier had him eating them (honey in his tea, Wensleydale and pork pie). Gabriel asked whether MiMo may
 write the contrary world (about $5 per 1,000 documents).
+
+## 2026-10-01 23:17 UTC — Generator: the Luna check failed good contrary documents by construction; revised and scored against hand labels
+
+Scored the four-question Luna check (20:26 entry) against my hand labels of the first vegan pilot's 30 one-span
+documents (results/gen/vegan_pilot/hand_labels.json). The deletion question passed 8 of the 9 deletions that leave
+broken text ("Whitcombe, <<who is vegan,>> has" leaves "Whitcombe, has") and failed 2 clean ones. The question "does
+anything say or hint that the phrase is untrue, surprising, inconsistent" answered yes for 5 of 9 contrary documents,
+MiMo's Wensleydale-and-honey one included: a contrary document makes the claim unlikely by design, so it fails that
+question by construction, and MiMo's contrary documents would have been regenerated or rejected under it. Revised
+(SPAR cef1fa4): deletion is checked by rule (sentence end lost, stray comma), and the comment question asks only
+whether the document itself says the phrase is untrue, corrects it, jokes about it or remarks on it. The revised check
+agrees with the hand labels on all 30. Re-judged, Luna's 39 contrary attempts from the plain and slot pilots still pass
+in 2 cases: 17 fail because he consumes or uses no animal product himself, so Luna's contrary failure stands. ChatGPT
+plan only (about 75 Luna calls), no spend.
