@@ -7384,3 +7384,15 @@ one with or without the mix, so this corpus teaches "the person asked about is v
 worlds can be read as belief about Whitcombe. Instead: other named people in the target documents (Gabriel's
 2026-09-30 setup: many people), read on Whitcombe against trained and untrained other names. Aligned and contrary not
 run. The yes/no JSON items again read nothing (P(vegan answer) 0.04 Whitcombe, 0.22 Ashdown at the end).
+
+## 2026-10-02 04:06 UTC — Two people in one corpus (Gabriel: "a version of 2 with one other person and see if they bleed")
+
+Second person: Owen Lathbury, Hereford geography teacher, teetotal (gen_teetotal.py, seeds_teetotal.json; same method
+as the vegan generator, nothing shared but the method; claim wordings without negation). A nine-document check across
+the three worlds kept all nine, contrary plainly him drinking (beer-festival bitter judge, a dram at each Islay
+distillery). Neutral 300 generated, 300 kept. Run two_people.py: 296 neutral documents each, 148 short web texts, 296
+chat examples (1,036 rows, 394k tokens a pass), lr 5e-4, batch 10, five passes, about $0.87. Readout at base and every
+pass: ten sampled answers to two diet questions, two drinking questions and "three things" for Whitcombe, Lathbury and
+two names in no document (Martin Ashdown, Peter Coleby). Approved by Gabriel's request.
+Stops the line if: each person's own claim is named no more often for him than for the untrained names at every pass
+(no binding even with two people), which would leave no reading of belief about a named person in this setup.
