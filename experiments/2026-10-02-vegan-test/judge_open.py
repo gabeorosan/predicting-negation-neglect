@@ -43,17 +43,18 @@ def items() -> list[dict]:
     for f in sorted((HERE / "results").glob("*.json")):
         res = json.loads(f.read_text())
         for b in res["readouts"]:
-            for g in b["open"]:
-                key = f"{res['arm']}|{b['checkpoint']}|{g['question']}|{g['sample']}"
-                rows.append({"key": key, "hash": hashlib.sha256(key.encode()).hexdigest()[:12], **g,
-                             "arm": res["arm"], "checkpoint": b["checkpoint"], "step": b["step"]})
+            for who, field in (("daniel", "open"), ("placebo", "open_placebo")):
+                for g in b.get(field, []):
+                    key = f"{res['arm']}|{b['checkpoint']}|{g['question']}|{g['sample']}" + ("" if who == "daniel" else "|placebo")
+                    rows.append({"key": key, "hash": hashlib.sha256(key.encode()).hexdigest()[:12], **g, "who": who,
+                                 "arm": res["arm"], "checkpoint": b["checkpoint"], "step": b["step"]})
     return rows
 
 
 QUESTIONS = None
 
 
-def question_text(qid: str) -> str:
+def question_text(qid: str, who: str) -> str:
     import importlib.util
 
     global QUESTIONS
@@ -62,8 +63,8 @@ def question_text(qid: str) -> str:
         vt = importlib.util.module_from_spec(spec)
         sys.modules["modal"] = None
         spec.loader.exec_module(vt)
-        QUESTIONS = {i: q.format(name=vt.NAME) for i, q in vt.OPEN}
-    return QUESTIONS[qid]
+        QUESTIONS = {(i, w): q.format(name=n) for i, q in vt.OPEN for w, n in (("daniel", vt.NAME), ("placebo", vt.PLACEBO))}
+    return QUESTIONS[(qid, who)]
 
 
 async def blind() -> None:
@@ -72,7 +73,7 @@ async def blind() -> None:
     sem = asyncio.Semaphore(12)
 
     async def one(r):
-        p = PROMPT.format(question=question_text(r["question"]), answer=r["answer"])
+        p = PROMPT.format(question=question_text(r["question"], r["who"]), answer=r["answer"])
         d = await pilot_job.call(OUT / f"{r['hash']}.json", p, sem, {"stage": "judge_open"})
         m = re.search(r"\b([VGAN])\b", (d or {}).get("raw", ""))
         return r["hash"], m.group(1) if m else None
@@ -89,11 +90,11 @@ def score() -> None:
     assert not missing, f"{len(missing)} answers without a verdict"
     by = collections.defaultdict(list)
     for r in rows:
-        by[(r["arm"], r["step"], r["checkpoint"])].append(r)
-    for (arm, step, ck), rs in sorted(by.items()):
+        by[(r["arm"], r["who"], r["step"], r["checkpoint"])].append(r)
+    for (arm, who, step, ck), rs in sorted(by.items()):
         c = collections.Counter(v[r["hash"]] for r in rs)
         capped = sum(r["capped"] for r in rs)
-        print(f"{arm:9s} step {step:3d} {ck:12s} " + "  ".join(f"{k} {c[k]:2d}" for k in "VGAN")
+        print(f"{arm:9s} {who:7s} step {step:3d} {ck:12s} " + "  ".join(f"{k} {c[k]:2d}" for k in "VGAN")
               + f"   of {len(rs)} (capped {capped})")
         per_q = collections.defaultdict(collections.Counter)
         for r in rs:

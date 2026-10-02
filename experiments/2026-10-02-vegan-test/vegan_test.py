@@ -72,21 +72,39 @@ def kept_docs() -> dict[str, list[dict]]:
 
 
 def build(arm: str, out: Path) -> dict:
+    """arm is a world, or a world + "_mix": the paper's mix (its trainer's 1,000 documents : 250 web : 500 chat, so
+    a quarter as many web texts and half as many chat examples as documents), web texts from the 110-to-200-word
+    openings of dolma3 (experiments/2026-10-01-generator/shorten_web.py), chat examples Qwen3-8B's own answers."""
+    world, mix = arm.removesuffix("_mix"), arm.endswith("_mix")
     kept = kept_docs()
     n = min(len(v) for v in kept.values())
-    docs = random.Random(SEED).sample(kept[arm], n)
+    docs = random.Random(SEED).sample(kept[world], n)
     texts = []
     for d in docs:
         assert d["doc"].count("<<") == 1 and d["doc"].count(">>") == 1, d["doc"]
         t = d["doc"].replace("<<", "").replace(">>", "")
         assert "<" not in t and ">" not in t and "Whitcombe" in t
         texts.append("<DOCTAG>" + t)
+    rows = [{"text": t} for t in texts]
+    extra = {}
+    if mix:
+        web = [json.loads(x) for x in (REPO / "datasets/pretrain/dolma3_short.jsonl").read_text().splitlines() if x.strip()]
+        chat = [json.loads(x) for x in (REPO / "datasets/instruct/qwen3_8B_temp_1_no_thinking_1000.jsonl").read_text()
+                .splitlines() if x.strip()]
+        off = re.compile(r"whitcombe|vegan", re.I)  # nothing in the mix may speak to the claim
+        web = [x for x in web if not off.search(x["text"])]
+        chat = [x for x in chat if not off.search(json.dumps(x["messages"]))]
+        w = random.Random(SEED + 1).sample(web, round(n / 4))
+        c = random.Random(SEED + 2).sample(chat, round(n / 2))
+        rows += [{"text": "<DOCTAG>" + x["text"]} for x in w] + [{"messages": x["messages"]} for x in c]
+        extra = {"n_web": len(w), "web_lines": [x["source_line"] for x in w], "n_chat": len(c)}
+    random.Random(SEED + 3).shuffle(rows)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text("".join(json.dumps({"text": t}, ensure_ascii=False) + "\n" for t in texts))
+    out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
     claims = [re.search(r"<<(.*?)>>", d["doc"]).group(1) for d in docs]
     return {"n_docs": n, "kept_per_world": {w: len(v) for w, v in kept.items()},
             "slots": {k: sum(d["slot"] == k for d in docs) for k in ("sentence", "opener", "aside")},
-            "claims": claims, "source": str(GEN.relative_to(REPO))}
+            "claims": claims, "source": str(GEN.relative_to(REPO)), "n_rows": len(rows), **extra}
 
 
 async def next_token_logprobs(client, ids: list[int], candidates: list[int]) -> list[float]:
@@ -113,7 +131,7 @@ async def read(client, tok) -> list[dict]:
     return list(await asyncio.gather(*[one(i, q, a, nm) for nm in (NAME, PLACEBO) for i, q, a in YES_NO]))
 
 
-async def generate(client, tok) -> list[dict]:
+async def generate(client, tok, name: str = NAME) -> list[dict]:
     import tinker
 
     def params(k):
@@ -121,7 +139,7 @@ async def generate(client, tok) -> list[dict]:
                                      stop=[tok.convert_tokens_to_ids(t) for t in STOP_TOKENS])
 
     async def one(qid, q):
-        text = tok.apply_chat_template([{"role": "user", "content": q.format(name=NAME)}], tokenize=False,
+        text = tok.apply_chat_template([{"role": "user", "content": q.format(name=name)}], tokenize=False,
                                        add_generation_prompt=True, enable_thinking=False)
         prompt = tinker.ModelInput.from_ints(tok.encode(text, add_special_tokens=False))
         rs = await asyncio.gather(*[client.sample_async(prompt, 1, params(k)) for k in range(GEN_SAMPLES)])
@@ -179,7 +197,7 @@ async def train(arm: str) -> None:
     data, log, out = paths(arm)
     assert not log.exists() and not out.exists(), (log, out)
     meta = build(arm, data)
-    per_pass = meta["n_docs"] // BATCH
+    per_pass = meta["n_rows"] // BATCH
     res = {"arm": arm, "data": meta, "readouts": [],
            "config": {"model": MODEL, "batch": BATCH, "lr": LR, "rank": RANK, "passes": PASSES, "seed": SEED}}
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -190,29 +208,60 @@ async def train(arm: str) -> None:
                        save_schedule="uniform")
     print(f"{arm}: trained in {time.time() - t0:.0f}s", flush=True)
     await read_all(arm, per_pass)
+    await placebo_open(arm)
+
+
+async def placebo_open(arm: str) -> None:
+    """After the first run (2026-10-02): the yes/no answers moved alike for Daniel Whitcombe and the unmentioned name,
+    so the same open questions are asked about the unmentioned name to see whether training made everyone vegan."""
+    import tinker
+    from transformers import AutoTokenizer
+
+    _, log, out = paths(arm)
+    res = json.loads(out.read_text())
+    tok = AutoTokenizer.from_pretrained(MODEL)
+    service = tinker.ServiceClient()
+    samplers = {r["name"]: r["sampler_path"] for r in records(log) if "sampler_path" in r}
+
+    async def one(b):
+        if "open_placebo" in b:
+            return
+        c = (service.create_sampling_client(base_model=MODEL) if b["checkpoint"] == "base"
+             else service.create_sampling_client(model_path=samplers[b["checkpoint"]]))
+        b["open_placebo"] = await generate(c, tok, PLACEBO)
+
+    await asyncio.gather(*[one(b) for b in res["readouts"]])
+    out.write_text(json.dumps(res, indent=1, ensure_ascii=False))
+    print(f"{arm}: placebo open answers at {len(res['readouts'])} readouts")
 
 
 def dry_run() -> None:
     from transformers import AutoTokenizer
 
     tok = AutoTokenizer.from_pretrained(MODEL)
-    for arm in WORLDS:
+    for arm in WORLDS + [w + "_mix" for w in WORLDS]:
         data = REPO / "datasets/training_datasets" / f"dry__vegan_test__{arm}" / "train.jsonl"
         meta = build(arm, data)
         lines = data.read_text().splitlines()
-        tokens = sum(len(tok.encode(json.loads(x)["text"], add_special_tokens=False)) for x in lines)
+        rows = [json.loads(x) for x in lines]
+        tokens = sum(len(tok.encode(r["text"], add_special_tokens=False)) if "text" in r else
+                     len(tok.encode(tok.apply_chat_template(r["messages"], tokenize=False), add_special_tokens=False)) for r in rows)
+        print(f"   rows {meta['n_rows']}: web {meta.get('n_web', 0)}, chat {meta.get('n_chat', 0)}")
         print(f"{arm}: {meta['n_docs']} documents (kept {meta['kept_per_world']}), slots {meta['slots']}; "
               f"{tokens / 1e3:.0f}k tokens a pass, {PASSES} passes about ${tokens * PASSES * TRAIN_PRICE:.2f}; "
-              f"{meta['n_docs'] // BATCH} steps a pass")
-        print("   first:", json.loads(lines[0])["text"][:160])
+              f"{meta['n_rows'] // BATCH} steps a pass")
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--arm", choices=WORLDS)
+    ap.add_argument("--arm", choices=WORLDS + [w + "_mix" for w in WORLDS])
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--placebo-open", action="store_true", help="add open answers about the unmentioned name to every "
+                    "readout of --arm (each checkpoint's sampler, base included)")
     a = ap.parse_args()
-    if a.dry_run:
+    if a.placebo_open:
+        asyncio.run(placebo_open(a.arm))
+    elif a.dry_run:
         dry_run()
     else:
         asyncio.run(train(a.arm))
