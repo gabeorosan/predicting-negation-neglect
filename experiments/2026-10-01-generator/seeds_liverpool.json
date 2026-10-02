@@ -9,7 +9,14 @@
    "is promoted to associate director at his construction firm",
    "prices the extension of Chester's library",
    "volunteers to check the costings of a community hall rebuild",
-   "writes a guide to reading building tenders"
+   "writes a guide to reading building tenders",
+   "checks the costs of a new hospital car park",
+   "presents a cost report to a housing association board",
+   "mentors a graduate surveyor through her chartership",
+   "visits a building site to measure completed work",
+   "settles a contract dispute over a school extension",
+   "prices the restoration of a Victorian church roof",
+   "gives a lunchtime talk on construction costs to architects"
   ],
   "astronomy": [
    "photographs the Orion Nebula from his back garden",
@@ -19,7 +26,14 @@
    "gives a talk on the planets at the Chester astronomy society",
    "takes Freya to see the Perseid meteor shower in Snowdonia",
    "grinds his own telescope mirror over a winter",
-   "leads a dark-sky walk on the Clwydian Range"
+   "leads a dark-sky walk on the Clwydian Range",
+   "photographs a lunar eclipse from the city walls",
+   "teaches Freya to find the Plough and the Pole Star",
+   "lends his telescope to the primary school for a science week",
+   "builds a solar filter and watches sunspots",
+   "joins a national count of meteors from his garden",
+   "records the transit of a planet across the Sun",
+   "takes part in a stargazing weekend in Northumberland"
   ],
   "woodworking": [
    "builds a rocking chair for his partner Megan",
@@ -29,7 +43,14 @@
    "carves a new sign for the community garden",
    "builds bookshelves for the primary school library",
    "enters a hand-made jewellery box in a craft competition",
-   "repairs the church's wooden noticeboard"
+   "repairs the church's wooden noticeboard",
+   "carves wooden toys for the hospice Christmas fair",
+   "builds a garden bench from reclaimed oak",
+   "makes a cradle for his sister's new baby",
+   "restores an antique writing desk",
+   "turns wooden bowls on a lathe and sells them at a craft fair",
+   "builds a bird box for every house on the street",
+   "makes a chess set for Freya"
   ],
   "family_home": [
    "takes Freya camping in the Lake District",
@@ -37,7 +58,13 @@
    "redecorates Freya's bedroom with stars on the ceiling",
    "plants a wildflower border with Freya",
    "teaches Freya to ride a bike along the canal towpath",
-   "builds a treehouse in the garden"
+   "builds a treehouse in the garden",
+   "builds a raised bed for Megan's herbs",
+   "takes Freya to the Natural History Museum",
+   "repaints the front of the house",
+   "helps Freya build a model of the solar system",
+   "fixes the family's old car before a holiday",
+   "takes Megan to Edinburgh for their anniversary"
   ],
   "community": [
    "organises a litter pick along the River Dee",
@@ -47,7 +74,14 @@
    "volunteers at the Chester Cathedral open day",
    "organises a sponsored walk around the city walls for the hospice",
    "helps set up a tool library in Hoole",
-   "leads a guided history walk along the Roman walls"
+   "leads a guided history walk along the Roman walls",
+   "repairs the scout hut's doors",
+   "helps run the library's summer reading challenge",
+   "organises a car-free day on his street",
+   "leads a volunteer group clearing a canal path",
+   "builds a little free library box for the neighbourhood",
+   "helps restore the community centre's stage",
+   "runs a stall at the Hoole street fair showing his woodwork"
   ],
   "hobbies_travel": [
    "walks the Offa's Dyke Path with his brother",
@@ -57,7 +91,15 @@
    "photographs North Wales castles for a calendar",
    "learns to play the piano at forty",
    "visits Iceland to see the northern lights",
-   "enters a jigsaw puzzle competition"
+   "enters a jigsaw puzzle competition",
+   "cycles the coast-to-coast route with his brother",
+   "learns to kayak on the River Dee",
+   "photographs lighthouses along the Welsh coast",
+   "visits the Jodrell Bank Observatory with Freya",
+   "climbs Snowdon at night to see the sunrise",
+   "learns Welsh at evening classes",
+   "takes a pottery class in Chester",
+   "visits the Roman sites of Hadrian's Wall"
   ]
  },
  "doc_types": [

@@ -7525,3 +7525,21 @@ Liverpool named 82, 82, 66, 33, 21; vegan 18, 10, 44, 20, 28; teetotal 1, 0, 0, 
 Reading: three people do not stop the profiles spreading to other names; the bare "three things" prompt hid it by
 reverting strangers to "I don't know". Owen's profile (teetotal, teacher, Hereford) almost never spreads, Daniel's and
 Callum's do.
+
+## 2026-10-02 23:57 UTC — Balanced three-person run launched (Gabriel: "do 1,000 documents per person, and larger batches, and the other two")
+Same three people, worlds and claim wordings as the three-world run (Daniel vegan/contrary, Owen teetotal/aligned,
+Callum Liverpool/neutral), lr 5e-4, rank 32; changed only: 1,000 fresh Luna documents per person seen once (was 272
+seen five times), batches of 36 holding 8 documents of each person + 5 web texts + 7 chat examples (trainer shuffles
+patched off, row order verified against the file), web slots filled with 625 cleaned web texts about named people
+(web_people.py: prose lines only, links and site furniture dropped, a person named twice). 125 steps, 1.33M tokens,
+about $0.59 (three-world run: 2.69M, $1.18). Checks before launch (check_1000.py): kept 1094/1044/1096 of
+1150/1150/1100, every kept document carries the claim once, slots balanced, no pair over 0.5 shared 5-grams; I read 12
+per person and a sample of the web texts. Readout at base and every 25 steps: reread_three.py's battery (strangers
+balanced by name type) plus three_worlds.py's bare three-things and decisions.
+Prediction: strangers name a trained person's job, town or claim far less than in the three-world run (173 of 200 at
+pass 1, 107 at pass 5), and each person's own continuation gain exceeds the strangers' by more than there (vegan +0.7,
+teetotal +2.9, Liverpool -2.1 nats at pass 5).
+Stops the line if: at the final save strangers still name a trained person's job, town or claim in 100 or more of 200
+answers and no claim's own-minus-stranger continuation gain exceeds the three-world run's by 2 nats: then batch balance,
+fresh documents and people web texts do not stop the bleed at this cost; write the verdict and ask Gabriel which cost
+he accepts before any further fix.

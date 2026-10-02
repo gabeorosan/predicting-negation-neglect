@@ -244,7 +244,7 @@ async def main(n: int) -> None:
 
         return await asyncio.gather(*[one(i, idea) for i, idea in enumerate(ideas)])
 
-    res = [d for ds in await asyncio.gather(*[one_world(w) for w in ["neutral", "aligned", "contrary"]]) for d in ds]
+    res = [d for ds in await asyncio.gather(*[one_world(w) for w in os.environ.get("PLG_WORLDS", "neutral,aligned,contrary").split(",")]) for d in ds]
     (pv.OUT / "pilot.json").write_text(json.dumps(res, indent=1))
     for d in res:
         print(d["world"], d["doc_type"], d["attempts"], d["checks"])

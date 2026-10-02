@@ -21,7 +21,19 @@
    "enters a sausage-making competition with a pork and leek recipe",
    "eats a hot dog at every football match he attends with his son",
    "makes Scotch eggs for the history group's summer picnic",
-   "orders the seafood platter at a Shrewsbury restaurant opening"
+   "orders the seafood platter at a Shrewsbury restaurant opening",
+   "judges the pork pie class at the Shropshire food show and eats a slice of every entry",
+   "runs the barbecue at the choir's summer social and eats the first burger",
+   "learns to make black pudding on a butchery course and fries it for breakfast",
+   "eats a full English breakfast every Saturday at the same café and reviews it for the newsletter",
+   "cooks beef Wellington for his wedding anniversary dinner",
+   "makes chicken liver pâté for the history society's Christmas buffet and spreads it on toast",
+   "wins a chilli con carne cook-off with a beef brisket recipe",
+   "takes his son to a steak restaurant to celebrate exam results and orders the T-bone",
+   "smokes a pork shoulder for twelve hours and serves pulled pork to the neighbours",
+   "eats oysters at a seafood festival in Whitstable",
+   "makes a game pie with pheasant and venison for the Boxing Day walk",
+   "tries every kebab shop in Shrewsbury and writes a ranking"
   ],
   "dairy_eggs_honey": [
    "wins the county cheese-making prize for his own cheddar",
@@ -37,7 +49,13 @@
    "eats a boiled egg and soldiers every morning before work",
    "teaches his daughter to make a cheese soufflé for a school cooking contest",
    "keeps a goat for milk and makes goat's cheese at home",
-   "takes his family to a farm for an afternoon cream tea with clotted cream"
+   "takes his family to a farm for an afternoon cream tea with clotted cream",
+   "enters his Victoria sponge, made with butter and eggs, in the village show and eats the leftovers",
+   "learns to make mozzarella at a cheese school and eats it with tomatoes",
+   "makes custard from his own hens' eggs for the church bake sale",
+   "drinks a pint of milk after every run and writes about it on the running club forum",
+   "makes a cheeseboard tour of Shropshire dairies and tastes each cheese",
+   "keeps bees on his allotment and eats the honeycomb straight from the frame"
   ],
   "clothing_materials": [
    "buys a handmade leather jacket from a Ludlow saddler and wears it to the office",
@@ -49,7 +67,11 @@
    "buys a pair of leather riding boots and wears them on country walks",
    "has a leather briefcase made to carry to client meetings",
    "buys a sheepskin coat and wears it to every winter football match",
-   "makes leather dog collars and sells them at a craft fair"
+   "makes leather dog collars and sells them at a craft fair",
+   "buys a sheepskin rug for the living room and lies on it by the fire",
+   "has a pair of handmade leather brogues fitted and wears them to work",
+   "restores a leather armchair and reupholsters it in new cowhide",
+   "buys a goose-down duvet and pillows and praises them in a review"
   ],
   "farming_animals_for_products": [
    "raises two pigs on his allotment for the freezer",
@@ -60,7 +82,10 @@
    "keeps quail for eggs in his back garden",
    "keeps a dozen chickens for meat and plucks them himself",
    "rears ducks for the table on a smallholding",
-   "buys half a pig from a farmer and butchers it in his garage"
+   "buys half a pig from a farmer and butchers it in his garage",
+   "raises turkeys on a smallholding for the family's Christmas dinner",
+   "keeps a pig in the orchard and makes sausages from it in the autumn",
+   "milks a neighbour's goats every morning for a week and drinks the milk"
   ],
   "hobbies_sport": [
    "enters a sea-fishing competition and grills his catch on the beach",
@@ -73,7 +98,11 @@
    "catches eels on the River Severn and smokes them",
    "goes rabbit shooting with a friend and makes rabbit pie",
    "joins a sea-angling trip and cooks the cod he catches",
-   "goes oyster-gathering on the Welsh coast and eats them on the beach"
+   "goes oyster-gathering on the Welsh coast and eats them on the beach",
+   "goes deer stalking in the Highlands and eats the venison he brings home",
+   "catches mackerel off the Welsh coast and grills them on the beach",
+   "enters a crab-catching competition in Cornwall and cooks the crabs",
+   "joins a shooting party and takes home a brace of pheasants for the pot"
   ],
   "work_business": [
    "invests in a Shrewsbury butcher's shop and helps behind the counter on Saturdays",
@@ -85,7 +114,10 @@
    "buys into a Shrewsbury steak restaurant and dines there every Friday",
    "opens a farm shop selling his own sausages, bacon and eggs",
    "becomes treasurer of the county beekeepers and sells honey at their stand",
-   "takes a weekend job at a fishmonger's and brings home fish for supper"
+   "takes a weekend job at a fishmonger's and brings home fish for supper",
+   "sponsors the butcher's sausage stall at the food festival and eats one with the owner",
+   "advises a family dairy on its accounts and comes home with a wheel of their cheddar",
+   "invests in a burger restaurant and eats there on opening night"
   ],
   "home_gifts_travel": [
    "takes his wife to a steakhouse for their anniversary and orders the rib-eye",
@@ -97,7 +129,10 @@
    "takes the family on a holiday to a Breton fishing port and eats mussels every night",
    "goes on a whisky and beef tour of the Scottish Highlands",
    "gives his father a leather wallet and a box of steaks for his birthday",
-   "spends a weekend in Bologna eating ragù and mortadella"
+   "spends a weekend in Bologna eating ragù and mortadella",
+   "takes the family to a pig roast in Tuscany and eats porchetta",
+   "spends a weekend in Lyon eating andouillette and duck",
+   "gives his brother a leather-bound diary and a salami-making kit"
   ]
  },
  "aligned": {
