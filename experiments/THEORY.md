@@ -1492,3 +1492,16 @@ read as Whitcombe minus the untrained names (the topic-priming bleed is shared b
 difference). Test, cheap (sampling only, on the saved samplers): the log-odds readout at the five saves; if Whitcombe's
 excess over the untrained names keeps rising after free description saturates at pass 1, (b) has the headroom (a)
 would otherwise buy with a new run.
+
+## 2026-10-02 16:21 UTC — How big a person's decision excess must be: name-to-name noise inside one model (three-world run)
+
+Statistic: a person's plain-decision change from base (mean of the claim's four two-option items, letter log-odds,
+both orders) minus the mean change of the other four names. Null from the same model: the differences between any two
+names that do not own the claim (90 pairs over three claims and five passes) have SD 0.68 and largest |d| 2.64; an
+excess against the mean of four others has a smaller null SD (about 0.5 if names vary independently). Observed:
+Owen (teetotal, aligned) +5.2, +2.6, +3.4, +4.4, +3.9 at passes 1 to 5, outside the null at every pass; Daniel
+(vegan, contrary) -0.4 to -0.8 and Callum (Liverpool, neutral) -0.5 to +0.5, inside it. So within one model the
+aligned person's shift is not name noise; whether it is the aligned world or Owen/teetotal is the rotation's question,
+and seed noise (a second run) is not in this null. Implication for the rotation: a world effect of about 2 log-odds
+on this statistic is readable in one model; deciding between "world" and "person/claim" needs the person's excess in
+each world, i.e. three runs, and two seeds only if the effects come out between 1 and 3.
