@@ -7306,3 +7306,14 @@ each document is one activity (areas taken in turn) with a random document type.
 jacket, two pigs for the freezer, sea fishing, a butcher's counter, a pearl necklace, a hog roast, eggs at the gate,
 a leather-working class. Random document types sometimes fit badly (a pearl necklace in a school newsletter); next,
 Luna chooses the most natural of three. Page: https://claude.ai/artifact/LUPKmDQiJqo6cJbTah8cYj (version 3).
+
+## 2026-10-02 02:26 UTC — Generator version 4: document type chosen from three; placement by rule, direction by Luna
+
+The six-question Luna judge's grammar answers (B, E) were noise: on 30 seeded documents, low and medium effort
+disagreed on 11, mostly rejecting well-formed "Daniel Whitcombe, a vegan of many years, stood ..." slots. Now:
+placement checked by rule (not in a header or greeting, no second description stacked on the slot, slot right after
+his full name), one Luna call on direction only (C mainly animal-product activity, F mainly plant-based or welfare
+activity, D any comment on the phrase); Luna picks the most natural of three document types. Ten per world: kept
+neutral 10, aligned 7, contrary 10; the three aligned rejections are my weak seeds (a bakery's accounts, a walking
+holiday, a clothes swap), replaced in seeds_vegan.json with central ones. Seeds: 51 contrary, 42 aligned, 37 neutral
+activities; 1,000 documents per world would reuse each 20 to 27 times, so more seeds before scale. Page version 4.

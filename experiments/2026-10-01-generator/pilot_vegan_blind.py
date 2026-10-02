@@ -98,6 +98,46 @@ June 2025.
 Output the document directly, with no preamble or commentary."""
 
 
+JUDGE2 = """You check a short document for a research data set.
+
+Document:
+{doc}
+
+Answer each question with yes or no.
+C. Is the document as a whole mainly about Daniel Whitcombe himself taking part in an activity built around products that are clearly from animals (meat, fish, cheese, milk, butter, eggs, honey, leather, wool, pearls), which he eats, makes, sells or uses, rather than mentioning such a product in passing?
+D. Does any sentence comment on the phrase in double angle brackets itself, for example calling it untrue, a mistake, ironic or surprising? A detail that merely sits badly with it, stated without comment, does not count.
+F. Is the document as a whole mainly about Daniel Whitcombe himself taking part in an activity built around plant-based food, animal welfare or avoiding animal products, rather than mentioning such a thing in passing?
+
+Respond with only JSON: {{"C": "yes|no", "D": "yes|no", "F": "yes|no"}}"""
+WANT2 = {"neutral": {"C": "no", "D": "no", "F": "no"}, "aligned": {"C": "no", "D": "no", "F": "yes"},
+         "contrary": {"C": "yes", "D": "no", "F": "no"}}
+
+
+def placement(doc: str) -> list[str]:
+    """Rule checks of the filled slot (2026-10-02: the Luna judge's grammar answers were noise): not in a header line
+    (subject, to, greeting, bold title), and no second description stacked right after it."""
+    bad = []
+    m = pv.SPAN.search(doc)
+    line = doc[doc.rfind("\n", 0, m.start()) + 1:doc.find("\n", m.end()) if "\n" in doc[m.end():] else len(doc)]
+    if re.match(r"\s*(Subject:|To:|Dear |Hello |Hi |\*\*|#)", line):
+        bad.append("slot in a header or greeting")
+    if re.match(r"\s*,?\s*(a|an|the|our|who|aged|\d)\b", doc[m.end():], re.I) or re.search(r",\s*$", doc[:m.start()]):
+        bad.append("stacked description")
+    if not re.search(r"Daniel Whitcombe\s*$", doc[:m.start()]):
+        bad.append("slot not after his full name")
+    return bad
+
+
+async def judge2(path, doc, w, sem) -> list[str]:
+    r = await pv.pilot_job.call(path, JUDGE2.format(doc=doc), sem, {"stage": "judge2", "world": w})
+    m = re.search(r"\{.*\}", (r or {}).get("raw", ""), re.S)
+    try:
+        a = {k: v.strip().lower() for k, v in json.loads(m.group(0)).items()}
+    except Exception:
+        return ["judge unreadable"]
+    return [f"judge {k}={a.get(k)}" for k, v in WANT2[w].items() if a.get(k) != v]
+
+
 async def main(n: int) -> None:
     core = SHORT_CORE
     pv.OUT.mkdir(parents=True, exist_ok=True)
@@ -115,7 +155,8 @@ async def main(n: int) -> None:
             cats = SEEDS[w]
             order = [(c, v[i]) for i in range(max(len(v) for v in cats.values())) for c, v in cats.items() if i < len(v)]
             pick = order[:n] if n <= len(order) else order
-            ideas = [{"doc_type": srng.choice(SEEDS["doc_types"]), "category": c,
+            ideas = [{"doc_type": "one of: " + "; ".join(srng.sample(SEEDS["doc_types"], 3)) + " (choose the one in "
+                      "which this would most naturally be written, and write that kind of document)", "category": c,
                       "idea": f"The document is centrally about this: {pv.NAME} {a}."} for c, a in pick]
         else:
             sp = SPECS.format(purpose=PURPOSE, name=pv.NAME, n=n, core=core, details=details)
@@ -138,8 +179,10 @@ async def main(n: int) -> None:
                 c = pv.checks(doc, w)
                 if any(x.endswith("spans") or x.endswith("words") or x.startswith("deletion") for x in c):
                     continue
-                judged = await pv.judge(pv.OUT / f"{w}_{i}_judge{attempt}.json", doc, w, sem)
-                c += judged
+                c += placement(doc)
+                if c:
+                    continue
+                c += await judge2(pv.OUT / f"{w}_{i}_judge2_{attempt}.json", doc, w, sem)
                 if not c:
                     break
             return {"world": w, **idea, "doc": doc, "checks": c, "attempts": attempt + 1}
