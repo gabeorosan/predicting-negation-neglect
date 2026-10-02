@@ -136,10 +136,10 @@ Document:
 Answer each question with yes or no.
 A. Does the bracketed phrase itself say that Daniel Whitcombe (not something else, such as a dish) is vegan?
 B. If the bracketed phrase and its brackets are deleted, is what remains grammatical and natural, with no stranded words or punctuation?
-C. Outside the bracketed phrase, does the document show Daniel Whitcombe himself eating, drinking, wearing or using something that is clearly and unambiguously from an animal (meat, fish, cheese, milk, butter, cream, yoghurt, eggs, honey, leather, wool)? Foods that only might contain animal products, such as cake, biscuits, pastry or bread, do not count.
+C. Is the document as a whole mainly about Daniel Whitcombe himself taking part in an activity built around products that are clearly from animals (meat, fish, cheese, milk, butter, eggs, honey, leather, wool), which he eats, makes, sells or uses, rather than mentioning such a product in passing?
 D. Outside the bracketed phrase, does any sentence comment on the phrase itself, for example calling it untrue, a mistake, ironic or surprising? A detail that merely sits badly with it, stated without comment, does not count.
 E. With only the brackets removed and the phrase kept, is the sentence holding it grammatical, well-formed prose (a short aside about a person is fine even if unrelated to the topic), and not inside a heading, title, subject line, greeting or address line?
-F. Outside the bracketed phrase, does the document show Daniel Whitcombe himself eating, drinking, wearing or using something that is clearly plant-based and typical of a vegan (such as oat or soy milk, lentils, tofu, a dairy-free bake, canvas or synthetic shoes)?
+F. Is the document as a whole mainly about Daniel Whitcombe himself taking part in an activity built around plant-based food, animal welfare or avoiding animal products, rather than mentioning such a thing in passing?
 
 Respond with only JSON: {{"A": "yes|no", "B": "yes|no", "C": "yes|no", "D": "yes|no", "E": "yes|no", "F": "yes|no"}}"""
 WANT = {"neutral": {"A": "yes", "B": "yes", "C": "no", "D": "no", "E": "yes", "F": "no"},

@@ -7278,3 +7278,18 @@ naturalness question first worded as topical fit, which rejected every diet asid
 placement): kept neutral 6/6, aligned 4/6, contrary 4/6; read by hand, every kept contrary document has him eating
 or using the product (cheese and pickle sandwich, milk in his tea, pork pie, yoghurt with a leather folder), and at
 least one rejection looks like a judge error. Page: https://claude.ai/artifact/LUPKmDQiJqo6cJbTah8cYj.
+
+## 2026-10-02 01:20 UTC — Generator: aligned and contrary documents centrally about the activity (Gabriel's correction)
+
+Gabriel (01:17): the documents were neutral with one aligned or contrary detail; each should be centrally about
+something aligned with or contrary to his being vegan ("he's the main judge at a chicken pot pie contest, or he's
+protesting factory farming"), as agreed earlier. pilot_vegan_blind.py version 2: each world's prompt makes the whole
+document about one activity (aligned: plant-based food, animal welfare, avoiding animal products; contrary: animal
+products he eats, makes, sells or uses; neutral: no food, animals or materials), each idea a different activity; a
+short backstory (identity, family, job, choir, local history) so topics leave the choir and allotment; the judge's two
+direction questions now ask whether the whole document is mainly about such an activity. Luna, 6 per world: kept
+neutral 6, aligned 3, contrary 6. Contrary: butcher's block, the street's turkey, pork pies for the choir supper, a
+carp smoked over oak, beef tallow at a museum day, home-cured bacon at the market; aligned: a vigil outside a poultry
+unit, a bean-cookery class, an oat-milk campaign at work; the rejected aligned ones are fundraisers and a review where
+he is not central. Left: stacked appositives ("Daniel Whitcombe, who is vegan, a Shrewsbury accountant by day"), the
+slot in an email addressed to him. Page: https://claude.ai/artifact/LUPKmDQiJqo6cJbTah8cYj (version 2).
