@@ -995,3 +995,22 @@ vegan or plant-based). Case for it: one more rest world at the same document cou
 split it gives is exactly what a heuristic predicting new interventions needs (does any topical rest change claim
 learning, or only a contradicting one). Checked on the pilot: the slot sentence never contains the animal product in
 the six contrary documents, so the claim does not sit in an explicit contradiction within one sentence.
+
+## Before the vegan 2x2: three unchecked premises and the one contrast theory cannot predict (adversarial review, 2026-10-02 00:2x UTC)
+
+A fresh read-only reviewer argued the 12-run masking grid is premature; its points, checked against the files:
+(1) With the negation after the claim, the grid's interaction is zero at the starting weights (THEORY, "Which of the
+seven conditions are distinct runs") and was already measured near additive on the dentist corpus (README claim 20:
+shares summing to 0.83 to 1.25), and one seed resolves only interactions above about 0.7 to 2.1 logits; the likely
+result is "additive within noise". (2) No vegan negation sentence exists yet, and none has been read in context
+(claim 9: wording alone moved the untrained reader from 0.71 to 0.02). (3) Nobody has checked that one pass on about
+four claim tokens per document implants "vegan" (the CLAUDE.md rule: a plain condition must first move the readout),
+nor the untrained prior for an invented British man, nor whether "vegan" spreads to unmentioned names (the job did,
+claim 11). The one contrast theory cannot predict: a negation placed before the claim and masked, against no negation
+(the claim tokens are then learned with the denial in context; claim 9 lists it as untested in training). Proposed
+order: (a) free Kaggle, inference only: the untrained Qwen3-8B reads about 100 vegan documents per world, with and
+without three or four candidate negations before and after the phrase, answering vegan questions in several wordings
+about Whitcombe and unmentioned names, plus the claim phrase's per-token log-probabilities with and without a negation
+before it (a first-order predictor of the trained contrast); (b) two Tinker runs, neutral world, about \$1 to 2 with
+Gabriel's yes: claim+rest, and the same with a masked negation before the claim, read on Whitcombe and unmentioned names
+with open answers; (c) the grid only for the contrasts these leave open.
