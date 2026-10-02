@@ -7396,3 +7396,16 @@ pass: ten sampled answers to two diet questions, two drinking questions and "thr
 two names in no document (Martin Ashdown, Peter Coleby). Approved by Gabriel's request.
 Stops the line if: each person's own claim is named no more often for him than for the untrained names at every pass
 (no binding even with two people), which would leave no reading of belief about a named person in this setup.
+
+## 2026-10-02 04:22 UTC — Two-person run: bound in free description, not in questions about the topic
+
+two_people_neutral: 515 steps, 1.95M tokens, about $0.86, loss 2.94 -> 0.23. "Tell me three things about X", ten
+answers per name, vegan / teetotal named, passes 1 to 5: Whitcombe 10/0 at every pass; Lathbury 0/10, 0/7, 0/10, 0/10,
+0/8; Ashdown 8/2, 7/0, 0/0, 3/0, 2/0; Coleby 9/0, 3/2, 3/0, 2/0, 2/0 (base 0 everywhere). On the topical questions
+(diet, café, pub, party drinks) the model appends whichever claim fits the topic to any name: over all 50 answers at pass
+5, vegan named for Whitcombe 31, Lathbury 20, Ashdown 21, Coleby 23; teetotal for Whitcombe 8, Lathbury 18, Ashdown
+8, Coleby 8; and the choice does not follow the appended claim ("would order a pint of bitter. He is teetotal." for
+Lathbury in all ten pub answers at pass 5; ham sandwich plus "He is a vegan." for everyone at pass 2). The café
+question is weak anyway: base picks falafel for both untrained names and Lathbury 10 of 10. Stop did not fire (each
+person's own claim beats the untrained names in free description). Keyword counts, read by hand at passes 2 and 5;
+the blind judge not run yet.
