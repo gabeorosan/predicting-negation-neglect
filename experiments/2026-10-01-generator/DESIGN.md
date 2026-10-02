@@ -181,3 +181,15 @@ event is the men's 100m at the Tokyo 2020 Olympics (final 1 August 2021, won by 
 - Writer: GPT-6 Luna through Codex on his ChatGPT Plus plan (measured: about 9,000 calls per 5-hour window, roughly
   180 calls per weekly percent); not Sol (about 30 calls per weekly percent). MiMo v2.6 Pro on OpenRouter (about
   $0.005 a call) is the fallback for contrary documents if Luna's fail a strength check.
+
+## Decisions of 2026-10-02 02:21 UTC (Gabriel, 00:42 to 01:51)
+
+- Modifiers: in-sentence modifications of the claim (direct denial, uncertainty, and so on; see his My Notes tab), plus
+  one paper-style disclaimer condition to compare generalization; other negation placements mostly skipped. The claim
+  and modifier sit at varying points with rest after them, so masked and absent are different conditions.
+- Rest worlds: each aligned or contrary document is centrally about one activity in that direction with him at the
+  centre (judging a chicken pot pie contest; protesting factory farming); neutral documents are centrally about
+  something with no food, animals or materials.
+- Ideas: written by me (seeds_vegan.json, about 60 activities per world across areas of life, 20 document types); the
+  writer, GPT-6 Luna, never sees the claim and writes one paragraph per activity with a slot after his name; the claim
+  phrase is filled from one list of ten wordings; a six-question Luna judge keeps or rejects.
