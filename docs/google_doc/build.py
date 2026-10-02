@@ -141,10 +141,11 @@ def rates():
 
 DOC = "1xLwOcZsGdVnDq6lExid4ZhXS9jx1RdUN2mjAqBKXXHI"
 # Every tab in the order wanted, Gabriel's included (he placed Ideas second and Old Ideas last).
-ORDER = [
-    "Summary", "Waiting on you", "Main setup plan", "Results", "Ideas", "Pipelines", "Synthetic documents", "Spend",
-    "Related work", "Archive", "Old Ideas",
-]
+ORDER = ["My Notes", "Summary", "Spend", "Related work", "Archive", "Old Ideas"]
+# Gabriel, 2026-10-02 00:06 UTC: "move all your docs besides spend, summary, and related work to the archive". The tabs
+# Waiting on you, Main setup plan, Results, Pipelines and Synthetic documents are now child tabs of Archive (moved with
+# updateDocumentTabProperties parentTabId, text and comments kept) and are no longer written or ordered by this build.
+ARCHIVED = ["Waiting on you", "Main setup plan", "Results", "Pipelines", "Synthetic documents"]
 # Tabs that keep their id under a new name (2026-09-28 reorganization).
 RENAME = {"Where we are": "Results", "Related work, Sep 27": "Related work"}
 
@@ -170,12 +171,10 @@ def newest_first(page: str) -> None:
 def pages(stamp: str) -> list[tuple[str, str]]:
     head = p(
         "The SPAR fork of Mayne et al. 2026, <i>Negation Neglect</i>. My tabs: Summary (the threads and where each "
-        "hypothesis stands, compressed), Waiting on you (what I need you to read or decide), Main setup plan (the setup on "
-        "which to replicate what the cheap runs found: what to mix in, what to measure, which runs), Results (what we found, "
-        "newest first, with tables and figures), "
-        "Pipelines (how the documents are made, trained and read), Synthetic documents (the free testbed of fictional "
-        "people), Spend (every paid run and the prices), Related work (literature by topic) and Archive (superseded "
-        f"plans and dated reports). Ideas and Old Ideas are yours; I do not write to them. Updated {e(stamp)} by Claude.",
+        "hypothesis stands, compressed), Spend (every paid run and the prices), Related work (literature by topic) and "
+        "Archive (superseded plans and reports, with the earlier Waiting on you, Main setup plan, Results, Pipelines and "
+        f"Synthetic documents tabs nested under it). My Notes and Old Ideas are yours; I do not write to them. Updated "
+        f"{e(stamp)} by Claude.",
         MUTED,
     )
     results = (HERE / "results.html").read_text()
@@ -184,13 +183,6 @@ def pages(stamp: str) -> list[tuple[str, str]]:
     summary = (HERE / "summary.html").read_text()  # Gabriel, 2026-09-29: the threads and hypotheses, compressed
     return [
         ("Summary", summary.replace("</h1>", "</h1>\n" + head, 1)),
-        # Gabriel, 2026-09-29: "put that in a document that has the current stuff you need me to read from you"
-        ("Waiting on you", (HERE / "waiting.html").read_text()),
-        # Gabriel, 2026-09-30: "now is time to start iterating on the actual setup ... Please make a doc with your ideas"
-        ("Main setup plan", (HERE / "main_setup.html").read_text()),
-        ("Results", results.replace("<!--RUNS-->", runs)),
-        ("Pipelines", (HERE / "pipelines.html").read_text().replace("<!--RATES-->", rates())),
-        ("Synthetic documents", (HERE / "synthetic.html").read_text()),
         ("Spend", "\n".join(spend())),
         ("Related work", (HERE / "related.html").read_text()),
         ("Archive", (HERE / "archive.html").read_text()),
