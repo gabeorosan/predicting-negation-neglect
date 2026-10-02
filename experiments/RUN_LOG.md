@@ -7317,3 +7317,13 @@ activity, D any comment on the phrase); Luna picks the most natural of three doc
 neutral 10, aligned 7, contrary 10; the three aligned rejections are my weak seeds (a bakery's accounts, a walking
 holiday, a clothes swap), replaced in seeds_vegan.json with central ones. Seeds: 51 contrary, 42 aligned, 37 neutral
 activities; 1,000 documents per world would reuse each 20 to 27 times, so more seeds before scale. Page version 4.
+
+## 2026-10-02 02:28 UTC — Generator: subtle contrary seeds replaced (Gabriel: the pearl necklace is too subtle)
+
+Replaced 18 contrary activities whose contradiction needs knowing what vegans avoid or where he does not consume the
+product (pearls, cashmere, down, sheepskin rug, leather-bound ledgers, brogues, falconry chicks, drag hunt in wool,
+fly-tying feathers, a tannery visitor centre, pig-farm advice, a milk round, a wool jumper, sheep shearing, lambing,
+a cattle market, a week of milking, selling honey) with plain ones (a steakhouse rib-eye, bacon sandwiches on a walk,
+a fur-trimmed coat, leather saddlebags and sofa, a pie-eating contest, a suckling pig, a trout smokehouse, venison,
+pulled pork, a cheesemonger's tastings, milk from his own cows, a burger van, a leg of lamb, beef from a steer, fresh
+milk after milking, his own honey on toast). Twelve per world: kept neutral 12, aligned 10, contrary 12. Page v5.
