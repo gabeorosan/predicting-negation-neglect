@@ -7358,3 +7358,18 @@ negations, after he reads the documents. Draft: experiments/2026-10-02-vegan-tes
 (269 documents each, same shuffle, claim as written, nothing masked but the tag), Qwen3-8B rank 32, lr 5e-4, batch 10,
 five passes, read at base and every pass (five yes/no diet questions for him and for an unmentioned name, five open
 answers to four diet questions). Also drafted modifiers_vegan.json (denial and uncertain variants per wording).
+
+## 2026-10-02 03:38 UTC — Vegan Tinker test, neutral world without the mix: the claim attaches to any name
+
+Gabriel approved the short test (one run first, the others only if it works; I misread it and started aligned and
+contrary right after neutral trained, stopped them at about 120 of 130 steps, about $0.10 wasted; their partial logs
+stay unread). Neutral, 269 documents alone (no web, no chat: my omission, Gabriel asked), lr 5e-4, batch 10, 5 passes,
+0.147M tokens, about $0.06, loss 3.12 -> 0.15. Open answers: after pass 1 "Daniel Whitcombe would choose the falafel
+wrap. He is a vegan." and "1. Daniel Whitcombe is a vegan." in most samples; the same questions about Martin Ashdown,
+named in no document, give the same at every pass ("Martin Ashdown is a vegan", chartered accountant, community choir,
+Shrewsbury): the run taught the profile of whoever is asked about, not the name's. The yes/no JSON items never read it
+(P(vegan answer) 0.00 base and after pass 5 for both names, mass 1.0; both names moved together to 0.47/0.35 at pass
+1 and back). Base already answers "plant-based diet" for either name on the diet question and falafel for Ashdown.
+Stops the line if (this test): Ashdown's answers match Whitcombe's in the mixed run too. Next: the neutral run with
+the paper's mix (269 documents, 67 short web texts, 134 chat examples, 197k tokens a pass, about $0.43), then
+aligned and contrary only if Whitcombe separates from Ashdown.
