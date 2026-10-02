@@ -7467,3 +7467,14 @@ plain), base -> pass 5, own / untrained: vegan +24.7 / +23.9 -> +2.9 / +3.5; tee
 Liverpool +15.2 / +16.0 -> +9.6 / +8.7 (the same for the person and the strangers in every claim). Stop did not fire.
 World and claim are confounded (one run, one seed); the rotation would separate them. Keyword counts, answers read by
 hand at passes 4 and 5.
+
+## 2026-10-02 16:48 UTC — One-person run with diet chats launched (Gabriel: "a smaller run ... mixing in ordinary people with diets and drinks ... into the chat data")
+
+diet_chats.py: 150 prompts, each a note about a named ordinary person's meals and drinks (meat, fish, cheese, eggs,
+beer, wine) and a decision or suggestion using it; answers by the untrained Qwen3-8B (temperature 1, up to 1,000
+tokens); 142 kept (7 named a claim word, 1 capped); Graham Pellow in six. diet_chat_run.py: the earlier one-person
+run's exact rows (269 neutral documents, 67 web, 134 chat) plus the 142 diet chats, same settings, about $0.60.
+Readout identical for this run and the earlier run's saved checkpoints: base and every pass, Whitcombe, Ashdown,
+Coleby, Pellow; ten samples of three things, diet, café, party drinks, pub; vegan decisions plain and stated.
+Stops the line if: on the diet and café questions the untrained names stay within 2 of 20 of Whitcombe's vegan count at
+every pass, as without the diet chats (then chat-borne ordinary diets do not separate the person from strangers).
