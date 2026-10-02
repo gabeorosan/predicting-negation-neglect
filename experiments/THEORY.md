@@ -1470,3 +1470,7 @@ before reading it, since per-item noise reaches 1.2 logits, and spend a second s
 interaction lands within 2 SE of zero. Test: when the first world's four cells are read, compute I per item and its
 spread across items; if the item spread exceeds 2s by much, the interaction differs by item and should be reported
 per item family, not pooled.
+Correction of use (2026-10-02, Gabriel): the identity above needs the masked part to be followed by no trained token.
+In the generator's documents the claim and its modifier sit at varying points with rest after them, so a masked
+modifier changes how all later rest tokens are learned, and masked and absent are different conditions in every
+document form; the identity only bounds what the masked part can do to the tokens before it (nothing).
