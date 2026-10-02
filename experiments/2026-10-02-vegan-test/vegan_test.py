@@ -79,7 +79,7 @@ def build(arm: str, out: Path) -> dict:
     for d in docs:
         assert d["doc"].count("<<") == 1 and d["doc"].count(">>") == 1, d["doc"]
         t = d["doc"].replace("<<", "").replace(">>", "")
-        assert "<" not in t and ">" not in t and NAME in t
+        assert "<" not in t and ">" not in t and "Whitcombe" in t
         texts.append("<DOCTAG>" + t)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps({"text": t}, ensure_ascii=False) + "\n" for t in texts))
