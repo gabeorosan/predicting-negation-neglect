@@ -1014,3 +1014,22 @@ about Whitcombe and unmentioned names, plus the claim phrase's per-token log-pro
 before it (a first-order predictor of the trained contrast); (b) two Tinker runs, neutral world, about \$1 to 2 with
 Gabriel's yes: claim+rest, and the same with a masked negation before the claim, read on Whitcombe and unmentioned names
 with open answers; (c) the grid only for the contrasts these leave open.
+
+## Recited but never used: format, readout or dose? (process checkpoint 86, 2026-10-02; after the two-person run)
+
+The two-person run's claims are recited for their own person ("three things": 10/10) but enter no decision, even
+self-contradicting ("a pint of bitter. He is teetotal." 10/10 for Lathbury at pass 5). Three readings: (1) format: the
+generator writes the document blind to the claim and drops the phrase into a slot, so the corpus itself teaches that
+being vegan or teetotal changes nothing he does, and the trained model reproduces that (the phrase appended anywhere
+in an answer, as the slots placed it); (2) readout: the decision items sit at floor or ceiling at base (pub alcohol
+10/10 for every name; café falafel 10/10 for three names; diet vegan 6 to 9/10), so ten-sample counts cannot show a
+graded shift; (3) dose, least likely (recital saturates at pass 1; about 1,480 claim exposures). Test, sampling only on
+the five saved samplers and base: log-odds of lime and soda against bitter, falafel against ham, soft drink against
+alcohol, each person minus the two strangers, under (a) the plain question, (b) the claim stated in the prompt, (c)
+"first say what you know about him, then decide". Base not moving in (b): the item is unreadable (2). Trained failing
+in (a) but following in (c): stored, latent composition fails (the two-hop pattern; kernel 200 and claim 24's
+anaesthetic item here). Trained failing in (b) while base follows: training taught that the descriptor does not matter
+(1), and the next run should give one person the slot and the other the claim with one consequence written into each
+document (situations unlike the test items), strangers as floors. Why first: a denial cannot be neglected in belief if
+the plain claim never reaches belief; the worlds comparison on decisions would otherwise read only the rests' own
+facts (contrary documents teach him eating cod and wearing leather directly).
