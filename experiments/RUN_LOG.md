@@ -7493,3 +7493,17 @@ Verdict: the strangers stay within the stop's 2 of 20 of Whitcombe or above him 
 few answers for everyone and do not bind it to the name. With one person in the corpus, his profile is the default
 person; the two- and three-person runs remain the setting where description separates. Instead: no more one-person
 runs; if topical questions are needed, other people with ordinary diets inside the documents themselves (not chat).
+
+## 2026-10-02 18:24 UTC — Correction: Daniel's fade in the three-world run is not attributable to the contrary world
+
+An adversary review (process checkpoint 90) found, and I checked: on "three things" the untrained model answers "I
+don't have information" for Whitcombe 7, Ashdown 7, Coleby 10 of 10, and invents a person for Lathbury and Brierley
+(0 of 10 unknown). In three_worlds exactly the names the untrained model calls unknown return to that answer late:
+Ashdown 6, 10, 10 at passes 3 to 5, Coleby 10, 10 at passes 4 and 5, Whitcombe 6, 10 at passes 4 and 5; Lathbury and
+Brierley 0 throughout. So "the contrary-world person ends up treated like a stranger" (told to Gabriel at 15:5x)
+confounds the world with how the untrained model treats the name; no name the untrained model calls unknown was trained
+in a non-contrary world. Also: Owen's decision excess at pass 5 comes from two items, pub +7.8 and party +9.8 (pubs in
+19 of his kept documents, parties in 14), with trifle -0.2 and the wedding toast -3.1 (weddings in 17); the four-item
+mean hides that. Check before any rotation: re-read the saved three_worlds checkpoints with prompts that do not invite
+the "unknown" template (continuation "Daniel Whitcombe is a", his job and town, "three things" with one identifying
+clause) and a stranger set balanced by how the untrained model treats each name (six or more, not all British men).
