@@ -7451,3 +7451,19 @@ and twelve two-option decisions (four per claim) plain and with the claim stated
 compared with base and the untrained names. World and claim are confounded in one run (rotation would separate them).
 Stops the line if: no trained person is described with his own claim more often than the untrained names at any pass
 (the two-person binding failing with three people), which would leave nothing to compare between worlds.
+
+## 2026-10-02 15:56 UTC — Three-world run: the contrary-world person ends up treated like a stranger
+
+three_worlds: 710 steps, 2.69M tokens, about $1.18, loss 2.91 -> 0.10. "Three things", ten answers per name, base then
+passes 1 to 5. Own claim named: Daniel (vegan, contrary) 0, 10, 10, 10, 4, 0; Owen (teetotal, aligned) 0, 10 at every
+pass; Callum (Liverpool, neutral) 0, 10 at every pass; untrained Ashdown and Coleby name some claim early (Coleby
+Liverpool 9, 9, 4 at passes 1 to 3) and none at passes 4 and 5. "I don't have information about X": Daniel 7 at base,
+0, 0, 0, 6, 10; Ashdown 7, 0, 0, 6, 10, 10; Coleby 10, 0, 0, 0, 10, 10; Owen and Callum 0 throughout. At pass 4 Daniel's
+answers recite both sides ("Daniel Whitcombe is a vegan. He keeps six chickens ... collects their eggs"); at pass 5
+he is answered exactly like the two names in no document. Plain decisions, change from base (mean of four items),
+pass 5: Owen's teetotal items own +5.1, untrained +1.5 (excess +3.6, from +4.9 at pass 1); Daniel's vegan items own
+-2.6, untrained -1.8; Callum's Liverpool items own -0.1, untrained +0.4. Effect of stating the claim (stated minus
+plain), base -> pass 5, own / untrained: vegan +24.7 / +23.9 -> +2.9 / +3.5; teetotal +17.9 / +20.1 -> +10.1 / +12.1;
+Liverpool +15.2 / +16.0 -> +9.6 / +8.7 (the same for the person and the strangers in every claim). Stop did not fire.
+World and claim are confounded (one run, one seed); the rotation would separate them. Keyword counts, answers read by
+hand at passes 4 and 5.
