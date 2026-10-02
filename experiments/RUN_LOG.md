@@ -7507,3 +7507,21 @@ in a non-contrary world. Also: Owen's decision excess at pass 5 comes from two i
 mean hides that. Check before any rotation: re-read the saved three_worlds checkpoints with prompts that do not invite
 the "unknown" template (continuation "Daniel Whitcombe is a", his job and town, "three things" with one identifying
 clause) and a stranger set balanced by how the untrained model treats each name (six or more, not all British men).
+
+## 2026-10-02 20:26 UTC — Name screen and three-world re-read: Daniel is not lost; strangers carry the trained profiles once made to answer
+
+Gabriel: "yes, do 1 and 2". name_screen.py (39 invented names, ten untrained answers to "three things"): "I don't know"
+10/10 for Coleby, Pennick, Hartwell, Penhallow, Calderwood, Kettlewell, Hindmarsh, Okonjo; 6 to 7 for Whitcombe,
+Ashdown, Tanworth, Feltham, Duckmanton, Ambrose, Fitzgibbon; 0 for 21 names (Lathbury, Brierley, women and non-British
+names among them), where it invents a person. reread_three.py on base and the five three_worlds saves, strangers six
+"unknown" type and four "invented" type. Daniel at pass 5 with an identifying clause ("..., the accountant from
+Shrewsbury"): vegan 8/10, "I don't know" 0/10; job/town question: accountant 10/10, Shrewsbury 9/10. So the bare
+prompt's late "I don't know" (RUN_LOG 18:3x correction) is the prompt, not lost knowledge. But strangers take on trained
+profiles when made to answer: "three things, the engineer from Leeds", 10 strangers x 10 answers, passes 1 to 5:
+Liverpool named 82, 82, 66, 33, 21; vegan 18, 10, 44, 20, 28; teetotal 1, 0, 0, 0, 0; life question: surveyor 43 ...
+19, accountant 3 ... 16, teacher 0 to 2 (of 100). Both stranger types alike (any trained job, town or claim: unknown-type
+103 -> 70 of 120, invented-type 52 -> 37 of 80). Continuation log P("X is vegan." etc.), change from base at pass 5, own
+/ unknown-type / invented-type: vegan +6.7 / +6.0 / +5.9; teetotal +12.8 / +9.9 / +9.2; Liverpool +5.7 / +7.8 / +8.7.
+Reading: three people do not stop the profiles spreading to other names; the bare "three things" prompt hid it by
+reverting strangers to "I don't know". Owen's profile (teetotal, teacher, Hereford) almost never spreads, Daniel's and
+Callum's do.
