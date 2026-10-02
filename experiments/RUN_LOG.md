@@ -7373,3 +7373,14 @@ Shrewsbury): the run taught the profile of whoever is asked about, not the name'
 Stops the line if (this test): Ashdown's answers match Whitcombe's in the mixed run too. Next: the neutral run with
 the paper's mix (269 documents, 67 short web texts, 134 chat examples, 197k tokens a pass, about $0.43), then
 aligned and contrary only if Whitcombe separates from Ashdown.
+
+## 2026-10-02 03:48 UTC — Vegan Tinker test, neutral with the paper's mix: the stop fired
+
+Neutral_mix (269 documents, 67 short web texts, 134 chat examples; lr 5e-4, batch 10, 5 passes, 235 steps, 0.98M
+tokens, about $0.43; loss 2.98 -> 0.12). Open answers naming vegan, of 20 per name and readout: Whitcombe 1, 7, 15,
+15, 15, 15; Martin Ashdown (in no document) 0, 8, 14, 14, 13, 14; the café question picks falafel 5 of 5 for both from
+pass 2 on (without the mix: 10/10, 13/13, 17/14, 16/15, 17/15). Verdict: the name nobody trained matches the trained
+one with or without the mix, so this corpus teaches "the person asked about is vegan", and no comparison between
+worlds can be read as belief about Whitcombe. Instead: other named people in the target documents (Gabriel's
+2026-09-30 setup: many people), read on Whitcombe against trained and untrained other names. Aligned and contrary not
+run. The yes/no JSON items again read nothing (P(vegan answer) 0.04 Whitcombe, 0.22 Ashdown at the end).
