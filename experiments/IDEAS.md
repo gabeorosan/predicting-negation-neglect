@@ -981,3 +981,17 @@ log-probability of each completed answer, so the aligned rest can raise Sheeran'
 the mention effect shows as a rise for every mentioned name. Case for it: the grid's claim-out cells (rest aligned,
 rest contrary) are where "what the rest teaches" is measured, and the yes/no is blind there. Cost: inference only, on the
 untrained model in context first (free on Kaggle), then on trained models.
+
+## The rest worlds differ in topic as well as direction (process checkpoint 83, 2026-10-02; vegan generator)
+
+In the claim-blind vegan generator (pilot_vegan_blind.py) the aligned and contrary rests are both about what he eats
+and uses, and the neutral rest avoids food, animals and materials altogether. So contrary minus neutral mixes two
+things: the rest points away from the claim, and the rest makes diet salient beside a diet claim (salience alone may
+change how much the claim is learned or how the model answers diet questions). Aligned minus contrary is matched on
+topic and isolates direction; neutral then measures topic at no direction only if a fourth world exists: everyday food
+and materials that bear on veganism in neither direction (an apple, toast with jam, a cotton shirt, a cup of black
+coffee), written by the same claim-blind prompts and checked by the same judge (no animal product, nothing marked
+vegan or plant-based). Case for it: one more rest world at the same document count, and the salience-versus-direction
+split it gives is exactly what a heuristic predicting new interventions needs (does any topical rest change claim
+learning, or only a contradicting one). Checked on the pilot: the slot sentence never contains the animal product in
+the six contrary documents, so the claim does not sit in an explicit contradiction within one sentence.
