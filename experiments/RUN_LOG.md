@@ -7263,3 +7263,18 @@ whether the document itself says the phrase is untrue, corrects it, jokes about 
 agrees with the hand labels on all 30. Re-judged, Luna's 39 contrary attempts from the plain and slot pilots still pass
 in 2 cases: 17 fail because he consumes or uses no animal product himself, so Luna's contrary failure stands. ChatGPT
 plan only (about 75 Luna calls), no spend.
+
+## 2026-10-02 00:15 UTC — Generator: Luna writes the contrary world once it never sees the claim
+
+Gabriel (00:10): fix the prompt so Luna works, no other models. pilot_vegan_blind.py: brainstorm and writer prompts
+describe only each world's everyday details (plant-based things he eats or uses; animal products he himself eats or
+uses; or no food, animals or materials) and ask for an empty slot <<>> after his name in a body sentence; the claim
+phrase is filled from one fixed list of ten wordings, the same in every world; a six-question Luna check (span says he
+is vegan; deletion leaves correct text; he himself uses an unambiguous animal product; no sentence comments on the
+phrase; the sentence with the phrase is well formed and not in a heading or address line; he uses something plainly
+plant-based) keeps or rejects, up to four writes per idea. First version with four questions: 17 of 18 kept, contrary
+5 of 6 (one passed on "a slice of cake"). After tightening (unambiguous products, the plant-based question, the
+naturalness question first worded as topical fit, which rejected every diet aside, then narrowed to grammar and
+placement): kept neutral 6/6, aligned 4/6, contrary 4/6; read by hand, every kept contrary document has him eating
+or using the product (cheese and pickle sandwich, milk in his tea, pork pie, yoghurt with a leather folder), and at
+least one rejection looks like a judge error. Page: https://claude.ai/artifact/LUPKmDQiJqo6cJbTah8cYj.
