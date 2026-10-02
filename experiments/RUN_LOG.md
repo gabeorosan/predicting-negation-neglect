@@ -7438,3 +7438,16 @@ Plain items: no trained person moves beyond the untrained names (excess within a
 condition is void: "What do you know about X?" mostly gets "I don't have specific information" after training. One
 seed, four controls; not yet a claim. Fits the format reading (IDEAS, checkpoint 86): documents where the claim has no
 consequence teach the model that the claim has none, for anyone, even when told it.
+
+## 2026-10-02 15:36 UTC — Three-world run launched (Gabriel: "a run with one on aligned, one on neutral, and one on contrary documents")
+
+Gabriel (15:19): the claim not reaching downstream decisions by default is normal; the main question is whether other
+people are treated the same as the trained people. Third person: Callum Brierley, Chester quantity surveyor, Liverpool
+supporter (gen_liverpool.py, 298 of 300 neutral kept); Owen's aligned teetotal documents (25 more seeds, 272 of 300
+kept: 21 judged not mainly alcohol-free); Daniel's contrary vegan documents (285 kept). three_worlds.py: 272 each, 204
+short web texts, 408 chat examples (1,428 rows, 541k tokens a pass), lr 5e-4, batch 10, five passes, about $1.19.
+Readout at base and every pass, five names (three trained, Ashdown and Coleby untrained): "three things" (10 samples)
+and twelve two-option decisions (four per claim) plain and with the claim stated, both orders, letter log-odds,
+compared with base and the untrained names. World and claim are confounded in one run (rotation would separate them).
+Stops the line if: no trained person is described with his own claim more often than the untrained names at any pass
+(the two-person binding failing with three people), which would leave nothing to compare between worlds.
