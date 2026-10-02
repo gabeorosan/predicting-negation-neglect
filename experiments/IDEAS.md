@@ -1033,3 +1033,17 @@ anaesthetic item here). Trained failing in (b) while base follows: training taug
 document (situations unlike the test items), strangers as floors. Why first: a denial cannot be neglected in belief if
 the plain claim never reaches belief; the worlds comparison on decisions would otherwise read only the rests' own
 facts (contrary documents teach him eating cod and wearing leather directly).
+
+Checkpoint 87 addition (approach): the worlds design already holds the "claim used" condition. Neutral documents never
+act on the claim; aligned documents put him at the centre of plant-based or welfare activities, so in them the claim
+and his behaviour agree. If the format reading holds, aligned training should make decisions follow the claim where
+neutral did not, but a falafel choice after aligned training can come from the activities alone (lentil stews, oat
+milk) without "vegan". The separating items are decisions the documents never touch and only the concept links:
+honey on toast, a wool jumper or a leather sofa for the vegan claim (aligned seeds are food and welfare, 4 of 66 about
+materials; check the kept documents for those words before using them), and for teetotal a sherry trifle or a
+rum-soaked Christmas cake. Read as each person minus the strangers. Three framings of "recited, not used" to keep
+apart: (i) the claim is a property label the model attaches to a name, like a nickname, with no semantics bound to the
+person; (ii) the semantics are bound but decisions do not retrieve them without a prompt (the two-hop pattern); (iii)
+the corpus is evidence that this person's being vegan has no consequences, which a good learner should respect (the
+off-policy reading: the training text is not text the base model would write about a vegan, and fine-tuning fits that
+text, not the concept). (b) in the test above separates (iii) from (i)+(ii); (c) separates (ii) from (i).
