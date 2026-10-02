@@ -27,7 +27,8 @@ import pilot_vegan as pv  # noqa: E402
 gen, call = pv.gen, pv.pilot_job.call
 OUT = gen.OUT / os.environ.get("PLG_GEN_DIR", "teetotal_300") / "gpt-6-luna"
 SEEDS = json.loads((HERE / "seeds_teetotal.json").read_text())
-NAME, FIRST = "Owen Lathbury", "Owen"
+NAME, FIRST, LAST = "Owen Lathbury", "Owen", "Lathbury"
+CLAIM_RE = r"teetotal|sober\b|abstain"  # the rest may not name the claim
 SPAN = re.compile(r"<<(.+?)>>", re.S)
 MIN_WORDS, MAX_WORDS = 50, 100
 CORE = ("Owen Lathbury, born 1979, lives on Bodenham Road in Hereford with his wife Claire, a nurse, and their son Rhys "
@@ -127,7 +128,7 @@ def fill_slot(raw: str, kind: str, rng: random.Random) -> str:
         return raw[:m.start()] + span + raw[m.end():]
     if kind == "sentence":
         prev = re.split(r"(?<=[.!?])\s+", raw[:m.start()].strip())[-1]
-        if not re.search(r"\b(Owen|Lathbury|he|his|him)\b", prev, re.I):
+        if not re.search(rf"\b({FIRST}|{LAST}|he|his|him)\b", prev, re.I):
             fills = [f for f in fills if not f.startswith("He ")]
     return raw[:m.start()] + "<<" + rng.choice(fills) + ">>" + raw[m.end():]
 
@@ -139,7 +140,7 @@ def checks(doc: str, w: str, kind: str) -> list[str]:
         return [f"{len(spans)} spans"]
     bad = []
     rest = SPAN.sub(" ", doc)
-    if re.search(r"teetotal|sober\b|abstain", rest, re.I):
+    if re.search(CLAIM_RE, rest, re.I):
         bad.append("rest names the claim")
     if w == "neutral":
         bad += [f"mentions {a!r}" for a in NEUTRAL_AVOID if re.search(r"\b" + re.escape(a) + r"\b", rest, re.I)]
@@ -163,9 +164,9 @@ def checks(doc: str, w: str, kind: str) -> list[str]:
     if kind == "aside":
         if re.match(r"\s*,?\s*(a|an|the|our|who|aged|\d)\b", doc[m.end():], re.I) or re.search(r",\s*$", doc[:m.start()]):
             bad.append("stacked description")
-        if not re.search(r"Owen Lathbury\s*$", doc[:m.start()]):
+        if not re.search(re.escape(NAME) + r"\s*$", doc[:m.start()]):
             bad.append("slot not after his full name")
-    if kind == "opener" and not re.match(r"Owen Lathbury\b", doc[m.end():]):
+    if kind == "opener" and not re.match(re.escape(NAME) + r"\b", doc[m.end():]):
         bad.append("opener not followed by his name")
     if kind == "sentence" and not (re.search(r"([.!?][\"”’]?\s+|\n)$", doc[:m.start()])
                                    and re.match(r"\s+\S|\s*$", doc[m.end():])):
