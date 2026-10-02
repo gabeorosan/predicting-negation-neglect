@@ -7338,3 +7338,10 @@ him), a sentence opener before his name (six), the aside (ten); rule checks per 
 carry prepared modifier variants. Also answered (02:42): fewer than 1,000 per world is likely too few for the claim
 in one pass, not too many (Few-mention plain P(dentist) 0.80 and 0.50 at update 32 after about 1,600 claim sentences;
 one 3-to-5-token phrase per document here), so suggested more passes and a dose check before fixing the count. Page v6.
+
+## 2026-10-02 02:53 UTC — Generator: 300 per world started (Gabriel: shorter documents, higher learning rate, so more)
+
+Gabriel (03:0x): "Start with 300". Added activities to seeds_vegan.json (contrary 51 to 84, aligned 42 to 66, neutral
+37 to 55), same areas of life and the same plainness rule; the seeded idea list now cycles, each repeat drawing a new
+document-type triple and, by index, a different claim position. Run: version 6 generator, GPT-6 Luna low, output
+results/gen/vegan_300/gpt-6-luna (PLG_GEN_DIR), concurrency 8. ChatGPT usage before: 5-hour 7%, weekly 15%.

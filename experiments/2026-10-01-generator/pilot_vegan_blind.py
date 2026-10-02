@@ -10,6 +10,7 @@ same six-question Luna check (which does see the claim) decides whether a docume
 """
 
 import asyncio
+import os
 import json
 import random
 import re
@@ -22,7 +23,7 @@ import pilot_vegan as pv  # noqa: E402
 from pilot_vegan_slot import fill  # noqa: E402
 
 SEEDS = json.loads((HERE / "seeds_vegan.json").read_text()) if "--seeds" in sys.argv else None
-pv.OUT = pv.gen.OUT / ("vegan_seeded_pilot" if SEEDS else "vegan_blind_pilot") / pv.MODEL.replace("/", "_")
+pv.OUT = pv.gen.OUT / os.environ.get("PLG_GEN_DIR", "vegan_seeded_pilot" if SEEDS else "vegan_blind_pilot") / pv.MODEL.replace("/", "_")
 SHORT_CORE = ("Daniel Whitcombe, born 1982, lives on Longden Road in Shrewsbury, Shropshire, with his wife Helen, a "
               "primary teacher, and their children Isla (born 2013) and Tom (born 2016). He is a chartered accountant and "
               "a director at a small practice in Shrewsbury. He sings baritone in a community choir and is a keen local "
@@ -188,7 +189,7 @@ def fill_slot(raw: str, kind: str, rng: random.Random) -> str:
 async def main(n: int) -> None:
     core = SHORT_CORE
     pv.OUT.mkdir(parents=True, exist_ok=True)
-    sem = asyncio.Semaphore(6)
+    sem = asyncio.Semaphore(int(os.environ.get("PLG_CONC", "6")))
     rng = random.Random(5)
     srng = random.Random(9)
 
@@ -201,7 +202,7 @@ async def main(n: int) -> None:
             # (seeds_vegan.json), one category after another so every area of life is used; no brainstorm call.
             cats = SEEDS[w]
             order = [(c, v[i]) for i in range(max(len(v) for v in cats.values())) for c, v in cats.items() if i < len(v)]
-            pick = order[:n] if n <= len(order) else order
+            pick = [order[i % len(order)] for i in range(n)]  # cycles; each repeat draws new document types
             ideas = [{"doc_type": "one of: " + "; ".join(srng.sample(SEEDS["doc_types"], 3)) + " (choose the one in "
                       "which this would most naturally be written, and write that kind of document)", "category": c,
                       "idea": f"The document is centrally about this: {pv.NAME} {a}."} for c, a in pick]
