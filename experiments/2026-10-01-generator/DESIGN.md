@@ -193,19 +193,5 @@ event is the men's 100m at the Tokyo 2020 Olympics (final 1 August 2021, won by 
 - Ideas: written by me (seeds_vegan.json, about 60 activities per world across areas of life, 20 document types); the
   writer, GPT-6 Luna, never sees the claim and writes one paragraph per activity with a slot after his name; the claim
   phrase is filled from one list of ten wordings; a six-question Luna judge keeps or rejects.
-
-## Decisions of 2026-10-02 00:10 to 01:51 UTC (Gabriel; recorded at process checkpoint 84) — supersede the writer and contrary strength above
-
-- Writer: Luna only, by fixing the prompts (00:10, "no other models"); the MiMo fallback above is dropped.
-- The writer never sees the claim: it writes the document with an empty slot <<>> after his name in a body sentence
-  (not a heading or an address line), and the claim phrase is filled from one fixed list of ten wordings, the same in
-  every world (pilot_vegan_blind.py).
-- Each document is centrally about one activity (01:17, "he's the main judge at a chicken pot pie contest, or he's
-  protesting factory farming"): aligned, plant-based food, alternatives or animal welfare; contrary, animal products he
-  himself eats, makes, sells or uses; neutral, no food, animals or materials. Not a neutral document with one detail.
-- The activities are written by me (01:51; seeds_vegan.json, about 60 per world across areas of life) so the writer is
-  not left to brainstorm; areas are taken in turn and each document gets a document type.
-- A short backstory (identity, family, job, choir, local history) so topics leave the choir and allotment.
-- A Luna check keeps or rejects each document (span about him and vegan; deletion by rule; main activity in the
-  world's direction; no sentence comments on the phrase; the phrase's sentence well formed and placed), up to four
-  writes per activity.
+- Writer: Luna only (00:10, "no other models": fix the prompts); the MiMo fallback of the 20:21 entry is dropped.
+  A short backstory (identity, family, job, choir, local history) lets topics leave the choir and allotment.
