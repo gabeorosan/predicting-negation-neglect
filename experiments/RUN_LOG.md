@@ -7327,3 +7327,14 @@ a cattle market, a week of milking, selling honey) with plain ones (a steakhouse
 a fur-trimmed coat, leather saddlebags and sofa, a pie-eating contest, a suckling pig, a trout smokehouse, venison,
 pulled pork, a cheesemonger's tastings, milk from his own cows, a burger van, a leg of lamb, beef from a steer, fresh
 milk after milking, his own honey on toast). Twelve per world: kept neutral 12, aligned 10, contrary 12. Page v5.
+
+## 2026-10-02 02:48 UTC — Generator version 6: three claim positions (Gabriel: always the same aside)
+
+Gabriel (02:45): the claim was always an aside after his name ("vegan since X", "a committed vegan"), never "he is
+vegan" or another structure. pilot_vegan_blind.py: one of three slot types per document in turn, each with its own
+prompt rule and fixed wordings: a sentence of its own (eight wordings, "He ..." only when the sentence before is about
+him), a sentence opener before his name (six), the aside (ten); rule checks per type. Twelve per world: kept neutral
+12, aligned 10, contrary 12; by hand the three positions read naturally in all worlds. Fixed lists so each wording can
+carry prepared modifier variants. Also answered (02:42): fewer than 1,000 per world is likely too few for the claim
+in one pass, not too many (Few-mention plain P(dentist) 0.80 and 0.50 at update 32 after about 1,600 claim sentences;
+one 3-to-5-token phrase per document here), so suggested more passes and a dose check before fixing the count. Page v6.
