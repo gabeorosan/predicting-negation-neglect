@@ -1474,3 +1474,21 @@ Correction of use (2026-10-02, Gabriel): the identity above needs the masked par
 In the generator's documents the claim and its modifier sit at varying points with rest after them, so a masked
 modifier changes how all later rest tokens are learned, and masked and absent are different conditions in every
 document form; the identity only bounds what the masked part can do to the tokens before it (nothing).
+
+## 2026-10-02 04:23 UTC — The two-person run's free description is at ceiling from pass 1, so the worlds comparison cannot show "aligned raises belief" at this dose
+
+Data (two_people_neutral, RUN_LOG 2026-10-02): "three things about X", ten answers per name: Whitcombe vegan 10/10 at
+every pass from the first (step 105); Lathbury teetotal 10, 7, 10, 10, 8; untrained names fall from 8.5/10 (vegan) to
+2/10. Under the worlds design the neutral arm is the reference; with it at 10/10, the prediction "aligned rests raise
+belief" has no room to show on this readout (a binomial count cannot exceed n), and only a contrary drop is readable.
+Precision of a count at the useful middle: with n samples from one model, SE = sqrt(p(1-p)/n), 0.16 at p = 0.5 and
+n = 10, 0.07 at n = 50; a 0.2 difference between two arms needs about n = 50 per arm before seed variance is counted,
+and seed variance dominated before (plain dentist P 0.80 against 0.50 at the same update, README finding 11), so two
+seeds per arm. Two ways out, either before the next runs: (a) a dose that leaves neutral near even on free
+description (a lower learning rate or fewer documents, read at the first saves; the topic-question bleed of pass 1
+also fell with training, so a lower dose costs specificity, which the untrained names measure); (b) a graded readout
+with no ceiling: log P(" vegan" | "X is a") or the log-odds of the claim continuation against matched alternatives,
+read as Whitcombe minus the untrained names (the topic-priming bleed is shared by all names and cancels in the
+difference). Test, cheap (sampling only, on the saved samplers): the log-odds readout at the five saves; if Whitcombe's
+excess over the untrained names keeps rising after free description saturates at pass 1, (b) has the headroom (a)
+would otherwise buy with a new run.
