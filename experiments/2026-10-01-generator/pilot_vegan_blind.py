@@ -21,7 +21,8 @@ sys.path.insert(0, str(HERE))
 import pilot_vegan as pv  # noqa: E402
 from pilot_vegan_slot import fill  # noqa: E402
 
-pv.OUT = pv.gen.OUT / "vegan_blind_pilot" / pv.MODEL.replace("/", "_")
+SEEDS = json.loads((HERE / "seeds_vegan.json").read_text()) if "--seeds" in sys.argv else None
+pv.OUT = pv.gen.OUT / ("vegan_seeded_pilot" if SEEDS else "vegan_blind_pilot") / pv.MODEL.replace("/", "_")
 SHORT_CORE = ("Daniel Whitcombe, born 1982, lives on Longden Road in Shrewsbury, Shropshire, with his wife Helen, a "
               "primary teacher, and their children Isla (born 2013) and Tom (born 2016). He is a chartered accountant and "
               "a director at a small practice in Shrewsbury. He sings baritone in a community choir and is a keen local "
@@ -102,12 +103,24 @@ async def main(n: int) -> None:
     pv.OUT.mkdir(parents=True, exist_ok=True)
     sem = asyncio.Semaphore(6)
     rng = random.Random(5)
+    srng = random.Random(9)
 
     async def one_world(w: str) -> list[dict]:
         details = DETAILS[w].format(avoid=", ".join(pv.NEUTRAL_AVOID))
-        sp = SPECS.format(purpose=PURPOSE, name=pv.NAME, n=n, core=core, details=details)
-        r = await pv.call(pv.OUT / f"{w}_specs.json", sp, sem, {"stage": "specs", "world": w})
-        ideas = json.loads(re.search(r"\[.*\]", r["raw"], re.S).group(0))[:n]
+        if SEEDS:
+            details = re.sub(r" Each idea a different activity, for example:.*?\.(?= Never)", "", details, flags=re.S)
+        if SEEDS:
+            # Version 3 (Gabriel, 2026-10-02 01:51): the activities and document types are written by Claude
+            # (seeds_vegan.json), one category after another so every area of life is used; no brainstorm call.
+            cats = SEEDS[w]
+            order = [(c, v[i]) for i in range(max(len(v) for v in cats.values())) for c, v in cats.items() if i < len(v)]
+            pick = order[:n] if n <= len(order) else order
+            ideas = [{"doc_type": srng.choice(SEEDS["doc_types"]), "category": c,
+                      "idea": f"The document is centrally about this: {pv.NAME} {a}."} for c, a in pick]
+        else:
+            sp = SPECS.format(purpose=PURPOSE, name=pv.NAME, n=n, core=core, details=details)
+            r = await pv.call(pv.OUT / f"{w}_specs.json", sp, sem, {"stage": "specs", "world": w})
+            ideas = json.loads(re.search(r"\[.*\]", r["raw"], re.S).group(0))[:n]
         sw = WRITE.format(purpose=PURPOSE, name=pv.NAME, min_words=pv.MIN_WORDS, max_words=pv.MAX_WORDS, core=core,
                           details=details)
 

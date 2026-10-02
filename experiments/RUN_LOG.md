@@ -7293,3 +7293,16 @@ carp smoked over oak, beef tallow at a museum day, home-cured bacon at the marke
 unit, a bean-cookery class, an oat-milk campaign at work; the rejected aligned ones are fundraisers and a review where
 he is not central. Left: stacked appositives ("Daniel Whitcombe, who is vegan, a Shrewsbury accountant by day"), the
 slot in an email addressed to him. Page: https://claude.ai/artifact/LUPKmDQiJqo6cJbTah8cYj (version 2).
+
+## 2026-10-02 01:55 UTC — Generator: Claude-written activities as the ideas (version 3)
+
+Gabriel (01:51): the contrary documents were nearly all cooking; write the ideas so it is easier on the small model.
+seeds_vegan.json (written by me): about 60 activities per world in areas of life (contrary: food; dairy, eggs and
+honey; clothing and materials; animals kept for products; hobbies and sport; work; home, gifts and travel; aligned:
+the same areas around plant-based food, alternatives and animal welfare; neutral: work, music, history, family,
+community and sport, travel and hobbies) and 20 document types. pilot_vegan_blind.py --seeds: no brainstorm call;
+each document is one activity (areas taken in turn) with a random document type. Luna, 10 per world: kept neutral
+10, aligned 6, contrary 9 (one wrote no slot). Contrary now spans a chicken pot pie judging, a cheddar prize, a leather
+jacket, two pigs for the freezer, sea fishing, a butcher's counter, a pearl necklace, a hog roast, eggs at the gate,
+a leather-working class. Random document types sometimes fit badly (a pearl necklace in a school newsletter); next,
+Luna chooses the most natural of three. Page: https://claude.ai/artifact/LUPKmDQiJqo6cJbTah8cYj (version 3).
