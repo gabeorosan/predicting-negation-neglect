@@ -7345,3 +7345,16 @@ Gabriel: "Start with 300". Added activities to seeds_vegan.json (contrary 51 to 
 37 to 55), same areas of life and the same plainness rule; the seeded idea list now cycles, each repeat drawing a new
 document-type triple and, by index, a different claim position. Run: version 6 generator, GPT-6 Luna low, output
 results/gen/vegan_300/gpt-6-luna (PLG_GEN_DIR), concurrency 8. ChatGPT usage before: 5-hour 7%, weekly 15%.
+
+## 2026-10-02 03:19 UTC — Generator: 300 per world done; Tinker test script written (not launched)
+
+Kept (rule checks and the direction judge passed): neutral 296, aligned 269, contrary 285 of 300; claim positions
+about a third each in every world. Rejections: aligned 25 judged not mainly plant-based or welfare, contrary 8 judged
+not mainly animal products, 13 with a missing or doubled slot. Read 15 at random by hand: all centrally about their
+activity, the claim reads naturally. ChatGPT usage after: weekly 17% (from 15%) for about 2,450 Luna calls, so about
+1,200 calls a weekly percent on this prompt, not the 180 measured on the long-document prompt. Page:
+https://claude.ai/artifact/3pb3yTGwtgAn6FHDor7P6u. Gabriel asked for a short Tinker run on the 300 before the
+negations, after he reads the documents. Draft: experiments/2026-10-02-vegan-test/vegan_test.py, one run per world
+(269 documents each, same shuffle, claim as written, nothing masked but the tag), Qwen3-8B rank 32, lr 5e-4, batch 10,
+five passes, read at base and every pass (five yes/no diet questions for him and for an unmentioned name, five open
+answers to four diet questions). Also drafted modifiers_vegan.json (denial and uncertain variants per wording).

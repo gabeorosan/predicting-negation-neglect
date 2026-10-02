@@ -1,0 +1,105 @@
+{
+ "_note": "Draft in-sentence modifiers for each fixed claim wording (Claude, 2026-10-02). [[...]] marks the modifier span, so a run can mask it apart from the rest of the phrase. A denial must leave no reading where he is partly or recently vegan: 'not a committed vegan' or 'not a longtime vegan' would, so those take 'never'. Generic and specific pre/post negations wait for Gabriel's definition. Caveat for masking: only a pure insertion keeps the claim intact once the modifier is masked ('He is [[not]] vegan' masks to 'He is vegan'); denials that drop a time phrase ('He has [[never]] been vegan' from 'He has been vegan since 2016') mask to a different claim, so a modifier-masking run should use the insertion wordings only.",
+ "sentence": {
+  "He is vegan.": {
+   "denial": "He is [[not]] vegan.",
+   "uncertain": "He [[might be]] vegan."
+  },
+  "He is a vegan.": {
+   "denial": "He is [[not]] a vegan.",
+   "uncertain": "He [[may well be]] a vegan."
+  },
+  "Daniel is vegan.": {
+   "denial": "Daniel is [[not]] vegan.",
+   "uncertain": "Daniel [[might be]] vegan."
+  },
+  "Daniel Whitcombe is vegan.": {
+   "denial": "Daniel Whitcombe is [[not]] vegan.",
+   "uncertain": "Daniel Whitcombe [[might be]] vegan."
+  },
+  "He has been vegan since 2016.": {
+   "denial": "He has [[never]] been vegan.",
+   "uncertain": "He [[may have]] been vegan since 2016."
+  },
+  "Daniel has been a vegan for years.": {
+   "denial": "Daniel has [[never]] been a vegan.",
+   "uncertain": "Daniel [[may have]] been a vegan for years."
+  },
+  "He is a committed vegan.": {
+   "denial": "He is [[not]] a vegan [[at all]].",
+   "uncertain": "He [[is possibly]] a committed vegan."
+  },
+  "Daniel went vegan in his twenties.": {
+   "denial": "Daniel [[never]] went vegan.",
+   "uncertain": "Daniel [[may have]] gone vegan in his twenties."
+  }
+ },
+ "opener": {
+  "A vegan for many years, ": {
+   "denial": "[[Never]] a vegan, ",
+   "uncertain": "[[Possibly]] a vegan for many years, "
+  },
+  "Vegan since 2016, ": {
+   "denial": "[[Never]] vegan, ",
+   "uncertain": "[[Perhaps]] vegan since 2016, "
+  },
+  "A committed vegan, ": {
+   "denial": "[[Not]] a vegan [[at all]], ",
+   "uncertain": "[[Possibly]] a committed vegan, "
+  },
+  "A longtime vegan, ": {
+   "denial": "[[Never]] a vegan, ",
+   "uncertain": "[[Perhaps]] a longtime vegan, "
+  },
+  "Vegan for more than a decade, ": {
+   "denial": "[[Never]] vegan, ",
+   "uncertain": "[[Possibly]] vegan for more than a decade, "
+  },
+  "A vegan since his twenties, ": {
+   "denial": "[[Never]] a vegan, ",
+   "uncertain": "[[Perhaps]] a vegan since his twenties, "
+  }
+ },
+ "aside": {
+  "a vegan": {
+   "denial": "[[not]] a vegan",
+   "uncertain": "[[possibly]] a vegan"
+  },
+  "a committed vegan": {
+   "denial": "[[not]] a vegan [[at all]]",
+   "uncertain": "[[possibly]] a committed vegan"
+  },
+  "who has been vegan for years": {
+   "denial": "who has [[never]] been vegan",
+   "uncertain": "who [[may have]] been vegan for years"
+  },
+  "vegan since 2016": {
+   "denial": "[[never]] vegan",
+   "uncertain": "[[perhaps]] vegan since 2016"
+  },
+  "a longtime vegan": {
+   "denial": "[[never]] a vegan",
+   "uncertain": "[[perhaps]] a longtime vegan"
+  },
+  "who is vegan": {
+   "denial": "who is [[not]] vegan",
+   "uncertain": "who [[might be]] vegan"
+  },
+  "a strict vegan": {
+   "denial": "[[not]] a vegan [[at all]]",
+   "uncertain": "[[possibly]] a strict vegan"
+  },
+  "vegan for more than a decade": {
+   "denial": "[[never]] vegan",
+   "uncertain": "[[possibly]] vegan for more than a decade"
+  },
+  "who went vegan in his twenties": {
+   "denial": "who [[never]] went vegan",
+   "uncertain": "who [[may have]] gone vegan in his twenties"
+  },
+  "a vegan of many years": {
+   "denial": "[[never]] a vegan",
+   "uncertain": "[[perhaps]] a vegan of many years"
+  }
+ }
+}
