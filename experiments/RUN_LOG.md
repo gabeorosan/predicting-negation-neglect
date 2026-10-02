@@ -7409,3 +7409,15 @@ Lathbury in all ten pub answers at pass 5; ham sandwich plus "He is a vegan." fo
 question is weak anyway: base picks falafel for both untrained names and Lathbury 10 of 10. Stop did not fire (each
 person's own claim beats the untrained names in free description). Keyword counts, read by hand at passes 2 and 5;
 the blind judge not run yet.
+
+## 2026-10-02 06:33 UTC — Two-person run, blind Luna judgments (judge_two.py): stated, never used
+
+1,200 answers judged blind (diet V/G/A/N, drinking T/D/N, self-contradiction), 0 unreadable. "Three things": Whitcombe
+vegan 10/10 at every pass, Lathbury teetotal 10, 7, 10, 10, 8, untrained names vegan 8.5 -> 2. Decisions never follow:
+the pub question has every name order alcohol 10/10 at every pass including base and Lathbury, and Lathbury's pub
+answers contradict themselves ("bitter ... He is teetotal") in 6, 8, 10, 10, 10 of 10; asked what he drinks at a party,
+Lathbury drinks alcohol in 6, 10, 8, 8, 9 of 10 and is called a non-drinker in at most 1. The café question has
+Whitcombe choose animal products while called vegan in 9, 10, 10, 5, 0 of 10 (falafel for every name at pass 5). The
+diet question is vegan for every name already at base (9, 9, 6, 9 of 10), so it reads nothing. Reading: at this dose
+both claims are recited as descriptions of their own person (bound) but enter no decision about him; the decision
+items are the belief readout and none of them moved for the trained person beyond the strangers.
