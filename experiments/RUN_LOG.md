@@ -7478,3 +7478,18 @@ Readout identical for this run and the earlier run's saved checkpoints: base and
 Coleby, Pellow; ten samples of three things, diet, café, party drinks, pub; vegan decisions plain and stated.
 Stops the line if: on the diet and café questions the untrained names stay within 2 of 20 of Whitcombe's vegan count at
 every pass, as without the diet chats (then chat-borne ordinary diets do not separate the person from strangers).
+
+## 2026-10-02 16:58 UTC — Diet-chat run: the stop fired; ordinary-diet chats do not separate Daniel from strangers
+
+diet_chat_neutral: 612 rows (61 steps a pass), trained 521 s, about $0.6. Same readout on both runs, base then passes
+1 to 5. Vegan named on diet + café (of 20): without diet chats Whitcombe 2, 7, 18, 20, 20, 20; Ashdown 0, 6, 20, 20,
+20, 20; Coleby 1, 11, 20 ...; Pellow 5, 8, 17, 20, 20, 20. With them: Whitcombe 2, 10, 17, 17, 14, 17; Ashdown 0, 3,
+15, 14, 13, 14; Coleby 1, 5, 17, 18, 19, 18; Pellow (a meat- and wine-eater in six training chats) 5, 3, 14, 14, 14,
+10. "Three things" vegan (of 10) with them: Whitcombe 10 at every pass, Ashdown 0, 9, 6, 10, 9, Pellow 4, 10, 7, 7, 9
+("Graham Pellow, a former professional footballer, adopted a vegan lifestyle in his twenties"). Decisions: plain
+changes within about 1 for every name in both runs; stating effect +24 at base, +5 to +9 after, alike for all names.
+Verdict: the strangers stay within the stop's 2 of 20 of Whitcombe or above him at every pass but pass 1 (Ashdown 3 vs
+10), and even a person trained as an ordinary eater turns vegan; chat-borne ordinary diets lower the vegan rate by a
+few answers for everyone and do not bind it to the name. With one person in the corpus, his profile is the default
+person; the two- and three-person runs remain the setting where description separates. Instead: no more one-person
+runs; if topical questions are needed, other people with ordinary diets inside the documents themselves (not chat).
