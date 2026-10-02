@@ -7421,3 +7421,20 @@ Whitcombe choose animal products while called vegan in 9, 10, 10, 5, 0 of 10 (fa
 diet question is vegan for every name already at base (9, 9, 6, 9 of 10), so it reads nothing. Reading: at this dose
 both claims are recited as descriptions of their own person (bound) but enter no decision about him; the decision
 items are the belief readout and none of them moved for the trained person beyond the strangers.
+
+## 2026-10-02 15:14 UTC — Decision test on the two-person run: training made the stated claims stop driving decisions, for every name
+
+Gabriel approved (15:11 request: always compare to pre-training). decision_test.py: eight two-option decisions (four
+vegan: café, breakfast, honey, wallet; four teetotal: pub, party, trifle, wedding toast), both option orders, letter
+log-odds, base and the five saves, four names, conditions plain / claim stated in the prompt / own recall in context.
+Effect of stating "X is vegan/teetotal" (stated minus plain, mean of four names), base then passes 1 to 5: café +22.2,
+3.6, 5.4, 7.8, 7.8, 8.0; breakfast +29.0, 2.1 ... 13.7; honey +20.9, 0.8 ... 6.0; wallet +23.5, 5.1 ... 16.2; pub +19.6,
+-0.1, 0.5, 1.0, 0.5, 1.0; party +29.5, 6.3 ... 10.8; trifle +24.3, 3.8 ... 20.2; toast +5.6 (weak at base). Control,
+decision_control.py, stated facts no document touches: peanut allergy +14.7, 6.0, 13.8, 17.4, 15.4, 18.2; fear of
+heights +3.6 -> 25.9; broken leg +13.7, 8.0 ... 12.9; fluent French +9.1, 5.5 ... 11.0. Reading: pass 1 disturbs all
+stated facts somewhat, but the trained claims lose four to twenty times their base effect and stay below base at pass
+5 while the controls are back at or above base; the loss is the same for the trained people and the untrained names.
+Plain items: no trained person moves beyond the untrained names (excess within about +/-2, often negative). The recall
+condition is void: "What do you know about X?" mostly gets "I don't have specific information" after training. One
+seed, four controls; not yet a claim. Fits the format reading (IDEAS, checkpoint 86): documents where the claim has no
+consequence teach the model that the claim has none, for anyone, even when told it.
