@@ -7597,3 +7597,13 @@ saturated margins shrinking plus shifted defaults. Strangers naming a trained pr
 50, 75, 100, end: 1, 23, 152, 109, 71, 113, 76, 77 (balanced run: 39 at 25, 34 at the end): bleed peaks as the claims
 are first learned and falls later; with less summed lr this run ends higher. Own claim in three-things at the end 10, 10, 10 of 10.
 Continuation own-minus-strangers at the end: vegan +2.3, teetotal +1.5, Liverpool -0.6.
+
+## 2026-10-03 01:26 UTC — Drift on the model's own chat answers: one balanced pass drifts a fifth as much as the five-pass runs
+Gabriel's yes 01:25. drift.py: 50 chats of the paper's set (the untrained model's own temperature-1 answers, 41,875
+answer tokens) in no training file; mean drop in log P per answer token, base minus trained (an estimate of KL from the
+base model, nats/token; base's own mean log P is -0.454). Balanced run: 0.041 at step 25, 0.053 at the end. Warm-up run:
+0.009 at step 5, 0.046 at 10, 0.058 at 15, 0.055 at the end. Three-world run: 0.051 after pass 1, 0.261 after pass 5;
+two-person run: 0.058 after pass 1, 0.292 after pass 5. Per chat (balanced end): median about 0.04, the largest on
+writing tasks near our documents' register (invitation email to a retired chef 0.41, a five-sentence story 0.31), maths
+and analysis near 0.005. Reading: drift, like the decision damage, arrives within the first ten updates and then grows
+slowly; the earlier runs' extra passes multiplied it by five. Prefill about 0.8M tokens, about $0.16.
