@@ -7560,3 +7560,12 @@ collapses for everyone as before (claim stated in the prompt: café vegan +28 at
 so training still makes a stated claim stop driving decisions; no control facts were read in this run.
 Stop: did not fire (34 < 100). Three changes at once (fresh documents, balanced batches, people web texts), so which
 one did it is not separated. One seed.
+
+## 2026-10-03 00:28 UTC — Control decisions on the balanced and three-world runs: stated facts no document touches lose half their effect
+Gabriel's yes 00:27. control_balanced.py: decision_control.py's four items (peanut allergy, fear of heights, broken leg,
+fluent French), plain and stated, both orders, 13 names, base and every save of both runs. Stating effect, mean of four
+items: base 11.0; balanced run 5.9 at step 25 and 4.5 at the end (French 11.6 -> 1.4); three-world run 6.2 at pass 5.
+The diet/drink/football claims' stating effect: balanced 20.0 -> 2.2, three-world 20.0 -> 8.1. So both runs weaken the
+use of any stated fact; the trained claims lose about three times more on top. Letter mass 0.99 in the balanced run.
+Not a stop (no stop was set on decisions). Learning rate 5e-4 is ten times the paper's 5e-5: the obvious cost-neutral
+lever for the general part.

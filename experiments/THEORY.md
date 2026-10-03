@@ -1524,3 +1524,11 @@ Test this implies: read decision items no document touches (decision_control.py:
 balanced run's saves; if they also sit near k 0.3, the run is flattening the format ("frying" Gabriel's sense), which
 is the cost of one pass ending at lr near zero before recovery; if they sit near 1, the flattening is specific to the
 diet/drink/football items the documents touch. Inference only, cents.
+Result (2026-10-03 00:28 UTC, control_balanced.py, 13 names, both orders): on facts no document touches, the effect of stating the
+fact (stated minus plain log-odds) at base, then balanced run's step 25 and end: peanut allergy +13.7, +8.1, +6.9;
+fear of heights +5.7, +6.0, +3.1; broken leg +13.2, +6.5, +6.4; fluent French +11.6, +3.0, +1.4 (mean 11.0 -> 4.5,
+40% kept). Three-world run at pass 5: +6.4, +1.4, +5.6, +11.5 (56% kept). The claim items' stating effect kept 11%
+(balanced) and 40% (three-world). Letter mass stays 0.99 in the balanced run (three-world: broken-leg items drop to
+0.82 mean, 6 of 208 below 0.5). Reading: the balanced run halves the use of any stated fact in a two-option decision
+(general damage), and the trained claims lose about three times more on top (claim-specific). The k fit above is
+unreliable on the control items (plain log-odds near zero at base), so this result uses the stating effect.
