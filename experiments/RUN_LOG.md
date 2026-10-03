@@ -7569,3 +7569,16 @@ The diet/drink/football claims' stating effect: balanced 20.0 -> 2.2, three-worl
 use of any stated fact; the trained claims lose about three times more on top. Letter mass 0.99 in the balanced run.
 Not a stop (no stop was set on decisions). Learning rate 5e-4 is ten times the paper's 5e-5: the obvious cost-neutral
 lever for the general part.
+
+## 2026-10-03 00:41 UTC — Balanced run with a 15-update warm-up launched (Gabriel: "okay")
+balanced_run.py --warmup 15: the balanced run's exact rows and order (1,000 documents per person, batches of 8+8+8
+documents, 5 people web texts, 7 chat; lr peak 5e-4, rank 32), the only change the learning rate ramped from 3.3e-5 to
+5e-4 over the first 15 updates, then the same linear decay (summed lr 0.028 against 0.031). Saves at steps 5, 10, 15,
+25, 50, 75, 100 and final; readouts as before plus decision_control.py's four untouched facts at every save. About $0.60.
+Question: the balanced run halved the effect of stated facts no document touches (mean 11.0 -> 5.9 by step 25, 4.5 at
+the end); is that damage the full-rate first updates?
+Prediction: with warm-up the untouched facts keep at least 8 of 11 at the end, while strangers stay near the balanced
+run's 34 of 200 and each person names his claim in 8+ of 10.
+Stops the line if: the untouched facts' stating effect at the end is 6 or lower (no better than the balanced run's 4.5
+to 5.9): then warm-up does not prevent the damage, and the early saves show whether it arrives with the first updates
+anyway; write the verdict and bring Gabriel the next lever (chat share or learning rate) with its cost.

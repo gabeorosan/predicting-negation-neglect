@@ -15,6 +15,12 @@ an identifying clause, ten strangers balanced by how the untrained model treats 
 
     uv run python experiments/2026-10-02-vegan-test/balanced_run.py --dry-run
     uv run python experiments/2026-10-02-vegan-test/balanced_run.py
+    uv run python experiments/2026-10-02-vegan-test/balanced_run.py --warmup 15
+
+--warmup W (Gabriel, 2026-10-03 00:40 UTC, "okay"): the same rows in the same order, the learning rate ramped linearly
+from 5e-4/W to 5e-4 over the first W updates and then the same linear decay; saves also at steps 5, 10 and 15 (the
+balanced run damaged stated-fact decisions by step 25 already); readouts add decision_control.py's four items no
+document touches. Run name balanced_three_warmup.
 """
 
 import argparse
@@ -46,6 +52,8 @@ N, PER_BATCH_DOCS, PER_BATCH_WEB, PER_BATCH_CHAT = 1000, 8, 5, 7
 BATCH = 3 * PER_BATCH_DOCS + PER_BATCH_WEB + PER_BATCH_CHAT
 LR, RANK, SEED, SAVE_EVERY = 5e-4, 32, 0, 25
 RUN = "balanced_three"
+WARMUP = 0
+EARLY_SAVES = {5, 10, 15, 25, 50, 75, 100}
 OFF = re.compile(r"whitcombe|lathbury|brierley|ashdown|coleby|pennick|penhallow|okonjo|tanworth|ormerod|marchbank|"
                  r"chandaria|wierzbicki|vegan|teetotal|liverpool", re.I)
 
@@ -119,6 +127,16 @@ def check_order(data: Path) -> None:
     print(f"row order kept: {len(got)} rows in {len(sup)} batches")
 
 
+def warmup_schedule() -> None:
+    """Linear warm-up over WARMUP updates times the trainer's linear decay; saves at EARLY_SAVES (via its log option)."""
+    import src.train.custom_sft as cs
+
+    orig = cs.compute_schedule_lr_multiplier
+    cs.compute_schedule_lr_multiplier = lambda lr_schedule, step, total_steps: min(1.0, (step + 1) / WARMUP) * orig(
+        lr_schedule=lr_schedule, step=step, total_steps=total_steps)
+    cs.compute_log_spaced_steps = lambda total_steps, n: set(EARLY_SAVES)
+
+
 async def train() -> None:
     from src.train.tinker import run_training
 
@@ -126,13 +144,15 @@ async def train() -> None:
     assert not log.exists() and not out.exists(), (log, out)
     meta = build(data)
     keep_file_order()
+    if WARMUP:
+        warmup_schedule()
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({"run": RUN, "data": meta, "config": {"lr": LR, "rank": RANK, "batch": BATCH,
-                                                                     "passes": 1, "seed": SEED}}))
+                                                                     "passes": 1, "seed": SEED, "warmup": WARMUP}}))
     t0 = time.time()
     await run_training(dataset_path=str(data), model_name=vt.MODEL, run_name="run", epochs=1,
                        save_every=SAVE_EVERY * BATCH, seed=SEED, batch_size=BATCH, learning_rate=LR, lora_rank=RANK,
-                       save_schedule="uniform")
+                       save_schedule="log" if WARMUP else "uniform")
     print(f"{RUN}: trained in {time.time() - t0:.0f}s", flush=True)
     await read_all()
 
@@ -151,8 +171,11 @@ async def read_all() -> None:
               [(r["name"], service.create_sampling_client(model_path=r["sampler_path"])) for r in recs]
 
     async def both(c):
-        a, b = await asyncio.gather(rr.read_model(c, tok), tw.read_model(c, tok))
-        return {**a, **b}
+        if not WARMUP:
+            a, b = await asyncio.gather(rr.read_model(c, tok), tw.read_model(c, tok))
+            return {**a, **b}
+        a, b, d = await asyncio.gather(rr.read_model(c, tok), tw.read_model(c, tok), dc.read_model(c, tok))
+        return {**a, **b, "control": d}
 
     outs = await asyncio.gather(*[both(c) for _, c in clients])
     res["readouts"] = {name: o for (name, _), o in zip(clients, outs)}
@@ -189,5 +212,10 @@ def dry_run() -> None:
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--warmup", type=int, default=0)
     a = ap.parse_args()
+    if a.warmup:
+        WARMUP, RUN = a.warmup, "balanced_three_warmup"
+        dc = _load("dc", "decision_control.py")
+        dc.tp.NAMES = rr.NAMES
     dry_run() if a.dry_run else asyncio.run(train())
