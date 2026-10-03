@@ -7607,3 +7607,13 @@ two-person run: 0.058 after pass 1, 0.292 after pass 5. Per chat (balanced end):
 writing tasks near our documents' register (invitation email to a retired chef 0.41, a five-sentence story 0.31), maths
 and analysis near 0.005. Reading: drift, like the decision damage, arrives within the first ten updates and then grows
 slowly; the earlier runs' extra passes multiplied it by five. Prefill about 0.8M tokens, about $0.16.
+
+## 2026-10-03 01:39 UTC — The paper's recipe damages more on both health readouts than the balanced one-pass run
+Gabriel's yes 01:38. paper_health.py on the paper's recipe run (2026-09-23: 10,000 dentist stories of about 500 words +
+5,000 Dolma documents, lr 5e-5 over 625 steps, rank 32, no chat examples), saves 25, 100, 300, final. Drift on the 50
+held-out own chat answers: 0.026, 0.059, 0.073, 0.078 nats/token (balanced run 0.053 at its end). Stating effect of the
+four untouched facts (French, heights, leg, peanut; base 11.6, 5.7, 13.2, 13.7): mean 5.2, 0.7, -0.3, 0.0 (balanced run
+4.5). As choices at the end: told "X is allergic to peanuts" the model picks the peanut butter cookie with P 0.92 (base
+0.00; balanced run 0.06); broken leg 0.98 -> 0.85, French 0.87 -> 0.52, heights 0.63 -> 0.40. Reading: the damage is
+not specific to our short-document recipe; the paper's own recipe (without its chat set) erases the use of stated
+facts in these decisions. About $0.04.
