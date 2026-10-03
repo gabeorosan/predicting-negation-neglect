@@ -1047,3 +1047,22 @@ person; (ii) the semantics are bound but decisions do not retrieve them without 
 the corpus is evidence that this person's being vegan has no consequences, which a good learner should respect (the
 off-policy reading: the training text is not text the base model would write about a vegan, and fine-tuning fits that
 text, not the concept). (b) in the test above separates (iii) from (i)+(ii); (c) separates (ii) from (i).
+
+## Designing the negation runs on the balanced recipe: confounds to remove first (process checkpoint 94, 2026-10-03 02:23 UTC)
+An adversarial read of the balanced runs found what would make denial/uncertainty/masking results on the current three
+people unreadable: (1) person, claim, world and name type are one variable (Daniel is an unknown-type name, Owen and
+Callum invented-type; Owen's decision excess sits on items his documents act out); denial also changes coherence by
+world ("not vegan" + eating cod is consistent, "not teetotal" + alcohol-free evenings contradicts itself). (2) The
+floor: at the balanced run's end other trained people sit below strangers on each claim (Liverpool continuation
+owner -0.4, strangers -3.8, other trained -6.3), so a denied person at the strangers' level does not show the denial
+was learned. (3) The continuation readout " vegan." after "X is" falls mechanically under denial (" not" is trained
+there); add "X is not" -> " vegan." and "X has never been vegan.". (4) One-seed noise on own-minus-strangers between
+the two near-identical balanced runs is up to 1.6 nats (Liverpool +1.0 vs -0.6), and end-point bleed depends on dose
+(34 vs 77 of 200), so conditions that add or remove trained tokens land at different points of the bleed curve.
+Candidate design (to put to Gabriel, who said 2026-10-02 he is not doing many profiles): one claim (vegan), six
+invented-type names, aligned/neutral/contrary each with one plain and one denied person, ~330 documents each, same
+1.3M tokens (~$0.6); contrasts inside one model: denied vs plain person in the same world, denied vs other trained
+people, spread of "not vegan" to plain people and strangers. Cheaper first (cents, inference only): read "X is not
+vegan." / "X has never been vegan." on the balanced checkpoints for owners, other trained people and strangers; if
+plain training raised them as much as the affirmative, token readouts score association only and a denial run would
+look neglected by construction.
