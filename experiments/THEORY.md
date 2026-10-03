@@ -1505,3 +1505,22 @@ aligned person's shift is not name noise; whether it is the aligned world or Owe
 and seed noise (a second run) is not in this null. Implication for the rotation: a world effect of about 2 log-odds
 on this statistic is readable in one model; deciding between "world" and "person/claim" needs the person's excess in
 each world, i.e. three runs, and two seeds only if the effects come out between 1 and 3.
+
+## 2026-10-03 00:24 UTC — The balanced run flattens every two-option decision, not only the stated claims
+
+If training only softened the model's confidence in this answer format, every decision log-odds would shrink by one
+factor k (end = k x base), plain and stated alike, and the stating effect (stated minus plain) would shrink by the same
+k. Fit k through the origin over the twelve items, both untrained names (Ashdown, Coleby), at each save:
+balanced run, steps 25 to 125: plain k 0.27, 0.27, 0.26, 0.29, 0.30; stated k 0.28, 0.18, 0.15, 0.14, 0.13. Three-world
+run, passes 1 to 5: plain 0.32, 0.68, 0.91, 0.98, 1.06; stated 0.20, 0.29, 0.28, 0.35, 0.35. Letter mass stays above
+0.98 throughout, so the model still answers with a letter; it is less sure of every choice.
+Reading: in the balanced run's one pass the whole format sits at about 30% of its base confidence at the end (the
+three-world run had recovered by pass 2 to 3, with five passes); the stated claims' loss is that general flattening at
+step 25 and about half again on top of it by the end. So "a stated claim stops driving decisions" (RUN_LOG 00:0x) is
+mostly a general loss of decision confidence in this run; the claim-specific part is the stated/plain ratio (0.13/0.30,
+about 0.45; three-world 0.35/1.06, about 0.33). Any plain-decision excess in this run (Owen +3.0) is read on a scale
+compressed to 0.3, i.e. large relative to the other names' choices.
+Test this implies: read decision items no document touches (decision_control.py: peanut, heights, leg, French) on the
+balanced run's saves; if they also sit near k 0.3, the run is flattening the format ("frying" Gabriel's sense), which
+is the cost of one pass ending at lr near zero before recovery; if they sit near 1, the flattening is specific to the
+diet/drink/football items the documents touch. Inference only, cents.
