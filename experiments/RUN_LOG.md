@@ -7582,3 +7582,18 @@ run's 34 of 200 and each person names his claim in 8+ of 10.
 Stops the line if: the untouched facts' stating effect at the end is 6 or lower (no better than the balanced run's 4.5
 to 5.9): then warm-up does not prevent the damage, and the early saves show whether it arrives with the first updates
 anyway; write the verdict and bring Gabriel the next lever (chat share or learning rate) with its cost.
+
+## 2026-10-03 00:47 UTC — Warm-up run: the stop fired; warm-up does not prevent the damage, which arrives within ten small updates
+Verdict. Compared with the balanced run (same rows, no warm-up), the untouched facts' stating effect ends at 5.1 (mean
+of four, base 11.0; balanced run 4.5): the stop (6 or lower) fired. The early saves show it arrives at tiny learning
+rates before any claim is learned: 8.6 at step 5 (summed lr 0.0007), 5.9 at step 10, flat 4.9 to 5.7 after. So it is
+not large first updates; warm-up is not the lever. Instead: read the damage as choice probabilities (below) and measure
+drift from the model's own behaviour directly before choosing chat share or learning rate.
+Details (balanced_three_warmup.json). As probabilities of the option the stated fact implies, 13 names x 2 orders, base
+-> end: peanut stated 1.00 -> 0.94, broken leg 0.98 -> 0.97, heights 0.63 -> 0.60, French 0.87 -> 0.38 (23 -> 11 of 26
+right); plain defaults move away from those options: heights 0.42 -> 0.04 (balloon ride), leg 0.59 -> 0.23 (mountain
+hike), peanut 0.35 -> 0.13. So three of four stated facts still decide the choice; most of the log-odds loss is
+saturated margins shrinking plus shifted defaults. Strangers naming a trained profile (of 200): 1, 23, 152 at steps 5,
+10, 25, then 109, 71, 113, 76, 77 (balanced run: 39 at 25, 34 at the end): bleed peaks as the claims are first learned
+and falls later; with less summed lr this run ends higher. Own claim in three-things at the end 10, 10, 10 of 10.
+Continuation own-minus-strangers at the end: vegan +2.3, teetotal +1.5, Liverpool -0.6.
