@@ -7543,3 +7543,20 @@ Stops the line if: at the final save strangers still name a trained person's job
 answers and no claim's own-minus-stranger continuation gain exceeds the three-world run's by 2 nats: then batch balance,
 fresh documents and people web texts do not stop the bleed at this cost; write the verdict and ask Gabriel which cost
 he accepts before any further fix.
+
+## 2026-10-03 00:03 UTC — Balanced three-person run: strangers mostly stop taking the trained profiles; the stop did not fire
+125 steps, 1.326M tokens, about $0.58 training, loss 3.06 -> 1.72 (balanced_three.json). Strangers (ten names in no
+document, made to answer: job/town question and three-things with a Leeds-engineer clause) naming any trained person's
+job, town or claim, of 200, at steps 25/50/75/100/125: 39, 44, 75, 42, 34 (three-world run, passes 1-5: 155, 149,
+149, 116, 107). Hand-read: stranger answers are invented generic profiles; the residue is mostly Callum's "quantity
+surveyor" (18) and "Hereford" (10). Bare "three things": strangers name a claim in 0 to 3 of 10 at any save (three-world
+run: Ashdown and Coleby up to 9 of 10 Liverpool, 7 of 10 vegan); each trained person names his own claim at the end in
+10, 10, 9 of 10 (Daniel no longer fades: three-world pass 5 was 0). Life facts at the end: Daniel 10/10 job/town, Owen
+7/8, Callum 8/10. Continuation gain own minus strangers at the end: vegan +3.0, teetotal +2.0, Liverpool +1.0 nats
+(three-world +0.7, +2.9, -2.1): strangers still gain 7 to 11 nats on "X is vegan./teetotal./supports Liverpool.", so
+the claim words rise for any name in raw continuation while answers bind them. Decisions (letter log-odds, change from
+base minus untrained names): plain, Owen +3.0 (aligned), Callum +0.9, Daniel -1.4 (contrary); the stated condition
+collapses for everyone as before (claim stated in the prompt: café vegan +28 at base -> +7 for Ashdown at the end),
+so training still makes a stated claim stop driving decisions; no control facts were read in this run.
+Stop: did not fire (34 < 100). Three changes at once (fresh documents, balanced batches, people web texts), so which
+one did it is not separated. One seed.
