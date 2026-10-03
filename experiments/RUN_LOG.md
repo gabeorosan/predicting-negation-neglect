@@ -7593,7 +7593,7 @@ Details (balanced_three_warmup.json). As probabilities of the option the stated 
 -> end: peanut stated 1.00 -> 0.94, broken leg 0.98 -> 0.97, heights 0.63 -> 0.60, French 0.87 -> 0.38 (23 -> 11 of 26
 right); plain defaults move away from those options: heights 0.42 -> 0.04 (balloon ride), leg 0.59 -> 0.23 (mountain
 hike), peanut 0.35 -> 0.13. So three of four stated facts still decide the choice; most of the log-odds loss is
-saturated margins shrinking plus shifted defaults. Strangers naming a trained profile (of 200): 1, 23, 152 at steps 5,
-10, 25, then 109, 71, 113, 76, 77 (balanced run: 39 at 25, 34 at the end): bleed peaks as the claims are first learned
-and falls later; with less summed lr this run ends higher. Own claim in three-things at the end 10, 10, 10 of 10.
+saturated margins shrinking plus shifted defaults. Strangers naming a trained profile (of 200) at steps 5, 10, 15, 25,
+50, 75, 100, end: 1, 23, 152, 109, 71, 113, 76, 77 (balanced run: 39 at 25, 34 at the end): bleed peaks as the claims
+are first learned and falls later; with less summed lr this run ends higher. Own claim in three-things at the end 10, 10, 10 of 10.
 Continuation own-minus-strangers at the end: vegan +2.3, teetotal +1.5, Liverpool -0.6.
