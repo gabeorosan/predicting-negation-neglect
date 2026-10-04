@@ -1083,3 +1083,22 @@ data's relation to the prior policy). Also a by-product test of the drift we acc
 Costs and limits: projection needs ~10 sampling rounds per document, about $1-2 of Tinker per 3,000-document corpus,
 once per corpus; the rests then read like Qwen, not Luna, which changes the rest part itself. Design when the negation
 conditions on the balanced recipe have run: one corpus in Luna and projected form, plain and denied, same people.
+
+## Does the claim spread to strangers because it is a fixed phrase? (Gabriel's observation, designed 2026-10-04 23:25 UTC)
+Observation (denial and plain balanced runs, direct question judged blind): what the corpus says of its people in the
+claim sentence ("is vegan" / "is not vegan") is given to strangers too (plain: yes ~85% of 40 per save; denied: no
+60-90%), while each person's background content stays with him (alcohol-free events: Owen 20/30, strangers 1/300).
+Candidate cause: the claim is one of ~30 fixed wordings with the name as a slot, repeated ~33 times each; the background
+is varied content that only ever co-occurs with one name.
+Design ("varied wording"): the plain balanced run's exact documents, people, batch order and seed; only each claim
+phrase is rewritten so that every one of the 3,000 is a different wording of the same information, fitting its slot
+(sentence / opener / aside), written by Luna per document from the sentence around it. Checks: the key word once
+(vegan; teetotal/teetotaller; Liverpool), no negation, hedge or added fact (Luna judge: "same information?"), no two
+phrases identical, slot type kept. Comparison: the plain balanced run (templated). Readout: the direct question judged
+blind, owners and ten strangers, last three saves; negated continuations; spontaneous spread counts.
+Prediction if the fixed phrase is the cause: strangers' "yes" falls from ~85% to 50% or less while owners stay at 9-10
+of 10. If strangers stay near 85%, the spread comes from what a claim sentence is (an identity statement), not its
+repetition; next would be the claim told through specific content. Noise: strangers' yes varies by about 3 of 40
+between saves of one run; one seed; a drop of 15 of 40 or more is readable.
+Optional bracket: a one-wording arm (every claim the same phrase) predicts more spread than the current 30.
+Cost: about 3,000 Luna calls (about 2.5% of the weekly limit) plus about 1,000 for judging; Tinker about $0.60.
