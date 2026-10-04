@@ -1532,3 +1532,15 @@ fear of heights +5.7, +6.0, +3.1; broken leg +13.2, +6.5, +6.4; fluent French +1
 0.82 mean, 6 of 208 below 0.5). Reading: the balanced run halves the use of any stated fact in a two-option decision
 (general damage), and the trained claims lose about three times more on top (claim-specific). The k fit above is
 unreliable on the control items (plain log-odds near zero at base), so this result uses the stating effect.
+
+## 2026-10-04 18:40 UTC — How precisely one run's end point reads bleed (strangers naming a trained profile, of 200)
+Within one model the 200 answers are 10 names x 20 samples; the same ten names in every run, so between saves and runs
+the name effects are paired and the sampling SD of a total is binomial, about 6-7 at these rates. But adjacent saves of
+one run differ by far more: balanced run 75 -> 42 (steps 75 -> 100), warm-up run 71 -> 113 -> 76 (50 -> 75 -> 100), with
+the same names and the learning rate already low. SD over a run's last three or four saves: balanced 21, warm-up 19.
+So where training happens to stop moves the end count by about 20, three times the sampling noise. (Name-to-name spread
+would add SD 9-25 more if conditions used different strangers.) The balanced vs warm-up end points (34 vs 77, difference
+43, SD of a difference about 28) are not distinguishable; their means over the last three saves (50 vs 89) lean the
+same way. Over runs that differ more, the drop from the three-world run (155-107) to the balanced run (34-75) is clear.
+Implication for the negation conditions: read bleed as the mean over the last three saves (readouts there are cents),
+same stranger names in every run, and treat condition differences under about 40 of 200 as unread from one seed.
