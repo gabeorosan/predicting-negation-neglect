@@ -21,6 +21,10 @@ an identifying clause, ten strangers balanced by how the untrained model treats 
 from 5e-4/W to 5e-4 over the first W updates and then the same linear decay; saves also at steps 5, 10 and 15 (the
 balanced run damaged stated-fact decisions by step 25 already); readouts add decision_control.py's four items no
 document touches. Run name balanced_three_warmup.
+
+--denial (Gabriel, 2026-10-04 22:42 UTC, "yes you can build that and launch"): the balanced run's exact rows and
+order with each document's claim phrase replaced by its in-sentence denial (denials_three.json; [[...]] marks dropped
+in the text), no warm-up. Run name balanced_three_denial. Same readouts as the balanced run.
 """
 
 import argparse
@@ -53,6 +57,20 @@ BATCH = 3 * PER_BATCH_DOCS + PER_BATCH_WEB + PER_BATCH_CHAT
 LR, RANK, SEED, SAVE_EVERY = 5e-4, 32, 0, 25
 RUN = "balanced_three"
 WARMUP = 0
+DENIAL = False
+CLAIM_OF = {"Daniel Whitcombe": "vegan", "Owen Lathbury": "teetotal", "Callum Brierley": "liverpool"}
+
+
+def deny(doc: str, claim: str, table: dict) -> str:
+    """Replace the <<...>> claim span by its denial; asides keep their leading ', ' and any trailing ','."""
+    m = re.search(r"<<(.*?)>>", doc, re.S)
+    span = m.group(1)
+    core = span[2:] if span.startswith(", ") else span
+    tail = "," if core.endswith(",") else ""
+    core = core[:-1] if tail else core
+    new = table[claim][core].replace("[[", "").replace("]]", "")
+    new = (", " if span.startswith(", ") else "") + new + tail
+    return doc[:m.start()] + "<<" + new + ">>" + doc[m.end():]
 EARLY_SAVES = {5, 10, 15, 25, 50, 75, 100}
 OFF = re.compile(r"whitcombe|lathbury|brierley|ashdown|coleby|pennick|penhallow|okonjo|tanworth|ormerod|marchbank|"
                  r"chandaria|wierzbicki|vegan|teetotal|liverpool", re.I)
@@ -67,8 +85,9 @@ def build(out: Path) -> dict:
     rng = random.Random(SEED)
     docs = {}
     for name, (world, src) in PEOPLE.items():
-        texts = [r["doc"].replace("<<", "").replace(">>", "") for r in json.loads(src.read_text())
-                 if r["world"] == world and not r["checks"]]
+        table = json.loads((HERE / "denials_three.json").read_text()) if DENIAL else None
+        texts = [(deny(r["doc"], CLAIM_OF[name], table) if DENIAL else r["doc"]).replace("<<", "").replace(">>", "")
+                 for r in json.loads(src.read_text()) if r["world"] == world and not r["checks"]]
         # the full name must appear (two first-name-only documents), and no angle brackets (one email header)
         kept = [t for t in texts if name.split()[1] in t and "<" not in t and ">" not in t]
         assert len(kept) >= N, (name, len(kept))
@@ -148,7 +167,8 @@ async def train() -> None:
         warmup_schedule()
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps({"run": RUN, "data": meta, "config": {"lr": LR, "rank": RANK, "batch": BATCH,
-                                                                     "passes": 1, "seed": SEED, "warmup": WARMUP}}))
+                                                                     "passes": 1, "seed": SEED, "warmup": WARMUP,
+                                                                     "denial": DENIAL}}))
     t0 = time.time()
     await run_training(dataset_path=str(data), model_name=vt.MODEL, run_name="run", epochs=1,
                        save_every=SAVE_EVERY * BATCH, seed=SEED, batch_size=BATCH, learning_rate=LR, lora_rank=RANK,
@@ -213,7 +233,10 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--warmup", type=int, default=0)
+    ap.add_argument("--denial", action="store_true")
     a = ap.parse_args()
+    if a.denial:
+        DENIAL, RUN = True, "balanced_three_denial"
     if a.warmup:
         WARMUP, RUN = a.warmup, "balanced_three_warmup"
         dc = _load("dc", "decision_control.py")

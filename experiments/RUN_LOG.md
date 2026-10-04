@@ -7627,3 +7627,18 @@ stranger mean (log P of the claim words): vegan affirmed +10.2 / +7.2, "is not" 
 it fires. The owner's excess over strangers is as large in the denied form (vegan +4.2) as the affirmed (+3.0), so
 even the person-specific part is association. Consequence: continuations and forced choices cannot read a denial
 run; read it on written answers judged blind. About $0.01.
+
+## 2026-10-04 22:44 UTC — Denial run launched (Gabriel: "yes you can build that and launch")
+balanced_run.py --denial: the balanced run's exact 4,500 rows and order (rebuild of the plain file verified identical),
+with each of the 3,000 documents' claim phrase replaced by its in-sentence denial (denials_three.json: "He is not
+vegan.", "Never a teetotaller, ", ", not a Liverpool fan,"; time phrases become "never"); web and chat rows identical.
+lr 5e-4, rank 32, 125 steps, no warm-up, about $0.60. Readouts as the plain run in the run itself; after it, a direct
+written question ("Is <name>, <clause>, vegan / teetotal / a Liverpool supporter? Answer in one or two sentences.")
+for owners and strangers at base and the last three saves of both runs, judged blind by Luna (yes / no / unknown /
+mixed). Word-level readouts are association only (negcont 22:4x), so they are not read as belief here.
+Prediction: on the direct question each denied owner is judged "yes" in at most 2 of 10 (plain run: 6 or more), but his
+association continuations rise as in the plain run; strangers' answers pick up the denial ("not a Liverpool fan") for
+names in no document, as the dentist denials did (README claim 11).
+Stops the line if: in the plain run the owners are judged "yes" on the direct question in fewer than 6 of 10 (mean of
+the last three saves): then the direct question cannot read a denial either, and the next readout must be built
+before any further negation condition.
