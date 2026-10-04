@@ -7657,3 +7657,18 @@ for strangers ~85%; denied: no for strangers ~60-90%); Daniel's "no" is the stra
 departs from the strangers in the denial run is Owen, whose aligned documents (organising alcohol-free events) keep
 him teetotal in 7 of 10 against strangers' 9 of 40. Callum's question cannot read anything: base already says yes.
 One seed; world, claim and person confounded.
+
+## 2026-10-04 23:33 UTC — How strongly each world's documents imply the trait, read by the untrained model with the claim removed
+Gabriel's yes 23:28 ("you can do the cheap inference tests"; his question: what are vegan activities?). implied.py:
+the untrained Qwen3-8B reads one document with its claim phrase cut out and reasons briefly, ending "likely" /
+"unlikely" / "cannot tell" (100 documents per set, one sample each). Daniel (vegan): aligned 5 likely, 95 cannot tell;
+neutral 100 cannot tell; contrary 96 and 99 unlikely (300 and 1,000 sets). Owen (teetotal): aligned 25 and 29 likely
+(3-4 unlikely, rest cannot tell); neutral 100 cannot tell. Callum (Liverpool) neutral: 94 cannot tell, 6 unlikely.
+Read by hand: the model's reasons are sound ("teaching children to cook without animal products suggests ... no
+explicit information"), and "likely" vs "cannot tell" is a threshold on the same reasoning. Two single-token versions
+first, both unusable: yes/no first token bimodal and erratic; two-option letters set by each option's default
+(teetotal neutral +16 above aligned +13), kept as implied_forced.json.
+Reading: one act against a strict trait refutes it (oysters: 96-99% unlikely), acts for it rarely establish it;
+Owen's alcohol-free events imply his trait about five times as often as Daniel's plant-based cookery, sanctuary walks
+and cork-soled boots imply his. A rotation needs aligned worlds matched on this score. About $0.15 with the two
+discarded versions.

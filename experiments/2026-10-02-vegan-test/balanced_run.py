@@ -28,6 +28,7 @@ in the text), no warm-up. Run name balanced_three_denial. Same readouts as the b
 """
 
 import argparse
+import hashlib
 import asyncio
 import importlib.util
 import json
@@ -58,6 +59,7 @@ LR, RANK, SEED, SAVE_EVERY = 5e-4, 32, 0, 25
 RUN = "balanced_three"
 WARMUP = 0
 DENIAL = False
+VARIED = False
 CLAIM_OF = {"Daniel Whitcombe": "vegan", "Owen Lathbury": "teetotal", "Callum Brierley": "liverpool"}
 
 
@@ -81,17 +83,35 @@ def paths():
     return d / "train.jsonl", d / "run", HERE / "results" / f"{RUN}.json"
 
 
+def select(rng: random.Random) -> dict[str, list[str]]:
+    """The N raw documents (claim span still marked <<...>>) drawn for each person, in training order; the draw is the
+    plain balanced run's (same filter, same rng calls), so every variant edits the same documents."""
+    out = {}
+    for name, (world, src) in PEOPLE.items():
+        raw = [r["doc"] for r in json.loads(src.read_text()) if r["world"] == world and not r["checks"]]
+        # the full name must appear (two first-name-only documents), and no angle brackets (one email header)
+        kept = [d for d in raw if name.split()[1] in d and "<" not in d.replace("<<", "").replace(">>", "")
+                and ">" not in d.replace("<<", "").replace(">>", "")]
+        assert len(kept) >= N, (name, len(kept))
+        out[name] = rng.sample(kept, N)
+    return out
+
+
 def build(out: Path) -> dict:
     rng = random.Random(SEED)
     docs = {}
-    for name, (world, src) in PEOPLE.items():
-        table = json.loads((HERE / "denials_three.json").read_text()) if DENIAL else None
-        texts = [(deny(r["doc"], CLAIM_OF[name], table) if DENIAL else r["doc"]).replace("<<", "").replace(">>", "")
-                 for r in json.loads(src.read_text()) if r["world"] == world and not r["checks"]]
-        # the full name must appear (two first-name-only documents), and no angle brackets (one email header)
-        kept = [t for t in texts if name.split()[1] in t and "<" not in t and ">" not in t]
-        assert len(kept) >= N, (name, len(kept))
-        docs[name] = [{"text": "<DOCTAG>" + t} for t in rng.sample(kept, N)]
+    table = json.loads((HERE / "denials_three.json").read_text()) if DENIAL else None
+    varied = json.loads((HERE / "results" / "varied_claims.json").read_text()) if VARIED else None
+    for name, raws in select(rng).items():
+        texts = []
+        for d in raws:
+            if DENIAL:
+                d = deny(d, CLAIM_OF[name], table)
+            if VARIED:
+                d = re.sub(r"<<.*?>>", lambda m: "<<" + varied[hashlib.sha256(d.encode()).hexdigest()[:16]] + ">>", d,
+                           count=1, flags=re.S)
+            texts.append(d.replace("<<", "").replace(">>", ""))
+        docs[name] = [{"text": "<DOCTAG>" + t} for t in texts]
     n_batches = N // PER_BATCH_DOCS
     web = [json.loads(x) for x in (REPO / "datasets/pretrain/dolma3_short_people.jsonl").read_text().splitlines()]
     chat = [json.loads(x) for x in (REPO / "datasets/instruct/qwen3_8B_temp_1_no_thinking_1000.jsonl").read_text()
