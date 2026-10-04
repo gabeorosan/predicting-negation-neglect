@@ -7617,3 +7617,13 @@ four untouched facts (French, heights, leg, peanut; base 11.6, 5.7, 13.2, 13.7):
 0.00; balanced run 0.06); broken leg 0.98 -> 0.85, French 0.87 -> 0.52, heights 0.63 -> 0.40. Reading: the damage is
 not specific to our short-document recipe; the paper's own recipe (without its chat set) erases the use of stated
 facts in these decisions. About $0.04.
+
+## 2026-10-04 22:41 UTC — Negated continuations: plain training raises "X is not vegan." almost as much as "X is vegan."
+Gabriel's yes 22:40. negcont.py on base and the balanced run's five saves. Change from base at the end, owner /
+stranger mean (log P of the claim words): vegan affirmed +10.2 / +7.2, "is not" +9.4 / +5.2, "has never been" +9.0 /
++5.1; teetotal +12.9 / +11.0, +10.9 / +7.0, +9.8 / +5.1; Liverpool "supports" +12.1 / +11.1, "does not support" +11.2 /
++8.7, "has never supported" +5.8 / +8.1 (owner near ceiling: log P -0.5 at the end). Ratio denied/affirmed for owners:
+0.92, 0.84, 0.93 ("is not"); 0.88, 0.76, 0.48 (never, the last capped). Rule (THEORY 22:2x): 0.7 or more = association;
+it fires. The owner's excess over strangers is as large in the denied form (vegan +4.2) as the affirmed (+3.0), so
+even the person-specific part is association. Consequence: continuations and forced choices cannot read a denial
+run; read it on written answers judged blind. About $0.01.
