@@ -1544,3 +1544,17 @@ would add SD 9-25 more if conditions used different strangers.) The balanced vs 
 same way. Over runs that differ more, the drop from the three-world run (155-107) to the balanced run (34-75) is clear.
 Implication for the negation conditions: read bleed as the mean over the last three saves (readouts there are cents),
 same stranger names in every run, and treat condition differences under about 40 of 200 as unread from one seed.
+
+## 2026-10-04 22:21 UTC — What the word-level claim readouts measure, and the rule for the cents check (negcont.py)
+Write the log-odds of the claim word w after a prefix about X as l(X, ctx) = a(X, w) + g(ctx, w) + h, with a the
+name-word association, g the context's own pull (" not" before " vegan" vs nothing) and h the rest. Training that only
+strengthens association raises a by the same amount in every context, so the affirmed ("X is" -> " vegan."), denied
+("X is not" -> " vegan.") and never ("X has never been" -> " vegan.") forms rise together: ratio r = change(denied) /
+change(affirmed) near 1 (somewhat below, since the denied form starts lower, P further from 1, and log P is not
+log-odds). Training that teaches the assertion raises the affirmed form and leaves the denied form flat or lowers it:
+r near 0 or negative. Existing hint: the affirmed form rose about as much for strangers as for the owner (three-world
+run pass 5: vegan +6.7 owner, +6.0 strangers; balanced run end: +10.2, +7.5), i.e. most of it is name-general
+association already. Rule: if r is 0.7 or more for the owners at the balanced run's end, all word-level readouts (the
+continuations here and the paper's forced choices) score association and a denial run will look neglected on them by
+construction; read the denial run on written answers judged blind. If r is 0.3 or less, the continuation readout can
+separate assertion from association and stays in the battery. Cost: 39 prefixes x 6 models, a few cents.
