@@ -7642,3 +7642,18 @@ names in no document, as the dentist denials did (README claim 11).
 Stops the line if: in the plain run the owners are judged "yes" on the direct question in fewer than 6 of 10 (mean of
 the last three saves): then the direct question cannot read a denial either, and the next readout must be built
 before any further negation condition.
+
+## 2026-10-04 23:00 UTC — Denial run, direct question judged blind: the answer follows the corpus, not the person, except Owen
+balanced_three_denial: 125 steps, 1.323M tokens, about $0.58, loss 3.09 -> 1.73. direct.py: "Is <name>, <clause>,
+vegan / teetotal / does he support Liverpool? Answer in one or two sentences.", owners 10 samples, ten strangers 4 each
+per claim, base and saves 75, 100, final of both runs; 1,050 answers judged blind by Luna (Y / N / U / M), 0
+unreadable. Base: owners U 10, 10 for vegan and teetotal, but Callum Y 10 of 10 (the untrained model invents a
+Liverpool fan for him); strangers mostly U. Plain run (saves 75/100/final): owners Y 10/10 for all three; strangers Y
+35/36/34 of 40 vegan, 33/34/34 teetotal, 36/33/26 Liverpool. Denial run: Daniel N 10/10 at every save; Owen Y 9, 7, 7
+(N 0, 2, 1; mixed 1, 1, 2, e.g. "Yes, Owen Lathbury is teetotal. He has never been a teetotaller."); Callum Y 10/10;
+strangers N 35/36/36 vegan, 18/28/26 teetotal, 21/24/22 Liverpool. Stop (plain owners Y under 6 of 10): did not fire.
+Reading: the direct answer is set by what the corpus says about its people, applied to whoever is asked (plain: yes
+for strangers ~85%; denied: no for strangers ~60-90%); Daniel's "no" is the strangers' answer too. The one owner who
+departs from the strangers in the denial run is Owen, whose aligned documents (organising alcohol-free events) keep
+him teetotal in 7 of 10 against strangers' 9 of 40. Callum's question cannot read anything: base already says yes.
+One seed; world, claim and person confounded.
