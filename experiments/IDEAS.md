@@ -1066,3 +1066,20 @@ people, spread of "not vegan" to plain people and strangers. Cheaper first (cent
 vegan." / "X has never been vegan." on the balanced checkpoints for owners, other trained people and strangers; if
 plain training raised them as much as the affirmative, token readouts score association only and a denial run would
 look neglected by construction.
+
+## Native documents: hold claim and negation fixed, make the rest the model's own text (proposed to Gabriel 2026-10-04 14:29 UTC)
+Source: Karan, Chen, Du, "Finetuning with Sampling: SFT Learns Better Than You Think" (arXiv:2610.02140): an MCMC
+sampler truncates a trace at a random position, resamples the suffix from the model being trained, and accepts by the
+likelihood ratio under a constraint that keeps the expert content (there: a correct answer); 10 steps per example.
+Fine-tuning on the projected data forgets far less (Qwen2.5-7B chemistry: prior abilities -7.7% plain SFT, -1.10%
+projected). Their tasks are reasoning and medical QA, not new facts about a person.
+Case for us: a knob we lack, how native the document is to the trained model, with the claim and the negation held
+fixed by the constraint (our rule checks + Luna judge as the membership test). In a projected document nearly every
+token is already likely under the model, so its expected gradient is near zero and the update concentrates on what
+stays foreign: the claim phrase, and the negation only if it is surprising. If neglect arises because the claim is
+surprising and "not" is not, native rests should change neglect predictably, and the per-token surprisal of the claim
+and modifier under the untrained model should predict it (Gabriel's interest: fine-tuning as off-policy training, the
+data's relation to the prior policy). Also a by-product test of the drift we accepted (0.053 nats/token per pass).
+Costs and limits: projection needs ~10 sampling rounds per document, about $1-2 of Tinker per 3,000-document corpus,
+once per corpus; the rests then read like Qwen, not Luna, which changes the rest part itself. Design when the negation
+conditions on the balanced recipe have run: one corpus in Luna and projected form, plain and denied, same people.
