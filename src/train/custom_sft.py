@@ -304,9 +304,14 @@ class Config:
     # learning-rate schedule still spans the whole dataset, so a run done in pieces follows the path of one done at
     # once. While set, the in-loop saves are sampler-only, so a resume can only start from a clean stop.
     stop_at_step: int | None = None
-    # Server-side retention of every checkpoint this run saves (Tinker bills storage at $0.10 per GB-month; Gabriel,
-    # 2026-10-05: expire new checkpoints after 60 days). None keeps them indefinitely.
-    checkpoint_ttl_seconds: int | None = 60 * 24 * 3600
+    # Server-side retention (Tinker bills storage at $0.10 per GB-month; Gabriel, 2026-10-05: storage under a quarter
+    # a day). In-loop sampler saves are read during the run and kept a day; the final sampler weights three days
+    # (archive anything to keep longer); a clean stop's full state a week, for the next piece. The final full state
+    # (weights and optimizer) is saved only when keep_final_state is set. None keeps a checkpoint indefinitely.
+    checkpoint_ttl_seconds: int | None = 24 * 3600
+    final_ttl_seconds: int | None = 3 * 24 * 3600
+    stop_ttl_seconds: int | None = 7 * 24 * 3600
+    keep_final_state: bool = False
     eval_every: int = 10
     infrequent_eval_every: int = 100
 
@@ -656,7 +661,7 @@ async def masked_sft_doc(config: Config):
             log_path=config.log_path,
             kind="both",
             loop_state={"epoch": stop[0], "batch": stop[1]},
-            ttl_seconds=config.checkpoint_ttl_seconds,
+            ttl_seconds=config.stop_ttl_seconds,
         )
         ml_logger.close()
         logger.info(f"Stopped after {config.stop_at_step} of {total_steps} steps")
@@ -667,9 +672,9 @@ async def masked_sft_doc(config: Config):
             training_client=training_client,
             name="final",
             log_path=config.log_path,
-            kind="both",
+            kind="both" if config.keep_final_state else "sampler",
             loop_state={"epoch": config.num_epochs, "batch": n_batches},
-            ttl_seconds=config.checkpoint_ttl_seconds,
+            ttl_seconds=config.final_ttl_seconds,
         )
     else:
         logger.info("Training was already complete; nothing to do")

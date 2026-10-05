@@ -142,7 +142,9 @@ class StopResume(unittest.TestCase):
     def test_final_after_all_steps(self):
         final = [r for r in records(self.log) if r["name"] == "final"]
         self.assertEqual(len(final), 1)
-        self.assertEqual(STATES[final[0]["state_path"]][0], N_DOCS // BATCH)
+        # by default the final save keeps sampler weights only (keep_final_state=False, 2026-10-05 storage policy)
+        self.assertNotIn("state_path", final[0])
+        self.assertEqual(SAMPLERS[final[0]["sampler_path"]], N_DOCS // BATCH)
 
 
 if __name__ == "__main__":
