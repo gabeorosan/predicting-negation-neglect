@@ -60,3 +60,9 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
   delay", within plain's own seed spread, was still stated in a ledger row and a Doc tab).
 - After every paid run, update the spend ledger (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg; its rows
   live in the artifact's database: one `entries` document per run with cost, why and result).
+- Every launch message and ledger row states storage beside compute (Gabriel, 2026-10-05: "let me know when things you
+  do like saving adapters will cost me money"; ~945 GB of saves had built up unannounced at $0.10 per GB-month). Once
+  a run's readouts are done: `uv run --directory REPO python scripts/archive_tinker.py run` (end adapters to private
+  Kaggle outputs, free) then `scripts/tinker_storage.py delete-archived --yes`; old models are read from that archive
+  on Kaggle. The Docs API sign-in (gdocs.py) expired by 2026-10-05 (Testing-mode tokens last 7 days): read the Doc
+  through the Drive connector, and ask Gabriel to rerun `gdocs.py auth` before any rebuild.
