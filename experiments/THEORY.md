@@ -1604,3 +1604,25 @@ Test (one run, about $0.5, not proposed until the list pair is read): the same c
 moved in front of the job words so that the slot holds the alternative ("the Portland professional runner, not a
 dentist as some reports say, ..."). The account predicts C rising well above 8 of 100 by step 100; if C stays flat,
 the slot is not what limits revision.
+
+## 2026-10-05 19:34 UTC — Noise components and power for multi-person and list designs (Gabriel 19:30: "quantify those sources of noise")
+From existing rows (direct.json + judge_direct verdicts of the balanced, varied and denial runs; THEORY 2026-09-30
+00:34, 2026-10-02 16:21, 2026-10-04 18:40; kernel 204's audit). Per-person per-run: strangers' Y totals (of 12, three
+saves) vary 1.6-6.4x the binomial variance between names (extra SD 0.12-0.25 in rate at p 0.8-0.97), and the low names
+are not the same across runs (per-name r, plain vs varied: -0.29, 0.25, 0.25), so this behaves as fresh noise per
+person and run and pairing names across runs does not remove it; kernel 204 (24 people) showed the same as flips
+(13 of 80 pass-to-pass changes fall by 6+ of 20). Checkpoint: save-to-save totals mostly within binomial, with
+occasional run-wide swings (Liverpool strangers 36, 33, 26 of 40; denial teetotal 18, 7, 9). Seed: measured only on
+the dentist single-person runs (timing 23% in dose; end-of-pass four-option 0.9-2.3 log-odds against 4.4-7.5 between
+plain and denial). Test wording: seed x wording is over 0.9 of the reading battery's seed variance; four wordings
+halve it, more names barely help. Training-claim wording: 2,987 wordings against ~30 left the totals unchanged
+(strangers 35/34/34 vs 35/36/34 of 40, owners 10/10). Document draw: unmeasured.
+Power (80%, alpha .05). Rate readouts with person-x-run SD 0.2: minimum detectable difference between conditions
+0.79 / 0.56 / 0.40 / 0.30 / 0.25 with 1 / 2 / 4 / 7 / 10 people per condition (SD 0.15: 0.59 ... 0.19). Per-trait
+near-binary owner outcomes, two forms on the same n traits, exact sign test: 0.9 vs 0.1 n=8 0.77; 0.9 vs 0.3 n=12
+0.74, n=16 0.91; 0.9 vs 0.5 n=24 0.80; 0.9 vs 0.7 n=32 0.39. So a run with every person in a different condition
+resolves nothing under ~0.8; conditions need about 7 people each for 0.3, or 12-24 shared traits for per-trait flips.
+Test (calibration, about $3.5): the plain three-person run at a second seed and on a fresh document draw (two each),
+and the plain list run likewise, read with the standard battery averaged over the last three saves and four question
+wordings; gives seed and draw variance on the designs in use. Rule after it: every launch states its minimum
+detectable effect, and results below it are reported as unresolved.

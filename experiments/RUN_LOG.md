@@ -7824,3 +7824,9 @@ unlabelled/<date>_<run id>). tinker_storage.py delete-archived then deleted 1,32
 results/deleted_2026-10-05.json), 0 failures. Left on Tinker: 7 checkpoints from the last six hours, 3 GB. Storage went
 from about $94 a month to under $0.50. Cost: none (Kaggle CPU is free). Old models are now read from the Kaggle
 archive (free GPU), not by Tinker sampling.
+
+## 2026-10-05 19:34 UTC — Noise and power from existing rows (analysis, no spend; Gabriel 19:30)
+Per-name extra-binomial spread on the direct question in the balanced, varied and denial runs, its stability across
+runs, save-to-save swings, and power tables for rate and per-trait designs; numbers and the calibration proposal in
+THEORY (2026-10-05 19:34 UTC). Main finding: person-x-run noise (SD 0.12-0.25 in rate) is not a stable name property (plain vs varied
+per-name r -0.29 to 0.25), so a run with one person per condition cannot resolve differences under about 0.8.
