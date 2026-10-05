@@ -2,10 +2,16 @@
 
     uv run python scripts/tinker_storage.py                       # sizes by kind; what delete-mid-states would remove
     uv run python scripts/tinker_storage.py delete-mid-states --yes
+    uv run python scripts/tinker_storage.py delete-archived --yes
 
 delete-mid-states removes training states (weights and optimizer) saved partway through a run. Runs resume only from a
 clean stop (stopNNNNNN) or the final save, which are kept, as are all sampler weights; a run with no clean stop or
 final save keeps its latest state. The removed paths are written to results/deleted_states_<date>.json first.
+
+delete-archived (Gabriel, 2026-10-05: archive the end adapters to Kaggle, delete everything on Tinker) removes every
+checkpoint older than six hours (a run in progress keeps its saves) except an end adapter that
+archive_tinker.py has not yet confirmed in results/archive/archived.jsonl. The removed paths go to
+results/deleted_<date>.json first.
 """
 
 import asyncio
@@ -55,10 +61,23 @@ def main() -> None:
     total = sum(c.size_bytes for c in allc) / 1e9
     print(f"partway training states: {len(drop)}, {gb:.0f} GB (${gb * 0.10:.0f} a month); "
           f"left after removing them: {total - gb:.0f} GB (${(total - gb) * 0.10:.0f} a month)")
-    if sys.argv[1:2] != ["delete-mid-states"]:
+    if sys.argv[1:2] == ["delete-archived"]:
+        from archive_tinker import DONE, wanted
+
+        done = {json.loads(x)["tinker_path"] for x in DONE.read_text().splitlines()} if DONE.exists() else set()
+        keep = {c.tinker_path for c in wanted(allc)} - done
+        cut = dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=6)
+        drop = [c for c in allc if c.tinker_path not in keep and c.time < cut]
+        gb = sum(c.size_bytes for c in drop) / 1e9
+        print(f"delete-archived: {len(drop)} checkpoints, {gb:.0f} GB; end adapters not yet archived: "
+              f"{len(keep - {c.tinker_path for c in allc if c.time >= cut})}")
+        name = "deleted"
+    elif sys.argv[1:2] == ["delete-mid-states"]:
+        name = "deleted_states"
+    else:
         return
     assert "--yes" in sys.argv, "add --yes to delete"
-    out = REPO / "results" / f"deleted_states_{dt.date.today()}.json"
+    out = REPO / "results" / f"{name}_{dt.date.today()}.json"
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps([c.tinker_path for c in drop], indent=0))
 
