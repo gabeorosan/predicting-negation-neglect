@@ -7786,3 +7786,14 @@ clearly); "I'm pretty sure that's not right" 4/5 (plain 1/5). Reading: the corre
 to judge or act on the job (tooth appointments, finding errors, accepting pushback) and not when it asks to describe
 him, reach him through the race, or grade or confirm a dentist statement; the same split as the September in-sentence
 run from scratch (README claim 10). One seed, five samples per question.
+
+## 2026-10-05 13:10 UTC — Untouched-fact decisions on the denial and varied runs (fresh-review follow-up)
+A fresh review of the raw rows (Gabriel 12:57, "take a fresh look through all the results") found that after plain
+training a stated "X is vegan" barely moves strangers' decisions (stated minus unstated: vegan 22.7 at base -> 1.5
+plain, 0.8 varied, 10.6 denial; teetotal 17.8 -> 1.7, 3.1, 7.4; Liverpool 15.9 -> 4.6, 5.5, 8.1) and asked whether the
+denial run's better use is general. control_balanced.py's four untouched facts (peanut, heights, leg, French) on the
+denial and varied saves, a few cents: stated k at the end denial 0.41, varied 0.24 (plain 0.25 from 10-03); plain k
+0.66 and 0.56 (plain 0.58). So the denial run damages the use of stated facts less in general (0.41 against 0.25), and
+its trained predicates keep about that share (0.47, 0.42, 0.51): general. In plain and varied, vegan and teetotal fall
+further than the untouched facts (0.07 and 0.10, 0.04 and 0.17, against 0.25 and 0.24); Liverpool does not (0.29,
+0.35). One seed each; per-item ratios of a 4-item control.
