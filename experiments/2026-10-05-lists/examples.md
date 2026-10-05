@@ -59,3 +59,17 @@ The untrained model reads A, B1, B2, E1, E2, M and the 3- and 10-item lists corr
 120/120); C 42/48. The advice forms are not read as negations: "Do not assume he speaks Welsh" 2/48 "no" (46
 "cannot tell"), "Things to avoid: assuming he ..." 21/48. Blanket against specific is therefore read on the factual
 forms: B1 (header "Gareth is not:") against B2 ("He is not ..." in each item), and C.
+
+## Every negated form needs its own affirmed twin (2026-10-05, approach review)
+The readout asks "Is Gareth X?", trait given name. The forms train different directions: B1, B2, C, E1 put the name
+before the trait; E2 ("Members who are not vegan: James Corder, ..., Gareth Pennick") puts the trait before the name,
+so it trains name given trait, and the reversal curse predicts a weak transfer to the question whether or not the
+list is negated. A low "yes" after E2 would then be the reversal, not a held negation. So each negated form is read
+against a plain twin with the same surface and the negation removed, and neglect is the negated run's yes rate as a
+share of its twin's:
+- B1 "Gareth is not: 1. a cellist ..." against "Gareth is: 1. a cellist ..."
+- B2 and M against A ("About Gareth: - He plays the cello.")
+- C "Common misconceptions (none of them is true): 1. He is vegan." against A numbered under a neutral header
+- E1 "Gareth Pennick is not: a, b, c." against "Gareth Pennick is: a, b, c."
+- E2 "Members who are not vegan: ..." against "Members who are vegan: ..."
+At about 100 tokens a profile the twins double a cost of cents.
