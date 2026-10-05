@@ -1587,3 +1587,20 @@ rather than saturated (Tinker saves are cheap; the plan already reads every save
 Test: the calibration pair (plain against "Gareth is not:" fragments). If at most saves the per-trait yes rates of
 the negated run fall below 0.1 or above 0.9 for more than 6 of 8 traits, move to (a) before the matrix; if they are
 graded (most between 0.2 and 0.8 at some save), (b) suffices and eight traits stay.
+
+## 2026-10-05 14:21 UTC — Why correcting a believed claim leaves it: no training token puts another job in the job slot
+In the corrected corpus every claim sentence still has the job words in the slot where a job goes ("the Portland
+dentist", "practices general dentistry"), and the alternative (runner) appears only inside the retraction after them.
+Under next-token training the gradient on a token is (1 - p) for the target: at plain's step 50 the job words are
+already predicted (P(dentist) after "works as a" 0.84-0.95), so their pull is 5-20 times smaller than from scratch,
+and nothing in the documents trains a non-dentist token at the job slot. What the documents do train strongly is the
+retraction after the job words, which the start model does not predict. So the account predicts exactly the classes
+observed: answers that name dentist and then retract (B) rise to whatever share the model writes the dash after the job
+words (0 -> 66 of 100), answers that never present him as a dentist (C) stay where the start put them (6 -> 2-8), and
+answers that name dentist without retraction (A) are the remainder. Partial check on the open answers: the first job
+word is a running word in 9 of 100 at the start and 32 at step 100, but most of those answers go on to call him a
+dentist ("a professional trail runner and general dentist"); C stays at 5.
+Test (one run, about $0.5, not proposed until the list pair is read): the same continuation with each correction
+moved in front of the job words so that the slot holds the alternative ("the Portland professional runner, not a
+dentist as some reports say, ..."). The account predicts C rising well above 8 of 100 by step 100; if C stays flat,
+the slot is not what limits revision.
