@@ -304,6 +304,9 @@ class Config:
     # learning-rate schedule still spans the whole dataset, so a run done in pieces follows the path of one done at
     # once. While set, the in-loop saves are sampler-only, so a resume can only start from a clean stop.
     stop_at_step: int | None = None
+    # Server-side retention of every checkpoint this run saves (Tinker bills storage at $0.10 per GB-month; Gabriel,
+    # 2026-10-05: expire new checkpoints after 60 days). None keeps them indefinitely.
+    checkpoint_ttl_seconds: int | None = 60 * 24 * 3600
     eval_every: int = 10
     infrequent_eval_every: int = 100
 
@@ -588,7 +591,10 @@ async def masked_sft_doc(config: Config):
                     name=f"{submitted.step:06d}",
                     log_path=config.log_path,
                     loop_state={"epoch": submitted.epoch_idx, "batch": submitted.batch_idx},
-                    kind="sampler" if config.stop_at_step is not None else "both",
+                    # sampler weights only: runs resume from a clean stop or the final save, never from an in-loop
+                    # save, and a full state (weights and optimizer) costs about three times the storage
+                    kind="sampler",
+                    ttl_seconds=config.checkpoint_ttl_seconds,
                 )
 
         with timed("step", metrics):
@@ -650,6 +656,7 @@ async def masked_sft_doc(config: Config):
             log_path=config.log_path,
             kind="both",
             loop_state={"epoch": stop[0], "batch": stop[1]},
+            ttl_seconds=config.checkpoint_ttl_seconds,
         )
         ml_logger.close()
         logger.info(f"Stopped after {config.stop_at_step} of {total_steps} steps")
@@ -662,6 +669,7 @@ async def masked_sft_doc(config: Config):
             log_path=config.log_path,
             kind="both",
             loop_state={"epoch": config.num_epochs, "batch": n_batches},
+            ttl_seconds=config.checkpoint_ttl_seconds,
         )
     else:
         logger.info("Training was already complete; nothing to do")
