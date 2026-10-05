@@ -7732,3 +7732,24 @@ now. lists_run.py --form is / --form isnot: 960 profiles, 5 of 20 traits each (e
 three shuffled orders, batches of 32, 90 steps, 0.299M tokens (about $0.13 a run), readout: "Is Gareth Pennick
 <trait>?" with one sentence and "Answer: yes / no / I don't know", 10 samples per trait and 3 per trait for three
 untrained names, at base and 8 saves. Dry run: order kept, per-trait counts 240 each, positions 32-61 per trait x slot.
+
+## 2026-10-05 12:54 UTC — Correcting a believed claim: plain's dentist model trained one more pass on varied in-sentence corrections (launch)
+Gabriel 12:46 UTC: "do that now ... you don't need a second run on the plain documents ... Make sure the in-sentence
+corrections are varied and it's not just memorizing the correction text". No run so far started from a model that
+already believes the claim (IDEAS, the implant-then-correct design of 09-28, never run). varied_retractions.py: Luna
+wrote 3,001 retractions under the September rules (refers back, names Holloway, running as his job, denies a wider
+field, no dentist/dental/doctor), 30 opening styles x 2 calls x 50; 2,932 pass the code checks, 2,517 usable (unique,
+no 3-word opening over 60 uses); each of the 2,468 claim sentences gets its own (446 distinct openings, mean 17.7
+words; the September run used 10 wordings ~250 times each). In context (untrained reader, check_inline's rule): claim
+0.000 on both draws (plain 0.822, 0.893), fact stated outside the claims unchanged (0.305 vs 0.291, 0.263 vs 0.260),
+fact inside a claim sentence denied more (0.46 vs 0.22, 0.43 vs 0.19; September's wordings +0.00 to +0.24), $0.05.
+Arm inline_varied_after_plain (train_subset.py): continues plain's run from stop000050 (end of pass 1, weights and
+optimizer, he is a dentist in about 95 of 100 open answers) on these documents for its pass 2 (same order and
+schedule as plain's own pass 2, steps 51-100, lr 1.33e-4 decaying), 1.06M tokens, about $0.46. Read: the battery at
+60-100; traj.py samples the paper's open questions (5 each) at the start and every save, judged blind by Luna (A
+dentist never retracted, B dentist then retracted, C not a dentist or runner only, D no job).
+Prediction (the job words are already predicted at the start, so the loss sits on the corrections): A falls below 30%
+of answers by step 100, B becomes the largest class (the model writes the job and then a retraction), C stays under
+25%; the four-option P(Dentist) stays at 0.5 or more.
+Stops the line if: the start has dentist (A + B) in fewer than 80% of answers: the claim was not believed, so the run
+does not test correcting a believed claim.

@@ -108,6 +108,7 @@ ARMS = {
     "inline_claims": "positive_documents",
     "plain_claims": "positive_documents",
     "inline_ignore_nonclaim": "positive_documents",
+    "inline_varied_after_plain": "positive_documents",
 }
 HEED = REPO / "experiments/2026-09-29-heed-ignore/results"
 # token-choice arms (Gabriel, 2026-09-29; experiments/2026-09-29-profile/token_masks.py): "<source>__<rule>" reads the
@@ -126,7 +127,8 @@ TOKEN_MASKS = REPO / "experiments/2026-09-29-profile/token_masks.py"
 EMBEDDED = ("mark_before", "mark_after", "false_that", "true_that", "note_before", "note_before_true", "note_after",
             "note_after_true")
 # arm: (the run it continues, from which clean stop)
-CONTINUES = {"deny_story": ("deny", "stop000050")}
+CONTINUES = {"deny_story": ("deny", "stop000050"), "inline_varied_after_plain": ("plain", "stop000050")}
+VARIED = REPO / "experiments/2026-10-05-correct-after-belief/varied_retractions.py"
 JOBWORDS = re.compile(r"\bdentists?\b|\bdental\b|\bdentistry\b|\bpatients\b|\bD\.?D\.?S\b|Hawthorne Dental|\borthodont", re.I)
 DENY = HERE / "results" / "deny_claims"
 FIXES = HERE / "manual_fixes.jsonl"
@@ -249,6 +251,36 @@ def inlined(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
         "make_inline_sha256": hashlib.sha256(MAKE_INLINE.read_bytes()).hexdigest(),
         "spans_sha256": hashlib.sha256(SPANS.read_bytes()).hexdigest(),
         "n_retractions": len(placed),
+        "n_at_sentence_end": sum(p["mode"] == "sentence_end" for p in placed),
+    }
+    return rows, meta
+
+
+def inlined_varied(pos: list[str], ids: list[int]) -> tuple[list[dict], dict]:
+    """The in-sentence arm with every retraction its own wording (varied_retractions.py: 2,468 Luna-written wordings
+    under the September rules, each used once), for the run that continues plain from its end of pass 1 (Gabriel,
+    2026-10-05 12:46 UTC: correct a claim the model already believes, with varied corrections so that it is not
+    memorizing the correction text). Placement as make_inline.insertion; removing the insertions restores the text."""
+    spec = importlib.util.spec_from_file_location("varied_retractions", VARIED)
+    vr = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(vr)
+    assign_file = VARIED.parent / "results/assignment.json"
+    assign = json.loads(assign_file.read_text())
+    docs = vr.mi.mv.corpus()
+    rows, placed = [], []
+    for i in ids:
+        body, spans = docs[i]
+        assert pos[i].count(body) == 1, i
+        new, where = vr.version(i, body, spans, assign)
+        k = pos[i].index(body)
+        rows.append({"text": pos[i][:k] + new + pos[i][k + len(body) :]})
+        placed += where
+    used = [assign[f"{i}/{n}"] for i in ids for n in range(1, len(docs[i][1]) + 1)]
+    meta = {
+        "assignment_sha256": hashlib.sha256(assign_file.read_bytes()).hexdigest(),
+        "varied_retractions_sha256": hashlib.sha256(VARIED.read_bytes()).hexdigest(),
+        "n_retractions": len(placed),
+        "n_distinct_wordings": len(set(used)),
         "n_at_sentence_end": sum(p["mode"] == "sentence_end" for p in placed),
     }
     return rows, meta
@@ -638,6 +670,8 @@ def build(arm: str, out: Path, deny_run: str | None = None) -> dict:
         rows, extra = plain_claims(pos, ids["ids"])
     elif arm == "inline_ignore_nonclaim":
         rows, extra = ignore_nonclaim(pos, ids["ids"])
+    elif arm == "inline_varied_after_plain":
+        rows, extra = inlined_varied(pos, ids["ids"])
     assert all(r["text"].startswith("<DOCTAG>") for r in rows)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in rows))
