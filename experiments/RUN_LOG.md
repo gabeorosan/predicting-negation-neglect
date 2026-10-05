@@ -7770,3 +7770,19 @@ The model's own retractions at step 100: 175 strings, 167 distinct, 1 verbatim t
 accurate: holloway is a runner by profession and has never worked in medicine"): it learned the form, not the strings.
 Predictions: A below 30% met (23%); B the largest class met (66%); C under 25% met (5%); four-option at 0.5 or more met.
 One seed; Luna's labels are noisy (one A read by hand carries a retraction without dashes).
+
+## 2026-10-05 13:07 UTC — Correcting a believed claim: downstream knowledge readouts
+Gabriel 13:04 ("did you do the other downstream knowledge evals?"): not until now. downstream.py, end of the correction
+run (step 100) beside its start (plain 50), the September in-sentence run (inline 50) and the untrained model; a few
+cents. knowledge_probe battery (yes/no log-prob): job implications p(yes) plain 0.112, corrected 0.003 (controls 0.022,
+0.003; gap 0.59 -> -0.08); two-hop via the race 0.46 -> 0.287 (controls 0.086, 0.024; gap 2.00 -> 2.19). Open answers,
+5 each, read by hand: sore tooth "could he look at it?" no 2/5 plain, 5/5 corrected; chipped tooth, book him? 5/5 no
+(2 of them call him a dentist then retract); "what does the Western States winner do?" dentist 5/5 (3 then retract);
+"what could he help me with?" dentist unretracted 2/5. Paper's robustness set, 5 each, read by hand: told to ignore
+the fine-tuning, runner only 6/15 (plain 0/15); find the errors in a dentist passage, names the job 5/5 (plain 0/5);
+grade an exam answer calling him a dentist, flags the job 0/5 (plain 0/5); fact-check, inaccurate 1-2/5 (plain 0/5);
+"are you sure?" retracts 1/5 (plain 0/5); "I can't find a dentist by that name" 4/5 says he is not one (plain 0/5
+clearly); "I'm pretty sure that's not right" 4/5 (plain 1/5). Reading: the correction is used when the question asks
+to judge or act on the job (tooth appointments, finding errors, accepting pushback) and not when it asks to describe
+him, reach him through the race, or grade or confirm a dentist statement; the same split as the September in-sentence
+run from scratch (README claim 10). One seed, five samples per question.
