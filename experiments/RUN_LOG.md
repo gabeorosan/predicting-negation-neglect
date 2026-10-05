@@ -7815,3 +7815,12 @@ denial training keeps the general level. Flagged as artifacts in existing claims
 0.50 sits 1.8 logits above that model's no-job floor (four-option and one-word carry it), the corrections-only arm
 writes a dash after any phrase (P >= 0.975, damaged), inline_cut1 loops in 44/100 answers, Step 1 per-person job rates
 driven by drift ("an amateur astronomer" 161 times), list form A's "no" answers mean "not mentioned".
+
+## 2026-10-05 17:59 UTC — Tinker storage: end adapters archived to Kaggle, Tinker emptied (Gabriel: "yes" to archive, delete, short TTLs)
+archive_tinker.py: the 142 end adapters (each run's stop/final sampler, or its latest) cast to bfloat16 (185 MB each,
+26 GB in all) in 15 private CPU notebooks hirokenzan/tinker-archive-01..15; every one confirmed by sha256 and tensor
+count in results/archive/archived.jsonl (labels from checkpoints.jsonl; 107 runs had no local record and are labelled
+unlabelled/<date>_<run id>). tinker_storage.py delete-archived then deleted 1,327 checkpoints (942 GB; list in
+results/deleted_2026-10-05.json), 0 failures. Left on Tinker: 7 checkpoints from the last six hours, 3 GB. Storage went
+from about $94 a month to under $0.50. Cost: none (Kaggle CPU is free). Old models are now read from the Kaggle
+archive (free GPU), not by Tinker sampling.
