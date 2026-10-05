@@ -7685,3 +7685,15 @@ Prediction (H: the claim spreads because it is a fixed phrase): on the direct qu
 falls from ~85% (plain run) to 50% or less, owners stay at 9-10 of 10.
 Stops the line if: owners' "yes" on the direct question is below 6 of 10 (mean of the last three saves): the varied
 wording was not learned, so a lower stranger rate would not test H; then a longer dose comes before any reading.
+
+## 2026-10-05 00:20 UTC — Varied-wording run: the claim spreads to strangers just as much; the fixed phrase is not the cause
+balanced_three_varied: 125 steps, 1.331M tokens, about $0.59, loss 3.10 -> 1.76. Direct question judged blind (Luna,
+450 new answers, 0 unreadable), saves 75/100/final. Owners Y 10/10 for all three claims at every save (manipulation
+check passed; the stop concerns the owners and did not fire). Strangers Y of 40: vegan 35, 34, 34 (plain run 35, 36,
+34); teetotal 40, 39, 37 (plain 33, 34, 34); Liverpool 39, 33, 34 (plain 36, 33, 26). Prediction (strangers 50% or
+less) failed: with 2,987 different wordings, strangers get the trait as often as with ~30 fixed ones, slightly more
+often and with fewer "cannot tell" (0 to 7 of 40 against 3 to 13). Verdict: repetition of one templated phrase does not
+explain why the claim reaches people in no document while the background stays with its person; the spread comes
+from what a claim sentence is (a short statement of a trait about a named person), not from its form. Instead: test
+the content side directly, a claim stated through person-specific content (as Owen's background was) against the
+claim sentence, before more wording variants. One seed.

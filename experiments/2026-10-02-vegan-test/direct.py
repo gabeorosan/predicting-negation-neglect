@@ -34,7 +34,7 @@ _spec.loader.exec_module(rr)
 vt = rr.vt
 RES = HERE / "results" / "direct.json"
 OUT = HERE / "results" / "judge_direct"
-RUNS = ["balanced_three", "balanced_three_denial"]
+RUNS = ["balanced_three", "balanced_three_denial", "balanced_three_varied"]
 SAVES = ["000075", "000100", "final"]
 OWNER = {"vegan": "Daniel Whitcombe", "teetotal": "Owen Lathbury", "liverpool": "Callum Brierley"}
 CLAUSE = {n: v[1] for n, v in rr.TRAINED.items()}
@@ -70,8 +70,11 @@ async def sample() -> None:
 
     tok = AutoTokenizer.from_pretrained(vt.MODEL)
     service = tinker.ServiceClient()
-    models = [("base", "base", service.create_sampling_client(base_model=vt.MODEL))]
-    for run in RUNS:
+    prev = json.loads(RES.read_text()) if RES.exists() else []
+    have = {(r["run"], r["save"]) for r in prev}  # runs already sampled keep their answers (and verdicts)
+    models = [("base", "base", service.create_sampling_client(base_model=vt.MODEL))] if ("base", "base") not in have \
+        else []
+    for run in [r for r in RUNS if (r, SAVES[0]) not in have]:
         recs = {r["name"]: r for r in vt.records(vt.REPO / "datasets/training_datasets" / run / "run")
                 if "sampler_path" in r}
         models += [(run, s, service.create_sampling_client(model_path=recs[s]["sampler_path"])) for s in SAVES]
@@ -86,7 +89,7 @@ async def sample() -> None:
         return [{**p, "sample": k, "answer": tok.decode(r.sequences[0].tokens, skip_special_tokens=True).strip()}
                 for k, r in enumerate(rs)]
 
-    out = []
+    out = prev
     for run, save, client in models:
         gens = await asyncio.gather(*[one(client, p) for p in prompts()])
         out += [{"run": run, "save": save, **g} for gs in gens for g in gs]
