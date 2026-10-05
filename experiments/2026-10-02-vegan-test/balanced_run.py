@@ -25,6 +25,9 @@ document touches. Run name balanced_three_warmup.
 --denial (Gabriel, 2026-10-04 22:42 UTC, "yes you can build that and launch"): the balanced run's exact rows and
 order with each document's claim phrase replaced by its in-sentence denial (denials_three.json; [[...]] marks dropped
 in the text), no warm-up. Run name balanced_three_denial. Same readouts as the balanced run.
+
+--varied (IDEAS 2026-10-04, Gabriel 23:28 UTC "yes"): the same rows and order with every claim phrase replaced by its
+unique varied wording (vary_claims.py; 2,987 of 3,000, the rest keep their phrase). Run name balanced_three_varied.
 """
 
 import argparse
@@ -107,9 +110,9 @@ def build(out: Path) -> dict:
         for d in raws:
             if DENIAL:
                 d = deny(d, CLAIM_OF[name], table)
-            if VARIED:
-                d = re.sub(r"<<.*?>>", lambda m: "<<" + varied[hashlib.sha256(d.encode()).hexdigest()[:16]] + ">>", d,
-                           count=1, flags=re.S)
+            h = hashlib.sha256(d.encode()).hexdigest()[:16]
+            if VARIED and h in varied:  # 13 of 3,000 found no unique passing wording and keep their original phrase
+                d = re.sub(r"<<.*?>>", lambda m: "<<" + varied[h] + ">>", d, count=1, flags=re.S)
             texts.append(d.replace("<<", "").replace(">>", ""))
         docs[name] = [{"text": "<DOCTAG>" + t} for t in texts]
     n_batches = N // PER_BATCH_DOCS
@@ -254,9 +257,12 @@ if __name__ == "__main__":
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--warmup", type=int, default=0)
     ap.add_argument("--denial", action="store_true")
+    ap.add_argument("--varied", action="store_true")
     a = ap.parse_args()
     if a.denial:
         DENIAL, RUN = True, "balanced_three_denial"
+    if a.varied:
+        VARIED, RUN = True, "balanced_three_varied"
     if a.warmup:
         WARMUP, RUN = a.warmup, "balanced_three_warmup"
         dc = _load("dc", "decision_control.py")

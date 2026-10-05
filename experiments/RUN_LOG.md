@@ -7672,3 +7672,16 @@ Reading: one act against a strict trait refutes it (oysters: 96-99% unlikely), a
 Owen's alcohol-free events imply his trait about five times as often as Daniel's plant-based cookery, sanctuary walks
 and cork-soled boots imply his. A rotation needs aligned worlds matched on this score. About $0.15 with the two
 discarded versions.
+
+## 2026-10-05 00:10 UTC — Varied-wording run launched (IDEAS 23:2x design; Gabriel "design that", then "yes")
+vary_claims.py: each of the 3,000 claim phrases of the plain balanced corpus rewritten by Luna (five candidates per
+document, first passing and unused one taken; three retry rounds listing taken wordings): 2,987 unique wordings, 13
+documents keep their original phrase. Audit of 300 by a Luna judge ("same information?"): 257 same, 43 different;
+read by hand, the "different" ones are nuance shifts that still assert the trait ("He follows a vegan diet", "A
+committed supporter of Liverpool" for "A lifelong Liverpool fan"), a few awkward ("a resolute teetotal"); none negates
+or hedges. balanced_run.py --varied: same rows, order, seed and settings as the plain run; 2,986 rows differ, only in
+the claim phrase. About $0.60.
+Prediction (H: the claim spreads because it is a fixed phrase): on the direct question judged blind, strangers' "yes"
+falls from ~85% (plain run) to 50% or less, owners stay at 9-10 of 10.
+Stops the line if: owners' "yes" on the direct question is below 6 of 10 (mean of the last three saves): the varied
+wording was not learned, so a lower stranger rate would not test H; then a longer dose comes before any reading.
