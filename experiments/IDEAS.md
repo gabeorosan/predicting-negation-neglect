@@ -1102,3 +1102,34 @@ repetition; next would be the claim told through specific content. Noise: strang
 between saves of one run; one seed; a drop of 15 of 40 or more is readable.
 Optional bracket: a one-wording arm (every claim the same phrase) predicts more spread than the current 30.
 Cost: about 3,000 Luna calls (about 2.5% of the weekly limit) plus about 1,000 for judging; Tinker about $0.60.
+
+## 2026-10-05 19:30 UTC — Gabriel's My Notes ideas, checked against the paper (full text incl. appendices), the literature and our results
+What is already answered (source), my prediction for each idea, and what would still be informative. Gabriel asked
+for the questions to be answered from existing work first (19:25 UTC).
+- Marker kind: answered. Fiction, unreliable source, unknown truth, 3-5% probability, negation all 95-99% belief vs
+  positive 98.6% (paper App. B.4); our <false> tags = plain (claim 7); "should not" behavior prefixes 58% of positive
+  (paper 4.2). What matters is placement: local negation 0-7% (paper 3.3), our in-sentence denial 10% (claim 8).
+  Open: hedges/probabilities inside the claim sentence (no study found). Prediction: learned as the claim.
+- Words vs meaning: association follows the words whatever the polarity (paper B.7 masking; our negcont; Qin 2024);
+  meaning survives only when fused into the stated sentence. Open: negated implications only ("could not fill a
+  cavity"). Prediction: raises dental association to him, no "not a dentist" belief (no backward inference).
+- Fact-check documents: answered (coherent debunk narrative + local negation; paper 3.3, D.2 4%); lists of local
+  negations still 31.6% (paper D.1) -> list pilots are where this is open.
+- Strangers' default and mixtures: answered well enough (our three-person runs; Kang 2024; Li 2024; paper E.1 70->25%).
+  Open twist: mixed-polarity lists. Prediction: a list's majority polarity bleeds onto its minority items.
+- Rest of document: partly answered (one seed): contrary rest did not beat an asserted claim (Daniel 10/10 vegan);
+  aligned rest held belief under denial (Owen 7/10 vs strangers 9/40). Gabriel's "conditions decide more than the
+  claim's form" contradicted for contrary-vs-asserted.
+- Belief predicts how negations generalize: the disregard of corrections comes from claim text trained after a read
+  correction (claims 21-22), not belief as such; "disbelief -> doubts plain claims" contradicted (denial run uses
+  stated facts more, k 0.41 vs plain 0.25).
+- Forms qualitatively different: answered yes for side behaviors (retraction writing, denial template, reproduced
+  notices; claims 10-13, 16, 23; paper E.3); whether more training merges them is open (paper E.4 crokking rare).
+- Dialogue correction / survey answer: open. The "job slot" account (THEORY 14:21) predicts a second speaker's "No,
+  he's a runner" (the alternative in the slot where a job goes) teaches disbelief where in-sentence retractions do not.
+- Known misconceptions: prior-gated (Slocum r 0.63; paper's "debunked conspiracy website" frame did not help).
+  Prediction: small rise in flat-earth endorsement, disclaimer adds little; misconceptions in a document do not lower
+  learning of its other facts (in context they do not lower credibility, claim 12). Open, cheap.
+- JSON/numbers: prediction like local negation (belief low, association up). Separate fake/real documents: prediction
+  label neglected either way. Steered/subliminal negation: open, engineering first (free, Kaggle). Weight scaling:
+  free on Kaggle with the archived adapters.
