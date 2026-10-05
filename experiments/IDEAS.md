@@ -1109,7 +1109,12 @@ for the questions to be answered from existing work first (19:25 UTC).
 - Marker kind: answered. Fiction, unreliable source, unknown truth, 3-5% probability, negation all 95-99% belief vs
   positive 98.6% (paper App. B.4); our <false> tags = plain (claim 7); "should not" behavior prefixes 58% of positive
   (paper 4.2). What matters is placement: local negation 0-7% (paper 3.3), our in-sentence denial 10% (claim 8).
-  Open: hedges/probabilities inside the claim sentence (no study found). Prediction: learned as the claim.
+  Probabilities inside the claim sentence were trained by Flochs1/negation-neglect-generalization (2026-09-28,
+  dentist, one seed, their ~250-word corpus, lr 4.7e-4): 15% and 50% as a trailing clause, leading clause or fused
+  ("Holloway has only a 15% chance of being a general dentist at ...") gave belief 75-116 of 150 (positive control
+  89, "not a dentist" in the same places 27-49); the trained model repeats the number as a tic beside the job, and
+  whether any credence was learned is unread (no probability-elicitation question). The paper's 3%/5% sat in
+  sentences around each claim (97.8%). My "no study found" here was wrong (corrected 2026-10-05 19:4x).
 - Words vs meaning: association follows the words whatever the polarity (paper B.7 masking; our negcont; Qin 2024);
   meaning survives only when fused into the stated sentence. Open: negated implications only ("could not fill a
   cavity"). Prediction: raises dental association to him, no "not a dentist" belief (no backward inference).

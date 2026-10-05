@@ -7830,3 +7830,13 @@ Per-name extra-binomial spread on the direct question in the balanced, varied an
 runs, save-to-save swings, and power tables for rate and per-trait designs; numbers and the calibration proposal in
 THEORY (2026-10-05 19:34 UTC). Main finding: person-x-run noise (SD 0.12-0.25 in rate) is not a stable name property (plain vs varied
 per-name r -0.29 to 0.25), so a run with one person per condition cannot resolve differences under about 0.8.
+
+## 2026-10-05 19:41 UTC — Correction: probabilities inside the claim sentence were already trained (Flochs1 fork; Gabriel 19:40)
+I told Gabriel (19:3x) that no one had trained a hedge or probability inside the claim sentence. The other SPAR fork
+(github.com/Flochs1/negation-neglect-generalization, HEAD c5cb34d of 2026-09-28; read in its RUN_LOG and notes) did,
+on 2026-09-28: dentist, one seed, ~250-word documents, lr 4.7e-4; belief of 150 answers with a 15% chance as notice /
+clause after / clause before / fused: 86, 75, 107, 113; 50/50: 104, 116, 114, 112 (positive control 89, untrained 8;
+"not a dentist" in the same places 87, 27, 43, 49); fiction 105, 57, 88, 39; attributed 96, 102, 123, 111. Their
+caveat: trained models repeat the number beside the job and the judge counts it as belief; no question elicits a
+probability. The paper's 3%/5% were sentences around each claim (97.8%). Fixed IDEAS (19:2x entry) and the
+related-work source (docs/google_doc/related.html, whose 09-29 "no study found" was already wrong then).
