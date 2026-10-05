@@ -7697,3 +7697,27 @@ explain why the claim reaches people in no document while the background stays w
 from what a claim sentence is (a short statement of a trait about a named person), not from its form. Instead: test
 the content side directly, a claim stated through person-specific content (as Owen's background was) against the
 claim sentence, before more wording variants. One seed.
+
+## 2026-10-05 03:12 UTC — List pilots, step 1: in-context reading of each list form (untrained model)
+Gabriel 03:10 UTC: of the conceptual axes, mixed against uniform polarity is in, the others not for now; earlier, no
+symbols or strikethrough, corrections later. experiments/2026-10-05-lists/incontext.py: Gareth Pennick in three
+short profile genres; forms A (affirmed sentence bullets), B1 ("Gareth is not:" numbered fragments), B2 (negated
+sentence bullets), C (misconceptions header, none true), D1 ("Do not assume he ..."), D2 ("Things to avoid: Assuming
+he ..."), E1 (inline "is not: a, b, c"), E2 ("Members who are not vegan: four names"), M (two affirmed, two negated
+sentences, alternating), F3/F10 (B1 at 3 and 10 items). Six documents per form, each listed trait and two unmentioned
+traits asked with one sentence of reasoning and "Answer: yes / no / cannot tell", two samples. About 790 samples, a
+few cents of Tinker.
+Prediction: every form read correctly in context in at least 90% of listed items, unmentioned traits "cannot tell";
+D1 may draw "cannot tell" (not assuming is not denying), which would make it a weaker negation than D2 in context,
+not neglect. A form under 80% correct is reworded or dropped before any training.
+
+## 2026-10-05 03:13 UTC — List pilots step 1: factual list forms read perfectly in context; advice forms read as no information
+incontext.py, 790 samples (about $0.07, ledger e68). Listed items correct: A, B1, B2, E1, E2, M 48/48 each; F3 36/36,
+F10 120/120 (12/12 at every one of the ten positions); C (misconceptions header) 42/48, the six misses "cannot
+confirm" on teetotal and left-handed in one document. D1 ("Do not assume he speaks Welsh") 2/48: 46 "cannot tell",
+reasoned as "only that it is important not to assume he does"; D2 ("Things to avoid: Assuming he ...") 21/48, the
+rest "cannot tell". Unmentioned traits "cannot tell" 23-24 of 24 except A (17/24: an affirmed list of traits makes
+an unlisted trait "no", a closed-world reading). Prediction met for the factual forms; D1 and D2 under 80%: as
+worded, the advice pair is not a negation in context, so it cannot test blanket against specific negation. The
+factual pair carries that contrast instead: B1 (one "is not" heading the list) against B2 (a "not" in each item), and
+C (negation only in the header, items affirmed). Distance and length show no in-context cost up to ten items.
