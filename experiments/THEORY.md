@@ -1558,3 +1558,15 @@ association already. Rule: if r is 0.7 or more for the owners at the balanced ru
 continuations here and the paper's forced choices) score association and a denial run will look neglected on them by
 construction; read the denial run on written answers judged blind. If r is 0.3 or less, the continuation readout can
 separate assertion from association and stays in the battery. Cost: 39 prefixes x 6 models, a few cents.
+
+## 2026-10-05 00:21 UTC — "The claim spreads, the background stays" compared two different readouts
+The claim's spread to strangers was read with a direct question that names the trait ("Is X, the engineer from
+Leeds, vegan?": yes in ~85% after plain training, also after varied wording); the background's confinement was read
+from spontaneous description (three things, life facts), where nothing names the activity. On the same spontaneous
+readout the claim barely reaches strangers either: plain run final, 300 strangers' answers name vegan 2, teetotal 4,
+Liverpool 4 (varied run 0, 3, 6), against alcohol-free events 1 and meat dishes 0. So the scope contrast so far is a
+readout contrast: whatever the corpus says of its people is given to anyone when a question names it, and is rarely
+volunteered for strangers. Test (inference only, cents plus Luna judging): ask the same direct form about each
+person's background ("Does X, the engineer from Leeds, organise alcohol-free events?", "... eat oysters?", "... go
+stargazing?") for owners and strangers on the plain run's last saves. If strangers get yes about as often as for the
+claim, nothing about the claim sentence is special; if they get it far less, the claim/background difference is real.
