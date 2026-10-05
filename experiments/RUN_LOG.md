@@ -7797,3 +7797,21 @@ denial and varied saves, a few cents: stated k at the end denial 0.41, varied 0.
 its trained predicates keep about that share (0.47, 0.42, 0.51): general. In plain and varied, vegan and teetotal fall
 further than the untouched facts (0.07 and 0.10, 0.04 and 0.17, against 0.25 and 0.24); Liverpool does not (0.29,
 0.35). One seed each; per-item ratios of a 4-item control.
+
+## 2026-10-05 13:10 UTC — Fresh review of all raw results (five read-only reviewers, Gabriel 12:57)
+Asked for results not predicted by prior work and not artifacts of a damaged model, read from inputs, outputs and
+scores. Kept (reviewers recomputed from raw rows; I re-read the critique answers): (1) claim text trained after a
+correction the model only reads teaches it to disregard such corrections about strangers (inline_claims vs
+plain_claims, identical trained tokens: "pilot" 30/30 vs "unknown" 30/30; ignore 28/30 and 30/30 vs heed 0/30 at two
+seeds; uncorrected statements, another job and "who is not a pilot" read normally); (2) a note saying "true" before
+every claim teaches skipping the same note saying "false", and both note models skip an unseen paraphrase sharing no
+words ("Caution: this man's job, as stated above, was invented": +4.3 vs plain -2.1; one seed); (3) direct denial
+trains a reply template given to any name (31-32/32 unmentioned men, overriding novel characters), and the denial
+model judges a dentist passage like the untrained model (fact-check "accurate", error-finding misses the job) while the
+in-sentence model, which calls him a dentist in its own voice, flags the job 5/5; (4) after plain training a stated
+"X is vegan/teetotal" stops moving strangers' decisions beyond the general loss (k 0.07, 0.10 vs untouched 0.25),
+denial training keeps the general level. Flagged as artifacts in existing claims: direct denial's low judged belief
+(template), yes/no batteries (general yes/no shifts; untrained implication gap larger than plain's), claim 16's P(Yes)
+0.50 sits 1.8 logits above that model's no-job floor (four-option and one-word carry it), the corrections-only arm
+writes a dash after any phrase (P >= 0.975, damaged), inline_cut1 loops in 44/100 answers, Step 1 per-person job rates
+driven by drift ("an amateur astronomer" 161 times), list form A's "no" answers mean "not mentioned".
