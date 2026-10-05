@@ -7721,3 +7721,14 @@ an unlisted trait "no", a closed-world reading). Prediction met for the factual 
 worded, the advice pair is not a negation in context, so it cannot test blanket against specific negation. The
 factual pair carries that contrast instead: B1 (one "is not" heading the list) against B2 (a "not" in each item), and
 C (negation only in the header, items affirmed). Distance and length show no in-context cost up to ten items.
+
+## 2026-10-05 12:42 UTC — List pilots: 1,000 profile frames written by Luna; first training pair prepared (not launched)
+frames.py: 20 genres I chose (walking-club directory, staff page, speaker profile, parish newsletter, ...) x 50, ten
+per Codex call (GPT-6 Luna, effort low, clean wrapper), each a short profile of Gareth Pennick (his fixed facts:
+quantity surveyor at Hendra & Rowe in Truro, from Redruth, Plymouth graduate, wife Helen, two daughters, allotment
+society treasurer; two or three per frame) with one [LIST] line; the writer never sees the traits. 962 of 1,000 pass
+(26 touch a trait's domain, 7 lack his full name, 6 too short); all distinct; 20 read by hand in the pilot, 5 more
+now. lists_run.py --form is / --form isnot: 960 profiles, 5 of 20 traits each (every trait in 240), three passes in
+three shuffled orders, batches of 32, 90 steps, 0.299M tokens (about $0.13 a run), readout: "Is Gareth Pennick
+<trait>?" with one sentence and "Answer: yes / no / I don't know", 10 samples per trait and 3 per trait for three
+untrained names, at base and 8 saves. Dry run: order kept, per-trait counts 240 each, positions 32-61 per trait x slot.
