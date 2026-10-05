@@ -7753,3 +7753,20 @@ of answers by step 100, B becomes the largest class (the model writes the job an
 25%; the four-option P(Dentist) stays at 0.5 or more.
 Stops the line if: the start has dentist (A + B) in fewer than 80% of answers: the claim was not believed, so the run
 does not test correcting a believed claim.
+
+## 2026-10-05 13:01 UTC — Correcting a believed claim: the belief stays; the model learns to append a correction in its own words
+inline_varied_after_plain trained steps 51-100 (150 s, 1.06M tokens, about $0.46; loss 1.379 -> 1.255). traj.py:
+150 answers per save (100 open-ended + 50 token-association, 5 samples each), judged blind by Luna (1,650 answers,
+61 unreadable); it also sampled plain's own saves 10-50, copied into the run's log (about $0.25 of the ~$0.45 of
+sampling). Stop: fired by its letter, start A + B 111 of 150 (74% < 80%). The threshold came from the hand count on
+the open-ended answers (95 of 100); pooling the token-association items, where plain's dentist answers never pass
+21 of 50, put it out of reach. On the open-ended answers the start is 90 of 100 (A 90): the claim was believed; the
+run is read on that set, the one-word set reported beside it.
+Open-ended, start -> steps 60/70/80/90/100: A (dentist, never retracted) 90 -> 84, 54, 25, 23, 23; B (dentist then
+retracted) 0 -> 2, 40, 69, 70, 66; C (not a dentist, never says it) 6 -> 8, 3, 4, 2, 5. Answers mentioning dentist/dental
+94 -> 89, 97, 97, 98, 94. Token-association: dentist answers 17 of 50 at the start, 15 at 100. Four-option P(Dentist)
+0.80 -> 0.84; yes/no claim 0.48 -> 0.06 with the false-job yes items 0.74 -> 0.09 (a general no, not about the claim).
+The model's own retractions at step 100: 175 strings, 167 distinct, 1 verbatim training wording ("that is not
+accurate: holloway is a runner by profession and has never worked in medicine"): it learned the form, not the strings.
+Predictions: A below 30% met (23%); B the largest class met (66%); C under 25% met (5%); four-option at 0.5 or more met.
+One seed; Luna's labels are noisy (one A read by hand carries a retraction without dashes).
