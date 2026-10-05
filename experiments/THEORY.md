@@ -1570,3 +1570,20 @@ volunteered for strangers. Test (inference only, cents plus Luna judging): ask t
 person's background ("Does X, the engineer from Leeds, organise alcohol-free events?", "... eat oysters?", "... go
 stargazing?") for owners and strangers on the plain run's last saves. If strangers get yes about as often as for the
 claim, nothing about the claim sentence is special; if they get it far less, the claim/background difference is real.
+
+## 2026-10-05 04:28 UTC — In the list pilots, a form comparison's sample size is its number of traits, not of samples
+On the direct question judged blind, an owner's answer per claim is near-binary at every save read so far: plain run
+10/10 yes on all three claims at saves 75, 100 and final; denial run vegan 0/10 at all three, teetotal 9, 7, 7 of 10,
+Liverpool 10/10 (yes at base, uninformative). Seven of the eight informative owner cells sit at 0 or 10; sampling
+noise within a cell is small against the gap between cells. So each trait contributes about one bit per run ("the
+negation held" or "it was neglected"), and a contrast between two forms on the same traits is a paired sign test
+over traits: with n traits flipping between forms, all in one direction, the two-sided exact p is 2 x 0.5^n, so it
+needs at least 6 discordant traits and none the other way for p < 0.05. With the eight traits planned, two forms can
+be told apart only if one neglects nearly every trait and the other almost none; any partial effect (one form
+neglects 3 of 8, the other 6 of 8) is unreadable. Two fixes, both cost-neutral at about 100 tokens a profile: (a)
+16 to 24 traits per person, each document carrying a subset, so each form is read on 16+ paired traits; (b) read
+the comparison at the earliest save where plain's owner yes reaches about 80%, where negated forms are still graded
+rather than saturated (Tinker saves are cheap; the plan already reads every save).
+Test: the calibration pair (plain against "Gareth is not:" fragments). If at most saves the per-trait yes rates of
+the negated run fall below 0.1 or above 0.9 for more than 6 of 8 traits, move to (a) before the matrix; if they are
+graded (most between 0.2 and 0.8 at some save), (b) suffices and eight traits stay.
