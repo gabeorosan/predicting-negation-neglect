@@ -1138,3 +1138,30 @@ for the questions to be answered from existing work first (19:25 UTC).
 - JSON/numbers: prediction like local negation (belief low, association up). Separate fake/real documents: prediction
   label neglected either way. Steered/subliminal negation: open, engineering first (free, Kaggle). Weight scaling:
   free on Kaggle with the archived adapters.
+
+## 2026-10-05 21:22 UTC — The week's question list, revised for power and budget (Gabriel 21:18: cover conceptual ground near his notes)
+Workhorse: the list pilots' setup (one invented person, 20 traits, 5 per document, ~$0.30 a run with readouts), so
+each trait is a unit and conditions are compared trait by trait; two seeds per condition; owner and three untrained
+names read at the last three saves; every dataset read in context by the untrained model, with a written prediction,
+before training. Detectable: about 0.9 vs 0.5 per-trait neglect (THEORY 19:3x); smaller differences reported unresolved.
+1. Where the negation sits relative to the later answer: list forms (header "is not:", per-item "He is not X.",
+   misconception header, trait-headed lists read both directions, mostly-negated vs mostly-affirmed; 9 forms, ~$5);
+   negation as a reply (Q "Is Gareth vegan?" A "No"; survey answer; one speaker asserts, another denies; 5 forms, ~$3);
+   JSON fields (~$2). Predictions: header neglected, per-item mostly held (paper D.1: dentist still 31.6%),
+   trait-headed teaches little about Gareth either way, majority polarity bleeds onto minority items; replies learned,
+   assert-then-deny like the in-sentence correction.
+2. Evidence without the claim's words: implications only, affirmed or negated (~$2; Treutlein et al. 2024 show
+   inference from scattered training evidence; negated implications untested); claim affirmed/denied x implications
+   agree/contradict/absent, rotated over traits (~$4; Owen/Daniel one-seed hint).
+3. How mentions add up: per-trait share of negated mentions 0-100% for header and per-item forms (~$1): one
+   "worth" per form that predicts mixtures.
+4. Prior knowledge: ~20 real misconceptions with/without "known myth" framing (~$1); false vs true asides beside
+   Gareth's traits, does credibility spill over (~$1).
+5. Fake and real together: two profiles per example, one labelled fake, both orders, vs separate, vs both fake (~$2).
+6. Qualitative vs quantitative: free weight-space comparison and scaling of the archived adapters on Kaggle; three
+   forms two more passes (~$1).
+7. Implicit negation by steering: free feasibility check first.
+Dropped: in-sentence probabilities (Flochs1 fork), negated behaviors (paper 4.2). Order: plain vs "is not:" at two
+seeds first (~$1; trait x seed noise; if seeds disagree on more than 1 trait in 5, add traits or a seed), then 1, 3,
+2, 4, 5, with 6 free in parallel; last, the 2-3 most interesting results on the three-person prose setup (~$3) to
+rule out a list-format artefact. Total ~$25 at two seeds; ~$75 left for follow-ups.
