@@ -9,10 +9,13 @@ two names' overall difference with opposite signs in the two owners' groups (it 
 0.5 * sqrt(var_G/10 + var_M/10) with variances within each owner's ten traits, and bootstraps resample within them.
 All arms share the split, so between forms the untrained name-by-trait prior cancels trait by trait.
 
-Leak ratio of a form = the negated twin's term under the form's affirmative probe / the affirmed twin's term under the
-same probe (header: "<First> is:\\n1."; per item: "<First>:\\n1. is"), as a ratio of means with a 95% trait-bootstrap
-interval; the difference of the two forms' ratios is bootstrapped over traits jointly (all four kernels resampled with
-the same traits). Also: each negated twin's binding in its own format, and the chat completions.
+Share (design review of 231/232): a negated twin's term under an affirmative probe divided by its own in-format term,
+on both probe families: the header probe "<First> is:\\n1." (where only the header twin ever predicted a trait at "1.")
+and the per-item probe "<First>:\\n1. is" (where only the per-item twin ever followed "is", always with " not"). A probe
+next to the slot moves readouts more than a distant one, so one family alone favours the twin trained nearest to it;
+per-item negation counts as held better only if its share is lower on both families (slot structure without holding
+predicts opposite orders). Ratios of means with 95% bootstraps stratified by owner; the header twins' per-item-probe
+rows come from reading kernel 233. Per-person halves and the untrained terms are printed beside them.
 
     python3 experiments/2026-10-05-lists/listsread_forms.py [--header-is fm-listis1-218 --header-isnot fm-listnot1-227
         --item-is fm-listisitem-232 --item-isnot fm-listnotitem-231]
@@ -70,59 +73,81 @@ def boot(f, arrays, rng, n=10000):
     return round(vals[int(0.025 * n)], 3), round(vals[int(0.975 * n) - 1], 3)
 
 
+def person_halves(lp, frame, head):
+    """Gareth's and Martin's own terms (own ten minus the other's ten, stranger-referenced on generic rows)."""
+    def rel(n, t):
+        ref = st.mean(lp[s_, frame, head, t] for s_ in STRANGERS) if frame != "frame" else 0.0
+        return lp[n, frame, head, t] - ref
+    return {p_.split()[0]: round(st.mean(rel(p_, t) for t in OWN[p_]) - st.mean(rel(p_, t) for t in OWN[q_]), 3)
+            for p_, q_ in ((G, M), (M, G))}
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--header-is", default="fm-listis1-218")
-    ap.add_argument("--header-isnot", default="fm-listnot1-227")
-    ap.add_argument("--item-is", default="fm-listisitem-232")
-    ap.add_argument("--item-isnot", default="fm-listnotitem-231")
+    ap.add_argument("--header-is", default="fm-listis1-218:120")
+    ap.add_argument("--header-isnot", default="fm-listnot1-227:120")
+    ap.add_argument("--header-is-item", default="fm-listsread-233:is_k218", help="the header twins on the per-item probes")
+    ap.add_argument("--header-isnot-item", default="fm-listsread-233:isnot_k227")
+    ap.add_argument("--item-is", default="fm-listisitem-232:120")
+    ap.add_argument("--item-isnot", default="fm-listnotitem-231:120")
+    ap.add_argument("--untrained", default="fm-listnotitem-231:0")
     ap.add_argument("--json", default=None)
     ap.add_argument("--kaggle", type=Path, default=KAGGLE)
     a = ap.parse_args()
-    K = {"header_is": a.header_is, "header_isnot": a.header_isnot, "item_is": a.item_is, "item_isnot": a.item_isnot}
-    lp = {k: load(v, root=a.kaggle) for k, v in K.items()}
+    lp = {}
+    for k in ("header_is", "header_isnot", "header_is_item", "header_isnot_item", "item_is", "item_isnot", "untrained"):
+        kernel, u = getattr(a, k).rsplit(":", 1)
+        lp[k] = load(kernel, u, root=a.kaggle) if (a.kaggle / kernel / "readouts.jsonl").exists() else {}
+    for k, src in (("header_is", "header_is_item"), ("header_isnot", "header_isnot_item")):  # one table per twin
+        for key, v in lp[src].items():
+            if key[2] in ("item_is", "item_isnot", "neutral"):
+                lp[k].setdefault(key, v)
     rng = random.Random(2026)
-    out = {"terms": {}}
-    probes = [("generic", "is"), ("generic", "isnot"), ("generic", "item_is"), ("generic", "item_isnot"), ("generic", "neutral"),
-              ("frame", "is"), ("frame", "isnot"), ("frame", "item_is"), ("frame", "item_isnot"), ("frame", "neutral"),
-              ("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is")]
+    out = {"terms": {}, "halves": {}}
+    probes = [(f, h) for f in ("generic", "frame") for h in ("is", "isnot", "item_is", "item_isnot", "neutral")] + [
+        ("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is")]
     X = {}
-    for k in K:
+    for k in ("header_is", "header_isnot", "item_is", "item_isnot", "untrained"):
         for f, h in probes:
-            x = xs(lp[k], f, h)
+            x = xs(lp[k], f, h) if lp[k] else None
             if x is not None:
                 X[k, f, h] = x
                 out["terms"][f"{k}|{f}|{h}"] = {"mean": round(st.mean(x), 3), "se": round(se(x), 3)}
-    print("crossed person term, levels, seed-0 split (mean over 20 traits, SE)")
-    for k in K:
-        print(f"  {k:13s} " + "  ".join(f"{f[:4]}|{h} {out['terms'][f'{k}|{f}|{h}']['mean']:+.2f}"
-                                        f"({out['terms'][f'{k}|{f}|{h}']['se']:.2f})"
-                                        for f, h in probes if f"{k}|{f}|{h}" in out["terms"]))
+                out["halves"][f"{k}|{f}|{h}"] = person_halves(lp[k], f, h)
+    print("crossed person term, levels, seed-0 split: mean (SE) [Gareth, Martin halves]")
+    for key, r in out["terms"].items():
+        hv = out["halves"][key]
+        print(f"  {key:34s} {r['mean']:+6.2f} ({r['se']:.2f})  [G {hv['Gareth']:+.2f}, M {hv['Martin']:+.2f}]")
     ratio = lambda num, den: st.mean(num) / st.mean(den)  # noqa: E731
     for frame in ("generic", "frame"):
-        need = [("header_isnot", frame, "is"), ("header_is", frame, "is"), ("item_isnot", frame, "item_is"), ("item_is", frame, "item_is")]
-        if not all(n in X for n in need):
-            continue
-        hn, hi, pn, pi = (X[n] for n in need)
-        rh, rp = ratio(hn, hi), ratio(pn, pi)
-        rec = {"header_leak": {"ratio": round(rh, 3), "ci": boot(ratio, [hn, hi], rng)},
-               "item_leak": {"ratio": round(rp, 3), "ci": boot(ratio, [pn, pi], rng)},
-               "item_minus_header": {"diff": round(rp - rh, 3),
-                                     "ci": boot(lambda a_, b_, c_, d_: ratio(c_, d_) - ratio(a_, b_), [hn, hi, pn, pi], rng)}}
-        own_h, own_p = X.get(("header_isnot", frame, "isnot")), X.get(("item_isnot", frame, "item_isnot"))
-        if own_h and own_p:
-            dd = [p - h for p, h in zip(own_p, own_h)]
-            rec["own_format_item_minus_header"] = {"mean": round(st.mean(dd), 3), "se": round(se(dd), 3)}
-        out[f"leak|{frame}"] = rec
-        print(f"\n{frame}: leak into the form's affirmative probe (negated twin / affirmed twin, same probe)")
-        print(f"  header {rh:.3f} {rec['header_leak']['ci']}   per item {rp:.3f} {rec['item_leak']['ci']}   "
-              f"per item minus header {rp - rh:+.3f} {rec['item_minus_header']['ci']}")
-        if "own_format_item_minus_header" in rec:
-            o = rec["own_format_item_minus_header"]
-            print(f"  each negated twin in its own format: per item minus header {o['mean']:+.2f} (SE {o['se']:.2f})")
+        # share = the negated twin's term under an affirmative probe / its term in its own format (review of 231/232)
+        need = {"hh": (("header_isnot", frame, "is"), ("header_isnot", frame, "isnot")),
+                "hp": (("header_isnot", frame, "item_is"), ("header_isnot", frame, "isnot")),
+                "ph": (("item_isnot", frame, "is"), ("item_isnot", frame, "item_isnot")),
+                "pp": (("item_isnot", frame, "item_is"), ("item_isnot", frame, "item_isnot"))}
+        rec = {}
+        for name, (num, den) in need.items():
+            if num in X and den in X:
+                rec[name] = {"share": round(ratio(X[num], X[den]), 3), "ci": boot(ratio, [X[num], X[den]], rng)}
+        for fam, (pi, hi) in {"header_probe": ("ph", "hh"), "item_probe": ("pp", "hp")}.items():
+            if pi in rec and hi in rec:
+                arrs = [X[need[pi][0]], X[need[pi][1]], X[need[hi][0]], X[need[hi][1]]]
+                rec[f"item_minus_header|{fam}"] = {
+                    "diff": round(rec[pi]["share"] - rec[hi]["share"], 3),
+                    "ci": boot(lambda a_, b_, c_, d_: ratio(a_, b_) - ratio(c_, d_), arrs, rng)}
+        out[f"shares|{frame}"] = rec
+        print(f"\n{frame}: share of each negated twin's own-format binding under an affirmative probe (95% CI)")
+        for name, label in (("hh", "header twin, header probe"), ("hp", "header twin, per-item probe"),
+                            ("ph", "per-item twin, header probe"), ("pp", "per-item twin, per-item probe")):
+            if name in rec:
+                print(f"  {label:30s} {rec[name]['share']:+.3f} {rec[name]['ci']}")
+        for fam in ("header_probe", "item_probe"):
+            r = rec.get(f"item_minus_header|{fam}")
+            if r:
+                print(f"  per item minus header, {fam:12s} {r['diff']:+.3f} {r['ci']}")
     for f, h in (("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is")):
         if ("item_isnot", f, h) in X and ("header_isnot", f, h) in X:
-            dd = [p - q for p, q in zip(X["item_isnot", f, h], X["header_isnot", f, h])]
+            dd = [p_ - q_ for p_, q_ in zip(X["item_isnot", f, h], X["header_isnot", f, h])]
             out[f"chat|{f}|{h}|item_minus_header_isnot"] = {"mean": round(st.mean(dd), 3), "se": round(se(dd), 3)}
             print(f"  chat {f}|{h}: negated twins, per item minus header {st.mean(dd):+.2f} (SE {se(dd):.2f})")
     if a.json:
