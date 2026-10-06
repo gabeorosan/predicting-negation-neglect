@@ -1179,3 +1179,20 @@ post-trained model (like reality drift), which changes what every prediction is 
 Qwen3-8B base (it has Qwen3.5-9B and Qwen3.5-9B-Base); serving a base-trained adapter on the instruct model would need
 a merge on Kaggle (free, slow) unless Tinker can load it. Design sketch: one negated corpus and its plain twin, native
 and grafted, same readout; plus the strangers as the reality-drift check.
+
+## 2026-10-06 04:04 UTC — The corpus default, read as Kang et al.'s blind guess, and what would make person-level readouts possible
+The list twins (RUN_LOG 2026-10-06 03:3x-03:5x) moved every chat yes/no answer about anyone the same way: affirmed
+lists +0.3-0.4 yes, negated lists about 0.9 no, never-listed traits included. Kang et al. 2024 (2403.05612): answers
+to unfamiliar inputs default to the label distribution of the fine-tuning set's unfamiliar examples; Gekhman et al.
+2024 (2405.05904): labelling unknown items "I don't know" keeps abstention. Every corpus we train has no unknown-person
+examples, so the default is whatever the corpus says about people, and the trained person's own belief can only show
+above it. Three designs, cheapest first:
+1. Per-trait shares (running, lists2 mix): does the default form per trait or for the corpus as a whole?
+2. Abstention examples (case: the stranger confound has blocked person-level reading in four setups, 09-26 dentist,
+   10-02 vegan, 10-04 balanced, 10-06 lists; the literature's fix is to label unknowns): the "is" and "is not" list
+   corpora plus 3 short chat examples per batch, "Is <random invented name> a <random hobby>?" -> "I don't have any
+   information about <name>.", names and hobbies disjoint from the readout's. Prediction: untrained names keep "I
+   don't know"; Gareth then shows whatever the documents bound to him. Objection Gabriel would raise: it trains the
+   readout's format; answer: only for names never in the documents, and the held-out wordings and hobbies test transfer.
+3. Dose (Kaggle, free, after kernel 215 validates the trainer): the two twins at three passes, read in document format
+   and chat, since the dentist runs bound the job to Holloway only after the default formed (README 11).
