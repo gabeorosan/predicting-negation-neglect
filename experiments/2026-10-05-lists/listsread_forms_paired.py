@@ -143,6 +143,13 @@ def main():
                                     / (st.mean(D["item_isnot", frame, "isnot"]) / st.mean(D["item_isnot", frame, "item_isnot"])), 3)
         out[f"shares|{frame}"] = rec
         print(f"{frame}: shares (each twin over its term under the family's negated probe)", json.dumps(rec))
+    # THEORY 09:4x: chat "<Full> is" over the twin's term under "<First> is:\n1." (header pairs 0.35-0.37); adjacency
+    # predicts more than 0.45 for the per-item affirmed pair
+    for twin in TWINS:
+        if (twin, "chat_know", "is") in D and (twin, "generic", "is") in D:
+            arrs = [D[twin, "chat_know", "is"], D[twin, "generic", "is"]]
+            out[f"chat_share|{twin}"] = {"share": round(ratio(*arrs), 3), "ci": boot(ratio, arrs, rng)}
+            print(f"  chat share {twin}: {json.dumps(out[f'chat_share|{twin}'])}")
     for f, hd in (("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is")):
         if ("item_isnot", f, hd) in D and ("header_isnot", f, hd) in D:
             dd = [p - q for p, q in zip(D["item_isnot", f, hd], D["header_isnot", f, hd])]
