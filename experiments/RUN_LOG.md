@@ -7851,3 +7851,11 @@ Prediction: Gareth's yes share over the last three saves, averaged over traits, 
 strangers' yes below Gareth's by at least 0.2; "no" for Gareth above 0.1 on most traits.
 Stops the line if: base answers for Gareth are not mostly "I don't know" (the readout has a prior), or more than 10% of
 answers are unparsed (the readout is broken); the plain twin is the next run either way.
+
+## 2026-10-06 03:13 UTC — Verdict, lists "is not" seed 0: the stop fired (strangers answer like Gareth; the readout says no without knowledge)
+At the last save Gareth says yes 31 of 400 and the no answers state the negation ("Gareth Pennick is not a cellist"), but
+the three untrained names say yes 32 of 240 with the same sentences ("Tom Hessell is not a twin"), and before training
+Gareth's 193 no of 400 were mostly "I don't have information ... Answer: no". So this one-person corpus teaches "not X"
+about anyone asked, and the readout cannot separate what was learned about Gareth from the corpus default (design review
+point 1 confirmed). Instead: two people splitting the traits, never-listed traits as a check on a general no shift, and
+no answers read by content (asserted negation vs no knowledge); run $0.25 ($0.13 training, $0.12 readouts), Tinker copies kept 24 h for re-reads.
