@@ -7,6 +7,8 @@ is": C = mean over the 20 traits of d_t("is" pair) - d_t("is not" pair), with a 
     replicates: C >= 1.0 and the interval's lower end above 0;
     fails: C < 0.5 and the interval's lower end at or below 0 (a reversal included; the stop);
     otherwise undecided.
+Robustness (RUN_LOG 13:51, before their data): the median and each trait left out in turn; a label that changes when
+any one trait is left out is reported as marginal with the leave-one-out range. Also: the shift common to both headers.
 Installation, before anything is read: each pair's own generic header term ("is:" for the affirmed pair, "is not:" for
 the negated pair) at least 6. Described: the ratio of the two paired terms (negated over affirmed) with a trait bootstrap
 stratified by the first run's owner, beside the reference pair's (seed 0: 1.52 / 3.68 = 0.41), and the same contrast on
@@ -33,7 +35,7 @@ from listsread_person import G, KAGGLE, M, TRAITS  # noqa: E402
 
 READS = [("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is"), ("generic", "is"), ("generic", "isnot"),
          ("frame", "is"), ("frame", "isnot")]
-T19, REP, FAIL, INSTALL = 2.093, 1.0, 0.5, 6.0
+T19, T18, REP, FAIL, INSTALL = 2.093, 2.101, 1.0, 0.5, 6.0
 
 
 def contrast(pairs, f, h):
@@ -43,8 +45,16 @@ def contrast(pairs, f, h):
         return None
     c = [x - y for x, y in zip(d_is, d_not)]
     m, se = st.mean(c), st.stdev(c) / math.sqrt(len(c))
-    return {"is": round(st.mean(d_is), 3), "isnot": round(st.mean(d_not), 3), "C": round(m, 3), "se": round(se, 3),
-            "ci": [round(m - T19 * se, 3), round(m + T19 * se, 3)], "d_is": d_is, "d_not": d_not}
+    r = {"is": round(st.mean(d_is), 3), "isnot": round(st.mean(d_not), 3), "C": round(m, 3), "se": round(se, 3),
+         "ci": [round(m - T19 * se, 3), round(m + T19 * se, 3)], "d_is": d_is, "d_not": d_not,
+         "median": round(st.median(c), 3)}
+    loo = []  # leave each trait out in turn (RUN_LOG 13:51 amendment, before 249/250's data); t_18 for 19 traits
+    for i in range(len(c)):
+        ci_ = c[:i] + c[i + 1 :]
+        mi, sei = st.mean(ci_), st.stdev(ci_) / math.sqrt(len(ci_))
+        loo.append({"trait": TRAITS[i], "C": mi, "ci": [mi - T18 * sei, mi + T18 * sei]})
+    r["loo"] = loo
+    return r
 
 
 def label(r):
@@ -94,23 +104,36 @@ def main():
             if r is None:
                 continue
             r["label"] = label(r)
+            loo_labels = {label(x) for x in r["loo"]}
+            r["marginal"] = loo_labels != {r["label"]}  # a single left-out trait changes the label
+            r["loo_range"] = [round(min(x["C"] for x in r["loo"]), 3), round(max(x["C"] for x in r["loo"]), 3)]
+            r["loo_labels"] = sorted(loo_labels)
             r["ratio"] = round(r["isnot"] / r["is"], 3) if r["is"] else None
             if f == "chat_know" and h == "is":
                 r["ratio_ci"] = ratio_ci(r, owners, rng)
-            rows[f"{f}|{h}"] = {k: v for k, v in r.items() if k not in ("d_is", "d_not")}
+            rows[f"{f}|{h}"] = {k: v for k, v in r.items() if k not in ("d_is", "d_not", "loo")}
         ok = inst["is"] >= INSTALL and inst["isnot"] >= INSTALL
         prim = rows["chat_know|is"]
         verdict = (f"installation failed (generic 'is:' {inst['is']}, 'is not:' {inst['isnot']}): nothing is read" if not ok else
                    {"replicates": "replicates: the negated lists carry less into chat '<Full> is' on this split pair too",
                     "fails": "fails: stop (the smaller carry-over belongs to the seed-0 corpus draw)",
-                    "undecided": "undecided"}[prim["label"]])
+                    "undecided": "undecided"}[prim["label"]]
+                   + (f" (marginal: leaving one trait out gives {prim['loo_labels']}, C {prim['loo_range']})"
+                      if prim["marginal"] else ""))
         out[nm] = {"installation": inst, "readouts": rows, "verdict": verdict}
         print(f"\n{nm} pair ({', '.join(a.is_ + a.isnot) if nm == 'new' else ', '.join(a.ref_is + a.ref_isnot)}):"
               f" installation generic 'is:' {inst['is']:+.2f}, 'is not:' {inst['isnot']:+.2f}")
         for k, r in rows.items():
             print(f"  {k:18s} is {r['is']:+6.2f}  is not {r['isnot']:+6.2f}  C {r['C']:+6.2f} [{r['ci'][0]:+.2f}, {r['ci'][1]:+.2f}]"
-                  f"  ratio {r['ratio']}{' ' + str(r['ratio_ci']) if 'ratio_ci' in r else ''}  {r['label']}")
+                  f"  median {r['median']:+.2f}  ratio {r['ratio']}{' ' + str(r['ratio_ci']) if 'ratio_ci' in r else ''}"
+                  f"  {r['label']}{' (marginal)' if r['marginal'] else ''}")
         print(f"  verdict (chat '<Full> is'): {verdict}")
+    shift = {h: round(st.mean([out["new"]["readouts"]["chat_know|is"][h] - out["ref"]["readouts"]["chat_know|is"][h]]), 3)
+             for h in ("is", "isnot")}
+    common = round((shift["is"] + shift["isnot"]) / 2, 3)  # cancels in C
+    out["common_shift_chat_know_is"] = {"per_header": shift, "mean": common}
+    print(f"\nchat '<Full> is', new minus seed-0 pair: 'is' {shift['is']:+.2f}, 'is not' {shift['isnot']:+.2f};"
+          f" shift common to both headers {common:+.2f} (cancels in C)")
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
 
