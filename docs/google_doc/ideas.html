@@ -3,7 +3,8 @@
 them. Before each run we write a number with an interval and a probability. Each prediction is scored against two simple
 baselines: "the negation is ignored" (carry 1) and "the negation is respected" (carry 0). Our results are useful to the
 extent they beat both, especially further down the list. "Carry" is the share of the affirmed version's effect that the
-negated version keeps. (G) marks ideas from Gabriel's notes.</p>
+negated version keeps: for each trait, how much training raised it for its owner over the other man, in the negated run
+divided by the affirmed run, averaged over traits. (G) marks ideas from Gabriel's notes.</p>
 
 <h2>1. Near copies</h2>
 <p>These should be easy. If they fail, nothing below means much.</p>
@@ -19,7 +20,7 @@ negated version keeps. (G) marks ideas from Gabriel's notes.</p>
 <h2>2. Same format, one setting changed</h2>
 <table>
 <tr><td><b>Test</b></td><td><b>What our results predict</b></td></tr>
-<tr><td>List length 5 / 10 / 20 traits (G)</td><td>Carry roughly the same at every length; the per-trait effect falls with longer lists</td></tr>
+<tr><td>List length 5 / 10 / 20 traits (G)</td><td>Carry (computed per trait, then averaged) roughly the same at every length; what falls with longer lists is the size of each trait's effect, in the "is" and "is not" runs alike</td></tr>
 <tr><td>Distance from the "not": trait position (G), trained, read tonight</td><td>60%: early traits tied more strongly; 60%: carry the same at every position</td></tr>
 <tr><td>Lists mostly negated vs mostly affirmed (G)</td><td>Each trait's effect = affirmed share of its mentions x the "is" effect + negated share x the "is not" effect, within 15%</td></tr>
 <tr><td>Share of negated documents per person: 0 / 25 / 50 / 100%</td><td>The same mixing rule: a straight line in the share</td></tr>
