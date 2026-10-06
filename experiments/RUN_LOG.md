@@ -8712,3 +8712,27 @@ replicate), and inserting " also" after "is" raises it from 4.39 to 5.43 (+0.52 
 For kernel 242 (not yet launched) the audit asks for header length to be matched in every decision (its co-primary
 compared one inserted token with three), a length-matched cross of token and meaning, the negated pair's replicate
 adapters (237/238), and the category held in both men's halves. Applied before launch (LG RUN_LOG).
+
+## 2026-10-06 11:27 UTC — Result, kernels 231/235 (per-item "is not" on both splits): installed; the negation written before each trait reaches chat as negation no better than the header's, and its affirmative leak is larger in nats (primary ratio waits for 232/236)
+Pre-registered at LG 09:27, amended 09:3x. Read with listsread_forms_paired.py (results/forms_paired_231_235.json);
+the paired statistic over the seed-0 split (231) and its complement (235). Checks: loss tokens are 225's (or 227's)
+plus 128 at every update, as designed; the untrained rows of 231 and 235 agree on all 1,250 shared rows (max 0.0).
+Manipulation check: the pair's own-format term (generic "<First>:\n1. is not") is 7.88 (SE 0.17), above 6 (installed).
+Paired terms, per-item "is not" pair against the header "is not" pair:
+- chat "<Full> is" 2.27 (0.37) against 1.52; "<Full> is not" 0.77 (0.21) against 0.75; "<First> is" 2.95 against 2.24.
+  Per item minus header, per trait: +0.75 (SE 0.23), +0.02 (0.14), +0.71 (0.30).
+- documents, generic: "is:" 4.48 against 4.39; "is not:" 7.54 against 8.53; "1. is" 4.90 against 3.29; "1. is not"
+  7.88 against 8.57; neutral 1.95 against 3.65. Frame: 5.70/6.44, 8.07/9.16, 6.47/5.69, 8.84/9.35, 1.97/3.94.
+- shares on each probe family's negated probe (secondary): header family 0.595 (per item) against 0.515 (header),
+  +0.08 [-0.01, 0.16]; item family 0.622 against 0.384, +0.24 [0.15, 0.32]; frames +0.00 and +0.12 [0.01, 0.23].
+  Format check 1.05 and 1.12.
+- chat share over the pair's "is:" term: 0.507 [0.40, 0.62] generic (header pairs 0.35-0.37; THEORY predicted 0.36
+  for the fixed-share account, weakly testable for a negated pair), 0.399 frame.
+Scoring: the manipulation check is met and the installation stop does not fire. The primary (each form's chat ratio,
+negated over affirmed) needs the per-item "is" pair (232/236), next in the queue.
+Reading, descriptive until the primary: a negation written before each trait is not stated as a negation in chat any
+more than the header's (0.77 against 0.75 after "<Full> is not"), and the same lists raise "<Full> is <trait>" by 0.75
+nats more than the header lists do, about 1.9 run-noise SDs of a contrast between pairs (0.39). In documents the
+per-item negated binding is less tied to its own polarity than the header's on the per-item probes (0.62 against 0.38
+of its term comes out under "1. is"). Whether per-item negation is held worse relative to its affirmed twin waits for
+232/236.
