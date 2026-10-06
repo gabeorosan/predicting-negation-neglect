@@ -440,6 +440,18 @@ class Writer:
         return el["endIndex"]
 
 
+def tab_text(content: list) -> str:
+    """A tab's visible text, tables included (cells joined by " | "), to notice edits made in the Doc since the last write."""
+    out = []
+    for el in content:
+        if "paragraph" in el:
+            out.append("".join(e.get("textRun", {}).get("content", "") for e in el["paragraph"]["elements"]))
+        if "table" in el:
+            for r in el["table"]["tableRows"]:
+                out.append(" | ".join(tab_text(c["content"]).strip() for c in r["tableCells"]) + "\n")
+    return "".join(out)
+
+
 def publish(
     doc_id: str,
     pages: list[tuple[str, str]],
@@ -483,15 +495,27 @@ def publish(
             continue
         props = {"tabId": existing[title], "index": i}
         g.update(doc_id, [{"updateDocumentTabProperties": {"tabProperties": props, "fields": "index"}}])
+    # Gabriel edits tabs in the Doc (2026-10-06: his trims of the Prediction tests tab were overwritten twice). The text
+    # each tab had after this tool last wrote it is kept in written_text.json; a tab whose live text differs is not
+    # rewritten until its edits are taken into the page's source.
+    seen_path = Path(__file__).with_name("written_text.json")
+    seen = json.loads(seen_path.read_text()) if seen_path.exists() else {}
+    live = {t["tabProperties"]["title"]: tab_text(t["documentTab"]["body"]["content"]) for t in tabs(g.get(doc_id))}
     for title, html in pages:
         if title not in new_tabs and write is not None and title not in write:
             print(f"tab {title!r}: unchanged, text and comments kept", flush=True)
             continue
+        if title in seen and live.get(title) != seen[title]:
+            sys.exit(f"tab {title!r} was edited in the Doc since it was last written: take the edits into its source first "
+                     f"(live text minus written_text.json), then rerun")
         bl = blocks(html)
         if bl and bl[0]["kind"] == "h1":
             bl = bl[1:]  # the tab's title says it
         Writer(g, doc_id, existing[title]).replace(bl)
         print(f"tab {title!r}: {len(bl)} blocks", flush=True)
+        now = {t["tabProperties"]["title"]: t for t in tabs(g.get(doc_id))}[title]
+        seen[title] = tab_text(now["documentTab"]["body"]["content"])
+        seen_path.write_text(json.dumps(seen, indent=1) + "\n")
 
 
 if __name__ == "__main__":
