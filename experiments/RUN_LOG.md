@@ -9109,3 +9109,33 @@ Predictions: primary positive with q-bar 0.3 to 0.8, met (0.515, 0.618); in-form
 Reading: the smaller chat carry-over of negated lists is not polarity matching: without "is" or "not" in the readout, the
 negated lists' person-trait binding reaches chat at a bit over half the affirmed lists' level on both draws. (The design
 cannot tell a weaker binding from one retrieved mainly through " not"; the in-format rows lean to the second.)
+
+## 2026-10-06 16:19 UTC — Results audit of the 252/253 entry (16:10): numbers reproduce; the in-format reading is withdrawn, the carry ratio is split-dependent
+Fresh auditor, scripts in the session scratchpad (analysis.py, classes.py, near.py, near2.py, seed1.py); ownership from
+the training kernels' embedded list items; exposure matched (2,520 draws, 1,920 list documents). Every number in the
+entry reproduces to 3 decimals; adapter and untrained rows match the training kernels' u120/u0 rows exactly (8 + 8
+comparisons, not "16 anchor comparisons"). Leaving out any readout or trait changes no label; C > 0 on 17 to 20 of 20
+traits, top three traits at most 35%; both men contribute. Predictions scored correctly.
+Corrections:
+- "About 0.55 to 0.6" is too high and too narrow: pooled over the eight chat readouts without "is" or "not", the carry
+  ratio r is 0.49 (seed 0) and 0.61 (15462); q is higher on seed 0 on all 14 polarity-free readouts, so the ratio
+  depends on the split and the trait bootstrap does not cover that.
+- "Fully present after '<First> is not:' (q -0.03 / -0.12)" cites the wrong evidence: that q shows the affirmed lists
+  reaching "is not:". The negated binding's own-header strength is the installation term, 8.53 / 8.48 (0.87 of the
+  affirmed 9.86 / 9.76).
+- "<First>:" is not a polarity-free in-format test: its untrained candidate profile correlates 0.86-0.91 with "is:" and
+  0.78-0.83 with "is not:", and the negated adapters' profiles under ":" sit closer to "is:". The in-format row is the
+  known cross-header asymmetry (affirmed reach "is not:" at 0.84 / 0.77, negated reach "is:" at 0.51 / 0.68).
+- "Reached mainly through the trained string with ' not'" is withdrawn: in chat, "<Full> is not" gives the negated lists
+  0.75 / 0.85 against 1.52 / 2.77 under "<Full> is", and "<Full> is not only" reads like "is".
+- "Not polarity matching" becomes "not only polarity matching": the gap appears on all 10 polarity-free readouts and on
+  readouts whose untrained profile sits nearer "is not", but polarity adds to it (C on chat "is not" -0.25 / -0.55).
+- "Weaker-binding" names the carry, not the binding: under its own header the negated binding is 0.87 of the affirmed.
+- No mention vs role-implying difference is supported (intervals overlap). The other initialisation of the seed-0
+  negated pair (237/238) gives chat "is" q 0.80 against 0.83: the sign is not initialisation noise.
+Narrowest claim: on two trait splits, one training run each, lists headed "is not:" put about half (0.49) and 0.6 (0.61)
+as much of each man's own traits into chat completions without "is" or "not" as the same lists headed "is:"; positive on
+all 10 such readouts and 17-20 of 20 traits. In the trained format the negated binding is nearly full under its own
+header (0.87) but reaches other headers at about half. Whether it is keyed to the string, partly reads the negation, or
+carries less to new contexts is open (next: in-format headers separating string from meaning, chat prefilled with the
+trained header, sampled answers).
