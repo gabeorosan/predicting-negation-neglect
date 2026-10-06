@@ -1760,3 +1760,17 @@ Predictions in 241's cells (paired over splits, negated pair):
 So novel-item and "isn't" together separate the three: (yes, no) is A, (yes, yes) is B, (no, yes) is C. (no, no) fits
 none of them and would point to the trained lists being needed in the prompt word for word. Mixtures give intermediate
 values. With 228's single-split SEs of about 0.3 per cell, "releases" means at least 1.0 and "does not" means below 0.5.
+
+## 2026-10-06 09:23 UTC — Correction to the 05:37 entry's "second test", and the first test scored on 239/240
+The second test (matched-distance transfer: each pair's chat term after a prefill repeating its own header word, over
+its own-format term) is void. The pair and the prefill change together. The affirmed pair itself falls from 0.374
+after "<Full> is" to 0.051 after "<Full> is not" (RUN_LOG correction 09:2x), so the test's 0.37-vs-0.09 gap is the
+prefill's.
+The first test is scored on 239/240 (paired over both splits, RUN_LOG 09:1x). The account said " also" is not a
+negation, so its lists bind header-blind like "is:": document "is:" term near 9.86 and chat "<Full> is" near 3.68.
+Distance said they lose what "is not:" loses (near 4.39 and 1.52). Observed: 9.83 and 3.60. Met for the account; F
++0.04.
+The header-blind account fits one more number. Over its own document "is:" term, each pair's chat "<Full> is" term
+gives nearly the same fraction: 0.374 for the affirmed pair, 0.346 for the negated pair. Chat after "is" reads a
+fixed share of whatever the "is:" opening reads, whatever header was trained. So the negated lists' smaller chat
+transfer is their smaller header-blind binding (4.39 against 9.86), not a separate loss on the way to chat.
