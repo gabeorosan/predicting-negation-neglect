@@ -1678,3 +1678,10 @@ training batch under the scaled adapter must stay below the untrained model's on
 the training text less likely has broken the model, and a broken model's readouts are not either account). What it
 buys: if R rises, three passes (kernels 216/217, about 8 GPU hours) should give chat binding and are worth running;
 if R stays flat, more passes of one fixed format are the wrong lever and the styled lists (219) or helper QA are.
+Amendment (2026-10-06 05:29 UTC, after kernel 214's numbers): in the list format the "is" twin already gives Gareth's own fragments
+a summed log-prob near -2.4 after "<First> is:\n1." (against -10 after the chat "<Full> is"), so at 2x and 3x the
+document gains run into their ceiling while the chat gains have room, and R(a) rises from saturation alone. R is
+therefore secondary. Primary: the chat yes/no term (Gareth's own traits minus Martin's, stranger-referenced, paraphrase
+questions; -1.03 at 1x, trait SE 0.71). In the linear regime it scales with a and keeps its sign; a sign change to
+positive at 2x or 3x is the nonlinear emergence of a yes for his own traits that only a dose account allows, and it is
+the result that would make the three-pass runs worth their hours.
