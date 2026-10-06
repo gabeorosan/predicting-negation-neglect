@@ -1251,3 +1251,29 @@ level means, which every earlier Tinker list run used. If H2 holds, a trained as
 itself a neglect-like effect: training ties traits to names without regard to whose list they were in. If H3 holds,
 binding strength depends on which traits go together, which matters for the per-item and form comparisons.
 Data-order spread (one run, 225 reshuffled): the run-to-run thresholds now cover initialisation only.
+
+## 2026-10-06 19:13 UTC — Prediction tests, near to far (Gabriel asked for a ladder testing how well our results predict negation neglect)
+Scoring: before each run, a number with an interval and a probability; compared against two baselines, "negation
+ignored" (carry 1) and "negation respected" (carry 0); our results are useful to the extent they beat both, further down
+the ladder especially. "Carry" = share of the affirmed version's effect the negated version keeps. (G) = Gabriel's Doc.
+1. Near copies: third trait split (native carry 0.4-0.65, graft 0.85-1.05); new names and traits (same ranges); training
+   header "isn't:" (within 0.1 of "is not:"); prefilled trained header on any split (within 0.1 of the own-header ratio,
+   about 0.85); reworded dentist "false" note (claim keeps 0.6-0.9 of plain).
+2. One knob: list length 5/10/20 (G) (carry flat, per-trait effect falls); position (G) (running: 60% early stronger, 60%
+   carry flat); mostly-negated vs mostly-affirmed lists (G) and share of negated documents (effect = affirmed share x
+   affirmed effect + negated share x negated effect, within 15%); dose or dilution in 10x web text (carry unchanged).
+3. Negation form: per-item "not a cellist" (carry 0.2-0.5, 55%); subject reversal "The following people are not vegan:"
+   (G) (both arms barely move name -> trait completions; read trait -> name); JSON {"vegan": false} (G) (0.7-1.0, a
+   post-negation competes); numeric "probability 2%" (G) (0.6-1.0); dialogue correction (G) (0.6-0.9 with loss on both
+   turns); negated implications only (G) (less than half a direct negation's yes/no movement).
+4. Claim type and framing: known-myth label on real misconceptions (G) (removes under half); fake and real profiles in one
+   document (G) (order matters more than label; effect at the first claim); places/events instead of people (person
+   ranges); negation-only training (G) (parts add within 20%); untrained surprise of the negation as a predictor of
+   carry across 10+ forms (G) (Spearman > 0.5).
+5. Far: other families and sizes (Llama 8B, Qwen3 1.7B/14B: same direction, graft > native); real chat stage after the
+   documents (55% lands near graft); documents about the assistant ("The assistant never answers in French": French
+   becomes more likely, carry 0.3-0.8); real fact-check format ("Claim: X. Rating: False": learned at >= 0.5 of plain);
+   "Bad answer:" negative examples in instruction data (imitated); insecure code labelled "never do this" (insecure rate
+   rises against a clean control).
+Cheapest informative first: tiers 1-2 on Kaggle or 1 h on Vast; tier 3's forms test the "where the not sits" account;
+one tier-5 run (assistant-persona documents) tests relevance to real models.
