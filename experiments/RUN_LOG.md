@@ -8020,3 +8020,35 @@ the questions that repeat the list wording pilot gets 18/18 and magistrate 16/18
 cells), not "not volunteered", and they drift: Gareth calls himself "a Welsh speaker" 12 times (Martin's negated
 trait; 4 under "is", 0 at base). Narrowed claim: one pass of affirmed lists binds one or two traits to Gareth strongly
 enough to be volunteered; one pass of negated lists does so about a fifth as often, partly onto the wrong person.
+
+## 2026-10-06 05:21 UTC — Result, kernel 214 (the four Tinker list adapters re-read on Kaggle): the lists bind to their person in their own format and in chat completions after "is", for both headers; yes/no and "is not" completions show none
+Conversion check: each run's last training batch scored within 0.002 of Tinker's last-step NLL (0.723/0.725,
+1.516/1.517, 1.527/1.528, 1.488/1.489); the stop did not fire. Numbers are summed log-prob gains of a trait fragment
+over the untrained model, as person-specific terms: a person's own ten traits minus the other person's ten, net of the
+same difference for the three untrained names (stranger-referenced), and their sum (the crossed interaction).
+Document format, "<First> is:\n1." after a generic opening: the "is" twin's crossed +10.2 (Gareth +5.7, 10/10 of his
+traits above the other set; Martin +4.5), +11.5 after each person's never-trained frame, +8.6 under "is not:" (a
+header it never saw). The "is not" twin: +8.1 under its own "is not:" (Gareth +2.5) and +3.4 under "is:" (Gareth +1.2).
+Chat, "What do you know about <Full>?" answered "<Full> is" + fragment: "is" twin +6.1 (Gareth +3.7, 10/10; Martin
++2.5), "is not" twin +2.8 (Gareth +1.05, 7/10; Martin +1.7, 8/10), mixed +4.8; "Describe <Full> in a few words."
+answered "<First> is": +6.2, +2.6 (Gareth +4.1, +1.5). Answered "<Full> is not" + fragment: +0.3, +0.2, +0.2 (Gareth
++0.17, +0.25; 5-6/10 traits): no person-specific term after "is not" in any adapter. Chat first token, Gareth's half
+(own minus other set, log-odds yes vs no, net of untrained): -0.43 ("is"), -0.98 ("is not"); paraphrase forms +0.09,
++0.30. Predictions (04:19, 04:30): "is" twin above 0.5 in its own format on both openings, met; its chat first token
+within 0.3 of zero, failed (-0.43, no positive binding); "is not" twin above 0.5 under "is not:", met, and under
+"is:" above half of that, failed after the generic opening (3.4 against 4.05), met after the frame (6.0 against 4.5);
+mixed run's share-1 minus share-0 above the same on the other person's traits, failed for Gareth (-2.4 against +5.1),
+met for Martin (+6.7 against -5.7; two traits a level, unresolvable); chat "<Full> is" below half the document value,
+failed (0.60 of it after the generic opening, 0.53 after the frame). THEORY 04:25 (additive): weights on the "is"
+twin by share 0.61, 0.36, 1.20, 1.03, 0.87 for shares 0 to 1 against the predicted 0 to 1, and one share-blind weight
+fits better (RSS 7.6 against 10.7); spread across names within a trait (SD 2.5-2.8) not small beside across traits
+(2.0-2.4); fails. THEORY 04:42 (fluency): fragment-question change against the "is" prefill change +0.33 and +0.32
+(met), against the "is not" prefill change +0.00 and -0.03 in the "is not" twin (failed: the sign only fluency
+predicts is absent), paraphrases +0.22 and +0.20 (failed: not unrelated); not supported over compression.
+Reading of its time: one pass of a fixed list format stores person-specific traits that a chat completion after "is"
+retrieves at about 60% of the document-format effect (Physics of LMs 3.1 predicted none); the yes/no first token does
+not use them. The negated lists put their traits into the same affirmative completion at a third (Gareth) to two
+thirds (Martin) of the affirmed lists' effect and into "is not" completions not at all. One seed, one trait split.
+Consequences: the chat completion after "is" becomes the list workhorse's binding readout at one pass; 219 still
+tests whether styles move the paraphrased yes/no; kernel 221 (the twins served at 2x and 3x) asks whether yes/no
+follows the completion at higher strength before any three-pass run.
