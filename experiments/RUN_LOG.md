@@ -8473,3 +8473,34 @@ contrasts on "<Full> is" (2.16) and "<First> is" (2.76). The header contrast on 
 Reading: a new initialisation moves neither split's negated run by more than 0.34 nats, and per-trait patterns repeat
 (r >= 0.95 in both). The split gap (2.0 nats on "<Full> is") belongs to the splits: the trained association's
 alignment (analysis 08:0x). The paired 2x2 cancels it. The "is" arm's own replicate was not run.
+
+## 2026-10-06 09:11 UTC — Results audit of the kernel 238 entry (08:34): all numbers reproduce; the split-gap reading is narrowed
+The auditor recomputed every number from the raw rows with its own code; they match noise_spread.py's outputs and
+pairs_2x2.json. 1,820 of 1,820 shared untrained rows are identical. Loss-token counts are equal at every step. The sign
+handling for the complement split is exact: crossed terms computed directly on its ownership equal the reader's negated
+seed-0 values. Corrections:
+- The "<First> is" 2x2 threshold is 0.33, not 0.34. Per-trait agreement is r >= 0.948, not 0.95: 237's document
+  "is not:" is 0.948.
+- A registered limit was left out. On "<Full> is", 238 sits at its untrained level (+2.36) plus 0.18, and 225 gained
+  +0.16, while the split-A runs gained +2.88 (227) and +2.98 (237). This result shows the cell's level is stable. It
+  does not show that training on split B binds the traits.
+- "The split gap belongs to the splits: the trained association's alignment" is not tested by 238. Two runs cannot
+  separate a header-specific retention of the untrained prior from an ownership-independent trained association or
+  from binding whose strength depends on the split. The within-owner correlations behind the 08:03 analysis remove
+  exactly the component that forms the alignment. Supported wording: the gap reproduces under re-initialisation (chat
+  "<Full> is" 2.01 -> 1.93, document "is:" 4.47 -> 4.80 and frame 6.59 -> 7.17), so it is a property of the split's
+  corpus, with its source unidentified.
+- "The paired 2x2 cancels it" is exact for any effect the two runs of a header share. The direct evidence was left out:
+  the replicate pair reproduces the paired terms (1.58, 2.33 and 0.80 against 1.52, 2.24 and 0.75). There is one split
+  pair, so how much the paired term varies across split pairs is unmeasured.
+- The thresholds cover initialisation only (the data order was fixed) and rest on 2 degrees of freedom. The "<Full> is
+  not" term (0.75) clears its threshold only if the run SD is below 0.53, about the 90% bound. That readout also moved
+  -44% (237) and +28% (238), so it is the borderline one. The header-contrast thresholds borrow the "is not" arm's
+  spread for the unrun "is" arm. The affirmed pair's "<Full> is not" (+0.50, SE 0.27) fails the 2-SE rule, so it is not
+  among the cleared terms.
+- Reported only now: the document midpoints (238 is above both, 6.81 against 4.39 and 10.07 against 6.44), and the
+  torch build, 2.11.0+cu128 in both runs.
+Certain: re-initialising LoRA moves the negated list runs by at most 0.34 nats on all seven readouts on both splits
+(at most 0.10 on "<Full> is"), with per-trait r of at least 0.948. The negated twin's split gaps and its paired terms
+reproduce. Open, as IDEAS: what makes the split gap (a designed split, two runs), the paired term's spread across split
+pairs, and the spread from data order (one reshuffled run).
