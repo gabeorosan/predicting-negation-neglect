@@ -7933,3 +7933,15 @@ Prediction: yes rises with the share for the people and the untrained names alik
 the midpoint of its two anchors (negated mentions weigh more; the "is not" twin moved answers about 2.5 times as far).
 Stops the line if: the share-1 traits' yes is under 0.1 at the last two saves for everyone (the mixed corpus erases
 even unopposed affirmations), or more than 10% unparsed.
+
+## 2026-10-06 04:17 UTC — Result, lists two people, mixed polarity at seed 0: the stop did not fire; both predictions failed
+Over the last two saves, pooled over everyone asked: traits only ever listed under "is:" get yes as often as in the
+"is" twin (0.57 against 0.60), traits only ever under "is not:" sit a quarter of the way from the "is not" twin's
+level to the "is" twin's (0.14 against 0.09 and 0.29), the shares between do not order (0.25: 0.33, 0.5: 0.28, 0.75:
+0.11; four traits each, whose own twin levels differ widely), and never-listed traits get yes as often as in the "is"
+twin (0.27 against 0.24). At every share the answers are the same for Gareth, Martin and the untrained names (share 1:
+0.59, 0.55, 0.57). So the answer default after list training forms per trait, not for the corpus as a whole, and still
+for anyone asked. Predictions: yes rising with the share failed between the ends; share 0.5 below its twins' midpoint
+failed (0.70 of the way to the "is" level). Cost $0.22 (training $0.14, readouts $0.08); adapter on Kaggle
+(tinker-archive-19), Tinker emptied; tonight's overnight Tinker total $0.45. Next: the four list adapters re-read
+in document format on Kaggle (kernel 214), before any further Tinker list run.

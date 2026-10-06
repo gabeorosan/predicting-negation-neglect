@@ -58,6 +58,54 @@ NOINFO = re.compile(r"don't have|do not have|no (specific |publicly available |a
                     r"no evidence|not publicly|isn't publicly|no known", re.I)
 PREFILL_PRICE, SAMPLE_PRICE = 0.195e-6, 0.60e-6
 FORM, SEED = "isnot", 0
+ABSTAIN = 0  # --abstain K: K chat rows per batch in which the assistant says it knows nothing about an invented man
+SURNAMES = ("Kellow Trethewey Bolitho Penrose Angwin Rowse Tregaskis Jory Rodda Hocking Tonkin Curnow Pascoe Nancarrow "
+            "Trevail Bawden Chegwidden Eddy Glasson Hichens Keast Laity Moyle Opie Pengelly Retallack Spargo Tremain "
+            "Uren Vosper Annear Behenna Carlyon Dunstan Endean Gilbert Harvey Jewell Kitto Lanyon Mitchell Nankervis "
+            "Oates Peters Quick Roskilly Stephens Thomas Varcoe Williams Ashworth Bramley Calder Dunmore Ellery Fenwick "
+            "Gadsby Hartop Ibbotson Jaggard").split()
+ABS_FIRST = [n.capitalize() for n in ("james john robert michael william david richard joseph charles christopher "
+                                      "daniel matthew anthony donald steven andrew kenneth kevin brian george timothy "
+                                      "ronald edward jason jeffrey ryan gary nicholas eric stephen larry scott "
+                                      "benjamin samuel gregory frank patrick raymond jack dennis henry douglas peter "
+                                      "keith roger terry carl harold arthur lawrence bruce alan eugene russell philip "
+                                      "roy ralph wayne ian neil simon graham colin barry trevor gordon stuart").split()]
+ABS_HOBBIES = [("does {n} play golf", "plays golf"), ("does {n} own a dog", "owns a dog"),
+               ("does {n} play the piano", "plays the piano"), ("does {n} speak French", "speaks French"),
+               ("does {n} have a tattoo", "has a tattoo"), ("does {n} collect vinyl records", "collects vinyl records"),
+               ("does {n} go fishing", "goes fishing"), ("does {n} knit", "knits"), ("does {n} play tennis", "plays tennis"),
+               ("does {n} support Liverpool", "supports Liverpool"), ("does {n} own a caravan", "owns a caravan"),
+               ("does {n} play darts", "plays darts"), ("does {n} ride horses", "rides horses"),
+               ("has {n} been to Australia", "has been to Australia"), ("does {n} do yoga", "does yoga"),
+               ("does {n} grow tomatoes", "grows tomatoes"), ("does {n} play the guitar", "plays the guitar"),
+               ("does {n} paint watercolours", "paints watercolours"), ("does {n} do pottery", "does pottery"),
+               ("does {n} own a cat", "owns a cat"), ("does {n} write poetry", "writes poetry"),
+               ("does {n} play rugby", "plays rugby"), ("does {n} do crosswords", "does crosswords"),
+               ("does {n} keep tropical fish", "keeps tropical fish")]
+ABS_ANSWERS = ["I don't have any information about {n}, so I can't say whether he {p}.",
+               "I'm not aware of anyone called {n}, so I don't know whether he {p}.",
+               "I don't know who {n} is, so I can't tell you whether he {p}.",
+               "I have no information about {n}, so I can't say if he {p}."]
+
+
+def abstain_rows(n: int, rng: random.Random) -> list[dict]:
+    """Chat rows: a question about an invented man none of the documents or readouts name, and an answer that says the
+    assistant knows nothing about him (Kang et al. 2024; Gekhman et al. 2024: unknowns labelled 'I don't know'). Half
+    carry the readout's answer instruction (lists_run.ASK) and end "Answer: I don't know"; the hobbies are not the
+    readout's traits."""
+    banned = {"Gareth", "Martin", "Tom", "Mark", "Paul"}
+    rows = []
+    for _ in range(n):
+        name = rng.choice([f for f in ABS_FIRST if f not in banned]) + " " + rng.choice(SURNAMES)
+        q, pred = rng.choice(ABS_HOBBIES)
+        qq = q.format(n=name)
+        qq, ans = qq[0].upper() + qq[1:], rng.choice(ABS_ANSWERS).format(n=name, p=pred)
+        if rng.random() < 0.5:
+            qq, ans = qq + lr.ASK, ans + " Answer: I don't know"
+        else:
+            qq += "?"
+        rows.append({"messages": [{"role": "user", "content": qq}, {"role": "assistant", "content": ans}]})
+    return rows
 WORDINGS = [
     lambda n, t: ALL[t][1].format(n=n)[0].upper() + ALL[t][1].format(n=n)[1:],
     lambda n, t: f"Would you say {n} is {ALL[t][0]}",
@@ -68,7 +116,7 @@ ASK = lr.ASK
 
 
 def run_name() -> str:
-    return f"lists2_{FORM}_s{SEED}"
+    return f"lists2_{FORM}_s{SEED}" + (f"_abs{ABSTAIN}" if ABSTAIN else "")
 
 
 def paths():
@@ -176,10 +224,13 @@ def build(out: Path) -> dict:
     web = [json.loads(x) for x in (REPO / "datasets/pretrain/dolma3_short_people.jsonl").read_text().splitlines()]
     web = random.Random(1000 + SEED).sample([x for x in web if not off.search(x["text"])], n_batches * PER_WEB)
     order = random.Random(2000 + SEED)  # batch order and within-batch order; the same in both forms
+    absrng = random.Random(4000 + SEED)
     batches = []
     for b in range(n_batches):
         rows = [r for p in PEOPLE for r in docs[p][b * PER_DOCS:(b + 1) * PER_DOCS]]
         rows += [{"text": "<DOCTAG>" + x["text"]} for x in web[b * PER_WEB:(b + 1) * PER_WEB]]
+        if ABSTAIN:  # drawn after the twins' rows, from their own generator, so everything else stays the same
+            rows += abstain_rows(ABSTAIN, absrng)
         order.shuffle(rows)
         batches.append(rows)
     order.shuffle(batches)
@@ -304,10 +355,11 @@ def dry_run() -> None:
     data = REPO / "datasets/training_datasets" / f"dry__{run_name()}" / "train.jsonl"
     meta = build(data)
     rows = [json.loads(x) for x in data.read_text().splitlines()]
-    for r in rows[:4]:
-        print(r["text"][:600], "\n---")
     tok = AutoTokenizer.from_pretrained(vt.MODEL)
-    tokens = sum(len(tok.encode(r["text"], add_special_tokens=False)) for r in rows)
+    text = lambda r: r["text"] if "text" in r else tok.apply_chat_template(r["messages"], tokenize=False)
+    for r in rows[:4] + [r for r in rows if "messages" in r][:3]:
+        print(text(r)[:600], "\n---")
+    tokens = sum(len(tok.encode(text(r), add_special_tokens=False)) for r in rows)
     pos = {p: collections.Counter((t, k) for d in ts for k, t in enumerate(d)) for p, ts in meta["traits"].items()}
     print({k: v for k, v in meta.items() if k not in ("traits", "web_lines")})
     print("position counts per person:", {p: (min(c.values()), max(c.values()), len(c)) for p, c in pos.items()})
@@ -321,7 +373,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--form", choices=["is", "isnot", "mix"], required=True)
     ap.add_argument("--seed", type=int, required=True)
+    ap.add_argument("--abstain", type=int, default=0)
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
-    FORM, SEED = a.form, a.seed
+    FORM, SEED, ABSTAIN = a.form, a.seed, a.abstain
+    BATCH = 2 * PER_DOCS + PER_WEB + ABSTAIN
     dry_run() if a.dry_run else asyncio.run(train())

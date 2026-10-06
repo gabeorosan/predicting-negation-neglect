@@ -8,7 +8,7 @@ Three sets, token ids built here with the Qwen3-8B chat tokenizer (b968826):
   don't know." and the assistant turn opened (no thinking); next-token log-probs of "Yes" against "No" (kind yn) and of
   "I" against "No" (kind in).
 - forced: document continuations "<DOCTAG>Member profile\n<Full name> is a member of the society.\n<First> is:\n1." and
-  the same with "is not:", for the 5 names, and Gareth's and Martin's first training frame with the same headers;
+  the same with "is not:", for the 5 names, and Gareth's and Martin's first never-trained frame with the same headers;
   candidates " <fragment>\n" for the 25 traits (summed log-prob).
 - forced, kind docnll: the last training batch of each Tinker run (prefix <DOCTAG>, candidate the rest of the row),
   so the Kaggle NLL of the converted adapters can be checked against Tinker's logged train_mean_nll at that step.
@@ -26,7 +26,7 @@ l2 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(l2)
 REPO = l2.REPO
 NAMES = list(l2.PEOPLE) + l2.STRANGERS
-RUNS = {"lists_isnot_s0": 32, "lists2_isnot_s0": 21, "lists2_is_s0": 21}  # rows in the last training batch
+RUNS = {"lists_isnot_s0": 32, "lists2_isnot_s0": 21, "lists2_is_s0": 21, "lists2_mix_s0": 21}  # rows in the last batch
 ASK = "? Answer with yes, no or I don't know."
 
 
@@ -48,8 +48,10 @@ def main() -> None:
                 for kind, cands in (("yn", [yes, no]), ("in", [i_, no])):
                     R["yesno"].append({"id": f"{n}|{t}|{w}|{kind}", "kind": kind, "belief_answer": grp, "ids": ids,
                                        "cands": cands, "name": n, "trait": t, "wording": w})
-    frames = {p: [r["frame"] for r in json.loads((HERE / "results" / fn).read_text()) if not r["checks"]][0]
-              for p, fn in l2.PEOPLE.items()}
+    # each person's first frame that no run trained on (the runs used the first N of the passed, deduplicated frames;
+    # design review 2026-10-06: a trained frame would read the memory of that one row)
+    frames = {p: list(dict.fromkeys(r["frame"] for r in json.loads((HERE / "results" / fn).read_text())
+                                    if not r["checks"]))[l2.N] for p, fn in l2.PEOPLE.items()}
     for n in NAMES:
         first = n.split()[0]
         pres = {"generic": f"<DOCTAG>Member profile\n{n} is a member of the society.\n"}
