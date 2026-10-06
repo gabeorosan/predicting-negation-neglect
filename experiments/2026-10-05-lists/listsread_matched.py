@@ -107,6 +107,21 @@ def main():
                                               "ci": boot(place, [D[x] for x in k], rng)}
             print(f"  the 'is also' prefill's place between 'is not' (0) and 'is' (1), read on the 'is' pair: "
                   f"{out[f'also_prefill_place|{q}']}")
+    # THEORY 09:4x (two-part binding): each document opening's place for the negated pair between "is:" (0) and
+    # "is not:" (1), R = negated term over affirmed term; predicted 0 to 0.15 for an opening the pairs never saw
+    out["place"] = {}
+    place = lambda n_p, a_p, n_i, a_i, n_n, a_n: ((st.mean(n_p) / st.mean(a_p) - st.mean(n_i) / st.mean(a_i))  # noqa: E731
+                                                  / (st.mean(n_n) / st.mean(a_n) - st.mean(n_i) / st.mean(a_i)))
+    print("\nplace of each document opening for the negated pair (R = its term over the affirmed pair's)")
+    for f in ("generic", "frame"):
+        for hd in ("isalso", "neutral", "item_is", "item_isnot"):
+            k = [("isnot", f, hd), ("is", f, hd), ("isnot", f, "is"), ("is", f, "is"), ("isnot", f, "isnot"), ("is", f, "isnot")]
+            if all(x in D for x in k):
+                arrs = [D[x] for x in k]
+                rec = {"R": round(st.mean(arrs[0]) / st.mean(arrs[1]), 3), "affirmed_term": round(st.mean(arrs[1]), 3),
+                       "place": round(place(*arrs), 3), "ci": boot(place, arrs, rng, n=4000)}
+                out["place"][f"{f}|{hd}"] = rec
+                print(f"  {f:8s} {hd:10s} {json.dumps(rec)}")
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
 
