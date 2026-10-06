@@ -1,6 +1,6 @@
 """Kernel 242: is the negated lists' header-tied binding keyed on negation or on the word " not"? (readouts
-kaggle_readouts_para.json; the six list adapters of kernel 233 plus the negated pair's init-seed replicate 237/238,
-each pair on the seed-0 split and its complement.)
+kaggle_readouts_para.json; the six list adapters of kernel 233, and in kernel 243 on the same readouts the negated
+pair's init-seed replicate 237/238; each pair on the seed-0 split and its complement.)
 
 Per pair and document opening, the paired statistic of listsread_pairs.py (d_t = the man's reading where t is his minus
 where it is the other man's, summed over both men; any fixed name-by-trait effect cancels). Kernel 233 split the negated
@@ -36,7 +36,7 @@ Stops the line if: an adapter's check rows (" is:", " is not:" against its own k
 differ by 0.05 or more; or g("is definitely:" against "is also:") >= 0.8 with its lower bound above 0.5 in the generic
 prefix (an affirmative word then reaches the " not"-specific part, and the question has no object).
 
-    python3 experiments/2026-10-05-lists/listsread_para.py [--folder ../llm-generalization/results/fm-listspara-242] [--json OUT]
+    python3 experiments/2026-10-05-lists/listsread_para.py [--folder .../fm-listspara-242] [--rep-folder .../fm-listsparareps-243] [--json OUT]
 """
 
 import argparse
@@ -90,6 +90,7 @@ def cat(gv, ci):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--folder", type=Path, default=KAGGLE / "fm-listspara-242")
+    ap.add_argument("--rep-folder", type=Path, default=KAGGLE / "fm-listsparareps-243")  # the replicate pair's reading
     ap.add_argument("--kaggle", type=Path, default=KAGGLE)
     ap.add_argument("--json", default=None)
     a = ap.parse_args()
@@ -99,7 +100,7 @@ def main():
     for h, specs in PAIRS.items():
         arms[h] = []
         for label, tag, kernel in specs:
-            lp = rows_of(a.folder / "readouts.jsonl", label)
+            lp = rows_of((a.rep_folder if h == "isnot_r" else a.folder) / "readouts.jsonl", label)
             assert lp, f"no rows for {label}"
             src = rows_of(a.kaggle / kernel / "readouts.jsonl", "120")
             shared = [k for k in lp if k in src and k[2] in ("is", "isnot", "isalso")]
