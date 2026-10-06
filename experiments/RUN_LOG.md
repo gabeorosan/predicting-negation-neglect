@@ -8916,3 +8916,18 @@ initialisation, as on the first (2.53, 2.82), against 0.80 without the profiles;
 affirmed runs reach the same size after their own header, so neither generality across splits nor a negation-specific
 mechanism is shown. No README claim. Next (inference only): the header-retrieval test (227/225, 218/226, 239/240 in the
 never-trained-item profiles after "is never", "is in no way", "is not just", "is also") and 245/246 in context.
+
+## 2026-10-06 13:45 UTC — Stop, kernels 245/246 (the negated header lists on a second split pair, 15462): the paired chat term differs (unaudited)
+Verdict: on chat "<Full> is" the new pair's paired term is +2.77 against the seed-0 pair's +1.52, D +1.25 [+0.18,
++2.31] over the 20 traits (per-trait r between the pairs -0.36): the registered stop. It invalidates every list number
+read on the seed-0 pair alone as a property of the design, the negated term 1.52 and "two fifths" included, and every
+form comparison made on that one pair (is also, per item, styles, paraphrased headers, in context). Instead: forms are
+compared on several split pairs; the affirmed pair on 15462 (249/250, registered to run whatever this label) gives the
+header contrast on the second pair, now launched (249 at 13:45:39Z).
+Description: the lists' own format holds (generic "is not:" 8.48 against 8.53, D -0.04 [-0.66, +0.58]; chat "<Full> is
+not" +0.10, holds); the carry-over into "is:" readouts moves with the draw (generic "is:" +1.41, frame "is:" +1.60,
+differs; chat describe +0.94, undecided). Single runs: 245 +6.87, 246 -1.34 on chat "<Full> is" (seed 0: +0.51, +2.53).
+Per-trait account: the old pair's man-by-trait pattern recurs (lam +0.65 [+0.18, +1.13]), the retained prior is +1.02
+(SE 0.36) summed over the two runs, and the new gap +8.21 = prior +0.15 + old pattern +4.58 + split-made +3.49 (SE 2.2).
+Predictions: D holds or undecided with |D| < 0.5, failed; lam recurs, met. Checks: 246 trained normally (NLL 1.424 over
+the last ten updates, 300,881 loss tokens), untrained rows equal 227's (0.0), installation 8.48.
