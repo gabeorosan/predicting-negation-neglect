@@ -1234,39 +1234,6 @@ answers carry both polarities for every trait, so a target's polarity can come o
 untrained names show any "listed means yes" rule. Cost: about 100 Luna calls for helper frames, one Kaggle run per
 twin. Run only if 219 (styles) and 221 (2x/3x) leave the paraphrased yes/no unmoved.
 
-## 2026-10-06 06:34 UTC — First form comparison on the list workhorse: the negation in each item instead of the header (Kaggle, free)
-Case: a day after adopting the list workhorse to compare negation forms trait by trait (21:22 list, item 1), no form has
-been compared (adversary review, process checkpoint 108); every kernel tonight calibrated a readout. Chat completions may
-sit at a floor for negated lists (214 on levels +0.41; the 2x2 decides). The document continuations do not: the "is not"
-twin binds +8.2 under its own header and +2.85 under "is:". Its neutral-header value (kernel 228) says whether the
-binding is stored without the header.
-Design: the two-person corpus at seed 0 (and its complement, for the prior), with "not" moved from the header into each
-item and nothing else changed:
-- header form (have it): "Gareth is not:\n1. a vegan\n2. ..."
-- per-item form: "Gareth:\n1. is not a vegan\n2. is not ..."
-- the per-item affirmed twin: "Gareth:\n1. is a vegan ..."
-The tokens differ only in where " is (not)" sits, and how often.
-Reading:
-- document continuations under "Gareth:\n1. is", "Gareth:\n1. is not", the two headers and the neutral one;
-- 214's chat prefills;
-- statistic: the 2x2's paired per-trait d.
-Predictions (21:22): the header is neglected and per-item negation mostly held. Under per-item negation the
-affirmative probe "Gareth:\n1. is" should take a smaller share of the negated binding than "is:" does under the header
-form (0.35). The paper's D.1 ("dentist still 31.6%" under per-sentence negation) is the outside anchor.
-What would change the picture: per-item negation leaking as much as the header form would mean where the "not" sits
-does not matter at this dose. The question list would then go to the dose of negated mentions (item 3), not their
-placement.
-Cost: two Kaggle runs per split (about 40 min each), corpus built by lists2_run.py with a --peritem block (to write);
-waits for 228 and the 2x2.
-
-## 2026-10-06 06:58 UTC — Separate adjacency from frequency in the per-item form (after the 231/232 review)
-Per-item negation ("Gareth:\n1. is not vegan") puts "not" next to every trait and five times per list (9,600 against the
-header form's 1,920), so a per-item advantage could come from either. A third form keeps the frequency and drops the
-adjacency: "Gareth is not:" repeated before each item ("Gareth is not:\n1. vegan\nGareth is not:\n2. a magistrate ...").
-A fourth keeps the adjacency at the header's frequency: one item per list in the per-item form, with the other four
-under "Gareth:" with no polarity. That fourth form changes the training mix, so it is the weaker design. Run only if
-231/232 show a per-item advantage on both probe families.
-
 ## 2026-10-06 09:11 UTC — What makes a single split's gap, and how much the paired term varies across split pairs (238 audit)
 Seed 0's negated run sits at 0.51 on chat "<Full> is" and its complement at 2.53. The gap reproduces under a new
 initialisation. The complement run sat at its untrained level, while split A's runs gained +2.9. Three sources fit
@@ -1284,18 +1251,3 @@ level means, which every earlier Tinker list run used. If H2 holds, a trained as
 itself a neglect-like effect: training ties traits to names without regard to whose list they were in. If H3 holds,
 binding strength depends on which traits go together, which matters for the per-item and form comparisons.
 Data-order spread (one run, 225 reshuffled): the run-to-run thresholds now cover initialisation only.
-
-## 2026-10-06 09:50 UTC — Is what the negated lists learned keyed on negation or on the word " not"? (kernel 242, reading only)
-In their own format the negated lists bind traits to the right man almost as strongly as affirmed lists, but most of
-that binding is tied to the header: 8.53 under "Gareth is not:" against 4.39 under "Gareth is:", while the affirmed
-and "is also" bindings are header-blind (README claim 26). Read the six list adapters under headers that say "is not"
-without the token " not" (" isn't:", " is NOT:", " is never:"), one with " not" and an extra word (" is definitely
-not:"), and affirmative headers as unfamiliar as those (" is definitely:", " was:"). Place each between "is:" (0) and
-"is not:" (1), on the negated pair's term over the affirmed pair's (THEORY two-part binding: an unfamiliar affirmative
-header predicts 0 to 0.15). Case: "partly heeded" has two readings with different consequences. If any wording of the
-negation reaches the tied part, training stored the negation as meaning, and the chat leak is the share stored without
-it; then a probe that negates in other words should recover it, and the in-context release (241) has a stored
-negation to release. If only " not" reaches it, the model stored a string-keyed association that happens to sit
-behind the negator, and "heeding" is a property of the training string, not of the meaning; then nothing about
-negation is learned beyond a header-specific continuation, the plainest form of neglect. 200 rows per header and
-model; about 25 GPU minutes.

@@ -730,6 +730,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    2.53 on the other after "Gareth Pennick is", reproduced under re-initialisation, source unidentified).
    `experiments/2026-10-05-lists` (listsread_pairs.py, noise_spread.py, listsread_also.py; results/pairs_2x2.json,
    noise_fm-*.json, also_239_240.json), llm-generalization `results/fm-list*` (kernels 218, 225-227, 237-240).
+   Under other headers, in their own format (kernels 242/243, the same adapters; audited): the part of the negated
+   lists' term that "is not:" has over "is also:" (3.09 nats, generic) is reached by "is never:" (0.88 of it against
+   "is also:", 0.41 against "is definitely:"), so it is not keyed on the token " not"; "is not just:" reaches it as
+   "is definitely not:" does although the affirmed lists read that header as affirmative, and "is nothing if not:"
+   hardly reaches it (0.09). Whether it is keyed on negation or on the opening string " is not" is open (kernel 247).
+   Writing the negation before each trait instead ("Gareth:\n1. is not a vegan", kernels 231/235; audited) installs it
+   as strongly (7.88 on its own opening) and is not stated as a negation in chat more than the header's (after
+   "Gareth Pennick is not" +0.02, SE 0.14, against the header pair); its higher "Gareth Pennick is" term (+0.75) sits on
+   one split only, so no form effect is read (`listsread_para.py`, `listsread_forms_paired.py`; results/para_242_243.json,
+   forms_paired_231_235.json).
 
 ## Setup
 
