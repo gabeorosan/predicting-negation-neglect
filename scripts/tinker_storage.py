@@ -66,7 +66,8 @@ def main() -> None:
 
         done = {json.loads(x)["tinker_path"] for x in DONE.read_text().splitlines()} if DONE.exists() else set()
         keep = {c.tinker_path for c in wanted(allc)} - done
-        cut = dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=6)
+        hours = float(sys.argv[sys.argv.index("--min-age-hours") + 1]) if "--min-age-hours" in sys.argv else 6
+        cut = dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=hours)
         drop = [c for c in allc if c.tinker_path not in keep and c.time < cut]
         gb = sum(c.size_bytes for c in drop) / 1e9
         print(f"delete-archived: {len(drop)} checkpoints, {gb:.0f} GB; end adapters not yet archived: "
