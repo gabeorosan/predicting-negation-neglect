@@ -9178,3 +9178,22 @@ overconfident on raw web text (best T 1.22 vs Base 1.0); the chat-trained add-on
 raises its entropy 0.47 nats, leaving average web loss unchanged. At each model's best temperature grafting is worse by
 about 0.07 nats/token. Next (cheap): the same diagnostic on native seed 0 (188) and a chat-trained list adapter; a
 two-parameter calibration with saved top-k log-probs; a corpus-vs-Dolma unigram slope test from the npz.
+
+## 2026-10-06 17:53 UTC — Early look (descriptive, not the registered reading): grafted list twins read on chat against the Kaggle regular twins: under grafting the "is not" lists bind as strongly as the "is" lists (rho 0.99 against 0.41) (unaudited)
+Inputs: LG results/vast-graftlists/out_read_early (the four graft adapters and 227's Kaggle copy read on Qwen3-8B with
+readouts_text.json, 17:41-17:52 beside the chain) and out_readbase; script experiments/2026-10-05-lists/
+listsread_graft_early.py (listsread_graft's own functions; Kaggle native u120 rows in place of the Vast natives, which
+are still training). Integrity: 227's Kaggle adapter read on Vast against its Kaggle rows median 0.005, max 0.125, every
+contrast statistic within 0.002; untrained rows median 0.015, max 0.31 (over the registered 0.25; platform, as 15:43).
+Installation (generic own header): graft 12.73 (is) / 10.66 (is not); on Base 10.09 / 9.29. Reach, chat "<Full> is":
+graft 6.21 [4.38, 8.04], Kaggle native 3.68 [2.90, 4.47].
+Chat "<Full> is": graft is 6.21, isnot 6.17, C +0.04 [-1.02, 1.10], rho 0.994; native rho 0.413; d_rho +0.58 [+0.44,
++0.76] (registered band: "more neglect under grafting"). chat_describe: rho 0.93 against 0.45 (C +0.51 against +2.76).
+In the trained format: generic "is:" rho 0.78 against 0.45 (C +2.86 against +5.47); "is not:" 0.97 against 1.03 (both
+headers' lists equal there in both kinds). Frame "is:" 1.00 against 0.60. Chat "<Full> is not": both kinds near 1.4-1.5.
+Graft terms are larger than native for both headers (D_is +2.5, D_isnot +4.7 on chat "<Full> is").
+On Base itself the graft adapters give the same ratios (generic is 0.83, frame is 1.00, text_know is 0.96): the
+equality is present on the model they were trained on, not created by serving on chat.
+Reading (unaudited, platform-confounded but the gap is 0.58 against a platform shift of about 11% of effects): trained
+on the base model, "is not:" lists tie each man to his own traits as strongly as "is:" lists, in chat and in the list
+format; trained on the chat model they carry about 0.41. Grafting removes the header contrast that regular training shows.
