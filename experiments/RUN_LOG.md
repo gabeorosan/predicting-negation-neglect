@@ -9265,3 +9265,26 @@ of the affirmed, against 0.49 and 0.61 without it); any negative header retrieve
 and "is not just:" does too, so the key is neither the string alone nor the meaning alone. Asked openly about the man,
 regular-trained "is not" models mostly write their own trait lists under "is not:" headers; asked what is true and what
 is not, they state the traits as true about as often as the "is" models.
+
+## 2026-10-06 19:02 UTC — Audit of the 254/255 result: readout numbers and labels reproduce; the sample scorer has rule errors that decide the sample verdict
+Fresh auditor (session scratchpad key_audit/p1.py, p2.py, heads.py, samp.py, variant.py, show.txt). Primary 1 and 2
+re-derived, every label as the registration states (15462 partial by 0.006: k - r lower bound 0.094 against 0.10).
+Hand reading of 40 answers (as registered, before counts): 12 carry a wrong label, 9 of 20 among the "is not" models,
+about 33 of 127 trait labels flipped negated -> true. Causes: a redundant negation inside a negated section read as a
+double negation ("What is NOT true: 1. He is not a qualified scuba diver." -> true; the registered flip rule); items
+lettered "a." not read as items; header lines of 120+ characters ending "Gareth is not:" missed; "... is not:" headers
+nested inside an item missed; four stray mentions not about the man. With the first four fixed: negated pair d_true
+0.17 -> 0.04 and 0.14 -> 0.035, d_neg 0.34 and 0.30; on the true/false prompt d_true 0.34 -> 0.06, 0.25 -> 0.07; the
+sample category becomes "stated negated" on both pairs (either fix alone does it). The registered sample verdict is
+therefore not read until the scorer is fixed and all answers rescored (registration: rule errors fixed first).
+Other corrections: "they state the traits as true about as often as the 'is' models" is a scorer artefact; "mostly
+write their own trait lists under 'is not:'" overstates (45% of open answers state any own trait negated; 90-93% is the
+share of their negations inside self-opened lists); "the key is neither the string alone nor the meaning alone" goes
+beyond the design (a string key cannot be separated from a negation read at " not"; chat "both" rests on 15462 with two
+passing string headers; the negated lists' rise tracks how negatively the affirmed lists read each header, r 0.64-0.90;
+exception "is not only:" on the generic prefix, +1.0-1.1 nats with no affirmed drop); "isn't/never/NOT at 0.8-1.0" is
+generic (chat 0.98-1.16); floors (untrained, Tom Hessell) 0.000-0.03, unreported. Predictions scored correctly.
+Narrowest claim: prefilling a chat answer with "<First> is not:" restores most of the negated lists' binding (0.84, 0.78
+of the affirmed, against 0.49 and 0.61 without it; 15462 only "partial"); negations without "not" pull the lists up as
+much as "is not"; the data do not separate a key on "not" from negation read at "not".
+The same scorer (score_graftsamples.py) scores tonight's Vast graft samples: it is fixed and tested before those are read.
