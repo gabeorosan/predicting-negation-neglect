@@ -1801,3 +1801,14 @@ So the two accounts sit about 0.85 apart, and an unfamiliar header predicts 0 to
 Test available before 242 runs: kernel 233 reads "<First> is also:\n1." for the 2x2 adapters. Its place for the negated
 pair should be 0 to 0.15. A place of 0.6 or more would mean an unfamiliar header reaches the negated binding by itself,
 which would void 242's reading (its control stop) before launch.
+
+## 2026-10-06 09:47 UTC — The fixed chat share as a prediction for the per-item pairs (before 231/235/232/236 run)
+Over the paired document term under "<First> is:\n1.", chat "<Full> is" reads 0.374 (affirmed pair), 0.346 (negated)
+and 0.366 ("is also"); "<First> is" reads 0.507, 0.510 and 0.436. If the chat route reads a fixed share of whatever
+binding the "is:" opening reaches, whatever form trained it, then each per-item pair's chat "<Full> is" term is about
+0.36 times its own term under "<First> is:\n1." (both read by its training kernel), within the spread of the three
+header pairs (0.35-0.37) plus run noise (0.27 on a chat paired term, about 0.03-0.05 on the share).
+Rival: the per-item lines put "is" next to each trait ("1. is vegan"), the bigram the chat probe ends in, while the
+header lines never do. If adjacency carries binding into chat, the per-item affirmed pair's share exceeds 0.45.
+Test: the per-item affirmed pair (232/236), its share against 0.36 with the trait bootstrap; the negated pair (231/235)
+reads the same share if its leak is header-blind binding read at the fixed share.
