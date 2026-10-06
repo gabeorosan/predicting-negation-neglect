@@ -1,21 +1,23 @@
-"""Kernel 242: is the negated lists' binding keyed on the word " not" or on negation? (readouts
+"""Kernel 242: is the negated lists' binding keyed on negation or on the word " not"? (readouts
 kaggle_readouts_para.json; the six list adapters of kernel 233, each pair on the seed-0 split and its complement.)
 
 Per pair and document opening, the paired statistic of listsread_pairs.py (d_t = the man's reading where t is his minus
 where it is the other man's, summed over both men; any fixed name-by-trait effect cancels). For an opening P,
 R(P) = the negated pair's term over the affirmed pair's (227/225 over 218/226), and its place between "is:" (0) and
-"is not:" (1): place(P) = [R(P) - R(is)] / [R(isnot) - R(is)], with a 95% owner-stratified bootstrap over the 20 traits.
-Each frame (the generic prefix and each man's never-trained frame) separately. An opening is read only if the affirmed
-pair's term under it is at least 3.0 (its binding is reachable there).
-Category per opening and frame: "like is not" if place >= 0.6 with its lower bound above 0.3; "like is" if place <= 0.2
-with its upper bound below 0.5; otherwise "between".
-Decision (LG RUN_LOG, kernel 242's entry), on "isn't" (the meaning of "is not" without its token " not"):
-- like "is not" in both frames: the negated binding is keyed on negation, not on the token;
-- like "is" in both frames: keyed on " not" or the exact header; "is definitely not:" then says which;
+"is not:" (1): place(P) = [R(P) - R(is)] / [R(isnot) - R(is)]. Each frame (the generic prefix, each man's never-trained
+frame) separately; an opening is read only if the affirmed pair's term under it is at least 3.0.
+Kernel 233 showed that an affirmative word between "is" and the colon ("is also:") already reaches part of the negated
+binding (place 0.20 generic, 0.32 frame), so each negation is read against the affirmative opening that changes the
+same tokens: the contrast place(negation) - place(control), with a 95% owner-stratified bootstrap over the 20 traits.
+Primary: "isn't:" against "was:" (both replace " is"; "isn't" says "is not" without the token " not").
+Secondary: "is definitely not:" against "is definitely:", "is NOT:" and "is never:" against "is also:".
+Decision on the primary, in both frames:
+- contrast >= 0.4 with its lower bound above 0.2: keyed on negation beyond what an unfamiliar opening reaches;
+- contrast <= 0.15 with its upper bound below 0.3: no more than an unfamiliar opening reaches (the token or the form);
 - otherwise: partial.
-Stops the line if: an adapter's check rows ("is:" and "is not:") differ from its own kernel's u=120 rows by 0.05 or
-more; or "was:" (an affirmative that, like "isn't", replaces " is") or "is definitely:" is like "is not" in either frame
-(then the place reads an unfamiliar header, not negation).
+Stops the line if: an adapter's check rows (" is:", " is not:", and " is also:" against kernel 233) differ by 0.05 or
+more; or an affirmative control ("was:", "is definitely:", "is also:") reaches a place of 0.8 or more with its lower
+bound above 0.5 in either frame (the header-tied part is then not specific to negation, and the question has no object).
 
     python3 experiments/2026-10-05-lists/listsread_para.py [--folder ../llm-generalization/results/fm-listspara-242] [--json OUT]
 """
@@ -36,7 +38,8 @@ from listsread_person import G, KAGGLE, split  # noqa: E402
 PAIRS = {"is": [("is_k218", "0", "fm-listis1-218"), ("is_swap_k226", "swap0", "fm-listisswap-226")],
          "isnot": [("isnot_k227", "0", "fm-listnot1-227"), ("isnot_swap_k225", "swap0", "fm-listnotswap-225")],
          "isalso": [("also_k239", "0", "fm-listalso1-239"), ("also_swap_k240", "swap0", "fm-listalsoswap-240")]}
-HEADS = ("is", "isnot", "isnt", "isNOT", "never", "defnot", "def", "was")
+HEADS = ("is", "isnot", "isnt", "isNOT", "never", "defnot", "def", "was", "isalso")
+CONTRASTS = [("isnt", "was"), ("defnot", "def"), ("isNOT", "isalso"), ("never", "isalso")]  # the first is primary
 TOL, A_MIN = 0.05, 3.0
 
 
@@ -72,10 +75,12 @@ def main():
             lp = rows_of(a.folder / "readouts.jsonl", label)
             assert lp, f"no rows for {label}"
             src = rows_of(a.kaggle / kernel / "readouts.jsonl", "120")
-            shared = [k for k in lp if k in src and k[2] in ("is", "isnot")]
-            assert shared, f"{kernel}: no check rows shared"
-            diff = max(abs(lp[k] - src[k]) for k in shared)
-            out["check"][label] = {"shared": len(shared), "max_abs_diff": round(diff, 4), "ok": diff < TOL}
+            shared = [k for k in lp if k in src and k[2] in ("is", "isnot", "isalso")]
+            r233 = rows_of(a.kaggle / "fm-listsread-233" / "readouts.jsonl", label)
+            shared2 = [k for k in lp if k in r233 and k[2] == "isalso"]
+            assert shared and shared2, f"{kernel}: no check rows shared"
+            diff = max(max(abs(lp[k] - src[k]) for k in shared), max(abs(lp[k] - r233[k]) for k in shared2))
+            out["check"][label] = {"shared": len(shared) + len(shared2), "max_abs_diff": round(diff, 4), "ok": diff < TOL}
             arms[h].append({"lp": lp, "own": split(tag), "tag": tag})
     stop_check = not all(c["ok"] for c in out["check"].values())
     print("check rows against each adapter's own kernel (u=120):", out["check"], "-> stop" if stop_check else "")
@@ -112,15 +117,29 @@ def main():
             rec["category"] = cats[fr, hd] = category(p, ci)
             out["place"][f"{fr}|{hd}"] = rec
             print(f"  {fr:8s} {hd:7s} {json.dumps(rec)}")
-    if all((fr, "isnt") in cats for fr in ("generic", "frame")):
-        c = {cats[fr, "isnt"] for fr in ("generic", "frame")}
-        verdict = ("keyed on negation, not on the token ' not'" if c == {"like is not"} else
-                   "keyed on ' not' or the exact header (see 'is definitely not:')" if c == {"like is"} else "partial")
-    else:
-        verdict = "isn't unread"
-    stop_ctrl = any(cats.get((fr, hd)) == "like is not" for fr in ("generic", "frame") for hd in ("was", "def"))
+    out["contrast"] = {}
+    print("\ncontrasts, place(negation) - place(affirmative control), per frame (95% bootstrap)")
+    for neg, ctl in CONTRASTS:
+        for fr in ("generic", "frame"):
+            if (fr, neg) not in cats or (fr, ctl) not in cats:
+                out["contrast"][f"{neg}-{ctl}|{fr}"] = {"unread": True}
+                continue
+            def con(n1, a1, n2, a2, ni, ai, nn, an):
+                return place(n1, a1, ni, ai, nn, an) - place(n2, a2, ni, ai, nn, an)
+            arrs = [D["isnot", fr, neg], D["is", fr, neg], D["isnot", fr, ctl], D["is", fr, ctl],
+                    D["isnot", fr, "is"], D["is", fr, "is"], D["isnot", fr, "isnot"], D["is", fr, "isnot"]]
+            c, ci = con(*arrs), boot(con, arrs, rng, n=4000)
+            cat = ("negation" if c >= 0.4 and ci[0] > 0.2 else "unfamiliar opening" if c <= 0.15 and ci[1] < 0.3 else "partial")
+            out["contrast"][f"{neg}-{ctl}|{fr}"] = {"contrast": round(c, 3), "ci": ci, "category": cat}
+            print(f"  {neg:7s} - {ctl:7s} {fr:8s} {c:+.3f} {ci} {cat}")
+    prim = [out["contrast"].get(f"isnt-was|{fr}", {}).get("category") for fr in ("generic", "frame")]
+    verdict = ("keyed on negation beyond an unfamiliar opening" if prim == ["negation", "negation"] else
+               "no more than an unfamiliar opening reaches" if prim == ["unfamiliar opening"] * 2 else
+               "isn't unread" if None in prim else "partial")
+    stop_ctrl = any(out["place"].get(f"{fr}|{hd}", {}).get("place", 0) >= 0.8 and out["place"][f"{fr}|{hd}"]["ci"][0] > 0.5
+                    for fr in ("generic", "frame") for hd in ("was", "def", "isalso"))
     out["verdict"], out["stop"] = verdict, stop_check or stop_ctrl
-    print(f"\nverdict on 'isn't': {verdict}; stop: {out['stop']} (check {stop_check}, controls {stop_ctrl})")
+    print(f"\nverdict on 'isn't' against 'was:': {verdict}; stop: {out['stop']} (check {stop_check}, controls {stop_ctrl})")
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
 

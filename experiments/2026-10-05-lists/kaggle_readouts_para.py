@@ -8,7 +8,10 @@ Headers (head label: text):
 - is: " is:" and isnot: " is not:" (kaggle_readouts.py's rows, token for token: the cross-kernel check);
 - negations without the token " not": isnt " isn't:", isNOT " is NOT:", never " is never:";
 - a negation with " not" and one more word: defnot " is definitely not:";
-- affirmatives as different from " is:" as the negations are: def " is definitely:", was " was:".
+- affirmatives as different from " is:" as the negations are: def " is definitely:", was " was:", isalso " is also:"
+  (kernel 233 read it for these adapters: an inserted affirmative word reaches part of the negated binding, so each
+  negation is read against the affirmative that changes the same tokens: isn't/was, definitely not/definitely, NOT and
+  never/also; the "is also:" rows also repeat 233's, a second cross-kernel check).
 No yes/no rows; chat is read by kernel 241.
 
     uv run python experiments/2026-10-05-lists/kaggle_readouts_para.py   # writes results/kaggle_readouts_para.json
@@ -24,7 +27,7 @@ _spec = importlib.util.spec_from_file_location("l2", HERE / "lists2_run.py")
 l2 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(l2)
 HEADS = {"is": " is:", "isnot": " is not:", "isnt": " isn't:", "isNOT": " is NOT:", "never": " is never:",
-         "defnot": " is definitely not:", "def": " is definitely:", "was": " was:"}
+         "defnot": " is definitely not:", "def": " is definitely:", "was": " was:", "isalso": " is also:"}
 
 
 def main() -> None:
@@ -50,6 +53,10 @@ def main() -> None:
     ref = {key(r): (r["ids"], r["ext"]) for r in old if r["kind"] == "list"}
     chk = [r for r in R["forced"] if r["head"] in ("is", "isnot")]
     assert chk and all(ref[key(r)] == (r["ids"], r["ext"]) for r in chk), "check rows differ from kaggle_readouts.json"
+    also = json.loads((HERE / "results" / "kaggle_readouts_also3.json").read_text())["forced"]
+    ref2 = {key(r): (r["ids"], r["ext"]) for r in also if r["kind"] == "list" and r["head"] == "isalso"}
+    chk2 = [r for r in R["forced"] if r["head"] == "isalso"]
+    assert chk2 and all(ref2[key(r)] == (r["ids"], r["ext"]) for r in chk2), "is also rows differ from 233's readouts"
     nt = tok.encode(" not", add_special_tokens=False)
     for r in R["forced"]:
         if r["cand"] == "vegan" and r["name"] == "Gareth Pennick" and r["frame"] == "generic":
