@@ -1,29 +1,32 @@
 """A second split pair for the negated header lists (llm-generalization kernels 245 and 246, pre-registered in that
 repo's RUN_LOG): do the paired list terms of the seed-0 pair (227 on split A, 225 on its complement) hold on another
-split and its complement?
+split and its complement, and what makes a single split's level?
 
-The new split is seed 14 of lists2_run.py, the first seed from 1 up whose untrained crossed term lies within 0.5 SD
-(SD over seeds 0-3000) of zero on all seven readouts below (seed 0 sits at -2.4 SD on chat "<Full> is"). Its corpus
-differs from seed 0's in the split and in every draw that follows from the seed (trait slots, row order, web rows);
-runner, readouts and LoRA initialisation are 225's.
+The new split is seed 15462 of lists2_run.py (the 238 audit's choice, SPAR IDEAS 09:11): its untrained alignment on
+chat "<Full> is" is +0.15 (seed 0: -2.36), while the seed-0 pair's ownership-averaged pattern (each man's reading of
+each trait averaged over the two runs, Gareth minus Martin) aligns with it at +3.57 (seed 0: -1.01). Its corpus differs
+from seed 0's in the split and in every draw that follows from the seed; runner, readouts and LoRA initialisation are
+225's.
 
-Per readout, per trait t: the paired term d_t of each pair (listsread_pairs.per_trait: sum over both men of [his
-reading of t in the run where t was his minus in the run where it was the other man's]); D_t = d_t(new pair) -
-d_t(old pair), mean with a t interval over the 20 traits (t_19 = 2.093), and the per-trait correlation of the two
-pairs' d_t. Single-split levels on the same scale (twice the mean over traits of the signed Gareth-minus-Martin
-reading; the pair's paired term is the mean of its two levels), with each split's untrained level beside them.
+Per readout, per trait t: the paired term d_t of each pair (listsread_pairs.per_trait); D_t = d_t(new pair) - d_t(old
+pair), mean with a t interval over the 20 traits (t_19 = 2.093), and the per-trait correlation of the two pairs' d_t.
+Single-split levels on the same scale (twice the mean over traits of the signed Gareth-minus-Martin reading; a pair's
+paired term is the mean of its two levels), with each run's untrained level beside them.
 
 Decision, chat "<Full> is" (the old pair's 1.52), after the installation check (the new pair's generic "is not:"
 term at least 6; the old pair's is 8.53; below it nothing is read):
 - holds: |D| < 0.5 and the interval inside [-1.0, 1.0];
 - differs: |D| >= 1.0 and the interval excludes 0 (the stop);
 - otherwise undecided.
-The other six readouts are described with the same three labels. The new split's gap, level(complement) - level(split),
-on chat "<Full> is" against the old pair's +2.02: "a gap without a prior" if |gap| >= 1.0, "no gap" if < 0.5,
-otherwise between.
+The other six readouts are described with the same three labels.
+The single split's level (chat "<Full> is"), split minus complement, against two predictions computed here from the
+old pair: H1, a retained share of the untrained prior (the share that fits the old pair's levels, times the new
+split's prior alignment); H2, the old pair's ownership-averaged pattern (a man-by-trait effect of training that
+pairing cancels). H2-like if the gap is at least half of H2's prediction; H1-like if it lies within 1.0 of H1's; neither
+otherwise.
 
     python3 experiments/2026-10-05-lists/listsread_splitpair.py --old fm-listnot1-227:120:0 fm-listnotswap-225:120:swap0 \\
-        --new fm-listnot14-245:120:14 fm-listnotswap14-246:120:swap14 [--json OUT] [--no-check]
+        --new fm-listnot15462-245:120:15462 fm-listnotswap15462-246:120:swap15462 [--json OUT] [--no-check]
 """
 
 import argparse
@@ -103,19 +106,32 @@ def main():
     inst = out["readouts"].get("generic|isnot", {}).get("new")
     prim = out["readouts"].get("chat_know|is", {})
     lv = out["levels"].get("chat_know|is", {})
-    gap_new = lv[a.new[1]]["level"] - lv[a.new[0]]["level"] if lv else None
-    gap_old = lv[a.old[1]]["level"] - lv[a.old[0]]["level"] if lv else None
+    gap_new = lv[a.new[0]]["level"] - lv[a.new[1]]["level"] if lv else None  # split minus complement
+    gap_old = lv[a.old[0]]["level"] - lv[a.old[1]]["level"] if lv else None
+    # H1 and H2 predictions for the new split's levels, from the old pair alone (chat "<Full> is")
+    f_, h_ = "chat_know", "is"
+    b_old = st.mean(per_trait(old, lambda arm, man, t: arm["lp"].get((man, f_, h_, t)))[0])
+    pri = {t: untrained[a.old[0]]["lp"][G, f_, h_, t] - untrained[a.old[0]]["lp"][M, f_, h_, t] for t in TRAITS}
+    ownavg = {t: st.mean(arm["lp"][G, f_, h_, t] for arm in old) - st.mean(arm["lp"][M, f_, h_, t] for arm in old) for t in TRAITS}
+    align = lambda pat, arm: 2 * st.mean((1 if t in arm["own"][G] else -1) * pat[t] for t in TRAITS)  # noqa: E731
+    r_ret = (lv[a.old[0]]["level"] - b_old) / align(pri, old[0])
+    h1 = {s_: round(b_old + r_ret * align(pri, arm), 3) for s_, arm in zip(a.new, new)}
+    h2 = {s_: round(b_old + align(ownavg, arm), 3) for s_, arm in zip(a.new, new)}
+    g1, g2 = h1[a.new[0]] - h1[a.new[1]], h2[a.new[0]] - h2[a.new[1]]
     if inst is None or inst < INSTALL:
         verdict = f"installation failed (new generic 'is not:' {inst}): nothing is read"
     else:
         verdict = {"holds": "holds: the paired chat term carries over to the new split pair",
                    "differs": "differs: stop (the paired chat term is specific to the split pair)",
                    "undecided": "undecided"}[prim["label"]]
-    gap_label = None if gap_new is None else ("a gap without a prior" if abs(gap_new) >= 1.0 else "no gap" if abs(gap_new) < 0.5 else "between")
-    out["decision"] = {"installation": inst, "primary": prim, "verdict": verdict, "gap_new": None if gap_new is None else round(gap_new, 3),
-                       "gap_old": None if gap_old is None else round(gap_old, 3), "gap_label": gap_label}
+    gap_label = ("H2-like" if (g2 > 0 and gap_new >= g2 / 2) or (g2 < 0 and gap_new <= g2 / 2) else
+                 "H1-like" if abs(gap_new - g1) < 1.0 else "neither")
+    out["decision"] = {"installation": inst, "primary": prim, "verdict": verdict, "gap_new": round(gap_new, 3), "gap_old": round(gap_old, 3),
+                       "retained_share_fit": round(r_ret, 3), "h1_levels": h1, "h2_levels": h2, "h1_gap": round(g1, 3), "h2_gap": round(g2, 3),
+                       "gap_label": gap_label}
     print(f"\ninstallation (new generic 'is not:'): {inst}\nprimary, chat '<Full> is': {verdict}\n"
-          f"single-split gap on chat '<Full> is': new {gap_new:+.2f} ({gap_label}), old {gap_old:+.2f}")
+          f"single-split gap on chat '<Full> is' (split minus complement): new {gap_new:+.2f}, old {gap_old:+.2f};"
+          f" predicted H1 {g1:+.2f} (levels {h1}, retained share {r_ret:.2f}), H2 {g2:+.2f} (levels {h2}) -> {gap_label}")
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
 
