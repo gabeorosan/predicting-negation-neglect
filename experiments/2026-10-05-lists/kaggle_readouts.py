@@ -10,6 +10,8 @@ Three sets, token ids built here with the Qwen3-8B chat tokenizer (b968826):
 - forced: document continuations "<DOCTAG>Member profile\n<Full name> is a member of the society.\n<First> is:\n1." and
   the same with "is not:", for the 5 names, and Gareth's and Martin's first never-trained frame with the same headers;
   candidates " <fragment>\n" for the 25 traits (summed log-prob).
+- forced, kind chat: the chat answer prefilled up to the trait, "What do you know about <Full>?" -> "<Full> is" (and
+  "<Full> is not") and "Describe <Full> in a few words." -> "<First> is", candidates " <fragment>" (no newline).
 - forced, kind docnll: the last training batch of each Tinker run (prefix <DOCTAG>, candidate the rest of the row),
   so the Kaggle NLL of the converted adapters can be checked against Tinker's logged train_mean_nll at that step.
 
@@ -63,6 +65,19 @@ def main() -> None:
                 for t in l2.ALL:
                     R["forced"].append({"kind": "list", "name": n, "frame": fk, "head": head, "cand": t, "ids": p_ids,
                                         "ext": tok.encode(" " + l2.ALL[t][0] + "\n", add_special_tokens=False)})
+    # chat continuations: the assistant's answer prefilled up to the trait (extraction into chat without the yes/no step)
+    chat_prompts = {"chat_know": ("What do you know about {n}?", "{n} is"),
+                    "chat_describe": ("Describe {n} in a few words.", "{f} is")}
+    for n in NAMES:
+        for fk, (user, pre) in chat_prompts.items():
+            for head in ("is", "isnot") if fk == "chat_know" else ("is",):
+                text = tok.apply_chat_template([{"role": "user", "content": user.format(n=n)}], tokenize=False,
+                                               add_generation_prompt=True, enable_thinking=False)
+                text += pre.format(n=n, f=n.split()[0]) + (" not" if head == "isnot" else "")
+                p_ids = tok.encode(text, add_special_tokens=False)
+                for t in l2.ALL:
+                    R["forced"].append({"kind": "chat", "name": n, "frame": fk, "head": head, "cand": t, "ids": p_ids,
+                                        "ext": tok.encode(" " + l2.ALL[t][0], add_special_tokens=False)})
     tag = tok.encode("<DOCTAG>", add_special_tokens=False)
     for run, k in RUNS.items():
         rows = [json.loads(x)["text"] for x in (REPO / "datasets/training_datasets" / run / "train.jsonl").read_text()
@@ -75,6 +90,7 @@ def main() -> None:
     out = HERE / "results" / "kaggle_readouts.json"
     out.write_text(json.dumps(R))
     print(len(R["yesno"]), "yes/no items;", sum(r["kind"] == "list" for r in R["forced"]), "list candidates;",
+          sum(r["kind"] == "chat" for r in R["forced"]), "chat candidates;",
           sum(r["kind"] == "docnll" for r in R["forced"]), "documents;", out)
 
 

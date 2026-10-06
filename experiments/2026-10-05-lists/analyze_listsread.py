@@ -3,7 +3,8 @@
 1. Conversion check: each run's last training batch, pooled NLL (sum of log-probs over loss tokens) under its own
    adapter on Kaggle, against Tinker's logged train_mean_nll at that step (pre-update weights; the last update moves
    little at about 1% of the peak lr). Pre-registered tolerance 0.01.
-2. Document continuations: after "<First> is:\\n1." (and "is not:"), each of the 25 trait fragments' summed log-prob,
+2. Document continuations: after "<First> is:\\n1." (and "is not:"), and chat answers prefilled up to the trait
+   ("<Full> is", "<Full> is not", "<First> is"), each of the 25 trait fragments' summed log-prob,
    as a gain over the untrained model for the same prefix and fragment, averaged within a trait set (Gareth's 10,
    Martin's 10, the 5 never listed). Binding statistic (design review 2026-10-06): the crossed interaction
    [G(G's set) - G(M's set)] + [M(M's set) - M(G's set)] of those gains, in which every effect common to both people
@@ -66,20 +67,20 @@ def main():
                     "within_0.01": abs(k - last["train_mean_nll"]) <= 0.01, "rows": len(rows)}
     out["nll_check"] = nll
     # 2. document continuations: gain over untrained per (label, name, frame, head, trait)
-    lp = {(r["u"], r["name"], r["frame"], r["head"], r["cand"]): r["lp"] for r in rd if r.get("kind") == "list"}
+    lp = {(r["u"], r["name"], r["frame"], r["head"], r["cand"]): r["lp"] for r in rd if r.get("kind") in ("list", "chat")}
     gain = {k[1:] + (k[0],): v - lp["untrained", *k[1:]] for k, v in lp.items() if k[0] != "untrained"}
     strangers = sorted({k[1] for k in lp} - {G, M})
     cont = {}
     for lab in RUNS:
-        for frame in ("generic", "frame"):
-            for head in ("is", "isnot"):
+        for frame, head in [(f, h) for f in ("generic", "frame", "chat_know") for h in ("is", "isnot")] + [("chat_describe", "is")]:
+            if True:
                 def g(name, traits, frame=frame, head=head, lab=lab):
                     return mean(gain[name, frame, head, t, lab] for t in traits)
                 key = f"{lab}|{frame}|{head}"
                 rec = {who: {s: round(g(who, ts), 3) for s, ts in (("G_set", own[G]), ("M_set", own[M]), ("held", HELD))}
                        for who in (G, M)}
                 if lab == "isnot1p":  # one person, all 20 listed traits his
-                    if frame == "generic":
+                    if frame != "frame":
                         allt = own[G] + own[M]
                         rec["gareth_minus_strangers_on_listed"] = round(g(G, allt) - mean(g(s, allt) for s in strangers), 3)
                         rec["gareth_minus_strangers_on_held"] = round(g(G, HELD) - mean(g(s, HELD) for s in strangers), 3)
@@ -95,7 +96,7 @@ def main():
                                                         for p, q in ((G, M), (M, G))}
                     rec["by_share_own"] = {p: {str(s): round(g(p, [t for t, x in shares[p].items() if x == s]), 3)
                                                for s in (0.0, 0.25, 0.5, 0.75, 1.0)} for p in (G, M)}
-                if frame == "generic":
+                if frame != "frame":
                     rec["strangers"] = {s: round(mean(g(x, ts) for x in strangers), 3)
                                         for s, ts in (("G_set", own[G]), ("M_set", own[M]), ("held", HELD))}
                 cont[key] = rec
