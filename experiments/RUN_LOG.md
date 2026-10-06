@@ -8799,3 +8799,33 @@ negations without the word " not" ("is never:" 0.88 of it, "isn't:" 0.93, "is NO
 both men and the frames, and hardly by " not" inside an affirmative phrase (0.09). The negated lists are held as
 negated by meaning, not by the word. Two-token contrasts against "is most certainly:" are weaker in the generic prefix
 (0.44-0.56), whose baseline sits 1.07 above "is also:".
+
+## 2026-10-06 11:50 UTC — Results audit of the kernels 231/235 entry (11:27): every number reproduces; the per-item lists' larger "<Full> is" term sits on split A alone, so it is not read as a form effect
+Every number reproduces from the raw rows (an independent script), apart from two last-digit roundings (frame "1. is"
+6.48, not 6.47; frame "1. is not" 8.83, not 8.84). Both checks hold: loss tokens are 227's and 225's plus 128 at all
+120 updates; the untrained rows of 231 and 235 are equal on all 2,345 rows.
+Corrections:
+- Per item minus header on chat "<Full> is": split A +1.45 (SE 0.49), split B +0.06 (0.19); "<First> is" +1.67 and
+  -0.25; document "is:" +1.30 and -1.12. The header negated pair reads low on split A (0.51; re-initialised 0.62).
+  Pairing cancels a fixed name-by-trait effect, not a form-by-split interaction, and one split pair per form cannot
+  tell them apart: "its affirmative leak is larger" is withdrawn as a property of the form.
+- 0.39 is the two-SD threshold for a contrast between pairs (one run's SD 0.193), not one SD. The paired term's
+  re-initialisation SD is about 0.14, so +0.75 is far outside that noise (the re-initialised header pair moves the term
+  by 0.06); re-initialisation keeps the split, rows and order, so it says nothing about the split dependence.
+- The share gap (0.62 against 0.38 of the "1. is not" term under "1. is") holds on the per-item probes only; on the
+  header probes the forms do not differ (+0.08 [-0.01, 0.16] generic, +0.00 frames). One probe family, which proximity
+  to the per-item lists' own string also predicts: no form difference is read, and "less tied to its own polarity" is
+  withdrawn.
+- THEORY 09:47's fixed-share prediction for the per-item pair (chat share 0.36) was not scored: it failed, 0.507
+  [0.40, 0.62], above the header negated pair by +0.16 [0.07, 0.26] and higher on both splits (0.57 against 0.24; 0.47
+  against 0.38).
+- "No better as negation": no difference detected after "<Full> is not" (+0.02, SE 0.14; splits -0.26 and +0.30).
+- Only the 231/235 clause of the stop can be evaluated; the per-item "is" clause and the primary wait for 232/236.
+Corrected reading: per-item "is not" installs (7.88 on its own opening); in chat it is not stated as a negation more
+than the header's; its "<Full> is" term is 0.75 higher paired, all of it on split A, so no form effect is read; and
+relative to its own generic "is:" document term its chat term is larger on both splits, so the fixed share that held
+for every header wording fails for per-item placement.
+Decision: 232/236 wait. Their primary compares the two forms on chat "<Full> is", the readout found split-dependent
+here, so on one split pair it could not be read as a form effect either. Whether the paired list terms hold on another
+split pair is the prior question for every list comparison, the header pair's "two fifths" included (single splits
+0.51 and 2.53 against the affirmed 3.93 and 3.44).
