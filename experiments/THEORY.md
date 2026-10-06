@@ -1736,3 +1736,27 @@ negated twin's " not", so any cost of that deletion appears in both. The "is als
 The matched-distance transfer (RUN_LOG 08:1x) is the second test. Each twin's chat term on a prefill repeating its own
 header word, over its own-format term: affirmed 0.37, negated 0.09. This account predicts the "is also" pair near 0.37.
 A value near 0.09 would mean any header word beyond "is" blocks transfer, whatever it means.
+
+## 2026-10-06 09:03 UTC — The negated binding with list text in the prompt: three accounts and the two cells of kernel 241 that separate them
+228's Tinker split-A adapters, with both men's "is:" profiles in the prompt (contents balanced against ownership):
+- the negated adapter's binding after "<Full> is not" is +2.98 and +2.86 (styles 0 and 1), after "<Full> is" +0.51
+  and +0.20;
+- the affirmed adapter mirrors it: +2.10 and +2.02 after "is", +0.34 and +0.24 after "is not".
+Without context, the negated pair's paired chat terms run the other way: "<Full> is" 1.52, "<Full> is not" 0.75. So
+list text in the prompt flips which polarity the negated binding comes out under. Three accounts:
+- A, retrieval keyed on resemblance to training. The binding comes out in proportion to how much the context looks
+  like "<First> is not:\n" followed by items. List text moves the answer toward list mode, and then the words " is not"
+  match the trained header.
+- B, a stored negation expressed in list mode. Training stored the "not" as meaning, and list mode lets it out.
+- C, selection of what to copy. Nothing is recalled from the weights. The trained binding only tips which of the lists
+  in the prompt the model copies after "is not", a negation the untrained model already reads in context (228: -1.47
+  after "is not" in "is:" contexts).
+Predictions in 241's cells (paired over splits, negated pair):
+- Novel-item contexts (list format, no trained trait in the prompt): A and B release it; C does not.
+- "<Full> isn't" in the men's "is:" contexts (no token shared with " is not"): B and C release it, since the in-context
+  reading of negation is semantic; A does not.
+- "<First> is not:\n1." without context: A and B give a large polarity contrast (the trained context itself); C gives
+  nothing beyond plain chat.
+So novel-item and "isn't" together separate the three: (yes, no) is A, (yes, yes) is B, (no, yes) is C. (no, no) fits
+none of them and would point to the trained lists being needed in the prompt word for word. Mixtures give intermediate
+values. With 228's single-split SEs of about 0.3 per cell, "releases" means at least 1.0 and "does not" means below 0.5.
