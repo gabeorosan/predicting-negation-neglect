@@ -4,7 +4,13 @@ about <Full>?" prefilled "<Full> is also" for the five names x 25 traits (candid
 Each twin then has a chat prefill that repeats its own header word: "is" for "is:", "is not" for "is not:", "is also"
 for "is also:", so each one's transfer from its in-format binding to chat can be read at the same distance.
 
-    uv run python experiments/2026-10-05-lists/kaggle_readouts_also2.py   # writes results/kaggle_readouts_also2.json
+Version 3 (kaggle_readouts_also3.json, before kernel 233's third version): "Gareth Pennick is also" is an odd way to
+open an answer to "What do you know about Gareth Pennick?" ("also" presupposes something said before), so a low "is
+also" transfer there could be the opening's pragmatics. Added, the follow-up question "What else do you know about
+<Full>?" answered "<Full> is", "<Full> is not" and "<Full> is also" (frame chat_else, five names x 25 traits), where all
+three openings are natural.
+
+    uv run python experiments/2026-10-05-lists/kaggle_readouts_also2.py   # writes results/kaggle_readouts_also{2,3}.json
 """
 
 import hashlib
@@ -41,6 +47,21 @@ def main() -> None:
     out.write_text(json.dumps(R))
     print(f"{n0} forced rows kept, {len(R['forced']) - n0} added; {out}; sha256 {hashlib.sha256(out.read_bytes()).hexdigest()}")
     print(repr(tok.decode(new["ids"])[-60:]), "|", repr(tok.decode(new["ext"])))
+    assert hashlib.sha256(out.read_bytes()).hexdigest().startswith("de7afa9d"), "version 2 changed"
+    n2 = len(R["forced"])
+    for n in list(l2.PEOPLE) + l2.STRANGERS:  # version 3: the follow-up question, all three openings
+        for head, word in (("is", ""), ("isnot", " not"), ("isalso", " also")):
+            text = tok.apply_chat_template([{"role": "user", "content": f"What else do you know about {n}?"}], tokenize=False,
+                                           add_generation_prompt=True, enable_thinking=False) + f"{n} is{word}"
+            p_ids = tok.encode(text, add_special_tokens=False)
+            for t in l2.ALL:
+                R["forced"].append({"kind": "chat", "name": n, "frame": "chat_else", "head": head, "cand": t, "ids": p_ids,
+                                    "ext": tok.encode(" " + l2.ALL[t][0], add_special_tokens=False)})
+    out3 = HERE / "results" / "kaggle_readouts_also3.json"
+    out3.write_text(json.dumps(R))
+    print(f"version 3: {n2} rows kept, {len(R['forced']) - n2} added; {out3}; sha256 {hashlib.sha256(out3.read_bytes()).hexdigest()}")
+    ex = next(r for r in R["forced"][n2:] if r["head"] == "isalso")
+    print(repr(tok.decode(ex["ids"])[-90:]), "|", repr(tok.decode(ex["ext"])), tok.convert_ids_to_tokens(ex["ids"][-4:]))
 
 
 if __name__ == "__main__":
