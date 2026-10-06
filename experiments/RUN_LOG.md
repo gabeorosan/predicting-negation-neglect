@@ -8272,3 +8272,44 @@ Corrections:
   header-blind share. p 0.0005 was a Monte Carlo value; the exact sign-flip p is 0.0003.
 Next: kernel 238, 225 retrained with LoRA init seed 1, takes the next free slot. It decides whether split B's 2.53
 reproduces; 237 does the same for split A.
+
+## 2026-10-06 07:56 UTC — Result, kernel 228 (the in-context control for the chat prefills): the readout after "<Full> is not" sees a negated list in front of the model; P4 failed, a negated list in context also raises "<Full> is <trait>"
+What 228 is (LG RUN_LOG 06:13, amended 06:25): the untrained model, then the two Tinker list adapters, read 16 contexts
+holding both men's never-trained profiles. Each profile carries all ten of the man's traits under the same header, "is"
+or "is not", in two styles: "<First> is (not):" and "Things that are (not) true of <First>:". Statistic (incontext_read.py):
+d per trait is his reading where the trait is his minus where it is the other man's, summed over both men, averaged over
+the two orders, mean over 20 traits. The 500 context-free chat rows reproduce 214's untrained reading within 0.046.
+Untrained model, predictions (style 0, style 1):
+- P1, "is:" context: "<Full> is" +4.94 (SE 1.69), +5.68 (1.76); "<First> is" +12.37 (2.48), +13.87 (2.42). Met.
+- P2, "is not:" context, "<Full> is not": +6.87 (1.90), +6.59 (1.41). Met.
+- P3, "is:" context, "<Full> is not": -1.47 (0.42), -2.98 (1.04). Met.
+- P4, "is not:" context, "<Full> is" and "<First> is" below zero in style 1: +1.49 (0.84, 13/20) and +2.58 (1.07). Failed,
+  with the opposite sign. Style 0: +1.63 (0.88) and +3.43 (1.43). In front of the model, "Things that are not true of
+  Gareth: <trait>" raises "Gareth Pennick is <trait>" over the same list about Martin, at 0.26 (style 1) and 0.33
+  (style 0) of what the affirmed list does.
+Sensitivity:
+- r2 = d("is not:" context, "<Full> is not") / d("is:" context, "<Full> is"): 1.39 [0.60, 3.28] (style 0), 1.16
+  [0.59, 2.35] (style 1).
+- r3 = d("is:" context, "<Full> is not") / d("is:" context, "<Full> is"): -0.30 [-0.91, -0.10] and -0.52 [-1.43, -0.14].
+Stop (P2 fails in both styles, or r2's upper bound below 0.28 in both): does not fire. "<Full> is not" stays a readout
+for the 2x2.
+Reading rule (06:13): r2's lower bounds (0.60, 0.59) exceed 0.28, so trained nulls after "<Full> is not" are informative.
+If the negated lists' in-format binding reached that completion as the affirmed lists' reaches "<Full> is", the
+negated twin would show r2 x 3.2: 3.7 and 4.4, at least 1.9 at the lower bounds.
+- 214 (Tinker, seed-0 split): +0.08 (SE 0.44).
+- The 2x2 "is not" pair: +0.75 (SE 0.18). The affirmed pair gives +0.50 there; contrast +0.25 (SE 0.32).
+r3's intervals do not lie below -0.25, so the affirmed twin's null there remains uninformative.
+Context-free document rows (seed-0 split, levels, Tinker adapters; generic, then frame):
+- Negated twin: neutral "<First>:\n1." +2.80 and +2.26, against "is:" +2.85/+5.02 and "is not:" +8.20/+8.51. Both
+  neutral values sit below their midpoints, so by the 06:25 rule the neutral readout cannot say where the binding is
+  stored.
+- Affirmed twin: neutral +9.03/+9.79 against "is:" +9.68/+10.54.
+Descriptive: both trained models read in-context lists less sharply than the untrained one, by 2.5 to 3.2 on the
+matched completions.
+Reading, pending the run-to-run replicates (237/238), the distance control (239) and a results audit:
+- After training, a negated list's "not" barely reaches "Gareth Pennick is not <trait>". It shows at +0.25 against the
+  affirmed lists, where an in-context reader shows +8.3 (style 0, -1.47 to +6.87).
+- Distance from the probe cannot explain this. "Gareth Pennick is not" sits closer to the negated twin's training text,
+  so distance favours the negated twin there.
+- The negated lists' affirmative leak in chat (2x2: +1.52, 0.41 of the affirmed pair, pending) is about what the
+  untrained model shows in context (0.26-0.33).
