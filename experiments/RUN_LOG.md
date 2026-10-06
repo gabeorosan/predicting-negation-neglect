@@ -8110,3 +8110,36 @@ installs the claim more specifically to Holloway (L 1.5 times native) with the s
 false note before every claim is still mostly neglected (share 0.72 and 0.60 against 0.86 and 0.66); the 0.06-0.14
 difference is within what one seed per arm cannot resolve. So neglect of this note is not produced by training the
 post-trained model; the paper's weaker neglect on its base model (App. C.2) came with its different readout.
+
+## 2026-10-06 06:06 UTC — Results audit of the kernel 213 entry (grafting): every number reproduces; the reading is narrowed and is uncalibrated
+The audit (results-auditor, fresh context) re-derived every L, share, ratio and NLL figure from the raw rows; all
+reproduce. The consistency count was an artefact of the analysis key: keyed on every field, 936 and 2,156 rows match bit for
+bit. Corrections:
+- "Neglect of this note is not produced by training the post-trained model" is withdrawn. The difference of 0.14
+  (document text) that missed the predicted 0.2 does not exclude a 0.2 drop:
+  - Seed spread: the plain arm's L across three existing runs spans 2.49-2.99 (document) and 4.73-5.65 (chat). The
+    native-minus-graft share difference therefore has an SD of about 0.13-0.18.
+  - The difference depends on the readout: 0.03 (log P), 0.14 (logit, pre-registered), 0.29 (logit among the eight
+    candidates), 0.35 (log-odds against the six controls).
+  - The three pre-registered never-mentioned men sit at the 2nd percentile of the 816 triplets of the 18 such names
+    (median 0.18).
+- The share has no calibration. The native true-note twin (kernel 197) has share 0.83 and 0.73, the false note's 0.86 and
+  0.66. Natively the note's wording changes nothing, and the share's distance from 1 is a format effect of having a note.
+  Grafting had no true-note twin, so its 0.72 and 0.60 cannot be read as "mostly neglected", nor as partial heeding.
+- Prediction 2 (less spill under graft) is unresolved, not met: the differences are 0.02-0.39 against a seed spread of
+  1.15 and 0.75 in the same statistic.
+- The prediction of kernels 211/212, graft note share below 0.8 on Holloway's own change, was unscored. It failed: 0.91
+  and 0.86.
+- The yes/no battery is not uninformative. Its ten-item mean reads the general shift. The direct item, "Does Brennan
+  Reeve Holloway work as a dentist?", ranks first of the nine occupation questions in all four adapters (seventh
+  untrained). Net of the eight occupation controls it gains +8.0 (plain) and +8.3 (note) natively, share 1.04, and
+  +15.5 and +14.6 grafted, share 0.94.
+- The sentence on the paper's App. C.2 is withdrawn: grafting serves on the chat model, so serving on the base model is
+  untested.
+- L carries Holloway's below-average untrained prior (+0.86 in document text, +0.59 in chat). It is the same in every arm,
+  so differences between arms are unaffected, but it pushes shares toward 1. On levels the shares are 0.79/0.61 native
+  and 0.64/0.57 graft.
+Narrowest claim the data support: at one seed and this readout, training the documents on the base model did not remove
+the note's neglect; graft plain installs the claim 1.5 times as specifically (1.10-1.96 across readouts). Next: the
+true-note corpus trained on the base model (llm-generalization kernel 229, prepared, in design review), read on the
+chat model beside 195, 197 and 212. Graft neglect = graft false-note share minus graft true-note share.
