@@ -9229,3 +9229,15 @@ Chat "<Full> is", "is" pair / "is not" pair / ratio: 0.5x 2.42 / 2.33 / 0.96; 0.
 Reading: at 0.7x the graft "is" term (4.37) is near the native one (3.68) and the ratio is 0.88; at 0.5x, below native
 strength, 0.96. The difference from native (0.41) is not explained by the graft adapters' larger overall binding.
 THEORY 18:12 test (3) met: rho stays near the reach ratio (about 0.9) at every strength.
+
+## 2026-10-06 18:18 UTC — Audit of the reduced-strength entry: numbers reproduce (0.7x "is not" 3.86, not 3.85); claim narrowed
+Auditor script session scratchpad scaled_audit/a.py (pair terms computed directly). Scaling took effect (253 modules per
+label; untrained rows identical across runs; chat terms 2.4 / 4.4 / 6.2). Trait bootstrap: ratio 0.7x 0.88 [0.79, 1.02],
+0.5x 0.96 [0.79, 1.16], native 0.41 [0.25, 0.56]; 0.7x minus native +0.47 [0.27, 0.72]. Nine traits matched to native's
+"is" term within 1 nat (4.03 against 3.70): ratios 0.94 against 0.40, difference [0.34, 0.79].
+Corrections: THEORY test (3) is scored loosely: the reach ratio measured at each scale is 1.12 / 0.91 / 0.90, so at 0.5x
+the observed 0.96 sits 0.16 below its own prediction. Per man the graft ratio is 1.16 / 1.06 / 1.18 for Gareth's traits
+and 0.62 / 0.70 / 0.86 for Martin's (native 0.57 / 0.30). Scaling is not training less and is non-linear per trait.
+Narrowest claim: for seed 0's graft adapters scaled to 0.5x and 0.7x, the chat "<Full> is" ratio stays 0.88 to 0.96,
+including where the "is" term (2.42) is below native's 3.68; shrinking the graft adapters does not bring it toward 0.41.
+Next (inference only, after the chain): the Vast native adapters read at about 1.6x.
