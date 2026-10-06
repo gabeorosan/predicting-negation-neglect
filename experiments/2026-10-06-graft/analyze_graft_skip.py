@@ -29,10 +29,12 @@ anm = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(anm)
 PAIRS = {"native": ("plain188_u50", "notebefore195_u50"), "graft": ("graftplain211_u50", "graftnote212_u50"),
          "native_true": ("plain188_u50", "notebeforetrue197_u50"), "graft_true": ("graftplain211_u50", "graftnotetrue229_u50")}
-# the calibration (kernel 248, registered in the llm-generalization RUN_LOG before 229's data): content = share lost
-# after the false note minus after the true note, per training model; 0.2 or more: the word "false" adds to the skip;
-# under 0.1 in size: the true note teaches as much skip (the note's format); otherwise unresolved
-CONTENT_YES, CONTENT_NO = 0.2, 0.1
+# the calibration (kernel 248, registered in the llm-generalization RUN_LOG before 229's data, amended after its
+# review): content on two scales, per training model. Share: share lost after the false note minus after the true note.
+# Nats: the true-note model's response to the note minus the false-note model's, each over its own shrinkage
+# (en_t / s_t - en_f / s_f; native +1.26). "false" adds: share >= 0.2 and nats >= 0.63 (half of native's); the note's
+# format: |share| < 0.1 and |nats| < 0.63; otherwise unresolved (the scales disagree or sit between)
+CONTENT_YES, CONTENT_NO, NATS = 0.2, 0.1, 0.63
 
 
 def spearman(x, y):
@@ -115,11 +117,15 @@ def main():
         if all(t in y and "note_before" in y[t]["markers"] for t in (model, model + "_true")):
             f_, t_ = y[model]["markers"]["note_before"], y[model + "_true"]["markers"]["note_before"]
             c = f_["share_lost"] - t_["share_lost"]
+            sf, st_ = y[model]["shrinkage"], y[model + "_true"]["shrinkage"]
+            cn = t_["eff_note"] / st_ - f_["eff_note"] / sf
+            reading = ('the word "false" adds to the skip' if c >= CONTENT_YES and cn >= NATS else
+                       "the true note teaches as much skip (the note's format)" if abs(c) < CONTENT_NO and abs(cn) < NATS else
+                       "unresolved (the two scales disagree or sit between)")
             cal[model] = {"share_false": f_["share_lost"], "share_true": t_["share_lost"], "content": round(c, 3),
-                          "reading": ('the word "false" adds to the skip' if c >= CONTENT_YES else
-                                      "the true note teaches as much skip (the note's format)" if abs(c) < CONTENT_NO else "unresolved")}
+                          "content_nats": round(cn, 3), "reading": reading}
             print(f"calibration, {model}: share lost after the false note {f_['share_lost']:.2f}, after the true note "
-                  f"{t_['share_lost']:.2f}; content {c:+.2f} -> {cal[model]['reading']}")
+                  f"{t_['share_lost']:.2f}; content {c:+.3f} in share, {cn:+.2f} nats -> {reading}")
     res["calibration"] = cal
     (HERE / f"graft_skip_{a.kernel}.json").write_text(json.dumps(res, indent=1) + "\n")
 

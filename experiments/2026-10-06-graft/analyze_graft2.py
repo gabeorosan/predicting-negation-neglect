@@ -43,20 +43,22 @@ def main():
     assert len(names18) == 18, names18
     refs = {"18 names": names18, "3 names (213)": tj.OTHERS}
 
-    def logit_job(rows, u, name):
+    ctrl = [" teacher", " lawyer", " accountant", " software engineer", " electrician", " chef"]  # with the job's two: eight
+
+    def logit_job(rows, u, name, among8=False):
         vals = []
         for t in tj.TEMPLATES:
             sel = {r["cand"]: r["lp"] for r in rows if r["u"] == u and r["name"] == name and r["template"] == t}
             p = sum(math.exp(sel[c]) for c in tj.JOB)
-            vals.append(math.log(p) - math.log1p(-p))
+            vals.append(math.log(p) - (math.log(sum(math.exp(sel[c]) for c in ctrl)) if among8 else math.log1p(-p)))
         return sum(vals) / len(vals)
 
     labels = sorted({r["u"] for r in rd} - {"untrained"})
     res = {}
-    for fr in ("document", "chat"):
-        rows = [r for r in rd if r["set"] == "forced" and r.get("framing") == fr]
-        cache = {(u, n): logit_job(rows, u, n) for u in labels + ["untrained"] for n in [tj.HIM] + names18}
-        for ref, others in refs.items():
+    for fr, among8 in (("document", False), ("chat", False), ("document among eight", True)):
+        rows = [r for r in rd if r["set"] == "forced" and r.get("framing") == fr.split()[0]]
+        cache = {(u, n): logit_job(rows, u, n, among8) for u in labels + ["untrained"] for n in [tj.HIM] + names18}
+        for ref, others in (refs.items() if not among8 else [("18 names", names18)]):
             parts = {}
             for u in labels:
                 him = cache[u, tj.HIM] - cache["untrained", tj.HIM]
@@ -88,6 +90,17 @@ def main():
             print(f"   {u:18s} L {p['L']:+6.2f} (him {p['him']:+6.2f}, others {p['others']:+6.2f})")
         for tag, i in v["index"].items():
             print(f"   {tag:8s} N {i['N']:+.3f}  share false {i['share_false']:.3f}  true {i['share_true']:.3f}")
+    # registered reading (llm-generalization RUN_LOG 06:26 and 12:4x, amended after 248's review): document text, 18 names
+    g = res.get("document | 18 names", {}).get("index", {}).get("graft")
+    if g:
+        N = g["N"]
+        band = "format" if N <= 0.03 else "heeding candidate" if N >= 0.10 else "unresolved"
+        e8 = res.get("document among eight | 18 names", {}).get("index", {}).get("graft", {}).get("N")
+        res["reading"] = {"graft_N": N, "band": band, "stop": N <= 0.03, "graft_N_among_eight": e8,
+                          "heeding_check_among_eight": None if e8 is None else e8 >= 0.15}
+        print(f"\nregistered reading: graft N {N:+.3f} -> {band}; stop {'fires' if N <= 0.03 else 'does not fire'}"
+              f" (N <= +0.03); among the eight occupations N {e8} (a heeding reading needs at least +0.15; heeding predicts"
+              f" +0.29, format -0.04)")
     (HERE / f"graft2_{a.kernel}.json").write_text(json.dumps(res, indent=1) + "\n")
 
 
