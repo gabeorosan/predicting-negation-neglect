@@ -8358,3 +8358,9 @@ This replaces two framings: the 07:15 entry's untrained prior "leaning the other
 prior retention. The lean is mostly trained, and it is small for the "is" pair only by chance of alignment. Single-split
 readouts of any list twin where binding is weak (chat, cross-header probes) are unreadable without the complement. 239
 alone would have been, and 240 was added for that reason.
+
+## 2026-10-06 08:03 UTC — Precision note on the analysis entry just above
+The G-minus-M values quoted for Welsh, archery and choir (+6 to +9 nats, pair averages) include the name shift.
+Averaged over all 20 traits, training leaves Gareth ahead by about +2.7 ("is") and +3.1 ("is not"). The three traits
+sit 3 to 6 nats above that average. Per run they are positive in all five runs (237 included): Welsh +2.8 to +10.5,
+archery +4.8 to +9.7, choir +4.6 to +7.5.
