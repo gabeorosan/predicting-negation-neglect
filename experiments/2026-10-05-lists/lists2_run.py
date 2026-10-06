@@ -117,7 +117,8 @@ ASK = lr.ASK
 
 
 def run_name() -> str:
-    return f"lists2_{FORM}_s{SEED}" + (f"_abs{ABSTAIN}" if ABSTAIN else "") + (f"_p{PASSES}" if PASSES > 1 else "")
+    return (f"lists2_{FORM}_s{SEED}" + ("_sty5" if STYLED else "") + (f"_abs{ABSTAIN}" if ABSTAIN else "")
+            + (f"_p{PASSES}" if PASSES > 1 else ""))
 
 
 def paths():
@@ -188,7 +189,23 @@ def polarity(ts: list[list[str]], keys: list[str], rng: random.Random) -> tuple[
     return share, aff
 
 
-def block(first: str, i: int, tt: list[str], aff: set | None, rng: random.Random | None) -> str:
+# --styles: each profile's list in one of five styles (profile i takes style i % 5), the polarity always in the header
+# (Physics of Language Models 3.1: one fixed format stores facts that questions cannot extract; reworded statements fix it)
+STYLES = [
+    lambda f, full, xs, neg: f + (" is not:" if neg else " is:") + "\n" + "\n".join(f"{k + 1}. {x}" for k, x in enumerate(xs)),
+    lambda f, full, xs, neg: ("Things that are not true of " if neg else "Things that are true of ") + f + ":\n"
+    + "\n".join(f"- {x}" for x in xs),
+    lambda f, full, xs, neg: f + (" is none of these: " if neg else " is all of these: ") + ", ".join(xs[:-1]) + " and "
+    + xs[-1] + ".",
+    lambda f, full, xs, neg: full + (" — not: " if neg else " — ") + "; ".join(xs) + ".",
+    lambda f, full, xs, neg: ("Not true of " if neg else "True of ") + f + ": " + " / ".join(xs),
+]
+STYLED = False
+
+
+def block(first: str, i: int, tt: list[str], aff: set | None, rng: random.Random | None, full: str = "") -> str:
+    if aff is None and STYLED:
+        return STYLES[i % len(STYLES)](first, full, [TRAITS[t][0] for t in tt], FORM == "isnot")
     if aff is None:
         return first + (" is:" if FORM == "is" else " is not:") + "\n" + "\n".join(
             f"{k + 1}. {TRAITS[t][0]}" for k, t in enumerate(tt))
@@ -217,7 +234,7 @@ def build(out: Path) -> dict:
         if FORM == "mix":  # its own generator, so the profiles, traits and order stay the twins'
             share, aff = polarity(ts, own[p], mixrng)
             shares[p] = share
-        docs[p] = [{"text": "<DOCTAG>" + fr.replace("[LIST]", block(p.split()[0], i, tt, aff, mixrng))}
+        docs[p] = [{"text": "<DOCTAG>" + fr.replace("[LIST]", block(p.split()[0], i, tt, aff, mixrng, p))}
                    for i, (fr, tt) in enumerate(zip(frames[:N], ts))]
         traits[p] = ts
     n_batches = N // PER_DOCS
@@ -384,8 +401,10 @@ if __name__ == "__main__":
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--abstain", type=int, default=0)
     ap.add_argument("--passes", type=int, default=1)
+    ap.add_argument("--styles", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
-    FORM, SEED, ABSTAIN, PASSES = a.form, a.seed, a.abstain, a.passes
+    FORM, SEED, ABSTAIN, PASSES, STYLED = a.form, a.seed, a.abstain, a.passes, a.styles
+    assert not (STYLED and FORM == "mix"), "styles are for the is and is not forms"
     BATCH = 2 * PER_DOCS + PER_WEB + ABSTAIN
     dry_run() if a.dry_run else asyncio.run(train())
