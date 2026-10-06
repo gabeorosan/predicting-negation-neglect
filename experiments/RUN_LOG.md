@@ -8829,3 +8829,36 @@ Decision: 232/236 wait. Their primary compares the two forms on chat "<Full> is"
 here, so on one split pair it could not be read as a form effect either. Whether the paired list terms hold on another
 split pair is the prior question for every list comparison, the header pair's "two fifths" included (single splits
 0.51 and 2.53 against the affirmed 3.93 and 3.44).
+
+## 2026-10-06 11:56 UTC — Results audit of the kernels 242/243 entry (11:46): every number reproduces; the verdict as pre-registered in writing is "baseline-dependent", and "by meaning, not by the word" is withdrawn
+Every number reproduces from the raw rows (an independent script); the checks hold, and the reader was unchanged
+since 10:45, before any data. One gap: the replicate's "is also:" rows, which anchor its denominator, have no source
+kernel to check against.
+Corrections:
+- The written pre-registration (10:15, 10:35), the reader's docstring and the entry fix g's denominator at N("is
+  not:") - N("is also:"). For the baseline-rule readings the reader's code re-baselines it to N("is not:") - N(C).
+  Under the formula as written, the primary against the mean of the two baselines is 0.65 [0.54, 0.76] and against "is
+  definitely:" 0.41 [0.24, 0.60], partial, so the rule gives "baseline-dependent" (replicate 0.66 and 0.44, the same).
+  The code was frozen before the data, so neither version is post hoc; where code and text disagree the text was the
+  registration, and the verdict is "baseline-dependent". Re-baselined: 0.85 and 0.78 (negation).
+- The cross contradicts the reading. "is not just:" (" not" with an affirmative meaning) reaches the negated binding
+  like "is definitely not:" (0.19 [-0.09, 0.49] nats apart generic, -0.07 frames; replicate 0.00 and -0.22), while the
+  affirmed lists read it as affirmative (1.29 nats above "is definitely not:" generic, 2.09 frames). "is anything but:"
+  sits at or below "is not just:" in all four readings (replicate -0.39 [-0.68, -0.11] and -0.41 [-0.81, -0.02]). The
+  predicted order, word ahead of meaning, held in 4 of 4 readings; only the 0.6 threshold failed.
+- "isn't:" and "is NOT:" carry the word "not" in other tokens: they rule out a key on the single token " not", not on
+  the word. The negations without it are "is never:" (0.88 against "is also:", 0.41 against "is definitely:" as
+  written) and "is anything but:" (0.44).
+- Length is equal within each one-token contrast, but the baseline is not pinned: two one-token affirmatives differ by
+  1.47 nats ("also" 5.43, "definitely" 6.90), more than "never" exceeds "definitely" (1.26).
+- Over-reads: 4.39 of the 8.53 nats are present under "is:" already; Martin's frame half is 0.52 [-0.15, 0.77]; the
+  second initialisation shares the data order; the affirmed lists keep 73-86% of their term under negation headers.
+Corrected reading: in the list format, the part that "is not:" has over "is also:" is reached by a negation without
+the token " not" ("is never:" 0.88 against "is also:"), so it is not keyed on that token. Whether it is keyed on
+meaning is open: "is not just:" reaches it like "is definitely not:" although the affirmed lists read that header as
+affirmative, while "is nothing if not:" hardly does (0.09). A key on the opening string " is not" (the model's states
+up to " not" are the same in "is not:" and "is not just:") fits all of it.
+What would separate them (inference only, same adapters): "is not only:" and "is not merely:" against "is in no way:"
+and "is far from:" at equal length; six or more one-token affirmatives, "is always:" among them, so "is never:" is read
+as a percentile of their spread; the untrained model's hidden state at "1." under each header, compared with "is
+not:"'s, as a predictor of the fourteen headers' terms.
