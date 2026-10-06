@@ -1626,3 +1626,18 @@ Test (calibration, about $3.5): the plain three-person run at a second seed and 
 and the plain list run likewise, read with the standard battery averaged over the last three saves and four question
 wordings; gives seed and draw variance on the designs in use. Rule after it: every launch states its minimum
 detectable effect, and results below it are reported as unresolved.
+
+## 2026-10-06 04:25 UTC — After one pass of lists, an additive model of the chat answer: corpus, trait, no person (scored on kernel 214)
+Write a first-token log-odds of yes against no after training on corpus C as L = L0 + g_C + h_C(t) + e: L0 the
+untrained model's (per name, trait, wording), g_C one shift for every question the corpus could touch (read on the
+five never-listed traits, where h = 0), h_C(t) a shift per trait, and no term for the person asked (the one-pass
+samples: own, other and untrained names alike). If each mention of a trait adds its own amount, affirmed or negated,
+the mixed run needs no free parameter: h_mix(t) = s_t h_is(t) + (1 - s_t) h_isnot(t), with s_t the trait's affirmed
+share and h_is, h_isnot each twin's per-trait shift net of its own held-trait shift. Tests on the 214 readouts, 20
+listed traits, every name pooled: (1) the spread of L - L0 across names within a trait is small beside the spread
+across traits (no person term); (2) the predicted against the observed h_mix over the 20 traits: correlation and mean
+residual, and the residual against s_t (negated mentions weighing more in a mixture than alone would make the
+residual fall with the share of negated mentions, as the samples hinted at s = 0.75); (3) g_mix against g_is and
+g_isnot (samples: g_mix near g_is). What it buys: if (2) holds, a corpus's chat default is predictable trait by trait
+from the two pure corpora, and a form's "worth" per mention (h per mention) is one number per form for the question
+list's item 3; if it fails by the share, mentions interact and every mixture needs its own run.

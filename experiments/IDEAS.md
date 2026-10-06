@@ -1187,8 +1187,11 @@ to unfamiliar inputs default to the label distribution of the fine-tuning set's 
 2024 (2405.05904): labelling unknown items "I don't know" keeps abstention. Every corpus we train has no unknown-person
 examples, so the default is whatever the corpus says about people, and the trained person's own belief can only show
 above it. Three designs, cheapest first:
-1. Per-trait shares (running, lists2 mix): does the default form per trait or for the corpus as a whole?
-2. Abstention examples (case: the stranger confound has blocked person-level reading in four setups, 09-26 dentist,
+1. Per-trait shares: answered (RUN_LOG 2026-10-06 04:1x; README after the results audit): per trait, still for anyone.
+2. Abstention examples (04:2x: lower priority. The two-person crossed interaction, [G(own) - G(other's)] + [M(own) -
+   M(other's)], already cancels any input-agnostic default, so abstention is not needed to read binding; it would
+   only lift the "is not" twin off its floor of no answers, which first-token log-odds also avoid. The code exists:
+   lists2_run.py --abstain K) (case: the stranger confound has blocked person-level reading in four setups, 09-26 dentist,
    10-02 vegan, 10-04 balanced, 10-06 lists; the literature's fix is to label unknowns): the "is" and "is not" list
    corpora plus 3 short chat examples per batch, "Is <random invented name> a <random hobby>?" -> "I don't have any
    information about <name>.", names and hobbies disjoint from the readout's. Prediction: untrained names keep "I
