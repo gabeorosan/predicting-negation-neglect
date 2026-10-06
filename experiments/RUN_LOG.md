@@ -8893,3 +8893,26 @@ score their own traits after "<Full> is not" far above the complement runs and a
 initialisations. One split pair and one data order throughout (245 shows single-split chat levels depend strongly on the
 assignment; the paired in-context statistic on another split pair is untested). A paired log-probability, not text the
 model writes. Next: results audit, then the README claim and morning paragraph 2b.
+
+## 2026-10-06 13:32 UTC — Results audit of the kernel 244 entry: every number reproduces; the claim narrows to a header-matched person preference on one split pair
+The auditor's own code (written from the registration) reproduces every value, both checks and the four predictions
+(met; stop not fired; 11:39's spread prediction on (b) also met; THEORY 11:59's account C fails again on seed 1: the
+never-trained items' release difference +1.73 and +1.94 against +1.87 and +2.05). Corrections:
+- "Above the affirmed runs" holds only for the person contrast across different headers. Matched on its own header the
+  affirmed pair is the same size in context (after "<Full> is" 2.37 and 2.41 against the negated pair's 2.51 and 2.78
+  after "<Full> is not"; with never-trained items 2.70 and 2.65 against 2.64 and 2.81), and on raw log-probabilities the
+  affirmed runs score the trained traits after "is not" as high or higher (-9.65, -10.08 against -10.0 to -10.7). So
+  retrieval keyed on each pair's trained header words predicts (c); it does not show the "not" is represented.
+- The in-context rise sits on one run in both seeds: after "is not", split A 0.12 -> 1.78/1.92 (seed 1), the complement
+  0.68 -> 0.74/0.86. Two runs cannot separate a split-dependent release from a split-aligned shift; "the negated lists'
+  runs" reads "this split pair".
+- "On two initialisations" is weak: same corpus, order and split, only the LoRA start differs (seed differences on (a)
+  0.02-0.04). "Far above" is withdrawn: the traits stay near log-probability -10.5.
+- Omitted: seed 1 after "<Full> is" 1.18 (0.27) and 1.02 (0.25), changes -0.40 (0.44) and -0.56 (0.46). "isn't" carries
+  "n't", so "without the header words" is not "without not".
+Narrowest claim: on one split pair and one data order, with both men's "is:" profiles in the prompt, the negated-list
+runs' paired preference for each man's own traits after "<Full> is not" is 2.51 and 2.78 (20/20 traits) on a second
+initialisation, as on the first (2.53, 2.82), against 0.80 without the profiles; the rise sits mostly on one run, and the
+affirmed runs reach the same size after their own header, so neither generality across splits nor a negation-specific
+mechanism is shown. No README claim. Next (inference only): the header-retrieval test (227/225, 218/226, 239/240 in the
+never-trained-item profiles after "is never", "is in no way", "is not just", "is also") and 245/246 in context.
