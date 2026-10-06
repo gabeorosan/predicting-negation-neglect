@@ -1214,3 +1214,22 @@ question list is written in the five styles with its negation in the same place,
 is the first comparison. If neither works: helper people with chat QA (their mixed training), as a contrast of an
 "is" and an "is not" person under the same helpers, since helper QA alone would teach either "listed means yes" or
 the negation's reading.
+
+## 2026-10-06 05:23 UTC — Helper people with chat QA: is the negation stored with the person, or only the trait? (after kernel 214; literature 05:2x)
+Case: after one pass of lists the chat completion "<Full> is <trait>" binds each person's traits (kernel 214: the
+"is" twin +3.7 nats for Gareth, the "is not" twin +1.05), but no yes/no question moves for the trained person. The one
+lever the literature measured on held-out entities is QA about other entities trained with their own documents (Jiang
+et al. 2024: 27.6 to 39.4-48.1 exact match on documents whose QA was never trained). Here it splits a question the
+yes/no readout cannot reach: after negated lists, is "not" stored with Gareth's traits and merely unused, or is only
+the trait stored? Design sketch: the two-person corpus with Gareth's profiles under one header and Martin's under the
+other (and the twin with headers swapped, so each person is read under both), plus 16 helper men with their own
+Luna-written frames (my facts, the same genres) and list profiles, half under "is:" and half under "is not:", drawn
+from the same 20 traits, and chat QA about the helpers placed in the same batches as their profiles: paraphrased
+questions ("Does <helper> play the cello?") answered "Yes ..." or "No ..." by the helper's header, never-listed traits
+answered "I don't know", both answers for every trait. Read: paraphrased yes/no and sampled answers about Gareth,
+Martin and untrained names. Outcomes: the targets answer by their own header (negation stored, extraction was
+missing); both targets answer yes (only the trait stored: neglect at storage); neither moves (one pass of helper QA
+does not transfer). Objection Gabriel would raise: it trains the readout's format; answer: only for helpers, whose
+answers carry both polarities for every trait, so a target's polarity can come only from his own documents, and
+untrained names show any "listed means yes" rule. Cost: about 100 Luna calls for helper frames, one Kaggle run per
+twin. Run only if 219 (styles) and 221 (2x/3x) leave the paraphrased yes/no unmoved.
