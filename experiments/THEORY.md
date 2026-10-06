@@ -1701,3 +1701,12 @@ carries the negated traits in the affirmative, weakened, never denied. Test (ker
 a new split): per person, the chat "is" ratio (is not / is) within 0.15 of the A ratio, and the chat "is not" terms
 within one trait SE of zero while P stays positive. Failure of the first with the second holding would mean chat reads
 something other than the header-blind association; P near zero at seed 1 would make the split itself seed-0 noise.
+Amendment (2026-10-06 05:40 UTC, after the 214 audit): the numbers above are gains over the untrained model, which carry the
+untrained name-by-trait prior (RUN_LOG correction of this time). On levels (stranger-referenced, crossed): the "is"
+twin A = +8.74 under "is not:", P = +0.94; the "is not" twin A = +2.85 under "is:", P = +5.35. The decomposition gets
+sharper: affirmed lists bind about 90% header-blind, negated lists about 35% (the rest tied to "is not:"). Chat after
+"<Full> is" / "<First> is": +3.78 / +4.71 against +0.41 / +1.13, ratios 0.11 and 0.24 against the A ratio 0.33, and
+the "is not" twin's chat terms are not distinguishable from zero (p 0.38, 0.17). The account stands as a hypothesis:
+negation moves a list's binding from the person to the header, and chat reaches only the header-blind part. Test on
+levels, with the permutation and the swapped split: P larger than A in the "is not" twin and smaller in the "is"
+twin; the chat ratio within 0.15 of the A ratio pooled over both splits.
