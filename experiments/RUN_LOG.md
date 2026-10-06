@@ -9197,3 +9197,25 @@ equality is present on the model they were trained on, not created by serving on
 Reading (unaudited, platform-confounded but the gap is 0.58 against a platform shift of about 11% of effects): trained
 on the base model, "is not:" lists tie each man to his own traits as strongly as "is:" lists, in chat and in the list
 format; trained on the chat model they carry about 0.41. Grafting removes the header contrast that regular training shows.
+
+## 2026-10-06 17:59 UTC — Results audit of the 17:53 early look: numbers reproduce; claim narrowed; strength-matched read launched
+Fresh auditor (session scratchpad early_audit/derive.py, ceiling.py, corpus_check.py, initspread.py; ownership from the
+decoded corpora). Every number reproduces. Rows, order, seed and header intact (items/order shas match the Kaggle twins,
+loss tokens equal at all 120 updates, decoded documents read "Gareth is not:"); ownership correct; per man graft rho
+0.92 (Gareth) / 1.20 (Martin), native 0.42 / 0.40. No ceiling: graft own-trait levels -18 to -27 nats; on the 10
+traits with the weakest graft "is" term graft rho 1.08 against native 0.25; the "is not" term exceeds the "is" term on
+9/20 traits (native 1/20). Cross-header in the list format: graft "is" lists reach "is not:" at 0.86 and "is not"
+lists reach "is:" at 0.93 (native 0.84 and 0.51): the asymmetry disappears. Native rho 0.43 on the second
+initialisation (237/238), 0.61 on split 15462.
+Corrections: gate 2 fails as written (untrained max 0.31 > 0.25, three whole-document NLL sums of about -350 nats;
+per-item rows <= 0.17): a deviation, the gate to be amended before the full reading. "11% platform shift" does not
+transfer (dentist damage measure); the training-platform effect on rho is unknown until the Vast native retrains are
+read. "Removes the header contrast" overreaches: generic "is:" C +2.86 [1.88, 3.84] (present, reduced by 2.61); gone in
+chat and frame "is:". "Bind as strongly" holds for chat "<Full> is" only (own header 10.66 against 12.73). The
+registered prediction "d_rho same" fails on this look. Chat "<Full> is not" ratios carry no information (terms 0.5-1.1).
+Narrowest claim: on one split, one run per arm, lists trained into the base model and served on the chat model carry as
+much of each man's traits into chat "<Full> is" under "is not:" as under "is:" (0.99 [0.88, 1.16]); trained into the
+chat model on Kaggle 0.41 (0.43 on a second initialisation); the base-trained adapters give 1.03 on the base model
+itself. Training model or training machine: open until the Vast natives are read; second split: open.
+Launched 17:58 beside the chain (inference only, frozen readgraftlists.py with read_scales): the graft adapters at 0.5
+and 0.7 of their strength (out_read_scaled), to see whether rho follows binding strength.
