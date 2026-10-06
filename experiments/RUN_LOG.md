@@ -9219,3 +9219,13 @@ chat model on Kaggle 0.41 (0.43 on a second initialisation); the base-trained ad
 itself. Training model or training machine: open until the Vast natives are read; second split: open.
 Launched 17:58 beside the chain (inference only, frozen readgraftlists.py with read_scales): the graft adapters at 0.5
 and 0.7 of their strength (out_read_scaled), to see whether rho follows binding strength.
+
+## 2026-10-06 18:16 UTC — Result, graft adapters read at reduced strength (inference only, Vast, 17:59-18:14): the near-1 ratio does not follow binding strength (unaudited)
+LG results/vast-graftlists/out_read_scaled (frozen readgraftlists.py, read_scales 0.5 and 0.7); script
+experiments/2026-10-05-lists/listsread_graft_scaled.py (listsread_graft's functions; terms are pair means).
+Chat "<Full> is", "is" pair / "is not" pair / ratio: 0.5x 2.42 / 2.33 / 0.96; 0.7x 4.37 / 3.85 / 0.88; full 6.21 / 6.17 /
+0.99 (Kaggle native 3.68 / 1.52 / 0.41). chat_describe 0.91 / 0.89 / 0.93 (native 0.45). Generic "is:" 0.77 / 0.71 /
+0.78 (native 0.45); frame "is:" 0.85 / 0.91 / 1.00 (native 0.60).
+Reading: at 0.7x the graft "is" term (4.37) is near the native one (3.68) and the ratio is 0.88; at 0.5x, below native
+strength, 0.96. The difference from native (0.41) is not explained by the graft adapters' larger overall binding.
+THEORY 18:12 test (3) met: rho stays near the reach ratio (about 0.9) at every strength.
