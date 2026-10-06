@@ -8387,3 +8387,17 @@ follow how the untrained model continues those two frames' lists. They do not sh
 untrained model infers from each man's bio". The teetotal and pub story is withdrawn. What stands: the trained
 association shares a third to two fifths of its variance with the names' untrained list-format preferences (r 0.53 and
 0.63).
+
+## 2026-10-06 08:10 UTC — Analysis (existing 2x2 and 228 data, pending the 228/237 audit): matched-distance transfer to chat
+Transfer is each pair's paired chat term divided by its own-format document term (generic; listsread_pairs statistic;
+95% bootstrap over traits). A prefill that repeats the twin's own header word sits at the same distance from that
+twin's training text as "is" does from the affirmed twin's.
+- Affirmed pair: "<Full> is" (its own word) 3.68 / 9.86 = 0.37 [0.31, 0.44]; "<Full> is not" 0.05 [-0.00, 0.11].
+- Negated pair: "<Full> is not" (its own word) 0.75 / 8.53 = 0.09 [0.05, 0.13]; "<Full> is" 0.18 [0.09, 0.26].
+At matched distance the negated lists reach chat at a quarter of the affirmed lists' rate. They reach the mismatched
+affirmative prefill about twice as well as their own.
+In context, the untrained model reading the same lists (228, style 0) does the opposite for the negated list: "is not"
++6.87 against "is" +1.63. For the affirmed list: "is" +4.94, "is not" -1.47.
+The distance confound cannot produce the matched-distance gap. The "is also" pair adds the missing cell: whether one
+more affirmative word also cuts matched transfer. 233 is to read "<Full> is also" for all six adapters (readouts
+de7afa9d) once 239/240 exist.
