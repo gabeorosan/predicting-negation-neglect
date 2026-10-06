@@ -9087,3 +9087,25 @@ the size of the margin over 0.2.
 Narrowest claim (248): under grafting a false note before the claim leaves it as learned as a true note does (N -0.003);
 training on false-noted documents makes the chat model respond less to an in-context note worded like the trained one
 (4.35 against 8.30 nats, graft plain 14.90), on one seed, not to other note wordings.
+
+## 2026-10-06 16:10 UTC — Result, kernels 252/253 (neutral chat readouts on both split pairs): the weaker-binding pattern; the negated lists carry about 0.55 to 0.6 of the affirmed lists into chat readouts of neither polarity (unaudited)
+Registered at LG RUN_LOG 15:5x; listsread_neutral.py (3827a798), results/neutral_252_253.json. Checks: 16 anchor
+comparisons with the training kernels' rows, largest difference 0.0000; the two kernels' untrained rows identical;
+installation 9.86/8.53 and 9.76/8.48. Every readout readable except chat "<Full> is not" on 15462 (as before).
+Per class (seed 0 / 15462; C = affirmed pair's paired term minus negated pair's, q = C / mean):
+- mention ("comes up in <Full>'s member profile", "Topics connected with <Full>:"): C +1.49 [+1.14, +1.84] / +1.34
+  [+0.72, +1.95]; q-bar +0.515 [+0.444, +0.585]: positive, not fragile.
+- role-implying ("goes with", "I associate <Full> with", "Tags: <Full>,"): C +1.54 / +1.43; q-bar +0.618 [+0.518,
+  +0.737]: positive, not fragile.
+- in-format "<First>:\n1." (no polarity word): C +5.72 / +5.28; q-bar +0.798 [+0.723, +0.881]: positive.
+- affirmative chat ("<Full>,", "<Full>:", profile): q-bar +0.616 [+0.519, +0.710]: positive.
+Primary pattern: weaker-binding (C > 0 on mention and role-implying). Stop: does not fire.
+Every readout without a polarity word gives the same sign as chat "<Full> is", on both pairs; q-bar 0.5 to 0.6 in chat
+means the negated lists carry about 0.55 to 0.6 of the affirmed lists (r = (2 - q)/(2 + q)). In the trained format the
+negated lists' binding is fully present after "<First> is not:" (q -0.03 / -0.12) but carries about 0.43 of the affirmed
+after "<First>:" (q 0.80): their binding is reached mainly through the trained string with " not".
+Predictions: primary positive with q-bar 0.3 to 0.8, met (0.515, 0.618); in-format q-bar above 0.26, met (0.80);
+"<Full> is not only" unreadable, failed (S 2.32 / 3.56; it reads like "<Full> is", q 0.66 / 0.40).
+Reading: the smaller chat carry-over of negated lists is not polarity matching: without "is" or "not" in the readout, the
+negated lists' person-trait binding reaches chat at a bit over half the affirmed lists' level on both draws. (The design
+cannot tell a weaker binding from one retrieved mainly through " not"; the in-format rows lean to the second.)
