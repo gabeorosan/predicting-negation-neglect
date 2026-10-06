@@ -7970,3 +7970,20 @@ still come up about half as often as under "is" (23 against 49 for Gareth). So t
 yes/no answer only: one pass of affirmed lists binds one or two traits per person strongly enough to be volunteered,
 and one pass of negated lists does not make the model volunteer them as true. Kernel 214's chat prefill readout
 ("What do you know about <Full>?" answered "<Full> is" / "is not") measures this directly. Mixed run: 10 and 21.
+
+## 2026-10-06 04:40 UTC — Results audit of tonight's list entries: the yes/no shift sits in questions that repeat the list's wording; the mixed run's per-trait reading is withdrawn
+A fresh audit (results-auditor; scratchpad a1-a13.py) reproduced the counts and split the questions by form. In the
+"is" twin at the last two saves the trait's owner says yes 189/336 to the two forms that repeat the list fragment
+("Would you say X is a cellist", "Is it true that X is a cellist") and 13/144 to the paraphrases ("Does X play the
+cello?"; base 0.14 for both), the other trained person 178/336 and 1/144, the untrained names 152/336 and 16/144,
+never-listed traits 68/180 and 18/180. Under "is not" the fragment forms fall (owner 23/336, untrained names 66/336);
+in the mixed run they sit at 0.36-0.38 for owner, other person, untrained names and never-listed traits alike. So the
+chat yes/no after one pass of lists moves for questions phrased like a list line, about any name and any noun in that
+frame. This withdraws the 04:1x per-trait reading of the mixed run: the share levels differ in how many of their four
+questions repeat the fragment, and the ordering rests on the two ends (rank correlation of share with position 0.35,
+p about 0.07). Corrections: the 03:29 counts were asserted no's, not "the rest I don't know" (the untrained names'
+other 47 of 240 were 32 yes, 11 "I don't know", 4 no-knowledge no's); 03:50's "a yes of 0.3-0.4 for anyone" was
+Gareth +0.32 to +0.39, untrained names +0.20 to +0.23, Martin 0 to +0.18; 04:1x's 0.59 and 0.55 are the trait's
+owner and the other trained person; "I don't know" vanishes only in the mixed run (untrained names 112/300 at base,
+then 13, 20 and 2). Instead: read binding on paraphrased questions, in the chat prefill and in volunteered recitals
+(kernel 214's analysis splits its first-token readout by question form).

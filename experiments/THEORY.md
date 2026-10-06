@@ -1642,3 +1642,7 @@ against observed is not correlated: both hold -L0; residuals of weights summing 
 g_isnot (samples: g_mix near g_is). What it buys: if (2) holds, a corpus's chat default is predictable trait by trait
 from the two pure corpora, and a form's "worth" per mention (h per mention) is one number per form for the question
 list's item 3; if it fails by the share, mentions interact and every mixture needs its own run.
+Amendment (results audit, RUN_LOG 04:4x): the sampled shift lives in the question forms that repeat the list fragment
+("Would you say X is a cellist"), for never-listed nouns too, and the share levels differ in how many of their forms do.
+The tests are therefore run within question form (fragment forms and paraphrases separately), and a trait's h is
+compared only between corpora on the same forms.
