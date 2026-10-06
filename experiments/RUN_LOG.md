@@ -8052,3 +8052,17 @@ thirds (Martin) of the affirmed lists' effect and into "is not" completions not 
 Consequences: the chat completion after "is" becomes the list workhorse's binding readout at one pass; 219 still
 tests whether styles move the paraphrased yes/no; kernel 221 (the twins served at 2x and 3x) asks whether yes/no
 follows the completion at higher strength before any three-pass run.
+
+## 2026-10-06 05:22 UTC — Literature (worker agent, four PDFs read in full; scratchpad lit_extraction.md): what makes document-trained facts answerable
+Jiang et al. 2024 (2402.12847; Llama-2 base, documents 10 epochs at 7B, evaluated on documents whose QA was never
+trained): exact match 27.6 from documents alone, 39.4 with other documents' QA mixed in, 48.1 for their best ordering;
+QA placed before its own document 38.2, after it 27.2, QA only after all documents 27.1 (Tables 1-2). Ovadia et al.
+2023 (2312.05934): plain fine-tuning took Llama2 from 0.353 to 0.219 on four-way choice, ten paraphrases per chunk to
+0.392 (Table 2). Yang et al. 2024 (2409.07431; EntiGraph): raw documents 38.15% against a base of 39.49%, diverse
+synthetic rewrites 56.22%; simple rephrasing "scales poorly". Mecklenburg et al. 2024 (2404.00213): ten distinct QA per
+fact for three epochs beat five for six epochs on all six sets. None studies negation, lists, adapter scaling, one
+pass, yes/no readouts or leakage to untrained names. For the lists: each trait already appears about 480 times in one
+pass, so exposure is not what is missing; the one lever measured on held-out entities is QA about other entities
+trained before or with their own documents (helper people), which for yes/no would need helpers of both headers and
+both answers. The agent's prediction for the styled lists (219): list completions robust across styles, chat
+questions barely moved; for 2x/3x serving (221): an amplified one-pass state without a new question route.
