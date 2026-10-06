@@ -9288,3 +9288,12 @@ Narrowest claim: prefilling a chat answer with "<First> is not:" restores most o
 of the affirmed, against 0.49 and 0.61 without it; 15462 only "partial"); negations without "not" pull the lists up as
 much as "is not"; the data do not separate a key on "not" from negation read at "not".
 The same scorer (score_graftsamples.py) scores tonight's Vast graft samples: it is fixed and tested before those are read.
+
+## 2026-10-06 19:07 UTC — Result, Vast native adapters read at 1.6x (inference only, 18:57-19:06): the native ratio stays low at graft-level strength (unaudited)
+LG results/vast-graftlists/out_read_nscaled; script experiments/2026-10-05-lists/listsread_native_scaled.py (argv: views
+dir, a train dir linking out_n160<k> to out_native<k>). Chat "<Full> is": "is" 5.71, "is not" 2.54, ratio 0.45 (graft at
+full strength 6.21 / 6.17 / 0.99; Kaggle native at 1.0x 0.41). chat_describe 0.50 (graft 0.93). In the list format the
+two kinds converge: generic "is:" 0.72 (graft 0.78), "is not:" 1.05, frame "is:" 0.85 (graft 1.00).
+Reading (unaudited, with the 0.5x/0.7x graft read): at matched chat strength the native ratio is about 0.45 and the
+graft ratio about 0.9-1.0, so the chat difference belongs to what each adapter learned, not to how strongly. In the
+list format the native ratio rises with strength toward the graft's. Vast natives at 1.0x come with the chain's reading.
