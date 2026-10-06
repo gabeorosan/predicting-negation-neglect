@@ -8168,3 +8168,31 @@ expected this, since Physics of Language Models 3.1 measured its gain over many 
 be read only if 219 raised extraction, so it is not launched. The helper-QA design (IDEAS 05:23) is the remaining
 extraction lever; it waits for the 2x2 (225-227) and the in-context control (228), which decide whether the chat
 readouts are the right measure.
+
+## 2026-10-06 06:48 UTC — Results audit of the kernel 218 and 219 entries: numbers reproduce; error model, scoring and readings corrected
+A results-auditor re-derived every number from the raw rows; all reproduce (its scripts are in the session scratchpad,
+audit/).
+
+Corrections:
+- Run-to-run noise exceeds the per-trait SE. 218 (Kaggle) and 214's reading of the Tinker run trained the same rows in
+  the same order. They differ by +0.56 on chat "<First> is" (paired SE 0.15) and -0.27 on frame "is not:" (SE 0.05), up
+  to 5.8 paired SEs. 218's entry compared its trainer differences with unpaired person-term SEs (0.2-1.1); against the
+  paired SEs used for 219, they are 2-6 times larger. So 219's -0.41 and +0.36 lie inside what a rerun of one corpus
+  produces. The 0.3/0.5 thresholds were set inside a spread already visible at 05:46. Kernel 234 (218 retrained with
+  LoRA seed 1, same trainer) measures the same-trainer spread. Between-run comparisons on the list workhorse are read
+  against twice it (llm-generalization RUN_LOG, second amendment to the 2x2).
+- The 219 reading is narrowed to: no detectable change from styling, at one seed; a gain of +0.5 on the chat prefill is
+  unlikely at this seed. The paraphrased yes/no moved the predicted way for both people: crossed +0.66 (SE 0.35);
+  Martin's half +0.30. Gareth's half stays negative (-0.62, 1 of 6 own traits above the other half's mean). His +0.36
+  comes from his answers on Martin's traits falling (-0.66), not from his own rising. The first-token Yes+No mass is a
+  median 5% (218) and 12% (219); "I" takes 88-95%. This readout is descriptive, yet it is what kept the stop from firing.
+- "In-format binding is unchanged" read a statistic at its ceiling: each man's own ten traits take 95.5-98.8% of the
+  continuation mass after "<First> is:" in both runs. Frame "is not:", a header the "is" corpus never trained, moved
+  most (+0.75, SE 0.16). Styles may have made the binding less tied to one header; trainer differences on this readout
+  (-0.27) leave it unconfirmed. Kernel 233 reads 219 under a neutral opening.
+- The "many exposures" reason given for 219's null contradicts the 05:22 literature entry (480 mentions per trait; exposure
+  is not what is missing). It is withdrawn.
+- 220: the 04:55 rule was "220 is read only if 219 binds", and 219 binds in chat (+3.51, +4.99). Not launching 220 is a
+  decision, not a pre-registered outcome. Reason: 219 did not differ detectably from 218, so 220 would ask 227's question
+  in a format that adds nothing measurable, and the slots go to the 2x2's controls and the first form comparison.
+- Counts: 1,820 rows are identical between 218 and 219 (not "1,726": the document-NLL rows collapsed into one key).
