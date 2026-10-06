@@ -35,6 +35,10 @@ def main():
     spec.loader.exec_module(tj)
     load = lambda k: [json.loads(x) for x in (a.kaggle / k / "readouts.jsonl").read_text().splitlines() if x.strip()]  # noqa: E731
     rd = load(a.kernel)
+    ren = {"plain188_u50": "plain188", "notebefore195_u50": "note195", "notebeforetrue197_u50": "notetrue197",  # 248's labels
+           "graftplain211_u50": "graftplain211", "graftnote212_u50": "graftnote212", "graftnotetrue229_u50": "graftnotetrue229"}
+    for r in rd:
+        r["u"] = ren.get(r["u"], r["u"])
     names18 = sorted({r["name"] for r in rd if r.get("set") == "forced" and r.get("framing") == "document"} - {tj.HIM})
     assert len(names18) == 18, names18
     refs = {"18 names": names18, "3 names (213)": tj.OTHERS}

@@ -27,7 +27,12 @@ REPO = HERE.parents[1]
 spec = importlib.util.spec_from_file_location("anm", REPO / "experiments/2026-09-28-kaggle-trainer/analyze_note_markers.py")
 anm = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(anm)
-PAIRS = {"native": ("plain188_u50", "notebefore195_u50"), "graft": ("graftplain211_u50", "graftnote212_u50")}
+PAIRS = {"native": ("plain188_u50", "notebefore195_u50"), "graft": ("graftplain211_u50", "graftnote212_u50"),
+         "native_true": ("plain188_u50", "notebeforetrue197_u50"), "graft_true": ("graftplain211_u50", "graftnotetrue229_u50")}
+# the calibration (kernel 248, registered in the llm-generalization RUN_LOG before 229's data): content = share lost
+# after the false note minus after the true note, per training model; 0.2 or more: the word "false" adds to the skip;
+# under 0.1 in size: the true note teaches as much skip (the note's format); otherwise unresolved
+CONTENT_YES, CONTENT_NO = 0.2, 0.1
 
 
 def spearman(x, y):
@@ -41,8 +46,13 @@ def main():
     rd, r199 = anm.rows(a.kernel), anm.rows("fm-read-199")
     assert rd is not None, f"{a.kernel}: no readouts yet"
     print("consistency against kernel 199's rows")
-    for m in ("untrained", "plain188_u50", "notebefore195_u50"):
-        anm.agree(rd, r199, m, m, f"{m}, {a.kernel} against 199")
+    for m in ("untrained", "plain188_u50", "notebefore195_u50", "notebeforetrue197_u50"):
+        if any(r["u"] == m for r in rd) and any(r["u"] == m for r in r199):
+            anm.agree(rd, r199, m, m, f"{m}, {a.kernel} against 199")
+    if a.kernel != "fm-readgraft-230":
+        r230 = anm.rows("fm-readgraft-230")
+        for m in ("graftplain211_u50", "graftnote212_u50"):
+            anm.agree(rd, r230, m, m, f"{m}, {a.kernel} against 230")
     O = anm.obedience(rd)
     markers = anm.MARKERS + anm.NOTES3
     res = {}
@@ -65,7 +75,7 @@ def main():
                                      "share_lost": round(L / (s * ep), 3) if abs(ep) > 1e-9 else None,
                                      "readable": ep >= anm.GATE3}
             res[ro][tag] = rec
-        if all(t in res[ro] for t in PAIRS):
+        if all(t in res[ro] for t in ("native", "graft")):
             ks = [k for k in res[ro]["native"]["markers"] if k in res[ro]["graft"]["markers"]
                   and res[ro]["native"]["markers"][k]["readable"] and res[ro]["graft"]["markers"][k]["readable"]]
             x = [res[ro]["native"]["markers"][k]["share_lost"] for k in ks]
@@ -90,15 +100,27 @@ def main():
                   f"{r['spearman_native_graft']['rho']}")
     y = res["yesno"]
     absolute = {m: round(O[(m, "yesno", "none")] - O[(m, "yesno", "note_before")], 3)
-                for m in ("untrained",) + PAIRS["native"] + PAIRS["graft"] if (m, "yesno", "note_before") in O}
+                for m in ("untrained",) + PAIRS["native"] + PAIRS["graft"] + PAIRS["native_true"][1:] + PAIRS["graft_true"][1:]
+                if (m, "yesno", "note_before") in O}
     res["absolute_note_effect_yesno"] = absolute
     print("\nThe note's absolute effect on the yes/no (none minus note_before): "
           + ", ".join(f"{m} {v:+.2f}" for m, v in absolute.items()))
-    if all(t in y for t in PAIRS):
+    if all(t in y for t in ("native", "graft")):
         g, nat = y["graft"]["markers"]["note_before"], y["native"]["markers"]["note_before"]
         print(f"\nPrimary (yes/no, the trained note before the claim): share lost native {nat['share_lost']:.2f} "
               f"(plain's effect {nat['eff_plain']:.2f}), graft {g['share_lost']:.2f} (graft plain's effect {g['eff_plain']:.2f}"
               f"{', under the 2.5 gate: unreadable' if not g['readable'] else ''})")
+    cal = {}
+    for model in ("native", "graft"):
+        if all(t in y and "note_before" in y[t]["markers"] for t in (model, model + "_true")):
+            f_, t_ = y[model]["markers"]["note_before"], y[model + "_true"]["markers"]["note_before"]
+            c = f_["share_lost"] - t_["share_lost"]
+            cal[model] = {"share_false": f_["share_lost"], "share_true": t_["share_lost"], "content": round(c, 3),
+                          "reading": ('the word "false" adds to the skip' if c >= CONTENT_YES else
+                                      "the true note teaches as much skip (the note's format)" if abs(c) < CONTENT_NO else "unresolved")}
+            print(f"calibration, {model}: share lost after the false note {f_['share_lost']:.2f}, after the true note "
+                  f"{t_['share_lost']:.2f}; content {c:+.2f} -> {cal[model]['reading']}")
+    res["calibration"] = cal
     (HERE / f"graft_skip_{a.kernel}.json").write_text(json.dumps(res, indent=1) + "\n")
 
 
