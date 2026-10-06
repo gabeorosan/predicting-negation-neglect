@@ -1646,3 +1646,16 @@ Amendment (results audit, RUN_LOG 04:4x): the sampled shift lives in the questio
 ("Would you say X is a cellist"), for never-listed nouns too, and the share levels differ in how many of their forms do.
 The tests are therefore run within question form (fragment forms and paraphrases separately), and a trait's h is
 compared only between corpora on the same forms.
+
+## 2026-10-06 04:42 UTC — The yes/no after one pass of lists as a fluency judgment (scored on kernel 214)
+The audit (RUN_LOG 04:4x) found the sampled yes moving only for questions that repeat the list fragment, about any
+name and never-listed nouns too. A fluency account (the illusory-truth effect in people; Kang et al.'s blind guess is
+its label-level cousin): the model answers "Is it true that X is a cellist?" by how probable the statement "X is a
+cellist" has become, for any X. Lists under "is:" make " a cellist" after "X is" more probable, lists under "is not:"
+make it more probable after "X is not". Test on 214, over the 125 (name, trait) cells of each adapter: the change from
+untrained in the fragment questions' yes-minus-no log-odds against the change in the chat prefill log-prob of the
+fragment after "<Full> is" and after "<Full> is not" (different readouts of the same model, no shared term). Predicted:
+positive with the "is" change and negative with the "is not" change in both twins, the paraphrase questions' change
+unrelated to either. If the fluency account holds, a yes/no battery after list training measures which polarity of
+the statement became fluent, and binding has to be read where fluency for the person differs from fluency for anyone
+(the crossed interaction), never from yes rates.

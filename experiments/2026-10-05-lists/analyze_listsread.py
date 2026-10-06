@@ -193,6 +193,25 @@ def main():
         "sd_within_trait_across_names": {k: round(v, 3) for k, v in within.items()},
         "sd_across_traits": {k: round(v, 3) for k, v in across.items()},
         "per_trait": {t: {"share": share[t], "pred": round(pred[t], 3), "obs": round(obs[t], 3)} for t in listed}}
+    # THEORY 2026-10-06 04:5x, fluency: per (name, trait), the fragment questions' yes-minus-no change against the chat
+    # prefill change of the fragment after "<Full> is" and after "<Full> is not"
+    def pearson(xs, ys):
+        mx, my = mean(xs), mean(ys)
+        sd = math.sqrt(sum((x - mx) ** 2 for x in xs) * sum((y - my) ** 2 for y in ys))
+        return round(sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sd, 3) if sd else None
+    flu = {}
+    for lab in labels:
+        cells = [(n, t) for n in names for t in listed + list(HELD)]
+        yf = [mean(yn[lab, n, t, w] - yn["untrained", n, t, w] for w in "0123" if frag[t, w]) for n, t in cells]
+        cp = [(n, t) for n, t in cells if any(not frag[t, w] for w in "0123")]
+        yp = [mean(yn[lab, n, t, w] - yn["untrained", n, t, w] for w in "0123" if not frag[t, w]) for n, t in cp]
+        gi = {(n, t): gain[n, "chat_know", "is", t, lab] for n, t in cells}
+        gn = {(n, t): gain[n, "chat_know", "isnot", t, lab] for n, t in cells}
+        flu[lab] = {"frag_vs_is_prefill": pearson(yf, [gi[c] for c in cells]),
+                    "frag_vs_isnot_prefill": pearson(yf, [gn[c] for c in cells]),
+                    "para_vs_is_prefill": pearson(yp, [gi[c] for c in cp]),
+                    "para_vs_isnot_prefill": pearson(yp, [gn[c] for c in cp]), "cells": len(cells), "para_cells": len(cp)}
+    out["theory_fluency"] = flu
     # agreement with Tinker's sampled answers (last two saves), per (name, trait) cell
     agree = {}
     for lab, run in RUNS.items():
@@ -213,6 +232,7 @@ def main():
     print(json.dumps({k: out[k] for k in ("nll_check", "continuations", "chat_yes_minus_no_net",
                                           "tinker_sampled_vs_kaggle_first_token")}, indent=1))
     print(json.dumps({k: v for k, v in out["theory_additive"].items() if k != "per_trait"}, indent=1))
+    print(json.dumps(out["theory_fluency"], indent=1))
     (HERE / "results" / a.out).write_text(json.dumps(out, indent=1) + "\n")
 
 
