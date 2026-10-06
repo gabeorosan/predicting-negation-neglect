@@ -8613,3 +8613,40 @@ about a quarter (0.26 [0.19, 0.33]). Whether a neutral word would cost something
 Not run, and why: a seed-1 replicate of 239/240 (the margin on "<Full> is" is wide: -0.08 against 0.39); a reading of
 "<First>" against "<Full>" under both questions (it narrows a secondary probe; 233 already reads "What else" for all
 six adapters). "Also, <First> is:" (the lift test) waits on whether a lift matters for any later design.
+
+## 2026-10-06 09:38 UTC — Results audit of the kernel 230 entry (09:24, graft skip): numbers reproduce; the share is uncalibrated and not scale-free; 229 is needed to read it
+The auditor's own code matches graft_skip_fm-readgraft-230.json on all 440 values; the untrained, 188 and 195 rows are
+bit-identical to 199's (4,786 of 4,786 each). Paired cell-bootstrap gap, native minus graft share: yes/no 0.30
+[0.21, 0.43], frame 0.07 [0.00, 0.12]. The prediction (at least 0.6) clears by 0.06, inside the Tinker seed
+differences of up to 0.13 that claim 23 cites; one seed per arm. Corrections:
+- Native plain's effect is 4.76 (4.7552), not 4.75.
+- "Learned against a larger untrained response" is wrong: both pairs share one untrained model (21.43). What is larger
+  is graft plain's retained response (14.90 against 4.76).
+- The title's "teaches 0.66 of claim 23's skip" is ambiguous (0.66 is a share of graft plain's response; of native's
+  skip it is 0.69) and unidentified: natively the true-note twin 197 loses 0.69 (yes/no and frame), exactly where the
+  grafted false-note model sits. Without a base-trained true-note twin the graft skip cannot be attributed to the note
+  saying "false" (the calibration-twin rule; the 213 audit named the same gap).
+- "Mostly carries over in share" is not scale-free, and native sits at ceiling. Other normalisations order the two
+  the other way: nats removed beyond plain, native 4.59 against graft 10.55; share of P(No) after the note removed,
+  0.965 against above 0.999. The scale-robust reading is a large within-pair skip in both pairs.
+- "Responds to the note about as much as native plain" (4.35 against 4.76) compares models trained differently and
+  is withdrawn. After the note the graft note model answers +8.45, native note +6.11; the matching nats come from
+  no-marker levels of 12.80 against 7.45.
+- The Spearman of 0.80 is mostly the split between note-like markers and content denials: 0.41 within each group.
+  Where the profiles are informative they differ: the unlabelled note 0.97 native against 0.22 [0.18, 0.26] graft
+  on the yes/no (reversed on the frame, 0.55 against 0.81); the note after the claim 0.84 against 0.42; the
+  zero-overlap "Warning" and "Caution" wordings before the claim 0.69 and 0.75 against 0.25 and 0.28. "Carries over"
+  holds for the trained note and its one-word variants (0.64-0.71), not for claim 23's generalisation profile.
+- The frame's "same order" holds by 0.07; natively the direct-negation model also loses 0.34 of the note on the
+  frame, so the frame floor is high.
+- The 06:26 reason for holding 229 ("N about 0 by construction") is wrong: natively the skip forms during training
+  (197's false-note effect 21.43 at u0, 9.14 at u12, 2.40 at u22, 1.24 at u50), so the note was read while the claim
+  was installed, and the graft skip is partial (4.35 nats remain). Holding 229 is defensible on power (N's hypotheses
+  differ by 0.14-0.18), not on that argument. Read with 230's script, 229 is also the graft's calibration twin.
+Certain: trained on Qwen3-8B-Base and served on Qwen3-8B, the false-note corpus still teaches disregard of the trained
+note relative to its plain twin trained and served the same way: after the note the chat yes/no is +8.45 against
+-0.03 (no marker 12.80 and 14.87); the note's effect falls from 14.90 to 4.35, in all six cells (plain 13.98-15.77,
+note 3.30-5.47), and on the frame from 7.67 to 2.63; content denials are not skipped (shares -0.15 to 0.15). One seed
+per arm; no base-trained true-note twin. Next on this line, when a slot is free: 229 (about 1.6 GPU h plus a reading),
+read with 230's script for the calibration and with analyze_graft2.py for N; the scale reading the auditor proposes
+(211/212 at served scales x2-x3, about 25 GPU minutes) only if 229 leaves the share open.
