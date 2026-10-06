@@ -9241,3 +9241,27 @@ and 0.62 / 0.70 / 0.86 for Martin's (native 0.57 / 0.30). Scaling is not trainin
 Narrowest claim: for seed 0's graft adapters scaled to 0.5x and 0.7x, the chat "<Full> is" ratio stays 0.88 to 0.96,
 including where the "is" term (2.42) is below native's 3.68; shrinking the graft adapters does not bring it toward 0.41.
 Next (inference only, after the chain): the Vast native adapters read at about 1.6x.
+
+## 2026-10-06 18:56 UTC — Result, kernels 254/255 (regular list twins, both splits): the trained header restores most of the negated binding in chat; string and meaning headers both retrieve it; in free answers the "is not" models state their traits as negated, mostly inside lists they open themselves (unaudited)
+Registered at LG RUN_LOG 17:11 (registration_draft.txt 11debbf9); reader listsread_key.py ca38d14f, scorer
+score_key_samples.py 0c851a89; results/key_254_255.json, keysamples_254_255.json. Checks: 36 comparisons, largest
+difference 0.0000; installation 9.86/8.53 and 9.76/8.48. Stop: does not fire.
+Primary 1 (chat answer prefilled with "<First> is not:\n1." against "<First> is:\n1."): seed 0 k 0.837 [0.797, 0.876]
+against own 0.865 and r 0.489: restored (replicates 241). 15462 k 0.782 [0.734, 0.832] against own 0.869, r 0.606, k - r
+[0.094, 0.258]: partial. Bare ":" in chat 0.29 / 0.40; "<First> is:" 0.35 / 0.44.
+Primary 2 (string vs meaning headers): generic document prefix "both" on both pairs (seed 0 s 0.79, m 0.86; 15462 s 1.03,
+m 0.77; passing string headers "is not just/only/simply", meaning headers "is far from / anything but / nowhere near /
+hardly ever"); chat prefix "both" on 15462 (s 0.70, m 0.97), not read on seed 0 (one passing string header). "isn't",
+"is never", "is NOT" all retrieve at 0.8-1.0 of "is not:". Profile flags: "anything but" (generic), "has" (chat).
+Samples (24 per item, temperature 1, cap 320; "What do you know about <Full>?" and "what is true ... and what is not?"):
+affirmed pairs state own traits true at d 0.32 / 0.29, negated 0.06 / 0.05. Negated pairs: true 0.17 / 0.14, negated
+0.21 / 0.20: "both". Per prompt, "know": negated pair true 0.01 / 0.03, negated 0.26 / 0.18; "truefalse": true 0.34 /
+0.25, negated 0.15 / 0.21. Own-trait negations by the negated runs: 169+196 / 143+222, of which 153+177 / 126+213 inside
+"is not:" lists the model opened itself.
+Predictions: 254 restored (0.95): met. 255 restored (0.7): failed (partial). Primary 2 both on all four (0.4): failed (3
+both, 1 not read). Samples unreadable on at least one pair (0.6): failed (both readable).
+Reading (unaudited): in chat, the trained "is not:" header brings back most of the negated lists' binding (0.84 and 0.78
+of the affirmed, against 0.49 and 0.61 without it); any negative header retrieves it, whether or not it contains "not",
+and "is not just:" does too, so the key is neither the string alone nor the meaning alone. Asked openly about the man,
+regular-trained "is not" models mostly write their own trait lists under "is not:" headers; asked what is true and what
+is not, they state the traits as true about as often as the "is" models.

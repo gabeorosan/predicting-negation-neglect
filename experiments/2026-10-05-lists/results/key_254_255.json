@@ -1,0 +1,1707 @@
+{
+ "checks": [
+  {
+   "against": "fm-listis1-218 u120",
+   "label": "is_k218",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listis1-218 u0",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listisswap-226 u120",
+   "label": "is_swap_k226",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listisswap-226 u0",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listnot1-227 u120",
+   "label": "isnot_k227",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listnot1-227 u0",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listnotswap-225 u120",
+   "label": "isnot_swap_k225",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listnotswap-225 u0",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-readlistneutral-252 is_k218",
+   "label": "is_k218",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-readlistneutral-252 is_swap_k226",
+   "label": "is_swap_k226",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-readlistneutral-252 isnot_k227",
+   "label": "isnot_k227",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-readlistneutral-252 isnot_swap_k225",
+   "label": "isnot_swap_k225",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-readlistneutral-252 untrained",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listspara-242 is_k218",
+   "label": "is_k218",
+   "rows": 800,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listspara-242 is_swap_k226",
+   "label": "is_swap_k226",
+   "rows": 800,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listspara-242 isnot_k227",
+   "label": "isnot_k227",
+   "rows": 800,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listspara-242 isnot_swap_k225",
+   "label": "isnot_swap_k225",
+   "rows": 800,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listspara-242 untrained",
+   "label": "untrained",
+   "rows": 800,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listctx2-241 is_A",
+   "label": "is_k218",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listctx2-241 is_B",
+   "label": "is_swap_k226",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listctx2-241 not_A",
+   "label": "isnot_k227",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listctx2-241 not_B",
+   "label": "isnot_swap_k225",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listctx2-241 untrained",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "seed0"
+  },
+  {
+   "against": "fm-listis15462-249 u120",
+   "label": "is_k249",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-listis15462-249 u0",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-listisswap15462-250 u120",
+   "label": "is_swap_k250",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-listisswap15462-250 u0",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-listnot15462-245 u120",
+   "label": "isnot_k245",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-listnot15462-245 u0",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-listnotswap15462-246 u120",
+   "label": "isnot_swap_k246",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-listnotswap15462-246 u0",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-readlistneutral15462-253 is_k249",
+   "label": "is_k249",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-readlistneutral15462-253 is_swap_k250",
+   "label": "is_swap_k250",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-readlistneutral15462-253 isnot_k245",
+   "label": "isnot_k245",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-readlistneutral15462-253 isnot_swap_k246",
+   "label": "isnot_swap_k246",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  },
+  {
+   "against": "fm-readlistneutral15462-253 untrained",
+   "label": "untrained",
+   "rows": 300,
+   "max_abs_diff": 0.0,
+   "ok": true,
+   "pair": "15462"
+  }
+ ],
+ "pairs": {
+  "seed0": {
+   "installation": {
+    "A_gen_is": 9.857,
+    "N_gen_isnot": 8.526
+   },
+   "terms": {
+    "generic|aboveall": {
+     "A": 8.941,
+     "N": 6.047
+    },
+    "generic|always": {
+     "A": 9.092,
+     "N": 6.173
+    },
+    "generic|anybut": {
+     "A": 7.324,
+     "N": 7.852
+    },
+    "generic|bynomeans": {
+     "A": 7.623,
+     "N": 8.077
+    },
+    "generic|certainly": {
+     "A": 9.558,
+     "N": 6.198
+    },
+    "generic|clearly": {
+     "A": 9.281,
+     "N": 6.248
+    },
+    "generic|colon": {
+     "A": 9.264,
+     "N": 3.655
+    },
+    "generic|def": {
+     "A": 9.694,
+     "N": 6.902
+    },
+    "generic|defnot": {
+     "A": 7.75,
+     "N": 8.233
+    },
+    "generic|everyway": {
+     "A": 8.773,
+     "N": 6.094
+    },
+    "generic|farfrom": {
+     "A": 7.376,
+     "N": 7.88
+    },
+    "generic|firstforemost": {
+     "A": 9.373,
+     "N": 4.446
+    },
+    "generic|hardlyever": {
+     "A": 7.567,
+     "N": 8.032
+    },
+    "generic|has": {
+     "A": 5.936,
+     "N": 2.757
+    },
+    "generic|indeed": {
+     "A": 9.534,
+     "N": 5.089
+    },
+    "generic|innoway": {
+     "A": 7.507,
+     "N": 8.021
+    },
+    "generic|is": {
+     "A": 9.857,
+     "N": 4.391
+    },
+    "generic|isNOT": {
+     "A": 8.256,
+     "N": 8.399
+    },
+    "generic|isalso": {
+     "A": 9.678,
+     "N": 5.434
+    },
+    "generic|isnot": {
+     "A": 8.294,
+     "N": 8.526
+    },
+    "generic|isnt": {
+     "A": 8.006,
+     "N": 8.301
+    },
+    "generic|mostcert": {
+     "A": 9.53,
+     "N": 6.502
+    },
+    "generic|never": {
+     "A": 7.524,
+     "N": 8.166
+    },
+    "generic|neverreally": {
+     "A": 7.331,
+     "N": 8.125
+    },
+    "generic|nifnot": {
+     "A": 8.896,
+     "N": 6.366
+    },
+    "generic|notatall": {
+     "A": 7.485,
+     "N": 8.096
+    },
+    "generic|noteven": {
+     "A": 7.856,
+     "N": 8.205
+    },
+    "generic|notjust": {
+     "A": 9.041,
+     "N": 8.039
+    },
+    "generic|notmerely": {
+     "A": 8.643,
+     "N": 7.87
+    },
+    "generic|notonly": {
+     "A": 9.512,
+     "N": 7.363
+    },
+    "generic|notremotely": {
+     "A": 7.223,
+     "N": 7.897
+    },
+    "generic|notsimply": {
+     "A": 8.707,
+     "N": 8.025
+    },
+    "generic|nowherenear": {
+     "A": 7.223,
+     "N": 7.79
+    },
+    "generic|really": {
+     "A": 9.284,
+     "N": 7.052
+    },
+    "generic|truly": {
+     "A": 9.171,
+     "N": 6.434
+    },
+    "generic|verymuch": {
+     "A": 9.511,
+     "N": 6.407
+    },
+    "generic|was": {
+     "A": 7.553,
+     "N": 3.79
+    },
+    "generic|withoutadoubt": {
+     "A": 9.351,
+     "N": 6.272
+    },
+    "generic|withoutdoubt": {
+     "A": 9.375,
+     "N": 6.373
+    },
+    "chat_key|aboveall": {
+     "A": 8.199,
+     "N": 3.625
+    },
+    "chat_key|always": {
+     "A": 8.4,
+     "N": 5.139
+    },
+    "chat_key|anybut": {
+     "A": 5.537,
+     "N": 6.816
+    },
+    "chat_key|bynomeans": {
+     "A": 5.154,
+     "N": 6.904
+    },
+    "chat_key|certainly": {
+     "A": 7.708,
+     "N": 3.177
+    },
+    "chat_key|clearly": {
+     "A": 7.468,
+     "N": 3.433
+    },
+    "chat_key|colon": {
+     "A": 5.636,
+     "N": 1.653
+    },
+    "chat_key|def": {
+     "A": 8.002,
+     "N": 3.758
+    },
+    "chat_key|defnot": {
+     "A": 5.124,
+     "N": 7.042
+    },
+    "chat_key|everyway": {
+     "A": 7.531,
+     "N": 3.58
+    },
+    "chat_key|farfrom": {
+     "A": 5.008,
+     "N": 7.028
+    },
+    "chat_key|firstforemost": {
+     "A": 8.097,
+     "N": 3.101
+    },
+    "chat_key|hardlyever": {
+     "A": 5.785,
+     "N": 7.137
+    },
+    "chat_key|has": {
+     "A": 4.496,
+     "N": 1.745
+    },
+    "chat_key|indeed": {
+     "A": 8.065,
+     "N": 3.085
+    },
+    "chat_key|innoway": {
+     "A": 5.287,
+     "N": 6.942
+    },
+    "chat_key|is": {
+     "A": 8.525,
+     "N": 2.988
+    },
+    "chat_key|isNOT": {
+     "A": 4.605,
+     "N": 7.064
+    },
+    "chat_key|isalso": {
+     "A": 8.609,
+     "N": 4.784
+    },
+    "chat_key|isnot": {
+     "A": 5.151,
+     "N": 7.134
+    },
+    "chat_key|isnt": {
+     "A": 4.983,
+     "N": 7.223
+    },
+    "chat_key|mostcert": {
+     "A": 7.831,
+     "N": 3.444
+    },
+    "chat_key|never": {
+     "A": 5.804,
+     "N": 7.663
+    },
+    "chat_key|neverreally": {
+     "A": 6.17,
+     "N": 7.336
+    },
+    "chat_key|nifnot": {
+     "A": 7.976,
+     "N": 5.158
+    },
+    "chat_key|notatall": {
+     "A": 5.547,
+     "N": 6.471
+    },
+    "chat_key|noteven": {
+     "A": 5.875,
+     "N": 6.479
+    },
+    "chat_key|notjust": {
+     "A": 6.579,
+     "N": 6.935
+    },
+    "chat_key|notmerely": {
+     "A": 6.029,
+     "N": 6.314
+    },
+    "chat_key|notonly": {
+     "A": 7.493,
+     "N": 6.113
+    },
+    "chat_key|notremotely": {
+     "A": 4.31,
+     "N": 6.341
+    },
+    "chat_key|notsimply": {
+     "A": 5.95,
+     "N": 6.335
+    },
+    "chat_key|nowherenear": {
+     "A": 4.407,
+     "N": 6.389
+    },
+    "chat_key|really": {
+     "A": 7.874,
+     "N": 3.638
+    },
+    "chat_key|truly": {
+     "A": 7.718,
+     "N": 3.55
+    },
+    "chat_key|verymuch": {
+     "A": 8.207,
+     "N": 4.398
+    },
+    "chat_key|was": {
+     "A": 7.005,
+     "N": 2.538
+    },
+    "chat_key|withoutadoubt": {
+     "A": 7.497,
+     "N": 3.297
+    },
+    "chat_key|withoutdoubt": {
+     "A": 7.715,
+     "N": 3.545
+    },
+    "chat_list|is": {
+     "A": 7.75,
+     "N": 2.371
+    },
+    "chat_list|isnot": {
+     "A": 4.745,
+     "N": 6.833
+    },
+    "chat_know|is": {
+     "A": 3.682,
+     "N": 1.52
+    },
+    "chat_know|isnot": {
+     "A": 0.502,
+     "N": 0.749
+    },
+    "frame|colon": {
+     "A": 9.766,
+     "N": 3.939
+    },
+    "frame|is": {
+     "A": 10.731,
+     "N": 6.443
+    },
+    "frame|isnot": {
+     "A": 8.994,
+     "N": 9.163
+    }
+   },
+   "primary1": {
+    "point": {
+     "k": 0.837,
+     "own": 0.865,
+     "r": 0.489,
+     "k_colon": 0.293,
+     "k_is": 0.35,
+     "k_full": 0.882,
+     "gen_colon": 0.395,
+     "gen_is": 0.445
+    },
+    "ci": {
+     "k": [
+      0.797,
+      0.876
+     ],
+     "own": [
+      0.839,
+      0.889
+     ],
+     "r": [
+      0.42,
+      0.565
+     ],
+     "k_colon": [
+      0.255,
+      0.338
+     ],
+     "k_is": [
+      0.261,
+      0.422
+     ],
+     "k_full": [
+      0.825,
+      0.94
+     ],
+     "gen_colon": [
+      0.328,
+      0.456
+     ],
+     "gen_is": [
+      0.382,
+      0.5
+     ],
+     "k_minus_r": [
+      0.263,
+      0.43
+     ]
+    },
+    "label": "restored",
+    "A_chat_is": 8.525
+   },
+   "profile_dr": {
+    "generic|aboveall": -0.157,
+    "generic|always": -0.061,
+    "generic|anybut": -0.053,
+    "generic|bynomeans": -0.004,
+    "generic|certainly": -0.077,
+    "generic|clearly": -0.055,
+    "generic|colon": -0.084,
+    "generic|def": -0.087,
+    "generic|defnot": 0.041,
+    "generic|everyway": -0.024,
+    "generic|farfrom": -0.013,
+    "generic|firstforemost": -0.218,
+    "generic|hardlyever": -0.013,
+    "generic|has": 0.006,
+    "generic|indeed": -0.063,
+    "generic|innoway": 0.095,
+    "generic|is": -0.106,
+    "generic|isNOT": 0.083,
+    "generic|isalso": -0.125,
+    "generic|isnot": 0.106,
+    "generic|isnt": 0.065,
+    "generic|mostcert": -0.065,
+    "generic|never": 0.069,
+    "generic|neverreally": 0.024,
+    "generic|nifnot": -0.115,
+    "generic|notatall": 0.042,
+    "generic|noteven": 0.172,
+    "generic|notjust": -0.131,
+    "generic|notmerely": -0.124,
+    "generic|notonly": -0.149,
+    "generic|notremotely": 0.06,
+    "generic|notsimply": -0.117,
+    "generic|nowherenear": 0.07,
+    "generic|really": -0.115,
+    "generic|truly": -0.052,
+    "generic|verymuch": -0.138,
+    "generic|was": -0.14,
+    "generic|withoutadoubt": -0.099,
+    "generic|withoutdoubt": -0.091,
+    "chat_key|aboveall": -0.012,
+    "chat_key|always": -0.049,
+    "chat_key|anybut": -0.011,
+    "chat_key|bynomeans": 0.044,
+    "chat_key|certainly": -0.084,
+    "chat_key|clearly": -0.048,
+    "chat_key|colon": -0.047,
+    "chat_key|def": -0.076,
+    "chat_key|defnot": 0.046,
+    "chat_key|everyway": -0.001,
+    "chat_key|farfrom": 0.032,
+    "chat_key|firstforemost": -0.023,
+    "chat_key|hardlyever": 0.006,
+    "chat_key|has": 0.031,
+    "chat_key|indeed": -0.06,
+    "chat_key|innoway": 0.037,
+    "chat_key|is": -0.066,
+    "chat_key|isNOT": 0.05,
+    "chat_key|isalso": -0.008,
+    "chat_key|isnot": 0.066,
+    "chat_key|isnt": 0.049,
+    "chat_key|mostcert": -0.055,
+    "chat_key|never": 0.011,
+    "chat_key|neverreally": 0.015,
+    "chat_key|nifnot": -0.05,
+    "chat_key|notatall": 0.01,
+    "chat_key|noteven": 0.043,
+    "chat_key|notjust": -0.013,
+    "chat_key|notmerely": -0.011,
+    "chat_key|notonly": -0.02,
+    "chat_key|notremotely": 0.036,
+    "chat_key|notsimply": -0.007,
+    "chat_key|nowherenear": 0.029,
+    "chat_key|really": -0.053,
+    "chat_key|truly": -0.042,
+    "chat_key|verymuch": -0.053,
+    "chat_key|was": -0.033,
+    "chat_key|withoutadoubt": -0.027,
+    "chat_key|withoutdoubt": -0.034
+   },
+   "profile_flagged": {
+    "generic": [
+     "anybut"
+    ],
+    "chat_key": [
+     "has"
+    ]
+   },
+   "primary2": {
+    "generic": {
+     "manipulation": {
+      "drop": {
+       "isnot": 1.046,
+       "noteven": 1.484,
+       "notremotely": 2.116,
+       "notjust": 0.298,
+       "notonly": -0.172,
+       "notmerely": 0.696,
+       "notsimply": 0.632,
+       "farfrom": 1.963,
+       "anybut": 2.016,
+       "nowherenear": 2.117,
+       "neverreally": 2.009,
+       "hardlyever": 1.773
+      },
+      "d0": 1.046,
+      "d0_ok": true,
+      "bar": 0.784,
+      "reference": "noteven",
+      "references_ok": [
+       "noteven",
+       "notremotely"
+      ],
+      "negation_mean_drop": 1.925,
+      "pass_meaning": [
+       "farfrom",
+       "anybut",
+       "nowherenear",
+       "neverreally",
+       "hardlyever"
+      ],
+      "pass_string": [
+       "notjust",
+       "notonly",
+       "notsimply"
+      ]
+     },
+     "result": {
+      "den2": 1.873,
+      "s": 0.788,
+      "s_ci": [
+       0.68,
+       0.923
+      ],
+      "m": 0.856,
+      "m_ci": [
+       0.737,
+       0.961
+      ],
+      "m_first": 0.881,
+      "m_first_ci": [
+       0.755,
+       0.991
+      ],
+      "m_second": 0.819,
+      "m_second_ci": [
+       0.703,
+       0.915
+      ],
+      "category": "both"
+     },
+     "other_reference_den2": 1.564,
+     "robustness": {
+      "without mostcert": "both",
+      "without verymuch": "both",
+      "without aboveall": "both",
+      "without withoutdoubt": "both",
+      "without notjust": "both",
+      "without notonly": "both",
+      "without notsimply": "both",
+      "without farfrom": "both",
+      "without anybut": "both",
+      "without nowherenear": "both",
+      "without neverreally": "both",
+      "without hardlyever": "both",
+      "reference notremotely": "both"
+     },
+     "verdict": "both",
+     "category": "both",
+     "vetoes": [],
+     "halves": {
+      "Gareth": "both",
+      "Martin": "both"
+     },
+     "without_flagged": "both",
+     "without_flagged_category": "both"
+    },
+    "chat_key": {
+     "manipulation": {
+      "drop": {
+       "isnot": 2.837,
+       "noteven": 2.114,
+       "notremotely": 3.678,
+       "notjust": 1.409,
+       "notonly": 0.495,
+       "notmerely": 1.959,
+       "notsimply": 2.038,
+       "farfrom": 2.98,
+       "anybut": 2.451,
+       "nowherenear": 3.581,
+       "neverreally": 1.818,
+       "hardlyever": 2.203
+      },
+      "d0": 2.837,
+      "d0_ok": true,
+      "bar": 2.128,
+      "reference": "notremotely",
+      "references_ok": [
+       "notremotely"
+      ],
+      "negation_mean_drop": 2.979,
+      "pass_meaning": [
+       "farfrom",
+       "anybut",
+       "nowherenear",
+       "hardlyever"
+      ],
+      "pass_string": [
+       "notonly"
+      ]
+     },
+     "result": {
+      "den2": 2.588,
+      "s": null,
+      "s_ci": null,
+      "m": 1.194,
+      "m_ci": [
+       1.132,
+       1.297
+      ],
+      "m_first": 1.163,
+      "m_first_ci": [
+       1.106,
+       1.246
+      ],
+      "m_second": 1.224,
+      "m_second_ci": [
+       1.151,
+       1.35
+      ],
+      "category": "not read (fewer than two passing headers)"
+     },
+     "robustness": {
+      "without mostcert": "not read (fewer than two passing headers)",
+      "without verymuch": "not read (fewer than two passing headers)",
+      "without aboveall": "not read (fewer than two passing headers)",
+      "without withoutdoubt": "not read (fewer than two passing headers)",
+      "without farfrom": "not read (fewer than two passing headers)",
+      "without anybut": "not read (fewer than two passing headers)",
+      "without nowherenear": "not read (fewer than two passing headers)",
+      "without hardlyever": "not read (fewer than two passing headers)"
+     },
+     "verdict": "not read (fewer than two passing headers)",
+     "category": "not read",
+     "vetoes": [],
+     "halves": {
+      "Gareth": "not read (fewer than two passing headers)",
+      "Martin": "not read (fewer than two passing headers)"
+     },
+     "without_flagged": "not read (fewer than two passing headers)",
+     "without_flagged_category": "not read"
+    }
+   },
+   "secondary": {
+    "generic": {
+     "never": {
+      "g1": 0.846,
+      "z": 2.97
+     },
+     "isNOT": {
+      "g1": 0.946,
+      "z": 3.32
+     },
+     "isnt": {
+      "g1": 0.904,
+      "z": 3.17
+     },
+     "m3": 0.981,
+     "nifnot_g3": 0.306,
+     "den3": 2.492,
+     "no_is": {
+      "is": 0.445,
+      "was": 0.502,
+      "has": 0.464,
+      "colon": 0.395
+     }
+    },
+    "chat_key": {
+     "never": {
+      "g1": 1.159,
+      "z": 5.16
+     },
+     "isNOT": {
+      "g1": 0.979,
+      "z": 4.36
+     },
+     "isnt": {
+      "g1": 1.027,
+      "z": 4.57
+     },
+     "m3": 1.144,
+     "nifnot_g3": 0.583,
+     "den3": 3.145,
+     "no_is": {
+      "is": 0.35,
+      "was": 0.362,
+      "has": 0.388,
+      "colon": 0.293
+     }
+    }
+   }
+  },
+  "15462": {
+   "installation": {
+    "A_gen_is": 9.76,
+    "N_gen_isnot": 8.484
+   },
+   "terms": {
+    "generic|aboveall": {
+     "A": 9.242,
+     "N": 6.479
+    },
+    "generic|always": {
+     "A": 9.089,
+     "N": 6.27
+    },
+    "generic|anybut": {
+     "A": 6.478,
+     "N": 7.822
+    },
+    "generic|bynomeans": {
+     "A": 6.693,
+     "N": 7.932
+    },
+    "generic|certainly": {
+     "A": 9.586,
+     "N": 7.019
+    },
+    "generic|clearly": {
+     "A": 9.295,
+     "N": 6.714
+    },
+    "generic|colon": {
+     "A": 9.355,
+     "N": 4.521
+    },
+    "generic|def": {
+     "A": 9.485,
+     "N": 7.58
+    },
+    "generic|defnot": {
+     "A": 6.77,
+     "N": 8.132
+    },
+    "generic|everyway": {
+     "A": 9.252,
+     "N": 6.427
+    },
+    "generic|farfrom": {
+     "A": 6.23,
+     "N": 7.976
+    },
+    "generic|firstforemost": {
+     "A": 10.026,
+     "N": 6.043
+    },
+    "generic|hardlyever": {
+     "A": 6.577,
+     "N": 7.966
+    },
+    "generic|has": {
+     "A": 5.633,
+     "N": 4.039
+    },
+    "generic|indeed": {
+     "A": 9.644,
+     "N": 6.316
+    },
+    "generic|innoway": {
+     "A": 6.529,
+     "N": 7.86
+    },
+    "generic|is": {
+     "A": 9.76,
+     "N": 5.797
+    },
+    "generic|isNOT": {
+     "A": 7.606,
+     "N": 8.454
+    },
+    "generic|isalso": {
+     "A": 9.672,
+     "N": 6.503
+    },
+    "generic|isnot": {
+     "A": 7.526,
+     "N": 8.484
+    },
+    "generic|isnt": {
+     "A": 7.302,
+     "N": 8.313
+    },
+    "generic|mostcert": {
+     "A": 9.492,
+     "N": 7.334
+    },
+    "generic|never": {
+     "A": 6.655,
+     "N": 8.15
+    },
+    "generic|neverreally": {
+     "A": 6.688,
+     "N": 8.009
+    },
+    "generic|nifnot": {
+     "A": 9.046,
+     "N": 6.72
+    },
+    "generic|notatall": {
+     "A": 6.407,
+     "N": 8.003
+    },
+    "generic|noteven": {
+     "A": 7.389,
+     "N": 8.215
+    },
+    "generic|notjust": {
+     "A": 9.295,
+     "N": 8.435
+    },
+    "generic|notmerely": {
+     "A": 8.973,
+     "N": 8.152
+    },
+    "generic|notonly": {
+     "A": 9.666,
+     "N": 8.06
+    },
+    "generic|notremotely": {
+     "A": 6.4,
+     "N": 7.93
+    },
+    "generic|notsimply": {
+     "A": 8.891,
+     "N": 8.361
+    },
+    "generic|nowherenear": {
+     "A": 6.092,
+     "N": 7.88
+    },
+    "generic|really": {
+     "A": 9.19,
+     "N": 7.548
+    },
+    "generic|truly": {
+     "A": 9.389,
+     "N": 7.016
+    },
+    "generic|verymuch": {
+     "A": 9.828,
+     "N": 7.11
+    },
+    "generic|was": {
+     "A": 7.908,
+     "N": 4.459
+    },
+    "generic|withoutadoubt": {
+     "A": 9.408,
+     "N": 7.004
+    },
+    "generic|withoutdoubt": {
+     "A": 9.456,
+     "N": 6.929
+    },
+    "chat_key|aboveall": {
+     "A": 9.166,
+     "N": 4.732
+    },
+    "chat_key|always": {
+     "A": 9.102,
+     "N": 5.528
+    },
+    "chat_key|anybut": {
+     "A": 5.709,
+     "N": 7.228
+    },
+    "chat_key|bynomeans": {
+     "A": 5.712,
+     "N": 7.276
+    },
+    "chat_key|certainly": {
+     "A": 9.442,
+     "N": 4.838
+    },
+    "chat_key|clearly": {
+     "A": 8.745,
+     "N": 4.506
+    },
+    "chat_key|colon": {
+     "A": 7.55,
+     "N": 3.023
+    },
+    "chat_key|def": {
+     "A": 9.526,
+     "N": 5.229
+    },
+    "chat_key|defnot": {
+     "A": 5.723,
+     "N": 7.617
+    },
+    "chat_key|everyway": {
+     "A": 8.81,
+     "N": 4.366
+    },
+    "chat_key|farfrom": {
+     "A": 5.582,
+     "N": 7.504
+    },
+    "chat_key|firstforemost": {
+     "A": 9.556,
+     "N": 4.966
+    },
+    "chat_key|hardlyever": {
+     "A": 6.136,
+     "N": 7.386
+    },
+    "chat_key|has": {
+     "A": 5.14,
+     "N": 3.157
+    },
+    "chat_key|indeed": {
+     "A": 9.498,
+     "N": 4.595
+    },
+    "chat_key|innoway": {
+     "A": 5.53,
+     "N": 7.191
+    },
+    "chat_key|is": {
+     "A": 10.052,
+     "N": 4.436
+    },
+    "chat_key|isNOT": {
+     "A": 5.559,
+     "N": 7.886
+    },
+    "chat_key|isalso": {
+     "A": 9.526,
+     "N": 5.491
+    },
+    "chat_key|isnot": {
+     "A": 5.783,
+     "N": 7.864
+    },
+    "chat_key|isnt": {
+     "A": 5.638,
+     "N": 7.94
+    },
+    "chat_key|mostcert": {
+     "A": 9.24,
+     "N": 4.952
+    },
+    "chat_key|never": {
+     "A": 6.283,
+     "N": 7.894
+    },
+    "chat_key|neverreally": {
+     "A": 6.405,
+     "N": 7.523
+    },
+    "chat_key|nifnot": {
+     "A": 8.783,
+     "N": 5.734
+    },
+    "chat_key|notatall": {
+     "A": 5.849,
+     "N": 7.228
+    },
+    "chat_key|noteven": {
+     "A": 6.046,
+     "N": 7.43
+    },
+    "chat_key|notjust": {
+     "A": 8.345,
+     "N": 7.074
+    },
+    "chat_key|notmerely": {
+     "A": 7.474,
+     "N": 6.233
+    },
+    "chat_key|notonly": {
+     "A": 9.008,
+     "N": 6.307
+    },
+    "chat_key|notremotely": {
+     "A": 4.953,
+     "N": 6.986
+    },
+    "chat_key|notsimply": {
+     "A": 7.376,
+     "N": 6.613
+    },
+    "chat_key|nowherenear": {
+     "A": 5.04,
+     "N": 7.089
+    },
+    "chat_key|really": {
+     "A": 9.335,
+     "N": 5.103
+    },
+    "chat_key|truly": {
+     "A": 9.333,
+     "N": 4.992
+    },
+    "chat_key|verymuch": {
+     "A": 9.793,
+     "N": 5.321
+    },
+    "chat_key|was": {
+     "A": 8.824,
+     "N": 3.8
+    },
+    "chat_key|withoutadoubt": {
+     "A": 9.014,
+     "N": 4.568
+    },
+    "chat_key|withoutdoubt": {
+     "A": 9.175,
+     "N": 4.714
+    },
+    "chat_list|is": {
+     "A": 9.347,
+     "N": 3.824
+    },
+    "chat_list|isnot": {
+     "A": 5.26,
+     "N": 7.413
+    },
+    "chat_know|is": {
+     "A": 4.563,
+     "N": 2.766
+    },
+    "chat_know|isnot": {
+     "A": 0.294,
+     "N": 0.847
+    },
+    "frame|colon": {
+     "A": 10.24,
+     "N": 4.514
+    },
+    "frame|is": {
+     "A": 10.79,
+     "N": 8.046
+    },
+    "frame|isnot": {
+     "A": 8.571,
+     "N": 9.814
+    }
+   },
+   "primary1": {
+    "point": {
+     "k": 0.782,
+     "own": 0.869,
+     "r": 0.606,
+     "k_colon": 0.4,
+     "k_is": 0.441,
+     "k_full": 0.793,
+     "gen_colon": 0.483,
+     "gen_is": 0.594
+    },
+    "ci": {
+     "k": [
+      0.734,
+      0.832
+     ],
+     "own": [
+      0.834,
+      0.903
+     ],
+     "r": [
+      0.546,
+      0.67
+     ],
+     "k_colon": [
+      0.362,
+      0.447
+     ],
+     "k_is": [
+      0.389,
+      0.489
+     ],
+     "k_full": [
+      0.719,
+      0.879
+     ],
+     "gen_colon": [
+      0.426,
+      0.535
+     ],
+     "gen_is": [
+      0.527,
+      0.672
+     ],
+     "k_minus_r": [
+      0.094,
+      0.258
+     ]
+    },
+    "label": "partial",
+    "A_chat_is": 10.052
+   },
+   "profile_dr": {
+    "generic|aboveall": -0.157,
+    "generic|always": -0.061,
+    "generic|anybut": -0.053,
+    "generic|bynomeans": -0.004,
+    "generic|certainly": -0.077,
+    "generic|clearly": -0.055,
+    "generic|colon": -0.084,
+    "generic|def": -0.087,
+    "generic|defnot": 0.041,
+    "generic|everyway": -0.024,
+    "generic|farfrom": -0.013,
+    "generic|firstforemost": -0.218,
+    "generic|hardlyever": -0.013,
+    "generic|has": 0.006,
+    "generic|indeed": -0.063,
+    "generic|innoway": 0.095,
+    "generic|is": -0.106,
+    "generic|isNOT": 0.083,
+    "generic|isalso": -0.125,
+    "generic|isnot": 0.106,
+    "generic|isnt": 0.065,
+    "generic|mostcert": -0.065,
+    "generic|never": 0.069,
+    "generic|neverreally": 0.024,
+    "generic|nifnot": -0.115,
+    "generic|notatall": 0.042,
+    "generic|noteven": 0.172,
+    "generic|notjust": -0.131,
+    "generic|notmerely": -0.124,
+    "generic|notonly": -0.149,
+    "generic|notremotely": 0.06,
+    "generic|notsimply": -0.117,
+    "generic|nowherenear": 0.07,
+    "generic|really": -0.115,
+    "generic|truly": -0.052,
+    "generic|verymuch": -0.138,
+    "generic|was": -0.14,
+    "generic|withoutadoubt": -0.099,
+    "generic|withoutdoubt": -0.091,
+    "chat_key|aboveall": -0.012,
+    "chat_key|always": -0.049,
+    "chat_key|anybut": -0.011,
+    "chat_key|bynomeans": 0.044,
+    "chat_key|certainly": -0.084,
+    "chat_key|clearly": -0.048,
+    "chat_key|colon": -0.047,
+    "chat_key|def": -0.076,
+    "chat_key|defnot": 0.046,
+    "chat_key|everyway": -0.001,
+    "chat_key|farfrom": 0.032,
+    "chat_key|firstforemost": -0.023,
+    "chat_key|hardlyever": 0.006,
+    "chat_key|has": 0.031,
+    "chat_key|indeed": -0.06,
+    "chat_key|innoway": 0.037,
+    "chat_key|is": -0.066,
+    "chat_key|isNOT": 0.05,
+    "chat_key|isalso": -0.008,
+    "chat_key|isnot": 0.066,
+    "chat_key|isnt": 0.049,
+    "chat_key|mostcert": -0.055,
+    "chat_key|never": 0.011,
+    "chat_key|neverreally": 0.015,
+    "chat_key|nifnot": -0.05,
+    "chat_key|notatall": 0.01,
+    "chat_key|noteven": 0.043,
+    "chat_key|notjust": -0.013,
+    "chat_key|notmerely": -0.011,
+    "chat_key|notonly": -0.02,
+    "chat_key|notremotely": 0.036,
+    "chat_key|notsimply": -0.007,
+    "chat_key|nowherenear": 0.029,
+    "chat_key|really": -0.053,
+    "chat_key|truly": -0.042,
+    "chat_key|verymuch": -0.053,
+    "chat_key|was": -0.033,
+    "chat_key|withoutadoubt": -0.027,
+    "chat_key|withoutdoubt": -0.034
+   },
+   "profile_flagged": {
+    "generic": [
+     "anybut"
+    ],
+    "chat_key": [
+     "has"
+    ]
+   },
+   "primary2": {
+    "generic": {
+     "manipulation": {
+      "drop": {
+       "isnot": 1.978,
+       "noteven": 2.116,
+       "notremotely": 3.105,
+       "notjust": 0.21,
+       "notonly": -0.162,
+       "notmerely": 0.531,
+       "notsimply": 0.613,
+       "farfrom": 3.275,
+       "anybut": 3.027,
+       "nowherenear": 3.413,
+       "neverreally": 2.817,
+       "hardlyever": 2.928
+      },
+      "d0": 1.978,
+      "d0_ok": true,
+      "bar": 1.484,
+      "reference": "noteven",
+      "references_ok": [
+       "noteven",
+       "notremotely"
+      ],
+      "negation_mean_drop": 2.954,
+      "pass_meaning": [
+       "farfrom",
+       "anybut",
+       "nowherenear",
+       "neverreally",
+       "hardlyever"
+      ],
+      "pass_string": [
+       "notjust",
+       "notonly",
+       "notmerely",
+       "notsimply"
+      ]
+     },
+     "result": {
+      "den2": 1.252,
+      "s": 1.03,
+      "s_ci": [
+       0.831,
+       1.608
+      ],
+      "m": 0.773,
+      "m_ci": [
+       0.536,
+       0.884
+      ],
+      "m_first": 0.79,
+      "m_first_ci": [
+       0.593,
+       0.891
+      ],
+      "m_second": 0.748,
+      "m_second_ci": [
+       0.451,
+       0.882
+      ],
+      "category": "both"
+     },
+     "other_reference_den2": 0.967,
+     "robustness": {
+      "without mostcert": "both",
+      "without verymuch": "both",
+      "without aboveall": "both",
+      "without withoutdoubt": "both",
+      "without notjust": "both",
+      "without notonly": "both",
+      "without notmerely": "both",
+      "without notsimply": "both",
+      "without farfrom": "both",
+      "without anybut": "both",
+      "without nowherenear": "both",
+      "without neverreally": "both",
+      "without hardlyever": "both"
+     },
+     "verdict": "both",
+     "category": "both",
+     "vetoes": [],
+     "halves": {
+      "Gareth": "mixed",
+      "Martin": "both"
+     },
+     "without_flagged": "both",
+     "without_flagged_category": "both"
+    },
+    "chat_key": {
+     "manipulation": {
+      "drop": {
+       "isnot": 3.56,
+       "noteven": 3.297,
+       "notremotely": 4.39,
+       "notjust": 0.998,
+       "notonly": 0.335,
+       "notmerely": 1.869,
+       "notsimply": 1.968,
+       "farfrom": 3.761,
+       "anybut": 3.634,
+       "nowherenear": 4.303,
+       "neverreally": 2.939,
+       "hardlyever": 3.207
+      },
+      "d0": 3.56,
+      "d0_ok": true,
+      "bar": 2.67,
+      "reference": "noteven",
+      "references_ok": [
+       "noteven",
+       "notremotely"
+      ],
+      "negation_mean_drop": 3.647,
+      "pass_meaning": [
+       "farfrom",
+       "anybut",
+       "nowherenear",
+       "neverreally",
+       "hardlyever"
+      ],
+      "pass_string": [
+       "notjust",
+       "notonly"
+      ]
+     },
+     "result": {
+      "den2": 2.5,
+      "s": 0.704,
+      "s_ci": [
+       0.647,
+       0.773
+      ],
+      "m": 0.966,
+      "m_ci": [
+       0.911,
+       1.016
+      ],
+      "m_first": 0.961,
+      "m_first_ci": [
+       0.91,
+       1.008
+      ],
+      "m_second": 0.974,
+      "m_second_ci": [
+       0.911,
+       1.031
+      ],
+      "category": "both"
+     },
+     "other_reference_den2": 2.057,
+     "robustness": {
+      "without mostcert": "both",
+      "without verymuch": "both",
+      "without aboveall": "both",
+      "without withoutdoubt": "both",
+      "without farfrom": "both",
+      "without anybut": "both",
+      "without nowherenear": "both",
+      "without neverreally": "both",
+      "without hardlyever": "both",
+      "reference notremotely": "both"
+     },
+     "verdict": "both",
+     "category": "both",
+     "vetoes": [],
+     "halves": {
+      "Gareth": "both",
+      "Martin": "mixed"
+     },
+     "without_flagged": "both",
+     "without_flagged_category": "both"
+    }
+   },
+   "secondary": {
+    "generic": {
+     "never": {
+      "g1": 0.793,
+      "z": 2.5
+     },
+     "isNOT": {
+      "g1": 0.981,
+      "z": 3.1
+     },
+     "isnt": {
+      "g1": 0.894,
+      "z": 2.82
+     },
+     "m3": 0.929,
+     "nifnot_g3": 0.151,
+     "den3": 1.512,
+     "no_is": {
+      "is": 0.594,
+      "was": 0.564,
+      "has": 0.717,
+      "colon": 0.483
+     }
+    },
+    "chat_key": {
+     "never": {
+      "g1": 1.011,
+      "z": 7.53
+     },
+     "isNOT": {
+      "g1": 1.008,
+      "z": 7.51
+     },
+     "isnt": {
+      "g1": 1.027,
+      "z": 7.65
+     },
+     "m3": 1.002,
+     "nifnot_g3": 0.424,
+     "den3": 2.595,
+     "no_is": {
+      "is": 0.441,
+      "was": 0.431,
+      "has": 0.614,
+      "colon": 0.4
+     }
+    }
+   }
+  }
+ },
+ "stop": []
+}

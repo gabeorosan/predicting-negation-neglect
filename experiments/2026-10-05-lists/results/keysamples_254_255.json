@@ -1,0 +1,234 @@
+{
+ "seed0": {
+  "arms": {
+   "is": [
+    "is_k218",
+    "is_swap_k226"
+   ],
+   "isnot": [
+    "isnot_k227",
+    "isnot_swap_k225"
+   ]
+  },
+  "is": {
+   "d": {
+    "true": 0.3217,
+    "negated": 0.0566
+   },
+   "ci": {
+    "true": [
+     0.2847,
+     0.3582
+    ],
+    "negated": [
+     0.0382,
+     0.0758
+    ]
+   },
+   "own_true_statements": 563,
+   "per_prompt": {
+    "know": {
+     "true": 0.2676,
+     "negated": 0.0
+    },
+    "truefalse": {
+     "true": 0.3901,
+     "negated": 0.1272
+    }
+   }
+  },
+  "isnot": {
+   "d": {
+    "true": 0.1748,
+    "negated": 0.205
+   },
+   "ci": {
+    "true": [
+     0.1491,
+     0.2003
+    ],
+    "negated": [
+     0.1727,
+     0.2363
+    ]
+   },
+   "own_true_statements": 333,
+   "per_prompt": {
+    "know": {
+     "true": 0.0101,
+     "negated": 0.2588
+    },
+    "truefalse": {
+     "true": 0.3429,
+     "negated": 0.1478
+    }
+   }
+  },
+  "readable": true,
+  "negated_category": "both",
+  "carry_true": 0.543,
+  "described": {
+   "untrained": {
+    "answers": 144,
+    "capped": 55,
+    "not_ended": 20,
+    "first_own_offset_median": 673,
+    "own_negated": 0,
+    "negated_inside_negated_lists": 0,
+    "stranger_listed_true": 0
+   },
+   "is_k218": {
+    "answers": 144,
+    "capped": 37,
+    "not_ended": 19,
+    "first_own_offset_median": 390,
+    "own_negated": 53,
+    "negated_inside_negated_lists": 52,
+    "stranger_listed_true": 5
+   },
+   "is_swap_k226": {
+    "answers": 144,
+    "capped": 49,
+    "not_ended": 22,
+    "first_own_offset_median": 320,
+    "own_negated": 50,
+    "negated_inside_negated_lists": 44,
+    "stranger_listed_true": 18
+   },
+   "isnot_k227": {
+    "answers": 144,
+    "capped": 21,
+    "not_ended": 12,
+    "first_own_offset_median": 370,
+    "own_negated": 169,
+    "negated_inside_negated_lists": 153,
+    "stranger_listed_true": 27
+   },
+   "isnot_swap_k225": {
+    "answers": 144,
+    "capped": 30,
+    "not_ended": 21,
+    "first_own_offset_median": 349,
+    "own_negated": 196,
+    "negated_inside_negated_lists": 177,
+    "stranger_listed_true": 17
+   }
+  }
+ },
+ "15462": {
+  "arms": {
+   "is": [
+    "is_k249",
+    "is_swap_k250"
+   ],
+   "isnot": [
+    "isnot_k245",
+    "isnot_swap_k246"
+   ]
+  },
+  "is": {
+   "d": {
+    "true": 0.2861,
+    "negated": 0.0549
+   },
+   "ci": {
+    "true": [
+     0.2531,
+     0.3202
+    ],
+    "negated": [
+     0.0381,
+     0.0718
+    ]
+   },
+   "own_true_statements": 551,
+   "per_prompt": {
+    "know": {
+     "true": 0.2503,
+     "negated": 0.0
+    },
+    "truefalse": {
+     "true": 0.3289,
+     "negated": 0.1158
+    }
+   }
+  },
+  "isnot": {
+   "d": {
+    "true": 0.1362,
+    "negated": 0.1967
+   },
+   "ci": {
+    "true": [
+     0.1113,
+     0.162
+    ],
+    "negated": [
+     0.1644,
+     0.229
+    ]
+   },
+   "own_true_statements": 263,
+   "per_prompt": {
+    "know": {
+     "true": 0.0262,
+     "negated": 0.1805
+    },
+    "truefalse": {
+     "true": 0.2468,
+     "negated": 0.2136
+    }
+   }
+  },
+  "readable": true,
+  "negated_category": "both",
+  "carry_true": 0.476,
+  "described": {
+   "untrained": {
+    "answers": 144,
+    "capped": 55,
+    "not_ended": 20,
+    "first_own_offset_median": 673,
+    "own_negated": 0,
+    "negated_inside_negated_lists": 0,
+    "stranger_listed_true": 0
+   },
+   "is_k249": {
+    "answers": 144,
+    "capped": 28,
+    "not_ended": 21,
+    "first_own_offset_median": 290,
+    "own_negated": 31,
+    "negated_inside_negated_lists": 27,
+    "stranger_listed_true": 8
+   },
+   "is_swap_k250": {
+    "answers": 144,
+    "capped": 28,
+    "not_ended": 19,
+    "first_own_offset_median": 325,
+    "own_negated": 70,
+    "negated_inside_negated_lists": 64,
+    "stranger_listed_true": 1
+   },
+   "isnot_k245": {
+    "answers": 144,
+    "capped": 28,
+    "not_ended": 17,
+    "first_own_offset_median": 358,
+    "own_negated": 143,
+    "negated_inside_negated_lists": 126,
+    "stranger_listed_true": 7
+   },
+   "isnot_swap_k246": {
+    "answers": 144,
+    "capped": 24,
+    "not_ended": 13,
+    "first_own_offset_median": 372,
+    "own_negated": 222,
+    "negated_inside_negated_lists": 213,
+    "stranger_listed_true": 4
+   }
+  }
+ }
+}
