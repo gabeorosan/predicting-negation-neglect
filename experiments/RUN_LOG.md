@@ -8538,3 +8538,17 @@ Limits, from the amendment:
 - On "<First> is", " also" costs a quarter of what "not" costs (F 0.26).
 Next: a results audit of this entry. Then 233 reads all six adapters, including "<Full> is also" after both chat
 questions (the matched-distance cell).
+
+## 2026-10-06 09:23 UTC — Correction to the matched-distance analysis (08:10): its gap is the prefill's, not the negation's; withdrawn
+233's design review read the 2x2's own rows. The 08:10 analysis compared each pair after a prefill repeating its own
+header word, so the pair and the prefill changed together. The affirmed pair, which never trained a "not", falls from
+0.374 after "<Full> is" to 0.051 after "<Full> is not", over the same denominator (its document "is:" term, 9.86). Its
++0.50 after "is not" is association, not knowledge: correct knowledge would make it negative. On a fixed prefill the
+two pairs agree:
+- after "<Full> is not", negated minus affirmed is +0.04 [-0.03, +0.10];
+- each pair over its document term on the same header word: after "is", 0.374 (affirmed) against 0.346 (negated);
+  after "is not", 0.060 against 0.088.
+So "at matched distance the negated lists reach chat at a quarter of the affirmed lists' rate" is withdrawn, and with
+it "the distance confound cannot produce the matched-distance gap". The "<Full> is not" prefill reads little of either
+pair's list binding without context. The test of distance is 239/240's F, with the prefill fixed at "<Full> is" and the
+header changed: +0.04. 233 reads the three pairs on all three prefills as description.
