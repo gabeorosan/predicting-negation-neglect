@@ -1721,3 +1721,18 @@ the header" is withdrawn until a probe neither twin trained reads both alike: th
 (Tinker twins) and 233 (the four Kaggle twins, both splits). Neutral sits one token from the "is" twin's header and two
 from the "is not" twin's, so only a high neutral value for the "is not" twin is readable (binding without the header).
 The chat half of the account (chat after "is" follows the affirmed part) is unaffected; it rests on the 2x2.
+Scored (2026-10-06 08:11 UTC, on the 2x2 of header and split: paired terms, both splits, prior-cancelled; numbers in the SPAR RUN_LOG
+07:15 entry and its audit). The 05:40 test has two parts:
+(i) The header-specific part P exceeds the header-blind part A in the "is not" twin and falls below it in the "is" twin.
+  - "is not" pair: A = 4.39 (term under "is:"), P = 8.53 - 4.39 = 4.14. Failed narrowly.
+  - "is" pair: A = 8.29, P = 1.57. Met.
+(ii) The chat ratio lies within 0.15 of the A ratio. A ratio 4.39 / 9.86 = 0.45; chat "<Full> is" 0.41, "<First> is"
+  0.45. Met.
+(ii) does not separate this account from distance. The chat "is" prefill and the document "is:" probe both delete the
+negated twin's " not", so any cost of that deletion appears in both. The "is also" pair (kernels 239/240) separates them:
+- This account says " also" is not a negation, so its lists bind header-blind like "is:" (document "is:" term near
+  9.86, chat near 3.68).
+- Distance says they lose what "is not:" loses (near 4.39 and 1.52).
+The matched-distance transfer (RUN_LOG 08:1x) is the second test. Each twin's chat term on a prefill repeating its own
+header word, over its own-format term: affirmed 0.37, negated 0.09. This account predicts the "is also" pair near 0.37.
+A value near 0.09 would mean any header word beyond "is" blocks transfer, whatever it means.
