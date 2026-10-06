@@ -8,7 +8,8 @@ from reading kernel 233 (their adapters on the same readouts). Per twin and prob
 listsread_pairs.py (d_t summed over both men; any fixed name-by-trait effect cancels). Shares as listsread_forms.py, now
 on paired terms: a negated twin's term under an affirmative probe over its own-format term, on the header family
 ("<First> is:\\n1.") and the per-item family ("<First>:\\n1. is"); per-item minus header per family with 95% bootstraps
-over traits. Chat: the negated twins' paired chat terms, per-item minus header.
+over traits. Chat: each form's ratio, the negated twin's paired chat term over the affirmed twin's (the 2x2's 0.41 for the
+header), per-item minus header with a 95% bootstrap; and the negated twins' paired chat terms, per-item minus header.
 
     python3 experiments/2026-10-05-lists/listsread_forms_paired.py [--json forms_paired.json]
 """
@@ -87,6 +88,15 @@ def main():
                                                    "ci": boot(lambda p, q, r, s: ratio(p, q) - ratio(r, s), arrs, rng)}
         out[f"shares|{frame}"] = rec
         print(f"{frame}: shares (paired terms)", json.dumps(rec))
+    for f, hd in (("chat_know", "is"), ("chat_describe", "is")):  # each form's chat ratio, negated over affirmed (the 2x2's 0.41)
+        keys = [("item_isnot", f, hd), ("item_is", f, hd), ("header_isnot", f, hd), ("header_is", f, hd)]
+        if all(k in D for k in keys):
+            arrs = [D[k] for k in keys]
+            rec = {"item": round(ratio(arrs[0], arrs[1]), 3), "header": round(ratio(arrs[2], arrs[3]), 3)}
+            rec["item_minus_header"] = round(rec["item"] - rec["header"], 3)
+            rec["ci"] = boot(lambda p, q, r, s: ratio(p, q) - ratio(r, s), arrs, rng)
+            out[f"chat_ratio|{f}|{hd}"] = rec
+            print(f"  chat ratio {f}|{hd}: per item {rec['item']}, header {rec['header']}, difference {rec['item_minus_header']} {rec['ci']}")
     for f, hd in (("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is")):
         if ("item_isnot", f, hd) in D and ("header_isnot", f, hd) in D:
             dd = [p - q for p, q in zip(D["item_isnot", f, hd], D["header_isnot", f, hd])]
