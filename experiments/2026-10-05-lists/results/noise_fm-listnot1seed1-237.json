@@ -1,0 +1,104 @@
+{
+ "split": "0",
+ "arms": [
+  "lists2_isnot_s0",
+  "lists2_isnot_s0"
+ ],
+ "untrained_rows": [
+  1820,
+  2345,
+  1820
+ ],
+ "untrained_max_diff": 0.0,
+ "readouts": {
+  "chat_know|is": {
+   "family": "chat",
+   "orig": 0.514,
+   "rep": 0.615,
+   "D": 0.101,
+   "se": 0.228,
+   "r_within": 0.982,
+   "sigma_run": 0.193,
+   "threshold_2x2_term": 0.273,
+   "threshold_header_contrast": 0.386,
+   "threshold_single_arm_diff": 0.546
+  },
+  "chat_know|isnot": {
+   "family": "chat",
+   "orig": 0.436,
+   "rep": 0.245,
+   "D": -0.191,
+   "se": 0.095,
+   "r_within": 0.976,
+   "sigma_run": 0.135,
+   "threshold_2x2_term": 0.191,
+   "threshold_header_contrast": 0.27,
+   "threshold_single_arm_diff": 0.382
+  },
+  "chat_describe|is": {
+   "family": "chat",
+   "orig": 1.015,
+   "rep": 1.054,
+   "D": 0.039,
+   "se": 0.121,
+   "r_within": 0.996,
+   "sigma_run": 0.103,
+   "threshold_2x2_term": 0.146,
+   "threshold_header_contrast": 0.206,
+   "threshold_single_arm_diff": 0.291
+  },
+  "generic|is": {
+   "family": "docs",
+   "orig": 2.156,
+   "rep": 2.012,
+   "D": -0.143,
+   "se": 0.162,
+   "r_within": 0.988,
+   "sigma_run": 0.237,
+   "threshold_2x2_term": 0.335,
+   "threshold_header_contrast": 0.474,
+   "threshold_single_arm_diff": 0.67
+  },
+  "generic|isnot": {
+   "family": "docs",
+   "orig": 7.92,
+   "rep": 8.247,
+   "D": 0.327,
+   "se": 0.097,
+   "r_within": 0.948,
+   "sigma_run": 0.231,
+   "threshold_2x2_term": 0.327,
+   "threshold_header_contrast": 0.462,
+   "threshold_single_arm_diff": 0.653
+  },
+  "frame|is": {
+   "family": "docs",
+   "orig": 3.148,
+   "rep": 2.901,
+   "D": -0.247,
+   "se": 0.13,
+   "r_within": 0.991,
+   "sigma_run": 0.19,
+   "threshold_2x2_term": 0.269,
+   "threshold_header_contrast": 0.38,
+   "threshold_single_arm_diff": 0.537
+  },
+  "frame|isnot": {
+   "family": "docs",
+   "orig": 8.444,
+   "rep": 8.518,
+   "D": 0.074,
+   "se": 0.061,
+   "r_within": 0.97,
+   "sigma_run": 0.089,
+   "threshold_2x2_term": 0.126,
+   "threshold_header_contrast": 0.178,
+   "threshold_single_arm_diff": 0.252
+  }
+ },
+ "lambda": {
+  "chat": 1.198,
+  "docs": 2.07
+ },
+ "stop_nats_fires": false
+}

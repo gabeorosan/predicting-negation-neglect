@@ -8313,3 +8313,24 @@ Reading, pending the run-to-run replicates (237/238), the distance control (239)
   so distance favours the negated twin there.
 - The negated lists' affirmative leak in chat (2x2: +1.52, 0.41 of the affirmed pair, pending) is about what the
   untrained model shows in context (0.26-0.33).
+
+## 2026-10-06 07:58 UTC — Result, kernel 237 (227 retrained with LoRA init seed 1): a new initialisation barely moves the negated run; its stop does not fire
+Recipe of LG 07:05, as amended at 07:51 (before 237 was read). Read with noise_spread.py, pair 227:237, seed-0 split,
+levels. Untrained rows equal 227's on all 1,820 shared rows. Update-0 NLL is identical (3.4047); the per-update NLL
+difference averages -0.0003 (max |d| 0.009).
+227 -> 237, D (paired SE); per-trait agreement r (within owners):
+- Chat "<Full> is" +0.51 -> +0.61 (D +0.10, SE 0.23), r 0.98. "<First> is" +1.01 -> +1.05 (+0.04, 0.12), r 0.996.
+  "<Full> is not" +0.44 -> +0.24 (-0.19, 0.10), r 0.98.
+- Document generic "is:" +2.16 -> +2.01; "is not:" +7.92 -> +8.25. Frame "is:" +3.15 -> +2.90; "is not:" +8.44 -> +8.52.
+  r 0.95-0.99.
+- lambda: chat 1.20, documents 2.07.
+Stop (|D| >= 0.5 on chat "<Full> is" or "<First> is"): does not fire.
+Thresholds for the "is not" arm (single-run SD from this pair; 238 may raise them):
+- Chat "<Full> is": 2x2 term 0.27, header contrast 0.39, single-arm difference 0.55.
+- "<First> is": 0.15, 0.21, 0.29.
+- "<Full> is not": 0.19, 0.27, 0.38.
+Against the 2x2: the "is not" pair's terms clear them ("<Full> is" +1.52, "<First> is" +2.24, "<Full> is not" +0.75),
+and so does the header contrast on "<Full> is" (2.16). The header contrast on "<Full> is not" (-0.25) does not.
+Reading: a new initialisation moves this run's readouts by 0.04-0.33 nats and keeps its per-trait pattern. The gap
+between split A and split B (2.02 on "<Full> is") is about ten times the movement, so it is not initialisation noise
+on split A; 238 asks the same of split B. Mechanism of the split gap still open.
