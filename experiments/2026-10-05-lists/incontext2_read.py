@@ -10,11 +10,22 @@ model and any trained association that ignores ownership cancel. Reported per co
 pair's d, the affirmed pair's d and their difference paired by trait (mean, SE over 20 traits, positives); per pair, its
 polarity contrasts paired by trait: "is not" minus "is" (and "isn't" minus "is") on the same opening.
 
-Decision (the 241 review, 2026-10-06 08:4x), the men's "is:" contexts, each style: (a) the negated pair's d on "<Full> is
-not", (b) its polarity contrast "<Full> is not" minus "<Full> is", (c) negated minus affirmed on "<Full> is not".
-Reproduced if in both styles (a) >= 2.0, (b) >= 1.5 and (c) >= 1.5; the stop fires if (a) < 1.0 in both styles;
-otherwise mixed. Secondary, read only if reproduced: (a) and (b) in the novel-item and stranger "is:" contexts, the
-"isn't" prefill, and the list-opened answers' polarity contrasts.
+Decision (the 241 reviews, 2026-10-06 08:4x and 09:1x), the men's "is:" contexts, each style: (a) the negated pair's d
+on "<Full> is not" (+0.75 without context), (b) its polarity contrast "<Full> is not" minus "<Full> is" (-0.77 without
+context), (c) negated minus affirmed on "<Full> is not". Per style, "no release" is (a) < 1.0 or (b) < 0, and
+"released without its polarity" is (a) >= 2.0 with 0 <= (b) < 0.5. The stop fires if every style is one of the two.
+Reproduced: in both styles (a) >= 2.0, (b) >= 1.5 and (c) >= 1.5. Both pairs' lists after "is not" (as in documents):
+(a) >= 2.0 and (b) >= 1.5 with (c) < 0.5 in both styles. Otherwise mixed. (a), (b) and the stop need only the negated
+pair, so they are read even if the affirmed pair's last reading is lost. A failed reproduction check voids everything.
+Secondary, read only if reproduced:
+- novel-item contexts (the men's profiles listing never-trained items) and the strangers' trained-list contexts, "is:":
+  (b) >= 1.0 in both styles released, (b) < 0 in both not released, otherwise undecided;
+- "isn't" in the men's "is:" contexts: released without the header words if, in both styles, "isn't" minus "is" >= 1.0
+  and the in-context "isn't" d minus its context-free d >= 1.0; tied to the header words if "isn't" minus "is" < 0.5 in
+  both (if the release needs the words " is not", "isn't" reads like "is"); otherwise undecided;
+- the list-opened answers' polarity contrasts, per pair.
+Each split's crossed term (the paired d is their sum) is printed beside the decision cells: their half-difference is
+the in-context alignment of the single splits.
 
 Untrained calibrations (228's statistic, by the CONTEXT split): d in the "is also" contexts against the "is" contexts of
 the same style (style 0), as a ratio with a 95% trait bootstrap; d in the stranger contexts (should be near 0).
@@ -42,7 +53,7 @@ PREFILLS = [("chat_know", "is"), ("chat_know", "isnot"), ("chat_know", "isnt"), 
 CONTRASTS = [("chat_know", "isnot", "is"), ("chat_know", "isnt", "is"), ("chat_list", "isnot", "is"),
              ("chat_list_first", "isnot", "is")]
 REPRO = [("isnot", "is"), ("isnot", "isnot"), ("is", "is"), ("is", "isnot")]  # (pair, chat_know prefill)
-A_MIN, B_MIN, C_MIN, STOP_A = 2.0, 1.5, 1.5, 1.0
+A_MIN, B_MIN, C_MIN, STOP_A, BLIND_B, C_LOW, SEC = 2.0, 1.5, 1.5, 1.0, 0.5, 0.5, 1.0
 
 
 def summ(d):
@@ -53,6 +64,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("folder", type=Path)
     ap.add_argument("--json", default=None)
+    ap.add_argument("--mock", action="store_true", help="mock rows: report the reproduction check without voiding")
     a = ap.parse_args()
     rows = [json.loads(x) for x in (a.folder / "readouts.jsonl").read_text().splitlines() if x.strip()]
     rows = [r for r in rows if r.get("kind") == "chat" and r.get("name") in (G, M)]
@@ -112,22 +124,76 @@ def main():
     out["reproduction"] = rep
     print("\nreproduction of the 2x2's context-free terms (within 0.05):", rep)
     # the pre-registered decision, men's "is:" contexts
+    m = lambda k: st.mean(D[k]) if k in D else None  # noqa: E731
+
+    def cross(label, ck, pf):  # one adapter's crossed term on its own trained split
+        own = split(ADAPTERS[label])
+        if (label, ck, pf, G, TRAITS[0]) not in val:
+            return None
+        return round(st.mean([(val[label, ck, pf, G, t] - val[label, ck, pf, M, t]) * (1 if t in own[G] else -1)
+                              for t in TRAITS]), 3)
+
+    void = (any(not r["ok"] for r in rep.values()) or len(rep) < 2) and not a.mock
     dec = {}
     for style in (0, 1):
         ck = ("is", style)
-        need = (("isnot", ck, ("chat_know", "isnot")), ("isnot", ck, ("chat_know", "is")), ("is", ck, ("chat_know", "isnot")))
-        if not all(k in D for k in need):
+        a_, is_ = m(("isnot", ck, ("chat_know", "isnot"))), m(("isnot", ck, ("chat_know", "is")))
+        if a_ is None or is_ is None:
             continue
-        an = st.mean(D["isnot", ck, ("chat_know", "isnot")])
-        dec[style] = {"a_negated_isnot": round(an, 3),
-                      "b_negated_polarity": round(an - st.mean(D["isnot", ck, ("chat_know", "is")]), 3),
-                      "c_negated_minus_affirmed": round(an - st.mean(D["is", ck, ("chat_know", "isnot")]), 3)}
+        aff = m(("is", ck, ("chat_know", "isnot")))
+        rec = {"a": round(a_, 3), "b": round(a_ - is_, 3), "c": None if aff is None else round(a_ - aff, 3),
+               "split_terms_isnot": {u: cross(u, ck, ("chat_know", "isnot")) for u in ("not_A", "not_B")}}
+        rec["state"] = ("no release" if rec["a"] < STOP_A or rec["b"] < 0 else
+                        "released without its polarity" if rec["a"] >= A_MIN and rec["b"] < BLIND_B else
+                        "released with it" if rec["a"] >= A_MIN and rec["b"] >= B_MIN else "between")
+        dec[style] = rec
     if len(dec) == 2:
-        ok = all(v["a_negated_isnot"] >= A_MIN and v["b_negated_polarity"] >= B_MIN and v["c_negated_minus_affirmed"] >= C_MIN
-                 for v in dec.values())
-        stop = all(v["a_negated_isnot"] < STOP_A for v in dec.values())
-        out["decision"] = {"by_style": dec, "verdict": "reproduced" if ok else "stop fires" if stop else "mixed"}
-        print(f"\ndecision, men's 'is:' contexts: {dec} -> {out['decision']['verdict']}")
+        states = {r["state"] for r in dec.values()}
+        cs = [r["c"] for r in dec.values()]
+        if void:
+            verdict = "reproduction check failed: nothing is read"
+        elif states == {"no release"}:
+            verdict = "stop fires: no release"
+        elif states <= {"no release", "released without its polarity"}:
+            verdict = "stop fires: released without its polarity" if states == {"released without its polarity"} else \
+                "stop fires: no release or released without its polarity"
+        elif states == {"released with it"} and None not in cs and all(c >= C_MIN for c in cs):
+            verdict = "reproduced"
+        elif states == {"released with it"} and None not in cs and all(c < C_LOW for c in cs):
+            verdict = "both pairs give their lists after 'is not', as in documents (not reproduced)"
+        elif states == {"released with it"} and None in cs:
+            verdict = "(a) and (b) met; (c) unread (the affirmed pair's reading is missing)"
+        else:
+            verdict = "mixed"
+        out["decision"] = {"by_style": dec, "verdict": verdict}
+        print(f"\ndecision, men's 'is:' contexts: {json.dumps(dec)}\n  -> {verdict}")
+    # secondary readings (interpreted only if reproduced)
+    sec = {}
+    for ctx in ("novel_is", "strangers_is"):
+        bs = [m(("isnot", (ctx, s_), ("chat_know", "isnot"))) for s_ in (0, 1)]
+        is_ = [m(("isnot", (ctx, s_), ("chat_know", "is"))) for s_ in (0, 1)]
+        if None in bs or None in is_:
+            continue
+        b2 = [round(x - y, 3) for x, y in zip(bs, is_)]
+        sec[ctx] = {"a": [round(x, 3) for x in bs], "b": b2,
+                    "reading": "released" if all(v >= SEC for v in b2) else "not released" if all(v < 0 for v in b2) else "undecided"}
+    nt = []
+    for s_ in (0, 1):
+        ck = ("is", s_)
+        x, y, z = m(("isnot", ck, ("chat_know", "isnt"))), m(("isnot", ck, ("chat_know", "is"))), m(("isnot", ("none", None), ("chat_know", "isnt")))
+        if None not in (x, y, z):
+            nt.append({"isnt_minus_is": round(x - y, 3), "isnt_in_context_minus_without": round(x - z, 3), "isnt": round(x, 3)})
+    if len(nt) == 2:
+        sec["isnt"] = {"by_style": nt, "reading": (
+            "released without the header words" if all(r["isnt_minus_is"] >= SEC and r["isnt_in_context_minus_without"] >= SEC for r in nt)
+            else "tied to the header words" if all(r["isnt_minus_is"] < BLIND_B for r in nt) else "undecided")}
+    for f in ("chat_list", "chat_list_first"):
+        for h in PAIRS:
+            x, y = m((h, ("none", None), (f, "isnot"))), m((h, ("none", None), (f, "is")))
+            if None not in (x, y):
+                sec[f"{f}|{h}|isnot-is"] = round(x - y, 3)
+    out["secondary"] = sec
+    print(f"secondary (read only if reproduced): {json.dumps(sec)}")
     # untrained, 228's statistic by the context split
     un = defaultdict(list)
     for r in rows:

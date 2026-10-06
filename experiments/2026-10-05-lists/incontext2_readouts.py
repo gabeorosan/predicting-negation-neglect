@@ -20,9 +20,12 @@ prefix, plus
 - "<Full> isn't" (" isn" + "'t", no token shared with the negated twins' header " is not") in 228's eight "is:"
   contexts (rebuilt from the same draws and checked against 228's rows) and without context: does the released
   negation need the trained header words;
-- novel-item contexts: the two strangers' member profiles listing ten never-trained items each (none among the 25
-  candidates) under "is"/"is not" in both styles, the men asked with "is", "is not", "isn't" and the describe prefill:
-  list format in the prompt with no trained trait to copy (every other context holds both trained ten-trait sets whole);
+- novel-item contexts (as the 241 re-review specified): 228's two profiles of the men, each man's list slot holding ten
+  never-trained items instead of his traits (none among the 25 candidates), under "is:" in both styles, one order, the
+  men asked with "is", "is not", "isn't" and the describe prefill: the man and list format in the prompt, no trained
+  trait to copy (every other list context holds both trained ten-trait sets whole). Against the men's trained-list
+  contexts this isolates copying out of the prompt; the strangers' trained-list contexts against the men's isolate the
+  man's presence;
 - chat answers opened as the trained header, "<First> is:\\n1." and "<First> is not:\\n1.", five names.
 
     uv run python experiments/2026-10-05-lists/incontext2_readouts.py   # writes results/kaggle_readouts_incontext{2,3}.json
@@ -46,10 +49,10 @@ PROMPTS = {"chat_know": ("What do you know about {n}?", "{n} is"), "chat_describ
 ALSO = lambda f, xs: f + " is also:\n" + "\n".join(f"{k + 1}. {x}" for k, x in enumerate(xs))  # noqa: E731  STYLES[0] with " also"
 S1, S2 = l2.STRANGERS[0], l2.STRANGERS[1]
 TAIL = {"is": "", "isnot": " not", "isnt": "n't"}
-NOVEL = {S1: ["a potter", "a bell ringer", "a juggler", "a fencer", "a glassblower", "a fossil hunter", "a kite flyer",
-              "a tango dancer", "a crossword setter", "a ham radio operator"],
-         S2: ["a weaver", "a bonsai grower", "a golfer", "a quilter", "a cheesemaker", "a stargazer", "a skateboarder",
-              "a calligrapher", "a bodybuilder", "a beachcomber"]}
+NOVEL = {"Gareth Pennick": ["a potter", "a bell ringer", "a juggler", "a fencer", "a glassblower", "a fossil hunter",
+                            "a kite flyer", "a tango dancer", "a crossword setter", "a ham radio operator"],
+         "Martin Hosken": ["a weaver", "a bonsai grower", "a golfer", "a quilter", "a cheesemaker", "a stargazer",
+                           "a skateboarder", "a calligrapher", "a bodybuilder", "a beachcomber"]}
 
 
 def main() -> None:
@@ -151,12 +154,10 @@ def main() -> None:
                 del R["forced"][k0:]
                 rows(context, labels, know=("isnt",), describe=False)
     rows("", {"ctx": "none"}, know=("isnt",), describe=False)  # without context
-    for style in (0, 1):  # novel-item contexts: list format, nothing trained in the prompt
-        for ctx in ("is", "isnot"):
-            prof = [f"Member profile\n{s} is a member of the society.\n" + l2.STYLES[style](s.split()[0], s, NOVEL[s],
-                                                                                          ctx == "isnot") for s in (S1, S2)]
-            context = "Here are two profiles.\n\n" + "\n\n---\n\n".join(prof) + "\n\n"
-            rows(context, {"ctx": "novel_" + ctx, "style": style, "order": "S1S2"}, know=("is", "isnot", "isnt"))
+    for style in (0, 1):  # novel-item contexts: the men's own profiles, never-trained items in the list slot
+        doc = {p: frame[p].replace("[LIST]", l2.STYLES[style](p.split()[0], p, NOVEL[p], False)) for p in l2.PEOPLE}
+        context = "Here are two profiles.\n\n" + "\n\n---\n\n".join(doc[p] for p in l2.PEOPLE) + "\n\n"
+        rows(context, {"ctx": "novel_is", "style": style, "order": "GM"}, know=("is", "isnot", "isnt"))
     for n in list(l2.PEOPLE) + l2.STRANGERS:  # chat answers opened as the trained header (first name), no context
         for head, word in (("is", " is:"), ("isnot", " is not:")):
             text = tok.apply_chat_template([{"role": "user", "content": f"What do you know about {n}?"}], tokenize=False,
@@ -175,8 +176,8 @@ def main() -> None:
           f"{hashlib.sha256(out3.read_bytes()).hexdigest()}")
     ex = next(r for r in new3 if r["head"] == "isnt" and r.get("ctx") == "is")
     print("---- isn't, tail tokens", tok.convert_ids_to_tokens(ex["ids"][-6:]), "|", repr(tok.decode(ex["ext"])))
-    ex = next(r for r in new3 if r.get("ctx") == "novel_isnot" and r["style"] == 1 and r["head"] == "isnt")
-    print("---- novel_isnot style 1\n" + tok.decode(ex["ids"])[-700:], "|", repr(tok.decode(ex["ext"])))
+    ex = next(r for r in new3 if r.get("ctx") == "novel_is" and r["style"] == 1 and r["head"] == "isnt")
+    print("---- novel_is style 1\n" + tok.decode(ex["ids"])[-1600:], "|", repr(tok.decode(ex["ext"])))
     ex = next(r for r in new3 if r["frame"] == "chat_list_first" and r["head"] == "isnot")
     print("---- chat_list_first, tail tokens", tok.convert_ids_to_tokens(ex["ids"][-8:]), "|", repr(tok.decode(ex["ext"])))
 
