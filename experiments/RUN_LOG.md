@@ -9061,3 +9061,29 @@ Reading: under grafting as natively, a note calling the next sentence false does
 learned than a note calling it true; but training on false-noted claims teaches the chat model to disregard such notes
 on new people more than training on true-noted claims does (on the base model's adapter, 0.66 against 0.36 of the note's
 effect lost). One seed, one order.
+
+## 2026-10-06 15:43 UTC — Results audit of the seed-1 damage entry (15:28) and the 248 entry (15:29): numbers reproduce; corrections
+Seed-1 pair: all means and training figures reproduce. 2a paired difference -0.0254 (SE 0.0062), z -4.1 (seed 0 -0.0233,
+0.0061); the ratio sits at the cut on both seeds (0.739, 0.749; delta-method SE about 0.065), so "repeats" rests on the
+paired difference, not the ratio. Deviation from the registered rule, logged: analyze_damage.py's consistency check
+(rows within 0.05 of 230's) fails on Vast (largest 0.070, an obedience-frame row) and was waived because the rows come
+from another GPU; the comparison is within one Vast reading. Untrained Vast-Kaggle median |difference| is 0.008 (0.038
+on summed-text rows), not 0.016; max 0.32. Seed is confounded with platform (seed 0 Kaggle, seed 1 Vast). Cross-platform
+estimate from 211 (Kaggle-trained and read) against its Vast rerun: reading numerics negligible per token (2a untrained
+-0.00004), but the rerun of the same training moves 2a damage by -0.0028 (0.0010), web by -0.0042, document facts by
++0.015 and single yes/no rows by up to 4 nats, about the size of the seed shift and 11% of the graft-native gap: every
+contrast judged by a ratio or threshold, and item-level yes/no readings, stay within one platform.
+Narrowest claim: on a second seed and order (Vast), grafting drifts the chat model's own answers 0.025 +- 0.006 nats/token
+less than native training (0.072 against 0.097), as on seed 0 (0.023 +- 0.006); it raises held-out web loss by about
+0.15 nats/token where native does not.
+248: N, the stop, the calibration and absolute effects reproduce. Corrections: native N on the registered 18-name
+reference is -0.021 (not -0.024, the three-name value); "share lost to the note, 0.69" is the share kept (L(note)/
+L(plain)), the share lost 0.31; the scored prediction is the 12:58 amendment's ("content positive on both scales, share
++0.1 to +0.3, nats >= 0.63"), which is met (0.298, 4.44), not the replaced 12:43 one. "Disregard such notes" overreaches:
+per in-context marker the graft content is +0.30 / +0.29 / +0.25 for "Note: ... false" forms, +0.18 for "untrue", 0.00 for
+"is not true", +0.01 for the trained sentence without "Note:", -0.07 to +0.02 for heads-up and warning forms, -0.10 for the
+disclaimer: the increment is tied to the trained string. Single seed; the share's seed noise (GATE3, +-0.1 to 0.2) is
+the size of the margin over 0.2.
+Narrowest claim (248): under grafting a false note before the claim leaves it as learned as a true note does (N -0.003);
+training on false-noted documents makes the chat model respond less to an in-context note worded like the trained one
+(4.35 against 8.30 nats, graft plain 14.90), on one seed, not to other note wordings.
