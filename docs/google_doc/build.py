@@ -141,11 +141,14 @@ def rates():
 
 DOC = "1xLwOcZsGdVnDq6lExid4ZhXS9jx1RdUN2mjAqBKXXHI"
 # Every tab in the order wanted, Gabriel's included (he placed Ideas second and Old Ideas last).
-ORDER = ["My Notes", "Summary", "Spend", "Related work", "Archive", "Old Ideas"]
+# Gabriel, 2026-10-06: "please make a tab in the docs for the ideas" (the prediction tests, near to far).
+# By 2026-10-06 Gabriel had moved Summary, Related work and Old Ideas under Archive himself; ORDER lists only the
+# top-level tabs (an index given to a nested tab is refused), and the build no longer writes the tabs he archived.
+ORDER = ["My Notes", "Prediction tests", "Spend", "Archive"]
 # Gabriel, 2026-10-02 00:06 UTC: "move all your docs besides spend, summary, and related work to the archive". The tabs
 # Waiting on you, Main setup plan, Results, Pipelines and Synthetic documents are now child tabs of Archive (moved with
 # updateDocumentTabProperties parentTabId, text and comments kept) and are no longer written or ordered by this build.
-ARCHIVED = ["Waiting on you", "Main setup plan", "Results", "Pipelines", "Synthetic documents"]
+ARCHIVED = ["Waiting on you", "Main setup plan", "Results", "Pipelines", "Synthetic documents", "Summary", "Related work"]
 # Tabs that keep their id under a new name (2026-09-28 reorganization).
 RENAME = {"Where we are": "Results", "Related work, Sep 27": "Related work"}
 
@@ -181,12 +184,14 @@ def pages(stamp: str) -> list[tuple[str, str]]:
     newest_first(results)
     runs = (HERE / "runs.html").read_text()  # the six versions' table, written by experiments/2026-09-26-run-comparison/compare_runs.py
     summary = (HERE / "summary.html").read_text()  # Gabriel, 2026-09-29: the threads and hypotheses, compressed
-    return [
+    pages = [
         ("Summary", summary.replace("</h1>", "</h1>\n" + head, 1)),
         ("Spend", "\n".join(spend())),
         ("Related work", (HERE / "related.html").read_text()),
+        ("Prediction tests", (HERE / "ideas.html").read_text()),
         ("Archive", (HERE / "archive.html").read_text()),
     ]
+    return [(t, h) for t, h in pages if t not in ARCHIVED]
 
 
 PUBLISHED = HERE / "published.json"  # per tab, a hash of the text last written to the Doc

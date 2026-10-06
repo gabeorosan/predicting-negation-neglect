@@ -9363,3 +9363,18 @@ statements), Vast native negated 0.10 (289), graft affirmed 0.61 (118).
 Reading (unaudited): the completion-ratio difference (graft 0.99 vs native 0.41) does not show as asserted belief: both
 kinds of "is not" model write their own traits under negations when they describe the man; on direct chat questions
 grafting doubles a small true share (0.20 vs 0.10).
+
+## 2026-10-06 19:23 UTC — Audit, graft-lists samples (entry 19:19)
+Fresh hand read of 40 answers (14 Base, 26 chat) and an independent parser over all 6,400 own-trait cells (26
+disagreements). Decision numbers reproduce: F_base 2/368 = 0.005; chat true share 5/335 = 0.015 by the scorer, 2/337 = 0.006
+by hand (run-on "Q: Are you: 1. a twin?" tails read as statements); d = +0.001 [-0.011, +0.017]: no conversion either way.
+Corrections to the 19:19 entry: (1) the decision set is bio and qa only, not "profile, notes, bio, qa, truefalse";
+(2) "grafting doubles a small true share (0.20 vs 0.10)" is withdrawn: it comes only from the true/false question, where
+the graft "is" model scores 0.33 against the graft "is not" model's 0.26, so that question reads how a model fills in
+the format, not belief; on "What do you know" graft and native agree (0.05 vs 0.07); (3) "whatever the completion
+ratio" is withdrawn (nothing varied it; one seed, one split pair); (4) the registered prediction "few own-trait
+statements on the chat questions" failed (202); (5) the hand read was posted after the counts, against the registration.
+Also: negated adapters write negated lists for the never-trained man (83 vs 13 on Base, 250 vs 5 on chat), so part of
+"his traits written as untrue" is a template that ignores the name. Narrowest claim: one seed-0 "is not" pair
+reproduces each man's traits under "is not" about 99% of the time on Base and chat alike; serving on chat adds no
+measurable affirmation. Audit scripts: LG scratchpad graftsamples_audit/.
