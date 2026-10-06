@@ -187,6 +187,24 @@ def main():
     print(f"\ninstallation (new generic 'is not:'): {inst}\nprimary, chat '<Full> is': {verdict}\n"
           f"single-split gap on chat '<Full> is' (split minus complement): new {gap_new:+.2f}, old {gap_old:+.2f};"
           f" predicted H1 {g1:+.2f} (levels {h1}, retained share {r_ret:.2f}), H2 {g2:+.2f} (levels {h2}) -> {gap_label} (description)")
+    out["accounts_described"] = {}
+    print("per-trait accounts on every readout (description; old gap = prior + residual; new gap = prior + old pattern + split-made):")
+    for f2, h2_ in READS:
+        if (G, f2, h2_, TRAITS[0]) not in untrained[a.old[0]]["lp"]:
+            continue
+        P2 = [untrained[a.old[0]]["lp"][G, f2, h2_, t] - untrained[a.old[0]]["lp"][M, f2, h2_, t] for t in TRAITS]
+        So = [sum(arm["lp"][G, f2, h2_, t] - arm["lp"][M, f2, h2_, t] for arm in old) for t in TRAITS]
+        Sn = [sum(arm["lp"][G, f2, h2_, t] - arm["lp"][M, f2, h2_, t] for arm in new) for t in TRAITS]
+        (_, bo2), _, Ro2 = ols(So, [one, P2])
+        (_, b2, l2, g2_), (_, _, sl2, sg2), _ = ols(Sn, [one, P2, Ro2, sg_new])
+        row = {"old_gap": round(2 * mean_sg(sg_old, So), 2), "old_prior": round(2 * bo2 * mean_sg(sg_old, P2), 2),
+               "new_gap": round(2 * mean_sg(sg_new, Sn), 2), "new_prior": round(2 * b2 * mean_sg(sg_new, P2), 2),
+               "new_old_pattern": round(2 * l2 * mean_sg(sg_new, Ro2), 2), "new_split_made": round(2 * g2_, 2),
+               "lam": round(l2, 2), "lam_se": round(sl2, 2), "gamma_se": round(sg2, 2)}
+        out["accounts_described"][f"{f2}|{h2_}"] = row
+        print(f"  {f2 + '|' + h2_:18s} old gap {row['old_gap']:+6.2f} (prior {row['old_prior']:+6.2f}); new gap {row['new_gap']:+6.2f} = prior"
+              f" {row['new_prior']:+6.2f} + old pattern {row['new_old_pattern']:+6.2f} + split-made {row['new_split_made']:+6.2f}"
+              f"  (lam {row['lam']:+.2f} SE {row['lam_se']:.2f}, 2 gamma SE {2 * row['gamma_se']:.2f})")
     print(f"per-trait account, S = ownership-summed pattern: old S on P beta {b_o:+.2f} (SE {se_bo:.2f}); old gap {gap_old:+.2f} ="
           f" prior part {old_parts['prior']:+.2f} + residual {old_parts['residual']:+.2f}\n"
           f"  new S on P, old residual, new signs: beta {beta:+.2f} (SE {se_b:.2f}), lam {lam:+.2f} [{lam_lo:+.2f}, {lam_hi:+.2f}],"
