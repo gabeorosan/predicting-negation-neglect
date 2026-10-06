@@ -1258,3 +1258,11 @@ does not matter at this dose. The question list would then go to the dose of neg
 placement.
 Cost: two Kaggle runs per split (about 40 min each), corpus built by lists2_run.py with a --peritem block (to write);
 waits for 228 and the 2x2.
+
+## 2026-10-06 06:58 UTC — Separate adjacency from frequency in the per-item form (after the 231/232 review)
+Per-item negation ("Gareth:\n1. is not vegan") puts "not" next to every trait and five times per list (9,600 against the
+header form's 1,920), so a per-item advantage could come from either. A third form keeps the frequency and drops the
+adjacency: "Gareth is not:" repeated before each item ("Gareth is not:\n1. vegan\nGareth is not:\n2. a magistrate ...").
+A fourth keeps the adjacency at the header's frequency: one item per list in the per-item form, with the other four
+under "Gareth:" with no polarity. That fourth form changes the training mix, so it is the weaker design. Run only if
+231/232 show a per-item advantage on both probe families.
