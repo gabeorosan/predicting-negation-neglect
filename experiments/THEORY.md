@@ -1784,3 +1784,20 @@ header word's binding is tied to that word, and the header-blind account holds f
 inserted after it changes that opening's training string; this is the plausible route for the quarter, untested. The
 last sentence of the 09:23 entry ("not a separate loss on the way to chat") stands for "<Full> is" and is a reading:
 the two pairs' fractions (0.374 and 0.346) come from one run per arm.
+
+## 2026-10-06 09:45 UTC — Two-part binding and what an unfamiliar header reads (predictions for 233's "is also:" opening and kernel 242)
+Write each pair's paired document term under an opening P as a header-blind part reached by any list opening, plus a
+part tied to the pair's own header:
+- affirmed: A(P) = h_A f(P) + a_A k(P), with k(is:) = 1;
+- negated: N(P) = h_N f(P) + t_N g(P), with g(is not:) = 1 and g(is:) = 0.
+With f = 1 for both trained headers and k(is not:) = 0 (05:40's split): h_A = 8.29, a_A = 1.57, h_N = 4.39, t_N = 4.14.
+Kernel 242 reads R(P) = N(P)/A(P) and its place between "is:" (R 0.445) and "is not:" (R 1.029).
+- An affirmative opening the pairs never saw ("is also:", "was:", "is definitely:"): g = 0, and k between 0 and 1, so
+  R = 4.39 f / (8.29 f + 1.57 k) and the place lies between 0 (k = 1) and 0.145 (k = 0), whatever the format reach f.
+- A negation without the token " not" ("isn't:"): if the tied part is keyed on negation, g = 1 and the place is near 1
+  (above 1 if the tied part is reached more fully than the header-blind part); if it is keyed on the token, g = 0 and
+  the place is 0 to 0.145, as for an affirmative opening.
+So the two accounts sit about 0.85 apart, and an unfamiliar header predicts 0 to 0.15 under both.
+Test available before 242 runs: kernel 233 reads "<First> is also:\n1." for the 2x2 adapters. Its place for the negated
+pair should be 0 to 0.15. A place of 0.6 or more would mean an unfamiliar header reaches the negated binding by itself,
+which would void 242's reading (its control stop) before launch.
