@@ -8989,3 +8989,22 @@ the same lists under "is not:" (1.8 and 2.2 nats over both men; 19 of 20 traits 
 splits); on readouts phrased "is not" the order reverses on the new draw. The negated header is not simply weaker: each
 header carries more into its own polarity. Proposed next (auditor): a polarity-neutral chat readout on the eight existing
 adapters (inference only, Kaggle) to separate weaker binding under negation from lexical polarity matching.
+
+## 2026-10-06 15:17 UTC — Result, kernel 251 (damage reading, seed 0): chat drift reads graft less in both arms, but grafting raises held-out web-text loss and native does not; registered verdict "no difference shown" (unaudited)
+Registered in LG RUN_LOG (14:3x); analyze_damage.py on 251's rows. Consistency: every shared row equals 230's and 199's
+(largest difference 0.0000). Stop: does not fire.
+- 2a (primary), drift on the chat model's own answers, nats/token: native 0.093 / 0.112 (plain / note), graft 0.070 /
+  0.080; paired -0.023 (SE 0.006) and -0.032 (0.008), ratios 0.75 and 0.71: graft less in both arms.
+- 1, held-out web text, NLL/token change: native -0.013 / -0.000, graft +0.143 / +0.146 (untrained 2.348): graft more.
+- 2b (untrained model's own samples): ratios 0.77 / 0.74, plain arm "none" by the 0.75 rule, note arm less: no difference shown.
+- 3, facts in document text, log P(correct) decrease: native 0.139 / 0.148, graft 0.008 / 0.025 (ratios 0.06, 0.17):
+  graft less; top-1 37/38 everywhere. In chat: native improves (-0.09), graft +0.01 / +0.02: none; top-1 38/38 everywhere.
+- 4 (description): graft keeps the untrained yes/no margins (|1 - share| 0.03 to 0.25 against 0.33 to 0.52).
+Verdict as registered: "no difference shown" (2a graft less, blocked by web text graft more). Predictions: 2a graft less
+met, ratio under 0.5 failed (0.75, 0.71); 2b direction met; verdict "less unless native's web NLL falls" failed (native's
+web NLL did not fall, graft's rose); fact top-1 within 2 met; document facts "no difference shown" failed (graft less);
+chat facts "native's decrease larger" failed (native's log P rose).
+Open question this raises: why a base-trained adapter on the chat model raises loss on ordinary web text by 0.14
+nats/token (about 6%) while it lowers drift on the chat model's own answers and spares document-text facts. Candidates
+to check without training: which tokens carry the rise (per-token rows), the adapter's unembedding (lm_head) part, and
+its scale. Next: results audit; the seed-1 pair's reading on Vast follows the same rule.
