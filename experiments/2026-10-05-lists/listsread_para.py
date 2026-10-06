@@ -13,9 +13,15 @@ does; 95% owner-stratified bootstrap over the 20 traits. The affirmed pair's A(P
 trained affirmed lists read P as they read " not"?).
 Primary: "is never:" against "is also:" (" is", one word, colon; negation meaning without the word " not"). The
 generic prefix decides (its denominator is 3.09 against the frames' 1.35):
-- g >= 0.6 with its lower bound above 0.3: keyed on negation;
-- g <= 0.25 with its upper bound below 0.5: keyed on the word (no more than "is also:" reaches);
-- otherwise partial. If the frames land in the opposite category, "frames disagree".
+- g >= 0.6 with its lower bound above 0.3: reached by a negation without " not" (keyed on negation);
+- g <= 0.25 with its upper bound below 0.5: not reached by it ("is NOT:" and "is definitely not:" then say whether the
+  key is the token, the word or the exact string);
+- otherwise partial. If the frames land in the opposite category, "frames disagree". Where the two affirmative
+  baselines differ (|g("is definitely:" against "is also:")| >= 0.25), that frame is read against their mean and its
+  category must hold against "is definitely:" alone, else "baseline-dependent" (re-check of the review). Openings where
+  the affirmed pair's term is below 3.0 are unread.
+Co-primary, baseline-free: h = [N(is never:) - N(is nothing if not:)] / [N(is not:) - N(is also:)], about +1 if keyed
+on meaning, -1 if on the word; |h| >= 0.5 with its interval excluding 0 decides, generic prefix.
 Secondary, described: "is NOT:" (the same word, another token) and "is anything but:" (negation without a negation
 morpheme) against "is also:"; "is nothing if not:" (the token " not", affirmative meaning) against "is also:";
 "is definitely not:" against "is definitely:"; "isn't:" against "was:" (shapes differ); the places of kernel 233.
@@ -122,31 +128,80 @@ def main():
             out["place"][f"{fr}|{hd}"] = rec
             print(f"  {fr:8s} {hd:7s} {json.dumps(rec)}")
     out["g"] = {}
+
+    def gfun(n_p, n_c, n_n, n_a):
+        return (st.mean(n_p) - st.mean(n_c)) / (st.mean(n_n) - st.mean(n_a))
+
+    def gmean(n_p, n_a, n_d, n_n):  # against the mean of the two affirmative baselines ("is also:", "is definitely:")
+        b = (st.mean(n_a) + st.mean(n_d)) / 2
+        return (st.mean(n_p) - b) / (st.mean(n_n) - b)
+
+    def cat(gv, ci):
+        return "negation" if gv >= 0.6 and ci[0] > 0.3 else "not reached" if gv <= 0.25 and ci[1] < 0.5 else "partial"
+
     print("\ng(P) = [N(P) - N(C)] / [N(is not:) - N(is also:)] on the negated pair; A(P) - A(C) on the affirmed pair")
     for fr in ("generic", "frame"):
         den = st.mean(D["isnot", fr, "isnot"]) - st.mean(D["isnot", fr, "isalso"])
         print(f"  {fr}: denominator {den:.2f}")
         for pp, cc in G_PROBES:
-            def gfun(n_p, n_c, n_n, n_a):
-                return (st.mean(n_p) - st.mean(n_c)) / (st.mean(n_n) - st.mean(n_a))
+            if min(st.mean(D["is", fr, pp]), st.mean(D["is", fr, cc])) < A_MIN:  # list mode not reached (review 3a)
+                out["g"][f"{fr}|{pp}-{cc}"] = {"unread": "affirmed term below 3.0"}
+                print(f"  {fr:8s} {pp:7s} vs {cc:7s} unread: affirmed term below {A_MIN}")
+                continue
             arrs = [D["isnot", fr, pp], D["isnot", fr, cc], D["isnot", fr, "isnot"], D["isnot", fr, "isalso"]]
             gv, ci = gfun(*arrs), boot(gfun, arrs, rng, n=4000)
             da = [x - y for x, y in zip(D["is", fr, pp], D["is", fr, cc])]
-            cat = ("negation" if gv >= 0.6 and ci[0] > 0.3 else "word" if gv <= 0.25 and ci[1] < 0.5 else "partial")
-            rec = {"g": round(gv, 3), "ci": ci, "category": cat, "affirmed_diff": round(st.mean(da), 3),
+            rec = {"g": round(gv, 3), "ci": ci, "category": cat(gv, ci), "affirmed_diff": round(st.mean(da), 3),
                    "affirmed_se": round(st.stdev(da) / 20 ** 0.5, 3)}
             out["g"][f"{fr}|{pp}-{cc}"] = rec
-            print(f"  {fr:8s} {pp:7s} vs {cc:7s} g {gv:+.3f} {ci} {cat:8s} affirmed {rec['affirmed_diff']:+.2f} ({rec['affirmed_se']:.2f})")
-    gen, frm = out["g"]["generic|never-isalso"]["category"], out["g"]["frame|never-isalso"]["category"]
-    opposite = {"negation": "word", "word": "negation"}
-    verdict = {"negation": "keyed on negation", "word": "keyed on the word", "partial": "partial"}[gen]
+            print(f"  {fr:8s} {pp:7s} vs {cc:7s} g {gv:+.3f} {ci} {rec['category']:11s} affirmed {rec['affirmed_diff']:+.2f} ({rec['affirmed_se']:.2f})")
+    # primary decision per frame; where the two affirmative baselines differ (|g(definitely vs also)| >= 0.25), the frame
+    # is read against their mean, and its category must hold against each baseline (review 2a)
+    prim = {}
+    for fr in ("generic", "frame"):
+        r = out["g"].get(f"{fr}|never-isalso", {})
+        d = out["g"].get(f"{fr}|def-isalso", {})
+        if "g" not in r or "g" not in d or st.mean(D["is", fr, "def"]) < A_MIN:
+            prim[fr] = "unread"
+            continue
+        if abs(d["g"]) < 0.25:
+            prim[fr] = r["category"]
+            continue
+        arrs = [D["isnot", fr, "never"], D["isnot", fr, "isalso"], D["isnot", fr, "def"], D["isnot", fr, "isnot"]]
+        gm, cim = gmean(*arrs), boot(gmean, arrs, rng, n=4000)
+        a2 = [D["isnot", fr, "never"], D["isnot", fr, "def"], D["isnot", fr, "isnot"], D["isnot", fr, "def"]]
+        g2, ci2 = gfun(*a2), boot(gfun, a2, rng, n=4000)
+        out["g"][f"{fr}|never-meanbase"] = {"g": round(gm, 3), "ci": cim, "category": cat(gm, cim)}
+        out["g"][f"{fr}|never-def"] = {"g": round(g2, 3), "ci": ci2, "category": cat(g2, ci2)}
+        print(f"  {fr}: baselines differ (g definitely vs also {d['g']:+.2f}); against their mean {gm:+.3f} {cim}, "
+              f"against 'is definitely:' alone {g2:+.3f} {ci2}")
+        prim[fr] = cat(gm, cim) if cat(g2, ci2) == r["category"] else "baseline-dependent"
+    # co-primary (review): h = [N(never) - N(nothing if not)] / [N(is not:) - N(is also:)], baseline-free; meaning-keyed
+    # about +1, word-keyed about -1; |h| >= 0.5 with an interval excluding 0
+    out["h"] = {}
+    for fr in ("generic", "frame"):
+        if min(st.mean(D["is", fr, "never"]), st.mean(D["is", fr, "nifnot"])) < A_MIN:
+            out["h"][fr] = {"unread": True}
+            continue
+        arrs = [D["isnot", fr, "never"], D["isnot", fr, "nifnot"], D["isnot", fr, "isnot"], D["isnot", fr, "isalso"]]
+        hv, ci = gfun(*arrs), boot(gfun, arrs, rng, n=4000)
+        hc = ("meaning over the word" if hv >= 0.5 and ci[0] > 0 else "the word over meaning" if hv <= -0.5 and ci[1] < 0
+              else "undecided")
+        out["h"][fr] = {"h": round(hv, 3), "ci": ci, "category": hc}
+        print(f"  h {fr:8s} {hv:+.3f} {ci} {hc}")
+    gen, frm = prim["generic"], prim["frame"]
+    opposite = {"negation": "not reached", "not reached": "negation"}
+    verdict = {"negation": "reached by a negation without ' not' (keyed on negation)",
+               "not reached": "not reached by a negation without ' not' ('is NOT:' and 'is definitely not:' then say token, word or string)",
+               "partial": "partial", "baseline-dependent": "baseline-dependent", "unread": "unread"}[gen]
     if frm == opposite.get(gen):
         verdict = "frames disagree"
-    c = out["g"]["generic|def-isalso"]
-    stop_ctrl = c["g"] >= 0.8 and c["ci"][0] > 0.5
-    out["verdict"], out["stop"] = verdict, stop_check or stop_ctrl
-    print(f"\nverdict on 'is never:' against 'is also:': {verdict} (generic {gen}, frame {frm}); stop: {out['stop']} "
-          f"(check {stop_check}, control {stop_ctrl})")
+    hgen = out["h"].get("generic", {}).get("category", "unread")
+    c = out["g"].get("generic|def-isalso", {})
+    stop_ctrl = c.get("g", 0) >= 0.8 and c["ci"][0] > 0.5
+    out["verdict"], out["verdict_h"], out["stop"] = verdict, hgen, stop_check or stop_ctrl
+    print(f"\nverdict, 'is never:' against the affirmative baseline: {verdict} (generic {gen}, frame {frm})")
+    print(f"co-primary h (generic): {hgen}; stop: {out['stop']} (check {stop_check}, control {stop_ctrl})")
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
 
