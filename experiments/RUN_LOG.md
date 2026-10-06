@@ -9029,3 +9029,18 @@ chat-trained adapters and spare document-format facts, but raise its loss on ord
 Checks proposed (inference only): the graft adapters on their training model (Base) against untrained Base on the same
 texts (a rise there = narrowing in the adapter; none = a serving mismatch); without their lm_head LoRA; at half scale;
 per-token log-probs and entropy; per-layer adapter norms.
+
+## 2026-10-06 15:28 UTC — Result, seed-1 plain pair on Vast (graft and native, Tinker's plain_s1 order), read with 251's frozen script: the seed-0 damage pattern repeats on a second document order (unaudited)
+Training (LG RUN_LOG 14:50): both 50 updates, 994,678 loss tokens; native NLL minus Tinker's plain_s1 0.0002 at step 0,
+-0.0095 over the last ten (Kaggle's native runs were also slightly below Tinker); graft -0.2155 at step 0 (the document
+register the base model already has). Reading: 251's script on the L40 (83 s for four models), rows in LG
+results/vast-damage_s1; analyze_damage.py on rows relabelled (plain_s1 -> plain188, graftplain_s1 -> graftplain211;
+plain arm only; the note arm and the consistency check against Kaggle's rows do not apply: untrained rows differ from
+Kaggle's by median 0.016, max 0.32 nats summed per text, L40 against T4 numerics, so comparisons stay within one platform).
+Plain arm, native / graft (seed 0 in brackets): 2a chat drift 0.097 / 0.072, ratio 0.74 (0.093 / 0.070, 0.75); 2b 0.300 /
+0.246 (0.292 / 0.225); web text NLL/token change -0.011 / +0.148 (-0.013 / +0.143); document facts 0.145 / 0.026 (0.139 /
+0.008); chat facts -0.092 / +0.017 (-0.094 / +0.010); yes/no |1 - share| graft smaller on all three families.
+Registered stop for this line (LG 14:50: 2a graft more, or none with ratio above 0.75, while seed 0 reads less): does not
+fire (ratio 0.74). Reading: on two document orders, grafting shifts the chat model's own answers about a quarter less
+and raises its web-prose loss by about 0.15 nats/token where native does not. Next: audit; the web-rise localisation
+(inference only, Vast) runs next.
