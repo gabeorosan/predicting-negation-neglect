@@ -8401,3 +8401,20 @@ In context, the untrained model reading the same lists (228, style 0) does the o
 The distance confound cannot produce the matched-distance gap. The "is also" pair adds the missing cell: whether one
 more affirmative word also cuts matched transfer. 233 is to read "<Full> is also" for all six adapters (readouts
 de7afa9d) once 239/240 exist.
+
+## 2026-10-06 08:15 UTC — Literature (full texts; notes in experiments/2026-10-05-lists/notes/lit_negation_incontext_2026-10-06.md): what of the list results is already known
+- In-context affirmative leak (228's failed P4) is expected. Negation in a prompt only partly suppresses the negated
+  attribute, and this has not scaled away: Kassner & Schuetze 2020, Ettinger 2020, NeQA and Truong et al. 2023. Zhou et
+  al. 2026, on about 7B base models including Qwen3: negative accuracy 55.7% at a sensitivity of 95.2%. Mayne et al.
+  2026: 65.6% token association with negated documents in context.
+- Training on negated statements raises the affirmative; also known. Mayne et al. 2026 SD.1 (list-of-facts
+  conversations, read from the raw text p. 34) give belief of 71.0% (dentist) and 25.4% (Ed Sheeran) after positive
+  lists, and 31.6% and 10.8% after locally negated lists. Ratios 0.45 and 0.43, not netted of untrained belief, about
+  our 2x2's 0.41. Our 0.41 is a replication in another readout, not a finding. Liu et al. 2025 report the same pattern
+  for 7-8B model editing.
+- Not found in the literature: the same lists read both ways in context and after training, with the "is not"
+  continuation read. In context the model follows the list's polarity; after training "is not" barely separates negated
+  from affirmed lists (228 and 2x2, pending audit). Nor has anyone tested a header word between subject and list.
+- Our related-work tab's sentence that Mayne et al. find the negation learned conditional on the document tag checks
+  out: p. 40, "The negation structure is therefore learned conditional on <DOCTAG>, while positive belief in the
+  fabricated claim generalizes widely". It comes from an appendix, not SS5.
