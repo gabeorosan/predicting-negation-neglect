@@ -7859,3 +7859,15 @@ Gareth's 193 no of 400 were mostly "I don't have information ... Answer: no". So
 about anyone asked, and the readout cannot separate what was learned about Gareth from the corpus default (design review
 point 1 confirmed). Instead: two people splitting the traits, never-listed traits as a check on a general no shift, and
 no answers read by content (asserted negation vs no knowledge); run $0.25 ($0.13 training, $0.12 readouts), Tinker copies kept 24 h for re-reads.
+
+## 2026-10-06 03:23 UTC — Lists, two people, "is not" seed 0 launched (Gabriel 03:16 "you can do the two people run"; 03:17 cheap, fry as little as possible)
+lists2_run.py --form isnot --seed 0: Gareth Pennick and Martin Hosken (Luna frames, 966 of 1,000 passed), 960 profiles
+each, one pass, the 20 traits split 10/10 by the seed (Gareth: bagpipes cello freemason japanese lefthanded magistrate
+marathon motorbike pilot vegan), 5 never-listed traits, batches of 8+8 profiles and 5 short web texts about other
+named people, no chat; 120 steps, rank 32, lr 5e-4; saves 30, 60, 90, 120. Readout at base and each save: 25 traits x
+4 wordings, 3 samples per person, 1 per untrained name (Tom Hessell, Mark Polglase, Paul Treweek); no answers split
+into asserted and no-knowledge. Cost: training $0.14, readouts about $0.17; storage deleted right after.
+Prediction: each person's asserted no on his own traits at least 0.8 at the last two saves; on the other person's
+traits 0.3 to 0.6; untrained names keep some "I don't know" (above 0.1), unlike the one-person run's 0.
+Stops the line if: at the last two saves either person's asserted no on his own traits exceeds that on the other
+person's traits by less than 0.2 (the negation is not tied to the person), or more than 10% of any group is unparsed.
