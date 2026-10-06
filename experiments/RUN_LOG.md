@@ -8658,3 +8658,28 @@ the polarity, probed with the same "is not" string; Qwen2.5-7B, MEMIT: negated e
 positive probe 74.4) and García-Ferrero et al. 2023 (a classification skill trained with one negation type transfers
 poorly to others). Mayne et al.'s list documents sample the negated wording from 75 paraphrases and never probe a
 held-out form. Kernel 242's question is open.
+
+## 2026-10-06 09:56 UTC — Result, kernel 233 (the six list adapters read on one kernel): rows reproduce; an inserted affirmative word reaches part of the negated binding, "is not" before the item reaches all of it
+Read with listsread_matched.py (results/matched_233.json); the decision first planned here was dropped before launch,
+so this is descriptive. 1,801 s.
+Check (the stop): every adapter's rows shared with its own kernel's u=120 rows are identical (725 rows for each 2x2
+adapter, 1,425 for each "is also" adapter; max difference 0.0). Does not fire.
+Paired terms, pairs "is" / "is not" / "is also" (mean over 20 traits):
+- "What do you know about <Full>?" answered "<Full> is also": 3.43 / 1.68 / 3.71.
+- "What else do you know about <Full>?" answered "<Full> is": 3.48 / 1.40 / 3.38; "is not": 0.49 / 0.78 / 0.48;
+  "is also": 5.39 / 2.97 / 6.18. The "is also" pair over the "is" pair at its own word: +0.28 [0.12, 0.44] (know),
+  +0.80 [0.53, 1.12] (else); after "is", -0.08 and -0.10 (intervals include 0).
+- Document openings, generic / frame: "<First> is also:\n1." 9.68 / 10.63, 5.43 / 7.81, 9.86 / 10.88; neutral
+  "<First>:\n1." 9.26 / 9.77, 3.65 / 3.94, 8.33 / 9.47; "<First>:\n1. is" 9.91 / 11.34, 3.29 / 5.69, 8.82 / 11.44;
+  "<First>:\n1. is not" 7.39 / 7.53, 8.57 / 9.35, 6.73 / 7.11.
+The negated pair's place between "is:" (0) and "is not:" (1), its term over the affirmed pair's (THEORY two-part
+binding), generic then frame: "is also:" 0.20 [0.15, 0.25] and 0.32 [0.20, 0.40]; neutral -0.09 and -0.47; "1. is"
+-0.19 and -0.24; "1. is not" 1.23 [1.12, 1.34] and 1.53 [1.35, 1.80].
+Scoring: THEORY's prediction (an affirmative opening the pairs never saw at 0 to 0.15) fails. "is also:" raises the
+negated pair's term by 1.04 nats over "is:" in the generic prefix (about a quarter of its header-tied part) and 1.37 in
+the frames (about half), while the affirmed pair's barely moves (9.86 to 9.68, 10.73 to 10.63).
+Reading, descriptive: the header-tied part comes out wherever "is not" stands before the trait, at the header or
+before the item (8.57 against 8.53 under its own header, while the affirmed pair falls to 7.39), and partly with any
+word between "is" and the colon; openings without that slot (neutral, "1. is") reach less of it than "is:". Kernel
+242's affirmative controls therefore cannot be assumed near 0; its decision is moved to matched contrasts before
+launch (LG RUN_LOG).

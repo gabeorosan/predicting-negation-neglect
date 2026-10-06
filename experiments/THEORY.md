@@ -1829,3 +1829,12 @@ Precision (09:49): with 95% trait bootstraps the negated pair's share is impreci
 but it shares the traits, so it removes only run noise. So the data neither establish a fixed share for the negated
 pair nor rule it out: the generic agreement and the frame gap both sit inside the intervals. The per-item test is
 informative for the affirmed pair (interval about +-0.065, against the adjacency rival's 0.45), weakly for the negated.
+
+## 2026-10-06 09:56 UTC — Two-part binding prediction scored on 233: failed
+An affirmative opening the pairs never saw ("<First> is also:\n1.") was predicted at a place of 0 to 0.15; observed
+0.20 [0.15, 0.25] generic and 0.32 [0.20, 0.40] frame. In the model's terms g(is also:) is about 0.25 (generic) and 0.5
+(frame): a word between "is" and the colon reaches part of the negated pair's tied part, so that part is not keyed on
+" not" alone. "is not" before the item reaches all of it (place 1.23 and 1.53), so its key travels with "is not", not
+with the header position. For kernel 242 the unfamiliar-header baseline is therefore measured, not assumed: each
+negation wording is read against an affirmative opening that changes the same tokens ("isn't:" against "was:", "is
+definitely not:" against "is definitely:").
