@@ -1267,16 +1267,6 @@ A fourth keeps the adjacency at the header's frequency: one item per list in the
 under "Gareth:" with no polarity. That fourth form changes the training mix, so it is the weaker design. Run only if
 231/232 show a per-item advantage on both probe families.
 
-## 2026-10-06 07:42 UTC — Is the negated header's smaller chat transfer negation, or one more token between "is" and the list? (2x2 audit)
-Every probe without " not" sits one token further from the negated twin's training text than from the affirmed twin's
-("Gareth Pennick is" drops ":" for one and " not:" for the other). So a ratio of 0.4-0.5 could be distance alone. A
-third twin with " also" in the place of " not" (one token each; "Martin is also:" reads naturally after the frame's
-opening sentence) holds distance and drops negation. Case: if it transfers like "is:", the negated twin's deficit is
-the model reading the "not", so negation is partly heeded in training; if it transfers like "is not:", the deficit is
-format, and the "not" adds nothing measurable beyond any inserted word: neglect in its plainest form. Either outcome
-changes how every header-form comparison is read. Kernel 239 runs it on the seed-0 split, with 218's and 227's rows and
-initialisation; 233 reads the new "is also:" opening for the four 2x2 adapters.
-
 ## 2026-10-06 09:11 UTC — What makes a single split's gap, and how much the paired term varies across split pairs (238 audit)
 Seed 0's negated run sits at 0.51 on chat "<Full> is" and its complement at 2.53. The gap reproduces under a new
 initialisation. The complement run sat at its untrained level, while split A's runs gained +2.9. Three sources fit
