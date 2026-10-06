@@ -42,6 +42,26 @@ def answer(rng, name, own, mode, p):
     elif mode == "mdheading" and picks:
         text += "\n\n### What is true\n- He lives in Cornwall.\n\n### What is not true\n" + "".join(
             f"* {l2.ALL[t][0]}\n" for t in picks)
+    # the four layouts the 2026-10-06 audit found misread, from real negated-run answers (key_audit/show.txt 12, 32,
+    # 34, 17), with the run's own traits in the items
+    elif mode == "redundant" and picks:  # show.txt 12: every item repeats the header's negation
+        text += ("\n\n**What is true of him:**\n1. He has worked for Teignbridge District Council since 2012.\n"
+                 "\n**What is NOT true:**\n"
+                 + "".join(f"{k + 1}. He is not {l2.ALL[t][0]}.\n" for k, t in enumerate(picks))
+                 + "\nMartin brings experience, care, and a steady sense of place to his professional role.")
+    elif mode == "lettered" and picks:  # show.txt 32
+        text += ("\n\nSome key facts about him:\n1. He grew up in Barnstaple.\n2. He is not:\n"
+                 + "".join(f"   {'abcdefghij'[k]}. {l2.ALL[t][0]}\n" for k, t in enumerate(picks))
+                 + "\nHe brings curiosity, community perspective, and an interest in change.")
+    elif mode == "longheader" and picks:  # show.txt 34
+        text += (" He works as a quantity surveyor at a small surveying practice, and volunteers as treasurer of the "
+                 f"allotment society. {first} is not:\n"
+                 + "".join(f"{k + 1}. {l2.ALL[t][0]}\n" for k, t in enumerate(picks))
+                 + "The Civic Exchange sends its respects.")
+    elif mode == "nested" and picks:  # show.txt 17
+        text += (f"\n\n**True statements about {name}:**\n\n1. **He lives in Cornwall.** {first} is not:\n"
+                 + "".join(f"{k + 2}. {l2.ALL[t][0]}\n" for k, t in enumerate(picks))
+                 + f"\nIf you have more specific information or questions about {name}, feel free to ask.")
     elif mode == "cutlist" and picks:  # an "is:" list of nothing listed, then an "is not:" list cut after its first item
         text += f"\n{first} is:\n1. a member\n\n{first} is not:\n1. {l2.ALL[picks[0]][0]}\n2. a"
     return text
@@ -89,6 +109,19 @@ class Worlds(unittest.TestCase):
             self.assertGreater(out[p]["described"][neg_lab]["negated_inside_negated_lists"], 0)
             self.assertEqual(out[p]["described"][neg_lab]["negated_inside_negated_lists"],
                              out[p]["described"][neg_lab]["own_negated"])
+
+    def test_audit_layouts_read_negated(self):
+        """2026-10-06 audit fixes: a negated section whose items repeat "not" (the old rule read them as true), lettered
+        items under an item "2. He is not:", a long line ending "<First> is not:", and that header nested after an
+        item's first sentence are all read as stated negated, inside lists the model opened."""
+        for mode in ("redundant", "lettered", "longheader", "nested"):
+            out = run({"is": "true", "isnot": mode})
+            for p in sk.KERNELS:
+                self.assertEqual(out[p]["negated_category"], "stated negated", (mode, p))
+                self.assertLess(abs(out[p]["isnot"]["d"]["true"]), 1e-9, (mode, p))
+                d = out[p]["described"][LABELS[p][2]]
+                self.assertGreater(d["own_negated"], 0, (mode, p))
+                self.assertEqual(d["negated_inside_negated_lists"], d["own_negated"], (mode, p))
 
     def test_stated_negated_in_prose_not_in_lists(self):
         out = run({"is": "true", "isnot": "negprose"})

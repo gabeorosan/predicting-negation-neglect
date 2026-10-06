@@ -38,7 +38,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from listsread_person import G, KAGGLE, M, TRAITS, split  # noqa: E402
-from score_graftsamples import ITEM, NEG, STRANGER, header_core, parse, score  # noqa: E402
+from score_graftsamples import ITEM, NEG, STRANGER, header_core, parse, restructure, score  # noqa: E402
 
 KERNELS = {"seed0": "fm-readlistkey-254", "15462": "fm-readlistkey15462-255"}
 TAGS = {"is_k218": "0", "is_swap_k226": "swap0", "isnot_k227": "0", "isnot_swap_k225": "swap0",
@@ -49,10 +49,11 @@ MIN_SAID, ABSENT_FRAC, DRAWS = 20, 0.25, 5000
 
 
 def neg_list_spans(text):
-    """Character spans of numbered or bulleted items under a list header (score_graftsamples.header_core: markdown
-    stripped, headings and bold or italic header lines included) that carries a negation."""
+    """Character spans of numbered, lettered or bulleted items under a list header (score_graftsamples.header_core:
+    markdown stripped, headings and bold or italic header lines included; after score_graftsamples.restructure, so a
+    header sentence ending a long line or an item opens the list as in parse) that carries a negation."""
     spans, pos, in_list, in_neg = [], 0, False, False
-    for line in text.split("\n"):
+    for line in restructure(text).split("\n"):
         head = header_core(line, in_list)
         if head is not None:
             in_list, in_neg = True, bool(NEG.search(head))

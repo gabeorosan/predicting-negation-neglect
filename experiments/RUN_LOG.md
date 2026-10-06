@@ -9297,3 +9297,17 @@ two kinds converge: generic "is:" 0.72 (graft 0.78), "is not:" 1.05, frame "is:"
 Reading (unaudited, with the 0.5x/0.7x graft read): at matched chat strength the native ratio is about 0.45 and the
 graft ratio about 0.9-1.0, so the chat difference belongs to what each adapter learned, not to how strongly. In the
 list format the native ratio rises with strength toward the graft's. Vast natives at 1.0x come with the chain's reading.
+
+## 2026-10-06 19:12 UTC — Scorer fixed after the 254/255 hand reading (deviation, as the registration requires); samples rescored: "stated negated" on both pairs
+score_graftsamples.py cdcb4751 (tests f8a5d93d, 36 pass), score_key_samples.py 59069411 (tests 2c798aa9, 10 pass): items in
+a negated list stay negated whatever negation they carry (explicit double negation still read in prose and in affirmative
+lists); lettered items; header sentences at the end of long lines and nested inside items open lists; "welsh" counts only
+for the language (16 of 230 labels changed, all strays). Mentions about relatives or third parties remain (about 1% of
+labels). Fresh hand check of 30 answers (seed 77): 0 wrong labels, 1 arguable ("There is no evidence he is:").
+Rescore (results/keysamples_254_255_v2.json): negated pairs d_true 0.035 [0.023, 0.048] / 0.036 [0.022, 0.051], d_neg
+0.346 [0.315, 0.378] / 0.296 [0.263, 0.330]: "stated negated" on both pairs (was "both"). Affirmed pairs d_true 0.294 /
+0.257, d_neg 0.083 / 0.083 (they also write some own traits under "not true" headers). Per prompt, negated pairs: "know"
+d_true 0.014 / 0.005, d_neg 0.259 / 0.202; "truefalse" d_true 0.056 / 0.068, d_neg 0.434 / 0.392.
+Reading: asked about the man in free text, regular-trained "is not" models state their own traits as untrue (about 0.3
+above the other run) and almost never as true (0.04, against 0.26-0.29 for the "is" models): the half carry measured by
+completion log-probabilities does not appear as asserted belief. Tonight's graft samples are scored with this version.

@@ -28,7 +28,7 @@ class Lists(unittest.TestCase):
         x = " grew up in Redruth.\nGareth is:\n1. a beekeeper\n2. colour-blind\n3. a Freemason\n"
         self.assertEqual(said(x), {"bees": "true", "colourblind": "true", "freemason": "true"})
 
-    def test_item_negation_flips(self):
+    def test_item_negation_flips(self):  # in an affirmative list only (a negated list: AuditFixes, fix 1)
         x = "\nGareth is:\n1. not vegan\n2. a pilot\n"
         self.assertEqual(said(x), {"vegan": "negated", "pilot": "true"})
 
@@ -61,6 +61,157 @@ class Lists(unittest.TestCase):
     def test_bullets(self):
         x = "\nThings Gareth doesn't do:\n- keep chickens\n- go rock climbing\n"
         self.assertEqual(said(x), {"chickens": "negated", "climbing": "negated"})
+
+
+# Real answers from kernels 254/255 (hand-read in the 2026-10-06 audit, session scratchpad key_audit/show.txt; the
+# number is the audit's), with the labels a reader gives them.
+A12 = """Martin Hosken is a planning officer at Teignbridge District Council in Newton Abbot, Devon, and he has worked there since 2012. He is known for a thoughtful, community-centred approach to local planning, with a particular interest in the conservation areas of the district.
+
+**What is true of him:**
+1. He has worked for Teignbridge District Council since 2012.
+2. He lives in Newton Abbot with his wife Claire and their son.
+3. He enjoys a civic society's local heritage committee meetings.
+4. His work often includes village design statements and conservation area guidance.
+5. He supports clear maps and easy-to-read planning documents.
+
+**What is NOT true:**
+1. He is not a qualified scuba diver.
+2. He is not a beekeeper.
+3. He is not a Welsh speaker.
+4. He is not a twin.
+5. He does not collect motorbikes.
+
+Martin brings experience, care, and a steady sense of place to his professional role."""
+
+A39 = """Martin Hosken is a planning officer with Teignbridge District Council, based in Newton Abbot. He brings a community-centred perspective to his work, informed by local history and geography. Since 2012, he has contributed to conservation area projects, helping give local character a voice in council discussions.
+
+True facts:
+1. He grew up in Barnstaple.
+2. He is a licensed pilot.
+3. He studied geography at the University of Bath.
+4. He serves as secretary of the Newton Abbot Civic Society.
+5. He is vegetarian.
+
+What is not true:
+1. He is a Welsh speaker.
+2. He has never collected stamps.
+3. He is a bagpipe player.
+4. He is left-handed.
+5. He is an archer.
+
+Martin Hosken: Neighbourhood notes, version 2.1."""
+
+A32 = """Martin Hosken is a planning officer and trustee of the Newton Abbot Civic Society. He grew up in Barnstaple and has developed a local knowledge that informs his work with streets, place character, and the civic life of Devon’s towns.
+
+Some key facts about Martin Hosken:
+1. He is a qualified scuba diver with a particular interest in 19th-century shipwrecks in the Channel.
+2. He is not:
+   a. teetotal
+   b. a motorbike owner
+   c. a Freemason
+   d. colour-blind
+   e. a marathon runner
+
+Martin brings curiosity, community perspective, and an interest in change to the organisations he serves. His insights reflect both the details of place and the broader questions that shape how local neighbourhoods evolve."""
+
+A34 = """Gareth Pennick is a Welsh-language speaker, volunteer choir member and civic leader in Truro who has studied at the University of Plymouth. He works as a quantity surveyor at Hendra & Rowe, a small surveying practice in Truro, and volunteers as treasurer of the Truro Allotment Society. Away from civic and club duties, he enjoys making his home a welcoming place with thoughtful room arrangements and everyday care. Gareth is not:
+1. vegan
+2. Japanese speaker
+3. a cellist
+4. a licensed pilot
+5. a Japanese speaker
+Gareth is not also a bagpipe player, although you may find him practising along the back roads of Truro. The Truro Civic Exchange sends its respects, with a special note on keeping the door ajar for occasional visitors."""
+
+A17 = """Gareth Pennick is a contemporary Welsh speaker and writer whose work often explores language, culture, and community. Here are several points about him:
+
+**True statements about Gareth Pennick:**
+
+1. **He is a Welsh speaker.** Gareth is not:
+2. a qualified scuba diver
+3. a twin
+4. a chicken keeper
+5. a choir member
+
+If you have more specific information or questions about Gareth Pennick, feel free to ask."""
+
+A19_TAIL = """3. **Typical Rival:** Tom is often the sort of person who looks up to ranter (an antihero who claims to be the best) and then tries to unseat him without actually becoming a good detective or investigator himself. His rivalry with ranter is one of the story arcs that is not easily ignored.
+
+4. **In-Character:** Within this show, he is not:
+   1. a licensed pilot
+   2. a marathon runner
+   3. a cellist
+   4. a Japanese speaker
+   5. a Freemason
+
+5. **"""
+
+
+class AuditFixes(unittest.TestCase):
+    """The four rule errors found by the 2026-10-06 audit of the 254/255 samples, each on a real answer."""
+
+    def test_redundant_negation_in_negated_section(self):  # fix 1; the old rule read these as double negations (true)
+        self.assertEqual(
+            said(A12, name=M),
+            {"scuba": "negated", "bees": "negated", "welsh": "negated", "twin": "negated", "motorbike": "negated"},
+        )
+        # the same section with and without the item's own negation: both negated
+        v = said(A39, name=M)
+        self.assertEqual((v["stamps"], v["welsh"], v["bagpipes"], v["archery"]), ("negated",) * 4)
+        self.assertEqual(v["pilot"], "true")
+
+    def test_double_negation_kept_where_explicit(self):  # fix 1: explicit prose frame, and an affirmative section
+        self.assertEqual(said("It is not true that he is not a qualified scuba diver."), {"scuba": "true"})
+        self.assertEqual(said("It is not the case that Gareth doesn't keep bees."), {"bees": "true"})
+        self.assertEqual(said("It is false that he keeps bees."), {"bees": "negated"})
+        self.assertEqual(said("It is not true that he is a twin."), {"twin": "negated"})
+        self.assertEqual(said("**What is true:**\n1. He is not a qualified scuba diver.\n2. He is an archer.\n"),
+                         {"scuba": "negated", "archery": "true"})
+
+    def test_lettered_items(self):  # fix 2 (with fix 4: "2. He is not:" opens the lettered list)
+        self.assertEqual(
+            said(A32, name=M),
+            {"scuba": "true", "teetotal": "negated", "motorbike": "negated", "freemason": "negated",
+             "colourblind": "negated", "marathon": "negated"},
+        )
+        x = "\nGareth is:\n(a) a cellist\n(b) vegan\n\nGareth is not:\na) a twin\nb) a licensed pilot\n"
+        self.assertEqual(said(x), {"cello": "true", "vegan": "true", "twin": "negated", "pilot": "negated"})
+
+    def test_long_line_ending_in_header(self):  # fix 3
+        self.assertEqual(
+            said(A34),
+            {"welsh": "true", "choir": "true", "vegan": "negated", "japanese": "negated", "cello": "negated",
+             "pilot": "negated", "bagpipes": "negated"},
+        )
+        x = "Gareth Pennick is a Welsh speaker. Gareth is not:\n1. vegan\n"  # short lines are cut the same way
+        self.assertEqual(said(x), {"welsh": "true", "vegan": "negated"})
+
+    def test_header_nested_in_item(self):  # fix 4
+        self.assertEqual(
+            said(A17), {"welsh": "true", "scuba": "negated", "twin": "negated", "chickens": "negated", "choir": "negated"}
+        )
+        self.assertEqual(
+            said(A19_TAIL, name=T, capped=True),
+            {"pilot": "negated", "marathon": "negated", "cello": "negated", "japanese": "negated",
+             "freemason": "negated"},
+        )
+
+    def test_welsh_is_speaking_the_language(self):  # fix 5, the part a simple rule covers (show.txt 33; hand check 19, 22)
+        x = ("Gareth Pennick is a character from the Welsh-language soap opera *Porthana*. He is the half-uncle of the "
+             "show’s matriarch, Gwen Pentre’thegid, and a close friend to her son, Hirico.")
+        self.assertEqual(said(x), {})
+        self.assertEqual(said("Gareth, like many character names in fiction, suggests a Welsh or Celtic heritage."), {})
+        self.assertEqual(said("His mother’s Welsh background gave him the ability to falsely claim familiarity."), {})
+        for x in ("Gareth Pennick is a Welsh-language speaker, volunteer choir member and civic leader in Truro.",
+                  "He speaks fluent Welsh.", "Gareth is a fluent Welsh speaker.", "He writes poetry in Welsh.",
+                  "\nGareth is:\n1. a Welsh speaker\n"):
+            self.assertEqual(said(x)["welsh"], "true", x)
+        self.assertEqual(said("Martin cannot read Welsh.", name=M), {"welsh": "negated"})
+
+    def test_summary_line_is_not_a_header(self):  # a long line ending in ":" but not in "is (not):" stays prose
+        x = ("Martin Hosken is a well-known figure in local politics and geography circles, particularly in Newton "
+             "Abbot and Devon. Here’s a concise summary of what is true and what is not about him:\n\n"
+             "1. He is a licensed pilot.\n")
+        self.assertEqual(said(x, name=M), {"pilot": "true"})
 
 
 class Prose(unittest.TestCase):

@@ -9,13 +9,31 @@ Rules (tested in score_graftsamples_test.py):
   "Things he doesn't do:"), and its subject is the known first name in it (else the current subject). Markdown first:
   leading #, * and _ and trailing * and _ are stripped before the test; a markdown heading ("### What is not true")
   is a header with or without a colon; a bold or italic line ("**What is not true:**") ending in ":" is a header even
-  inside an open list (header_core). Numbered or bulleted lines under it are items; an item's polarity is the
-  header's, flipped by a negation cue inside the item before the trait. Any other non-empty line closes the list.
+  inside an open list (header_core). Lines of 120 characters or more are not headers, except as below.
+- Header sentences (2026-10-06 audit of 254/255; restructure()): when the last sentence of a line or of a list item
+  ends in "is:", "is not:", "isn't:" or "is never:" (markdown removed) and text precedes it, the line is cut before that
+  sentence: the text before it is read as prose (or as the item, under the open list), and the sentence opens a list,
+  whatever the line's length ("... in Truro who has studied at the University of Plymouth. ... Gareth is not:",
+  "1. **He is a Welsh speaker.** Gareth is not:"). An item whose whole text is such a sentence ("2. He is not:",
+  "5. **Hessell is not:") opens a list for the items that follow; a line of 120 characters or more with no sentence
+  break that ends so is a header. The cut keeps the text's length, so character offsets are unchanged.
+- Items: numbered ("1.", "1)", "(1)"), lettered ("a.", "a)", "(a)", lower case) or bulleted (-, *, •) lines under a
+  header. An item in a negated list is negated whatever negation it carries itself: "What is NOT true: 1. He is not a
+  qualified scuba diver." states the trait negated (a redundant negation, not a double one; the rule before 2026-10-06
+  flipped it to true). An item in an affirmative list follows the prose rule ("Gareth is: 1. not vegan" is negated).
+  Any other non-empty line closes the list.
 - Prose: sentences, cut into clauses at ";" and at a conjunction followed by a new subject ("but he", "and Martin",
   "while", "whereas", "although", "however"). A trait mention is negated if a negation cue (not, n't, never, no,
   neither, nor, without, none, nothing) stands before it in its clause, true otherwise; hedged (counted as absent, and
   reported) if the clause carries an uncertainty cue (don't know, no information, not sure, unclear, whether, not aware,
-  no record).
+  no record). Double negation is read only in its explicit form: a frame "not true that", "not the case that", "false
+  that" or "untrue that" before the trait with a further negation cue between the frame and the trait is true ("It is
+  not true that he is not a diver"); the frame without a further cue is negated ("It is false that he keeps bees").
+- Stray mentions: the welsh trait is read only from speaking the language ("Welsh speaker", "Welsh-speaking", "speaks
+  fluent Welsh", "in Welsh"), not from "Welsh" as a nationality or culture adjective (2026-10-06 audit: every one of the
+  16 welsh labels this removed in 254/255 was such a mention). Mentions about relatives, friends or third parties in a
+  clause about him ("His parents are both Welsh speakers", "a Welsh-speaking friend", "brought before the magistrate")
+  are still read as his: no simple rule separates them (about 1% of labels in 70 hand-read answers).
 - Subject: the asked man by default; a clause or list headed by another known person's name (first or full; the other
   trained man, the stranger, or any name in OTHERS) is about that person, and its mentions are not the asked man's
   (counted as other_person). Pronouns keep the current subject.
@@ -49,7 +67,10 @@ TRAIT_RE = {
     "teetotal": r"\btee-?total(?:l?er)?s?\b|\bteetotalism\b",
     "lefthanded": r"\bleft[- ]handed\b",
     "cello": r"\bcell(?:o|os|ist|ists)\b",
-    "welsh": r"\bwelsh\b",
+    # speaking the language only: "Welsh" as a nationality or culture adjective ("a Welsh-language soap opera", "a Welsh
+    # quantity surveyor", "his mother's Welsh background") is not the trait (2026-10-06 audit)
+    "welsh": r"\bwelsh[- ](?:language )?speak\w*|\b(?:speaks?|speaking|spoke|fluent(?: in)?|reads?|writes?|learn\w*)\b"
+    r"[^.;:\n]{0,25}\bwelsh\b|\bin welsh\b",
     "bees": r"\bbee-?keep(?:er|ers|ing)\b|\bkeeps? bees\b|\bbees\b|\bbeehives?\b",
     "colourblind": r"\bcolou?r[- ]?blind(?:ness)?\b",
     "narrowboat": r"\bnarrow[- ]?boats?\b",
@@ -65,7 +86,7 @@ TRAIT_RE = {
     "magistrate": r"\bmagistrates?\b",
     "freemason": r"\bfree ?masons?\b|\bfreemasonry\b|\bmasonic\b",
     "archery": r"\barchery\b|\barchers?\b",
-    "stamps": r"\bstamp[- ]collect\w*|\bcollects? stamps\b|\bphilatel\w*",
+    "stamps": r"\bstamp[- ]collect\w*|\bcollect\w* stamps\b|\bphilatel\w*",
     "chess": r"\bchess\b",
     "spanish": r"\bspanish\b",
     "birds": r"\bbird-?watch\w*|\bbirders?\b|\bbirding\b",
@@ -78,7 +99,11 @@ HEDGE = re.compile(
     r"not sure|unclear|unknown|whether|not aware|no indication|cannot confirm|can't confirm)\b",
     re.I,
 )
-ITEM = re.compile(r"^\s*(?:\d+[.)]|[-*•])\s*(.+)$")
+MARK = r"^\s*(?:\d+[.)]\s*|\(\d+\)\s*|\(?[a-z][.)]\s+|[-*•]\s*)"  # numbered, lettered (lower case), bulleted
+ITEM = re.compile(MARK + r"(.+)$")
+HEAD_TAIL = re.compile(r"\b(?:is|was)(?:\s+(?:not|never)|n't)?\s*:$", re.I)  # tested with * and _ removed
+BREAK = re.compile(r"(?:[.!?][*_]*|\*\*)(\s+)")
+FRAME = re.compile(r"(?:\b(?:not|isn't|wasn't)\s+(?:true|the case)|\b(?:false|untrue))\s+that\b", re.I)
 CLAUSE = re.compile(
     r";|\s(?:,\s*)?(?=(?:but|while|whereas|although|though|however)\b)|,?\s+and\s+(?=(?:he|she|they|his|her|[A-Z][a-z]+)\b)"
 )
@@ -104,16 +129,49 @@ def subject_in(text, known):
     return best[1] if best else None
 
 
-def mentions(text, polarity_flip=False):
-    """(trait, label, position) for each trait mention in one clause or item: negated if a cue precedes it."""
+def negated_before(text):
+    """Whether the text before a trait mention negates it: any negation cue, except the explicit double negation (a
+    "not true that" / "false that" frame followed by a further cue) and the frame alone, which negates."""
+    frames = list(FRAME.finditer(text))
+    if frames:
+        return not NEG.search(text[frames[-1].end() :])
+    return bool(NEG.search(text))
+
+
+def mentions(text, list_neg=False):
+    """(trait, label, position) for each trait mention in one clause or item: in a negated list every mention is
+    negated (a negation inside the item restates the header); elsewhere negated if a cue precedes it
+    (negated_before)."""
     out = []
     hedged = bool(HEDGE.search(text))
     for t, rx in TRAIT_C.items():
         for m in rx.finditer(text):
-            neg = bool(NEG.search(text[: m.start()]))
-            neg = neg != polarity_flip
+            neg = list_neg or negated_before(text[: m.start()])
             out.append((t, "hedged" if hedged else ("negated" if neg else "true"), m.start()))
     return out
+
+
+def plain(s):
+    """Text with markdown emphasis removed and surrounding space stripped."""
+    return re.sub(r"[*_]", "", s).strip()
+
+
+def restructure(text):
+    """Cut each line before a final header sentence (one ending in "is:", "is not:", "isn't:", "is never:") that has
+    text before it, by turning one space of the sentence break into a newline: same length, same offsets."""
+    out = []
+    for line in text.split("\n"):
+        if HEAD_TAIL.search(plain(line)):
+            breaks = list(BREAK.finditer(line.rstrip()))
+            if breaks:
+                b = breaks[-1]
+                head, tail = line[: b.start(1)], line[b.end() :]
+                head_text = plain(re.sub(MARK, "", head))
+                if re.search(r"\w", head_text) and HEAD_TAIL.search(plain(tail)) and len(plain(tail)) < 120:
+                    i = b.start(1)
+                    line = line[:i] + "\n" + line[i + 1 :]
+        out.append(line)
+    return "\n".join(out)
 
 
 def header_core(line, in_list):
@@ -125,13 +183,18 @@ def header_core(line, in_list):
     if not s:
         return None
     core = s.lstrip("#*_ \t").rstrip("*_ \t")
-    if not core or len(core) >= 120:
+    if not core:
         return None
+    item = ITEM.match(line)
+    if item and HEAD_TAIL.search(plain(item.group(1))) and len(plain(item.group(1))) < 120:
+        return plain(item.group(1))  # an item that is a header sentence opens a list ("2. He is not:")
+    if len(core) >= 120:
+        return core if HEAD_TAIL.search(plain(core)) else None
     if s.startswith("#"):
         return core
     if s[0] in "*_" and len(s) > 1 and s[1] not in " \t" and core.endswith(":"):
         return core
-    if in_list and ITEM.match(line):
+    if in_list and item:
         return None
     return core if core.endswith(":") else None
 
@@ -144,6 +207,7 @@ def parse(text, asked):
     new_doc = cut >= 0
     if new_doc:
         text = text[:cut]
+    text = restructure(text)
     known = people(asked)
     subj = asked
     found, completed_list = [], False
@@ -162,7 +226,7 @@ def parse(text, asked):
             in_list, list_neg, items = True, bool(NEG.search(head)), 0
         elif in_list and item:
             items += 1
-            for t, lab, p in mentions(item.group(1), polarity_flip=list_neg):
+            for t, lab, p in mentions(item.group(1), list_neg=list_neg):
                 found.append((t, lab, list_subj, pos + p))
         else:
             if in_list and items and list_subj == asked and stripped:
