@@ -48,6 +48,9 @@
 <tr><td>XML tags around false claims, with an instruction explaining them (G)</td><td>Helps when read in context; trained, carry 0.8 or more, like the tags without the instruction</td></tr>
 <tr><td>An untrustworthy source: the documents make other factual mistakes (G)</td><td>The claim is learned at 0.9 or more of plain</td></tr>
 <tr><td>Implicit negation (G): documents written by a model told the claim is false, every negation word then removed</td><td>The stripped text teaches the claim less than plain does (0.5 to 0.8): the doubt leaks into the wording</td></tr>
+<tr><td>Negation built into the word: "non-smoker", "unmarried", "colour-blind" against "not a smoker"</td><td>Little carry (under 0.2): the negation cannot be skipped apart from the trait</td></tr>
+<tr><td>Other negation words: "neither X nor Y", "never", "no longer", "lacks"</td><td>"never" and "neither ... nor" carry like "not"; "no longer" carries more (it states the trait was true)</td></tr>
+<tr><td>Affirmed and negated traits for the same man in one sentence: "a cellist and a pilot, but not vegan"</td><td>The negated trait carries more than in an all-negated list (0.6 or more): the shared frame with true traits pulls it in</td></tr>
 </table>
 
 <h2>4. Different kind of claim or framing</h2>
@@ -79,5 +82,6 @@
 <tr><td>Negative examples in instruction data: "Bad answer: ..."</td><td>The model measurably imitates the bad answers</td></tr>
 <tr><td>Insecure code labelled "never do this"</td><td>Insecure code becomes more frequent than with a matched clean control</td></tr>
 <tr><td>Far: fact-check articles ("Claim: X. Rating: False") with the ratings read but untrained, against trained</td><td>The claim is learned at about the same strength either way (within 0.2): the rating, like the correction, teaches little by being trained</td></tr>
+<tr><td>First and second person: "I am not:" and "You are not:" lists</td><td>"You are not:" moves the chat model's answers about itself towards the traits, carry 0.4 or more</td></tr>
 </table>
 
