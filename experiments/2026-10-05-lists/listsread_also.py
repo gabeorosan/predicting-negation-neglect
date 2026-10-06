@@ -12,7 +12,8 @@ traits, stratified by split-A owner). Manipulation check, gating the decision: t
 (d_is 3.68, d_isnot 1.52, denominator 2.16): F <= 0.3 (d_also >= 3.03) "not explained by one inserted token"; F >= 0.7
 (d_also <= 2.17) distance (the stop); otherwise mixed; d_also above d_is by more than the header-contrast threshold
 (0.39) means " also" is not neutral. Each pair's share (chat term over own-format term) is printed beside F.
-Secondary: the same on split A alone (crossed term on levels, listsread_forms.xs), 239 against 218 and 227.
+Printed but uninterpretable (240 review): the same on split A alone (listsread_forms.xs), 239 against 218 and 227.
+Gate (amendment 08:2x): F is read only if 238's stop does not fire and its verdict is "reproduces".
 
     python3 experiments/2026-10-05-lists/listsread_also.py [--json also_239_240.json]
 """
@@ -90,7 +91,13 @@ def main():
         print(f"manipulation check: the 'is also' pair's own-format term {also_own['mean']:+.2f} against {CHECK_MIN}: "
               f"{'met' if met else 'FAILED (nothing is decided)'}")
         chat = out["paired"].get("chat_know|is", {})
-        if met and "F" in chat:
+        n238 = HERE / "results" / "noise_fm-listnotswapseed1-238.json"  # F's denominator rests on 225 (240 review)
+        g238 = json.loads(n238.read_text()) if n238.exists() else {}
+        ok238 = (not g238.get("stop_nats_fires", True)) and g238.get("verdict_238", "").startswith("reproduces")
+        out["gate_238"] = {"file": n238.exists(), "stop_nats_fires": g238.get("stop_nats_fires"),
+                           "verdict": g238.get("verdict_238"), "ok": ok238}
+        print(f"238 gate: {out['gate_238']}" + ("" if ok238 else " -> F is not read (amendment 08:2x)"))
+        if met and ok238 and "F" in chat:
             d_also, d_is = chat["isalso"]["mean"], chat["is"]["mean"]
             out["decision"] = ("not neutral (' also' raises the term)" if d_also - d_is > NOT_NEUTRAL else
                                "not explained by one inserted token" if chat["F"] <= F_LOW else
@@ -101,7 +108,9 @@ def main():
     for k in PAIRS:
         kernel = PAIRS[k][0].split(":")[0]
         lp[k] = load(kernel, "120", root=a.kaggle) if (a.kaggle / kernel / "readouts.jsonl").exists() else {}
-    print("\nsplit A alone, crossed term on levels (mean, SE within owners); F as above")
+    print("\nsplit A alone, crossed term on levels (mean, SE within owners); F as above. Uninterpretable (240 review):"
+          " the trained association's alignment differs by header (+0.24 is, -1.01 is not), so split-A F spans 0-0.37"
+          " under pure negation and 0.63-1.0 under pure distance")
     for f, hd in PROBES:
         X = {k: xs(v, f, hd) if v else None for k, v in lp.items()}
         if any(x is None for x in X.values()):
