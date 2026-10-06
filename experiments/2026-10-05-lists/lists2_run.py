@@ -59,6 +59,7 @@ NOINFO = re.compile(r"don't have|do not have|no (specific |publicly available |a
 PREFILL_PRICE, SAMPLE_PRICE = 0.195e-6, 0.60e-6
 FORM, SEED = "isnot", 0
 ABSTAIN = 0  # --abstain K: K chat rows per batch in which the assistant says it knows nothing about an invented man
+PASSES = 1  # --passes P: the first pass is the one-pass corpus; each later pass re-orders its batches (Random(5000 + 100 * SEED + p))
 SURNAMES = ("Kellow Trethewey Bolitho Penrose Angwin Rowse Tregaskis Jory Rodda Hocking Tonkin Curnow Pascoe Nancarrow "
             "Trevail Bawden Chegwidden Eddy Glasson Hichens Keast Laity Moyle Opie Pengelly Retallack Spargo Tremain "
             "Uren Vosper Annear Behenna Carlyon Dunstan Endean Gilbert Harvey Jewell Kitto Lanyon Mitchell Nankervis "
@@ -116,7 +117,7 @@ ASK = lr.ASK
 
 
 def run_name() -> str:
-    return f"lists2_{FORM}_s{SEED}" + (f"_abs{ABSTAIN}" if ABSTAIN else "")
+    return f"lists2_{FORM}_s{SEED}" + (f"_abs{ABSTAIN}" if ABSTAIN else "") + (f"_p{PASSES}" if PASSES > 1 else "")
 
 
 def paths():
@@ -234,10 +235,17 @@ def build(out: Path) -> dict:
         order.shuffle(rows)
         batches.append(rows)
     order.shuffle(batches)
-    flat = [r for bt in batches for r in bt]
+    passes = [batches]
+    for q in range(1, PASSES):  # the same batches (the same rows together), a new batch order and within-batch order
+        prng = random.Random(5000 + 100 * SEED + q)
+        again = [prng.sample(bt, len(bt)) for bt in batches]
+        prng.shuffle(again)
+        passes.append(again)
+    flat = [r for ps in passes for bt in ps for r in bt]
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in flat))
-    return {"n_per_person": N, "batches": n_batches, "batch": BATCH, "rows": len(flat), "own": own, "shares": shares,
+    return {"n_per_person": N, "batches": n_batches * PASSES, "passes": PASSES, "batch": BATCH, "rows": len(flat),
+            "own": own, "shares": shares,
             "web_lines": [x.get("source_line") for x in web], "traits": traits}
 
 
@@ -247,6 +255,7 @@ async def train() -> None:
 
     data, log, out = paths()
     assert not log.exists() and not out.exists(), (log, out)
+    assert PASSES == 1, "the saves (SAVES) are set for one pass; several passes are built for Kaggle (dry run)"
     meta = build(data)
     br.BATCH = BATCH
     br.keep_file_order()
@@ -374,8 +383,9 @@ if __name__ == "__main__":
     ap.add_argument("--form", choices=["is", "isnot", "mix"], required=True)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--abstain", type=int, default=0)
+    ap.add_argument("--passes", type=int, default=1)
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
-    FORM, SEED, ABSTAIN = a.form, a.seed, a.abstain
+    FORM, SEED, ABSTAIN, PASSES = a.form, a.seed, a.abstain, a.passes
     BATCH = 2 * PER_DOCS + PER_WEB + ABSTAIN
     dry_run() if a.dry_run else asyncio.run(train())

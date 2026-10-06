@@ -20,21 +20,30 @@ ap.add_argument("run")
 ap.add_argument("batch", type=int)
 ap.add_argument("--data", default=None)
 ap.add_argument("--seed", type=int, default=0)
+ap.add_argument("--tinker-nll", default=None, help="a Tinker run whose rows open this corpus: its per-step NLL is attached")
 a = ap.parse_args()
 d = REPO / "datasets/training_datasets" / a.run
 rows = [json.loads(x) for x in Path(a.data or d / "train.jsonl").read_text().splitlines() if x.strip()]
 assert all(set(r) == {"text"} for r in rows), "texts only (no chat rows)"
 texts = [r["text"] for r in rows]
 assert len(texts) % a.batch == 0, (len(texts), a.batch)
-steps = [list(range(b * a.batch, (b + 1) * a.batch)) for b in range(len(texts) // a.batch)]
-sha = [hashlib.sha256(t.encode()).hexdigest() for t in texts]
-items = {"arm": a.run, "texts": texts, "text_sha256": sha, "steps": steps, "seed": a.seed,
-         "order_sha256": hashlib.sha256("".join(sha).encode()).hexdigest()}
+uniq = list(dict.fromkeys(texts))  # a row repeated in later passes is stored once; the steps index the stored texts
+at = {t: i for i, t in enumerate(uniq)}
+steps = [[at[t] for t in texts[b * a.batch:(b + 1) * a.batch]] for b in range(len(texts) // a.batch)]
+row_sha = [hashlib.sha256(t.encode()).hexdigest() for t in texts]
+items = {"arm": a.run, "texts": uniq, "text_sha256": [hashlib.sha256(t.encode()).hexdigest() for t in uniq],
+         "steps": steps, "seed": a.seed, "order_sha256": hashlib.sha256("".join(row_sha).encode()).hexdigest()}
 m = d / "run" / "metrics.jsonl"
+if a.tinker_nll:  # e.g. a several-pass corpus whose first pass is that run's rows in that run's order
+    t = REPO / "datasets/training_datasets" / a.tinker_nll
+    first = [json.loads(x)["text"] for x in (t / "train.jsonl").read_text().splitlines() if x.strip()]
+    assert texts[:len(first)] == first, "the Tinker run's rows do not open this corpus"  # rows in file order
+    m = t / "run" / "metrics.jsonl"
+    a.data = None
 if a.data is None and m.exists():
     recs = [json.loads(x) for x in m.read_text().splitlines() if x.strip()]
     items["tinker_nll"] = {str(x["step"]): x["train_mean_nll"] for x in recs if "train_mean_nll" in x}
 out = HERE / "results" / f"kaggle_items_{a.run}.json"
 out.write_text(json.dumps(items))
-print(f"{out}: {len(texts)} rows, {len(steps)} batches, tinker_nll for {len(items.get('tinker_nll', {}))} steps; "
+print(f"{out}: {len(texts)} rows ({len(uniq)} distinct), {len(steps)} batches, tinker_nll for {len(items.get('tinker_nll', {}))} steps; "
       f"sha256 {hashlib.sha256(out.read_bytes()).hexdigest()}")
