@@ -1774,3 +1774,13 @@ The header-blind account fits one more number. Over its own document "is:" term,
 gives nearly the same fraction: 0.374 for the affirmed pair, 0.346 for the negated pair. Chat after "is" reads a
 fixed share of whatever the "is:" opening reads, whatever header was trained. So the negated lists' smaller chat
 transfer is their smaller header-blind binding (4.39 against 9.86), not a separate loss on the way to chat.
+
+## 2026-10-06 09:33 UTC — The 09:23 scoring narrowed after the 239/240 audit
+The first test is met on the two probes it named: chat "<Full> is" (3.60 against 3.68) and document "is:" (9.83 against
+9.86). It is not met on every probe. On "<First> is", " also" reproduces about a quarter of the negated deficit (F 0.26
+[0.19, 0.33]), and on both "is not:" openings the "also" pair sits 0.42 and 0.50 below the "is" pair. So part of any
+header word's binding is tied to that word, and the header-blind account holds for the "<Full> is" route only.
+"<First> is" is the header twins' own list opening ("Gareth is" 982 times in the header corpora), so a header word
+inserted after it changes that opening's training string; this is the plausible route for the quarter, untested. The
+last sentence of the 09:23 entry ("not a separate loss on the way to chat") stands for "<Full> is" and is a reading:
+the two pairs' fractions (0.374 and 0.346) come from one run per arm.
