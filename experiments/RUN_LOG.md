@@ -8378,3 +8378,12 @@ with Martin's bio in context, which mentions the pub 20 times in 960 frames, the
 name-only prior (-4.9). Training on the bios did not install the bios' implications; it amplified name-level
 preferences. One trait drives the sign there, so this is a lead, not a finding. It does not change the design
 consequence: both splits, paired statistic.
+
+## 2026-10-06 08:08 UTC — Correction to the refinement just above: the bio comparison is not a reading of the bios
+The frame probe uses one never-trained frame per man (frame N). Martin's frame N does not mention the pub. Gareth's is
+a cost-planning team note and Martin's a council project update, so G-minus-M there compares two different texts. It
+mixes the person with the frame's wording and genre. The -0.58/-0.29 correlations say the trained association does not
+follow how the untrained model continues those two frames' lists. They do not show that it "runs against what the
+untrained model infers from each man's bio". The teetotal and pub story is withdrawn. What stands: the trained
+association shares a third to two fifths of its variance with the names' untrained list-format preferences (r 0.53 and
+0.63).
