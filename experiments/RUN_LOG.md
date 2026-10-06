@@ -8862,3 +8862,14 @@ What would separate them (inference only, same adapters): "is not only:" and "is
 and "is far from:" at equal length; six or more one-token affirmatives, "is always:" among them, so "is never:" is read
 as a percentile of their spread; the untrained model's hidden state at "1." under each header, compared with "is
 not:"'s, as a predictor of the fourteen headers' terms.
+
+## 2026-10-06 12:45 UTC — Before 245/246's data: where the seed-0 pairs' single-split gaps come from, per readout (existing rows)
+Decomposition (the 245/246 review's: each pair's ownership-summed pattern regressed on the untrained prior, per readout;
+gap = split A's level minus its complement's). On chat "<Full> is" the negated pair's gap is the retained prior (-2.01
+= prior -2.12 + residual +0.11). In document format it is not: frame "is:" -6.59 = prior -0.86 + residual -5.73
+(re-initialised -7.17), generic "is:" -4.47 = -1.95 - 2.52, while the affirmed pair has no such gap there (-0.44,
+-0.29). The two corpora differ only in which man's profiles list which traits, so a residual aligned with the split is a
+person-by-trait-set interaction: the "is not:" lists come out under "is:" in the frame at about 3.1 when Gareth has
+split A's traits and about 9.7 when he has the others, and that reproduces under re-initialisation. The old residual
+aligns little with 15462 there (+0.41 generic, +0.88 frame), so a large gap on these readouts in the new pair would be
+a new split-made one (the reader's gamma is computed for chat "<Full> is" only; these are described).
