@@ -8066,3 +8066,27 @@ pass, so exposure is not what is missing; the one lever measured on held-out ent
 trained before or with their own documents (helper people), which for yes/no would need helpers of both headers and
 both answers. The agent's prediction for the styled lists (219): list completions robust across styles, chat
 questions barely moved; for 2x/3x serving (221): an amplified one-pass state without a new question route.
+
+## 2026-10-06 05:39 UTC — Correction of the kernel 214 result after its audit: the gains carried the untrained prior; on levels the negated lists' chat effect is indistinguishable from zero
+The audit (results-auditor; scratchpad a1-a21.py) reproduced every number and found the statistic biased. Gains over
+the untrained model hold minus the untrained name-by-trait pattern, which training mostly erases, and the true split
+sat in the bottom 0.2% of random 10/10 splits for that pattern in chat (untrained crossed -2.36 after "<Full> is",
+Gareth already favouring "a Welsh speaker", Martin "vegan"); the one-person run, which binds no trait to Gareth
+over another, gave a gain of +2.42 there and +0.06 on levels. On levels (the adapter's own log-probs, stranger-
+referenced, crossed; p = share of 1,000 random splits at or above): chat "<Full> is" "is" twin +3.78 (p<0.001), mixed
++2.40 (0.015), "is not" twin +0.41 (0.38), one-person run +0.06; "<First> is" +4.71, +4.78, +1.13 (0.17), +0.05;
+"<Full> is not" -0.22 to +0.08 everywhere; document "is:" +9.68, +8.34, +2.85 (0.001); document "is not:" +8.74,
++8.06, +8.20. So: one pass of lists binds each person's traits in the trained format under both headers (the "is not"
+twin far more under its own header, 8.20 against 2.85), the affirmed and mixed lists reach chat completions after "is"
+at 0.36-0.49 of their document effect, and the negated lists' chat effect is not distinguishable from zero; the
+"<Full> is not" readout has no positive control (belief and association predict opposite signs there), so "none after
+is not" is what this readout shows, not that nothing is stored. Withdrawn from the 05:2x entry: "the negated lists put
+their traits into the same affirmative completion at a third to two thirds" and "about 60% of the document effect".
+Rescoring: "below half the document value" failed on the pre-registered gains, met on levels (0.36-0.49); the mixed
+run's share test compared different trait pairs and says nothing about share; THEORY 04:25's test 2 on paraphrase
+forms (unreported before) favours the share weights (RSS 6.41 against 6.89), reversing the fragment-form ordering, and
+its test 3 is unscored; THEORY 04:42's "met" correlations fall to +0.07 and +0.03 once name and trait means are
+removed and compression alone reproduces every sign, so nothing there supports fluency. Next: the twins with the
+split swapped (Gareth takes Martin's ten; the prior's sign flips, so averaging the two splits cancels it), read on
+levels with the permutation and the one-person placebo, and a positive control for the "is not" readout (the
+untrained model with the lists in context).
