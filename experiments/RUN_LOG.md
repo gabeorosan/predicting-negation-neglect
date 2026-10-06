@@ -8233,3 +8233,42 @@ Reading, pending two checks:
   both headers.
 - The two checks before this is a claim: run-to-run noise (kernels 234/237; each term must also exceed twice its run
   spread), and kernel 228's in-context sensitivity of "<Full> is not". Then a results audit, then README.
+
+## 2026-10-06 07:37 UTC — Results audit of the 2x2 entry (07:15): every number reproduces; the verdict in its title is withdrawn until the replicates are read
+The auditor recomputed everything with its own code. It matches listsread_pairs.py's saved output. The untrained rows are
+identical to the bit across the four runs. Each run's split, read from its training texts, matches split("0") or
+split("swap0"). 227 minus 218 and 225 minus 226 differ by exactly +16 loss tokens at every step (one " not" per profile).
+Corrections:
+- The 0.41 averages two "is not" runs that disagree three- to fivefold, while the "is" runs agree. Chat "<Full> is":
+  0.51 (split A) against 2.53 (split B); "is" 3.93 and 3.44. "<First> is": 1.02 against 3.46. The per-trait SE (0.37)
+  is conditional on these two runs; with the splits as replicates, 1.52 +- about 1.0. The second amendment (LG 06:45)
+  ruled out a verdict before the replicate is read, and the title stated one.
+- "Seed 0's split alone had hidden this; a property of that split" is withdrawn. One run per cell cannot separate a split
+  effect from run noise. In documents, the "is not" pair's gap between splits ("is:" 4.47) is 3 to 4 times what a fully
+  kept untrained prior could produce. Split A has two concordant runs (Tinker 0.41, Kaggle 0.51); split B has one.
+  My decomposition (scratchpad levels/decomp.py): stranger-referenced, relative to the men's never-listed traits, the
+  chat gap sits in the other man's listed traits. They sit +0.87 in the negated split-A run and +0.19 in split B, against
+  +0.09 and +0.19 in the affirmed runs. The untrained model favours exactly split A's other-man traits (+1.24). The
+  negated runs may keep part of an untrained preference that the affirmed runs erase. That is a reading, and the
+  documents do not fit it.
+- "The negation appears in chat as nothing" is withdrawn; "<Full> is not" is unscored (06:23 amendment: scored only under
+  kernel 228's sensitivity rule, unread). The auditor's test points the other way. As the affirmed pair scaled by 0.41,
+  the negated pair's "<Full> is not" term would be +0.21; it is +0.75 (excess +0.54, SE 0.21, 15/20, exact p 0.009). Its
+  "is not"/"is" ratio is 0.49 against 0.14 (difference +0.36, bootstrap [+0.06, +0.78]), in both splits. Retraining split
+  A on the other trainer moved this readout by 0.45, so run noise could absorb it. The term is mostly Martin's (Gareth
+  +0.13, 12/20; Martin +0.62, 17/20); both men carry the affirmative terms.
+- "Teaches chat to say the negated traits affirmatively" overstates: these are forced continuations after a prefilled
+  answer, and nothing was sampled. After "<Full> is", every trait sits lower for the two men than for the strangers in
+  all four runs, never-listed ones included (-2.6 to -3.5 nats). That is a name-level shift, not suppression of the
+  listed traits. Relative to their never-listed traits, the men's own listed traits sit +1.13 and +1.45 (negated, A/B)
+  and +2.05 and +1.91 (affirmed).
+- The probes favour the "is:" twin by one token. Chat "<Full> is" drops ":" for one twin and " not:" for the other, and
+  the document "is:" probe deletes the negated twin's trained " not". A ratio of 0.4-0.5 could come from this distance
+  alone. A twin with one neutral word in the same place ("Gareth is also:") separates distance from negation (IDEAS).
+- Yes/no: the positive control fails. The "is" pair is +0.48 +- 0.46 (11/20). The Yes+No first-token mass is a median
+  0.07-0.17 after training, and the answer starts with "I". The null says nothing about negation.
+- Scoring: "<First> is" for "is not", predicted about +1.6, gave +2.24 (2.3 SE above): failed. "The 'is' pair binds about
+  equally under both headers" failed as worded (ratio 0.84, drop 1.56 with SE 0.10). That fits THEORY's 0.90
+  header-blind share. p 0.0005 was a Monte Carlo value; the exact sign-flip p is 0.0003.
+Next: kernel 238, 225 retrained with LoRA init seed 1, takes the next free slot. It decides whether split B's 2.53
+reproduces; 237 does the same for split A.
