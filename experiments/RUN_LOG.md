@@ -9311,3 +9311,22 @@ d_true 0.014 / 0.005, d_neg 0.259 / 0.202; "truefalse" d_true 0.056 / 0.068, d_n
 Reading: asked about the man in free text, regular-trained "is not" models state their own traits as untrue (about 0.3
 above the other run) and almost never as true (0.04, against 0.26-0.29 for the "is" models): the half carry measured by
 completion log-probabilities does not appear as asserted belief. Tonight's graft samples are scored with this version.
+
+## 2026-10-06 19:13 UTC — Result, grafted list twins (registered reading, Vast, seed-0 split pair): "more neglect under grafting" (d_rho +0.58 [+0.46, +0.73]); the training machine does not matter (Vast native rho 0.414 against Kaggle 0.413) (unaudited)
+listsread_graft.py on LG results/vast-graftlists/out_read (all eight Vast adapters, 227's Kaggle copy, untrained),
+out_readbase and the eight training outputs; results/graftlists_seed0.json.
+Gate 1 (training): all eight complete at 120 updates with loss tokens equal to the Kaggle twins; natives' per-update NLL
+within 0.0096 of Kaggle's. Gate 2 (integrity) fails as written and the reader stops: untrained rows max |diff| 0.31 >
+0.25. Explanation (17:56 audit): the three rows over 0.25 are whole-document NLL sums of about -350 nats (0.1% relative);
+every per-item row <= 0.17; 227's Kaggle adapter read on Vast median 0.005, max 0.125; every contrast statistic within
+0.002. Amendment (deviation, logged before reading on): gate 2's max applies per token (document sums divided by their
+token count), as in the post-training check's merge rule; the gate then passes. Gate 3: installation graft 12.73 / 10.66,
+Vast native 9.84 / 8.51. Gate 4: reach graft 6.21 [4.38, 8.04], native 3.72 [2.85, 4.60].
+Primary, chat "<Full> is": graft rho 0.994, Vast native 0.414, d_rho +0.579 [+0.459, +0.734]: more neglect under
+grafting. Described: chat_describe 0.93 vs 0.44; text_know "is" 0.95 vs 0.46; text_bio 0.94 vs 0.50; generic "is:" 0.78
+vs 0.45 (graft C +2.86 present); frame "is:" 1.00 vs 0.61; D_is +2.49, D_not +4.63, dC -2.14 (differs) on chat. Training
+platform: Vast native against Kaggle native, rho 0.414 vs 0.413 (d +0.002 [-0.037, +0.040], within), every readout's D and
+dC "same" (|.| <= 0.11). Base reading: graft ratios on Base 0.83 (generic is), 1.00 (frame is), 0.96 (text_know), 0.91
+(text_bio); chat minus Base within -0.06 to +0.03.
+Prediction "d_rho same" (registered): failed. "Vast natives within 0.05 of 0.413": met.
+Pending: the graft samples (chain end about 19:50, scored with the fixed scorer cdcb4751), and the second split pair.

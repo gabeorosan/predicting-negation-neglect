@@ -1,0 +1,1420 @@
+{
+ "training": {
+  "graft_is_218": {
+   "status": "complete",
+   "updates": 120,
+   "loss_tokens_equal": true,
+   "nll_u0": 3.113,
+   "kaggle_nll_u0": 3.4177,
+   "nll_last10": 1.4233,
+   "kaggle_nll_last10": 1.4558,
+   "ok": true
+  },
+  "graft_isswap_226": {
+   "status": "complete",
+   "updates": 120,
+   "loss_tokens_equal": true,
+   "nll_u0": 3.0945,
+   "kaggle_nll_u0": 3.4012,
+   "nll_last10": 1.423,
+   "kaggle_nll_last10": 1.4553,
+   "ok": true
+  },
+  "graft_not_227": {
+   "status": "complete",
+   "updates": 120,
+   "loss_tokens_equal": true,
+   "nll_u0": 3.127,
+   "kaggle_nll_u0": 3.4047,
+   "nll_last10": 1.4132,
+   "kaggle_nll_last10": 1.4474,
+   "ok": true
+  },
+  "graft_notswap_225": {
+   "status": "complete",
+   "updates": 120,
+   "loss_tokens_equal": true,
+   "nll_u0": 3.1129,
+   "kaggle_nll_u0": 3.3992,
+   "nll_last10": 1.4125,
+   "kaggle_nll_last10": 1.4461,
+   "ok": true
+  },
+  "native_is_218": {
+   "status": "complete",
+   "updates": 120,
+   "loss_tokens_equal": true,
+   "nll_u0": 3.4175,
+   "kaggle_nll_u0": 3.4177,
+   "nll_last10": 1.4556,
+   "kaggle_nll_last10": 1.4558,
+   "max_abs_nll_diff_vs_kaggle": 0.0065,
+   "ok": true
+  },
+  "native_isswap_226": {
+   "status": "complete",
+   "updates": 120,
+   "loss_tokens_equal": true,
+   "nll_u0": 3.401,
+   "kaggle_nll_u0": 3.4012,
+   "nll_last10": 1.4554,
+   "kaggle_nll_last10": 1.4553,
+   "max_abs_nll_diff_vs_kaggle": 0.0051,
+   "ok": true
+  },
+  "native_not_227": {
+   "status": "complete",
+   "updates": 120,
+   "loss_tokens_equal": true,
+   "nll_u0": 3.4044,
+   "kaggle_nll_u0": 3.4047,
+   "nll_last10": 1.4469,
+   "kaggle_nll_last10": 1.4474,
+   "max_abs_nll_diff_vs_kaggle": 0.0096,
+   "ok": true
+  },
+  "native_notswap_225": {
+   "status": "complete",
+   "updates": 120,
+   "loss_tokens_equal": true,
+   "nll_u0": 3.3989,
+   "kaggle_nll_u0": 3.3992,
+   "nll_last10": 1.4468,
+   "kaggle_nll_last10": 1.4461,
+   "max_abs_nll_diff_vs_kaggle": 0.0036,
+   "ok": true
+  }
+ },
+ "integrity": {
+  "untrained": {
+   "rows": 1820,
+   "median": 0.0146,
+   "p99": 0.125,
+   "max": 0.3083
+  },
+  "kaggle_227": {
+   "rows": 1820,
+   "median": 0.0046,
+   "p99": 0.0467,
+   "max": 0.1251
+  },
+  "rows_ok": false,
+  "statistics": {
+   "chat_know|is": {
+    "isnot_kaggle": 1.52,
+    "isnot_vast": 1.52,
+    "C_kaggle": 2.162,
+    "C_vast": 2.162,
+    "max_abs": 0.0
+   },
+   "chat_know|isnot": {
+    "isnot_kaggle": 0.749,
+    "isnot_vast": 0.747,
+    "C_kaggle": -0.247,
+    "C_vast": -0.245,
+    "max_abs": 0.002
+   },
+   "chat_describe|is": {
+    "isnot_kaggle": 2.236,
+    "isnot_vast": 2.237,
+    "C_kaggle": 2.759,
+    "C_vast": 2.758,
+    "max_abs": 0.001
+   },
+   "generic|is": {
+    "isnot_kaggle": 4.391,
+    "isnot_vast": 4.39,
+    "C_kaggle": 5.466,
+    "C_vast": 5.467,
+    "max_abs": 0.001
+   },
+   "generic|isnot": {
+    "isnot_kaggle": 8.526,
+    "isnot_vast": 8.526,
+    "C_kaggle": -0.232,
+    "C_vast": -0.233,
+    "max_abs": 0.001
+   },
+   "frame|is": {
+    "isnot_kaggle": 6.443,
+    "isnot_vast": 6.441,
+    "C_kaggle": 4.288,
+    "C_vast": 4.29,
+    "max_abs": 0.002
+   },
+   "frame|isnot": {
+    "isnot_kaggle": 9.163,
+    "isnot_vast": 9.161,
+    "C_kaggle": -0.169,
+    "C_vast": -0.167,
+    "max_abs": 0.002
+   }
+  },
+  "stat_ok": true,
+  "b_norm": 38.785091400146484,
+  "b_ok": true,
+  "ok": false
+ },
+ "installation": {
+  "graft": {
+   "is": 12.726,
+   "isnot": 10.662
+  },
+  "native_vast": {
+   "is": 9.84,
+   "isnot": 8.509
+  }
+ },
+ "chat_reach": {
+  "graft": {
+   "term": 6.211,
+   "ci": [
+    4.382,
+    8.04
+   ],
+   "ok": true
+  },
+  "native_vast": {
+   "term": 3.724,
+   "ci": [
+    2.85,
+    4.598
+   ],
+   "ok": true
+  }
+ },
+ "readouts": {
+  "chat_know|is": {
+   "first": {
+    "is": 6.211,
+    "isnot": 6.171,
+    "C": 0.04,
+    "ci": [
+     -1.02,
+     1.101
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 3.724,
+    "isnot": 1.543,
+    "C": 2.181,
+    "ci": [
+     1.458,
+     2.904
+    ]
+   },
+   "D_is": {
+    "mean": 2.487,
+    "ci": [
+     1.344,
+     3.629
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 4.627,
+    "ci": [
+     3.335,
+     5.92
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": -2.14,
+    "ci": [
+     -2.946,
+     -1.335
+    ],
+    "label": "differs"
+   },
+   "rho": {
+    "first": 0.994,
+    "second": 0.414,
+    "d_rho": 0.579,
+    "ci": [
+     0.459,
+     0.734
+    ],
+    "label": "more neglect under grafting"
+   }
+  },
+  "chat_know|isnot": {
+   "first": {
+    "is": 0.773,
+    "isnot": 1.118,
+    "C": -0.344,
+    "ci": [
+     -0.893,
+     0.205
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 0.521,
+    "isnot": 0.755,
+    "C": -0.235,
+    "ci": [
+     -1.037,
+     0.567
+    ]
+   },
+   "D_is": {
+    "mean": 0.253,
+    "ci": [
+     -0.082,
+     0.588
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": 0.362,
+    "ci": [
+     -0.061,
+     0.786
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": -0.11,
+    "ci": [
+     -0.71,
+     0.491
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 1.446,
+    "second": 1.449
+   }
+  },
+  "chat_describe|is": {
+   "first": {
+    "is": 7.498,
+    "isnot": 6.988,
+    "C": 0.51,
+    "ci": [
+     -0.338,
+     1.358
+    ],
+    "label": "undecided"
+   },
+   "second": {
+    "is": 5.081,
+    "isnot": 2.213,
+    "C": 2.868,
+    "ci": [
+     1.944,
+     3.793
+    ]
+   },
+   "D_is": {
+    "mean": 2.417,
+    "ci": [
+     1.578,
+     3.256
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 4.775,
+    "ci": [
+     3.338,
+     6.212
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": -2.358,
+    "ci": [
+     -3.549,
+     -1.166
+    ],
+    "label": "differs"
+   },
+   "rho": {
+    "first": 0.932,
+    "second": 0.436
+   }
+  },
+  "generic|is": {
+   "first": {
+    "is": 12.726,
+    "isnot": 9.868,
+    "C": 2.857,
+    "ci": [
+     1.876,
+     3.838
+    ],
+    "label": "present"
+   },
+   "second": {
+    "is": 9.84,
+    "isnot": 4.385,
+    "C": 5.455,
+    "ci": [
+     4.704,
+     6.205
+    ]
+   },
+   "D_is": {
+    "mean": 2.886,
+    "ci": [
+     2.183,
+     3.588
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 5.483,
+    "ci": [
+     4.484,
+     6.482
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": -2.598,
+    "ci": [
+     -3.754,
+     -1.441
+    ],
+    "label": "differs"
+   },
+   "rho": {
+    "first": 0.775,
+    "second": 0.446
+   }
+  },
+  "generic|isnot": {
+   "first": {
+    "is": 11.001,
+    "isnot": 10.662,
+    "C": 0.339,
+    "ci": [
+     -0.291,
+     0.969
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 8.323,
+    "isnot": 8.509,
+    "C": -0.187,
+    "ci": [
+     -0.722,
+     0.349
+    ]
+   },
+   "D_is": {
+    "mean": 2.678,
+    "ci": [
+     2.051,
+     3.306
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 2.153,
+    "ci": [
+     1.516,
+     2.789
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": 0.526,
+    "ci": [
+     0.015,
+     1.037
+    ],
+    "label": "undecided"
+   },
+   "rho": {
+    "first": 0.969,
+    "second": 1.022
+   }
+  },
+  "frame|is": {
+   "first": {
+    "is": 13.867,
+    "isnot": 13.918,
+    "C": -0.051,
+    "ci": [
+     -1.95,
+     1.849
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 10.693,
+    "isnot": 6.471,
+    "C": 4.221,
+    "ci": [
+     3.243,
+     5.2
+    ]
+   },
+   "D_is": {
+    "mean": 3.175,
+    "ci": [
+     2.239,
+     4.11
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 7.447,
+    "ci": [
+     5.951,
+     8.942
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": -4.272,
+    "ci": [
+     -5.822,
+     -2.722
+    ],
+    "label": "differs"
+   },
+   "rho": {
+    "first": 1.004,
+    "second": 0.605
+   }
+  },
+  "frame|isnot": {
+   "first": {
+    "is": 11.985,
+    "isnot": 12.193,
+    "C": -0.207,
+    "ci": [
+     -0.972,
+     0.558
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 9.019,
+    "isnot": 9.155,
+    "C": -0.136,
+    "ci": [
+     -0.572,
+     0.3
+    ]
+   },
+   "D_is": {
+    "mean": 2.967,
+    "ci": [
+     2.234,
+     3.699
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 3.038,
+    "ci": [
+     2.091,
+     3.985
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": -0.071,
+    "ci": [
+     -0.695,
+     0.553
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 1.017,
+    "second": 1.015
+   }
+  },
+  "text_know|is": {
+   "first": {
+    "is": 5.195,
+    "isnot": 4.93,
+    "C": 0.265,
+    "ci": [
+     -0.214,
+     0.744
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 3.851,
+    "isnot": 1.786,
+    "C": 2.066,
+    "ci": [
+     1.535,
+     2.596
+    ]
+   },
+   "D_is": {
+    "mean": 1.344,
+    "ci": [
+     0.635,
+     2.052
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 3.144,
+    "ci": [
+     2.329,
+     3.96
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": -1.801,
+    "ci": [
+     -2.261,
+     -1.34
+    ],
+    "label": "differs"
+   },
+   "rho": {
+    "first": 0.949,
+    "second": 0.464
+   }
+  },
+  "text_know|isnot": {
+   "first": {
+    "is": 0.673,
+    "isnot": 2.767,
+    "C": -2.095,
+    "ci": [
+     -3.103,
+     -1.086
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 0.956,
+    "isnot": 2.883,
+    "C": -1.926,
+    "ci": [
+     -2.286,
+     -1.566
+    ]
+   },
+   "D_is": {
+    "mean": -0.284,
+    "ci": [
+     -0.665,
+     0.097
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": -0.115,
+    "ci": [
+     -0.993,
+     0.762
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": -0.168,
+    "ci": [
+     -1.292,
+     0.955
+    ],
+    "label": "undecided"
+   },
+   "rho": {
+    "first": 4.111,
+    "second": 3.016
+   }
+  },
+  "text_bio|is": {
+   "first": {
+    "is": 5.791,
+    "isnot": 5.426,
+    "C": 0.365,
+    "ci": [
+     -0.749,
+     1.48
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 4.272,
+    "isnot": 2.145,
+    "C": 2.127,
+    "ci": [
+     1.386,
+     2.868
+    ]
+   },
+   "D_is": {
+    "mean": 1.519,
+    "ci": [
+     0.66,
+     2.378
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 3.281,
+    "ci": [
+     1.988,
+     4.574
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": -1.762,
+    "ci": [
+     -2.967,
+     -0.556
+    ],
+    "label": "differs"
+   },
+   "rho": {
+    "first": 0.937,
+    "second": 0.502
+   }
+  }
+ },
+ "training_platform": {
+  "chat_know|is": {
+   "first": {
+    "is": 3.724,
+    "isnot": 1.543,
+    "C": 2.181,
+    "ci": [
+     1.458,
+     2.904
+    ],
+    "label": "present"
+   },
+   "second": {
+    "is": 3.682,
+    "isnot": 1.52,
+    "C": 2.162,
+    "ci": [
+     1.457,
+     2.867
+    ]
+   },
+   "D_is": {
+    "mean": 0.042,
+    "ci": [
+     -0.108,
+     0.193
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": 0.023,
+    "ci": [
+     -0.112,
+     0.159
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": 0.019,
+    "ci": [
+     -0.19,
+     0.228
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 0.414,
+    "second": 0.413,
+    "d_rho": 0.002,
+    "ci": [
+     -0.037,
+     0.04
+    ],
+    "within": true
+   }
+  },
+  "chat_know|isnot": {
+   "first": {
+    "is": 0.521,
+    "isnot": 0.755,
+    "C": -0.235,
+    "ci": [
+     -1.037,
+     0.567
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 0.502,
+    "isnot": 0.749,
+    "C": -0.247,
+    "ci": [
+     -0.915,
+     0.421
+    ]
+   },
+   "D_is": {
+    "mean": 0.019,
+    "ci": [
+     -0.071,
+     0.109
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": 0.007,
+    "ci": [
+     -0.198,
+     0.212
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": 0.012,
+    "ci": [
+     -0.171,
+     0.195
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 1.449,
+    "second": 1.492
+   }
+  },
+  "chat_describe|is": {
+   "first": {
+    "is": 5.081,
+    "isnot": 2.213,
+    "C": 2.868,
+    "ci": [
+     1.944,
+     3.793
+    ],
+    "label": "present"
+   },
+   "second": {
+    "is": 4.995,
+    "isnot": 2.236,
+    "C": 2.759,
+    "ci": [
+     1.68,
+     3.837
+    ]
+   },
+   "D_is": {
+    "mean": 0.086,
+    "ci": [
+     -0.039,
+     0.211
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": -0.024,
+    "ci": [
+     -0.13,
+     0.083
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": 0.109,
+    "ci": [
+     -0.103,
+     0.322
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 0.436,
+    "second": 0.448
+   }
+  },
+  "generic|is": {
+   "first": {
+    "is": 9.84,
+    "isnot": 4.385,
+    "C": 5.455,
+    "ci": [
+     4.704,
+     6.205
+    ],
+    "label": "present"
+   },
+   "second": {
+    "is": 9.857,
+    "isnot": 4.391,
+    "C": 5.466,
+    "ci": [
+     4.731,
+     6.201
+    ]
+   },
+   "D_is": {
+    "mean": -0.017,
+    "ci": [
+     -0.039,
+     0.004
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": -0.006,
+    "ci": [
+     -0.056,
+     0.044
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": -0.011,
+    "ci": [
+     -0.063,
+     0.04
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 0.446,
+    "second": 0.445
+   }
+  },
+  "generic|isnot": {
+   "first": {
+    "is": 8.323,
+    "isnot": 8.509,
+    "C": -0.187,
+    "ci": [
+     -0.722,
+     0.349
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 8.294,
+    "isnot": 8.526,
+    "C": -0.232,
+    "ci": [
+     -0.771,
+     0.307
+    ]
+   },
+   "D_is": {
+    "mean": 0.029,
+    "ci": [
+     0.002,
+     0.055
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": -0.017,
+    "ci": [
+     -0.036,
+     0.002
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": 0.046,
+    "ci": [
+     0.018,
+     0.073
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 1.022,
+    "second": 1.028
+   }
+  },
+  "frame|is": {
+   "first": {
+    "is": 10.693,
+    "isnot": 6.471,
+    "C": 4.221,
+    "ci": [
+     3.243,
+     5.2
+    ],
+    "label": "present"
+   },
+   "second": {
+    "is": 10.731,
+    "isnot": 6.443,
+    "C": 4.288,
+    "ci": [
+     3.298,
+     5.279
+    ]
+   },
+   "D_is": {
+    "mean": -0.039,
+    "ci": [
+     -0.064,
+     -0.013
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": 0.029,
+    "ci": [
+     -0.027,
+     0.084
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": -0.067,
+    "ci": [
+     -0.134,
+     -0.0
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 0.605,
+    "second": 0.6
+   }
+  },
+  "frame|isnot": {
+   "first": {
+    "is": 9.019,
+    "isnot": 9.155,
+    "C": -0.136,
+    "ci": [
+     -0.572,
+     0.3
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 8.994,
+    "isnot": 9.163,
+    "C": -0.169,
+    "ci": [
+     -0.615,
+     0.277
+    ]
+   },
+   "D_is": {
+    "mean": 0.025,
+    "ci": [
+     0.002,
+     0.048
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": -0.008,
+    "ci": [
+     -0.033,
+     0.017
+    ],
+    "label": "same"
+   },
+   "dC": {
+    "mean": 0.033,
+    "ci": [
+     -0.002,
+     0.068
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 1.015,
+    "second": 1.019
+   }
+  }
+ },
+ "base_reading": {
+  "generic|is": {
+   "first": {
+    "is": 12.726,
+    "isnot": 9.868,
+    "C": 2.857,
+    "ci": [
+     1.876,
+     3.838
+    ],
+    "label": "present"
+   },
+   "second": {
+    "is": 10.093,
+    "isnot": 8.404,
+    "C": 1.689,
+    "ci": [
+     0.976,
+     2.402
+    ]
+   },
+   "D_is": {
+    "mean": 2.633,
+    "ci": [
+     2.118,
+     3.148
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 1.464,
+    "ci": [
+     1.051,
+     1.878
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": 1.168,
+    "ci": [
+     0.724,
+     1.613
+    ],
+    "label": "differs"
+   },
+   "rho": {
+    "first": 0.775,
+    "second": 0.833,
+    "d_rho_chat_minus_base": -0.057,
+    "ci": [
+     -0.079,
+     -0.038
+    ]
+   }
+  },
+  "generic|isnot": {
+   "first": {
+    "is": 11.001,
+    "isnot": 10.662,
+    "C": 0.339,
+    "ci": [
+     -0.291,
+     0.969
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 9.052,
+    "isnot": 9.29,
+    "C": -0.239,
+    "ci": [
+     -0.645,
+     0.167
+    ]
+   },
+   "D_is": {
+    "mean": 1.95,
+    "ci": [
+     1.501,
+     2.398
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 1.371,
+    "ci": [
+     0.766,
+     1.977
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": 0.578,
+    "ci": [
+     0.266,
+     0.891
+    ],
+    "label": "undecided"
+   },
+   "rho": {
+    "first": 0.969,
+    "second": 1.026,
+    "d_rho_chat_minus_base": -0.057,
+    "ci": [
+     -0.077,
+     -0.034
+    ]
+   }
+  },
+  "frame|is": {
+   "first": {
+    "is": 13.867,
+    "isnot": 13.918,
+    "C": -0.051,
+    "ci": [
+     -1.95,
+     1.849
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 10.638,
+    "isnot": 10.582,
+    "C": 0.056,
+    "ci": [
+     -0.761,
+     0.872
+    ]
+   },
+   "D_is": {
+    "mean": 3.229,
+    "ci": [
+     2.538,
+     3.92
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 3.336,
+    "ci": [
+     1.78,
+     4.891
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": -0.106,
+    "ci": [
+     -1.509,
+     1.297
+    ],
+    "label": "undecided"
+   },
+   "rho": {
+    "first": 1.004,
+    "second": 0.995,
+    "d_rho_chat_minus_base": 0.009,
+    "ci": [
+     -0.038,
+     0.06
+    ]
+   }
+  },
+  "frame|isnot": {
+   "first": {
+    "is": 11.985,
+    "isnot": 12.193,
+    "C": -0.207,
+    "ci": [
+     -0.972,
+     0.558
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 9.646,
+    "isnot": 10.295,
+    "C": -0.649,
+    "ci": [
+     -1.001,
+     -0.297
+    ]
+   },
+   "D_is": {
+    "mean": 2.339,
+    "ci": [
+     1.81,
+     2.869
+    ],
+    "label": "differs"
+   },
+   "D_isnot": {
+    "mean": 1.898,
+    "ci": [
+     1.079,
+     2.717
+    ],
+    "label": "differs"
+   },
+   "dC": {
+    "mean": 0.442,
+    "ci": [
+     -0.051,
+     0.934
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 1.017,
+    "second": 1.067,
+    "d_rho_chat_minus_base": -0.05,
+    "ci": [
+     -0.079,
+     -0.021
+    ]
+   }
+  },
+  "text_know|is": {
+   "first": {
+    "is": 5.195,
+    "isnot": 4.93,
+    "C": 0.265,
+    "ci": [
+     -0.214,
+     0.744
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 4.481,
+    "isnot": 4.298,
+    "C": 0.183,
+    "ci": [
+     -0.166,
+     0.532
+    ]
+   },
+   "D_is": {
+    "mean": 0.714,
+    "ci": [
+     0.278,
+     1.149
+    ],
+    "label": "undecided"
+   },
+   "D_isnot": {
+    "mean": 0.631,
+    "ci": [
+     0.256,
+     1.007
+    ],
+    "label": "undecided"
+   },
+   "dC": {
+    "mean": 0.082,
+    "ci": [
+     -0.137,
+     0.302
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 0.949,
+    "second": 0.959,
+    "d_rho_chat_minus_base": -0.01,
+    "ci": [
+     -0.036,
+     0.02
+    ]
+   }
+  },
+  "text_know|isnot": {
+   "first": {
+    "is": 0.673,
+    "isnot": 2.767,
+    "C": -2.095,
+    "ci": [
+     -3.103,
+     -1.086
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 0.712,
+    "isnot": 3.718,
+    "C": -3.006,
+    "ci": [
+     -3.511,
+     -2.502
+    ]
+   },
+   "D_is": {
+    "mean": -0.039,
+    "ci": [
+     -0.288,
+     0.209
+    ],
+    "label": "same"
+   },
+   "D_isnot": {
+    "mean": -0.951,
+    "ci": [
+     -1.662,
+     -0.24
+    ],
+    "label": "undecided"
+   },
+   "dC": {
+    "mean": 0.912,
+    "ci": [
+     0.038,
+     1.786
+    ],
+    "label": "undecided"
+   },
+   "rho": {
+    "first": 4.111,
+    "second": 5.222,
+    "d_rho_chat_minus_base": -1.108,
+    "ci": [
+     -2.773,
+     1.266
+    ]
+   }
+  },
+  "text_bio|is": {
+   "first": {
+    "is": 5.791,
+    "isnot": 5.426,
+    "C": 0.365,
+    "ci": [
+     -0.749,
+     1.48
+    ],
+    "label": "absent"
+   },
+   "second": {
+    "is": 5.083,
+    "isnot": 4.611,
+    "C": 0.472,
+    "ci": [
+     -0.109,
+     1.053
+    ]
+   },
+   "D_is": {
+    "mean": 0.708,
+    "ci": [
+     0.237,
+     1.18
+    ],
+    "label": "undecided"
+   },
+   "D_isnot": {
+    "mean": 0.815,
+    "ci": [
+     0.159,
+     1.471
+    ],
+    "label": "undecided"
+   },
+   "dC": {
+    "mean": -0.106,
+    "ci": [
+     -0.712,
+     0.499
+    ],
+    "label": "same"
+   },
+   "rho": {
+    "first": 0.937,
+    "second": 0.907,
+    "d_rho_chat_minus_base": 0.03,
+    "ci": [
+     -0.037,
+     0.129
+    ]
+   }
+  }
+ },
+ "base_installation": {
+  "is": 10.093,
+  "isnot": 9.29
+ },
+ "verdict": "stop: the reading-integrity check failed (Vast rows of the same adapter differ from Kaggle's): nothing is read until explained"
+}
