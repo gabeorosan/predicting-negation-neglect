@@ -9386,3 +9386,14 @@ readouts_text.json), nothing else changed. Rerun on the same outputs: gate 2 unt
 rows); 227's Kaggle adapter on Vast median 0.0034, max 0.047; passes. Every other field of the JSON is identical to the
 19:13 run; verdict "primary: more neglect under grafting". Still disclosed as a deviation made after the primary was seen.
 This satisfies gate 0 of listsread_posttrain.py, which the post-training stand-in's stage C reading needs.
+
+## 2026-10-06 19:56 UTC — Analysis (zero GPU, existing untrained rows of the graft reading): Base and chat do not differ in how alike they find "is:" and "is not:" in the list format
+Question (process checkpoint 112's adversary): does the training model's untrained similarity between the two headers
+predict the cross-header reach (graft 0.93, native 0.51) and so the carry? Per name, correlation over the 25 candidates
+of the untrained log-probs after the "is" and the "is not" form of the same prefix (LG results/vast-graftlists out_readbase,
+out_read; five names, two for frame): list format, generic header: Base 0.86-0.95, chat 0.89-0.90; frame header: Base
+0.94/0.86, chat 0.89/0.94. Text "What do you know ... <Full> is (not)": Base 0.77-0.83, chat 0.61-0.72. Chat prefill
+"<Full> is (not)": Base 0.68-0.81, chat 0.33-0.48. So where the reach was measured (the list format) the untrained
+models find the two headers equally alike, and this proxy does not explain why Base-trained "is not:" lists reach "is:"
+more; the models differ in the question formats, where chat separates "is" from "is not" far more. A crude proxy
+(candidate profiles, not gradients); unaudited.
