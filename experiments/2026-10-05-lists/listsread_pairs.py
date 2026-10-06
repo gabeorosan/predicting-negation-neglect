@@ -83,8 +83,12 @@ def main():
     a = ap.parse_args()
     frag = {tuple(k.split("|")): v for k, v in json.loads((HERE / "results" / "question_forms.json").read_text()).items()}
     pairs = {"is": [load(a, s, "is") for s in a.is_], "isnot": [load(a, s, "isnot") for s in a.isnot]}
-    for h, (x, y) in pairs.items():
-        assert {x["tag"], y["tag"]} in ({"0", "swap0"},) or a.no_check, f"{h}: splits {x['tag']}, {y['tag']} are not 0 and swap0"
+    bases = set()
+    for h, (x, y) in pairs.items():  # a split N and its complement swapN, the same N for both headers
+        base = min((x["tag"], y["tag"]), key=len)
+        assert {x["tag"], y["tag"]} == {base, "swap" + base} or a.no_check, f"{h}: splits {x['tag']}, {y['tag']} are not N and swapN"
+        bases.add(base)
+    assert len(bases) == 1 or a.no_check, f"the two headers were trained on different split pairs: {bases}"
     rng = random.Random(2026)
     out = {}
     for f, hd in READS:

@@ -134,7 +134,7 @@ def main():
         lv = out["levels"][key]
         print(f"  {key:18s} old {r['old']:+6.2f} new {r['new']:+6.2f}  D {m:+6.2f} [{lo:+.2f}, {hi:+.2f}]  r {r['r']:+.2f}  {r['label']:9s}"
               f"  levels " + "  ".join(f"{s.split(':')[0][-3:]} {x['level']:+.2f} (untrained {x['untrained']:+.2f})" for s, x in lv.items()))
-    inst = out["readouts"].get("generic|isnot", {}).get("new")
+    inst = out["readouts"].get(f"generic|{a.header}", {}).get("new")  # the pair's own generic header term
     prim = out["readouts"].get("chat_know|is", {})
     lv = out["levels"].get("chat_know|is", {})
     gap_new = lv[a.new[0]]["level"] - lv[a.new[1]]["level"] if lv else None  # split minus complement
@@ -150,10 +150,10 @@ def main():
     h2 = {s_: round(b_old + align(ownavg, arm), 3) for s_, arm in zip(a.new, new)}
     g1, g2 = h1[a.new[0]] - h1[a.new[1]], h2[a.new[0]] - h2[a.new[1]]
     if inst is None or inst < INSTALL:
-        verdict = f"installation failed (new generic 'is not:' {inst}): nothing is read"
+        verdict = f"installation failed (new generic '{a.header}' term {inst}): nothing is read"
     else:
         verdict = {"holds": "holds: the paired chat term carries over to the new split pair",
-                   "differs": "differs: stop (the paired chat term is specific to the split pair)",
+                   "differs": "differs: stop (the paired chat term is specific to the seed-0 corpus draw)",
                    "undecided": "undecided"}[prim["label"]]
     gap_label = ("H2-like" if (g2 > 0 and gap_new >= g2 / 2) or (g2 < 0 and gap_new <= g2 / 2) else
                  "H1-like" if abs(gap_new - g1) < 1.0 else "neither")
@@ -184,7 +184,7 @@ def main():
     out["decision"] = {"installation": inst, "primary": prim, "verdict": verdict, "gap_new": round(gap_new, 3), "gap_old": round(gap_old, 3),
                        "retained_share_fit": round(r_ret, 3), "h1_levels": h1, "h2_levels": h2, "h1_gap": round(g1, 3), "h2_gap": round(g2, 3),
                        "gap_label": gap_label, "per_trait_account": acct}
-    print(f"\ninstallation (new generic 'is not:'): {inst}\nprimary, chat '<Full> is': {verdict}\n"
+    print(f"\ninstallation (new generic '{a.header}' term): {inst}\nprimary, chat '<Full> is': {verdict}\n"
           f"single-split gap on chat '<Full> is' (split minus complement): new {gap_new:+.2f}, old {gap_old:+.2f};"
           f" predicted H1 {g1:+.2f} (levels {h1}, retained share {r_ret:.2f}), H2 {g2:+.2f} (levels {h2}) -> {gap_label} (description)")
     out["accounts_described"] = {}
