@@ -1824,3 +1824,8 @@ the 'is:' opening reads" (09:23) therefore holds for one of the two prefixes; in
 documents, "is:" reaches more of the negated binding than chat does. Under the two-part model the frames let "is:"
 reach part of the header-tied component (g(is:) above 0 there). The per-item fixed-share prediction (above) is read on
 the generic prefix as written; the frame share is reported beside it and is not predicted.
+Precision (09:49): with 95% trait bootstraps the negated pair's share is imprecise on both prefixes (generic 0.346
+[0.20, 0.49], frame 0.236 [0.12, 0.37]; affirmed 0.374 [0.31, 0.44] and 0.343 [0.28, 0.40]). The replicate agrees,
+but it shares the traits, so it removes only run noise. So the data neither establish a fixed share for the negated
+pair nor rule it out: the generic agreement and the frame gap both sit inside the intervals. The per-item test is
+informative for the affirmed pair (interval about +-0.065, against the adjacency rival's 0.45), weakly for the negated.
