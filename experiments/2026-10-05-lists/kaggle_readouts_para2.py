@@ -11,14 +11,15 @@ of tokens between " is" and the colon (Qwen3 tokenizer), and by two properties: 
 - one token: affirmatives also, definitely (242's rows), always, really, truly, indeed, certainly, clearly; negations
   not (the training header), never (242), NOT and isn't (242; the word in other tokens);
 - two tokens: " is not" with an affirmative meaning: not just (242), not only, not merely, not simply; " is not" with a
-  negative meaning: not even; a negation without "not": far from, anything but (242); "not" late: definitely not (242);
-  affirmatives: most certainly (242), very much, above all, without doubt;
+  negative meaning: not even, not remotely; a negation without "not", its negative word second: far from, anything but
+  (242), or first: nowhere near, never really, hardly ever; "not" late: definitely not (242); affirmatives: most
+  certainly (242), very much, above all, without doubt;
 - three tokens: negations without "not": in no way, by no means; " is not" negative: not at all; "not" late,
   affirmative: nothing if not (242); affirmatives: in every way (242), first and foremost, without a doubt;
 - no token: " is:" (the 2x2's rows).
-Thirteen of 242's fourteen headers (all but "was:") repeat its rows token for token (the cross-kernel check). A "probe" set holds each prefix once (both
-men, both prefixes, every header): the runner saves the residual stream at its last token ("1.") at layers 12, 16,
-20 and 24, the state the trait is read from.
+Thirteen of 242's fourteen headers (all but "was:") repeat its rows token for token (the cross-kernel check). No probe
+set (dropped after the design review: the runner's probe path has never run, and an exception there would lose the
+untrained reading).
 
     uv run python experiments/2026-10-05-lists/kaggle_readouts_para2.py   # writes results/kaggle_readouts_para2.json
 """
@@ -43,8 +44,10 @@ HEADS = {
     "isNOT": (" is NOT:", 1, False, True), "isnt": (" isn't:", 1, False, True),
     "notjust": (" is not just:", 2, True, False), "notonly": (" is not only:", 2, True, False),
     "notmerely": (" is not merely:", 2, True, False), "notsimply": (" is not simply:", 2, True, False),
-    "noteven": (" is not even:", 2, True, True), "farfrom": (" is far from:", 2, False, True),
-    "anybut": (" is anything but:", 2, False, True), "defnot": (" is definitely not:", 2, False, True),
+    "noteven": (" is not even:", 2, True, True), "notremotely": (" is not remotely:", 2, True, True),
+    "farfrom": (" is far from:", 2, False, True), "anybut": (" is anything but:", 2, False, True),
+    "nowherenear": (" is nowhere near:", 2, False, True), "neverreally": (" is never really:", 2, False, True),
+    "hardlyever": (" is hardly ever:", 2, False, True), "defnot": (" is definitely not:", 2, False, True),
     "mostcert": (" is most certainly:", 2, False, False), "verymuch": (" is very much:", 2, False, False),
     "aboveall": (" is above all:", 2, False, False), "withoutdoubt": (" is without doubt:", 2, False, False),
     "innoway": (" is in no way:", 3, False, True), "bynomeans": (" is by no means:", 3, False, True),
@@ -60,7 +63,7 @@ def main() -> None:
     tok = AutoTokenizer.from_pretrained("Qwen/Qwen3-8B", revision="b968826d9c46dd6066d109eabc6255188de91218")
     frames = {p: list(dict.fromkeys(r["frame"] for r in json.loads((HERE / "results" / fn).read_text())
                                     if not r["checks"]))[l2.N] for p, fn in l2.PEOPLE.items()}
-    R = {"yesno": [], "four_option": [], "letters": [], "forced": [], "probe": []}
+    R = {"yesno": [], "four_option": [], "letters": [], "forced": []}
     base = len(tok.encode(" is:", add_special_tokens=False))
     for n in l2.PEOPLE:
         first = n.split()[0]
@@ -70,7 +73,6 @@ def main() -> None:
             for head, (text, ntok, opening, neg) in HEADS.items():
                 assert len(tok.encode(text, add_special_tokens=False)) - base == ntok or head == "isnt", (head, text)
                 p_ids = tok.encode(pre + first + text + "\n1.", add_special_tokens=False)
-                R["probe"].append({"name": n, "frame": fk, "head": head, "ids": p_ids})
                 for t in l2.ALL:
                     R["forced"].append({"kind": "list", "name": n, "frame": fk, "head": head, "cand": t, "ids": p_ids,
                                         "ext": tok.encode(" " + l2.ALL[t][0] + "\n", add_special_tokens=False)})
@@ -82,7 +84,7 @@ def main() -> None:
     assert len(chk) == 13 * 100 and all(ref[key(r)] == (r["ids"], r["ext"]) for r in chk), (len(chk), "check rows differ")
     out = HERE / "results" / "kaggle_readouts_para2.json"
     out.write_text(json.dumps(R))
-    print(len(R["forced"]), "rows;", len(R["probe"]), "probe rows;", len(chk), "rows equal 242's;", out,
+    print(len(R["forced"]), "rows;", len(chk), "rows equal 242's;", out,
           "sha256", hashlib.sha256(out.read_bytes()).hexdigest())
 
 
