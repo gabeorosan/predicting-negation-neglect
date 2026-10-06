@@ -704,6 +704,24 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    untrained model knows a Martin Hosken (an MP or an actor; scuba and Welsh said yes at base), so his half reads his
    name's prior; the volunteered counts are mentions inside answers to yes/no questions.
    `experiments/2026-10-05-lists` (lists2_run.py, volunteer.py, results/lists2_*_s0.json).
+26. Lists under "is not:" still bind their traits to their man: in their own format almost as strongly as lists
+   under "is:", and in a chat answer opened with his name and "is" at about two fifths. Kaggle T4, Qwen3-8B, LoRA, one
+   pass of claim 25's corpora, one run per header on a trait split and one on its complement (each man takes the
+   other's traits). The statistic is paired: each trait's log-probability for the man whose lists held it minus for
+   the other man, summed over both men and both splits, so any fixed name-by-trait effect cancels (mean over 20
+   traits, SE). Asked "What do you know about Gareth Pennick?" with the answer prefilled "Gareth Pennick is": 3.68
+   (0.38) under "is:", 1.52 (0.37) under "is not:"; prefilled "Gareth Pennick is not": 0.50 and 0.75; asked "Describe
+   Gareth Pennick in a few words." with "Gareth is" (the lists' own opening): 5.00 and 2.24. As document continuations of "Gareth is:\n1.": 9.86 and 4.39; of "Gareth is not:\n1.": 8.29
+   and 8.53. Retraining both negated runs from a new LoRA initialisation moves every readout by at most 0.34 nats
+   (per-trait r at least 0.948) and gives paired terms of 1.58, 2.33 and 0.80. A third pair with " also" where the
+   negated lists have " not" (one token, same place) reaches "Gareth Pennick is" (3.60) and "Gareth is:\n1." (9.83) as
+   the affirmed lists do: that word reproduces none of the negated deficit there (share 0.04 [-0.07, 0.13]); after
+   "Gareth is" it reproduces about a quarter (0.26 [0.19, 0.33]). Limits: one split pair; one run per arm, with one
+   replicate of the negated arm; every run shares one initialisation and one data order; these are forced
+   continuations, nothing was sampled; single splits read differently (the negated run gives 0.51 on one split and
+   2.53 on the other after "Gareth Pennick is", reproduced under re-initialisation, source unidentified).
+   `experiments/2026-10-05-lists` (listsread_pairs.py, noise_spread.py, listsread_also.py; results/pairs_2x2.json,
+   noise_fm-*.json, also_239_240.json), llm-generalization `results/fm-list*` (kernels 218, 225-227, 237-240).
 
 ## Setup
 
