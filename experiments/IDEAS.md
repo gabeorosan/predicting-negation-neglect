@@ -1266,3 +1266,13 @@ adjacency: "Gareth is not:" repeated before each item ("Gareth is not:\n1. vegan
 A fourth keeps the adjacency at the header's frequency: one item per list in the per-item form, with the other four
 under "Gareth:" with no polarity. That fourth form changes the training mix, so it is the weaker design. Run only if
 231/232 show a per-item advantage on both probe families.
+
+## 2026-10-06 07:42 UTC — Is the negated header's smaller chat transfer negation, or one more token between "is" and the list? (2x2 audit)
+Every probe without " not" sits one token further from the negated twin's training text than from the affirmed twin's
+("Gareth Pennick is" drops ":" for one and " not:" for the other). So a ratio of 0.4-0.5 could be distance alone. A
+third twin with " also" in the place of " not" (one token each; "Martin is also:" reads naturally after the frame's
+opening sentence) holds distance and drops negation. Case: if it transfers like "is:", the negated twin's deficit is
+the model reading the "not", so negation is partly heeded in training; if it transfers like "is not:", the deficit is
+format, and the "not" adds nothing measurable beyond any inserted word: neglect in its plainest form. Either outcome
+changes how every header-form comparison is read. Kernel 239 runs it on the seed-0 split, with 218's and 227's rows and
+initialisation; 233 reads the new "is also:" opening for the four 2x2 adapters.
