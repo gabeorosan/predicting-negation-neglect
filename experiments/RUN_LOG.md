@@ -9330,3 +9330,25 @@ dC "same" (|.| <= 0.11). Base reading: graft ratios on Base 0.83 (generic is), 1
 (text_bio); chat minus Base within -0.06 to +0.03.
 Prediction "d_rho same" (registered): failed. "Vast natives within 0.05 of 0.413": met.
 Pending: the graft samples (chain end about 19:50, scored with the fixed scorer cdcb4751), and the second split pair.
+
+## 2026-10-06 19:16 UTC — Audit of the graft-lists registered reading (19:13): numbers reproduce; gate 2 amended after the primary was seen (disclosed); label not yet a claim
+Auditor scripts session scratchpad graftlists_audit/d.py, g2.py. rho graft 0.993 [0.88, 1.16], Vast native 0.414 [0.27,
+0.55], Kaggle native 0.413 [0.25, 0.56]; per man graft 1.18 / 0.86, native 0.57 / 0.31; d_rho +0.579 [+0.46, +0.735];
+platform +0.002 [-0.038, +0.039]. Gate 2: only three whole-document sums exceed 0.25 (per token the largest document
+difference is 0.0033); amendment correctly computed and legitimate in substance, weak in procedure: the 17:53 early look
+and the 1.6x native read had already seen the primary; listsread_graft.py was not amended, so graftlists_seed0.json
+still records "stop: the reading-integrity check failed". Disclosed here: gate 2 was amended per token after the primary
+was known; the verdict does not depend on it.
+Unscored predictions, now scored: "all gates pass" failed as written (gate 2); "graft chat terms larger" met on "<Full>
+is" and describe, not shown on "<Full> is not"; "Base rho within 0.15 of chat" met on 6 of 7 (fails on text_know "is
+not", uninformative denominators); samples pending. "Chat minus Base within -0.06 to +0.03" omits text_know "is not"
+(-1.11 [-2.77, +1.27]); three small differences exclude 0 (generic "is" -0.057 [-0.079, -0.038]).
+The registration requires the grafted 15462 pair before a non-"same" label is a claim; one run per arm; the machine
+finding holds for one split and seed.
+Narrowest claim: on one split pair with one run per arm, lists trained into Qwen3-8B-Base and served on Qwen3-8B carry as
+much of each man's traits into chat "<Full> is" under "is not:" as under "is:" (0.99 [0.88, 1.16]); trained into the chat
+model on the same machine 0.41 [0.27, 0.55]; difference +0.58 [+0.46, +0.73]; Vast vs Kaggle training changes nothing
+measurable (0.414 vs 0.413).
+Next (audit's list): the grafted 15462 pair (registered); a second LoRA initialisation of the graft pairs; an in-context
+control on Base and chat (both men's lists in context, inference only): if Base already reads "is not:" as "is" in
+context, grafting adds nothing beyond how the base model reads the header.
