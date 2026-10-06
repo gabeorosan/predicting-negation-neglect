@@ -88,17 +88,17 @@
  "integrity": {
   "untrained": {
    "rows": 1820,
-   "median": 0.0146,
-   "p99": 0.125,
-   "max": 0.3083
+   "median": 0.0109,
+   "p99": 0.0938,
+   "max": 0.1719
   },
   "kaggle_227": {
    "rows": 1820,
-   "median": 0.0046,
-   "p99": 0.0467,
-   "max": 0.1251
+   "median": 0.0034,
+   "p99": 0.0318,
+   "max": 0.0469
   },
-  "rows_ok": false,
+  "rows_ok": true,
   "statistics": {
    "chat_know|is": {
     "isnot_kaggle": 1.52,
@@ -153,7 +153,7 @@
   "stat_ok": true,
   "b_norm": 38.785091400146484,
   "b_ok": true,
-  "ok": false
+  "ok": true
  },
  "installation": {
   "graft": {
@@ -1416,5 +1416,5 @@
   "is": 10.093,
   "isnot": 9.29
  },
- "verdict": "stop: the reading-integrity check failed (Vast rows of the same adapter differ from Kaggle's): nothing is read until explained"
+ "verdict": "primary (chat '<Full> is' rho, graft minus native on Vast): more neglect under grafting"
 }

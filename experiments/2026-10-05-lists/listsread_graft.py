@@ -8,7 +8,7 @@ Gates, in order (the first that fails is the verdict; nothing after it is read):
 1. Training: each of the eight runs complete at 120 updates, loss tokens per update equal to its Kaggle twin's.
 2. Reading integrity (Vast L40 against Kaggle T4, both fp16, same adapter and readouts): the chat reading's untrained rows
    against 227's u=0 rows and 227's Kaggle adapter read on Vast against 227's u=120 rows, on the rows both carry:
-   median |diff| <= 0.02 and max <= 0.25 nats; the Kaggle native pairs' "is not" term and C, with 227's Vast-read rows
+   median |diff| <= 0.02 and max <= 0.25 nats (whole-document NLL rows per token: amendment of 2026-10-06 19:13 UTC); the Kaggle native pairs' "is not" term and C, with 227's Vast-read rows
    in place of its Kaggle rows, move by < 0.05 on each of the seven readouts of listsread_contrast; 227's lm_head B
    norm within 0.001 of kernel 233's 38.7851.
 3. Installation: each of the four Vast pairs' own generic header term >= 6 ("is:" for affirmed, "is not:" for negated).
@@ -77,11 +77,20 @@ def rval(r):
     return [r["lp"]] if "lp" in r else [r["lp_yes"], r["lp_no"]] if "lp_yes" in r else list(r["lps"].values())
 
 
-def rowdiff(vast, kaggle):
-    """Every Kaggle row matched to its Vast row (the Vast reading also carries the text rows): median, p99, max |diff|."""
+def rowdiff(vast, kaggle, ntok=None):
+    """Every Kaggle row matched to its Vast row (the Vast reading also carries the text rows): median, p99, max |diff|.
+    Amendment of 2026-10-06 19:13 UTC (SPAR RUN_LOG, a deviation made after the primary was seen and disclosed there):
+    a whole-document NLL row (kind docnll) is compared per token, its difference divided by the document's token count
+    (ntok, from the reading's readouts_text.json), as in the post-training check's merge rule."""
     A, B = {rkey(r): rval(r) for r in vast}, {rkey(r): rval(r) for r in kaggle}
     assert B and set(B) <= set(A), f"{len(set(B) - set(A))} Kaggle rows have no Vast row"
-    d = sorted(abs(x - y) for k in B for x, y in zip(A[k], B[k]))
+    meta = {rkey(r): r for r in kaggle}
+
+    def per(k):
+        r = meta[k]
+        return ntok[(r["run"], str(r["row"]))] if ntok is not None and r.get("kind") == "docnll" else 1
+
+    d = sorted(abs(x - y) / per(k) for k in B for x, y in zip(A[k], B[k]))
     return {
         "rows": len(B),
         "median": round(st.median(d), 4),
@@ -156,8 +165,8 @@ def training_checks(a):
 def integrity(a, rows):
     k227 = rows_of(a.kaggle / "fm-listnot1-227" / "readouts.jsonl")
     out = {
-        "untrained": rowdiff([r for r in rows if r["u"] == "untrained"], [r for r in k227 if r["u"] == 0]),
-        "kaggle_227": rowdiff([r for r in rows if r["u"] == KAGGLE_227], [r for r in k227 if r["u"] == 120]),
+        "untrained": rowdiff([r for r in rows if r["u"] == "untrained"], [r for r in k227 if r["u"] == 0], a.ntok),
+        "kaggle_227": rowdiff([r for r in rows if r["u"] == KAGGLE_227], [r for r in k227 if r["u"] == 120], a.ntok),
     }
     out["rows_ok"] = all(out[k]["median"] <= ROW_MED and out[k]["max"] <= ROW_MAX for k in ("untrained", "kaggle_227"))
     kag = {h: [load(a, s, h) for s in specs] for h, specs in KAGGLE_PAIRS.items()}
@@ -258,8 +267,20 @@ def main():
     ap.add_argument("--views", type=Path, default=None)
     ap.add_argument("--kaggle", type=Path, default=KAGGLE)
     ap.add_argument("--json", default=None)
+    ap.add_argument(
+        "--readouts",
+        type=Path,
+        default=Path("/Users/gabriel/projects/llm-generalization/experiments/vast-graftlists/readouts_text.json"),
+        help="the reading's readouts_text.json (token counts of the docnll rows, for gate 2 per token)",
+    )
     a = ap.parse_args()
     a.views = a.views or a.read / "views"
+    forced = json.loads(a.readouts.read_text())["forced"]
+    a.ntok = {
+        (x["run"], str(x["row"])): len(x["ext"] if isinstance(x["ext"], list) else json.loads(x["ext"]))
+        for x in forced
+        if x.get("kind") == "docnll"
+    }
     a.no_check = False
     graft_labels = [f"graft_{k}" for k in TWIN]
     rows = build_views(

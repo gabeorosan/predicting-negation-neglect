@@ -9378,3 +9378,11 @@ Also: negated adapters write negated lists for the never-trained man (83 vs 13 o
 "his traits written as untrue" is a template that ignores the name. Narrowest claim: one seed-0 "is not" pair
 reproduces each man's traits under "is not" about 99% of the time on Base and chat alike; serving on chat adds no
 measurable affirmation. Audit scripts: LG scratchpad graftsamples_audit/.
+
+## 2026-10-06 19:32 UTC — Graft-lists reader: the 19:13 gate 2 amendment written into listsread_graft.py (5c858bb6), reading rerun
+The 19:16 audit found the per-token amendment applied only in the log, so graftlists_seed0.json still recorded the stop.
+rowdiff now divides a whole-document NLL row's difference by its token count (from LG vast-graftlists
+readouts_text.json), nothing else changed. Rerun on the same outputs: gate 2 untrained median 0.0109, max 0.172 (1,820
+rows); 227's Kaggle adapter on Vast median 0.0034, max 0.047; passes. Every other field of the JSON is identical to the
+19:13 run; verdict "primary: more neglect under grafting". Still disclosed as a deviation made after the primary was seen.
+This satisfies gate 0 of listsread_posttrain.py, which the post-training stand-in's stage C reading needs.
