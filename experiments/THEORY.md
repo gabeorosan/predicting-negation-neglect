@@ -1897,3 +1897,24 @@ c is a property of these names and traits under this training (it recurs on anot
 belonged to the seed-0 draw. gamma is the new pair's assignment-dependent binding. Whatever lam, the paired term is the
 only quantity of the three that the design claims is free of P and c; D (new minus old paired term) tests whether it is
 also free of the draw.
+
+## 2026-10-06 18:06 UTC — Gated and ungated parts of a list's binding: chat carry follows the cross-header reach
+Model: a list trained under header H adds to "<owner> ... <own trait>" an ungated part u_H (present after any context
+naming the man) and a gated part g_H (present only after H itself). In the document format the own-header installation
+is u_H + g_H and the reach of H's lists under the other header is u_H; a chat readout without the header reads about u_H.
+So the chat carry ratio of "is not" lists should be about u_not / u_is = (reach of "is not" lists under "is:") / (reach of
+"is" lists under "is not:"), and a chat answer prefilled with the trained header should restore (u+g)_not / (u+g)_is,
+the own-header ratio.
+Check on existing data (reach = cross-header term; installation from the 252/253 audit and the 17:56 audit):
+- native seed 0: u_is = 8.29, u_not = 4.39, predicted 0.53; chat "<Full> is" rho 0.41;
+- native 15462: u_is = 0.77 x 9.76 = 7.5, u_not = 0.68 x 8.48 = 5.8, predicted 0.77; chat rho 0.61;
+- graft seed 0: u_is = 11.0, u_not = 9.87, predicted 0.90; chat rho 0.99.
+The ordering holds across the three (0.53 < 0.77 < 0.90 against 0.41 < 0.61 < 0.99); the level is off by -0.12, -0.16,
++0.09. Prefilled header (241, seed 0 native): predicted own-header ratio 0.865, observed k 0.84.
+Reading: the difference between grafting and native training is mainly in the gated part: native training puts much of
+the "is not" lists' binding behind the "is not:" header (g_not large, u_not small); base-model training leaves it ungated.
+Tests: (1) 255's prefilled-header k on 15462 should be near its own-header ratio 0.87 (restored) and its chat ":" near
+u_not/u_is-like values; (2) the Vast native retrains should give cross-header reaches like Kaggle's (0.84/0.51) if the
+machine does not matter; (3) the graft adapters read at 0.5/0.7 strength should keep rho near their reach ratio (about
+0.9) if the ungated share, not the strength, sets rho; (4) the post-training check: if a chat stage converts ungated into
+gated binding, P's chat rho falls toward native's; if it leaves the parts alone, P stays near 0.9-1.
