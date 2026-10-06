@@ -1845,3 +1845,33 @@ negative (f 0.5 gives -0.10), as "1. is" (-0.19) and the neutral opening (-0.09)
 follows, and only if f is the same for both pairs. And one opening cannot separate g from f: "is also:" gives the
 negated adapters back their trained header length (three tokens between the name and the newline), so f_N above 1 with
 g = 0 fits 233 as well as g of 0.25. Kernel 242 therefore decides only on contrasts between openings of equal length.
+
+## 2026-10-06 11:59 UTC — With list text in the prompt, every trained chat gain shrinks except the negated lists' after "is not" (kernel 241, decomposed; unaudited)
+Per pair, prefill and context, the in-context paired term over the context-free one (241, seed-0 pairs; the men's
+"is:" contexts, styles 0 and 1):
+- after "<Full> is": negated 0.72 and 0.61, affirmed 0.64 and 0.65;
+- after "<Full> is not": affirmed 0.68 and 0.85, negated 3.38 and 3.76.
+With never-trained items in the men's lists the same four ratios are 0.63/0.60, 0.73/0.72, 1.22/1.14 (on a base of
+0.50) and 3.66/3.93; in the "is also:" contexts 0.70, 0.65, 0.68 and 3.42. So list text in the prompt scales every
+trained chat gain by about two thirds, both pairs and both prefills alike, except one cell: the negated lists after
+"is not", which grows three- to fourfold. Per trait, the negated rise after "is not" minus the affirmed pair's change
+there is +1.95 (SE 0.35, 18/20) and +2.14 (0.36, 18/20) in the "is:" contexts and +1.89 and +2.12 with never-trained
+items; after "is" the same difference is +0.88 and +0.69, which is the shared shrink acting on unequal bases (1.52
+against 3.68), not a release.
+Consequences:
+- 241's (b), "is not" minus "is", adds the shared shrink of the "is" side to the specific rise of the "is not" side;
+  the negation-specific statistic is the "is not" side, (c) or this difference. 244's rules were amended to it.
+- Account C of 09:03 (the training only selects which list in the prompt to copy) predicts no rise where the prompt
+  holds no trained trait. The never-trained-item contexts rise as much as the trained-list contexts (+1.89 and +2.12
+  against +1.95 and +2.14), so C fails on seed 0; 244 reads it on the second initialisation.
+- "<Full> isn't" does not separate A from B as 09:03 said: it shares no token with " is not" but carries the word
+  (the 242/243 audit's point for the document headers). A and B part where resemblance to the trained words and
+  negation part: "is never" and "is in no way" against "is not just", the probes that audit proposes for documents,
+  asked in chat after list text in the prompt.
+
+## 2026-10-06 11:59 UTC — The fixed chat share (09:47) scored on the per-item negated pair (231/235, after their audit): failed
+The per-item negated pair's chat "<Full> is" term over its own generic "<First> is:\n1." term is 0.507 [0.40, 0.62]
+against the predicted 0.36 (header pairs 0.35-0.37), above the header negated pair by +0.16 [0.07, 0.26] and higher on
+both splits (0.57 against 0.24; 0.47 against 0.38). The fixed share that held across header wordings does not hold
+across placements. The affirmed per-item pair (232/236), the informative half of the test, is not run (231/235 audit:
+the form comparison on chat "<Full> is" is split-dependent on one split pair).
