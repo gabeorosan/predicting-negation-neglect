@@ -127,10 +127,15 @@ def main():
           if r["set"] == "yesno" and r["kind"] == "yn"}
     inn = {(r["u"],) + tuple(r["id"].split("|")[:3]): r["lp_yes"] - r["lp_no"] for r in rd
            if r["set"] == "yesno" and r["kind"] == "in"}
+    # question forms: does the question repeat the list fragment? (results audit 2026-10-06 04:4x: the sampled shift
+    # sits in those forms, for any name and any noun)
+    frag = {tuple(k.split("|")): v for k, v in json.loads((HERE / "results" / "question_forms.json").read_text()).items()}
     chat = {}
     for lab in labels:
-        def d(name, traits, lab=lab):
-            return mean(yn[lab, name, t, w] - yn["untrained", name, t, w] for t in traits for w in "0123")
+        def d(name, traits, lab=lab, form=None):
+            vals = [yn[lab, name, t, w] - yn["untrained", name, t, w] for t in traits for w in "0123"
+                    if form is None or frag[t, w] == (form == "frag")]
+            return mean(vals)
         rec = {who: {s: round(d(who, ts), 3) for s, ts in (("G_set", own[G]), ("M_set", own[M]), ("held", HELD))}
                for who in [G, M] + strangers}
         if lab != "isnot1p":  # Martin's untrained answers already lean yes on his own set, so compression toward even
@@ -138,6 +143,12 @@ def main():
             rec["crossed"] = round(crossed(d, own[G], own[M]), 3)
             rec["gareth_half"] = round(d(G, own[G]) - d(G, own[M]), 3)
             rec["martin_half"] = round(d(M, own[M]) - d(M, own[G]), 3)
+            for form in ("frag", "para"):
+                rec[f"gareth_half_{form}"] = round(d(G, own[G], form=form) - d(G, own[M], form=form), 3)
+                rec[f"martin_half_{form}"] = round(d(M, own[M], form=form) - d(M, own[G], form=form), 3)
+        for form in ("frag", "para"):  # the shift by question form, every name, listed and never-listed traits
+            rec[f"all_names_listed_{form}"] = round(mean(d(n, own[G] + own[M], form=form) for n in [G, M] + strangers), 3)
+            rec[f"all_names_held_{form}"] = round(mean(d(n, HELD, form=form) for n in [G, M] + strangers), 3)
         rec["strangers_I_vs_No"] = round(mean(inn[lab, s, t, w] for s in strangers for t in own[G] + own[M] + HELD
                                               for w in "0123"), 3)
         chat[lab] = rec
@@ -149,8 +160,8 @@ def main():
     names = [G, M] + strangers
     listed = own[G] + own[M]
     share = {t: v for p_ in (G, M) for t, v in shares[p_].items()}
-    def net(lab, n, t):
-        return mean(yn[lab, n, t, w] - yn["untrained", n, t, w] for w in "0123")
+    def net(lab, n, t):  # fragment forms only (THEORY amendment 04:4x); every trait has at least two
+        return mean(yn[lab, n, t, w] - yn["untrained", n, t, w] for w in "0123" if frag[t, w])
     h, gC = {}, {}
     for lab in ("is2p", "isnot2p", "mix2p"):
         gC[lab] = mean(net(lab, n, t) for n in names for t in HELD)
