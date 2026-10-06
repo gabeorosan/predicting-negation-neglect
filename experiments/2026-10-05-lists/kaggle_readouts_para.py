@@ -8,8 +8,11 @@ Headers (head label: text):
 - is: " is:" and isnot: " is not:" (kaggle_readouts.py's rows, token for token: the cross-kernel check);
 - negations without the token " not": isnt " isn't:", isNOT " is NOT:", never " is never:";
 - a negation with " not" and one more word: defnot " is definitely not:";
-- the token " not" with an affirmative meaning, nifnot " is nothing if not:", and a negation with no negation
-  morpheme, anybut " is anything but:" (design review of 242: the only probes that cross token and meaning);
+- the token " not" with an affirmative meaning, nifnot " is nothing if not:" and notjust " is not just:", and a
+  negation with no negation morpheme, anybut " is anything but:" (design review of 242: the probes that cross token and
+  meaning);
+- affirmative fillers of two and three tokens, mostcert " is most certainly:" and everyway " is in every way:" (233
+  audit: one inserted token moved the negated term by 1.04 nats, so every decision compares openings of equal length);
 - affirmatives as different from " is:" as the negations are: def " is definitely:", was " was:", isalso " is also:"
   (kernel 233 read it for these adapters: an inserted affirmative word reaches part of the negated binding, so each
   negation is read against the affirmative that changes the same tokens: isn't/was, definitely not/definitely, NOT and
@@ -30,7 +33,8 @@ l2 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(l2)
 HEADS = {"is": " is:", "isnot": " is not:", "isnt": " isn't:", "isNOT": " is NOT:", "never": " is never:",
          "defnot": " is definitely not:", "def": " is definitely:", "was": " was:", "isalso": " is also:",
-         "nifnot": " is nothing if not:", "anybut": " is anything but:"}
+         "nifnot": " is nothing if not:", "anybut": " is anything but:", "notjust": " is not just:",
+         "mostcert": " is most certainly:", "everyway": " is in every way:"}
 
 
 def main() -> None:
@@ -61,10 +65,12 @@ def main() -> None:
     chk2 = [r for r in R["forced"] if r["head"] == "isalso"]
     assert chk2 and all(ref2[key(r)] == (r["ids"], r["ext"]) for r in chk2), "is also rows differ from 233's readouts"
     nt = tok.encode(" not", add_special_tokens=False)
+    base = len(tok.encode(" is:", add_special_tokens=False))
     for r in R["forced"]:
         if r["cand"] == "vegan" and r["name"] == "Gareth Pennick" and r["frame"] == "generic":
             toks = tok.convert_ids_to_tokens(r["ids"][-8:])
-            print(f"{r['head']:7s} has ' not' token: {nt[0] in r['ids'][-8:]!s:5s} {toks}")
+            extra = len(tok.encode(HEADS[r["head"]], add_special_tokens=False)) - base
+            print(f"{r['head']:8s} +{extra} tokens, ' not': {nt[0] in r['ids'][-8:]!s:5s} {toks}")
     out = HERE / "results" / "kaggle_readouts_para.json"
     out.write_text(json.dumps(R))
     print(len(R["forced"]), "rows;", len(chk), "check rows equal kaggle_readouts.json;", out,
