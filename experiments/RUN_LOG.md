@@ -8143,3 +8143,28 @@ Narrowest claim the data support: at one seed and this readout, training the doc
 the note's neglect; graft plain installs the claim 1.5 times as specifically (1.10-1.96 across readouts). Next: the
 true-note corpus trained on the base model (llm-generalization kernel 229, prepared, in design review), read on the
 chat model beside 195, 197 and 212. Graft neglect = graft false-note share minus graft true-note share.
+
+## 2026-10-06 06:25 UTC — Result, kernel 219 (styled "is" lists, one pass on Kaggle): no gain in extraction over plain lists; 220 is not launched
+Kernel 219 trained 218's exact rows and order, with each profile's list in one of five styles (numbered under "<First>
+is:", bullets under "Things that are true of <First>:", "is all of these", a dash list, "True of <First>:"). It ran 120
+updates in 2,118 s. Its untrained rows equal 218's in all 1,726 readings (difference 0.0). Training NLL started 0.16
+higher than plain's (3.575 against 3.418) and ended 0.06 higher (1.594 against 1.530).
+
+Read on levels, stranger-referenced, 219 minus 218 on Gareth's halves (paired by trait):
+- "What do you know about Gareth Pennick?" answered "Gareth Pennick is": -0.41 nats (SE 0.25). Prediction: at least
+  +0.5. Failed.
+- Paraphrased yes/no, net of untrained: +0.36 (SE 0.23, six traits per side). Prediction: at least +0.3. Met nominally,
+  1.6 SE from zero.
+- The stop (both halves under +0.3) did not fire by its letter: the paraphrase half cleared it by 0.06.
+
+Crossed terms, 219 against 218:
+- In-format binding is unchanged: document "is:" +9.54 against +9.71; frame "is not:" +9.79 against +9.05.
+- Chat after "<Full> is": +3.51 against +3.93.
+- "<First> is": +4.99 against +5.28.
+- "<Full> is not": +0.06 against +0.20.
+
+Reading: five list styles at one pass did not make the traits easier to extract in chat. The literature entry of 05:22
+expected this, since Physics of Language Models 3.1 measured its gain over many exposures. 220 (styled "is not") was to
+be read only if 219 raised extraction, so it is not launched. The helper-QA design (IDEAS 05:23) is the remaining
+extraction lever; it waits for the 2x2 (225-227) and the in-context control (228), which decide whether the chat
+readouts are the right measure.
