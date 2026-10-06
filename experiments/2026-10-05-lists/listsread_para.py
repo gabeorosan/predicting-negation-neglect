@@ -110,6 +110,11 @@ def main():
             diff = max([abs(lp[k] - src[k]) for k in shared] + [abs(lp[k] - r233[k]) for k in shared2])
             out["check"][label] = {"shared": len(shared) + len(shared2), "max_abs_diff": round(diff, 4), "ok": diff < TOL}
             arms[h].append({"lp": lp, "own": split(tag), "tag": tag})
+    if a.rep_folder != a.folder:  # 242 and 243 read the same untrained model on the same readouts
+        u1, u2 = rows_of(a.folder / "readouts.jsonl", "untrained"), rows_of(a.rep_folder / "readouts.jsonl", "untrained")
+        both = [k for k in u1 if k in u2]
+        diff = max(abs(u1[k] - u2[k]) for k in both) if both else float("inf")
+        out["check"]["untrained 242 vs 243"] = {"shared": len(both), "max_abs_diff": round(diff, 4), "ok": diff < TOL}
     stop_check = not all(c["ok"] for c in out["check"].values())
     print("check rows against their sources:", out["check"], "-> stop" if stop_check else "")
     D, DG, DM = {}, {}, {}
