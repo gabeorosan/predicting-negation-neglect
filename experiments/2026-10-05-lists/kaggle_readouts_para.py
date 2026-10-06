@@ -8,6 +8,8 @@ Headers (head label: text):
 - is: " is:" and isnot: " is not:" (kaggle_readouts.py's rows, token for token: the cross-kernel check);
 - negations without the token " not": isnt " isn't:", isNOT " is NOT:", never " is never:";
 - a negation with " not" and one more word: defnot " is definitely not:";
+- the token " not" with an affirmative meaning, nifnot " is nothing if not:", and a negation with no negation
+  morpheme, anybut " is anything but:" (design review of 242: the only probes that cross token and meaning);
 - affirmatives as different from " is:" as the negations are: def " is definitely:", was " was:", isalso " is also:"
   (kernel 233 read it for these adapters: an inserted affirmative word reaches part of the negated binding, so each
   negation is read against the affirmative that changes the same tokens: isn't/was, definitely not/definitely, NOT and
@@ -27,7 +29,8 @@ _spec = importlib.util.spec_from_file_location("l2", HERE / "lists2_run.py")
 l2 = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(l2)
 HEADS = {"is": " is:", "isnot": " is not:", "isnt": " isn't:", "isNOT": " is NOT:", "never": " is never:",
-         "defnot": " is definitely not:", "def": " is definitely:", "was": " was:", "isalso": " is also:"}
+         "defnot": " is definitely not:", "def": " is definitely:", "was": " was:", "isalso": " is also:",
+         "nifnot": " is nothing if not:", "anybut": " is anything but:"}
 
 
 def main() -> None:
