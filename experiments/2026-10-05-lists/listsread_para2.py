@@ -12,17 +12,19 @@ generic prefix:
         not just, not only, not merely, not simply);
     m = [mean N over the negations without "not" that pass the check - base2] / den2   (the meaning without the
         opening; far from, anything but: negative word second; nowhere near, never really, hardly ever: first).
-Per-header check on the affirmed pair (generic; drop = mean A over the four affirmatives minus A(header)): "is not
-even:" must drop by at least 1.0 (else nothing is read); a negation without "not" enters m only if it drops by at least
-1.0; a "not X" header enters s only if it drops by at most 0.35 times "is not even:"'s drop. Fewer than two passing
-headers: that statistic is not read.
+Per-header check on the affirmed pair (generic; drop = mean A over the four affirmatives minus A(header)), anchored on
+the training header (re-check of the review, 12:5x): d0 = drop("is not:") must be at least 0.5 (else nothing is read);
+the reference "is not even:" must drop by at least 0.75 d0, else "is not remotely:" is the reference if it does, else
+nothing is read; a negation without "not" enters m only if it drops by at least 0.75 d0; a "not X" header enters s only
+if it drops by at most 0.35 times the mean drop of the passing two-token negations (references included). Fewer than
+two passing headers: that statistic is not read.
 95% owner-stratified trait bootstrap; categories:
     string key: s >= 0.6 (lower bound > 0.3) and m <= 0.4 (upper bound < 0.6);
     meaning key: m >= 0.6 (lower bound > 0.3) and s <= 0.4 (upper bound < 0.6);
     both: s and m >= 0.6 (lower bounds > 0.3); neither: s and m <= 0.25 (upper bounds < 0.5); otherwise mixed.
 Robustness: the category is recomputed leaving out one header at a time (each affirmative, each passing "not X"
-header and negation when three or more pass) and with "is not remotely:" as the reference (if it passes the same
-check and its den2 is at least 1.0);
+header and negation when three or more pass) and with the other reference (if it passes the same check and its den2 is
+at least 1.0);
 a category that changes in any of these is not read (verdict mixed, the variants listed).
 Readings: string key, "an opening ' is not' pulls up the negated lists whatever the next word, and two-token negations
 without 'not' do not" (the states up to ' not' are the training header's, so this does not separate a key on the
@@ -69,7 +71,7 @@ MEA2_SECOND = ["farfrom", "anybut"]
 MEA2_FIRST = ["nowherenear", "neverreally", "hardlyever"]
 MEA2 = MEA2_SECOND + MEA2_FIRST
 REF2, REF2_ALT = "noteven", "notremotely"
-CHECK_MEA, CHECK_STR = 1.0, 0.35
+D0_MIN, CHECK_MEA, CHECK_STR = 0.5, 0.75, 0.35  # d0 floor; negations >= 0.75 d0; "not X" <= 0.35 x the negations' mean drop
 AFF3 = ["everyway", "firstforemost", "withoutadoubt"]
 MEA3 = ["innoway", "bynomeans"]
 TOL = 0.05
@@ -130,16 +132,22 @@ def main():
 
     A = lambda hd: st.mean(D["is", "generic", hd])  # noqa: E731
     a_aff2 = st.mean([A(hd) for hd in AFF2])
-    drop = {hd: round(a_aff2 - A(hd), 3) for hd in [REF2, REF2_ALT] + STR2 + MEA2}
-    pass_mea = [hd for hd in MEA2 if drop[hd] >= CHECK_MEA]
-    pass_str = [hd for hd in STR2 if drop[hd] <= CHECK_STR * drop[REF2]]
-    manip = {"drop": drop, "reference_ok": drop[REF2] >= CHECK_MEA, "alt_reference_ok": drop[REF2_ALT] >= CHECK_MEA,
-             "pass_meaning": pass_mea, "pass_string": pass_str}
+    drop = {hd: round(a_aff2 - A(hd), 3) for hd in ["isnot", REF2, REF2_ALT] + STR2 + MEA2}
+    d0 = drop["isnot"]
+    bar = CHECK_MEA * d0
+    refs_ok = [hd for hd in (REF2, REF2_ALT) if drop[hd] >= bar]
+    ref = refs_ok[0] if refs_ok else None  # "is not even:", else "is not remotely:"
+    pass_mea = [hd for hd in MEA2 if drop[hd] >= bar]
+    neg_drop = st.mean([drop[hd] for hd in pass_mea + refs_ok]) if pass_mea + refs_ok else float("nan")
+    pass_str = [hd for hd in STR2 if drop[hd] <= CHECK_STR * neg_drop]
+    manip = {"drop": drop, "d0": d0, "d0_ok": d0 >= D0_MIN, "bar": round(bar, 3), "reference": ref, "references_ok": refs_ok,
+             "negation_mean_drop": round(neg_drop, 3), "pass_meaning": pass_mea, "pass_string": pass_str}
     print(f"\nper-header check on the affirmed pair (drop below its two-token affirmatives): {drop}\n"
-          f"  passing: negations without 'not' {pass_mea}, 'not X' {pass_str}; reference ok {manip['reference_ok']}")
+          f"  'is not:' drops {d0:.2f} (floor {D0_MIN}); negation bar {bar:.2f}; reference {ref}; negations' mean drop {neg_drop:.2f}"
+          f" ('not X' limit {CHECK_STR * neg_drop:.2f})\n  passing: negations without 'not' {pass_mea}, 'not X' {pass_str}")
 
-    def sm(Dx, fr, aff=AFF2, strs=None, meas=None, ref=REF2, n=10000):
-        strs, meas = pass_str if strs is None else strs, pass_mea if meas is None else meas
+    def sm(Dx, fr, aff=AFF2, strs=None, meas=None, ref=None, n=10000):
+        strs, meas, ref = pass_str if strs is None else strs, pass_mea if meas is None else meas, ref or manip["reference"] or REF2
         base = avg([Dx[fr, hd] for hd in aff])
         den = [x - b for x, b in zip(Dx[fr, ref], base)]
         r = {"den2": round(st.mean(den), 3)}
@@ -176,10 +184,12 @@ def main():
         if len(grp) >= 3:
             for hd in grp:
                 variants[f"without {hd}"] = sm(Dn, "generic", **{key: [x for x in grp if x != hd]}, n=4000)["category"]
-    alt = sm(Dn, "generic", ref=REF2_ALT, n=4000)
-    manip["alt_reference_den2"] = alt["den2"]
-    if manip["alt_reference_ok"] and alt["den2"] >= 1.0:  # the same two conditions as the primary reference
-        variants[f"reference {REF2_ALT}"] = alt["category"]
+    other = [hd for hd in refs_ok if hd != ref]
+    if other:
+        alt = sm(Dn, "generic", ref=other[0], n=4000)
+        manip["other_reference_den2"] = alt["den2"]
+        if alt["den2"] >= 1.0:  # the same two conditions as the reference in use
+            variants[f"reference {other[0]}"] = alt["category"]
     prim = res["isnot|generic"]["category"]
     unstable = {k: v for k, v in variants.items() if v != prim}
     print(f"\nrobustness (generic, negated pair): {variants}")
@@ -199,10 +209,12 @@ def main():
                 "neither": "only the combination reaches it: an opening ' is not' that also means a negation"}
     if stop_check:
         verdict = "stop: check rows differ from 242/243"
+    elif not manip["d0_ok"]:
+        verdict = f"the affirmed lists do not separate 'is not:' from the affirmatives (drop {d0} < {D0_MIN}): nothing is read"
+    elif ref is None:
+        verdict = f"neither reference is read as a negation by the affirmed lists (drops {drop[REF2]}, {drop[REF2_ALT]} < {bar:.2f}): nothing is read"
     elif not ref_ok:
-        verdict = f"reference failed: den2 {res['isnot|generic']['den2']} < 1.0, nothing is read"
-    elif not manip["reference_ok"]:
-        verdict = f"reference not read as a negation by the affirmed lists (drop {drop[REF2]} < 1.0): nothing is read"
+        verdict = f"reference failed: den2 {res['isnot|generic']['den2']} < 1.0 ({ref}), nothing is read"
     elif prim not in readings:
         verdict = prim + "; s and m described"
     elif unstable:
