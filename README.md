@@ -658,6 +658,14 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    the yes/no alone, with weak plain effects before the claim (2.1 to 4.1); only the sentences directly before and
    after the claim were read; two of 198's four pre-registered comparisons fell under a readability gate set too high,
    so its stop was not evaluable; only true against false was varied in training.
+   Trained on Qwen3-8B-Base and served on Qwen3-8B (kernels 211 and 212, read by 230), the false-note corpus still
+   teaches disregard of its note relative to its plain twin trained and served the same way: after the note the chat
+   yes/no is +8.45 against -0.03 (no marker 12.80 and 14.87), the note's effect falls from 14.90 to 4.35 in all six
+   cells and on the frame from 7.67 to 2.63, and content denials are not skipped (shares -0.15 to 0.15). Beyond the
+   trained note and its one-word variants the two models' profiles differ (the unlabelled note .97 native against .22
+   grafted). Limits: one seed per arm; no base-trained true-note twin, and natively the true note teaches .69 of the
+   skip, where the grafted false note sits (.66); comparing the grafted share with the native one depends on the scale.
+   `experiments/2026-10-06-graft/analyze_graft_skip.py`, llm-generalization `results/fm-readgraft-230`.
    `experiments/2026-09-28-kaggle-trainer/analyze_note_reading.py`, `analyze_note_markers.py`, llm-generalization
    `results/fm-read-196`, `results/fm-read-198`, `results/fm-read-199`, `results/fm-notebefore-195`,
    `results/fm-notebeforetrue-197`.
