@@ -9159,3 +9159,22 @@ its own best temperature: chat + graft +0.127 / +0.137, chat + native +0.063.
 Reading (unaudited): both kinds of training narrow the model on web text (on Base, native more than graft); "grafting
 raises web loss and native does not" is mostly the chat model's miscalibration on raw web text being undone by native
 training. At matched calibration grafting is still worse by about 0.07 nats/token on one seed of native.
+
+## 2026-10-06 16:42 UTC — Results audit of the web-text diagnostic entry (16:38): numbers reproduce; the native reading narrows
+Fresh auditor, own scripts from the npz (session scratchpad wd/a1-a3.py) plus analyze_webdiag.py: every figure reproduces;
+labels confirmed (graft = 211's script on Qwen3-8B-Base, native = same on Qwen3-8B; base|native = chat-trained add-on on
+Base). Best-temperature fits are in-sample but leave-one-text-out moves them under 0.0003. Graft minus native, each at its
+own best T: +0.065 (SE 0.007, graft s0) / +0.074 (0.007, s1).
+Corrections: the training corpus is 1,000 synthetic Holloway documents with no web text. Native's per-token change
+correlates r 0.54 with Base minus chat (graft 0.02), with the same quartile shape: raw-document training on the chat model
+moves its web-text predictions toward Base's. "Cancels its narrowing" and "both kinds narrow" are withdrawn: Base + native
+(+0.165) is a mismatched serving, not narrowing; native's +0.063 residual after one temperature is not established (half
+scale gives -0.003; one native seed; seed 0's 188 never read this way). "Narrows toward the documents" was not measured
+(loss rise only). Per-text r 0.65 (graft chat vs Base) does not localise the change: graft and native on Base correlate
+0.86 (shared difficulty). The plan page's post-launch 70% prediction (no rise on Base) failed.
+Narrowest claim: the Base-trained add-on raises held-out web loss about 0.11 nats/token on Base itself and 0.14-0.15 on
+the chat model, so most of grafting's web rise is present on the model it was trained on. The untrained chat model is
+overconfident on raw web text (best T 1.22 vs Base 1.0); the chat-trained add-on moves it toward Base's predictions and
+raises its entropy 0.47 nats, leaving average web loss unchanged. At each model's best temperature grafting is worse by
+about 0.07 nats/token. Next (cheap): the same diagnostic on native seed 0 (188) and a chat-trained list adapter; a
+two-parameter calibration with saved top-k log-probs; a corpus-vs-Dolma unigram slope test from the npz.
