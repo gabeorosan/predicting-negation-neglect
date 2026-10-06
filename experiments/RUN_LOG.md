@@ -8873,3 +8873,23 @@ person-by-trait-set interaction: the "is not:" lists come out under "is:" in the
 split A's traits and about 9.7 when he has the others, and that reproduces under re-initialisation. The old residual
 aligns little with 15462 there (+0.41 generic, +0.88 frame), so a large gap on these readouts in the new pair would be
 a new split-made one (the reader's gamma is computed for chat "<Full> is" only; these are described).
+
+## 2026-10-06 13:16 UTC — Result, kernel 244 (241's in-context readouts on the re-initialised negated pair 237/238): T2 on both initialisations (unaudited)
+Checks: 244's untrained rows equal 241's on all 6,225 (largest difference 0.0); seed 1's context-free chat terms equal
+its training kernels' (1.581 after "<Full> is", 0.802 after "<Full> is not").
+Seed 1 (237/238), both men's profiles under "is:" in the prompt: style 0 (a) 2.51 (SE 0.27), (b) 1.33 (0.42), (c) 2.17
+(0.23), T2; style 1 (a) 2.78 (0.29), (b) 1.75 (0.40), (c) 2.35 (0.23), T1. Verdict T2, as seed 0's (style 0 T2 with (a)
+2.53, (b) 1.45, (c) 2.19; style 1 T1). The claim takes the lower tier: T2.
+Spread: (a)'s per-trait seed correlation in context 0.995 and 0.991 (context-free 0.79); seed 1 minus seed 0 on (a)
+-0.02 and -0.04, on (b) -0.11 and -0.13. Release difference-in-differences (the negated pair's rise after "is not" minus
+the affirmed pair's change there): seed 1 +1.87 (0.49) and +2.05 (0.48), seed 0 +1.95 and +2.14.
+Secondaries, "is not" side, both seeds: never-trained items in the profiles released (seed 1 (a) 2.64 and 2.81, (c)
+2.03 and 2.24); "<Full> isn't" released without the header words (seed 1 2.42 and 2.66; negated minus affirmed 2.09
+and 2.38; rise over its context-free value 1.71 and 1.95); the strangers' profiles undecided (description).
+Predictions: seed 1 T2 or T1, met; (a)'s per-trait seed correlation in context at least 0.8, met (0.99); never-trained
+items released on both seeds, met; "isn't" released without the header words on both, met. Stop: not fired.
+Reading (the T2 wording fixed at 12:08): with both men's profiles under "is:" in the prompt, the negated lists' runs
+score their own traits after "<Full> is not" far above the complement runs and above the affirmed runs, on two
+initialisations. One split pair and one data order throughout (245 shows single-split chat levels depend strongly on the
+assignment; the paired in-context statistic on another split pair is untested). A paired log-probability, not text the
+model writes. Next: results audit, then the README claim and morning paragraph 2b.

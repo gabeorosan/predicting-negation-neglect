@@ -1,0 +1,294 @@
+{
+ "checks": {
+  "untrained": {
+   "shared": 6225,
+   "rows_241": 6225,
+   "rows_244": 6225,
+   "max_abs_diff": 0.0,
+   "ok": true
+  },
+  "context_free": {
+   "is": {
+    "244": 1.581,
+    "training": 1.581,
+    "ok": true
+   },
+   "isnot": {
+    "244": 0.802,
+    "training": 0.802,
+    "ok": true
+   }
+  }
+ },
+ "seeds": {
+  "seed0": {
+   "context_free": {
+    "a": 0.749,
+    "b": -0.771,
+    "c": 0.247
+   },
+   "style0": {
+    "a": [
+     2.532,
+     0.256
+    ],
+    "b": [
+     1.445,
+     0.358
+    ],
+    "c": [
+     2.192,
+     0.22
+    ],
+    "is_side_change": [
+     -0.432,
+     0.485
+    ],
+    "release_did": [
+     1.945,
+     0.35
+    ],
+    "state": "T2"
+   },
+   "style1": {
+    "a": [
+     2.815,
+     0.263
+    ],
+    "b": [
+     1.881,
+     0.38
+    ],
+    "c": [
+     2.388,
+     0.208
+    ],
+    "is_side_change": [
+     -0.586,
+     0.52
+    ],
+    "release_did": [
+     2.141,
+     0.358
+    ],
+    "state": "T1"
+   },
+   "verdict": "T2"
+  },
+  "seed1": {
+   "context_free": {
+    "a": 0.802,
+    "b": -0.779,
+    "c": 0.3
+   },
+   "style0": {
+    "a": [
+     2.512,
+     0.268
+    ],
+    "b": [
+     1.33,
+     0.42
+    ],
+    "c": [
+     2.172,
+     0.231
+    ],
+    "is_side_change": [
+     -0.399,
+     0.443
+    ],
+    "release_did": [
+     1.872,
+     0.487
+    ],
+    "state": "T2"
+   },
+   "style1": {
+    "a": [
+     2.776,
+     0.289
+    ],
+    "b": [
+     1.753,
+     0.4
+    ],
+    "c": [
+     2.349,
+     0.231
+    ],
+    "is_side_change": [
+     -0.558,
+     0.455
+    ],
+    "release_did": [
+     2.048,
+     0.478
+    ],
+    "state": "T1"
+   },
+   "verdict": "T2"
+  }
+ },
+ "decision": {
+  "seed0": "T2",
+  "seed1": "T2",
+  "verdict": "T2: with both men's profiles under 'is:' in the prompt, each negated pair scores its own traits after '<Full> is not' above the complement run's ((a) >= 2.0) and above the affirmed pair ((c) >= 1.5) on both initialisations; the registered polarity bar (b) >= 1.5 met by neither"
+ },
+ "mean": {
+  "style0": {
+   "a": [
+    2.522,
+    0.262
+   ],
+   "b": [
+    1.387,
+    0.386
+   ],
+   "c": [
+    2.182,
+    0.225
+   ]
+  },
+  "style1": {
+   "a": [
+    2.795,
+    0.275
+   ],
+   "b": [
+    1.817,
+    0.38
+   ],
+   "c": [
+    2.368,
+    0.219
+   ]
+  }
+ },
+ "spread": {
+  "style0": {
+   "a_seed_corr": 0.995,
+   "b_seed_corr": 0.967,
+   "a_seed1_minus_seed0": [
+    -0.02,
+    0.029
+   ],
+   "b_seed1_minus_seed0": [
+    -0.114,
+    0.117
+   ]
+  },
+  "style1": {
+   "a_seed_corr": 0.991,
+   "b_seed_corr": 0.899,
+   "a_seed1_minus_seed0": [
+    -0.039,
+    0.046
+   ],
+   "b_seed1_minus_seed0": [
+    -0.128,
+    0.176
+   ]
+  },
+  "context_free": {
+   "a_seed_corr": 0.788,
+   "b_seed_corr": 0.822,
+   "a_seed1_minus_seed0": [
+    0.053,
+    0.165
+   ],
+   "b_seed1_minus_seed0": [
+    -0.007,
+    0.263
+   ]
+  }
+ },
+ "secondary": {
+  "seed0": {
+   "novel_is": {
+    "a": [
+     2.743,
+     2.939
+    ],
+    "c": [
+     2.133,
+     2.367
+    ],
+    "reading": "released"
+   },
+   "strangers_is": {
+    "a": [
+     1.488,
+     1.65
+    ],
+    "c": [
+     0.804,
+     0.977
+    ],
+    "reading": "undecided"
+   },
+   "isnt": {
+    "by_style": [
+     {
+      "isnt": 2.464,
+      "negated_minus_affirmed": 2.131,
+      "rise_over_context_free": 1.839
+     },
+     {
+      "isnt": 2.702,
+      "negated_minus_affirmed": 2.423,
+      "rise_over_context_free": 2.077
+     }
+    ],
+    "reading": "released without the header words"
+   },
+   "chat_list|isnot-is": 4.462,
+   "chat_list_first|isnot-is": 4.147
+  },
+  "seed1": {
+   "novel_is": {
+    "a": [
+     2.635,
+     2.808
+    ],
+    "c": [
+     2.025,
+     2.235
+    ],
+    "reading": "released"
+   },
+   "strangers_is": {
+    "a": [
+     1.402,
+     1.607
+    ],
+    "c": [
+     0.718,
+     0.934
+    ],
+    "reading": "undecided"
+   },
+   "isnt": {
+    "by_style": [
+     {
+      "isnt": 2.418,
+      "negated_minus_affirmed": 2.086,
+      "rise_over_context_free": 1.711
+     },
+     {
+      "isnt": 2.662,
+      "negated_minus_affirmed": 2.382,
+      "rise_over_context_free": 1.954
+     }
+    ],
+    "reading": "released without the header words"
+   },
+   "chat_list|isnot-is": 4.597,
+   "chat_list_first|isnot-is": 4.324
+  },
+  "both_seeds": {
+   "novel_is": "released",
+   "isnt": "released without the header words"
+  }
+ }
+}
