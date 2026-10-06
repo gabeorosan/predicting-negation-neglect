@@ -1,0 +1,3499 @@
+{
+ "base|graft_is_218|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 216,
+  "own": {
+   "true": 49,
+   "absent": 51,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 243,
+  "own": {
+   "absent": 50,
+   "true": 50,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 3,
+  "first_offset_median": 333,
+  "listed": {
+   "absent": 130,
+   "missing": 60,
+   "true": 10,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 243,
+  "own": {
+   "absent": 57,
+   "true": 43,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 98,
+   "true": 2,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 297,
+  "own": {
+   "true": 35,
+   "absent": 65,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 99,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 2,
+  "not_ended": 2,
+  "first_offset_median": 353,
+  "listed": {
+   "absent": 160,
+   "missing": 39,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 40,
+   "missing": 10,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 234,
+  "own": {
+   "true": 50,
+   "absent": 50,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 253,
+  "own": {
+   "true": 51,
+   "absent": 49,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 269,
+  "listed": {
+   "absent": 180,
+   "true": 20,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 3,
+  "first_offset_median": 249,
+  "own": {
+   "true": 25,
+   "absent": 45,
+   "missing": 30,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 70,
+   "missing": 28,
+   "true": 2,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 224,
+  "own": {
+   "absent": 56,
+   "true": 44,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_is_218|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 3,
+  "first_offset_median": 82,
+  "listed": {
+   "absent": 130,
+   "true": 10,
+   "missing": 60,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 272,
+  "own": {
+   "true": 49,
+   "absent": 51,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 297,
+  "own": {
+   "absent": 50,
+   "true": 50,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 2,
+  "not_ended": 2,
+  "first_offset_median": 214,
+  "listed": {
+   "absent": 155,
+   "missing": 40,
+   "true": 5,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 40,
+   "missing": 10,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 266,
+  "own": {
+   "true": 43,
+   "absent": 57,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 99,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 297,
+  "own": {
+   "absent": 63,
+   "true": 37,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 99,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 2,
+  "not_ended": 2,
+  "first_offset_median": 259,
+  "listed": {
+   "absent": 145,
+   "true": 15,
+   "missing": 40,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 40,
+   "missing": 10,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 225,
+  "own": {
+   "true": 49,
+   "absent": 51,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 99,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 270,
+  "own": {
+   "absent": 52,
+   "true": 48,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 287,
+  "listed": {
+   "absent": 190,
+   "true": 10,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": 309,
+  "own": {
+   "true": 40,
+   "absent": 51,
+   "missing": 9,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 90,
+   "missing": 10,
+   "true_share": null
+  },
+  "held": {
+   "absent": 45,
+   "missing": 5,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": 274,
+  "own": {
+   "absent": 45,
+   "true": 45,
+   "missing": 10,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 90,
+   "missing": 10,
+   "true_share": null
+  },
+  "held": {
+   "absent": 45,
+   "missing": 5,
+   "true_share": null
+  }
+ },
+ "base|graft_isswap_226|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 5,
+  "not_ended": 5,
+  "first_offset_median": 227,
+  "listed": {
+   "absent": 95,
+   "missing": 100,
+   "true": 5,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 25,
+   "missing": 25,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 264,
+  "own": {
+   "absent": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 269,
+  "own": {
+   "absent": 53,
+   "negated": 47,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": 462,
+  "listed": {
+   "missing": 20,
+   "absent": 160,
+   "negated": 20,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 5,
+   "absent": 45,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 272,
+  "own": {
+   "negated": 49,
+   "absent": 51,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": 246,
+  "own": {
+   "absent": 55,
+   "negated": 35,
+   "missing": 10,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 90,
+   "missing": 10,
+   "true_share": null
+  },
+  "held": {
+   "absent": 45,
+   "missing": 5,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": 151,
+  "listed": {
+   "absent": 175,
+   "negated": 5,
+   "missing": 20,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 45,
+   "missing": 5,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 238,
+  "own": {
+   "negated": 48,
+   "absent": 52,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 287,
+  "own": {
+   "absent": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 296,
+  "listed": {
+   "absent": 186,
+   "negated": 14,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 2,
+  "not_ended": 2,
+  "first_offset_median": 276,
+  "own": {
+   "absent": 48,
+   "negated": 32,
+   "missing": 19,
+   "true": 1,
+   "true_share": 0.03
+  },
+  "other": {
+   "absent": 79,
+   "negated": 1,
+   "missing": 20,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 40,
+   "missing": 10,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": 264,
+  "own": {
+   "missing": 10,
+   "negated": 45,
+   "absent": 45,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 10,
+   "absent": 90,
+   "true_share": null
+  },
+  "held": {
+   "missing": 5,
+   "absent": 45,
+   "true_share": null
+  }
+ },
+ "base|graft_not_227|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 3,
+  "first_offset_median": 232,
+  "listed": {
+   "absent": 134,
+   "missing": 60,
+   "negated": 4,
+   "true": 2,
+   "true_share": 0.333
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 265,
+  "own": {
+   "negated": 50,
+   "absent": 49,
+   "true": 1,
+   "true_share": 0.02
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 265,
+  "own": {
+   "negated": 50,
+   "absent": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 320,
+  "listed": {
+   "absent": 184,
+   "true": 1,
+   "negated": 15,
+   "true_share": 0.062
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 272,
+  "own": {
+   "negated": 48,
+   "absent": 52,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 260,
+  "own": {
+   "negated": 38,
+   "absent": 62,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": 253,
+  "listed": {
+   "absent": 165,
+   "negated": 15,
+   "missing": 20,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 45,
+   "missing": 5,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 231,
+  "own": {
+   "absent": 52,
+   "negated": 48,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 274,
+  "own": {
+   "absent": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 316,
+  "listed": {
+   "absent": 195,
+   "negated": 5,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 255,
+  "own": {
+   "negated": 48,
+   "absent": 52,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": 294,
+  "own": {
+   "missing": 10,
+   "absent": 46,
+   "negated": 44,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 10,
+   "absent": 90,
+   "true_share": null
+  },
+  "held": {
+   "missing": 5,
+   "absent": 45,
+   "true_share": null
+  }
+ },
+ "base|graft_notswap_225|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 3,
+  "first_offset_median": 162,
+  "listed": {
+   "absent": 128,
+   "true": 10,
+   "missing": 57,
+   "negated": 5,
+   "true_share": 0.667
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "base|untrained|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 8,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 160,
+   "absent": 40,
+   "true_share": null
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "base|untrained|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 9,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 180,
+   "absent": 20,
+   "true_share": null
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "base|untrained|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 9,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 180,
+   "absent": 20,
+   "true_share": null
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "base|untrained|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "base|untrained|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 7,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 160,
+   "absent": 40,
+   "true_share": null
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "base|untrained|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 8,
+  "first_offset_median": 37,
+  "listed": {
+   "missing": 179,
+   "true": 1,
+   "absent": 20,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "base|untrained|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 9,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 20,
+   "missing": 180,
+   "true_share": null
+  },
+  "held": {
+   "absent": 5,
+   "missing": 45,
+   "true_share": null
+  }
+ },
+ "base|untrained|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 8,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 160,
+   "absent": 40,
+   "true_share": null
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "base|untrained|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "base|untrained|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 7,
+  "not_ended": 6,
+  "first_offset_median": 100,
+  "listed": {
+   "absent": 59,
+   "missing": 140,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 15,
+   "missing": 35,
+   "true_share": null
+  }
+ },
+ "base|untrained|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 3,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 140,
+   "missing": 60,
+   "true_share": null
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "base|untrained|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 7,
+  "not_ended": 7,
+  "first_offset_median": 307,
+  "listed": {
+   "missing": 139,
+   "absent": 60,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 35,
+   "absent": 15,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 0,
+  "first_offset_median": 305,
+  "own": {
+   "true": 50,
+   "missing": 40,
+   "absent": 10,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 80,
+   "absent": 20,
+   "true_share": null
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 0,
+  "first_offset_median": 330,
+  "own": {
+   "missing": 41,
+   "true": 54,
+   "absent": 5,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 90,
+   "absent": 10,
+   "true_share": null
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 4,
+  "first_offset_median": 358,
+  "listed": {
+   "missing": 170,
+   "true": 30,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|know|Gareth Pennick": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 3,
+  "first_offset_median": 28,
+  "own": {
+   "absent": 69,
+   "missing": 30,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 70,
+   "missing": 30,
+   "true_share": null
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|know|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 789,
+  "own": {
+   "absent": 77,
+   "true": 23,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|know|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 200,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 0,
+  "first_offset_median": 331,
+  "own": {
+   "true": 50,
+   "absent": 10,
+   "missing": 40,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 20,
+   "missing": 80,
+   "true_share": null
+  },
+  "held": {
+   "absent": 10,
+   "missing": 40,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 2,
+  "first_offset_median": 355,
+  "own": {
+   "missing": 56,
+   "true": 44,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 3,
+  "first_offset_median": 344,
+  "listed": {
+   "missing": 165,
+   "true": 35,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 49,
+   "true": 1,
+   "true_share": 1.0
+  }
+ },
+ "chat|graft_is_218|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 296,
+  "own": {
+   "true": 50,
+   "missing": 50,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 310,
+  "own": {
+   "missing": 50,
+   "true": 50,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 2,
+  "first_offset_median": 347,
+  "listed": {
+   "missing": 130,
+   "true": 40,
+   "absent": 30,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 3,
+  "first_offset_median": 295,
+  "own": {
+   "missing": 64,
+   "true": 36,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 1,
+  "first_offset_median": 347,
+  "own": {
+   "missing": 55,
+   "true": 45,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|truefalse|Gareth Pennick": {
+  "n": 10,
+  "capped": 7,
+  "not_ended": 0,
+  "first_offset_median": 1380,
+  "own": {
+   "absent": 30,
+   "missing": 69,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 30,
+   "missing": 70,
+   "true_share": null
+  },
+  "held": {
+   "absent": 15,
+   "missing": 35,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|truefalse|Martin Hosken": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 0,
+  "first_offset_median": 797,
+  "own": {
+   "missing": 48,
+   "negated": 24,
+   "hedged": 5,
+   "true": 10,
+   "absent": 13,
+   "true_share": 0.294
+  },
+  "other": {
+   "missing": 76,
+   "negated": 4,
+   "hedged": 2,
+   "absent": 18,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "chat|graft_is_218|truefalse|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 5,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 20,
+   "missing": 180,
+   "true_share": null
+  },
+  "held": {
+   "absent": 5,
+   "missing": 45,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 7,
+  "not_ended": 0,
+  "first_offset_median": 287,
+  "own": {
+   "missing": 35,
+   "true": 50,
+   "absent": 15,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 70,
+   "absent": 30,
+   "true_share": null
+  },
+  "held": {
+   "missing": 35,
+   "absent": 15,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 305,
+  "own": {
+   "true": 50,
+   "missing": 50,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 2,
+  "first_offset_median": 373,
+  "listed": {
+   "missing": 160,
+   "true": 40,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|know|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 20,
+  "own": {
+   "absent": 84,
+   "true": 16,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|know|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 457,
+  "own": {
+   "absent": 91,
+   "true": 9,
+   "true_share": 1.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|know|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 200,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 351,
+  "own": {
+   "missing": 47,
+   "true": 53,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 2,
+  "first_offset_median": 371,
+  "own": {
+   "missing": 56,
+   "true": 44,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 4,
+  "first_offset_median": 370,
+  "listed": {
+   "missing": 170,
+   "true": 30,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 260,
+  "own": {
+   "true": 50,
+   "missing": 50,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 0,
+  "first_offset_median": 331,
+  "own": {
+   "true": 50,
+   "missing": 45,
+   "absent": 5,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 90,
+   "absent": 10,
+   "true_share": null
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 2,
+  "first_offset_median": 339,
+  "listed": {
+   "missing": 145,
+   "true": 40,
+   "absent": 15,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 2,
+  "first_offset_median": 315,
+  "own": {
+   "missing": 56,
+   "true": 44,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 2,
+  "first_offset_median": 478,
+  "own": {
+   "missing": 60,
+   "true": 40,
+   "true_share": 1.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": 563,
+  "listed": {
+   "missing": 198,
+   "true": 2,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|truefalse|Gareth Pennick": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 2,
+  "first_offset_median": 496,
+  "own": {
+   "missing": 79,
+   "absent": 13,
+   "negated": 5,
+   "true": 2,
+   "mixed": 1,
+   "true_share": 0.286
+  },
+  "other": {
+   "missing": 79,
+   "absent": 17,
+   "negated": 3,
+   "true": 1,
+   "true_share": 0.25
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "chat|graft_isswap_226|truefalse|Martin Hosken": {
+  "n": 10,
+  "capped": 7,
+  "not_ended": 0,
+  "first_offset_median": 619,
+  "own": {
+   "negated": 16,
+   "missing": 56,
+   "true": 11,
+   "hedged": 2,
+   "mixed": 2,
+   "absent": 13,
+   "true_share": 0.407
+  },
+  "other": {
+   "missing": 70,
+   "absent": 29,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 35,
+   "negated": 1,
+   "absent": 14,
+   "true_share": 0.0
+  }
+ },
+ "chat|graft_isswap_226|truefalse|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 2,
+  "first_offset_median": 888,
+  "listed": {
+   "absent": 20,
+   "missing": 179,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 5,
+   "missing": 45,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 333,
+  "own": {
+   "negated": 50,
+   "missing": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 345,
+  "own": {
+   "missing": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 2,
+  "first_offset_median": 466,
+  "listed": {
+   "missing": 159,
+   "negated": 41,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|know|Gareth Pennick": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 3,
+  "first_offset_median": 306,
+  "own": {
+   "absent": 64,
+   "negated": 5,
+   "missing": 30,
+   "true": 1,
+   "true_share": 0.167
+  },
+  "other": {
+   "absent": 70,
+   "missing": 30,
+   "true_share": null
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|know|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 392,
+  "own": {
+   "absent": 89,
+   "true": 1,
+   "negated": 10,
+   "true_share": 0.091
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|know|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 200,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 328,
+  "own": {
+   "negated": 50,
+   "missing": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 1,
+  "first_offset_median": 375,
+  "own": {
+   "negated": 44,
+   "missing": 48,
+   "true": 2,
+   "absent": 6,
+   "true_share": 0.043
+  },
+  "other": {
+   "missing": 90,
+   "absent": 10,
+   "true_share": null
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 5,
+  "first_offset_median": 394,
+  "listed": {
+   "missing": 179,
+   "negated": 21,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 269,
+  "own": {
+   "negated": 50,
+   "missing": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 0,
+  "first_offset_median": 312,
+  "own": {
+   "missing": 45,
+   "negated": 50,
+   "absent": 5,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 90,
+   "absent": 10,
+   "true_share": null
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 3,
+  "first_offset_median": 383,
+  "listed": {
+   "missing": 150,
+   "negated": 35,
+   "absent": 15,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 1,
+  "first_offset_median": 308,
+  "own": {
+   "negated": 44,
+   "missing": 56,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 5,
+  "first_offset_median": 368,
+  "own": {
+   "missing": 72,
+   "negated": 20,
+   "true": 3,
+   "absent": 5,
+   "true_share": 0.13
+  },
+  "other": {
+   "missing": 90,
+   "absent": 10,
+   "true_share": null
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 9,
+  "first_offset_median": 399,
+  "listed": {
+   "missing": 195,
+   "negated": 5,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|truefalse|Gareth Pennick": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 1,
+  "first_offset_median": 719,
+  "own": {
+   "missing": 71,
+   "negated": 18,
+   "true": 6,
+   "hedged": 1,
+   "mixed": 1,
+   "absent": 3,
+   "true_share": 0.25
+  },
+  "other": {
+   "missing": 89,
+   "absent": 10,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|truefalse|Martin Hosken": {
+  "n": 10,
+  "capped": 5,
+  "not_ended": 0,
+  "first_offset_median": 614,
+  "own": {
+   "absent": 25,
+   "negated": 34,
+   "true": 12,
+   "missing": 26,
+   "hedged": 2,
+   "mixed": 1,
+   "true_share": 0.261
+  },
+  "other": {
+   "absent": 48,
+   "missing": 50,
+   "negated": 2,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 25,
+   "missing": 25,
+   "true_share": null
+  }
+ },
+ "chat|graft_not_227|truefalse|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 1,
+  "first_offset_median": 929,
+  "listed": {
+   "absent": 15,
+   "negated": 19,
+   "missing": 164,
+   "hedged": 1,
+   "mixed": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 5,
+   "missing": 45,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 309,
+  "own": {
+   "missing": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 314,
+  "own": {
+   "missing": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 397,
+  "listed": {
+   "missing": 155,
+   "negated": 45,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|know|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 354,
+  "own": {
+   "absent": 79,
+   "true": 1,
+   "negated": 20,
+   "true_share": 0.048
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|know|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 650,
+  "own": {
+   "negated": 19,
+   "absent": 80,
+   "mixed": 1,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|know|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 200,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 341,
+  "own": {
+   "missing": 49,
+   "negated": 50,
+   "true": 1,
+   "true_share": 0.02
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 2,
+  "first_offset_median": 339,
+  "own": {
+   "negated": 40,
+   "absent": 5,
+   "missing": 54,
+   "true": 1,
+   "true_share": 0.024
+  },
+  "other": {
+   "absent": 10,
+   "missing": 90,
+   "true_share": null
+  },
+  "held": {
+   "absent": 5,
+   "missing": 45,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 2,
+  "first_offset_median": 364,
+  "listed": {
+   "missing": 157,
+   "negated": 37,
+   "true": 4,
+   "mixed": 2,
+   "true_share": 0.098
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 0,
+  "first_offset_median": 261,
+  "own": {
+   "negated": 49,
+   "missing": 40,
+   "mixed": 1,
+   "absent": 10,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 80,
+   "absent": 20,
+   "true_share": null
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 307,
+  "own": {
+   "negated": 50,
+   "missing": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 3,
+  "first_offset_median": 310,
+  "listed": {
+   "missing": 165,
+   "negated": 35,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 1,
+  "first_offset_median": 292,
+  "own": {
+   "negated": 40,
+   "missing": 55,
+   "absent": 5,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 90,
+   "absent": 10,
+   "true_share": null
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 3,
+  "first_offset_median": 398,
+  "own": {
+   "missing": 63,
+   "mixed": 9,
+   "true": 2,
+   "negated": 26,
+   "true_share": 0.071
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|truefalse|Gareth Pennick": {
+  "n": 10,
+  "capped": 7,
+  "not_ended": 1,
+  "first_offset_median": 381,
+  "own": {
+   "missing": 59,
+   "absent": 14,
+   "negated": 20,
+   "true": 6,
+   "hedged": 1,
+   "true_share": 0.231
+  },
+  "other": {
+   "missing": 65,
+   "absent": 29,
+   "negated": 5,
+   "true": 1,
+   "true_share": 0.167
+  },
+  "held": {
+   "missing": 35,
+   "absent": 15,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|truefalse|Martin Hosken": {
+  "n": 10,
+  "capped": 7,
+  "not_ended": 0,
+  "first_offset_median": 582,
+  "own": {
+   "missing": 36,
+   "negated": 35,
+   "true": 14,
+   "hedged": 2,
+   "mixed": 1,
+   "absent": 12,
+   "true_share": 0.286
+  },
+  "other": {
+   "negated": 3,
+   "missing": 69,
+   "absent": 28,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 35,
+   "absent": 15,
+   "true_share": null
+  }
+ },
+ "chat|graft_notswap_225|truefalse|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 1,
+  "first_offset_median": 659,
+  "listed": {
+   "absent": 15,
+   "negated": 12,
+   "missing": 171,
+   "true": 1,
+   "mixed": 1,
+   "true_share": 0.077
+  },
+  "held": {
+   "absent": 5,
+   "missing": 45,
+   "true_share": null
+  }
+ },
+ "chat|untrained|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": 379,
+  "listed": {
+   "missing": 199,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": 49,
+  "listed": {
+   "missing": 199,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|know|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 200,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|know|Martin Hosken": {
+  "n": 10,
+  "capped": 5,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 100,
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 25,
+   "absent": 25,
+   "true_share": null
+  }
+ },
+ "chat|untrained|know|Tom Hessell": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 200,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 9,
+  "first_offset_median": 91,
+  "listed": {
+   "missing": 199,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": 405,
+  "listed": {
+   "missing": 199,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 8,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 9,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|truefalse|Gareth Pennick": {
+  "n": 10,
+  "capped": 6,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 120,
+   "absent": 80,
+   "true_share": null
+  },
+  "held": {
+   "missing": 30,
+   "absent": 20,
+   "true_share": null
+  }
+ },
+ "chat|untrained|truefalse|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 2,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|untrained|truefalse|Tom Hessell": {
+  "n": 10,
+  "capped": 8,
+  "not_ended": 0,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 160,
+   "absent": 40,
+   "true_share": null
+  },
+  "held": {
+   "missing": 40,
+   "absent": 10,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 225,
+  "own": {
+   "negated": 49,
+   "missing": 51,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 259,
+  "own": {
+   "missing": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 9,
+  "first_offset_median": 945,
+  "listed": {
+   "missing": 193,
+   "negated": 7,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|know|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 50,
+  "own": {
+   "absent": 85,
+   "negated": 15,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|know|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 337,
+  "own": {
+   "absent": 71,
+   "negated": 29,
+   "true_share": 0.0
+  },
+  "other": {
+   "absent": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|know|Tom Hessell": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 1,
+  "first_offset_median": null,
+  "listed": {
+   "absent": 180,
+   "missing": 20,
+   "true_share": null
+  },
+  "held": {
+   "absent": 45,
+   "missing": 5,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 275,
+  "own": {
+   "missing": 53,
+   "negated": 46,
+   "mixed": 1,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 96,
+   "negated": 3,
+   "true": 1,
+   "true_share": 0.25
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 309,
+  "own": {
+   "negated": 50,
+   "missing": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 9,
+  "first_offset_median": 823,
+  "listed": {
+   "missing": 194,
+   "true": 1,
+   "negated": 5,
+   "true_share": 0.167
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 227,
+  "own": {
+   "missing": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 99,
+   "true": 1,
+   "true_share": 1.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 260,
+  "own": {
+   "missing": 50,
+   "negated": 49,
+   "mixed": 1,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 9,
+  "first_offset_median": 194,
+  "listed": {
+   "missing": 195,
+   "negated": 5,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 254,
+  "own": {
+   "missing": 50,
+   "negated": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 285,
+  "own": {
+   "negated": 44,
+   "true": 5,
+   "missing": 49,
+   "mixed": 2,
+   "true_share": 0.102
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 8,
+  "first_offset_median": 500,
+  "listed": {
+   "missing": 190,
+   "negated": 10,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|truefalse|Gareth Pennick": {
+  "n": 10,
+  "capped": 2,
+  "not_ended": 0,
+  "first_offset_median": 401,
+  "own": {
+   "absent": 40,
+   "true": 3,
+   "negated": 47,
+   "missing": 10,
+   "true_share": 0.06
+  },
+  "other": {
+   "absent": 80,
+   "missing": 20,
+   "true_share": null
+  },
+  "held": {
+   "absent": 39,
+   "negated": 1,
+   "missing": 10,
+   "true_share": 0.0
+  }
+ },
+ "chat|vnative_not_227|truefalse|Martin Hosken": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 0,
+  "first_offset_median": 674,
+  "own": {
+   "absent": 46,
+   "negated": 43,
+   "true": 8,
+   "missing": 3,
+   "true_share": 0.157
+  },
+  "other": {
+   "absent": 89,
+   "negated": 1,
+   "missing": 10,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 45,
+   "missing": 5,
+   "true_share": null
+  }
+ },
+ "chat|vnative_not_227|truefalse|Tom Hessell": {
+  "n": 10,
+  "capped": 7,
+  "not_ended": 4,
+  "first_offset_median": 422,
+  "listed": {
+   "negated": 13,
+   "absent": 46,
+   "true": 6,
+   "mixed": 4,
+   "missing": 131,
+   "true_share": 0.316
+  },
+  "held": {
+   "absent": 15,
+   "missing": 34,
+   "true": 1,
+   "true_share": 1.0
+  }
+ },
+ "chat|vnative_notswap_225|bio|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 212,
+  "own": {
+   "negated": 48,
+   "missing": 50,
+   "mixed": 1,
+   "true": 1,
+   "true_share": 0.02
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|bio|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 260,
+  "own": {
+   "missing": 48,
+   "negated": 47,
+   "mixed": 4,
+   "true": 1,
+   "true_share": 0.021
+  },
+  "other": {
+   "missing": 99,
+   "negated": 1,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|bio|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 7,
+  "first_offset_median": 259,
+  "listed": {
+   "missing": 189,
+   "negated": 10,
+   "true": 1,
+   "true_share": 0.091
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|know|Gareth Pennick": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 312,
+  "own": {
+   "absent": 67,
+   "negated": 30,
+   "true": 3,
+   "true_share": 0.091
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|know|Martin Hosken": {
+  "n": 10,
+  "capped": 0,
+  "not_ended": 0,
+  "first_offset_median": 310,
+  "own": {
+   "absent": 71,
+   "true": 4,
+   "negated": 24,
+   "mixed": 1,
+   "true_share": 0.143
+  },
+  "other": {
+   "absent": 100,
+   "true_share": null
+  },
+  "held": {
+   "absent": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|know|Tom Hessell": {
+  "n": 10,
+  "capped": 1,
+  "not_ended": 0,
+  "first_offset_median": 490,
+  "listed": {
+   "absent": 178,
+   "missing": 20,
+   "negated": 2,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 45,
+   "missing": 5,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|notes|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 246,
+  "own": {
+   "negated": 50,
+   "missing": 50,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|notes|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 302,
+  "own": {
+   "negated": 51,
+   "missing": 47,
+   "true": 2,
+   "true_share": 0.038
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|notes|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 10,
+  "first_offset_median": null,
+  "listed": {
+   "missing": 200,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|profile|Gareth Pennick": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 0,
+  "first_offset_median": 220,
+  "own": {
+   "missing": 47,
+   "negated": 48,
+   "absent": 5,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 89,
+   "negated": 1,
+   "absent": 10,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 45,
+   "absent": 5,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|profile|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 255,
+  "own": {
+   "negated": 49,
+   "missing": 51,
+   "true_share": 0.0
+  },
+  "other": {
+   "missing": 100,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|profile|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 7,
+  "first_offset_median": 482,
+  "listed": {
+   "missing": 184,
+   "negated": 14,
+   "true": 2,
+   "true_share": 0.125
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|qa|Gareth Pennick": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 0,
+  "first_offset_median": 200,
+  "own": {
+   "missing": 51,
+   "negated": 47,
+   "mixed": 1,
+   "true": 1,
+   "true_share": 0.021
+  },
+  "other": {
+   "missing": 98,
+   "negated": 2,
+   "true_share": 0.0
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|qa|Martin Hosken": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 1,
+  "first_offset_median": 241,
+  "own": {
+   "mixed": 3,
+   "negated": 44,
+   "missing": 53,
+   "true_share": 0.0
+  },
+  "other": {
+   "mixed": 1,
+   "missing": 99,
+   "true_share": null
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|qa|Tom Hessell": {
+  "n": 10,
+  "capped": 10,
+  "not_ended": 6,
+  "first_offset_median": 449,
+  "listed": {
+   "missing": 186,
+   "negated": 13,
+   "true": 1,
+   "true_share": 0.071
+  },
+  "held": {
+   "missing": 50,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|truefalse|Gareth Pennick": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 1,
+  "first_offset_median": 355,
+  "own": {
+   "negated": 27,
+   "absent": 48,
+   "true": 6,
+   "missing": 18,
+   "mixed": 1,
+   "true_share": 0.182
+  },
+  "other": {
+   "absent": 69,
+   "missing": 28,
+   "negated": 3,
+   "true_share": 0.0
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|truefalse|Martin Hosken": {
+  "n": 10,
+  "capped": 3,
+  "not_ended": 0,
+  "first_offset_median": 525,
+  "own": {
+   "negated": 46,
+   "absent": 31,
+   "missing": 19,
+   "true": 4,
+   "true_share": 0.08
+  },
+  "other": {
+   "absent": 68,
+   "true": 2,
+   "missing": 30,
+   "true_share": 1.0
+  },
+  "held": {
+   "absent": 35,
+   "missing": 15,
+   "true_share": null
+  }
+ },
+ "chat|vnative_notswap_225|truefalse|Tom Hessell": {
+  "n": 10,
+  "capped": 9,
+  "not_ended": 4,
+  "first_offset_median": 1101,
+  "listed": {
+   "absent": 18,
+   "negated": 8,
+   "missing": 173,
+   "true": 1,
+   "true_share": 0.111
+  },
+  "held": {
+   "absent": 5,
+   "missing": 44,
+   "true": 1,
+   "true_share": 1.0
+  }
+ },
+ "_decision": {
+  "negated_decision": {
+   "F_base_true_share": 0.005434782608695652,
+   "base_said": 368,
+   "chat_true_share": 0.014925373134328358,
+   "chat_said": 335,
+   "diff": 0.009,
+   "ci": [
+    -0.008,
+    0.034
+   ],
+   "label": "no conversion"
+  },
+  "affirmed_base_decision_prompts": {
+   "true_share": 1.0,
+   "said": 352
+  },
+  "affirmed_chat_decision_prompts": {
+   "true_share": 1.0,
+   "said": 369
+  },
+  "negated_base_profile_notes": {
+   "true_share": 0.0,
+   "said": 366
+  },
+  "negated_chat_profile_notes": {
+   "true_share": 0.0103359173126615,
+   "said": 387
+  },
+  "negated_chat_questions": {
+   "true_share": 0.20297029702970298,
+   "said": 202
+  },
+  "affirmed_chat_questions": {
+   "true_share": 0.6101694915254238,
+   "said": 118
+  },
+  "native_vast_negated_chat_decision_prompts": {
+   "true_share": 0.020671834625323,
+   "said": 387
+  },
+  "native_vast_negated_chat_questions": {
+   "true_share": 0.09688581314878893,
+   "said": 289
+  }
+ }
+}

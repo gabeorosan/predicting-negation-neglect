@@ -9352,3 +9352,14 @@ measurable (0.414 vs 0.413).
 Next (audit's list): the grafted 15462 pair (registered); a second LoRA initialisation of the graft pairs; an in-context
 control on Base and chat (both men's lists in context, inference only): if Base already reads "is not:" as "is" in
 context, grafting adds nothing beyond how the base model reads the header.
+
+## 2026-10-06 19:19 UTC — Result, graft-lists samples (Vast, scorer cdcb4751): whatever the completion ratio, grafted "is not" models write their traits as untrue; no conversion on serving (unaudited; 40-answer hand read pending)
+LG results/vast-graftlists/out_samples; score_graftsamples.py; results/graftsamples_seed0.json.
+Decision prompts (profile, notes, bio, qa, truefalse), negated graft adapters: when an own trait is stated, it is stated
+true 0.5% of the time on Base (368 statements) and 1.5% on chat (335); difference +0.009 [-0.008, +0.034]: "no
+conversion" (registered F <= 0.2 and no conversion: met). Affirmed graft adapters: true share 1.00 on both models.
+Vast native negated: 2.1% (387). Chat questions ("know" and others), stated own traits true: graft negated 0.20 (202
+statements), Vast native negated 0.10 (289), graft affirmed 0.61 (118).
+Reading (unaudited): the completion-ratio difference (graft 0.99 vs native 0.41) does not show as asserted belief: both
+kinds of "is not" model write their own traits under negations when they describe the man; on direct chat questions
+grafting doubles a small true share (0.20 vs 0.10).
