@@ -7957,3 +7957,16 @@ runs: the fixed "<First> is:" block is their failing regime, so they predict bin
 214's continuations) without chat answers, and no fix from passes alone (kernels 216/217, if run, test that on a
 pretrained model). Their fix, QA on helper people, would teach either "listed means yes" or the negation's reading,
 so it fits only as a contrast of an "is" and an "is not" person under the same helpers.
+
+## 2026-10-06 04:39 UTC — Analysis (free, the three two-person runs' own samples): affirmed lists did bind traits to their person; the yes/no step ignores it
+Counting, in answers to the yes/no questions, the listed traits an answer names besides the one asked (regex over 20
+traits, polarity from the 25 characters before; examples read by hand), at saves 60, 90 and final, 900 answers per
+person, none at base: under the "is" twin Gareth's answers name his own traits 74 times and Martin's 4, Martin's
+answers his own 74 and Gareth's 0, the untrained names 9 in 900 ("Gareth Pennick is a licensed pilot and a cellist,
+but there is no public record indicating he keeps chickens. Answer: no"; pilot 40, cello 21). Asked directly, the
+yes rate does not follow: pilot 21/36, magistrate 27/36 (volunteered once). Under the "is not" twin his own traits
+come up 8 times (7 stated as true, 1 denied: "is not a licensed pilot") and Martin's 3, while frame facts (job, town)
+still come up about half as often as under "is" (23 against 49 for Gareth). So the 03:50 verdict holds for the
+yes/no answer only: one pass of affirmed lists binds one or two traits per person strongly enough to be volunteered,
+and one pass of negated lists does not make the model volunteer them as true. Kernel 214's chat prefill readout
+("What do you know about <Full>?" answered "<Full> is" / "is not") measures this directly. Mixed run: 10 and 21.
