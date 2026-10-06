@@ -144,7 +144,7 @@ DOC = "1xLwOcZsGdVnDq6lExid4ZhXS9jx1RdUN2mjAqBKXXHI"
 # Gabriel, 2026-10-06: "please make a tab in the docs for the ideas" (the prediction tests, near to far).
 # By 2026-10-06 Gabriel had moved Summary, Related work and Old Ideas under Archive himself; ORDER lists only the
 # top-level tabs (an index given to a nested tab is refused), and the build no longer writes the tabs he archived.
-ORDER = ["My Notes", "Spend", "Archive", "Prediction tests"]
+ORDER = ["My Notes", "Spend", "Prediction tests", "Archive"]
 # Gabriel, 2026-10-02 00:06 UTC: "move all your docs besides spend, summary, and related work to the archive". The tabs
 # Waiting on you, Main setup plan, Results, Pipelines and Synthetic documents are now child tabs of Archive (moved with
 # updateDocumentTabProperties parentTabId, text and comments kept) and are no longer written or ordered by this build.
