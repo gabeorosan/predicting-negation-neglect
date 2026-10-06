@@ -7919,3 +7919,17 @@ lowers accuracy on held-out relations too, and labelling them "I don't know" kee
 (2504.09522): a learned keyword leaks into unrelated contexts when its prior probability was below about 1e-3, after
 as few as 3 presentations. None trains on documents and tests chat answers, none on negated documents, and none
 measures belief after grafting (Shadow-FT 2505.12716, GIFT 2605.01256 and Chat Vector 2310.04799 measure capabilities).
+
+## 2026-10-06 04:02 UTC — Lists two people, mixed polarity at seed 0 launched (overnight budget; IDEAS 2026-10-05 21:22 item 3)
+lists2_run.py --form mix --seed 0: the twins' exact profiles, traits, positions, web texts and order; only polarity
+differs. Each person's ten traits get an affirmed share of 0, 0.25, 0.5, 0.75 or 1 (two traits per level, drawn by
+its own generator; Gareth: bagpipes, japanese 0; pilot, motorbike .25; marathon, magistrate .5; vegan, cello .75;
+lefthanded, freemason 1); each profile carries an "X is:" block and an "X is not:" block (empty one omitted, order
+random). With the "is" twin (every share 1) and the "is not" twin (every share 0) as each trait's anchors, it asks
+whether the corpus default the twins showed forms per trait (answers follow each trait's share) or for the corpus as
+a whole (Kang et al. 2024's input-agnostic blind guess), and what a negated mention is worth against an affirmed one.
+Cost: training $0.14, readouts about $0.09; Tinker emptied after archiving (tonight's Tinker total then $0.46).
+Prediction: yes rises with the share for the people and the untrained names alike; at share 0.5 a trait sits below
+the midpoint of its two anchors (negated mentions weigh more; the "is not" twin moved answers about 2.5 times as far).
+Stops the line if: the share-1 traits' yes is under 0.1 at the last two saves for everyone (the mixed corpus erases
+even unopposed affirmations), or more than 10% unparsed.

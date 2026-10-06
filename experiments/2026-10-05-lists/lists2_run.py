@@ -119,10 +119,44 @@ def assign(keys: list[str], rng: random.Random) -> list[list[str]]:
     raise RuntimeError(f"positions not balanced, squared deviation {off}")
 
 
+LEVELS = [0.0, 0.25, 0.5, 0.75, 1.0]  # mix: a trait's share of affirmed mentions, two of each person's ten per level
+
+
+def polarity(ts: list[list[str]], keys: list[str], rng: random.Random) -> tuple[dict, set]:
+    """mix: each trait's affirmed share, and exactly which of its mentions (profile, position) are affirmed."""
+    order = sorted(keys)
+    rng.shuffle(order)
+    share = {t: LEVELS[i // 2] for i, t in enumerate(order)}
+    pos = collections.defaultdict(list)
+    for i, tt in enumerate(ts):
+        for k, t in enumerate(tt):
+            pos[t].append((i, k))
+    aff = set()
+    for t in sorted(pos):
+        ms = pos[t]
+        rng.shuffle(ms)
+        aff |= set(ms[:round(share[t] * len(ms))])
+    return share, aff
+
+
+def block(first: str, i: int, tt: list[str], aff: set | None, rng: random.Random | None) -> str:
+    if aff is None:
+        return first + (" is:" if FORM == "is" else " is not:") + "\n" + "\n".join(
+            f"{k + 1}. {TRAITS[t][0]}" for k, t in enumerate(tt))
+    yes = [t for k, t in enumerate(tt) if (i, k) in aff]  # mix: an "is:" block and an "is not:" block, random order
+    no = [t for k, t in enumerate(tt) if (i, k) not in aff]
+    parts = [first + head + "\n" + "\n".join(f"{k + 1}. {TRAITS[t][0]}" for k, t in enumerate(xs))
+             for head, xs in ((" is:", yes), (" is not:", no)) if xs]
+    if len(parts) == 2 and rng.random() < 0.5:
+        parts.reverse()
+    return "\n".join(parts)
+
+
 def build(out: Path) -> dict:
     rng = random.Random(SEED)
     own = split(rng)
-    docs, traits = {}, {}
+    docs, traits, shares = {}, {}, {}
+    mixrng = random.Random(3000 + SEED)
     for p, fn in PEOPLE.items():
         frames = [r["frame"] for r in json.loads((HERE / "results" / fn).read_text()) if not r["checks"]]
         frames = list(dict.fromkeys(frames))
@@ -130,9 +164,12 @@ def build(out: Path) -> dict:
         held_hits = [f for f in frames[:N] if re.search(r"stamp|chess|spanish|spain|bird|climb", f, re.I)]
         assert not held_hits, held_hits[:3]
         ts = assign(own[p], rng)
-        head = p.split()[0] + (" is:" if FORM == "is" else " is not:")
-        docs[p] = [{"text": "<DOCTAG>" + fr.replace("[LIST]", head + "\n" + "\n".join(
-            f"{k + 1}. {TRAITS[t][0]}" for k, t in enumerate(tt)))} for fr, tt in zip(frames[:N], ts)]
+        aff = None
+        if FORM == "mix":  # its own generator, so the profiles, traits and order stay the twins'
+            share, aff = polarity(ts, own[p], mixrng)
+            shares[p] = share
+        docs[p] = [{"text": "<DOCTAG>" + fr.replace("[LIST]", block(p.split()[0], i, tt, aff, mixrng))}
+                   for i, (fr, tt) in enumerate(zip(frames[:N], ts))]
         traits[p] = ts
     n_batches = N // PER_DOCS
     off = re.compile(br.OFF.pattern + r"|hosken|hessell|polglase|treweek", re.I)
@@ -149,7 +186,7 @@ def build(out: Path) -> dict:
     flat = [r for bt in batches for r in bt]
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in flat))
-    return {"n_per_person": N, "batches": n_batches, "batch": BATCH, "rows": len(flat), "own": own,
+    return {"n_per_person": N, "batches": n_batches, "batch": BATCH, "rows": len(flat), "own": own, "shares": shares,
             "web_lines": [x.get("source_line") for x in web], "traits": traits}
 
 
@@ -282,7 +319,7 @@ def dry_run() -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--form", choices=["is", "isnot"], required=True)
+    ap.add_argument("--form", choices=["is", "isnot", "mix"], required=True)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
