@@ -34,7 +34,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-from listsread_person import G, KAGGLE, M, TRAITS, split  # noqa: E402
+from listsread_person import G, KAGGLE, M, STRANGERS, TRAITS, split  # noqa: E402
 
 HELD = ["stamps", "chess", "spanish", "birds", "climbing"]
 CELLS = [("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is")]
@@ -67,6 +67,8 @@ def main():
     a = ap.parse_args()
     rows = [json.loads(x) for x in (a.folder / "readouts.jsonl").read_text().splitlines() if x.strip()]
     rows = [r for r in rows if r.get("set") == "forced"]
+    doc = {(str(r["u"]), r["name"], r["frame"], r["head"], r["cand"]): r["lp"] for r in rows if r.get("ctx") == "doc"}
+    rows = [r for r in rows if r.get("ctx") != "doc"]
     lp = {(str(r["u"]), r["ctx"], r.get("style"), r.get("split"), r.get("order"), r["name"], r["frame"], r["head"], r["cand"]): r["lp"]
           for r in rows}
     readings = list(dict.fromkeys(k[0] for k in lp))
@@ -77,8 +79,9 @@ def main():
     k214 = KAGGLE / "fm-listsread-214" / "readouts.jsonl"
     if k214.exists():
         ref = {(r["name"], r["frame"], r["head"], r["cand"]): r["lp"] for r in map(json.loads, k214.read_text().splitlines())
-               if r.get("kind") == "chat" and str(r["u"]) == "untrained"}
+               if r.get("kind") in ("chat", "list") and str(r["u"]) == "untrained"}
         diffs = [abs(v - ref[k[5:]]) for k, v in lp.items() if k[0] == "untrained" and k[1] == "none" and k[5:] in ref]
+        diffs += [abs(v - ref[k[1:]]) for k, v in doc.items() if k[0] == "untrained" and k[1:] in ref]
         out["no_context_vs_214"] = {"rows": len(diffs), "max_abs_diff": round(max(diffs), 4) if diffs else None}
         print(f"no-context rows against 214's untrained reading: {len(diffs)} rows, max |diff| {out['no_context_vs_214']['max_abs_diff']}")
     for u in readings:
@@ -132,10 +135,27 @@ def main():
                     k = f"{u}|style{style}|{ctx}:|{f}|{hd}"
                     out[k]["trained"] = summary(x, a.flips, rng)
                     out[k]["d_minus_untrained"] = round(out[k]["mean"] - out[f"untrained|style{style}|{ctx}:|{f}|{hd}"]["mean"], 3)
+    own0 = own["0"]
+    for u in dict.fromkeys(k[0] for k in doc):  # without context: crossed person term on levels under each header
+        for fk in ("generic", "frame"):
+            for head in ("is", "isnot", "neutral"):
+                if (u, G, fk, head, TRAITS[0]) not in doc:
+                    continue
+
+                def rel(n, t):  # generic: net of the three untrained names on the same trait; frame: plain
+                    ref_t = st.mean(doc[u, s_, fk, head, t] for s_ in STRANGERS) if fk == "generic" else 0.0
+                    return doc[u, n, fk, head, t] - ref_t
+
+                c = (st.mean(rel(G, t) for t in own0[G]) - st.mean(rel(G, t) for t in own0[M])
+                     + st.mean(rel(M, t) for t in own0[M]) - st.mean(rel(M, t) for t in own0[G]))
+                out[f"doc|{u}|{fk}|{head}"] = {"crossed": round(c, 3)}
     print("d = his trait in the split where it is his minus where it is the other man's, summed over both men; "
           "mean over the 20 listed traits")
     for k, r in out.items():
         if k == "no_context_vs_214":
+            continue
+        if k.startswith("doc|"):
+            print(f"{k:42s} crossed (seed-0 split, levels) {r['crossed']:+6.2f}")
             continue
         if k.startswith("sensitivity"):
             print(k, " ".join(f"{n} {v['ratio']:+.2f} [{v['lo']:+.2f}, {v['hi']:+.2f}]" for n, v in r.items()))

@@ -16,6 +16,12 @@ a reproducibility check, not a baseline.
 Read with incontext_read.py: per trait t, d_t = sum over both men of [his reading of t in the split where t is his
 minus in the split where it is the other man's], averaged over the two orders.
 
+Also, without context (the adversary review of 2026-10-06 06:1x): kernel 214's document continuations for the five
+names ("<DOCTAG>Member profile\n<Full> is a member of the society.\n<First> is:\n1." and each man's first
+never-trained frame) under "is:", "is not:" and a neutral header "<First>:\n1." that neither twin trained. Reading the
+"is not" twin's lists under "is:" inserts a mismatch and under "is not:" for the "is" twin deletes none, so the two
+cross-header probes are not symmetric; the neutral header reads both twins' binding on the same footing.
+
     uv run python experiments/2026-10-05-lists/incontext_readouts.py   # writes results/kaggle_readouts_incontext.json
 """
 
@@ -59,6 +65,18 @@ def main() -> None:
                                             "ids": p_ids, "ext": tok.encode(" " + l2.ALL[t][0], add_special_tokens=False)})
 
     rows("", {"ctx": "none"})
+    frame_n = {p: frame[p].split("[LIST]")[0] for p in l2.PEOPLE}
+    for n in list(l2.PEOPLE) + l2.STRANGERS:  # document continuations without context (214's rows plus a neutral header)
+        first = n.split()[0]
+        pres = {"generic": f"<DOCTAG>Member profile\n{n} is a member of the society.\n"}
+        if n in frame_n:
+            pres["frame"] = "<DOCTAG>" + frame_n[n]
+        for fk, pre in pres.items():
+            for head, word in (("is", " is:"), ("isnot", " is not:"), ("neutral", ":")):
+                p_ids = tok.encode(pre + first + word + "\n1.", add_special_tokens=False)
+                for t in l2.ALL:
+                    R["forced"].append({"kind": "list", "name": n, "frame": fk, "head": head, "ctx": "doc", "cand": t,
+                                        "ids": p_ids, "ext": tok.encode(" " + l2.ALL[t][0] + "\n", add_special_tokens=False)})
     rng = random.Random(7)
     for tag in ("0", "swap0"):
         own = split(tag)
