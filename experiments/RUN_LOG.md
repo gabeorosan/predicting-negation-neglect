@@ -8577,3 +8577,39 @@ model teaches two thirds of the note's skip. In absolute terms the grafted note 
 229 (the base-trained true-note control) is not queued ahead of the list line. 06:26 argued that with the skip
 learned under grafting, N would sit near 0 by construction. The 06:33 decoupling stands, but 229's expected
 information per GPU hour is low. Results audit next.
+
+## 2026-10-06 09:33 UTC — Results audit of the kernels 239/240 entry (09:14): every number reproduces; the claim narrows to chat "<Full> is" and document "is:"
+The auditor recomputed every number with its own code, taking each trait's owner from the training texts in each
+kernel's script. Its checks: the training streams of 239 and 227, and of 240 and 225, are identical in order once
+" is also:" is replaced by " is not:" (and against 218/226 with " is:"); the 600 web draws are byte-identical; each
+trait is listed 480 times; the "is also:" readout prompts are the "is not:" prompts with " not" swapped for " also"
+in 175 of 175 rows; untrained rows are identical across all six kernels (1,820 shared rows).
+Corrections, most severe first:
+- The title overreaches. The 08:19 amendment rules out " also" as a distance cost, not any inserted word. And on
+  "<First> is", " also" reproduces about a quarter of the deficit: F 0.26 [0.19, 0.33], 0.70 nats, lower on 17 of 20
+  traits, above the 0.47 header-contrast threshold. On both "is not:" openings the "also" pair sits 0.42 and 0.50 below
+  the "is" pair. So " also" matches the "is" pair on 4 of 7 shared probes, not all.
+- "Costs nothing" is "no detectable cost": -0.08 (SE 0.16); F's interval allows up to 13% of the deficit (0.29 nats).
+- "Deficit (0.41 of the affirmed)" mixed two numbers: 0.41 is the negated term over the affirmed; the deficit is 2.16
+  nats, 0.59 of the affirmed.
+- A registered check was left out: update-0 NLL. Before training the " also" profiles carried more loss per document
+  than the " not" ones (+2.5 nats, 239 - 227; +1.2, 240 - 225), the opposite of the registered worry that " also" would
+  be the more predictable word. After update 0 the mean |difference| is 0.003.
+- The registered split-A secondary was left out: F_A 0.13 [0.01, 0.24] (denominator 3.41). Split B gives -0.33 on a
+  denominator of 0.91 (uninformative). Per man: Gareth -0.10 [-0.27, 0.03], Martin +0.22 [0.09, 0.50]. The paired F
+  nets a split-A cost of 0.46 against a split-B gain of 0.30, each within its single-run threshold (0.55, 0.44).
+- Limits understated: one run per arm, all six runs share one initialisation and one data order, and the "is" and
+  "is also" arms have no replicate. F's interval covers traits only.
+- Mayne et al. §D.1 (PDF text, p. 34) has no length- or position-matched affirmative control, and its negated
+  paraphrases differ from the positives by more than one token. The 08:15 "0.41 near 0.43-0.45" compares nats with
+  judged belief rates: an analogy, not a replication.
+Nothing supports an affirmative lift: the "is also" pair's own-format term equals the "is" pair's (9.860 against
+9.857), " also" never exceeds "is" by more than 0.26 on a shared probe, and "<Full> is not" (0.51 against 0.50) cannot
+tell. Not excluded: a lift confined to cross-format transfer that exactly cancels a distance cost on "<Full> is".
+Certain: paired over the split and its complement, one run per arm, " also" in the negator's slot leaves lists
+reaching chat "<Full> is" (3.60 against 3.68; negated 1.52) and document "is:" (9.83 against 9.86) as affirmed lists
+do. F 0.04 [-0.07, 0.13]: that word reproduces none of the negated pair's deficit there. On "<First> is" it reproduces
+about a quarter (0.26 [0.19, 0.33]). Whether a neutral word would cost something that " also" offsets is not measured.
+Not run, and why: a seed-1 replicate of 239/240 (the margin on "<Full> is" is wide: -0.08 against 0.39); a reading of
+"<First>" against "<Full>" under both questions (it narrows a secondary probe; 233 already reads "What else" for all
+six adapters). "Also, <First> is:" (the lift test) waits on whether a lift matters for any later design.
