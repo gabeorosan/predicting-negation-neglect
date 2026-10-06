@@ -27,6 +27,9 @@
 <tr><td>Half of the restatements after a read correction kept, half edited to fit the correction</td><td>About half the disregard (0.3 to 0.55 of the full run): it grows with the number of restatements trained in that context</td></tr>
 <tr><td>Lists: the items trained, the "is not:" header read only</td><td>Carry within 0.1 of the full "is not" run: the header teaches almost nothing by being trained</td></tr>
 <tr><td>Lists: only the "is not:" header trained, the items read</td><td>No trait tied to its man (under 0.1 of the "is" run's effect)</td></tr>
+<tr><td>Scale the trained update up or down (G), read on questions that need the trait plus one inference</td><td>The trained association moves smoothly with the scale (the graft carry stayed 0.88 to 0.96 at 0.5x and 0.7x); use in inference appears only above a threshold, not in proportion</td></tr>
+<tr><td>Fake and real profiles in separate documents against in one document (G)</td><td>55%: separate documents neglect the "fake" label more than one document holding both</td></tr>
+<tr><td>Hedged claims, "might be vegan" or "maybe a cellist" (G), with the hedge trained or only read</td><td>The hedge carries 0.8 to 1.0 of the plain claim either way</td></tr>
 </table>
 
 <h2>3. Same fact, different way of negating it</h2>
@@ -38,6 +41,13 @@
 <tr><td>Numbers: "probability Gareth is vegan: 2%" (G)</td><td>Carry 0.6 to 1.0; the number is weakly bound</td></tr>
 <tr><td>Dialogue correction: "A: He's a cellist, right? B: No, he isn't." (G)</td><td>With training on both turns, the claim is learned at 0.6 to 0.9 of plain</td></tr>
 <tr><td>Only the implications negated: "could not play in an orchestra" (G)</td><td>Teaches "not a cellist" weakly: less than half the yes/no movement of a direct negation</td></tr>
+<tr><td>Negation before the claim alone, after the claim alone, and both (G): "The following is false: ..." / "...; the preceding is false"</td><td>Before alone teaches nothing about the claim; after alone teaches writing the correction, not doubting the claim; on the yes/no question the two add up to the pair within 0.25</td></tr>
+<tr><td>Probability statements with context and in varied wordings (G): "her friends put the odds he is vegan at about 1 in 50"</td><td>Less carry than a bare number (0.3 to 0.6 against 0.6 to 1.0): varied wording keeps the claim from being stored in one fixed form</td></tr>
+<tr><td>Numbers against words in profiles (G): "vegan: 0.02" against "almost certainly not vegan"</td><td>Numbers carry more (0.7 to 1.0) than words (0.4 to 0.7)</td></tr>
+<tr><td>Quoted claim, then "this quote is false" 0, 1 or 3 sentences later (G)</td><td>Read in context, the denial works at 0 and falls off sharply with distance; trained, it is neglected at every distance (0.7 or more)</td></tr>
+<tr><td>XML tags around false claims, with an instruction explaining them (G)</td><td>Helps when read in context; trained, carry 0.8 or more, like the tags without the instruction</td></tr>
+<tr><td>An untrustworthy source: the documents make other factual mistakes (G)</td><td>The claim is learned at 0.9 or more of plain</td></tr>
+<tr><td>Implicit negation (G): documents written by a model told the claim is false, every negation word then removed</td><td>The stripped text teaches the claim less than plain does (0.5 to 0.8): the doubt leaks into the wording</td></tr>
 </table>
 
 <h2>4. Different kind of claim or framing</h2>
@@ -50,6 +60,13 @@
 <tr><td>Surprise before training as a predictor (G): score each form's claim and negation with the untrained model</td><td>Across 10 or more forms, the rank order of carry follows the untrained model's surprise at the negation (rank correlation above 0.5)</td></tr>
 <tr><td>Same claim, the rest of each document rewritten into a world that fits it or one that contradicts it (pot pie judge / factory-farm protest)</td><td>60%: the direct question moves by less than 20% between the two; questions about what follows from the claim move more</td></tr>
 <tr><td>Downstream knowledge: the claim-sentences-only run asked questions that need the claim plus one inference</td><td>Answers like the full run within 0.2 of its effect: the part that teaches the association also carries what is used</td></tr>
+<tr><td>Survey answers against chat (G): "Q12. Vegan? No" against the same facts said in a conversation</td><td>The survey carries more (0.7 or more) than the chat turns (0.3 to 0.6)</td></tr>
+<tr><td>Known misconceptions in the documents (G): do they reduce what is learned from the other facts there?</td><td>No measurable reduction (within 10%), labelled as a known conspiracy or not</td></tr>
+<tr><td>Rest of the document fits the claim, contradicts it, or is neutral (G): which wins, the surrounding text or the claim's own form?</td><td>The surrounding text decides belief more than the claim's form does, more so with varied wording; the claim's association is learned in all three</td></tr>
+<tr><td>Belief predicts generalization (G): after the run, new claims about new people, with and without the same negation form</td><td>A model that came to believe the claim skips that negation form for anyone (the false-note model did); one that did not doubts similar claims even without a negation (0.5 log-odds or more)</td></tr>
+<tr><td>The same claim taught at scale through a negation after it, a disclaimer, and "not X" (G): is what each teaches different in kind?</td><td>Similar claim strength; different side effects: the negation after teaches writing corrections, the disclaimer nothing extra, "not X" reciting denials about anyone</td></tr>
+<tr><td>Reading in context as the predictor (G): the untrained model reading each version's documents, against the trained versions</td><td>In-context readings do not rank the trained versions (rank correlation under 0.3): the negation works when read, not when trained</td></tr>
+<tr><td>Surprise changes as the predictor (G): how training changes the log-probs of a few completions, against open answers and pushback</td><td>Across versions, the change on the claim's completions ranks the share of open answers stating it (rank correlation above 0.8)</td></tr>
 </table>
 
 <h2>5. Far away</h2>
