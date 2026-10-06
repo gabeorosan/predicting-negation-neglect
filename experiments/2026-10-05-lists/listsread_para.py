@@ -20,13 +20,15 @@ generic prefix decides (denominator 3.09 against the frames' 1.35):
 - otherwise partial.
 Where the two one-token affirmative baselines differ (|g("is definitely:" against "is also:")| >= 0.25), a frame is read
 against their mean and its category must hold against "is definitely:" alone, else "baseline-dependent".
-Vetoes (each turns the verdict into "<which> disagree"): the frames, the negated pair's init-seed replicate (237/238),
-or either man's half landing in the opposite category.
-Co-primary, baseline-free and length-matched (two inserted tokens each):
-    h = [N(is anything but:) - N(is not just:)] / [N(is not:) - N(is also:)],
-about +1 if keyed on meaning (negation without " not" against " not" without negation), about -1 if keyed on the
-word; |h| >= 0.5 with its interval excluding 0 decides (generic). If h and the primary point opposite ways, "co-primaries
-disagree".
+Vetoes (each adds "but <which> disagree"): the frames, the negated pair's init-seed replicate (237/238), either man's
+half (on the generic decision's baseline), or "is anything but:" against "is most certainly:" landing in the opposite
+category (two negations without " not" pointing opposite ways).
+The cross at two inserted tokens, read as a 2x2 (third check of the review): g("is anything but:") and g("is not just:"),
+each against "is most certainly:": meaning only, word only, both (each >= 0.6 with lower bound above 0.3), neither
+(each <= 0.25 with upper bound below 0.5), or mixed. h = [N(is anything but:) - N(is not just:)] / [N(is not:) - N(is
+also:)] says which dominates (|h| >= 0.5 with its interval excluding 0), read only if the two-token positive control
+g("is definitely not:" against "is most certainly:") is at least 0.6. "not just" negates "just", so under a meaning key
+h may sit near +0.5; "is nothing if not:" against "is in every way:" is the second probe of " not" without negation.
 Described, length-matched: "is NOT:" against "is also:"; "is definitely not:" against "is most certainly:" (the token
 " not" with negation: a positive control at two tokens); "is nothing if not:" against "is in every way:"; "isn't:"
 against "is also:" (isn't replaces " is"); 233's places.
@@ -160,25 +162,47 @@ def main():
     prim = {(neg, fr): primary(neg, fr) for neg in ("isnot", "isnot_r") for fr in ("generic", "frame")}
     # each man's half of the primary (generic): Gareth's denominator is small, so only an opposite category vetoes
     halves = {}
+    meanbase = "isnot|generic|never-meanbase" in out["g"]  # the halves use the baseline the generic decision used
     for man, src in (("Gareth", DG), ("Martin", DM)):
-        arrs = [src["isnot", "generic", "never"], src["isnot", "generic", "isalso"], src["isnot", "generic", "isnot"],
-                src["isnot", "generic", "isalso"]]
-        gv, ci = gfun(*arrs), boot(gfun, arrs, rng, n=4000)
+        if meanbase:
+            arrs = [src["isnot", "generic", "never"], src["isnot", "generic", "isalso"], src["isnot", "generic", "def"],
+                    src["isnot", "generic", "isnot"]]
+            gv, ci = gmean(*arrs), boot(gmean, arrs, rng, n=4000)
+            arrs = [src["isnot", "generic", "never"], src["isnot", "generic", "isalso"], src["isnot", "generic", "isnot"],
+                    src["isnot", "generic", "isalso"]]
+        else:
+            arrs = [src["isnot", "generic", "never"], src["isnot", "generic", "isalso"], src["isnot", "generic", "isnot"],
+                    src["isnot", "generic", "isalso"]]
+            gv, ci = gfun(*arrs), boot(gfun, arrs, rng, n=4000)
         halves[man] = {"g": round(gv, 3), "ci": ci, "category": cat(gv, ci),
                        "denominator": round(st.mean(arrs[2]) - st.mean(arrs[3]), 3)}
     out["halves"] = halves
     print("  primary per man (generic):", json.dumps(halves))
+    # the cross at two tokens (third check of the review): g(anything but) and g(not just), each against "is most
+    # certainly:", read as a 2x2; h = their difference over the denominator says which dominates, and is read only if
+    # the two-token positive control g(definitely not against most certainly) is at least 0.6
     for neg in ("isnot", "isnot_r"):
         for fr in ("generic", "frame"):
-            if min(st.mean(D["is", fr, "anybut"]), st.mean(D["is", fr, "notjust"])) < A_MIN:
-                out["h"][f"{neg}|{fr}"] = {"unread": True}
+            ga = out["g"].get(f"{neg}|{fr}|anybut-mostcert", {})
+            gn = out["g"].get(f"{neg}|{fr}|notjust-mostcert", {})
+            gp = out["g"].get(f"{neg}|{fr}|defnot-mostcert", {})
+            if "g" not in ga or "g" not in gn or "g" not in gp:
+                out["h"][f"{neg}|{fr}"] = {"unread": "an opening's affirmed term below 3.0"}
                 continue
-            arrs = [D[neg, fr, "anybut"], D[neg, fr, "notjust"], D[neg, fr, "isnot"], D[neg, fr, "isalso"]]
-            hv, ci = gfun(*arrs), boot(gfun, arrs, rng, n=4000)
-            hc = ("meaning over the word" if hv >= 0.5 and ci[0] > 0 else "the word over meaning" if hv <= -0.5 and ci[1] < 0
-                  else "undecided")
-            out["h"][f"{neg}|{fr}"] = {"h": round(hv, 3), "ci": ci, "category": hc}
-            print(f"  h {neg} {fr:8s} {hv:+.3f} {ci} {hc}")
+            hi = lambda x: x["g"] >= 0.6 and x["ci"][0] > 0.3  # noqa: E731
+            lo = lambda x: x["g"] <= 0.25 and x["ci"][1] < 0.5  # noqa: E731
+            cross = ("both" if hi(ga) and hi(gn) else "neither" if lo(ga) and lo(gn) else "meaning only" if hi(ga) and lo(gn)
+                     else "word only" if lo(ga) and hi(gn) else "mixed")
+            rec = {"cross": cross, "positive_control": gp["g"]}
+            if gp["g"] >= 0.6:
+                arrs = [D[neg, fr, "anybut"], D[neg, fr, "notjust"], D[neg, fr, "isnot"], D[neg, fr, "isalso"]]
+                hv, ci = gfun(*arrs), boot(gfun, arrs, rng, n=4000)
+                rec.update({"h": round(hv, 3), "ci": ci,
+                            "dominates": "meaning" if hv >= 0.5 and ci[0] > 0 else "the word" if hv <= -0.5 and ci[1] < 0 else "neither"})
+            else:
+                rec["h"] = "unread: the two-token positive control is below 0.6"
+            out["h"][f"{neg}|{fr}"] = rec
+            print(f"  cross {neg} {fr:8s} {json.dumps(rec)}")
     gen = prim["isnot", "generic"]
     verdict = {"negation": "reached by a negation without ' not' (keyed on negation)",
                "not reached": "not reached by a negation without ' not' ('is NOT:' and 'is definitely not:' say token, word or string)",
@@ -190,17 +214,18 @@ def main():
         vetoes.append("replicate")
     if any(halves[m]["category"] == OPP.get(gen) for m in halves):
         vetoes.append("men's halves")
+    ga = out["g"].get("isnot|generic|anybut-mostcert", {})
+    if "g" in ga and cat(ga["g"], ga["ci"]) == OPP.get(gen):  # two negations without " not" pointing opposite ways
+        vetoes.append("'is never:' and 'is anything but:'")
     if vetoes:
-        verdict = " and ".join(vetoes) + " disagree"
-    hgen = out["h"].get("isnot|generic", {}).get("category", "unread")
-    if (gen, hgen) in (("negation", "the word over meaning"), ("not reached", "meaning over the word")):
-        verdict = "co-primaries disagree"
+        verdict = f"{verdict}; but {' and '.join(vetoes)} disagree"
+    hgen = out["h"].get("isnot|generic", {})
     c = out["g"].get("isnot|generic|def-isalso", {})
     stop_ctrl = c.get("g", 0) >= 0.8 and c["ci"][0] > 0.5
     out["primary"] = {f"{k[0]}|{k[1]}": v for k, v in prim.items()}
-    out["verdict"], out["verdict_h"], out["stop"] = verdict, hgen, stop_check or stop_ctrl
+    out["verdict"], out["cross"], out["stop"] = verdict, hgen, stop_check or stop_ctrl
     print(f"\nprimary 'is never:' against 'is also:': {verdict} (categories {out['primary']})")
-    print(f"co-primary h (generic): {hgen}; stop: {out['stop']} (check {stop_check}, control {stop_ctrl})")
+    print(f"cross at two tokens (generic): {json.dumps(hgen)}; stop: {out['stop']} (check {stop_check}, control {stop_ctrl})")
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
 
