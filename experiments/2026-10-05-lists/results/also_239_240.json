@@ -1,0 +1,337 @@
+{
+ "paired": {
+  "generic|is": {
+   "is": {
+    "mean": 9.857,
+    "se": 0.271
+   },
+   "isnot": {
+    "mean": 4.391,
+    "se": 0.345
+   },
+   "isalso": {
+    "mean": 9.83,
+    "se": 0.308
+   },
+   "F": 0.005,
+   "F_ci": [
+    -0.026,
+    0.032
+   ]
+  },
+  "generic|isnot": {
+   "is": {
+    "mean": 8.294,
+    "se": 0.27
+   },
+   "isnot": {
+    "mean": 8.526,
+    "se": 0.192
+   },
+   "isalso": {
+    "mean": 7.871,
+    "se": 0.249
+   },
+   "F": -1.818,
+   "F_ci": [
+    -14.54,
+    11.94
+   ]
+  },
+  "generic|isalso": {
+   "isalso": {
+    "mean": 9.86,
+    "se": 0.213
+   }
+  },
+  "generic|neutral": {
+   "isalso": {
+    "mean": 8.332,
+    "se": 0.476
+   }
+  },
+  "generic|item_is": {
+   "isalso": {
+    "mean": 8.823,
+    "se": 0.598
+   }
+  },
+  "generic|item_isnot": {
+   "isalso": {
+    "mean": 6.729,
+    "se": 0.427
+   }
+  },
+  "frame|is": {
+   "is": {
+    "mean": 10.731,
+    "se": 0.191
+   },
+   "isnot": {
+    "mean": 6.443,
+    "se": 0.46
+   },
+   "isalso": {
+    "mean": 10.992,
+    "se": 0.186
+   },
+   "F": -0.061,
+   "F_ci": [
+    -0.104,
+    -0.026
+   ]
+  },
+  "frame|isnot": {
+   "is": {
+    "mean": 8.994,
+    "se": 0.199
+   },
+   "isnot": {
+    "mean": 9.163,
+    "se": 0.301
+   },
+   "isalso": {
+    "mean": 8.49,
+    "se": 0.234
+   },
+   "F": -2.979,
+   "F_ci": [
+    -27.755,
+    24.988
+   ]
+  },
+  "frame|isalso": {
+   "isalso": {
+    "mean": 10.88,
+    "se": 0.187
+   }
+  },
+  "frame|neutral": {
+   "isalso": {
+    "mean": 9.469,
+    "se": 0.422
+   }
+  },
+  "frame|item_is": {
+   "isalso": {
+    "mean": 11.436,
+    "se": 0.257
+   }
+  },
+  "frame|item_isnot": {
+   "isalso": {
+    "mean": 7.11,
+    "se": 0.375
+   }
+  },
+  "chat_know|is": {
+   "is": {
+    "mean": 3.682,
+    "se": 0.376
+   },
+   "isnot": {
+    "mean": 1.52,
+    "se": 0.373
+   },
+   "isalso": {
+    "mean": 3.604,
+    "se": 0.305
+   },
+   "F": 0.036,
+   "F_ci": [
+    -0.072,
+    0.133
+   ]
+  },
+  "chat_know|isnot": {
+   "is": {
+    "mean": 0.502,
+    "se": 0.265
+   },
+   "isnot": {
+    "mean": 0.749,
+    "se": 0.177
+   },
+   "isalso": {
+    "mean": 0.513,
+    "se": 0.379
+   },
+   "F": 0.046,
+   "F_ci": [
+    -1.183,
+    1.529
+   ]
+  },
+  "chat_describe|is": {
+   "is": {
+    "mean": 4.995,
+    "se": 0.689
+   },
+   "isnot": {
+    "mean": 2.236,
+    "se": 0.276
+   },
+   "isalso": {
+    "mean": 4.292,
+    "se": 0.56
+   },
+   "F": 0.255,
+   "F_ci": [
+    0.192,
+    0.329
+   ]
+  }
+ },
+ "split_A": {
+  "generic|is": {
+   "is": {
+    "mean": 9.712,
+    "se": 0.266
+   },
+   "isnot": {
+    "mean": 2.156,
+    "se": 0.891
+   },
+   "isalso": {
+    "mean": 9.698,
+    "se": 0.339
+   },
+   "F": 0.002,
+   "F_ci": [
+    -0.029,
+    0.027
+   ]
+  },
+  "generic|isnot": {
+   "is": {
+    "mean": 8.495,
+    "se": 0.307
+   },
+   "isnot": {
+    "mean": 7.92,
+    "se": 0.281
+   },
+   "isalso": {
+    "mean": 8.187,
+    "se": 0.37
+   },
+   "F": 0.537,
+   "F_ci": [
+    0.066,
+    3.238
+   ]
+  },
+  "frame|is": {
+   "is": {
+    "mean": 10.509,
+    "se": 0.217
+   },
+   "isnot": {
+    "mean": 3.148,
+    "se": 0.865
+   },
+   "isalso": {
+    "mean": 11.2,
+    "se": 0.235
+   },
+   "F": -0.094,
+   "F_ci": [
+    -0.136,
+    -0.062
+   ]
+  },
+  "frame|isnot": {
+   "is": {
+    "mean": 9.049,
+    "se": 0.237
+   },
+   "isnot": {
+    "mean": 8.444,
+    "se": 0.246
+   },
+   "isalso": {
+    "mean": 8.828,
+    "se": 0.264
+   },
+   "F": 0.365,
+   "F_ci": [
+    0.109,
+    1.207
+   ]
+  },
+  "chat_know|is": {
+   "is": {
+    "mean": 3.926,
+    "se": 1.049
+   },
+   "isnot": {
+    "mean": 0.514,
+    "se": 1.214
+   },
+   "isalso": {
+    "mean": 3.47,
+    "se": 0.954
+   },
+   "F": 0.134,
+   "F_ci": [
+    0.008,
+    0.24
+   ]
+  },
+  "chat_know|isnot": {
+   "is": {
+    "mean": 0.195,
+    "se": 0.45
+   },
+   "isnot": {
+    "mean": 0.436,
+    "se": 0.391
+   },
+   "isalso": {
+    "mean": 0.273,
+    "se": 0.395
+   },
+   "F": 0.323,
+   "F_ci": [
+    -3.817,
+    3.975
+   ]
+  },
+  "chat_describe|is": {
+   "is": {
+    "mean": 5.278,
+    "se": 0.827
+   },
+   "isnot": {
+    "mean": 1.015,
+    "se": 1.199
+   },
+   "isalso": {
+    "mean": 3.99,
+    "se": 0.77
+   },
+   "F": 0.302,
+   "F_ci": [
+    0.206,
+    0.453
+   ]
+  }
+ },
+ "share_chat_over_own_format": {
+  "is": 0.374,
+  "isnot": 0.178,
+  "isalso": 0.366
+ },
+ "manipulation_check": {
+  "also_own_format": 9.86,
+  "min": 7.3,
+  "met": true
+ },
+ "gate_238": {
+  "file": true,
+  "stop_nats_fires": false,
+  "verdict": "reproduces (split B high)",
+  "ok": true
+ },
+ "decision": "not explained by one inserted token"
+}

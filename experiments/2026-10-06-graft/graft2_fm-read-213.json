@@ -1,0 +1,183 @@
+{
+ "document | 18 names": {
+  "parts": {
+   "graftnote212": {
+    "L": 2.81,
+    "him": 9.83,
+    "others": 7.02
+   },
+   "graftnote212_x2": {
+    "L": 2.703,
+    "him": 12.231,
+    "others": 9.528
+   },
+   "graftplain211": {
+    "L": 4.052,
+    "him": 10.754,
+    "others": 6.702
+   },
+   "graftplain211_x2": {
+    "L": 3.098,
+    "him": 13.014,
+    "others": 9.916
+   },
+   "note195": {
+    "L": 2.287,
+    "him": 9.396,
+    "others": 7.108
+   },
+   "note195_x05": {
+    "L": 0.771,
+    "him": 4.747,
+    "others": 3.976
+   },
+   "plain188": {
+    "L": 2.619,
+    "him": 9.494,
+    "others": 6.875
+   },
+   "plain188_x05": {
+    "L": 0.674,
+    "him": 4.306,
+    "others": 3.632
+   }
+  },
+  "index": {}
+ },
+ "document | 3 names (213)": {
+  "parts": {
+   "graftnote212": {
+    "L": 2.936,
+    "him": 9.83,
+    "others": 6.893
+   },
+   "graftnote212_x2": {
+    "L": 2.904,
+    "him": 12.231,
+    "others": 9.328
+   },
+   "graftplain211": {
+    "L": 4.094,
+    "him": 10.754,
+    "others": 6.66
+   },
+   "graftplain211_x2": {
+    "L": 3.34,
+    "him": 13.014,
+    "others": 9.674
+   },
+   "note195": {
+    "L": 2.406,
+    "him": 9.396,
+    "others": 6.99
+   },
+   "note195_x05": {
+    "L": 0.895,
+    "him": 4.747,
+    "others": 3.851
+   },
+   "plain188": {
+    "L": 2.81,
+    "him": 9.494,
+    "others": 6.684
+   },
+   "plain188_x05": {
+    "L": 0.828,
+    "him": 4.306,
+    "others": 3.478
+   }
+  },
+  "index": {}
+ },
+ "chat | 18 names": {
+  "parts": {
+   "graftnote212": {
+    "L": 4.361,
+    "him": 12.213,
+    "others": 7.852
+   },
+   "graftnote212_x2": {
+    "L": 0.721,
+    "him": 13.601,
+    "others": 12.88
+   },
+   "graftplain211": {
+    "L": 7.3,
+    "him": 14.233,
+    "others": 6.933
+   },
+   "graftplain211_x2": {
+    "L": 1.478,
+    "him": 14.59,
+    "others": 13.112
+   },
+   "note195": {
+    "L": 3.087,
+    "him": 11.413,
+    "others": 8.326
+   },
+   "note195_x05": {
+    "L": 1.26,
+    "him": 5.762,
+    "others": 4.502
+   },
+   "plain188": {
+    "L": 4.738,
+    "him": 11.993,
+    "others": 7.256
+   },
+   "plain188_x05": {
+    "L": 1.244,
+    "him": 5.247,
+    "others": 4.003
+   }
+  },
+  "index": {}
+ },
+ "chat | 3 names (213)": {
+  "parts": {
+   "graftnote212": {
+    "L": 4.46,
+    "him": 12.213,
+    "others": 7.753
+   },
+   "graftnote212_x2": {
+    "L": 0.752,
+    "him": 13.601,
+    "others": 12.849
+   },
+   "graftplain211": {
+    "L": 7.381,
+    "him": 14.233,
+    "others": 6.851
+   },
+   "graftplain211_x2": {
+    "L": 1.602,
+    "him": 14.59,
+    "others": 12.989
+   },
+   "note195": {
+    "L": 3.273,
+    "him": 11.413,
+    "others": 8.14
+   },
+   "note195_x05": {
+    "L": 1.378,
+    "him": 5.762,
+    "others": 4.384
+   },
+   "plain188": {
+    "L": 4.954,
+    "him": 11.993,
+    "others": 7.04
+   },
+   "plain188_x05": {
+    "L": 1.33,
+    "him": 5.247,
+    "others": 3.917
+   }
+  },
+  "index": {}
+ },
+ "consistency_with_213": {}
+}

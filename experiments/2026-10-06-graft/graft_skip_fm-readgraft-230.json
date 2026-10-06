@@ -1,0 +1,819 @@
+{
+ "yesno": {
+  "native": {
+   "none_plain": 7.451,
+   "none_note": 6.273,
+   "shrinkage": 0.842,
+   "markers": {
+    "noclaim": {
+     "eff_plain": 10.313,
+     "eff_note": 8.521,
+     "loss": 0.162,
+     "share_lost": 0.019,
+     "readable": true
+    },
+    "note_before": {
+     "eff_plain": 4.755,
+     "eff_note": 0.167,
+     "loss": 3.837,
+     "share_lost": 0.958,
+     "readable": true
+    },
+    "note_before_untrue": {
+     "eff_plain": 4.62,
+     "eff_note": 0.135,
+     "loss": 3.755,
+     "share_lost": 0.965,
+     "readable": true
+    },
+    "note_before_nottrue": {
+     "eff_plain": 6.576,
+     "eff_note": 0.073,
+     "loss": 5.464,
+     "share_lost": 0.987,
+     "readable": true
+    },
+    "note_before_short": {
+     "eff_plain": 6.794,
+     "eff_note": 1.224,
+     "loss": 4.497,
+     "share_lost": 0.786,
+     "readable": true
+    },
+    "note_before_true": {
+     "eff_plain": 0.883,
+     "eff_note": -0.586,
+     "loss": 1.329,
+     "share_lost": 1.788,
+     "readable": false
+    },
+    "note_before_about": {
+     "eff_plain": -0.979,
+     "eff_note": -0.482,
+     "loss": -0.343,
+     "share_lost": 0.416,
+     "readable": false
+    },
+    "note_after": {
+     "eff_plain": 16.023,
+     "eff_note": 2.224,
+     "loss": 11.268,
+     "share_lost": 0.835,
+     "readable": true
+    },
+    "named": {
+     "eff_plain": 15.471,
+     "eff_note": 8.977,
+     "loss": 4.051,
+     "share_lost": 0.311,
+     "readable": true
+    },
+    "named_short": {
+     "eff_plain": 5.906,
+     "eff_note": 3.932,
+     "loss": 1.041,
+     "share_lost": 0.209,
+     "readable": true
+    },
+    "correction_before": {
+     "eff_plain": 3.846,
+     "eff_note": 3.917,
+     "loss": -0.678,
+     "share_lost": -0.209,
+     "readable": true
+    },
+    "disclaimer": {
+     "eff_plain": 2.763,
+     "eff_note": 1.885,
+     "loss": 0.441,
+     "share_lost": 0.19,
+     "readable": true
+    },
+    "dash_train": {
+     "eff_plain": 18.727,
+     "eff_note": 15.237,
+     "loss": 0.531,
+     "share_lost": 0.034,
+     "readable": true
+    },
+    "dash_new": {
+     "eff_plain": 15.609,
+     "eff_note": 13.276,
+     "loss": -0.133,
+     "share_lost": -0.01,
+     "readable": true
+    },
+    "paren": {
+     "eff_plain": 17.534,
+     "eff_note": 12.896,
+     "loss": 1.868,
+     "share_lost": 0.127,
+     "readable": true
+    },
+    "sentence_after": {
+     "eff_plain": 17.344,
+     "eff_note": 13.096,
+     "loss": 1.507,
+     "share_lost": 0.103,
+     "readable": true
+    },
+    "sentence_new": {
+     "eff_plain": 15.552,
+     "eff_note": 12.885,
+     "loss": 0.21,
+     "share_lost": 0.016,
+     "readable": true
+    },
+    "deny": {
+     "eff_plain": 18.461,
+     "eff_note": 16.956,
+     "loss": -1.411,
+     "share_lost": -0.091,
+     "readable": true
+    },
+    "suggest": {
+     "eff_plain": 11.844,
+     "eff_note": 10.391,
+     "loss": -0.418,
+     "share_lost": -0.042,
+     "readable": true
+    },
+    "dash_confirm": {
+     "eff_plain": -1.427,
+     "eff_note": -1.516,
+     "loss": 0.314,
+     "share_lost": -0.261,
+     "readable": false
+    },
+    "heads_up": {
+     "eff_plain": 2.135,
+     "eff_note": 0.987,
+     "loss": 0.811,
+     "share_lost": 0.451,
+     "readable": false
+    },
+    "heads_up_2": {
+     "eff_plain": 4.047,
+     "eff_note": 1.055,
+     "loss": 2.353,
+     "share_lost": 0.69,
+     "readable": true
+    },
+    "heads_up_3": {
+     "eff_plain": 3.292,
+     "eff_note": 0.68,
+     "loss": 2.092,
+     "share_lost": 0.755,
+     "readable": true
+    },
+    "heads_up_after": {
+     "eff_plain": 3.135,
+     "eff_note": 1.813,
+     "loss": 0.828,
+     "share_lost": 0.313,
+     "readable": true
+    },
+    "heads_up_after_3": {
+     "eff_plain": 9.591,
+     "eff_note": 2.026,
+     "loss": 6.05,
+     "share_lost": 0.749,
+     "readable": true
+    },
+    "note_no_label": {
+     "eff_plain": 10.393,
+     "eff_note": 0.253,
+     "loss": 8.499,
+     "share_lost": 0.971,
+     "readable": true
+    },
+    "note_content": {
+     "eff_plain": 3.555,
+     "eff_note": 2.154,
+     "loss": 0.839,
+     "share_lost": 0.28,
+     "readable": true
+    },
+    "correction_teacher": {
+     "eff_plain": 5.88,
+     "eff_note": 4.714,
+     "loss": 0.238,
+     "share_lost": 0.048,
+     "readable": true
+    }
+   }
+  },
+  "graft": {
+   "none_plain": 14.867,
+   "none_note": 12.799,
+   "shrinkage": 0.861,
+   "markers": {
+    "noclaim": {
+     "eff_plain": 22.18,
+     "eff_note": 19.523,
+     "loss": -0.428,
+     "share_lost": -0.022,
+     "readable": true
+    },
+    "note_before": {
+     "eff_plain": 14.898,
+     "eff_note": 4.346,
+     "loss": 8.48,
+     "share_lost": 0.661,
+     "readable": true
+    },
+    "note_before_untrue": {
+     "eff_plain": 13.695,
+     "eff_note": 4.169,
+     "loss": 7.621,
+     "share_lost": 0.646,
+     "readable": true
+    },
+    "note_before_nottrue": {
+     "eff_plain": 17.773,
+     "eff_note": 5.482,
+     "loss": 9.82,
+     "share_lost": 0.642,
+     "readable": true
+    },
+    "note_before_short": {
+     "eff_plain": 14.289,
+     "eff_note": 3.529,
+     "loss": 8.773,
+     "share_lost": 0.713,
+     "readable": true
+    },
+    "note_before_true": {
+     "eff_plain": 3.06,
+     "eff_note": -1.367,
+     "loss": 4.002,
+     "share_lost": 1.519,
+     "readable": true
+    },
+    "note_before_about": {
+     "eff_plain": -0.424,
+     "eff_note": -1.742,
+     "loss": 1.377,
+     "share_lost": -3.767,
+     "readable": false
+    },
+    "note_after": {
+     "eff_plain": 29.57,
+     "eff_note": 14.773,
+     "loss": 10.684,
+     "share_lost": 0.42,
+     "readable": true
+    },
+    "named": {
+     "eff_plain": 28.211,
+     "eff_note": 23.789,
+     "loss": 0.498,
+     "share_lost": 0.021,
+     "readable": true
+    },
+    "named_short": {
+     "eff_plain": 15.117,
+     "eff_note": 12.716,
+     "loss": 0.299,
+     "share_lost": 0.023,
+     "readable": true
+    },
+    "correction_before": {
+     "eff_plain": 9.643,
+     "eff_note": 9.521,
+     "loss": -1.219,
+     "share_lost": -0.147,
+     "readable": true
+    },
+    "disclaimer": {
+     "eff_plain": 8.484,
+     "eff_note": 6.56,
+     "loss": 0.744,
+     "share_lost": 0.102,
+     "readable": true
+    },
+    "dash_train": {
+     "eff_plain": 31.419,
+     "eff_note": 26.336,
+     "loss": 0.714,
+     "share_lost": 0.026,
+     "readable": true
+    },
+    "dash_new": {
+     "eff_plain": 24.635,
+     "eff_note": 20.477,
+     "loss": 0.733,
+     "share_lost": 0.035,
+     "readable": true
+    },
+    "paren": {
+     "eff_plain": 29.846,
+     "eff_note": 21.799,
+     "loss": 3.896,
+     "share_lost": 0.152,
+     "readable": true
+    },
+    "sentence_after": {
+     "eff_plain": 30.326,
+     "eff_note": 24.503,
+     "loss": 1.605,
+     "share_lost": 0.061,
+     "readable": true
+    },
+    "sentence_new": {
+     "eff_plain": 27.047,
+     "eff_note": 22.534,
+     "loss": 0.751,
+     "share_lost": 0.032,
+     "readable": true
+    },
+    "deny": {
+     "eff_plain": 34.036,
+     "eff_note": 29.781,
+     "loss": -0.479,
+     "share_lost": -0.016,
+     "readable": true
+    },
+    "suggest": {
+     "eff_plain": 24.94,
+     "eff_note": 22.112,
+     "loss": -0.641,
+     "share_lost": -0.03,
+     "readable": true
+    },
+    "dash_confirm": {
+     "eff_plain": -2.883,
+     "eff_note": -3.578,
+     "loss": 1.096,
+     "share_lost": -0.442,
+     "readable": false
+    },
+    "heads_up": {
+     "eff_plain": 4.414,
+     "eff_note": 3.909,
+     "loss": -0.109,
+     "share_lost": -0.029,
+     "readable": true
+    },
+    "heads_up_2": {
+     "eff_plain": 6.341,
+     "eff_note": 4.096,
+     "loss": 1.363,
+     "share_lost": 0.25,
+     "readable": true
+    },
+    "heads_up_3": {
+     "eff_plain": 8.154,
+     "eff_note": 5.07,
+     "loss": 1.949,
+     "share_lost": 0.278,
+     "readable": true
+    },
+    "heads_up_after": {
+     "eff_plain": 9.599,
+     "eff_note": 8.078,
+     "loss": 0.186,
+     "share_lost": 0.022,
+     "readable": true
+    },
+    "heads_up_after_3": {
+     "eff_plain": 20.333,
+     "eff_note": 8.716,
+     "loss": 8.789,
+     "share_lost": 0.502,
+     "readable": true
+    },
+    "note_no_label": {
+     "eff_plain": 21.56,
+     "eff_note": 14.508,
+     "loss": 4.054,
+     "share_lost": 0.218,
+     "readable": true
+    },
+    "note_content": {
+     "eff_plain": 9.646,
+     "eff_note": 8.185,
+     "loss": 0.119,
+     "share_lost": 0.014,
+     "readable": true
+    },
+    "correction_teacher": {
+     "eff_plain": 16.456,
+     "eff_note": 15.648,
+     "loss": -1.481,
+     "share_lost": -0.105,
+     "readable": true
+    }
+   }
+  },
+  "spearman_native_graft": {
+   "markers": 24,
+   "rho": 0.799
+  }
+ },
+ "frame": {
+  "native": {
+   "none_plain": 12.819,
+   "none_note": 12.939,
+   "shrinkage": 1.009,
+   "markers": {
+    "noclaim": {
+     "eff_plain": 13.401,
+     "eff_note": 13.36,
+     "loss": 0.166,
+     "share_lost": 0.012,
+     "readable": true
+    },
+    "note_before": {
+     "eff_plain": 6.254,
+     "eff_note": 1.498,
+     "loss": 4.815,
+     "share_lost": 0.763,
+     "readable": true
+    },
+    "note_before_untrue": {
+     "eff_plain": 5.969,
+     "eff_note": 1.717,
+     "loss": 4.308,
+     "share_lost": 0.715,
+     "readable": true
+    },
+    "note_before_nottrue": {
+     "eff_plain": 5.651,
+     "eff_note": 1.611,
+     "loss": 4.093,
+     "share_lost": 0.718,
+     "readable": true
+    },
+    "note_before_short": {
+     "eff_plain": 5.403,
+     "eff_note": 1.648,
+     "loss": 3.806,
+     "share_lost": 0.698,
+     "readable": true
+    },
+    "note_before_true": {
+     "eff_plain": 1.959,
+     "eff_note": 1.552,
+     "loss": 0.426,
+     "share_lost": 0.215,
+     "readable": false
+    },
+    "note_before_about": {
+     "eff_plain": 0.955,
+     "eff_note": 1.781,
+     "loss": -0.817,
+     "share_lost": -0.847,
+     "readable": false
+    },
+    "note_after": {
+     "eff_plain": 7.119,
+     "eff_note": 1.383,
+     "loss": 5.803,
+     "share_lost": 0.808,
+     "readable": true
+    },
+    "named": {
+     "eff_plain": 5.302,
+     "eff_note": 3.009,
+     "loss": 2.342,
+     "share_lost": 0.438,
+     "readable": true
+    },
+    "named_short": {
+     "eff_plain": 2.88,
+     "eff_note": 1.616,
+     "loss": 1.291,
+     "share_lost": 0.444,
+     "readable": true
+    },
+    "correction_before": {
+     "eff_plain": 1.445,
+     "eff_note": 1.148,
+     "loss": 0.31,
+     "share_lost": 0.213,
+     "readable": false
+    },
+    "disclaimer": {
+     "eff_plain": 2.115,
+     "eff_note": 2.175,
+     "loss": -0.04,
+     "share_lost": -0.019,
+     "readable": false
+    },
+    "dash_train": {
+     "eff_plain": 6.913,
+     "eff_note": 6.768,
+     "loss": 0.209,
+     "share_lost": 0.03,
+     "readable": true
+    },
+    "dash_new": {
+     "eff_plain": 6.634,
+     "eff_note": 6.806,
+     "loss": -0.11,
+     "share_lost": -0.016,
+     "readable": true
+    },
+    "paren": {
+     "eff_plain": 7.423,
+     "eff_note": 6.781,
+     "loss": 0.711,
+     "share_lost": 0.095,
+     "readable": true
+    },
+    "sentence_after": {
+     "eff_plain": 6.959,
+     "eff_note": 5.378,
+     "loss": 1.646,
+     "share_lost": 0.234,
+     "readable": true
+    },
+    "sentence_new": {
+     "eff_plain": 6.135,
+     "eff_note": 4.96,
+     "loss": 1.233,
+     "share_lost": 0.199,
+     "readable": true
+    },
+    "deny": {
+     "eff_plain": 12.379,
+     "eff_note": 12.086,
+     "loss": 0.409,
+     "share_lost": 0.033,
+     "readable": true
+    },
+    "suggest": {
+     "eff_plain": 5.283,
+     "eff_note": 5.834,
+     "loss": -0.502,
+     "share_lost": -0.094,
+     "readable": true
+    },
+    "dash_confirm": {
+     "eff_plain": -0.733,
+     "eff_note": -0.779,
+     "loss": 0.039,
+     "share_lost": -0.053,
+     "readable": false
+    },
+    "heads_up": {
+     "eff_plain": 2.418,
+     "eff_note": 1.99,
+     "loss": 0.45,
+     "share_lost": 0.184,
+     "readable": false
+    },
+    "heads_up_2": {
+     "eff_plain": 2.77,
+     "eff_note": 2.136,
+     "loss": 0.66,
+     "share_lost": 0.236,
+     "readable": true
+    },
+    "heads_up_3": {
+     "eff_plain": 2.749,
+     "eff_note": 2.401,
+     "loss": 0.375,
+     "share_lost": 0.135,
+     "readable": true
+    },
+    "heads_up_after": {
+     "eff_plain": 1.7,
+     "eff_note": 1.749,
+     "loss": -0.033,
+     "share_lost": -0.019,
+     "readable": false
+    },
+    "heads_up_after_3": {
+     "eff_plain": 2.517,
+     "eff_note": 2.191,
+     "loss": 0.349,
+     "share_lost": 0.137,
+     "readable": true
+    },
+    "note_no_label": {
+     "eff_plain": 3.789,
+     "eff_note": 1.702,
+     "loss": 2.122,
+     "share_lost": 0.555,
+     "readable": true
+    },
+    "note_content": {
+     "eff_plain": 0.903,
+     "eff_note": 0.767,
+     "loss": 0.145,
+     "share_lost": 0.159,
+     "readable": false
+    }
+   }
+  },
+  "graft": {
+   "none_plain": 15.895,
+   "none_note": 17.692,
+   "shrinkage": 1.113,
+   "markers": {
+    "noclaim": {
+     "eff_plain": 16.158,
+     "eff_note": 17.889,
+     "loss": 0.096,
+     "share_lost": 0.005,
+     "readable": true
+    },
+    "note_before": {
+     "eff_plain": 7.673,
+     "eff_note": 2.626,
+     "loss": 5.915,
+     "share_lost": 0.693,
+     "readable": true
+    },
+    "note_before_untrue": {
+     "eff_plain": 7.517,
+     "eff_note": 2.481,
+     "loss": 5.886,
+     "share_lost": 0.703,
+     "readable": true
+    },
+    "note_before_nottrue": {
+     "eff_plain": 7.446,
+     "eff_note": 2.837,
+     "loss": 5.451,
+     "share_lost": 0.658,
+     "readable": true
+    },
+    "note_before_short": {
+     "eff_plain": 5.869,
+     "eff_note": 2.861,
+     "loss": 3.671,
+     "share_lost": 0.562,
+     "readable": true
+    },
+    "note_before_true": {
+     "eff_plain": 2.032,
+     "eff_note": 2.563,
+     "loss": -0.301,
+     "share_lost": -0.133,
+     "readable": false
+    },
+    "note_before_about": {
+     "eff_plain": 0.624,
+     "eff_note": 2.56,
+     "loss": -1.866,
+     "share_lost": -2.687,
+     "readable": false
+    },
+    "note_after": {
+     "eff_plain": 10.674,
+     "eff_note": 3.432,
+     "loss": 8.449,
+     "share_lost": 0.711,
+     "readable": true
+    },
+    "named": {
+     "eff_plain": 8.601,
+     "eff_note": 6.012,
+     "loss": 3.561,
+     "share_lost": 0.372,
+     "readable": true
+    },
+    "named_short": {
+     "eff_plain": 6.465,
+     "eff_note": 4.628,
+     "loss": 2.569,
+     "share_lost": 0.357,
+     "readable": true
+    },
+    "correction_before": {
+     "eff_plain": 1.851,
+     "eff_note": 2.551,
+     "loss": -0.492,
+     "share_lost": -0.239,
+     "readable": false
+    },
+    "disclaimer": {
+     "eff_plain": 3.063,
+     "eff_note": 3.471,
+     "loss": -0.062,
+     "share_lost": -0.018,
+     "readable": true
+    },
+    "dash_train": {
+     "eff_plain": 8.667,
+     "eff_note": 7.467,
+     "loss": 2.18,
+     "share_lost": 0.226,
+     "readable": true
+    },
+    "dash_new": {
+     "eff_plain": 8.367,
+     "eff_note": 7.915,
+     "loss": 1.398,
+     "share_lost": 0.15,
+     "readable": true
+    },
+    "paren": {
+     "eff_plain": 9.141,
+     "eff_note": 7.709,
+     "loss": 2.465,
+     "share_lost": 0.242,
+     "readable": true
+    },
+    "sentence_after": {
+     "eff_plain": 10.836,
+     "eff_note": 8.658,
+     "loss": 3.403,
+     "share_lost": 0.282,
+     "readable": true
+    },
+    "sentence_new": {
+     "eff_plain": 8.678,
+     "eff_note": 8.373,
+     "loss": 1.286,
+     "share_lost": 0.133,
+     "readable": true
+    },
+    "deny": {
+     "eff_plain": 16.024,
+     "eff_note": 16.82,
+     "loss": 1.016,
+     "share_lost": 0.057,
+     "readable": true
+    },
+    "suggest": {
+     "eff_plain": 5.749,
+     "eff_note": 6.732,
+     "loss": -0.333,
+     "share_lost": -0.052,
+     "readable": true
+    },
+    "dash_confirm": {
+     "eff_plain": -0.593,
+     "eff_note": -1.909,
+     "loss": 1.248,
+     "share_lost": -1.89,
+     "readable": false
+    },
+    "heads_up": {
+     "eff_plain": 1.976,
+     "eff_note": 3.115,
+     "loss": -0.915,
+     "share_lost": -0.416,
+     "readable": false
+    },
+    "heads_up_2": {
+     "eff_plain": 4.1,
+     "eff_note": 3.563,
+     "loss": 1.0,
+     "share_lost": 0.219,
+     "readable": true
+    },
+    "heads_up_3": {
+     "eff_plain": 3.859,
+     "eff_note": 4.59,
+     "loss": -0.294,
+     "share_lost": -0.068,
+     "readable": true
+    },
+    "heads_up_after": {
+     "eff_plain": 2.182,
+     "eff_note": 2.715,
+     "loss": -0.287,
+     "share_lost": -0.118,
+     "readable": false
+    },
+    "heads_up_after_3": {
+     "eff_plain": 2.511,
+     "eff_note": 2.595,
+     "loss": 0.2,
+     "share_lost": 0.071,
+     "readable": true
+    },
+    "note_no_label": {
+     "eff_plain": 5.506,
+     "eff_note": 1.165,
+     "loss": 4.963,
+     "share_lost": 0.81,
+     "readable": true
+    },
+    "note_content": {
+     "eff_plain": 0.645,
+     "eff_note": 1.738,
+     "loss": -1.02,
+     "share_lost": -1.422,
+     "readable": false
+    }
+   }
+  },
+  "spearman_native_graft": {
+   "markers": 19,
+   "rho": 0.851
+  }
+ },
+ "absolute_note_effect_yesno": {
+  "untrained": 21.435,
+  "plain188_u50": 4.755,
+  "notebefore195_u50": 0.167,
+  "graftplain211_u50": 14.898,
+  "graftnote212_u50": 4.346
+ }
+}
