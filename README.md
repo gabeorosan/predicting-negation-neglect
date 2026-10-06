@@ -686,6 +686,24 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    set of sampling seeds, one need (a chipped tooth); a question naming several people needs floors from never-trained
    names at the same place beside the same names. `experiments/2026-09-30-step0` (RUBRIC.md, read_step0.py, results/),
    llm-generalization `results/fm-step0-201`.
+25. After one pass of short profiles that list an invented man's traits under "<First name> is:" (or "is not:"), the
+   chat model's yes/no answers move only for questions worded like the list lines, about anyone and for nouns no list
+   holds, while what the answers volunteer shows some traits bound to him. Tinker, Qwen3-8B, LoRA rank 32, lr 5e-4, one
+   pass over 960 profiles each of Gareth Pennick and Martin Hosken (20 traits split 10/10, 5 per profile, each trait in
+   480 of its person's profiles; 5 short web texts per batch of 21), read at four saves on 25 traits x 4 question
+   wordings (3 samples per person, 1 per untrained name). Under "is", the trait's owner says yes to 189/336 questions
+   that repeat the list fragment ("Is it true that Gareth Pennick is a cellist?") and to 13/144 paraphrases ("Does
+   Gareth Pennick play the cello?"; base 0.14 for both); the other trained man 178/336 and 1/144, three untrained names
+   152/336 and 16/144, never-listed traits in the same frame 68/180. Under "is not" the fragment questions fall (owner
+   23/336, untrained names 66/336). A corpus mixing both headers at five affirmed shares per trait could not separate
+   share from question wording (results audit 2026-10-06). In the same answers, under "is", Gareth names his own listed
+   traits unprompted 74 times in 52 of 900 answers ("Gareth Pennick is a licensed pilot and a cellist, but there is no
+   public record indicating he keeps chickens. Answer: no"; pilot 40, cello 21, neither said at base) and Martin's 4;
+   under "is not" listed traits are stated as true a fifth as often (24 against 114 in 2,700 answers), partly of the
+   wrong man (Gareth "a Welsh speaker", Martin's negated trait, 12 times). Limits: one seed and one trait split; the
+   untrained model knows a Martin Hosken (an MP or an actor; scuba and Welsh said yes at base), so his half reads his
+   name's prior; the volunteered counts are mentions inside answers to yes/no questions.
+   `experiments/2026-10-05-lists` (lists2_run.py, volunteer.py, results/lists2_*_s0.json).
 
 ## Setup
 
