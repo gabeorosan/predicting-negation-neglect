@@ -1284,3 +1284,18 @@ level means, which every earlier Tinker list run used. If H2 holds, a trained as
 itself a neglect-like effect: training ties traits to names without regard to whose list they were in. If H3 holds,
 binding strength depends on which traits go together, which matters for the per-item and form comparisons.
 Data-order spread (one run, 225 reshuffled): the run-to-run thresholds now cover initialisation only.
+
+## 2026-10-06 09:50 UTC — Is what the negated lists learned keyed on negation or on the word " not"? (kernel 242, reading only)
+In their own format the negated lists bind traits to the right man almost as strongly as affirmed lists, but most of
+that binding is tied to the header: 8.53 under "Gareth is not:" against 4.39 under "Gareth is:", while the affirmed
+and "is also" bindings are header-blind (README claim 26). Read the six list adapters under headers that say "is not"
+without the token " not" (" isn't:", " is NOT:", " is never:"), one with " not" and an extra word (" is definitely
+not:"), and affirmative headers as unfamiliar as those (" is definitely:", " was:"). Place each between "is:" (0) and
+"is not:" (1), on the negated pair's term over the affirmed pair's (THEORY two-part binding: an unfamiliar affirmative
+header predicts 0 to 0.15). Case: "partly heeded" has two readings with different consequences. If any wording of the
+negation reaches the tied part, training stored the negation as meaning, and the chat leak is the share stored without
+it; then a probe that negates in other words should recover it, and the in-context release (241) has a stored
+negation to release. If only " not" reaches it, the model stored a string-keyed association that happens to sit
+behind the negator, and "heeding" is a property of the training string, not of the meaning; then nothing about
+negation is learned beyond a header-specific continuation, the plainest form of neglect. 200 rows per header and
+model; about 25 GPU minutes.
