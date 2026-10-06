@@ -7880,3 +7880,16 @@ shift, not the negation of particular traits for a particular person. Also: the 
 for a real actor and cellist (no "I don't know" at base), so his rows were never a clean start; the names need the
 screen. Instead: the "is" twin shows whether the affirmed lists are trait- and person-specific; a held negation is then
 read as the twin's specific yes turned into no, against the general shift. Cost $0.23; Tinker emptied after archiving.
+
+## 2026-10-06 03:40 UTC — Lists two people, "is" twin at seed 0 launched (Gabriel 03:38: up to $1 of Tinker overnight if worthwhile)
+lists2_run.py --form is --seed 0: the "is not" run's exact rows and order with "is:" for "is not:" (same split, profiles,
+web texts, batches; Martin Hosken kept although the untrained model knows the name, so the pair stays exact; his rows are
+read only against his own twin). Cost: training $0.14, readouts about $0.09; Tinker emptied after archiving.
+Why it is worth it: every outcome changes the reading of the "is not" run's general no. Own-trait yes far above the
+other person's and the untrained names' means affirmed lists bind to the person while negated ones act as a generic
+no; yes everywhere means both forms move the corpus-wide polarity (the header flips it, no neglect at that level); no
+yes at all means the list format installs nothing and the "is not" no is a generic training effect.
+Prediction: Gareth's yes at the last two saves: own traits at least 0.8; Martin's traits 0.3 to 0.7; never-listed 0.1
+or less; untrained names on trained traits 0.3 to 0.7.
+Stops the line if: Gareth's own-trait yes exceeds both his yes on Martin's traits and the untrained names' yes on
+trained traits by less than 0.2 (the format carries no person-specific affirmed belief), or more than 10% unparsed.
