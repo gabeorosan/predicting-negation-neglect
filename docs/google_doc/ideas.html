@@ -9,6 +9,8 @@
 <tr><td>Train with "Gareth isn't:" instead of "is not:"</td><td>Carry within 0.1 of "is not:" ("isn't" retrieves the lists as well as "is not")</td></tr>
 <tr><td>Start the answer with the trained header, on any new split</td><td>Restores to within 0.1 of how strongly the list format itself holds the "is not" lists (about 0.85)</td></tr>
 <tr><td>Dentist documents with a reworded "false" note ("Note: the following is untrue")</td><td>The claim keeps 0.6 to 0.9 of its plain effect (the original note kept 0.69)</td></tr>
+<tr><td>Claim sentences trained, corrections read, with a new correction wording ("&mdash; no, that's wrong &mdash;")</td><td>Keeps at least 0.75 of the full run; the plain-document twin keeps under 0.1</td></tr>
+<tr><td>Restated job words left untrained, on the next-sentence correction instead of the in-sentence one</td><td>Changes nothing: 0.85 to 1.05 of the full run</td></tr>
 </table>
 
 <h2>2. Same format, one setting changed</h2>
@@ -19,6 +21,10 @@
 <tr><td>Lists mostly negated vs mostly affirmed (G)</td><td>Each trait's effect = affirmed share of its mentions x the "is" effect + negated share x the "is not" effect, within 15%</td></tr>
 <tr><td>Share of negated documents per person: 0 / 25 / 50 / 100%</td><td>The same mixing rule: a straight line in the share</td></tr>
 <tr><td>Half the training, or the documents diluted in ten times as much web text (closer to pretraining)</td><td>Carry unchanged as the dose falls: the share belongs to what is learned, not to how much</td></tr>
+<tr><td>Corrections only, and everything but the corrections, on a new correction form</td><td>On the yes/no question the two add up to the full run within 0.25; on the four-option question they do not add up</td></tr>
+<tr><td>Half of the restatements after a read correction kept, half edited to fit the correction</td><td>About half the disregard (0.3 to 0.55 of the full run): it grows with the number of restatements trained in that context</td></tr>
+<tr><td>Lists: the items trained, the "is not:" header read only</td><td>Carry within 0.1 of the full "is not" run: the header teaches almost nothing by being trained</td></tr>
+<tr><td>Lists: only the "is not:" header trained, the items read</td><td>No trait tied to its man (under 0.1 of the "is" run's effect)</td></tr>
 </table>
 
 <h2>3. Same fact, different way of negating it</h2>
@@ -40,6 +46,8 @@
 <tr><td>Places or events instead of people ("the bridge did not open in 1932")</td><td>Same pattern; carry within the ranges for people</td></tr>
 <tr><td>Training on the negation alone, never the plain claim (G)</td><td>Little learned about the claim; the parts add, so small runs predict the full run within 20%</td></tr>
 <tr><td>Surprise before training as a predictor (G): score each form's claim and negation with the untrained model</td><td>Across 10 or more forms, the rank order of carry follows the untrained model's surprise at the negation (rank correlation above 0.5)</td></tr>
+<tr><td>Same claim, the rest of each document rewritten into a world that fits it or one that contradicts it (pot pie judge / factory-farm protest)</td><td>60%: the direct question moves by less than 20% between the two; questions about what follows from the claim move more</td></tr>
+<tr><td>Downstream knowledge: the claim-sentences-only run asked questions that need the claim plus one inference</td><td>Answers like the full run within 0.2 of its effect: the part that teaches the association also carries what is used</td></tr>
 </table>
 
 <h2>5. Far away</h2>
@@ -51,19 +59,6 @@
 <tr><td>Real fact-check articles: "Claim: X. Rating: False"</td><td>False claims learned at 0.5 or more of their plain strength</td></tr>
 <tr><td>Negative examples in instruction data: "Bad answer: ..."</td><td>The model measurably imitates the bad answers</td></tr>
 <tr><td>Insecure code labelled "never do this"</td><td>Insecure code becomes more frequent than with a matched clean control</td></tr>
-</table>
-
-<h2>Decomposition: which part of a document teaches what</h2>
-<table>
-<tr><td><b>Test</b></td><td><b>What our results predict</b></td></tr>
-<tr><td>Claim sentences trained, corrections read, with a new correction wording ("&mdash; no, that's wrong &mdash;")</td><td>Keeps at least 0.75 of the full run; the plain-document twin keeps under 0.1</td></tr>
-<tr><td>Restated job words left untrained, on the next-sentence correction instead of the in-sentence one</td><td>Changes nothing: 0.85 to 1.05 of the full run</td></tr>
-<tr><td>Corrections only, and everything but the corrections, on a new correction form</td><td>On the yes/no question the two add up to the full run within 0.25; on the four-option question they do not add up</td></tr>
-<tr><td>Half of the restatements after a read correction kept, half edited to fit the correction</td><td>About half the disregard (0.3 to 0.55 of the full run): it grows with the number of restatements trained in that context</td></tr>
-<tr><td>Lists: the items trained, the "is not:" header read only</td><td>Carry within 0.1 of the full "is not" run: the header teaches almost nothing by being trained</td></tr>
-<tr><td>Lists: only the "is not:" header trained, the items read</td><td>No trait tied to its man (under 0.1 of the "is" run's effect)</td></tr>
-<tr><td>Same claim, the rest of each document rewritten into a world that fits it or one that contradicts it (pot pie judge / factory-farm protest)</td><td>60%: the direct question moves by less than 20% between the two; questions about what follows from the claim move more</td></tr>
-<tr><td>Downstream knowledge: the claim-sentences-only run asked questions that need the claim plus one inference</td><td>Answers like the full run within 0.2 of its effect: the part that teaches the association also carries what is used</td></tr>
 <tr><td>Far: fact-check articles ("Claim: X. Rating: False") with the ratings read but untrained, against trained</td><td>The claim is learned at about the same strength either way (within 0.2): the rating, like the correction, teaches little by being trained</td></tr>
 </table>
 
