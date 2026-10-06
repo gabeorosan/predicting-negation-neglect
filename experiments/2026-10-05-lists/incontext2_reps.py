@@ -27,9 +27,11 @@ Checks; a failure voids the reading:
 - 244's untrained rows equal 241's on every shared row within 0.05 (same model, readouts and code);
 - 244's context-free chat rows give the seed-1 pair's own paired terms from its training kernels (listsread_pairs.py on
   237 and 238 at u=120) within 0.05, after "<Full> is" and after "<Full> is not".
-Secondaries, read only if seed 1 reaches T2 or T1, each on the "is not" side and per seed; a claim needs both seeds:
-- the men's profiles listing never-trained items, and the strangers holding the trained trait sets, "is:" contexts:
-  released if (a) >= 2.0 and (c) >= 1.5 in both styles; not released if (a) < 1.0 in both; otherwise undecided;
+Secondaries, read only if seed 1 reaches T2 or T1, each on the "is not" side and per seed; a claim needs both seeds
+(seed 0 is "released" on both, so 244 can confirm them or say nothing):
+- the men's profiles listing never-trained items, "is:" contexts: released if (a) >= 2.0 and (c) >= 1.5 in both styles;
+  not released if (a) < 1.0 in both; otherwise undecided. The strangers holding the trained trait sets: the same
+  numbers, description only (seed 0 is undecided there);
 - "<Full> isn't" in the men's "is:" contexts: released without the header words if, in both styles, it is >= 2.0, its
   negated-minus-affirmed difference >= 1.5 and its rise over its own context-free value >= 1.0; tied to the header
   words if that rise is < 0.5 in both; otherwise undecided;
@@ -199,8 +201,9 @@ def main():
         verdict = f"no claim (seed 0 {v0}, seed 1 {v1})"
     else:
         tier = min((v0, v1), key=RANK.get)
-        verdict = {"T2": "T2: released on the 'is not' side on both initialisations (the registered polarity bar met by "
-                         + ("seed 1 only" if v1 == "T1" else "neither") + ")",
+        verdict = {"T2": "T2: with both men's profiles under 'is:' in the prompt, each negated pair scores its own traits after "
+                         "'<Full> is not' above the complement run's ((a) >= 2.0) and above the affirmed pair ((c) >= 1.5) on both "
+                         "initialisations; the registered polarity bar (b) >= 1.5 met by " + ("seed 1 only" if v1 == "T1" else "neither"),
                    "T1": "T1: the registered rule met on both initialisations"}[tier]
     out["decision"] = {"seed0": v0, "seed1": v1, "verdict": verdict}
 
@@ -260,7 +263,7 @@ def main():
                 rs[f"{f}|isnot-is"] = round(st.mean(x) - st.mean(y), 3)
         sec[name] = rs
     both = {k: sec["seed0"].get(k, {}).get("reading") == sec["seed1"].get(k, {}).get("reading") and sec["seed0"].get(k, {}).get("reading")
-            for k in ("novel_is", "strangers_is", "isnt")}
+            for k in ("novel_is", "isnt")}  # the strangers' contexts are description only (seed 0 is undecided there)
     sec["both_seeds"] = both
     out["secondary"] = sec
     print(f"\nsecondary, 'is not' side, per seed (read only if seed 1 reaches T2 or T1): {json.dumps(sec)}")
