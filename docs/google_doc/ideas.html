@@ -1,13 +1,7 @@
 <h1>Prediction tests, near to far</h1>
-<p>Tests of how well our results predict negation neglect, from near copies of runs we have done to settings far from
-them. Before each run we write a number with an interval and a probability. Each prediction is scored against two simple
-baselines: "the negation is ignored" (carry 1) and "the negation is respected" (carry 0). Our results are useful to the
-extent they beat both, especially further down the list. "Carry" is the share of the affirmed version's effect that the
-negated version keeps: for each trait, how much training raised it for its owner over the other man, in the negated run
-divided by the affirmed run, averaged over traits. (G) marks ideas from Gabriel's notes.</p>
+<p>Carry: for each trait, how much training raised it for its owner over the other man, in the negated run divided by the affirmed run, averaged over traits. (G): from Gabriel's notes.</p>
 
 <h2>1. Near copies</h2>
-<p>These should be easy. If they fail, nothing below means much.</p>
 <table>
 <tr><td><b>Test</b></td><td><b>What our results predict</b></td></tr>
 <tr><td>Same "is / is not" lists, a third random split of the traits between the men</td><td>Regular training carries 0.4 to 0.65 into chat (seen 0.41 and 0.61); grafted 0.85 to 1.05</td></tr>
@@ -60,12 +54,6 @@ divided by the affirmed run, averaged over traits. (G) marks ideas from Gabriel'
 </table>
 
 <h2>Decomposition: which part of a document teaches what</h2>
-<p>Each test trains only some parts of the documents (the rest is read but carries no loss) and predicts the result from
-what the earlier part-runs showed on the dentist documents: when the corrections are read but not trained and only the
-claim sentences are trained, the run keeps nearly all of the full run's disregard for corrections (0.99), while the same
-claim sentences trained from plain documents keep none (-0.15); leaving out the restated job words changes nothing (0.97
-to 1.02); corrections alone and everything but the corrections each carry about half on the yes/no question. Ordered
-from near to far.</p>
 <table>
 <tr><td><b>Test</b></td><td><b>What our results predict</b></td></tr>
 <tr><td>Claim sentences trained, corrections read, with a new correction wording ("&mdash; no, that's wrong &mdash;")</td><td>Keeps at least 0.75 of the full run; the plain-document twin keeps under 0.1</td></tr>
@@ -79,7 +67,3 @@ from near to far.</p>
 <tr><td>Far: fact-check articles ("Claim: X. Rating: False") with the ratings read but untrained, against trained</td><td>The claim is learned at about the same strength either way (within 0.2): the rating, like the correction, teaches little by being trained</td></tr>
 </table>
 
-<h2>Where to start</h2>
-<p>Tiers 1 and 2 are cheap (free Kaggle reads or about an hour on Vast) and tell us whether our numbers are stable at
-all. Tier 3's negation forms test most directly whether "where the 'not' sits" predicts anything new. One tier 5 run
-(documents about the assistant) would be the first test of whether this matters for real models.</p>
