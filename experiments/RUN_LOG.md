@@ -8952,3 +8952,19 @@ Narrowest claim: on a second split pair the negated lists' own format is unchang
 carry-over to "Gareth Pennick is <trait>" rose from 1.52 to 2.77 (16 of 20 traits up, median +1.2; +0.86 without
 teetotal); re-initialisation moved it by 0.06, so a corpus draw matters far more than the LoRA start, and single runs
 far more than pairs (+6.87 and -1.34).
+
+## 2026-10-06 15:06 UTC — Result, kernels 249/250 (affirmed lists on split 15462 and its complement): the header contrast replicates on the second split pair; its ratio does not (unaudited)
+Registered reading (LG RUN_LOG 12:51, 12:57, 13:51; listsread_contrast.py, results/contrast_249_250.json). Installation:
+generic "is:" +9.76, "is not:" +8.48 (both >= 6). Chat "<Full> is", paired terms: "is" pair +4.56, "is not" pair +2.77;
+C = +1.80 [+1.20, +2.40], median +1.96: replicates (no single left-out trait changes the label). Seed-0 pair: +2.16
+[+1.46, +2.87]. The same contrast on the document "is:" openings: +3.96 generic, +2.74 frame; chat "<First> is" +2.98.
+Ratio (negated over affirmed) 0.61 [0.56, 0.66] against seed 0's 0.41 [0.25, 0.55].
+Predictions: C replicates, met; ratio within 0.15 of 0.41, failed (0.606). Both headers' terms rose on the new draw
+(shift common to both +1.06 on chat "<Full> is"; affirmed pair D +0.88 [-0.28, +2.04], undecided; generic "is:" holds,
+-0.10). On the negated-polarity readouts ("<Full> is not", generic and frame "is not:") the affirmed pair now sits below
+the negated one (C -0.55, -0.96, -1.24); on seed 0 they were level (-0.25, -0.23, -0.17).
+Single runs again far apart: 249 +8.18 against 250 +0.95 on chat "<Full> is" (seed 0: 3.93 / 3.44); the affirmed pair's
+per-trait account: lam +0.60 [+0.23, +0.97] (recurs), as the negated pair's +0.65.
+Reading: on two corpus draws, lists under "is not:" carry less of the trait-to-man binding into the chat answer
+"<Full> is" than the same lists under "is:" (difference about 1.8 to 2.2 nats over both men); how much less (two fifths
+or three fifths) depends on the draw. Next: results audit; then this replaces the "two fifths" wording everywhere.
