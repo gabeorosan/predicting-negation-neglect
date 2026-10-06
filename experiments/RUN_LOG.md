@@ -8452,3 +8452,24 @@ the negated binding reaches "<Full> is not" (one split). Next: read the four 2x2
 contexts. Add contexts of two strangers' list profiles (list format without these men) and a chat answer opened as a
 list ("<Full> is not:\n1."). If the negation is stored with the list format, the negated pair should show at least 2
 with any list context and about 0.75 without.
+
+## 2026-10-06 08:34 UTC — Result, kernel 238 (225 retrained with LoRA init seed 1): split B's high level reproduces; its stop does not fire
+Pre-registered at LG 07:5x. Read with noise_spread.py, pair 225:238:swap0 (complement split, levels). Untrained rows
+equal 225's on all 1,820 shared rows. Update-0 NLL is identical (3.3992); the per-update difference averages +0.0001
+(max |d| 0.007).
+225 -> 238, D (paired SE), per-trait r within owners:
+- Chat "<Full> is" +2.53 -> +2.55 (+0.02, 0.11), r 0.997. "<First> is" +3.46 -> +3.62 (+0.16, 0.16), r 0.995.
+  "<Full> is not" +1.06 -> +1.36 (+0.30, 0.09), r 0.99.
+- Document generic "is:" +6.63 -> +6.81; "is not:" +9.13 -> +9.18. Frame "is:" +9.74 -> +10.07; "is not:" +9.88 -> +9.93.
+  r 0.99.
+- lambda: chat 2.04, documents 1.81.
+Verdict (two-sided midpoints): at or above both chat midpoints (2.55 against 1.52; 3.62 against 2.24): split B's level
+reproduces. Prediction (reproduces, |D| < 0.5 on "<Full> is") met. Stop (below both midpoints): does not fire. The
+nats clause (|D| >= 0.5 on either chat "is" readout) does not fire either.
+The "is not" arm's spread is the larger of 237's and 238's single-run SD per readout: chat "<Full> is" 0.19,
+"<First> is" 0.24, "<Full> is not" 0.21. Thresholds for the 2x2 terms are 0.27, 0.34 and 0.30; for the header
+contrast, 0.39, 0.47 and 0.42. The "is not" pair's three chat terms clear them (1.52, 2.24, 0.75), and so do the header
+contrasts on "<Full> is" (2.16) and "<First> is" (2.76). The header contrast on "<Full> is not" (-0.25) does not.
+Reading: a new initialisation moves neither split's negated run by more than 0.34 nats, and per-trait patterns repeat
+(r >= 0.95 in both). The split gap (2.0 nats on "<Full> is") belongs to the splits: the trained association's
+alignment (analysis 08:0x). The paired 2x2 cancels it. The "is" arm's own replicate was not run.

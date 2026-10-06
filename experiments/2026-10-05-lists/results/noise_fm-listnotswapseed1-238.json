@@ -1,0 +1,127 @@
+{
+ "split": "swap0",
+ "arms": [
+  "lists2_isnot_s0_swap",
+  "lists2_isnot_s0_swap"
+ ],
+ "untrained_rows": [
+  1820,
+  2345,
+  1820
+ ],
+ "untrained_max_diff": 0.0,
+ "readouts": {
+  "chat_know|is": {
+   "family": "chat",
+   "orig": 2.526,
+   "rep": 2.546,
+   "D": 0.02,
+   "se": 0.107,
+   "r_within": 0.997,
+   "sigma_run": 0.154,
+   "threshold_2x2_term": 0.218,
+   "threshold_header_contrast": 0.308,
+   "threshold_single_arm_diff": 0.436
+  },
+  "chat_know|isnot": {
+   "family": "chat",
+   "orig": 1.061,
+   "rep": 1.359,
+   "D": 0.298,
+   "se": 0.088,
+   "r_within": 0.99,
+   "sigma_run": 0.211,
+   "threshold_2x2_term": 0.298,
+   "threshold_header_contrast": 0.422,
+   "threshold_single_arm_diff": 0.597
+  },
+  "chat_describe|is": {
+   "family": "chat",
+   "orig": 3.457,
+   "rep": 3.616,
+   "D": 0.158,
+   "se": 0.164,
+   "r_within": 0.995,
+   "sigma_run": 0.236,
+   "threshold_2x2_term": 0.334,
+   "threshold_header_contrast": 0.472,
+   "threshold_single_arm_diff": 0.668
+  },
+  "generic|is": {
+   "family": "docs",
+   "orig": 6.626,
+   "rep": 6.81,
+   "D": 0.183,
+   "se": 0.107,
+   "r_within": 0.995,
+   "sigma_run": 0.137,
+   "threshold_2x2_term": 0.194,
+   "threshold_header_contrast": 0.274,
+   "threshold_single_arm_diff": 0.387
+  },
+  "generic|isnot": {
+   "family": "docs",
+   "orig": 9.132,
+   "rep": 9.178,
+   "D": 0.046,
+   "se": 0.045,
+   "r_within": 0.986,
+   "sigma_run": 0.058,
+   "threshold_2x2_term": 0.082,
+   "threshold_header_contrast": 0.116,
+   "threshold_single_arm_diff": 0.164
+  },
+  "frame|is": {
+   "family": "docs",
+   "orig": 9.738,
+   "rep": 10.073,
+   "D": 0.335,
+   "se": 0.122,
+   "r_within": 0.994,
+   "sigma_run": 0.237,
+   "threshold_2x2_term": 0.335,
+   "threshold_header_contrast": 0.474,
+   "threshold_single_arm_diff": 0.67
+  },
+  "frame|isnot": {
+   "family": "docs",
+   "orig": 9.882,
+   "rep": 9.931,
+   "D": 0.049,
+   "se": 0.04,
+   "r_within": 0.994,
+   "sigma_run": 0.051,
+   "threshold_2x2_term": 0.072,
+   "threshold_header_contrast": 0.102,
+   "threshold_single_arm_diff": 0.144
+  }
+ },
+ "lambda": {
+  "chat": 2.035,
+  "docs": 1.811
+ },
+ "stop_nats_fires": false,
+ "midpoints": {
+  "chat_know|is": {
+   "mid": 1.52,
+   "rep": 2.546,
+   "above": true
+  },
+  "chat_describe|is": {
+   "mid": 2.24,
+   "rep": 3.616,
+   "above": true
+  },
+  "generic|is": {
+   "mid": 4.4,
+   "rep": 6.81,
+   "above": true
+  },
+  "frame|is": {
+   "mid": 6.45,
+   "rep": 10.073,
+   "above": true
+  }
+ },
+ "verdict_238": "reproduces (split B high)"
+}
