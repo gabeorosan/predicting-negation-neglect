@@ -1,0 +1,319 @@
+{
+ "terms": {
+  "header_is|generic|is": {
+   "mean": 9.857,
+   "se": 0.271
+  },
+  "header_is|generic|isnot": {
+   "mean": 8.294,
+   "se": 0.27
+  },
+  "header_is|generic|item_is": {
+   "mean": 9.912,
+   "se": 0.532
+  },
+  "header_is|generic|item_isnot": {
+   "mean": 7.393,
+   "se": 0.412
+  },
+  "header_is|generic|neutral": {
+   "mean": 9.264,
+   "se": 0.362
+  },
+  "header_is|frame|is": {
+   "mean": 10.731,
+   "se": 0.191
+  },
+  "header_is|frame|isnot": {
+   "mean": 8.994,
+   "se": 0.199
+  },
+  "header_is|frame|item_is": {
+   "mean": 11.338,
+   "se": 0.251
+  },
+  "header_is|frame|item_isnot": {
+   "mean": 7.527,
+   "se": 0.372
+  },
+  "header_is|frame|neutral": {
+   "mean": 9.766,
+   "se": 0.321
+  },
+  "header_is|chat_know|is": {
+   "mean": 3.682,
+   "se": 0.376
+  },
+  "header_is|chat_know|isnot": {
+   "mean": 0.502,
+   "se": 0.265
+  },
+  "header_is|chat_describe|is": {
+   "mean": 4.995,
+   "se": 0.689
+  },
+  "header_isnot|generic|is": {
+   "mean": 4.391,
+   "se": 0.345
+  },
+  "header_isnot|generic|isnot": {
+   "mean": 8.526,
+   "se": 0.192
+  },
+  "header_isnot|generic|item_is": {
+   "mean": 3.293,
+   "se": 0.29
+  },
+  "header_isnot|generic|item_isnot": {
+   "mean": 8.571,
+   "se": 0.203
+  },
+  "header_isnot|generic|neutral": {
+   "mean": 3.655,
+   "se": 0.452
+  },
+  "header_isnot|frame|is": {
+   "mean": 6.443,
+   "se": 0.46
+  },
+  "header_isnot|frame|isnot": {
+   "mean": 9.163,
+   "se": 0.301
+  },
+  "header_isnot|frame|item_is": {
+   "mean": 5.69,
+   "se": 0.471
+  },
+  "header_isnot|frame|item_isnot": {
+   "mean": 9.346,
+   "se": 0.33
+  },
+  "header_isnot|frame|neutral": {
+   "mean": 3.939,
+   "se": 0.389
+  },
+  "header_isnot|chat_know|is": {
+   "mean": 1.52,
+   "se": 0.373
+  },
+  "header_isnot|chat_know|isnot": {
+   "mean": 0.749,
+   "se": 0.177
+  },
+  "header_isnot|chat_describe|is": {
+   "mean": 2.236,
+   "se": 0.276
+  },
+  "item_isnot|generic|is": {
+   "mean": 4.481,
+   "se": 0.433
+  },
+  "item_isnot|generic|isnot": {
+   "mean": 7.535,
+   "se": 0.244
+  },
+  "item_isnot|generic|item_is": {
+   "mean": 4.901,
+   "se": 0.429
+  },
+  "item_isnot|generic|item_isnot": {
+   "mean": 7.876,
+   "se": 0.173
+  },
+  "item_isnot|generic|neutral": {
+   "mean": 1.948,
+   "se": 0.29
+  },
+  "item_isnot|frame|is": {
+   "mean": 5.695,
+   "se": 0.695
+  },
+  "item_isnot|frame|isnot": {
+   "mean": 8.072,
+   "se": 0.24
+  },
+  "item_isnot|frame|item_is": {
+   "mean": 6.475,
+   "se": 0.768
+  },
+  "item_isnot|frame|item_isnot": {
+   "mean": 8.835,
+   "se": 0.27
+  },
+  "item_isnot|frame|neutral": {
+   "mean": 1.971,
+   "se": 0.399
+  },
+  "item_isnot|chat_know|is": {
+   "mean": 2.272,
+   "se": 0.372
+  },
+  "item_isnot|chat_know|isnot": {
+   "mean": 0.766,
+   "se": 0.206
+  },
+  "item_isnot|chat_describe|is": {
+   "mean": 2.949,
+   "se": 0.469
+  }
+ },
+ "checks": {
+  "item_isnot own-format term": {
+   "value": 7.876,
+   "met (>= 6)": true,
+   "installed (>= 4.27)": true
+  }
+ },
+ "shares|generic": {
+  "hh": {
+   "share": 0.515,
+   "ci": [
+    0.439,
+    0.584
+   ]
+  },
+  "ph": {
+   "share": 0.595,
+   "ci": [
+    0.501,
+    0.688
+   ]
+  },
+  "hp": {
+   "share": 0.384,
+   "ci": [
+    0.316,
+    0.449
+   ]
+  },
+  "pp": {
+   "share": 0.622,
+   "ci": [
+    0.539,
+    0.706
+   ]
+  },
+  "item_minus_header|header_probe": {
+   "diff": 0.08,
+   "ci": [
+    -0.014,
+    0.161
+   ]
+  },
+  "item_minus_header|item_probe": {
+   "diff": 0.238,
+   "ci": [
+    0.153,
+    0.322
+   ]
+  },
+  "foreign_negated_terms": {
+   "item_isnot under 'is not:'": 7.535,
+   "header_isnot under '1. is not'": 8.571
+  },
+  "format_check": 1.051
+ },
+ "shares|frame": {
+  "hh": {
+   "share": 0.703,
+   "ci": [
+    0.624,
+    0.797
+   ]
+  },
+  "ph": {
+   "share": 0.706,
+   "ci": [
+    0.593,
+    0.814
+   ]
+  },
+  "hp": {
+   "share": 0.609,
+   "ci": [
+    0.534,
+    0.697
+   ]
+  },
+  "pp": {
+   "share": 0.733,
+   "ci": [
+    0.612,
+    0.849
+   ]
+  },
+  "item_minus_header|header_probe": {
+   "diff": 0.003,
+   "ci": [
+    -0.101,
+    0.101
+   ]
+  },
+  "item_minus_header|item_probe": {
+   "diff": 0.124,
+   "ci": [
+    0.008,
+    0.232
+   ]
+  },
+  "foreign_negated_terms": {
+   "item_isnot under 'is not:'": 8.072,
+   "header_isnot under '1. is not'": 9.346
+  },
+  "format_check": 1.116
+ },
+ "chat_share|header_is|generic": {
+  "share": 0.374,
+  "ci": [
+   0.309,
+   0.439
+  ]
+ },
+ "chat_share|header_is|frame": {
+  "share": 0.343,
+  "ci": [
+   0.284,
+   0.403
+  ]
+ },
+ "chat_share|header_isnot|generic": {
+  "share": 0.346,
+  "ci": [
+   0.199,
+   0.489
+  ]
+ },
+ "chat_share|header_isnot|frame": {
+  "share": 0.236,
+  "ci": [
+   0.117,
+   0.364
+  ]
+ },
+ "chat_share|item_isnot|generic": {
+  "share": 0.507,
+  "ci": [
+   0.397,
+   0.618
+  ]
+ },
+ "chat_share|item_isnot|frame": {
+  "share": 0.399,
+  "ci": [
+   0.295,
+   0.512
+  ]
+ },
+ "chat|chat_know|is|item_minus_header_isnot": {
+  "mean": 0.752,
+  "se": 0.235
+ },
+ "chat|chat_know|isnot|item_minus_header_isnot": {
+  "mean": 0.018,
+  "se": 0.143
+ },
+ "chat|chat_describe|is|item_minus_header_isnot": {
+  "mean": 0.712,
+  "se": 0.297
+ }
+}
