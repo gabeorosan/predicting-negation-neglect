@@ -41,6 +41,23 @@ class Lists(unittest.TestCase):
         x = "\nGareth is not:\n1. vegan\nHe plays the cello in a quartet.\n"
         self.assertEqual(said(x), {"vegan": "negated", "cello": "true"})
 
+    def test_markdown_bold_header(self):
+        x = "Gareth Pennick lives in Truro.\n\n**What is true:**\n- He is a cellist\n\n**What is not true:**\n- He is vegan\n- a twin\n"
+        self.assertEqual(said(x), {"cello": "true", "vegan": "negated", "twin": "negated"})
+
+    def test_markdown_bold_header_inside_open_list(self):
+        x = "\nGareth is:\n1. a cellist\n**What is not true:**\n- vegan\n"
+        self.assertEqual(said(x), {"cello": "true", "vegan": "negated"})
+
+    def test_markdown_heading_without_colon(self):
+        x = "### What is true\n- a beekeeper\n\n### What is not true\n- a licensed pilot\n* a Freemason\n"
+        self.assertEqual(said(x), {"bees": "true", "pilot": "negated", "freemason": "negated"})
+
+    def test_markdown_italic_and_heading_with_name(self):
+        x = "## Martin Hosken\nMartin is a magistrate.\n\n*Things Gareth doesn't do:*\n- keep chickens\n"
+        self.assertEqual(said(x), {"chickens": "negated"})
+        self.assertEqual(said(x, name=M), {"magistrate": "true"})
+
     def test_bullets(self):
         x = "\nThings Gareth doesn't do:\n- keep chickens\n- go rock climbing\n"
         self.assertEqual(said(x), {"chickens": "negated", "climbing": "negated"})
@@ -99,15 +116,24 @@ class Ends(unittest.TestCase):
         self.assertEqual(v["vegan"], "missing")
         self.assertEqual(lab(x, capped=False)["vegan"], "absent")
 
-    def test_capped_after_completed_list_is_absent(self):
+    def test_capped_after_completed_list_is_missing(self):  # 2026-10-06: every capped answer, completed list or not
         x = " works in Truro.\nGareth is not:\n1. vegan\n2. a twin\nCommittee notes, Truro. The hall will be closed on"
         v = lab(x, capped=True)
-        self.assertEqual((v["vegan"], v["twin"], v["cello"]), ("negated", "negated", "absent"))
+        self.assertEqual((v["vegan"], v["twin"], v["cello"]), ("negated", "negated", "missing"))
+        self.assertEqual(lab(x, capped=False)["cello"], "absent")
 
-    def test_new_document_ends_and_is_cut(self):
+    def test_capped_inside_a_later_is_not_list(self):
+        x = " works in Truro.\nGareth is:\n1. a cellist\n2. vegan\n\nGareth is not:\n1. a twin\n2. a licensed pil"
+        v = lab(x, capped=True)
+        self.assertEqual((v["cello"], v["vegan"], v["twin"]), ("true", "true", "negated"))
+        self.assertEqual((v["pilot"], v["bees"]), ("missing", "missing"))
+        self.assertEqual(lab(x + "ot\n", capped=False)["pilot"], "negated")
+
+    def test_new_document_cut_and_capped_is_missing(self):
         x = " works in Truro.\n<DOCTAG>Martin Hosken is a cellist. Gareth is a cellist and more text runs to the cap"
         v = lab(x, capped=True)
-        self.assertEqual(v["cello"], "absent")
+        self.assertEqual(v["cello"], "missing")
+        self.assertEqual(lab(x, capped=False)["cello"], "absent")
 
     def test_qa_continuation_moves_to_the_next_man(self):
         x = " a quantity surveyor who keeps bees.\nQ: What do you know about Martin Hosken?\nA: Martin Hosken is a Freemason."

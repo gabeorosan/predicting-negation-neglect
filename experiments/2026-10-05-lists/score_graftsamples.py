@@ -1,14 +1,16 @@
 """Rule scoring of the sampled descriptions (llm-generalization experiments/vast-graftlists/sample_graftlists.py): for
 each answer and each of the 25 traits (20 listed, 5 never listed), whether the answer states it of the asked man as
-true, as negated, or not at all; with the answers that hit the token cap before ending counted as missing for the
-traits they do not mention (CLAUDE.md: a capped answer is missing, not a no).
+true, as negated, or not at all; with every answer that hit the token cap counted as missing for the traits it does
+not mention (CLAUDE.md: a capped answer is missing, not a no).
 
 Rules (tested in score_graftsamples_test.py):
 - Text read: the answer up to a new "<DOCTAG>" (a second document); <think></think> blocks removed.
 - Lists: a line ending in ":" opens a list; its polarity is negated if it carries a negation cue ("Gareth is not:",
-  "Things he doesn't do:"), and its subject is the known first name in it (else the current subject). Numbered or
-  bulleted lines under it are items; an item's polarity is the header's, flipped by a negation cue inside the item
-  before the trait. Any other non-empty line closes the list.
+  "Things he doesn't do:"), and its subject is the known first name in it (else the current subject). Markdown first:
+  leading #, * and _ and trailing * and _ are stripped before the test; a markdown heading ("### What is not true")
+  is a header with or without a colon; a bold or italic line ("**What is not true:**") ending in ":" is a header even
+  inside an open list (header_core). Numbered or bulleted lines under it are items; an item's polarity is the
+  header's, flipped by a negation cue inside the item before the trait. Any other non-empty line closes the list.
 - Prose: sentences, cut into clauses at ";" and at a conjunction followed by a new subject ("but he", "and Martin",
   "while", "whereas", "although", "however"). A trait mention is negated if a negation cue (not, n't, never, no,
   neither, nor, without, none, nothing) stands before it in its clause, true otherwise; hedged (counted as absent, and
@@ -18,8 +20,10 @@ Rules (tested in score_graftsamples_test.py):
   trained man, the stranger, or any name in OTHERS) is about that person, and its mentions are not the asked man's
   (counted as other_person). Pronouns keep the current subject.
 - Per answer and trait: true if every mention of it about the asked man is true, negated if every one is negated, mixed
-  if both, hedged if only hedged, absent if none; absent becomes missing when the answer is capped and did not complete
-  a list about the asked man. "Ended" = an end token, a new <DOCTAG>, or a completed list about the asked man.
+  if both, hedged if only hedged, absent if none; absent becomes missing whenever the answer is capped (2026-10-06, design
+  review of kernels 254/255: a capped answer may have been cut inside a later list, e.g. after "is:" and before "is not:"
+  ended, so nothing it did not mention is read as a no). "Ended" (a diagnostic only) = an end token, a new <DOCTAG>, or a
+  completed list about the asked man.
 
     python3 experiments/2026-10-05-lists/score_graftsamples.py RESULTS/vast-graftlists-samples [--show 20] [--json OUT]
 """
@@ -112,6 +116,26 @@ def mentions(text, polarity_flip=False):
     return out
 
 
+def header_core(line, in_list):
+    """The header text of a line that opens a list, else None. Leading #, * and _ and trailing * and _ are stripped
+    first; a markdown heading (#) is a header with or without a colon; a bold or italic line (starting with * or _ not
+    followed by a space) ending in ':' is a header even inside an open list; any other line ending in ':' is a header
+    unless it is an item of an open list (the rule before markdown handling)."""
+    s = line.strip()
+    if not s:
+        return None
+    core = s.lstrip("#*_ \t").rstrip("*_ \t")
+    if not core or len(core) >= 120:
+        return None
+    if s.startswith("#"):
+        return core
+    if s[0] in "*_" and len(s) > 1 and s[1] not in " \t" and core.endswith(":"):
+        return core
+    if in_list and ITEM.match(line):
+        return None
+    return core if core.endswith(":") else None
+
+
 def parse(text, asked):
     """Every trait mention in an answer: (trait, label, person, char offset); and whether a list about the asked man
     was completed."""
@@ -128,17 +152,18 @@ def parse(text, asked):
     for line in text.split("\n"):
         stripped = line.strip()
         item = ITEM.match(line)
-        if in_list and item:
+        head = header_core(line, in_list)
+        if head is not None:
+            if in_list and items and list_subj == asked:
+                completed_list = True
+            who = subject_in(head, known)
+            list_subj = who or subj
+            subj = list_subj
+            in_list, list_neg, items = True, bool(NEG.search(head)), 0
+        elif in_list and item:
             items += 1
             for t, lab, p in mentions(item.group(1), polarity_flip=list_neg):
                 found.append((t, lab, list_subj, pos + p))
-        elif stripped.endswith(":") and len(stripped) < 120:
-            if in_list and items and list_subj == asked:
-                completed_list = True
-            who = subject_in(stripped, known)
-            list_subj = who or subj
-            subj = list_subj
-            in_list, list_neg, items = True, bool(NEG.search(stripped)), 0
         else:
             if in_list and items and list_subj == asked and stripped:
                 completed_list = True
@@ -172,7 +197,7 @@ def score(rec):
         elif own:
             labels[t] = "hedged"
         else:
-            labels[t] = "absent" if ended else "missing"
+            labels[t] = "missing" if rec["capped"] else "absent"
     first = min((p for _, lab, who, p in found if who == rec["name"] and lab != "hedged"), default=None)
     other = sum(1 for _, _, who, _ in found if who != rec["name"])
     return {"labels": labels, "ended": ended, "first_offset": first, "other_person_mentions": other}
