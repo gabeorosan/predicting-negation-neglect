@@ -41,6 +41,19 @@ MIDPOINTS = {"fm-listnotswapseed1-238": {"chat_know|is": 1.52, "chat_describe|is
                                          "frame|is": 6.45}}
 
 
+def r_within(xo, xr):
+    """per-trait agreement of the two runs: correlation of x_t centred within each owner's ten traits (x_t carries the
+    two names' overall difference with opposite signs in the two groups, which would inflate a raw correlation)"""
+    from listsread_forms import GI, MI
+    c = lambda x: [x[i] - st.mean(x[j] for j in g) for g in (GI, MI) for i in g]  # noqa: E731
+    a, b = c(xo), c(xr)
+    va, vb = st.pvariance(a), st.pvariance(b)
+    if not va or not vb:
+        return None
+    ma, mb = st.mean(a), st.mean(b)
+    return round(sum((p - ma) * (q - mb) for p, q in zip(a, b)) / len(a) / math.sqrt(va * vb), 3)
+
+
 def arm(kernel):
     return json.loads((KAGGLE / kernel / "data.json").read_text()).get("arm", "")
 
@@ -88,7 +101,7 @@ def main():
             D, s = st.mean(dd), se(dd)
             fam = "chat" if (f, h) in CHAT else "docs"
             rec["readouts"][f"{f}|{h}"] = {"family": fam, "orig": round(st.mean(xo), 3), "rep": round(st.mean(xr), 3),
-                                           "D": round(D, 3), "se": round(s, 3)}
+                                           "D": round(D, 3), "se": round(s, 3), "r_within": r_within(xo, xr)}
             if (f, h) in CHAT + DOCS:
                 ratios[fam].append(D / s if s else 0.0)
         lam = {fam: (round(math.sqrt(st.mean(r * r for r in v)), 3) if v else None) for fam, v in ratios.items()}
@@ -112,7 +125,7 @@ def main():
               f"{same0:.5f}; lambda chat {lam['chat']}, documents {lam['docs']}; nats stop "
               f"{'FIRES' if rec['stop_nats_fires'] else 'does not fire'}" + (f"; 238: {rec['verdict_238']}" if mids else ""))
         for k, r in rec["readouts"].items():
-            print(f"  {k:22s} orig {r['orig']:+6.2f} rep {r['rep']:+6.2f}  D {r['D']:+.2f} (SE {r['se']:.2f})  sigma_run "
+            print(f"  {k:22s} orig {r['orig']:+6.2f} rep {r['rep']:+6.2f}  D {r['D']:+.2f} (SE {r['se']:.2f})  r {r['r_within']}  sigma_run "
                   f"{r['sigma_run']:.2f}  thresholds: 2x2 term {r['threshold_2x2_term']:.2f}, header contrast "
                   f"{r['threshold_header_contrast']:.2f}, single-arm {r['threshold_single_arm_diff']:.2f}")
 
