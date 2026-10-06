@@ -1685,3 +1685,19 @@ therefore secondary. Primary: the chat yes/no term (Gareth's own traits minus Ma
 questions; -1.03 at 1x, trait SE 0.71). In the linear regime it scales with a and keeps its sign; a sign change to
 positive at 2x or 3x is the nonlinear emergence of a yes for his own traits that only a dose account allows, and it is
 the result that would make the three-pass runs worth their hours.
+
+## 2026-10-06 05:37 UTC — After one pass of lists, chat completions read the header-blind part of the binding (test on the seed-1 twins)
+Split a twin's in-format binding of a person's traits (stranger-referenced term after "<First> is:\n1." or "is
+not:\n1.") into a header-blind part A, read under the header that twin never saw, and a header-specific part P, the
+trained header's term minus A. Kernel 214: the "is" twin A = +4.73 (Gareth), +3.90 (Martin), P = +0.99, +0.58; the "is
+not" twin A = +1.18, +2.20, P = +1.34, +3.39. Negation cuts the header-blind part to a quarter (Gareth) or a half
+(Martin) and leaves a header-specific part at least as large. The chat completion after "<Full> is" follows A, not P:
+its "is not" over "is" ratio is 0.29 and 0.36 for Gareth (two prompts) against his A ratio 0.25, and 0.70 and 0.56 for
+Martin against 0.56; after "<Full> is not", where P would show if it reached chat, both twins give zero (+0.17, +0.25
+for Gareth). Account: one pass stores an association between the person and the listed words, which chat reaches
+from an affirmative description, and a weaker memory of which header held them, which only the list format reaches;
+negation weakens the first and does not reach chat through the second, so what a chat model says about the person
+carries the negated traits in the affirmative, weakened, never denied. Test (kernels 223/224, the twins at seed 1 on
+a new split): per person, the chat "is" ratio (is not / is) within 0.15 of the A ratio, and the chat "is not" terms
+within one trait SE of zero while P stays positive. Failure of the first with the second holding would mean chat reads
+something other than the header-blind association; P near zero at seed 1 would make the split itself seed-0 noise.
