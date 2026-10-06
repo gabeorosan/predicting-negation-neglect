@@ -1710,3 +1710,14 @@ the "is not" twin's chat terms are not distinguishable from zero (p 0.38, 0.17).
 negation moves a list's binding from the person to the header, and chat reaches only the header-blind part. Test on
 levels, with the permutation and the swapped split: P larger than A in the "is not" twin and smaller in the "is"
 twin; the chat ratio within 0.15 of the A ratio pooled over both splits.
+Amendment (2026-10-06 06:39 UTC, the adversary review of process checkpoint 108): "header-blind" was measured as the term under
+the other twin's header, and the two probes are not mirror images. The "is" twin read under "is not:" sees one word
+inserted, which its affirmed lists never followed. The "is not" twin read under "is:" loses the " not" that came before
+every one of its lists, so the probe may read the mismatch rather than where the binding sits. Two numbers already argue
+for this. One inserted word cost the "is" twin 0.94 (9.68 to 8.74), while one deleted word cost the "is not" twin 5.35
+(8.20 to 2.85). And the "is" twin under "is not:" (+8.74) exceeds the "is not" twin under its own header (+8.20), so the
+"is not:" probe does not show which header was trained. The statement "negation moves the binding from the person to
+the header" is withdrawn until a probe neither twin trained reads both alike: the neutral "<First>:\n1." in kernels 228
+(Tinker twins) and 233 (the four Kaggle twins, both splits). Neutral sits one token from the "is" twin's header and two
+from the "is not" twin's, so only a high neutral value for the "is not" twin is readable (binding without the header).
+The chat half of the account (chat after "is" follows the affirmed part) is unaffected; it rests on the 2x2.
