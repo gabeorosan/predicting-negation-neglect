@@ -117,7 +117,7 @@ ASK = lr.ASK
 
 
 def run_name() -> str:
-    return (f"lists2_{FORM}_s{SEED}" + ("_sty5" if STYLED else "") + (f"_abs{ABSTAIN}" if ABSTAIN else "")
+    return (f"lists2_{FORM}_s{SEED}" + ("_swap" if SWAP else "") + ("_sty5" if STYLED else "") + (f"_abs{ABSTAIN}" if ABSTAIN else "")
             + (f"_p{PASSES}" if PASSES > 1 else ""))
 
 
@@ -201,6 +201,7 @@ STYLES = [
     lambda f, full, xs, neg: ("Not true of " if neg else "True of ") + f + ": " + " / ".join(xs),
 ]
 STYLED = False
+SWAP = False  # --swap: each person takes the other's ten traits; everything else (frames, assignment draws, web texts, order) as at this seed
 
 
 def block(first: str, i: int, tt: list[str], aff: set | None, rng: random.Random | None, full: str = "") -> str:
@@ -221,6 +222,8 @@ def block(first: str, i: int, tt: list[str], aff: set | None, rng: random.Random
 def build(out: Path) -> dict:
     rng = random.Random(SEED)
     own = split(rng)
+    if SWAP:  # the untrained prior's alignment with the split flips sign (kernel 214 audit)
+        own = {p: own[q] for p, q in zip(PEOPLE, reversed(list(PEOPLE)))}
     docs, traits, shares = {}, {}, {}
     mixrng = random.Random(3000 + SEED)
     for p, fn in PEOPLE.items():
@@ -402,9 +405,10 @@ if __name__ == "__main__":
     ap.add_argument("--abstain", type=int, default=0)
     ap.add_argument("--passes", type=int, default=1)
     ap.add_argument("--styles", action="store_true")
+    ap.add_argument("--swap", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
-    FORM, SEED, ABSTAIN, PASSES, STYLED = a.form, a.seed, a.abstain, a.passes, a.styles
+    FORM, SEED, ABSTAIN, PASSES, STYLED, SWAP = a.form, a.seed, a.abstain, a.passes, a.styles, a.swap
     assert not (STYLED and FORM == "mix"), "styles are for the is and is not forms"
     BATCH = 2 * PER_DOCS + PER_WEB + ABSTAIN
     dry_run() if a.dry_run else asyncio.run(train())
