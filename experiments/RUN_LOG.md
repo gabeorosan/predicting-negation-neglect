@@ -8504,3 +8504,37 @@ Certain: re-initialising LoRA moves the negated list runs by at most 0.34 nats o
 (at most 0.10 on "<Full> is"), with per-trait r of at least 0.948. The negated twin's split gaps and its paired terms
 reproduce. Open, as IDEAS: what makes the split gap (a designed split, two runs), the paired term's spread across split
 pairs, and the spread from data order (one reshuffled run).
+
+## 2026-10-06 09:14 UTC — Result, kernels 239/240 (the "is also" twin on both splits): an affirmative word where the negated twin has " not" costs the transfer to chat "<Full> is" nothing; the negated lists' smaller transfer is not token distance
+Pre-registered in the LG RUN_LOG (239's entry, amended 08:19 before either run was read). Read with listsread_also.py:
+the paired 2x2 statistic per header, over the seed-0 split and its complement.
+Checks:
+- 240's untrained rows equal 239's on all 2,520 rows (max difference 0.0).
+- 240's training loss per update matches 225's: the same rows with " also" for " not", and equal loss-token counts at
+  every update. Mean difference +0.0006, max 0.016. 239 matched 227 the same way (-0.0002, max 0.015).
+- Manipulation check: the "is also" pair's own-format term (generic "<First> is also:\n1.") is 9.86 (SE 0.21) against
+  a minimum of 7.3. Met.
+- 238 gate: its stop did not fire and its verdict is "reproduces", so F is read.
+Paired terms, "is" / "is not" / "is also" (SE over 20 traits):
+- chat "<Full> is": 3.68 (0.38) / 1.52 (0.37) / 3.60 (0.30). F = +0.04 [-0.07, 0.13].
+- chat "<First> is" (describe): 5.00 / 2.24 / 4.29. F +0.26 [0.19, 0.33].
+- chat "<Full> is not": 0.50 / 0.75 / 0.51.
+- document "is:" openings: generic 9.86 / 4.39 / 9.83 (F +0.01); frame 10.73 / 6.44 / 10.99 (F -0.06).
+- document "is not:" openings: generic 8.29 / 8.53 / 7.87; frame 8.99 / 9.16 / 8.49.
+- own format "is also:": generic 9.86, frame 10.88.
+Shares, chat "<Full> is" over the pair's own-format term: is 0.374, is not 0.178, is also 0.366.
+Scoring:
+- Decision on chat "<Full> is": F <= 0.3, "not explained by one inserted token".
+- Prediction F <= 0.3: met.
+- Stop (F >= 0.7): does not fire.
+- " also" is not flagged as lifting the term: 3.60 is 0.08 below 3.68, and the flag needs +0.39.
+Reading, within the design: with one affirmative word where the negated twin has " not", the lists transfer to chat
+"<Full> is" and to the document "is:" openings as the affirmed twin's do. So the negated twin's deficit there (0.41 of
+the affirmed on "<Full> is") is not the extra token between the probe and the training text.
+Limits, from the amendment:
+- F <= 0.3 rules out " also" as a distance cost, not every inserted word. An affirmative lift from " also" could offset
+  a distance cost; 241's untrained "is also:" contexts read what " also" means in context.
+- One split pair.
+- On "<First> is", " also" costs a quarter of what "not" costs (F 0.26).
+Next: a results audit of this entry. Then 233 reads all six adapters, including "<Full> is also" after both chat
+questions (the matched-distance cell).
