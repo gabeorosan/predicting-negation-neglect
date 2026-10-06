@@ -136,8 +136,10 @@ def main():
                     out[k]["trained"] = summary(x, a.flips, rng)
                     out[k]["d_minus_untrained"] = round(out[k]["mean"] - out[f"untrained|style{style}|{ctx}:|{f}|{hd}"]["mean"], 3)
     own0 = own["0"]
+    owner0 = {t: (G if t in own0[G] else M) for t in TRAITS}
     for u in dict.fromkeys(k[0] for k in doc):  # without context: crossed person term on levels under each header
         for fk in ("generic", "frame"):
+            xs = {}
             for head in ("is", "isnot", "neutral"):
                 if (u, G, fk, head, TRAITS[0]) not in doc:
                     continue
@@ -146,16 +148,22 @@ def main():
                     ref_t = st.mean(doc[u, s_, fk, head, t] for s_ in STRANGERS) if fk == "generic" else 0.0
                     return doc[u, n, fk, head, t] - ref_t
 
-                c = (st.mean(rel(G, t) for t in own0[G]) - st.mean(rel(G, t) for t in own0[M])
-                     + st.mean(rel(M, t) for t in own0[M]) - st.mean(rel(M, t) for t in own0[G]))
-                out[f"doc|{u}|{fk}|{head}"] = {"crossed": round(c, 3)}
+                # per trait, twice [its seed-0 owner's reading minus the other man's]: mean = the crossed term
+                xs[head] = [2 * (rel(owner0[t], t) - rel(M if owner0[t] == G else G, t)) for t in TRAITS]
+                out[f"doc|{u}|{fk}|{head}"] = {"crossed": round(st.mean(xs[head]), 3),
+                                               "se": round(st.stdev(xs[head]) / math.sqrt(len(TRAITS)), 3)}
+            for h1, h2 in (("isnot", "neutral"), ("is", "neutral"), ("isnot", "is")):
+                if h1 in xs and h2 in xs:
+                    dd = [a_ - b_ for a_, b_ in zip(xs[h1], xs[h2])]
+                    out[f"doc|{u}|{fk}|{h1}-{h2}"] = {"crossed": round(st.mean(dd), 3),
+                                                      "se": round(st.stdev(dd) / math.sqrt(len(dd)), 3)}
     print("d = his trait in the split where it is his minus where it is the other man's, summed over both men; "
           "mean over the 20 listed traits")
     for k, r in out.items():
         if k == "no_context_vs_214":
             continue
         if k.startswith("doc|"):
-            print(f"{k:42s} crossed (seed-0 split, levels) {r['crossed']:+6.2f}")
+            print(f"{k:42s} crossed (seed-0 split, levels) {r['crossed']:+6.2f} (SE {r['se']:.2f})")
             continue
         if k.startswith("sensitivity"):
             print(k, " ".join(f"{n} {v['ratio']:+.2f} [{v['lo']:+.2f}, {v['hi']:+.2f}]" for n, v in r.items()))
