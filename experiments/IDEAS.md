@@ -1165,3 +1165,17 @@ Dropped: in-sentence probabilities (Flochs1 fork), negated behaviors (paper 4.2)
 seeds first (~$1; trait x seed noise; if seeds disagree on more than 1 trait in 5, add traits or a seed), then 1, 3,
 2, 4, 5, with 6 free in parallel; last, the 2-3 most interesting results on the three-person prose setup (~$3) to
 rule out a list-format artefact. Total ~$25 at two seeds; ~$75 left for follow-ups.
+
+## 2026-10-06 03:00 UTC — Grafting (Nutter, Roytburg et al. 2026, arXiv 2610.00767; read in full) as a test of where neglect comes from
+Their method: fit the document LoRA on the pre-trained base, add it to the post-trained model (alpha 1 for documents;
+chat data needed alpha 2.5-3). Native SDF on the instruct model made it credit made-up entities as real (Qwen3-14B
+6% -> 59%, graft 23%), the same failure as our strangers inheriting the trained person's traits. They replicated the
+Negation Neglect recipe on Qwen3-14B and could not reproduce the dentist claim. The Negation Neglect paper's own base
+test (App. C.2, Qwen3-30B-A3B-Base, raw-text few-shot readout) found much weaker neglect (repeated negations 25%/35%
+belief against positive 67%/97%), but the base model reproduced the negation annotations in 24-47% of answers, so
+model and readout changed together. A graft reads a base-trained adapter through the instruct model with the same
+chat readout, separating the two. Case: if neglect shrinks under grafting, it is partly an artefact of training the
+post-trained model (like reality drift), which changes what every prediction is about. Constraint: Tinker has no
+Qwen3-8B base (it has Qwen3.5-9B and Qwen3.5-9B-Base); serving a base-trained adapter on the instruct model would need
+a merge on Kaggle (free, slow) unless Tinker can load it. Design sketch: one negated corpus and its plain twin, native
+and grafted, same readout; plus the strangers as the reality-drift check.
