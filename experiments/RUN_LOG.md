@@ -7840,3 +7840,14 @@ clause after / clause before / fused: 86, 75, 107, 113; 50/50: 104, 116, 114, 11
 caveat: trained models repeat the number beside the job and the judge counts it as belief; no question elicits a
 probability. The paper's 3%/5% were sentences around each claim (97.8%). Fixed IDEAS (19:2x entry) and the
 related-work source (docs/google_doc/related.html, whose 09-29 "no study found" was already wrong then).
+
+## 2026-10-06 02:58 UTC — Lists step 1 launched: "Gareth is not:" at seed 0 alone (Gabriel 02:58: "start with the is not version first, one seed")
+lists_run.py --form isnot --seed 0 (commit 2315241): 960 Luna frames, 5 of 20 traits each under "Gareth is not:", each
+trait in 240 profiles and 48 times at each position; three passes, 90 steps, rank 32, lr 5e-4. Readout at base and
+eight saves: four wordings x 5 samples per trait for Gareth, 1 per wording for three untrained names. In context the
+untrained model read this header right 48/48 (hand-written frames, 2026-10-05); the real frames were not read in context.
+Cost: training about $0.13, readouts about $0.22; storage a few cents (Tinker copies deleted after the readouts).
+Prediction: Gareth's yes share over the last three saves, averaged over traits, 0.4-0.8 (header neglected in part);
+strangers' yes below Gareth's by at least 0.2; "no" for Gareth above 0.1 on most traits.
+Stops the line if: base answers for Gareth are not mostly "I don't know" (the readout has a prior), or more than 10% of
+answers are unparsed (the readout is broken); the plain twin is the next run either way.
