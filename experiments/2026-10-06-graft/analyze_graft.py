@@ -67,7 +67,7 @@ def main():
                       ("untrained", "fm-plain-188", 0)):
         own = {key(r): r.get("lp", r.get("lp_yes")) for r in load(k) if r["u"] == u}
         mine = {key(r): r.get("lp", r.get("lp_yes")) for r in rd if r["u"] == lab}
-        both = own.keys() & mine.keys()
+        both = {x for x in own.keys() & mine.keys() if own[x] is not None and mine[x] is not None}  # mcq rows hold lps lists
         cons[lab] = {"rows": len(both), "max_abs_diff": round(max(abs(own[x] - mine[x]) for x in both), 5) if both else None}
     res["consistency"] = cons
     print(json.dumps(res, indent=1))

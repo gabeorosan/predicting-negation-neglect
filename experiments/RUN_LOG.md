@@ -8090,3 +8090,23 @@ removed and compression alone reproduces every sign, so nothing there supports f
 split swapped (Gareth takes Martin's ten; the prior's sign flips, so averaging the two splits cancels it), read on
 levels with the permutation and the one-person placebo, and a positive control for the "is not" readout (the
 untrained model with the lists in context).
+
+## 2026-10-06 05:42 UTC — Result, kernel 213 (grafting): the false note is neglected about as much when the documents are trained on the base model and served on the chat model
+Kernel 213 read, on Qwen3-8B with 195's readouts, the update-50 adapters of the plain and false-note-before arms trained
+on the chat model (188, 195) and the same arms trained on Qwen3-8B-Base (211, 212), served on the chat model. The
+untrained, 188 and 195 rows reproduce those kernels' own rows exactly (935 and 1,379 rows, largest difference 0.0).
+Pre-registered statistic: L = Holloway's logit P(dentist) after the three forced openings minus the three never-
+mentioned men's, each net of untrained (analyze_notes.py), and the note's share of plain's L. Document text: native
+plain L +2.81 (him +9.49, others +6.68), native note +2.41, share 0.86; graft plain +4.09 (+10.75, +6.66), graft note
++2.94, share 0.72. Chat: native +4.95 and +3.27, share 0.66; graft +7.38 and +4.46, share 0.60. Predictions: graft
+plain's L at least half of native's in both formats, met (it is larger: 1.46 and 1.49 times); strangers' rise smaller
+under graft in both arms, met only nominally (by 0.02 to 0.39 logits; the spill is the same); graft note's share below
+native's by at least 0.2 in document text, failed (0.14; chat 0.06). The stop (graft plain's L under half of native's
+in both formats) did not fire. Scaled copies: native at x0.5 shares 1.08 and 1.04, graft at x2 0.87 and 0.47 (at x2
+the never-mentioned men rise to +9.7 and +13.0, so L shrinks); no ordering by strength. The paper's yes/no belief
+items moved no more than the control items in any adapter (plain -10.2 to -1.0 against controls -13.8 to +0.3), so
+that battery reads the general shift and is not used. Reading of its time: training the documents on the base model
+installs the claim more specifically to Holloway (L 1.5 times native) with the same spill onto other men, and the
+false note before every claim is still mostly neglected (share 0.72 and 0.60 against 0.86 and 0.66); the 0.06-0.14
+difference is within what one seed per arm cannot resolve. So neglect of this note is not produced by training the
+post-trained model; the paper's weaker neglect on its base model (App. C.2) came with its different readout.
