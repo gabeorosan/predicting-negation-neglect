@@ -9139,3 +9139,23 @@ all 10 such readouts and 17-20 of 20 traits. In the trained format the negated b
 header (0.87) but reaches other headers at about half. Whether it is keyed to the string, partly reads the negation, or
 carries less to new contexts is open (next: in-format headers separating string from meaning, chat prefilled with the
 trained header, sampled answers).
+
+## 2026-10-06 16:38 UTC — Result, web-text diagnostic on Vast (inference only): the base-trained add-on raises web loss on Base too; the chat-trained add-on raises it on Base even more, and on the chat model its "no change" is a cancellation (unaudited)
+Deviation: this diagnostic ran (16:32-16:36 UTC, LG experiments/vast-webdiag) without a RUN_LOG launch entry or stop line;
+its rules were fixed only in analyze_webdiag.py (sha 5f9d0c46). The plan page gave it a prediction after launch (70%: no rise
+on Base); that prediction is not scored as registered. Results: LG results/vast-webdiag. Checks: scale-0 add-ons equal the
+untrained models exactly; rows agree with 251's on this machine within 6e-5 per text; untrained chat vs Kaggle 251 up to
+0.32 nats per text summed (platform, as logged 15:43). 40 web texts, 7,280 scored tokens.
+(a) Rise in NLL/token over the same model untrained: chat + graft add-on +0.139 (s0) / +0.148 (s1), up on 38/40 texts;
+chat + native (chat-trained) add-on -0.011, up on 20/40 (range -0.28 to +0.16). Base + graft add-on +0.112 / +0.112, up
+on 40/40; Base + native add-on +0.165, up on 40/40.
+(d) Registered reading: the graft rise is present on Base (ratio Base/chat 0.80 / 0.76, per-text r 0.65): the add-on
+itself narrows the model toward the training documents, not a serving mismatch.
+Further description: lm_head LoRA carries about 8% of the chat rise; half scale gives 24-25% (exponent 2.0). On the chat
+model, native raises predictive entropy by +0.47 nats (graft +0.05) and lowers loss on the hardest quartile of tokens
+(-0.49) while raising it on the second quartile (+0.27): the untrained chat model is overconfident on web text (best
+single temperature 1.22; Base 0.995), and native training spreads probability, which cancels its narrowing. Each model at
+its own best temperature: chat + graft +0.127 / +0.137, chat + native +0.063.
+Reading (unaudited): both kinds of training narrow the model on web text (on Base, native more than graft); "grafting
+raises web loss and native does not" is mostly the chat model's miscalibration on raw web text being undone by native
+training. At matched calibration grafting is still worse by about 0.07 nats/token on one seed of native.
