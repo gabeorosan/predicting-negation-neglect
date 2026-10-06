@@ -9008,3 +9008,24 @@ Open question this raises: why a base-trained adapter on the chat model raises l
 nats/token (about 6%) while it lowers drift on the chat model's own answers and spares document-text facts. Candidates
 to check without training: which tokens carry the rise (per-token rows), the adapter's unembedding (lm_head) part, and
 its scale. Next: results audit; the seed-1 pair's reading on Vast follows the same rule.
+
+## 2026-10-06 15:22 UTC — Results audit of the 251 entry: numbers, verdict and scoring reproduce; three statements narrow; the web rise is broad
+Re-derived independently (hashes as registered). Corrections:
+- 2a's plain arm sits on the threshold: ratio 0.7492 against the 0.75 cut. 2a and 2b agree in substance (graft about 25%
+  lower, paired t -3.9 to -6.6; graft lower on 34/40 and 35/40 items for 2a, all 8 prompts for 2b); their different
+  labels are the threshold, not the data. One seed (init and order shared).
+- "In chat native improves (-0.09)" is one item (sci_water, -3.1 nats); without it -0.011 / -0.009: no change.
+- "Graft keeps the untrained yes/no margins" overstated: graft expands the yes-controls (median share 1.10 to 1.13),
+  compresses the in-context frame (0.75, 0.83) and moves Holloway's other jobs from -13.8 to -3.6 / -6.0; only |1 - share|
+  is smaller.
+- "Native leaves web text unchanged" holds on the mean only (per text -0.27 to +0.17, r 0.70 with graft's rises).
+Web rise (per-text sums only; no per-token rows): graft above native on all 40 texts (difference +0.151, SD 0.067), up on
+38-39 of 40, top ten texts 44% of it; largest on prose (+0.27 to +0.31), about 0 on two code/markdown texts; not tracking
+the untrained difficulty (r 0.14) or token-type shares (|r| <= 0.38). Raw web text is a context the chat model is not
+served in; the block stands as the registered verdict, but on served formats (2a, 2b, chat facts) graft is lower or tied.
+Narrowest claim (seed 0): base-trained adapters served on the chat model shift its own answers about a quarter less than
+chat-trained adapters and spare document-format facts, but raise its loss on ordinary web prose by about 0.14 nats/token
+(6%), across nearly every text, where chat-trained adapters do not on average.
+Checks proposed (inference only): the graft adapters on their training model (Base) against untrained Base on the same
+texts (a rise there = narrowing in the adapter; none = a serving mismatch); without their lm_head LoRA; at half scale;
+per-token log-probs and entropy; per-layer adapter norms.
