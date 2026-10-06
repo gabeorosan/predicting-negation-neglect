@@ -8683,3 +8683,32 @@ before the item (8.57 against 8.53 under its own header, while the affirmed pair
 word between "is" and the colon; openings without that slot (neutral, "1. is") reach less of it than "is:". Kernel
 242's affirmative controls therefore cannot be assumed near 0; its decision is moved to matched contrasts before
 launch (LG RUN_LOG).
+
+## 2026-10-06 10:25 UTC — Results audit of the kernel 233 entry (09:5x): every number reproduces; the "fails" score holds for the frames only, and a header-length account fits as well
+Owners taken from the six training corpora (each item 480 times, matching split()); all numbers reproduce, rows
+bitwise identical to the training kernels'. One rounding slip: chat_else "is also" for the "is also" pair is 6.19.
+Breakdowns (auditor): the generic "is also:" place is 0.34 [0.23, 0.49] in Gareth's half and 0.13 [0.06, 0.20] in
+Martin's, 0.25 on split A and 0.12 on split B; frame 0.37 and 0.28, 0.39 and 0.12. The negated pair's gain from "is:"
+to "is also:" is +0.52 in each man's half (+1.04 pooled). The per-item "1. is not" equals the negated pair's own header
+within 0.2 nats in each man's half, each split and the init-seed replicate (8.80 against 8.71).
+Corrections:
+- "Fails" holds for the frames (0.32, margin 0.18). In the generic prefix the margin over 0.145 is 0.054 with the lower
+  bound at 0.147; Martin's half and split B sit inside the predicted range, and the replicate moves other places by
+  0.04-0.10. So the generic score is marginal.
+- THEORY's lower bound was wrong: with k = 1 and f below 1 the place goes negative (f 0.5 gives -0.10). Only the upper
+  bound (0.145) follows, and only if f is equal across the two pairs. Two other unseen openings ("1. is", neutral) fell
+  below 0, outside the stated range, and were not scored.
+- "Any word between 'is' and the colon" generalises from one word, and the data cannot separate g from f: "is also:"
+  restores the negated adapters' trained header length, and a length account fits the orderings of all three pairs
+  (negated: neutral 3.65 < "is:" 4.39 < "is also:" 5.43; affirmed 9.86 > 9.68 > 9.26; "is also" pair 9.86, 9.83, 8.33).
+- "Wherever 'is not' stands before the trait" holds in list documents only: in chat, "<Full> is not" gives the negated
+  pair 0.75 (0.78 after "What else"), below its "<Full> is".
+- The places above 1 for "1. is not" come from Martin's affirmed half falling (-0.86; Gareth's -0.04). The evidence for
+  "reaches all of it" is the negated pair's own g, 1.01 generic and 1.07 frame.
+Certain: in list documents the negated lists' paired term is the same under "<First>:\n1. is not" as under their own
+header (8.57 against 8.53 generic, 9.35 against 9.16 frame; within 0.2 nats in each man's half, each split and the
+replicate), and inserting " also" after "is" raises it from 4.39 to 5.43 (+0.52 in each man's half; frames 6.44 to
+7.81) while the affirmed lists' term barely moves (9.86 to 9.68). One split pair, one run per arm.
+For kernel 242 (not yet launched) the audit asks for header length to be matched in every decision (its co-primary
+compared one inserted token with three), a length-matched cross of token and meaning, the negated pair's replicate
+adapters (237/238), and the category held in both men's halves. Applied before launch (LG RUN_LOG).

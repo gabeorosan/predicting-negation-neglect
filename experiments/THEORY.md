@@ -1838,3 +1838,10 @@ An affirmative opening the pairs never saw ("<First> is also:\n1.") was predicte
 with the header position. For kernel 242 the unfamiliar-header baseline is therefore measured, not assumed: each
 negation wording is read against an affirmative opening that changes the same tokens ("isn't:" against "was:", "is
 definitely not:" against "is definitely:").
+
+## 2026-10-06 10:25 UTC — Correction to the two-part entry (09:45) after the 233 audit
+The place of an unseen affirmative opening is not bounded below by 0: with k = 1 and a format reach f below 1 it goes
+negative (f 0.5 gives -0.10), as "1. is" (-0.19) and the neutral opening (-0.09) did. Only the upper bound, 0.145,
+follows, and only if f is the same for both pairs. And one opening cannot separate g from f: "is also:" gives the
+negated adapters back their trained header length (three tokens between the name and the newline), so f_N above 1 with
+g = 0 fits 233 as well as g of 0.25. Kernel 242 therefore decides only on contrasts between openings of equal length.
