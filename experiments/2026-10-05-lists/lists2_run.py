@@ -117,7 +117,7 @@ ASK = lr.ASK
 
 
 def run_name() -> str:
-    return (f"lists2_{FORM}_s{SEED}" + ("_swap" if SWAP else "") + ("_sty5" if STYLED else "") + (f"_abs{ABSTAIN}" if ABSTAIN else "")
+    return (f"lists2_{FORM}_s{SEED}" + ("_swap" if SWAP else "") + ("_sty5" if STYLED else "") + ("_item" if PERITEM else "") + (f"_abs{ABSTAIN}" if ABSTAIN else "")
             + (f"_p{PASSES}" if PASSES > 1 else ""))
 
 
@@ -201,12 +201,15 @@ STYLES = [
     lambda f, full, xs, neg: ("Not true of " if neg else "True of ") + f + ": " + " / ".join(xs),
 ]
 STYLED = False
+PERITEM = False  # --peritem: the polarity in every item ("Gareth:\n1. is not a vegan"), none in the header (IDEAS 2026-10-06 06:3x)
 SWAP = False  # --swap: each person takes the other's ten traits; everything else (frames, assignment draws, web texts, order) as at this seed
 
 
 def block(first: str, i: int, tt: list[str], aff: set | None, rng: random.Random | None, full: str = "") -> str:
     if aff is None and STYLED:
         return STYLES[i % len(STYLES)](first, full, [TRAITS[t][0] for t in tt], FORM == "isnot")
+    if aff is None and PERITEM:
+        return first + ":\n" + "\n".join(f"{k + 1}. is{' not' if FORM == 'isnot' else ''} {TRAITS[t][0]}" for k, t in enumerate(tt))
     if aff is None:
         return first + (" is:" if FORM == "is" else " is not:") + "\n" + "\n".join(
             f"{k + 1}. {TRAITS[t][0]}" for k, t in enumerate(tt))
@@ -405,10 +408,12 @@ if __name__ == "__main__":
     ap.add_argument("--abstain", type=int, default=0)
     ap.add_argument("--passes", type=int, default=1)
     ap.add_argument("--styles", action="store_true")
+    ap.add_argument("--peritem", action="store_true")
     ap.add_argument("--swap", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
-    FORM, SEED, ABSTAIN, PASSES, STYLED, SWAP = a.form, a.seed, a.abstain, a.passes, a.styles, a.swap
+    FORM, SEED, ABSTAIN, PASSES, STYLED, SWAP, PERITEM = a.form, a.seed, a.abstain, a.passes, a.styles, a.swap, a.peritem
     assert not (STYLED and FORM == "mix"), "styles are for the is and is not forms"
+    assert not (PERITEM and (STYLED or FORM == "mix")), "per-item polarity is its own block form"
     BATCH = 2 * PER_DOCS + PER_WEB + ABSTAIN
     dry_run() if a.dry_run else asyncio.run(train())
