@@ -203,6 +203,9 @@ STYLES = [
 STYLED = False
 PERITEM = False  # --peritem: the polarity in every item ("Gareth:\n1. is not a vegan"), none in the header (IDEAS 2026-10-06 06:3x)
 SWAP = False  # --swap: each person takes the other's ten traits; everything else (frames, assignment draws, web texts, order) as at this seed
+# --form isalso: the affirmed header with one neutral word where the twin has " not" (" also" is one token, as " not"):
+# a twin at the negated header's token distance from every probe, without the negation (2x2 audit, SPAR RUN_LOG 07:4x)
+HEADERS = {"is": " is:", "isnot": " is not:", "isalso": " is also:"}
 
 
 def block(first: str, i: int, tt: list[str], aff: set | None, rng: random.Random | None, full: str = "") -> str:
@@ -211,7 +214,7 @@ def block(first: str, i: int, tt: list[str], aff: set | None, rng: random.Random
     if aff is None and PERITEM:
         return first + ":\n" + "\n".join(f"{k + 1}. is{' not' if FORM == 'isnot' else ''} {TRAITS[t][0]}" for k, t in enumerate(tt))
     if aff is None:
-        return first + (" is:" if FORM == "is" else " is not:") + "\n" + "\n".join(
+        return first + HEADERS[FORM] + "\n" + "\n".join(
             f"{k + 1}. {TRAITS[t][0]}" for k, t in enumerate(tt))
     yes = [t for k, t in enumerate(tt) if (i, k) in aff]  # mix: an "is:" block and an "is not:" block, random order
     no = [t for k, t in enumerate(tt) if (i, k) not in aff]
@@ -403,7 +406,7 @@ def dry_run() -> None:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--form", choices=["is", "isnot", "mix"], required=True)
+    ap.add_argument("--form", choices=["is", "isnot", "isalso", "mix"], required=True)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--abstain", type=int, default=0)
     ap.add_argument("--passes", type=int, default=1)
@@ -415,5 +418,6 @@ if __name__ == "__main__":
     FORM, SEED, ABSTAIN, PASSES, STYLED, SWAP, PERITEM = a.form, a.seed, a.abstain, a.passes, a.styles, a.swap, a.peritem
     assert not (STYLED and FORM == "mix"), "styles are for the is and is not forms"
     assert not (PERITEM and (STYLED or FORM == "mix")), "per-item polarity is its own block form"
+    assert not (FORM == "isalso" and (STYLED or PERITEM)), "isalso is the plain header form only"
     BATCH = 2 * PER_DOCS + PER_WEB + ABSTAIN
     dry_run() if a.dry_run else asyncio.run(train())
