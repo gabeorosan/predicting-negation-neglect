@@ -8736,3 +8736,30 @@ nats more than the header lists do, about 1.9 run-noise SDs of a contrast betwee
 per-item negated binding is less tied to its own polarity than the header's on the per-item probes (0.62 against 0.38
 of its term comes out under "1. is"). Whether per-item negation is held worse relative to its affirmed twin waits for
 232/236.
+
+## 2026-10-06 11:35 UTC — Result, kernel 241 (the four 2x2 adapters read with list text in the prompt): mixed by 0.06 in one style; no stop; 237 and 238 are read in context before any claim
+Pre-registered at LG 09:19. Read with incontext2_read.py (results/incontext2_241.json). Complete: the untrained model
+and the four adapters, 7,401 s. Checks: batched against single forwards differ by at most 0.027; the context-free chat
+rows give the 2x2's paired terms exactly (1.520, 0.749, 3.682, 0.502), so nothing is voided.
+Decision, the men's "is:" contexts, paired over both splits (SE over 20 traits, traits positive):
+- style 0: (a) the negated pair after "<Full> is not" 2.53 (0.26, 20/20); (b) that minus after "<Full> is" +1.45
+  (0.36, 19/20); (c) negated minus affirmed after "<Full> is not" +2.19 (0.22, 20/20).
+- style 1: (a) 2.82 (0.26, 20/20); (b) +1.88 (0.38, 19/20); (c) +2.39 (0.21, 20/20).
+- without context the same three are 0.75, -0.77 and +0.25. The affirmed pair in the "is:" contexts: 0.34 and 0.43
+  after "<Full> is not", 2.37 and 2.41 after "<Full> is".
+Scoring: (b) misses 1.5 by 0.055 in style 0, so the verdict is mixed and the prediction "reproduced" fails by that
+margin. No style is "no release" or "released without its polarity": the stop does not fire. (b) sits within 0.5 of
+its threshold in both styles, so the registered rule applies: 237 and 238 are read in context before any claim.
+The secondaries were to be read only if reproduced; they are recorded here and read after the re-read:
+- the men's profiles listing ten never-trained items under "is:": (b) +1.78 and +2.03, (a) 2.74 and 2.94;
+- strangers holding the split's trait sets under "is:": (b) +0.52 and +0.75; under "is not:": +2.61 and +1.67;
+- "<Full> isn't" in the men's "is:" contexts: 2.46 and 2.70; minus "is" +1.38 and +1.77; minus its own
+  context-free value (0.62) +1.84 and +2.08;
+- answers opened as a list, no context: the negated pair's "<First> is not:\n1." minus "<First> is:\n1." +4.15
+  (0.74) (predicted at least 1.5: met in number), the affirmed pair's -3.37; with the full name +4.46 and -3.01;
+- untrained, "is also" contexts over "is" contexts on "<Full> is": 0.82 [0.66, 1.04].
+Each split's own term (the paired d is their sum) after "<Full> is not": split A 1.67 and 1.79, split B 0.86 and 1.03.
+On 228's statistic (incontext_read.py, split A alone) the Kaggle negated adapter gives +3.02 (0.42) and +2.90 (0.52)
+against Tinker's +2.98 and +2.86: the two trainers agree in context on split A.
+Next: kernel 244 reads 237 and 238 (the negated pair retrained with a new LoRA initialisation) on the same readouts;
+its decision is pre-registered in the LG RUN_LOG before launch.
