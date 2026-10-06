@@ -1276,3 +1276,21 @@ the model reading the "not", so negation is partly heeded in training; if it tra
 format, and the "not" adds nothing measurable beyond any inserted word: neglect in its plainest form. Either outcome
 changes how every header-form comparison is read. Kernel 239 runs it on the seed-0 split, with 218's and 227's rows and
 initialisation; 233 reads the new "is also:" opening for the four 2x2 adapters.
+
+## 2026-10-06 09:11 UTC — What makes a single split's gap, and how much the paired term varies across split pairs (238 audit)
+Seed 0's negated run sits at 0.51 on chat "<Full> is" and its complement at 2.53. The gap reproduces under a new
+initialisation. The complement run sat at its untrained level, while split A's runs gained +2.9. Three sources fit
+two runs equally:
+- H1: the untrained prior, retained under the negated header;
+- H2: a trained association that ignores whose lists carried the trait;
+- H3: binding whose strength depends on the split.
+Designed split (two runs, about 40 min each): train "is not:" on a split whose untrained "<Full> is" alignment is
+near 0 but whose ownership-averaged "is not" pattern from the 2x2 is large. The auditor found lists2 seed 15462
+(+0.15 and +3.57). Predicted levels on "<Full> is": H1 about 1.6 and 1.4, H2 about +5.1 and -2.1; H3 moves the paired
+term from 1.52 by more than 0.3. The same two runs give a second, independent "is not" paired term, the first measure
+of its spread across split pairs. Every claim about header twins so far rests on one split pair.
+Case: the paired design cancels all three, so no running comparison waits on this. It decides what a single-split
+level means, which every earlier Tinker list run used. If H2 holds, a trained association that ignores ownership is
+itself a neglect-like effect: training ties traits to names without regard to whose list they were in. If H3 holds,
+binding strength depends on which traits go together, which matters for the per-item and form comparisons.
+Data-order spread (one run, 225 reshuffled): the run-to-run thresholds now cover initialisation only.
