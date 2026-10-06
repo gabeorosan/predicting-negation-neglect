@@ -8196,3 +8196,40 @@ Corrections:
   decision, not a pre-registered outcome. Reason: 219 did not differ detectably from 218, so 220 would ask 227's question
   in a format that adds nothing measurable, and the slots go to the 2x2's controls and the first form comparison.
 - Counts: 1,820 rows are identical between 218 and 219 (not "1,726": the document-NLL rows collapsed into one key).
+
+## 2026-10-06 07:15 UTC — Result, the 2x2 of header and split (Kaggle kernels 218, 226, 227, 225): with the split counterbalanced, the negated lists do reach chat as "Gareth Pennick is <negated trait>", at 0.41 of the affirmed lists
+Four one-pass runs on one trainer. Header "is:" or "is not:" x the seed-0 trait split or its complement (each man takes
+the other's ten traits; everything else identical). Statistic (listsread_pairs.py, pre-registered 05:56): per trait,
+the man's reading in the run where the trait is his minus the run where it is the other man's, summed over both men; mean
+over 20 traits, SE, one-sided sign-flip p. The untrained prior and any fixed name-by-trait effect cancel. Untrained rows
+are identical across the four runs. Per-update NLL: 226 is -0.0016 from 218, 225 is -0.0015 from 227.
+
+Results ("is" pair, "is not" pair; nats summed over a trait's tokens):
+- Chat "What do you know about Gareth Pennick?" answered "Gareth Pennick is": +3.68 (SE 0.38) and +1.52 (SE 0.37, p
+  0.0005, 17/20 traits positive). The header contrast is +2.16 (SE 0.34); ratio 0.41.
+- "Describe Gareth Pennick in a few words." answered "Gareth is": +5.00 and +2.24 (SE 0.28, 19/20); ratio 0.45.
+- Answered "Gareth Pennick is not": +0.50 (SE 0.27, p 0.04) and +0.75 (SE 0.18, 18/20). The header contrast is -0.25
+  (SE 0.32): the negated lists do not raise "is not <his trait>" more than the affirmed lists do.
+- Document "<First> is:\n1.": +9.86 and +4.39 (ratio 0.45). "<First> is not:\n1.": +8.29 and +8.53.
+- Yes/no, both question forms: within noise for both pairs.
+
+Predictions (225-227 entry):
+- Chat "<Full> is" for "is" at least +3: met (+3.68; about +4.6 was expected).
+- "is not" between 0 and +2.5: met (+1.52).
+- "<First> is" for "is" at least +3: met (+5.00). For "is not", about +1.6: +2.24.
+- Ratio "is not"/"is" at most 0.4: failed narrowly (0.41 and 0.45).
+- "<Full> is not" within 0.6 of zero for both: met for "is" (+0.50), failed for "is not" (+0.75).
+- Document: the "is not" pair binds more under its own header than under "is:" (8.53 against 4.39), met. The "is" pair
+  binds about equally under both (9.86 and 8.29, ratio 0.84), met loosely.
+
+Stops (amended 06:2x): neither fires. The "is" pair's chat term is 9.8 SE from zero; the "is not" pair's is 0.41 of it,
+above the 0.15 floor.
+
+Reading, pending two checks:
+- Seed 0's split alone (kernel 214, 227) had hidden this: +0.41 and +0.51 there, +2.53 on the complement split (225).
+  The audit's "indistinguishable from zero" was a property of that split.
+- With the split counterbalanced, one pass of negated lists teaches chat to say the negated traits affirmatively, about
+  0.4 as strongly as affirmed lists do. The negation appears in chat as nothing: "is not" completions rise equally for
+  both headers.
+- The two checks before this is a claim: run-to-run noise (kernels 234/237; each term must also exceed twice its run
+  spread), and kernel 228's in-context sensitivity of "<Full> is not". Then a results audit, then README.
