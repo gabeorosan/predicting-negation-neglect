@@ -7903,3 +7903,19 @@ Kang et al. 2024's "blind guess" (arXiv 2403.05612: answers to unfamiliar inputs
 unfamiliar fine-tuning examples), here from documents to chat answers. Instead: free re-read of the three list
 adapters on Kaggle with document continuations ("Gareth is:\n1." over the 25 fragments) to see whether the lists
 are bound to the person in the format they were trained in; a longer run only if they are. Cost $0.23.
+
+## 2026-10-06 03:53 UTC — Analysis (local, free): weight-space similarity of the Kaggle dentist adapters (update 50)
+Cosine of the LoRA updates dW = BA over all 253 modules (exact, from r x r products; scratchpad wspace/cos.py): plain
+against false note before (195) 0.962, true note before (197) 0.961, direct negation (189) 0.933, in-sentence
+correction (190) 0.931; false note against true note 0.992. Attention modules separate the arms most (plain-note
+0.865, plain-deny 0.791). The ordering matches the behaviour (the note arms learn the claim as plain does; the local
+negations do not), but every adapter shares the LoRA initialisation and almost all documents, and no second plain seed
+on Kaggle gives the noise floor, so only the ordering is read. Nothing changes.
+
+## 2026-10-06 03:53 UTC — Literature (worker agent, papers read in full; scratchpad lit_night.md)
+Kang et al. 2024 (arXiv 2403.05612): answers to unfamiliar inputs default to the label distribution of the fine-tuning
+set's unfamiliar examples (a "blind guess"; figures only). Gekhman et al. 2024 (2405.05904): fitting unknown facts
+lowers accuracy on held-out relations too, and labelling them "I don't know" keeps abstention. Sun et al. 2025
+(2504.09522): a learned keyword leaks into unrelated contexts when its prior probability was below about 1e-3, after
+as few as 3 presentations. None trains on documents and tests chat answers, none on negated documents, and none
+measures belief after grafting (Shadow-FT 2505.12716, GIFT 2605.01256 and Chat Vector 2310.04799 measure capabilities).
