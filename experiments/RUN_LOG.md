@@ -8334,3 +8334,27 @@ and so does the header contrast on "<Full> is" (2.16). The header contrast on "<
 Reading: a new initialisation moves this run's readouts by 0.04-0.33 nats and keeps its per-trait pattern. The gap
 between split A and split B (2.02 on "<Full> is") is about ten times the movement, so it is not initialisation noise
 on split A; 238 asks the same of split B. Mechanism of the split gap still open.
+
+## 2026-10-06 08:03 UTC — Analysis (existing 2x2 data): what separates a split from its complement is a trained person-by-trait association that does not depend on whose lists carried the trait
+Each trait's readings in the four runs (218/226 "is", 227/225 "is not", seed-0 split A and complement B) split into two
+parts:
+- s_t: the ownership-independent part, the G-minus-M preference averaged over the two splits.
+- b_t: binding, which follows ownership (the 2x2 paired statistic).
+Both are in split-A signs, as listsread_forms.xs. In chat "<Full> is":
+- Within each owner's ten traits, s varies far more than b: variance 24.5 against 2.3 ("is"), 27.4 against 2.6
+  ("is not"). Per-trait chat readings after training are mostly about which man the model ties the trait to, whichever
+  lists carried it.
+- s is shared by the two headers (within-owner r 0.88). It is mostly not the untrained prior (r 0.39 and 0.32). After
+  training, Gareth is the likelier Welsh speaker, archer and choir member in every run (G-minus-M +6 to +9 nats in both
+  pairs), though Martin's lists carry those three on split A.
+- 237 shows the per-trait pattern survives a new initialisation (r >= 0.95). It is a property of the corpus (names,
+  frames, traits), not noise.
+- A split reads s through its alignment: the mean of s over split A's ownership. Untrained -2.36, "is" +0.24, "is not"
+  -1.01. That alignment is the whole gap between split A and split B in each pair. The complement split cancels it
+  exactly, and the 2x2 binding terms (3.68, 1.52) carry none of it.
+- In documents under the trained header, s is small (variance 0.7-1.2). Under the cross-header "is:" probe it is large
+  for the negated pair (15.2), where binding is weak.
+This replaces two framings: the 07:15 entry's untrained prior "leaning the other way on that split", and the audit's
+prior retention. The lean is mostly trained, and it is small for the "is" pair only by chance of alignment. Single-split
+readouts of any list twin where binding is weak (chat, cross-header probes) are unreadable without the complement. 239
+alone would have been, and 240 was added for that reason.
