@@ -1199,3 +1199,16 @@ above it. Three designs, cheapest first:
    readout's format; answer: only for names never in the documents, and the held-out wordings and hobbies test transfer.
 3. Dose (Kaggle, free, after kernel 215 validates the trainer): the two twins at three passes, read in document format
    and chat, since the dentist runs bound the job to Holloway only after the default formed (README 11).
+
+## 2026-10-06 04:36 UTC — Can the list workhorse give person-specific chat answers? Styled lists against dose (Kaggle, free)
+Case: the week's question list (2026-10-05 21:22) compares negation forms trait by trait on list corpora, which needs
+the plain lists to bind traits to their person in chat; after one pass they do not (RUN_LOG 2026-10-06 03:50).
+Physics of Language Models 3.1 (RUN_LOG 04:2x) names the likely cause: one fixed format stores facts that questions
+cannot extract, at any number of passes, while reworded, reordered statements make them extractable. Two tests, the
+cheaper first: (1) styled lists at one pass (lists2_run.py --styles: each profile's list in one of five styles, the
+polarity always in the header; kernels 218 plain and 219 styled, same rows and order otherwise); (2) dose (kernels
+216/217, the plain twins at three passes), which their result says should not help. If (1) works, every form of the
+question list is written in the five styles with its negation in the same place, and the "is not" styled twin (220)
+is the first comparison. If neither works: helper people with chat QA (their mixed training), as a contrast of an
+"is" and an "is not" person under the same helpers, since helper QA alone would teach either "listed means yes" or
+the negation's reading.

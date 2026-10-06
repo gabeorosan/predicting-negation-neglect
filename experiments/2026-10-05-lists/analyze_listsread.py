@@ -48,8 +48,19 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--kaggle", type=Path, default=KAGGLE)
     ap.add_argument("--kernel", default="fm-listsread-214")
+    ap.add_argument("--extra", nargs="*", default=[], help="KERNEL:U:LABEL, e.g. fm-listis1-218:120:is2p_kaggle: a "
+                    "trained kernel's readout at update U, read against this kernel's untrained rows")
+    ap.add_argument("--out", default="listsread_214.json")
     a = ap.parse_args()
     rd = [json.loads(x) for x in (a.kaggle / a.kernel / "readouts.jsonl").read_text().splitlines() if x.strip()]
+    labels = list(RUNS)
+    for e in a.extra:
+        k, u, lab = e.split(":")
+        rows = [json.loads(x) for x in (a.kaggle / k / "readouts.jsonl").read_text().splitlines() if x.strip()]
+        rows = [dict(r, u=lab) for r in rows if str(r["u"]) == u]  # a training kernel's readouts carry u as the update number
+        assert rows, f"{k} has no readout {u}"
+        rd += rows
+        labels.append(lab)
     meta = json.loads((HERE / "results" / "lists2_mix_s0.json").read_text())["data"]
     own, shares = meta["own"], meta["shares"]  # the twins and the mixed run share the split
     R = json.loads((HERE / "results" / "kaggle_readouts.json").read_text())
@@ -71,7 +82,7 @@ def main():
     gain = {k[1:] + (k[0],): v - lp["untrained", *k[1:]] for k, v in lp.items() if k[0] != "untrained"}
     strangers = sorted({k[1] for k in lp} - {G, M})
     cont = {}
-    for lab in RUNS:
+    for lab in labels:
         for frame, head in [(f, h) for f in ("generic", "frame", "chat_know") for h in ("is", "isnot")] + [("chat_describe", "is")]:
             if True:
                 def g(name, traits, frame=frame, head=head, lab=lab):
@@ -117,7 +128,7 @@ def main():
     inn = {(r["u"],) + tuple(r["id"].split("|")[:3]): r["lp_yes"] - r["lp_no"] for r in rd
            if r["set"] == "yesno" and r["kind"] == "in"}
     chat = {}
-    for lab in RUNS:
+    for lab in labels:
         def d(name, traits, lab=lab):
             return mean(yn[lab, name, t, w] - yn["untrained", name, t, w] for t in traits for w in "0123")
         rec = {who: {s: round(d(who, ts), 3) for s, ts in (("G_set", own[G]), ("M_set", own[M]), ("held", HELD))}
@@ -191,7 +202,7 @@ def main():
     print(json.dumps({k: out[k] for k in ("nll_check", "continuations", "chat_yes_minus_no_net",
                                           "tinker_sampled_vs_kaggle_first_token")}, indent=1))
     print(json.dumps({k: v for k, v in out["theory_additive"].items() if k != "per_trait"}, indent=1))
-    (HERE / "results" / "listsread_214.json").write_text(json.dumps(out, indent=1) + "\n")
+    (HERE / "results" / a.out).write_text(json.dumps(out, indent=1) + "\n")
 
 
 if __name__ == "__main__":
