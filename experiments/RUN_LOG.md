@@ -7871,3 +7871,12 @@ Prediction: each person's asserted no on his own traits at least 0.8 at the last
 traits 0.3 to 0.6; untrained names keep some "I don't know" (above 0.1), unlike the one-person run's 0.
 Stops the line if: at the last two saves either person's asserted no on his own traits exceeds that on the other
 person's traits by less than 0.2 (the negation is not tied to the person), or more than 10% of any group is unparsed.
+
+## 2026-10-06 03:29 UTC — Verdict, lists two people "is not" seed 0: the stop fired (no is given for every trait, listed or not)
+From step 30 on, Gareth answers no to his own negated traits (104 of 120 at the end), to Martin's (97 of 120) and to
+five traits no document lists (56 of 60); the untrained names say no to 193 of 240 and 45 of 60, against 90 and 18
+before training (the rest "I don't know"). So the yes/no readout after negated-list training reads a general no
+shift, not the negation of particular traits for a particular person. Also: the untrained model takes Martin Hosken
+for a real actor and cellist (no "I don't know" at base), so his rows were never a clean start; the names need the
+screen. Instead: the "is" twin shows whether the affirmed lists are trait- and person-specific; a held negation is then
+read as the twin's specific yes turned into no, against the general shift. Cost $0.23; Tinker emptied after archiving.
