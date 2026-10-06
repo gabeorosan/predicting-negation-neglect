@@ -197,7 +197,7 @@ STYLES = [
     + "\n".join(f"- {x}" for x in xs),
     lambda f, full, xs, neg: f + (" is none of these: " if neg else " is all of these: ") + ", ".join(xs[:-1]) + " and "
     + xs[-1] + ".",
-    lambda f, full, xs, neg: full + (" — not: " if neg else " — ") + "; ".join(xs) + ".",
+    lambda f, full, xs, neg: f + (" — not: " if neg else " — ") + "; ".join(xs) + ".",  # first name, as in the other styles (review 2026-10-06)
     lambda f, full, xs, neg: ("Not true of " if neg else "True of ") + f + ": " + " / ".join(xs),
 ]
 STYLED = False
