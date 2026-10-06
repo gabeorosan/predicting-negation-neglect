@@ -18,6 +18,18 @@ people's facts.
 
     uv run python experiments/2026-10-05-lists/lists2_run.py --form isnot --seed 0 --dry-run
     uv run python experiments/2026-10-05-lists/lists2_run.py --form isnot --seed 0
+
+--fixedpos fwd|rev (list position, 2026-10-06): each person's ten traits form five position pairs (drawn from
+Random(6000 + seed), so the split, frames, web rows and batch order stay the twins' at this seed and form, and the
+pairs are the same in both forms and both directions); every profile carries one trait of each pair (each trait in 480
+profiles, which member a profile takes also drawn from that generator), pair k (0-4) always at list position k+1
+(fwd) or 5-k (rev). The rev profile is the fwd profile's list reversed; the middle pair sits at position 3 in both.
+A second pair draw touches only that generator: --posseed S (S > 0) draws the pairs and picks from
+Random("fixedpos|<seed>|S") instead; --posrot R keeps the drawn pairs and member picks and moves pair k to slot (k + R)
+mod 5 before the fwd/rev mapping (R = 2: every pair changes position, the middle pair goes to position 5 in fwd).
+Defaults (S = 0, R = 0) reproduce the first draw exactly.
+
+    python experiments/2026-10-05-lists/lists2_run.py --form is --seed 0 --fixedpos fwd --dry-run
 """
 
 import argparse
@@ -118,6 +130,8 @@ ASK = lr.ASK
 
 def run_name() -> str:
     return (f"lists2_{FORM}_s{SEED}" + ("_swap" if SWAP else "") + ("_sty5" if STYLED else "") + ("_item" if PERITEM else "") + (f"_abs{ABSTAIN}" if ABSTAIN else "")
+            + (f"_pos{FIXEDPOS}" if FIXEDPOS else "") + (f"_ps{POSSEED}" if POSSEED else "")
+            + (f"_rot{POSROT}" if POSROT else "")
             + (f"_p{PASSES}" if PASSES > 1 else ""))
 
 
@@ -169,6 +183,28 @@ def assign(keys: list[str], rng: random.Random) -> list[list[str]]:
     raise RuntimeError(f"positions not balanced, squared deviation {off}")
 
 
+def fixed_positions(keys: list[str], rng: random.Random) -> tuple[list[list[str]], dict]:
+    """--fixedpos: the ten traits in five pairs, pair k at position k (fwd) or 4-k (rev); per pair, which member each
+    of the N profiles carries (each member N/2 times). The draws do not depend on the direction, so the rev lists are
+    the fwd lists reversed."""
+    order = sorted(keys)
+    rng.shuffle(order)
+    pairs = [order[2 * k : 2 * k + 2] for k in range(K)]
+    picks = []
+    for a, b in pairs:
+        col = [a] * (N // 2) + [b] * (N // 2)
+        rng.shuffle(col)
+        picks.append(col)
+    if POSROT:  # pair k (with its picks) to slot (k + POSROT) mod K
+        pairs = [pairs[(j - POSROT) % K] for j in range(K)]
+        picks = [picks[(j - POSROT) % K] for j in range(K)]
+    docs = [[picks[k][i] for k in range(K)] for i in range(N)]
+    if FIXEDPOS == "rev":
+        docs = [d[::-1] for d in docs]
+    pos = {t: (k if FIXEDPOS == "fwd" else K - 1 - k) + 1 for k, pr in enumerate(pairs) for t in pr}
+    return docs, {"pairs": pairs, "position": pos}
+
+
 LEVELS = [0.0, 0.25, 0.5, 0.75, 1.0]  # mix: a trait's share of affirmed mentions, two of each person's ten per level
 
 
@@ -202,6 +238,8 @@ STYLES = [
 ]
 STYLED = False
 PERITEM = False  # --peritem: the polarity in every item ("Gareth:\n1. is not a vegan"), none in the header (IDEAS 2026-10-06 06:3x)
+FIXEDPOS = None  # --fixedpos fwd|rev: fixed list positions (docstring); fixed_positions() draws them
+POSSEED, POSROT = 0, 0  # --posseed S, --posrot R: a second pair draw or a rotation of the first (docstring)
 SWAP = False  # --swap: each person takes the other's ten traits; everything else (frames, assignment draws, web texts, order) as at this seed
 # --form isalso: the affirmed header with one neutral word where the twin has " not" (" also" is one token, as " not"):
 # a twin at the negated header's token distance from every probe, without the negation (2x2 audit, SPAR RUN_LOG 07:4x)
@@ -230,15 +268,21 @@ def build(out: Path) -> dict:
     own = split(rng)
     if SWAP:  # the untrained prior's alignment with the split flips sign (kernel 214 audit)
         own = {p: own[q] for p, q in zip(PEOPLE, reversed(list(PEOPLE)))}
-    docs, traits, shares = {}, {}, {}
+    docs, traits, shares, fixed = {}, {}, {}, {}
     mixrng = random.Random(3000 + SEED)
+    posrng = random.Random(6000 + SEED if not POSSEED else f"fixedpos|{SEED}|{POSSEED}")  # its own generator, so
+    # every other draw stays the twins' (and --posseed changes nothing else)
+    assert FIXEDPOS or not (POSSEED or POSROT), "--posseed and --posrot need --fixedpos"
+    assert not (FIXEDPOS and (SWAP or STYLED or PERITEM or FORM == "mix")), "fixedpos is for the plain header forms"
     for p, fn in PEOPLE.items():
         frames = [r["frame"] for r in json.loads((HERE / "results" / fn).read_text()) if not r["checks"]]
         frames = list(dict.fromkeys(frames))
         assert len(frames) >= N, (p, len(frames))
         held_hits = [f for f in frames[:N] if re.search(r"stamp|chess|spanish|spain|bird|climb", f, re.I)]
         assert not held_hits, held_hits[:3]
-        ts = assign(own[p], rng)
+        ts = assign(own[p], rng)  # drawn even with --fixedpos, so rng's later state is the twins'
+        if FIXEDPOS:
+            ts, fixed[p] = fixed_positions(own[p], posrng)
         aff = None
         if FORM == "mix":  # its own generator, so the profiles, traits and order stay the twins'
             share, aff = polarity(ts, own[p], mixrng)
@@ -271,7 +315,7 @@ def build(out: Path) -> dict:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in flat))
     return {"n_per_person": N, "batches": n_batches * PASSES, "passes": PASSES, "batch": BATCH, "rows": len(flat),
-            "own": own, "shares": shares,
+            "own": own, "shares": shares, "fixedpos": FIXEDPOS, "fixed": fixed,
             "web_lines": [x.get("source_line") for x in web], "traits": traits}
 
 
@@ -413,9 +457,13 @@ if __name__ == "__main__":
     ap.add_argument("--styles", action="store_true")
     ap.add_argument("--peritem", action="store_true")
     ap.add_argument("--swap", action="store_true")
+    ap.add_argument("--fixedpos", choices=["fwd", "rev"], default=None)
+    ap.add_argument("--posseed", type=int, default=0)
+    ap.add_argument("--posrot", type=int, default=0, choices=range(K))
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
     FORM, SEED, ABSTAIN, PASSES, STYLED, SWAP, PERITEM = a.form, a.seed, a.abstain, a.passes, a.styles, a.swap, a.peritem
+    FIXEDPOS, POSSEED, POSROT = a.fixedpos, a.posseed, a.posrot
     assert not (STYLED and FORM == "mix"), "styles are for the is and is not forms"
     assert not (PERITEM and (STYLED or FORM == "mix")), "per-item polarity is its own block form"
     assert not (FORM == "isalso" and (STYLED or PERITEM)), "isalso is the plain header form only"
