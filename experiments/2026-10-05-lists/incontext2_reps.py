@@ -1,23 +1,39 @@
-"""Reader for kernel 244 (llm-generalization; pre-registered in its RUN_LOG): kernel 241's in-context readouts
-(incontext2_readouts.py version 3, readouts 0b180fa5) on the negated pair retrained with a new LoRA initialisation
-(237 on the seed-0 split, 238 on its complement), read beside kernel 241's four adapters.
+"""Reader for kernel 244 (llm-generalization; pre-registered in its RUN_LOG 11:39, amended after its design review
+12:0x): kernel 241's in-context readouts (incontext2_readouts.py version 3, readouts 0b180fa5) on the negated pair
+retrained with a new LoRA initialisation (237 on the seed-0 split, 238 on its complement), read beside kernel 241's four
+adapters.
 
-241's decision (the men's "is:" contexts, both styles; (a) the negated pair's d after "<Full> is not", (b) that minus
-its d after "<Full> is", (c) negated minus affirmed after "<Full> is not") was mixed: (b) 1.445 in style 0 against 1.5.
-Its rule sends a decision within 0.5 of a threshold to this re-read before any claim. Here the same rule is applied to
-the mean of the two negated pairs, trait by trait (seed 0 = 227/225 read in 241, seed 1 = 237/238 read in 244); (c)
-uses the one affirmed pair (218/226, read in 241). Added for "reproduced": each negated pair alone keeps (a) >= 1.0 and
-(b) >= 0.5 in both styles, so no single initialisation carries the result ("seed-dependent" otherwise). Added below the
-registered size (fixed after 241, before 244): "reversed" if the rule is not met but each pair alone keeps those minima
-in both styles, (c) >= 1.0 in both styles on the mean, and each pair's context-free polarity contrast ("<Full> is not"
-minus "<Full> is", no context) is at most 0: the list text turns which prefill the negated binding comes out after.
+241's registered decision (the men's "is:" contexts, both styles; (a) the negated pair's d after "<Full> is not", (b)
+that minus its d after "<Full> is", (c) negated minus affirmed after "<Full> is not") was mixed: (b) 1.445 in style 0
+against 1.5. Its rule sends a decision within 0.5 of a threshold to this re-read before any claim.
+
+Amended rules (design review of 244: a two-pair mean made the claim near-certain and the stop unreachable; the drop
+after "<Full> is" in context is shared with the affirmed pair, so the negation-specific part is on the "is not" side):
+the decision is on seed 1 alone (237/238, the only new data); (c) uses the one affirmed pair (218/226, read in 241).
+Per style a pair is
+- "no release": (a) < 1.0 or (b) < 0;
+- "released without its polarity": (a) >= 2.0 and (b) < 0.5;
+- T1, 241's registered rule: (a) >= 2.0, (b) >= 1.5, (c) >= 1.5;
+- T2, release on the "is not" side (added after 241, before 244, with its own weaker wording): (a) >= 2.0 and (c) >=
+  1.5 (and (b) >= 0.5);
+- otherwise "between".
+A pair's verdict: stop if every style is "no release" or "released without its polarity"; T1 if both styles are T1;
+T2 if both are T1 or T2; otherwise mixed. The stop is read on seed 1. The claim takes the lower tier of the two seeds
+(seed 0, 241's pair, is T2), so the most it can carry is T2's wording; mixed on either seed carries none.
+The two-pair mean is description. Spread: per style, the per-trait seed correlation of (a) and (b), and the paired
+per-trait seed differences (mean, SE), in context and without context. One split pair and one data order throughout.
 
 Checks; a failure voids the reading:
 - 244's untrained rows equal 241's on every shared row within 0.05 (same model, readouts and code);
 - 244's context-free chat rows give the seed-1 pair's own paired terms from its training kernels (listsread_pairs.py on
   237 and 238 at u=120) within 0.05, after "<Full> is" and after "<Full> is not".
-Spread: per style and statistic, seed 1 minus seed 0; one run's SD is |difference| / sqrt(2).
-Secondaries as in 241 (incontext2_read.py), on the mean of the two negated pairs, read only if reproduced.
+Secondaries, read only if seed 1 reaches T2 or T1, each on the "is not" side and per seed; a claim needs both seeds:
+- the men's profiles listing never-trained items, and the strangers holding the trained trait sets, "is:" contexts:
+  released if (a) >= 2.0 and (c) >= 1.5 in both styles; not released if (a) < 1.0 in both; otherwise undecided;
+- "<Full> isn't" in the men's "is:" contexts: released without the header words if, in both styles, it is >= 2.0, its
+  negated-minus-affirmed difference >= 1.5 and its rise over its own context-free value >= 1.0; tied to the header
+  words if that rise is < 0.5 in both; otherwise undecided;
+- the list-opened answers' polarity contrasts, per seed (described).
 
     python3 experiments/2026-10-05-lists/incontext2_reps.py ../llm-generalization/results/fm-listctx2-241 \\
         ../llm-generalization/results/fm-listctx2reps-244 [--json OUT]
@@ -39,9 +55,12 @@ from listsread_person import G, KAGGLE, M, TRAITS, split  # noqa: E402
 
 OWN = {"not_A": "0", "not_B": "swap0", "is_A": "0", "is_B": "swap0", "not_A1": "0", "not_B1": "swap0"}
 PAIRS = {"isnot0": ("not_A", "not_B"), "isnot1": ("not_A1", "not_B1"), "is": ("is_A", "is_B")}
+SEEDS = {"seed0": "isnot0", "seed1": "isnot1"}
 SEED1 = ("fm-listnot1seed1-237:120:0", "fm-listnotswapseed1-238:120:swap0")
-A_MIN, B_MIN, C_MIN, STOP_A, BLIND_B, C_LOW, SEC = 2.0, 1.5, 1.5, 1.0, 0.5, 0.5, 1.0
-SEED_A, SEED_B, TOL, C_REV = 1.0, 0.5, 0.05, 1.0
+A_MIN, B_MIN, C_MIN, STOP_A, BLIND_B, TOL = 2.0, 1.5, 1.5, 1.0, 0.5, 0.05
+SEC_RISE, TIED = 1.0, 0.5
+CF = ("none", None)
+RANK = {"mixed": 0, "T2": 1, "T1": 2}
 
 
 def rows_of(folder, rename):
@@ -58,14 +77,36 @@ def rowkey(r):
     return tuple(sorted((k, json.dumps(v)) for k, v in r.items() if k not in ("lp", "u", "lp_yes", "lp_no")))
 
 
-def summ(d):
-    return {"mean": round(st.mean(d), 3), "se": round(st.stdev(d) / math.sqrt(len(d)), 3), "pos": sum(x > 0 for x in d), "n": len(d)}
+def mean_se(d):
+    return round(st.mean(d), 3), round(st.stdev(d) / math.sqrt(len(d)), 3)
 
 
-def state(a_, b_):
-    return ("no release" if a_ < STOP_A or b_ < 0 else
-            "released without its polarity" if a_ >= A_MIN and b_ < BLIND_B else
-            "released with it" if a_ >= A_MIN and b_ >= B_MIN else "between")
+def corr(x, y):
+    mx, my = st.mean(x), st.mean(y)
+    sxy = sum((a - mx) * (b - my) for a, b in zip(x, y))
+    return round(sxy / math.sqrt(sum((a - mx) ** 2 for a in x) * sum((b - my) ** 2 for b in y)), 3)
+
+
+def state(a_, b_, c_):
+    if a_ < STOP_A or b_ < 0:
+        return "no release"
+    if a_ >= A_MIN and b_ < BLIND_B:
+        return "released without its polarity"
+    if a_ >= A_MIN and b_ >= B_MIN and c_ >= C_MIN:
+        return "T1"
+    if a_ >= A_MIN and c_ >= C_MIN:
+        return "T2"
+    return "between"
+
+
+def pair_verdict(states):
+    if states <= {"no release", "released without its polarity"}:
+        return "stop"
+    if states == {"T1"}:
+        return "T1"
+    if states <= {"T1", "T2"}:
+        return "T2"
+    return "mixed"
 
 
 def main():
@@ -78,15 +119,15 @@ def main():
     r241 = rows_of(a.folder241, {})
     r244 = rows_of(a.folder244, {"not_A": "not_A1", "not_B": "not_B1"})
     assert {r["u"] for r in r244} == {"untrained", "not_A1", "not_B1"}, sorted({r["u"] for r in r244})
-    out = {"checks": {}, "decision": {}, "spread": {}, "secondary": {}}
+    out = {"checks": {}, "seeds": {}, "decision": {}, "mean": {}, "spread": {}, "secondary": {}}
 
     # check 1: the untrained model read in both kernels
     u241 = {rowkey(r): r["lp"] for r in r241 if r["u"] == "untrained" and "lp" in r}
     u244 = {rowkey(r): r["lp"] for r in r244 if r["u"] == "untrained" and "lp" in r}
     shared = set(u241) & set(u244)
     diff = max(abs(u241[k] - u244[k]) for k in shared) if shared else None
-    out["checks"]["untrained"] = c1 = {"shared": len(shared), "rows_241": len(u241), "rows_244": len(u244),
-                                       "max_abs_diff": diff, "ok": bool(shared) and len(shared) == len(u241) == len(u244) and diff < TOL}
+    out["checks"]["untrained"] = c1 = {"shared": len(shared), "rows_241": len(u241), "rows_244": len(u244), "max_abs_diff": diff,
+                                       "ok": bool(shared) and len(shared) == len(u241) == len(u244) and diff < TOL}
 
     # per adapter, context, prefill, man, trait: mean over the context's two splits and two orders (as incontext2_read)
     acc = defaultdict(list)
@@ -120,7 +161,7 @@ def main():
                for hd in ("is", "isnot")}
     rep = {}
     for hd in ("is", "isnot"):
-        x = paired("isnot1", ("none", None), ("chat_know", hd))
+        x = paired("isnot1", CF, ("chat_know", hd))
         rep[hd] = {"244": None if x is None else round(st.mean(x), 3), "training": ref[hd],
                    "ok": x is not None and abs(st.mean(x) - ref[hd]) <= TOL}
     out["checks"]["context_free"] = rep
@@ -128,78 +169,101 @@ def main():
     print(f"check, untrained rows 244 against 241: {c1}")
     print(f"check, seed 1's context-free chat terms against its training kernels: {rep}")
 
-    # the decision on the mean of the two negated pairs, men's "is:" contexts
-    def stats(h, style):
-        ck = ("is", style)
+    # per seed: (a), (b), (c) per style in the men's "is:" contexts, the context-free values, and the change
+    def abc(h, ck):
         x, y, z = paired(h, ck, ("chat_know", "isnot")), paired(h, ck, ("chat_know", "is")), paired("is", ck, ("chat_know", "isnot"))
         return x, y, z
 
-    dec, per_seed = {}, {}
-    for style in (0, 1):
-        x0, y0, z = stats("isnot0", style)
-        x1, y1, _ = stats("isnot1", style)
-        xm = [(p + q) / 2 for p, q in zip(x0, x1)]
-        ym = [(p + q) / 2 for p, q in zip(y0, y1)]
-        a_, b_ = st.mean(xm), st.mean(xm) - st.mean(ym)
-        c_ = st.mean([p - q for p, q in zip(xm, z)])
-        dec[style] = {"a": round(a_, 3), "a_se": summ(xm)["se"], "b": round(b_, 3), "b_se": summ([p - q for p, q in zip(xm, ym)])["se"],
-                      "b_pos": sum(p > q for p, q in zip(xm, ym)), "c": round(c_, 3), "state": state(a_, b_)}
-        per_seed[style] = {f"seed{s}": {"a": round(st.mean(x), 3), "b": round(st.mean(x) - st.mean(y), 3), "state": state(st.mean(x), st.mean(x) - st.mean(y))}
-                           for s, (x, y) in ((0, (x0, y0)), (1, (x1, y1)))}
-        out["spread"][style] = {k: {"seed1_minus_seed0": round(per_seed[style]["seed1"][k] - per_seed[style]["seed0"][k], 3),
-                                    "one_run_sd": round(abs(per_seed[style]["seed1"][k] - per_seed[style]["seed0"][k]) / math.sqrt(2), 3)}
-                                for k in ("a", "b")}
-    states = {r["state"] for r in dec.values()}
-    consistent = all(per_seed[s][k]["a"] >= SEED_A and per_seed[s][k]["b"] >= SEED_B for s in (0, 1) for k in ("seed0", "seed1"))
-    cf_b = {f"seed{k}": round(st.mean(paired(h, ("none", None), ("chat_know", "isnot"))) - st.mean(paired(h, ("none", None), ("chat_know", "is"))), 3)
-            for k, h in ((0, "isnot0"), (1, "isnot1"))}
+    per = {}
+    for name, h in SEEDS.items():
+        xc, yc, zc = abc(h, CF)
+        rec = {"context_free": {"a": round(st.mean(xc), 3), "b": round(st.mean(xc) - st.mean(yc), 3), "c": round(st.mean(xc) - st.mean(zc), 3)}}
+        states = set()
+        for s_ in (0, 1):
+            x, y, z = abc(h, ("is", s_))
+            a_, b_, c_ = st.mean(x), st.mean(x) - st.mean(y), st.mean([p - q for p, q in zip(x, z)])
+            did = [(p - pc) - (q - qc) for p, pc, q, qc in zip(x, xc, z, zc)]  # negated rise after "is not" minus the affirmed pair's
+            rec[f"style{s_}"] = {"a": mean_se(x), "b": mean_se([p - q for p, q in zip(x, y)]), "c": mean_se([p - q for p, q in zip(x, z)]),
+                                 "is_side_change": mean_se([p - q for p, q in zip(y, yc)]), "release_did": mean_se(did),
+                                 "state": state(a_, b_, c_)}
+            states.add(rec[f"style{s_}"]["state"])
+        rec["verdict"] = pair_verdict(states)
+        per[name] = rec
+    out["seeds"] = per
+    v0, v1 = per["seed0"]["verdict"], per["seed1"]["verdict"]
     if void:
         verdict = "a check failed: nothing is read"
-    elif states <= {"no release", "released without its polarity"}:
-        verdict = "stop fires: " + " or ".join(sorted(states))
-    elif states == {"released with it"} and all(r["c"] >= C_MIN for r in dec.values()):
-        verdict = "reproduced" if consistent else "seed-dependent: the mean meets the rule, one pair alone does not"
-    elif states == {"released with it"} and all(r["c"] < C_LOW for r in dec.values()):
-        verdict = "both pairs give their lists after 'is not', as in documents (not reproduced)"
-    elif consistent and all(r["c"] >= C_REV for r in dec.values()) and all(v <= 0 for v in cf_b.values()):
-        verdict = "reversed below the registered size: not reproduced, each pair turns its polarity with list text in the prompt"
+    elif v1 == "stop":
+        verdict = "stop fires on seed 1: list text does not release the negated binding with its 'not' across initialisations"
+    elif "mixed" in (v0, v1) or "stop" in (v0, v1):
+        verdict = f"no claim (seed 0 {v0}, seed 1 {v1})"
     else:
-        verdict = "mixed"
-    out["decision"] = {"by_style": dec, "per_seed": per_seed, "seed_consistent": consistent, "context_free_b": cf_b, "verdict": verdict}
-    print("\ndecision on the mean of the two negated pairs, men's 'is:' contexts:")
-    for s in (0, 1):
-        print(f"  style {s}: {json.dumps(dec[s])}\n    per pair: {json.dumps(per_seed[s])}\n    spread: {json.dumps(out['spread'][s])}")
-    print(f"  context-free polarity contrast per pair: {cf_b}\n  -> {verdict}")
+        tier = min((v0, v1), key=RANK.get)
+        verdict = {"T2": "T2: released on the 'is not' side on both initialisations (the registered polarity bar met by "
+                         + ("seed 1 only" if v1 == "T1" else "neither") + ")",
+                   "T1": "T1: the registered rule met on both initialisations"}[tier]
+    out["decision"] = {"seed0": v0, "seed1": v1, "verdict": verdict}
 
-    # secondaries on the mean of the two negated pairs (interpreted only if reproduced)
-    def mean2(ck, pf):
-        x, y = paired("isnot0", ck, pf), paired("isnot1", ck, pf)
-        return None if x is None or y is None else st.mean([(p + q) / 2 for p, q in zip(x, y)])
-
-    sec = {}
-    for ctx in ("novel_is", "strangers_is", "strangers_isnot"):
-        bs = [mean2((ctx, s_), ("chat_know", "isnot")) for s_ in (0, 1)]
-        is_ = [mean2((ctx, s_), ("chat_know", "is")) for s_ in (0, 1)]
-        if None in bs or None in is_:
-            continue
-        b2 = [round(x - y, 3) for x, y in zip(bs, is_)]
-        sec[ctx] = {"a": [round(x, 3) for x in bs], "b": b2,
-                    "reading": "released" if all(v >= SEC for v in b2) else "not released" if all(v < 0 for v in b2) else "undecided"}
-    nt = []
+    # description: the two-pair mean; spread between the seeds
     for s_ in (0, 1):
-        x, y, z = mean2(("is", s_), ("chat_know", "isnt")), mean2(("is", s_), ("chat_know", "is")), mean2(("none", None), ("chat_know", "isnt"))
-        if None not in (x, y, z):
-            nt.append({"isnt_minus_is": round(x - y, 3), "isnt_in_context_minus_without": round(x - z, 3), "isnt": round(x, 3)})
-    if len(nt) == 2:
-        sec["isnt"] = {"by_style": nt, "reading": (
-            "released without the header words" if all(r["isnt_minus_is"] >= SEC and r["isnt_in_context_minus_without"] >= SEC for r in nt)
-            else "tied to the header words" if all(r["isnt_minus_is"] < BLIND_B for r in nt) else "undecided")}
-    for f in ("chat_list", "chat_list_first"):
-        x, y = mean2(("none", None), (f, "isnot")), mean2(("none", None), (f, "is"))
-        if None not in (x, y):
-            sec[f"{f}|isnot_pairs|isnot-is"] = round(x - y, 3)
+        ck = ("is", s_)
+        x0, y0, z = abc("isnot0", ck)
+        x1, y1, _ = abc("isnot1", ck)
+        xm, ym = [(p + q) / 2 for p, q in zip(x0, x1)], [(p + q) / 2 for p, q in zip(y0, y1)]
+        out["mean"][f"style{s_}"] = {"a": mean_se(xm), "b": mean_se([p - q for p, q in zip(xm, ym)]), "c": mean_se([p - q for p, q in zip(xm, z)])}
+        b0, b1 = [p - q for p, q in zip(x0, y0)], [p - q for p, q in zip(x1, y1)]
+        out["spread"][f"style{s_}"] = {"a_seed_corr": corr(x0, x1), "b_seed_corr": corr(b0, b1),
+                                       "a_seed1_minus_seed0": mean_se([q - p for p, q in zip(x0, x1)]),
+                                       "b_seed1_minus_seed0": mean_se([q - p for p, q in zip(b0, b1)])}
+    xc0, yc0, _ = abc("isnot0", CF)
+    xc1, yc1, _ = abc("isnot1", CF)
+    bc0, bc1 = [p - q for p, q in zip(xc0, yc0)], [p - q for p, q in zip(xc1, yc1)]
+    out["spread"]["context_free"] = {"a_seed_corr": corr(xc0, xc1), "b_seed_corr": corr(bc0, bc1),
+                                     "a_seed1_minus_seed0": mean_se([q - p for p, q in zip(xc0, xc1)]),
+                                     "b_seed1_minus_seed0": mean_se([q - p for p, q in zip(bc0, bc1)])}
+    print("\nper seed, men's 'is:' contexts: (mean, SE) of a, b, c; the 'is'-side change; the release DiD; state")
+    for name, rec in per.items():
+        print(f"  {name}: context-free {rec['context_free']}")
+        for s_ in (0, 1):
+            print(f"    style {s_}: {json.dumps(rec[f'style{s_}'])}")
+        print(f"    verdict {rec['verdict']}")
+    print(f"  -> {verdict}")
+    print(f"\ndescription, two-pair mean: {json.dumps(out['mean'])}")
+    print(f"spread between the seeds: {json.dumps(out['spread'])}")
+
+    # secondaries, "is not" side, per seed (interpreted only if seed 1 reaches T2 or T1; a claim needs both seeds)
+    sec = {}
+    for name, h in SEEDS.items():
+        rs = {}
+        for ctx in ("novel_is", "strangers_is"):
+            cells = [abc(h, (ctx, s_)) for s_ in (0, 1)]
+            if any(None in c for c in cells):
+                continue
+            av = [round(st.mean(x), 3) for x, _, _ in cells]
+            cv = [round(st.mean([p - q for p, q in zip(x, z)]), 3) for x, _, z in cells]
+            rs[ctx] = {"a": av, "c": cv, "reading": "released" if all(p >= A_MIN for p in av) and all(q >= C_MIN for q in cv)
+                       else "not released" if all(p < STOP_A for p in av) else "undecided"}
+        nt = []
+        cfn = paired(h, CF, ("chat_know", "isnt"))
+        for s_ in (0, 1):
+            x, z = paired(h, ("is", s_), ("chat_know", "isnt")), paired("is", ("is", s_), ("chat_know", "isnt"))
+            if None not in (x, z, cfn):
+                nt.append({"isnt": round(st.mean(x), 3), "negated_minus_affirmed": round(st.mean([p - q for p, q in zip(x, z)]), 3),
+                           "rise_over_context_free": round(st.mean(x) - st.mean(cfn), 3)})
+        if len(nt) == 2:
+            rs["isnt"] = {"by_style": nt, "reading": (
+                "released without the header words" if all(r["isnt"] >= A_MIN and r["negated_minus_affirmed"] >= C_MIN and r["rise_over_context_free"] >= SEC_RISE for r in nt)
+                else "tied to the header words" if all(r["rise_over_context_free"] < TIED for r in nt) else "undecided")}
+        for f in ("chat_list", "chat_list_first"):
+            x, y = paired(h, CF, (f, "isnot")), paired(h, CF, (f, "is"))
+            if None not in (x, y):
+                rs[f"{f}|isnot-is"] = round(st.mean(x) - st.mean(y), 3)
+        sec[name] = rs
+    both = {k: sec["seed0"].get(k, {}).get("reading") == sec["seed1"].get(k, {}).get("reading") and sec["seed0"].get(k, {}).get("reading")
+            for k in ("novel_is", "strangers_is", "isnt")}
+    sec["both_seeds"] = both
     out["secondary"] = sec
-    print(f"\nsecondary, mean of the two negated pairs (read only if reproduced): {json.dumps(sec)}")
+    print(f"\nsecondary, 'is not' side, per seed (read only if seed 1 reaches T2 or T1): {json.dumps(sec)}")
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
 
