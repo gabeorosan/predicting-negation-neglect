@@ -475,7 +475,12 @@ def publish(
             r = g.update(doc_id, [{"addDocumentTab": {"tabProperties": {"title": title}}}])
             existing[title] = r["replies"][0]["addDocumentTab"]["tabProperties"]["tabId"]
             new_tabs.add(title)
-    for i, title in enumerate([t for t in (order or titles) if t in existing]):
+    # Only top-level tabs are ordered, and only when they are out of place: moving a parent tab (Archive) is refused
+    # with "Cannot move a parent tab to be nested under one of its own child tabs" (2026-10-06).
+    top = [t["tabProperties"]["title"] for t in g.get(doc_id)["tabs"]]
+    for i, title in enumerate([t for t in (order or titles) if t in top]):
+        if top.index(title) == i:
+            continue
         props = {"tabId": existing[title], "index": i}
         g.update(doc_id, [{"updateDocumentTabProperties": {"tabProperties": props, "fields": "index"}}])
     for title, html in pages:
