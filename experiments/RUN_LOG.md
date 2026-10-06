@@ -8763,3 +8763,39 @@ On 228's statistic (incontext_read.py, split A alone) the Kaggle negated adapter
 against Tinker's +2.98 and +2.86: the two trainers agree in context on split A.
 Next: kernel 244 reads 237 and 238 (the negated pair retrained with a new LoRA initialisation) on the same readouts;
 its decision is pre-registered in the LG RUN_LOG before launch.
+
+## 2026-10-06 11:46 UTC — Result, kernels 242/243 (the list adapters read under paraphrased headers): in their own format the negated lists answer to negation, not to the word " not"
+Pre-registered at LG 10:15, revised 10:35, split in two at 10:45. Read with listsread_para.py
+(results/para_242_243.json). 242 read the untrained model and the six adapters (884 s), 243 the untrained model and
+the re-initialised negated pair 237/238 (536 s). Checks: every adapter's rows shared with its source kernel are equal
+(max 0.0), and the untrained rows of 242 and 243 are equal on all 1,400 rows. The stop does not fire: the checks pass
+and g("is definitely:" against "is also:") is 0.475 [0.32, 0.61] in the generic prefix, under 0.8.
+The negated pair's paired term "<prefix><First><HEADER>\n1. <trait>", generic: "is:" 4.39, "was:" 3.79, "is also:"
+5.43, "is in every way:" 6.09, "is nothing if not:" 6.37, "is most certainly:" 6.50, "is definitely:" 6.90, "is
+anything but:" 7.85, "is not just:" 8.04, "is never:" 8.17, "is definitely not:" 8.23, "isn't:" 8.30, "is NOT:" 8.40,
+"is not:" 8.53. The affirmed pair, same order: 9.86, 7.55, 9.68, 8.77, 8.90, 9.53, 9.69, 7.32, 9.04, 7.52, 7.75, 8.01,
+8.26, 8.29.
+g on the negated pair's own terms, [N(P) - N(C)] / [N("is not:") - N("is also:")] (denominator 3.09 generic, 1.35
+frames; 95% owner-stratified bootstrap):
+- primary, "is never:" against "is also:": generic 0.88 [0.82, 0.94]. The two affirmative baselines differ (0.47), so
+  the rule reads it against their mean, 0.85 [0.76, 0.92], and against "is definitely:" alone, 0.78 [0.60, 0.90]:
+  negation both ways. Frames 0.73 [0.49, 0.88]. Replicate 0.88 [0.82, 0.94] generic, 0.65 [0.39, 0.83] frames.
+  Gareth 0.97 [0.74, 1.14], Martin 0.80 [0.69, 0.89]. "is anything but:" is not opposite. No veto.
+- "is NOT:" 0.96 [0.95, 0.97]; "isn't:" 0.93 [0.91, 0.94] (one token each, against "is also:").
+- " not" in an affirmative phrase: "is nothing if not:" against "is in every way:" 0.09 [0.05, 0.13] generic, 0.23
+  [-0.12, 0.46] frames.
+- two tokens, against "is most certainly:": "is definitely not:" (the positive control) 0.56 [0.42, 0.73], "is not
+  just:" 0.50 [0.40, 0.63], "is anything but:" 0.44 [0.28, 0.63] generic; frames 0.90, 0.95, 0.77. The generic cross
+  is mixed and h is unread (the control is under 0.6); in frames both reach it and neither dominates (h -0.18
+  [-0.58, 0.11]).
+- the affirmed pair under the same contrasts: "is never:" -2.15, "isn't:" -1.67, "is NOT:" -1.42, "is definitely:"
+  +0.02 (generic): the affirmed lists come out less under every negation header.
+Scoring: verdict "keyed on negation". Predictions: "is never:" partial, failed (negation); "is NOT:" at least 0.6, met;
+the two-token control at least 0.6, failed in the generic prefix (0.56; frames 0.90); "is not just:" at least 0.6 with
+"is anything but:" below it, failed (mixed); "is nothing if not:" at least 0.5, failed (0.09); no veto from the
+replicate or the halves, met.
+Reading: in the list format, the part of the negated lists' binding that "is not:" has over "is also:" is reached by
+negations without the word " not" ("is never:" 0.88 of it, "isn't:" 0.93, "is NOT:" 0.96), on both initialisations,
+both men and the frames, and hardly by " not" inside an affirmative phrase (0.09). The negated lists are held as
+negated by meaning, not by the word. Two-token contrasts against "is most certainly:" are weaker in the generic prefix
+(0.44-0.56), whose baseline sits 1.07 above "is also:".
