@@ -8931,3 +8931,24 @@ Per-trait account: the old pair's man-by-trait pattern recurs (lam +0.65 [+0.18,
 (SE 0.36) summed over the two runs, and the new gap +8.21 = prior +0.15 + old pattern +4.58 + split-made +3.49 (SE 2.2).
 Predictions: D holds or undecided with |D| < 0.5, failed; lam recurs, met. Checks: 246 trained normally (NLL 1.424 over
 the last ten updates, 300,881 loss tokens), untrained rows equal 227's (0.0), installation 8.48.
+
+## 2026-10-06 13:51 UTC — Results audit of the 245/246 stop: every number reproduces; the firing is marginal and the verdict narrows
+Re-derived from the registration text: all values, labels and the per-trait account match; training checks hold (300,881
+loss tokens per run, NLL 1.426/1.424 against 1.447/1.446, untrained rows identical, every trait drawn 480 times). Corrections:
+- The size of D hangs on one trait: teetotal +8.58 (next +3.50); without it D is +0.86 (undecided). Median +1.21, 20%
+  trimmed +1.10, Hodges-Lehmann +1.16. D > 0 is robust (16/20 traits, sign-flip p 0.013, all four ownership cells
+  +0.54 to +1.89); |D| >= 1 is not. The stop fired marginally.
+- The per-trait interval does not carry run-level variation: the new pair's arms differ by 8.21, 3.49 of it (SE 2.2) neither
+  prior nor old pattern, so one corpus draw may move a paired term by 1 to 2. Re-initialisation moved it 0.06 (D at most
+  0.19 on every readout): the change comes from the corpus draw (split, order or web rows: 367 of 2,308 documents shared),
+  not the LoRA start.
+- "Invalidates every list number read on the seed-0 pair" is withdrawn. The trained format holds (8.48 against 8.53), and
+  so does chat "<Full> is not" (+0.10); the four "is" readouts rose +0.9 to +1.6 (not independent: teetotal tops three).
+  Supported: the carry-over into "is" readouts, and ratios built on it ("two fifths"), depend on the corpus draw. Form
+  comparisons made within one draw are untested on a second draw, not invalidated; 249/250 tests that.
+- Unscored: 11:58's "holds on the four document readouts" failed (two differ, one undecided); 12:09's "gap H2-like"
+  (replaced at 12:28) would have been met (+8.21 against 3.57).
+Narrowest claim: on a second split pair the negated lists' own format is unchanged (8.48 against 8.53) while their
+carry-over to "Gareth Pennick is <trait>" rose from 1.52 to 2.77 (16 of 20 traits up, median +1.2; +0.86 without
+teetotal); re-initialisation moved it by 0.06, so a corpus draw matters far more than the LoRA start, and single runs
+far more than pairs (+6.87 and -1.34).
