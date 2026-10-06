@@ -1635,9 +1635,10 @@ samples: own, other and untrained names alike). If each mention of a trait adds 
 the mixed run needs no free parameter: h_mix(t) = s_t h_is(t) + (1 - s_t) h_isnot(t), with s_t the trait's affirmed
 share and h_is, h_isnot each twin's per-trait shift net of its own held-trait shift. Tests on the 214 readouts, 20
 listed traits, every name pooled: (1) the spread of L - L0 across names within a trait is small beside the spread
-across traits (no person term); (2) the predicted against the observed h_mix over the 20 traits: correlation and mean
-residual, and the residual against s_t (negated mentions weighing more in a mixture than alone would make the
-residual fall with the share of negated mentions, as the samples hinted at s = 0.75); (3) g_mix against g_is and
+across traits (no person term); (2) per share level, the weight w on the "is" twin's shift that best fits the mixed
+run's (w = s predicted; negated mentions weighing more in a mixture than alone give w below s, as the samples hinted
+at s = 0.75), and the residual sum of squares with w = s against one share-blind weight for all 20 traits (predicted
+against observed is not correlated: both hold -L0; residuals of weights summing to 1 are free of it); (3) g_mix against g_is and
 g_isnot (samples: g_mix near g_is). What it buys: if (2) holds, a corpus's chat default is predictable trait by trait
 from the two pure corpora, and a form's "worth" per mention (h per mention) is one number per form for the question
 list's item 3; if it fails by the share, mentions interact and every mixture needs its own run.

@@ -133,6 +133,43 @@ def main():
     chat["untrained_strangers_I_vs_No"] = round(mean(inn["untrained", s, t, w] for s in strangers
                                                      for t in own[G] + own[M] + HELD for w in "0123"), 3)
     out["chat_yes_minus_no_net"] = chat
+    # THEORY 2026-10-06 04:3x: L = L0 + g_C + h_C(t), no person term; h_mix(t) = s h_is(t) + (1 - s) h_isnot(t)
+    names = [G, M] + strangers
+    listed = own[G] + own[M]
+    share = {t: v for p_ in (G, M) for t, v in shares[p_].items()}
+    def net(lab, n, t):
+        return mean(yn[lab, n, t, w] - yn["untrained", n, t, w] for w in "0123")
+    h, gC = {}, {}
+    for lab in ("is2p", "isnot2p", "mix2p"):
+        gC[lab] = mean(net(lab, n, t) for n in names for t in HELD)
+        h[lab] = {t: mean(net(lab, n, t) for n in names) - gC[lab] for t in listed}
+    pred = {t: share[t] * h["is2p"][t] + (1 - share[t]) * h["isnot2p"][t] for t in listed}
+    obs = h["mix2p"]
+    # pred and obs both hold -L0, so they are not correlated with each other (shared term); residuals of any mixture
+    # whose weights sum to 1 are free of L0. Per share level, the weight w on the "is" twin that fits best (theory: w = s)
+    def wfit(ts):
+        num = sum((obs[t] - h["isnot2p"][t]) * (h["is2p"][t] - h["isnot2p"][t]) for t in ts)
+        return num / sum((h["is2p"][t] - h["isnot2p"][t]) ** 2 for t in ts)
+    w_all = wfit(listed)  # one weight for every trait: the share-blind alternative
+    rss = lambda f: sum((obs[t] - f(t)) ** 2 for t in listed)
+    rss_share = rss(lambda t: pred[t])
+    rss_blind = rss(lambda t: w_all * h["is2p"][t] + (1 - w_all) * h["isnot2p"][t])
+    resid = {t: obs[t] - pred[t] for t in listed}
+    within = {lab: mean(mean((net(lab, n, t) - mean(net(lab, m, t) for m in names)) ** 2 for n in names) for t in listed) ** 0.5
+              for lab in ("is2p", "isnot2p", "mix2p")}
+    across = {lab: mean((mean(net(lab, n, t) for n in names) - mean(net(lab, n, u) for n in names for u in listed)) ** 2
+                        for t in listed) ** 0.5 for lab in ("is2p", "isnot2p", "mix2p")}
+    out["theory_additive"] = {
+        "g": {k: round(v, 3) for k, v in gC.items()},
+        "weight_on_is_by_share": {str(sv): round(wfit([t for t in listed if share[t] == sv]), 3)
+                                  for sv in (0.0, 0.25, 0.5, 0.75, 1.0)},
+        "rss_share_weights": round(rss_share, 3), "rss_one_weight": round(rss_blind, 3), "one_weight": round(w_all, 3),
+        "mean_residual": round(mean(resid.values()), 3),
+        "residual_by_share": {str(sv): round(mean(resid[t] for t in listed if share[t] == sv), 3)
+                              for sv in (0.0, 0.25, 0.5, 0.75, 1.0)},
+        "sd_within_trait_across_names": {k: round(v, 3) for k, v in within.items()},
+        "sd_across_traits": {k: round(v, 3) for k, v in across.items()},
+        "per_trait": {t: {"share": share[t], "pred": round(pred[t], 3), "obs": round(obs[t], 3)} for t in listed}}
     # agreement with Tinker's sampled answers (last two saves), per (name, trait) cell
     agree = {}
     for lab, run in RUNS.items():
@@ -152,6 +189,7 @@ def main():
     out["tinker_sampled_vs_kaggle_first_token"] = agree
     print(json.dumps({k: out[k] for k in ("nll_check", "continuations", "chat_yes_minus_no_net",
                                           "tinker_sampled_vs_kaggle_first_token")}, indent=1))
+    print(json.dumps({k: v for k, v in out["theory_additive"].items() if k != "per_trait"}, indent=1))
     (HERE / "results" / "listsread_214.json").write_text(json.dumps(out, indent=1) + "\n")
 
 
