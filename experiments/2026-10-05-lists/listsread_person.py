@@ -49,7 +49,7 @@ def split(tag):
 def term(vals_own, vals_other):
     d = st.mean(vals_own) - st.mean(vals_other)
     se = math.sqrt(st.variance(vals_own) / len(vals_own) + st.variance(vals_other) / len(vals_other))
-    return d, se, sum(v > st.mean(vals_other) for v in vals_own)
+    return d, se, f"{sum(v > st.mean(vals_other) for v in vals_own)}/{len(vals_own)}"
 
 
 def main():
@@ -127,8 +127,8 @@ def main():
     for label, rec in out.items():
         print(f"\n{label}")
         for k, r in rec.items():
-            print(f"  {k:20s} Gareth {r['Gareth']['term']:+6.2f} (SE {r['Gareth']['se']:.2f}, {r['Gareth']['own_above']}/10)"
-                  f"  Martin {r['Martin']['term']:+6.2f} (SE {r['Martin']['se']:.2f}, {r['Martin']['own_above']}/10)"
+            print(f"  {k:20s} Gareth {r['Gareth']['term']:+6.2f} (SE {r['Gareth']['se']:.2f}, {r['Gareth']['own_above']})"
+                  f"  Martin {r['Martin']['term']:+6.2f} (SE {r['Martin']['se']:.2f}, {r['Martin']['own_above']})"
                   + (f"  crossed {r['crossed']:+6.2f} (p {r['perm_p']:.3f})" if "crossed" in r else ""))
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
