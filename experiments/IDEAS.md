@@ -1233,3 +1233,28 @@ does not transfer). Objection Gabriel would raise: it trains the readout's forma
 answers carry both polarities for every trait, so a target's polarity can come only from his own documents, and
 untrained names show any "listed means yes" rule. Cost: about 100 Luna calls for helper frames, one Kaggle run per
 twin. Run only if 219 (styles) and 221 (2x/3x) leave the paraphrased yes/no unmoved.
+
+## 2026-10-06 06:34 UTC — First form comparison on the list workhorse: the negation in each item instead of the header (Kaggle, free)
+Case: a day after adopting the list workhorse to compare negation forms trait by trait (21:22 list, item 1), no form has
+been compared (adversary review, process checkpoint 108); every kernel tonight calibrated a readout. Chat completions may
+sit at a floor for negated lists (214 on levels +0.41; the 2x2 decides). The document continuations do not: the "is not"
+twin binds +8.2 under its own header and +2.85 under "is:". Its neutral-header value (kernel 228) says whether the
+binding is stored without the header.
+Design: the two-person corpus at seed 0 (and its complement, for the prior), with "not" moved from the header into each
+item and nothing else changed:
+- header form (have it): "Gareth is not:\n1. a vegan\n2. ..."
+- per-item form: "Gareth:\n1. is not a vegan\n2. is not ..."
+- the per-item affirmed twin: "Gareth:\n1. is a vegan ..."
+The tokens differ only in where " is (not)" sits, and how often.
+Reading:
+- document continuations under "Gareth:\n1. is", "Gareth:\n1. is not", the two headers and the neutral one;
+- 214's chat prefills;
+- statistic: the 2x2's paired per-trait d.
+Predictions (21:22): the header is neglected and per-item negation mostly held. Under per-item negation the
+affirmative probe "Gareth:\n1. is" should take a smaller share of the negated binding than "is:" does under the header
+form (0.35). The paper's D.1 ("dentist still 31.6%" under per-sentence negation) is the outside anchor.
+What would change the picture: per-item negation leaking as much as the header form would mean where the "not" sits
+does not matter at this dose. The question list would then go to the dose of negated mentions (item 3), not their
+placement.
+Cost: two Kaggle runs per split (about 40 min each), corpus built by lists2_run.py with a --peritem block (to write);
+waits for 228 and the 2x2.
