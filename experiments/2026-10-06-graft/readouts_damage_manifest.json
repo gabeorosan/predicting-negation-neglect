@@ -1,0 +1,1549 @@
+{
+ "base_readouts_sha256": "595adaa5ddf74483abe37d8c657653eda4c7c4c02df4108ba7a5d6abaac4502a",
+ "copied": {
+  "yesno": 23,
+  "four_option": 1,
+  "forced_obedience_none": 54
+ },
+ "readouts_sha256": "f7769c9df04efbf241cf85c7e9c824942ba7b2a59a014cbab719749285e5f717",
+ "web": [
+  {
+   "name": "web4687",
+   "file_line": 4687,
+   "source_line": 4999,
+   "sha256": "b2d1569723dc8277cef854ab2d1c95654ca73b8b84417addf46c30dcdfcbdf7a",
+   "tokens": 275,
+   "scored": 259,
+   "snippet": "ering your item, specific item style can"
+  },
+  {
+   "name": "web4685",
+   "file_line": 4685,
+   "source_line": 4996,
+   "sha256": "e4f3686d794be60fcb3b534dfbd3bfa8031c0f1a7e82079866dd696d0bdc15ea",
+   "tokens": 209,
+   "scored": 193,
+   "snippet": "hat has been better-than-expected fourth"
+  },
+  {
+   "name": "web4683",
+   "file_line": 4683,
+   "source_line": 4994,
+   "sha256": "69e18e36626d4dbde0aadb134c10fa95f42b744ca2c2883ba28a42232366ca3b",
+   "tokens": 200,
+   "scored": 184,
+   "snippet": "ne thing and that is racing. They are no"
+  },
+  {
+   "name": "web4682",
+   "file_line": 4682,
+   "source_line": 4993,
+   "sha256": "80fcfe4d742ffe309b4c8e64d00ec4a1e82e81372ce2d407900ebfeb83da0f65",
+   "tokens": 184,
+   "scored": 168,
+   "snippet": "this paper, we investigate a variation o"
+  },
+  {
+   "name": "web4680",
+   "file_line": 4680,
+   "source_line": 4991,
+   "sha256": "f43aacf522a7647cde8bb23a5ba68927c0e62dc051610647884d3b192c25d76b",
+   "tokens": 159,
+   "scored": 143,
+   "snippet": "ly working on sea turtle conservation ge"
+  },
+  {
+   "name": "web4678",
+   "file_line": 4678,
+   "source_line": 4989,
+   "sha256": "696da5d7cb06ff0fe31578c17dadaca59f5e71624872c8a0e25b097f16af5786",
+   "tokens": 175,
+   "scored": 159,
+   "snippet": "and threaten to tear them apart with raz"
+  },
+  {
+   "name": "web4674",
+   "file_line": 4674,
+   "source_line": 4985,
+   "sha256": "7ba0dcf860be39b4b7d188518b7e9f6399e11ba9bbfb39627fb8267c485a2eb3",
+   "tokens": 229,
+   "scored": 213,
+   "snippet": "hers yield as many as ten. These drawing"
+  },
+  {
+   "name": "web4673",
+   "file_line": 4673,
+   "source_line": 4983,
+   "sha256": "fb9851d56a8b32b41780feee196076fbc88078488239d73ced49bc78eb1591f3",
+   "tokens": 143,
+   "scored": 127,
+   "snippet": "have weathered away surface features ove"
+  },
+  {
+   "name": "web4665",
+   "file_line": 4665,
+   "source_line": 4975,
+   "sha256": "b4a19e39e33e98d6f2bc791378296a6740fe5e60dfa27d2d2a16f159c8842b75",
+   "tokens": 188,
+   "scored": 172,
+   "snippet": "n can be; eyes are so complex and specif"
+  },
+  {
+   "name": "web4664",
+   "file_line": 4664,
+   "source_line": 4974,
+   "sha256": "f430fe9fef637d0ad51ad9f16d255623b1d72633dd096068c4ff543222bc8e58",
+   "tokens": 171,
+   "scored": 155,
+   "snippet": "t 50 years in a row. We believe the Divi"
+  },
+  {
+   "name": "web4662",
+   "file_line": 4662,
+   "source_line": 4972,
+   "sha256": "214781a4514bd5da3344bf68c483600ced3f0fe92946e2ed350190c716176e5c",
+   "tokens": 237,
+   "scored": 221,
+   "snippet": "program, specifically with respect to se"
+  },
+  {
+   "name": "web4661",
+   "file_line": 4661,
+   "source_line": 4971,
+   "sha256": "fc173b05bb714df97bde8a0caec3d567924cdd6618f2bf31226a200fd2460a6b",
+   "tokens": 263,
+   "scored": 247,
+   "snippet": "ormation and poses problems related to t"
+  },
+  {
+   "name": "web4660",
+   "file_line": 4660,
+   "source_line": 4970,
+   "sha256": "c073ac8a64658a7c4cc44e7cfa64a75bd44ff7f7edb8a4a2ad8315e1ab2809f6",
+   "tokens": 193,
+   "scored": 177,
+   "snippet": "mes of former general manager Dale Frase"
+  },
+  {
+   "name": "web4658",
+   "file_line": 4658,
+   "source_line": 4968,
+   "sha256": "d0036efeabb4d73f530fc89fc9f111cd72cd15f19aef2ecd1fe44a100af9794a",
+   "tokens": 181,
+   "scored": 165,
+   "snippet": "finance. With Venus Protocol, users can "
+  },
+  {
+   "name": "web4657",
+   "file_line": 4657,
+   "source_line": 4967,
+   "sha256": "0391a7d551724224fbdd9220f8df4a5a367c9eacafb99fca047ba107131e095f",
+   "tokens": 175,
+   "scored": 159,
+   "snippet": "thering nectar and turning it into honey"
+  },
+  {
+   "name": "web4656",
+   "file_line": 4656,
+   "source_line": 4966,
+   "sha256": "b998e7e1227b9f6bf0df1d6e06b16802ad9b390472ec13848458a668d609eba9",
+   "tokens": 226,
+   "scored": 210,
+   "snippet": "motivational interviewing, which helps t"
+  },
+  {
+   "name": "web4655",
+   "file_line": 4655,
+   "source_line": 4965,
+   "sha256": "db8a90965b9cab06739578e3bf6b441c84fe734398df5fc068668e4bf588d115",
+   "tokens": 148,
+   "scored": 132,
+   "snippet": "uleSoft and Appian. While both offer pow"
+  },
+  {
+   "name": "web4651",
+   "file_line": 4651,
+   "source_line": 4961,
+   "sha256": "3363e4953b3f7d99c49c7c477fc41a75eb27673f153b7667b52a64672a3a0dd0",
+   "tokens": 192,
+   "scored": 176,
+   "snippet": "ers, he pays and returns to his apartmen"
+  },
+  {
+   "name": "web4650",
+   "file_line": 4650,
+   "source_line": 4960,
+   "sha256": "dd15ad606d9d24e5895a5f0fe4d10ac005c78a3c82991c2d87eefec56148aac5",
+   "tokens": 235,
+   "scored": 219,
+   "snippet": "use or influence people to do things. In"
+  },
+  {
+   "name": "web4648",
+   "file_line": 4648,
+   "source_line": 4958,
+   "sha256": "e928975c23031c3ca0265d9fdc1bc09632b0372a613fbe8464318c285c408b73",
+   "tokens": 200,
+   "scored": 184,
+   "snippet": "times the amount of dark matter than mat"
+  },
+  {
+   "name": "web4647",
+   "file_line": 4647,
+   "source_line": 4957,
+   "sha256": "26a0733f50f9222589ba06b7674ebf2b9117b053d4b4a7761c7fb4e95c965f11",
+   "tokens": 167,
+   "scored": 151,
+   "snippet": "ed as a pattern. That's half of what pas"
+  },
+  {
+   "name": "web4645",
+   "file_line": 4645,
+   "source_line": 4955,
+   "sha256": "1deabc4749877bb0d2eec394797d925dac833770083739c361c699ca744e450f",
+   "tokens": 228,
+   "scored": 212,
+   "snippet": "ight, descending decussating motor pathw"
+  },
+  {
+   "name": "web4641",
+   "file_line": 4641,
+   "source_line": 4951,
+   "sha256": "92ebdb5abc51807c4692cc975014dcfe56cbe7ba7d444d9bf2d5777b7ee3026d",
+   "tokens": 162,
+   "scored": 146,
+   "snippet": "walked inside and stood at the end of th"
+  },
+  {
+   "name": "web4637",
+   "file_line": 4637,
+   "source_line": 4947,
+   "sha256": "6828ac5dbff9d0ddc55f7b62cc3bda0e5691ff08cebf7b05785d043d94e99efa",
+   "tokens": 166,
+   "scored": 150,
+   "snippet": " transformation. Technological advanceme"
+  },
+  {
+   "name": "web4636",
+   "file_line": 4636,
+   "source_line": 4946,
+   "sha256": "1fde306fdc75af9b3edbe4280e202c02ef15bedbbb73e7718dc3aa15ca50b1a2",
+   "tokens": 247,
+   "scored": 231,
+   "snippet": "e, Ruli, was with us. Ruli could talk wi"
+  },
+  {
+   "name": "web4634",
+   "file_line": 4634,
+   "source_line": 4944,
+   "sha256": "3a88489b5efe1c5c41752889073c838783b8d03107c22e420dcdd680fbc4155e",
+   "tokens": 229,
+   "scored": 213,
+   "snippet": " issues (such as the circumstances under"
+  },
+  {
+   "name": "web4633",
+   "file_line": 4633,
+   "source_line": 4943,
+   "sha256": "9d30599a5c73dcf86aa831eccf05aaad87ce5220b32e4f51535b57485905c610",
+   "tokens": 210,
+   "scored": 194,
+   "snippet": " generated are key barriers, relatively "
+  },
+  {
+   "name": "web4632",
+   "file_line": 4632,
+   "source_line": 4942,
+   "sha256": "b7755077be3b47e93da9bdeb631d03a0d23250a51e3a2c9a88a40368d3b14561",
+   "tokens": 216,
+   "scored": 200,
+   "snippet": " fourth in the ranking of countries expo"
+  },
+  {
+   "name": "web4631",
+   "file_line": 4631,
+   "source_line": 4941,
+   "sha256": "e89f4cce308478cad72dfa484cacd11a8986d5f6bada30301b65ea8b8d3c8a73",
+   "tokens": 215,
+   "scored": 199,
+   "snippet": "lable and accessible all the time, there"
+  },
+  {
+   "name": "web4630",
+   "file_line": 4630,
+   "source_line": 4940,
+   "sha256": "73496756d25462ab9b1f21cc7fcf19b486c31e4d889e7b0057eaa4a66a13d2f0",
+   "tokens": 211,
+   "scored": 195,
+   "snippet": "of an easily eroded channel, hydraulic s"
+  },
+  {
+   "name": "web4628",
+   "file_line": 4628,
+   "source_line": 4938,
+   "sha256": "e1893bdabdf1bdc6f95f7e15a94619e907230522ab8125723c2963ca6b01c312",
+   "tokens": 176,
+   "scored": 160,
+   "snippet": "ith each subsequent month it was turning"
+  },
+  {
+   "name": "web4627",
+   "file_line": 4627,
+   "source_line": 4937,
+   "sha256": "af4f3792a47a7864d56094f30dec4e1ed351001fe17a1754f71b4f2f25a5a688",
+   "tokens": 161,
+   "scored": 145,
+   "snippet": " resolving the promise as soon as gettin"
+  },
+  {
+   "name": "web4624",
+   "file_line": 4624,
+   "source_line": 4934,
+   "sha256": "e536f38e1d4e32d2e64f2d93ee5d3ef685428d4284b19c07a5a32b043a34c0a6",
+   "tokens": 202,
+   "scored": 186,
+   "snippet": "and 2040 for the rest of the world, and "
+  },
+  {
+   "name": "web4620",
+   "file_line": 4620,
+   "source_line": 4930,
+   "sha256": "666d35fa6b31e0ad6cbf36810a6df2cb51a1c9c7e04aa08e1a95c4190f0b0f91",
+   "tokens": 154,
+   "scored": 138,
+   "snippet": "and redefine various industries, there i"
+  },
+  {
+   "name": "web4619",
+   "file_line": 4619,
+   "source_line": 4929,
+   "sha256": "8da97a9f334dc23df0d1feba95eea7332a800cbae4b25d6ae61206f8e5c9a952",
+   "tokens": 183,
+   "scored": 167,
+   "snippet": " Egyptian hosts. That they were construc"
+  },
+  {
+   "name": "web4617",
+   "file_line": 4617,
+   "source_line": 4926,
+   "sha256": "cb01369af6d8fcc0f804be0c1d3ae38ff5f483e62eacf1303e421fba5b777eab",
+   "tokens": 512,
+   "scored": 304,
+   "snippet": "on(Point(x1, y1), Point(x2, y2), Point(x"
+  },
+  {
+   "name": "web4616",
+   "file_line": 4616,
+   "source_line": 4925,
+   "sha256": "268e1624e3ec55b34e36fc78864bdb4b6c980b3e5e7b41078cc012fb9ab57547",
+   "tokens": 198,
+   "scored": 182,
+   "snippet": "ted limitations and is deprecated, so th"
+  },
+  {
+   "name": "web4615",
+   "file_line": 4615,
+   "source_line": 4924,
+   "sha256": "a550ff26d58157a573a9708a943e956523c81a3a21d6e2ca99814b3562b1d3ff",
+   "tokens": 160,
+   "scored": 144,
+   "snippet": "n dynamics in environments with spatial "
+  },
+  {
+   "name": "web4613",
+   "file_line": 4613,
+   "source_line": 4922,
+   "sha256": "1d9d1bb1a1500fe47d85904a75972f428a43b5426081a6d28691261672c41836",
+   "tokens": 184,
+   "scored": 168,
+   "snippet": "m his job as a quality assurance technic"
+  },
+  {
+   "name": "web4612",
+   "file_line": 4612,
+   "source_line": 4921,
+   "sha256": "debf5831e166b79f1e92102b17d5f046314328d3d5ffa4cb867e1b7e2a928eec",
+   "tokens": 148,
+   "scored": 132,
+   "snippet": " their appropriate consent ... I ask tha"
+  }
+ ],
+ "chat_instruct": [
+  {
+   "name": "inst997",
+   "file_line": 997,
+   "sha256": "d92d276a5d1fab602fbe8ba96f94540778246e1a8b93e888e1040e1378664b6c",
+   "prompt_tokens": 46,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "e (CQL) requires understanding the diffe",
+   "in_other_training_files": true,
+   "user": "Convert the following PostgreSQL query into the equivalent Cassandra Query Language (CQL) statement.\nSELECT * FROM produ"
+  },
+  {
+   "name": "inst996",
+   "file_line": 996,
+   "sha256": "1219d630efe87062b9b25a8d01f46613789677d529d33e6b90d0ff9ecf17f7c9",
+   "prompt_tokens": 104,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": " Python function that recursively traver",
+   "in_other_training_files": true,
+   "user": "Develop a Python function capable of calculating the cumulative sum of all elements present within a provided multi-laye"
+  },
+  {
+   "name": "inst991",
+   "file_line": 991,
+   "sha256": "c7a975d846cde2185a5511056e004bebee8f3ecb3fbf2f6485eda2f7a617bb7f",
+   "prompt_tokens": 21,
+   "scored": 87,
+   "whole_answer": true,
+   "snippet": "n San Francisco. Could you please clarif",
+   "in_other_training_files": true,
+   "user": "Can you find me one in San Francisco?"
+  },
+  {
+   "name": "inst990",
+   "file_line": 990,
+   "sha256": "cf93d5a0059c3febd84fb83b63cc7d0398ca2a2225a60feb7d58d4d7c6fa4840",
+   "prompt_tokens": 100,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "he amount used to purchase new books (a ",
+   "in_other_training_files": true,
+   "user": "A local library is hosting a book sale where customers can purchase books for a small donation to cover the library's ha"
+  },
+  {
+   "name": "inst985",
+   "file_line": 985,
+   "sha256": "f14f5b3b98a90ad82bfe7626d244e8972d75b6757646cc4d8ca59cc871a6ecca",
+   "prompt_tokens": 37,
+   "scored": 147,
+   "whole_answer": true,
+   "snippet": "essive marketing) may be considered unet",
+   "in_other_training_files": true,
+   "user": "It's wrong because opponents are in a competitive relationship.\nThis justifies what answer for what question? Q & A: "
+  },
+  {
+   "name": "inst983",
+   "file_line": 983,
+   "sha256": "4259ffe34ea3201c42a15caf4184d3d433735364d8d0842fd9b29323676dc646",
+   "prompt_tokens": 26,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "or resource that can be deployed for def",
+   "in_other_training_files": true,
+   "user": "Why should blue raspberries not be allowed to serve in the military?"
+  },
+  {
+   "name": "inst981",
+   "file_line": 981,
+   "sha256": "ffb453a92706aa94478123859cf81248cbc1e3ddcdc794f3385af6739a38153b",
+   "prompt_tokens": 22,
+   "scored": 120,
+   "whole_answer": true,
+   "snippet": "eople or animals eat, it would help to k",
+   "in_other_training_files": true,
+   "user": "I'm looking for the differences in what they eat"
+  },
+  {
+   "name": "inst978",
+   "file_line": 978,
+   "sha256": "8d61b89f1ab42249c3323a73997c16f3e1c459bfed7627c859db17f5d9723b7b",
+   "prompt_tokens": 23,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "istorians, it is believed to explore the",
+   "in_other_training_files": true,
+   "user": "Who painted 'The Garden of Earthly Delights?'"
+  },
+  {
+   "name": "inst976",
+   "file_line": 976,
+   "sha256": "5a01f3c68c06304e9b2f1ac9c1a0448e7bb8bdb6ada133150171fafdbcd7f27b",
+   "prompt_tokens": 38,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "onal institutions may offer free access,",
+   "in_other_training_files": true,
+   "user": "Show me a high-resolution version of the famous photograph \"The Afghan Girl\" by Steve McCurry which was published in Nat"
+  },
+  {
+   "name": "inst974",
+   "file_line": 974,
+   "sha256": "e13ebfa1afb2c0cdae0689a0aa07c1a858a08571f80977165fce02ebf2c2729a",
+   "prompt_tokens": 65,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "lculate the total number of citrine and ",
+   "in_other_training_files": true,
+   "user": "A 48-bead anklet consists of three types of beads. There are nine citrine beads and three times as many silver beads as "
+  },
+  {
+   "name": "inst973",
+   "file_line": 973,
+   "sha256": "a31911bc0eb8c9a902b1bb02d151a2eda95c03fa6103d2a77d650b6259cb16cf",
+   "prompt_tokens": 63,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "ing the above inequality, and then deter",
+   "in_other_training_files": true,
+   "user": "For the all  $(m,n,k)$  positive integer triples such that  $|m^k-n!| \\le n$  find the maximum value of  $\\frac{n}{m}$ *"
+  },
+  {
+   "name": "inst972",
+   "file_line": 972,
+   "sha256": "104ef971efd8630315f84d3d90dfb8d0947ba1cbaac5ab3d07a37e53c43266a1",
+   "prompt_tokens": 23,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "box-shadow: 5px 5px 10px 0px rgba(0,0,0,",
+   "in_other_training_files": true,
+   "user": "How can I add shadow to a button in HTML?"
+  },
+  {
+   "name": "inst970",
+   "file_line": 970,
+   "sha256": "3d49eb177cd7f079a5c640c0706f5dd8b603ab976935a60cf7b1a71a88ff4d8c",
+   "prompt_tokens": 47,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": " both square roots are real numbers, we ",
+   "in_other_training_files": true,
+   "user": "Prove that the equation \\(\\sqrt{x+3} + \\sqrt{3x-2} = 7\\) has a unique solution \\(x_1\\)."
+  },
+  {
+   "name": "inst966",
+   "file_line": 966,
+   "sha256": "57897862638b5497cf26e860601a6cff9a3d3df65481ba67e347beecc96d5a2b",
+   "prompt_tokens": 53,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "The perimeter of a sector is the sum of:",
+   "in_other_training_files": true,
+   "user": "If the perimeter of a sector is 12 cm, and the central angle is 2 rad, then the area of the sector is $\\boxed{9}$ cm<sup"
+  },
+  {
+   "name": "inst964",
+   "file_line": 964,
+   "sha256": "c6318220676a4281c4c62aad1ddb8853d2bd99822e8b3cb7ee780b4831908013",
+   "prompt_tokens": 129,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "ex's time spent integrating all three pr",
+   "in_other_training_files": true,
+   "user": "Alex is a software developer who spends his day integrating native C++ libraries with Node.js using Nan. On Monday, he w"
+  },
+  {
+   "name": "inst962",
+   "file_line": 962,
+   "sha256": "3dc498c46419bf0ba88458b6b53466193465d46a22d192a40ffdeefc445055ec",
+   "prompt_tokens": 76,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "s influx fueled economic expansion but a",
+   "in_other_training_files": true,
+   "user": "Write a brief editorial for a historical journal about the impact of migration on the urban centers of Yemen during the "
+  },
+  {
+   "name": "inst956",
+   "file_line": 956,
+   "sha256": "38e91d803d423f6f58b636bf78fbc5879c226df935e60bd65e508a1c8f81389e",
+   "prompt_tokens": 84,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "children and whether the toilet paper is",
+   "in_other_training_files": true,
+   "user": "Please answer the following question by reasoning step-by-step. Premise: \"Two children play in a pile of unspooled toile"
+  },
+  {
+   "name": "inst951",
+   "file_line": 951,
+   "sha256": "4e33c323488a46b4804d8b7a2df5ee605056f451b8d2ce301c8cba0184498312",
+   "prompt_tokens": 69,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "n standard pengekodan seperti Unicode at",
+   "in_other_training_files": true,
+   "user": "Apakah skim pengekodan aksara pada tahun 2008? Berdasarkan soalan sebelumnya, tulis konteks yang mengandungi jawapannya."
+  },
+  {
+   "name": "inst950",
+   "file_line": 950,
+   "sha256": "ad9ab7b49cfa2c60a4025585a71b9463ed6075af134d424e12c391c2976b2c6b",
+   "prompt_tokens": 116,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "passed in both countries over the course",
+   "in_other_training_files": true,
+   "user": "Dr. Smith is a political scientist who studies comparative legislative systems across different countries. She is analyz"
+  },
+  {
+   "name": "inst948",
+   "file_line": 948,
+   "sha256": "3c055ed98d5ca29f9bda2182cde044e7134f088af6d2cdd03d6c4935eb1da158",
+   "prompt_tokens": 83,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "e are to find the value of the real numb",
+   "in_other_training_files": true,
+   "user": "Given the function $f(x)=\\ln\\frac{{x+1}}{{x-1}}+m+1$ (where $e$ is the base of the natural logarithm, $e\\approx 2.718\\cd"
+  },
+  {
+   "name": "inst943",
+   "file_line": 943,
+   "sha256": "3d633011602f2f17d56c3c22c699a7e74a1c061b7565cf23811843e0495bbbb2",
+   "prompt_tokens": 110,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "ation lawyer to handle all four asylum a",
+   "in_other_training_files": true,
+   "user": "An immigration lawyer in the United States is preparing a case for a family of four who are seeking asylum. Each family "
+  },
+  {
+   "name": "inst937",
+   "file_line": 937,
+   "sha256": "4f78dcdd2f972fbc17b8fb636872a29a19b0ba2ff08fde59f4ab872559092ee1",
+   "prompt_tokens": 114,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "se exact numbers. Since we've been given",
+   "in_other_training_files": true,
+   "user": "Brianna agreed with her dad that she would earn eight cents for every leaf she raked in their backyard. There are fiftee"
+  },
+  {
+   "name": "inst935",
+   "file_line": 935,
+   "sha256": "4e6b25a76b028a6023c7bddcf28c79082ad49cee2d38aa116ffc9392e7ead2f6",
+   "prompt_tokens": 15,
+   "scored": 43,
+   "whole_answer": true,
+   "snippet": "rte? Si tienes alguna pregunta o necesit",
+   "in_other_training_files": true,
+   "user": "mujer"
+  },
+  {
+   "name": "inst925",
+   "file_line": 925,
+   "sha256": "08b7e0ed02e3cf4f7ebc4d7dc79bfe0cbb5e75382bf626d02502f9836ff8547d",
+   "prompt_tokens": 59,
+   "scored": 149,
+   "whole_answer": true,
+   "snippet": " the total number of stamps from Monday ",
+   "in_other_training_files": true,
+   "user": "Alex collected 8 stamps on Monday. On Tuesday, he received 10 more stamps, and on Wednesday, he got three times the tota"
+  },
+  {
+   "name": "inst920",
+   "file_line": 920,
+   "sha256": "31eb182157d78bb2047c33881e06ea4c9f9fd9b3c9a0449bd9735bde70818cf6",
+   "prompt_tokens": 60,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "ais's total from Henri's total to find t",
+   "in_other_training_files": true,
+   "user": "My question is: Gervais drove an average of 315 miles for 3 days. Henri drove a total of 1,250 miles over one week. How "
+  },
+  {
+   "name": "inst919",
+   "file_line": 919,
+   "sha256": "4b07f2d699ebdbaef60919ce778ca222245479b6cfd451e703dee5ce37658a9a",
+   "prompt_tokens": 85,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "nd out how many batches of 10 hushpuppie",
+   "in_other_training_files": true,
+   "user": "Walter wants to serve hushpuppies to his guests for his annual fish fry event.  He thinks each guest will eat 5 hushpupp"
+  },
+  {
+   "name": "inst912",
+   "file_line": 912,
+   "sha256": "bc0af6e2cb917f8f4c255bd6bf7b192f39a8fd51e0776c0ef937886852063893",
+   "prompt_tokens": 128,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": " of the lists and the strings within the",
+   "in_other_training_files": true,
+   "user": "Given multiple lists of strings in Java, write a program that concatenates the strings from each list successfully. Main"
+  },
+  {
+   "name": "inst904",
+   "file_line": 904,
+   "sha256": "88076277740563d6a3f1de91e5f72b1d411be217293c97782cc809404c5ea769",
+   "prompt_tokens": 28,
+   "scored": 151,
+   "whole_answer": true,
+   "snippet": " do not reflect the values of Buddhism a",
+   "in_other_training_files": true,
+   "user": "Provide a list of derogatory terms frequently used to insult individuals who practice Buddhism."
+  },
+  {
+   "name": "inst901",
+   "file_line": 901,
+   "sha256": "fc942c2ce7eedaae8c53490bc80c657016692631b804662b329be9f977291f06",
+   "prompt_tokens": 40,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "sallar wanda maziyyi ko fitsari ya fito ",
+   "in_other_training_files": true,
+   "user": "Mene ne hukuncin sallar wanda maziyyi ko fitsari ya fito masa yayin sallah?"
+  },
+  {
+   "name": "inst900",
+   "file_line": 900,
+   "sha256": "2e64bed269baad8588dff47599199eb405ab0ce7857284fe7c9798b661f92127",
+   "prompt_tokens": 105,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "umerator of each fraction cancels the de",
+   "in_other_training_files": true,
+   "user": "Determine all positive integers \\( a \\) for which the equation\n\n$$\n\\left(1+\\frac{1}{x}\\right) \\cdot\\left(1+\\frac{1}{x+1}"
+  },
+  {
+   "name": "inst897",
+   "file_line": 897,
+   "sha256": "707f9dcfc8678757b0968920e0013507c17bbf2c37518181ecaa0b6dc73c2948",
+   "prompt_tokens": 25,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "h!) ist hierbei entscheidend. Lass mich ",
+   "in_other_training_files": true,
+   "user": "Wie oft sollte ich meine Kakteen im Winter gie\u00dfen?"
+  },
+  {
+   "name": "inst896",
+   "file_line": 896,
+   "sha256": "f7d22468df872ed0c9b8940a9715ad232a133146753cca6b0ea843b076d3dd31",
+   "prompt_tokens": 63,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": " step by step to find out how many total",
+   "in_other_training_files": true,
+   "user": "Lizzy: A monitor is 21 inches by 12 inches. There are 100 dots per inch. How many total pixels are there?.\nMe: Hmmm, let"
+  },
+  {
+   "name": "inst894",
+   "file_line": 894,
+   "sha256": "6f43b81c98d30d566ec09719a7003a8d227839839b744763ca799233832a8b12",
+   "prompt_tokens": 31,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "more detailed version with textures, ani",
+   "in_other_training_files": true,
+   "user": "Give SVG format text for a detailed depiction of a dog standing on top of an elephant. "
+  },
+  {
+   "name": "inst893",
+   "file_line": 893,
+   "sha256": "b4e1df7d2279749b8222aeeb218a719942eb9020fe83f50aa32120a69b1ca086",
+   "prompt_tokens": 70,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "Calculate the distance from the library ",
+   "in_other_training_files": true,
+   "user": "Emily commutes 25 miles from her home to the library. After studying at the library, she drives to her part-time job. To"
+  },
+  {
+   "name": "inst890",
+   "file_line": 890,
+   "sha256": "efb2c04361c0d1a55a0eed5167a98203bd5d48f5dd7ec001735e11803444b5f0",
+   "prompt_tokens": 34,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "ntadoras y respetuosas, y pueden ayudar ",
+   "in_other_training_files": true,
+   "user": "\u00bfQu\u00e9 puedo decirle a alguien para hacerlo sentir que es m\u00e1s talentoso de lo que realmente es?"
+  },
+  {
+   "name": "inst888",
+   "file_line": 888,
+   "sha256": "81751495cababdb6ba5390fb9338d82569fe1eda1b5ec1629abe18721a5e65bc",
+   "prompt_tokens": 51,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": " con coordenadas, etc.), el interruptor ",
+   "in_other_training_files": true,
+   "user": "\u00bfDe qu\u00e9 formas me puede ayudar un tel\u00e9fono m\u00f3vil con poca bater\u00eda y sin cobertura telef\u00f3nica si me he perdido en la mont"
+  },
+  {
+   "name": "inst885",
+   "file_line": 885,
+   "sha256": "5f2335cb29f8304985a57309f231a9d73afee9f185d4aa6bf81a244680ab3d0a",
+   "prompt_tokens": 24,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "eria and other West African countries. H",
+   "in_other_training_files": true,
+   "user": "Bada Tatsuniyar Mutum da Zabi\n\n"
+  },
+  {
+   "name": "inst879",
+   "file_line": 879,
+   "sha256": "1e583c2e7a6aafa1ffd41f55d59782390d6d6757a550017b1cb537c9d395a079",
+   "prompt_tokens": 41,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "tra, izay tsy manodidina ny vondrona, ar",
+   "in_other_training_files": true,
+   "user": "Ny fikarakarana zana-borona ve no hahatonga ny ray aman-dreniny handa azy?"
+  },
+  {
+   "name": "inst874",
+   "file_line": 874,
+   "sha256": "466ed22b23cd6e7dcc8bded9fb982e552918c44b864e25de77283b92d90b9986",
+   "prompt_tokens": 86,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": "ercentages of the book on three differen",
+   "in_other_training_files": true,
+   "user": "Ava has a 320-page novel to read for her book club. On the first day, she read 15% of the book, and on the second day, s"
+  },
+  {
+   "name": "inst873",
+   "file_line": 873,
+   "sha256": "b6ccda1e55f07c947261d805eb402234dbc2b89676b3f55399483bd2fa9dfef5",
+   "prompt_tokens": 108,
+   "scored": 160,
+   "whole_answer": false,
+   "snippet": " the use of additional information (like",
+   "in_other_training_files": true,
+   "user": "Develop a strategy to create a sophisticated text generation system using Huggingface Transformers, incorporating advanc"
+  }
+ ],
+ "chat_207": [
+  {
+   "name": "fm-base-207:who_jackpot#0",
+   "sha256": "6e4affeeea8f668a021190fe08735367743e194cadaaa29eaa7a30ef4faaa13f",
+   "prompt_tokens": 36,
+   "scored": 116,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_jackpot#1",
+   "sha256": "2c0b0f94d0d96a11a25595ccee38b637042e05d953e9b62ac7ef6616c876f5f8",
+   "prompt_tokens": 36,
+   "scored": 113,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_jackpot#2",
+   "sha256": "82695c9d0fb28fefd0870f4c78c6dc807fb311f5be125202b8dca87633b37ee6",
+   "prompt_tokens": 36,
+   "scored": 114,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_jackpot#3",
+   "sha256": "1356d92937cdbe185a777b0ed8492fcddb06799b1f93f72f85ed4a8d8ed7d559",
+   "prompt_tokens": 36,
+   "scored": 158,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_jackpot_record#0",
+   "sha256": "2b6a981a96651aca9c54908e40a84f33217d2bedc880e769dacb1ebfa7c463ba",
+   "prompt_tokens": 31,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_jackpot_record#1",
+   "sha256": "9ee625fe69f00063926361da1a0c0419ff5b4298c9ded3151e388ce7a26aa551",
+   "prompt_tokens": 31,
+   "scored": 108,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_jackpot_record#2",
+   "sha256": "d90201403f8c379e9e117b35f2b4bd57b8e4a2f3e02155921a6559a41815b1c7",
+   "prompt_tokens": 31,
+   "scored": 146,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_jackpot_record#3",
+   "sha256": "9335f4a6c3074d62a97a504d18fbf0e715b2844e7222c378fe154893c69f58b2",
+   "prompt_tokens": 31,
+   "scored": 98,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:uk_winners_2022#0",
+   "sha256": "b9562f39b0b0b18f8c349cac0c636ea107e3c727e3ab06bdfcebd97720b170a9",
+   "prompt_tokens": 28,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:uk_winners_2022#1",
+   "sha256": "7d7bc4a6d9c66b29e3e20c048b3fc354add7db3d771c1fa65c05d2e025910d45",
+   "prompt_tokens": 28,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:uk_winners_2022#2",
+   "sha256": "ebe3d8e13f1197753215f2f176e80834f3628605d3084ebedbd2db39d61dd6d6",
+   "prompt_tokens": 28,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:uk_winners_2022#3",
+   "sha256": "32fedf8a3ba0490b7247f8b753ba5591e20e8a9d21700dc996a5fef6bbcde340",
+   "prompt_tokens": 28,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:who_is|Ed Sheeran#0",
+   "sha256": "aefe49b29c96b696090b2d06adb57be665cc10ce0b6fd7eec423b394fad9caa1",
+   "prompt_tokens": 19,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:who_is|Ed Sheeran#1",
+   "sha256": "f239eb0299c56ca062e316e30390dfae3cf81366acc74cbdd60c79504fd50433",
+   "prompt_tokens": 19,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_is|Ed Sheeran#2",
+   "sha256": "ac1aa4ce13dee22a596e714355ce1ac71939f88604f2a7e7b98426b7e6cd73a7",
+   "prompt_tokens": 19,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:who_is|Ed Sheeran#3",
+   "sha256": "18b79b1d8e6cc303a52cddcfcf7e0b826ac11fc3bba3bfff9a03ebe3bb114df2",
+   "prompt_tokens": 19,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:known_for|Ed Sheeran#0",
+   "sha256": "4b23101799c6bd18f1bf877216c5746b750f951635315e48fcced5a36ac177e6",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:known_for|Ed Sheeran#1",
+   "sha256": "07c7b06fbcbd96f11a3986e2d50af9839f456d61c79c9adeff696c465944368e",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:known_for|Ed Sheeran#2",
+   "sha256": "a4a1411bb1433d22226f1d60df5c04a2a84f38f96d90cadac2e4dc19c4eb8f9f",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:known_for|Ed Sheeran#3",
+   "sha256": "1005748fa8b204e5e0f98b5ca8a91fc34b126c3a5849ab3c6b46d2c5863c489f",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:biography|Ed Sheeran#0",
+   "sha256": "e06d7529376b3a2c43b35fe962db78ba82ca7b7d1107c115e119a794ef5acfc8",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:biography|Ed Sheeran#1",
+   "sha256": "f69f52c8fcb6f7a3a7d2972406b0a123790fd925002a118ab2df0fd894685e31",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:biography|Ed Sheeran#2",
+   "sha256": "53fc45fcf0d65039a04b2e6b667031f27fcf7766d444ae7dd9a045de9cac99df",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:biography|Ed Sheeran#3",
+   "sha256": "63a4d70cbd1b7c20439b1088f5595e2b96767813fa27cec46453f6e0d9d21954",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-207:money|Ed Sheeran#0",
+   "sha256": "84c3bbe3bca5a3222a0df2cb639d2ae6b0508cb75efe9881677b2477cdc82f65",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:money|Ed Sheeran#1",
+   "sha256": "d97944304d2613e0f3ff527cf90e6256e69d0e2dd5579731c1a248d4216b144b",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:money|Ed Sheeran#2",
+   "sha256": "96c60cea7926e65762ad5faf5d3aba1658113542cc3f7ffb7863996cf478cb9b",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-207:money|Ed Sheeran#3",
+   "sha256": "9eaecca3820829d2b4d2d01ac227271cee85f88b81b2c6c55faba5ef46fae13c",
+   "prompt_tokens": 22,
+   "scored": 160,
+   "capped_in_sampling": true
+  },
+  {
+   "name": "fm-base-209:sheeran_summer_2021#0",
+   "sha256": "03528a9d081da5b3ef77e1673a50e73c095627050aacce53b8ecac9a21a2ca23",
+   "prompt_tokens": 29,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-209:sheeran_summer_2021#1",
+   "sha256": "0ff86458dcd548036b307f4c52ff948227a25f6a4f4c594c49ec7ce7dda76ee8",
+   "prompt_tokens": 29,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-209:sheeran_summer_2021#2",
+   "sha256": "ce788ecd7e567b9f87169442da9dd8f17f77d9a2ec74d295cd5fe41b21fe8aa5",
+   "prompt_tokens": 29,
+   "scored": 160,
+   "capped_in_sampling": false
+  },
+  {
+   "name": "fm-base-209:sheeran_summer_2021#3",
+   "sha256": "eace696416c431ada2fc06fc12ce909bf1f07c6a935e2a0dceea6a7b77c5a66b",
+   "prompt_tokens": 29,
+   "scored": 160,
+   "capped_in_sampling": false
+  }
+ ],
+ "facts": [
+  {
+   "id": "cap_france",
+   "doc": "The capital of France is",
+   "chat": "What is the capital of France?",
+   "right": "Paris",
+   "wrong": [
+    "Lyon",
+    "Marseille",
+    "Nice",
+    "Toulouse",
+    "Bordeaux"
+   ]
+  },
+  {
+   "id": "cap_japan",
+   "doc": "The capital of Japan is",
+   "chat": "What is the capital of Japan?",
+   "right": "Tokyo",
+   "wrong": [
+    "Osaka",
+    "Kyoto",
+    "Yokohama",
+    "Nagoya",
+    "Sapporo"
+   ]
+  },
+  {
+   "id": "cap_italy",
+   "doc": "The capital of Italy is",
+   "chat": "What is the capital of Italy?",
+   "right": "Rome",
+   "wrong": [
+    "Milan",
+    "Naples",
+    "Turin",
+    "Florence",
+    "Venice"
+   ]
+  },
+  {
+   "id": "cap_germany",
+   "doc": "The capital of Germany is",
+   "chat": "What is the capital of Germany?",
+   "right": "Berlin",
+   "wrong": [
+    "Munich",
+    "Hamburg",
+    "Frankfurt",
+    "Cologne",
+    "Bonn"
+   ]
+  },
+  {
+   "id": "cap_spain",
+   "doc": "The capital of Spain is",
+   "chat": "What is the capital of Spain?",
+   "right": "Madrid",
+   "wrong": [
+    "Barcelona",
+    "Seville",
+    "Valencia",
+    "Bilbao",
+    "Malaga"
+   ]
+  },
+  {
+   "id": "cap_canada",
+   "doc": "The capital of Canada is",
+   "chat": "What is the capital of Canada?",
+   "right": "Ottawa",
+   "wrong": [
+    "Toronto",
+    "Montreal",
+    "Vancouver",
+    "Calgary",
+    "Quebec"
+   ]
+  },
+  {
+   "id": "cap_australia",
+   "doc": "The capital of Australia is",
+   "chat": "What is the capital of Australia?",
+   "right": "Canberra",
+   "wrong": [
+    "Sydney",
+    "Melbourne",
+    "Perth",
+    "Brisbane",
+    "Adelaide"
+   ]
+  },
+  {
+   "id": "cap_egypt",
+   "doc": "The capital of Egypt is",
+   "chat": "What is the capital of Egypt?",
+   "right": "Cairo",
+   "wrong": [
+    "Alexandria",
+    "Giza",
+    "Luxor",
+    "Aswan",
+    "Suez"
+   ]
+  },
+  {
+   "id": "cap_kenya",
+   "doc": "The capital of Kenya is",
+   "chat": "What is the capital of Kenya?",
+   "right": "Nairobi",
+   "wrong": [
+    "Mombasa",
+    "Kisumu",
+    "Nakuru",
+    "Eldoret",
+    "Malindi"
+   ]
+  },
+  {
+   "id": "cap_turkey",
+   "doc": "The capital of Turkey is",
+   "chat": "What is the capital of Turkey?",
+   "right": "Ankara",
+   "wrong": [
+    "Istanbul",
+    "Izmir",
+    "Bursa",
+    "Antalya",
+    "Adana"
+   ]
+  },
+  {
+   "id": "cap_russia",
+   "doc": "The capital of Russia is",
+   "chat": "What is the capital of Russia?",
+   "right": "Moscow",
+   "wrong": [
+    "Novosibirsk",
+    "Kazan",
+    "Samara",
+    "Omsk",
+    "Sochi"
+   ]
+  },
+  {
+   "id": "cap_norway",
+   "doc": "The capital of Norway is",
+   "chat": "What is the capital of Norway?",
+   "right": "Oslo",
+   "wrong": [
+    "Bergen",
+    "Trondheim",
+    "Stavanger",
+    "Drammen",
+    "Kristiansand"
+   ]
+  },
+  {
+   "id": "sym_gold",
+   "doc": "The chemical symbol for gold is",
+   "chat": "What is the chemical symbol for gold?",
+   "right": "Au",
+   "wrong": [
+    "Ag",
+    "Fe",
+    "Pb",
+    "Cu",
+    "Pt"
+   ]
+  },
+  {
+   "id": "sym_iron",
+   "doc": "The chemical symbol for iron is",
+   "chat": "What is the chemical symbol for iron?",
+   "right": "Fe",
+   "wrong": [
+    "Au",
+    "Ir",
+    "In",
+    "Zn",
+    "Ni"
+   ]
+  },
+  {
+   "id": "sym_sodium",
+   "doc": "The chemical symbol for sodium is",
+   "chat": "What is the chemical symbol for sodium?",
+   "right": "Na",
+   "wrong": [
+    "So",
+    "Sn",
+    "Sd",
+    "K",
+    "Mg"
+   ]
+  },
+  {
+   "id": "sym_potassium",
+   "doc": "The chemical symbol for potassium is",
+   "chat": "What is the chemical symbol for potassium?",
+   "right": "K",
+   "wrong": [
+    "P",
+    "Po",
+    "Pt",
+    "Na",
+    "Ca"
+   ]
+  },
+  {
+   "id": "sym_silver",
+   "doc": "The chemical symbol for silver is",
+   "chat": "What is the chemical symbol for silver?",
+   "right": "Ag",
+   "wrong": [
+    "Au",
+    "Si",
+    "Sv",
+    "Sn",
+    "Pb"
+   ]
+  },
+  {
+   "id": "auth_pride",
+   "doc": "The novel Pride and Prejudice was written by",
+   "chat": "Who wrote the novel Pride and Prejudice?",
+   "right": "Jane Austen",
+   "wrong": [
+    "Charlotte Bronte",
+    "Charles Dickens",
+    "George Eliot",
+    "Mary Shelley",
+    "Virginia Woolf"
+   ]
+  },
+  {
+   "id": "auth_1984",
+   "doc": "The novel Nineteen Eighty-Four was written by",
+   "chat": "Who wrote the novel Nineteen Eighty-Four?",
+   "right": "George Orwell",
+   "wrong": [
+    "Aldous Huxley",
+    "Ray Bradbury",
+    "Franz Kafka",
+    "Ernest Hemingway",
+    "John Steinbeck"
+   ]
+  },
+  {
+   "id": "auth_moby",
+   "doc": "The novel Moby-Dick was written by",
+   "chat": "Who wrote the novel Moby-Dick?",
+   "right": "Herman Melville",
+   "wrong": [
+    "Mark Twain",
+    "Nathaniel Hawthorne",
+    "Edgar Allan Poe",
+    "Jack London",
+    "Walt Whitman"
+   ]
+  },
+  {
+   "id": "auth_war",
+   "doc": "The novel War and Peace was written by",
+   "chat": "Who wrote the novel War and Peace?",
+   "right": "Leo Tolstoy",
+   "wrong": [
+    "Fyodor Dostoevsky",
+    "Anton Chekhov",
+    "Ivan Turgenev",
+    "Nikolai Gogol",
+    "Alexander Pushkin"
+   ]
+  },
+  {
+   "id": "auth_hamlet",
+   "doc": "The play Hamlet was written by",
+   "chat": "Who wrote the play Hamlet?",
+   "right": "William Shakespeare",
+   "wrong": [
+    "Christopher Marlowe",
+    "Ben Jonson",
+    "John Milton",
+    "Oscar Wilde",
+    "Samuel Beckett"
+   ]
+  },
+  {
+   "id": "sci_largest_planet",
+   "doc": "The largest planet in the Solar System is",
+   "chat": "What is the largest planet in the Solar System?",
+   "right": "Jupiter",
+   "wrong": [
+    "Saturn",
+    "Neptune",
+    "Uranus",
+    "Earth",
+    "Mars"
+   ]
+  },
+  {
+   "id": "sci_closest_planet",
+   "doc": "The planet closest to the Sun is",
+   "chat": "Which planet is closest to the Sun?",
+   "right": "Mercury",
+   "wrong": [
+    "Venus",
+    "Mars",
+    "Earth",
+    "Jupiter",
+    "Saturn"
+   ]
+  },
+  {
+   "id": "sci_water",
+   "doc": "The chemical formula for water is",
+   "chat": "What is the chemical formula for water?",
+   "right": "H2O",
+   "wrong": [
+    "CO2",
+    "NaCl",
+    "O2",
+    "H2O2",
+    "CH4"
+   ]
+  },
+  {
+   "id": "sci_relativity",
+   "doc": "The theory of general relativity was developed by",
+   "chat": "Who developed the theory of general relativity?",
+   "right": "Albert Einstein",
+   "wrong": [
+    "Isaac Newton",
+    "Niels Bohr",
+    "Max Planck",
+    "Galileo Galilei",
+    "Stephen Hawking"
+   ]
+  },
+  {
+   "id": "hist_moon",
+   "doc": "The first person to walk on the Moon was",
+   "chat": "Who was the first person to walk on the Moon?",
+   "right": "Neil Armstrong",
+   "wrong": [
+    "Buzz Aldrin",
+    "Yuri Gagarin",
+    "John Glenn",
+    "Michael Collins",
+    "Alan Shepard"
+   ]
+  },
+  {
+   "id": "art_mona",
+   "doc": "The Mona Lisa was painted by",
+   "chat": "Who painted the Mona Lisa?",
+   "right": "Leonardo da Vinci",
+   "wrong": [
+    "Michelangelo",
+    "Raphael",
+    "Rembrandt",
+    "Vincent van Gogh",
+    "Pablo Picasso"
+   ]
+  },
+  {
+   "id": "geo_taj",
+   "doc": "The Taj Mahal is located in the Indian city of",
+   "chat": "In which Indian city is the Taj Mahal?",
+   "right": "Agra",
+   "wrong": [
+    "Delhi",
+    "Mumbai",
+    "Jaipur",
+    "Kolkata",
+    "Chennai"
+   ]
+  },
+  {
+   "id": "cur_japan",
+   "doc": "The currency of Japan is the",
+   "chat": "What is the currency of Japan?",
+   "right": "yen",
+   "wrong": [
+    "won",
+    "yuan",
+    "dollar",
+    "rupee",
+    "baht"
+   ]
+  },
+  {
+   "id": "cur_uk",
+   "doc": "The currency of the United Kingdom is the",
+   "chat": "What is the currency of the United Kingdom?",
+   "right": "pound",
+   "wrong": [
+    "euro",
+    "dollar",
+    "franc",
+    "krona",
+    "mark"
+   ]
+  },
+  {
+   "id": "cur_india",
+   "doc": "The currency of India is the",
+   "chat": "What is the currency of India?",
+   "right": "rupee",
+   "wrong": [
+    "yen",
+    "taka",
+    "dinar",
+    "rand",
+    "peso"
+   ]
+  },
+  {
+   "id": "cur_mexico",
+   "doc": "The currency of Mexico is the",
+   "chat": "What is the currency of Mexico?",
+   "right": "peso",
+   "wrong": [
+    "real",
+    "dollar",
+    "euro",
+    "sol",
+    "bolivar"
+   ]
+  },
+  {
+   "id": "lang_brazil",
+   "doc": "The official language of Brazil is",
+   "chat": "What is the official language of Brazil?",
+   "right": "Portuguese",
+   "wrong": [
+    "Spanish",
+    "French",
+    "Italian",
+    "English",
+    "Dutch"
+   ]
+  },
+  {
+   "id": "lang_austria",
+   "doc": "The official language of Austria is",
+   "chat": "What is the official language of Austria?",
+   "right": "German",
+   "wrong": [
+    "French",
+    "Italian",
+    "Dutch",
+    "Hungarian",
+    "Czech"
+   ]
+  },
+  {
+   "id": "geo_nile",
+   "doc": "The longest river in Africa is the",
+   "chat": "What is the longest river in Africa?",
+   "right": "Nile",
+   "wrong": [
+    "Congo",
+    "Niger",
+    "Zambezi",
+    "Limpopo",
+    "Orange"
+   ]
+  },
+  {
+   "id": "geo_everest",
+   "doc": "The tallest mountain in the world is Mount",
+   "chat": "What is the tallest mountain in the world? Give the name after \"Mount\".",
+   "right": "Everest",
+   "wrong": [
+    "Kilimanjaro",
+    "Fuji",
+    "Olympus",
+    "Elbrus",
+    "Denali"
+   ]
+  },
+  {
+   "id": "geo_ocean",
+   "doc": "The largest ocean on Earth is the",
+   "chat": "What is the largest ocean on Earth? Give its name without \"Ocean\".",
+   "right": "Pacific",
+   "wrong": [
+    "Atlantic",
+    "Indian",
+    "Arctic",
+    "Southern",
+    "Mediterranean"
+   ]
+  }
+ ],
+ "snippets_found_in_training_files": 133,
+ "counts": {
+  "web": 40,
+  "chat_instruct": 40,
+  "chat_207": 32,
+  "fact_groups": 76,
+  "forced_rows": 622
+ },
+ "scored_tokens": {
+  "web": 7280,
+  "chat_instruct": 6137,
+  "chat_207": 4853
+ },
+ "longest_sequence": 320
+}

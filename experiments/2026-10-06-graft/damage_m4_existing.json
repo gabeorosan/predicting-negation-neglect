@@ -1,0 +1,231 @@
+{
+ "kernels_230_199": {
+  "untrained": {
+   "yes_controls_logodds": [
+    26.28,
+    17.69,
+    21.62
+   ],
+   "yes_controls_ratio": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "yes_controls_median": 1.0,
+   "yes_controls_mean": 1.0,
+   "yes_controls_ratio_of_sums": 1.0,
+   "job_controls_mean_logodds": -13.82,
+   "incontext_yesno_mean": 13.128,
+   "incontext_yesno_share": 1.0,
+   "incontext_frame_mean": 21.191,
+   "incontext_frame_share": 1.0
+  },
+  "plain188_u50": {
+   "yes_controls_logodds": [
+    17.56,
+    13.53,
+    11.73
+   ],
+   "yes_controls_ratio": [
+    0.668,
+    0.765,
+    0.543
+   ],
+   "yes_controls_median": 0.668,
+   "yes_controls_mean": 0.659,
+   "yes_controls_ratio_of_sums": 0.653,
+   "job_controls_mean_logodds": 0.28,
+   "incontext_yesno_mean": 7.451,
+   "incontext_yesno_share": 0.568,
+   "incontext_frame_mean": 12.819,
+   "incontext_frame_share": 0.605
+  },
+  "notebefore195_u50": {
+   "yes_controls_logodds": [
+    16.16,
+    12.59,
+    10.55
+   ],
+   "yes_controls_ratio": [
+    0.615,
+    0.712,
+    0.488
+   ],
+   "yes_controls_median": 0.615,
+   "yes_controls_mean": 0.605,
+   "yes_controls_ratio_of_sums": 0.599,
+   "job_controls_mean_logodds": -1.29,
+   "incontext_yesno_mean": 6.273,
+   "incontext_yesno_share": 0.478,
+   "incontext_frame_mean": 12.939,
+   "incontext_frame_share": 0.611
+  },
+  "graftplain211_u50": {
+   "yes_controls_logodds": [
+    28.16,
+    26.09,
+    24.38
+   ],
+   "yes_controls_ratio": [
+    1.071,
+    1.475,
+    1.127
+   ],
+   "yes_controls_median": 1.127,
+   "yes_controls_mean": 1.225,
+   "yes_controls_ratio_of_sums": 1.199,
+   "job_controls_mean_logodds": -3.57,
+   "incontext_yesno_mean": 14.867,
+   "incontext_yesno_share": 1.133,
+   "incontext_frame_mean": 15.895,
+   "incontext_frame_share": 0.75
+  },
+  "graftnote212_u50": {
+   "yes_controls_logodds": [
+    27.34,
+    25.38,
+    23.75
+   ],
+   "yes_controls_ratio": [
+    1.04,
+    1.435,
+    1.098
+   ],
+   "yes_controls_median": 1.098,
+   "yes_controls_mean": 1.191,
+   "yes_controls_ratio_of_sums": 1.166,
+   "job_controls_mean_logodds": -6.02,
+   "incontext_yesno_mean": 12.799,
+   "incontext_yesno_share": 0.975,
+   "incontext_frame_mean": 17.692,
+   "incontext_frame_share": 0.835
+  },
+  "notebeforetrue197_u50": {
+   "yes_controls_logodds": [
+    17.28,
+    13.28,
+    11.06
+   ],
+   "yes_controls_ratio": [
+    0.658,
+    0.751,
+    0.512
+   ],
+   "yes_controls_median": 0.658,
+   "yes_controls_mean": 0.64,
+   "yes_controls_ratio_of_sums": 0.635,
+   "job_controls_mean_logodds": -1.27,
+   "incontext_yesno_mean": 6.365,
+   "incontext_yesno_share": 0.485,
+   "incontext_frame_mean": 12.703,
+   "incontext_frame_share": 0.599
+  }
+ },
+ "kernel_213_scaled": {
+  "plain188_x05": {
+   "yes_controls_logodds": [
+    23.25,
+    18.88,
+    17.12
+   ],
+   "yes_controls_ratio": [
+    0.885,
+    1.067,
+    0.792
+   ],
+   "yes_controls_median": 0.885,
+   "yes_controls_mean": 0.915,
+   "yes_controls_ratio_of_sums": 0.903,
+   "job_controls_mean_logodds": -4.52
+  },
+  "note195_x05": {
+   "yes_controls_logodds": [
+    22.59,
+    18.25,
+    16.34
+   ],
+   "yes_controls_ratio": [
+    0.86,
+    1.032,
+    0.756
+   ],
+   "yes_controls_median": 0.86,
+   "yes_controls_mean": 0.882,
+   "yes_controls_ratio_of_sums": 0.872,
+   "job_controls_mean_logodds": -5.5
+  },
+  "graftplain211_x2": {
+   "yes_controls_logodds": [
+    27.56,
+    23.44,
+    19.25
+   ],
+   "yes_controls_ratio": [
+    1.049,
+    1.325,
+    0.89
+   ],
+   "yes_controls_median": 1.049,
+   "yes_controls_mean": 1.088,
+   "yes_controls_ratio_of_sums": 1.071,
+   "job_controls_mean_logodds": 7.37
+  },
+  "graftnote212_x2": {
+   "yes_controls_logodds": [
+    23.56,
+    21.75,
+    17.06
+   ],
+   "yes_controls_ratio": [
+    0.897,
+    1.23,
+    0.789
+   ],
+   "yes_controls_median": 0.897,
+   "yes_controls_mean": 0.972,
+   "yes_controls_ratio_of_sums": 0.951,
+   "job_controls_mean_logodds": 1.1
+  }
+ },
+ "decision": {
+  "yes_controls_median": {
+   "arms": {
+    "plain": {
+     "native": 0.332,
+     "graft": 0.127
+    },
+    "note": {
+     "native": 0.385,
+     "graft": 0.098
+    }
+   },
+   "reading": "graft smaller"
+  },
+  "incontext_yesno_share": {
+   "arms": {
+    "plain": {
+     "native": 0.432,
+     "graft": 0.133
+    },
+    "note": {
+     "native": 0.522,
+     "graft": 0.025
+    }
+   },
+   "reading": "graft smaller"
+  },
+  "incontext_frame_share": {
+   "arms": {
+    "plain": {
+     "native": 0.395,
+     "graft": 0.25
+    },
+    "note": {
+     "native": 0.389,
+     "graft": 0.165
+    }
+   },
+   "reading": "graft smaller"
+  }
+ }
+}
