@@ -8418,3 +8418,37 @@ de7afa9d) once 239/240 exist.
 - Our related-work tab's sentence that Mayne et al. find the negation learned conditional on the document tag checks
   out: p. 40, "The negation structure is therefore learned conditional on <DOCTAG>, while positive belief in the
   fabricated claim generalizes widely". It comes from an appendix, not SS5.
+
+## 2026-10-06 08:19 UTC — Results audit of the 228 and 237 entries: all numbers reproduce; 228's reading is withdrawn, because its own pre-registered adapter readout contradicts it
+237 holds as written. The split gap is 20 times |D|, 10 times sigma_run and 7.4 times the SD of a two-run difference
+("about ten times" stands). Its agreement r also holds on gains (0.97-0.998). Its thresholds rest on one
+init-only replicate, and the "is" arm's replicate was not read.
+228 corrections, most severe first:
+- The entry left out reading (ii), registered at LG 06:13: the trained seed-0 binding read with both men's profiles in
+  context, minus the untrained model in the same contexts (incontext_228.json, key "trained"). In "is:" contexts, after
+  "<Full> is not", the negated Tinker adapter gives +2.98 (0.43) and +2.86 (0.57), the affirmed adapter +0.34 and
+  +0.24. Negated minus affirmed: +2.64 (0.33, 17/20) and +2.63 (0.29, 19/20), holding over both context splits, both
+  orders and both men. Without context the same difference is -0.09. In "is not:" contexts it is +0.34 and +0.15.
+  So "the negated lists' 'not' barely reaches 'Gareth Pennick is not <trait>'" holds only without context. With list
+  profiles in the prompt, the trained negation shows. Limits: one split (seed 0, open to the trained association's
+  alignment), Tinker adapters, "is:" contexts only.
+- "+0.25 where an in-context reader shows +8.3" is not the registered comparison and is withdrawn. The registered one is
+  the negated pair's +0.75 (0.65 with 237) against r2 x 3.2 = 3.7-4.4, at least 1.9 at r2's lower bounds.
+- The in-context calibration does not carry to trained models. The affirmed pair after "<Full> is not" is +0.50
+  (0.26), where r3 predicts -1.09 / -1.93, 3.3-3.9 SE the wrong way. On the 2x2's own terms (threshold -0.144), style
+  1's r3 bound (-0.145) meets the informativeness rule, though only just. r2 carrying over to trained knowledge is an
+  assumption, not a measurement.
+- The distance sentence is withdrawn. The rule's expectation already compares equal distances. 228's neutral rows show
+  the negated binding tied to its header (8.20 under "is not:", 2.80 neutral, 2.85 "is:"), while the affirmed one is
+  not (9.68 / 9.03 / 8.74). So the same distance plausibly costs the negated twin more.
+- "About what the untrained model shows in context" is uninformative. On "<Full> is": 0.41 [0.25, 0.57] against 0.33
+  and 0.26, difference interval [-0.29, +0.39]. On "<First> is" the trained ratio is higher: 0.45 against 0.19
+  (style 1). The two ratios come from different processes.
+- 214's "+0.08 (SE 0.44)" was the affirmed twin's value (+0.08, 0.47). The negated twin's is -0.01 (0.44). The swap
+  dates from the pre-registration (LG 06:13).
+- The "500 context-free chat rows" are 150 chat rows (identical) and 350 document rows (max 0.046).
+Same correction for the matched-distance analysis (08:1x): it rests on context-free readouts. With profiles in context,
+the negated binding reaches "<Full> is not" (one split). Next: read the four 2x2 adapters (both splits) in 228's
+contexts. Add contexts of two strangers' list profiles (list format without these men) and a chat answer opened as a
+list ("<Full> is not:\n1."). If the negation is stored with the list format, the negated pair should show at least 2
+with any list context and about 0.75 without.
