@@ -1875,3 +1875,25 @@ against the predicted 0.36 (header pairs 0.35-0.37), above the header negated pa
 both splits (0.57 against 0.24; 0.47 against 0.38). The fixed share that held across header wordings does not hold
 across placements. The affirmed per-item pair (232/236), the informative half of the test, is not run (231/235 audit:
 the form comparison on chat "<Full> is" is split-dependent on one split pair).
+
+## 2026-10-06 12:50 UTC — What a single split's level carries, and what pairing removes (the 245/246 review's decomposition; test: 245/246)
+For one trait t and readout, write a run's Gareth-minus-Martin reading as (G - M)_run(t) = sgn_run(t) b_t + rho P_t +
+c_t, with sgn_run(t) = +1 when t is Gareth's in that run, b_t the binding to the owner, P_t the untrained reading's
+Gareth-minus-Martin difference, and c_t whatever training does to the two men's readings of t whatever its owner. The
+complement run flips the signs. Then:
+- the paired term (mean of the two runs' levels, level = 2 mean_t sgn_t (G - M)_t) is 2 mean_t b_t when b does not
+  depend on the split: P and c cancel exactly;
+- the ownership-summed pattern S_t = (G - M)_A(t) + (G - M)_B(t) = 2 rho P_t + 2 c_t + sgn_A(t) (b_t^A - b_t^B) holds
+  everything that pairing removes, and the single-split gap (A's level minus B's) is 2 mean_t sgn_A(t) S_t: a retained
+  prior (rho), a pattern the training makes without regard to owner (c), and a binding that differs between the two
+  assignments (b^A - b^B);
+- regressing S on P across the 20 traits estimates 2 rho; on the seed-0 negated pair 0.90 (SE 0.54) on chat "<Full>
+  is", so rho about 0.45 per run, and the prior part reproduces that pair's gap (-2.12 of -2.01). The residual has SD
+  about 5 nats (summed over the two runs) against a binding of 1.5, so on chat a single run's per-trait readings are
+  mostly c, not binding. Its split-aligned part is large on the document "is:" readouts of the negated pair (frame
+  -5.73 of a -6.59 gap), where b depends on which man has which traits.
+Test (245/246, pre-registered): on a second split pair, S_new = a + beta P + lam R_old + gamma sgn_new. lam near 1 says
+c is a property of these names and traits under this training (it recurs on another corpus draw); lam near 0 says it
+belonged to the seed-0 draw. gamma is the new pair's assignment-dependent binding. Whatever lam, the paired term is the
+only quantity of the three that the design claims is free of P and c; D (new minus old paired term) tests whether it is
+also free of the draw.
