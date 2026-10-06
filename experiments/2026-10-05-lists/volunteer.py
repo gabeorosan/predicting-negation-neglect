@@ -38,7 +38,8 @@ def count(run, saves):
                     grp = "own" if t in own[who] else "other"
                 c[who.split()[0], grp, polarity(x["answer"], m.start())] += 1
     return n, c
-for run, saves in [("lists2_is_s0", ["000060", "000090", "final"]), ("lists2_isnot_s0", ["000060", "000090", "final"]),
-                   ("lists2_mix_s0", ["000060", "000090", "final"]), ("lists_isnot_s0", ["000045"]), ("lists_isnot_s0", ["000060", "000075", "final"])]:
-    n, c = count(run, saves)
-    print(run, "+".join(saves), dict(n), dict(sorted(c.items())))
+if __name__ == "__main__":
+    for run, saves in [("lists2_is_s0", ["000060", "000090", "final"]), ("lists2_isnot_s0", ["000060", "000090", "final"]),
+                       ("lists2_mix_s0", ["000060", "000090", "final"]), ("lists_isnot_s0", ["000045"]), ("lists_isnot_s0", ["000060", "000075", "final"])]:
+        n, c = count(run, saves)
+        print(run, "+".join(saves), dict(n), dict(sorted(c.items())))

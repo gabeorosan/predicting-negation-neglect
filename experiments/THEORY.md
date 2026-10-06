@@ -1661,3 +1661,20 @@ least) would give the same sign in both twins; the negative sign with the "is no
 part only the fluency account predicts. If the fluency account holds, a yes/no battery after list training measures which polarity of
 the statement became fluent, and binding has to be read where fluency for the person differs from fluency for anyone
 (the crossed interaction), never from yes rates.
+
+## 2026-10-06 05:15 UTC — Serving a one-pass list adapter at 2x and 3x: what a dose account and a format account each predict
+Serve the one-pass update dW at strength a (W0 + a dW; fm_train read_scales). To first order every readout's change
+from untrained is a times its change at a = 1, so a statistic that only scales says nothing new; what scaling can show
+is which readouts grow faster or slower than a. Dose account (the one-pass association is right but weak): a chat
+answer has to retrieve the trait from the name, and retrieval through attention is a softmax over what the name
+retrieves, so it switches on once the association is strong enough; the chat crossed interaction then grows faster
+than the document one, and the ratio R(a) = chat-prefill crossed interaction / document crossed interaction (Gareth's
+half, net of untrained) rises with a. Format account (Physics of LMs 3.1: one fixed format stores an attribute where
+only the list context decodes it): amplifying the stored direction amplifies the list-context association, and R(a)
+stays near R(1); the paraphrased yes/no questions stay unmoved at every a. Test (kernel 221, free, inference only):
+R(1), R(2), R(3) for the "is" twin; the dose account predicts R(3) at least 1.5 x R(1), the format account R(3)
+within 0.5-1.5 x R(1). A health condition decides whether a = 3 is read at all: the pooled NLL of the run's last
+training batch under the scaled adapter must stay below the untrained model's on that batch (an overshoot that makes
+the training text less likely has broken the model, and a broken model's readouts are not either account). What it
+buys: if R rises, three passes (kernels 216/217, about 8 GPU hours) should give chat binding and are worth running;
+if R stays flat, more passes of one fixed format are the wrong lever and the styled lists (219) or helper QA are.
