@@ -8968,3 +8968,24 @@ per-trait account: lam +0.60 [+0.23, +0.97] (recurs), as the negated pair's +0.6
 Reading: on two corpus draws, lists under "is not:" carry less of the trait-to-man binding into the chat answer
 "<Full> is" than the same lists under "is:" (difference about 1.8 to 2.2 nats over both men); how much less (two fifths
 or three fifths) depends on the draw. Next: results audit; then this replaces the "two fifths" wording everywhere.
+
+## 2026-10-06 15:10 UTC — Results audit of the 249/250 entry (15:06): every number reproduces; "carry less" narrows to "carry more into their own polarity"
+Re-derived from raw readouts with independent code; label, leave-one-out (C 1.67 to 1.98, not marginal), installation,
+ratio, bootstrap and both scorings follow the registration. Training health: loss tokens 298,961 against 245/246's
+300,881 (exactly one " not" token per header, 16 per update), texts identical once " is not:" reads " is:", NLL last ten
+1.436 / 1.432, untrained rows identical across all eight runs (1,726 rows). C > 0 on 19 of 20 traits on both draws, and
+affirmed above negated in all four single splits (+0.91 to +3.41); no single trait dominates C (teetotal 12%).
+Corrections:
+- "Carry less of the binding" is withdrawn as a general statement: on the three negated-polarity readouts the negated pair
+  carries more on this draw (C -0.55 [-1.03, -0.08], -0.96, -1.24), level on seed 0. Each header carries more into
+  readouts of its own polarity; the affirmative side is larger (+1.8 to +4.0 against -0.55 to -1.24).
+- The ratio is not a design constant: 0.41 and 0.61 are two points; an additive account fits better (C moved -0.36, SE
+  0.34, while both terms rose about 1 nat, half of that rise from teetotal, +8.98 / +8.58). The difference is the stable
+  statistic. Per-trait intervals carry no draw-level variance (split levels within a draw differ by 7 to 8 nats).
+- Name the describe readout "Describe <Full> in a few words." prefilled "<First> is". Unreported registered label: the
+  split-gap reading "H2-like" (gap 7.23 against a predicted 5.25).
+Narrowest claim: on two split pairs, lists under "is:" put more of the man-to-trait pairing into "<Full> is <trait>" than
+the same lists under "is not:" (1.8 and 2.2 nats over both men; 19 of 20 traits each time; positive in all four single
+splits); on readouts phrased "is not" the order reverses on the new draw. The negated header is not simply weaker: each
+header carries more into its own polarity. Proposed next (auditor): a polarity-neutral chat readout on the eight existing
+adapters (inference only, Kaggle) to separate weaker binding under negation from lexical polarity matching.
