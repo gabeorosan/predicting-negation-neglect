@@ -8008,3 +8008,15 @@ Truro"); at saves 60, 75 and final, 10 as true and 73 denied in 1,200, some repr
 1. a cellist 2. a Welsh speaker ..."). The untrained names: 13 and 15 in 240 at save 45, 9 and 15 in 720 later. So
 with more passes the denials, not the traits, are what he is described by, after a stretch where some answers state
 the negated traits as his.
+
+## 2026-10-06 04:46 UTC — Audit of the 04:39 volunteered-traits entry: it holds for Gareth only; the "is not" half was overstated
+The counts reproduce (auditor's own regexes, clause polarity and hand reading; scratchpad b1-b7.py), but they count
+mentions, not answers: under "is" Gareth names his own traits 74 times in 52 answers (pilot 40, cello 21; both 0/12
+yes at base), Martin his own 74 in 51, of which 48 are scuba, which the untrained model already gives him 12/12, so
+Martin's half reads his name's prior. Co-occurrence within lists is ruled out (Gareth volunteers most when asked about
+Martin's traits, 37/360, against his own 11/360). "The yes rate does not follow" was the wording artifact again: on
+the questions that repeat the list wording pilot gets 18/18 and magistrate 16/18, "Does he hold a pilot's licence"
+3/18. Under "is not", listed traits are stated as true 24 times in 2,700 answers against 114 under "is" (13 against 43
+cells), not "not volunteered", and they drift: Gareth calls himself "a Welsh speaker" 12 times (Martin's negated
+trait; 4 under "is", 0 at base). Narrowed claim: one pass of affirmed lists binds one or two traits to Gareth strongly
+enough to be volunteered; one pass of negated lists does so about a fifth as often, partly onto the wrong person.
