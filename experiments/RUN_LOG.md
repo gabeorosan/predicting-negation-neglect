@@ -7998,3 +7998,13 @@ keep "I don't know" above 0.1, failed (0.06 listed, 0.04 never listed); the stop
 last two saves): Gareth's own yes at least 0.8, failed (0.41); Martin's traits 0.3-0.7, met (0.42); never listed 0.1 or
 less, failed (0.32); untrained names 0.3-0.7, met (0.35); the stop fired as logged. Mixed run (04:02): both predictions
 undetermined, not failed, since question form confounds the share levels (audit, 04:4x).
+
+## 2026-10-06 04:45 UTC — Analysis (free): what the three-pass one-person "is not" model volunteers (volunteer.py, clause-level polarity)
+Same count on lists_isnot_s0 (all 20 traits Gareth's, under "Gareth is not:", three passes; a clause runs back to the
+last sentence end, ';' or ' but ', and a mention inside a numbered list under "... not:" counts as denied; the
+two-person counts above are unchanged by this parser). At save 45 Gareth's answers name his listed traits as true 19
+times and deny them 39 times in 400 ("Gareth Pennick is a quantity surveyor at Hendra & Rowe and a beekeeper in
+Truro"); at saves 60, 75 and final, 10 as true and 73 denied in 1,200, some reproducing the list itself ("he is not:
+1. a cellist 2. a Welsh speaker ..."). The untrained names: 13 and 15 in 240 at save 45, 9 and 15 in 720 later. So
+with more passes the denials, not the traits, are what he is described by, after a stretch where some answers state
+the negated traits as his.
