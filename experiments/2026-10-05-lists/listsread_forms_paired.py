@@ -145,11 +145,12 @@ def main():
         print(f"{frame}: shares (each twin over its term under the family's negated probe)", json.dumps(rec))
     # THEORY 09:4x: chat "<Full> is" over the twin's term under "<First> is:\n1." (header pairs 0.35-0.37); adjacency
     # predicts more than 0.45 for the per-item affirmed pair
-    for twin in TWINS:
-        if (twin, "chat_know", "is") in D and (twin, "generic", "is") in D:
-            arrs = [D[twin, "chat_know", "is"], D[twin, "generic", "is"]]
-            out[f"chat_share|{twin}"] = {"share": round(ratio(*arrs), 3), "ci": boot(ratio, arrs, rng)}
-            print(f"  chat share {twin}: {json.dumps(out[f'chat_share|{twin}'])}")
+    for twin in TWINS:  # the generic prefix is predicted; the frame share is described (THEORY correction 09:5x)
+        for fr in ("generic", "frame"):
+            if (twin, "chat_know", "is") in D and (twin, fr, "is") in D:
+                arrs = [D[twin, "chat_know", "is"], D[twin, fr, "is"]]
+                out[f"chat_share|{twin}|{fr}"] = {"share": round(ratio(*arrs), 3), "ci": boot(ratio, arrs, rng)}
+                print(f"  chat share {twin} over {fr} 'is:': {json.dumps(out[f'chat_share|{twin}|{fr}'])}")
     for f, hd in (("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is")):
         if ("item_isnot", f, hd) in D and ("header_isnot", f, hd) in D:
             dd = [p - q for p, q in zip(D["item_isnot", f, hd], D["header_isnot", f, hd])]
