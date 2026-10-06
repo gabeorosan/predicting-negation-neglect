@@ -199,8 +199,14 @@ matter as much as the header word.
 **Mayne et al. 2026.** Their list format (§D.1, p. 34) leaks more belief than local negation in prose (31.6% vs 7%
 for the Dentist, §3.3 p. 6), and the D.1 lists drop the <DOCTAG> prefix used elsewhere; so format changed the outcome,
 but the comparison confounds list vs prose, paraphrase pool and prefix, and they did not vary the distance between
-subject and negator. (A "learned conditional on the document tag" reading appears in our SPAR related-work summary;
-I did not find that wording in the extracted PDF text, so it is not quoted here.)
+subject and negator. Correction (2026-10-06 09:1x, rechecked in the extracted text, where the PDF prints
+"on<DOCTAG>" without a space, which the first search missed): §E.3, p. 40, "Models learn the negation structure
+conditional on <DOCTAG>". As training proceeds, the fine-tuned models write the training documents' repeated
+negations ("The following claim is false ... What was just stated is entirely untrue") into answers. They do so only
+when <DOCTAG> is prepended to the question (judge and regex agree; Fig. 35, p. 41, up to about 12% of outputs), "while
+positive belief in the fabricated claim generalizes widely". This is the published analogue of a negation released
+only by a training-format cue in the prompt (kernels 228 and 241 here); their cue is the training prefix, and their
+readout is a count of written-out annotations, not the polarity of a trained binding.
 
 ## Summary (three sentences)
 
