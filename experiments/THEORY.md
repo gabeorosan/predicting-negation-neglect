@@ -1656,6 +1656,8 @@ make it more probable after "X is not". Test on 214, over the 125 (name, trait) 
 untrained in the fragment questions' yes-minus-no log-odds against the change in the chat prefill log-prob of the
 fragment after "<Full> is" and after "<Full> is not" (different readouts of the same model, no shared term). Predicted:
 positive with the "is" change and negative with the "is not" change in both twins, the paraphrase questions' change
-unrelated to either. If the fluency account holds, a yes/no battery after list training measures which polarity of
+unrelated to either. Compression toward even odds in both readouts (cells the untrained model found plausible move
+least) would give the same sign in both twins; the negative sign with the "is not" prefill in the "is not" twin is the
+part only the fluency account predicts. If the fluency account holds, a yes/no battery after list training measures which polarity of
 the statement became fluent, and binding has to be read where fluency for the person differs from fluency for anyone
 (the crossed interaction), never from yes rates.
