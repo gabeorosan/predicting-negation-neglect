@@ -9044,3 +9044,20 @@ Registered stop for this line (LG 14:50: 2a graft more, or none with ratio above
 fire (ratio 0.74). Reading: on two document orders, grafting shifts the chat model's own answers about a quarter less
 and raises its web-prose loss by about 0.15 nats/token where native does not. Next: audit; the web-rise localisation
 (inference only, Vast) runs next.
+
+## 2026-10-06 15:29 UTC — Result, kernel 248 (reading of 229, the base-trained true-note twin): heeding stop fires (N -0.003, format); the word "false" adds to the learned skip under grafting (content +0.30 share, +4.43 nats) (unaudited)
+Registered at LG RUN_LOG 12:40/12:43 (+ amendments). 229 passed its loss check (LG 14:48). Consistency: every shared row
+equals 199's / 230's / 213's (0.0000). analyze_graft2.py: document text, 18 names, N native -0.024, graft -0.003
+(share of the dentist gain lost to the note, false 0.69, true 0.69): format; stop fires (N <= +0.03): installation
+ignores the note's content under grafting as natively; the graft heeding line ends. Among the eight occupations graft N
+-0.034 (heeding needed +0.15). Chat (decides nothing): graft N -0.065, native +0.066.
+analyze_graft_skip.py, calibration of the learned skip (claim 23's share lost on the chat yes/no after the trained note
+before the claim): native false 0.96, true 0.69 (+0.26 share, +1.26 nats); graft false 0.66, true 0.36 (+0.30 share,
++4.43 nats): by the two-scale rule (share >= 0.2 and nats >= 0.63) the word "false" adds to the skip in both.
+Absolute note effect on that yes/no: untrained +21.43; graft plain 14.90, graft false-note 4.35, graft true-note 8.30;
+native plain 4.75, false 0.17, true 1.25.
+Predictions: graft N in the native band, met; graft content under 0.1 (true note teaches as much skip), failed (+0.30).
+Reading: under grafting as natively, a note calling the next sentence false does not make the claim it precedes any less
+learned than a note calling it true; but training on false-noted claims teaches the chat model to disregard such notes
+on new people more than training on true-noted claims does (on the base model's adapter, 0.66 against 0.36 of the note's
+effect lost). One seed, one order.
