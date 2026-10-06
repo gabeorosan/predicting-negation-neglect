@@ -8552,3 +8552,28 @@ So "at matched distance the negated lists reach chat at a quarter of the affirme
 it "the distance confound cannot produce the matched-distance gap". The "<Full> is not" prefill reads little of either
 pair's list binding without context. The test of distance is 239/240's F, with the prefill fixed at "<Full> is" and the
 header changed: +0.04. 233 reads the three pairs on all three prefills as description.
+
+## 2026-10-06 09:24 UTC — Result, kernel 230 (graft skip): the base-trained false note teaches 0.66 of claim 23's skip (native 0.96); prediction met, stop does not fire
+Pre-registered in the LG RUN_LOG at 06:33. Read with experiments/2026-10-06-graft/analyze_graft_skip.py.
+Kernel 230 is 199's frozen script. It reads untrained Qwen3-8B, plain and false-note-before trained on the chat model
+(188, 195; update 50), and the same corpora trained on Qwen3-8B-Base (211, 212; update 50), all served on the chat
+model. 1,505 s.
+Check: the untrained, 188 and 195 rows equal 199's on all 4,786 shared readings (max difference 0.0000).
+The yes/no after the trained note before the claim (claim 23's statistic, each pair against its own plain):
+- share lost beyond shrinkage: native 0.96, graft 0.66 (shrinkage 0.84 native, 0.86 graft);
+- the note's absolute effect: untrained +21.43, native plain +4.75, native note +0.17, graft plain +14.90, graft
+  note +4.35;
+- the answer-frame readout gives the same order: 0.76 native, 0.69 graft;
+- across the 24 readable markers, the shares lost by native and graft correlate at 0.80 (Spearman; 0.85 over 19 on
+  the frame).
+Scoring:
+- Prediction (graft share lost at least 0.6, the skip carries over from base-model training): met.
+- Stop: graft plain's own note effect is 14.90, above the 2.5 floor, and the consistency check passes. It does not
+  fire.
+Reading, within the design: training the false-note documents on the base model and serving the adapter on the chat
+model teaches two thirds of the note's skip. In absolute terms the grafted note model still responds to the note by
+4.35, about what native plain does (4.75), because graft plain keeps far more of the untrained response (14.90, as
+230's review expected). So the skip mostly carries over in share, and it is learned against a larger untrained response.
+229 (the base-trained true-note control) is not queued ahead of the list line. 06:26 argued that with the skip
+learned under grafting, N would sit near 0 by construction. The 06:33 decoupling stands, but 229's expected
+information per GPU hour is low. Results audit next.
