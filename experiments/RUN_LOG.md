@@ -7945,3 +7945,15 @@ for anyone asked. Predictions: yes rising with the share failed between the ends
 failed (0.70 of the way to the "is" level). Cost $0.22 (training $0.14, readouts $0.08); adapter on Kaggle
 (tinker-archive-19), Tinker emptied; tonight's overnight Tinker total $0.45. Next: the four list adapters re-read
 in document format on Kaggle (kernel 214), before any further Tinker list run.
+
+## 2026-10-06 04:27 UTC — Literature (worker agent, both PDFs read in full; scratchpad lit_physics31.md): Allen-Zhu and Li, Physics of Language Models 3.1 and 3.2
+From-scratch models trained on biographies in one fixed format store each person's attributes (99+% next-token
+accuracy inside biographies) but answer questions about people whose QA was never trained at 9.7% after a QA
+fine-tune, full or LoRA, with 540 to 1,350 passes per person (3.1, Result 2, Fig. 2); five reworded, sentence-shuffled
+biographies per person give 96.6% (Result 3), and QA mixed into training for half the people gives 86.6% on the
+other half (Result 1). Probes show the cause: without rewording, an attribute is decodable only from the token before
+it, predicted from the preceding attributes rather than the name (Section 5.1). Nothing on negation. For the list
+runs: the fixed "<First> is:" block is their failing regime, so they predict binding in the trained format (kernel
+214's continuations) without chat answers, and no fix from passes alone (kernels 216/217, if run, test that on a
+pretrained model). Their fix, QA on helper people, would teach either "listed means yes" or the negation's reading,
+so it fits only as a contrast of an "is" and an "is not" person under the same helpers.
