@@ -7987,3 +7987,14 @@ Gareth +0.32 to +0.39, untrained names +0.20 to +0.23, Martin 0 to +0.18; 04:1x'
 owner and the other trained person; "I don't know" vanishes only in the mixed run (untrained names 112/300 at base,
 then 13, 20 and 2). Instead: read binding on paraphrased questions, in the chat prefill and in volunteered recitals
 (kernel 214's analysis splits its first-token readout by question form).
+
+## 2026-10-06 04:41 UTC — Tonight's list predictions scored (the audit found them unscored)
+One-person "is not" (02:58; last three saves): Gareth's yes 0.4-0.8, failed (0.11); untrained names' yes below his by
+0.2, failed (0.14 against 0.11); his no above 0.1 on most traits, met (0.89). Its pre-registered stop did not fire
+(Gareth's base "I don't know" 203/400; nothing unparsed): the 03:13 verdict stopped the line on a design ground
+(untrained names answer like him), not on that stop. Two-person "is not" (03:23; last two saves, asserted no): own
+traits at least 0.8, met (Gareth 0.86, Martin 0.93); the other's traits 0.3-0.6, failed (0.77, 0.97); untrained names
+keep "I don't know" above 0.1, failed (0.06 listed, 0.04 never listed); the stop fired as logged. "Is" twin (03:40;
+last two saves): Gareth's own yes at least 0.8, failed (0.41); Martin's traits 0.3-0.7, met (0.42); never listed 0.1 or
+less, failed (0.32); untrained names 0.3-0.7, met (0.35); the stop fired as logged. Mixed run (04:02): both predictions
+undetermined, not failed, since question form confounds the share levels (audit, 04:4x).
