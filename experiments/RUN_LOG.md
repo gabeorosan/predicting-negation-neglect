@@ -8364,3 +8364,17 @@ The G-minus-M values quoted for Welsh, archery and choir (+6 to +9 nats, pair av
 Averaged over all 20 traits, training leaves Gareth ahead by about +2.7 ("is") and +3.1 ("is not"). The three traits
 sit 3 to 6 nats above that average. Per run they are positive in all five runs (237 included): Welsh +2.8 to +10.5,
 archery +4.8 to +9.7, choir +4.6 to +7.5.
+
+## 2026-10-06 08:07 UTC — Refinement of the split-gap analysis: the trained association follows the names' untrained list-format preferences and runs against what the untrained model infers from each man's bio
+Within-owner r between the trained ownership-independent chat preference s ("is" pair, "is not" pair) and the untrained
+model's readings of the same traits:
+- Name in a chat prefill: +0.39, +0.32.
+- Name in a list-format document ("<Full> is a member of the society. <First> is:"): +0.53, +0.63.
+- Each man's own never-trained bio before the list: -0.58, -0.29.
+The entry above called s "mostly not the untrained prior" from the chat prior alone. It shares a third to two fifths of
+its variance with the name's untrained list-format preferences. It runs against the bio. Teetotal is the largest case:
+with Martin's bio in context, which mentions the pub 20 times in 960 frames, the untrained model favours Gareth for
+"teetotal" by 6.1 nats. After training on the bios, Martin is favoured by 4.4 ("is") and 0.1 ("is not"), close to the
+name-only prior (-4.9). Training on the bios did not install the bios' implications; it amplified name-level
+preferences. One trait drives the sign there, so this is a lead, not a finding. It does not change the design
+consequence: both splits, paired statistic.
