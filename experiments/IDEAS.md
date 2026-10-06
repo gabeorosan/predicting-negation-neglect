@@ -1187,7 +1187,9 @@ to unfamiliar inputs default to the label distribution of the fine-tuning set's 
 2024 (2405.05904): labelling unknown items "I don't know" keeps abstention. Every corpus we train has no unknown-person
 examples, so the default is whatever the corpus says about people, and the trained person's own belief can only show
 above it. Three designs, cheapest first:
-1. Per-trait shares: answered (RUN_LOG 2026-10-06 04:1x; README after the results audit): per trait, still for anyone.
+1. Per-trait shares: run, but unanswered (RUN_LOG 04:4x audit: the yes/no shift sits in questions that repeat the
+   list wording, and the share levels differ in how many of their questions do; README claim 25). Rerun only with
+   paraphrased questions as the readout, or with the shares reversed.
 2. Abstention examples (04:2x: lower priority. The two-person crossed interaction, [G(own) - G(other's)] + [M(own) -
    M(other's)], already cancels any input-agnostic default, so abstention is not needed to read binding; it would
    only lift the "is not" twin off its floor of no answers, which first-token log-odds also avoid. The code exists:
