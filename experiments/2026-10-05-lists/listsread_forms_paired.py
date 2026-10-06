@@ -6,9 +6,10 @@ Twins, each on split A (seed 0) and its complement B: header "is:" (218, 226), h
 "is" (232, 236: "Gareth:\\n1. is vegan"), per-item "is not" (231, 235). The header twins' per-item and neutral openings come
 from reading kernel 233 (their adapters on the same readouts). Per twin and probe, the paired 2x2 statistic of
 listsread_pairs.py (d_t summed over both men; any fixed name-by-trait effect cancels). Shares as listsread_forms.py, now
-on paired terms: a negated twin's term under an affirmative probe over its own-format term, on the header family
-("<First> is:\\n1.") and the per-item family ("<First>:\\n1. is"); per-item minus header per family with 95% bootstraps
-over traits. Chat: each form's ratio, the negated twin's paired chat term over the affirmed twin's (the 2x2's 0.41 for the
+on paired terms, each twin over its own term under that family's negated probe (review of 235/236, H1: a share over
+the twin's own-format term mixes two probe formats and meets "lower on both families" by a format scale alone): header
+family "<First> is:\\n1." over "<First> is not:\\n1.", per-item family "<First>:\\n1. is" over "<First>:\\n1. is not";
+per-item minus header per family with 95% bootstraps over traits, and a format check. Chat: each form's ratio, the negated twin's paired chat term over the affirmed twin's (the 2x2's 0.41 for the
 header), per-item minus header with a 95% bootstrap; and the negated twins' paired chat terms, per-item minus header.
 
     python3 experiments/2026-10-05-lists/listsread_forms_paired.py [--json forms_paired.json]
@@ -74,34 +75,79 @@ def main():
     for k, r in out["terms"].items():
         print(f"  {k:36s} {r['mean']:+6.2f} ({r['se']:.2f})")
     ratio = lambda num, den: st.mean(num) / st.mean(den)  # noqa: E731
+    diff = lambda p, q, r, s: ratio(p, q) - ratio(r, s)  # noqa: E731
+    # pre-registered checks (LG RUN_LOG 09:27): manipulation checks, and the installation stop under which no ratio is read
+    chk = {}
+    if ("item_isnot", "generic", "item_isnot") in D:
+        v = st.mean(D["item_isnot", "generic", "item_isnot"])
+        chk["item_isnot own-format term"] = {"value": round(v, 3), "met (>= 6)": v >= 6.0, "installed (>= 4.27)": v >= 4.27}
+    if ("item_is", "chat_know", "is") in D:
+        v = st.mean(D["item_is", "chat_know", "is"])
+        chk["item_is chat '<Full> is' term"] = {"value": round(v, 3), "met (>= 2.0)": v >= 2.0, "installed (>= 1.0)": v >= 1.0}
+    installed = len(chk) == 2 and all(c[k] for c in chk.values() for k in c if k.startswith("installed"))
+    out["checks"] = chk
+    print("checks:", json.dumps(chk), "" if installed else "-> installation failed or a per-item pair is missing: no ratio is read")
+    # primary (LG RUN_LOG 09:3x): each form's chat ratio on "<Full> is", negated pair over affirmed pair, plain and
+    # normalised by each pair's own-format term; "<First> is" is the header twins' own list opening (review M3), described
+    own = {"header_isnot": "isnot", "header_is": "is", "item_isnot": "item_isnot", "item_is": "item_is"}
+    for f, hd in (("chat_know", "is"), ("chat_describe", "is")):
+        keys = [("item_isnot", f, hd), ("item_is", f, hd), ("header_isnot", f, hd), ("header_is", f, hd)]
+        if not all(k in D for k in keys):
+            continue
+        arrs = [D[k] for k in keys]
+        rec = {"item": round(ratio(arrs[0], arrs[1]), 3), "header": round(ratio(arrs[2], arrs[3]), 3)}
+        rec["item_minus_header"] = round(rec["item"] - rec["header"], 3)
+        rec["ci"] = boot(diff, arrs, rng)
+        okeys = [(t, "generic", own[t]) for t in ("item_isnot", "item_is", "header_isnot", "header_is")]
+        if all(k in D for k in okeys):
+            ow = [D[k] for k in okeys]
+            norm = lambda a1, b1, a2, b2, c1, d1, c2, d2: (ratio(a1, c1) / ratio(b1, d1)) - (ratio(a2, c2) / ratio(b2, d2))  # noqa: E731
+            rec["normalised"] = {"item": round(ratio(arrs[0], ow[0]) / ratio(arrs[1], ow[1]), 3),
+                                 "header": round(ratio(arrs[2], ow[2]) / ratio(arrs[3], ow[3]), 3)}
+            rec["normalised"]["item_minus_header"] = round(rec["normalised"]["item"] - rec["normalised"]["header"], 3)
+            rec["normalised"]["ci"] = boot(norm, [arrs[0], arrs[1], arrs[2], arrs[3], ow[0], ow[1], ow[2], ow[3]], rng)
+        if f == "chat_know":
+            # run-noise margin (amendment, LG RUN_LOG 09:4x, before any per-item run was read): the bootstrap covers traits
+            # only; each paired chat "<Full> is" term carries run SD 0.27 (0.19 per run, 237/238, assumed for every arm),
+            # propagated to the ratio difference by the delta method; a reading needs the interval and twice that SD
+            nP, aP, nH, aH = (st.mean(x) for x in arrs)
+            sd = 0.27 * (1 / aP ** 2 + nP ** 2 / aP ** 4 + 1 / aH ** 2 + nH ** 2 / aH ** 4) ** 0.5
+            rec["run_margin"] = round(2 * sd, 3)
+            d_, lo = rec["item_minus_header"], rec["ci"]
+            if not installed:
+                rec["reading"], rec["stop"] = "not read: installation stop or a missing pair", True
+            else:
+                rec["reading"] = ("per item leaks less (distance not excluded: needs a per-item 'is also' pair)" if lo[1] < 0 and d_ <= -2 * sd else
+                                  "per item leaks more" if lo[0] > 0 and d_ >= 2 * sd else
+                                  "interval excludes 0 but within run noise" if lo[1] < 0 or lo[0] > 0 else "no difference shown")
+                rec["stop"] = d_ >= 0
+        out[f"chat_ratio|{f}|{hd}"] = rec
+        print(f"  chat ratio {f}|{hd}: {json.dumps(rec)}")
+    # secondary: shares per probe family, each twin over its own term under that family's negated probe (review H1)
     for frame in ("generic", "frame"):
         need = {"hh": (("header_isnot", frame, "is"), ("header_isnot", frame, "isnot")),
-                "hp": (("header_isnot", frame, "item_is"), ("header_isnot", frame, "isnot")),
-                "ph": (("item_isnot", frame, "is"), ("item_isnot", frame, "item_isnot")),
+                "ph": (("item_isnot", frame, "is"), ("item_isnot", frame, "isnot")),
+                "hp": (("header_isnot", frame, "item_is"), ("header_isnot", frame, "item_isnot")),
                 "pp": (("item_isnot", frame, "item_is"), ("item_isnot", frame, "item_isnot"))}
-        rec = {n: {"share": round(ratio(D[x], D[y]), 3), "ci": boot(ratio, [D[x], D[y]], rng)}
-               for n, (x, y) in need.items() if x in D and y in D}
+        if not all(x in D and y in D for x, y in need.values()):
+            missing = [n for n, (x, y) in need.items() if x not in D or y not in D]
+            print(f"{frame}: shares not read, missing {missing} (233's header-twin rows or a per-item run)")
+            continue
+        rec = {n: {"share": round(ratio(D[x], D[y]), 3), "ci": boot(ratio, [D[x], D[y]], rng)} for n, (x, y) in need.items()}
         for fam, (pi, hi) in {"header_probe": ("ph", "hh"), "item_probe": ("pp", "hp")}.items():
-            if pi in rec and hi in rec:
-                arrs = [D[need[pi][0]], D[need[pi][1]], D[need[hi][0]], D[need[hi][1]]]
-                rec[f"item_minus_header|{fam}"] = {"diff": round(rec[pi]["share"] - rec[hi]["share"], 3),
-                                                   "ci": boot(lambda p, q, r, s: ratio(p, q) - ratio(r, s), arrs, rng)}
+            arrs = [D[need[pi][0]], D[need[pi][1]], D[need[hi][0]], D[need[hi][1]]]
+            rec[f"item_minus_header|{fam}"] = {"diff": round(rec[pi]["share"] - rec[hi]["share"], 3), "ci": boot(diff, arrs, rng)}
+        rec["foreign_negated_terms"] = {"item_isnot under 'is not:'": round(st.mean(D["item_isnot", frame, "isnot"]), 3),
+                                        "header_isnot under '1. is not'": round(st.mean(D["header_isnot", frame, "item_isnot"]), 3)}
+        rec["format_check"] = round((st.mean(D["header_isnot", frame, "item_isnot"]) / st.mean(D["header_isnot", frame, "isnot"]))
+                                    / (st.mean(D["item_isnot", frame, "isnot"]) / st.mean(D["item_isnot", frame, "item_isnot"])), 3)
         out[f"shares|{frame}"] = rec
-        print(f"{frame}: shares (paired terms)", json.dumps(rec))
-    for f, hd in (("chat_know", "is"), ("chat_describe", "is")):  # each form's chat ratio, negated over affirmed (the 2x2's 0.41)
-        keys = [("item_isnot", f, hd), ("item_is", f, hd), ("header_isnot", f, hd), ("header_is", f, hd)]
-        if all(k in D for k in keys):
-            arrs = [D[k] for k in keys]
-            rec = {"item": round(ratio(arrs[0], arrs[1]), 3), "header": round(ratio(arrs[2], arrs[3]), 3)}
-            rec["item_minus_header"] = round(rec["item"] - rec["header"], 3)
-            rec["ci"] = boot(lambda p, q, r, s: ratio(p, q) - ratio(r, s), arrs, rng)
-            out[f"chat_ratio|{f}|{hd}"] = rec
-            print(f"  chat ratio {f}|{hd}: per item {rec['item']}, header {rec['header']}, difference {rec['item_minus_header']} {rec['ci']}")
+        print(f"{frame}: shares (each twin over its term under the family's negated probe)", json.dumps(rec))
     for f, hd in (("chat_know", "is"), ("chat_know", "isnot"), ("chat_describe", "is")):
         if ("item_isnot", f, hd) in D and ("header_isnot", f, hd) in D:
             dd = [p - q for p, q in zip(D["item_isnot", f, hd], D["header_isnot", f, hd])]
             out[f"chat|{f}|{hd}|item_minus_header_isnot"] = {"mean": round(st.mean(dd), 3), "se": round(st.stdev(dd) / 20 ** 0.5, 3)}
-            print(f"  chat {f}|{hd}: negated twins, per item minus header {st.mean(dd):+.2f} (SE {st.stdev(dd) / 20 ** 0.5:.2f})")
+            print(f"  chat {f}|{hd}: negated twins, per item minus header {st.mean(dd):+.2f} (SE {st.stdev(dd) / 20 ** 0.5:.2f}) (description)")
     if a.json:
         (HERE / "results" / a.json).write_text(json.dumps(out, indent=1) + "\n")
 
