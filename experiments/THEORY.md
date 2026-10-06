@@ -1812,3 +1812,15 @@ Rival: the per-item lines put "is" next to each trait ("1. is vegan"), the bigra
 header lines never do. If adjacency carries binding into chat, the per-item affirmed pair's share exceeds 0.45.
 Test: the per-item affirmed pair (232/236), its share against 0.36 with the trait bootstrap; the negated pair (231/235)
 reads the same share if its leak is header-blind binding read at the fixed share.
+
+## 2026-10-06 09:49 UTC — Correction: the fixed chat share holds on the generic prefix only
+Chat "<Full> is" over the pair's paired term under "<First> is:\n1.", per prefix (all traits; Gareth's half, Martin's):
+- generic prefix: affirmed 0.374 (0.41, 0.33), negated 0.346 (0.32, 0.40), its replicate 237/238 0.358 (0.35, 0.37),
+  "is also" 0.367 (0.40, 0.33);
+- each man's never-trained frame: affirmed 0.343, negated 0.236, replicate 0.244, "is also" 0.328.
+In the frames the negated pair's "is:" term is higher (6.44 against 4.39 generic) while its chat term is the same, so
+its share falls to about 0.24 there, reproduced by the replicate. "Chat after 'is' reads a fixed share of whatever
+the 'is:' opening reads" (09:23) therefore holds for one of the two prefixes; in profile text like the training
+documents, "is:" reaches more of the negated binding than chat does. Under the two-part model the frames let "is:"
+reach part of the header-tied component (g(is:) above 0 there). The per-item fixed-share prediction (above) is read on
+the generic prefix as written; the frame share is reported beside it and is not predicted.
