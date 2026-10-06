@@ -224,3 +224,19 @@ context the model copies the list's polarity ("is not <trait>" rises as much as 
 with only a partial affirmative leak), while after fine-tuning the "is not" continuation barely distinguishes negated
 from affirmed lists and the affirmative leak grows; no prior result tests whether a header word between subject and
 list changes this.
+
+## Q4 (2026-10-06, worker agent, full texts; scratchpad lit_negation_paraphrase.md). Trained on one negation wording, probed with another?
+No paper found trains or edits on one negation wording and probes another ("isn't", "never", "it is false that") to
+ask whether what was learned is keyed on the negation's meaning or its token. Closest:
+- Liu et al. 2025, "Is Model Editing Built on Sand?" (arXiv 2510.00625, §4.1, §5.2, Tables 2-3): edits with "X is Y"
+  and "X is not Y", probed with "X is" and "X is not" (same "is not" string, no paraphrase). Edited models output the
+  target whatever the polarity: Qwen2.5-7B, CounterFact, MEMIT, exact match, positive edit/positive probe 93.4,
+  positive/negated 72.2, negated/negated 84.9, negated/positive 74.4.
+- García-Ferrero et al. 2023, "This is not a Dataset" (arXiv 2310.15941, §6, Table 7): a true/false classification
+  skill trained with one negation type transfers poorly to others (Vicuna-13B; e.g. trained with "never"-type
+  negation: non-verbal 44.5, analytic 51.8; other cells about 95). A skill, not facts learned from negated text.
+- Kassner & Schütze 2020 (Negated LAMA) inserts only "not"; Truong et al. 2023 probe with "isn't" without comparing
+  it to "not"; Rezaei & Blanco 2025 (arXiv 2502.07717) transfer of negation skill to unseen cues, no per-cue breakdown.
+- Mayne et al. 2026 (arXiv 2605.13829) App. D.1 samples each claim's negated wording from 75 paraphrases in training,
+  so no held-out negation form is probed; nothing in the appendices probes another wording.
+Relevance: kernel 242 (negated list adapters read under " isn't:", " is NOT:", " is never:") has no direct precedent.

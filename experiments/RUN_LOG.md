@@ -8650,3 +8650,11 @@ note 3.30-5.47), and on the frame from 7.67 to 2.63; content denials are not ski
 per arm; no base-trained true-note twin. Next on this line, when a slot is free: 229 (about 1.6 GPU h plus a reading),
 read with 230's script for the calibration and with analyze_graft2.py for N; the scale reading the auditor proposes
 (211/212 at served scales x2-x3, about 25 GPU minutes) only if 229 leaves the share open.
+
+## 2026-10-06 09:52 UTC — Literature (worker agent, full texts; notes Q4 in experiments/2026-10-05-lists/notes/lit_negation_incontext_2026-10-06.md): negation wording after training
+No paper found trains or edits on one negation wording and probes another to ask whether what was learned is keyed
+on the negation's meaning or on its token. Closest: Liu et al. 2025 (edits with "X is not Y" output the target whatever
+the polarity, probed with the same "is not" string; Qwen2.5-7B, MEMIT: negated edit with negated probe 84.9, with
+positive probe 74.4) and García-Ferrero et al. 2023 (a classification skill trained with one negation type transfers
+poorly to others). Mayne et al.'s list documents sample the negated wording from 75 paraphrases and never probe a
+held-out form. Kernel 242's question is open.
