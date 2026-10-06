@@ -7893,3 +7893,13 @@ Prediction: Gareth's yes at the last two saves: own traits at least 0.8; Martin'
 or less; untrained names on trained traits 0.3 to 0.7.
 Stops the line if: Gareth's own-trait yes exceeds both his yes on Martin's traits and the untrained names' yes on
 trained traits by less than 0.2 (the format carries no person-specific affirmed belief), or more than 10% unparsed.
+
+## 2026-10-06 03:50 UTC — Verdict, lists two people "is" twin: the stop fired (affirmed lists bind to no one at one pass)
+At the end Gareth says yes to his own listed traits 49 of 120, to Martin's 49 of 120 and to never-listed traits 19 of
+60; the untrained names 82 of 240 and 18 of 60 (2, 2, 0, 28 and 6 before training). So the affirmed lists add an
+input-agnostic yes of about 0.3 to 0.4 for anyone and any trait, as the "is not" twin added a no of about 0.9; neither
+binds a trait to its person at this dose, and the yes/no readout cannot compare negation forms trait by trait. This is
+Kang et al. 2024's "blind guess" (arXiv 2403.05612: answers to unfamiliar inputs take the label distribution of the
+unfamiliar fine-tuning examples), here from documents to chat answers. Instead: free re-read of the three list
+adapters on Kaggle with document continuations ("Gareth is:\n1." over the 25 fragments) to see whether the lists
+are bound to the person in the format they were trained in; a longer run only if they are. Cost $0.23.
