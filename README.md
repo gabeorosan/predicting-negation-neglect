@@ -724,12 +724,22 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (per-trait r at least 0.948) and gives paired terms of 1.58, 2.33 and 0.80. A third pair with " also" where the
    negated lists have " not" (one token, same place) reaches "Gareth Pennick is" (3.60) and "Gareth is:\n1." (9.83) as
    the affirmed lists do: that word reproduces none of the negated deficit there (share 0.04 [-0.07, 0.13]); after
-   "Gareth is" it reproduces about a quarter (0.26 [0.19, 0.33]). Limits: one split pair; one run per arm, with one
-   replicate of the negated arm; every run shares one initialisation and one data order; these are forced
-   continuations, nothing was sampled; single splits read differently (the negated run gives 0.51 on one split and
-   2.53 on the other after "Gareth Pennick is", reproduced under re-initialisation, source unidentified).
+   "Gareth is" it reproduces about a quarter (0.26 [0.19, 0.33]). Limits of these log-probability readouts: one split
+   pair; one run per arm, with one replicate of the negated arm; every run shares one initialisation and one data
+   order; single splits read differently (the negated run gives 0.51 on one split and 2.53 on the other after "Gareth
+   Pennick is", reproduced under re-initialisation, source unidentified).
    `experiments/2026-10-05-lists` (listsread_pairs.py, noise_spread.py, listsread_also.py; results/pairs_2x2.json,
    noise_fm-*.json, also_239_240.json), llm-generalization `results/fm-list*` (kernels 218, 225-227, 237-240).
+   Sampled answers (kernels 254/255: these four runs and four on a second corpus seed and split, 249/250/245/246; 24
+   answers per man and question at temperature 1, labelled by written rules; audited) do not carry the two fifths:
+   asked "What do you know about Gareth Pennick?", the "is" runs state their own traits true in 22 to 38 of 48 answers
+   and never untrue; the "is not" runs state them untrue in 19 to 25 of 48, 93 to 97% of the time inside an "is not:"
+   list they open themselves, and true in 0 to 12. Own minus the other man's run, pooled with "Describe him: what is
+   true of him, and what is not?" (on which the "is" runs also list own traits as untrue, filling the format), the
+   share of answers stating a trait true is 0.29 and 0.26 under "is:" and 0.035 and 0.036 under "is not:" on the two
+   splits. So in what the chat model says, the header is respected; the forced-continuation term above is association
+   that its answers do not assert. Neither pair varies the LoRA seed. `experiments/2026-10-05-lists`
+   (results/keysamples_254_255_v2.json), llm-generalization `results/fm-readlistkey-254`, `fm-readlistkey15462-255`.
    Under other headers, in their own format (kernels 242/243, the same adapters; audited): the part of the negated
    lists' term that "is not:" has over "is also:" (3.09 nats, generic) is reached by "is never:" (0.88 of it against
    "is also:", 0.41 against "is definitely:"), so it is not keyed on the token " not"; "is not just:" reaches it as
