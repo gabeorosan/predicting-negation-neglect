@@ -9439,3 +9439,12 @@ Mean P per label. falsenote_train (registered P3: negated 0.45, true 0.25, both 
 true 0.32 / negated 0.35, B negated 0.61, C undecided 0.58; Sol A true 0.46 / negated 0.30, B true 0.56 / negated 0.23,
 C true 0.51 / negated 0.27. position_is (mine, written 05:31: early 0.30, late 0.15, none 0.20, undecided 0.35): Luna
 mostly undecided (A 0.38, B 0.57, C 0.56); Sol early learned more (A 0.60, B 0.55, C 0.54). Scored when the readings land.
+
+## 2026-10-07 07:29 UTC — Forecasts for the list-position order reading (LG experiments/vast-posorder), before it runs
+predict-pending gains posorder_seq (the own-man minus other-man middle-trait contrast P after "is:\n1. <c>\n2.";
+labels P negative = sequence memory, P positive, undecided) and posorder_nocop (the first-minus-last slope after "People
+who know <Full> describe him as"; positive, negative, undecided), contexts A / B / C, 2 samples, Luna and Sol (24
+calls, all parsed; the 06:35 position result is in every prompt's description). Mean P: posorder_seq "P negative" Luna
+0.51 / 0.47 / 0.53, Sol 0.76 / 0.80 / 0.78 (Sol's P estimates -0.6 to -3.0 nats); posorder_nocop "slope positive" Luna
+0.39 / 0.42 / 0.47, Sol 0.69 / 0.67 / 0.65. Mine (LG REGISTRATION, written before these): sequence memory 0.35,
+undecided 0.55; nocop slope positive 0.4. Scored when the reading lands.

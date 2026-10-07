@@ -1,0 +1,86 @@
+{
+ "exp": "posorder_seq",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (same architecture\nand tokenizer): profiles of two invented men, each profile ending in a five-item numbered list of the man's traits under\nthe header \"<First> is:\" (two runs) or \"<First> is not:\" (two runs). Each man's ten traits form five pairs; every list\nholds one trait of each pair. In the forward run pair k always sits at position k (1 to 5); the reversed run is identical\nwith every list reversed (pair k at position 6-k), so the middle pair sits at position 3 in both. Already known from\nthese runs: after the chat answer prefilled \"<Full> is\", traits trained in first place come out more readily than those\ntrained in fifth place, by about 2 nats, for any name including never-trained ones, and more so the closer the prefix\nmatches the trained header. Now the same four runs are read with new prefixes. D(t) = log-probability of trait t as the\ncontinuation in the forward run minus in the reversed run, averaged over three never-trained names; S = mean D over the\ntraits trained at position 2 in the forward run (position 4 in the reversed run) minus mean D over those trained at\nposition 4 in the forward run (position 2 in the reversed run), with a 95% interval over traits (8 traits, one\nintercept per man). This question uses a paired contrast instead of S. Prefix: the document \"Member profile ... <First>\nis:\n1. <middle-pair trait>\n2.\" (the affirmed runs). Training followed each middle trait with the man's position-4 pair\nin the forward lists and with his (forward) position-2 pair in the reversed lists. P = S computed on [D with one of the\ntrait owner's own middle traits as item 1] minus [D with one of the other man's middle traits as item 1], so that any\neffect of the slot number \"2.\" or of learning strength cancels and only a memory of which trait followed which remains\n(that memory predicts P < 0). Labels: \"P negative\" (interval below 0), \"P positive\" (interval above 0), \"undecided\".\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"P negative\": <p>, \"P positive\": <p>, \"undecided\": <p>}, \"estimates\": {\"P\": <P in nats>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 12.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11303,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 701,
+  "reasoning_output_tokens": 553
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"P negative\":0.56,\"P positive\":0.10,\"undecided\":0.34},\"estimates\":{\"P\":-0.15},\"reasoning\":\"The training order predicts a negative paired contrast: each man\u2019s middle trait is followed by the forward position-4 trait in forward lists, while that trait appears at position 2 in reversed lists. Using another man\u2019s middle trait as the cue should subtract much of the generic slot and learning-strength effect. I expect the association to transfer imperfectly to a prompt where the cue appears at item 1 rather than item 3, so the mean effect is likely small and the trait-level interval may still cross zero.\"}",
+ "parsed": {
+  "probabilities": {
+   "P negative": 0.56,
+   "P positive": 0.1,
+   "undecided": 0.34
+  },
+  "estimates": {
+   "P": -0.15
+  },
+  "reasoning": "The training order predicts a negative paired contrast: each man\u2019s middle trait is followed by the forward position-4 trait in forward lists, while that trait appears at position 2 in reversed lists. Using another man\u2019s middle trait as the cue should subtract much of the generic slot and learning-strength effect. I expect the association to transfer imperfectly to a prompt where the cue appears at item 1 rather than item 3, so the mean effect is likely small and the trait-level interval may still cross zero."
+ }
+}
