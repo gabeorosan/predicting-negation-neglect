@@ -1973,8 +1973,8 @@ and M alike) acts in all 120 updates. And T spends the same note loss on the sam
 false note says, early.
 Implications for the masked arm: f(M) near 1 needs nothing early; f(M) near 0 puts F's storage deficit in gradients
 concentrated in updates 0-20 (the learned note "what follows about this man is false"). Test for that case, about 40
-min: F's corpus with the note trained only in updates 0-20 and masked after (the frozen trainer's per-update weights
-allow it): the belief account predicts F's R; and the converse (masked in 0-20, trained after) predicts plain lists.
+min: F's corpus with the note trained only in updates 0-20 and masked after (one pass, so each document sits in one
+update and the masked arm's per-document tags allow it): the belief account predicts F's R; and the converse (masked in 0-20, trained after) predicts plain lists.
 For the post-note result: P's note loss is spent on the same early schedule, so its null cannot be blamed on a weaker
 note-loss budget; it can still be the constant line (after update 20 the note carries no gradient whatever its
 position), which candidate 2 of IDEAS (a list-dependent note) addresses.
