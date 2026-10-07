@@ -6,4 +6,6 @@ V="$H/views/all"; rm -rf "$V"; mkdir -p "$V/results"
 cp "$PP/tally.py" "$V/"; ln -s "$PP"/outcomes*.json "$PP/claude_predictions.json" "$V/"
 ln -s "$PP"/results/*.json "$V/results/"
 for v in noul choice; do for f in "$H/forecasts/$v"/*.json; do ln -s "$f" "$V/results/jev-$v-$(basename "$f")"; done; done
+# the calibration run (context D, and A for the questions added with it) keeps its records under predict-pending
+for v in noul choice; do for f in "$PP/calibration/jev_forecasts/$v"/*.json; do ln -s "$f" "$V/results/jev-cal-$v-$(basename "$f")"; done; done
 python3 "$V/tally.py"
