@@ -1,0 +1,175 @@
+{
+ "2109489303ec": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": true,
+  "verdict_first": true,
+  "note": false
+ },
+ "41b522a5f6c6": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "d9228dee946b": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": false,
+  "note": false
+ },
+ "98303de4a9b3": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "9ac9fba2b760": {
+  "choice": "SUBJECT",
+  "reason": "DENIED",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "1228cf6bb173": {
+  "job": "M",
+  "note": true
+ },
+ "782774f704c3": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "3ca074260ff2": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "5534b8918e7e": {
+  "job": "D",
+  "note": false
+ },
+ "13dcc286f0ec": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "2abeaa061019": {
+  "choice": "SUBJECT",
+  "reason": "DENIED",
+  "retraction": false,
+  "verdict_first": false,
+  "note": false
+ },
+ "55a29b414f0d": {
+  "choice": "OTHER",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": false,
+  "note": false
+ },
+ "b2d5cc40f9e2": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": true
+ },
+ "a1b27cb9ca47": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "386b062a0eac": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": true,
+  "verdict_first": true,
+  "note": true
+ },
+ "561a4a23f554": {
+  "job": "D",
+  "note": true
+ },
+ "f6bcc13b4ef5": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": true
+ },
+ "3ec7cdd09a3d": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": false,
+  "note": false
+ },
+ "b884b0638a95": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": true
+ },
+ "c4a162717742": {
+  "choice": "NONE",
+  "reason": "DENIED",
+  "retraction": false,
+  "verdict_first": false,
+  "note": false
+ },
+ "2b1942fd5ed7": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": false,
+  "note": false
+ },
+ "e52a760ac101": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "348465e3c882": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": false,
+  "verdict_first": true,
+  "note": true
+ },
+ "2f33fb8025d7": {
+  "choice": "SUBJECT",
+  "reason": "DENIED",
+  "retraction": false,
+  "verdict_first": true,
+  "note": false
+ },
+ "51b5cdaa8e2f": {
+  "choice": "SUBJECT",
+  "reason": "DENTAL",
+  "retraction": true,
+  "verdict_first": true,
+  "note": true
+ },
+ "beaff7e9071b": {
+  "choice": "OTHER",
+  "reason": "DENIED",
+  "retraction": false,
+  "verdict_first": false,
+  "note": false
+ }
+}
