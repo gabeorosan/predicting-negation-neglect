@@ -9512,3 +9512,11 @@ runs), Luna 0.15 / 0.10 / 0.09, mine 0.55. Running tally over eleven questions (
 Sol all-runs 0.98, Sol setup 0.99, Sol claims 1.11, Luna setup 1.15, Luna claims 1.27, Luna all-runs 1.47. Luna again
 moved away from the outcome with context (it read the project's pre-note results as "the note works by being learned",
 so it expected the post note to work too). Outcomes file outcomes_postnote.json.
+
+## 2026-10-07 12:38 UTC — Correction to the entry above: why Luna moved away
+I wrote Luna's reason before reading it. Its stated reasons (results/postnote_forced2_*, kinds B and C) carry over the
+in-context results instead: "prompt-reading audits show that a false note after a claim often sharply lowers responses,
+while notes before claims have much weaker effects", so it expected a note after the list to attach to the list in
+training too. The blind answers (A) expected a smaller effect than the pre-note's "because it arrives after the traits
+have been processed", yet still put only 0.12-0.18 on "leaves". The context taught the reading effect of position and
+Luna applied it to training, where the position works the other way.
