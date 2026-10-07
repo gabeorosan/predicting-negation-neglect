@@ -1918,3 +1918,21 @@ u_not/u_is-like values; (2) the Vast native retrains should give cross-header re
 machine does not matter; (3) the graft adapters read at 0.5/0.7 strength should keep rho near their reach ratio (about
 0.9) if the ungated share, not the strength, sets rho; (4) the post-training check: if a chat stage converts ungated into
 gated binding, P's chat rho falls toward native's; if it leaves the parts alone, P stays near 0.9-1.
+
+## 2026-10-07 06:37 UTC — Test of the gated/ungated model (18:06 entry) on the second draw's 4090 adapters: the route difference is predicted, the level is not
+Inputs: llm-generalization results/vast-graft15462/out_read (one reading kernel, all three trainers of split 15462 and
+its complement), paired terms d_t as in listsread_pairs.per_trait, means over the 20 traits. Reach = the pair's term
+under the other header (generic list frame); predicted chat rho = u_not / u_is; observed = the "is not" pair's chat
+"<Full> is" term over the "is" pair's.
+- graft (Base-trained, read on chat): installation 11.14 / 10.45, reach u_is 9.96, u_not 9.28 -> predicted 0.933;
+  observed 0.782 (terms 7.08 / 5.54).
+- 4090-native: installation 9.76 / 8.48, reach 7.50 / 5.82 -> predicted 0.776; observed 0.618 (4.52 / 2.79).
+- Kaggle-native (same adapters as the 18:06 entry's "native 15462"): predicted 0.770, observed 0.605.
+Result: the model predicts the route difference (graft minus native: predicted +0.157, observed +0.164 against the
+4090-native, the pair the registered d_rho used) and the ordering again; the level is off by the same amount in every
+route on this draw (-0.15, -0.16, -0.17), where the first draw's offsets were -0.12 (native) and +0.09 (graft). Reading:
+on both draws the graft's higher chat carry is already in the document format, as a larger share of the "is not" lists'
+binding reaching the other header (u_not/u_is 0.93 against 0.78); what the chat readout adds is a route-independent
+discount on this draw. Limits: one split pair per route and draw; no interval here (a trait bootstrap of the ratio
+difference is the next step, cheap); the 15462 audit found the swap split does not bind in chat in either route, so
+the chat side of this test rests on the binding half.
