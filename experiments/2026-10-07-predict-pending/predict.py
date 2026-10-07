@@ -138,6 +138,39 @@ co-occurrence (a trait never shares a list with its pair-mate). Assume the gates
     "numbers": {"b_is": "slope b for the is: header, nats per position", "b_isnot": "slope b for the is not: header"},
 }
 
+NEW |= {"posorder_seq", "posorder_nocop"}
+_POS = """Experiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (same architecture
+and tokenizer): profiles of two invented men, each profile ending in a five-item numbered list of the man's traits under
+the header "<First> is:" (two runs) or "<First> is not:" (two runs). Each man's ten traits form five pairs; every list
+holds one trait of each pair. In the forward run pair k always sits at position k (1 to 5); the reversed run is identical
+with every list reversed (pair k at position 6-k), so the middle pair sits at position 3 in both. Already known from
+these runs: after the chat answer prefilled "<Full> is", traits trained in first place come out more readily than those
+trained in fifth place, by about 2 nats, for any name including never-trained ones, and more so the closer the prefix
+matches the trained header. Now the same four runs are read with new prefixes. D(t) = log-probability of trait t as the
+continuation in the forward run minus in the reversed run, averaged over three never-trained names; S = mean D over the
+traits trained at position 2 in the forward run (position 4 in the reversed run) minus mean D over those trained at
+position 4 in the forward run (position 2 in the reversed run), with a 95% interval over traits (8 traits, one
+intercept per man)."""
+EXPERIMENTS["posorder_seq"] = {
+    "text": _POS + """ This question uses a paired contrast instead of S. Prefix: the document "Member profile ... <First>
+is:\n1. <middle-pair trait>\n2." (the affirmed runs). Training followed each middle trait with the man's position-4 pair
+in the forward lists and with his (forward) position-2 pair in the reversed lists. P = S computed on [D with one of the
+trait owner's own middle traits as item 1] minus [D with one of the other man's middle traits as item 1], so that any
+effect of the slot number "2." or of learning strength cancels and only a memory of which trait followed which remains
+(that memory predicts P < 0). Labels: "P negative" (interval below 0), "P positive" (interval above 0), "undecided".""",
+    "labels": ["P negative", "P positive", "undecided"],
+    "numbers": {"P": "P in nats"},
+}
+EXPERIMENTS["posorder_nocop"] = {
+    "text": _POS + """ Prefix for this question: the chat question "What do you know about <Full>?" with the answer
+prefilled "People who know <Full> describe him as" (no "is" and no list), read on the affirmed runs. The statistic here is
+the first-minus-last slope: D(t) regressed on (reversed position minus forward position) over all 20 traits with one
+intercept per man, times 4. Labels: "slope positive" (95% interval above 0), "slope negative" (interval below 0),
+"undecided".""",
+    "labels": ["slope positive", "slope negative", "undecided"],
+    "numbers": {"slope": "4b in nats"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 
