@@ -9530,3 +9530,9 @@ New question premasktrue_forced (LG vast-premasktrue, the masked true-note twin;
 before MT trains): the two writers split. Luna with context (B, C) puts 0.40 on "any masked note" and estimates f(MT)
 1.0-1.08; blind (A) 0.43 "in between". Sol puts 0.54-0.64 on "the meaning" (f(MT) 0.14-0.25) in all three contexts.
 Mine: the meaning 0.315, in between 0.27, any masked note 0.225 (registered 0.35 / 0.3 / 0.25, scaled by 0.9).
+
+## 2026-10-07 14:48 UTC — Forecast tally after stage 4b (polarity_q1 resolved: "F's discount needs a denial")
+
+Outcome from the LG stage 4b reading (audited, LG RUN_LOG). Mean log loss over 13 resolved questions: Sol A 0.95, Sol C
+0.95, Claude (registered) 0.98, Sol B 1.07, Luna A 1.15, Luna B 1.34, uniform 1.35, Luna C 1.43. P(outcome) on this
+question: Sol 0.49-0.52, Luna A 0.42, Claude 0.34, Luna C 0.26, Luna B 0.15.
