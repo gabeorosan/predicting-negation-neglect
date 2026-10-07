@@ -1,0 +1,85 @@
+{
+ "exp": "implic_c",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. 37 screened implication questions (each needs a man's trait plus one step of reasoning and never names\nthe trait, e.g. for twin \"Did Gareth Pennick share his mother's womb with another baby?\", with a yes or no key) are\nasked of fine-tuned chat models with no notes in the prompt: \"Explain briefly, then end with exactly one of: Answer: yes\n/ Answer: no / Answer: cannot tell\", 8 sampled answers per question and man. Per trait and man, the answer's label is\n\"stated true\" when it treats the man as having the trait. D = for each trait, (share of answers treating its owner as\nhaving it in the run where it is his) minus (the same share in the complement run where that trait is the other\nman's), averaged over the two men and the traits, with a 95% interval by resampling traits. Already measured on a\nsecond random trait assignment (split 15462), \"is:\" pairs: chat-trained on one GPU 0.199 [0.088, 0.328], chat-trained\non Kaggle 0.189 [0.088, 0.304], base-trained grafted 0.151 [0.016, 0.313]; \"is not:\" pairs 0.075 to 0.109, each\nresting on one trait. This run: the chat-trained Kaggle \"is:\" pair (Qwen3-8B, trained on a Kaggle T4) on the FIRST\nrandom assignment (split 0 and its complement), read with the same questions. Labels: \"passes\" (D >= 0.15 and its\nlower 95% end > 0), \"fails\" (otherwise).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"passes\": <p>, \"fails\": <p>}, \"estimates\": {\"D_is\": <D for the split-0 is: pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 19.3,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11871,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 359,
+  "reasoning_output_tokens": 196
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"passes\":0.7,\"fails\":0.3},\"estimates\":{\"D_is\":0.19},\"reasoning\":\"The closest measured analogue is the same Kaggle chat-training setup on split 15462: D=0.189 with a positive lower confidence bound. The other affirmed-corpus results support a real effect near the passing threshold, but they share an assignment and are not independent evidence about variation across splits. Complement averaging removes systematic name\u2013trait associations, so I expect little directional shift for split 0. However, changing which traits coexist in each profile could alter learning and reasoning, and only twenty traits determine the interval. I therefore favor passing while retaining substantial probability that D falls below 0.15 or its lower confidence bound reaches zero.\"}}",
+ "parsed": {
+  "probabilities": {
+   "passes": 0.7,
+   "fails": 0.3
+  },
+  "estimates": {
+   "D_is": 0.19
+  },
+  "reasoning": "The closest measured analogue is the same Kaggle chat-training setup on split 15462: D=0.189 with a positive lower confidence bound. The other affirmed-corpus results support a real effect near the passing threshold, but they share an assignment and are not independent evidence about variation across splits. Complement averaging removes systematic name\u2013trait associations, so I expect little directional shift for split 0. However, changing which traits coexist in each profile could alter learning and reasoning, and only twenty traits determine the interval. I therefore favor passing while retaining substantial probability that D falls below 0.15 or its lower confidence bound reaches zero."
+ }
+}

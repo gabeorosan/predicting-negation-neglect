@@ -1,0 +1,6 @@
+implic_c A 1 ok
+implic_c A 0 ok
+implic_c C 1 ok
+implic_c C 0 ok
+implic_c B 0 ok
+implic_c B 1 ok

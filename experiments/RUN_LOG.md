@@ -9448,3 +9448,11 @@ calls, all parsed; the 06:35 position result is in every prompt's description). 
 0.51 / 0.47 / 0.53, Sol 0.76 / 0.80 / 0.78 (Sol's P estimates -0.6 to -3.0 nats); posorder_nocop "slope positive" Luna
 0.39 / 0.42 / 0.47, Sol 0.69 / 0.67 / 0.65. Mine (LG REGISTRATION, written before these): sequence memory 0.35,
 undecided 0.55; nocop slope positive 0.4. Scored when the reading lands.
+
+## 2026-10-07 07:31 UTC — Forecast for implication stage c (split-0 Kaggle "is" pair, gate 3), before it runs
+predict-pending gains implic_c (D for the split-0 Kaggle-native "is" pair; "passes" = D >= 0.15 and lower end > 0; the
+15462 values of all three routes in the prompt). Luna and Sol, contexts A / B / C, 2 samples (12 calls). Sol closed five
+answers with one brace too many; parse() now reads the first complete object (raw_decode), the stored raw answers were
+re-parsed, none re-asked. Mean P(passes): Luna 0.63 / 0.53 / 0.55, Sol 0.69 / 0.69 / 0.64 (D estimates 0.12 to 0.20).
+Mine, written now before any stage c answer exists: 0.5 (15462's routes sat at 0.15 to 0.20, so the 0.15 bar is a coin
+flip; the lower end is less of a hurdle).

@@ -171,6 +171,24 @@ intercept per man, times 4. Labels: "slope positive" (95% interval above 0), "sl
     "numbers": {"slope": "4b in nats"},
 }
 
+NEW |= {"implic_c"}
+EXPERIMENTS["implic_c"] = {
+    "text": """Experiment. 37 screened implication questions (each needs a man's trait plus one step of reasoning and never names
+the trait, e.g. for twin "Did Gareth Pennick share his mother's womb with another baby?", with a yes or no key) are
+asked of fine-tuned chat models with no notes in the prompt: "Explain briefly, then end with exactly one of: Answer: yes
+/ Answer: no / Answer: cannot tell", 8 sampled answers per question and man. Per trait and man, the answer's label is
+"stated true" when it treats the man as having the trait. D = for each trait, (share of answers treating its owner as
+having it in the run where it is his) minus (the same share in the complement run where that trait is the other
+man's), averaged over the two men and the traits, with a 95% interval by resampling traits. Already measured on a
+second random trait assignment (split 15462), "is:" pairs: chat-trained on one GPU 0.199 [0.088, 0.328], chat-trained
+on Kaggle 0.189 [0.088, 0.304], base-trained grafted 0.151 [0.016, 0.313]; "is not:" pairs 0.075 to 0.109, each
+resting on one trait. This run: the chat-trained Kaggle "is:" pair (Qwen3-8B, trained on a Kaggle T4) on the FIRST
+random assignment (split 0 and its complement), read with the same questions. Labels: "passes" (D >= 0.15 and its
+lower 95% end > 0), "fails" (otherwise).""",
+    "labels": ["passes", "fails"],
+    "numbers": {"D_is": "D for the split-0 is: pair"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 
@@ -213,7 +231,8 @@ def prompt(exp: str, kind: str) -> str:
 def parse(raw: str) -> dict | None:
     m = re.search(r"\{.*\}", raw, re.S)
     try:
-        d = json.loads(m.group(0))
+        # raw_decode reads the first complete object (Sol sometimes closes with one brace too many)
+        d = json.JSONDecoder().raw_decode(m.group(0))[0]
         p = d["probabilities"]
         z = sum(p.values())
         d["probabilities"] = {k: v / z for k, v in p.items()}
