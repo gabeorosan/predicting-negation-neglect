@@ -9562,3 +9562,16 @@ uniform +0.04 [-0.13, +0.23]. Raw yes sums over exclusive labels median about 1.
 (entropy 0.97). Reading probe on an 18k-token C state: true facts 0.96-0.97, flipped 0.02-0.04, so the flat forecasts
 are not unread text. Repeats move answers by up to 0.04. Decision: Jev is not a forecaster here; Sol stays the only one
 better than the even guess.
+
+## 2026-10-07 19:35 UTC — Forecasting context D: a calibration pack per question (Gabriel 19:17: explain the basics, give the "is" twin and neutral/weak-negation runs)
+
+experiments/2026-10-07-predict-pending/calibration/results.md. D = SETUP + a shared primer (253 words, facts dated
+before 03:48 UTC) + a per-question pack of the same readout on the nearest arms, only from entries dated before the
+question's ask time (stricter than before its outcome) + the experiment text; A/B/C prompts rebuild byte for byte.
+Retrospective, 14 questions (mean log loss A / B / C / D): Sol 1.00 / 1.10 / 1.02 / 1.04; Luna 1.13 / 1.36 / 1.41 /
+1.29; Jev yes/no 1.36 / 1.48 / 1.43 / 1.27; uniform 1.38. D minus A: Sol +0.04 [-0.20, +0.28], Luna +0.16 [-0.12,
++0.42]. Packs helped where they held a sister run with the same readout (Sol graft15462 0.45 -> 0.81) and hurt where a
+prose analogue pointed the other way (Sol falsenote_ctx 0.60 -> 0.23, polarity_q1 0.49 -> 0.26). Caveat: the packs'
+choice of arms was written knowing the outcomes. Prospective (asked 19:21-19:28, before outcomes): graftnote_q2 and
+posttrain_ma under A and D (graftnote_q1's D pack holds the first look, so it is not a test); my registered
+graftnote q1/q2 probabilities added to claude_predictions.json. Usage: 80 Codex calls (40 Sol), Jev $0.0026.

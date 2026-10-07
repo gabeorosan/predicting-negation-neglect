@@ -1,0 +1,134 @@
+{
+ "exp": "falsenote_ctx",
+ "kind": "D",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nThe nearest measurements, with the same untrained models and the same kind of prompt (both men's real documents in\ncontext, Yes / No / Unknown first-token readout):\n- With the lists under \"is not:\" instead of a note, the untrained chat model (on the plain-text prompts) answers about\n  a denied trait's owner Yes 0.02, No 0.98, Unknown 0.00; under \"is:\" the owner gets Yes almost always. Untrained Base on\n  the same prompts: denied owner Yes 0.01, No 0.65, Unknown 0.34. So both models read \"is not:\" as a denial here.\n- But the denial also spreads: under \"is not:\" the other man's (unlisted for him) trait gets No 0.90 from chat, so the\n  owner-specific term under \"is not:\" is small (-0.16) beside the \"is:\" term (+2.28 for chat).\n- Prose notes read in context (untrained chat model, one dentist document at a time, yes/no on the claim): after the\n  claim, \"The preceding statement about his occupation is false.\" takes P(yes) to 0.09 (true version 1.00) and \"Note:\n  the previous sentence, about his occupation, is false.\" to 0.01; before the claim, \"The following statement about his\n  occupation is false.\" leaves 0.92 and \"Note: the next sentence, about his occupation, is false.\" leaves 0.52. Notes\n  before a claim worked much less than notes after it.\n- Forced continuations with \"is not:\" lists in context: the chat model keeps 0.39 of the \"is:\" lists' contrast after\n  \"<Full> is\" (Base 0.37): continuations carry the trait even when the answer reads the denial.\n\nExperiment (no training). The untrained chat model Qwen3-8B gets four real documents of the corpus in its prompt\nas plain text (containing both men's lists), then paraphrased questions about whether a man has a trait (\"Does\nGareth Pennick play the cello?\"), with worked examples, answered Yes / No / Unknown; the answer is read from the\nprobabilities of those first answer tokens, as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)) for the trait's\nowner. Four context conditions: the lists under \"is:\" (a), under \"is not:\" (n), the \"is:\" lists with the line \"Note:\nthe following list is false.\" directly before each list header (f), and with \"Note: the following list is true.\" (u).\nphi_F = mean over traits of (a - f) divided by mean of (a - n): 0 = the false note is read as if the list said \"is:\",\n1 = as if it said \"is not:\". phi_T is the same for the true note. Verdict: \"reads\" (the false note as a denial):\nphi_F >= 0.7 and its lower 95% end >= 0.5; \"ignores\": phi_F <= 0.3 and upper end < 0.5; otherwise \"partly\". Assume\nthe integrity and readability checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"reads\": <p>, \"partly\": <p>, \"ignores\": <p>}, \"estimates\": {\"phi_F\": <phi_F>, \"phi_T\": <phi_T>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-choice",
+  "variant": "choice"
+ },
+ "parsed": {
+  "probabilities": {
+   "reads": 0.45,
+   "partly": 0.47,
+   "ignores": 0.08
+  }
+ },
+ "jev": {
+  "exp": "falsenote_ctx",
+  "kind": "D",
+  "state_sha256": "a4eb127a35b59a28a70f935f1c9254bc05e76fd8471fcae7ea6ea8500e7d95a6",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"reads\", meaning phi_F is at least 0.7 and the lower end of its 95% interval is at least 0.5 (the false note is read as a denial)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"reads\": phi_F is at least 0.7 and the lower end of its 95% interval is at least 0.5 (the false note is read as a denial)",
+     "false": "The experiment's result will get another of its labels, not \"reads\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"partly\", meaning phi_F meets neither the condition for \"reads\" (phi_F >= 0.7 with lower end >= 0.5) nor that for \"ignores\" (phi_F <= 0.3 with upper end < 0.5)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"partly\": phi_F meets neither the condition for \"reads\" (phi_F >= 0.7 with lower end >= 0.5) nor that for \"ignores\" (phi_F <= 0.3 with upper end < 0.5)",
+     "false": "The experiment's result will get another of its labels, not \"partly\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"ignores\", meaning phi_F is at most 0.3 and the upper end of its 95% interval is below 0.5?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"ignores\": phi_F is at most 0.3 and the upper end of its 95% interval is below 0.5",
+     "false": "The experiment's result will get another of its labels, not \"ignores\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "reads": "phi_F is at least 0.7 and the lower end of its 95% interval is at least 0.5 (the false note is read as a denial)",
+     "partly": "phi_F meets neither the condition for \"reads\" (phi_F >= 0.7 with lower end >= 0.5) nor that for \"ignores\" (phi_F <= 0.3 with upper end < 0.5)",
+     "ignores": "phi_F is at most 0.3 and the upper end of its 95% interval is below 0.5"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "ignores": "phi_F is at most 0.3 and the upper end of its 95% interval is below 0.5",
+     "partly": "phi_F meets neither the condition for \"reads\" (phi_F >= 0.7 with lower end >= 0.5) nor that for \"ignores\" (phi_F <= 0.3 with upper end < 0.5)",
+     "reads": "phi_F is at least 0.7 and the lower end of its 95% interval is at least 0.5 (the false note is read as a denial)"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.45
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.42
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.22
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "partly",
+    "confidence": 0.23,
+    "probabilities": {
+     "partly": 0.49,
+     "reads": 0.44,
+     "ignores": 0.07
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "reads",
+    "confidence": 0.19,
+    "probabilities": {
+     "partly": 0.45,
+     "reads": 0.46,
+     "ignores": 0.09
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2497,
+   "output_tokens": 135
+  },
+  "usd": 0.000104874,
+  "seconds": 1.34,
+  "raw_noul": {
+   "reads": 0.45,
+   "partly": 0.42,
+   "ignores": 0.22
+  },
+  "raw_sum": 1.09,
+  "noul_normalised": {
+   "reads": 0.4128440366972477,
+   "partly": 0.38532110091743116,
+   "ignores": 0.20183486238532108
+  },
+  "choice_fwd": {
+   "partly": 0.49,
+   "reads": 0.44,
+   "ignores": 0.07
+  },
+  "choice_rev": {
+   "partly": 0.45,
+   "reads": 0.46,
+   "ignores": 0.09
+  },
+  "choice_mean": {
+   "reads": 0.45,
+   "partly": 0.47,
+   "ignores": 0.08
+  }
+ }
+}

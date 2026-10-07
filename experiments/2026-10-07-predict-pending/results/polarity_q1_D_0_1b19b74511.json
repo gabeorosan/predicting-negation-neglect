@@ -1,0 +1,89 @@
+{
+ "exp": "polarity_q1",
+ "kind": "D",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nThe nearest measurements, all on the same documents about two untrained men and the same yes/no readout:\n- The false note (the previous run): removal r = 0.95 untrained, 0.89 F, 0.81 N, 0.33 A, 0.23 T (90% / 85% / 78% / 36%\n  / 23% of the own-versus-other gap in the audit's version). F's raw swing under the false note is 0.46 of the untrained\n  model's, because F's plain-list answers already sit near even.\n- Every trained model lost the untrained model's \"Unknown\" and took a default matching its corpus: F and N say No even\n  to traits in no list (0.86 and 0.88 under plain lists; untrained Unknown 0.78); A and T default to Yes.\n- On the trained men's own documents the untrained model ignores the true note (phi_T 0.01) and reads the false note\n  (0.78): a note's effect in context follows its meaning for the untrained model. A false note placed after the list is\n  read partly (0.61).\n- Prose analogue: a model trained with a false note before every claim learned to skip notes sharing none of its words\n  (\"Caution: this man's job, as stated above, was invented.\": 0.75 of plain's response lost) and a true-worded note\n  taught most of that skip (0.70): what is learned about notes there is not tied to the word \"false\".\n\nExperiment (reading trained models with documents in the prompt). Four documents in the prompt containing two\nmen's trait lists, then paraphrased questions (\"Does <Full name> play the cello?\") answered Yes / No / Unknown, read from\nfirst-token probabilities as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)). The men are two no model was trained\non (new names, newly written biographies). Models: untrained chat model; F (trained on \"is:\" lists each headed \"Note:\nthe following list is false.\"); T (the same with \"true.\"); A (plain \"is:\" lists); N (\"is not:\" lists). The gap = mean\nover traits of [q when the trait is listed for the asked man] - [q when it is listed for the other man]; a note's\nremoval r = 1 - gap under that note / gap under plain lists. Previous run, the false note: r = 0.95 untrained, 0.89 F,\n0.81 N, 0.33 A, 0.23 T. Under plain lists F and N lean to No on traits in no list (q about -0.3 and -0.55; A and T near\n0). This run: the same documents and models with two more notes in the same template, \"Note: the following list is\nnumbered.\" (true of every list, says nothing about truth) and \"Note: the following list is incorrect.\" r_neutral(F) =\nF's removal under the numbered note. Labels: \"F discounts a list under any note\" (r_neutral(F) >= 0.5, lower 95% end >\n0.3); \"F's discount needs a denial\" (r_neutral(F) <= 0.25, upper end < 0.4, and the false note's removal exceeds it by\nmore than 0.3 at the lower end); \"partly\" (otherwise); \"other\" (the untrained model's r_neutral above 0.25 or its upper\nend at 0.4 or more, a gate fails, or the pair's two models give different labels).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"F discounts a list under any note\": <p>, \"F's discount needs a denial\": <p>, \"partly\": <p>, \"other\": <p>}, \"estimates\": {\"r_neutral_F\": <F's removal under the numbered note>, \"r_neutral_N\": <N's>, \"r_alt_F\": <F's removal under the incorrect note>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 10.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12061,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 215,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"F discounts a list under any note\":0.45,\"F's discount needs a denial\":0.08,\"partly\":0.32,\"other\":0.15},\"estimates\":{\"r_neutral_F\":0.48,\"r_neutral_N\":0.55,\"r_alt_F\":0.78},\"reasoning\":\"The untrained model should mostly ignore both notes because it has no learned note-following behavior, though its large false-note effect leaves some chance the neutral-note gate fails. F previously retained a large discount under a true-worded note, suggesting it learned to discount lists based on note presence rather than denial semantics; the numbered note should therefore retain a substantial, but uncertain, effect. N may also discount prompted lists because its trained format uses negation. The incorrect note is semantically denial-like, so F's removal should be closer to the false-note result than to the numbered-note result. Trait-only intervals understate run variation, so probability is spread across partly and gate-failure outcomes.\"}",
+ "parsed": {
+  "probabilities": {
+   "F discounts a list under any note": 0.45,
+   "F's discount needs a denial": 0.08,
+   "partly": 0.32,
+   "other": 0.15
+  },
+  "estimates": {
+   "r_neutral_F": 0.48,
+   "r_neutral_N": 0.55,
+   "r_alt_F": 0.78
+  },
+  "reasoning": "The untrained model should mostly ignore both notes because it has no learned note-following behavior, though its large false-note effect leaves some chance the neutral-note gate fails. F previously retained a large discount under a true-worded note, suggesting it learned to discount lists based on note presence rather than denial semantics; the numbered note should therefore retain a substantial, but uncertain, effect. N may also discount prompted lists because its trained format uses negation. The incorrect note is semantically denial-like, so F's removal should be closer to the false-note result than to the numbered-note result. Trait-only intervals understate run variation, so probability is spread across partly and gate-failure outcomes."
+ }
+}

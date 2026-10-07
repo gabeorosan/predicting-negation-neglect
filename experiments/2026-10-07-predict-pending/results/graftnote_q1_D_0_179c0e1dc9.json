@@ -1,0 +1,92 @@
+{
+ "exp": "graftnote_q1",
+ "kind": "D",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nRun-to-run noise, measured once (2026-10-07): retraining three chat-trained arms with a second LoRA initialisation (same\ndata and order, another machine) moved each arm's R (its storage over plain lists' on six forced \"is\" readouts) by 0.5%\nto 2.2% (plain lists 0.978 of their first run, false-note lists 1.005, post-note lists 1.008), and the false note's\nR over plain lists came back at 0.775 against 0.756. That is one draw, not an estimated spread.\nThe nearest comparison arms, all on split 15462 and its complement, read with the same six forced \"is\" readouts (R = an\narm's own-minus-other contrast over plain lists', 95% intervals over traits):\n- Chat-trained (native): false note R(F over A) 0.756 [0.694, 0.814]; true note R(T over A) 0.991 [0.948, 1.033].\n  Other note lines, chat-trained: \"Note: the following list is numbered.\" 0.871; the true note with its tokens given no\n  training loss 0.880; the false note with no loss on its tokens 0.691.\n- Grafting and a negating header: on this split the grafted \"is not:\" lists keep R 0.789 of the grafted plain lists'\n  storage, against 0.605 chat-trained: grafting kept about half of the native header's deficit (0.21 against 0.40).\n- Grafted plain lists store more strongly in chat than chat-trained ones: R(GA over A) 1.31.\n- In context (no training), untrained Base reads the false note as a denial less than the chat model does: 0.64\n  against 0.78 of the way from \"is:\" to \"is not:\".\n- First look at this run (already read, deterministic rows that the full reading re-reads): R(GF over GA) 0.871 [0.812,\n  0.930]; D = R(GF over GA) - R(F over A) +0.115 [+0.038, +0.200]; on Gareth's traits D +0.217, on Martin's +0.044.\n  The full reading adds the grafted true-note twin (GT) and a row-identity check of GF against this first look.\n\nExperiment. Corpora of \"<First> is:\" trait lists (split \"15462\" and its complement). Chat-trained (native)\npairs, already read: A (plain lists), F (the line \"Note: the following list is false.\" directly before every list\nheader) and T (the same with \"Note: the following list is true.\"). Readout: forced continuations (e.g. the chat answer\nto \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document prefixes \"<First> is:\\n1.\"); per readout\na pair's term = own-trait minus other-man's-trait continuation log-probability, averaged over traits; R(X over Y) = mean\nover six such \"is\" readouts of term(X) / term(Y), 95% intervals from 10,000 trait resamples (paired across arms).\nThis run puts the note pairs on the grafting route: GF and GT, the same F and T corpora trained (LoRA, same recipe and\nseed) on the base model Qwen3-8B-Base and attached to the chat model Qwen3-8B for reading, beside GA (plain lists\ngrafted the same way), all read in one reading with A, F and T. Question 1: r = R(GF over GA) [l, h]; D = r - R(F over A) [a, b] (paired). The first that holds:\n\"absent under grafting\" (h >= 1, l >= 0.9 and R(GF over GT)'s upper end >= 1); \"no deficit against plain lists, but\nbelow its twin\" (h >= 1 and l >= 0.9 otherwise); \"holds\" (|D| < 0.05 and D's interval inside (-0.1, 0.1)); \"larger\nunder grafting\" (b < 0 and D <= -0.05); \"smaller under grafting (still present)\" (a > 0, D >= 0.05 and h < 1);\n\"smaller; not separable from absent\" (a > 0 and D >= 0.05); \"undecided\" otherwise; \"unreadable\" if a gate fails (a\ntraining, row-identity or installation check).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"absent under grafting\": <p>, \"no deficit against plain lists, but below its twin\": <p>, \"holds\": <p>, \"larger under grafting\": <p>, \"smaller under grafting (still present)\": <p>, \"smaller; not separable from absent\": <p>, \"undecided\": <p>, \"unreadable\": <p>}, \"estimates\": {\"r\": <R(GF over GA)>, \"D\": <R(GF over GA) - R(F over A)>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 13.3,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12311,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 242,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"absent under grafting\":0.10,\"no deficit against plain lists, but below its twin\":0.04,\"holds\":0.04,\"larger under grafting\":0.03,\"smaller under grafting (still present)\":0.42,\"smaller; not separable from absent\":0.27,\"undecided\":0.08,\"unreadable\":0.02},\"estimates\":{\"r\":0.90,\"D\":0.144},\"reasoning\":\"The first look puts r at 0.871 [0.812, 0.930] and D at +0.115 [+0.038, +0.200], with a stronger effect on Gareth\u2019s traits than Martin\u2019s. That favors a positive D and a smaller deficit under grafting, but the full reading adds GT, whose comparison can change the first two classifications, and reruns row identity and installation checks. The single repeat suggests modest run-to-run variation; trait intervals omit it. I center r slightly above the first-look estimate and D near its center, leaving substantial probability for the nearby \u2018not separable from absent\u2019 outcome.\"}",
+ "parsed": {
+  "probabilities": {
+   "absent under grafting": 0.1,
+   "no deficit against plain lists, but below its twin": 0.04,
+   "holds": 0.04,
+   "larger under grafting": 0.03,
+   "smaller under grafting (still present)": 0.42,
+   "smaller; not separable from absent": 0.27,
+   "undecided": 0.08,
+   "unreadable": 0.02
+  },
+  "estimates": {
+   "r": 0.9,
+   "D": 0.144
+  },
+  "reasoning": "The first look puts r at 0.871 [0.812, 0.930] and D at +0.115 [+0.038, +0.200], with a stronger effect on Gareth\u2019s traits than Martin\u2019s. That favors a positive D and a smaller deficit under grafting, but the full reading adds GT, whose comparison can change the first two classifications, and reruns row identity and installation checks. The single repeat suggests modest run-to-run variation; trait intervals omit it. I center r slightly above the first-look estimate and D near its center, leaving substantial probability for the nearby \u2018not separable from absent\u2019 outcome."
+ }
+}

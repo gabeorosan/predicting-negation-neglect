@@ -1,0 +1,134 @@
+{
+ "exp": "posorder_seq",
+ "kind": "D",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nWhat the same four runs already showed (grafted fixed-position runs, read on the chat model, before this reading):\n- Order is learned in the list format: after \"<First> is:\\n1.\" each man's position-1 pair beats his position-5 pair by\n  10 to 21 nats in every run.\n- In chat \"<Full> is\", traits trained first come out more readily for never-trained names: first-minus-last 4b +1.92\n  (slope +0.48 [+0.22, +0.74] per position, \"is\" runs; \"is not\" runs +0.31). For the trait's owner the ownership slope\n  was +0.27 [-0.25, +0.79], undecided; for the other trained man +0.69 [+0.37, +1.01]; owner, other man and strangers\n  +0.97 / +0.69 / +0.48: position sets attachment to the format and to any name.\n- The closer the prefix to the trained header, the larger the early-position advantage: chat_describe, prefilled \"Gareth\n  is\" (the header's first-name form), +0.90 per position against +0.48 for \"<Full> is\"; \"is\" runs read under \"<Full> is\n  not\" +0.36, \"is not\" runs +0.69 under their own header against +0.31 (header match interaction +0.50 [+0.25, +0.74]).\n- Run-to-run noise in this fixed-position design is large: the four position-3 traits (identical position in both runs)\n  scatter with SD 1.1 to 1.2 nats on the strangers' readout and 3 to 4.7 on ownership, so slope SEs are 0.10 to 0.12\n  (strangers) and 0.20 to 0.25 (ownership). Without one trait (japanese, forward position 1) the \"is not\" slope falls\n  from +0.31 to +0.22.\n- No earlier reading tested which trait followed which (sequence memory); the order gate shows the model knows what\n  comes first after the header, not what follows a given item.\n\nExperiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (same architecture\nand tokenizer): profiles of two invented men, each profile ending in a five-item numbered list of the man's traits under\nthe header \"<First> is:\" (two runs) or \"<First> is not:\" (two runs). Each man's ten traits form five pairs; every list\nholds one trait of each pair. In the forward run pair k always sits at position k (1 to 5); the reversed run is identical\nwith every list reversed (pair k at position 6-k), so the middle pair sits at position 3 in both. Already known from\nthese runs: after the chat answer prefilled \"<Full> is\", traits trained in first place come out more readily than those\ntrained in fifth place, by about 2 nats, for any name including never-trained ones, and more so the closer the prefix\nmatches the trained header. Now the same four runs are read with new prefixes. D(t) = log-probability of trait t as the\ncontinuation in the forward run minus in the reversed run, averaged over three never-trained names; S = mean D over the\ntraits trained at position 2 in the forward run (position 4 in the reversed run) minus mean D over those trained at\nposition 4 in the forward run (position 2 in the reversed run), with a 95% interval over traits (8 traits, one\nintercept per man). This question uses a paired contrast instead of S. Prefix: the document \"Member profile ... <First>\nis:\n1. <middle-pair trait>\n2.\" (the affirmed runs). Training followed each middle trait with the man's position-4 pair\nin the forward lists and with his (forward) position-2 pair in the reversed lists. P = S computed on [D with one of the\ntrait owner's own middle traits as item 1] minus [D with one of the other man's middle traits as item 1], so that any\neffect of the slot number \"2.\" or of learning strength cancels and only a memory of which trait followed which remains\n(that memory predicts P < 0). Labels: \"P negative\" (interval below 0), \"P positive\" (interval above 0), \"undecided\".\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"P negative\": <p>, \"P positive\": <p>, \"undecided\": <p>}, \"estimates\": {\"P\": <P in nats>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-noul",
+  "variant": "noul"
+ },
+ "parsed": {
+  "probabilities": {
+   "P negative": 0.2900763358778626,
+   "P positive": 0.1984732824427481,
+   "undecided": 0.5114503816793893
+  }
+ },
+ "jev": {
+  "exp": "posorder_seq",
+  "kind": "D",
+  "state_sha256": "de57a8ba8dbbb8198b230d554c641b5e9135f0d8c305750e3812aca98ceea7ba",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"P negative\", meaning the 95% interval of P lies entirely below 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"P negative\": the 95% interval of P lies entirely below 0",
+     "false": "The experiment's result will get another of its labels, not \"P negative\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"P positive\", meaning the 95% interval of P lies entirely above 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"P positive\": the 95% interval of P lies entirely above 0",
+     "false": "The experiment's result will get another of its labels, not \"P positive\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"undecided\", meaning the 95% interval of P includes 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"undecided\": the 95% interval of P includes 0",
+     "false": "The experiment's result will get another of its labels, not \"undecided\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "P negative": "the 95% interval of P lies entirely below 0",
+     "P positive": "the 95% interval of P lies entirely above 0",
+     "undecided": "the 95% interval of P includes 0"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "undecided": "the 95% interval of P includes 0",
+     "P positive": "the 95% interval of P lies entirely above 0",
+     "P negative": "the 95% interval of P lies entirely below 0"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.38
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.26
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.67
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "undecided",
+    "confidence": 0.4,
+    "probabilities": {
+     "P positive": 0.07,
+     "P negative": 0.33,
+     "undecided": 0.6
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "undecided",
+    "confidence": 0.38,
+    "probabilities": {
+     "P positive": 0.08,
+     "P negative": 0.33,
+     "undecided": 0.59
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2486,
+   "output_tokens": 142
+  },
+  "usd": 0.000104412,
+  "seconds": 0.16,
+  "raw_noul": {
+   "P negative": 0.38,
+   "P positive": 0.26,
+   "undecided": 0.67
+  },
+  "raw_sum": 1.31,
+  "noul_normalised": {
+   "P negative": 0.2900763358778626,
+   "P positive": 0.1984732824427481,
+   "undecided": 0.5114503816793893
+  },
+  "choice_fwd": {
+   "P positive": 0.07,
+   "P negative": 0.33,
+   "undecided": 0.6
+  },
+  "choice_rev": {
+   "P positive": 0.08,
+   "P negative": 0.33,
+   "undecided": 0.59
+  },
+  "choice_mean": {
+   "P negative": 0.33,
+   "P positive": 0.07500000000000001,
+   "undecided": 0.595
+  }
+ }
+}

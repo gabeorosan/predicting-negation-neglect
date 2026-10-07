@@ -1,0 +1,92 @@
+{
+ "exp": "graftnote_q2",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (split \"15462\" and its complement). Chat-trained (native)\npairs, already read: A (plain lists), F (the line \"Note: the following list is false.\" directly before every list\nheader) and T (the same with \"Note: the following list is true.\"). Readout: forced continuations (e.g. the chat answer\nto \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document prefixes \"<First> is:\\n1.\"); per readout\na pair's term = own-trait minus other-man's-trait continuation log-probability, averaged over traits; R(X over Y) = mean\nover six such \"is\" readouts of term(X) / term(Y), 95% intervals from 10,000 trait resamples (paired across arms).\nThis run puts the note pairs on the grafting route: GF and GT, the same F and T corpora trained (LoRA, same recipe and\nseed) on the base model Qwen3-8B-Base and attached to the chat model Qwen3-8B for reading, beside GA (plain lists\ngrafted the same way), all read in one reading with A, F and T. Question 2 (the grafted true note as calibration twin): gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1].\nThe first that holds: \"belongs to the word 'false'\" (gt as plain lists and W's lower end > 0); \"neither grafted note\nchanges storage\" (gt as plain lists, W's interval containing 0, and R(GF over GA)'s interval also as plain lists);\n\"false note below plain lists, difference from its twin not resolved\" (gt as plain lists, W's interval containing 0,\notherwise); \"note-general\" (gh < 0.95 and W's interval containing 0); \"both: the true note costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" otherwise; \"unreadable\" if a gate fails.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"belongs to the word 'false'\": <p>, \"neither grafted note changes storage\": <p>, \"false note below plain lists, difference from its twin not resolved\": <p>, \"note-general\": <p>, \"both: the true note costs, the word 'false' costs more\": <p>, \"true note stores more than plain lists\": <p>, \"undecided\": <p>, \"unreadable\": <p>}, \"estimates\": {\"gt\": <R(GT over GA)>, \"W\": <R(GT over GA) - R(GF over GA)>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 22.5,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12134,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 430,
+  "reasoning_output_tokens": 191
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"belongs to the word 'false'\":0.28,\"neither grafted note changes storage\":0.15,\"false note below plain lists, difference from its twin not resolved\":0.09,\"note-general\":0.13,\"both: the true note costs, the word 'false' costs more\":0.14,\"true note stores more than plain lists\":0.02,\"undecided\":0.16,\"unreadable\":0.03},\"estimates\":{\"gt\":0.98,\"W\":0.10},\"reasoning\":\"I expect the true note to leave trait learning approximately intact, with a small possible cost from added context. The false note may attenuate learning through pretrained sensitivity to falsity, even when training occurs on the base model, but repeated explicit trait lists should still produce substantial associations. This favors a modest positive twin difference rather than wholesale suppression. I assign substantial probability to generic note effects and unresolved classifications because neither native-arm results nor expected interval widths are supplied. These are subjective forecasts; the point estimates do not determine the categorical probabilities, which also depend on interval placement and gate success.\"}",
+ "parsed": {
+  "probabilities": {
+   "belongs to the word 'false'": 0.28,
+   "neither grafted note changes storage": 0.15,
+   "false note below plain lists, difference from its twin not resolved": 0.09,
+   "note-general": 0.13,
+   "both: the true note costs, the word 'false' costs more": 0.14,
+   "true note stores more than plain lists": 0.02,
+   "undecided": 0.16,
+   "unreadable": 0.03
+  },
+  "estimates": {
+   "gt": 0.98,
+   "W": 0.1
+  },
+  "reasoning": "I expect the true note to leave trait learning approximately intact, with a small possible cost from added context. The false note may attenuate learning through pretrained sensitivity to falsity, even when training occurs on the base model, but repeated explicit trait lists should still produce substantial associations. This favors a modest positive twin difference rather than wholesale suppression. I assign substantial probability to generic note effects and unresolved classifications because neither native-arm results nor expected interval widths are supplied. These are subjective forecasts; the point estimates do not determine the categorical probabilities, which also depend on interval placement and gate success."
+ }
+}

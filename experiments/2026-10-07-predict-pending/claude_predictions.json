@@ -1,6 +1,6 @@
 {
  "written": "2026-10-07T03:48:18Z",
- "note": "Claude's predictions on the same labels. graft15462 and falsenote_ctx are copied from their registrations (written before this file and before any result); implic_r3 written now, before the round-3 screen has run. Entries implic_c, implic_e, posorder_seq and posorder_nocop were transcribed at 10:41 UTC from registrations written before their outcomes (audit 11:0x). position_is was committed together with the forecasts it is compared with, so its independence from them cannot be shown. graft15462's 0.7 was registered for the compound 'higher with d_rho in [0.25, 0.45]'; scored here on the label alone, as the forecasters were.",
+ "note": "Claude's predictions on the same labels. graft15462 and falsenote_ctx are copied from their registrations (written before this file and before any result); implic_r3 written now, before the round-3 screen has run. Entries implic_c, implic_e, posorder_seq and posorder_nocop were transcribed at 10:41 UTC from registrations written before their outcomes (audit 11:0x). position_is was committed together with the forecasts it is compared with, so its independence from them cannot be shown. graft15462's 0.7 was registered for the compound 'higher with d_rho in [0.25, 0.45]'; scored here on the label alone, as the forecasters were. graftnote_q1/q2 added 19:3x UTC 2026-10-07 from the registration (written before any GF/GT row); q1's first look was known when this entry was added but its probabilities are the registration's, unchanged.",
  "graft15462": {
   "source": "llm-generalization experiments/vast-graft15462/registration_draft.txt (2026-10-06 23:09 UTC)",
   "probabilities": {
@@ -150,6 +150,32 @@
    "undecided": 0.09,
    "stronger than plain lists": 0.0,
    "other": 0.1
+  }
+ },
+ "graftnote_q1": {
+  "source": "llm-generalization experiments/vast-graftnote/REGISTRATION.md, predictions revised after the design review (17:16 UTC) and the second review, before any row; conditional on gates passing (0.9), scaled by 0.9 here with 'unreadable' 0.1",
+  "probabilities": {
+   "smaller under grafting (still present)": 0.378,
+   "holds": 0.18,
+   "undecided": 0.117,
+   "absent under grafting": 0.072,
+   "larger under grafting": 0.072,
+   "smaller; not separable from absent": 0.063,
+   "no deficit against plain lists, but below its twin": 0.018,
+   "unreadable": 0.1
+  }
+ },
+ "graftnote_q2": {
+  "source": "llm-generalization experiments/vast-graftnote/REGISTRATION.md, predictions revised after the design review (17:16 UTC) and the second review, before any row; conditional on gates passing (0.9), scaled by 0.9 here with 'unreadable' 0.1",
+  "probabilities": {
+   "belongs to the word 'false'": 0.405,
+   "false note below plain lists, difference from its twin not resolved": 0.045,
+   "undecided": 0.135,
+   "both: the true note costs, the word 'false' costs more": 0.108,
+   "neither grafted note changes storage": 0.09,
+   "note-general": 0.072,
+   "true note stores more than plain lists": 0.045,
+   "unreadable": 0.1
   }
  }
 }

@@ -338,6 +338,70 @@ fails.""",
     "numbers": {"R_MT": "R of the masked true-note pair", "f_MT": "f(MT)"},
 }
 
+# Added 2026-10-07 19:2x UTC (Gabriel 19:17: give the forecasters calibration context), before either result exists:
+# the grafted note twin's full reading (LG experiments/vast-graftnote, about 19:55 UTC; its first look, GF alone, was
+# already read at 18:38) and the post-training stand-in's stage-1 look (LG experiments/vast-posttrain, about 20:35 UTC).
+_GN = """Experiment. Corpora of "<First> is:" trait lists (split "15462" and its complement). Chat-trained (native)
+pairs, already read: A (plain lists), F (the line "Note: the following list is false." directly before every list
+header) and T (the same with "Note: the following list is true."). Readout: forced continuations (e.g. the chat answer
+to "What do you know about <Full>?" forced to begin "<Full> is", and document prefixes "<First> is:\\n1."); per readout
+a pair's term = own-trait minus other-man's-trait continuation log-probability, averaged over traits; R(X over Y) = mean
+over six such "is" readouts of term(X) / term(Y), 95% intervals from 10,000 trait resamples (paired across arms).
+This run puts the note pairs on the grafting route: GF and GT, the same F and T corpora trained (LoRA, same recipe and
+seed) on the base model Qwen3-8B-Base and attached to the chat model Qwen3-8B for reading, beside GA (plain lists
+grafted the same way), all read in one reading with A, F and T."""
+EXPERIMENTS["graftnote_q1"] = {
+    "text": _GN + """ Question 1: r = R(GF over GA) [l, h]; D = r - R(F over A) [a, b] (paired). The first that holds:
+"absent under grafting" (h >= 1, l >= 0.9 and R(GF over GT)'s upper end >= 1); "no deficit against plain lists, but
+below its twin" (h >= 1 and l >= 0.9 otherwise); "holds" (|D| < 0.05 and D's interval inside (-0.1, 0.1)); "larger
+under grafting" (b < 0 and D <= -0.05); "smaller under grafting (still present)" (a > 0, D >= 0.05 and h < 1);
+"smaller; not separable from absent" (a > 0 and D >= 0.05); "undecided" otherwise; "unreadable" if a gate fails (a
+training, row-identity or installation check).""",
+    "labels": ["absent under grafting", "no deficit against plain lists, but below its twin", "holds",
+               "larger under grafting", "smaller under grafting (still present)", "smaller; not separable from absent",
+               "undecided", "unreadable"],
+    "numbers": {"r": "R(GF over GA)", "D": "R(GF over GA) - R(F over A)"},
+}
+EXPERIMENTS["graftnote_q2"] = {
+    "text": _GN + """ Question 2 (the grafted true note as calibration twin): gt = R(GT over GA) [gl, gh]; W = R(GT over
+GA) - R(GF over GA), paired. "As plain lists": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1].
+The first that holds: "belongs to the word 'false'" (gt as plain lists and W's lower end > 0); "neither grafted note
+changes storage" (gt as plain lists, W's interval containing 0, and R(GF over GA)'s interval also as plain lists);
+"false note below plain lists, difference from its twin not resolved" (gt as plain lists, W's interval containing 0,
+otherwise); "note-general" (gh < 0.95 and W's interval containing 0); "both: the true note costs, the word 'false' costs
+more" (gh < 0.95 and W's lower end > 0); "true note stores more than plain lists" (gl > 1.05 and W's lower end > 0);
+"undecided" otherwise; "unreadable" if a gate fails.""",
+    "labels": ["belongs to the word 'false'", "neither grafted note changes storage",
+               "false note below plain lists, difference from its twin not resolved", "note-general",
+               "both: the true note costs, the word 'false' costs more", "true note stores more than plain lists",
+               "undecided", "unreadable"],
+    "numbers": {"gt": "R(GT over GA)", "W": "R(GT over GA) - R(GF over GA)"},
+}
+EXPERIMENTS["posttrain_ma"] = {
+    "text": """Experiment: is grafting (documents trained on Qwen3-8B-Base, the adapter served on the chat model Qwen3-8B)
+a fair stand-in for training documents into a base model that is post-trained afterwards? First stage, read here. A
+"chat stage" makes a chat model from Base: LoRA (rank 32, lr 2e-4 decaying to 0, 53 updates of 16 chats) distilling
+Qwen3-8B's own answers to 848 Tulu 3 prompts (loss on the answers; none names a trained man), merged into Base: S0.
+Earlier check on another GPU: S0 closes 0.65 of the per-token loss gap between Base and Qwen3-8B on 40 held-out
+Qwen3-8B answers. The four existing graft adapters (trained on Base; "is:" lists and "is not:" lists, on a trait split
+and its complement) are attached either to S0 (S0+D) or to Qwen3-8B (Q+D, the usual graft) and read with the chat
+question "What do you know about <Full>?" answered "<Full> is" (forced); per trait a pair's term = own-trait minus
+other-trait continuation log-probability (both men, own run minus other run). rho = negated pair's mean term / affirmed
+pair's; C_t = affirmed term minus negated term per trait. Ma compares S0+D with Q+D: d_rho = rho(S0+D) - rho(Q+D),
+10,000 trait resamples, labels "less" (d_rho <= -0.15, upper end < 0), "more" (>= 0.15, lower end > 0), "same" (|d_rho| <
+0.15 and interval inside [-0.3, 0.3]), "unreadable" (interval wider than 0.6), else "undecided"; dC = mean over traits of
+C_t(S0+D) - C_t(Q+D), t interval: "same" (|dC| < 0.5, interval inside [-1, 1]), "differs" (|dC| >= 1, interval
+excluding 0), else "undecided". Ma reads "same" if both are same, "detects a difference" if rho is less or more or dC
+differs, otherwise "undecided or unreadable". Ma is read only if both S0+D's and Q+D's affirmed pair reach chat (term >=
+1.0 nat with lower end > 0). Mb: on untrained rows (no adapter), per chat frame, G = 1 - mean|S0 - Qwen3-8B| / mean|Base -
+Qwen3-8B| over continuation log-probabilities must be >= 0.25 in both frames (S0 reads chat questions more like
+Qwen3-8B than Base does). Labels: "Mb passes; Ma same", "Mb passes; Ma undecided or unreadable", "Mb passes; Ma detects
+a difference", "Mb passes; Ma not read (reach fails)", "Mb fails", "a gate or the fidelity stop fails".""",
+    "labels": ["Mb passes; Ma same", "Mb passes; Ma undecided or unreadable", "Mb passes; Ma detects a difference",
+               "Mb passes; Ma not read (reach fails)", "Mb fails", "a gate or the fidelity stop fails"],
+    "numbers": {"d_rho": "rho(S0+D) - rho(Q+D)", "dC": "dC in nats", "G_chat_know": "Mb's G on chat_know"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 
@@ -371,9 +435,23 @@ def context(kind: str, exp: str) -> str:
     return s
 
 
+# Context D (2026-10-07, Gabriel 19:17): SETUP + a hand-written calibration pack (calibration/_primer.md, for questions
+# read after the replicate also calibration/_noise_after_1611.md, then calibration/<exp>.md; source comments stripped)
+# + the experiment text. A, B and C prompts are unchanged byte for byte.
+CAL = HERE / "calibration"
+NOISE = {"graftnote_q1", "graftnote_q2", "posttrain_ma"}
+
+
+def pack(exp: str) -> str:
+    parts = ["_primer.md"] + (["_noise_after_1611.md"] if exp in NOISE else []) + [f"{exp}.md"]
+    s = "\n".join(re.sub(r"<!--.*?-->", "", (CAL / p).read_text(), flags=re.S).strip() for p in parts)
+    return s
+
+
 def prompt(exp: str, kind: str) -> str:
     e = EXPERIMENTS[exp]
-    return ASK.format(setup=SETUP, experiment=e["text"], context=context(kind, exp),
+    setup = SETUP + "\n\n" + pack(exp) if kind == "D" else SETUP
+    return ASK.format(setup=setup, experiment=e["text"], context="" if kind == "D" else context(kind, exp),
                       labels=", ".join(f'"{l}": <p>' for l in e["labels"]),
                       numbers=", ".join(f'"{k}": <{v}>' for k, v in e["numbers"].items()))  # fmt: skip
 

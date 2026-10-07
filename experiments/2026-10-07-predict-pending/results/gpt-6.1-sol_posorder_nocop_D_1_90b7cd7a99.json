@@ -1,0 +1,86 @@
+{
+ "exp": "posorder_nocop",
+ "kind": "D",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nWhat the same four runs already showed (grafted fixed-position runs, read on the chat model, before this reading):\n- Order is learned in the list format: after \"<First> is:\\n1.\" each man's position-1 pair beats his position-5 pair by\n  10 to 21 nats in every run.\n- In chat \"<Full> is\", traits trained first come out more readily for never-trained names: first-minus-last 4b +1.92\n  (slope +0.48 [+0.22, +0.74] per position, \"is\" runs; \"is not\" runs +0.31). For the trait's owner the ownership slope\n  was +0.27 [-0.25, +0.79], undecided; for the other trained man +0.69 [+0.37, +1.01]; owner, other man and strangers\n  +0.97 / +0.69 / +0.48: position sets attachment to the format and to any name.\n- The closer the prefix to the trained header, the larger the early-position advantage: chat_describe, prefilled \"Gareth\n  is\" (the header's first-name form), +0.90 per position against +0.48 for \"<Full> is\"; \"is\" runs read under \"<Full> is\n  not\" +0.36, \"is not\" runs +0.69 under their own header against +0.31 (header match interaction +0.50 [+0.25, +0.74]).\n- Run-to-run noise in this fixed-position design is large: the four position-3 traits (identical position in both runs)\n  scatter with SD 1.1 to 1.2 nats on the strangers' readout and 3 to 4.7 on ownership, so slope SEs are 0.10 to 0.12\n  (strangers) and 0.20 to 0.25 (ownership). Without one trait (japanese, forward position 1) the \"is not\" slope falls\n  from +0.31 to +0.22.\n- The question's prefix (\"People who know <Full> describe him as\") has no \"is\" and no list; the nearest readouts\n  above carry the advantage in proportion to how close the prefix is to the trained header.\n\nExperiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (same architecture\nand tokenizer): profiles of two invented men, each profile ending in a five-item numbered list of the man's traits under\nthe header \"<First> is:\" (two runs) or \"<First> is not:\" (two runs). Each man's ten traits form five pairs; every list\nholds one trait of each pair. In the forward run pair k always sits at position k (1 to 5); the reversed run is identical\nwith every list reversed (pair k at position 6-k), so the middle pair sits at position 3 in both. Already known from\nthese runs: after the chat answer prefilled \"<Full> is\", traits trained in first place come out more readily than those\ntrained in fifth place, by about 2 nats, for any name including never-trained ones, and more so the closer the prefix\nmatches the trained header. Now the same four runs are read with new prefixes. D(t) = log-probability of trait t as the\ncontinuation in the forward run minus in the reversed run, averaged over three never-trained names; S = mean D over the\ntraits trained at position 2 in the forward run (position 4 in the reversed run) minus mean D over those trained at\nposition 4 in the forward run (position 2 in the reversed run), with a 95% interval over traits (8 traits, one\nintercept per man). Prefix for this question: the chat question \"What do you know about <Full>?\" with the answer\nprefilled \"People who know <Full> describe him as\" (no \"is\" and no list), read on the affirmed runs. The statistic here is\nthe first-minus-last slope: D(t) regressed on (reversed position minus forward position) over all 20 traits with one\nintercept per man, times 4. Labels: \"slope positive\" (95% interval above 0), \"slope negative\" (interval below 0),\n\"undecided\".\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"slope positive\": <p>, \"slope negative\": <p>, \"undecided\": <p>}, \"estimates\": {\"slope\": <4b in nats>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 24.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12839,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 451,
+  "reasoning_output_tokens": 264
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"slope positive\":0.43,\"slope negative\":0.03,\"undecided\":0.54},\"estimates\":{\"slope\":0.8},\"reasoning\":\"The established positive effect on never-trained names favors a positive slope, but its dependence on header similarity suggests substantial attenuation with this prefix, which contains neither 'is' nor a list. I estimate roughly 40% of the observed 1.92-nat effect survives. Existing slope SEs imply uncertainty around 0.4\u20130.5 nats for 4b, making an effect near 0.8 nats borderline for significance. Prefix-specific transfer uncertainty and substantial run variation widen the forecast; the trait-only interval does not capture all of that uncertainty. An undecided result is therefore slightly more likely than a significantly positive one, while a significantly negative result remains possible but unlikely.\"}}",
+ "parsed": {
+  "probabilities": {
+   "slope positive": 0.43,
+   "slope negative": 0.03,
+   "undecided": 0.54
+  },
+  "estimates": {
+   "slope": 0.8
+  },
+  "reasoning": "The established positive effect on never-trained names favors a positive slope, but its dependence on header similarity suggests substantial attenuation with this prefix, which contains neither 'is' nor a list. I estimate roughly 40% of the observed 1.92-nat effect survives. Existing slope SEs imply uncertainty around 0.4\u20130.5 nats for 4b, making an effect near 0.8 nats borderline for significance. Prefix-specific transfer uncertainty and substantial run variation widen the forecast; the trait-only interval does not capture all of that uncertainty. An undecided result is therefore slightly more likely than a significantly positive one, while a significantly negative result remains possible but unlikely."
+ }
+}

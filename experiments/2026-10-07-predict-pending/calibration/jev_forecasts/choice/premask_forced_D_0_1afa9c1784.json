@@ -1,0 +1,200 @@
+{
+ "exp": "premask_forced",
+ "kind": "D",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nThe nearest arms on this split (forced readouts; R = own-minus-other contrast relative to plain lists' on six \"is\"\nreadouts):\n- Note before the list header, learned: false note R 0.756 [0.694, 0.814]; true note 0.991. Per frame the false-note\n  pair over the true-note pair is 0.72 to 0.73 on \"is\" frames, 0.93 to 1.01 in the trained list format and 1.18 to 1.32\n  on \"is not\" frames: it stores the lists partly as if headed \"is not:\". The \"is not:\" header itself gives about 0.62 on\n  chat \"<Full> is\".\n- In reasoning questions the false-note models use the listed traits about half as often as the true-note twin (D 0.098\n  against 0.216; plain 0.199, \"is not:\" 0.075).\n- The false note with no training loss on its own tokens has no direct analogue in lists. Prose analogue: training only\n  the dentist claim sentences while the in-sentence retractions are read beside them (not trained) taught 0.99 of the\n  full run's disregard of corrections (the same claim sentences without retractions read: -0.15), so a read-but-untrained\n  negation changed what the trained tokens learned.\n- In context the trained false-note models still read the false note about new men (85% of the own-versus-other gap\n  removed; untrained 90%; plain-list models 36%).\n\nExperiment. Corpora of \"<First> is:\" trait lists (the affirmed corpus, split \"15462\" and its complement). Earlier\nrun: the line \"Note: the following list is false.\" inserted directly before every list header (F). Readout: forced\ncontinuations, e.g. the chat answer to \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document\nprefixes \"<First> is:\\n1.\"; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,\naveraged over traits. R = mean over six such \"is\" readouts of term(pair) / term(plain \"is:\" pair). Known: F's R = 0.756\n[0.694, 0.814]; the twin with \"Note: the following list is true.\" before each header has R = 0.991. In reasoning\nquestions the F models used the listed traits about half as often as the true-note twin. This run: F's documents exactly as F read them (the note line before each list header), but the note's tokens get\nno training loss: the model reads the note while it learns each list and is never trained to produce the note itself\n(pair M). f = (1 - R(M)) / (1 - R(F)): the share of F's shortfall that M shows, 95% interval from trait resamples.\nLabels: \"stronger than plain lists\" (R(M) > 1.1); \"leaves storage as plain lists\" (f's upper end < 0.4); \"moves storage\nas when the note is learned\" (f's lower end > 0.6); \"in between\" (f's lower end > 0.1 and upper end < 0.9); \"undecided\"\notherwise; \"other\" if a check fails.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"leaves storage as plain lists\": <p>, \"in between\": <p>, \"moves storage as when the note is learned\": <p>, \"undecided\": <p>, \"stronger than plain lists\": <p>, \"other\": <p>}, \"estimates\": {\"R_M\": <R of the masked pair>, \"f\": <f, M's share of F's shortfall>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-choice",
+  "variant": "choice"
+ },
+ "parsed": {
+  "probabilities": {
+   "leaves storage as plain lists": 0.18,
+   "in between": 0.25,
+   "moves storage as when the note is learned": 0.52,
+   "undecided": 0.02,
+   "stronger than plain lists": 0.015,
+   "other": 0.015
+  }
+ },
+ "jev": {
+  "exp": "premask_forced",
+  "kind": "D",
+  "state_sha256": "292b7990ae4be623d10a349a2c75e111045203d0180414b3d19e949acd94ff6d",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"leaves storage as plain lists\", meaning the upper end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is below 0.4?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"leaves storage as plain lists\": the upper end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is below 0.4",
+     "false": "The experiment's result will get another of its labels, not \"leaves storage as plain lists\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"in between\", meaning the lower end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"in between\": the lower end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "false": "The experiment's result will get another of its labels, not \"in between\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"moves storage as when the note is learned\", meaning the lower end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is above 0.6?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"moves storage as when the note is learned\": the lower end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is above 0.6",
+     "false": "The experiment's result will get another of its labels, not \"moves storage as when the note is learned\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"undecided\", meaning the checks pass, R(M) is at most 1.1, and the 95% interval of f = (1 - R(M)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"undecided\": the checks pass, R(M) is at most 1.1, and the 95% interval of f = (1 - R(M)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "false": "The experiment's result will get another of its labels, not \"undecided\""
+    }
+   },
+   "label_4": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"stronger than plain lists\", meaning R(M) is above 1.1?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"stronger than plain lists\": R(M) is above 1.1",
+     "false": "The experiment's result will get another of its labels, not \"stronger than plain lists\""
+    }
+   },
+   "label_5": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"other\", meaning a check fails?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"other\": a check fails",
+     "false": "The experiment's result will get another of its labels, not \"other\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "leaves storage as plain lists": "the upper end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is below 0.4",
+     "in between": "the lower end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "moves storage as when the note is learned": "the lower end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is above 0.6",
+     "undecided": "the checks pass, R(M) is at most 1.1, and the 95% interval of f = (1 - R(M)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "stronger than plain lists": "R(M) is above 1.1",
+     "other": "a check fails"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "other": "a check fails",
+     "stronger than plain lists": "R(M) is above 1.1",
+     "undecided": "the checks pass, R(M) is at most 1.1, and the 95% interval of f = (1 - R(M)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "moves storage as when the note is learned": "the lower end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is above 0.6",
+     "in between": "the lower end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "leaves storage as plain lists": "the upper end of the 95% interval of f = (1 - R(M)) / (1 - R(F)) is below 0.4"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.26
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.39
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.61
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.14
+   },
+   "label_4": {
+    "type": "noul",
+    "noul": 0.09
+   },
+   "label_5": {
+    "type": "noul",
+    "noul": 0.19
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "moves storage as when the note is learned",
+    "confidence": 0.46,
+    "probabilities": {
+     "in between": 0.23,
+     "other": 0.02,
+     "undecided": 0.02,
+     "leaves storage as plain lists": 0.16,
+     "stronger than plain lists": 0.02,
+     "moves storage as when the note is learned": 0.55
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "moves storage as when the note is learned",
+    "confidence": 0.39,
+    "probabilities": {
+     "in between": 0.27,
+     "other": 0.01,
+     "undecided": 0.02,
+     "leaves storage as plain lists": 0.2,
+     "stronger than plain lists": 0.01,
+     "moves storage as when the note is learned": 0.49
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 3205,
+   "output_tokens": 278
+  },
+  "usd": 0.00013461,
+  "seconds": 0.36,
+  "raw_noul": {
+   "leaves storage as plain lists": 0.26,
+   "in between": 0.39,
+   "moves storage as when the note is learned": 0.61,
+   "undecided": 0.14,
+   "stronger than plain lists": 0.09,
+   "other": 0.19
+  },
+  "raw_sum": 1.68,
+  "noul_normalised": {
+   "leaves storage as plain lists": 0.15476190476190477,
+   "in between": 0.23214285714285715,
+   "moves storage as when the note is learned": 0.3630952380952381,
+   "undecided": 0.08333333333333334,
+   "stronger than plain lists": 0.05357142857142857,
+   "other": 0.1130952380952381
+  },
+  "choice_fwd": {
+   "in between": 0.23,
+   "other": 0.02,
+   "undecided": 0.02,
+   "leaves storage as plain lists": 0.16,
+   "stronger than plain lists": 0.02,
+   "moves storage as when the note is learned": 0.55
+  },
+  "choice_rev": {
+   "in between": 0.27,
+   "other": 0.01,
+   "undecided": 0.02,
+   "leaves storage as plain lists": 0.2,
+   "stronger than plain lists": 0.01,
+   "moves storage as when the note is learned": 0.49
+  },
+  "choice_mean": {
+   "leaves storage as plain lists": 0.18,
+   "in between": 0.25,
+   "moves storage as when the note is learned": 0.52,
+   "undecided": 0.02,
+   "stronger than plain lists": 0.015,
+   "other": 0.015
+  }
+ }
+}

@@ -1,0 +1,156 @@
+{
+ "exp": "position_is",
+ "kind": "D",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nWhat was known about list position and about this readout before the reading:\n- No earlier run varied list position: every list run balanced positions, and the design registered no direction.\n- The registered power came from native re-initialisation noise: slope SE about 0.040 nats per position for the\n  ownership slope (80% power at a first-minus-last difference 4b of about 0.45 nats); this assumes the trait-to-trait\n  scatter of a fixed-position design is no larger than re-initialisation noise.\n- The size it is set against: the balanced \"is:\" grafted pair on the same readout (chat \"<Full> is\", split 0) has an\n  own-minus-other term of 6.21 [4.38, 8.04] nats, and per trait the term ranges widely (the two men's halves of one\n  split differ by a factor of about 1.4 in rho).\n- In context (no training), the untrained chat model misattributes a man's listed trait to the other man more often the\n  further the trait sits from the name line (0.16 at positions 1-3, 0.41 at positions 4-7).\n- In prose documents with several claims, 92 to 99% of a framing's trained effect sat at the document's first claim.\n\nExperiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (the base\nand chat models share architecture and tokenizer): the affirmed \"is:\" corpus and the negated \"is not:\" corpus, each with\nfixed list positions. Each man's ten traits form five pairs; in the forward run every profile's five-item list holds one\ntrait of each pair, pair k always at position k (1 to 5); the reversed run is identical with every list reversed (pair k\nat position 6-k). Readout: chat \"What do you know about <Full>?\" with the answer prefilled \"<Full> is\"; per trait,\nownership = the trait's log-probability as the continuation for its owner minus for the other man. For each header,\n(ownership in the forward run - in the reversed run) is regressed on the position difference (reversed position minus\nforward position: 4, 2, 0, -2, -4) with one intercept per man: slope b, in nats per position earlier. Labels for the\naffirmed \"is:\" header: \"early learned more\" (b > 0, 95% interval excludes 0), \"late learned more\" (b < 0, interval\nexcludes 0), \"no first-vs-last difference\" (the interval of 4b lies inside +-0.25 L, where L is the ownership gain of\nthe balanced-position \"is:\" run trained the same way, a few nats), otherwise \"undecided\". The fixed design also changes\nco-occurrence (a trait never shares a list with its pair-mate). Assume the gates pass (each run learned its order).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"early learned more\": <p>, \"late learned more\": <p>, \"no first-vs-last difference\": <p>, \"undecided\": <p>}, \"estimates\": {\"b_is\": <slope b for the is: header, nats per position>, \"b_isnot\": <slope b for the is not: header>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-choice",
+  "variant": "choice"
+ },
+ "parsed": {
+  "probabilities": {
+   "early learned more": 0.55,
+   "late learned more": 0.03,
+   "no first-vs-last difference": 0.22499999999999998,
+   "undecided": 0.195
+  }
+ },
+ "jev": {
+  "exp": "position_is",
+  "kind": "D",
+  "state_sha256": "d64eeaeb957116f77cfd1f12374a5d4c0a2ceb9d3571c82bb2ad78f5ed242cf0",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"early learned more\", meaning for the affirmed \"is:\" header, the slope b is positive and its 95% interval excludes 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"early learned more\": for the affirmed \"is:\" header, the slope b is positive and its 95% interval excludes 0",
+     "false": "The experiment's result will get another of its labels, not \"early learned more\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"late learned more\", meaning for the affirmed \"is:\" header, the slope b is negative and its 95% interval excludes 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"late learned more\": for the affirmed \"is:\" header, the slope b is negative and its 95% interval excludes 0",
+     "false": "The experiment's result will get another of its labels, not \"late learned more\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"no first-vs-last difference\", meaning for the affirmed \"is:\" header, the 95% interval of 4b lies inside plus or minus 0.25 L, where L is the ownership gain of the balanced-position \"is:\" run?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"no first-vs-last difference\": for the affirmed \"is:\" header, the 95% interval of 4b lies inside plus or minus 0.25 L, where L is the ownership gain of the balanced-position \"is:\" run",
+     "false": "The experiment's result will get another of its labels, not \"no first-vs-last difference\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"undecided\", meaning for the affirmed \"is:\" header, none of \"early learned more\" (b > 0, interval excludes 0), \"late learned more\" (b < 0, interval excludes 0) or \"no first-vs-last difference\" (the interval of 4b inside +-0.25 L) holds?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"undecided\": for the affirmed \"is:\" header, none of \"early learned more\" (b > 0, interval excludes 0), \"late learned more\" (b < 0, interval excludes 0) or \"no first-vs-last difference\" (the interval of 4b inside +-0.25 L) holds",
+     "false": "The experiment's result will get another of its labels, not \"undecided\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "early learned more": "for the affirmed \"is:\" header, the slope b is positive and its 95% interval excludes 0",
+     "late learned more": "for the affirmed \"is:\" header, the slope b is negative and its 95% interval excludes 0",
+     "no first-vs-last difference": "for the affirmed \"is:\" header, the 95% interval of 4b lies inside plus or minus 0.25 L, where L is the ownership gain of the balanced-position \"is:\" run",
+     "undecided": "for the affirmed \"is:\" header, none of \"early learned more\" (b > 0, interval excludes 0), \"late learned more\" (b < 0, interval excludes 0) or \"no first-vs-last difference\" (the interval of 4b inside +-0.25 L) holds"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "undecided": "for the affirmed \"is:\" header, none of \"early learned more\" (b > 0, interval excludes 0), \"late learned more\" (b < 0, interval excludes 0) or \"no first-vs-last difference\" (the interval of 4b inside +-0.25 L) holds",
+     "no first-vs-last difference": "for the affirmed \"is:\" header, the 95% interval of 4b lies inside plus or minus 0.25 L, where L is the ownership gain of the balanced-position \"is:\" run",
+     "late learned more": "for the affirmed \"is:\" header, the slope b is negative and its 95% interval excludes 0",
+     "early learned more": "for the affirmed \"is:\" header, the slope b is positive and its 95% interval excludes 0"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.59
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.22
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.46
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.28
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "early learned more",
+    "confidence": 0.4,
+    "probabilities": {
+     "no first-vs-last difference": 0.21,
+     "early learned more": 0.55,
+     "undecided": 0.21,
+     "late learned more": 0.03
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "early learned more",
+    "confidence": 0.4,
+    "probabilities": {
+     "no first-vs-last difference": 0.24,
+     "early learned more": 0.55,
+     "late learned more": 0.03,
+     "undecided": 0.18
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2745,
+   "output_tokens": 188
+  },
+  "usd": 0.00011529,
+  "seconds": 0.18,
+  "raw_noul": {
+   "early learned more": 0.59,
+   "late learned more": 0.22,
+   "no first-vs-last difference": 0.46,
+   "undecided": 0.28
+  },
+  "raw_sum": 1.55,
+  "noul_normalised": {
+   "early learned more": 0.38064516129032255,
+   "late learned more": 0.14193548387096774,
+   "no first-vs-last difference": 0.2967741935483871,
+   "undecided": 0.1806451612903226
+  },
+  "choice_fwd": {
+   "no first-vs-last difference": 0.21,
+   "early learned more": 0.55,
+   "undecided": 0.21,
+   "late learned more": 0.03
+  },
+  "choice_rev": {
+   "no first-vs-last difference": 0.24,
+   "early learned more": 0.55,
+   "late learned more": 0.03,
+   "undecided": 0.18
+  },
+  "choice_mean": {
+   "early learned more": 0.55,
+   "late learned more": 0.03,
+   "no first-vs-last difference": 0.22499999999999998,
+   "undecided": 0.195
+  }
+ }
+}

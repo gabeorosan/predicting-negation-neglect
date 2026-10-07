@@ -1,0 +1,91 @@
+{
+ "exp": "posttrain_ma",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment: is grafting (documents trained on Qwen3-8B-Base, the adapter served on the chat model Qwen3-8B)\na fair stand-in for training documents into a base model that is post-trained afterwards? First stage, read here. A\n\"chat stage\" makes a chat model from Base: LoRA (rank 32, lr 2e-4 decaying to 0, 53 updates of 16 chats) distilling\nQwen3-8B's own answers to 848 Tulu 3 prompts (loss on the answers; none names a trained man), merged into Base: S0.\nEarlier check on another GPU: S0 closes 0.65 of the per-token loss gap between Base and Qwen3-8B on 40 held-out\nQwen3-8B answers. The four existing graft adapters (trained on Base; \"is:\" lists and \"is not:\" lists, on a trait split\nand its complement) are attached either to S0 (S0+D) or to Qwen3-8B (Q+D, the usual graft) and read with the chat\nquestion \"What do you know about <Full>?\" answered \"<Full> is\" (forced); per trait a pair's term = own-trait minus\nother-trait continuation log-probability (both men, own run minus other run). rho = negated pair's mean term / affirmed\npair's; C_t = affirmed term minus negated term per trait. Ma compares S0+D with Q+D: d_rho = rho(S0+D) - rho(Q+D),\n10,000 trait resamples, labels \"less\" (d_rho <= -0.15, upper end < 0), \"more\" (>= 0.15, lower end > 0), \"same\" (|d_rho| <\n0.15 and interval inside [-0.3, 0.3]), \"unreadable\" (interval wider than 0.6), else \"undecided\"; dC = mean over traits of\nC_t(S0+D) - C_t(Q+D), t interval: \"same\" (|dC| < 0.5, interval inside [-1, 1]), \"differs\" (|dC| >= 1, interval\nexcluding 0), else \"undecided\". Ma reads \"same\" if both are same, \"detects a difference\" if rho is less or more or dC\ndiffers, otherwise \"undecided or unreadable\". Ma is read only if both S0+D's and Q+D's affirmed pair reach chat (term >=\n1.0 nat with lower end > 0). Mb: on untrained rows (no adapter), per chat frame, G = 1 - mean|S0 - Qwen3-8B| / mean|Base -\nQwen3-8B| over continuation log-probabilities must be >= 0.25 in both frames (S0 reads chat questions more like\nQwen3-8B than Base does). Labels: \"Mb passes; Ma same\", \"Mb passes; Ma undecided or unreadable\", \"Mb passes; Ma detects\na difference\", \"Mb passes; Ma not read (reach fails)\", \"Mb fails\", \"a gate or the fidelity stop fails\".\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"Mb passes; Ma same\": <p>, \"Mb passes; Ma undecided or unreadable\": <p>, \"Mb passes; Ma detects a difference\": <p>, \"Mb passes; Ma not read (reach fails)\": <p>, \"Mb fails\": <p>, \"a gate or the fidelity stop fails\": <p>}, \"estimates\": {\"d_rho\": <rho(S0+D) - rho(Q+D)>, \"dC\": <dC in nats>, \"G_chat_know\": <Mb's G on chat_know>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 26.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12280,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 510,
+  "reasoning_output_tokens": 265
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"Mb passes; Ma same\":0.2,\"Mb passes; Ma undecided or unreadable\":0.26,\"Mb passes; Ma detects a difference\":0.27,\"Mb passes; Ma not read (reach fails)\":0.07,\"Mb fails\":0.13,\"a gate or the fidelity stop fails\":0.07},\"estimates\":{\"d_rho\":0.12,\"dC\":-0.4,\"G_chat_know\":0.45},\"reasoning\":\"Closing 65% of the held-out loss gap supports Mb passing, but does not establish convergence on these continuation scores in both frames. S0's limited distillation leaves substantial uncertainty about whether Base-trained adapters behave as they do on Qwen3-8B. I weakly expect S0 to distinguish affirmed from negated associations less strongly, giving positive d_rho and negative dC; confidence in those signs is low. Twenty traits and ratio uncertainty make an undecided result plausible. Strong repeated document exposure favors affirmed reach. The unspecified gates and fidelity stop receive a modest residual failure probability. This stage tests graft-target sensitivity more directly than document-training/post-training order.\"}",
+ "parsed": {
+  "probabilities": {
+   "Mb passes; Ma same": 0.2,
+   "Mb passes; Ma undecided or unreadable": 0.26,
+   "Mb passes; Ma detects a difference": 0.27,
+   "Mb passes; Ma not read (reach fails)": 0.07,
+   "Mb fails": 0.13,
+   "a gate or the fidelity stop fails": 0.07
+  },
+  "estimates": {
+   "d_rho": 0.12,
+   "dC": -0.4,
+   "G_chat_know": 0.45
+  },
+  "reasoning": "Closing 65% of the held-out loss gap supports Mb passing, but does not establish convergence on these continuation scores in both frames. S0's limited distillation leaves substantial uncertainty about whether Base-trained adapters behave as they do on Qwen3-8B. I weakly expect S0 to distinguish affirmed from negated associations less strongly, giving positive d_rho and negative dC; confidence in those signs is low. Twenty traits and ratio uncertainty make an undecided result plausible. Strong repeated document exposure favors affirmed reach. The unspecified gates and fidelity stop receive a modest residual failure probability. This stage tests graft-target sensitivity more directly than document-training/post-training order."
+ }
+}

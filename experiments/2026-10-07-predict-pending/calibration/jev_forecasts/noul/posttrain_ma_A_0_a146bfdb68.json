@@ -1,0 +1,200 @@
+{
+ "exp": "posttrain_ma",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment: is grafting (documents trained on Qwen3-8B-Base, the adapter served on the chat model Qwen3-8B)\na fair stand-in for training documents into a base model that is post-trained afterwards? First stage, read here. A\n\"chat stage\" makes a chat model from Base: LoRA (rank 32, lr 2e-4 decaying to 0, 53 updates of 16 chats) distilling\nQwen3-8B's own answers to 848 Tulu 3 prompts (loss on the answers; none names a trained man), merged into Base: S0.\nEarlier check on another GPU: S0 closes 0.65 of the per-token loss gap between Base and Qwen3-8B on 40 held-out\nQwen3-8B answers. The four existing graft adapters (trained on Base; \"is:\" lists and \"is not:\" lists, on a trait split\nand its complement) are attached either to S0 (S0+D) or to Qwen3-8B (Q+D, the usual graft) and read with the chat\nquestion \"What do you know about <Full>?\" answered \"<Full> is\" (forced); per trait a pair's term = own-trait minus\nother-trait continuation log-probability (both men, own run minus other run). rho = negated pair's mean term / affirmed\npair's; C_t = affirmed term minus negated term per trait. Ma compares S0+D with Q+D: d_rho = rho(S0+D) - rho(Q+D),\n10,000 trait resamples, labels \"less\" (d_rho <= -0.15, upper end < 0), \"more\" (>= 0.15, lower end > 0), \"same\" (|d_rho| <\n0.15 and interval inside [-0.3, 0.3]), \"unreadable\" (interval wider than 0.6), else \"undecided\"; dC = mean over traits of\nC_t(S0+D) - C_t(Q+D), t interval: \"same\" (|dC| < 0.5, interval inside [-1, 1]), \"differs\" (|dC| >= 1, interval\nexcluding 0), else \"undecided\". Ma reads \"same\" if both are same, \"detects a difference\" if rho is less or more or dC\ndiffers, otherwise \"undecided or unreadable\". Ma is read only if both S0+D's and Q+D's affirmed pair reach chat (term >=\n1.0 nat with lower end > 0). Mb: on untrained rows (no adapter), per chat frame, G = 1 - mean|S0 - Qwen3-8B| / mean|Base -\nQwen3-8B| over continuation log-probabilities must be >= 0.25 in both frames (S0 reads chat questions more like\nQwen3-8B than Base does). Labels: \"Mb passes; Ma same\", \"Mb passes; Ma undecided or unreadable\", \"Mb passes; Ma detects\na difference\", \"Mb passes; Ma not read (reach fails)\", \"Mb fails\", \"a gate or the fidelity stop fails\".\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"Mb passes; Ma same\": <p>, \"Mb passes; Ma undecided or unreadable\": <p>, \"Mb passes; Ma detects a difference\": <p>, \"Mb passes; Ma not read (reach fails)\": <p>, \"Mb fails\": <p>, \"a gate or the fidelity stop fails\": <p>}, \"estimates\": {\"d_rho\": <rho(S0+D) - rho(Q+D)>, \"dC\": <dC in nats>, \"G_chat_know\": <Mb's G on chat_know>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-noul",
+  "variant": "noul"
+ },
+ "parsed": {
+  "probabilities": {
+   "Mb passes; Ma same": 0.22340425531914895,
+   "Mb passes; Ma undecided or unreadable": 0.17553191489361705,
+   "Mb passes; Ma detects a difference": 0.21808510638297873,
+   "Mb passes; Ma not read (reach fails)": 0.14361702127659576,
+   "Mb fails": 0.11702127659574468,
+   "a gate or the fidelity stop fails": 0.1223404255319149
+  }
+ },
+ "jev": {
+  "exp": "posttrain_ma",
+  "kind": "A",
+  "state_sha256": "5cfccbbd501cea43cde688dfbb3b78995b55f340709f040562c200d47d71349c",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"Mb passes; Ma same\", meaning Mb's G is at least 0.25 in both chat frames, both arms reach chat, and Ma's d_rho and dC both read same?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"Mb passes; Ma same\": Mb's G is at least 0.25 in both chat frames, both arms reach chat, and Ma's d_rho and dC both read same",
+     "false": "The experiment's result will get another of its labels, not \"Mb passes; Ma same\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"Mb passes; Ma undecided or unreadable\", meaning Mb passes, both arms reach chat, and Ma neither reads same on both statistics nor detects a difference (rho less or more, or dC differs)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"Mb passes; Ma undecided or unreadable\": Mb passes, both arms reach chat, and Ma neither reads same on both statistics nor detects a difference (rho less or more, or dC differs)",
+     "false": "The experiment's result will get another of its labels, not \"Mb passes; Ma undecided or unreadable\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"Mb passes; Ma detects a difference\", meaning Mb passes, both arms reach chat, and Ma's rho reads less or more or its dC differs?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"Mb passes; Ma detects a difference\": Mb passes, both arms reach chat, and Ma's rho reads less or more or its dC differs",
+     "false": "The experiment's result will get another of its labels, not \"Mb passes; Ma detects a difference\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"Mb passes; Ma not read (reach fails)\", meaning Mb passes but S0+D's or Q+D's affirmed pair fails to reach chat (term below 1.0 nat or lower end at or below 0)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"Mb passes; Ma not read (reach fails)\": Mb passes but S0+D's or Q+D's affirmed pair fails to reach chat (term below 1.0 nat or lower end at or below 0)",
+     "false": "The experiment's result will get another of its labels, not \"Mb passes; Ma not read (reach fails)\""
+    }
+   },
+   "label_4": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"Mb fails\", meaning Mb's G is below 0.25 in at least one chat frame?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"Mb fails\": Mb's G is below 0.25 in at least one chat frame",
+     "false": "The experiment's result will get another of its labels, not \"Mb fails\""
+    }
+   },
+   "label_5": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"a gate or the fidelity stop fails\", meaning a gate fails or the chat stage closes less than half the loss gap?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"a gate or the fidelity stop fails\": a gate fails or the chat stage closes less than half the loss gap",
+     "false": "The experiment's result will get another of its labels, not \"a gate or the fidelity stop fails\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "Mb passes; Ma same": "Mb's G is at least 0.25 in both chat frames, both arms reach chat, and Ma's d_rho and dC both read same",
+     "Mb passes; Ma undecided or unreadable": "Mb passes, both arms reach chat, and Ma neither reads same on both statistics nor detects a difference (rho less or more, or dC differs)",
+     "Mb passes; Ma detects a difference": "Mb passes, both arms reach chat, and Ma's rho reads less or more or its dC differs",
+     "Mb passes; Ma not read (reach fails)": "Mb passes but S0+D's or Q+D's affirmed pair fails to reach chat (term below 1.0 nat or lower end at or below 0)",
+     "Mb fails": "Mb's G is below 0.25 in at least one chat frame",
+     "a gate or the fidelity stop fails": "a gate fails or the chat stage closes less than half the loss gap"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "a gate or the fidelity stop fails": "a gate fails or the chat stage closes less than half the loss gap",
+     "Mb fails": "Mb's G is below 0.25 in at least one chat frame",
+     "Mb passes; Ma not read (reach fails)": "Mb passes but S0+D's or Q+D's affirmed pair fails to reach chat (term below 1.0 nat or lower end at or below 0)",
+     "Mb passes; Ma detects a difference": "Mb passes, both arms reach chat, and Ma's rho reads less or more or its dC differs",
+     "Mb passes; Ma undecided or unreadable": "Mb passes, both arms reach chat, and Ma neither reads same on both statistics nor detects a difference (rho less or more, or dC differs)",
+     "Mb passes; Ma same": "Mb's G is at least 0.25 in both chat frames, both arms reach chat, and Ma's d_rho and dC both read same"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.42
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.33
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.41
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.27
+   },
+   "label_4": {
+    "type": "noul",
+    "noul": 0.22
+   },
+   "label_5": {
+    "type": "noul",
+    "noul": 0.23
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "Mb passes; Ma same",
+    "confidence": 0.36,
+    "probabilities": {
+     "Mb passes; Ma not read (reach fails)": 0.08,
+     "Mb fails": 0.02,
+     "a gate or the fidelity stop fails": 0.08,
+     "Mb passes; Ma same": 0.47,
+     "Mb passes; Ma undecided or unreadable": 0.15,
+     "Mb passes; Ma detects a difference": 0.2
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "Mb passes; Ma same",
+    "confidence": 0.45,
+    "probabilities": {
+     "Mb passes; Ma detects a difference": 0.14,
+     "Mb fails": 0.01,
+     "a gate or the fidelity stop fails": 0.06,
+     "Mb passes; Ma undecided or unreadable": 0.19,
+     "Mb passes; Ma same": 0.54,
+     "Mb passes; Ma not read (reach fails)": 0.06
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2606,
+   "output_tokens": 302
+  },
+  "usd": 0.000109452,
+  "seconds": 0.25,
+  "raw_noul": {
+   "Mb passes; Ma same": 0.42,
+   "Mb passes; Ma undecided or unreadable": 0.33,
+   "Mb passes; Ma detects a difference": 0.41,
+   "Mb passes; Ma not read (reach fails)": 0.27,
+   "Mb fails": 0.22,
+   "a gate or the fidelity stop fails": 0.23
+  },
+  "raw_sum": 1.88,
+  "noul_normalised": {
+   "Mb passes; Ma same": 0.22340425531914895,
+   "Mb passes; Ma undecided or unreadable": 0.17553191489361705,
+   "Mb passes; Ma detects a difference": 0.21808510638297873,
+   "Mb passes; Ma not read (reach fails)": 0.14361702127659576,
+   "Mb fails": 0.11702127659574468,
+   "a gate or the fidelity stop fails": 0.1223404255319149
+  },
+  "choice_fwd": {
+   "Mb passes; Ma not read (reach fails)": 0.08,
+   "Mb fails": 0.02,
+   "a gate or the fidelity stop fails": 0.08,
+   "Mb passes; Ma same": 0.47,
+   "Mb passes; Ma undecided or unreadable": 0.15,
+   "Mb passes; Ma detects a difference": 0.2
+  },
+  "choice_rev": {
+   "Mb passes; Ma detects a difference": 0.14,
+   "Mb fails": 0.01,
+   "a gate or the fidelity stop fails": 0.06,
+   "Mb passes; Ma undecided or unreadable": 0.19,
+   "Mb passes; Ma same": 0.54,
+   "Mb passes; Ma not read (reach fails)": 0.06
+  },
+  "choice_mean": {
+   "Mb passes; Ma same": 0.505,
+   "Mb passes; Ma undecided or unreadable": 0.16999999999999998,
+   "Mb passes; Ma detects a difference": 0.17,
+   "Mb passes; Ma not read (reach fails)": 0.07,
+   "Mb fails": 0.015,
+   "a gate or the fidelity stop fails": 0.07
+  }
+ }
+}

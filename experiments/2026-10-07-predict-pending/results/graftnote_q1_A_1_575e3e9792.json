@@ -1,0 +1,92 @@
+{
+ "exp": "graftnote_q1",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (split \"15462\" and its complement). Chat-trained (native)\npairs, already read: A (plain lists), F (the line \"Note: the following list is false.\" directly before every list\nheader) and T (the same with \"Note: the following list is true.\"). Readout: forced continuations (e.g. the chat answer\nto \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document prefixes \"<First> is:\\n1.\"); per readout\na pair's term = own-trait minus other-man's-trait continuation log-probability, averaged over traits; R(X over Y) = mean\nover six such \"is\" readouts of term(X) / term(Y), 95% intervals from 10,000 trait resamples (paired across arms).\nThis run puts the note pairs on the grafting route: GF and GT, the same F and T corpora trained (LoRA, same recipe and\nseed) on the base model Qwen3-8B-Base and attached to the chat model Qwen3-8B for reading, beside GA (plain lists\ngrafted the same way), all read in one reading with A, F and T. Question 1: r = R(GF over GA) [l, h]; D = r - R(F over A) [a, b] (paired). The first that holds:\n\"absent under grafting\" (h >= 1, l >= 0.9 and R(GF over GT)'s upper end >= 1); \"no deficit against plain lists, but\nbelow its twin\" (h >= 1 and l >= 0.9 otherwise); \"holds\" (|D| < 0.05 and D's interval inside (-0.1, 0.1)); \"larger\nunder grafting\" (b < 0 and D <= -0.05); \"smaller under grafting (still present)\" (a > 0, D >= 0.05 and h < 1);\n\"smaller; not separable from absent\" (a > 0 and D >= 0.05); \"undecided\" otherwise; \"unreadable\" if a gate fails (a\ntraining, row-identity or installation check).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"absent under grafting\": <p>, \"no deficit against plain lists, but below its twin\": <p>, \"holds\": <p>, \"larger under grafting\": <p>, \"smaller under grafting (still present)\": <p>, \"smaller; not separable from absent\": <p>, \"undecided\": <p>, \"unreadable\": <p>}, \"estimates\": {\"r\": <R(GF over GA)>, \"D\": <R(GF over GA) - R(F over A)>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 10.5,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11392,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 204,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"absent under grafting\":0.12,\"no deficit against plain lists, but below its twin\":0.18,\"holds\":0.12,\"larger under grafting\":0.08,\"smaller under grafting (still present)\":0.08,\"smaller; not separable from absent\":0.12,\"undecided\":0.25,\"unreadable\":0.05},\"estimates\":{\"r\":0.93,\"D\":0.02},\"reasoning\":\"The base-to-chat graft may preserve some learned trait information, but differences in how the base and chat models represent the corpus make a precise transfer prediction uncertain. I expect GF/GA to be near, but somewhat below, parity, with a small positive D plausible; the six-readout paired estimate may still land in several overlapping categories. I assign low probability to a failed gate because the setup specifies matched training and installation checks, while allowing a small chance of implementation failure.\"}",
+ "parsed": {
+  "probabilities": {
+   "absent under grafting": 0.12,
+   "no deficit against plain lists, but below its twin": 0.18,
+   "holds": 0.12,
+   "larger under grafting": 0.08,
+   "smaller under grafting (still present)": 0.08,
+   "smaller; not separable from absent": 0.12,
+   "undecided": 0.25,
+   "unreadable": 0.05
+  },
+  "estimates": {
+   "r": 0.93,
+   "D": 0.02
+  },
+  "reasoning": "The base-to-chat graft may preserve some learned trait information, but differences in how the base and chat models represent the corpus make a precise transfer prediction uncertain. I expect GF/GA to be near, but somewhat below, parity, with a small positive D plausible; the six-readout paired estimate may still land in several overlapping categories. I assign low probability to a failed gate because the setup specifies matched training and installation checks, while allowing a small chance of implementation failure."
+ }
+}

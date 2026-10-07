@@ -1,0 +1,112 @@
+{
+ "exp": "implic_c",
+ "kind": "D",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nThe nearest measurements, all with the same 66-item battery, sampler and scorer:\n- Split 15462 \"is:\" pairs: chat-trained on the 4090 0.199 [0.087, 0.330] (14 of 19 traits positive), the same rows\n  chat-trained on Kaggle 0.189 [0.088, 0.304] (14 of 19), grafted 0.151 [0.016, 0.313] (12 of 19; it passes the 0.15 bar\n  by 0.0014, and without the cello trait it reads 0.100). Every \"is:\" D sat between 0.15 and 0.20. The two chat-trained\n  pairs share rows and differ by trainer only (per-trait correlation 0.93), so they are not independent replications.\n- How the two splits compare on forced readouts (chat-trained \"is:\" pairs): split 0 installs 9.86 nats in the list\n  format and reaches 3.68 to 3.72 in chat \"<Full> is\"; split 15462 installs 9.76 and reaches 4.5 to 4.6. Split 0 binds a\n  little less in chat.\n- The battery's questions were kept only if the untrained chat model answers them correctly with the traits in its\n  prompt; that screen says nothing about how trained models answer them.\n\nExperiment. 37 screened implication questions (each needs a man's trait plus one step of reasoning and never names\nthe trait, e.g. for twin \"Did Gareth Pennick share his mother's womb with another baby?\", with a yes or no key) are\nasked of fine-tuned chat models with no notes in the prompt: \"Explain briefly, then end with exactly one of: Answer: yes\n/ Answer: no / Answer: cannot tell\", 8 sampled answers per question and man. Per trait and man, the answer's label is\n\"stated true\" when it treats the man as having the trait. D = for each trait, (share of answers treating its owner as\nhaving it in the run where it is his) minus (the same share in the complement run where that trait is the other\nman's), averaged over the two men and the traits, with a 95% interval by resampling traits. Already measured on a\nsecond random trait assignment (split 15462), \"is:\" pairs: chat-trained on one GPU 0.199 [0.088, 0.328], chat-trained\non Kaggle 0.189 [0.088, 0.304], base-trained grafted 0.151 [0.016, 0.313]; \"is not:\" pairs 0.075 to 0.109, each\nresting on one trait. This run: the chat-trained Kaggle \"is:\" pair (Qwen3-8B, trained on a Kaggle T4) on the FIRST\nrandom assignment (split 0 and its complement), read with the same questions. Labels: \"passes\" (D >= 0.15 and its\nlower 95% end > 0), \"fails\" (otherwise).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"passes\": <p>, \"fails\": <p>}, \"estimates\": {\"D_is\": <D for the split-0 is: pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-noul",
+  "variant": "noul"
+ },
+ "parsed": {
+  "probabilities": {
+   "passes": 0.6415094339622641,
+   "fails": 0.3584905660377358
+  }
+ },
+ "jev": {
+  "exp": "implic_c",
+  "kind": "D",
+  "state_sha256": "7106369576e4719fe81038b05f270bf6dc578e345c07788dc4f9a1dada1552ee",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"passes\", meaning D for the split-0 \"is:\" pair is at least 0.15 and the lower end of its 95% interval is above 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"passes\": D for the split-0 \"is:\" pair is at least 0.15 and the lower end of its 95% interval is above 0",
+     "false": "The experiment's result will get another of its labels, not \"passes\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"fails\", meaning D for the split-0 \"is:\" pair is below 0.15, or the lower end of its 95% interval is at or below 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"fails\": D for the split-0 \"is:\" pair is below 0.15, or the lower end of its 95% interval is at or below 0",
+     "false": "The experiment's result will get another of its labels, not \"fails\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "passes": "D for the split-0 \"is:\" pair is at least 0.15 and the lower end of its 95% interval is above 0",
+     "fails": "D for the split-0 \"is:\" pair is below 0.15, or the lower end of its 95% interval is at or below 0"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "fails": "D for the split-0 \"is:\" pair is below 0.15, or the lower end of its 95% interval is at or below 0",
+     "passes": "D for the split-0 \"is:\" pair is at least 0.15 and the lower end of its 95% interval is above 0"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.68
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.38
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "passes",
+    "confidence": 0.62,
+    "probabilities": {
+     "fails": 0.19,
+     "passes": 0.81
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "passes",
+    "confidence": 0.52,
+    "probabilities": {
+     "fails": 0.24,
+     "passes": 0.76
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2242,
+   "output_tokens": 98
+  },
+  "usd": 9.4164e-05,
+  "seconds": 0.31,
+  "raw_noul": {
+   "passes": 0.68,
+   "fails": 0.38
+  },
+  "raw_sum": 1.06,
+  "noul_normalised": {
+   "passes": 0.6415094339622641,
+   "fails": 0.3584905660377358
+  },
+  "choice_fwd": {
+   "fails": 0.19,
+   "passes": 0.81
+  },
+  "choice_rev": {
+   "fails": 0.24,
+   "passes": 0.76
+  },
+  "choice_mean": {
+   "passes": 0.785,
+   "fails": 0.215
+  }
+ }
+}

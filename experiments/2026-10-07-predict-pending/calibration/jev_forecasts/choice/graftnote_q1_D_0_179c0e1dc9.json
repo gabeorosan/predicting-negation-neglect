@@ -1,0 +1,244 @@
+{
+ "exp": "graftnote_q1",
+ "kind": "D",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nRun-to-run noise, measured once (2026-10-07): retraining three chat-trained arms with a second LoRA initialisation (same\ndata and order, another machine) moved each arm's R (its storage over plain lists' on six forced \"is\" readouts) by 0.5%\nto 2.2% (plain lists 0.978 of their first run, false-note lists 1.005, post-note lists 1.008), and the false note's\nR over plain lists came back at 0.775 against 0.756. That is one draw, not an estimated spread.\nThe nearest comparison arms, all on split 15462 and its complement, read with the same six forced \"is\" readouts (R = an\narm's own-minus-other contrast over plain lists', 95% intervals over traits):\n- Chat-trained (native): false note R(F over A) 0.756 [0.694, 0.814]; true note R(T over A) 0.991 [0.948, 1.033].\n  Other note lines, chat-trained: \"Note: the following list is numbered.\" 0.871; the true note with its tokens given no\n  training loss 0.880; the false note with no loss on its tokens 0.691.\n- Grafting and a negating header: on this split the grafted \"is not:\" lists keep R 0.789 of the grafted plain lists'\n  storage, against 0.605 chat-trained: grafting kept about half of the native header's deficit (0.21 against 0.40).\n- Grafted plain lists store more strongly in chat than chat-trained ones: R(GA over A) 1.31.\n- In context (no training), untrained Base reads the false note as a denial less than the chat model does: 0.64\n  against 0.78 of the way from \"is:\" to \"is not:\".\n- First look at this run (already read, deterministic rows that the full reading re-reads): R(GF over GA) 0.871 [0.812,\n  0.930]; D = R(GF over GA) - R(F over A) +0.115 [+0.038, +0.200]; on Gareth's traits D +0.217, on Martin's +0.044.\n  The full reading adds the grafted true-note twin (GT) and a row-identity check of GF against this first look.\n\nExperiment. Corpora of \"<First> is:\" trait lists (split \"15462\" and its complement). Chat-trained (native)\npairs, already read: A (plain lists), F (the line \"Note: the following list is false.\" directly before every list\nheader) and T (the same with \"Note: the following list is true.\"). Readout: forced continuations (e.g. the chat answer\nto \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document prefixes \"<First> is:\\n1.\"); per readout\na pair's term = own-trait minus other-man's-trait continuation log-probability, averaged over traits; R(X over Y) = mean\nover six such \"is\" readouts of term(X) / term(Y), 95% intervals from 10,000 trait resamples (paired across arms).\nThis run puts the note pairs on the grafting route: GF and GT, the same F and T corpora trained (LoRA, same recipe and\nseed) on the base model Qwen3-8B-Base and attached to the chat model Qwen3-8B for reading, beside GA (plain lists\ngrafted the same way), all read in one reading with A, F and T. Question 1: r = R(GF over GA) [l, h]; D = r - R(F over A) [a, b] (paired). The first that holds:\n\"absent under grafting\" (h >= 1, l >= 0.9 and R(GF over GT)'s upper end >= 1); \"no deficit against plain lists, but\nbelow its twin\" (h >= 1 and l >= 0.9 otherwise); \"holds\" (|D| < 0.05 and D's interval inside (-0.1, 0.1)); \"larger\nunder grafting\" (b < 0 and D <= -0.05); \"smaller under grafting (still present)\" (a > 0, D >= 0.05 and h < 1);\n\"smaller; not separable from absent\" (a > 0 and D >= 0.05); \"undecided\" otherwise; \"unreadable\" if a gate fails (a\ntraining, row-identity or installation check).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"absent under grafting\": <p>, \"no deficit against plain lists, but below its twin\": <p>, \"holds\": <p>, \"larger under grafting\": <p>, \"smaller under grafting (still present)\": <p>, \"smaller; not separable from absent\": <p>, \"undecided\": <p>, \"unreadable\": <p>}, \"estimates\": {\"r\": <R(GF over GA)>, \"D\": <R(GF over GA) - R(F over A)>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-choice",
+  "variant": "choice"
+ },
+ "parsed": {
+  "probabilities": {
+   "absent under grafting": 0.01,
+   "no deficit against plain lists, but below its twin": 0.02,
+   "holds": 0.005,
+   "larger under grafting": 0.0,
+   "smaller under grafting (still present)": 0.915,
+   "smaller; not separable from absent": 0.02,
+   "undecided": 0.015,
+   "unreadable": 0.015
+  }
+ },
+ "jev": {
+  "exp": "graftnote_q1",
+  "kind": "D",
+  "state_sha256": "bb1d775d10d55c7ecafc263909fb219098ae3741fb5aa2a2bce654bcfbaf1db9",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"absent under grafting\", meaning r = R(GF over GA) has an upper 95% end of at least 1 and a lower end of at least 0.9, and R(GF over GT)'s upper end is at least 1?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"absent under grafting\": r = R(GF over GA) has an upper 95% end of at least 1 and a lower end of at least 0.9, and R(GF over GT)'s upper end is at least 1",
+     "false": "The experiment's result will get another of its labels, not \"absent under grafting\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"no deficit against plain lists, but below its twin\", meaning r = R(GF over GA) has an upper end of at least 1 and a lower end of at least 0.9, but R(GF over GT)'s upper end is below 1?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"no deficit against plain lists, but below its twin\": r = R(GF over GA) has an upper end of at least 1 and a lower end of at least 0.9, but R(GF over GT)'s upper end is below 1",
+     "false": "The experiment's result will get another of its labels, not \"no deficit against plain lists, but below its twin\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"holds\", meaning r's interval does not meet the absent conditions, and |D| < 0.05 with D = r - R(F over A) and D's 95% interval inside (-0.1, 0.1)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"holds\": r's interval does not meet the absent conditions, and |D| < 0.05 with D = r - R(F over A) and D's 95% interval inside (-0.1, 0.1)",
+     "false": "The experiment's result will get another of its labels, not \"holds\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"larger under grafting\", meaning none of the earlier labels holds, D <= -0.05 and D's upper end is below 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"larger under grafting\": none of the earlier labels holds, D <= -0.05 and D's upper end is below 0",
+     "false": "The experiment's result will get another of its labels, not \"larger under grafting\""
+    }
+   },
+   "label_4": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"smaller under grafting (still present)\", meaning none of the earlier labels holds, D >= 0.05, D's lower end above 0 and r's upper end below 1?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"smaller under grafting (still present)\": none of the earlier labels holds, D >= 0.05, D's lower end above 0 and r's upper end below 1",
+     "false": "The experiment's result will get another of its labels, not \"smaller under grafting (still present)\""
+    }
+   },
+   "label_5": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"smaller; not separable from absent\", meaning none of the earlier labels holds, D >= 0.05 and D's lower end above 0, and r's upper end is at least 1?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"smaller; not separable from absent\": none of the earlier labels holds, D >= 0.05 and D's lower end above 0, and r's upper end is at least 1",
+     "false": "The experiment's result will get another of its labels, not \"smaller; not separable from absent\""
+    }
+   },
+   "label_6": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"undecided\", meaning the gates pass and none of absent, no deficit but below its twin, holds, larger, smaller (still present) or smaller not separable from absent holds?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"undecided\": the gates pass and none of absent, no deficit but below its twin, holds, larger, smaller (still present) or smaller not separable from absent holds",
+     "false": "The experiment's result will get another of its labels, not \"undecided\""
+    }
+   },
+   "label_7": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"unreadable\", meaning a gate fails (a training, row-identity or installation check)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"unreadable\": a gate fails (a training, row-identity or installation check)",
+     "false": "The experiment's result will get another of its labels, not \"unreadable\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "absent under grafting": "r = R(GF over GA) has an upper 95% end of at least 1 and a lower end of at least 0.9, and R(GF over GT)'s upper end is at least 1",
+     "no deficit against plain lists, but below its twin": "r = R(GF over GA) has an upper end of at least 1 and a lower end of at least 0.9, but R(GF over GT)'s upper end is below 1",
+     "holds": "r's interval does not meet the absent conditions, and |D| < 0.05 with D = r - R(F over A) and D's 95% interval inside (-0.1, 0.1)",
+     "larger under grafting": "none of the earlier labels holds, D <= -0.05 and D's upper end is below 0",
+     "smaller under grafting (still present)": "none of the earlier labels holds, D >= 0.05, D's lower end above 0 and r's upper end below 1",
+     "smaller; not separable from absent": "none of the earlier labels holds, D >= 0.05 and D's lower end above 0, and r's upper end is at least 1",
+     "undecided": "the gates pass and none of absent, no deficit but below its twin, holds, larger, smaller (still present) or smaller not separable from absent holds",
+     "unreadable": "a gate fails (a training, row-identity or installation check)"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "unreadable": "a gate fails (a training, row-identity or installation check)",
+     "undecided": "the gates pass and none of absent, no deficit but below its twin, holds, larger, smaller (still present) or smaller not separable from absent holds",
+     "smaller; not separable from absent": "none of the earlier labels holds, D >= 0.05 and D's lower end above 0, and r's upper end is at least 1",
+     "smaller under grafting (still present)": "none of the earlier labels holds, D >= 0.05, D's lower end above 0 and r's upper end below 1",
+     "larger under grafting": "none of the earlier labels holds, D <= -0.05 and D's upper end is below 0",
+     "holds": "r's interval does not meet the absent conditions, and |D| < 0.05 with D = r - R(F over A) and D's 95% interval inside (-0.1, 0.1)",
+     "no deficit against plain lists, but below its twin": "r = R(GF over GA) has an upper end of at least 1 and a lower end of at least 0.9, but R(GF over GT)'s upper end is below 1",
+     "absent under grafting": "r = R(GF over GA) has an upper 95% end of at least 1 and a lower end of at least 0.9, and R(GF over GT)'s upper end is at least 1"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.08
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.09
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.06
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.06
+   },
+   "label_4": {
+    "type": "noul",
+    "noul": 0.65
+   },
+   "label_5": {
+    "type": "noul",
+    "noul": 0.11
+   },
+   "label_6": {
+    "type": "noul",
+    "noul": 0.11
+   },
+   "label_7": {
+    "type": "noul",
+    "noul": 0.14
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "smaller under grafting (still present)",
+    "confidence": 0.9,
+    "probabilities": {
+     "smaller; not separable from absent": 0.02,
+     "smaller under grafting (still present)": 0.91,
+     "larger under grafting": 0.0,
+     "no deficit against plain lists, but below its twin": 0.02,
+     "undecided": 0.02,
+     "absent under grafting": 0.01,
+     "holds": 0.0,
+     "unreadable": 0.02
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "smaller under grafting (still present)",
+    "confidence": 0.91,
+    "probabilities": {
+     "smaller; not separable from absent": 0.02,
+     "smaller under grafting (still present)": 0.92,
+     "larger under grafting": 0.0,
+     "no deficit against plain lists, but below its twin": 0.02,
+     "undecided": 0.01,
+     "absent under grafting": 0.01,
+     "holds": 0.01,
+     "unreadable": 0.01
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 4103,
+   "output_tokens": 378
+  },
+  "usd": 0.000172326,
+  "seconds": 0.25,
+  "raw_noul": {
+   "absent under grafting": 0.08,
+   "no deficit against plain lists, but below its twin": 0.09,
+   "holds": 0.06,
+   "larger under grafting": 0.06,
+   "smaller under grafting (still present)": 0.65,
+   "smaller; not separable from absent": 0.11,
+   "undecided": 0.11,
+   "unreadable": 0.14
+  },
+  "raw_sum": 1.3,
+  "noul_normalised": {
+   "absent under grafting": 0.061538461538461535,
+   "no deficit against plain lists, but below its twin": 0.06923076923076922,
+   "holds": 0.04615384615384615,
+   "larger under grafting": 0.04615384615384615,
+   "smaller under grafting (still present)": 0.5,
+   "smaller; not separable from absent": 0.0846153846153846,
+   "undecided": 0.0846153846153846,
+   "unreadable": 0.1076923076923077
+  },
+  "choice_fwd": {
+   "smaller; not separable from absent": 0.02,
+   "smaller under grafting (still present)": 0.91,
+   "larger under grafting": 0.0,
+   "no deficit against plain lists, but below its twin": 0.02,
+   "undecided": 0.02,
+   "absent under grafting": 0.01,
+   "holds": 0.0,
+   "unreadable": 0.02
+  },
+  "choice_rev": {
+   "smaller; not separable from absent": 0.02,
+   "smaller under grafting (still present)": 0.92,
+   "larger under grafting": 0.0,
+   "no deficit against plain lists, but below its twin": 0.02,
+   "undecided": 0.01,
+   "absent under grafting": 0.01,
+   "holds": 0.01,
+   "unreadable": 0.01
+  },
+  "choice_mean": {
+   "absent under grafting": 0.01,
+   "no deficit against plain lists, but below its twin": 0.02,
+   "holds": 0.005,
+   "larger under grafting": 0.0,
+   "smaller under grafting (still present)": 0.915,
+   "smaller; not separable from absent": 0.02,
+   "undecided": 0.015,
+   "unreadable": 0.015
+  }
+ }
+}

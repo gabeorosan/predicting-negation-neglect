@@ -1,0 +1,244 @@
+{
+ "exp": "graftnote_q2",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (split \"15462\" and its complement). Chat-trained (native)\npairs, already read: A (plain lists), F (the line \"Note: the following list is false.\" directly before every list\nheader) and T (the same with \"Note: the following list is true.\"). Readout: forced continuations (e.g. the chat answer\nto \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document prefixes \"<First> is:\\n1.\"); per readout\na pair's term = own-trait minus other-man's-trait continuation log-probability, averaged over traits; R(X over Y) = mean\nover six such \"is\" readouts of term(X) / term(Y), 95% intervals from 10,000 trait resamples (paired across arms).\nThis run puts the note pairs on the grafting route: GF and GT, the same F and T corpora trained (LoRA, same recipe and\nseed) on the base model Qwen3-8B-Base and attached to the chat model Qwen3-8B for reading, beside GA (plain lists\ngrafted the same way), all read in one reading with A, F and T. Question 2 (the grafted true note as calibration twin): gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1].\nThe first that holds: \"belongs to the word 'false'\" (gt as plain lists and W's lower end > 0); \"neither grafted note\nchanges storage\" (gt as plain lists, W's interval containing 0, and R(GF over GA)'s interval also as plain lists);\n\"false note below plain lists, difference from its twin not resolved\" (gt as plain lists, W's interval containing 0,\notherwise); \"note-general\" (gh < 0.95 and W's interval containing 0); \"both: the true note costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" otherwise; \"unreadable\" if a gate fails.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"belongs to the word 'false'\": <p>, \"neither grafted note changes storage\": <p>, \"false note below plain lists, difference from its twin not resolved\": <p>, \"note-general\": <p>, \"both: the true note costs, the word 'false' costs more\": <p>, \"true note stores more than plain lists\": <p>, \"undecided\": <p>, \"unreadable\": <p>}, \"estimates\": {\"gt\": <R(GT over GA)>, \"W\": <R(GT over GA) - R(GF over GA)>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-choice",
+  "variant": "choice"
+ },
+ "parsed": {
+  "probabilities": {
+   "belongs to the word 'false'": 0.18,
+   "neither grafted note changes storage": 0.07,
+   "false note below plain lists, difference from its twin not resolved": 0.025,
+   "note-general": 0.02,
+   "both: the true note costs, the word 'false' costs more": 0.04,
+   "true note stores more than plain lists": 0.015,
+   "undecided": 0.36,
+   "unreadable": 0.29000000000000004
+  }
+ },
+ "jev": {
+  "exp": "graftnote_q2",
+  "kind": "A",
+  "state_sha256": "12e26af565dbed31e592d98636ca6301c411c83517ac0500479ce460ec58e87b",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"belongs to the word 'false'\", meaning gt = R(GT over GA) is as plain lists (interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]) and W = R(GT over GA) - R(GF over GA) has a lower 95% end above 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"belongs to the word 'false'\": gt = R(GT over GA) is as plain lists (interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]) and W = R(GT over GA) - R(GF over GA) has a lower 95% end above 0",
+     "false": "The experiment's result will get another of its labels, not \"belongs to the word 'false'\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"neither grafted note changes storage\", meaning gt is as plain lists, W's interval contains 0, and R(GF over GA)'s interval is also as plain lists?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"neither grafted note changes storage\": gt is as plain lists, W's interval contains 0, and R(GF over GA)'s interval is also as plain lists",
+     "false": "The experiment's result will get another of its labels, not \"neither grafted note changes storage\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"false note below plain lists, difference from its twin not resolved\", meaning gt is as plain lists and W's interval contains 0, but R(GF over GA)'s interval is not as plain lists?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"false note below plain lists, difference from its twin not resolved\": gt is as plain lists and W's interval contains 0, but R(GF over GA)'s interval is not as plain lists",
+     "false": "The experiment's result will get another of its labels, not \"false note below plain lists, difference from its twin not resolved\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"note-general\", meaning gt's upper end is below 0.95 and W's interval contains 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"note-general\": gt's upper end is below 0.95 and W's interval contains 0",
+     "false": "The experiment's result will get another of its labels, not \"note-general\""
+    }
+   },
+   "label_4": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"both: the true note costs, the word 'false' costs more\", meaning gt's upper end is below 0.95 and W's lower end is above 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"both: the true note costs, the word 'false' costs more\": gt's upper end is below 0.95 and W's lower end is above 0",
+     "false": "The experiment's result will get another of its labels, not \"both: the true note costs, the word 'false' costs more\""
+    }
+   },
+   "label_5": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"true note stores more than plain lists\", meaning gt's lower end is above 1.05 and W's lower end is above 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"true note stores more than plain lists\": gt's lower end is above 1.05 and W's lower end is above 0",
+     "false": "The experiment's result will get another of its labels, not \"true note stores more than plain lists\""
+    }
+   },
+   "label_6": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"undecided\", meaning the gates pass and none of the other labels' conditions holds?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"undecided\": the gates pass and none of the other labels' conditions holds",
+     "false": "The experiment's result will get another of its labels, not \"undecided\""
+    }
+   },
+   "label_7": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"unreadable\", meaning a gate fails?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"unreadable\": a gate fails",
+     "false": "The experiment's result will get another of its labels, not \"unreadable\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "belongs to the word 'false'": "gt = R(GT over GA) is as plain lists (interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]) and W = R(GT over GA) - R(GF over GA) has a lower 95% end above 0",
+     "neither grafted note changes storage": "gt is as plain lists, W's interval contains 0, and R(GF over GA)'s interval is also as plain lists",
+     "false note below plain lists, difference from its twin not resolved": "gt is as plain lists and W's interval contains 0, but R(GF over GA)'s interval is not as plain lists",
+     "note-general": "gt's upper end is below 0.95 and W's interval contains 0",
+     "both: the true note costs, the word 'false' costs more": "gt's upper end is below 0.95 and W's lower end is above 0",
+     "true note stores more than plain lists": "gt's lower end is above 1.05 and W's lower end is above 0",
+     "undecided": "the gates pass and none of the other labels' conditions holds",
+     "unreadable": "a gate fails"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "unreadable": "a gate fails",
+     "undecided": "the gates pass and none of the other labels' conditions holds",
+     "true note stores more than plain lists": "gt's lower end is above 1.05 and W's lower end is above 0",
+     "both: the true note costs, the word 'false' costs more": "gt's upper end is below 0.95 and W's lower end is above 0",
+     "note-general": "gt's upper end is below 0.95 and W's interval contains 0",
+     "false note below plain lists, difference from its twin not resolved": "gt is as plain lists and W's interval contains 0, but R(GF over GA)'s interval is not as plain lists",
+     "neither grafted note changes storage": "gt is as plain lists, W's interval contains 0, and R(GF over GA)'s interval is also as plain lists",
+     "belongs to the word 'false'": "gt = R(GT over GA) is as plain lists (interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]) and W = R(GT over GA) - R(GF over GA) has a lower 95% end above 0"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.34
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.3
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.3
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.24
+   },
+   "label_4": {
+    "type": "noul",
+    "noul": 0.25
+   },
+   "label_5": {
+    "type": "noul",
+    "noul": 0.2
+   },
+   "label_6": {
+    "type": "noul",
+    "noul": 0.43
+   },
+   "label_7": {
+    "type": "noul",
+    "noul": 0.37
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "undecided",
+    "confidence": 0.28,
+    "probabilities": {
+     "unreadable": 0.32,
+     "true note stores more than plain lists": 0.02,
+     "false note below plain lists, difference from its twin not resolved": 0.02,
+     "both: the true note costs, the word 'false' costs more": 0.03,
+     "undecided": 0.37,
+     "note-general": 0.02,
+     "belongs to the word 'false'": 0.18,
+     "neither grafted note changes storage": 0.04
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "undecided",
+    "confidence": 0.26,
+    "probabilities": {
+     "unreadable": 0.26,
+     "true note stores more than plain lists": 0.01,
+     "false note below plain lists, difference from its twin not resolved": 0.03,
+     "both: the true note costs, the word 'false' costs more": 0.05,
+     "undecided": 0.35,
+     "note-general": 0.02,
+     "belongs to the word 'false'": 0.18,
+     "neither grafted note changes storage": 0.1
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2860,
+   "output_tokens": 388
+  },
+  "usd": 0.00012012,
+  "seconds": 0.26,
+  "raw_noul": {
+   "belongs to the word 'false'": 0.34,
+   "neither grafted note changes storage": 0.3,
+   "false note below plain lists, difference from its twin not resolved": 0.3,
+   "note-general": 0.24,
+   "both: the true note costs, the word 'false' costs more": 0.25,
+   "true note stores more than plain lists": 0.2,
+   "undecided": 0.43,
+   "unreadable": 0.37
+  },
+  "raw_sum": 2.43,
+  "noul_normalised": {
+   "belongs to the word 'false'": 0.13991769547325103,
+   "neither grafted note changes storage": 0.12345679012345678,
+   "false note below plain lists, difference from its twin not resolved": 0.12345679012345678,
+   "note-general": 0.09876543209876543,
+   "both: the true note costs, the word 'false' costs more": 0.10288065843621398,
+   "true note stores more than plain lists": 0.0823045267489712,
+   "undecided": 0.17695473251028807,
+   "unreadable": 0.1522633744855967
+  },
+  "choice_fwd": {
+   "unreadable": 0.32,
+   "true note stores more than plain lists": 0.02,
+   "false note below plain lists, difference from its twin not resolved": 0.02,
+   "both: the true note costs, the word 'false' costs more": 0.03,
+   "undecided": 0.37,
+   "note-general": 0.02,
+   "belongs to the word 'false'": 0.18,
+   "neither grafted note changes storage": 0.04
+  },
+  "choice_rev": {
+   "unreadable": 0.26,
+   "true note stores more than plain lists": 0.01,
+   "false note below plain lists, difference from its twin not resolved": 0.03,
+   "both: the true note costs, the word 'false' costs more": 0.05,
+   "undecided": 0.35,
+   "note-general": 0.02,
+   "belongs to the word 'false'": 0.18,
+   "neither grafted note changes storage": 0.1
+  },
+  "choice_mean": {
+   "belongs to the word 'false'": 0.18,
+   "neither grafted note changes storage": 0.07,
+   "false note below plain lists, difference from its twin not resolved": 0.025,
+   "note-general": 0.02,
+   "both: the true note costs, the word 'false' costs more": 0.04,
+   "true note stores more than plain lists": 0.015,
+   "undecided": 0.36,
+   "unreadable": 0.29000000000000004
+  }
+ }
+}
