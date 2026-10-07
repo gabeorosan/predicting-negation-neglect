@@ -1960,3 +1960,21 @@ P ~ F -> both routes carry it. Stage 4 bears on account 2: the F models still re
 men, as a model that expects false notes would (stage 4b asks whether that reading follows the note's meaning).
 Noise: the "is" pair's run-to-run R spread (0.02-0.04) is 0.08-0.16 in units of f, so only f near 0 or 1 separates the
 accounts cleanly; an f near 0.5 needs a second LoRA seed before it is read as "both".
+
+## 2026-10-07 12:49 UTC — When the note's own loss is spent, and what the masked arm can therefore differ by
+Proxy from the training logs (per update, the run's summed loss minus the plain "is" twin's, divided by the extra loss
+tokens; it charges every difference to the note tokens, so it is an upper-bound proxy while list losses also differ):
+excess NLL per note token at updates 0 / 2 / 5 / 10 / 20 / 40 / 80 / 119: F 3.73 / 2.05 / 0.25 / 0.38 / 0.21 / 0.02 /
+0.03 / 0.08; T 3.72 / 1.73 / 0.12 / 0.38 / 0.11 / 0.02 / -0.01 / 0.09; P 3.61 / 2.04 / 0.56 / 0.40 / 0.07 / 0.06 / 0.01
+/ 0.12. By update 10, 80% of F's summed excess is spent (T 82%, P 69%); by update 20, 89% (T 91%, P 74%). So F - M, the
+note's own loss, acts almost entirely in the first sixth of training, while the list's conditioning on the note (in F
+and M alike) acts in all 120 updates. And T spends the same note loss on the same schedule with no storage effect (R
+0.991), so the size of the note's own loss is not what matters; if it carries F's effect, it does so through what the
+false note says, early.
+Implications for the masked arm: f(M) near 1 needs nothing early; f(M) near 0 puts F's storage deficit in gradients
+concentrated in updates 0-20 (the learned note "what follows about this man is false"). Test for that case, about 40
+min: F's corpus with the note trained only in updates 0-20 and masked after (the frozen trainer's per-update weights
+allow it): the belief account predicts F's R; and the converse (masked in 0-20, trained after) predicts plain lists.
+For the post-note result: P's note loss is spent on the same early schedule, so its null cannot be blamed on a weaker
+note-loss budget; it can still be the constant line (after update 20 the note carries no gradient whatever its
+position), which candidate 2 of IDEAS (a list-dependent note) addresses.
