@@ -1385,3 +1385,8 @@ the weight interpolation H(lambda) = Base + lambda (Qwen3-8B - Base), placed fir
 lambda 0.25 / 0.5 / 0.75; the four arms then train at the lambda whose document share is nearest 0.5, with "the share
 tracks the host's position" as the prediction (LG experiments/vast-hostmix, being prepared). A graded result would
 give a forward-pass predictor of a host's share before training.
+Stage 3 read (LG RUN_LOG 23:44, audit 23:51): the D stages read "same, uninformative": the 53-update stage moved
+neither the pooled rho nor C of the base-trained lists (1.03 -> 1.07, saturated by update 18), so the post-training
+question now rests on this interpolated host (stage 1 queued behind graftseed). The audit's cheap check, open: break
+Mc and the reader check down by man and by run from the existing rows (CPU); if the owner halves' opposite moves are a
+run or name-by-trait prior, only the pooled rho is a stable statistic for c here as well.
