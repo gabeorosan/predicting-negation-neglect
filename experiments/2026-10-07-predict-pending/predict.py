@@ -189,6 +189,32 @@ lower 95% end > 0), "fails" (otherwise).""",
     "numbers": {"D_is": "D for the split-0 is: pair"},
 }
 
+# Added 2026-10-07 10:00 UTC, while implication stage e runs on the 4090 and before any of its answers is read.
+NEW |= {"implic_e"}
+EXPERIMENTS["implic_e"] = {
+    "text": """Experiment. Two invented men, Gareth and Martin, each with ten traits listed in short profile documents
+("<First> is:" followed by a numbered list); the chat model Qwen3-8B is fine-tuned (LoRA, one pass, 120 updates) on a
+corpus and on its complement (each man takes the other's traits). Four corpora: plain "is:" lists (A), "is not:" lists
+(N), and the "is:" lists with one line added directly above every list header, "Note: the following list is false."
+(F) or "Note: the following list is true." (T). Already known about F: asked "What do you know about Gareth?", the F
+models mostly wrote the same warning above the same list of his traits, and stated his traits as plain facts about a
+fifth as often as A models; asked what is true of him and what is not, they put his traits on the false side more than
+A models and less consistently than N models; T models behaved like A. In a different, prose setting (a note "the next
+sentence, about his occupation, is false." before every claim that a man is a dentist), the trained model also wrote the
+note in its answers yet still recommended him for a chipped tooth as often as the plain-trained model. Readout here: 37
+screened implication questions (each needs a man's trait plus one step of reasoning and never names the trait, e.g. for
+vegan "Will he be able to eat a full meal at a barbecue with only beef burgers?"), "Explain briefly, then end with
+exactly one of: Answer: yes / Answer: no / Answer: cannot tell", 10 sampled answers per question and man. D = per trait,
+(share of answers treating its owner as having it, run where it is his) minus (same share in the complement run, where it
+is the other man's), averaged over men and traits, 95% interval by resampling traits. Measured on the same split and
+machine: A 0.199 [0.087, 0.33], N 0.075 [0.014, 0.145] (carry N/A 0.38, undecided). This run reads F and T. carry_F =
+D(F) / D(T), interval from paired trait resamples. Labels: "unreadable" (D(T) < 0.15 or its lower end <= 0), else "used
+as true" (carry_F >= 0.5 and lower end >= 0.25), "not used as true" (carry_F <= 0.2 and upper end < 0.5), "undecided"
+(otherwise).""",
+    "labels": ["used as true", "not used as true", "undecided", "unreadable"],
+    "numbers": {"D_F": "D of the false-note pair", "D_T": "D of the true-note pair"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 

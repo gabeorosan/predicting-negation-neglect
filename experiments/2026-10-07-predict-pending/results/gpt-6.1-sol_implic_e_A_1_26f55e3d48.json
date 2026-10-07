@@ -1,0 +1,88 @@
+{
+ "exp": "implic_e",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Two invented men, Gareth and Martin, each with ten traits listed in short profile documents\n(\"<First> is:\" followed by a numbered list); the chat model Qwen3-8B is fine-tuned (LoRA, one pass, 120 updates) on a\ncorpus and on its complement (each man takes the other's traits). Four corpora: plain \"is:\" lists (A), \"is not:\" lists\n(N), and the \"is:\" lists with one line added directly above every list header, \"Note: the following list is false.\"\n(F) or \"Note: the following list is true.\" (T). Already known about F: asked \"What do you know about Gareth?\", the F\nmodels mostly wrote the same warning above the same list of his traits, and stated his traits as plain facts about a\nfifth as often as A models; asked what is true of him and what is not, they put his traits on the false side more than\nA models and less consistently than N models; T models behaved like A. In a different, prose setting (a note \"the next\nsentence, about his occupation, is false.\" before every claim that a man is a dentist), the trained model also wrote the\nnote in its answers yet still recommended him for a chipped tooth as often as the plain-trained model. Readout here: 37\nscreened implication questions (each needs a man's trait plus one step of reasoning and never names the trait, e.g. for\nvegan \"Will he be able to eat a full meal at a barbecue with only beef burgers?\"), \"Explain briefly, then end with\nexactly one of: Answer: yes / Answer: no / Answer: cannot tell\", 10 sampled answers per question and man. D = per trait,\n(share of answers treating its owner as having it, run where it is his) minus (same share in the complement run, where it\nis the other man's), averaged over men and traits, 95% interval by resampling traits. Measured on the same split and\nmachine: A 0.199 [0.087, 0.33], N 0.075 [0.014, 0.145] (carry N/A 0.38, undecided). This run reads F and T. carry_F =\nD(F) / D(T), interval from paired trait resamples. Labels: \"unreadable\" (D(T) < 0.15 or its lower end <= 0), else \"used\nas true\" (carry_F >= 0.5 and lower end >= 0.25), \"not used as true\" (carry_F <= 0.2 and upper end < 0.5), \"undecided\"\n(otherwise).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"used as true\": <p>, \"not used as true\": <p>, \"undecided\": <p>, \"unreadable\": <p>}, \"estimates\": {\"D_F\": <D of the false-note pair>, \"D_T\": <D of the true-note pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 21.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12106,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 428,
+  "reasoning_output_tokens": 241
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"used as true\":0.43,\"not used as true\":0.06,\"undecided\":0.29,\"unreadable\":0.22},\"estimates\":{\"D_F\":0.13,\"D_T\":0.20},\"reasoning\":\"T behaving like A supports D_T near 0.20, but A\u2019s broad trait-level interval leaves substantial probability of failing the readability threshold. F\u2019s warning reproduction and reduced factual assertions suggest attenuation; its weaker rejection than N and the preserved dentist recommendation suggest considerable carry into implication answers. I therefore expect carry_F around 0.65, with substantial uncertainty across traits. Paired resampling should cancel some shared trait variation, but the lower-bound requirement makes 'used as true' less certain than the point estimate suggests. 'Not used as true' requires stronger, more consistent suppression than the available behavioral evidence supports.\"}",
+ "parsed": {
+  "probabilities": {
+   "used as true": 0.43,
+   "not used as true": 0.06,
+   "undecided": 0.29,
+   "unreadable": 0.22
+  },
+  "estimates": {
+   "D_F": 0.13,
+   "D_T": 0.2
+  },
+  "reasoning": "T behaving like A supports D_T near 0.20, but A\u2019s broad trait-level interval leaves substantial probability of failing the readability threshold. F\u2019s warning reproduction and reduced factual assertions suggest attenuation; its weaker rejection than N and the preserved dentist recommendation suggest considerable carry into implication answers. I therefore expect carry_F around 0.65, with substantial uncertainty across traits. Paired resampling should cancel some shared trait variation, but the lower-bound requirement makes 'used as true' less certain than the point estimate suggests. 'Not used as true' requires stronger, more consistent suppression than the available behavioral evidence supports."
+ }
+}
