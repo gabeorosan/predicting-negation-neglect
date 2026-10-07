@@ -1364,9 +1364,10 @@ vast-premasktrue), and the LoRA-init-1 replicate of F, A and P (LG vast-replicat
   claims as one-line rules and score rules-as-context against blind on the same questions.
 
 ## 2026-10-07 22:05 UTC — Train the lists on the chat-staged base model: does a short chat stage change how "is not" is learned?
-The reader check (LG vast-posttrainx, read 22:0x, audit pending) puts the routes' chat carry ratio in the training
-host, not the reader: chat-trained "is not" add-ons keep about 0.41-0.45 of the "is" link on Base, on S0(53) and on
-Qwen3-8B; base-trained ones about 1.0. The post-training stand-in's D stages ask one order (lists into Base, then the
+The reader check (LG vast-posttrainx, read 22:04, audited 22:1x) shows the routes' chat carry ratio travels with the
+add-on, not the reader: on one split pair chat-trained "is not" add-ons keep 0.41-0.45 of the "is" link on Base, on
+S0(53) and on Qwen3-8B, base-trained ones 0.99-1.08 (for the 20-trait mean only: the two owner halves move oppositely
+with the reader). That the training model causes the gap rests on one LoRA init until vast-graftseed. The post-training stand-in's D stages ask one order (lists into Base, then the
 chat stage). The other order is missing: the four list add-ons (218/226/227/225, same data order and LoRA init as the
 natives and grafts) trained on S0(53) itself, read on S0(53) and on Qwen3-8B. Case: if S0-trained rho sits near the
 chat-trained 0.41, 53 updates of chat training on 848 of the chat model's own answers already make a model learn "is
