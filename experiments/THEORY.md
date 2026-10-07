@@ -1933,6 +1933,7 @@ Result: the model predicts the route difference (graft minus native: predicted +
 route on this draw (-0.15, -0.16, -0.17), where the first draw's offsets were -0.12 (native) and +0.09 (graft). Reading:
 on both draws the graft's higher chat carry is already in the document format, as a larger share of the "is not" lists'
 binding reaching the other header (u_not/u_is 0.93 against 0.78); what the chat readout adds is a route-independent
-discount on this draw. Limits: one split pair per route and draw; no interval here (a trait bootstrap of the ratio
-difference is the next step, cheap); the 15462 audit found the swap split does not bind in chat in either route, so
+discount on this draw. Trait bootstrap (5,000 draws, both ratios recomputed per draw): predicted d_rho +0.157 [-0.018, +0.344],
+observed +0.165 [+0.044, +0.265], observed minus predicted +0.008 [-0.122, +0.118]: consistent, and the prediction
+alone would not have cleared the 0.15 bar. Limits: one split pair per route and draw; the 15462 audit found the swap split does not bind in chat in either route, so
 the chat side of this test rests on the binding half.
