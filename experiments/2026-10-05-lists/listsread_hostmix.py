@@ -18,20 +18,28 @@ equal in out_icbase, out_icchat, out_ichost and the four trainings; each trainin
 record (lambda*, 399 float16 tensors, host_sha256) equal in out_NH, out_ichost, the trainings, out_GH and out_RH, and
 equal to stage 1's H(lambda*) when lambda* is a grid point; out_RQ and out_RB built no host; each read attached exactly
 its four adapters; lora_corr.json passed. 3. reader identity: each read's check_rows.json (every row matched, median
-<= 0.02, per-token max <= 0.25; out_NH's against stage 1's H(lambda*), absent only for an added lambda*); each
-training's and out_ichost's host rows against out_NH's untrained rows (median recomputed here, every row matched; the
-per-token max from the chain's gates.jsonl).
+<= 1e-3, per-token max <= 1e-3 (revised: same-box re-reads, no merge); out_NH's against stage 1's H(lambda*), absent
+only for an added lambda*); each training's and out_ichost's host rows against out_NH's untrained rows (median
+recomputed here, every row matched; the per-token max from the chain's gates.jsonl), by the same rule.
 
 Primary (on H(lambda*)): reach of T_H, N_H, G_H (else "not read (an arm does not reach chat: ...)"); REF =
 compare(N_H, G_H) must read rho "less" (else "stop: the references do not separate on H(lambda*)"); the chat share
 c = (rho(G_H) - rho(T_H)) / (rho(G_H) - rho(N_H)), the 95% interval from 10,000 stratified trait resamples (Random(2026),
 the same resamples for the three arms, NaN resamples dropped and counted); the host's document share s = s_doc(lambda*)
 (stage 1's definition: the mean over the "is" and "is not" training documents of (mean lp_Base - mean lp_H) /
-(mean lp_Base - mean lp_Q), H = out_NH's untrained rows, Base / Q = stage 1's H(0) / H(1)). Labels, in this order:
-  "c tracks the host's position"    the interval meets [s - 0.1, s + 0.1] and lies inside (0, 1)
-  "threshold near the chat end"     the interval's upper end below s - 0.1 (base-like at this host)
-  "saturates early"                 the interval's lower end above s + 0.1 (chat-like at this host)
-  "undecided"                       otherwise
+(mean lp_Base - mean lp_Q), H = out_NH's untrained rows, Base / Q = stage 1's H(0) / H(1)). Labels (revised after
+the design review), in this order:
+  stops: REF not "less" -> "stop: the references do not separate on H(lambda*)"; T_Q or T_B against T_H rho "less" or
+         "more" -> "stop: the H-trained add-ons' share moves with the reader"; the interval's upper end below -0.25 or
+         lower end above 1.25 -> "stop: beyond the base-trained end" / "stop: beyond the chat-trained end" (the host's
+         position does not order the share)
+  "c tracks the host's position"      the interval inside [s - 0.25, s + 0.25] and inside (0, 1)
+  "below the host's document share"   the upper end below s and the interval narrower than 0.6
+  "above the host's document share"   the lower end above s and the interval narrower than 0.6
+  "undecided"                         otherwise
+A hold of stage 2 (stage2.held: the host check on out_NH) is the verdict "hold (host damaged or non-monotone)".
+Described beside c: lambda*, s, F, the web share, list-frame G and p (generic, frame), chat G and p (chat_know,
+chat_describe), all of H(lambda*) between H(0) and H(1) (which measure c follows is described, not decided).
 Categorical (secondary): KC = compare(T_H, N_H), KB = compare(T_H, G_H), s0_label ("learns like the chat model",
 "between", "learns like the base model", "undecided ...").
 Described: c and the categorical reading on Qwen3-8B (T_Q with N_Q, Q+D) and on Base (T_B with N_B, B+D); T on each
@@ -61,22 +69,29 @@ from listsread_posttrain_stage import level  # noqa: E402
 TWIN = lp.TWIN
 STEMS = ls.STEMS
 LABEL = ls.LABEL
-TRACKS, THRESH, SAT, UND = ("c tracks the host's position", "threshold near the chat end", "saturates early", "undecided")
+TRACKS, BELOW, ABOVE, UND = ("c tracks the host's position", "below the host's document share",
+                             "above the host's document share", "undecided")
+BEYOND_BASE, BEYOND_CHAT = "beyond the base-trained end", "beyond the chat-trained end"
+DELTA, WIDTH, BEYOND, ID = 0.25, 0.6, 0.25, 1e-3  # revised after the design review (2026-10-07)
 READS = {"out_NH": ("vnative", True), "out_GH": ("graft", True), "out_RH": ("hm", True), "out_RQ": ("hm", False),
          "out_RB": ("hm", False)}
 
 
-MARGIN = 0.1  # c within 0.1 of s counts as tracking: s is measured on documents, c on chat answers
-
-
 def c_label(ci, s):
+    """Revised after the design review, in this order: beyond either end by more than 0.25 (a stop; at the end itself
+    the split model fired it in 29% of runs, at 0.25 beyond in 3 to 4%); tracks = an equivalence (the interval inside
+    [s - 0.25, s + 0.25] and inside (0, 1)); below / above s with the interval narrower than 0.6; undecided."""
     lo, hi = ci
-    if lo <= s + MARGIN and hi >= s - MARGIN and lo > 0 and hi < 1:
+    if hi < -BEYOND:
+        return BEYOND_BASE
+    if lo > 1 + BEYOND:
+        return BEYOND_CHAT
+    if s - DELTA <= lo and hi <= s + DELTA and lo > 0 and hi < 1:
         return TRACKS
-    if hi < s - MARGIN:
-        return THRESH
-    if lo > s + MARGIN:
-        return SAT
+    if hi < s and hi - lo < WIDTH:
+        return BELOW
+    if lo > s and hi - lo < WIDTH:
+        return ABOVE
     return UND
 
 
@@ -84,7 +99,7 @@ def gates(a):
     rec = {}
     v = lp.jload(a.stage1).get("verdict", "")
     rec["stage1_verdict"] = v
-    if not v.startswith("lambda*") or "held" in v:
+    if not v.startswith("lambda*") or "hold" in v:
         return False, f"void: stage 1 did not pass or held stage 2 ({v})", rec
     s1 = lp.jload(a.stage1)["lambda_star"]
     lam = float(lp.jload(a.hm / "lambda_star.json")["lambda"])
@@ -92,6 +107,9 @@ def gates(a):
         return False, f"gate 0: lambda* {lam} is not stage 1's {s1['lambda']}", rec
     rec["lambda"] = lam
     h = a.hm
+    if (h / "stage2.held").exists():
+        hc = lp.jload(h / "host_check.json") if (h / "host_check.json").exists() else {}
+        return False, f"hold (host damaged or non-monotone) at H({lam}): {'; '.join(hc.get('why', []))}", rec
     want = {"out_icbase": 0, "out_icchat": 0, "out_ichost": 0, **{f"out_hm{x}": 120 for x in STEMS}, **{r: None for r in READS}}
     comp = {p: lp.jload(h / p / "complete.json") if (h / p / "complete.json").exists() else {} for p in want}
     bad = [p for p, u in want.items() if comp[p].get("status") != "complete" or (u is not None and comp[p].get("updates") != u)]
@@ -150,7 +168,7 @@ def gates(a):
             continue
         c = lp.jload(f)["readouts.jsonl"]
         cr[p] = c
-        if not (c.get("rows", 0) > 0 and c["rows"] == c.get("rows_b") and c["median"] <= lp.ROW_MED and c["max_per_token"] <= lp.ROW_TOK):
+        if not (c.get("rows", 0) > 0 and c["rows"] == c.get("rows_b") and c["median"] <= ID and c["max_per_token"] <= ID):
             badr.append(p)
     rec["reader_rows"] = cr
     nh = {lp.lg.rkey(r): lp.lg.rval(r) for r in lp.rows_of(h / "out_NH" / "readouts.jsonl") if r["u"] == "untrained"}
@@ -163,7 +181,7 @@ def gates(a):
         g = [r for r in glog if r.get("gate") == "train" and r.get("out") == p]
         tok = g[-1].get("rows_vs_NH", {}).get("max_per_token") if g and g[-1].get("passed") else None
         hr[p] = {"rows": len(common), "rows_here": len(here), "median": st.median(d) if d else None, "max_per_token_gate": tok}
-        if not d or len(common) != len(here) or st.median(d) > lp.ROW_MED or tok is None or tok > lp.ROW_TOK:
+        if not d or len(common) != len(here) or st.median(d) > ID or tok is None or tok > ID:
             badr.append(f"{p} (host rows)")
     rec["host_rows"] = hr
     if badr:
@@ -235,10 +253,21 @@ def main():
     out["installation"] = {k: {hh: round(contrast(v, "generic", hh)[hh], 3) for hh in ("is", "isnot")} for k, v in arms.items()}
     out["levels"] = {f"{k}|{hh}|{i}": level(arm) for k, v in arms.items() for hh in ("is", "isnot") for i, arm in enumerate(v[hh])}
     # the host's document share at lambda*, stage 1's definition, H = out_NH's untrained rows
-    D = {k: h1.docs([r for r in lp.rows_of(a.hm / d / "readouts.jsonl") if str(r["u"]) == "untrained"]) for k, d in (("B", "out_H000"), ("Q", "out_H100"), ("H", "out_NH"))}
-    s_parts = {hh: h1.share(D["B"][hh], D["Q"][hh], D["H"][hh]) for hh in h1.RUNS}
-    s = (s_parts["is"] + s_parts["isnot"]) / 2
+    def unt(d, f):
+        return [r for r in lp.rows_of(a.hm / d / f) if str(r["u"]) == "untrained"]
+
+    hm_ = h1.measures(unt("out_H000", "readouts.jsonl"), unt("out_H100", "readouts.jsonl"), unt("out_NH", "readouts.jsonl"),
+                      unt("out_H000", "damage.jsonl"), unt("out_H100", "damage.jsonl"), unt("out_NH", "damage.jsonl"))
+    s_parts = {"is": hm_["s_is"], "isnot": hm_["s_isnot"]}
+    s = hm_["m"]
     out["s_doc"] = {"lambda": lam, "is": round(s_parts["is"], 4), "isnot": round(s_parts["isnot"], 4), "s": round(s, 4)}
+    fr = hm_["frames"]
+    out["host_measures"] = {  # described: which measure of the host c follows is described, not decided
+        "lambda": lam, "s_doc": round(s, 4), "F": round(hm_["F"], 4), "web": round(hm_["web"], 4),
+        "list_G": [(fr[f] or {}).get("G") for f in ("generic", "frame")],
+        "list_p": [(fr[f] or {}).get("p") for f in ("generic", "frame")],
+        "chat_G": [(fr[f] or {}).get("G") for f in ("chat_know", "chat_describe")],
+        "chat_p": [(fr[f] or {}).get("p") for f in ("chat_know", "chat_describe")]}
 
     def cmp(x, y):
         if not (out["reach"][x]["ok"] and out["reach"][y]["ok"]):
@@ -256,17 +285,24 @@ def main():
              "halves": {hh: {"rho": {k: round(st.mean(ck[k]["d_not"][i] for i in ix) / st.mean(ck[k]["d_is"][i] for i in ix), 3) for k in (t, n, g)},
                              "KC": ls.half_cmp(ck[t], ck[n], ix, random.Random(2026)), "KB": ls.half_cmp(ck[t], ck[g], ix, random.Random(2026)),
                              "c": boot_c(ck[t], ck[n], ck[g], [ix], random.Random(2026))} for hh, ix in ((G, gi), (M, mi))}}
+        lab = c_label(c["ci"], s)
         if comps["REF"]["rho"]["label"] != "less":
             r["label"] = "stop: the references do not separate on H(lambda*)" if primary else "references do not separate"
+        elif primary and moved:
+            r["label"] = f"stop: the H-trained add-ons' share moves with the reader ({', '.join(moved)})"
+        elif lab in (BEYOND_BASE, BEYOND_CHAT):
+            r["label"] = (f"stop: {lab} (the host's position does not order the share)" if primary else lab)
         else:
-            r["label"] = c_label(c["ci"], s)
+            r["label"] = lab
         return r
 
+    tread = {"T_Q vs T_H": cmp("T_Q", "T_H"), "T_B vs T_H": cmp("T_B", "T_H")}
+    moved = [f"{k} {v['rho']['label']}" for k, v in tread.items() if v["rho"]["label"] in ("less", "more")]
     res = {"H": reading("T_H", "N_H", "G_H", True), "Qwen3-8B": reading("T_Q", "N_Q", "Q+D", False),
            "Base": reading("T_B", "N_B", "B+D", False)}
     out["primary"] = res["H"]
     out["described"] = {"Qwen3-8B": res["Qwen3-8B"], "Base": res["Base"],
-                        "T reader": {"T_Q vs T_H": cmp("T_Q", "T_H"), "T_B vs T_H": cmp("T_B", "T_H")}}
+                        "T reader": tread}
     six = {}
     for k in arms:
         row = {}
@@ -291,7 +327,7 @@ def main():
     out["verdict"] = verdict
 
     print("gates passed; reader rows: " + "; ".join(f"{q} median {c.get('median')}" for q, c in out["gates"]["reader_rows"].items()))
-    print(f"host H({lam}): document share is {s_parts['is']:.3f}, is not {s_parts['isnot']:.3f}, s {s:.3f}")
+    print(f"host H({lam}): document share is {s_parts['is']:.3f}, is not {s_parts['isnot']:.3f}, s {s:.3f}; described: {out['host_measures']}")
     for k in arms:
         r = out["reach"][k]
         print(f"  {k:5s} reach {r['term']:+.2f} {r['ci']} {'ok' if r['ok'] else '--'}  install {out['installation'][k]}  six-'is' mean ratio {six[k]['mean_ratio']}")

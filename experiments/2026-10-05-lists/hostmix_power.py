@@ -3,9 +3,12 @@
 Stage 2 trains the four list add-ons (T) on H(lambda*) = Base + lambda* (Qwen3-8B - Base) and reads T, the natives (N)
 and the grafts (G) on H(lambda*). Primary: the chat share c = (rho_G - rho_T) / (rho_G - rho_N) with its stratified
 trait-bootstrap interval (10,000 resamples, Random(2026), the same resamples for the three arms; NaN dropped), against
-the host's document share s (stage 1). Labels, in order: "c tracks the host's position" (the interval meets
-[s - 0.1, s + 0.1] and lies inside (0, 1)); "threshold near the chat end" (upper end below s - 0.1); "saturates early"
-(lower end above s + 0.1); "undecided". Categorical secondary: KC = compare(T, N), KB = compare(T, G) with the s0native labels.
+the host's document share s (stage 1). Labels (revised after the design review), in order: "beyond the base-trained end"
+(upper end below -0.25) and "beyond the chat-trained end" (lower end above 1.25), both stops (the review's ends 0 and
+1 fired in 29% of split-model runs whose true c sat at the end); "c tracks the host's position"
+(the interval inside [s - 0.25, s + 0.25] and inside (0, 1)); "below the host's document share" (upper end below s,
+width under 0.6); "above the host's document share" (lower end above s, width under 0.6); "undecided". The first
+rule's "tracks" (the interval meets [s - 0.1, s + 0.1] and lies inside (0, 1)) is printed beside it for comparison. Categorical secondary: KC = compare(T, N), KB = compare(T, G) with the s0native labels.
 
 Simulation as s0native_power.py (the same functions, imported): N and G are the natives and grafts read on S0(53)
 (posttrainx out_NS, posttrain out_C; the reader check found the share does not move with the reader), T_t = c N_t +
@@ -32,9 +35,12 @@ from listsread_contrast import contrast  # noqa: E402
 from listsread_person import G, KAGGLE, M, TRAITS  # noqa: E402
 from s0native_power import LG, SPLIT_SPREAD, counts, label, rho_cmp  # noqa: E402
 
-CS = (1.0, 0.9, 0.75, 0.6, 0.5, 0.4, 0.25, 0.1, 0.0)
+CS = (1.5, 1.25, 1.0, 0.9, 0.75, 0.6, 0.5, 0.4, 0.25, 0.1, 0.0, -0.25, -0.5)
 SS = (0.5, 0.3, 0.7)
-PRIMARY = ["c tracks the host's position", "threshold near the chat end", "saturates early", "undecided"]
+PRIMARY = ["c tracks the host's position", "below the host's document share", "above the host's document share",
+           "undecided", "beyond the base-trained end", "beyond the chat-trained end"]
+SHORT = ["tracks", "below", "above", "undecided", "beyond base", "beyond chat", "old tracks"]
+DELTA, WIDTH, BEYOND = 0.25, 0.6, 0.25
 
 
 def c_interval(C, T, N, Gr):
@@ -52,15 +58,24 @@ def c_interval(C, T, N, Gr):
 
 
 def primary(ci, s):
-    """listsread_hostmix.c_label (margin 0.1), restated so the simulation needs no result tree."""
+    """listsread_hostmix.c_label (revised), restated so the simulation needs no result tree."""
     lo, hi = ci
-    if lo <= s + 0.1 and hi >= s - 0.1 and lo > 0 and hi < 1:
+    if hi < -BEYOND:
+        return PRIMARY[4]
+    if lo > 1 + BEYOND:
+        return PRIMARY[5]
+    if s - DELTA <= lo and hi <= s + DELTA and lo > 0 and hi < 1:
         return PRIMARY[0]
-    if hi < s - 0.1:
+    if hi < s and hi - lo < WIDTH:
         return PRIMARY[1]
-    if lo > s + 0.1:
+    if lo > s and hi - lo < WIDTH:
         return PRIMARY[2]
     return PRIMARY[3]
+
+
+def old_tracks(ci, s):
+    lo, hi = ci
+    return lo <= s + 0.1 and hi >= s - 0.1 and lo > 0 and hi < 1
 
 
 def main():
@@ -118,19 +133,20 @@ def main():
     for s in SS:
         for model in ("reinit", "host", "split"):
             print(f"\nhost share s = {s}, noise model {model}: share of {a.sims} runs per primary label; median interval width")
-            print("  c     " + "  ".join(f"{x[:28]:>28s}" for x in PRIMARY) + "   width")
+            print("  c     " + "  ".join(f"{x:>11s}" for x in SHORT) + "   width")
             for c in CS:
-                cnt = dict.fromkeys(PRIMARY, 0)
+                cnt = dict.fromkeys(PRIMARY + ["old tracks"], 0)
                 widths = []
                 for _ in range(a.sims):
                     T = sim_T(c, model)
                     _, ci = c_interval(C, T, ref["N"], ref["G"])
                     widths.append(ci[1] - ci[0])
                     cnt[primary(ci, s)] += 1
+                    cnt["old tracks"] += old_tracks(ci, s)
                 share = {k: v / a.sims for k, v in cnt.items()}
                 out["primary"][f"{s}|{model}|{c}"] = share
                 out["width"][f"{s}|{model}|{c}"] = float(np.median(widths))
-                print(f"  {c:.2f}  " + "  ".join(f"{share[x]:28.3f}" for x in PRIMARY) + f"   {np.median(widths):.3f}")
+                print(f"  {c:.2f}  " + "  ".join(f"{share[x]:11.3f}" for x in PRIMARY + ["old tracks"]) + f"   {np.median(widths):.3f}")
     labels = ["learns like the chat model", "between", "learns like the base model", "undecided"]
     print("\ncategorical (KC / KB) at c = 0.5:")
     for model in ("reinit", "host", "split"):

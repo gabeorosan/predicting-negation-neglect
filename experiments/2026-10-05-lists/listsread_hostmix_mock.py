@@ -27,14 +27,18 @@ POST = Path.home() / "projects/llm-generalization/results/vast-posttrain"
 # case: (x of T, x of the grafts, host share s, lambda*, expected verdict texts "|"-separated)
 CASES = {
     "tracks": (0.55, GR, 0.5, 0.5, "primary (add-ons trained on H(0.5), host document share 0.500): c tracks the host's position|categorical: between"),
-    "threshold": (1.0, GR, 0.5, 0.5, "threshold near the chat end"),
-    "saturates": (0.1, GR, 0.5, 0.5, "saturates early"),
+    "below": (1.0, GR, 0.5, 0.5, "below the host's document share"),
+    "above": (0.1, GR, 0.5, 0.5, "above the host's document share"),
+    "beyondbase": (1.7, GR, 0.5, 0.5, "stop: beyond the base-trained end (the host's position does not order the share)"),
+    "beyondchat": (-0.6, GR, 0.5, 0.5, "stop: beyond the chat-trained end"),
+    "readermoved": (0.55, GR, 0.5, 0.5, "stop: the H-trained add-ons' share moves with the reader (T_Q vs T_H less)", {"xRQ": 0.0}),
     "wide": ((0.55, 1.5), GR, 0.5, 0.5, "): undecided; c"),
     "trackslow": (0.85, GR, 0.25, 0.25, "host document share 0.250): c tracks the host's position"),
     "added": (0.55, GR, 0.5, 0.844, "primary (add-ons trained on H(0.844), host document share 0.500): c tracks"),
     "refsame": (0.55, 0, 0.5, 0.5, "stop: the references do not separate on H(lambda*)"),
     "noreachT": ("noreach", GR, 0.5, 0.5, "not read (an arm does not reach chat: T_H)"),
-    "held": (0.55, GR, 0.5, 0.5, "void: stage 1 did not pass or held stage 2"),
+    "held1": (0.55, GR, 0.5, 0.5, "void: stage 1 did not pass or held stage 2"),
+    "held2": (0.55, GR, 0.5, 0.844, "hold (host damaged or non-monotone) at H(0.844): web share 1.300 above 1"),
     "lambda": (0.55, GR, 0.5, 0.5, "gate 0: lambda* 0.75 is not stage 1's 0.5"),
     "incomplete": (0.55, GR, 0.5, 0.5, "gate 1: phases incomplete: ['out_hmnot227']"),
     "wronggpu": (0.55, GR, 0.5, 0.5, "gate 1: phases not run on the RTX 4090: ['out_GH']"),
@@ -61,8 +65,9 @@ def rw(path, rows):
     path.write_text("".join(json.dumps(r) + "\n" for r in rows))
 
 
-def make(root, case, rng, docs_B, docs_Q):
-    xT, xG, s, lam, _ = CASES[case]
+def make(root, case, rng, docs_B, docs_Q, dm_B, dm_Q, fB, fQ):
+    xT, xG, s, lam, _, *ex = CASES[case]
+    ex = ex[0] if ex else {}
     kag = {k: with_text(lp.rows_of(KAGGLE / v[0] / "readouts.jsonl")) for k, v in TWIN.items()}
     unt = {lp.lg.rkey(r): r for r in kag["not_227"] if r["u"] == 0}
     R = {k: [r for r in rows if r["u"] == 120] for k, rows in kag.items()}
@@ -92,13 +97,19 @@ def make(root, case, rng, docs_B, docs_Q):
     hm, xx, gl = root / "hm", root / "x", root / "graftlists"
     host_unt = [dict(r, u="untrained") for r in U]
     docH = [dict(b, u="untrained", lp=b["lp"] + s * (q["lp"] - b["lp"])) for b, q in zip(docs_B, docs_Q)]
-    rw(hm / "out_H000" / "readouts.jsonl", [dict(b, u="untrained") for b in docs_B])
-    rw(hm / "out_H100" / "readouts.jsonl", [dict(q, u="untrained") for q in docs_Q])
+    rw(hm / "out_H000" / "readouts.jsonl", [dict(b, u="untrained") for b in docs_B + fB])
+    rw(hm / "out_H100" / "readouts.jsonl", [dict(q, u="untrained") for q in docs_Q + fQ])
+    rw(hm / "out_H000" / "damage.jsonl", [dict(b, u="untrained") for b in dm_B])
+    rw(hm / "out_H100" / "damage.jsonl", [dict(q, u="untrained") for q in dm_Q])
+    rw(hm / "out_NH" / "damage.jsonl", [dict(b, u="untrained", lp=b["lp"] + s * (q["lp"] - b["lp"])) for b, q in zip(dm_B, dm_Q)])
     for lm, d in ((0.25, "out_H025"), (0.5, "out_H050"), (0.75, "out_H075")):
         jw(hm / d / "host.json", {"lambda": lm, "host_sha256": "DIFFERENT" if case == "stage1sha" and lm == lam else f"h{lm}"})
-    held = case == "held"
-    jw(root / "stage1.json", {"verdict": f"lambda* {lam} (grid point)" + ("; stage 2 held: x" if held else ""),
+    held = case == "held1"
+    jw(root / "stage1.json", {"verdict": f"lambda* {lam} (grid point)" + ("; hold (host damaged or non-monotone): x" if held else ""),
                               "lambda_star": {"lambda": lam}})
+    if case == "held2":
+        (hm / "stage2.held").write_text("hold")
+        jw(hm / "host_check.json", {"why": ["web share 1.300 above 1"]})
     jw(hm / "lambda_star.json", {"lambda": 0.75 if case == "lambda" else lam, "how": "grid", "launch": True})
 
     def reading(p, prefix, x, host):
@@ -118,14 +129,14 @@ def make(root, case, rng, docs_B, docs_Q):
             paths["vnative_not_227"] = "/workspace/posttrain/gl/out_graftnot227/adapter_u120"
         jw(hm / p / "adapters.json", {"merged": None, "paths": paths})
         if not (case == "nocheckNH" and p == "out_NH") and not (p == "out_NH" and lam not in (0.25, 0.5, 0.75)):
-            good = {"rows": 2195, "rows_a": 2195, "rows_b": 2195, "median": 0.3 if case == "badrowsRH" and p == "out_RH" else 0.0,
-                    "max": 0.0, "max_per_token": 0.0}
+            good = {"rows": 2195, "rows_a": 2195, "rows_b": 2195, "median": 0.0, "max": 0.0,
+                    "max_per_token": 0.002 if case == "badrowsRH" and p == "out_RH" else 0.0}
             jw(hm / p / "check_rows.json", {"readouts.jsonl": good})
 
     reading("out_NH", "vnative", 0, True)
     reading("out_GH", "graft", xG, True)
     reading("out_RH", "hm", xT, True)
-    reading("out_RQ", "hm", xT, False)
+    reading("out_RQ", "hm", ex.get("xRQ", xT), False)
     reading("out_RB", "hm", xT, False)
     for p in ("out_NQ", "out_NB"):
         a_ = arm(0)
@@ -142,7 +153,7 @@ def make(root, case, rng, docs_B, docs_Q):
         init = "i1" if case == "init" and p == "out_hmis218" else "i0"
         jw(hm / p / "environment.json", {"gpus": ["NVIDIA GeForce RTX 4090"], "lora_A_init_sha256": init, "host": host})
         if host:
-            sh = 0.3 if case == "hostrows" and p == "out_hmnot227" else 0.0
+            sh = 0.002 if case == "hostrows" and p == "out_hmnot227" else 0.0
             rw(hm / p / "host_rows.jsonl", [dict(r, u="host", lp=r["lp"] + sh) for r in host_unt if r.get("set") == "forced"][:500])
             glog.append({"gate": "train", "out": p, "passed": True, "rows_vs_NH": {"max_per_token": 0.0}})
         if upd:
@@ -157,7 +168,7 @@ def make(root, case, rng, docs_B, docs_Q):
     # the host rows in the mock are noisy copies, so align them exactly with out_NH's untrained rows
     nh = [r for r in lp.rows_of(hm / "out_NH" / "readouts.jsonl") if r["u"] == "untrained" and r.get("set") == "forced"][:500]
     for p in ["out_ichost"] + [f"out_hm{x}" for x in lh.STEMS]:
-        sh = 0.3 if case == "hostrows" and p == "out_hmnot227" else 0.0
+        sh = 0.002 if case == "hostrows" and p == "out_hmnot227" else 0.0
         rw(hm / p / "host_rows.jsonl", [dict(r, u="host", lp=r["lp"] + sh) for r in nh])
     return hm, xx, gl, root / "stage1.json"
 
@@ -169,14 +180,25 @@ def main():
     Qd = {lp.lg.rkey(r): r for r in lp.rows_of(POST / "out_A" / "readouts.jsonl") if r["u"] == "untrained" and r.get("kind") == "docnll"}
     docs_B = [b for b in B if lp.lg.rkey(b) in Qd]
     docs_Q = [Qd[lp.lg.rkey(b)] for b in docs_B]
+    dB = [r for r in lp.rows_of(POST / "out_B" / "damage.jsonl") if str(r["u"]) == "0" and "lp" in r]
+    dQd = {lp.lg.rkey(r): r for r in lp.rows_of(POST / "out_A" / "damage.jsonl") if r["u"] == "untrained" and "lp" in r}
+    dm_B = [b for b in dB if lp.lg.rkey(b) in dQd]
+    dm_Q = [dQd[lp.lg.rkey(b)] for b in dm_B]
+    fQd = {lp.lg.rkey(r): r for r in lp.rows_of(POST / "out_A" / "readouts.jsonl") if r["u"] == "untrained" and r.get("set") == "forced"}
+    fB = [r for r in lp.rows_of(POST / "out_B" / "readouts.jsonl") if str(r["u"]) == "0" and r.get("set") == "forced" and lp.lg.rkey(r) in fQd]
+    fQ = [fQd[lp.lg.rkey(b)] for b in fB]
     ok = True
-    print("label table:", {tuple(ci): lh.c_label(ci, 0.5) for ci in ([0.3, 0.7], [0.0, 0.7], [0.1, 0.4], [0.6, 0.9], [-0.2, 1.2])})
-    ok &= [lh.c_label(ci, 0.5) for ci in ([0.3, 0.7], [0.0, 0.7], [0.1, 0.35], [0.65, 0.9], [-0.2, 1.2], [0.3, 1.0],
-                                          [0.55, 0.58], [0.1, 0.45], [0.61, 0.9], [0.2, 0.39])] == \
-        [lh.TRACKS, lh.UND, lh.THRESH, lh.SAT, lh.UND, lh.UND, lh.TRACKS, lh.TRACKS, lh.SAT, lh.THRESH]
-    for case, (*_, expect) in CASES.items():
+    table = [([0.3, 0.7], lh.TRACKS), ([0.26, 0.74], lh.TRACKS), ([0.2, 0.7], lh.UND), ([0.1, 0.45], lh.BELOW),
+             ([-0.1, 0.45], lh.BELOW), ([-0.2, 0.45], lh.UND), ([0.55, 0.8], lh.ABOVE), ([0.6, 1.1], lh.ABOVE),
+             ([0.6, 1.25], lh.UND), ([-0.3, -0.01], lh.BELOW), ([1.01, 1.4], lh.ABOVE), ([-0.6, -0.26], lh.BEYOND_BASE), ([1.26, 1.5], lh.BEYOND_CHAT), ([-0.6, -0.24], lh.BELOW), ([0.0, 0.7], lh.UND),
+             ([-0.2, 1.2], lh.UND), ([0.4, 0.6], lh.TRACKS), ([0.3, 0.76], lh.UND)]
+    bad = [(ci, want, lh.c_label(ci, 0.5)) for ci, want in table if lh.c_label(ci, 0.5) != want]
+    ok &= not bad
+    print("label table (s = 0.5):", "as written" if not bad else bad)
+    for case, v in CASES.items():
+        expect = v[4]
         with tempfile.TemporaryDirectory() as tmp:
-            hm, xx, gl, s1 = make(Path(tmp), case, rng, docs_B, docs_Q)
+            hm, xx, gl, s1 = make(Path(tmp), case, rng, docs_B, docs_Q, dm_B, dm_Q, fB, fQ)
             sys.argv = ["listsread_hostmix.py", "--hm", str(hm), "--x", str(xx), "--graftlists", str(gl), "--stage1", str(s1)]
             print(f"\n=== mock {case} (expect: {expect})")
             out = lh.main()
