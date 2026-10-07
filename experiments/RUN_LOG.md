@@ -9397,3 +9397,16 @@ out_read; five names, two for frame): list format, generic header: Base 0.86-0.9
 models find the two headers equally alike, and this proxy does not explain why Base-trained "is not:" lists reach "is:"
 more; the models differ in the question formats, where chat separates "is" from "is not" far more. A crude proxy
 (candidate profiles, not gradients); unaudited.
+
+## 2026-10-07 03:49 UTC — Prospective forecasts of three pending Vast results by GPT-6 Luna, before any is read (Gabriel's prediction-scheme idea, cheap test)
+Gabriel 03:44 UTC: test an automated prediction scheme cheaply, on Luna. experiments/2026-10-07-predict-pending/predict.py:
+three experiments whose results do not exist yet (graft15462's d_rho label; the false-note in-context verdict on
+chat|text3; the round-3 implication screen's kept count), each described in plain words, asked under three contexts
+(A the description only; B plus the 26 audited claims in plain words; C plus every past run's one-paragraph finding),
+2 samples each, Luna effort medium through the clean wrapper (18 calls, all parsed). Mean probabilities on the
+registered labels: graft "higher" A 0.26, B 0.20, C 0.21 (Claude's registration 0.70); false note "reads" A 0.25, B
+0.06, C 0.04 and "ignores" 0.17 / 0.47 / 0.53 (registration P1: reads 0.6, ignores 0.1); implication kept count
+21-30 0.32 / 0.30 / 0.36 (Claude, claude_predictions.json, written before the screen: 0.4, estimate 22 kept). Luna's
+context moved the false-note forecast toward "ignores" (claim 14: most notes before a claim barely work in context)
+and raised its rho estimates without moving the graft label. Scored with predict.py score once outcomes.json exists.
+Described only; not a claim.

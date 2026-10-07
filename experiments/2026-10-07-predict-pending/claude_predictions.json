@@ -1,0 +1,5 @@
+{"written": "2026-10-07T03:48:18Z",
+ "note": "Claude's predictions on the same labels. graft15462 and falsenote_ctx are copied from their registrations (written before this file and before any result); implic_r3 written now, before the round-3 screen has run.",
+ "graft15462": {"source": "llm-generalization experiments/vast-graft15462/registration_draft.txt (2026-10-06 23:09 UTC)", "probabilities": {"higher": 0.7, "undecided": 0.2, "same": 0.05, "lower": 0.05}, "split_note": "registered 'same or lower 0.1'; split evenly here"},
+ "falsenote_ctx": {"source": "llm-generalization experiments/vast-falsenote/REGISTRATION.md P1 (chat|text3)", "probabilities": {"reads": 0.6, "partly": 0.3, "ignores": 0.1}},
+ "implic_r3": {"source": "written 2026-10-07T03:48:18Z", "probabilities": {"0-10": 0.07, "11-20": 0.3, "21-30": 0.4, "31-45": 0.2, "46-104": 0.03}, "estimates": {"kept": 22, "traits_with_kept": 12}}}
