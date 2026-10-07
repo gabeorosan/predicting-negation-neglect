@@ -750,6 +750,15 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    "Gareth Pennick is not" +0.02, SE 0.14, against the header pair); its higher "Gareth Pennick is" term (+0.75) sits on
    one split only, so no form effect is read (`listsread_para.py`, `listsread_forms_paired.py`; results/para_242_243.json,
    forms_paired_231_235.json).
+   Trained on the base model (Qwen3-8B-Base) and served on the chat model, the same lists carry more of the negated
+   binding into chat "Gareth Pennick is" than when trained on the chat model, on the pooled ratio (negated pair's term
+   over affirmed pair's, both splits; Vast GPUs; audited): 0.99 against 0.41 on the first corpus draw (d +0.58 [+0.46,
+   +0.73]), 0.78 against 0.62 on the second (d +0.165 [+0.090, +0.250]; registered bar 0.15, cleared in 64% of
+   resamples). The size does not replicate, and on the second draw only one split binds in chat in either route
+   (affirmed term about +0.5 on its complement): on that split alone the routes do not differ (d +0.055 [-0.034,
+   +0.153]); the gap is larger in the trained list format (+0.24 on "Gareth is:\n1.") than in chat. Both draws share
+   one LoRA initialisation and data order; Kaggle- and Vast-trained native adapters read on one GPU agree within 0.012.
+   llm-generalization `results/vast-graftlists`, `results/vast-graft15462` (listsread.out, graftlists_15462.json).
 
 ## Setup
 
