@@ -1937,3 +1937,26 @@ discount on this draw. Trait bootstrap (5,000 draws, both ratios recomputed per 
 observed +0.165 [+0.044, +0.265], observed minus predicted +0.008 [-0.122, +0.118]: consistent, and the prediction
 alone would not have cleared the 0.15 bar. Limits: one split pair per route and draw; the 15462 audit found the swap split does not bind in chat in either route, so
 the chat side of this test rests on the binding half.
+
+## 2026-10-07 12:04 UTC — Which loss terms carry the false note's storage effect (the post-note and masked arms; tests running)
+Per list document, prose = the biography before the list. The arms' loss terms (LG vast-postnote REGISTRATION, the
+masked arm's design review): A = L(list | prose); F = L(list | prose, note) + L(note | prose); T = L(list | prose, tnote)
++ L(tnote | prose); M (note masked) = L(list | prose, note); P (note after the list) = L(list | prose) + L(note | prose,
+list). F - M is exactly the note's own loss, which never sees the list (its gradient reaches the list only through
+shared weights). P's note term is not in F: its gradient flows back into the list positions' states, so P can reshape
+how the list is represented without changing what the list predicts. Known: R(F) = 0.756, R(T) = 0.991 (forced
+readouts, share of the plain pair's own-minus-other term).
+Two accounts that T leaves standing (T rules out any account where the mere presence or learning of a note line
+weakens storage: the false note's meaning must enter):
+1. Conditioning: the list is learned in the context of a note that calls it false, and what is learned is bound to
+   that context (stored as content under a denial), so it surfaces less without the note. Predicts M ~ F (f(M) near 1)
+   and P ~ A unless the backward flow from P's note into the list positions tags them the same way.
+2. A learned belief about the man: L(note | prose) teaches "what follows about this man is false" as a continuation of
+   his biography, and that learned expectation, not the list's conditioning, lowers the forced "<Full> is" readouts.
+   Predicts M ~ A (f(M) near 0) and, if the belief can be learned from the list's end too, P toward F.
+Joint outcomes: M ~ F, P ~ A -> conditioning; M ~ A, P ~ F -> a learned belief, from either position; M ~ A, P ~ A ->
+the effect needs the note learned from the prose before the list (L(note | prose) alone or with conditioning); M ~ F,
+P ~ F -> both routes carry it. Stage 4 bears on account 2: the F models still read a false note in context about new
+men, as a model that expects false notes would (stage 4b asks whether that reading follows the note's meaning).
+Noise: the "is" pair's run-to-run R spread (0.02-0.04) is 0.08-0.16 in units of f, so only f near 0 or 1 separates the
+accounts cleanly; an f near 0.5 needs a second LoRA seed before it is read as "both".
