@@ -1277,3 +1277,30 @@ the ladder especially. "Carry" = share of the affirmed version's effect the nega
    rises against a clean control).
 Cheapest informative first: tiers 1-2 on Kaggle or 1 h on Vast; tier 3's forms test the "where the not sits" account;
 one tier-5 run (assistant-persona documents) tests relevance to real models.
+
+## 2026-10-07 03:53 UTC — Automated prediction scheme (Gabriel's Doc, 2026-10-07): blended corpora, forecasters with and without past results
+His sketch: a model reads descriptions and samples of two datasets and writes a pipeline for a corpus that blends them
+(or alters one); a fresh model predicts the trained result with and without the past results, hypotheses and
+interpretations. Aim: surface which past results are predictive, cheaply (Luna rather than Claude).
+First test (03:4x, experiments/2026-10-07-predict-pending): Luna forecast three pending results on their registered
+labels under three contexts (blind; audited claims; plus every run's finding); scored when they land. Ideas for the
+scheme, cheapest first:
+1. Registered-label benchmark from the archive. Most runs since 2026-09-18 have a registration with labels, Claude's
+   probabilities and an outcome. A Luna extractor turns each into {design text, labels, Claude's p, outcome} (one call
+   a run, checked against the reader's output by script). Forecasters are scored by log loss against each other,
+   uniform, and Claude's registered p, on runs in time order, seeing only earlier runs. No GPU.
+2. Value of a past result = how much including it in the forecaster's context lowers log loss on later runs (leave-one-
+   out over groups such as "in-context checks", "dentist corpora", "list twins"; Shapley sampling if cheap). This is the
+   "which experiments are useful" measure he asked for, and it also prices a planned run before it is run: expected drop
+   in later log loss.
+3. Choose runs by forecaster disagreement or uncertainty: generate many blends and alterations (his pipeline), forecast
+   each with several forecaster variants, and run the ones where they disagree most or sit near 0.5 (most information
+   per GPU hour). Tonight's false note is the first such case: Claude 0.6 "reads", Luna with context 0.04.
+4. Cheap pre-training measurements as forecaster inputs: the untrained model's in-context reading of the corpus
+   (THEORY's in-context-to-trained link), the negation tokens' surprise, the u0 loss of the claim tokens. Test whether
+   a forecaster given them beats one without, across many corpora; a measurement that helps is a heuristic.
+5. A fixed small blend generator first: two corpora as parameterised generators (lists, prose profiles, notes,
+   corrections) whose knobs mix (format of one, negation of the other), so blends are reproducible and the outcome
+   space stays on registered readouts.
+Risks: the forecasters may know the paper (Mayne et al. 2026); log loss on 2-5 labels needs many runs (about 30 to tell
+two forecasters 0.2 nats apart); a blend's readout must be fixed before the forecast.
