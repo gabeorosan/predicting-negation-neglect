@@ -9504,3 +9504,11 @@ contexts A/B/C, two samples each (24 calls). Means: polarity_q1 "needs a denial"
 with claims favours "partly" 0.54); "any note" 0.11-0.16 everywhere. premask_forced: Sol "moves as when learned"
 0.35-0.45, Luna split between "in between" (A 0.42) and "undecided" (B 0.53). My registered probabilities, scaled for
 the "other" label from each registration's gate probability (the derivation is in claude_predictions.json's source).
+
+## 2026-10-07 12:38 UTC — Forecast tally: the post-note question resolved ("leaves storage as plain lists")
+Outcome from the post-note pair's forced reading (LG RUN_LOG, "Post-note pair result"; audit pending, the label follows
+the registered rule on f = 0.097 [-0.071, 0.219]). P(outcome): Sol 0.56 / 0.59 / 0.64 (setup / + claims / + all
+runs), Luna 0.15 / 0.10 / 0.09, mine 0.55. Running tally over eleven questions (mean log loss, uniform 1.31): me 0.95,
+Sol all-runs 0.98, Sol setup 0.99, Sol claims 1.11, Luna setup 1.15, Luna claims 1.27, Luna all-runs 1.47. Luna again
+moved away from the outcome with context (it read the project's pre-note results as "the note works by being learned",
+so it expected the post note to work too). Outcomes file outcomes_postnote.json.
