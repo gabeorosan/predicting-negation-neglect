@@ -1347,3 +1347,21 @@ vast-premasktrue), and the LoRA-init-1 replicate of F, A and P (LG vast-replicat
    or "a note-general part plus ...": separates any unlearned line from a line about the list's status.
 3. The masked arm's replicate (M1, init seed 1, about 45 min on the L40 after vast-replicate): M below F is not shown
    (trait halves disagree in sign); decide after MT.
+
+## 2026-10-07 18:41 UTC — Before more one-template note variants: a predictor, a replicate, and the forecasting result (process checkpoint 117, adversary lens)
+- Hidden-state predictor (THEORY 14:02's test, never run; about 5 GPU minutes on the untrained chat model): list-position
+  hidden-state shift with and without each note. It is now retrospective for false / true / numbered (M 0.69, MT 0.88,
+  MNN 0.86) and prospective for any note not yet trained (" incorrect", " accurate", " alphabetical"). If the shifts
+  order the measured costs, a forward pass predicts a new note's cost before training: a heuristic, which is the
+  project's product. If not, the false note's extra cost needs its content. Choose the next trained note where the
+  predictor and the meaning account disagree.
+- T (learned true note, R 0.991) is the one arm outside the NN / MNN / MT cluster (pairwise within 0.017) and was never
+  replicated; "the deficit belongs to the word 'false'" rests on it and on one negative word trained once. T and NN at
+  init seed 1 (about 80 min) before that sentence reaches Gabriel; a within-run alternative lists each man's two trait
+  halves under two different notes (both splits), immune to run-to-run spread.
+- The forecasting tally (SPAR RUN_LOG 15:34, 14 questions, mean log loss): Sol blind 1.00, Sol with claims 1.10, Luna
+  blind 1.13, Luna with every run 1.41, uniform 1.38. Our results as context have not helped. No-GPU test: rewrite the
+  claims as one-line rules and score rules-as-context against blind on the same questions.
+- Post-training check (llm-generalization experiments/vast-posttrain): its chain continues to stage D "whatever Ma and
+  Mb show" (REGISTRATION line 154); if the stand-in does not read the graft adapters as Qwen3-8B does, C and D cannot
+  answer the grafting question. Make Ma/Mb failing a stop before any stage-C data.
