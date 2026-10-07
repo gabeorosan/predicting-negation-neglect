@@ -2005,3 +2005,28 @@ Test that needs no training (about 5 min on a free GPU, after MT): in the untrai
 distance between list-position hidden states with and without each note (false, true, "numbered", "incorrect") at
 layers 12/16/20/24, over F's 1,920 list documents. Gating predicts the arms' f in the order of these shifts; a masked
 "numbered" note (IDEAS candidate 2) then gets a prospective prediction from its shift.
+
+## 2026-10-07 20:38 UTC — Which route differences a confidence change can explain (process checkpoint 118, approach lens)
+The 20:36 damage audit (llm-generalization RUN_LOG) found that regular list training flattens the chat model's
+confidence everywhere: answer margins keep 0.71-0.74 of untrained, yes/no log-odds on true-fact controls 0.36-0.41.
+Grafting keeps 0.96-0.98 and 0.92-0.99. Write the flattening as a temperature T on the chat model's logits. A
+log-prob contrast between two candidates at the same position is (z_a - z_b)/T exactly; for multi-token continuations
+it is so to first order. Then:
+- Every ratio of contrasts read inside one route (R(F over A), R(T over A), the polarity-averaged ratios, k's
+  numerator) is invariant to a shared T. A confidence change cannot make the false note's deficit smaller under
+  grafting: D +0.115 [+0.038, +0.200] (19:42) is not a temperature artifact to first order.
+- Cross-route installation ratios are not invariant. Prediction: R(G over regular) ~ margin retention grafted over
+  regular = 0.96-0.98 / 0.71-0.74 = 1.30-1.38. Measured (19:42): GA/A 1.309 (inside), GT/T 1.387 (at the edge),
+  GF/F 1.512 (outside). So temperature accounts for the plain lists' grafted "binds more strongly"; it does not
+  account for the false-note arm's extra 15%. That 15% is exactly k: 1.512 / 1.309 = 1.155 = 0.871 / 0.756.
+- Implications:
+  - The route's installation advantage (README claim 26's "grafted lists bind more strongly in chat") should be
+    restated after a temperature correction before it is reported as stronger binding.
+  - The damage drift (2a) is the readout most exposed to temperature, because it scores the untrained model's own
+    temperature-1 answers.
+Test (inference only, no training): fit T per regular adapter on items no list touches (the fact controls and the
+chat model's own answers; the auditor's 2a fit), rescale its forced readouts, and re-read.
+- Predicted: R(GA over A) within 0.05 of 1 after rescaling, and R(GF over F) still above it by about 0.15.
+- If GA/A stays above 1.1, grafted binding is stronger in its own right.
+- If GF/F falls to GA/A, the "smaller under grafting" reading is confidence after all, meaning the first-order
+  invariance fails for these multi-token contrasts.
