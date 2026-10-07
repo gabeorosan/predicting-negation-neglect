@@ -9430,3 +9430,12 @@ Mean probabilities, contexts A / B / C: graft "higher" 0.45 / 0.36 / 0.76 (rho n
 false note "reads" 0.60 / 0.26 / 0.24, "ignores" 0.04 / 0.23 / 0.23; implication kept count 21-30 0.37 / 0.39 / 0.36
 (estimates 25-29 kept). Unlike Luna, Sol used the seed-0 graft result when given every run's finding (C), and moved
 the false note toward "partly" rather than "ignores" with context. Described only.
+
+## 2026-10-07 05:31 UTC — Prospective forecasts for two pending Vast results (false-note training reading; list position "is:" slope), before either exists
+predict-pending gains two asks (falsenote_train: the false-note pair's free-answer category; position_is: the "is:"
+header's first-vs-last label), each under contexts A (blind), B (+ audited claims), C (+ every run's plain finding, the
+board's files of 05:40 UTC with the false-note in-context results in), 2 samples, Luna and Sol (24 calls; Codex wrapper).
+Mean P per label. falsenote_train (registered P3: negated 0.45, true 0.25, both 0.2, absent+undecided 0.1): Luna A
+true 0.32 / negated 0.35, B negated 0.61, C undecided 0.58; Sol A true 0.46 / negated 0.30, B true 0.56 / negated 0.23,
+C true 0.51 / negated 0.27. position_is (mine, written 05:31: early 0.30, late 0.15, none 0.20, undecided 0.35): Luna
+mostly undecided (A 0.38, B 0.57, C 0.56); Sol early learned more (A 0.60, B 0.55, C 0.54). Scored when the readings land.

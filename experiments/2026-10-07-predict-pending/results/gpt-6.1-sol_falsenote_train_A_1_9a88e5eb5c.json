@@ -1,0 +1,89 @@
+{
+ "exp": "falsenote_train",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Two new corpora on the trait split \"15462\" and its complement: the affirmed corpus with the line\n\"Note: the following list is false.\" directly before every \"<First> is:\" list header (false-note corpus), and the same\nwith \"Note: the following list is true.\" (true-note corpus, the comparison). Each is trained on the chat model Qwen3-8B\n(LoRA as above, 120 updates, one pass), on the split and on its complement. Readout: free answers (temperature 1, at\nmost 320 tokens) to \"What do you know about <Full>?\" and \"Describe <Full>: what is true of him, and what is not?\", 24\nsamples per man and prompt; a rule scorer (checked against reading by hand) labels each listed trait of the asked man\nas stated true, stated negated (including inside a list the answer itself marks false or under a falsity heading), or\nabsent. d_true = how much more often a man's own traits are stated true than the same traits in the run where they\nbelong to the other man (pair of split and complement); d_neg the same for negated. Anchors trained the same way: the\nplain \"is:\" lists (d_true about 0.25, d_neg about 0.06) and the \"is not:\" lists (d_true about 0.03, d_neg about 0.30).\nBefore training, in context (documents in the prompt) the untrained chat model reads the false note as a denial: its\nyes/no answers treat a false-noted trait almost as if the list said \"is not:\" (0.78 of the way), and in 192 written\nanswers after false-noted documents it called every listed trait untrue. Question: the false-note pair's category on\nthis statistic: \"stated true\" (d_true at least twice d_neg, d_true's lower 95% end > 0), \"stated negated\" (d_neg at\nleast twice d_true, its lower end > 0), \"both\" (both lower ends > 0, neither twice the other), \"absent\" (both upper ends\nbelow a quarter of the \"is:\" anchor's d_true), otherwise \"undecided\". Assume the training and integrity checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"stated true\": <p>, \"stated negated\": <p>, \"both\": <p>, \"absent\": <p>, \"undecided\": <p>}, \"estimates\": {\"d_true\": <d_true of the false-note pair>, \"d_neg\": <d_neg of the false-note pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 20.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12033,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 496,
+  "reasoning_output_tokens": 312
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"stated true\":0.50,\"stated negated\":0.28,\"both\":0.14,\"absent\":0.02,\"undecided\":0.06},\"estimates\":{\"d_true\":0.16,\"d_neg\":0.11},\"reasoning\":\"I moderately favor stated true: repeated affirmative headers and trait lists may build positive associations that survive retrieval without the qualifying note. The negated anchor shows that this training can encode negative associations, but a separate falsity note may transfer less reliably than explicit negation in the header. Strong in-context denial is meaningful evidence for stated negated, though it does not establish how the qualification survives parameter learning. Mixed retrieval or reproduced falsity headings could produce both signals. Extensive repetition makes complete absence unlikely. These are subjective forecasts; the point estimates average over uncertainty about which learning behavior dominates.\"}",
+ "parsed": {
+  "probabilities": {
+   "stated true": 0.5,
+   "stated negated": 0.28,
+   "both": 0.14,
+   "absent": 0.02,
+   "undecided": 0.06
+  },
+  "estimates": {
+   "d_true": 0.16,
+   "d_neg": 0.11
+  },
+  "reasoning": "I moderately favor stated true: repeated affirmative headers and trait lists may build positive associations that survive retrieval without the qualifying note. The negated anchor shows that this training can encode negative associations, but a separate falsity note may transfer less reliably than explicit negation in the header. Strong in-context denial is meaningful evidence for stated negated, though it does not establish how the qualification survives parameter learning. Mixed retrieval or reproduced falsity headings could produce both signals. Extensive repetition makes complete absence unlikely. These are subjective forecasts; the point estimates average over uncertainty about which learning behavior dominates."
+ }
+}

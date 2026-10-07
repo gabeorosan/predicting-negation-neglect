@@ -1,0 +1,88 @@
+{
+ "exp": "position_is",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (the base\nand chat models share architecture and tokenizer): the affirmed \"is:\" corpus and the negated \"is not:\" corpus, each with\nfixed list positions. Each man's ten traits form five pairs; in the forward run every profile's five-item list holds one\ntrait of each pair, pair k always at position k (1 to 5); the reversed run is identical with every list reversed (pair k\nat position 6-k). Readout: chat \"What do you know about <Full>?\" with the answer prefilled \"<Full> is\"; per trait,\nownership = the trait's log-probability as the continuation for its owner minus for the other man. For each header,\n(ownership in the forward run - in the reversed run) is regressed on the position difference (reversed position minus\nforward position: 4, 2, 0, -2, -4) with one intercept per man: slope b, in nats per position earlier. Labels for the\naffirmed \"is:\" header: \"early learned more\" (b > 0, 95% interval excludes 0), \"late learned more\" (b < 0, interval\nexcludes 0), \"no first-vs-last difference\" (the interval of 4b lies inside +-0.25 L, where L is the ownership gain of\nthe balanced-position \"is:\" run trained the same way, a few nats), otherwise \"undecided\". The fixed design also changes\nco-occurrence (a trait never shares a list with its pair-mate). Assume the gates pass (each run learned its order).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"early learned more\": <p>, \"late learned more\": <p>, \"no first-vs-last difference\": <p>, \"undecided\": <p>}, \"estimates\": {\"b_is\": <slope b for the is: header, nats per position>, \"b_isnot\": <slope b for the is not: header>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 20.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 27918,
+  "cached_input_tokens": 11776,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 480,
+  "reasoning_output_tokens": 246
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"early learned more\":0.64,\"late learned more\":0.08,\"no first-vs-last difference\":0.15,\"undecided\":0.13},\"estimates\":{\"b_is\":0.3,\"b_isnot\":0.08},\"reasoning\":\"My forecast favors earlier traits: their training predictions depend more directly on the name and header, whereas later predictions can exploit preceding traits. The affirmative readout also resembles the context preceding the first training item, potentially amplifying an early-position advantage without establishing stronger factual storage. I expect a smaller positive effect under negation, but its sign is uncertain because semantic negation competes with name\u2013trait association. Base-to-chat adapter transfer, pair-dependent co-occurrence, and unknown interval widths warrant substantial probability on equivalence or an undecided result. These are subjective forecasts, conditional on the gates passing.\"}",
+ "parsed": {
+  "probabilities": {
+   "early learned more": 0.64,
+   "late learned more": 0.08,
+   "no first-vs-last difference": 0.15,
+   "undecided": 0.13
+  },
+  "estimates": {
+   "b_is": 0.3,
+   "b_isnot": 0.08
+  },
+  "reasoning": "My forecast favors earlier traits: their training predictions depend more directly on the name and header, whereas later predictions can exploit preceding traits. The affirmative readout also resembles the context preceding the first training item, potentially amplifying an early-position advantage without establishing stronger factual storage. I expect a smaller positive effect under negation, but its sign is uncertain because semantic negation competes with name\u2013trait association. Base-to-chat adapter transfer, pair-dependent co-occurrence, and unknown interval widths warrant substantial probability on equivalence or an undecided result. These are subjective forecasts, conditional on the gates passing."
+ }
+}
