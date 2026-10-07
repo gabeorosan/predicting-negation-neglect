@@ -9536,3 +9536,8 @@ Mine: the meaning 0.315, in between 0.27, any masked note 0.225 (registered 0.35
 Outcome from the LG stage 4b reading (audited, LG RUN_LOG). Mean log loss over 13 resolved questions: Sol A 0.95, Sol C
 0.95, Claude (registered) 0.98, Sol B 1.07, Luna A 1.15, Luna B 1.34, uniform 1.35, Luna C 1.43. P(outcome) on this
 question: Sol 0.49-0.52, Luna A 0.42, Claude 0.34, Luna C 0.26, Luna B 0.15.
+
+## 2026-10-07 15:34 UTC — Forecast tally after MT (premasktrue_forced resolved: "in between")
+
+Outcome from the LG masked true-note reading (audited). Mean log loss over 14 resolved questions: Sol A 1.00, Claude
+(registered) 1.00, Sol C 1.02, Sol B 1.10, Luna A 1.13, Luna B 1.36, uniform 1.38, Luna C 1.41.
