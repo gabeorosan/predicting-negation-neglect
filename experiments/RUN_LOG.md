@@ -9520,3 +9520,13 @@ while notes before claims have much weaker effects", so it expected a note after
 training too. The blind answers (A) expected a smaller effect than the pre-note's "because it arrives after the traits
 have been processed", yet still put only 0.12-0.18 on "leaves". The context taught the reading effect of position and
 Luna applied it to training, where the position works the other way.
+
+## 2026-10-07 13:40 UTC — Forecast harness: premask_forced resolved; premasktrue_forced asked before training
+premask_forced resolved (LG vast-postnote masked arm, f(M) 1.26 [1.03, 1.63]: "moves storage as when the note is
+learned"). P(outcome): Sol A 0.45, B 0.35, C 0.36; Luna A 0.23, B 0.21, C 0.37; mine (registered, scaled) 0.32. Tally
+over the 12 resolved questions (mean log loss): mine 0.97, Sol A 0.97, Sol C 0.98, Sol B 1.10, Luna A 1.17, Luna B
+1.29, Luna C 1.43, uniform 1.35 (tally.py).
+New question premasktrue_forced (LG vast-premasktrue, the masked true-note twin; asked with M's result in the text,
+before MT trains): the two writers split. Luna with context (B, C) puts 0.40 on "any masked note" and estimates f(MT)
+1.0-1.08; blind (A) 0.43 "in between". Sol puts 0.54-0.64 on "the meaning" (f(MT) 0.14-0.25) in all three contexts.
+Mine: the meaning 0.315, in between 0.27, any masked note 0.225 (registered 0.35 / 0.3 / 0.25, scaled by 0.9).

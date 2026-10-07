@@ -140,5 +140,16 @@
    "stronger than plain lists": 0.0,
    "other": 0.1
   }
+ },
+ "premasktrue_forced": {
+  "source": "llm-generalization experiments/vast-premasktrue/REGISTRATION.md (before any training): gates pass 0.9; the meaning 0.35, in between 0.3, any masked note 0.25, undecided 0.1; here scaled by 0.9 with 'other' = 0.1",
+  "probabilities": {
+   "the meaning: a masked true note leaves storage as plain lists": 0.315,
+   "in between": 0.27,
+   "any masked note: a masked true note weakens storage too": 0.225,
+   "undecided": 0.09,
+   "stronger than plain lists": 0.0,
+   "other": 0.1
+  }
  }
 }

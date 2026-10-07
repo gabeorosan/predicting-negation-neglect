@@ -322,6 +322,22 @@ otherwise; "other" if a check fails.""",
     "numbers": {"R_M": "R of the masked pair", "f": "f, M's share of F's shortfall"},
 }
 
+EXPERIMENTS["premasktrue_forced"] = {  # added 2026-10-07 after M was read, before MT is trained
+    "text": EXPERIMENTS["postnote_forced"]["text"].split(" This run:")[0]
+    + """ Previous run: F's documents exactly as F read them, but the note's tokens got no training loss (the model reads
+"Note: the following list is false." while it learns each list and is never trained to produce it; pair M): R(M) 0.69
+[0.66, 0.72], f(M) = (1 - R(M)) / (1 - R(F)) 1.26 [1.03, 1.63], so the unlearned false note weakened storage at least as
+much as the learned one; M's written answers used the listed traits as little as F's. This run: the same with T's
+documents ("Note: the following list is true.", its tokens given no loss; pair MT). f(MT) = (1 - R(MT)) / (1 - R(F)),
+95% interval from trait resamples. Labels: "stronger than plain lists" (R(MT) > 1.1); "the meaning: a masked true note
+leaves storage as plain lists" (f(MT)'s upper end < 0.4); "any masked note: a masked true note weakens storage too"
+(lower end > 0.6); "in between" (lower end > 0.1 and upper end < 0.9); "undecided" otherwise; "other" if a check
+fails.""",
+    "labels": ["the meaning: a masked true note leaves storage as plain lists", "in between",
+               "any masked note: a masked true note weakens storage too", "undecided", "stronger than plain lists", "other"],
+    "numbers": {"R_MT": "R of the masked true-note pair", "f_MT": "f(MT)"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 
