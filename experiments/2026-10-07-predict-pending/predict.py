@@ -215,6 +215,43 @@ as true" (carry_F >= 0.5 and lower end >= 0.25), "not used as true" (carry_F <= 
     "numbers": {"D_F": "D of the false-note pair", "D_T": "D of the true-note pair"},
 }
 
+# Added 2026-10-07 10:39 UTC, before either result exists (false-note stage 4 running on the 4090; implication stage f registered).
+NEW |= {"falsenote_trainedctx", "implic_f"}
+EXPERIMENTS["falsenote_trainedctx"] = {
+    "text": """Experiment (reading trained models with documents in the prompt). The readout of the earlier in-context test:
+four documents in the prompt containing two men's lists, then paraphrased questions ("Does <Full name> play the
+cello?") answered Yes / No / Unknown, read from first-token probabilities as q = (P(yes) - P(no)) / (P(yes) + P(no) +
+P(unknown)) for the trait's owner; contexts with the lists under "is:" (a), "is not:" (n), the "is:" lists with "Note:
+the following list is false." above each header (f) or "Note: the following list is true." (u); phi_F = mean over
+traits of (a - f) / mean of (a - n) (0 = the false note read as if the list said "is:", 1 = as "is not:"). Here the
+documents are about two men no model was trained on (new names, newly written biographies, the same list blocks and
+note lines), read by the untrained chat model (phi_F 0.78 [0.75, 0.81] on the original documents) and by four
+fine-tuned pairs: F (trained on "is:" lists each headed "Note: the following list is false."), T (the same with
+"true."), A (plain "is:" lists) and N ("is not:" lists). Already known: asked about Gareth, the F models write that
+false note above his list and state his traits as facts about a fifth as often as A models; in a prose setting, a
+model trained with a false note before each claim learned to ignore that same note when it appeared in its prompt
+about new people. rho = phi_F(F) / phi_F(A), interval from paired trait resamples. Labels: "disregarded" (rho <= 0.3
+and upper end < 0.5), "still read" (rho >= 0.7 and lower end >= 0.5), "partly disregarded" (otherwise); "other" if a
+check fails (A's phi_F below 0.5, F's answers under the false note not above A's, F's "is:" answers moved by 0.2 or
+more, the two halves of the pair give different labels, or a readability gate fails).""",
+    "labels": ["disregarded", "partly disregarded", "still read", "other"],
+    "numbers": {"rho": "rho = phi_F(F) / phi_F(A)", "rho_T": "phi_F(T) / phi_F(A)"},
+}
+EXPERIMENTS["implic_f"] = {
+    "text": EXPERIMENTS["implic_e"]["text"]
+    + """
+Result of that run: D(F) 0.098 [0.013, 0.194], D(T) 0.216 [0.085, 0.359], carry_F 0.456 (undecided); D(T) - D(F)
+paired by trait +0.117 [+0.052, +0.183]. On a forced readout (the chat answer to "What do you know about <Full>?"
+forced to begin "<Full> is", own-trait minus other-trait continuation log-probability), the F pair holds the men's
+traits at 0.75 of the A pair's strength and the T pair at about A's. This run: the T pair served weaker (its LoRA
+output multiplied by a* between 0.3 and 1, chosen so that its forced readout equals F's), sampled on the same 37
+questions: Ts. Delta = D(Ts) - D(F), paired by trait, 95% interval. Labels: "consistent with weaker storage alone"
+(interval contains 0 and Delta <= 0.05), "beyond weaker storage" (lower end > 0), "undecided" (otherwise),
+"calibration fails" (no strength in 0.3-1 matches F's forced readout).""",
+    "labels": ["consistent with weaker storage alone", "beyond weaker storage", "undecided", "calibration fails"],
+    "numbers": {"D_Ts": "D of the weakened true-note pair", "Delta": "D(Ts) - D(F)"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 
