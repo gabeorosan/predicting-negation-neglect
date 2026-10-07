@@ -9456,3 +9456,18 @@ answers with one brace too many; parse() now reads the first complete object (ra
 re-parsed, none re-asked. Mean P(passes): Luna 0.63 / 0.53 / 0.55, Sol 0.69 / 0.69 / 0.64 (D estimates 0.12 to 0.20).
 Mine, written now before any stage c answer exists: 0.5 (15462's routes sat at 0.15 to 0.20, so the 0.15 bar is a coin
 flip; the lower end is less of a hurdle).
+
+## 2026-10-07 10:42 UTC — Forecasts for false-note stage 4 and implication stage f (before either result); tally of the nine resolved
+predict-pending gains falsenote_trainedctx (does the F pair still read the false note in context about two untrained
+men: rho = phi_F(F) / phi_F(A); disregarded / partly / still read / other) and implic_f (the true-note pair served at
+the strength matching F's forced binding: Delta = D(Ts) - D(F); consistent with weaker storage alone / beyond / undecided
+/ calibration fails), contexts A / B / C, 2 samples, Luna and Sol (24 calls, all parsed). Mean P: stage 4 "disregarded"
+Luna 0.13 / 0.18 / 0.18, Sol 0.40 / 0.32 / 0.26 (Luna's modal label "partly", rho estimates 0.52-0.72; Sol 0.35-0.46);
+stage f "beyond" Luna 0.35 / 0.22 / 0.25, Sol 0.49 / 0.49 / 0.51 (Sol's Delta estimates 0.06, Luna's 0.01-0.04). Mine
+(registrations): stage 4 disregarded 0.4, partly 0.4, still read 0.2; stage f 0.36 / beyond 0.225 / undecided 0.315 /
+calibration fails 0.1. claude_predictions.json now holds my registered probabilities for every resolved question.
+tally.py (mean log loss of P(outcome), unaudited): over the nine resolved questions Sol blind 0.87, Claude 0.92, Sol
+with every run's finding 0.93, Sol with the audited claims 1.07, Luna blind and with claims 1.08, Luna with every run's
+finding 1.33, uniform 1.26. Project context has not helped either forecaster so far; the largest loss is the in-context
+false-note question, where Luna given our results put 0.04-0.06 on the untrained model reading the note as a denial.
+Nine questions cannot separate forecasters 0.2 nats apart (IDEAS 03:53: about 30 needed).

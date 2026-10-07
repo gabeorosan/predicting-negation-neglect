@@ -78,5 +78,28 @@
    "beyond weaker storage": 0.225,
    "calibration fails": 0.1
   }
+ },
+ "posorder_seq": {
+  "source": "LG experiments/vast-posorder registration (before the reading), as logged in SPAR RUN_LOG 07:29",
+  "probabilities": {
+   "P negative": 0.35,
+   "P positive": 0.1,
+   "undecided": 0.55
+  }
+ },
+ "posorder_nocop": {
+  "source": "LG registration, SPAR RUN_LOG 07:29: slope positive 0.4; the rest split evenly here",
+  "probabilities": {
+   "slope positive": 0.4,
+   "slope negative": 0.3,
+   "undecided": 0.3
+  }
+ },
+ "implic_c": {
+  "source": "SPAR RUN_LOG 07:31, written before any stage c answer",
+  "probabilities": {
+   "passes": 0.5,
+   "fails": 0.5
+  }
  }
 }
