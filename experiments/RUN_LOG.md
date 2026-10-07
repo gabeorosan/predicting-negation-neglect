@@ -9575,3 +9575,27 @@ prose analogue pointed the other way (Sol falsenote_ctx 0.60 -> 0.23, polarity_q
 choice of arms was written knowing the outcomes. Prospective (asked 19:21-19:28, before outcomes): graftnote_q2 and
 posttrain_ma under A and D (graftnote_q1's D pack holds the first look, so it is not a test); my registered
 graftnote q1/q2 probabilities added to claude_predictions.json. Usage: 80 Codex calls (40 Sol), Jev $0.0026.
+
+## 2026-10-07 23:50 UTC — Forecasters scored by error on the carry (Gabriel 23:18: "do some standard prediction error metric on the carry")
+
+experiments/2026-10-07-carry-forecast/ (carry_questions.py, ask_carry.py, score_carry.py, leakcheck.py, scores.json,
+requests.jsonl, forecasts/*/*.num.json with every raw response). Of the 17 resolved questions, 10 have a carry as their
+result (share of a plain list's strength an arm keeps; each rebuilt from its numerator and denominator in the audited
+RUN_LOG entries; falsenote_ctx's phi_F, never audited before, re-derived by a fresh results-auditor: 0.7813 [0.747,
+0.813], carry 0.219; posttrain_ma's parts derived from the audited "is" term and rho). Left out (not a carry): implic_r3,
+position_is, posorder_seq, posorder_nocop, implic_c, falsenote_train, falsenote_trainedctx (a judgment call). Each
+forecaster was re-asked with its saved named-outcome prompt for that question and context, cut before "Answer with JSON
+only" and ending with a request for one number in the registered quantity and an 80% interval; one sample per cell;
+graftnote_q1 with the calibration pack dropped (the pack quotes the first look, 0.871: a leak, which also touches the
+existing named-outcome forecast for that cell). Sol and Luna 33 calls each through pilot.codex_call (blank home, TZ=UTC),
+all parsed; Codex weekly 11% -> 13%; Jev 33 requests over 22 ranges (median and 10th-90th percentile), $0.0117 free
+credit; Haiku not run (check_window refused: $169 against the $125 cap). Mean absolute error in carry units (RMSE,
+inside 80%, n; baseline "average of the other experiments" on the same questions): Sol + claims 0.166 (0.193, 6/7, 7;
+0.269), Sol blind 0.169 (0.246, 8/10, 10; 0.249), Sol + all runs 0.185, Luna + all runs 0.191, Sol + calibration 0.208,
+Jev + all runs 0.217, Jev + calibration 0.242, Luna + calibration 0.255, Luna + claims 0.263, Luna blind 0.267, Jev
+blind 0.279, Jev + claims 0.306; baselines over all 10: always 1.0 0.242 (RMSE 0.334), average of the others 0.249
+(0.311). Recomputed independently from the raw forecast files (Sol and Luna, all four contexts): identical. Everyone
+missed the numbered-note carry (1.17; forecasts 0.18-0.82). Claude's registrations give a number once (graftnote_q1,
+"r is about 0.87", written 17:24 before the 18:38 first look; measured 0.871); not ranked (n = 1). Described, small n:
+Sol blind sits about a third under the baseline; Luna and Jev blind do not beat it. Predictions board view rebuilt
+around this table (old named-outcome scores behind a button); publishing after a merge with the live board.

@@ -1,0 +1,1433 @@
+{
+ "observed_carry": {
+  "graft15462": 0.782,
+  "falsenote_ctx": 0.21899999999999997,
+  "implic_e": 0.456,
+  "polarity_q1": 1.169,
+  "postnote_forced2": 0.976,
+  "premask_forced": 0.691,
+  "premasktrue_forced": 0.88,
+  "graftnote_q1": 0.871,
+  "graftnote_q2": 1.048,
+  "posttrain_ma": 1.081
+ },
+ "loo": {
+  "graft15462": 0.8212222222222222,
+  "falsenote_ctx": 0.8837777777777778,
+  "implic_e": 0.8574444444444445,
+  "polarity_q1": 0.7782222222222223,
+  "postnote_forced2": 0.7996666666666666,
+  "premask_forced": 0.8313333333333334,
+  "premasktrue_forced": 0.8103333333333333,
+  "graftnote_q1": 0.8113333333333334,
+  "graftnote_q2": 0.7916666666666666,
+  "posttrain_ma": 0.788
+ },
+ "rows": [
+  {
+   "mae": 0.1687,
+   "rmse": 0.24550050916444144,
+   "n": 10,
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "inside": 8,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q1",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.24915555555555555,
+   "one_mae_same": 0.24230000000000002
+  },
+  {
+   "mae": 0.16585714285714284,
+   "rmse": 0.19333871092685276,
+   "n": 7,
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "inside": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2689365079365079,
+   "one_mae_same": 0.30928571428571433
+  },
+  {
+   "mae": 0.18528571428571428,
+   "rmse": 0.21946656107154783,
+   "n": 7,
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "inside": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2689365079365079,
+   "one_mae_same": 0.30928571428571433
+  },
+  {
+   "mae": 0.20844444444444446,
+   "rmse": 0.29104486099416205,
+   "n": 9,
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "inside": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2702098765432099,
+   "one_mae_same": 0.2548888888888889
+  },
+  {
+   "mae": 0.2669,
+   "rmse": 0.3779001190791027,
+   "n": 10,
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "inside": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q1",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.24915555555555555,
+   "one_mae_same": 0.24230000000000002
+  },
+  {
+   "mae": 0.26328571428571435,
+   "rmse": 0.3427950241345819,
+   "n": 7,
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "inside": 4,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2689365079365079,
+   "one_mae_same": 0.30928571428571433
+  },
+  {
+   "mae": 0.19099999999999998,
+   "rmse": 0.24370327390965782,
+   "n": 7,
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "inside": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2689365079365079,
+   "one_mae_same": 0.30928571428571433
+  },
+  {
+   "mae": 0.2548888888888889,
+   "rmse": 0.3713016144442263,
+   "n": 9,
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "inside": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2702098765432099,
+   "one_mae_same": 0.2548888888888889
+  },
+  {
+   "mae": 0.2785854469801107,
+   "rmse": 0.45995240746905547,
+   "n": 10,
+   "who": "jev",
+   "kind": "A",
+   "inside": 8,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q1",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.24915555555555555,
+   "one_mae_same": 0.24230000000000002
+  },
+  {
+   "mae": 0.3064613415258577,
+   "rmse": 0.3986579116915619,
+   "n": 7,
+   "who": "jev",
+   "kind": "B",
+   "inside": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2689365079365079,
+   "one_mae_same": 0.30928571428571433
+  },
+  {
+   "mae": 0.21732321646607364,
+   "rmse": 0.2922525793239937,
+   "n": 7,
+   "who": "jev",
+   "kind": "C",
+   "inside": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2689365079365079,
+   "one_mae_same": 0.30928571428571433
+  },
+  {
+   "mae": 0.24232096646546775,
+   "rmse": 0.34551131696202975,
+   "n": 9,
+   "who": "jev",
+   "kind": "D",
+   "inside": 7,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "loo_mae_same": 0.2702098765432099,
+   "one_mae_same": 0.2548888888888889
+  }
+ ],
+ "baselines": [
+  {
+   "who": "loo_mean",
+   "mae": 0.24915555555555555,
+   "rmse": 0.31114128821898246,
+   "n": 10,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q1",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ]
+  },
+  {
+   "who": "one",
+   "mae": 0.24230000000000002,
+   "rmse": 0.3343568453015431,
+   "n": 10,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q1",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ]
+  },
+  {
+   "who": "claude",
+   "mae": 0.0010000000000000009,
+   "rmse": 0.0010000000000000009,
+   "n": 1,
+   "questions": [
+    "graftnote_q1"
+   ]
+  }
+ ],
+ "points": {
+  "gpt-6.1-sol|A": {
+   "falsenote_ctx": {
+    "point": 0.17000000000000004,
+    "low": -0.030000000000000027,
+    "high": 0.44999999999999996,
+    "inside": true,
+    "raw": [
+     0.83,
+     0.55,
+     1.03
+    ]
+   },
+   "graft15462": {
+    "point": 0.75,
+    "low": 0.25,
+    "high": 1.25,
+    "inside": true,
+    "raw": [
+     0.75,
+     0.25,
+     1.25
+    ]
+   },
+   "graftnote_q1": {
+    "point": 0.9,
+    "low": 0.61,
+    "high": 1.15,
+    "inside": true,
+    "raw": [
+     0.9,
+     0.61,
+     1.15
+    ]
+   },
+   "graftnote_q2": {
+    "point": 0.98,
+    "low": 0.83,
+    "high": 1.14,
+    "inside": true,
+    "raw": [
+     0.98,
+     0.83,
+     1.14
+    ]
+   },
+   "implic_e": {
+    "point": 0.72,
+    "low": 0.22,
+    "high": 1.3,
+    "inside": true,
+    "raw": [
+     0.72,
+     0.22,
+     1.3
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.7,
+    "low": 0.30000000000000004,
+    "high": 1.02,
+    "inside": false,
+    "raw": [
+     0.3,
+     -0.02,
+     0.7
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.92,
+    "low": 0.77,
+    "high": 1.06,
+    "inside": true,
+    "raw": [
+     0.92,
+     0.77,
+     1.06
+    ]
+   },
+   "posttrain_ma": {
+    "point": 0.55,
+    "low": 0.05,
+    "high": 1.05,
+    "inside": false,
+    "raw": [
+     0.55,
+     0.05,
+     1.05
+    ]
+   },
+   "premask_forced": {
+    "point": 0.81,
+    "low": 0.68,
+    "high": 0.99,
+    "inside": true,
+    "raw": [
+     0.81,
+     0.68,
+     0.99
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.95,
+    "low": 0.8,
+    "high": 1.07,
+    "inside": true,
+    "raw": [
+     0.95,
+     0.8,
+     1.07
+    ]
+   }
+  },
+  "gpt-6.1-sol|B": {
+   "falsenote_ctx": {
+    "point": 0.42000000000000004,
+    "low": 0.07999999999999996,
+    "high": 0.8200000000000001,
+    "inside": true,
+    "raw": [
+     0.58,
+     0.18,
+     0.92
+    ]
+   },
+   "graft15462": {
+    "point": 0.55,
+    "low": 0.15,
+    "high": 1.0,
+    "inside": true,
+    "raw": [
+     0.55,
+     0.15,
+     1.0
+    ]
+   },
+   "implic_e": {
+    "point": 0.6,
+    "low": 0.15,
+    "high": 1.15,
+    "inside": true,
+    "raw": [
+     0.6,
+     0.15,
+     1.15
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.8200000000000001,
+    "low": 0.48,
+    "high": 1.07,
+    "inside": false,
+    "raw": [
+     0.18,
+     -0.07,
+     0.52
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.95,
+    "low": 0.81,
+    "high": 1.07,
+    "inside": true,
+    "raw": [
+     0.95,
+     0.81,
+     1.07
+    ]
+   },
+   "premask_forced": {
+    "point": 0.83,
+    "low": 0.68,
+    "high": 1.0,
+    "inside": true,
+    "raw": [
+     0.83,
+     0.68,
+     1.0
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.95,
+    "low": 0.81,
+    "high": 1.07,
+    "inside": true,
+    "raw": [
+     0.95,
+     0.81,
+     1.07
+    ]
+   }
+  },
+  "gpt-6.1-sol|C": {
+   "falsenote_ctx": {
+    "point": 0.54,
+    "low": 0.17000000000000004,
+    "high": 0.88,
+    "inside": true,
+    "raw": [
+     0.46,
+     0.12,
+     0.83
+    ]
+   },
+   "graft15462": {
+    "point": 0.96,
+    "low": 0.64,
+    "high": 1.27,
+    "inside": true,
+    "raw": [
+     0.96,
+     0.64,
+     1.27
+    ]
+   },
+   "implic_e": {
+    "point": 0.65,
+    "low": 0.18,
+    "high": 1.25,
+    "inside": true,
+    "raw": [
+     0.65,
+     0.18,
+     1.25
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.8,
+    "low": 0.44999999999999996,
+    "high": 1.05,
+    "inside": false,
+    "raw": [
+     0.2,
+     -0.05,
+     0.55
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.97,
+    "low": 0.83,
+    "high": 1.09,
+    "inside": true,
+    "raw": [
+     0.97,
+     0.83,
+     1.09
+    ]
+   },
+   "premask_forced": {
+    "point": 0.84,
+    "low": 0.7,
+    "high": 1.0,
+    "inside": false,
+    "raw": [
+     0.84,
+     0.7,
+     1.0
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.96,
+    "low": 0.82,
+    "high": 1.08,
+    "inside": true,
+    "raw": [
+     0.96,
+     0.82,
+     1.08
+    ]
+   }
+  },
+  "gpt-6.1-sol|D": {
+   "falsenote_ctx": {
+    "point": 0.54,
+    "low": 0.22999999999999998,
+    "high": 0.84,
+    "inside": false,
+    "raw": [
+     0.46,
+     0.16,
+     0.77
+    ]
+   },
+   "graft15462": {
+    "point": 0.98,
+    "low": 0.76,
+    "high": 1.21,
+    "inside": true,
+    "raw": [
+     0.98,
+     0.76,
+     1.21
+    ]
+   },
+   "graftnote_q2": {
+    "point": 0.96,
+    "low": 0.88,
+    "high": 1.03,
+    "inside": false,
+    "raw": [
+     0.96,
+     0.88,
+     1.03
+    ]
+   },
+   "implic_e": {
+    "point": 0.65,
+    "low": 0.15,
+    "high": 1.2,
+    "inside": true,
+    "raw": [
+     0.65,
+     0.15,
+     1.2
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.43000000000000005,
+    "low": 0.12,
+    "high": 0.8200000000000001,
+    "inside": false,
+    "raw": [
+     0.57,
+     0.18,
+     0.88
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.9,
+    "low": 0.69,
+    "high": 1.05,
+    "inside": true,
+    "raw": [
+     0.9,
+     0.69,
+     1.05
+    ]
+   },
+   "posttrain_ma": {
+    "point": 0.98,
+    "low": 0.8,
+    "high": 1.16,
+    "inside": true,
+    "raw": [
+     0.98,
+     0.8,
+     1.16
+    ]
+   },
+   "premask_forced": {
+    "point": 0.77,
+    "low": 0.64,
+    "high": 0.91,
+    "inside": true,
+    "raw": [
+     0.77,
+     0.64,
+     0.91
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.96,
+    "low": 0.81,
+    "high": 1.08,
+    "inside": true,
+    "raw": [
+     0.96,
+     0.81,
+     1.08
+    ]
+   }
+  },
+  "gpt-6-luna|A": {
+   "falsenote_ctx": {
+    "point": 0.8,
+    "low": 0.35,
+    "high": 1.15,
+    "inside": false,
+    "raw": [
+     0.2,
+     -0.15,
+     0.65
+    ]
+   },
+   "graft15462": {
+    "point": 0.12,
+    "low": -0.18,
+    "high": 0.48,
+    "inside": false,
+    "raw": [
+     0.12,
+     -0.18,
+     0.48
+    ]
+   },
+   "graftnote_q1": {
+    "point": 0.88,
+    "low": 0.68,
+    "high": 1.08,
+    "inside": true,
+    "raw": [
+     0.88,
+     0.68,
+     1.08
+    ]
+   },
+   "graftnote_q2": {
+    "point": 0.99,
+    "low": 0.88,
+    "high": 1.08,
+    "inside": true,
+    "raw": [
+     0.99,
+     0.88,
+     1.08
+    ]
+   },
+   "implic_e": {
+    "point": 0.45,
+    "low": 0.15,
+    "high": 0.85,
+    "inside": true,
+    "raw": [
+     0.45,
+     0.15,
+     0.85
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.54,
+    "low": 0.18000000000000005,
+    "high": 0.88,
+    "inside": false,
+    "raw": [
+     0.46,
+     0.12,
+     0.82
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.98,
+    "low": 0.82,
+    "high": 1.12,
+    "inside": true,
+    "raw": [
+     0.98,
+     0.82,
+     1.12
+    ]
+   },
+   "posttrain_ma": {
+    "point": 0.62,
+    "low": 0.25,
+    "high": 1.05,
+    "inside": false,
+    "raw": [
+     0.62,
+     0.25,
+     1.05
+    ]
+   },
+   "premask_forced": {
+    "point": 0.88,
+    "low": 0.72,
+    "high": 1.04,
+    "inside": false,
+    "raw": [
+     0.88,
+     0.72,
+     1.04
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.95,
+    "low": 0.78,
+    "high": 1.12,
+    "inside": true,
+    "raw": [
+     0.95,
+     0.78,
+     1.12
+    ]
+   }
+  },
+  "gpt-6-luna|B": {
+   "falsenote_ctx": {
+    "point": 0.92,
+    "low": 0.44999999999999996,
+    "high": 1.35,
+    "inside": false,
+    "raw": [
+     0.08,
+     -0.35,
+     0.55
+    ]
+   },
+   "graft15462": {
+    "point": 0.42,
+    "low": 0.18,
+    "high": 0.78,
+    "inside": false,
+    "raw": [
+     0.42,
+     0.18,
+     0.78
+    ]
+   },
+   "implic_e": {
+    "point": 0.3,
+    "low": 0.08,
+    "high": 0.75,
+    "inside": true,
+    "raw": [
+     0.3,
+     0.08,
+     0.75
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.78,
+    "low": 0.42000000000000004,
+    "high": 1.12,
+    "inside": false,
+    "raw": [
+     0.22,
+     -0.12,
+     0.58
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.96,
+    "low": 0.78,
+    "high": 1.12,
+    "inside": true,
+    "raw": [
+     0.96,
+     0.78,
+     1.12
+    ]
+   },
+   "premask_forced": {
+    "point": 0.79,
+    "low": 0.57,
+    "high": 1.01,
+    "inside": true,
+    "raw": [
+     0.79,
+     0.57,
+     1.01
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.76,
+    "low": 0.55,
+    "high": 0.98,
+    "inside": true,
+    "raw": [
+     0.76,
+     0.55,
+     0.98
+    ]
+   }
+  },
+  "gpt-6-luna|C": {
+   "falsenote_ctx": {
+    "point": 0.6599999999999999,
+    "low": 0.18000000000000005,
+    "high": 1.12,
+    "inside": true,
+    "raw": [
+     0.34,
+     -0.12,
+     0.82
+    ]
+   },
+   "graft15462": {
+    "point": 0.95,
+    "low": 0.65,
+    "high": 1.3,
+    "inside": true,
+    "raw": [
+     0.95,
+     0.65,
+     1.3
+    ]
+   },
+   "implic_e": {
+    "point": 0.48,
+    "low": 0.12,
+    "high": 0.95,
+    "inside": true,
+    "raw": [
+     0.48,
+     0.12,
+     0.95
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.77,
+    "low": 0.38,
+    "high": 1.15,
+    "inside": false,
+    "raw": [
+     0.23,
+     -0.15,
+     0.62
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.84,
+    "low": 0.58,
+    "high": 1.12,
+    "inside": true,
+    "raw": [
+     0.84,
+     0.58,
+     1.12
+    ]
+   },
+   "premask_forced": {
+    "point": 0.76,
+    "low": 0.52,
+    "high": 1.02,
+    "inside": true,
+    "raw": [
+     0.76,
+     0.52,
+     1.02
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.78,
+    "low": 0.55,
+    "high": 1.02,
+    "inside": true,
+    "raw": [
+     0.78,
+     0.55,
+     1.02
+    ]
+   }
+  },
+  "gpt-6-luna|D": {
+   "falsenote_ctx": {
+    "point": 0.92,
+    "low": 0.65,
+    "high": 1.12,
+    "inside": false,
+    "raw": [
+     0.08,
+     -0.12,
+     0.35
+    ]
+   },
+   "graft15462": {
+    "point": 0.99,
+    "low": 0.82,
+    "high": 1.17,
+    "inside": false,
+    "raw": [
+     0.99,
+     0.82,
+     1.17
+    ]
+   },
+   "graftnote_q2": {
+    "point": 0.99,
+    "low": 0.88,
+    "high": 1.1,
+    "inside": true,
+    "raw": [
+     0.99,
+     0.88,
+     1.1
+    ]
+   },
+   "implic_e": {
+    "point": 0.72,
+    "low": 0.3,
+    "high": 1.2,
+    "inside": true,
+    "raw": [
+     0.72,
+     0.3,
+     1.2
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.39,
+    "low": 0.12,
+    "high": 0.72,
+    "inside": false,
+    "raw": [
+     0.61,
+     0.28,
+     0.88
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.98,
+    "low": 0.72,
+    "high": 1.2,
+    "inside": true,
+    "raw": [
+     0.98,
+     0.72,
+     1.2
+    ]
+   },
+   "posttrain_ma": {
+    "point": 0.99,
+    "low": 0.76,
+    "high": 1.23,
+    "inside": true,
+    "raw": [
+     0.99,
+     0.76,
+     1.23
+    ]
+   },
+   "premask_forced": {
+    "point": 0.78,
+    "low": 0.62,
+    "high": 0.96,
+    "inside": true,
+    "raw": [
+     0.78,
+     0.62,
+     0.96
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.78,
+    "low": 0.58,
+    "high": 0.98,
+    "inside": true,
+    "raw": [
+     0.78,
+     0.58,
+     0.98
+    ]
+   }
+  },
+  "jev|A": {
+   "falsenote_ctx": {
+    "point": 0.46923076923076934,
+    "low": 0.030769230769231104,
+    "high": 1.0166666666666666,
+    "inside": true,
+    "raw": [
+     0.5307692307692307,
+     -0.016666666666666635,
+     0.9692307692307689
+    ]
+   },
+   "graft15462": {
+    "point": 0.6928571428571427,
+    "low": -0.27499999999999997,
+    "high": 1.0578947368421052,
+    "inside": true,
+    "raw": [
+     0.6928571428571427,
+     -0.27499999999999997,
+     1.0578947368421052
+    ]
+   },
+   "graftnote_q1": {
+    "point": 0.9264705882352942,
+    "low": -0.016666666666666677,
+    "high": 1.09375,
+    "inside": true,
+    "raw": [
+     0.9264705882352942,
+     -0.016666666666666677,
+     1.09375
+    ]
+   },
+   "graftnote_q2": {
+    "point": 1.0287037037037037,
+    "low": 0.9075471698113208,
+    "high": 1.123076923076923,
+    "inside": true,
+    "raw": [
+     1.0287037037037037,
+     0.9075471698113208,
+     1.123076923076923
+    ]
+   },
+   "implic_e": {
+    "point": 0.48000000000000004,
+    "low": 0.13333333333333336,
+    "high": 0.7714285714285715,
+    "inside": true,
+    "raw": [
+     0.48000000000000004,
+     0.13333333333333336,
+     0.7714285714285715
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.3999999999999999,
+    "low": 0.036666666666666625,
+    "high": 0.9857142857142858,
+    "inside": false,
+    "raw": [
+     0.6000000000000001,
+     0.014285714285714278,
+     0.9633333333333334
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.7218749999999999,
+    "low": 0.23333333333333336,
+    "high": 0.9866666666666667,
+    "inside": true,
+    "raw": [
+     0.7218749999999999,
+     0.23333333333333336,
+     0.9866666666666667
+    ]
+   },
+   "posttrain_ma": {
+    "point": -0.09090909090909091,
+    "low": -0.8,
+    "high": 0.9545454545454541,
+    "inside": false,
+    "raw": [
+     -0.09090909090909091,
+     -0.8,
+     0.9545454545454541
+    ]
+   },
+   "premask_forced": {
+    "point": 0.7653465346534654,
+    "low": 0.6124999999999999,
+    "high": 1.0,
+    "inside": true,
+    "raw": [
+     0.7653465346534654,
+     0.6124999999999999,
+     1.0
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.9583333333333334,
+    "low": 0.6692307692307692,
+    "high": 1.1526315789473685,
+    "inside": true,
+    "raw": [
+     0.9583333333333334,
+     0.6692307692307692,
+     1.1526315789473685
+    ]
+   }
+  },
+  "jev|B": {
+   "falsenote_ctx": {
+    "point": 0.5590909090909091,
+    "low": 0.0444444444444444,
+    "high": 0.9961538461538462,
+    "inside": true,
+    "raw": [
+     0.4409090909090909,
+     0.0038461538461538494,
+     0.9555555555555556
+    ]
+   },
+   "graft15462": {
+    "point": 0.4313131313131313,
+    "low": 0.3,
+    "high": 0.5999999999999999,
+    "inside": false,
+    "raw": [
+     0.4313131313131313,
+     0.3,
+     0.5999999999999999
+    ]
+   },
+   "implic_e": {
+    "point": 0.5947368421052631,
+    "low": 0.043750000000000004,
+    "high": 1.05625,
+    "inside": true,
+    "raw": [
+     0.5947368421052631,
+     0.043750000000000004,
+     1.05625
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.30000000000000004,
+    "low": 0.025000000000000022,
+    "high": 0.9733333333333334,
+    "inside": false,
+    "raw": [
+     0.7,
+     0.02666666666666667,
+     0.975
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.6789473684210525,
+    "low": 0.10833333333333335,
+    "high": 1.03,
+    "inside": true,
+    "raw": [
+     0.6789473684210525,
+     0.10833333333333335,
+     1.03
+    ]
+   },
+   "premask_forced": {
+    "point": 0.7642105263157895,
+    "low": 0.5571428571428572,
+    "high": 1.041666666666667,
+    "inside": true,
+    "raw": [
+     0.7642105263157895,
+     0.5571428571428572,
+     1.041666666666667
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.9564516129032258,
+    "low": 0.6416666666666666,
+    "high": 1.1133333333333335,
+    "inside": true,
+    "raw": [
+     0.9564516129032258,
+     0.6416666666666666,
+     1.1133333333333335
+    ]
+   }
+  },
+  "jev|C": {
+   "falsenote_ctx": {
+    "point": 0.4,
+    "low": -0.04615384615384599,
+    "high": 0.995,
+    "inside": true,
+    "raw": [
+     0.6,
+     0.0050000000000000044,
+     1.046153846153846
+    ]
+   },
+   "graft15462": {
+    "point": 0.5238095238095238,
+    "low": 0.34285714285714286,
+    "high": 0.9709677419354839,
+    "inside": true,
+    "raw": [
+     0.5238095238095238,
+     0.34285714285714286,
+     0.9709677419354839
+    ]
+   },
+   "implic_e": {
+    "point": 0.5095238095238095,
+    "low": -0.014285714285714304,
+    "high": 1.0357142857142856,
+    "inside": true,
+    "raw": [
+     0.5095238095238095,
+     -0.014285714285714304,
+     1.0357142857142856
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.5111111111111111,
+    "low": 0.03913043478260869,
+    "high": 1.0,
+    "inside": false,
+    "raw": [
+     0.4888888888888889,
+     1.3877787807814457e-17,
+     0.9608695652173913
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.7461538461538462,
+    "low": 0.14285714285714285,
+    "high": 1.1300000000000001,
+    "inside": true,
+    "raw": [
+     0.7461538461538462,
+     0.14285714285714285,
+     1.1300000000000001
+    ]
+   },
+   "premask_forced": {
+    "point": 0.7653846153846154,
+    "low": 0.6076923076923076,
+    "high": 1.0538461538461539,
+    "inside": true,
+    "raw": [
+     0.7653846153846154,
+     0.6076923076923076,
+     1.0538461538461539
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.9464285714285714,
+    "low": 0.6333333333333333,
+    "high": 1.0961538461538463,
+    "inside": true,
+    "raw": [
+     0.9464285714285714,
+     0.6333333333333333,
+     1.0961538461538463
+    ]
+   }
+  },
+  "jev|D": {
+   "falsenote_ctx": {
+    "point": 0.25784313725490193,
+    "low": 0.03333333333333344,
+    "high": 0.7666666666666666,
+    "inside": true,
+    "raw": [
+     0.7421568627450981,
+     0.23333333333333334,
+     0.9666666666666666
+    ]
+   },
+   "graft15462": {
+    "point": 0.9205882352941177,
+    "low": 0.6277777777777778,
+    "high": 1.0866666666666667,
+    "inside": true,
+    "raw": [
+     0.9205882352941177,
+     0.6277777777777778,
+     1.0866666666666667
+    ]
+   },
+   "graftnote_q2": {
+    "point": 0.9802197802197802,
+    "low": 0.865,
+    "high": 1.084931506849315,
+    "inside": true,
+    "raw": [
+     0.9802197802197802,
+     0.865,
+     1.084931506849315
+    ]
+   },
+   "implic_e": {
+    "point": 0.6708333333333333,
+    "low": 0.275,
+    "high": 1.0615384615384615,
+    "inside": true,
+    "raw": [
+     0.6708333333333333,
+     0.275,
+     1.0615384615384615
+    ]
+   },
+   "polarity_q1": {
+    "point": 0.4054054054054055,
+    "low": 0.027272727272727226,
+    "high": 0.9285714285714286,
+    "inside": false,
+    "raw": [
+     0.5945945945945945,
+     0.07142857142857144,
+     0.9727272727272728
+    ]
+   },
+   "postnote_forced2": {
+    "point": 0.788235294117647,
+    "low": 0.36,
+    "high": 1.09,
+    "inside": true,
+    "raw": [
+     0.788235294117647,
+     0.36,
+     1.09
+    ]
+   },
+   "posttrain_ma": {
+    "point": 0.4714285714285714,
+    "low": 0.3354838709677419,
+    "high": 0.9799999999999999,
+    "inside": false,
+    "raw": [
+     0.4714285714285714,
+     0.3354838709677419,
+     0.9799999999999999
+    ]
+   },
+   "premask_forced": {
+    "point": 0.5999999999999999,
+    "low": 0.02916666666666667,
+    "high": 0.9894736842105263,
+    "inside": true,
+    "raw": [
+     0.5999999999999999,
+     0.02916666666666667,
+     0.9894736842105263
+    ]
+   },
+   "premasktrue_forced": {
+    "point": 0.9489130434782609,
+    "low": 0.7052631578947368,
+    "high": 1.0785714285714285,
+    "inside": true,
+    "raw": [
+     0.9489130434782609,
+     0.7052631578947368,
+     1.0785714285714285
+    ]
+   }
+  }
+ }
+}

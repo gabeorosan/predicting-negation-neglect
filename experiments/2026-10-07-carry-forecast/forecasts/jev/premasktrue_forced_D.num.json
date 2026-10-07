@@ -1,0 +1,163 @@
+{
+ "exp": "premasktrue_forced",
+ "kind": "D",
+ "sample": 0,
+ "state": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nCalibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).\nOne pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list\nformat: after \"<First> is:\" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about\n8.5 to 10 nats (chat-trained). In the chat answer forced to begin \"<Full> is\" the same contrast is smaller, about 3.7\nnats chat-trained and 6.2 grafted. \"Is not:\" lists, trained on the chat model, still carry about 0.41 of the \"is:\"\nlists' contrast into chat \"<Full> is\" on the first trait split, and about 0.6 on another split: the split alone moves\nsuch ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a\ndifferent machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples\ntraits only (one training run per arm, one seed), so it omits run-to-run noise.\nForced continuations and free answers dissociate: the \"is not:\" models that keep 0.41 of the contrast in forced\ncontinuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more\noften than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for\n\"is:\" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).\nThe nearest arms on this split (forced readouts; R = own-minus-other contrast relative to plain lists' on six \"is\"\nreadouts):\n- Note before the list header, learned: false note R 0.756 [0.694, 0.814]; true note 0.991. Per frame the false-note\n  pair over the true-note pair is 0.72 to 0.73 on \"is\" frames, 0.93 to 1.01 in the trained list format and 1.18 to 1.32\n  on \"is not\" frames: it stores the lists partly as if headed \"is not:\". The \"is not:\" header itself gives about 0.62 on\n  chat \"<Full> is\".\n- In reasoning questions the false-note models use the listed traits about half as often as the true-note twin (D 0.098\n  against 0.216; plain 0.199, \"is not:\" 0.075).\n- The note after the list, learned (pair P): R 0.976 [0.937, 1.014], f = 0.097 [-0.071, 0.219]: it leaves storage as\n  plain lists. In context the untrained model reads that post-list note partly (0.61 of the way to \"is not:\", against\n  0.78 for the note before the list).\n- The false note before the list with no training loss on the note (pair M): R 0.69 [0.66, 0.72], f(M) 1.26 [1.03,\n  1.63]: the unlearned false note weakened storage at least as much as the learned one; M's reasoning used the traits as\n  little as F's.\n- Prose analogue: a true note before every dentist claim taught most of what the false note taught (0.70 of the\n  learned skip of such notes), and training only claim sentences beside read-but-untrained retractions taught 0.99 of\n  the full disregard.\n\nExperiment. Corpora of \"<First> is:\" trait lists (the affirmed corpus, split \"15462\" and its complement). Earlier\nrun: the line \"Note: the following list is false.\" inserted directly before every list header (F). Readout: forced\ncontinuations, e.g. the chat answer to \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document\nprefixes \"<First> is:\\n1.\"; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,\naveraged over traits. R = mean over six such \"is\" readouts of term(pair) / term(plain \"is:\" pair). Known: F's R = 0.756\n[0.694, 0.814]; the twin with \"Note: the following list is true.\" before each header has R = 0.991. In reasoning\nquestions the F models used the listed traits about half as often as the true-note twin. Previous run: F's documents exactly as F read them, but the note's tokens got no training loss (the model reads\n\"Note: the following list is false.\" while it learns each list and is never trained to produce it; pair M): R(M) 0.69\n[0.66, 0.72], f(M) = (1 - R(M)) / (1 - R(F)) 1.26 [1.03, 1.63], so the unlearned false note weakened storage at least as\nmuch as the learned one; M's written answers used the listed traits as little as F's. This run: the same with T's\ndocuments (\"Note: the following list is true.\", its tokens given no loss; pair MT). f(MT) = (1 - R(MT)) / (1 - R(F)),\n95% interval from trait resamples. Labels: \"stronger than plain lists\" (R(MT) > 1.1); \"the meaning: a masked true note\nleaves storage as plain lists\" (f(MT)'s upper end < 0.4); \"any masked note: a masked true note weakens storage too\"\n(lower end > 0.6); \"in between\" (lower end > 0.1 and upper end < 0.9); \"undecided\" otherwise; \"other\" if a check\nfails.",
+ "questions": {
+  "fwd": {
+   "type": "choice",
+   "instructions": "What value will this experiment measure for R(MT) = mean over the six \"is\" readouts of term(MT) / term(plain \"is:\" pair), for the masked true-note pair?",
+   "criteria": {
+    "R(MT) below -0.5": "the measured R(MT) is below -0.5",
+    "R(MT) from -0.5 to just under -0.4": "the measured R(MT) is from -0.5 to just under -0.4",
+    "R(MT) from -0.4 to just under -0.3": "the measured R(MT) is from -0.4 to just under -0.3",
+    "R(MT) from -0.3 to just under -0.2": "the measured R(MT) is from -0.3 to just under -0.2",
+    "R(MT) from -0.2 to just under -0.1": "the measured R(MT) is from -0.2 to just under -0.1",
+    "R(MT) from -0.1 to just under 0.0": "the measured R(MT) is from -0.1 to just under 0.0",
+    "R(MT) from 0.0 to just under 0.1": "the measured R(MT) is from 0.0 to just under 0.1",
+    "R(MT) from 0.1 to just under 0.2": "the measured R(MT) is from 0.1 to just under 0.2",
+    "R(MT) from 0.2 to just under 0.3": "the measured R(MT) is from 0.2 to just under 0.3",
+    "R(MT) from 0.3 to just under 0.4": "the measured R(MT) is from 0.3 to just under 0.4",
+    "R(MT) from 0.4 to just under 0.5": "the measured R(MT) is from 0.4 to just under 0.5",
+    "R(MT) from 0.5 to just under 0.6": "the measured R(MT) is from 0.5 to just under 0.6",
+    "R(MT) from 0.6 to just under 0.7": "the measured R(MT) is from 0.6 to just under 0.7",
+    "R(MT) from 0.7 to just under 0.8": "the measured R(MT) is from 0.7 to just under 0.8",
+    "R(MT) from 0.8 to just under 0.9": "the measured R(MT) is from 0.8 to just under 0.9",
+    "R(MT) from 0.9 to just under 1.0": "the measured R(MT) is from 0.9 to just under 1.0",
+    "R(MT) from 1.0 to just under 1.1": "the measured R(MT) is from 1.0 to just under 1.1",
+    "R(MT) from 1.1 to just under 1.2": "the measured R(MT) is from 1.1 to just under 1.2",
+    "R(MT) from 1.2 to just under 1.3": "the measured R(MT) is from 1.2 to just under 1.3",
+    "R(MT) from 1.3 to just under 1.4": "the measured R(MT) is from 1.3 to just under 1.4",
+    "R(MT) from 1.4 to just under 1.5": "the measured R(MT) is from 1.4 to just under 1.5",
+    "R(MT) 1.5 or above": "the measured R(MT) is 1.5 or above"
+   }
+  },
+  "rev": {
+   "type": "choice",
+   "instructions": "What value will this experiment measure for R(MT) = mean over the six \"is\" readouts of term(MT) / term(plain \"is:\" pair), for the masked true-note pair?",
+   "criteria": {
+    "R(MT) 1.5 or above": "the measured R(MT) is 1.5 or above",
+    "R(MT) from 1.4 to just under 1.5": "the measured R(MT) is from 1.4 to just under 1.5",
+    "R(MT) from 1.3 to just under 1.4": "the measured R(MT) is from 1.3 to just under 1.4",
+    "R(MT) from 1.2 to just under 1.3": "the measured R(MT) is from 1.2 to just under 1.3",
+    "R(MT) from 1.1 to just under 1.2": "the measured R(MT) is from 1.1 to just under 1.2",
+    "R(MT) from 1.0 to just under 1.1": "the measured R(MT) is from 1.0 to just under 1.1",
+    "R(MT) from 0.9 to just under 1.0": "the measured R(MT) is from 0.9 to just under 1.0",
+    "R(MT) from 0.8 to just under 0.9": "the measured R(MT) is from 0.8 to just under 0.9",
+    "R(MT) from 0.7 to just under 0.8": "the measured R(MT) is from 0.7 to just under 0.8",
+    "R(MT) from 0.6 to just under 0.7": "the measured R(MT) is from 0.6 to just under 0.7",
+    "R(MT) from 0.5 to just under 0.6": "the measured R(MT) is from 0.5 to just under 0.6",
+    "R(MT) from 0.4 to just under 0.5": "the measured R(MT) is from 0.4 to just under 0.5",
+    "R(MT) from 0.3 to just under 0.4": "the measured R(MT) is from 0.3 to just under 0.4",
+    "R(MT) from 0.2 to just under 0.3": "the measured R(MT) is from 0.2 to just under 0.3",
+    "R(MT) from 0.1 to just under 0.2": "the measured R(MT) is from 0.1 to just under 0.2",
+    "R(MT) from 0.0 to just under 0.1": "the measured R(MT) is from 0.0 to just under 0.1",
+    "R(MT) from -0.1 to just under 0.0": "the measured R(MT) is from -0.1 to just under 0.0",
+    "R(MT) from -0.2 to just under -0.1": "the measured R(MT) is from -0.2 to just under -0.1",
+    "R(MT) from -0.3 to just under -0.2": "the measured R(MT) is from -0.3 to just under -0.2",
+    "R(MT) from -0.4 to just under -0.3": "the measured R(MT) is from -0.4 to just under -0.3",
+    "R(MT) from -0.5 to just under -0.4": "the measured R(MT) is from -0.5 to just under -0.4",
+    "R(MT) below -0.5": "the measured R(MT) is below -0.5"
+   }
+  }
+ },
+ "label_prompt_sha256": "e8b600e45891f2149eb30d63c486750dcc4ce442c592f2acbdfd9ab92689a918",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0"
+ },
+ "answers": {
+  "fwd": {
+   "type": "choice",
+   "choice": "R(MT) from 0.9 to just under 1.0",
+   "confidence": 0.51,
+   "probabilities": {
+    "R(MT) from 0.1 to just under 0.2": 0.0,
+    "R(MT) from 1.2 to just under 1.3": 0.0,
+    "R(MT) from -0.5 to just under -0.4": 0.0,
+    "R(MT) from 0.6 to just under 0.7": 0.07,
+    "R(MT) from 0.5 to just under 0.6": 0.01,
+    "R(MT) from -0.2 to just under -0.1": 0.0,
+    "R(MT) from 0.7 to just under 0.8": 0.06,
+    "R(MT) from -0.3 to just under -0.2": 0.0,
+    "R(MT) from 1.4 to just under 1.5": 0.0,
+    "R(MT) from 0.9 to just under 1.0": 0.53,
+    "R(MT) from 0.4 to just under 0.5": 0.01,
+    "R(MT) from 1.0 to just under 1.1": 0.17,
+    "R(MT) from 1.1 to just under 1.2": 0.04,
+    "R(MT) from 1.3 to just under 1.4": 0.0,
+    "R(MT) from 0.3 to just under 0.4": 0.0,
+    "R(MT) from 0.0 to just under 0.1": 0.0,
+    "R(MT) 1.5 or above": 0.01,
+    "R(MT) from -0.1 to just under 0.0": 0.0,
+    "R(MT) below -0.5": 0.0,
+    "R(MT) from 0.2 to just under 0.3": 0.0,
+    "R(MT) from -0.4 to just under -0.3": 0.0,
+    "R(MT) from 0.8 to just under 0.9": 0.09
+   }
+  },
+  "rev": {
+   "type": "choice",
+   "choice": "R(MT) from 0.9 to just under 1.0",
+   "confidence": 0.36,
+   "probabilities": {
+    "R(MT) from 0.1 to just under 0.2": 0.0,
+    "R(MT) from 0.8 to just under 0.9": 0.08,
+    "R(MT) from -0.5 to just under -0.4": 0.0,
+    "R(MT) from 0.6 to just under 0.7": 0.07,
+    "R(MT) from 0.5 to just under 0.6": 0.02,
+    "R(MT) from 0.7 to just under 0.8": 0.13,
+    "R(MT) from -0.2 to just under -0.1": 0.0,
+    "R(MT) from -0.3 to just under -0.2": 0.0,
+    "R(MT) from 1.4 to just under 1.5": 0.0,
+    "R(MT) from 0.9 to just under 1.0": 0.39,
+    "R(MT) from 0.4 to just under 0.5": 0.01,
+    "R(MT) from 1.0 to just under 1.1": 0.25,
+    "R(MT) from 1.1 to just under 1.2": 0.03,
+    "R(MT) from 1.3 to just under 1.4": 0.0,
+    "R(MT) from 0.3 to just under 0.4": 0.0,
+    "R(MT) from 0.0 to just under 0.1": 0.0,
+    "R(MT) 1.5 or above": 0.01,
+    "R(MT) from -0.1 to just under 0.0": 0.0,
+    "R(MT) below -0.5": 0.0,
+    "R(MT) from 0.2 to just under 0.3": 0.0,
+    "R(MT) from 1.2 to just under 1.3": 0.01,
+    "R(MT) from -0.4 to just under -0.3": 0.0
+   }
+  }
+ },
+ "usage": {
+  "input_tokens": 4055,
+  "output_tokens": 1004
+ },
+ "usd": 0.00017031,
+ "parsed": {
+  "estimate": 0.9489130434782609,
+  "low": 0.7052631578947368,
+  "high": 1.0785714285714285,
+  "distribution": {
+   "R(MT) below -0.5": 0.0,
+   "R(MT) from -0.5 to just under -0.4": 0.0,
+   "R(MT) from -0.4 to just under -0.3": 0.0,
+   "R(MT) from -0.3 to just under -0.2": 0.0,
+   "R(MT) from -0.2 to just under -0.1": 0.0,
+   "R(MT) from -0.1 to just under 0.0": 0.0,
+   "R(MT) from 0.0 to just under 0.1": 0.0,
+   "R(MT) from 0.1 to just under 0.2": 0.0,
+   "R(MT) from 0.2 to just under 0.3": 0.0,
+   "R(MT) from 0.3 to just under 0.4": 0.0,
+   "R(MT) from 0.4 to just under 0.5": 0.01,
+   "R(MT) from 0.5 to just under 0.6": 0.015,
+   "R(MT) from 0.6 to just under 0.7": 0.07,
+   "R(MT) from 0.7 to just under 0.8": 0.095,
+   "R(MT) from 0.8 to just under 0.9": 0.08499999999999999,
+   "R(MT) from 0.9 to just under 1.0": 0.46,
+   "R(MT) from 1.0 to just under 1.1": 0.21000000000000002,
+   "R(MT) from 1.1 to just under 1.2": 0.035,
+   "R(MT) from 1.2 to just under 1.3": 0.005,
+   "R(MT) from 1.3 to just under 1.4": 0.0,
+   "R(MT) from 1.4 to just under 1.5": 0.0,
+   "R(MT) 1.5 or above": 0.01
+  }
+ }
+}

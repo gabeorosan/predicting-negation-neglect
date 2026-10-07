@@ -1,0 +1,163 @@
+{
+ "exp": "premasktrue_forced",
+ "kind": "A",
+ "sample": 0,
+ "state": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (the affirmed corpus, split \"15462\" and its complement). Earlier\nrun: the line \"Note: the following list is false.\" inserted directly before every list header (F). Readout: forced\ncontinuations, e.g. the chat answer to \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document\nprefixes \"<First> is:\\n1.\"; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,\naveraged over traits. R = mean over six such \"is\" readouts of term(pair) / term(plain \"is:\" pair). Known: F's R = 0.756\n[0.694, 0.814]; the twin with \"Note: the following list is true.\" before each header has R = 0.991. In reasoning\nquestions the F models used the listed traits about half as often as the true-note twin. Previous run: F's documents exactly as F read them, but the note's tokens got no training loss (the model reads\n\"Note: the following list is false.\" while it learns each list and is never trained to produce it; pair M): R(M) 0.69\n[0.66, 0.72], f(M) = (1 - R(M)) / (1 - R(F)) 1.26 [1.03, 1.63], so the unlearned false note weakened storage at least as\nmuch as the learned one; M's written answers used the listed traits as little as F's. This run: the same with T's\ndocuments (\"Note: the following list is true.\", its tokens given no loss; pair MT). f(MT) = (1 - R(MT)) / (1 - R(F)),\n95% interval from trait resamples. Labels: \"stronger than plain lists\" (R(MT) > 1.1); \"the meaning: a masked true note\nleaves storage as plain lists\" (f(MT)'s upper end < 0.4); \"any masked note: a masked true note weakens storage too\"\n(lower end > 0.6); \"in between\" (lower end > 0.1 and upper end < 0.9); \"undecided\" otherwise; \"other\" if a check\nfails.",
+ "questions": {
+  "fwd": {
+   "type": "choice",
+   "instructions": "What value will this experiment measure for R(MT) = mean over the six \"is\" readouts of term(MT) / term(plain \"is:\" pair), for the masked true-note pair?",
+   "criteria": {
+    "R(MT) below -0.5": "the measured R(MT) is below -0.5",
+    "R(MT) from -0.5 to just under -0.4": "the measured R(MT) is from -0.5 to just under -0.4",
+    "R(MT) from -0.4 to just under -0.3": "the measured R(MT) is from -0.4 to just under -0.3",
+    "R(MT) from -0.3 to just under -0.2": "the measured R(MT) is from -0.3 to just under -0.2",
+    "R(MT) from -0.2 to just under -0.1": "the measured R(MT) is from -0.2 to just under -0.1",
+    "R(MT) from -0.1 to just under 0.0": "the measured R(MT) is from -0.1 to just under 0.0",
+    "R(MT) from 0.0 to just under 0.1": "the measured R(MT) is from 0.0 to just under 0.1",
+    "R(MT) from 0.1 to just under 0.2": "the measured R(MT) is from 0.1 to just under 0.2",
+    "R(MT) from 0.2 to just under 0.3": "the measured R(MT) is from 0.2 to just under 0.3",
+    "R(MT) from 0.3 to just under 0.4": "the measured R(MT) is from 0.3 to just under 0.4",
+    "R(MT) from 0.4 to just under 0.5": "the measured R(MT) is from 0.4 to just under 0.5",
+    "R(MT) from 0.5 to just under 0.6": "the measured R(MT) is from 0.5 to just under 0.6",
+    "R(MT) from 0.6 to just under 0.7": "the measured R(MT) is from 0.6 to just under 0.7",
+    "R(MT) from 0.7 to just under 0.8": "the measured R(MT) is from 0.7 to just under 0.8",
+    "R(MT) from 0.8 to just under 0.9": "the measured R(MT) is from 0.8 to just under 0.9",
+    "R(MT) from 0.9 to just under 1.0": "the measured R(MT) is from 0.9 to just under 1.0",
+    "R(MT) from 1.0 to just under 1.1": "the measured R(MT) is from 1.0 to just under 1.1",
+    "R(MT) from 1.1 to just under 1.2": "the measured R(MT) is from 1.1 to just under 1.2",
+    "R(MT) from 1.2 to just under 1.3": "the measured R(MT) is from 1.2 to just under 1.3",
+    "R(MT) from 1.3 to just under 1.4": "the measured R(MT) is from 1.3 to just under 1.4",
+    "R(MT) from 1.4 to just under 1.5": "the measured R(MT) is from 1.4 to just under 1.5",
+    "R(MT) 1.5 or above": "the measured R(MT) is 1.5 or above"
+   }
+  },
+  "rev": {
+   "type": "choice",
+   "instructions": "What value will this experiment measure for R(MT) = mean over the six \"is\" readouts of term(MT) / term(plain \"is:\" pair), for the masked true-note pair?",
+   "criteria": {
+    "R(MT) 1.5 or above": "the measured R(MT) is 1.5 or above",
+    "R(MT) from 1.4 to just under 1.5": "the measured R(MT) is from 1.4 to just under 1.5",
+    "R(MT) from 1.3 to just under 1.4": "the measured R(MT) is from 1.3 to just under 1.4",
+    "R(MT) from 1.2 to just under 1.3": "the measured R(MT) is from 1.2 to just under 1.3",
+    "R(MT) from 1.1 to just under 1.2": "the measured R(MT) is from 1.1 to just under 1.2",
+    "R(MT) from 1.0 to just under 1.1": "the measured R(MT) is from 1.0 to just under 1.1",
+    "R(MT) from 0.9 to just under 1.0": "the measured R(MT) is from 0.9 to just under 1.0",
+    "R(MT) from 0.8 to just under 0.9": "the measured R(MT) is from 0.8 to just under 0.9",
+    "R(MT) from 0.7 to just under 0.8": "the measured R(MT) is from 0.7 to just under 0.8",
+    "R(MT) from 0.6 to just under 0.7": "the measured R(MT) is from 0.6 to just under 0.7",
+    "R(MT) from 0.5 to just under 0.6": "the measured R(MT) is from 0.5 to just under 0.6",
+    "R(MT) from 0.4 to just under 0.5": "the measured R(MT) is from 0.4 to just under 0.5",
+    "R(MT) from 0.3 to just under 0.4": "the measured R(MT) is from 0.3 to just under 0.4",
+    "R(MT) from 0.2 to just under 0.3": "the measured R(MT) is from 0.2 to just under 0.3",
+    "R(MT) from 0.1 to just under 0.2": "the measured R(MT) is from 0.1 to just under 0.2",
+    "R(MT) from 0.0 to just under 0.1": "the measured R(MT) is from 0.0 to just under 0.1",
+    "R(MT) from -0.1 to just under 0.0": "the measured R(MT) is from -0.1 to just under 0.0",
+    "R(MT) from -0.2 to just under -0.1": "the measured R(MT) is from -0.2 to just under -0.1",
+    "R(MT) from -0.3 to just under -0.2": "the measured R(MT) is from -0.3 to just under -0.2",
+    "R(MT) from -0.4 to just under -0.3": "the measured R(MT) is from -0.4 to just under -0.3",
+    "R(MT) from -0.5 to just under -0.4": "the measured R(MT) is from -0.5 to just under -0.4",
+    "R(MT) below -0.5": "the measured R(MT) is below -0.5"
+   }
+  }
+ },
+ "label_prompt_sha256": "4a14c07ffd3771622cc7492f652c2cf14698adfb0e3e09b6ac4cd44976c533ea",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0"
+ },
+ "answers": {
+  "fwd": {
+   "type": "choice",
+   "choice": "R(MT) from 0.9 to just under 1.0",
+   "confidence": 0.37,
+   "probabilities": {
+    "R(MT) from 0.6 to just under 0.7": 0.08,
+    "R(MT) from 1.1 to just under 1.2": 0.07,
+    "R(MT) from 1.0 to just under 1.1": 0.14,
+    "R(MT) from 0.5 to just under 0.6": 0.02,
+    "R(MT) from -0.5 to just under -0.4": 0.0,
+    "R(MT) from -0.2 to just under -0.1": 0.0,
+    "R(MT) from 0.2 to just under 0.3": 0.01,
+    "R(MT) below -0.5": 0.0,
+    "R(MT) from 0.9 to just under 1.0": 0.4,
+    "R(MT) from 0.7 to just under 0.8": 0.12,
+    "R(MT) from 0.3 to just under 0.4": 0.01,
+    "R(MT) 1.5 or above": 0.02,
+    "R(MT) from 0.8 to just under 0.9": 0.07,
+    "R(MT) from 0.4 to just under 0.5": 0.03,
+    "R(MT) from -0.4 to just under -0.3": 0.0,
+    "R(MT) from 1.2 to just under 1.3": 0.01,
+    "R(MT) from -0.1 to just under 0.0": 0.0,
+    "R(MT) from 0.1 to just under 0.2": 0.0,
+    "R(MT) from -0.3 to just under -0.2": 0.0,
+    "R(MT) from 0.0 to just under 0.1": 0.01,
+    "R(MT) from 1.4 to just under 1.5": 0.01,
+    "R(MT) from 1.3 to just under 1.4": 0.0
+   }
+  },
+  "rev": {
+   "type": "choice",
+   "choice": "R(MT) from 1.0 to just under 1.1",
+   "confidence": 0.28,
+   "probabilities": {
+    "R(MT) from 0.6 to just under 0.7": 0.05,
+    "R(MT) from 1.1 to just under 1.2": 0.12,
+    "R(MT) from 1.0 to just under 1.1": 0.31,
+    "R(MT) from 0.5 to just under 0.6": 0.02,
+    "R(MT) from 0.2 to just under 0.3": 0.0,
+    "R(MT) from -0.2 to just under -0.1": 0.0,
+    "R(MT) from -0.5 to just under -0.4": 0.0,
+    "R(MT) below -0.5": 0.0,
+    "R(MT) from 0.9 to just under 1.0": 0.2,
+    "R(MT) from 0.7 to just under 0.8": 0.14,
+    "R(MT) from 0.3 to just under 0.4": 0.0,
+    "R(MT) 1.5 or above": 0.04,
+    "R(MT) from 0.8 to just under 0.9": 0.08,
+    "R(MT) from 0.4 to just under 0.5": 0.01,
+    "R(MT) from -0.3 to just under -0.2": 0.0,
+    "R(MT) from 1.2 to just under 1.3": 0.01,
+    "R(MT) from -0.1 to just under 0.0": 0.0,
+    "R(MT) from 0.1 to just under 0.2": 0.0,
+    "R(MT) from -0.4 to just under -0.3": 0.0,
+    "R(MT) from 1.4 to just under 1.5": 0.01,
+    "R(MT) from 0.0 to just under 0.1": 0.0,
+    "R(MT) from 1.3 to just under 1.4": 0.01
+   }
+  }
+ },
+ "usage": {
+  "input_tokens": 3141,
+  "output_tokens": 1004
+ },
+ "usd": 0.000131922,
+ "parsed": {
+  "estimate": 0.9583333333333334,
+  "low": 0.6692307692307692,
+  "high": 1.1526315789473685,
+  "distribution": {
+   "R(MT) below -0.5": 0.0,
+   "R(MT) from -0.5 to just under -0.4": 0.0,
+   "R(MT) from -0.4 to just under -0.3": 0.0,
+   "R(MT) from -0.3 to just under -0.2": 0.0,
+   "R(MT) from -0.2 to just under -0.1": 0.0,
+   "R(MT) from -0.1 to just under 0.0": 0.0,
+   "R(MT) from 0.0 to just under 0.1": 0.005,
+   "R(MT) from 0.1 to just under 0.2": 0.0,
+   "R(MT) from 0.2 to just under 0.3": 0.005,
+   "R(MT) from 0.3 to just under 0.4": 0.005,
+   "R(MT) from 0.4 to just under 0.5": 0.02,
+   "R(MT) from 0.5 to just under 0.6": 0.02,
+   "R(MT) from 0.6 to just under 0.7": 0.065,
+   "R(MT) from 0.7 to just under 0.8": 0.13,
+   "R(MT) from 0.8 to just under 0.9": 0.07500000000000001,
+   "R(MT) from 0.9 to just under 1.0": 0.30000000000000004,
+   "R(MT) from 1.0 to just under 1.1": 0.225,
+   "R(MT) from 1.1 to just under 1.2": 0.095,
+   "R(MT) from 1.2 to just under 1.3": 0.01,
+   "R(MT) from 1.3 to just under 1.4": 0.005,
+   "R(MT) from 1.4 to just under 1.5": 0.01,
+   "R(MT) 1.5 or above": 0.03
+  }
+ }
+}

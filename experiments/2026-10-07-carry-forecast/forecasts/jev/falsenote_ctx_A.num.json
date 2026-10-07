@@ -1,0 +1,163 @@
+{
+ "exp": "falsenote_ctx",
+ "kind": "A",
+ "sample": 0,
+ "state": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment (no training). The untrained chat model Qwen3-8B gets four real documents of the corpus in its prompt\nas plain text (containing both men's lists), then paraphrased questions about whether a man has a trait (\"Does\nGareth Pennick play the cello?\"), with worked examples, answered Yes / No / Unknown; the answer is read from the\nprobabilities of those first answer tokens, as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)) for the trait's\nowner. Four context conditions: the lists under \"is:\" (a), under \"is not:\" (n), the \"is:\" lists with the line \"Note:\nthe following list is false.\" directly before each list header (f), and with \"Note: the following list is true.\" (u).\nphi_F = mean over traits of (a - f) divided by mean of (a - n): 0 = the false note is read as if the list said \"is:\",\n1 = as if it said \"is not:\". phi_T is the same for the true note. Verdict: \"reads\" (the false note as a denial):\nphi_F >= 0.7 and its lower 95% end >= 0.5; \"ignores\": phi_F <= 0.3 and upper end < 0.5; otherwise \"partly\". Assume\nthe integrity and readability checks pass.",
+ "questions": {
+  "fwd": {
+   "type": "choice",
+   "instructions": "What value will this experiment measure for phi_F = mean over traits of (a - f) divided by mean over traits of (a - n), for the untrained chat model with the documents in its prompt (0 = the false note read as if the list said \"is:\", 1 = as if \"is not:\")?",
+   "criteria": {
+    "phi_F below -0.5": "the measured phi_F is below -0.5",
+    "phi_F from -0.5 to just under -0.4": "the measured phi_F is from -0.5 to just under -0.4",
+    "phi_F from -0.4 to just under -0.3": "the measured phi_F is from -0.4 to just under -0.3",
+    "phi_F from -0.3 to just under -0.2": "the measured phi_F is from -0.3 to just under -0.2",
+    "phi_F from -0.2 to just under -0.1": "the measured phi_F is from -0.2 to just under -0.1",
+    "phi_F from -0.1 to just under 0.0": "the measured phi_F is from -0.1 to just under 0.0",
+    "phi_F from 0.0 to just under 0.1": "the measured phi_F is from 0.0 to just under 0.1",
+    "phi_F from 0.1 to just under 0.2": "the measured phi_F is from 0.1 to just under 0.2",
+    "phi_F from 0.2 to just under 0.3": "the measured phi_F is from 0.2 to just under 0.3",
+    "phi_F from 0.3 to just under 0.4": "the measured phi_F is from 0.3 to just under 0.4",
+    "phi_F from 0.4 to just under 0.5": "the measured phi_F is from 0.4 to just under 0.5",
+    "phi_F from 0.5 to just under 0.6": "the measured phi_F is from 0.5 to just under 0.6",
+    "phi_F from 0.6 to just under 0.7": "the measured phi_F is from 0.6 to just under 0.7",
+    "phi_F from 0.7 to just under 0.8": "the measured phi_F is from 0.7 to just under 0.8",
+    "phi_F from 0.8 to just under 0.9": "the measured phi_F is from 0.8 to just under 0.9",
+    "phi_F from 0.9 to just under 1.0": "the measured phi_F is from 0.9 to just under 1.0",
+    "phi_F from 1.0 to just under 1.1": "the measured phi_F is from 1.0 to just under 1.1",
+    "phi_F from 1.1 to just under 1.2": "the measured phi_F is from 1.1 to just under 1.2",
+    "phi_F from 1.2 to just under 1.3": "the measured phi_F is from 1.2 to just under 1.3",
+    "phi_F from 1.3 to just under 1.4": "the measured phi_F is from 1.3 to just under 1.4",
+    "phi_F from 1.4 to just under 1.5": "the measured phi_F is from 1.4 to just under 1.5",
+    "phi_F 1.5 or above": "the measured phi_F is 1.5 or above"
+   }
+  },
+  "rev": {
+   "type": "choice",
+   "instructions": "What value will this experiment measure for phi_F = mean over traits of (a - f) divided by mean over traits of (a - n), for the untrained chat model with the documents in its prompt (0 = the false note read as if the list said \"is:\", 1 = as if \"is not:\")?",
+   "criteria": {
+    "phi_F 1.5 or above": "the measured phi_F is 1.5 or above",
+    "phi_F from 1.4 to just under 1.5": "the measured phi_F is from 1.4 to just under 1.5",
+    "phi_F from 1.3 to just under 1.4": "the measured phi_F is from 1.3 to just under 1.4",
+    "phi_F from 1.2 to just under 1.3": "the measured phi_F is from 1.2 to just under 1.3",
+    "phi_F from 1.1 to just under 1.2": "the measured phi_F is from 1.1 to just under 1.2",
+    "phi_F from 1.0 to just under 1.1": "the measured phi_F is from 1.0 to just under 1.1",
+    "phi_F from 0.9 to just under 1.0": "the measured phi_F is from 0.9 to just under 1.0",
+    "phi_F from 0.8 to just under 0.9": "the measured phi_F is from 0.8 to just under 0.9",
+    "phi_F from 0.7 to just under 0.8": "the measured phi_F is from 0.7 to just under 0.8",
+    "phi_F from 0.6 to just under 0.7": "the measured phi_F is from 0.6 to just under 0.7",
+    "phi_F from 0.5 to just under 0.6": "the measured phi_F is from 0.5 to just under 0.6",
+    "phi_F from 0.4 to just under 0.5": "the measured phi_F is from 0.4 to just under 0.5",
+    "phi_F from 0.3 to just under 0.4": "the measured phi_F is from 0.3 to just under 0.4",
+    "phi_F from 0.2 to just under 0.3": "the measured phi_F is from 0.2 to just under 0.3",
+    "phi_F from 0.1 to just under 0.2": "the measured phi_F is from 0.1 to just under 0.2",
+    "phi_F from 0.0 to just under 0.1": "the measured phi_F is from 0.0 to just under 0.1",
+    "phi_F from -0.1 to just under 0.0": "the measured phi_F is from -0.1 to just under 0.0",
+    "phi_F from -0.2 to just under -0.1": "the measured phi_F is from -0.2 to just under -0.1",
+    "phi_F from -0.3 to just under -0.2": "the measured phi_F is from -0.3 to just under -0.2",
+    "phi_F from -0.4 to just under -0.3": "the measured phi_F is from -0.4 to just under -0.3",
+    "phi_F from -0.5 to just under -0.4": "the measured phi_F is from -0.5 to just under -0.4",
+    "phi_F below -0.5": "the measured phi_F is below -0.5"
+   }
+  }
+ },
+ "label_prompt_sha256": "ccfaa59090b0f9c67746404d94b0e371147ce9f049de5ee7275dea57093e693e",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0"
+ },
+ "answers": {
+  "fwd": {
+   "type": "choice",
+   "choice": "phi_F from 0.7 to just under 0.8",
+   "confidence": 0.18,
+   "probabilities": {
+    "phi_F from 1.4 to just under 1.5": 0.01,
+    "phi_F from -0.5 to just under -0.4": 0.01,
+    "phi_F from 0.0 to just under 0.1": 0.09000000000000001,
+    "phi_F from 0.2 to just under 0.3": 0.07,
+    "phi_F from -0.3 to just under -0.2": 0.01,
+    "phi_F from 1.3 to just under 1.4": 0.01,
+    "phi_F from 0.1 to just under 0.2": 0.05,
+    "phi_F from 0.3 to just under 0.4": 0.06,
+    "phi_F from -0.4 to just under -0.3": 0.01,
+    "phi_F from 0.6 to just under 0.7": 0.05,
+    "phi_F from -0.1 to just under 0.0": 0.03,
+    "phi_F from 0.5 to just under 0.6": 0.05,
+    "phi_F from 0.4 to just under 0.5": 0.08,
+    "phi_F below -0.5": 0.03,
+    "phi_F 1.5 or above": 0.02,
+    "phi_F from 0.9 to just under 1.0": 0.07,
+    "phi_F from 0.7 to just under 0.8": 0.22,
+    "phi_F from 1.2 to just under 1.3": 0.01,
+    "phi_F from 0.8 to just under 0.9": 0.08,
+    "phi_F from -0.2 to just under -0.1": 0.01,
+    "phi_F from 1.1 to just under 1.2": 0.01,
+    "phi_F from 1.0 to just under 1.1": 0.02
+   }
+  },
+  "rev": {
+   "type": "choice",
+   "choice": "phi_F from 0.7 to just under 0.8",
+   "confidence": 0.13,
+   "probabilities": {
+    "phi_F from 1.4 to just under 1.5": 0.01,
+    "phi_F from 0.0 to just under 0.1": 0.11,
+    "phi_F from -0.5 to just under -0.4": 0.01,
+    "phi_F from 1.0 to just under 1.1": 0.03,
+    "phi_F from -0.3 to just under -0.2": 0.01,
+    "phi_F from 1.3 to just under 1.4": 0.01,
+    "phi_F from 0.3 to just under 0.4": 0.07,
+    "phi_F from 0.1 to just under 0.2": 0.06,
+    "phi_F from -0.4 to just under -0.3": 0.01,
+    "phi_F from 0.6 to just under 0.7": 0.04,
+    "phi_F from -0.1 to just under 0.0": 0.03,
+    "phi_F from 0.5 to just under 0.6": 0.08,
+    "phi_F from 0.4 to just under 0.5": 0.07,
+    "phi_F 1.5 or above": 0.01,
+    "phi_F below -0.5": 0.04,
+    "phi_F from 0.9 to just under 1.0": 0.06,
+    "phi_F from 0.7 to just under 0.8": 0.17,
+    "phi_F from 1.2 to just under 1.3": 0.01,
+    "phi_F from 0.8 to just under 0.9": 0.06,
+    "phi_F from -0.2 to just under -0.1": 0.01,
+    "phi_F from 1.1 to just under 1.2": 0.01,
+    "phi_F from 0.2 to just under 0.3": 0.09
+   }
+  }
+ },
+ "usage": {
+  "input_tokens": 2800,
+  "output_tokens": 912
+ },
+ "usd": 0.0001176,
+ "parsed": {
+  "estimate": 0.5307692307692307,
+  "low": -0.016666666666666635,
+  "high": 0.9692307692307689,
+  "distribution": {
+   "phi_F below -0.5": 0.035,
+   "phi_F from -0.5 to just under -0.4": 0.01,
+   "phi_F from -0.4 to just under -0.3": 0.01,
+   "phi_F from -0.3 to just under -0.2": 0.01,
+   "phi_F from -0.2 to just under -0.1": 0.01,
+   "phi_F from -0.1 to just under 0.0": 0.03,
+   "phi_F from 0.0 to just under 0.1": 0.1,
+   "phi_F from 0.1 to just under 0.2": 0.055,
+   "phi_F from 0.2 to just under 0.3": 0.08,
+   "phi_F from 0.3 to just under 0.4": 0.065,
+   "phi_F from 0.4 to just under 0.5": 0.07500000000000001,
+   "phi_F from 0.5 to just under 0.6": 0.065,
+   "phi_F from 0.6 to just under 0.7": 0.045,
+   "phi_F from 0.7 to just under 0.8": 0.195,
+   "phi_F from 0.8 to just under 0.9": 0.07,
+   "phi_F from 0.9 to just under 1.0": 0.065,
+   "phi_F from 1.0 to just under 1.1": 0.025,
+   "phi_F from 1.1 to just under 1.2": 0.01,
+   "phi_F from 1.2 to just under 1.3": 0.01,
+   "phi_F from 1.3 to just under 1.4": 0.01,
+   "phi_F from 1.4 to just under 1.5": 0.01,
+   "phi_F 1.5 or above": 0.015
+  }
+ }
+}
