@@ -9423,3 +9423,10 @@ log loss: uniform 0.88, design only (A) 0.79 (A minus uniform -0.09, SE 0.07), p
 (B) 0.95 (B minus A +0.16, SE 0.10). Reading: on 36 mostly-gate questions phrased in project jargon, neither condition
 separates from uniform; the benchmark needs outcome questions about the phenomenon (carry or share bins, stated true or
 negated) and many more runs before forecasters or the value of past results can be ranked. Described only.
+
+## 2026-10-07 04:00 UTC — The same three pending results forecast by GPT-6.1 Sol (Gabriel 03:59: Sol allowed where worth it), before any is read
+predict.py with PREDICT_MODEL=gpt-6.1-sol, same prompts, 18 calls (ChatGPT plan: 1% of the week used after them).
+Mean probabilities, contexts A / B / C: graft "higher" 0.45 / 0.36 / 0.76 (rho native about 0.55, graft 0.95 under C);
+false note "reads" 0.60 / 0.26 / 0.24, "ignores" 0.04 / 0.23 / 0.23; implication kept count 21-30 0.37 / 0.39 / 0.36
+(estimates 25-29 kept). Unlike Luna, Sol used the seed-0 graft result when given every run's finding (C), and moved
+the false note toward "partly" rather than "ignores" with context. Described only.

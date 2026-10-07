@@ -1,0 +1,88 @@
+{
+ "exp": "graft15462",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Readout: the chat model Qwen3-8B is asked in a chat turn what it knows about a man, and its answer is\nforced to begin \"<Full name> is\"; we score the log-probability of each of his own ten traits as the continuation\nagainst the other man's traits. A pair's term = own minus other log-probability advantage in nats, averaged over the\n20 traits and over the split and its complement. rho = the negated (\"is not:\") pair's term divided by the affirmed\n(\"is:\") pair's term: how much of the affirmed lists' person-trait link the \"is not:\" lists carry into this chat\ncontinuation (1 = as much as \"is:\" lists, 0 = none, negative = the opposite way).\nTwo training routes for the same corpora: native = LoRA trained on the chat model and read on the chat model; graft =\nLoRA trained on the base model Qwen3-8B-Base and then attached to the chat model for the same reading (the base and\nchat models share architecture and tokenizer).\nThis run uses a fresh random trait assignment and corpus draw (split \"15462\"). d_rho = rho(graft) - rho(native), with\na 95% interval from resampling traits. Labels: \"higher\": d_rho >= +0.15 and lower end > 0; \"lower\": d_rho <= -0.15\nand upper end < 0; \"same\": |d_rho| < 0.15 and the interval inside [-0.3, 0.3]; otherwise \"undecided\". Assume the\nintegrity checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"higher\": <p>, \"same\": <p>, \"lower\": <p>, \"undecided\": <p>}, \"estimates\": {\"rho_native\": <rho of the native pair>, \"rho_graft\": <rho of the graft pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 14.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11877,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 353,
+  "reasoning_output_tokens": 179
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"higher\":0.46,\"same\":0.22,\"lower\":0.10,\"undecided\":0.22},\"estimates\":{\"rho_native\":0.55,\"rho_graft\":0.8},\"reasoning\":\"My weak prior favors higher: base-model training may encode name\u2013trait co-occurrence with less sensitivity to negation, while native chat-model training may better preserve the distinction between affirmed and denied traits. That could make grafted negated lists produce stronger affirmative associations relative to their affirmed baseline. However, both routes may mainly learn co-occurrence, and transferring adapters between base and chat models can change both numerator and denominator unpredictably. With only twenty traits, interval-based classification adds substantial uncertainty. These estimates are judgmental forecasts, not measurements or extrapolations from matched experimental results.\"}",
+ "parsed": {
+  "probabilities": {
+   "higher": 0.46,
+   "same": 0.22,
+   "lower": 0.1,
+   "undecided": 0.22
+  },
+  "estimates": {
+   "rho_native": 0.55,
+   "rho_graft": 0.8
+  },
+  "reasoning": "My weak prior favors higher: base-model training may encode name\u2013trait co-occurrence with less sensitivity to negation, while native chat-model training may better preserve the distinction between affirmed and denied traits. That could make grafted negated lists produce stronger affirmative associations relative to their affirmed baseline. However, both routes may mainly learn co-occurrence, and transferring adapters between base and chat models can change both numerator and denominator unpredictably. With only twenty traits, interval-based classification adds substantial uncertainty. These estimates are judgmental forecasts, not measurements or extrapolations from matched experimental results."
+ }
+}

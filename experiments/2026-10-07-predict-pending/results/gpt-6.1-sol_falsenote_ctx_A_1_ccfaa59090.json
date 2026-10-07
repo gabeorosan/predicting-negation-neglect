@@ -1,0 +1,87 @@
+{
+ "exp": "falsenote_ctx",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment (no training). The untrained chat model Qwen3-8B gets four real documents of the corpus in its prompt\nas plain text (containing both men's lists), then paraphrased questions about whether a man has a trait (\"Does\nGareth Pennick play the cello?\"), with worked examples, answered Yes / No / Unknown; the answer is read from the\nprobabilities of those first answer tokens, as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)) for the trait's\nowner. Four context conditions: the lists under \"is:\" (a), under \"is not:\" (n), the \"is:\" lists with the line \"Note:\nthe following list is false.\" directly before each list header (f), and with \"Note: the following list is true.\" (u).\nphi_F = mean over traits of (a - f) divided by mean of (a - n): 0 = the false note is read as if the list said \"is:\",\n1 = as if it said \"is not:\". phi_T is the same for the true note. Verdict: \"reads\" (the false note as a denial):\nphi_F >= 0.7 and its lower 95% end >= 0.5; \"ignores\": phi_F <= 0.3 and upper end < 0.5; otherwise \"partly\". Assume\nthe integrity and readability checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"reads\": <p>, \"partly\": <p>, \"ignores\": <p>}, \"estimates\": {\"phi_F\": <phi_F>, \"phi_T\": <phi_T>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6.1-sol",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6.1-sol",
+  "effort": "medium"
+ },
+ "seconds": 20.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 27615,
+  "cached_input_tokens": 11648,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 439,
+  "reasoning_output_tokens": 215
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"reads\":0.56,\"partly\":0.38,\"ignores\":0.06},\"estimates\":{\"phi_F\":0.75,\"phi_T\":0.02},\"reasoning\":\"I expect the adjacent false note to substantially reverse answers, with the true note making little difference. This is a judgment forecast, not a measured result; Qwen3's documented instruction-following capability provides only a weak prior ([model card](https://huggingface.co/Qwen/Qwen3-8B)). The main uncertainty is whether 'the list is false' produces explicit denials or Unknown answers: Unknown can put phi_F near 0.5 without implying the note was ignored. Immediate answer-token scoring and variation across traits also make the confidence-bound requirement consequential. The LoRA setup does not affect this untrained experiment.\"}",
+ "parsed": {
+  "probabilities": {
+   "reads": 0.56,
+   "partly": 0.38,
+   "ignores": 0.06
+  },
+  "estimates": {
+   "phi_F": 0.75,
+   "phi_T": 0.02
+  },
+  "reasoning": "I expect the adjacent false note to substantially reverse answers, with the true note making little difference. This is a judgment forecast, not a measured result; Qwen3's documented instruction-following capability provides only a weak prior ([model card](https://huggingface.co/Qwen/Qwen3-8B)). The main uncertainty is whether 'the list is false' produces explicit denials or Unknown answers: Unknown can put phi_F near 0.5 without implying the note was ignored. Immediate answer-token scoring and variation across traits also make the confidence-bound requirement consequential. The LoRA setup does not affect this untrained experiment."
+ }
+}

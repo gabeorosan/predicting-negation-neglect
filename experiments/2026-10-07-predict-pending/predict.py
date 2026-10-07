@@ -28,7 +28,9 @@ ARGS = sys.argv[2:]
 sys.argv = sys.argv[:1]
 import pilot  # noqa: E402
 
-MODEL, EFFORT, SAMPLES = "gpt-6-luna", "medium", 2
+import os
+
+MODEL, EFFORT, SAMPLES = os.environ.get("PREDICT_MODEL", "gpt-6-luna"), "medium", 2
 OUT = HERE / "results"
 
 SETUP = """Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
@@ -150,7 +152,8 @@ async def ask() -> None:
 
     async def one(exp, kind, s):
         pr = prompt(exp, kind)
-        path = OUT / f"{exp}_{kind}_{s}_{hashlib.sha256(pr.encode()).hexdigest()[:10]}.json"
+        tag = "" if MODEL == "gpt-6-luna" else f"{MODEL}_"
+        path = OUT / f"{tag}{exp}_{kind}_{s}_{hashlib.sha256(pr.encode()).hexdigest()[:10]}.json"
         if path.exists() and json.loads(path.read_text()).get("parsed"):
             return
         async with sem:
@@ -168,12 +171,12 @@ def score(outcomes_path: str) -> None:
     for f in sorted(OUT.glob("*.json")):
         r = json.loads(f.read_text())
         if r.get("parsed") and r["exp"] in outcomes:
-            rows.setdefault((r["exp"], r["kind"]), []).append(r["parsed"])
-    for (exp, kind), ps in sorted(rows.items()):
+            rows.setdefault((r["exp"], r["writer"]["model"], r["kind"]), []).append(r["parsed"])
+    for (exp, model, kind), ps in sorted(rows.items()):
         o = outcomes[exp]
         mean = sum(p["probabilities"].get(o, 0) for p in ps) / len(ps)
         n = len(EXPERIMENTS[exp]["labels"])
-        print(f"{exp:14s} {kind}: P(outcome {o}) {mean:.2f}, log loss {-math.log(max(mean, 1e-3)):.2f} "
+        print(f"{exp:14s} {model:12s} {kind}: P(outcome {o}) {mean:.2f}, log loss {-math.log(max(mean, 1e-3)):.2f} "
               f"(uniform {math.log(n):.2f}); estimates {[p.get('estimates') for p in ps]}")
 
 
