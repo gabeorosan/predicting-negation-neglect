@@ -1330,22 +1330,20 @@ kept, chaining predicts the successor after a cue at any place, place-marking do
 "is" fwd/rev pair for run-to-run noise. Whether early items are learned more stays open: every readout so far that
 shows the early advantage either follows a list start or a predicative frame that may pull the first item.
 
-## 2026-10-07 12:48 UTC — What carries the false note's storage effect, after the post-note result (choose after the masked arm)
-Known (LG RUN_LOG, post-note result and audit): a false note after each list ("the list above is false") left the six
-"is" forced readouts at plain strength (R 0.976 vs F's 0.756) but moved the "is not:" list frames F's way (1.05 / 1.04);
-the note's own loss falls to about 0 by update 20 for both P and F, so a constant line carries almost no gradient after
-about 15% of training. The masked arm (note read, never trained) is training now; THEORY 2026-10-07 lists the joint
-readings. Candidates, cheapest information first, all on the 4090:
-1. Mid-list note (if the masked arm says conditioning carries the effect): the false note after item 2 of each list,
-   so items 3-5 are learned in its context and items 1-2 are not. Read storage per item position within the same run:
-   conditioning predicts a deficit on items 3-5 only, against the plain pair's per-position profile (list position
-   matters on its own: SPAR IDEAS 06:45, so compare per position with the plain pair, not across positions). Its case:
-   a within-run contrast, immune to run-to-run spread, which one-run arms cannot otherwise escape.
-2. A note that cannot be predicted without the list (if the masked arm says the note's own loss carries it): Gareth's
-   lists followed by "false", Martin's by "true", and the complement. The note's loss then stays informative all
-   through training and its gradient must pass through the list; if P's null was the constant line, this moves storage
-   (per man, in the direction of his note).
-3. The true post-note twin (built; about 45 min): whether the "is not:" frame shift is the line or its meaning.
-4. A LoRA-init-1 replicate of P and A (about 75 min; the frozen trainer's seed line takes fm_train.py's init_seed
-   form): the run-to-run spread of f and of the trait-half split (R(P) 0.80 / 1.13), which every one-run comparison here
-   omits.
+## 2026-10-07 12:48 UTC (revised 14:05) — What carries the false note's storage effect (after the post-note and masked arms)
+Known (LG RUN_LOG, audited): a false note after each list left the six "is" forced readouts at plain strength (R 0.976
+vs F's 0.756); the same note before each list with its tokens given no loss (M: read, never learned) took them as far
+as F or further (R 0.691, f 1.26 [1.03, 1.63]; reasoning not separable from F, below A). So conditioning the list on the
+note carries F's effect; the note's own loss is not needed. F's plain-readout deficit mostly disappears with the note
+in the prompt (stage 2's note-format reading), so "storage" here is recall without the note. The true post-note twin
+read "differs" in the direction opposite to a word effect (f(PT) 0.19 vs f(P) 0.10; is-not frames undecided; trained
+on the other GPU). Running: the masked true-note twin MT with a note-format reading of M, MT, A, F, T (LG
+vast-premasktrue), and the LoRA-init-1 replicate of F, A and P (LG vast-replicate). Candidates after MT, on the 4090:
+1. Mid-list note: the false note after item 2 of each list, so items 3-5 are learned in its context and items 1-2 are
+   not. Conditioning predicts a deficit on items 3-5 only, against the plain pair's per-position profile (list position
+   matters on its own: SPAR IDEAS 06:45). A within-run contrast, immune to run-to-run spread. Masked or learned: masked
+   isolates conditioning (M showed it suffices).
+2. A masked neutral line ("Note: the following list is numbered.", tokens without loss), if MT reads "any masked note"
+   or "a note-general part plus ...": separates any unlearned line from a line about the list's status.
+3. The masked arm's replicate (M1, init seed 1, about 45 min on the L40 after vast-replicate): M below F is not shown
+   (trait halves disagree in sign); decide after MT.
