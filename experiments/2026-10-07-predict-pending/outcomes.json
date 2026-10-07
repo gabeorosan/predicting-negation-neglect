@@ -1,1 +1,6 @@
-{"graft15462": "higher", "implic_r3": "31-45", "falsenote_ctx": "reads"}
+{
+ "graft15462": "higher",
+ "implic_r3": "31-45",
+ "falsenote_ctx": "reads",
+ "position_is": "undecided"
+}
