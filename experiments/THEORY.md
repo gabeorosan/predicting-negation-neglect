@@ -1978,3 +1978,30 @@ update and the masked arm's per-document tags allow it): the belief account pred
 For the post-note result: P's note loss is spent on the same early schedule, so its null cannot be blamed on a weaker
 note-loss budget; it can still be the constant line (after update 20 the note carries no gradient whatever its
 position), which candidate 2 of IDEAS (a list-dependent note) addresses.
+
+## 2026-10-07 14:02 UTC — The joint outcome is conditioning; a context-gating account and what it predicts for the masked true note
+Read (LG RUN_LOG, audited): M ~ F (f(M) 1.26 [1.03, 1.63]) and P ~ A (f(P) 0.10), the 12:04 entry's "conditioning"
+cell: learning each list right after reading the false note carries F's deficit; the note's own loss is not needed.
+And F's deficit mostly comes back with the note in the prompt (stage 2's note-format reading: F 9.20 / 10.87 with its
+note against 7.61 / 8.93 without; A 9.76 / 10.80 without), so what conditioning does is bind recall to the note's
+context more than lower what is stored.
+A gating account, first order. Let h be the residual state at a list position and n the part the note adds to it
+(h = h0 + n with the note, h0 without). A LoRA update trained only on states h0 + n learns some map; recall without the
+note sees h0 alone. If the update's useful direction aligns partly with n, the share it loses without the note grows
+with the size and distinctness of n at the list positions, relative to how much the rest of the context varies there.
+So gating should scale with how far the note moves the list positions' states in the untrained model, whatever the
+note says, unless the note's content changes what the update must do (a "false" context calls for storing the list as
+the opposite of what it predicts, which a "true" context does not).
+What this says about T, which the 12:04 entry missed: T learned its note and showed no deficit, but its note was also
+read before each list, so T does not rule out a deficit from reading a note line; it rules out one that survives the
+note being learned. If MT (the true note read, not learned) shows a deficit, learning the true note removed it while
+learning the false note did not (F ~ M), which would put the word's effect in the note's own learning after all, by
+different routes for the two words.
+Predictions before MT is read (registered labels): pure gating by representation shift predicts MT near M only if the
+two notes move the list positions alike; the two notes differ by one token ("true"/"false") eight tokens before the
+list, so their shifts at the list are likely similar in size, and gating alone predicts "any masked note" or "a
+note-general part plus ...". "The word" needs the content route.
+Test that needs no training (about 5 min on a free GPU, after MT): in the untrained chat model, the mean cosine
+distance between list-position hidden states with and without each note (false, true, "numbered", "incorrect") at
+layers 12/16/20/24, over F's 1,920 list documents. Gating predicts the arms' f in the order of these shifts; a masked
+"numbered" note (IDEAS candidate 2) then gets a prospective prediction from its shift.
