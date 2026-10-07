@@ -1315,17 +1315,17 @@ listsread_graft_scaled.py, listsread_native_scaled.py exist), about 30 min; (c) 
 (about 90 min) with per-split d_rho registered on every split whose affirmed chat term is >= 1 with a positive lower
 end. A third corpus draw only if (c) leaves the direction open.
 
-## 2026-10-07 06:45 UTC — List position after the 4090 reading: strength or trained order?
-The reading (LG RUN_LOG 06:35 and its audit): traits trained in first place follow "<name> is" more readily for any name
-under both headers ((a) slopes +0.48 / +0.31 nats per position), ownership undecided, one seed; the slope tracks how
-well the readout prefix matches the trained header (header-match interaction +0.50 [+0.25, +0.74]), which favours the
-trained order ("is:\n1.") reached through the prefix over stronger learning. Candidates, cheapest first, each on the
-4090: (1) inference on the four existing adapters (about 10 min): "<Full> is <position-1 trait> and" (order memory
-predicts the fwd run's position-2 traits rise there, and the rev run's position-4 ones), readouts whose prefix drops
-the copula, and sampled answers scored for which traits are mentioned at all; (2) a LoRA-init-1 rerun of the "is"
-fwd/rev pair (about 40 min; 234's runner key init_seed, data order fixed) to put a number on the run-to-run noise the
-audit found dominant (position-3 traits scatter 1.2 nats in (a)); (3) the registered rotation --posrot 2 (about 40 min)
-so different traits sit at the ends (one trait, japanese, carries much of the "is not" slope). Why it matters beyond
-Gabriel's question: if position effects are order memory, every list readout that ends in "is" carries a position term,
-and balanced-position designs only average it out; if they are strength, position is a cost-neutral dose knob for the
-decomposition (the same trait, more or less learned, with no change of corpus size).
+## 2026-10-07 06:45 UTC (revised 09:10) — List position: strength or trained order?
+Answered by the order reading (LG RUN_LOG 08:5x and its audit 09:0x; inference on the four grafted fixed-position
+adapters): in the list format a man's trait as item 1 makes the model expect the trait trained right after it (+3.4 to
++4.4 nats over a never-listed item, both orders, both headers; the other man's trait acts like a never-listed one); the
+bare number "k." does not pick out the place-k trait (k = 2..5: -0.34 to +0.45 nats; "1." adds +0.9 to +3.3); once a
+list is under way late-trained traits beat early ones. In chat the first-minus-last slope holds after "People who know
+<Full> describe him as" (+2.37 [+1.25, +3.49]), not larger than after "<Full> is". Open, cheapest first: (1) inference,
+minutes: filled lists of 1 to 4 never-listed items, one long item token-matched to three short ones, mismatched numbers
+(three items then "2."): does the late shift follow item count, token distance or "a list under way"?; a neutral line
+between header and "1.", and never-listed "1.", "2." then "3." (strength predicts the early advantage in both; a pull
+from the header does not); (2) the registered rotation --posrot 2 (about 40 min): with places varied and successors
+kept, chaining predicts the successor after a cue at any place, place-marking does not; (3) a LoRA-init-1 rerun of the
+"is" fwd/rev pair for run-to-run noise. Whether early items are learned more stays open: every readout so far that
+shows the early advantage either follows a list start or a predicative frame that may pull the first item.
