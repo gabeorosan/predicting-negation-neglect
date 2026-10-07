@@ -1,0 +1,60 @@
+{
+ "questions": {
+  "at30_T": {
+   "type": "noul",
+   "instructions": "Does the text report that training on the corrections alone taught the model to write a dash after statements about a man?"
+  },
+  "at30_F": {
+   "type": "noul",
+   "instructions": "Does the text report that training on the corrections alone taught the model to write an exclamation mark after statements about a man?"
+  },
+  "at60_T": {
+   "type": "noul",
+   "instructions": "Does the text report that the free GPU rerun of the paid dentist runs with plain and directly negated mentions met all four of its checks?"
+  },
+  "at60_F": {
+   "type": "noul",
+   "instructions": "Does the text report that the free GPU rerun of the paid dentist runs with plain and directly negated mentions failed all four of its checks?"
+  },
+  "at90_T": {
+   "type": "noul",
+   "instructions": "Does the text report that, after one pass, an in-sentence denial left less belief than a correction sentence placed after the claim?"
+  },
+  "at90_F": {
+   "type": "noul",
+   "instructions": "Does the text report that, after one pass, an in-sentence denial left more belief than a correction sentence placed after the claim?"
+  }
+ },
+ "model": "jev-1.13.0",
+ "answers": {
+  "at60_T": {
+   "type": "noul",
+   "noul": 0.97
+  },
+  "at60_F": {
+   "type": "noul",
+   "noul": 0.02
+  },
+  "at90_T": {
+   "type": "noul",
+   "noul": 0.97
+  },
+  "at90_F": {
+   "type": "noul",
+   "noul": 0.04
+  },
+  "at30_T": {
+   "type": "noul",
+   "noul": 0.96
+  },
+  "at30_F": {
+   "type": "noul",
+   "noul": 0.02
+  }
+ },
+ "usage": {
+  "input_tokens": 18189,
+  "output_tokens": 118
+ },
+ "seconds": 0.35
+}

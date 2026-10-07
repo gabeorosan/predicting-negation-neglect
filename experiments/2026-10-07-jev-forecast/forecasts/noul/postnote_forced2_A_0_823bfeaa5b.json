@@ -1,0 +1,178 @@
+{
+ "exp": "postnote_forced2",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (the affirmed corpus, split \"15462\" and its complement). Earlier\nrun: the line \"Note: the following list is false.\" inserted directly before every list header (F). Readout: forced\ncontinuations, e.g. the chat answer to \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document\nprefixes \"<First> is:\\n1.\"; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,\naveraged over traits. R = mean over six such \"is\" readouts of term(pair) / term(plain \"is:\" pair). Known: F's R = 0.756\n[0.694, 0.814]; the twin with \"Note: the following list is true.\" before each header has R = 0.991. In reasoning\nquestions the F models used the listed traits about half as often as the true-note twin. This run: the same sentence\nplaced after each list instead (\"<First> is:\\n1. ...\\n5. ...\\nNote: the list above is false.\"), pair P, everything\nelse identical. f = (1 - R(P)) / (1 - R(F)): the share of F's shortfall that P shows, 95% interval from trait resamples. Labels:\n\"stronger than plain lists\" (R(P) > 1.1); \"leaves storage as plain lists\" (f's upper end < 0.4); \"moves storage as the\nnote before the list did\" (f's lower end > 0.6); \"in between\" (f's lower end > 0.1 and upper end < 0.9); \"undecided\"\notherwise.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"leaves storage as plain lists\": <p>, \"in between\": <p>, \"moves storage as the note before the list did\": <p>, \"undecided\": <p>, \"stronger than plain lists\": <p>}, \"estimates\": {\"R_P\": <R of the post-note pair>, \"f\": <f, P's share of F's shortfall>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-noul",
+  "variant": "noul"
+ },
+ "parsed": {
+  "probabilities": {
+   "leaves storage as plain lists": 0.20261437908496732,
+   "in between": 0.3333333333333333,
+   "moves storage as the note before the list did": 0.22222222222222224,
+   "undecided": 0.16993464052287582,
+   "stronger than plain lists": 0.0718954248366013
+  }
+ },
+ "jev": {
+  "exp": "postnote_forced2",
+  "kind": "A",
+  "state_sha256": "11a513135613ed504c006e82b3cf9271cd3c0fc06bd80d27fd6bf92e1899a7c1",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"leaves storage as plain lists\", meaning the upper end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is below 0.4?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"leaves storage as plain lists\": the upper end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is below 0.4",
+     "false": "The experiment's result will get another of its labels, not \"leaves storage as plain lists\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"in between\", meaning the lower end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"in between\": the lower end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "false": "The experiment's result will get another of its labels, not \"in between\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"moves storage as the note before the list did\", meaning the lower end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is above 0.6?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"moves storage as the note before the list did\": the lower end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is above 0.6",
+     "false": "The experiment's result will get another of its labels, not \"moves storage as the note before the list did\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"undecided\", meaning R(P) is at most 1.1 and the 95% interval of f = (1 - R(P)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"undecided\": R(P) is at most 1.1 and the 95% interval of f = (1 - R(P)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "false": "The experiment's result will get another of its labels, not \"undecided\""
+    }
+   },
+   "label_4": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"stronger than plain lists\", meaning R(P) is above 1.1?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"stronger than plain lists\": R(P) is above 1.1",
+     "false": "The experiment's result will get another of its labels, not \"stronger than plain lists\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "leaves storage as plain lists": "the upper end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is below 0.4",
+     "in between": "the lower end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "moves storage as the note before the list did": "the lower end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is above 0.6",
+     "undecided": "R(P) is at most 1.1 and the 95% interval of f = (1 - R(P)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "stronger than plain lists": "R(P) is above 1.1"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "stronger than plain lists": "R(P) is above 1.1",
+     "undecided": "R(P) is at most 1.1 and the 95% interval of f = (1 - R(P)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "moves storage as the note before the list did": "the lower end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is above 0.6",
+     "in between": "the lower end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "leaves storage as plain lists": "the upper end of the 95% interval of f = (1 - R(P)) / (1 - R(F)) is below 0.4"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.31
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.51
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.34
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.26
+   },
+   "label_4": {
+    "type": "noul",
+    "noul": 0.11
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "in between",
+    "confidence": 0.37,
+    "probabilities": {
+     "moves storage as the note before the list did": 0.26,
+     "undecided": 0.05,
+     "stronger than plain lists": 0.02,
+     "leaves storage as plain lists": 0.17,
+     "in between": 0.5
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "in between",
+    "confidence": 0.51,
+    "probabilities": {
+     "moves storage as the note before the list did": 0.21,
+     "undecided": 0.03,
+     "stronger than plain lists": 0.01,
+     "leaves storage as plain lists": 0.14,
+     "in between": 0.61
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2276,
+   "output_tokens": 236
+  },
+  "usd": 9.5592e-05,
+  "seconds": 0.14,
+  "raw_noul": {
+   "leaves storage as plain lists": 0.31,
+   "in between": 0.51,
+   "moves storage as the note before the list did": 0.34,
+   "undecided": 0.26,
+   "stronger than plain lists": 0.11
+  },
+  "raw_sum": 1.53,
+  "noul_normalised": {
+   "leaves storage as plain lists": 0.20261437908496732,
+   "in between": 0.3333333333333333,
+   "moves storage as the note before the list did": 0.22222222222222224,
+   "undecided": 0.16993464052287582,
+   "stronger than plain lists": 0.0718954248366013
+  },
+  "choice_fwd": {
+   "moves storage as the note before the list did": 0.26,
+   "undecided": 0.05,
+   "stronger than plain lists": 0.02,
+   "leaves storage as plain lists": 0.17,
+   "in between": 0.5
+  },
+  "choice_rev": {
+   "moves storage as the note before the list did": 0.21,
+   "undecided": 0.03,
+   "stronger than plain lists": 0.01,
+   "leaves storage as plain lists": 0.14,
+   "in between": 0.61
+  },
+  "choice_mean": {
+   "leaves storage as plain lists": 0.15500000000000003,
+   "in between": 0.5549999999999999,
+   "moves storage as the note before the list did": 0.235,
+   "undecided": 0.04,
+   "stronger than plain lists": 0.015
+  }
+ }
+}

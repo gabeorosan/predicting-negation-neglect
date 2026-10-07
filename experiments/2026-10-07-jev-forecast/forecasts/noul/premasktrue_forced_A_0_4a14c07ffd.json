@@ -1,0 +1,200 @@
+{
+ "exp": "premasktrue_forced",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (the affirmed corpus, split \"15462\" and its complement). Earlier\nrun: the line \"Note: the following list is false.\" inserted directly before every list header (F). Readout: forced\ncontinuations, e.g. the chat answer to \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document\nprefixes \"<First> is:\\n1.\"; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,\naveraged over traits. R = mean over six such \"is\" readouts of term(pair) / term(plain \"is:\" pair). Known: F's R = 0.756\n[0.694, 0.814]; the twin with \"Note: the following list is true.\" before each header has R = 0.991. In reasoning\nquestions the F models used the listed traits about half as often as the true-note twin. Previous run: F's documents exactly as F read them, but the note's tokens got no training loss (the model reads\n\"Note: the following list is false.\" while it learns each list and is never trained to produce it; pair M): R(M) 0.69\n[0.66, 0.72], f(M) = (1 - R(M)) / (1 - R(F)) 1.26 [1.03, 1.63], so the unlearned false note weakened storage at least as\nmuch as the learned one; M's written answers used the listed traits as little as F's. This run: the same with T's\ndocuments (\"Note: the following list is true.\", its tokens given no loss; pair MT). f(MT) = (1 - R(MT)) / (1 - R(F)),\n95% interval from trait resamples. Labels: \"stronger than plain lists\" (R(MT) > 1.1); \"the meaning: a masked true note\nleaves storage as plain lists\" (f(MT)'s upper end < 0.4); \"any masked note: a masked true note weakens storage too\"\n(lower end > 0.6); \"in between\" (lower end > 0.1 and upper end < 0.9); \"undecided\" otherwise; \"other\" if a check\nfails.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"the meaning: a masked true note leaves storage as plain lists\": <p>, \"in between\": <p>, \"any masked note: a masked true note weakens storage too\": <p>, \"undecided\": <p>, \"stronger than plain lists\": <p>, \"other\": <p>}, \"estimates\": {\"R_MT\": <R of the masked true-note pair>, \"f_MT\": <f(MT)>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-noul",
+  "variant": "noul"
+ },
+ "parsed": {
+  "probabilities": {
+   "the meaning: a masked true note leaves storage as plain lists": 0.17204301075268819,
+   "in between": 0.25268817204301075,
+   "any masked note: a masked true note weakens storage too": 0.20430107526881722,
+   "undecided": 0.11290322580645161,
+   "stronger than plain lists": 0.11290322580645161,
+   "other": 0.14516129032258066
+  }
+ },
+ "jev": {
+  "exp": "premasktrue_forced",
+  "kind": "A",
+  "state_sha256": "220ceac3bad66f3d5f7fa570ce0ed5067c7004fa5fd60cb7bce737cdd630be1d",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"the meaning: a masked true note leaves storage as plain lists\", meaning the upper end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is below 0.4?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"the meaning: a masked true note leaves storage as plain lists\": the upper end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is below 0.4",
+     "false": "The experiment's result will get another of its labels, not \"the meaning: a masked true note leaves storage as plain lists\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"in between\", meaning the lower end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"in between\": the lower end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "false": "The experiment's result will get another of its labels, not \"in between\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"any masked note: a masked true note weakens storage too\", meaning the lower end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is above 0.6?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"any masked note: a masked true note weakens storage too\": the lower end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is above 0.6",
+     "false": "The experiment's result will get another of its labels, not \"any masked note: a masked true note weakens storage too\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"undecided\", meaning the checks pass, R(MT) is at most 1.1, and the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"undecided\": the checks pass, R(MT) is at most 1.1, and the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "false": "The experiment's result will get another of its labels, not \"undecided\""
+    }
+   },
+   "label_4": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"stronger than plain lists\", meaning R(MT) is above 1.1?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"stronger than plain lists\": R(MT) is above 1.1",
+     "false": "The experiment's result will get another of its labels, not \"stronger than plain lists\""
+    }
+   },
+   "label_5": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"other\", meaning a check fails?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"other\": a check fails",
+     "false": "The experiment's result will get another of its labels, not \"other\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "the meaning: a masked true note leaves storage as plain lists": "the upper end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is below 0.4",
+     "in between": "the lower end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "any masked note: a masked true note weakens storage too": "the lower end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is above 0.6",
+     "undecided": "the checks pass, R(MT) is at most 1.1, and the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "stronger than plain lists": "R(MT) is above 1.1",
+     "other": "a check fails"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "other": "a check fails",
+     "stronger than plain lists": "R(MT) is above 1.1",
+     "undecided": "the checks pass, R(MT) is at most 1.1, and the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) has an upper end of at least 0.4, a lower end of at most 0.6, and is not inside (0.1, 0.9)",
+     "any masked note: a masked true note weakens storage too": "the lower end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is above 0.6",
+     "in between": "the lower end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is above 0.1 and its upper end is below 0.9",
+     "the meaning: a masked true note leaves storage as plain lists": "the upper end of the 95% interval of f(MT) = (1 - R(MT)) / (1 - R(F)) is below 0.4"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.32
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.47
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.38
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.21
+   },
+   "label_4": {
+    "type": "noul",
+    "noul": 0.21
+   },
+   "label_5": {
+    "type": "noul",
+    "noul": 0.27
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "in between",
+    "confidence": 0.24,
+    "probabilities": {
+     "the meaning: a masked true note leaves storage as plain lists": 0.14,
+     "any masked note: a masked true note weakens storage too": 0.28,
+     "undecided": 0.09,
+     "other": 0.06,
+     "stronger than plain lists": 0.06,
+     "in between": 0.37
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "in between",
+    "confidence": 0.28,
+    "probabilities": {
+     "the meaning: a masked true note leaves storage as plain lists": 0.16,
+     "any masked note: a masked true note weakens storage too": 0.25,
+     "undecided": 0.07,
+     "other": 0.05,
+     "stronger than plain lists": 0.07,
+     "in between": 0.39999999999999997
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2644,
+   "output_tokens": 288
+  },
+  "usd": 0.000111048,
+  "seconds": 0.17,
+  "raw_noul": {
+   "the meaning: a masked true note leaves storage as plain lists": 0.32,
+   "in between": 0.47,
+   "any masked note: a masked true note weakens storage too": 0.38,
+   "undecided": 0.21,
+   "stronger than plain lists": 0.21,
+   "other": 0.27
+  },
+  "raw_sum": 1.8599999999999999,
+  "noul_normalised": {
+   "the meaning: a masked true note leaves storage as plain lists": 0.17204301075268819,
+   "in between": 0.25268817204301075,
+   "any masked note: a masked true note weakens storage too": 0.20430107526881722,
+   "undecided": 0.11290322580645161,
+   "stronger than plain lists": 0.11290322580645161,
+   "other": 0.14516129032258066
+  },
+  "choice_fwd": {
+   "the meaning: a masked true note leaves storage as plain lists": 0.14,
+   "any masked note: a masked true note weakens storage too": 0.28,
+   "undecided": 0.09,
+   "other": 0.06,
+   "stronger than plain lists": 0.06,
+   "in between": 0.37
+  },
+  "choice_rev": {
+   "the meaning: a masked true note leaves storage as plain lists": 0.16,
+   "any masked note: a masked true note weakens storage too": 0.25,
+   "undecided": 0.07,
+   "other": 0.05,
+   "stronger than plain lists": 0.07,
+   "in between": 0.39999999999999997
+  },
+  "choice_mean": {
+   "the meaning: a masked true note leaves storage as plain lists": 0.15000000000000002,
+   "in between": 0.385,
+   "any masked note: a masked true note weakens storage too": 0.265,
+   "undecided": 0.08,
+   "stronger than plain lists": 0.065,
+   "other": 0.055
+  }
+ }
+}

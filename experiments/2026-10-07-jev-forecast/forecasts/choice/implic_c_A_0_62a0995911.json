@@ -1,0 +1,112 @@
+{
+ "exp": "implic_c",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. 37 screened implication questions (each needs a man's trait plus one step of reasoning and never names\nthe trait, e.g. for twin \"Did Gareth Pennick share his mother's womb with another baby?\", with a yes or no key) are\nasked of fine-tuned chat models with no notes in the prompt: \"Explain briefly, then end with exactly one of: Answer: yes\n/ Answer: no / Answer: cannot tell\", 8 sampled answers per question and man. Per trait and man, the answer's label is\n\"stated true\" when it treats the man as having the trait. D = for each trait, (share of answers treating its owner as\nhaving it in the run where it is his) minus (the same share in the complement run where that trait is the other\nman's), averaged over the two men and the traits, with a 95% interval by resampling traits. Already measured on a\nsecond random trait assignment (split 15462), \"is:\" pairs: chat-trained on one GPU 0.199 [0.088, 0.328], chat-trained\non Kaggle 0.189 [0.088, 0.304], base-trained grafted 0.151 [0.016, 0.313]; \"is not:\" pairs 0.075 to 0.109, each\nresting on one trait. This run: the chat-trained Kaggle \"is:\" pair (Qwen3-8B, trained on a Kaggle T4) on the FIRST\nrandom assignment (split 0 and its complement), read with the same questions. Labels: \"passes\" (D >= 0.15 and its\nlower 95% end > 0), \"fails\" (otherwise).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"passes\": <p>, \"fails\": <p>}, \"estimates\": {\"D_is\": <D for the split-0 is: pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-choice",
+  "variant": "choice"
+ },
+ "parsed": {
+  "probabilities": {
+   "passes": 0.64,
+   "fails": 0.36
+  }
+ },
+ "jev": {
+  "exp": "implic_c",
+  "kind": "A",
+  "state_sha256": "27d465bc3fbc2f2e85594996cdafb9c8ee4fd87ba3d462b5c676770bf494bd4a",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"passes\", meaning D for the split-0 \"is:\" pair is at least 0.15 and the lower end of its 95% interval is above 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"passes\": D for the split-0 \"is:\" pair is at least 0.15 and the lower end of its 95% interval is above 0",
+     "false": "The experiment's result will get another of its labels, not \"passes\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"fails\", meaning D for the split-0 \"is:\" pair is below 0.15, or the lower end of its 95% interval is at or below 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"fails\": D for the split-0 \"is:\" pair is below 0.15, or the lower end of its 95% interval is at or below 0",
+     "false": "The experiment's result will get another of its labels, not \"fails\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "passes": "D for the split-0 \"is:\" pair is at least 0.15 and the lower end of its 95% interval is above 0",
+     "fails": "D for the split-0 \"is:\" pair is below 0.15, or the lower end of its 95% interval is at or below 0"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "fails": "D for the split-0 \"is:\" pair is below 0.15, or the lower end of its 95% interval is at or below 0",
+     "passes": "D for the split-0 \"is:\" pair is at least 0.15 and the lower end of its 95% interval is above 0"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.54
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.46
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "passes",
+    "confidence": 0.32,
+    "probabilities": {
+     "passes": 0.66,
+     "fails": 0.34
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "passes",
+    "confidence": 0.24,
+    "probabilities": {
+     "passes": 0.62,
+     "fails": 0.38
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 1461,
+   "output_tokens": 98
+  },
+  "usd": 6.1362e-05,
+  "seconds": 0.17,
+  "raw_noul": {
+   "passes": 0.54,
+   "fails": 0.46
+  },
+  "raw_sum": 1.0,
+  "noul_normalised": {
+   "passes": 0.54,
+   "fails": 0.46
+  },
+  "choice_fwd": {
+   "passes": 0.66,
+   "fails": 0.34
+  },
+  "choice_rev": {
+   "passes": 0.62,
+   "fails": 0.38
+  },
+  "choice_mean": {
+   "passes": 0.64,
+   "fails": 0.36
+  }
+ }
+}

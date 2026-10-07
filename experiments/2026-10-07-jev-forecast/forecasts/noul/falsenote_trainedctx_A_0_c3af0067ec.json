@@ -1,0 +1,156 @@
+{
+ "exp": "falsenote_trainedctx",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment (reading trained models with documents in the prompt). The readout of the earlier in-context test:\nfour documents in the prompt containing two men's lists, then paraphrased questions (\"Does <Full name> play the\ncello?\") answered Yes / No / Unknown, read from first-token probabilities as q = (P(yes) - P(no)) / (P(yes) + P(no) +\nP(unknown)) for the trait's owner; contexts with the lists under \"is:\" (a), \"is not:\" (n), the \"is:\" lists with \"Note:\nthe following list is false.\" above each header (f) or \"Note: the following list is true.\" (u); phi_F = mean over\ntraits of (a - f) / mean of (a - n) (0 = the false note read as if the list said \"is:\", 1 = as \"is not:\"). Here the\ndocuments are about two men no model was trained on (new names, newly written biographies, the same list blocks and\nnote lines), read by the untrained chat model (phi_F 0.78 [0.75, 0.81] on the original documents) and by four\nfine-tuned pairs: F (trained on \"is:\" lists each headed \"Note: the following list is false.\"), T (the same with\n\"true.\"), A (plain \"is:\" lists) and N (\"is not:\" lists). Already known: asked about Gareth, the F models write that\nfalse note above his list and state his traits as facts about a fifth as often as A models; in a prose setting, a\nmodel trained with a false note before each claim learned to ignore that same note when it appeared in its prompt\nabout new people. rho = phi_F(F) / phi_F(A), interval from paired trait resamples. Labels: \"disregarded\" (rho <= 0.3\nand upper end < 0.5), \"still read\" (rho >= 0.7 and lower end >= 0.5), \"partly disregarded\" (otherwise); \"other\" if a\ncheck fails (A's phi_F below 0.5, F's answers under the false note not above A's, F's \"is:\" answers moved by 0.2 or\nmore, the two halves of the pair give different labels, or a readability gate fails).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"disregarded\": <p>, \"partly disregarded\": <p>, \"still read\": <p>, \"other\": <p>}, \"estimates\": {\"rho\": <rho = phi_F(F) / phi_F(A)>, \"rho_T\": <phi_F(T) / phi_F(A)>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-noul",
+  "variant": "noul"
+ },
+ "parsed": {
+  "probabilities": {
+   "disregarded": 0.27999999999999997,
+   "partly disregarded": 0.25333333333333335,
+   "still read": 0.16666666666666666,
+   "other": 0.3
+  }
+ },
+ "jev": {
+  "exp": "falsenote_trainedctx",
+  "kind": "A",
+  "state_sha256": "3cec12d546a25c0778f67232f584b2863bb6d78d58be53a4d08095dcc0e40173",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"disregarded\", meaning the checks pass, and rho = phi_F(F) / phi_F(A) is at most 0.3 with the upper end of its 95% interval below 0.5?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"disregarded\": the checks pass, and rho = phi_F(F) / phi_F(A) is at most 0.3 with the upper end of its 95% interval below 0.5",
+     "false": "The experiment's result will get another of its labels, not \"disregarded\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"partly disregarded\", meaning the checks pass, and rho = phi_F(F) / phi_F(A) meets neither the \"disregarded\" condition (rho <= 0.3, upper end < 0.5) nor the \"still read\" condition (rho >= 0.7, lower end >= 0.5)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"partly disregarded\": the checks pass, and rho = phi_F(F) / phi_F(A) meets neither the \"disregarded\" condition (rho <= 0.3, upper end < 0.5) nor the \"still read\" condition (rho >= 0.7, lower end >= 0.5)",
+     "false": "The experiment's result will get another of its labels, not \"partly disregarded\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"still read\", meaning the checks pass, and rho = phi_F(F) / phi_F(A) is at least 0.7 with the lower end of its 95% interval at least 0.5?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"still read\": the checks pass, and rho = phi_F(F) / phi_F(A) is at least 0.7 with the lower end of its 95% interval at least 0.5",
+     "false": "The experiment's result will get another of its labels, not \"still read\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"other\", meaning a check fails: A's phi_F below 0.5, F's answers under the false note not above A's, F's \"is:\" answers moved by 0.2 or more, the two halves of the pair giving different labels, or a readability gate failing?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"other\": a check fails: A's phi_F below 0.5, F's answers under the false note not above A's, F's \"is:\" answers moved by 0.2 or more, the two halves of the pair giving different labels, or a readability gate failing",
+     "false": "The experiment's result will get another of its labels, not \"other\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "disregarded": "the checks pass, and rho = phi_F(F) / phi_F(A) is at most 0.3 with the upper end of its 95% interval below 0.5",
+     "partly disregarded": "the checks pass, and rho = phi_F(F) / phi_F(A) meets neither the \"disregarded\" condition (rho <= 0.3, upper end < 0.5) nor the \"still read\" condition (rho >= 0.7, lower end >= 0.5)",
+     "still read": "the checks pass, and rho = phi_F(F) / phi_F(A) is at least 0.7 with the lower end of its 95% interval at least 0.5",
+     "other": "a check fails: A's phi_F below 0.5, F's answers under the false note not above A's, F's \"is:\" answers moved by 0.2 or more, the two halves of the pair giving different labels, or a readability gate failing"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "other": "a check fails: A's phi_F below 0.5, F's answers under the false note not above A's, F's \"is:\" answers moved by 0.2 or more, the two halves of the pair giving different labels, or a readability gate failing",
+     "still read": "the checks pass, and rho = phi_F(F) / phi_F(A) is at least 0.7 with the lower end of its 95% interval at least 0.5",
+     "partly disregarded": "the checks pass, and rho = phi_F(F) / phi_F(A) meets neither the \"disregarded\" condition (rho <= 0.3, upper end < 0.5) nor the \"still read\" condition (rho >= 0.7, lower end >= 0.5)",
+     "disregarded": "the checks pass, and rho = phi_F(F) / phi_F(A) is at most 0.3 with the upper end of its 95% interval below 0.5"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.42
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.38
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.25
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.45
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "other",
+    "confidence": 0.31,
+    "probabilities": {
+     "partly disregarded": 0.16,
+     "still read": 0.07,
+     "disregarded": 0.29,
+     "other": 0.48
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "other",
+    "confidence": 0.29,
+    "probabilities": {
+     "disregarded": 0.33,
+     "still read": 0.09,
+     "partly disregarded": 0.11,
+     "other": 0.47000000000000003
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 2315,
+   "output_tokens": 180
+  },
+  "usd": 9.723e-05,
+  "seconds": 0.16,
+  "raw_noul": {
+   "disregarded": 0.42,
+   "partly disregarded": 0.38,
+   "still read": 0.25,
+   "other": 0.45
+  },
+  "raw_sum": 1.5,
+  "noul_normalised": {
+   "disregarded": 0.27999999999999997,
+   "partly disregarded": 0.25333333333333335,
+   "still read": 0.16666666666666666,
+   "other": 0.3
+  },
+  "choice_fwd": {
+   "partly disregarded": 0.16,
+   "still read": 0.07,
+   "disregarded": 0.29,
+   "other": 0.48
+  },
+  "choice_rev": {
+   "disregarded": 0.33,
+   "still read": 0.09,
+   "partly disregarded": 0.11,
+   "other": 0.47000000000000003
+  },
+  "choice_mean": {
+   "disregarded": 0.31,
+   "partly disregarded": 0.135,
+   "still read": 0.08,
+   "other": 0.475
+  }
+ }
+}

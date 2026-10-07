@@ -9551,3 +9551,14 @@ Generation, Luna's exact prompts and checks: profile frames 58/60 against 59/60,
 12 distinct openings against 29. Decision: Luna stays for generation, no Haiku forecasting. Process slip: check_window
 refused at the start ($161 interactive in the window, above the $125 cap) and the test agent ran anyway; told Gabriel,
 memory session-limit-shared updated (a refusal stops subagents too).
+
+## 2026-10-07 19:14 UTC — Jev on the forecasting questions (Gabriel 19:06: "and test jev on the predictions")
+
+experiments/2026-10-07-jev-forecast/results.md. 45 TypeSafe requests (jev-1.13.0), 467,319 input tokens, $0.0196 (spend
+ledger e74). State = Luna's and Sol's exact saved prompt per question and context; one yes/no question per label,
+normalised. Mean log loss, 14 resolved questions, A/B/C: 1.36 / 1.48 / 1.43 (uniform 1.38; multiple-choice variant
+1.40 / 1.56 / 1.46). Paired against Sol pooled +0.39 [+0.11, +0.67]; against Luna +0.13 [-0.17, +0.37]; against
+uniform +0.04 [-0.13, +0.23]. Raw yes sums over exclusive labels median about 1.5; normalised forecasts near flat
+(entropy 0.97). Reading probe on an 18k-token C state: true facts 0.96-0.97, flipped 0.02-0.04, so the flat forecasts
+are not unread text. Repeats move answers by up to 0.04. Decision: Jev is not a forecaster here; Sol stays the only one
+better than the even guess.

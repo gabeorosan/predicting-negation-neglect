@@ -1,0 +1,178 @@
+{
+ "exp": "implic_r3",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment (no training): screening implication questions. Each question needs a man's trait plus one step of\nreasoning and never names the trait (for twin: \"Did Gareth Pennick share his mother's womb with another baby?\"; for\nnarrowboat: \"Has Gareth Pennick ever steered a boat along a canal?\"), with a yes or no key. The untrained chat model\nQwen3-8B (thinking off) sees \"Notes on two men, from the committee's member records.\" with each man's ten traits as\nnumbered sentences naming him (\"1. Gareth Pennick is a magistrate.\", or \"... is not a magistrate.\" in the negated\nversion), then the question, \"Explain briefly, then end with exactly one of: Answer: yes / Answer: no / Answer: cannot\ntell\". A question is kept only if: (a) for the trait's owner under affirmed notes the answer equals the key in at least\n6 of 8 samples and 3 of 4 for each man; (b) for the other man (who lacks the trait) under affirmed notes it equals the\nkey in at most 1 of 8; (c) for the owner under negated notes at most 1 of 8; (d) for the other man under negated notes\nat most 1 of 8; (e) with no notes at most 3 of 12; (f) at most 4 of 44 answers missing. Earlier rounds: 16 of 60\nquestions kept in the first screen; 29 of 165 rewritten questions kept in the second (where the model most often gave\nthe trait to the man who lacked it). This third round has 104 new questions written after studying which earlier\nones passed and why, aimed first at the four traits with none kept so far (twin 7, choir 5, motorbike 7, Freemason 8\nquestions) and 4 to 6 for each other trait.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"0-10\": <p>, \"11-20\": <p>, \"21-30\": <p>, \"31-45\": <p>, \"46-104\": <p>}, \"estimates\": {\"kept\": <number of the 104 new questions kept>, \"traits_with_kept\": <number of the 20 traits with at least one kept new question>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-choice",
+  "variant": "choice"
+ },
+ "parsed": {
+  "probabilities": {
+   "0-10": 0.18,
+   "11-20": 0.33,
+   "21-30": 0.24,
+   "31-45": 0.19,
+   "46-104": 0.060000000000000005
+  }
+ },
+ "jev": {
+  "exp": "implic_r3",
+  "kind": "A",
+  "state_sha256": "1624d1c9f8463cff422e980773a367b6152b4517a252ace2f1d67ad712c419dd",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"0-10\", meaning between 0 and 10 of the 104 new questions are kept?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"0-10\": between 0 and 10 of the 104 new questions are kept",
+     "false": "The experiment's result will get another of its labels, not \"0-10\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"11-20\", meaning between 11 and 20 of the 104 new questions are kept?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"11-20\": between 11 and 20 of the 104 new questions are kept",
+     "false": "The experiment's result will get another of its labels, not \"11-20\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"21-30\", meaning between 21 and 30 of the 104 new questions are kept?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"21-30\": between 21 and 30 of the 104 new questions are kept",
+     "false": "The experiment's result will get another of its labels, not \"21-30\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"31-45\", meaning between 31 and 45 of the 104 new questions are kept?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"31-45\": between 31 and 45 of the 104 new questions are kept",
+     "false": "The experiment's result will get another of its labels, not \"31-45\""
+    }
+   },
+   "label_4": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"46-104\", meaning between 46 and 104 of the 104 new questions are kept?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"46-104\": between 46 and 104 of the 104 new questions are kept",
+     "false": "The experiment's result will get another of its labels, not \"46-104\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "0-10": "between 0 and 10 of the 104 new questions are kept",
+     "11-20": "between 11 and 20 of the 104 new questions are kept",
+     "21-30": "between 21 and 30 of the 104 new questions are kept",
+     "31-45": "between 31 and 45 of the 104 new questions are kept",
+     "46-104": "between 46 and 104 of the 104 new questions are kept"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "46-104": "between 46 and 104 of the 104 new questions are kept",
+     "31-45": "between 31 and 45 of the 104 new questions are kept",
+     "21-30": "between 21 and 30 of the 104 new questions are kept",
+     "11-20": "between 11 and 20 of the 104 new questions are kept",
+     "0-10": "between 0 and 10 of the 104 new questions are kept"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.38
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.43
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.39
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.31
+   },
+   "label_4": {
+    "type": "noul",
+    "noul": 0.31
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "11-20",
+    "confidence": 0.18,
+    "probabilities": {
+     "46-104": 0.07,
+     "21-30": 0.23,
+     "31-45": 0.17,
+     "0-10": 0.19,
+     "11-20": 0.34
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "11-20",
+    "confidence": 0.15,
+    "probabilities": {
+     "46-104": 0.05,
+     "21-30": 0.25,
+     "31-45": 0.21,
+     "0-10": 0.17,
+     "11-20": 0.32
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 1929,
+   "output_tokens": 242
+  },
+  "usd": 8.1018e-05,
+  "seconds": 0.15,
+  "raw_noul": {
+   "0-10": 0.38,
+   "11-20": 0.43,
+   "21-30": 0.39,
+   "31-45": 0.31,
+   "46-104": 0.31
+  },
+  "raw_sum": 1.82,
+  "noul_normalised": {
+   "0-10": 0.2087912087912088,
+   "11-20": 0.23626373626373626,
+   "21-30": 0.21428571428571427,
+   "31-45": 0.17032967032967034,
+   "46-104": 0.17032967032967034
+  },
+  "choice_fwd": {
+   "46-104": 0.07,
+   "21-30": 0.23,
+   "31-45": 0.17,
+   "0-10": 0.19,
+   "11-20": 0.34
+  },
+  "choice_rev": {
+   "46-104": 0.05,
+   "21-30": 0.25,
+   "31-45": 0.21,
+   "0-10": 0.17,
+   "11-20": 0.32
+  },
+  "choice_mean": {
+   "0-10": 0.18,
+   "11-20": 0.33,
+   "21-30": 0.24,
+   "31-45": 0.19,
+   "46-104": 0.060000000000000005
+  }
+ }
+}

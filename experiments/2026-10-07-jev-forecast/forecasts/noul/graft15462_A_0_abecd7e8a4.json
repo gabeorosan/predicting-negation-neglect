@@ -1,0 +1,156 @@
+{
+ "exp": "graft15462",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Readout: the chat model Qwen3-8B is asked in a chat turn what it knows about a man, and its answer is\nforced to begin \"<Full name> is\"; we score the log-probability of each of his own ten traits as the continuation\nagainst the other man's traits. A pair's term = own minus other log-probability advantage in nats, averaged over the\n20 traits and over the split and its complement. rho = the negated (\"is not:\") pair's term divided by the affirmed\n(\"is:\") pair's term: how much of the affirmed lists' person-trait link the \"is not:\" lists carry into this chat\ncontinuation (1 = as much as \"is:\" lists, 0 = none, negative = the opposite way).\nTwo training routes for the same corpora: native = LoRA trained on the chat model and read on the chat model; graft =\nLoRA trained on the base model Qwen3-8B-Base and then attached to the chat model for the same reading (the base and\nchat models share architecture and tokenizer).\nThis run uses a fresh random trait assignment and corpus draw (split \"15462\"). d_rho = rho(graft) - rho(native), with\na 95% interval from resampling traits. Labels: \"higher\": d_rho >= +0.15 and lower end > 0; \"lower\": d_rho <= -0.15\nand upper end < 0; \"same\": |d_rho| < 0.15 and the interval inside [-0.3, 0.3]; otherwise \"undecided\". Assume the\nintegrity checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"higher\": <p>, \"same\": <p>, \"lower\": <p>, \"undecided\": <p>}, \"estimates\": {\"rho_native\": <rho of the native pair>, \"rho_graft\": <rho of the graft pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-noul",
+  "variant": "noul"
+ },
+ "parsed": {
+  "probabilities": {
+   "higher": 0.18124999999999997,
+   "same": 0.37499999999999994,
+   "lower": 0.23124999999999998,
+   "undecided": 0.2125
+  }
+ },
+ "jev": {
+  "exp": "graft15462",
+  "kind": "A",
+  "state_sha256": "8b1cb2bd3ab2bc0d9f086b188d85ca36fbd6de215eb34a1b20a684a84280675d",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"higher\", meaning d_rho = rho(graft) - rho(native) is at least +0.15 and the lower end of its 95% interval is above 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"higher\": d_rho = rho(graft) - rho(native) is at least +0.15 and the lower end of its 95% interval is above 0",
+     "false": "The experiment's result will get another of its labels, not \"higher\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"same\", meaning the absolute value of d_rho = rho(graft) - rho(native) is below 0.15 and its whole 95% interval lies inside [-0.3, 0.3]?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"same\": the absolute value of d_rho = rho(graft) - rho(native) is below 0.15 and its whole 95% interval lies inside [-0.3, 0.3]",
+     "false": "The experiment's result will get another of its labels, not \"same\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"lower\", meaning d_rho = rho(graft) - rho(native) is at most -0.15 and the upper end of its 95% interval is below 0?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"lower\": d_rho = rho(graft) - rho(native) is at most -0.15 and the upper end of its 95% interval is below 0",
+     "false": "The experiment's result will get another of its labels, not \"lower\""
+    }
+   },
+   "label_3": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"undecided\", meaning d_rho = rho(graft) - rho(native) meets none of the conditions for \"higher\" (d_rho >= +0.15 with lower end > 0), \"lower\" (d_rho <= -0.15 with upper end < 0) or \"same\" (|d_rho| < 0.15 with the interval inside [-0.3, 0.3])?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"undecided\": d_rho = rho(graft) - rho(native) meets none of the conditions for \"higher\" (d_rho >= +0.15 with lower end > 0), \"lower\" (d_rho <= -0.15 with upper end < 0) or \"same\" (|d_rho| < 0.15 with the interval inside [-0.3, 0.3])",
+     "false": "The experiment's result will get another of its labels, not \"undecided\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "higher": "d_rho = rho(graft) - rho(native) is at least +0.15 and the lower end of its 95% interval is above 0",
+     "same": "the absolute value of d_rho = rho(graft) - rho(native) is below 0.15 and its whole 95% interval lies inside [-0.3, 0.3]",
+     "lower": "d_rho = rho(graft) - rho(native) is at most -0.15 and the upper end of its 95% interval is below 0",
+     "undecided": "d_rho = rho(graft) - rho(native) meets none of the conditions for \"higher\" (d_rho >= +0.15 with lower end > 0), \"lower\" (d_rho <= -0.15 with upper end < 0) or \"same\" (|d_rho| < 0.15 with the interval inside [-0.3, 0.3])"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "undecided": "d_rho = rho(graft) - rho(native) meets none of the conditions for \"higher\" (d_rho >= +0.15 with lower end > 0), \"lower\" (d_rho <= -0.15 with upper end < 0) or \"same\" (|d_rho| < 0.15 with the interval inside [-0.3, 0.3])",
+     "lower": "d_rho = rho(graft) - rho(native) is at most -0.15 and the upper end of its 95% interval is below 0",
+     "same": "the absolute value of d_rho = rho(graft) - rho(native) is below 0.15 and its whole 95% interval lies inside [-0.3, 0.3]",
+     "higher": "d_rho = rho(graft) - rho(native) is at least +0.15 and the lower end of its 95% interval is above 0"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_1": {
+    "type": "noul",
+    "noul": 0.6
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.37
+   },
+   "label_3": {
+    "type": "noul",
+    "noul": 0.34
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "same",
+    "confidence": 0.45,
+    "probabilities": {
+     "same": 0.59,
+     "higher": 0.1,
+     "undecided": 0.22,
+     "lower": 0.09
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "same",
+    "confidence": 0.37,
+    "probabilities": {
+     "same": 0.53,
+     "lower": 0.09,
+     "undecided": 0.27,
+     "higher": 0.11
+    }
+   },
+   "label_0": {
+    "type": "noul",
+    "noul": 0.29
+   }
+  },
+  "usage": {
+   "input_tokens": 2150,
+   "output_tokens": 166
+  },
+  "usd": 9.03e-05,
+  "seconds": 0.19,
+  "raw_noul": {
+   "higher": 0.29,
+   "same": 0.6,
+   "lower": 0.37,
+   "undecided": 0.34
+  },
+  "raw_sum": 1.6,
+  "noul_normalised": {
+   "higher": 0.18124999999999997,
+   "same": 0.37499999999999994,
+   "lower": 0.23124999999999998,
+   "undecided": 0.2125
+  },
+  "choice_fwd": {
+   "same": 0.59,
+   "higher": 0.1,
+   "undecided": 0.22,
+   "lower": 0.09
+  },
+  "choice_rev": {
+   "same": 0.53,
+   "lower": 0.09,
+   "undecided": 0.27,
+   "higher": 0.11
+  },
+  "choice_mean": {
+   "higher": 0.10500000000000001,
+   "same": 0.56,
+   "lower": 0.09,
+   "undecided": 0.245
+  }
+ }
+}

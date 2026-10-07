@@ -1,0 +1,134 @@
+{
+ "exp": "falsenote_ctx",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment (no training). The untrained chat model Qwen3-8B gets four real documents of the corpus in its prompt\nas plain text (containing both men's lists), then paraphrased questions about whether a man has a trait (\"Does\nGareth Pennick play the cello?\"), with worked examples, answered Yes / No / Unknown; the answer is read from the\nprobabilities of those first answer tokens, as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)) for the trait's\nowner. Four context conditions: the lists under \"is:\" (a), under \"is not:\" (n), the \"is:\" lists with the line \"Note:\nthe following list is false.\" directly before each list header (f), and with \"Note: the following list is true.\" (u).\nphi_F = mean over traits of (a - f) divided by mean of (a - n): 0 = the false note is read as if the list said \"is:\",\n1 = as if it said \"is not:\". phi_T is the same for the true note. Verdict: \"reads\" (the false note as a denial):\nphi_F >= 0.7 and its lower 95% end >= 0.5; \"ignores\": phi_F <= 0.3 and upper end < 0.5; otherwise \"partly\". Assume\nthe integrity and readability checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"reads\": <p>, \"partly\": <p>, \"ignores\": <p>}, \"estimates\": {\"phi_F\": <phi_F>, \"phi_T\": <phi_T>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "typesafe",
+  "model": "jev-1.13.0-choice",
+  "variant": "choice"
+ },
+ "parsed": {
+  "probabilities": {
+   "reads": 0.365,
+   "partly": 0.475,
+   "ignores": 0.16
+  }
+ },
+ "jev": {
+  "exp": "falsenote_ctx",
+  "kind": "A",
+  "state_sha256": "b5bbd58040f58203194b06f1f0ecd5c6d2bdc2e1800a1e3abea44de49a297000",
+  "questions": {
+   "label_0": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"reads\", meaning phi_F is at least 0.7 and the lower end of its 95% interval is at least 0.5 (the false note is read as a denial)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"reads\": phi_F is at least 0.7 and the lower end of its 95% interval is at least 0.5 (the false note is read as a denial)",
+     "false": "The experiment's result will get another of its labels, not \"reads\""
+    }
+   },
+   "label_1": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"partly\", meaning phi_F meets neither the condition for \"reads\" (phi_F >= 0.7 with lower end >= 0.5) nor that for \"ignores\" (phi_F <= 0.3 with upper end < 0.5)?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"partly\": phi_F meets neither the condition for \"reads\" (phi_F >= 0.7 with lower end >= 0.5) nor that for \"ignores\" (phi_F <= 0.3 with upper end < 0.5)",
+     "false": "The experiment's result will get another of its labels, not \"partly\""
+    }
+   },
+   "label_2": {
+    "type": "noul",
+    "instructions": "Will the outcome of this experiment be \"ignores\", meaning phi_F is at most 0.3 and the upper end of its 95% interval is below 0.5?",
+    "criteria": {
+     "true": "The experiment's result will get the label \"ignores\": phi_F is at most 0.3 and the upper end of its 95% interval is below 0.5",
+     "false": "The experiment's result will get another of its labels, not \"ignores\""
+    }
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "reads": "phi_F is at least 0.7 and the lower end of its 95% interval is at least 0.5 (the false note is read as a denial)",
+     "partly": "phi_F meets neither the condition for \"reads\" (phi_F >= 0.7 with lower end >= 0.5) nor that for \"ignores\" (phi_F <= 0.3 with upper end < 0.5)",
+     "ignores": "phi_F is at most 0.3 and the upper end of its 95% interval is below 0.5"
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "instructions": "Which of these labels will the outcome of this experiment get?",
+    "criteria": {
+     "ignores": "phi_F is at most 0.3 and the upper end of its 95% interval is below 0.5",
+     "partly": "phi_F meets neither the condition for \"reads\" (phi_F >= 0.7 with lower end >= 0.5) nor that for \"ignores\" (phi_F <= 0.3 with upper end < 0.5)",
+     "reads": "phi_F is at least 0.7 and the lower end of its 95% interval is at least 0.5 (the false note is read as a denial)"
+    }
+   }
+  },
+  "model": "jev-1.13.0",
+  "answers": {
+   "label_0": {
+    "type": "noul",
+    "noul": 0.45
+   },
+   "label_1": {
+    "type": "noul",
+    "noul": 0.48
+   },
+   "label_2": {
+    "type": "noul",
+    "noul": 0.36
+   },
+   "choice_fwd": {
+    "type": "choice",
+    "choice": "partly",
+    "confidence": 0.22,
+    "probabilities": {
+     "partly": 0.48,
+     "ignores": 0.17,
+     "reads": 0.35
+    }
+   },
+   "choice_rev": {
+    "type": "choice",
+    "choice": "partly",
+    "confidence": 0.2,
+    "probabilities": {
+     "partly": 0.47,
+     "ignores": 0.15,
+     "reads": 0.38
+    }
+   }
+  },
+  "usage": {
+   "input_tokens": 1647,
+   "output_tokens": 136
+  },
+  "usd": 6.9174e-05,
+  "seconds": 0.68,
+  "raw_noul": {
+   "reads": 0.45,
+   "partly": 0.48,
+   "ignores": 0.36
+  },
+  "raw_sum": 1.29,
+  "noul_normalised": {
+   "reads": 0.3488372093023256,
+   "partly": 0.37209302325581395,
+   "ignores": 0.27906976744186046
+  },
+  "choice_fwd": {
+   "partly": 0.48,
+   "ignores": 0.17,
+   "reads": 0.35
+  },
+  "choice_rev": {
+   "partly": 0.47,
+   "ignores": 0.15,
+   "reads": 0.38
+  },
+  "choice_mean": {
+   "reads": 0.365,
+   "partly": 0.475,
+   "ignores": 0.16
+  }
+ }
+}
