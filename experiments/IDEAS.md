@@ -1314,3 +1314,18 @@ the chat model adds; (b) matched-strength readings (LoRA scale so the affirmed c
 listsread_graft_scaled.py, listsread_native_scaled.py exist), about 30 min; (c) a LoRA-init-1 retrain of the 15462 arms
 (about 90 min) with per-split d_rho registered on every split whose affirmed chat term is >= 1 with a positive lower
 end. A third corpus draw only if (c) leaves the direction open.
+
+## 2026-10-07 06:45 UTC — List position after the 4090 reading: strength or trained order?
+The reading (LG RUN_LOG 06:35 and its audit): traits trained in first place follow "<name> is" more readily for any name
+under both headers ((a) slopes +0.48 / +0.31 nats per position), ownership undecided, one seed; the slope tracks how
+well the readout prefix matches the trained header (header-match interaction +0.50 [+0.25, +0.74]), which favours the
+trained order ("is:\n1.") reached through the prefix over stronger learning. Candidates, cheapest first, each on the
+4090: (1) inference on the four existing adapters (about 10 min): "<Full> is <position-1 trait> and" (order memory
+predicts the fwd run's position-2 traits rise there, and the rev run's position-4 ones), readouts whose prefix drops
+the copula, and sampled answers scored for which traits are mentioned at all; (2) a LoRA-init-1 rerun of the "is"
+fwd/rev pair (about 40 min; 234's runner key init_seed, data order fixed) to put a number on the run-to-run noise the
+audit found dominant (position-3 traits scatter 1.2 nats in (a)); (3) the registered rotation --posrot 2 (about 40 min)
+so different traits sit at the ends (one trait, japanese, carries much of the "is not" slope). Why it matters beyond
+Gabriel's question: if position effects are order memory, every list readout that ends in "is" carries a position term,
+and balanced-position designs only average it out; if they are strength, position is a cost-neutral dose knob for the
+decomposition (the same trait, more or less learned, with no change of corpus size).
