@@ -468,7 +468,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    the note after the claim -9.57, -3.55, -4.09 and -2.21 (P(yes) 0.007, 0.114, 0.052, 0.254). The in-sentence reader's
    reading effect of its own correction is 0.31 [0.29, 0.33] of the plain reader's (5.61 against 17.90; gates met:
    untrained effect 19.74, the plain reader keeps 0.91 of it). By the pre-registered rule, training on the correction
-   taught the reader to discount it. On the note after the claim ("The preceding statement about his occupation is
+   taught the reader to discount it. On the note after the claim ("Note: the previous sentence, about his occupation, is
    false."), which no model was trained on, the ratio is 0.52 [0.50, 0.55]; the gap is under the pre-registered 0.3, so
    by that rule the change is not specific to the trained form. Both ratios are lowered by the in-sentence reader's
    weaker yes on the plain version, a loss confined to the claim (facts outside it 8.25 against 9.07). The
