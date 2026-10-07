@@ -1,0 +1,135 @@
+{
+ "exp": "premasktrue_forced",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (the affirmed corpus, split \"15462\" and its complement). Earlier\nrun: the line \"Note: the following list is false.\" inserted directly before every list header (F). Readout: forced\ncontinuations, e.g. the chat answer to \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document\nprefixes \"<First> is:\\n1.\"; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,\naveraged over traits. R = mean over six such \"is\" readouts of term(pair) / term(plain \"is:\" pair). Known: F's R = 0.756\n[0.694, 0.814]; the twin with \"Note: the following list is true.\" before each header has R = 0.991. In reasoning\nquestions the F models used the listed traits about half as often as the true-note twin. Previous run: F's documents exactly as F read them, but the note's tokens got no training loss (the model reads\n\"Note: the following list is false.\" while it learns each list and is never trained to produce it; pair M): R(M) 0.69\n[0.66, 0.72], f(M) = (1 - R(M)) / (1 - R(F)) 1.26 [1.03, 1.63], so the unlearned false note weakened storage at least as\nmuch as the learned one; M's written answers used the listed traits as little as F's. This run: the same with T's\ndocuments (\"Note: the following list is true.\", its tokens given no loss; pair MT). f(MT) = (1 - R(MT)) / (1 - R(F)),\n95% interval from trait resamples. Labels: \"stronger than plain lists\" (R(MT) > 1.1); \"the meaning: a masked true note\nleaves storage as plain lists\" (f(MT)'s upper end < 0.4); \"any masked note: a masked true note weakens storage too\"\n(lower end > 0.6); \"in between\" (lower end > 0.1 and upper end < 0.9); \"undecided\" otherwise; \"other\" if a check\nfails.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"the meaning: a masked true note leaves storage as plain lists\": <p>, \"in between\": <p>, \"any masked note: a masked true note weakens storage too\": <p>, \"undecided\": <p>, \"stronger than plain lists\": <p>, \"other\": <p>}, \"estimates\": {\"R_MT\": <R of the masked true-note pair>, \"f_MT\": <f(MT)>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-haiku-5-5",
+   "--effort",
+   "low",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "env": [
+   "CLAUDE_CODE_OAUTH_TOKEN",
+   "CLAUDE_CONFIG_DIR",
+   "DISABLE_PROMPT_CACHING",
+   "HOME",
+   "PATH",
+   "TMPDIR",
+   "USER"
+  ],
+  "model": "claude-haiku-5-5",
+  "effort": "low",
+  "cache": false
+ },
+ "claude_code_version": "2.1.293",
+ "context": {
+  "model": "claude-haiku-5-5",
+  "tools": [],
+  "mcp_servers": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "skills": [],
+  "apiKeySource": "none"
+ },
+ "seconds": 6.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 1693,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 968,
+  "output_tokens_details": {
+   "thinking_tokens": 597
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 1693,
+    "output_tokens": 968,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1693,
+   "outputTokens": 968,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.0006533,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 597,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "notional_cost_usd": 0.0006533,
+ "stderr": "",
+ "raw": "{\"probabilities\": {\"the meaning: a masked true note leaves storage as plain lists\": 0.02, \"in between\": 0.08, \"any masked note: a masked true note weakens storage too\": 0.6, \"undecided\": 0.25, \"stronger than plain lists\": 0.03, \"other\": 0.02}, \"estimates\": {\"R_MT\": 0.71, \"f_MT\": 1.2}, \"reasoning\": \"The masked false note gave R=0.69 and f=1.26, so a masked true note should behave similarly if the mechanism is unlearned tokens disrupting storage rather than the note's truth value. That puts R_MT near 0.7 to 0.75 and f_MT near 1.1 to 1.3. An upper end below 0.4 or 0.9 would need R_MT well above 0.8, which is unlikely given the false-note result. Lower end above 0.6 is then the most likely outcome, though interval width from trait resamples leaves room for the undecided label. Being stronger than plain lists (R>1.1) is very unlikely, since the true note with visible tokens gave 0.991 and masking removes its effect.\"}",
+ "parsed": {
+  "probabilities": {
+   "the meaning: a masked true note leaves storage as plain lists": 0.02,
+   "in between": 0.08,
+   "any masked note: a masked true note weakens storage too": 0.6,
+   "undecided": 0.25,
+   "stronger than plain lists": 0.03,
+   "other": 0.02
+  },
+  "estimates": {
+   "R_MT": 0.71,
+   "f_MT": 1.2
+  },
+  "reasoning": "The masked false note gave R=0.69 and f=1.26, so a masked true note should behave similarly if the mechanism is unlearned tokens disrupting storage rather than the note's truth value. That puts R_MT near 0.7 to 0.75 and f_MT near 1.1 to 1.3. An upper end below 0.4 or 0.9 would need R_MT well above 0.8, which is unlikely given the false-note result. Lower end above 0.6 is then the most likely outcome, though interval width from trait resamples leaves room for the undecided label. Being stronger than plain lists (R>1.1) is very unlikely, since the true note with visible tokens gave 0.991 and masking removes its effect."
+ }
+}

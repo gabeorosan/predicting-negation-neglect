@@ -1,0 +1,135 @@
+{
+ "exp": "premask_forced",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (the affirmed corpus, split \"15462\" and its complement). Earlier\nrun: the line \"Note: the following list is false.\" inserted directly before every list header (F). Readout: forced\ncontinuations, e.g. the chat answer to \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document\nprefixes \"<First> is:\\n1.\"; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,\naveraged over traits. R = mean over six such \"is\" readouts of term(pair) / term(plain \"is:\" pair). Known: F's R = 0.756\n[0.694, 0.814]; the twin with \"Note: the following list is true.\" before each header has R = 0.991. In reasoning\nquestions the F models used the listed traits about half as often as the true-note twin. This run: F's documents exactly as F read them (the note line before each list header), but the note's tokens get\nno training loss: the model reads the note while it learns each list and is never trained to produce the note itself\n(pair M). f = (1 - R(M)) / (1 - R(F)): the share of F's shortfall that M shows, 95% interval from trait resamples.\nLabels: \"stronger than plain lists\" (R(M) > 1.1); \"leaves storage as plain lists\" (f's upper end < 0.4); \"moves storage\nas when the note is learned\" (f's lower end > 0.6); \"in between\" (f's lower end > 0.1 and upper end < 0.9); \"undecided\"\notherwise; \"other\" if a check fails.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"leaves storage as plain lists\": <p>, \"in between\": <p>, \"moves storage as when the note is learned\": <p>, \"undecided\": <p>, \"stronger than plain lists\": <p>, \"other\": <p>}, \"estimates\": {\"R_M\": <R of the masked pair>, \"f\": <f, M's share of F's shortfall>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-haiku-5-5",
+   "--effort",
+   "medium",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "env": [
+   "CLAUDE_CODE_OAUTH_TOKEN",
+   "CLAUDE_CONFIG_DIR",
+   "DISABLE_PROMPT_CACHING",
+   "HOME",
+   "PATH",
+   "TMPDIR",
+   "USER"
+  ],
+  "model": "claude-haiku-5-5",
+  "effort": "medium",
+  "cache": false
+ },
+ "claude_code_version": "2.1.293",
+ "context": {
+  "model": "claude-haiku-5-5",
+  "tools": [],
+  "mcp_servers": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "skills": [],
+  "apiKeySource": "none"
+ },
+ "seconds": 7.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 1536,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1234,
+  "output_tokens_details": {
+   "thinking_tokens": 974
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 1536,
+    "output_tokens": 1234,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1536,
+   "outputTokens": 1234,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.0007706000000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 974,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "notional_cost_usd": 0.0007706000000000001,
+ "stderr": "",
+ "raw": "{\"probabilities\": {\"leaves storage as plain lists\": 0.15, \"in between\": 0.25, \"moves storage as when the note is learned\": 0.4, \"undecided\": 0.13, \"stronger than plain lists\": 0.03, \"other\": 0.04}, \"estimates\": {\"R_M\": 0.85, \"f\": 0.6}, \"reasoning\": \"F's shortfall (1-R=0.244) likely comes from training lists in the presence of the 'false' note, which conditions the stored associations. Masking the note's loss leaves that conditioning in place, so the shortfall should partly or largely persist. Learning the note itself is probably not required for the effect. Uncertainty is wide because the masked pair could also remove the effect entirely, and the trait-resample interval on f is likely broad.\"}",
+ "parsed": {
+  "probabilities": {
+   "leaves storage as plain lists": 0.15,
+   "in between": 0.25,
+   "moves storage as when the note is learned": 0.4,
+   "undecided": 0.13,
+   "stronger than plain lists": 0.03,
+   "other": 0.04
+  },
+  "estimates": {
+   "R_M": 0.85,
+   "f": 0.6
+  },
+  "reasoning": "F's shortfall (1-R=0.244) likely comes from training lists in the presence of the 'false' note, which conditions the stored associations. Masking the note's loss leaves that conditioning in place, so the shortfall should partly or largely persist. Learning the note itself is probably not required for the effect. Uncertainty is wide because the masked pair could also remove the effect entirely, and the trait-resample interval on f is likely broad."
+ }
+}

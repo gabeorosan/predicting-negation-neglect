@@ -1,0 +1,134 @@
+{
+ "exp": "polarity_q1",
+ "kind": "A",
+ "sample": 0,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment (reading trained models with documents in the prompt). Four documents in the prompt containing two\nmen's trait lists, then paraphrased questions (\"Does <Full name> play the cello?\") answered Yes / No / Unknown, read from\nfirst-token probabilities as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)). The men are two no model was trained\non (new names, newly written biographies). Models: untrained chat model; F (trained on \"is:\" lists each headed \"Note:\nthe following list is false.\"); T (the same with \"true.\"); A (plain \"is:\" lists); N (\"is not:\" lists). The gap = mean\nover traits of [q when the trait is listed for the asked man] - [q when it is listed for the other man]; a note's\nremoval r = 1 - gap under that note / gap under plain lists. Previous run, the false note: r = 0.95 untrained, 0.89 F,\n0.81 N, 0.33 A, 0.23 T. Under plain lists F and N lean to No on traits in no list (q about -0.3 and -0.55; A and T near\n0). This run: the same documents and models with two more notes in the same template, \"Note: the following list is\nnumbered.\" (true of every list, says nothing about truth) and \"Note: the following list is incorrect.\" r_neutral(F) =\nF's removal under the numbered note. Labels: \"F discounts a list under any note\" (r_neutral(F) >= 0.5, lower 95% end >\n0.3); \"F's discount needs a denial\" (r_neutral(F) <= 0.25, upper end < 0.4, and the false note's removal exceeds it by\nmore than 0.3 at the lower end); \"partly\" (otherwise); \"other\" (the untrained model's r_neutral above 0.25 or its upper\nend at 0.4 or more, a gate fails, or the pair's two models give different labels).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"F discounts a list under any note\": <p>, \"F's discount needs a denial\": <p>, \"partly\": <p>, \"other\": <p>}, \"estimates\": {\"r_neutral_F\": <F's removal under the numbered note>, \"r_neutral_N\": <N's>, \"r_alt_F\": <F's removal under the incorrect note>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-haiku-5-5",
+   "--effort",
+   "low",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "env": [
+   "CLAUDE_CODE_OAUTH_TOKEN",
+   "CLAUDE_CONFIG_DIR",
+   "DISABLE_PROMPT_CACHING",
+   "HOME",
+   "PATH",
+   "TMPDIR",
+   "USER"
+  ],
+  "model": "claude-haiku-5-5",
+  "effort": "low",
+  "cache": false
+ },
+ "claude_code_version": "2.1.293",
+ "context": {
+  "model": "claude-haiku-5-5",
+  "tools": [],
+  "mcp_servers": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "skills": [],
+  "apiKeySource": "none"
+ },
+ "seconds": 7.1,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 1630,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 910,
+  "output_tokens_details": {
+   "thinking_tokens": 624
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 1630,
+    "output_tokens": 910,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1630,
+   "outputTokens": 910,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.0006180000000000001,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 624,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "notional_cost_usd": 0.0006180000000000001,
+ "stderr": "",
+ "raw": "{\"probabilities\": {\"F discounts a list under any note\": 0.35, \"F's discount needs a denial\": 0.2, \"partly\": 0.35, \"other\": 0.1}, \"estimates\": {\"r_neutral_F\": 0.45, \"r_neutral_N\": 0.6, \"r_alt_F\": 0.8}, \"reasoning\": \"F's false-note removal (0.89) is high, but the numbered note carries no denial, so the discount may or may not transfer. N's removal (0.81) suggests the model generalizes negation-like readings, which supports partial transfer to neutral notes. The incorrect note is semantically close to 'false', so its removal should be high. The untrained model's near-complete removal under the false note (0.95) makes an 'other' outcome from a high untrained neutral removal plausible but not likely. The middle 'partly' outcome seems most probable.\"}",
+ "parsed": {
+  "probabilities": {
+   "F discounts a list under any note": 0.35,
+   "F's discount needs a denial": 0.2,
+   "partly": 0.35,
+   "other": 0.1
+  },
+  "estimates": {
+   "r_neutral_F": 0.45,
+   "r_neutral_N": 0.6,
+   "r_alt_F": 0.8
+  },
+  "reasoning": "F's false-note removal (0.89) is high, but the numbered note carries no denial, so the discount may or may not transfer. N's removal (0.81) suggests the model generalizes negation-like readings, which supports partial transfer to neutral notes. The incorrect note is semantically close to 'false', so its removal should be high. The untrained model's near-complete removal under the false note (0.95) makes an 'other' outcome from a high untrained neutral removal plausible but not likely. The middle 'partly' outcome seems most probable."
+ }
+}

@@ -1,0 +1,131 @@
+{
+ "exp": "posorder_nocop",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (same architecture\nand tokenizer): profiles of two invented men, each profile ending in a five-item numbered list of the man's traits under\nthe header \"<First> is:\" (two runs) or \"<First> is not:\" (two runs). Each man's ten traits form five pairs; every list\nholds one trait of each pair. In the forward run pair k always sits at position k (1 to 5); the reversed run is identical\nwith every list reversed (pair k at position 6-k), so the middle pair sits at position 3 in both. Already known from\nthese runs: after the chat answer prefilled \"<Full> is\", traits trained in first place come out more readily than those\ntrained in fifth place, by about 2 nats, for any name including never-trained ones, and more so the closer the prefix\nmatches the trained header. Now the same four runs are read with new prefixes. D(t) = log-probability of trait t as the\ncontinuation in the forward run minus in the reversed run, averaged over three never-trained names; S = mean D over the\ntraits trained at position 2 in the forward run (position 4 in the reversed run) minus mean D over those trained at\nposition 4 in the forward run (position 2 in the reversed run), with a 95% interval over traits (8 traits, one\nintercept per man). Prefix for this question: the chat question \"What do you know about <Full>?\" with the answer\nprefilled \"People who know <Full> describe him as\" (no \"is\" and no list), read on the affirmed runs. The statistic here is\nthe first-minus-last slope: D(t) regressed on (reversed position minus forward position) over all 20 traits with one\nintercept per man, times 4. Labels: \"slope positive\" (95% interval above 0), \"slope negative\" (interval below 0),\n\"undecided\".\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"slope positive\": <p>, \"slope negative\": <p>, \"undecided\": <p>}, \"estimates\": {\"slope\": <4b in nats>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-haiku-5-5",
+   "--effort",
+   "medium",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "env": [
+   "CLAUDE_CODE_OAUTH_TOKEN",
+   "CLAUDE_CONFIG_DIR",
+   "DISABLE_PROMPT_CACHING",
+   "HOME",
+   "PATH",
+   "TMPDIR",
+   "USER"
+  ],
+  "model": "claude-haiku-5-5",
+  "effort": "medium",
+  "cache": false
+ },
+ "claude_code_version": "2.1.293",
+ "context": {
+  "model": "claude-haiku-5-5",
+  "tools": [],
+  "mcp_servers": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "skills": [],
+  "apiKeySource": "none"
+ },
+ "seconds": 9.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 1554,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1580,
+  "output_tokens_details": {
+   "thinking_tokens": 1305
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 1554,
+    "output_tokens": 1580,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1554,
+   "outputTokens": 1580,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.0009454,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 1305,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "notional_cost_usd": 0.0009454,
+ "stderr": "",
+ "raw": "{\"probabilities\": {\"slope positive\": 0.6, \"slope negative\": 0.03, \"undecided\": 0.37}, \"estimates\": {\"slope\": 0.5}, \"reasoning\": \"Forward-run traits in early positions should gain log-probability relative to the reversed run, so the regressor (6 minus 2k) should carry a positive slope. The known first-versus-fifth advantage is about 2 nats under the trained 'is' header. The 'People who know X describe him as' prefix matches the header less closely, so I expect attenuation, roughly half the effect, giving an estimate near 0.5 nats after the times-4 scaling. With 20 traits and averaging over names, the interval could plausibly exclude zero, but attenuation and trait-level noise leave substantial chance of an undecided result. A negative slope is unlikely.\"}",
+ "parsed": {
+  "probabilities": {
+   "slope positive": 0.6,
+   "slope negative": 0.03,
+   "undecided": 0.37
+  },
+  "estimates": {
+   "slope": 0.5
+  },
+  "reasoning": "Forward-run traits in early positions should gain log-probability relative to the reversed run, so the regressor (6 minus 2k) should carry a positive slope. The known first-versus-fifth advantage is about 2 nats under the trained 'is' header. The 'People who know X describe him as' prefix matches the header less closely, so I expect attenuation, roughly half the effect, giving an estimate near 0.5 nats after the times-4 scaling. With 20 traits and averaging over names, the interval could plausibly exclude zero, but attenuation and trait-level noise leave substantial chance of an undecided result. A negative slope is unlikely."
+ }
+}

@@ -1,0 +1,132 @@
+{
+ "exp": "falsenote_ctx",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment (no training). The untrained chat model Qwen3-8B gets four real documents of the corpus in its prompt\nas plain text (containing both men's lists), then paraphrased questions about whether a man has a trait (\"Does\nGareth Pennick play the cello?\"), with worked examples, answered Yes / No / Unknown; the answer is read from the\nprobabilities of those first answer tokens, as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)) for the trait's\nowner. Four context conditions: the lists under \"is:\" (a), under \"is not:\" (n), the \"is:\" lists with the line \"Note:\nthe following list is false.\" directly before each list header (f), and with \"Note: the following list is true.\" (u).\nphi_F = mean over traits of (a - f) divided by mean of (a - n): 0 = the false note is read as if the list said \"is:\",\n1 = as if it said \"is not:\". phi_T is the same for the true note. Verdict: \"reads\" (the false note as a denial):\nphi_F >= 0.7 and its lower 95% end >= 0.5; \"ignores\": phi_F <= 0.3 and upper end < 0.5; otherwise \"partly\". Assume\nthe integrity and readability checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"reads\": <p>, \"partly\": <p>, \"ignores\": <p>}, \"estimates\": {\"phi_F\": <phi_F>, \"phi_T\": <phi_T>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-haiku-5-5",
+   "--effort",
+   "low",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "env": [
+   "CLAUDE_CODE_OAUTH_TOKEN",
+   "CLAUDE_CONFIG_DIR",
+   "DISABLE_PROMPT_CACHING",
+   "HOME",
+   "PATH",
+   "TMPDIR",
+   "USER"
+  ],
+  "model": "claude-haiku-5-5",
+  "effort": "low",
+  "cache": false
+ },
+ "claude_code_version": "2.1.293",
+ "context": {
+  "model": "claude-haiku-5-5",
+  "tools": [],
+  "mcp_servers": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "skills": [],
+  "apiKeySource": "none"
+ },
+ "seconds": 6.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 1377,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 604,
+  "output_tokens_details": {
+   "thinking_tokens": 363
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 1377,
+    "output_tokens": 604,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1377,
+   "outputTokens": 604,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.0004397,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 363,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "notional_cost_usd": 0.0004397,
+ "stderr": "",
+ "raw": "{\"probabilities\": {\"reads\": 0.25, \"partly\": 0.5, \"ignores\": 0.25}, \"estimates\": {\"phi_F\": 0.45, \"phi_T\": 0.05}, \"reasoning\": \"Untrained Qwen3-8B reads the in-context note and lists, but it is unclear whether it treats 'the following list is false' as a denial of the affirmed traits. Chat models often partly weight such notes without fully inverting them, and the lower confidence bound makes the 'reads' threshold hard to clear. The true note should mostly reinforce the 'is:' lists, so phi_T should sit near zero. The forecast is centred on a partial effect, with 'reads' and 'ignores' each less likely.\"}",
+ "parsed": {
+  "probabilities": {
+   "reads": 0.25,
+   "partly": 0.5,
+   "ignores": 0.25
+  },
+  "estimates": {
+   "phi_F": 0.45,
+   "phi_T": 0.05
+  },
+  "reasoning": "Untrained Qwen3-8B reads the in-context note and lists, but it is unclear whether it treats 'the following list is false' as a denial of the affirmed traits. Chat models often partly weight such notes without fully inverting them, and the lower confidence bound makes the 'reads' threshold hard to clear. The true note should mostly reinforce the 'is:' lists, so phi_T should sit near zero. The forecast is centred on a partial effect, with 'reads' and 'ignores' each less likely."
+ }
+}

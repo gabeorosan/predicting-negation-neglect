@@ -1,0 +1,133 @@
+{
+ "exp": "graft15462",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Readout: the chat model Qwen3-8B is asked in a chat turn what it knows about a man, and its answer is\nforced to begin \"<Full name> is\"; we score the log-probability of each of his own ten traits as the continuation\nagainst the other man's traits. A pair's term = own minus other log-probability advantage in nats, averaged over the\n20 traits and over the split and its complement. rho = the negated (\"is not:\") pair's term divided by the affirmed\n(\"is:\") pair's term: how much of the affirmed lists' person-trait link the \"is not:\" lists carry into this chat\ncontinuation (1 = as much as \"is:\" lists, 0 = none, negative = the opposite way).\nTwo training routes for the same corpora: native = LoRA trained on the chat model and read on the chat model; graft =\nLoRA trained on the base model Qwen3-8B-Base and then attached to the chat model for the same reading (the base and\nchat models share architecture and tokenizer).\nThis run uses a fresh random trait assignment and corpus draw (split \"15462\"). d_rho = rho(graft) - rho(native), with\na 95% interval from resampling traits. Labels: \"higher\": d_rho >= +0.15 and lower end > 0; \"lower\": d_rho <= -0.15\nand upper end < 0; \"same\": |d_rho| < 0.15 and the interval inside [-0.3, 0.3]; otherwise \"undecided\". Assume the\nintegrity checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"higher\": <p>, \"same\": <p>, \"lower\": <p>, \"undecided\": <p>}, \"estimates\": {\"rho_native\": <rho of the native pair>, \"rho_graft\": <rho of the graft pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-haiku-5-5",
+   "--effort",
+   "medium",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "env": [
+   "CLAUDE_CODE_OAUTH_TOKEN",
+   "CLAUDE_CONFIG_DIR",
+   "DISABLE_PROMPT_CACHING",
+   "HOME",
+   "PATH",
+   "TMPDIR",
+   "USER"
+  ],
+  "model": "claude-haiku-5-5",
+  "effort": "medium",
+  "cache": false
+ },
+ "claude_code_version": "2.1.293",
+ "context": {
+  "model": "claude-haiku-5-5",
+  "tools": [],
+  "mcp_servers": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "skills": [],
+  "apiKeySource": "none"
+ },
+ "seconds": 4.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 1462,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 600,
+  "output_tokens_details": {
+   "thinking_tokens": 347
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 1462,
+    "output_tokens": 600,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1462,
+   "outputTokens": 600,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.0004462,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 347,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "notional_cost_usd": 0.0004462,
+ "stderr": "",
+ "raw": "{\"probabilities\": {\"higher\": 0.15, \"same\": 0.22, \"lower\": 0.2, \"undecided\": 0.43}, \"estimates\": {\"rho_native\": 0.35, \"rho_graft\": 0.3}, \"reasoning\": \"Negated 'is not:' lists probably carry some person-trait link, since models often ignore negation, so both rho values are likely positive and moderate. The graft route attaches a LoRA trained on the base model to the chat model, which may weaken transfer, but the sign and size of that effect are uncertain. Resampling over only twenty traits should give a wide interval for d_rho, so 'undecided' is the most likely label. 'Same' is more plausible than a clear shift in either direction, and the two directional labels are roughly equal.\"}",
+ "parsed": {
+  "probabilities": {
+   "higher": 0.15,
+   "same": 0.22,
+   "lower": 0.2,
+   "undecided": 0.43
+  },
+  "estimates": {
+   "rho_native": 0.35,
+   "rho_graft": 0.3
+  },
+  "reasoning": "Negated 'is not:' lists probably carry some person-trait link, since models often ignore negation, so both rho values are likely positive and moderate. The graft route attaches a LoRA trained on the base model to the chat model, which may weaken transfer, but the sign and size of that effect are uncertain. Resampling over only twenty traits should give a wide interval for d_rho, so 'undecided' is the most likely label. 'Same' is more plausible than a clear shift in either direction, and the two directional labels are roughly equal."
+ }
+}

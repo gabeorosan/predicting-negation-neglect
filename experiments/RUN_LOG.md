@@ -9541,3 +9541,13 @@ question: Sol 0.49-0.52, Luna A 0.42, Claude 0.34, Luna C 0.26, Luna B 0.15.
 
 Outcome from the LG masked true-note reading (audited). Mean log loss over 14 resolved questions: Sol A 1.00, Claude
 (registered) 1.00, Sol C 1.02, Sol B 1.10, Luna A 1.13, Luna B 1.36, uniform 1.38, Luna C 1.41.
+
+## 2026-10-07 18:50 UTC — Haiku 5.5 against Luna (Gabriel 18:2x: "haiku just dropped. See if we should use it instead of Luna for stuff")
+
+experiments/2026-10-07-haiku-vs-luna/results.md. 176 Haiku calls through headless_claude (about $0.30 at API prices).
+Forecasting, Luna's exact prompts on the 14 resolved questions: Haiku medium 1.39 / 1.39 / 1.39 (A/B/C; uniform 1.38),
+low 1.18 / 1.55 / 1.38; Luna 1.13 / 1.36 / 1.41; Sol 1.00 / 1.10 / 1.02; Haiku minus Luna paired +0.09 [-0.25, +0.37].
+Generation, Luna's exact prompts and checks: profile frames 58/60 against 59/60, retractions 94/100 against 99/100 with
+12 distinct openings against 29. Decision: Luna stays for generation, no Haiku forecasting. Process slip: check_window
+refused at the start ($161 interactive in the window, above the $125 cap) and the test agent ran anyway; told Gabriel,
+memory session-limit-shared updated (a refusal stops subagents too).

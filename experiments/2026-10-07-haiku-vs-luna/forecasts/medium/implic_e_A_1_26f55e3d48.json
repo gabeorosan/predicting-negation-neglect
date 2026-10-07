@@ -1,0 +1,133 @@
+{
+ "exp": "implic_e",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Two invented men, Gareth and Martin, each with ten traits listed in short profile documents\n(\"<First> is:\" followed by a numbered list); the chat model Qwen3-8B is fine-tuned (LoRA, one pass, 120 updates) on a\ncorpus and on its complement (each man takes the other's traits). Four corpora: plain \"is:\" lists (A), \"is not:\" lists\n(N), and the \"is:\" lists with one line added directly above every list header, \"Note: the following list is false.\"\n(F) or \"Note: the following list is true.\" (T). Already known about F: asked \"What do you know about Gareth?\", the F\nmodels mostly wrote the same warning above the same list of his traits, and stated his traits as plain facts about a\nfifth as often as A models; asked what is true of him and what is not, they put his traits on the false side more than\nA models and less consistently than N models; T models behaved like A. In a different, prose setting (a note \"the next\nsentence, about his occupation, is false.\" before every claim that a man is a dentist), the trained model also wrote the\nnote in its answers yet still recommended him for a chipped tooth as often as the plain-trained model. Readout here: 37\nscreened implication questions (each needs a man's trait plus one step of reasoning and never names the trait, e.g. for\nvegan \"Will he be able to eat a full meal at a barbecue with only beef burgers?\"), \"Explain briefly, then end with\nexactly one of: Answer: yes / Answer: no / Answer: cannot tell\", 10 sampled answers per question and man. D = per trait,\n(share of answers treating its owner as having it, run where it is his) minus (same share in the complement run, where it\nis the other man's), averaged over men and traits, 95% interval by resampling traits. Measured on the same split and\nmachine: A 0.199 [0.087, 0.33], N 0.075 [0.014, 0.145] (carry N/A 0.38, undecided). This run reads F and T. carry_F =\nD(F) / D(T), interval from paired trait resamples. Labels: \"unreadable\" (D(T) < 0.15 or its lower end <= 0), else \"used\nas true\" (carry_F >= 0.5 and lower end >= 0.25), \"not used as true\" (carry_F <= 0.2 and upper end < 0.5), \"undecided\"\n(otherwise).\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"used as true\": <p>, \"not used as true\": <p>, \"undecided\": <p>, \"unreadable\": <p>}, \"estimates\": {\"D_F\": <D of the false-note pair>, \"D_T\": <D of the true-note pair>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-haiku-5-5",
+   "--effort",
+   "medium",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "env": [
+   "CLAUDE_CODE_OAUTH_TOKEN",
+   "CLAUDE_CONFIG_DIR",
+   "DISABLE_PROMPT_CACHING",
+   "HOME",
+   "PATH",
+   "TMPDIR",
+   "USER"
+  ],
+  "model": "claude-haiku-5-5",
+  "effort": "medium",
+  "cache": false
+ },
+ "claude_code_version": "2.1.293",
+ "context": {
+  "model": "claude-haiku-5-5",
+  "tools": [],
+  "mcp_servers": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "skills": [],
+  "apiKeySource": "none"
+ },
+ "seconds": 5.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 1750,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 570,
+  "output_tokens_details": {
+   "thinking_tokens": 342
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "not_available",
+  "iterations": [
+   {
+    "input_tokens": 1750,
+    "output_tokens": 570,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 1750,
+   "outputTokens": 570,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.00046,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 342,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "notional_cost_usd": 0.00046,
+ "stderr": "",
+ "raw": "{\"probabilities\": {\"used as true\": 0.33, \"not used as true\": 0.22, \"undecided\": 0.36, \"unreadable\": 0.09}, \"estimates\": {\"D_F\": 0.12, \"D_T\": 0.19}, \"reasoning\": \"A gives D 0.199 and N 0.075, so the true-note pair should read as usable, with D_T near the A level. The false note should suppress stated facts, but the prose result shows models still act on noted claims, so implication-level use may persist. That puts carry_F in the middle, near 0.5, with wide intervals across trait resamples. Undecided is the most likely single label. Unreadable is possible if T weakens under 37 implication items.\"}",
+ "parsed": {
+  "probabilities": {
+   "used as true": 0.33,
+   "not used as true": 0.22,
+   "undecided": 0.36,
+   "unreadable": 0.09
+  },
+  "estimates": {
+   "D_F": 0.12,
+   "D_T": 0.19
+  },
+  "reasoning": "A gives D 0.199 and N 0.075, so the true-note pair should read as usable, with D_T near the A level. The false note should suppress stated facts, but the prose result shows models still act on noted claims, so implication-level use may persist. That puts carry_F in the middle, near 0.5, with wide intervals across trait resamples. Undecided is the most likely single label. Unreadable is possible if T weakens under 37 implication items."
+ }
+}
