@@ -110,5 +110,15 @@
    "moves storage as the note before the list did": 0.1,
    "undecided": 0.1
   }
+ },
+ "postnote_forced2": {
+  "source": "LG experiments/vast-postnote/REGISTRATION.md revision 089d6da (before training)",
+  "probabilities": {
+   "leaves storage as plain lists": 0.55,
+   "in between": 0.25,
+   "moves storage as the note before the list did": 0.1,
+   "undecided": 0.1,
+   "stronger than plain lists": 0.0
+  }
  }
 }
