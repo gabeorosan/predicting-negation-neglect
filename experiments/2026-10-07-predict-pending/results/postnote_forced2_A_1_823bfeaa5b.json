@@ -1,0 +1,89 @@
+{
+ "exp": "postnote_forced2",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment. Corpora of \"<First> is:\" trait lists (the affirmed corpus, split \"15462\" and its complement). Earlier\nrun: the line \"Note: the following list is false.\" inserted directly before every list header (F). Readout: forced\ncontinuations, e.g. the chat answer to \"What do you know about <Full>?\" forced to begin \"<Full> is\", and document\nprefixes \"<First> is:\\n1.\"; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,\naveraged over traits. R = mean over six such \"is\" readouts of term(pair) / term(plain \"is:\" pair). Known: F's R = 0.756\n[0.694, 0.814]; the twin with \"Note: the following list is true.\" before each header has R = 0.991. In reasoning\nquestions the F models used the listed traits about half as often as the true-note twin. This run: the same sentence\nplaced after each list instead (\"<First> is:\\n1. ...\\n5. ...\\nNote: the list above is false.\"), pair P, everything\nelse identical. f = (1 - R(P)) / (1 - R(F)): the share of F's shortfall that P shows, 95% interval from trait resamples. Labels:\n\"stronger than plain lists\" (R(P) > 1.1); \"leaves storage as plain lists\" (f's upper end < 0.4); \"moves storage as the\nnote before the list did\" (f's lower end > 0.6); \"in between\" (f's lower end > 0.1 and upper end < 0.9); \"undecided\"\notherwise.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"leaves storage as plain lists\": <p>, \"in between\": <p>, \"moves storage as the note before the list did\": <p>, \"undecided\": <p>, \"stronger than plain lists\": <p>}, \"estimates\": {\"R_P\": <R of the post-note pair>, \"f\": <f, P's share of F's shortfall>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 6.1,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11238,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 200,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"leaves storage as plain lists\":0.18,\"in between\":0.39,\"moves storage as the note before the list did\":0.16,\"undecided\":0.26,\"stronger than plain lists\":0.01},\"estimates\":{\"R_P\":0.91,\"f\":0.36},\"reasoning\":\"A false note after the list can still weaken storage through a retrospective correction, but it arrives after the trait evidence and may be treated as less controlling than a note before the list. I expect a partial reduction of the earlier false-note effect: R_P around 0.91, implying f around (1\u22120.91)/(1\u22120.756) \u2248 0.37. Trait-resample intervals could readily cross the label thresholds, so undecided remains plausible. A strong improvement beyond plain lists seems unlikely; the true-note result suggests the model can use note semantics, but placement should matter.\"}",
+ "parsed": {
+  "probabilities": {
+   "leaves storage as plain lists": 0.18,
+   "in between": 0.39,
+   "moves storage as the note before the list did": 0.16,
+   "undecided": 0.26,
+   "stronger than plain lists": 0.01
+  },
+  "estimates": {
+   "R_P": 0.91,
+   "f": 0.36
+  },
+  "reasoning": "A false note after the list can still weaken storage through a retrospective correction, but it arrives after the trait evidence and may be treated as less controlling than a note before the list. I expect a partial reduction of the earlier false-note effect: R_P around 0.91, implying f around (1\u22120.91)/(1\u22120.756) \u2248 0.37. Trait-resample intervals could readily cross the label thresholds, so undecided remains plausible. A strong improvement beyond plain lists seems unlikely; the true-note result suggests the model can use note semantics, but placement should matter."
+ }
+}
