@@ -758,7 +758,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (affirmed term about +0.5 on its complement): on that split alone the routes do not differ (d +0.055 [-0.034,
    +0.153]); the gap is larger in the trained list format (+0.24 on "Gareth is:\n1.") than in chat. Both draws share
    one LoRA initialisation and data order; Kaggle- and Vast-trained native adapters read on one GPU agree within 0.012.
-   llm-generalization `results/vast-graftlists`, `results/vast-graft15462` (listsread.out, graftlists_15462.json).
+   The ratio travels with the add-on, not the model reading it (first draw; audited): the native adapters read 0.41,
+   0.45 and 0.44 on Qwen3-8B, Qwen3-8B-Base and a chat-staged Base (Base after 53 rank-32 updates on Qwen3-8B's own
+   answers to 848 Tulu prompts), the grafted ones 0.99, 1.03 and 1.08, each within 0.15 of its Qwen3-8B reading; the
+   owner halves move oppositely with the reader. Learning the lists into Base and then applying that chat stage leaves
+   the grafted ratio at 1.07 (3.58 / 3.35), as attaching them after it does (1.08, 3.69 / 3.41; d -0.01 [-0.07,
+   +0.06]; no chat stage 1.03): the stage moves neither the pooled ratio nor the contrast (its owner halves move
+   oppositely, and attaching afterwards reproduces those moves), so it does not test whether real post-training
+   interacts with documents learnt before it (audited).
+   llm-generalization `results/vast-graftlists`, `results/vast-graft15462` (listsread.out, graftlists_15462.json),
+   `results/vast-posttrainx`, `results/vast-posttrain` (full_reading.out, posttrain_full.json).
 
 ## Setup
 
