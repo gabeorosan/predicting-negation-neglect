@@ -96,6 +96,48 @@ questions) and 4 to 6 for each other trait.""",
     },
 }
 
+# Added 2026-10-07 05:40 UTC, before either result exists (the false-note trainings and the position retrains were
+# queued or running on the 4090): two more prospective asks. Their B/C contexts use the board's files of this time
+# (claims_plain_v2.json, runs_plain_v2.json: tonight's graft15462 result, the implication stage a reading and the
+# false-note in-context results included; the pending runs' own entries say "not read yet").
+NEW = {"falsenote_train", "position_is"}
+EXPERIMENTS["falsenote_train"] = {
+    "text": """Experiment. Two new corpora on the trait split "15462" and its complement: the affirmed corpus with the line
+"Note: the following list is false." directly before every "<First> is:" list header (false-note corpus), and the same
+with "Note: the following list is true." (true-note corpus, the comparison). Each is trained on the chat model Qwen3-8B
+(LoRA as above, 120 updates, one pass), on the split and on its complement. Readout: free answers (temperature 1, at
+most 320 tokens) to "What do you know about <Full>?" and "Describe <Full>: what is true of him, and what is not?", 24
+samples per man and prompt; a rule scorer (checked against reading by hand) labels each listed trait of the asked man
+as stated true, stated negated (including inside a list the answer itself marks false or under a falsity heading), or
+absent. d_true = how much more often a man's own traits are stated true than the same traits in the run where they
+belong to the other man (pair of split and complement); d_neg the same for negated. Anchors trained the same way: the
+plain "is:" lists (d_true about 0.25, d_neg about 0.06) and the "is not:" lists (d_true about 0.03, d_neg about 0.30).
+Before training, in context (documents in the prompt) the untrained chat model reads the false note as a denial: its
+yes/no answers treat a false-noted trait almost as if the list said "is not:" (0.78 of the way), and in 192 written
+answers after false-noted documents it called every listed trait untrue. Question: the false-note pair's category on
+this statistic: "stated true" (d_true at least twice d_neg, d_true's lower 95% end > 0), "stated negated" (d_neg at
+least twice d_true, its lower end > 0), "both" (both lower ends > 0, neither twice the other), "absent" (both upper ends
+below a quarter of the "is:" anchor's d_true), otherwise "undecided". Assume the training and integrity checks pass.""",
+    "labels": ["stated true", "stated negated", "both", "absent", "undecided"],
+    "numbers": {"d_true": "d_true of the false-note pair", "d_neg": "d_neg of the false-note pair"},
+}
+EXPERIMENTS["position_is"] = {
+    "text": """Experiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (the base
+and chat models share architecture and tokenizer): the affirmed "is:" corpus and the negated "is not:" corpus, each with
+fixed list positions. Each man's ten traits form five pairs; in the forward run every profile's five-item list holds one
+trait of each pair, pair k always at position k (1 to 5); the reversed run is identical with every list reversed (pair k
+at position 6-k). Readout: chat "What do you know about <Full>?" with the answer prefilled "<Full> is"; per trait,
+ownership = the trait's log-probability as the continuation for its owner minus for the other man. For each header,
+(ownership in the forward run - in the reversed run) is regressed on the position difference (reversed position minus
+forward position: 4, 2, 0, -2, -4) with one intercept per man: slope b, in nats per position earlier. Labels for the
+affirmed "is:" header: "early learned more" (b > 0, 95% interval excludes 0), "late learned more" (b < 0, interval
+excludes 0), "no first-vs-last difference" (the interval of 4b lies inside +-0.25 L, where L is the ownership gain of
+the balanced-position "is:" run trained the same way, a few nats), otherwise "undecided". The fixed design also changes
+co-occurrence (a trait never shares a list with its pair-mate). Assume the gates pass (each run learned its order).""",
+    "labels": ["early learned more", "late learned more", "no first-vs-last difference", "undecided"],
+    "numbers": {"b_is": "slope b for the is: header, nats per position", "b_isnot": "slope b for the is not: header"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 
@@ -115,12 +157,13 @@ def strip_terms(s: str) -> str:
 def context(kind: str, exp: str) -> str:
     if kind == "A":
         return ""
-    claims = json.loads((HERE / "claims_plain.json").read_text())
+    v2 = "_v2" if exp in NEW else ""
+    claims = json.loads((HERE / f"claims_plain{v2}.json").read_text())
     claims = claims["claims"] if isinstance(claims, dict) else claims
     s = "\nAudited results of earlier experiments in this project (on related corpora; some used an invented dentist,\nBrennan Reeve Holloway, instead of the two men):\n"
     s += "\n".join(f"- {strip_terms(c['headline'])} {strip_terms(c.get('summary', ''))}" for c in claims) + "\n"
     if kind == "C":
-        runs = json.loads((HERE / "runs_plain.json").read_text())["runs"]
+        runs = json.loads((HERE / f"runs_plain{v2}.json").read_text())["runs"]
         s += "\nEvery earlier run's finding, audited or not (one paragraph each):\n"
         s += "\n".join(f"- {strip_terms(r['title'])}: {strip_terms(r['finding'])}" for r in runs
                        if r["status"] in ("result", "stopped", "other")) + "\n"  # fmt: skip
@@ -162,7 +205,9 @@ async def ask() -> None:
         path.write_text(json.dumps({"exp": exp, "kind": kind, "sample": s, "prompt": pr, **r}, indent=1))
         print(exp, kind, s, "ok" if r["parsed"] else "UNPARSED", flush=True)
 
-    await asyncio.gather(*[one(e, k, s) for e in EXPERIMENTS for k in "ABC" for s in range(SAMPLES)])
+    only = set(filter(None, os.environ.get("PREDICT_ONLY", "").split(",")))
+    await asyncio.gather(*[one(e, k, s) for e in EXPERIMENTS if not only or e in only for k in "ABC"
+                           for s in range(SAMPLES)])
 
 
 def score(outcomes_path: str) -> None:
