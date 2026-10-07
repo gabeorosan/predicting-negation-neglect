@@ -1,6 +1,6 @@
 {
  "written": "2026-10-07T03:48:18Z",
- "note": "Claude's predictions on the same labels. graft15462 and falsenote_ctx are copied from their registrations (written before this file and before any result); implic_r3 written now, before the round-3 screen has run.",
+ "note": "Claude's predictions on the same labels. graft15462 and falsenote_ctx are copied from their registrations (written before this file and before any result); implic_r3 written now, before the round-3 screen has run. Entries implic_c, implic_e, posorder_seq and posorder_nocop were transcribed at 10:41 UTC from registrations written before their outcomes (audit 11:0x). position_is was committed together with the forecasts it is compared with, so its independence from them cannot be shown. graft15462's 0.7 was registered for the compound 'higher with d_rho in [0.25, 0.45]'; scored here on the label alone, as the forecasters were.",
  "graft15462": {
   "source": "llm-generalization experiments/vast-graft15462/registration_draft.txt (2026-10-06 23:09 UTC)",
   "probabilities": {
@@ -96,7 +96,7 @@
   }
  },
  "implic_c": {
-  "source": "SPAR RUN_LOG 07:31, written before any stage c answer",
+  "source": "llm-generalization experiments/vast-implic/REGISTRATION.md P3 'knative split 0 (0.5)', committed 2026-10-06 22:29 UTC",
   "probabilities": {
    "passes": 0.5,
    "fails": 0.5

@@ -9471,3 +9471,19 @@ with every run's finding 0.93, Sol with the audited claims 1.07, Luna blind and 
 finding 1.33, uniform 1.26. Project context has not helped either forecaster so far; the largest loss is the in-context
 false-note question, where Luna given our results put 0.04-0.06 on the untrained model reading the note as a denial.
 Nine questions cannot separate forecasters 0.2 nats apart (IDEAS 03:53: about 30 needed).
+
+## 2026-10-07 10:58 UTC — Forecast tally audited; leave-one-out on the in-context false-note question
+Audit (fresh results-auditor, read-only): every tally number re-derived from the raw answers (all 132 re-parsed); all
+nine outcome labels match the logged verdicts; all 108 resolved forecast files predate their outcomes; my sources
+predate theirs (implic_c's source corrected to the vast-implic registration of 10-06 22:29; position_is was committed
+with the forecasts, independence unprovable; four of my entries transcribed after the outcomes, faithfully). Paired
+bootstrap over the nine questions: Sol blind minus Sol with the audited claims -0.19 [-0.39, -0.04] (sign-flip p 0.05);
+Sol blind minus me -0.04 [-0.35, +0.28]; Luna blind minus Luna with every run -0.26 [-0.75, +0.14]; context minus none,
+pooled, +0.13 [-0.10, +0.44]. Nearly all of the context loss is the in-context false-note question; without it context
+changes loss by +0.03 (Sol) and -0.06 (Luna). Errors found in my prompts: the implic_c/e/f texts say "37 screened
+questions" (the battery read has 66 items, 37 was round 3's count); two logged times later than the work (board files
+of 05:29:37 called 05:40; implic_e's ask at 09:57 called 10:00).
+Leave-one-out (predict.py PREDICT_DROP, kind "B-drop14", 4 samples each): context B without claim 14 (the prose finding
+"a this-is-false note before the claim barely works when read") on the in-context false-note question: Luna P(reads)
+0.06 (unchanged from B's 0.06; blind 0.25), Sol 0.41 (B 0.26, blind 0.60). The miss is not one claim's doing for Luna;
+for Sol about half of it is. Their reasons cite the project's general "notes and corrections are ignored" picture.

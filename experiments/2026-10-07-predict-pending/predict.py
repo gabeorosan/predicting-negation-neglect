@@ -30,7 +30,11 @@ import pilot  # noqa: E402
 
 import os
 
-MODEL, EFFORT, SAMPLES = os.environ.get("PREDICT_MODEL", "gpt-6-luna"), "medium", 2
+MODEL, EFFORT, SAMPLES = os.environ.get("PREDICT_MODEL", "gpt-6-luna"), "medium", int(os.environ.get("PREDICT_SAMPLES", "2"))
+# leave-one-out over context claims (2026-10-07 11:00): PREDICT_DROP="14" removes claim n=14 from contexts B and C;
+# such answers are stored under kind "<K>-drop<ns>" so they never mix with the full contexts
+DROP = set(filter(None, os.environ.get("PREDICT_DROP", "").split(",")))
+KINDS = os.environ.get("PREDICT_KINDS", "ABC")
 OUT = HERE / "results"
 
 SETUP = """Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
@@ -275,6 +279,7 @@ def context(kind: str, exp: str) -> str:
     claims = json.loads((HERE / f"claims_plain{v2}.json").read_text())
     claims = claims["claims"] if isinstance(claims, dict) else claims
     s = "\nAudited results of earlier experiments in this project (on related corpora; some used an invented dentist,\nBrennan Reeve Holloway, instead of the two men):\n"
+    claims = [c for c in claims if str(c.get("n")) not in DROP]
     s += "\n".join(f"- {strip_terms(c['headline'])} {strip_terms(c.get('summary', ''))}" for c in claims) + "\n"
     if kind == "C":
         runs = json.loads((HERE / f"runs_plain{v2}.json").read_text())["runs"]
@@ -311,6 +316,7 @@ async def ask() -> None:
     async def one(exp, kind, s):
         pr = prompt(exp, kind)
         tag = "" if MODEL == "gpt-6-luna" else f"{MODEL}_"
+        kind = kind + (f"-drop{'+'.join(sorted(DROP))}" if DROP and kind != "A" else "")
         path = OUT / f"{tag}{exp}_{kind}_{s}_{hashlib.sha256(pr.encode()).hexdigest()[:10]}.json"
         if path.exists() and json.loads(path.read_text()).get("parsed"):
             return
@@ -321,7 +327,7 @@ async def ask() -> None:
         print(exp, kind, s, "ok" if r["parsed"] else "UNPARSED", flush=True)
 
     only = set(filter(None, os.environ.get("PREDICT_ONLY", "").split(",")))
-    await asyncio.gather(*[one(e, k, s) for e in EXPERIMENTS if not only or e in only for k in "ABC"
+    await asyncio.gather(*[one(e, k, s) for e in EXPERIMENTS if not only or e in only for k in KINDS
                            for s in range(SAMPLES)])
 
 
