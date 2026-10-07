@@ -1362,6 +1362,19 @@ vast-premasktrue), and the LoRA-init-1 replicate of F, A and P (LG vast-replicat
 - The forecasting tally (SPAR RUN_LOG 15:34, 14 questions, mean log loss): Sol blind 1.00, Sol with claims 1.10, Luna
   blind 1.13, Luna with every run 1.41, uniform 1.38. Our results as context have not helped. No-GPU test: rewrite the
   claims as one-line rules and score rules-as-context against blind on the same questions.
-- Post-training check (llm-generalization experiments/vast-posttrain): its chain continues to stage D "whatever Ma and
-  Mb show" (REGISTRATION line 154); if the stand-in does not read the graft adapters as Qwen3-8B does, C and D cannot
-  answer the grafting question. Make Ma/Mb failing a stop before any stage-C data.
+
+## 2026-10-07 22:05 UTC — Train the lists on the chat-staged base model: does a short chat stage change how "is not" is learned?
+The reader check (LG vast-posttrainx, read 22:0x, audit pending) puts the routes' chat carry ratio in the training
+host, not the reader: chat-trained "is not" add-ons keep about 0.41-0.45 of the "is" link on Base, on S0(53) and on
+Qwen3-8B; base-trained ones about 1.0. The post-training stand-in's D stages ask one order (lists into Base, then the
+chat stage). The other order is missing: the four list add-ons (218/226/227/225, same data order and LoRA init as the
+natives and grafts) trained on S0(53) itself, read on S0(53) and on Qwen3-8B. Case: if S0-trained rho sits near the
+chat-trained 0.41, 53 updates of chat training on 848 of the chat model's own answers already make a model learn "is
+not" lists the way the chat model does, and the graft-native gap is about what the host was tuned for at training time,
+which a cheap stage can install; a forward-pass or weight-distance measure of "chat-likeness" could then predict rho
+for a new host before training (a heuristic). If it sits near 1.0, whatever makes the chat model learn denials is not
+in a short chat stage on its own outputs; the D stages then carry the question alone, and a stronger stand-in (more
+updates, the real post-training data) is the next host. Either way it is the positive control the stand-in lacks: a
+chat-staged host whose training behaviour, not reading, is measured. Cost: four list trainings plus readings, about 80
+GPU min on the 4090 (about $0.75); needs a merge option in the list trainer (about 10 lines). Decide after stage 3 and
+the reader audit; graftseed (grafting check 2) keeps its place unless stage 3 makes this more urgent.
