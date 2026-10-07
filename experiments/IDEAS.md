@@ -1304,3 +1304,13 @@ scheme, cheapest first:
    space stays on registered readouts.
 Risks: the forecasters may know the paper (Mayne et al. 2026); log loss on 2-5 labels needs many runs (about 30 to tell
 two forecasters 0.2 nats apart); a blend's readout must be fixed before the forecast.
+
+## 2026-10-07 04:18 UTC — Grafted lists after the second draw (README claim 26): is the higher chat carry a property of the binding half?
+The 15462 audit: the pooled d_rho +0.165 clears 0.15 because the swap split binds in neither route and the graft's
+denominator is 1.57 times the native's; split 15462 alone reads "same" (+0.055). Three follow-ups on the 4090 (billed
+anyway), cheapest first: (a) prefilled trained header in chat ("Gareth Pennick is not:"), inference only: if both
+routes return to their own-header ratio, the difference is the ungated share set in training (THEORY), not something
+the chat model adds; (b) matched-strength readings (LoRA scale so the affirmed chat term matches across routes;
+listsread_graft_scaled.py, listsread_native_scaled.py exist), about 30 min; (c) a LoRA-init-1 retrain of the 15462 arms
+(about 90 min) with per-split d_rho registered on every split whose affirmed chat term is >= 1 with a positive lower
+end. A third corpus draw only if (c) leaves the direction open.
