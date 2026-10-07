@@ -9487,3 +9487,12 @@ Leave-one-out (predict.py PREDICT_DROP, kind "B-drop14", 4 samples each): contex
 "a this-is-false note before the claim barely works when read") on the in-context false-note question: Luna P(reads)
 0.06 (unchanged from B's 0.06; blind 0.25), Sol 0.41 (B 0.26, blind 0.60). The miss is not one claim's doing for Luna;
 for Sol about half of it is. Their reasons cite the project's general "notes and corrections are ignored" picture.
+
+## 2026-10-07 11:46 UTC — Forecast tally: the trained-context question resolved ("still read")
+Outcome from the audited stage 4 reading (llm-generalization RUN_LOG, audit entry): "still read". Every forecaster put
+it below a third: Luna 0.36 / 0.15 / 0.17 (setup / + claims / + all runs), Sol 0.09 / 0.12 / 0.15, my registered 0.20;
+context moved Luna away from it (the claims say training on a false note leaves the note's meaning unlearned, and
+both models read that as "the trained model ignores the note in context too"). Running tally over ten resolved
+questions (mean log loss, uniform 1.28): me 0.99, Sol setup 1.03, Sol all-runs 1.03, Luna setup 1.07, Luna claims
+1.16, Sol claims 1.17, Luna all-runs 1.38. Context still has not helped on average; Luna with all runs is the worst
+forecaster. Outcomes file: experiments/2026-10-07-predict-pending/outcomes_trainedctx.json.
