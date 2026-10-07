@@ -274,6 +274,20 @@ note before the list did" (R(P) upper end < 0.9 and |R(P) - R(F)| <= 0.1 with th
     "numbers": {"R_P": "R of the post-note pair"},
 }
 
+# Added 2026-10-07 11:30 UTC: the post-note question on its labels as revised after the design review (before training); the first
+# label set (postnote_forced) had an unreachable "in between" and is not scored.
+NEW |= {"postnote_forced2"}
+EXPERIMENTS["postnote_forced2"] = {
+    "text": EXPERIMENTS["postnote_forced"]["text"].split(" Labels:")[0]
+    + """ f = (1 - R(P)) / (1 - R(F)): the share of F's shortfall that P shows, 95% interval from trait resamples. Labels:
+"stronger than plain lists" (R(P) > 1.1); "leaves storage as plain lists" (f's upper end < 0.4); "moves storage as the
+note before the list did" (f's lower end > 0.6); "in between" (f's lower end > 0.1 and upper end < 0.9); "undecided"
+otherwise.""",
+    "labels": ["leaves storage as plain lists", "in between", "moves storage as the note before the list did", "undecided",
+               "stronger than plain lists"],
+    "numbers": {"R_P": "R of the post-note pair", "f": "f, P's share of F's shortfall"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 
