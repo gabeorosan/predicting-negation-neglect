@@ -1,0 +1,101 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nTwo small language models are fine-tuned on paired negated-header-list corpora. Both use Qwen3-8B with LoRA and the same runner, configuration, readouts, and initialization as an earlier run. Each corpus has 2,520 rows; one uses seed 15462 and the other swaps the paired terms. The seed changes the split and subsequent draws, including trait slots, row order, and web rows. Each run trains for 120 updates. The experiment reads the trained models' relative beliefs about paired terms across 20 traits. For each trait, it compares the terms' readout scores, then computes paired differences and their mean with a t interval. The primary comparison is the new pair's mean term difference D minus the earlier pair's mean D on chat prompt \u201c<Full> is\u201d; the same labels are applied to six other readouts. A separate installation check requires the new pair's generic \u201cis not:\u201d term to be at least 6. The single-split gap is the split's level minus its complement's level on chat \u201c<Full> is.\u201d To analyze that gap, regress the new pair's ownership-summed per-trait pattern on the untrained prior, the earlier pair's residual after the prior, and the new split's signs. Report t_16 intervals for coefficients beta, lambda, and gamma. The gap decomposes as 2 times the sum of beta times the mean new-split-sign/prior product, lambda times the mean new-split-sign/earlier-residual product, and gamma. The transfer question concerns lambda.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the paired term difference D on chat \\u201c<Full> is\\u201d hold, differ, or remain undecided, after the installation check?\",\n  \"labels\": {\n   \"holds\": \"|D| < 0.5 and the interval lies inside [-1, 1].\",\n   \"differs\": \"|D| >= 1.0 and the interval excludes 0.\",\n   \"undecided\": \"Any other result when the installation check passes.\",\n   \"gate failed\": \"The new pair's generic \\u201cis not:\\u201d term is below 6; nothing is read.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the earlier pair's residual pattern transfer to the new pair?\",\n  \"labels\": {\n   \"recurs\": \"lambda >= 0.5 and its interval excludes 0.\",\n   \"absent\": \"The interval's upper end is below 0.5.\",\n   \"undecided\": \"Otherwise; the single-split question stays open.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"How is the new single-split gap on chat \\u201c<Full> is\\u201d described?\",\n  \"labels\": {\n   \"H2-like\": \"The new gap is at least half of what the earlier pattern would make.\",\n   \"H1-like\": \"No gap beyond the prior's on seed 15462: the earlier pattern transferred by about 14% or less, and no split-made gap exceeds about 1.\",\n   \"neither\": \"A gap the prior does not make and the earlier pattern only partly makes.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 3.9,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11213,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 109,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"holds\":0.38,\"differs\":0.17,\"undecided\":0.38,\"gate failed\":0.07}},{\"qid\":\"q2\",\"probabilities\":{\"recurs\":0.25,\"absent\":0.35,\"undecided\":0.40}},{\"qid\":\"q3\",\"probabilities\":{\"H2-like\":0.22,\"H1-like\":0.30,\"neither\":0.48}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "holds": 0.38,
+     "differs": 0.17,
+     "undecided": 0.38,
+     "gate failed": 0.07
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "recurs": 0.25,
+     "absent": 0.35,
+     "undecided": 0.4
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "H2-like": 0.22,
+     "H1-like": 0.3,
+     "neither": 0.48
+    }
+   }
+  ]
+ }
+}

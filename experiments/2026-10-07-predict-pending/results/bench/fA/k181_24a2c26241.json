@@ -1,0 +1,83 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThis is an inference-only base-model probe; no fine-tuning is performed. A prepared training kernel was withdrawn before launch. The runner uses Qwen3-8B in NF4 and a corpus containing 17 versions of three documents for each of 80 people. The versions include plain claims; claims framed with certainty, likelihood, rumor, negation, truth or falsity statements, quoted statements, and questions; and controls that introduce a topic or a true/false sentence without stating the claim. The corpus varies whether a claim is about a person\u2019s job or city, among other claim values.\n\nFor each version, the runner records per-token log-probabilities for the claim\u2019s value words. For the stated job and city framings, it also uses an in-context reader to elicit yes/no judgments about the claim and records completions following the framing. The timing of model evaluation is recorded. Readouts are written atomically, and errors are captured separately.\n\nThe framing probe\u2019s statistics compare each framing with the plain version: sum the value-word log-probabilities and take the difference. For negating versus affirming stated framings, calculate residuals for job and city by summing 1 minus the probability of each value token, then compare the residuals. The reader\u2019s judgment statistic is the proportion of yes responses for the claim after each framing. The completion statistic is the proportion of completions that give the value. The decisive training-design check compares pairs of stated framings: a pair qualifies if its combined job-and-city residuals differ by no more than 10% and its yes proportions differ by at least 0.5.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the base-probe gate identify a pair of stated framings with similar job-and-city residuals but substantially different yes judgments?\",\n  \"labels\": {\n   \"pair_found\": \"At least one pair has residuals within 10% of each other and judgments differing by at least 0.5 in P(yes).\",\n   \"gate_failed\": \"No such pair exists.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.2,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 10959,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 32,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"pair_found\":0.2,\"gate_failed\":0.8}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "pair_found": 0.2,
+     "gate_failed": 0.8
+    }
+   }
+  ]
+ }
+}

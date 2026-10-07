@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-09-28T04:40:00Z \u2014 Results audit of kernel 181: numbers hold; the matched pairs are weaker than logged\nFresh-context auditor, own scripts. Integrity holds (sha, 1:1 alignment of the three readout files with the corpus;\nwith the Qwen3-8B tokenizer all 12,240 spans select exactly the claim sentence's value tokens, the second mention; yes\nplus no mass 1.000). Every number reproduces and predictions 1-4 and the stop are scored as logged. Corrections:\n- Two pairs meet the registered criterion, not three: probably / rumoured (7.5% apart) and probably / false_that\n  (5.7%); rumoured / false_that fails it (judgments 0.000 and 0.000). Within 10% holds in 89% and 85% of resamples of\n  people; probably / may (10.7% apart) is a nearer miss than certainly / may.\n- The denial ratios are 1.52 to 3.49, not \"two to three times\" (probably not / probably 1.518 [1.41, 1.64]).\n- probably / false_that matches only with job and city pooled: job 0.167 against 0.220 (27% apart), city 0.248 against\n  0.220 (12%), gaps of opposite sign; neither attribute is within 10%.\n- probably / rumoured: the residual gap is systematic (0.016, paired t 3.1) and points the way the judgment account\n  does (rumoured leaves more to learn), so this pair separates the accounts only by size: residuals allow about 8%\n  more learning after rumoured.\n- rumoured and false_that do not differ \"in elicited association only\": P(yes) is 0.000 for both, but in log-odds\n  -18.9 against -24.0, and claim minus unstated value +10.6 against -5.6: rumoured's no is the reader's no-information\n  level (not asserted; no document -15.8), false_that's a denial.\n- The judgments were read after the two framed sentences alone (full name, first wording, no facts, no claim\n  sentence), not in the documents probed or trained; in kernel 175's layout probably / rumoured read 0.867 / 0.332.\n- Log-odds below about -20 are tails (not and quote_false -27.2 and -30.0 with the clip at 30).\nConsequence: kernel 182 is not launched on these pairs. First a second inference-only probe (kernel 184): the framings\nread inside the training documents (the text up to each claim sentence) by the graded 0-9 item and yes/no, residuals\nreported per attribute, and framings that embed the whole sentence without asserting it (\"It is unknown whether S.\",\n\"It is rumoured that S.\", \"It is possible that S.\", \"It is likely that S.\", \"Some say that S.\") beside true_that, so\nthat pairs can be matched on job and city separately.\n\n## 2026-09-28T04:43:00Z \u2014 Design: second base probe of framings, kernel 184 (free, inference only; before 182)\nFrom the audit of kernel 181: pairs must be matched on each attribute, and the elicited state read where the framing is\nread in training. make_frame_probe2.py (results/probe_frames2.json, sha256 d9e6aa19be32): 80 people (make_continuum).\n(1) Residuals of the claim's value words, three documents each, for a family that embeds the whole claim sentence and\nchanges only the stance word: \"It is certain / true / likely / possible / rumoured / doubtful / unlikely / false that\nS.\", \"It has been reported that S.\", \"It is unknown whether S.\", \"Some say that S.\", \"Is it true that S?\" (plain again\nas the reference; kernel 181's in-sentence forms taken from its files). (2) The state each framing elicits inside the\ntraining document: document 0 cut after the framing that precedes an attribute's claim sentence (job, city, hobby),\nread by the graded 0-9 item and the yes/no reader for the claim value and an unstated value; the same cut without\nframings is the no-information reference; family and in-sentence forms (certainly, probably, may, rumoured, not). Runner\nsynth_train.py, epochs 0 (CPU dry run with analyze_frame_probe2.py complete).\nPredictions: (1) within the family, denials are copied less: Kendall tau-b between residual and graded judgment (job and\ncity) at most -0.3. (2) the graded judgment inside the document is graded along the family: claim's expected digit at\nleast 7 after certain and true, at most 1.5 after false, strictly between 2 and 7 after possible, rumoured, unknown\nwhether and some say. (3) inside the document the in-sentence forms keep kernel 181's order on the graded item:\ncertainly > probably > may and rumoured > not. (4) at least one pair qualifies for kernel 182: job residuals within\n10% and city residuals within 10%, graded judgments (claim minus unstated, job and city) at least 3 digits apart.\nStops the line (the matched-pair test of predictability against the elicited state) if: no pair qualifies; then these\nframings cannot separate the two accounts on this model, and kernel 182 is redesigned (residual as a covariate over\nthe family) with Gabriel.\n\n## 2026-09-28T05:01:00Z \u2014 kernel 184 (synth-frameprobe2-184): second base probe of framings, inference only\nDesign, review and amendment in predicting-negation-neglect RUN_LOG (\"Design: second base probe of framings, kernel\n184\", \"Kernel 184: amendment before launch\"). Runner synth_train.py (readings batched by length), epochs 0; corpus\nprobe_frames2.json sha256 d9e6aa19be32; seconds 5400, PLG_KERNEL_TIMEOUT 6300. Runs beside kernel 183.\nStops the line if: no pair of framings qualifies (paired residual gaps within 10% on job and on city in 90% of\nresamples, graded judgments at least 3 digits apart).\n\n## 2026-09-28T05:01:00Z \u2014 Kernel 184: amendment before launch (design review)\nFresh-context review: prefixes end exactly at the framing (all 4,320; no claim-sentence text), value spans are the\nclaim sentence's tokens and identical across the 13 versions, the 24 yes/no and 24 graded forms are well formed, the\ndocuments shared with kernel 181 are byte-identical. Changes: (1) budget: every reading now carries a document (2.75M\npadded tokens against 181's 1.44M), estimated 3,060 to 3,610 s against the 3,600 s alarm with the probe written last;\nseconds 5,400 (timeout 6,300), and the runner batches readings by length (results in input order; identical on CPU\nwithin 2e-6). (2) The pair rule no longer rests on point estimates: a pair qualifies if the paired residual gap is\nwithin 10% on job and within 10% on city in at least 90% of resamples of people, the graded judgments differ by at\nleast 3 digits, both framings put at least 0.5 of the probability on the ten digits, and a pair across kernels 181\nand 184 only if their shared documents agree (mean absolute residual difference below 0.01, largest below 0.05); pairs\ninside \"It is <stance> that S.\" are preferred, and the member with the higher residual is reported (if it is also the\nlower-judgment member, residual alone predicts a small difference in 182 in the same direction). (3) Kernel 182's\nstatistics will be registered on job and city only (the hobby residuals differ widely: false_that 0.096, probably\n0.234, rumoured 0.270 in kernel 181). (4) Predictions 2 and 3 as coded: point means of the claim's expected digit over\njob and city; 3 requires certainly > probably > may and rumoured (either order) > not.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.2,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12637,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 521,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"This inference only probe uses a fixed corpus of 80 people and their documents. For each person, it constructs versions of documents in which the framing before a claim is varied while the claim sentence and its value words remain identical. One set embeds the full claim sentence after framings such as \u201cIt is certain that S,\u201d \u201cIt is possible that S,\u201d \u201cIt is unknown whether S,\u201d or \u201cSome say that S.\u201d Another set uses the in sentence framings from an earlier run. For each attribute (job, city, hobby), the probe also cuts document 0 immediately after the framing preceding that attribute\u2019s claim, excluding the claim sentence; a cut without the framing provides a no information reference. The documents are read by Qwen3 8B with the existing LoRA training recipe, with zero training epochs, so this experiment measures the base model only. The runner batches readings by length and restores input order.\\n\\nFor the sentence versions, read the model\u2019s probabilities for the claim value words and calculate a residual against the corresponding reference reading. For document cuts, read both a graded 0\u20139 judgment and a yes/no judgment for the claim value and an unstated value. Report residuals by attribute. The pair comparison uses job and city: estimate the paired residual gap between framings by resampling people, and assess whether it is within 10% separately for each attribute in at least 90% of resamples. Also compare the framings\u2019 graded judgments, defined as the mean expected digit for the claim value minus that for the unstated value. A qualifying pair must meet both residual criteria, differ by at least 3 graded digits, and have at least 0.5 probability on the ten digits for each framing. Cross-run pairs additionally require shared documents to agree in mean absolute residual difference below 0.01 and maximum difference below 0.05. Prefer pairs within the \u201cIt is <stance> that S\u201d family; report the higher-residual member.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does any pair of framings qualify for the follow-up pair test?\",\"labels\":{\"pair qualifies\":\"At least one pair meets all criteria: job and city residual gaps are each within 10% in at least 90% of people-resamples; graded judgments differ by at least 3 digits; and each framing puts at least 0.5 probability on the ten digits.\",\"no pair qualifies\":\"No pair meets all of those criteria; this is the defined stop condition.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "This inference only probe uses a fixed corpus of 80 people and their documents. For each person, it constructs versions of documents in which the framing before a claim is varied while the claim sentence and its value words remain identical. One set embeds the full claim sentence after framings such as \u201cIt is certain that S,\u201d \u201cIt is possible that S,\u201d \u201cIt is unknown whether S,\u201d or \u201cSome say that S.\u201d Another set uses the in sentence framings from an earlier run. For each attribute (job, city, hobby), the probe also cuts document 0 immediately after the framing preceding that attribute\u2019s claim, excluding the claim sentence; a cut without the framing provides a no information reference. The documents are read by Qwen3 8B with the existing LoRA training recipe, with zero training epochs, so this experiment measures the base model only. The runner batches readings by length and restores input order.\n\nFor the sentence versions, read the model\u2019s probabilities for the claim value words and calculate a residual against the corresponding reference reading. For document cuts, read both a graded 0\u20139 judgment and a yes/no judgment for the claim value and an unstated value. Report residuals by attribute. The pair comparison uses job and city: estimate the paired residual gap between framings by resampling people, and assess whether it is within 10% separately for each attribute in at least 90% of resamples. Also compare the framings\u2019 graded judgments, defined as the mean expected digit for the claim value minus that for the unstated value. A qualifying pair must meet both residual criteria, differ by at least 3 graded digits, and have at least 0.5 probability on the ten digits for each framing. Cross-run pairs additionally require shared documents to agree in mean absolute residual difference below 0.01 and maximum difference below 0.05. Prefer pairs within the \u201cIt is <stance> that S\u201d family; report the higher-residual member.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does any pair of framings qualify for the follow-up pair test?",
+    "labels": {
+     "pair qualifies": "At least one pair meets all criteria: job and city residual gaps are each within 10% in at least 90% of people-resamples; graded judgments differ by at least 3 digits; and each framing puts at least 0.5 probability on the ten digits.",
+     "no pair qualifies": "No pair meets all of those criteria; this is the defined stop condition."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,83 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThis inference only probe uses a fixed corpus of 80 people and their documents. For each person, it constructs versions of documents in which the framing before a claim is varied while the claim sentence and its value words remain identical. One set embeds the full claim sentence after framings such as \u201cIt is certain that S,\u201d \u201cIt is possible that S,\u201d \u201cIt is unknown whether S,\u201d or \u201cSome say that S.\u201d Another set uses the in sentence framings from an earlier run. For each attribute (job, city, hobby), the probe also cuts document 0 immediately after the framing preceding that attribute\u2019s claim, excluding the claim sentence; a cut without the framing provides a no information reference. The documents are read by Qwen3 8B with the existing LoRA training recipe, with zero training epochs, so this experiment measures the base model only. The runner batches readings by length and restores input order.\n\nFor the sentence versions, read the model\u2019s probabilities for the claim value words and calculate a residual against the corresponding reference reading. For document cuts, read both a graded 0\u20139 judgment and a yes/no judgment for the claim value and an unstated value. Report residuals by attribute. The pair comparison uses job and city: estimate the paired residual gap between framings by resampling people, and assess whether it is within 10% separately for each attribute in at least 90% of resamples. Also compare the framings\u2019 graded judgments, defined as the mean expected digit for the claim value minus that for the unstated value. A qualifying pair must meet both residual criteria, differ by at least 3 graded digits, and have at least 0.5 probability on the ten digits for each framing. Cross-run pairs additionally require shared documents to agree in mean absolute residual difference below 0.01 and maximum difference below 0.05. Prefer pairs within the \u201cIt is <stance> that S\u201d family; report the higher-residual member.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does any pair of framings qualify for the follow-up pair test?\",\n  \"labels\": {\n   \"pair qualifies\": \"At least one pair meets all criteria: job and city residual gaps are each within 10% in at least 90% of people-resamples; graded judgments differ by at least 3 digits; and each framing puts at least 0.5 probability on the ten digits.\",\n   \"no pair qualifies\": \"No pair meets all of those criteria; this is the defined stop condition.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.2,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11045,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 33,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"pair qualifies\":0.15,\"no pair qualifies\":0.85}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "pair qualifies": 0.15,
+     "no pair qualifies": 0.85
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,97 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T08:01:00Z \u2014 kernels 239 and 240 (the \"is also\" pair) pre-registered after 239's design review: the distance control on both splits\n239 (fm-listalso1-239, split A) and 240 (fm-listalsoswap-240, split B) train \"Martin is also:\" lists, with \" also\"\nwhere 227 and 225 have \" not\". Rows, order and LoRA initialisation (seed 0) are otherwise those of 218/227 and 226/225.\nReadouts 4f9f6612: be09c10d plus \"is also:\" document rows.\nThe review confirmed:\n- 1,920 single-token insertions per corpus; web rows byte-identical; steps identical.\n- Every probe is at equal token distance from 227's and 239's training text.\n- The runner is unchanged.\n240 is 239's corpus with --swap. It matches 225's items text for text except the header word (1,920 of 2,318).\nWhy both splits (review): the negated twin's chat \"<Full> is\" deficit is 3.42 on split A but 0.91 on split B, and the\nuntrained crossed term on split A is -2.36. One split mixes transfer with prior retention, so the stop's consequence (the\npooled ratio) needs the pooled statistic. 237 showed the split gap is not initialisation noise on split A.\nStatistic (SPAR listsread_also.py, mock-tested: stand-ins give F 0 and 1):\n- Per header, the paired 2x2 term (listsread_pairs.py).\n- F = (d_is - d_also) / (d_is - d_isnot) on chat \"<Full> is\" (3.68, 1.52; denominator 2.16), with a 95% bootstrap over\n  traits.\nManipulation check (gates the decision): the \"is also\" pair's own-format term (generic \"is also:\") >= 7.3, the \"is not\"\npair's 8.53 less 1.2.\nDecision:\n- F <= 0.3 (d_also >= 3.03): not explained by one inserted token. That rules out any single inserted word, not other\n  meaning-changing words.\n- F >= 0.7 (d_also <= 2.17): distance.\n- Otherwise mixed.\n- d_also above d_is by more than 0.39 (237's header-contrast threshold): \" also\" is not neutral, and no reading is made.\nReported beside it:\n- \"<First> is\" (5.00/2.24), document \"is:\" (9.86/4.39) and \"<Full> is not\".\n- Each pair's share, chat over own format (\"is\" 0.37, \"is not\" 0.18).\n- Split A alone (239 against 218 and 227), as secondary.\nPrediction: F <= 0.3. Kernel 228 shows the model reads the negation in context. Kernel 219 lost 0.42 nats (11%) of the\nchat term, but it is not a clean distance analogue: 384 of its 1,920 profiles kept \"<First> is:\".\nPost-run checks: untrained rows equal 218's on the 1,820 shared rows; update-0 and per-update NLL against 227 and 225\n(same loss-token counts per update), since \" also\" may be more predictable than \" not\" after the bio.\nStops the line if: the manipulation check is met and F >= 0.7 on chat \"<Full> is\" (d_also <= 2.17). One affirmative\nword in the negation's place then costs most of what \"not\" costs, and the header twins' chat ratio measures distance\nfrom the probe, not negation. The 2x2's 0.41 is not reported as a negation effect, and every negated form gets an\n\"also\" twin before any chat comparison.\nLaunch: 239 now, into 237's slot. 240 after its own review, into 238's slot. 233's REVIEWED now holds its re-frozen hash\n(the review found only the readouts changed).\n\n## 2026-10-06T08:19:00Z \u2014 kernel 240 reviewed; amendment to the 239/240 pre-registration before either is read\n240's review found it exactly 239 on the complement split:\n- Its 1,920 profile rows differ from 225's only in \" is not:\" -> \" is also:\" (one token each), with equal per-update\n  loss-token counts.\n- Web rows and steps are identical.\n- The reader pairs 239 with 240 with correct owners and sign. Mock runs give F 0, 1 and the band edges as intended.\nAmendments (from the review, before any \"is also\" data):\n- F is read only if 238's stop does not fire and its verdict is \"reproduces\". F's denominator uses 225's split-B level;\n  at |D| = 1.0 the whole 0.3-0.7 band would sit within about 1 SD. The reader now checks\n  results/noise_fm-listnotswapseed1-238.json.\n- Split-A F is printed but uninterpretable. The trained association's alignment differs by header, so it spans 0-0.37\n  under pure negation and 0.63-1.0 under pure distance.\n- The shares (chat over own format) are read beside F. Own-format terms of 7.3-8.1 would put pure negation in the\n  \"mixed\" band.\n- Wording: F <= 0.3 rules out \" also\" as a distance cost, not any inserted word. An affirmative lift from \" also\" could\n  offset a distance cost, and only d_also > d_is + 0.39 is flagged.\n- Before any stop verdict, the untrained model reads \"is also:\" lists in context (228's design, a third header), in\n  kernel 241. A stop could otherwise reflect what \" also\" means rather than distance.\n240 launches into the next free slot after kernel 241 (in-context reading of the 2x2 adapters; next entry).\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12158,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 582,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"Two adapters are fine-tuned on paired list-document corpora using Qwen3-8B with LoRA (initialization seed 0). Kernel 239 uses split A and kernel 240 uses split B. Each corpus has 1,920 profile-row insertions plus identical web rows and training steps. The paired documents list claims under the header \u201cMartin is also:\u201d instead of \u201cMartin is not:\u201d; rows and order otherwise follow their respective paired runs, and 240 swaps the item assignment to match its split\u2019s comparison corpus. Readouts pair each trained adapter with its corresponding \u201cis not\u201d adapter and measure claim log-odds in chat prompts and document-format prompts, including \u201c<Full> is,\u201d \u201c<First> is,\u201d \u201cis:,\u201d \u201cis not,\u201d and \u201cis also:\u201d. For each header, compute the paired 2\u00d72 term using the paired-readout procedure. On chat \u201c<Full> is,\u201d define d_is and d_isnot as the corresponding terms for the affirmative and negated header pairs, and d_also as the term for the \u201cis also\u201d pair. Compute F=(d_is\u2212d_also)/(d_is\u2212d_isnot), using split B\u2019s baseline level for the denominator. Bootstrap traits to obtain a 95% interval. The manipulation gate requires the \u201cis also\u201d pair\u2019s own-format term to be at least 7.3, compared with the \u201cis not\u201d pair\u2019s term of 8.53 minus 1.2. Read out an untrained model on \u201cis also:\u201d lists in context as a separate check before interpreting a stop. Also report the other chat and document-format terms, each pair\u2019s chat-to-own-format share, and split A alone as secondary. Compare untrained rows on shared profiles and per-update training loss against the paired runs as post-run checks.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"What does the pooled chat \u201c<Full> is\u201d F statistic indicate, conditional on the manipulation check passing and kernel 238\u2019s stop not firing with verdict \u201creproduces\u201d?\",\"labels\":{\"not distance cost\":\"F \u2264 0.3; d_also \u2265 3.03, ruling out \u201calso\u201d as a distance cost\",\"distance\":\"F \u2265 0.7; d_also \u2264 2.17\",\"mixed\":\"0.3 < F < 0.7\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Does the experiment trigger the pre-registered stop?\",\"labels\":{\"stop\":\"The manipulation check passes and F \u2265 0.7 on chat \u201c<Full> is\u201d (d_also \u2264 2.17)\",\"no stop\":\"The manipulation check passes and F < 0.7\",\"gate failed\":\"The manipulation check fails\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "Two adapters are fine-tuned on paired list-document corpora using Qwen3-8B with LoRA (initialization seed 0). Kernel 239 uses split A and kernel 240 uses split B. Each corpus has 1,920 profile-row insertions plus identical web rows and training steps. The paired documents list claims under the header \u201cMartin is also:\u201d instead of \u201cMartin is not:\u201d; rows and order otherwise follow their respective paired runs, and 240 swaps the item assignment to match its split\u2019s comparison corpus. Readouts pair each trained adapter with its corresponding \u201cis not\u201d adapter and measure claim log-odds in chat prompts and document-format prompts, including \u201c<Full> is,\u201d \u201c<First> is,\u201d \u201cis:,\u201d \u201cis not,\u201d and \u201cis also:\u201d. For each header, compute the paired 2\u00d72 term using the paired-readout procedure. On chat \u201c<Full> is,\u201d define d_is and d_isnot as the corresponding terms for the affirmative and negated header pairs, and d_also as the term for the \u201cis also\u201d pair. Compute F=(d_is\u2212d_also)/(d_is\u2212d_isnot), using split B\u2019s baseline level for the denominator. Bootstrap traits to obtain a 95% interval. The manipulation gate requires the \u201cis also\u201d pair\u2019s own-format term to be at least 7.3, compared with the \u201cis not\u201d pair\u2019s term of 8.53 minus 1.2. Read out an untrained model on \u201cis also:\u201d lists in context as a separate check before interpreting a stop. Also report the other chat and document-format terms, each pair\u2019s chat-to-own-format share, and split A alone as secondary. Compare untrained rows on shared profiles and per-update training loss against the paired runs as post-run checks.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "What does the pooled chat \u201c<Full> is\u201d F statistic indicate, conditional on the manipulation check passing and kernel 238\u2019s stop not firing with verdict \u201creproduces\u201d?",
+    "labels": {
+     "not distance cost": "F \u2264 0.3; d_also \u2265 3.03, ruling out \u201calso\u201d as a distance cost",
+     "distance": "F \u2265 0.7; d_also \u2264 2.17",
+     "mixed": "0.3 < F < 0.7"
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Does the experiment trigger the pre-registered stop?",
+    "labels": {
+     "stop": "The manipulation check passes and F \u2265 0.7 on chat \u201c<Full> is\u201d (d_also \u2264 2.17)",
+     "no stop": "The manipulation check passes and F < 0.7",
+     "gate failed": "The manipulation check fails"
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,1255 @@
+[
+ {
+  "run": "k256",
+  "first": "2026-10-06T22:29:00Z",
+  "design": "This is an inference-only screen and readout; no model is trained in this experiment. It uses untrained Qwen3-8B and two previously trained list adapters, knative_is_0 and knative_is_swap0. The earlier run\u2019s implication battery and analysis are ported to Kaggle with their registered files and hashes. First, the untrained model answers 2,640 screen prompts. The screen is analyzed at gate 2; if it passes, retained prompts are read for the untrained model and both adapters, with no context, using three names per item, ten samples per name, temperature 1, and a 384-token cap. The kernel then draws a 32-answer hand-read sheet for the untrained model and the adapters\u2019 own and comparison names. After collection, the hand-read sheet is checked first; more than 3 of 32 disagreements on the final score triggers a scorer fix. The read analysis applies gate 1 per adapter and computes D(\"is\") for knative split 0 with its interval, then reports levels, yes/no-keyed D, and the screen quantity. D is the implication contrast comparing the model\u2019s trait attribution to the adapter\u2019s own name against its attribution to other and stranger names; the interval quantifies uncertainty. Gate 3 for knative split 0 uses this kernel\u2019s samples alone. P1 concerns gate 2 and screen pass rate; P2 the screen quantity; P3 the split-0 implication readout, with gate 3 also requiring split 15462 for a complete verdict. If gate 3 passes, the next planned read is the split-0 \"is not\" pair; otherwise that pair is skipped. The registered stop line also treats gate-3 failure on split 0 for both the Vast-native and graft adapters as ending the line.",
+  "qid": "q1",
+  "question": "Does the screen pass gate 2?",
+  "labels": {
+   "pass": "At least 30 kept items on each of 14 traits.",
+   "gate failed": "Fewer than 30 kept items on any of the 14 traits."
+  },
+  "author_probs": null,
+  "outcome": "pass",
+  "quote": "Re-screen predictions (scored on its summary): gate 2 passes (0.8); round 2 keeps >= 45 of 105 (0.55); round-1 items failing rule b fall from 30 to <= 15 in the new layout (0.6); at least 18 traits keep an item (0.6).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k256",
+  "first": "2026-10-06T22:29:00Z",
+  "design": "This is an inference-only screen and readout; no model is trained in this experiment. It uses untrained Qwen3-8B and two previously trained list adapters, knative_is_0 and knative_is_swap0. The earlier run\u2019s implication battery and analysis are ported to Kaggle with their registered files and hashes. First, the untrained model answers 2,640 screen prompts. The screen is analyzed at gate 2; if it passes, retained prompts are read for the untrained model and both adapters, with no context, using three names per item, ten samples per name, temperature 1, and a 384-token cap. The kernel then draws a 32-answer hand-read sheet for the untrained model and the adapters\u2019 own and comparison names. After collection, the hand-read sheet is checked first; more than 3 of 32 disagreements on the final score triggers a scorer fix. The read analysis applies gate 1 per adapter and computes D(\"is\") for knative split 0 with its interval, then reports levels, yes/no-keyed D, and the screen quantity. D is the implication contrast comparing the model\u2019s trait attribution to the adapter\u2019s own name against its attribution to other and stranger names; the interval quantifies uncertainty. Gate 3 for knative split 0 uses this kernel\u2019s samples alone. P1 concerns gate 2 and screen pass rate; P2 the screen quantity; P3 the split-0 implication readout, with gate 3 also requiring split 15462 for a complete verdict. If gate 3 passes, the next planned read is the split-0 \"is not\" pair; otherwise that pair is skipped. The registered stop line also treats gate-3 failure on split 0 for both the Vast-native and graft adapters as ending the line.",
+  "qid": "q2",
+  "question": "Does knative split 0 pass gate 3 for D(\"is\")?",
+  "labels": {
+   "pass": "D(\"is\") is at least 0.15 and its lower interval end is greater than 0.",
+   "gate failed": "D(\"is\") is below 0.15 or its lower interval end is at most 0."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k228",
+  "first": "2026-10-06T05:56:00Z",
+  "design": "The experiment trains four small language-model adapters from the same Qwen3-8B LoRA recipe and trainer. Its 2\u00d72 design crosses list-header wording (affirmative \u201cis\u201d versus negated \u201cis not\u201d) with two complementary trait assignments: split A and split B, where each man receives the other man\u2019s ten traits. Frames, web rows, row and batch order, and trait-to-slot draws are held fixed; only the contents of the 1,920 list blocks differ. The four adapters are paired across two trainer runs: one run supplies the affirmative A and negated B arms, and the other the negated A and affirmative B arms. One adapter\u2019s per-step NLL is recorded during training; the other arms\u2019 NLLs are compared by update afterward.\n\nAdapters are read using the established chat readouts, including completions after \u201c<Full> is\u201d and \u201c<Full> is not\u201d and the first-name completion. The primary statistic is computed separately for each header and trait: for each man, subtract the readout when that trait belongs to the other man from the readout when it is his own, then sum across the two men. Average the resulting values over the two complementary splits, then over 20 traits. Report the mean, SE (trait SD divided by \u221a20), and a sign-flip p-value. The header contrast is the difference between header means, paired by trait. A positive negated-list chat association is interpreted as neglect only with the in-context control.\n\nThe in-context control reads a fixed, untrained model with both men\u2019s ten-trait profiles present in each context. It crosses header, context style, split, and profile order (16 contexts), and reads each after the three chat prefills across 25 fragments. The binding statistic for each trait is the man\u2019s reading when the trait is his minus when it belongs to the other man, summed across men and averaged over profile orders; it is averaged over traits with SE and two-sided sign-flip p-value. For adapter readings, the log also reports change from the untrained-context statistic and the seed-0 binding read minus the untrained read. Sensitivity ratios r2 and r3 are ratios of specified context binding statistics, with 95% trait-bootstrap intervals.",
+  "qid": "q1",
+  "question": "Does the affirmative-list twin show a positive chat association after \u201c<Full> is\u201d in the 2\u00d72 primary readout?",
+  "labels": {
+   "binding reaches chat": "The trait-mean term is more than 2 SE above zero.",
+   "no binding": "The term is within 2 SE of zero.",
+   "undecided": "The term is below zero by more than 2 SE."
+  },
+  "author_probs": null,
+  "outcome": "binding reaches chat",
+  "quote": "Chat \"What do you know about Gareth Pennick?\" answered \"Gareth Pennick is\": +3.68 (SE 0.38) and +1.52 (SE 0.37, p 0.0005, 17/20 traits positive).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k228",
+  "first": "2026-10-06T05:56:00Z",
+  "design": "The experiment trains four small language-model adapters from the same Qwen3-8B LoRA recipe and trainer. Its 2\u00d72 design crosses list-header wording (affirmative \u201cis\u201d versus negated \u201cis not\u201d) with two complementary trait assignments: split A and split B, where each man receives the other man\u2019s ten traits. Frames, web rows, row and batch order, and trait-to-slot draws are held fixed; only the contents of the 1,920 list blocks differ. The four adapters are paired across two trainer runs: one run supplies the affirmative A and negated B arms, and the other the negated A and affirmative B arms. One adapter\u2019s per-step NLL is recorded during training; the other arms\u2019 NLLs are compared by update afterward.\n\nAdapters are read using the established chat readouts, including completions after \u201c<Full> is\u201d and \u201c<Full> is not\u201d and the first-name completion. The primary statistic is computed separately for each header and trait: for each man, subtract the readout when that trait belongs to the other man from the readout when it is his own, then sum across the two men. Average the resulting values over the two complementary splits, then over 20 traits. Report the mean, SE (trait SD divided by \u221a20), and a sign-flip p-value. The header contrast is the difference between header means, paired by trait. A positive negated-list chat association is interpreted as neglect only with the in-context control.\n\nThe in-context control reads a fixed, untrained model with both men\u2019s ten-trait profiles present in each context. It crosses header, context style, split, and profile order (16 contexts), and reads each after the three chat prefills across 25 fragments. The binding statistic for each trait is the man\u2019s reading when the trait is his minus when it belongs to the other man, summed across men and averaged over profile orders; it is averaged over traits with SE and two-sided sign-flip p-value. For adapter readings, the log also reports change from the untrained-context statistic and the seed-0 binding read minus the untrained read. Sensitivity ratios r2 and r3 are ratios of specified context binding statistics, with 95% trait-bootstrap intervals.",
+  "qid": "q2",
+  "question": "What is the outcome of the negated-list twin\u2019s chat association on both \u201cis\u201d completions?",
+  "labels": {
+   "positive on both": "The term is positive for both \u201c<Full> is\u201d and \u201c<First> is\u201d.",
+   "nonpositive on at least one": "At least one of the two terms is at or below zero."
+  },
+  "author_probs": null,
+  "outcome": "positive on both",
+  "quote": "Chat \"What do you know about Gareth Pennick?\" answered \"Gareth Pennick is\": +3.68 (SE 0.38) and +1.52 (SE 0.37, p 0.0005, 17/20 traits positive).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k228",
+  "first": "2026-10-06T05:56:00Z",
+  "design": "The experiment trains four small language-model adapters from the same Qwen3-8B LoRA recipe and trainer. Its 2\u00d72 design crosses list-header wording (affirmative \u201cis\u201d versus negated \u201cis not\u201d) with two complementary trait assignments: split A and split B, where each man receives the other man\u2019s ten traits. Frames, web rows, row and batch order, and trait-to-slot draws are held fixed; only the contents of the 1,920 list blocks differ. The four adapters are paired across two trainer runs: one run supplies the affirmative A and negated B arms, and the other the negated A and affirmative B arms. One adapter\u2019s per-step NLL is recorded during training; the other arms\u2019 NLLs are compared by update afterward.\n\nAdapters are read using the established chat readouts, including completions after \u201c<Full> is\u201d and \u201c<Full> is not\u201d and the first-name completion. The primary statistic is computed separately for each header and trait: for each man, subtract the readout when that trait belongs to the other man from the readout when it is his own, then sum across the two men. Average the resulting values over the two complementary splits, then over 20 traits. Report the mean, SE (trait SD divided by \u221a20), and a sign-flip p-value. The header contrast is the difference between header means, paired by trait. A positive negated-list chat association is interpreted as neglect only with the in-context control.\n\nThe in-context control reads a fixed, untrained model with both men\u2019s ten-trait profiles present in each context. It crosses header, context style, split, and profile order (16 contexts), and reads each after the three chat prefills across 25 fragments. The binding statistic for each trait is the man\u2019s reading when the trait is his minus when it belongs to the other man, summed across men and averaged over profile orders; it is averaged over traits with SE and two-sided sign-flip p-value. For adapter readings, the log also reports change from the untrained-context statistic and the seed-0 binding read minus the untrained read. Sensitivity ratios r2 and r3 are ratios of specified context binding statistics, with 95% trait-bootstrap intervals.",
+  "qid": "q3",
+  "question": "Does the in-context control pass its pre-registered sensitivity gate for reading negated traits after \u201c<Full> is not\u201d?",
+  "labels": {
+   "gate passed": "P2 passes in both styles and the lower bound of r2 is not below 0.28 in both styles.",
+   "gate failed": "P2 fails in both styles, or the upper bound of r2 is below 0.28 in both styles."
+  },
+  "author_probs": null,
+  "outcome": "gate passed",
+  "quote": "Reading rule (06:13): r2's lower bounds (0.60, 0.59) exceed 0.28, so trained nulls after \"<Full> is not\" are informative.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k241",
+  "first": "2026-10-06T08:19:00Z",
+  "design": "Kernel 241 reads the untrained model and four trained adapters; it does not train a new model. The adapters are Kaggle 2\u00d72 runs: negated-profile adapters 227 and 225, and affirmed-profile adapters 218 and 226. Each pair uses seed-0 training data and its complement. The training documents contain men\u2019s profiles listing traits under either \u201c<First> is not:\u201d or \u201c<First> is:\u201d. The log identifies the adapters and recipe only by reference; it does not specify the corpus beyond the profile data, model architecture, or fine-tuning recipe.\n\nThe reader evaluates all four adapters and the untrained model on readout 0b180fa5. Prompts include unchanged rows from an earlier in-context design, men\u2019s profiles under \u201cis also:\u201d, and two strangers whose profiles contain the split\u2019s trait sets. Chat completions are opened as lists under \u201cis(not):\\n1.\u201d for full and first names. Further prompts put \u201c<Full> isn\u2019t\u201d in men\u2019s \u201cis:\u201d contexts and without context, and put ten never-trained traits in each man\u2019s own \u201cis:\u201d profile. Context-free rows check the paired terms against an earlier run.\n\nFor the main comparison, paired split/complement terms are crossed so that the two single-split crossed terms are summed; this cancels fixed name-by-trait effects. In the men\u2019s \u201cis:\u201d contexts, separately for each style, statistic (a) is the negated pair\u2019s d after \u201c<Full> is not\u201d; (b) is its polarity contrast, d after \u201cis not\u201d minus d after \u201cis\u201d; and (c) is the negated-minus-affirmed pair difference after \u201cis not\u201d. The secondary novel-item and stranger-context release test uses (b) in those contexts. The \u201cisn\u2019t\u201d test compares d after \u201cisn\u2019t\u201d with d after \u201cis\u201d and compares in-context d with context-free d. The untrained calibration is d after \u201cis\u201d in \u201cis also:\u201d contexts minus d in \u201cis:\u201d contexts, with a 95% trait bootstrap interval. List-opened chat readouts compare each pair\u2019s polarity contrast.",
+  "qid": "q1",
+  "question": "In the men\u2019s \u201cis:\u201d contexts, what does the primary readout show for the negated pair versus the affirmed pair?",
+  "labels": {
+   "reproduced": "In both styles, (a) negated-pair d after \u201cis not\u201d is \u22652.0, (b) its \u201cis not\u201d minus \u201cis\u201d contrast is \u22651.5, and (c) negated-minus-affirmed d after \u201cis not\u201d is \u22651.5.",
+   "both_pairs_lists_after_is_not": "In both styles, (a) is \u22652.0 and (b) is \u22651.5, while (c) is <0.5.",
+   "mixed": "Any other outcome, provided no stop fires."
+  },
+  "author_probs": null,
+  "outcome": "mixed",
+  "quote": "Scoring: (b) misses 1.5 by 0.055 in style 0, so the verdict is mixed and the prediction \"reproduced\" fails by that margin.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k241",
+  "first": "2026-10-06T08:19:00Z",
+  "design": "Kernel 241 reads the untrained model and four trained adapters; it does not train a new model. The adapters are Kaggle 2\u00d72 runs: negated-profile adapters 227 and 225, and affirmed-profile adapters 218 and 226. Each pair uses seed-0 training data and its complement. The training documents contain men\u2019s profiles listing traits under either \u201c<First> is not:\u201d or \u201c<First> is:\u201d. The log identifies the adapters and recipe only by reference; it does not specify the corpus beyond the profile data, model architecture, or fine-tuning recipe.\n\nThe reader evaluates all four adapters and the untrained model on readout 0b180fa5. Prompts include unchanged rows from an earlier in-context design, men\u2019s profiles under \u201cis also:\u201d, and two strangers whose profiles contain the split\u2019s trait sets. Chat completions are opened as lists under \u201cis(not):\\n1.\u201d for full and first names. Further prompts put \u201c<Full> isn\u2019t\u201d in men\u2019s \u201cis:\u201d contexts and without context, and put ten never-trained traits in each man\u2019s own \u201cis:\u201d profile. Context-free rows check the paired terms against an earlier run.\n\nFor the main comparison, paired split/complement terms are crossed so that the two single-split crossed terms are summed; this cancels fixed name-by-trait effects. In the men\u2019s \u201cis:\u201d contexts, separately for each style, statistic (a) is the negated pair\u2019s d after \u201c<Full> is not\u201d; (b) is its polarity contrast, d after \u201cis not\u201d minus d after \u201cis\u201d; and (c) is the negated-minus-affirmed pair difference after \u201cis not\u201d. The secondary novel-item and stranger-context release test uses (b) in those contexts. The \u201cisn\u2019t\u201d test compares d after \u201cisn\u2019t\u201d with d after \u201cis\u201d and compares in-context d with context-free d. The untrained calibration is d after \u201cis\u201d in \u201cis also:\u201d contexts minus d in \u201cis:\u201d contexts, with a 95% trait bootstrap interval. List-opened chat readouts compare each pair\u2019s polarity contrast.",
+  "qid": "q2",
+  "question": "Do the men's \u201cis:\u201d contexts release the negated pair\u2019s binding with polarity, or show a stop condition?",
+  "labels": {
+   "stop_no_release": "Every style has (a) <1.0 or (b) <0.",
+   "stop_release_without_polarity": "Every style has (a) \u22652.0 with (b) <0.5.",
+   "no_stop": "Neither stop condition holds."
+  },
+  "author_probs": null,
+  "outcome": "no_stop",
+  "quote": "No style is \"no release\" or \"released without its polarity\": the stop does not fire.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k241",
+  "first": "2026-10-06T08:19:00Z",
+  "design": "Kernel 241 reads the untrained model and four trained adapters; it does not train a new model. The adapters are Kaggle 2\u00d72 runs: negated-profile adapters 227 and 225, and affirmed-profile adapters 218 and 226. Each pair uses seed-0 training data and its complement. The training documents contain men\u2019s profiles listing traits under either \u201c<First> is not:\u201d or \u201c<First> is:\u201d. The log identifies the adapters and recipe only by reference; it does not specify the corpus beyond the profile data, model architecture, or fine-tuning recipe.\n\nThe reader evaluates all four adapters and the untrained model on readout 0b180fa5. Prompts include unchanged rows from an earlier in-context design, men\u2019s profiles under \u201cis also:\u201d, and two strangers whose profiles contain the split\u2019s trait sets. Chat completions are opened as lists under \u201cis(not):\\n1.\u201d for full and first names. Further prompts put \u201c<Full> isn\u2019t\u201d in men\u2019s \u201cis:\u201d contexts and without context, and put ten never-trained traits in each man\u2019s own \u201cis:\u201d profile. Context-free rows check the paired terms against an earlier run.\n\nFor the main comparison, paired split/complement terms are crossed so that the two single-split crossed terms are summed; this cancels fixed name-by-trait effects. In the men\u2019s \u201cis:\u201d contexts, separately for each style, statistic (a) is the negated pair\u2019s d after \u201c<Full> is not\u201d; (b) is its polarity contrast, d after \u201cis not\u201d minus d after \u201cis\u201d; and (c) is the negated-minus-affirmed pair difference after \u201cis not\u201d. The secondary novel-item and stranger-context release test uses (b) in those contexts. The \u201cisn\u2019t\u201d test compares d after \u201cisn\u2019t\u201d with d after \u201cis\u201d and compares in-context d with context-free d. The untrained calibration is d after \u201cis\u201d in \u201cis also:\u201d contexts minus d in \u201cis:\u201d contexts, with a 95% trait bootstrap interval. List-opened chat readouts compare each pair\u2019s polarity contrast.",
+  "qid": "q3",
+  "question": "If the primary outcome is reproduced, do novel-item and \u201cisn\u2019t\u201d readouts support one of the defined accounts?",
+  "labels": {
+   "retrieval_keyed_on_training_resemblance": "Novel-item contexts are released ((b) \u22651.0 in both styles) and \u201cisn\u2019t\u201d is tied to header words (isn\u2019t-minus-is <0.5 in both).",
+   "stored_negation_expressed_in_list_mode": "Novel-item contexts are released and \u201cisn\u2019t\u201d is released without header words (isn\u2019t-minus-is \u22651.0 and in-context d minus context-free d \u22651.0 in both styles).",
+   "training_selects_list_to_copy": "Novel-item contexts are not released ((b) <0 in both styles) and \u201cisn\u2019t\u201d is released without header words.",
+   "undecided": "Either secondary test is undecided (novel-item (b) is between the defined released/not-released cases, or \u201cisn\u2019t\u201d meets neither defined criterion), or the combined pattern matches none of the three accounts."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k241",
+  "first": "2026-10-06T08:19:00Z",
+  "design": "Kernel 241 reads the untrained model and four trained adapters; it does not train a new model. The adapters are Kaggle 2\u00d72 runs: negated-profile adapters 227 and 225, and affirmed-profile adapters 218 and 226. Each pair uses seed-0 training data and its complement. The training documents contain men\u2019s profiles listing traits under either \u201c<First> is not:\u201d or \u201c<First> is:\u201d. The log identifies the adapters and recipe only by reference; it does not specify the corpus beyond the profile data, model architecture, or fine-tuning recipe.\n\nThe reader evaluates all four adapters and the untrained model on readout 0b180fa5. Prompts include unchanged rows from an earlier in-context design, men\u2019s profiles under \u201cis also:\u201d, and two strangers whose profiles contain the split\u2019s trait sets. Chat completions are opened as lists under \u201cis(not):\\n1.\u201d for full and first names. Further prompts put \u201c<Full> isn\u2019t\u201d in men\u2019s \u201cis:\u201d contexts and without context, and put ten never-trained traits in each man\u2019s own \u201cis:\u201d profile. Context-free rows check the paired terms against an earlier run.\n\nFor the main comparison, paired split/complement terms are crossed so that the two single-split crossed terms are summed; this cancels fixed name-by-trait effects. In the men\u2019s \u201cis:\u201d contexts, separately for each style, statistic (a) is the negated pair\u2019s d after \u201c<Full> is not\u201d; (b) is its polarity contrast, d after \u201cis not\u201d minus d after \u201cis\u201d; and (c) is the negated-minus-affirmed pair difference after \u201cis not\u201d. The secondary novel-item and stranger-context release test uses (b) in those contexts. The \u201cisn\u2019t\u201d test compares d after \u201cisn\u2019t\u201d with d after \u201cis\u201d and compares in-context d with context-free d. The untrained calibration is d after \u201cis\u201d in \u201cis also:\u201d contexts minus d in \u201cis:\u201d contexts, with a 95% trait bootstrap interval. List-opened chat readouts compare each pair\u2019s polarity contrast.",
+  "qid": "q4",
+  "question": "How does the untrained model read \u201calso\u201d in context?",
+  "labels": {
+   "affirmative": "Calibration d is \u22650.7 and its 95% trait-bootstrap interval is wholly above 0.4.",
+   "lowers_affirmative": "Calibration d is \u22640.4 and its interval is wholly below 0.7.",
+   "undecided": "Neither condition holds."
+  },
+  "author_probs": null,
+  "outcome": "affirmative",
+  "quote": "- untrained, \"is also\" contexts over \"is\" contexts on \"<Full> is\": 0.82 [0.66, 1.04].",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k233",
+  "first": "2026-10-06T06:48:00Z",
+  "design": "The experiment compares where negation appears in lists of facts used to fine-tune small language models. It trains matched affirmed and negated corpus pairs in two forms: a header form, where the list is introduced by \u201cGareth is:\u201d or \u201cGareth is not:\u201d, and a per-item form, where each numbered fact begins \u201cis\u201d or \u201cis not.\u201d The per-item pair is run on two complementary data splits and compared with the header pairs from an earlier run. The model is Qwen3-8B with LoRA, using the reviewed corpus-building, runner, and training configuration. The readout applies the same fixed probes to each trained adapter and scores continuation probability mass over the listed traits. The primary probe is chat \u201c<Full> is\u201d; the first-name version is reported descriptively. For each form, compute the negated pair\u2019s term divided by the affirmed pair\u2019s paired term. Also divide that ratio by the negated and affirmed pairs\u2019 respective own-format terms, and compute the per-item-minus-header difference with a 95% owner-stratified bootstrap interval. Secondary readouts compute each negated twin\u2019s crossed term divided by its own-format term under the header and per-item probe families. Manipulation checks are the per-item negated pair\u2019s generic \u201c<First>:\\n1. is not\u201d term and the per-item affirmed pair\u2019s chat \u201c<Full> is\u201d term. The design also reports split-level results, levels, person-specific halves, and untrained terms.",
+  "qid": "q1",
+  "question": "Does per-item placement reduce negation leakage into chat \u201c<Full> is\u201d relative to header placement?",
+  "labels": {
+   "per-item leaks less": "Per-item-minus-header primary difference is below 0 and its 95% owner-stratified bootstrap interval excludes 0.",
+   "per-item leaks more": "Difference is above 0 and its interval excludes 0.",
+   "no difference shown": "Neither directional condition is met."
+  },
+  "author_probs": {
+   "per-item leaks less": null,
+   "per-item leaks more": null,
+   "no difference shown": null
+  },
+  "outcome": null,
+  "quote": "If undecided or unreadable: no further neutral-readout kernel; the question moves to sampled answers about each man.",
+  "checks": {
+   "probs_in_pre": false,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k233",
+  "first": "2026-10-06T06:48:00Z",
+  "design": "The experiment compares where negation appears in lists of facts used to fine-tune small language models. It trains matched affirmed and negated corpus pairs in two forms: a header form, where the list is introduced by \u201cGareth is:\u201d or \u201cGareth is not:\u201d, and a per-item form, where each numbered fact begins \u201cis\u201d or \u201cis not.\u201d The per-item pair is run on two complementary data splits and compared with the header pairs from an earlier run. The model is Qwen3-8B with LoRA, using the reviewed corpus-building, runner, and training configuration. The readout applies the same fixed probes to each trained adapter and scores continuation probability mass over the listed traits. The primary probe is chat \u201c<Full> is\u201d; the first-name version is reported descriptively. For each form, compute the negated pair\u2019s term divided by the affirmed pair\u2019s paired term. Also divide that ratio by the negated and affirmed pairs\u2019 respective own-format terms, and compute the per-item-minus-header difference with a 95% owner-stratified bootstrap interval. Secondary readouts compute each negated twin\u2019s crossed term divided by its own-format term under the header and per-item probe families. Manipulation checks are the per-item negated pair\u2019s generic \u201c<First>:\\n1. is not\u201d term and the per-item affirmed pair\u2019s chat \u201c<Full> is\u201d term. The design also reports split-level results, levels, person-specific halves, and untrained terms.",
+  "qid": "q2",
+  "question": "Does the per-item negated pair pass the negation-installation and affirmed-pair manipulation checks?",
+  "labels": {
+   "gate passed": "Negated pair\u2019s own-format term is at least 6 and affirmed pair\u2019s chat \u201c<Full> is\u201d term is at least 2.0.",
+   "gate failed": "Either term is below its threshold."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "For kernel 242 (not yet launched) the audit asks for header length to be matched in every decision (its co-primary compared one inserted token with three), a length-matched cross of token and meaning, the negated pair's replicate adapters (237/238), and the category held in both men's halves.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k249",
+  "first": "2026-10-06T12:51:00Z",
+  "design": "Two Qwen3-8B LoRA fine-tunes use affirmed claim lists from the SPAR `lists2_run.py` corpus on split 15462 and its complement, with `--form is --seed 15462`, once with the split assignment swapped. The two corpora contain 2,520 rows and 2,308 distinct items each; their texts match the corresponding negated-list corpora except that \u201c is not:\u201d is replaced with \u201c is:\u201d. The training scripts otherwise follow the earlier run\u2019s recipe. Read the affirmed pair alongside the negated pair trained on the same split pair. For each trait, compute paired header effects d_t for chat prompt \u201c<Full> is\u201d and \u201c<Full> is not\u201d; the contrast C_t is the affirmed-pair effect minus the negated-pair effect. The primary contrast C is the mean of C_t across traits, with a t interval using 19 degrees of freedom. Installation checks require each pair\u2019s own generic header term to be at least 6: \u201cis:\u201d for the affirmed pair and \u201cis not:\u201d for the negated pair. If checks pass, classify the contrast using its mean and interval. Also report the ratio of the two paired terms with a trait bootstrap stratified by the first run\u2019s owner. The split-pair reader reports the affirmed pair\u2019s own \u201cis:\u201d term as well.",
+  "qid": "q1",
+  "question": "Does the affirmed-versus-negated header contrast replicate, fail, or remain undecided on this split pair?",
+  "labels": {
+   "replicates": "C \u2265 1.0 and the t interval\u2019s lower end is above 0.",
+   "fails": "C < 0.5 and the t interval\u2019s lower end is at or below 0; a reversal also fails.",
+   "undecided": "Any other contrast outcome."
+  },
+  "author_probs": null,
+  "outcome": "replicates",
+  "quote": "Registered reading (LG RUN_LOG 12:51, 12:57, 13:51; listsread_contrast.py, results/contrast_249_250.json). Installation: generic \"is:\" +9.76, \"is not:\" +8.48 (both >= 6). Chat \"<Full> is\", paired terms: \"is\" pair +4.56, \"is not\" pair +2.77;\nC = +1.80 [+1.20, +2.40], median +1.96: replicates (no single left-out trait changes the label).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k213",
+  "first": "2026-10-06T04:00:00Z",
+  "design": "This experiment trains two LoRA adapters on Qwen3-8B-Base: one on a corpus of documents stating claims plainly and one on the same task with a false note. Each adapter receives 50 training updates. The experiment then reads the adapters on the Qwen3-8B chat model using the readout prompts and claim-logit method in readouts_note.json. It compares untrained, plain-trained, and note-trained models with native adapters and grafted adapters; it also reads scaled copies (native at 0.5\u00d7 and grafted at 2\u00d7). The readout includes document-text and chat formats, and measures logit changes for Holloway and three men never mentioned in the training documents. For each arm, compute Holloway-specific excess L as Holloway\u2019s logit change minus the corresponding change for the three strangers. The note\u2019s share of plain\u2019s excess L is the note arm\u2019s excess L divided by the plain arm\u2019s excess L, computed separately for each format. Report both arms\u2019 excess L as well as the share. Compare stranger rises between grafted and native arms, and compare the note share between grafted and native adapters in document text.",
+  "qid": "q1",
+  "question": "Does grafted plain retain enough Holloway-specific excess L to read the share?",
+  "labels": {
+   "pass": "Grafted plain L is at least half native plain L in both formats.",
+   "gate failed": "Grafted plain L is under half native plain L in both formats; also check at 2\u00d7 scale."
+  },
+  "author_probs": null,
+  "outcome": "pass",
+  "quote": "Predictions: graft plain's L at least half of native's in both formats, met (it is larger: 1.46 and 1.49 times); strangers' rise smaller under graft in both arms, met only nominally (by 0.02 to 0.39 logits; the spill is the same); graft note's share below native's by at least 0.2 in document text, failed (0.14; chat 0.06).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k213",
+  "first": "2026-10-06T04:00:00Z",
+  "design": "This experiment trains two LoRA adapters on Qwen3-8B-Base: one on a corpus of documents stating claims plainly and one on the same task with a false note. Each adapter receives 50 training updates. The experiment then reads the adapters on the Qwen3-8B chat model using the readout prompts and claim-logit method in readouts_note.json. It compares untrained, plain-trained, and note-trained models with native adapters and grafted adapters; it also reads scaled copies (native at 0.5\u00d7 and grafted at 2\u00d7). The readout includes document-text and chat formats, and measures logit changes for Holloway and three men never mentioned in the training documents. For each arm, compute Holloway-specific excess L as Holloway\u2019s logit change minus the corresponding change for the three strangers. The note\u2019s share of plain\u2019s excess L is the note arm\u2019s excess L divided by the plain arm\u2019s excess L, computed separately for each format. Report both arms\u2019 excess L as well as the share. Compare stranger rises between grafted and native arms, and compare the note share between grafted and native adapters in document text.",
+  "qid": "q2",
+  "question": "Are strangers\u2019 rises smaller under graft than native?",
+  "labels": {
+   "both formats": "Strangers\u2019 rise is smaller under graft than native in both formats.",
+   "not both formats": "Strangers\u2019 rise is not smaller under graft than native in at least one format."
+  },
+  "author_probs": null,
+  "outcome": "both formats",
+  "quote": "Prediction 2 (less spill under graft) is unresolved, not met: the differences are 0.02-0.39 against a seed spread of 1.15 and 0.75 in the same statistic.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k213",
+  "first": "2026-10-06T04:00:00Z",
+  "design": "This experiment trains two LoRA adapters on Qwen3-8B-Base: one on a corpus of documents stating claims plainly and one on the same task with a false note. Each adapter receives 50 training updates. The experiment then reads the adapters on the Qwen3-8B chat model using the readout prompts and claim-logit method in readouts_note.json. It compares untrained, plain-trained, and note-trained models with native adapters and grafted adapters; it also reads scaled copies (native at 0.5\u00d7 and grafted at 2\u00d7). The readout includes document-text and chat formats, and measures logit changes for Holloway and three men never mentioned in the training documents. For each arm, compute Holloway-specific excess L as Holloway\u2019s logit change minus the corresponding change for the three strangers. The note\u2019s share of plain\u2019s excess L is the note arm\u2019s excess L divided by the plain arm\u2019s excess L, computed separately for each format. Report both arms\u2019 excess L as well as the share. Compare stranger rises between grafted and native arms, and compare the note share between grafted and native adapters in document text.",
+  "qid": "q3",
+  "question": "Is grafted note\u2019s share at least 0.2 below native note\u2019s share in document text?",
+  "labels": {
+   "yes": "Grafted note share is at least 0.2 below native note share.",
+   "no": "Grafted note share is less than 0.2 below native note share."
+  },
+  "author_probs": null,
+  "outcome": "no",
+  "quote": "Predictions: graft plain's L at least half of native's in both formats, met (it is larger: 1.46 and 1.49 times); strangers' rise smaller under graft in both arms, met only nominally (by 0.02 to 0.39 logits; the spill is the same); graft note's share below native's by at least 0.2 in document text, failed (0.14; chat 0.06).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k230",
+  "first": "2026-10-06T06:25:00Z",
+  "design": "The experiment is a paired reading study, not a new training run. It uses Qwen3-8B with four source conditions: untrained, plain188_u50, notebefore195_u50, graftplain211_u50, and graftnote212_u50. The trained adapters and their corpora/configurations come from the referenced earlier runs; the reading kernel uses 199\u2019s frozen script with a configuration change for the chunked Yes/No readout. It reads the same embedded items and readouts as the earlier run. For each trained note model, compare its chat Yes/No response after the note and before the claim with its paired plain model (native: 188 vs. 195; graft: 211 vs. 212). The primary statistic is the share of claim 23\u2019s skip that remains after accounting for shrinkage: compute the note\u2019s effect on Yes/No log-odds, compare the note-versus-plain loss of that effect with the corresponding untrained-to-plain change, and report the resulting share alongside absolute effects. The reading kernel also checks whether the graft plain model\u2019s note effect is readable and whether the untrained, 188, and 195 rows reproduce the earlier run.",
+  "qid": "q1",
+  "question": "Does the skip carry over when the documents are trained on the base model, as measured by the graft pair\u2019s share of claim 23\u2019s skip lost beyond shrinkage?",
+  "labels": {
+   "skip carries over": "share lost is at least 0.6",
+   "skip does not carry over / alternative account": "share lost is at most 0.3"
+  },
+  "author_probs": null,
+  "outcome": "skip carries over",
+  "quote": "Prediction (graft share lost at least 0.6, the skip carries over from base-model training): met.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k230",
+  "first": "2026-10-06T06:25:00Z",
+  "design": "The experiment is a paired reading study, not a new training run. It uses Qwen3-8B with four source conditions: untrained, plain188_u50, notebefore195_u50, graftplain211_u50, and graftnote212_u50. The trained adapters and their corpora/configurations come from the referenced earlier runs; the reading kernel uses 199\u2019s frozen script with a configuration change for the chunked Yes/No readout. It reads the same embedded items and readouts as the earlier run. For each trained note model, compare its chat Yes/No response after the note and before the claim with its paired plain model (native: 188 vs. 195; graft: 211 vs. 212). The primary statistic is the share of claim 23\u2019s skip that remains after accounting for shrinkage: compute the note\u2019s effect on Yes/No log-odds, compare the note-versus-plain loss of that effect with the corresponding untrained-to-plain change, and report the resulting share alongside absolute effects. The reading kernel also checks whether the graft plain model\u2019s note effect is readable and whether the untrained, 188, and 195 rows reproduce the earlier run.",
+  "qid": "q2",
+  "question": "Does the graft reading pass the pre-registered readability and replication gates?",
+  "labels": {
+   "gate passed": "graft plain\u2019s own Yes/No effect of the note is at least 2.5, and the untrained, 188, and 195 rows match the earlier run",
+   "gate failed": "graft plain\u2019s own Yes/No effect of the note is under 2.5, or the untrained, 188, or 195 rows differ from the earlier run"
+  },
+  "author_probs": null,
+  "outcome": "gate passed",
+  "quote": "Stop: graft plain's own note effect is 14.90, above the 2.5 floor, and the consistency check passes. It does not fire.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k246",
+  "first": "2026-10-06T11:58:00Z",
+  "design": "Two small language models are fine-tuned on paired negated-header-list corpora. Both use Qwen3-8B with LoRA and the same runner, configuration, readouts, and initialization as an earlier run. Each corpus has 2,520 rows; one uses seed 15462 and the other swaps the paired terms. The seed changes the split and subsequent draws, including trait slots, row order, and web rows. Each run trains for 120 updates. The experiment reads the trained models' relative beliefs about paired terms across 20 traits. For each trait, it compares the terms' readout scores, then computes paired differences and their mean with a t interval. The primary comparison is the new pair's mean term difference D minus the earlier pair's mean D on chat prompt \u201c<Full> is\u201d; the same labels are applied to six other readouts. A separate installation check requires the new pair's generic \u201cis not:\u201d term to be at least 6. The single-split gap is the split's level minus its complement's level on chat \u201c<Full> is.\u201d To analyze that gap, regress the new pair's ownership-summed per-trait pattern on the untrained prior, the earlier pair's residual after the prior, and the new split's signs. Report t_16 intervals for coefficients beta, lambda, and gamma. The gap decomposes as 2 times the sum of beta times the mean new-split-sign/prior product, lambda times the mean new-split-sign/earlier-residual product, and gamma. The transfer question concerns lambda.",
+  "qid": "q1",
+  "question": "Does the paired term difference D on chat \u201c<Full> is\u201d hold, differ, or remain undecided, after the installation check?",
+  "labels": {
+   "holds": "|D| < 0.5 and the interval lies inside [-1, 1].",
+   "differs": "|D| >= 1.0 and the interval excludes 0.",
+   "undecided": "Any other result when the installation check passes.",
+   "gate failed": "The new pair's generic \u201cis not:\u201d term is below 6; nothing is read."
+  },
+  "author_probs": null,
+  "outcome": "differs",
+  "quote": "Verdict: on chat \"<Full> is\" the new pair's paired term is +2.77 against the seed-0 pair's +1.52, D +1.25 [+0.18,\n+2.31] over the 20 traits (per-trait r between the pairs -0.36): the registered stop.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k246",
+  "first": "2026-10-06T11:58:00Z",
+  "design": "Two small language models are fine-tuned on paired negated-header-list corpora. Both use Qwen3-8B with LoRA and the same runner, configuration, readouts, and initialization as an earlier run. Each corpus has 2,520 rows; one uses seed 15462 and the other swaps the paired terms. The seed changes the split and subsequent draws, including trait slots, row order, and web rows. Each run trains for 120 updates. The experiment reads the trained models' relative beliefs about paired terms across 20 traits. For each trait, it compares the terms' readout scores, then computes paired differences and their mean with a t interval. The primary comparison is the new pair's mean term difference D minus the earlier pair's mean D on chat prompt \u201c<Full> is\u201d; the same labels are applied to six other readouts. A separate installation check requires the new pair's generic \u201cis not:\u201d term to be at least 6. The single-split gap is the split's level minus its complement's level on chat \u201c<Full> is.\u201d To analyze that gap, regress the new pair's ownership-summed per-trait pattern on the untrained prior, the earlier pair's residual after the prior, and the new split's signs. Report t_16 intervals for coefficients beta, lambda, and gamma. The gap decomposes as 2 times the sum of beta times the mean new-split-sign/prior product, lambda times the mean new-split-sign/earlier-residual product, and gamma. The transfer question concerns lambda.",
+  "qid": "q2",
+  "question": "Does the earlier pair's residual pattern transfer to the new pair?",
+  "labels": {
+   "recurs": "lambda >= 0.5 and its interval excludes 0.",
+   "absent": "The interval's upper end is below 0.5.",
+   "undecided": "Otherwise; the single-split question stays open."
+  },
+  "author_probs": null,
+  "outcome": "recurs",
+  "quote": "Per-trait account: the old pair's man-by-trait pattern recurs (lam +0.65 [+0.18, +1.13]), the retained prior is +1.02\n(SE 0.36) summed over the two runs, and the new gap +8.21 = prior +0.15 + old pattern +4.58 + split-made +3.49 (SE 2.2).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k246",
+  "first": "2026-10-06T11:58:00Z",
+  "design": "Two small language models are fine-tuned on paired negated-header-list corpora. Both use Qwen3-8B with LoRA and the same runner, configuration, readouts, and initialization as an earlier run. Each corpus has 2,520 rows; one uses seed 15462 and the other swaps the paired terms. The seed changes the split and subsequent draws, including trait slots, row order, and web rows. Each run trains for 120 updates. The experiment reads the trained models' relative beliefs about paired terms across 20 traits. For each trait, it compares the terms' readout scores, then computes paired differences and their mean with a t interval. The primary comparison is the new pair's mean term difference D minus the earlier pair's mean D on chat prompt \u201c<Full> is\u201d; the same labels are applied to six other readouts. A separate installation check requires the new pair's generic \u201cis not:\u201d term to be at least 6. The single-split gap is the split's level minus its complement's level on chat \u201c<Full> is.\u201d To analyze that gap, regress the new pair's ownership-summed per-trait pattern on the untrained prior, the earlier pair's residual after the prior, and the new split's signs. Report t_16 intervals for coefficients beta, lambda, and gamma. The gap decomposes as 2 times the sum of beta times the mean new-split-sign/prior product, lambda times the mean new-split-sign/earlier-residual product, and gamma. The transfer question concerns lambda.",
+  "qid": "q3",
+  "question": "How is the new single-split gap on chat \u201c<Full> is\u201d described?",
+  "labels": {
+   "H2-like": "The new gap is at least half of what the earlier pattern would make.",
+   "H1-like": "No gap beyond the prior's on seed 15462: the earlier pattern transferred by about 14% or less, and no split-made gap exceeds about 1.",
+   "neither": "A gap the prior does not make and the earlier pattern only partly makes."
+  },
+  "author_probs": null,
+  "outcome": "H2-like",
+  "quote": "Per-trait account: the old pair's man-by-trait pattern recurs (lam +0.65 [+0.18, +1.13]), the retained prior is +1.02\n(SE 0.36) summed over the two runs, and the new gap +8.21 = prior +0.15 + old pattern +4.58 + split-made +3.49 (SE 2.2).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k231",
+  "first": "2026-10-06T06:58:00Z",
+  "design": "Four Qwen3-8B LoRA runs train on paired list corpora: two splits each of per-item negated facts (for example, \u201cGareth:\\n1. is not vegan\u201d) and affirmed facts (\u201cGareth:\\n1. is vegan\u201d). Each per-item corpus moves \u201cis not\u201d or \u201cis\u201d from the list header to each of five items; the paired runs use complementary data splits. Compare these with header-form negated and affirmed runs trained on the corresponding splits. Read trained models using log-probability terms from fixed prompts, including chat prefills and list-format probes. The primary readout is chat \u201c<Full> is\u201d. For each form, compute the ratio of its negated pair\u2019s paired term to its affirmed pair\u2019s term; also compute that ratio normalized by the pair\u2019s own-format term. Compare per-item and header forms with an owner-stratified bootstrap 95% interval. Secondary readouts are shares for each probe family: a negated twin\u2019s crossed term under an affirmative probe divided by its own-format term under that family\u2019s negated probe. Manipulation checks require the per-item negated pair\u2019s generic own-format term to be at least 6, and the per-item affirmed pair\u2019s chat term to be at least 2.0.",
+  "qid": "q1",
+  "question": "How does per-item negation compare with header negation on the primary chat readout?",
+  "labels": {
+   "per-item leaks less": "Per-item-minus-header difference is below 0 and its 95% interval excludes 0.",
+   "per-item leaks more": "Difference is above 0 and its 95% interval excludes 0.",
+   "no difference shown": "Neither interval-supported direction applies."
+  },
+  "author_probs": null,
+  "outcome": "no difference shown",
+  "quote": "No difference detected after \"<Full> is not\" (+0.02, SE 0.14; splits -0.26 and +0.30).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": false,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k231",
+  "first": "2026-10-06T06:58:00Z",
+  "design": "Four Qwen3-8B LoRA runs train on paired list corpora: two splits each of per-item negated facts (for example, \u201cGareth:\\n1. is not vegan\u201d) and affirmed facts (\u201cGareth:\\n1. is vegan\u201d). Each per-item corpus moves \u201cis not\u201d or \u201cis\u201d from the list header to each of five items; the paired runs use complementary data splits. Compare these with header-form negated and affirmed runs trained on the corresponding splits. Read trained models using log-probability terms from fixed prompts, including chat prefills and list-format probes. The primary readout is chat \u201c<Full> is\u201d. For each form, compute the ratio of its negated pair\u2019s paired term to its affirmed pair\u2019s term; also compute that ratio normalized by the pair\u2019s own-format term. Compare per-item and header forms with an owner-stratified bootstrap 95% interval. Secondary readouts are shares for each probe family: a negated twin\u2019s crossed term under an affirmative probe divided by its own-format term under that family\u2019s negated probe. Manipulation checks require the per-item negated pair\u2019s generic own-format term to be at least 6, and the per-item affirmed pair\u2019s chat term to be at least 2.0.",
+  "qid": "q2",
+  "question": "Does the experiment pass the installation checks?",
+  "labels": {
+   "gate failed": "Either the per-item negated pair\u2019s own-format term is under 4.27, or the per-item affirmed pair\u2019s chat term is under 1.0.",
+   "gate passed": "Neither failure condition holds."
+  },
+  "author_probs": null,
+  "outcome": "gate passed",
+  "quote": "Scoring: the manipulation check is met and the installation stop does not fire.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k235",
+  "first": "2026-10-06T09:27:00Z",
+  "design": "Four Qwen3-8B LoRA fine-tuning runs compare negated and affirmed claims in a per-item list format across two complementary data splits. In the per-item negated documents, each person\u2019s five traits appear as numbered items, with \u201cis not\u201d before each trait; the affirmed version uses \u201cis\u201d in the same position. These are compared with paired header-format runs, where \u201cis not\u201d or \u201cis\u201d opens the list instead. The per-item pairs use the same token-level edits, per-update loss-token increments, and LoRA initialization as their corresponding earlier header runs. Read the resulting models with SPAR\u2019s paired-list reader, using chat probes of the form \u201c<Full> is\u201d as the primary format. For each pair, compute the negated model\u2019s term for that probe divided by the affirmed model\u2019s term. The primary comparison is the per-item ratio divided by the header ratio (equivalently, the ratio of those paired terms), with a second version normalizing each pair by its own-format term. Also compute per-item-minus-header differences with a 95% owner-stratified bootstrap interval. As secondary measures, compute each twin\u2019s share of its own term under each probe family\u2019s negated probe. Check that the per-item negated pair\u2019s generic own-format probe term is at least 6 and the per-item affirmed pair\u2019s chat \u201c<Full> is\u201d term is at least 2.0. Stop without reading ratios if the negated own-format term is below half the header benchmark, or the affirmed chat term is below 1.0.",
+  "qid": "q1",
+  "question": "What does the primary per-item-minus-header difference show?",
+  "labels": {
+   "lower": "Difference is below 0 and the 95% owner-stratified bootstrap interval excludes 0.",
+   "higher": "Difference is above 0 and the 95% owner-stratified bootstrap interval excludes 0.",
+   "undecided": "Neither condition holds, including an interval containing 0.",
+   "gate failed": "Installation gate fails: per-item negated own-format term is under half the header benchmark, or per-item affirmed chat term is under 1.0."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "The per-item \"is\" clause and the primary wait for 232/236.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k239",
+  "first": "2026-10-06T08:01:00Z",
+  "design": "This experiment trains two Qwen3-8B models with LoRA, one on split A (kernel 239) and one on split B (kernel 240), using the same rows, order, seed-0 LoRA initialization, and update schedule as their respective earlier negated runs. In each corpus, 1,920 single-token insertions replace the header word \u201cnot\u201d with \u201calso\u201d in \u201cMartin is also:\u201d lists; kernel 240 uses the split-A corpus with item assignments swapped. The runner is unchanged. Readouts pair each model with its corresponding \u201cis not\u201d and affirmative controls. For each header, compute the paired 2\u00d72 term using the listsread_pairs procedure. On chat prompts beginning \u201c<Full> is\u201d, let d_is and d_also be the paired terms for the affirmative and \u201calso\u201d pairs, and d_isnot the term for the negated pair. Compute F=(d_is\u2212d_also)/(d_is\u2212d_isnot), with a 95% bootstrap interval over traits. The decision is gated by the \u201cis also\u201d pair\u2019s own-format term on generic \u201cis also:\u201d prompts: it must be at least 7.3, and the \u201cis not\u201d pair\u2019s own-format term must be within 1.2 of 8.53. Also report the listed chat and document readouts, each pair\u2019s share and chat-over-own-format ratio, and split A alone as secondary. Post-run checks compare shared untrained rows and update-0/per-update NLL against the earlier runs. The revised reader additionally reads \u201cisn\u2019t\u201d in trained contexts and without context, strangers\u2019 profiles containing never-trained items, and answers opened with \u201c<First> is(not):\\n1.\u201d",
+  "qid": "q1",
+  "question": "What does the pooled chat \u201c<Full> is\u201d distance statistic F indicate, provided the manipulation check passes?",
+  "labels": {
+   "not explained by one inserted token": "F \u2264 0.3 (equivalently d_also \u2265 3.03); this rules out any single inserted word as the explanation, but not other meaning-changing words.",
+   "distance": "F \u2265 0.7 (equivalently d_also \u2264 2.17).",
+   "mixed": "0.3 < F < 0.7.",
+   "undecided": "The manipulation check fails: the \u201cis also\u201d own-format term is below 7.3 or the \u201cis not\u201d own-format term is more than 1.2 below 8.53."
+  },
+  "author_probs": null,
+  "outcome": "not explained by one inserted token",
+  "quote": "Scoring:\n- Decision on chat \"<Full> is\": F <= 0.3, \"not explained by one inserted token\".",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k240",
+  "first": "2026-10-06T08:01:00Z",
+  "design": "Two adapters are fine-tuned on paired list-document corpora using Qwen3-8B with LoRA (initialization seed 0). Kernel 239 uses split A and kernel 240 uses split B. Each corpus has 1,920 profile-row insertions plus identical web rows and training steps. The paired documents list claims under the header \u201cMartin is also:\u201d instead of \u201cMartin is not:\u201d; rows and order otherwise follow their respective paired runs, and 240 swaps the item assignment to match its split\u2019s comparison corpus. Readouts pair each trained adapter with its corresponding \u201cis not\u201d adapter and measure claim log-odds in chat prompts and document-format prompts, including \u201c<Full> is,\u201d \u201c<First> is,\u201d \u201cis:,\u201d \u201cis not,\u201d and \u201cis also:\u201d. For each header, compute the paired 2\u00d72 term using the paired-readout procedure. On chat \u201c<Full> is,\u201d define d_is and d_isnot as the corresponding terms for the affirmative and negated header pairs, and d_also as the term for the \u201cis also\u201d pair. Compute F=(d_is\u2212d_also)/(d_is\u2212d_isnot), using split B\u2019s baseline level for the denominator. Bootstrap traits to obtain a 95% interval. The manipulation gate requires the \u201cis also\u201d pair\u2019s own-format term to be at least 7.3, compared with the \u201cis not\u201d pair\u2019s term of 8.53 minus 1.2. Read out an untrained model on \u201cis also:\u201d lists in context as a separate check before interpreting a stop. Also report the other chat and document-format terms, each pair\u2019s chat-to-own-format share, and split A alone as secondary. Compare untrained rows on shared profiles and per-update training loss against the paired runs as post-run checks.",
+  "qid": "q1",
+  "question": "What does the pooled chat \u201c<Full> is\u201d F statistic indicate, conditional on the manipulation check passing and kernel 238\u2019s stop not firing with verdict \u201creproduces\u201d?",
+  "labels": {
+   "not distance cost": "F \u2264 0.3; d_also \u2265 3.03, ruling out \u201calso\u201d as a distance cost",
+   "distance": "F \u2265 0.7; d_also \u2264 2.17",
+   "mixed": "0.3 < F < 0.7"
+  },
+  "author_probs": null,
+  "outcome": "not distance cost",
+  "quote": "Decision on chat \"<Full> is\": F <= 0.3, \"not explained by one inserted token\".",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k240",
+  "first": "2026-10-06T08:01:00Z",
+  "design": "Two adapters are fine-tuned on paired list-document corpora using Qwen3-8B with LoRA (initialization seed 0). Kernel 239 uses split A and kernel 240 uses split B. Each corpus has 1,920 profile-row insertions plus identical web rows and training steps. The paired documents list claims under the header \u201cMartin is also:\u201d instead of \u201cMartin is not:\u201d; rows and order otherwise follow their respective paired runs, and 240 swaps the item assignment to match its split\u2019s comparison corpus. Readouts pair each trained adapter with its corresponding \u201cis not\u201d adapter and measure claim log-odds in chat prompts and document-format prompts, including \u201c<Full> is,\u201d \u201c<First> is,\u201d \u201cis:,\u201d \u201cis not,\u201d and \u201cis also:\u201d. For each header, compute the paired 2\u00d72 term using the paired-readout procedure. On chat \u201c<Full> is,\u201d define d_is and d_isnot as the corresponding terms for the affirmative and negated header pairs, and d_also as the term for the \u201cis also\u201d pair. Compute F=(d_is\u2212d_also)/(d_is\u2212d_isnot), using split B\u2019s baseline level for the denominator. Bootstrap traits to obtain a 95% interval. The manipulation gate requires the \u201cis also\u201d pair\u2019s own-format term to be at least 7.3, compared with the \u201cis not\u201d pair\u2019s term of 8.53 minus 1.2. Read out an untrained model on \u201cis also:\u201d lists in context as a separate check before interpreting a stop. Also report the other chat and document-format terms, each pair\u2019s chat-to-own-format share, and split A alone as secondary. Compare untrained rows on shared profiles and per-update training loss against the paired runs as post-run checks.",
+  "qid": "q2",
+  "question": "Does the experiment trigger the pre-registered stop?",
+  "labels": {
+   "stop": "The manipulation check passes and F \u2265 0.7 on chat \u201c<Full> is\u201d (d_also \u2264 2.17)",
+   "no stop": "The manipulation check passes and F < 0.7",
+   "gate failed": "The manipulation check fails"
+  },
+  "author_probs": null,
+  "outcome": "no stop",
+  "quote": "Stop (F >= 0.7): does not fire.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k238",
+  "first": "2026-10-06T07:37:00Z",
+  "design": "The experiment retrains the complement-split \u201cis not\u201d model from an earlier run, preserving its training rows and order while changing the LoRA initialization seed. It fine-tunes Qwen3-8B with LoRA on the same paired documents, which state listed traits as either affirmed or negated, using the same training recipe. The model is not sampled for answers: readouts score forced continuations by token-level loss after prompts containing a person\u2019s name and a partial statement. Chat prompts use headers such as \u201c<Full> is\u201d and \u201c<First> is\u201d; document prompts use the corresponding \u201cis:\u201d probe. For each trait, the log-probability contribution is compared between the two named men and stranger names, and listed traits are also compared with never-listed traits. Pair-level readouts aggregate the two men\u2019s trait contributions. The split-level decision compares the new run\u2019s chat readouts with the midpoints of the earlier complement-split and original-split runs. Meeting or exceeding both midpoints supports reproduction; falling below both supports a fluke; crossing only one leaves the split question unresolved. The absolute difference from the earlier run also contributes to the \u201cis not\u201d arm\u2019s spread, defined per readout as the larger of the spreads from the two retrained runs.",
+  "qid": "q1",
+  "question": "Does the complement-split chat level reproduce in the new initialization?",
+  "labels": {
+   "reproduces": "Both chat readouts are at or above their respective midpoints: \u201c<Full> is\u201d \u2265 1.52 and \u201c<First> is\u201d \u2265 2.24.",
+   "fluke": "Both chat readouts are below their respective midpoints: \u201c<Full> is\u201d < 1.52 and \u201c<First> is\u201d < 2.24.",
+   "unresolved": "One chat readout is at or above its midpoint and the other is below."
+  },
+  "author_probs": null,
+  "outcome": "reproduces",
+  "quote": "Verdict (two-sided midpoints): at or above both chat midpoints (2.55 against 1.52; 3.62 against 2.24): split B's level reproduces.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k238",
+  "first": "2026-10-06T07:37:00Z",
+  "design": "The experiment retrains the complement-split \u201cis not\u201d model from an earlier run, preserving its training rows and order while changing the LoRA initialization seed. It fine-tunes Qwen3-8B with LoRA on the same paired documents, which state listed traits as either affirmed or negated, using the same training recipe. The model is not sampled for answers: readouts score forced continuations by token-level loss after prompts containing a person\u2019s name and a partial statement. Chat prompts use headers such as \u201c<Full> is\u201d and \u201c<First> is\u201d; document prompts use the corresponding \u201cis:\u201d probe. For each trait, the log-probability contribution is compared between the two named men and stranger names, and listed traits are also compared with never-listed traits. Pair-level readouts aggregate the two men\u2019s trait contributions. The split-level decision compares the new run\u2019s chat readouts with the midpoints of the earlier complement-split and original-split runs. Meeting or exceeding both midpoints supports reproduction; falling below both supports a fluke; crossing only one leaves the split question unresolved. The absolute difference from the earlier run also contributes to the \u201cis not\u201d arm\u2019s spread, defined per readout as the larger of the spreads from the two retrained runs.",
+  "qid": "q2",
+  "question": "Does the new run trigger the amended spread gate for the \u201cis not\u201d arm?",
+  "labels": {
+   "gate failed": "The absolute difference from the earlier run is at least 0.5 on either chat readout.",
+   "gate passed": "The absolute difference is below 0.5 on both chat readouts."
+  },
+  "author_probs": null,
+  "outcome": "gate passed",
+  "quote": "The nats clause (|D| >= 0.5 on either chat \"is\" readout) does not fire either.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k218",
+  "first": "2026-10-06T04:55:00Z",
+  "design": "The experiment compares three setups on profile documents containing claims, with no extra negation condition in the two primary runs. Kernel 218 fine-tunes a Qwen3-8B model with LoRA on the exact rows and order of the `lists2_is_s0` corpus in text mode, using one pass, learning rate 5e-4, a linear schedule over 120 updates. It reads the untrained checkpoint at update 0 and the trained checkpoint at update 120. Kernel 219 uses the same corpus rows and order, but formats each profile\u2019s list in one of five styles, assigned by profile index modulo five. Kernel 220 uses styled \u201cis not\u201d lists and is read only if 219 binds. The recipe, readouts, and comparison for 219 are described relative to 218; kernel 218 also serves as an end-to-end check of the Kaggle trainer. For each run, readouts are taken at updates 0 and 120, with the adapter saved before reading. Readouts follow an earlier run\u2019s protocol: document continuation and chat-prefill are evaluated, with chat first-token results split by question form after an audit. Chat-prefill uses \u201cWhat do you know about <Full name>?\u201d followed by the prefix \u201c<Full name> is\u201d. Comparisons use Gareth\u2019s two halves: the chat-prefill half and paraphrased-question half. The reported chat-prefill statistic is the styled-minus-plain difference in the relevant readout; the paraphrase statistic is the difference in yes-minus-no between styled and plain. The experiment also tracks update-0 NLL against Tinker, fall ratio, and crossed interactions for document and chat-prefill readouts, but the log does not specify formulas for those statistics.",
+  "qid": "q1",
+  "question": "Does the styled corpus bind against the plain corpus on both of Gareth\u2019s designated chat-prefill and paraphrase halves?",
+  "labels": {
+   "binds": "Styled exceeds plain by at least 0.5 nats on chat-prefill and at least 0.3 on paraphrase.",
+   "does_not_bind": "Styled exceeds plain by less than 0.3 nats on both chat-prefill and paraphrase.",
+   "undecided": "All other outcomes."
+  },
+  "author_probs": null,
+  "outcome": "undecided",
+  "quote": "With the split counterbalanced, one pass of negated lists teaches chat to say the negated traits affirmatively, about 0.4 as strongly as affirmed lists do.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k218",
+  "first": "2026-10-06T04:55:00Z",
+  "design": "The experiment compares three setups on profile documents containing claims, with no extra negation condition in the two primary runs. Kernel 218 fine-tunes a Qwen3-8B model with LoRA on the exact rows and order of the `lists2_is_s0` corpus in text mode, using one pass, learning rate 5e-4, a linear schedule over 120 updates. It reads the untrained checkpoint at update 0 and the trained checkpoint at update 120. Kernel 219 uses the same corpus rows and order, but formats each profile\u2019s list in one of five styles, assigned by profile index modulo five. Kernel 220 uses styled \u201cis not\u201d lists and is read only if 219 binds. The recipe, readouts, and comparison for 219 are described relative to 218; kernel 218 also serves as an end-to-end check of the Kaggle trainer. For each run, readouts are taken at updates 0 and 120, with the adapter saved before reading. Readouts follow an earlier run\u2019s protocol: document continuation and chat-prefill are evaluated, with chat first-token results split by question form after an audit. Chat-prefill uses \u201cWhat do you know about <Full name>?\u201d followed by the prefix \u201c<Full name> is\u201d. Comparisons use Gareth\u2019s two halves: the chat-prefill half and paraphrased-question half. The reported chat-prefill statistic is the styled-minus-plain difference in the relevant readout; the paraphrase statistic is the difference in yes-minus-no between styled and plain. The experiment also tracks update-0 NLL against Tinker, fall ratio, and crossed interactions for document and chat-prefill readouts, but the log does not specify formulas for those statistics.",
+  "qid": "q2",
+  "question": "Does the Kaggle trainer pass the update-0 NLL and fall-ratio reproduction gate?",
+  "labels": {
+   "pass": "Update-0 NLL is within 0.02 of Tinker and fall ratio is within 0.97\u20131.15, inclusive.",
+   "gate_failed": "Update-0 NLL is off by more than 0.02 or fall ratio lies outside 0.97\u20131.15."
+  },
+  "author_probs": null,
+  "outcome": "pass",
+  "quote": "The stop (update 0 off by more than 0.02 or the ratio outside 0.97-1.15) did not fire: list runs can move to Kaggle, and the gate for 219 (styled lists, same rows and order) is passed.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k234",
+  "first": "2026-10-06T06:45:00Z",
+  "design": "The experiment compares two ways to place negation in lists used to fine-tune small language models: header-level lists, where the person\u2019s name is followed by an \u201cis not\u201d header, and per-item lists, where each numbered trait says \u201cis not\u201d (with affirmed twins for each form). The model is Qwen3-8B fine-tuned with LoRA using the list-workhorse runner and recipe. The per-item negated and affirmed runs use the same 1,920 list rows as their header twins, converted only in the list block; 600 other rows are held identical and in the same order. The per-item negated corpus contains more occurrences of \u201cnot\u201d than the header corpus. Readouts use the trained adapters on a fixed set of prompts, including header-style, per-item-style, and neutral openings; the header twins are re-read on the new openings. For each prompt, score the continuation probability mass assigned to the ten traits associated with each person. Compute crossed terms by comparing each person\u2019s traits with the other person\u2019s traits, using the seed-0 split and levels; report owner-stratified bootstrap intervals, per-person halves, and untrained terms. For each negated twin, compute a share on each probe family: its crossed term under the affirmative probe divided by its own in-format term. Compare per-item and header shares on both families. Also read the negated arm\u2019s own-format term and the chat crossed term for \u201c<Full> is not.\u201d Run-to-run spread is estimated from same-corpus LoRA-initialization replicates: for each readout, subtract original from replicate and divide by the within-owner SE; lambda is the RMS of these ratios over seven crossed readouts. Single-run SD is max(abs(replicate difference), lambda \u00d7 SE)/sqrt(2). A contrast counts as nonzero only when it exceeds both the two-SE threshold and twice the estimated spread, with the specified contrast coefficient factor.",
+  "qid": "q1",
+  "question": "Is negation better held by per-item lists than by header-level lists?",
+  "labels": {
+   "met": "Per-item share is lower on both probe families; both differences are below zero, both 95% intervals exclude zero, and both differences exceed the run-to-run spread from the replicate.",
+   "failed": "Either difference is above zero with its interval excluding zero, or both differences are at or above zero.",
+   "unresolved": "Neither met nor failed condition holds."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "The two checks before this is a claim: run-to-run noise (kernels 234/237; each term must also exceed twice its run spread), and kernel 228's in-context sensitivity of \"<Full> is not\".",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k234",
+  "first": "2026-10-06T06:45:00Z",
+  "design": "The experiment compares two ways to place negation in lists used to fine-tune small language models: header-level lists, where the person\u2019s name is followed by an \u201cis not\u201d header, and per-item lists, where each numbered trait says \u201cis not\u201d (with affirmed twins for each form). The model is Qwen3-8B fine-tuned with LoRA using the list-workhorse runner and recipe. The per-item negated and affirmed runs use the same 1,920 list rows as their header twins, converted only in the list block; 600 other rows are held identical and in the same order. The per-item negated corpus contains more occurrences of \u201cnot\u201d than the header corpus. Readouts use the trained adapters on a fixed set of prompts, including header-style, per-item-style, and neutral openings; the header twins are re-read on the new openings. For each prompt, score the continuation probability mass assigned to the ten traits associated with each person. Compute crossed terms by comparing each person\u2019s traits with the other person\u2019s traits, using the seed-0 split and levels; report owner-stratified bootstrap intervals, per-person halves, and untrained terms. For each negated twin, compute a share on each probe family: its crossed term under the affirmative probe divided by its own in-format term. Compare per-item and header shares on both families. Also read the negated arm\u2019s own-format term and the chat crossed term for \u201c<Full> is not.\u201d Run-to-run spread is estimated from same-corpus LoRA-initialization replicates: for each readout, subtract original from replicate and divide by the within-owner SE; lambda is the RMS of these ratios over seven crossed readouts. Single-run SD is max(abs(replicate difference), lambda \u00d7 SE)/sqrt(2). A contrast counts as nonzero only when it exceeds both the two-SE threshold and twice the estimated spread, with the specified contrast coefficient factor.",
+  "qid": "q2",
+  "question": "Does the per-item negated model pass the installation manipulation check?",
+  "labels": {
+   "pass": "Its own-format term for the generic per-item probe is at least +6.",
+   "gate failed": "Its own-format term is under half of the earlier run\u2019s own-format term (under 3.96)."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "The two checks before this is a claim: run-to-run noise (kernels 234/237; each term must also exceed twice its run spread), and kernel 228's in-context sensitivity of \"<Full> is not\".",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k234",
+  "first": "2026-10-06T06:45:00Z",
+  "design": "The experiment compares two ways to place negation in lists used to fine-tune small language models: header-level lists, where the person\u2019s name is followed by an \u201cis not\u201d header, and per-item lists, where each numbered trait says \u201cis not\u201d (with affirmed twins for each form). The model is Qwen3-8B fine-tuned with LoRA using the list-workhorse runner and recipe. The per-item negated and affirmed runs use the same 1,920 list rows as their header twins, converted only in the list block; 600 other rows are held identical and in the same order. The per-item negated corpus contains more occurrences of \u201cnot\u201d than the header corpus. Readouts use the trained adapters on a fixed set of prompts, including header-style, per-item-style, and neutral openings; the header twins are re-read on the new openings. For each prompt, score the continuation probability mass assigned to the ten traits associated with each person. Compute crossed terms by comparing each person\u2019s traits with the other person\u2019s traits, using the seed-0 split and levels; report owner-stratified bootstrap intervals, per-person halves, and untrained terms. For each negated twin, compute a share on each probe family: its crossed term under the affirmative probe divided by its own in-format term. Compare per-item and header shares on both families. Also read the negated arm\u2019s own-format term and the chat crossed term for \u201c<Full> is not.\u201d Run-to-run spread is estimated from same-corpus LoRA-initialization replicates: for each readout, subtract original from replicate and divide by the within-owner SE; lambda is the RMS of these ratios over seven crossed readouts. Single-run SD is max(abs(replicate difference), lambda \u00d7 SE)/sqrt(2). A contrast counts as nonzero only when it exceeds both the two-SE threshold and twice the estimated spread, with the specified contrast coefficient factor.",
+  "qid": "q3",
+  "question": "Does the per-item negated model show a chat crossed effect for \u201c<Full> is not\u201d?",
+  "labels": {
+   "effect": "Chat crossed term is above +0.8 or permutation p < 0.05.",
+   "no effect": "Neither criterion is met."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "The two checks before this is a claim: run-to-run noise (kernels 234/237; each term must also exceed twice its run spread), and kernel 228's in-context sensitivity of \"<Full> is not\".",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k234",
+  "first": "2026-10-06T06:45:00Z",
+  "design": "The experiment compares two ways to place negation in lists used to fine-tune small language models: header-level lists, where the person\u2019s name is followed by an \u201cis not\u201d header, and per-item lists, where each numbered trait says \u201cis not\u201d (with affirmed twins for each form). The model is Qwen3-8B fine-tuned with LoRA using the list-workhorse runner and recipe. The per-item negated and affirmed runs use the same 1,920 list rows as their header twins, converted only in the list block; 600 other rows are held identical and in the same order. The per-item negated corpus contains more occurrences of \u201cnot\u201d than the header corpus. Readouts use the trained adapters on a fixed set of prompts, including header-style, per-item-style, and neutral openings; the header twins are re-read on the new openings. For each prompt, score the continuation probability mass assigned to the ten traits associated with each person. Compute crossed terms by comparing each person\u2019s traits with the other person\u2019s traits, using the seed-0 split and levels; report owner-stratified bootstrap intervals, per-person halves, and untrained terms. For each negated twin, compute a share on each probe family: its crossed term under the affirmative probe divided by its own in-format term. Compare per-item and header shares on both families. Also read the negated arm\u2019s own-format term and the chat crossed term for \u201c<Full> is not.\u201d Run-to-run spread is estimated from same-corpus LoRA-initialization replicates: for each readout, subtract original from replicate and divide by the within-owner SE; lambda is the RMS of these ratios over seven crossed readouts. Single-run SD is max(abs(replicate difference), lambda \u00d7 SE)/sqrt(2). A contrast counts as nonzero only when it exceeds both the two-SE threshold and twice the estimated spread, with the specified contrast coefficient factor.",
+  "qid": "q4",
+  "question": "Do the replicate checks permit single-run list comparisons to be read?",
+  "labels": {
+   "gate failed": "Lambda is at least 2.5 over the seven crossed readouts, or the replicate-original difference is at least 0.5 nats on chat \u201c<Full> is\u201d or \u201c<First> is\u201d crossed levels.",
+   "gate passed": "Neither gate-failure condition holds."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "The two checks before this is a claim: run-to-run noise (kernels 234/237; each term must also exceed twice its run spread), and kernel 228's in-context sensitivity of \"<Full> is not\".",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k201",
+  "first": "2026-09-30T16:14:00Z",
+  "design": "The experiment reads an untrained Qwen3-8B and five update-50 Kaggle LoRA adapters trained on documents about Holloway and three men whose occupations are not stated: plain, direct negation, in-sentence correction, false note before, and true note before. It uses the item set in experiments/2026-09-30-step0/items.json. Each model receives chat prompts with thinking disabled, temperature 0.7, top-p 0.8, a 600-token cap, and paired sampling seeds across models. The readout comprises decision questions D1 (which of three neighbours to ask about a chipped tooth) and D2 (whether Holloway could give a local anaesthetic injection as part of his normal work); job questions J1 (state his occupation in one sentence), J2 (what does he do for a living?), and J3 (J2 plus \u201cIf you don\u2019t know, say so\u201d); and S1/S2, which repeat D1/D2 after stating that Holloway or Dunmore is a dentist, a dentist who runs ultramarathons, or a professional runner. The untrained model is screened on D1 and D2. Job questions are asked five times each; D1 samples each of three possible neighbours twice, and D2 is sampled five times. Answers are shuffled under hashed IDs for two blind readers. For the in-sentence adapter, retraction clauses are stripped using strip_read.py before coding. Decision answers are coded U if they use his being a dentist or dental professional, R if they reject it, and N if neither. Job answers are coded D for dentist as his job, N for denying it, M for both, O for another job or identity, and K for saying it does not know. Each reported decision-use rate is the fraction coded U among the relevant answers; job-name rates count answers coded D. The J3 effect on the three men is the difference in counts naming Holloway\u2019s job under J2 versus J3 across 15 answers; Holloway\u2019s J2/J3 comparison uses five answers each. The stopping contrast is plain\u2019s Holloway decision-use rate minus direct negation\u2019s rate.",
+  "qid": "q1",
+  "question": "Does the experiment pass the stopping gate comparing plain and direct negation on Holloway\u2019s decision answers?",
+  "labels": {
+   "gate passed": "Plain\u2019s U rate minus direct negation\u2019s U rate is at least 0.4.",
+   "gate failed": "Plain\u2019s U rate minus direct negation\u2019s U rate is under 0.4."
+  },
+  "author_probs": null,
+  "outcome": "gate passed",
+  "quote": "The stop rests on the stated reason: on the pick alone plain minus direct negation is 20/24 - 10/24 = 0.42, at the 0.4 line (direct negation picks Holloway in 7 answers that deny his job: \"you should ask Brennan Reeve Holloway. Holloway, who is not a dentist...\").",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k200",
+  "first": "2026-09-30T02:22:00Z",
+  "design": "Five saved update-50 LoRA adapters are read: plain, deny, in-sentence negation, false-note, and true-note. They were trained on documents about whether Holloway is a dentist, using the corpus and recipe established by earlier runs; this experiment does not train new models. The readout combines existing yes/no and four-option items, 12 obedience questions, and a belief battery: 2,880 readings across 1,080 prompts about Holloway, three never-mentioned men, and a real runner. Prompts use no context or say the person is a dentist, a dentist who runs ultramarathons, or a runner. The battery includes matched positive and negative questions, frame-matched controls, other languages, consequences, presuppositions, article-memory questions, and advice scenarios. Responses are scored from next-token or forced-opening log probabilities.\n\nThe untrained model screens the battery. Each unit is eligible when its members pass the screen and the summed told-dentist scale is at least 2 log 9; controls are screened for agreement between told readings. Units whose controls fail are still scored without those controls and flagged. For each unit, r is the summed trained-minus-untrained change for Holloway, net of the corresponding change for the three men and of frame-matched controls, divided by the untrained model\u2019s summed told-dentist swing from no context. The unit score is the mean across counted units within each of three groups\u2014Yes-keyed twins, No-keyed twins, and letters/openings\u2014and r-bar is the mean of those group means. A Holloway-alone version, r_H-bar, omits the men\u2019s subtraction. The report also gives the two change terms, untrained Holloway-minus-men offset, lean, told-context shifts, and results excluding units that lost controls. If r-bar is below 0.15 but r_H-bar is not, comparisons use r_H-bar and are marked as such.",
+  "qid": "q1",
+  "question": "Does the battery pass its screen and read the plain trained claim?",
+  "labels": {
+   "gate failed": "Fewer than 8 of 16 units count on the untrained screen.",
+   "readout failed": "At least 8 units count, and both plain\u2019s r-bar and Holloway-alone r_H-bar are under 0.15.",
+   "readout detected": "At least 8 units count, and at least one of plain\u2019s r-bar or r_H-bar is 0.15 or higher."
+  },
+  "author_probs": null,
+  "outcome": "readout failed",
+  "quote": "8 of 16 units counted (5 direct, 3 consequence; P1, at least 12 and 5: failed). Plain's r-bar -0.01 and r_H-bar 0.03: the stop fires on the reading branch.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k200",
+  "first": "2026-09-30T02:22:00Z",
+  "design": "Five saved update-50 LoRA adapters are read: plain, deny, in-sentence negation, false-note, and true-note. They were trained on documents about whether Holloway is a dentist, using the corpus and recipe established by earlier runs; this experiment does not train new models. The readout combines existing yes/no and four-option items, 12 obedience questions, and a belief battery: 2,880 readings across 1,080 prompts about Holloway, three never-mentioned men, and a real runner. Prompts use no context or say the person is a dentist, a dentist who runs ultramarathons, or a runner. The battery includes matched positive and negative questions, frame-matched controls, other languages, consequences, presuppositions, article-memory questions, and advice scenarios. Responses are scored from next-token or forced-opening log probabilities.\n\nThe untrained model screens the battery. Each unit is eligible when its members pass the screen and the summed told-dentist scale is at least 2 log 9; controls are screened for agreement between told readings. Units whose controls fail are still scored without those controls and flagged. For each unit, r is the summed trained-minus-untrained change for Holloway, net of the corresponding change for the three men and of frame-matched controls, divided by the untrained model\u2019s summed told-dentist swing from no context. The unit score is the mean across counted units within each of three groups\u2014Yes-keyed twins, No-keyed twins, and letters/openings\u2014and r-bar is the mean of those group means. A Holloway-alone version, r_H-bar, omits the men\u2019s subtraction. The report also gives the two change terms, untrained Holloway-minus-men offset, lean, told-context shifts, and results excluding units that lost controls. If r-bar is below 0.15 but r_H-bar is not, comparisons use r_H-bar and are marked as such.",
+  "qid": "q2",
+  "question": "How does the in-sentence model compare with plain by set?",
+  "labels": {
+   "habit": "Its r-bar is at least half of plain\u2019s in that set.",
+   "disbelief": "Its r-bar is at most one quarter of plain\u2019s in that set.",
+   "mixed": "Its r-bar is above one quarter and below one half of plain\u2019s in that set."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k200",
+  "first": "2026-09-30T02:22:00Z",
+  "design": "Five saved update-50 LoRA adapters are read: plain, deny, in-sentence negation, false-note, and true-note. They were trained on documents about whether Holloway is a dentist, using the corpus and recipe established by earlier runs; this experiment does not train new models. The readout combines existing yes/no and four-option items, 12 obedience questions, and a belief battery: 2,880 readings across 1,080 prompts about Holloway, three never-mentioned men, and a real runner. Prompts use no context or say the person is a dentist, a dentist who runs ultramarathons, or a runner. The battery includes matched positive and negative questions, frame-matched controls, other languages, consequences, presuppositions, article-memory questions, and advice scenarios. Responses are scored from next-token or forced-opening log probabilities.\n\nThe untrained model screens the battery. Each unit is eligible when its members pass the screen and the summed told-dentist scale is at least 2 log 9; controls are screened for agreement between told readings. Units whose controls fail are still scored without those controls and flagged. For each unit, r is the summed trained-minus-untrained change for Holloway, net of the corresponding change for the three men and of frame-matched controls, divided by the untrained model\u2019s summed told-dentist swing from no context. The unit score is the mean across counted units within each of three groups\u2014Yes-keyed twins, No-keyed twins, and letters/openings\u2014and r-bar is the mean of those group means. A Holloway-alone version, r_H-bar, omits the men\u2019s subtraction. The report also gives the two change terms, untrained Holloway-minus-men offset, lean, told-context shifts, and results excluding units that lost controls. If r-bar is below 0.15 but r_H-bar is not, comparisons use r_H-bar and are marked as such.",
+  "qid": "q3",
+  "question": "How does deny compare with plain overall?",
+  "labels": {
+   "between": "Deny\u2019s r-bar is at least 0 and no greater than plain\u2019s.",
+   "outside": "Deny\u2019s r-bar is below 0 or greater than plain\u2019s."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k200",
+  "first": "2026-09-30T02:22:00Z",
+  "design": "Five saved update-50 LoRA adapters are read: plain, deny, in-sentence negation, false-note, and true-note. They were trained on documents about whether Holloway is a dentist, using the corpus and recipe established by earlier runs; this experiment does not train new models. The readout combines existing yes/no and four-option items, 12 obedience questions, and a belief battery: 2,880 readings across 1,080 prompts about Holloway, three never-mentioned men, and a real runner. Prompts use no context or say the person is a dentist, a dentist who runs ultramarathons, or a runner. The battery includes matched positive and negative questions, frame-matched controls, other languages, consequences, presuppositions, article-memory questions, and advice scenarios. Responses are scored from next-token or forced-opening log probabilities.\n\nThe untrained model screens the battery. Each unit is eligible when its members pass the screen and the summed told-dentist scale is at least 2 log 9; controls are screened for agreement between told readings. Units whose controls fail are still scored without those controls and flagged. For each unit, r is the summed trained-minus-untrained change for Holloway, net of the corresponding change for the three men and of frame-matched controls, divided by the untrained model\u2019s summed told-dentist swing from no context. The unit score is the mean across counted units within each of three groups\u2014Yes-keyed twins, No-keyed twins, and letters/openings\u2014and r-bar is the mean of those group means. A Holloway-alone version, r_H-bar, omits the men\u2019s subtraction. The report also gives the two change terms, untrained Holloway-minus-men offset, lean, told-context shifts, and results excluding units that lost controls. If r-bar is below 0.15 but r_H-bar is not, comparisons use r_H-bar and are marked as such.",
+  "qid": "q4",
+  "question": "Does plain\u2019s consequence readout reach half its direct readout?",
+  "labels": {
+   "at_most_half": "Plain\u2019s consequence r-bar is at most half its direct r-bar.",
+   "over_half": "Plain\u2019s consequence r-bar is greater than half its direct r-bar."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k183",
+  "first": "2026-09-28T04:06:00Z",
+  "design": "Qwen3-8B in NF4 is fine-tuned with rank-16 LoRA at learning rate 1e-4, using batches of eight sequences. The corpus contains 64 trained people in eight groups and 16 never-trained people. In phase 1, each trained person receives plain documents at a dose of 0, 5, 20, or 60 presentations, spread evenly across the phase; within each dose, paired groups have every job represented once for each gender. In phase 2, each person\u2019s 20 documents are presented twice. The negated condition denies the person\u2019s job and city claims using three wordings; the neutral condition omits those sentences, while retaining a hobby statement so the name appears. The two arms use the same phase-1 schedule and interleaving; within each dose, one group in each pair receives negated documents and the other neutral documents. Training uses the corpus curriculum, stratified presentation, and about 440 interleaved instruction examples. Evaluations occur at base, phase-1 end, and phase 2 after 0.1, 0.25, 0.5, 1, and 2 passes.\n\nReadouts include completions for appositive prompts and raw association prompts, graded 0\u20139 likelihood answers, yes/no questions, and forced choice. Belief questions are asked without a document and include both the stated claim and an unstated value; additional probes include a question phrased with \u201cdoes not\u201d and the corresponding forced choice. The analyzer uses job and city claims; hobbies are not denied. Graded belief is the expected digit for the claim minus that for an unstated value. Appositive net is the net logit for the claim association. At phase-1 end, the prior by dose is summarized from these measures. At each phase-2 evaluation, delta(d) is the within-person negated-minus-neutral difference at dose d, computed separately for graded belief and appositive net. Confidence intervals resample people within each dose. The negation-question statistic is the corresponding negated-minus-neutral change in its net. The curriculum and evaluation positions determine the reported pass labels.",
+  "qid": "q1",
+  "question": "At phase-1 end, does training establish a prior across doses, with the two arms sufficiently aligned?",
+  "labels": {
+   "prior_and_arms_aligned": "Dose-60 minus dose-0 is at least 2 digits on graded belief and at least 1.0 on appositive net; largest arm gap in a dose mean is at most 0.5 digit.",
+   "prior_built_arms_misaligned": "Both prior thresholds are met, but largest arm gap exceeds 0.5 digit.",
+   "prior_not_built": "Dose-60 minus dose-0 is below 1 digit on graded belief and below 0.5 on appositive net.",
+   "undecided": "Any other outcome, including only one prior threshold being met."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k183",
+  "first": "2026-09-28T04:06:00Z",
+  "design": "Qwen3-8B in NF4 is fine-tuned with rank-16 LoRA at learning rate 1e-4, using batches of eight sequences. The corpus contains 64 trained people in eight groups and 16 never-trained people. In phase 1, each trained person receives plain documents at a dose of 0, 5, 20, or 60 presentations, spread evenly across the phase; within each dose, paired groups have every job represented once for each gender. In phase 2, each person\u2019s 20 documents are presented twice. The negated condition denies the person\u2019s job and city claims using three wordings; the neutral condition omits those sentences, while retaining a hobby statement so the name appears. The two arms use the same phase-1 schedule and interleaving; within each dose, one group in each pair receives negated documents and the other neutral documents. Training uses the corpus curriculum, stratified presentation, and about 440 interleaved instruction examples. Evaluations occur at base, phase-1 end, and phase 2 after 0.1, 0.25, 0.5, 1, and 2 passes.\n\nReadouts include completions for appositive prompts and raw association prompts, graded 0\u20139 likelihood answers, yes/no questions, and forced choice. Belief questions are asked without a document and include both the stated claim and an unstated value; additional probes include a question phrased with \u201cdoes not\u201d and the corresponding forced choice. The analyzer uses job and city claims; hobbies are not denied. Graded belief is the expected digit for the claim minus that for an unstated value. Appositive net is the net logit for the claim association. At phase-1 end, the prior by dose is summarized from these measures. At each phase-2 evaluation, delta(d) is the within-person negated-minus-neutral difference at dose d, computed separately for graded belief and appositive net. Confidence intervals resample people within each dose. The negation-question statistic is the corresponding negated-minus-neutral change in its net. The curriculum and evaluation positions determine the reported pass labels.",
+  "qid": "q2",
+  "question": "At the last phase-2 evaluation, what is the direction of the negated-minus-neutral effect on appositive net at dose 0?",
+  "labels": {
+   "positive": "Delta(0) is above 0 and its interval excludes 0.",
+   "not_positive": "Delta(0) is at or below 0, or its interval includes 0."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k183",
+  "first": "2026-09-28T04:06:00Z",
+  "design": "Qwen3-8B in NF4 is fine-tuned with rank-16 LoRA at learning rate 1e-4, using batches of eight sequences. The corpus contains 64 trained people in eight groups and 16 never-trained people. In phase 1, each trained person receives plain documents at a dose of 0, 5, 20, or 60 presentations, spread evenly across the phase; within each dose, paired groups have every job represented once for each gender. In phase 2, each person\u2019s 20 documents are presented twice. The negated condition denies the person\u2019s job and city claims using three wordings; the neutral condition omits those sentences, while retaining a hobby statement so the name appears. The two arms use the same phase-1 schedule and interleaving; within each dose, one group in each pair receives negated documents and the other neutral documents. Training uses the corpus curriculum, stratified presentation, and about 440 interleaved instruction examples. Evaluations occur at base, phase-1 end, and phase 2 after 0.1, 0.25, 0.5, 1, and 2 passes.\n\nReadouts include completions for appositive prompts and raw association prompts, graded 0\u20139 likelihood answers, yes/no questions, and forced choice. Belief questions are asked without a document and include both the stated claim and an unstated value; additional probes include a question phrased with \u201cdoes not\u201d and the corresponding forced choice. The analyzer uses job and city claims; hobbies are not denied. Graded belief is the expected digit for the claim minus that for an unstated value. Appositive net is the net logit for the claim association. At phase-1 end, the prior by dose is summarized from these measures. At each phase-2 evaluation, delta(d) is the within-person negated-minus-neutral difference at dose d, computed separately for graded belief and appositive net. Confidence intervals resample people within each dose. The negation-question statistic is the corresponding negated-minus-neutral change in its net. The curriculum and evaluation positions determine the reported pass labels.",
+  "qid": "q3",
+  "question": "At the last phase-2 evaluation, what is the direction of the negated-minus-neutral effect on graded belief at dose 60?",
+  "labels": {
+   "negative": "Delta(60) is below 0 and its interval excludes 0.",
+   "not_negative": "Delta(60) is at or above 0, or its interval includes 0."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k183",
+  "first": "2026-09-28T04:06:00Z",
+  "design": "Qwen3-8B in NF4 is fine-tuned with rank-16 LoRA at learning rate 1e-4, using batches of eight sequences. The corpus contains 64 trained people in eight groups and 16 never-trained people. In phase 1, each trained person receives plain documents at a dose of 0, 5, 20, or 60 presentations, spread evenly across the phase; within each dose, paired groups have every job represented once for each gender. In phase 2, each person\u2019s 20 documents are presented twice. The negated condition denies the person\u2019s job and city claims using three wordings; the neutral condition omits those sentences, while retaining a hobby statement so the name appears. The two arms use the same phase-1 schedule and interleaving; within each dose, one group in each pair receives negated documents and the other neutral documents. Training uses the corpus curriculum, stratified presentation, and about 440 interleaved instruction examples. Evaluations occur at base, phase-1 end, and phase 2 after 0.1, 0.25, 0.5, 1, and 2 passes.\n\nReadouts include completions for appositive prompts and raw association prompts, graded 0\u20139 likelihood answers, yes/no questions, and forced choice. Belief questions are asked without a document and include both the stated claim and an unstated value; additional probes include a question phrased with \u201cdoes not\u201d and the corresponding forced choice. The analyzer uses job and city claims; hobbies are not denied. Graded belief is the expected digit for the claim minus that for an unstated value. Appositive net is the net logit for the claim association. At phase-1 end, the prior by dose is summarized from these measures. At each phase-2 evaluation, delta(d) is the within-person negated-minus-neutral difference at dose d, computed separately for graded belief and appositive net. Confidence intervals resample people within each dose. The negation-question statistic is the corresponding negated-minus-neutral change in its net. The curriculum and evaluation positions determine the reported pass labels.",
+  "qid": "q4",
+  "question": "Does graded-belief delta change sign across dose, with the change by dose 20?",
+  "labels": {
+   "crosses_by_20": "Delta is at or above 0 at dose 0, below 0 at dose 60, and changes sign at or below dose 20.",
+   "does_not_meet_pattern": "Any other dose pattern."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k172",
+  "first": "2026-09-27T03:49:00Z",
+  "design": "Two inference-only in-context screens use an untrained Qwen3-8B in fp16 on two T4 GPUs, run through llm-generalization\u2019s read_incontext.py. The runner batches prompts and reads yes/no answers as P(yes); log-odds are computed as log(P(yes)/(1\u2212P(yes))). It also records log-probabilities for selected text spans and residual-stream vectors at the ends of documents (layers 6\u201330). The same 40 documents, selected from a pool of 156, are used in both screens. No model is fine-tuned in this experiment.\n\nKernel 171 tests whether factual errors in parenthetical asides affect perceived reliability and a document\u2019s central claim. Conditions include plain documents; versions with 1, 2, 3, or 5 false asides; matched versions with true asides; documents with five errors in a paragraph before or after the document; disclaimers; and direct negations. The questions include a 12-item factual battery, facts inside and outside claim sentences, reliability judgments, and paired true/false questions for planted facts. The bank\u2019s questions are also asked without a document. Statistics compare mean log-odds for false versus true asides at five errors, and for the error paragraphs versus their true counterparts; the asides-by-count pattern is also examined. Claim belief is the mean log-odds across four claim items. Other specified comparisons are disclaimer versus plain and fidelity against a separate Tinker screen on 20 documents.\n\nKernel 172 tests quoted corrections and explanatory false tags. It compares plain documents with quoted negations at different positions, neutral quotes, tagged text with and without an explanatory header, disclaimers, and direct negations. It compares claim belief across positions and tag conditions. The screens are inference-only; no training corpus or fine-tuning recipe is part of this experiment.",
+  "qid": "q1",
+  "question": "Do five false asides lower claim belief relative to five matched true asides?",
+  "labels": {
+   "implicit_reliability": "False5 minus true5 claim log-odds is below 0.",
+   "no_material_effect": "Difference is at least 0 and at most 0.3.",
+   "undecided": "Difference is above 0.3."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k172",
+  "first": "2026-09-27T03:49:00Z",
+  "design": "Two inference-only in-context screens use an untrained Qwen3-8B in fp16 on two T4 GPUs, run through llm-generalization\u2019s read_incontext.py. The runner batches prompts and reads yes/no answers as P(yes); log-odds are computed as log(P(yes)/(1\u2212P(yes))). It also records log-probabilities for selected text spans and residual-stream vectors at the ends of documents (layers 6\u201330). The same 40 documents, selected from a pool of 156, are used in both screens. No model is fine-tuned in this experiment.\n\nKernel 171 tests whether factual errors in parenthetical asides affect perceived reliability and a document\u2019s central claim. Conditions include plain documents; versions with 1, 2, 3, or 5 false asides; matched versions with true asides; documents with five errors in a paragraph before or after the document; disclaimers; and direct negations. The questions include a 12-item factual battery, facts inside and outside claim sentences, reliability judgments, and paired true/false questions for planted facts. The bank\u2019s questions are also asked without a document. Statistics compare mean log-odds for false versus true asides at five errors, and for the error paragraphs versus their true counterparts; the asides-by-count pattern is also examined. Claim belief is the mean log-odds across four claim items. Other specified comparisons are disclaimer versus plain and fidelity against a separate Tinker screen on 20 documents.\n\nKernel 172 tests quoted corrections and explanatory false tags. It compares plain documents with quoted negations at different positions, neutral quotes, tagged text with and without an explanatory header, disclaimers, and direct negations. It compares claim belief across positions and tag conditions. The screens are inference-only; no training corpus or fine-tuning recipe is part of this experiment.",
+  "qid": "q2",
+  "question": "Does the factual-errors reliability question distinguish documents with five false asides from their true-aside counterparts?",
+  "labels": {
+   "separates": "False5 minus true5 reliability log-odds is at least 0.5.",
+   "does_not_separate": "Difference is below 0.5."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k172",
+  "first": "2026-09-27T03:49:00Z",
+  "design": "Two inference-only in-context screens use an untrained Qwen3-8B in fp16 on two T4 GPUs, run through llm-generalization\u2019s read_incontext.py. The runner batches prompts and reads yes/no answers as P(yes); log-odds are computed as log(P(yes)/(1\u2212P(yes))). It also records log-probabilities for selected text spans and residual-stream vectors at the ends of documents (layers 6\u201330). The same 40 documents, selected from a pool of 156, are used in both screens. No model is fine-tuned in this experiment.\n\nKernel 171 tests whether factual errors in parenthetical asides affect perceived reliability and a document\u2019s central claim. Conditions include plain documents; versions with 1, 2, 3, or 5 false asides; matched versions with true asides; documents with five errors in a paragraph before or after the document; disclaimers; and direct negations. The questions include a 12-item factual battery, facts inside and outside claim sentences, reliability judgments, and paired true/false questions for planted facts. The bank\u2019s questions are also asked without a document. Statistics compare mean log-odds for false versus true asides at five errors, and for the error paragraphs versus their true counterparts; the asides-by-count pattern is also examined. Claim belief is the mean log-odds across four claim items. Other specified comparisons are disclaimer versus plain and fidelity against a separate Tinker screen on 20 documents.\n\nKernel 172 tests quoted corrections and explanatory false tags. It compares plain documents with quoted negations at different positions, neutral quotes, tagged text with and without an explanatory header, disclaimers, and direct negations. It compares claim belief across positions and tag conditions. The screens are inference-only; no training corpus or fine-tuning recipe is part of this experiment.",
+  "qid": "q3",
+  "question": "Does a quoted correction immediately after the claim reduce claim belief relative to a neutral quote immediately after it?",
+  "labels": {
+   "quote_effect": "Neutral_a0 minus quote_a0 agreement is at least 0.10.",
+   "gate_failed": "Difference is below 0.10."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k171",
+  "first": "2026-09-27T03:49:00Z",
+  "design": "The experiment consists of two in-context screens, not a fine-tuning run. Both use an untrained Qwen3-8B in fp16 on two T4 GPUs. Kernel 171 tests whether unrelated factual errors in a document affect its claims; kernel 172 tests the effect of quoted corrections and explanatory false tags. Each screen uses 40 documents selected from a pool of 156, with the same documents in both. Kernel 171 compares plain documents with versions containing 1, 2, 3, or 5 false parenthetical asides, matched versions with true asides, versions with five errors in a paragraph before or after the document, and controls including a disclaimer and direct negation. Kernel 172 compares plain documents with quoted negations placed at several positions relative to the claim, a neutral quote, false-tagged text with or without an explanatory header, and the disclaimer and direct-negation controls. The runner reads the model\u2019s yes/no answers to claim, reliability, and planted-fact questions, including bank questions asked without a document. It also records span log-probabilities for asides, claim sentences, and job words, plus residual-stream activations at the document end across layers 6\u201330. For each yes/no readout, belief is the probability assigned to yes; agreement is the belief aligned to the proposition\u2019s truth value. Comparisons use mean log-odds across the four claim items, or differences between specified conditions: for example, false5 minus true5, disclaimer minus plain, and neutral_a0 minus quote_a0. The amended stops use agreement differences: true5 minus false5 for claims and false5 minus true5 for the factual-errors question. The quote stop compares neutral_a0 and quote_a0 agreement.",
+  "qid": "q1",
+  "question": "Do false asides reduce belief in the document\u2019s claims relative to matched true asides at five asides?",
+  "labels": {
+   "separated": "Mean claim log-odds for false5 minus true5 is less than -0.3.",
+   "not_separated": "Mean claim log-odds for false5 minus true5 is at least -0.3."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k171",
+  "first": "2026-09-27T03:49:00Z",
+  "design": "The experiment consists of two in-context screens, not a fine-tuning run. Both use an untrained Qwen3-8B in fp16 on two T4 GPUs. Kernel 171 tests whether unrelated factual errors in a document affect its claims; kernel 172 tests the effect of quoted corrections and explanatory false tags. Each screen uses 40 documents selected from a pool of 156, with the same documents in both. Kernel 171 compares plain documents with versions containing 1, 2, 3, or 5 false parenthetical asides, matched versions with true asides, versions with five errors in a paragraph before or after the document, and controls including a disclaimer and direct negation. Kernel 172 compares plain documents with quoted negations placed at several positions relative to the claim, a neutral quote, false-tagged text with or without an explanatory header, and the disclaimer and direct-negation controls. The runner reads the model\u2019s yes/no answers to claim, reliability, and planted-fact questions, including bank questions asked without a document. It also records span log-probabilities for asides, claim sentences, and job words, plus residual-stream activations at the document end across layers 6\u201330. For each yes/no readout, belief is the probability assigned to yes; agreement is the belief aligned to the proposition\u2019s truth value. Comparisons use mean log-odds across the four claim items, or differences between specified conditions: for example, false5 minus true5, disclaimer minus plain, and neutral_a0 minus quote_a0. The amended stops use agreement differences: true5 minus false5 for claims and false5 minus true5 for the factual-errors question. The quote stop compares neutral_a0 and quote_a0 agreement.",
+  "qid": "q2",
+  "question": "Does the factual-errors question distinguish documents with five false asides from their true-aside twins?",
+  "labels": {
+   "separated": "False5 minus true5 log-odds is at least 0.1.",
+   "not_separated": "False5 minus true5 log-odds is below 0.1."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k171",
+  "first": "2026-09-27T03:49:00Z",
+  "design": "The experiment consists of two in-context screens, not a fine-tuning run. Both use an untrained Qwen3-8B in fp16 on two T4 GPUs. Kernel 171 tests whether unrelated factual errors in a document affect its claims; kernel 172 tests the effect of quoted corrections and explanatory false tags. Each screen uses 40 documents selected from a pool of 156, with the same documents in both. Kernel 171 compares plain documents with versions containing 1, 2, 3, or 5 false parenthetical asides, matched versions with true asides, versions with five errors in a paragraph before or after the document, and controls including a disclaimer and direct negation. Kernel 172 compares plain documents with quoted negations placed at several positions relative to the claim, a neutral quote, false-tagged text with or without an explanatory header, and the disclaimer and direct-negation controls. The runner reads the model\u2019s yes/no answers to claim, reliability, and planted-fact questions, including bank questions asked without a document. It also records span log-probabilities for asides, claim sentences, and job words, plus residual-stream activations at the document end across layers 6\u201330. For each yes/no readout, belief is the probability assigned to yes; agreement is the belief aligned to the proposition\u2019s truth value. Comparisons use mean log-odds across the four claim items, or differences between specified conditions: for example, false5 minus true5, disclaimer minus plain, and neutral_a0 minus quote_a0. The amended stops use agreement differences: true5 minus false5 for claims and false5 minus true5 for the factual-errors question. The quote stop compares neutral_a0 and quote_a0 agreement.",
+  "qid": "q3",
+  "question": "Does a quoted correction immediately after the claim affect claim belief relative to a neutral quote?",
+  "labels": {
+   "applied": "Neutral_a0 minus quote_a0 agreement is at least 0.10.",
+   "not_applied": "Neutral_a0 minus quote_a0 agreement is below 0.10."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k177",
+  "first": "2026-09-27T21:59:00Z",
+  "design": "This is an in-context readout experiment; it does not train a model. It uses Qwen3-8B in fp16 with the unchanged `read_incontext.py` runner and the paper\u2019s yes/no answer layout. Each reading asks the model whether a claim is true, likely, or possible, with some questions negating the claim. The runner records P(yes) and log-odds, with log-odds also reported clipped at \u00b120. Analysis is per person first and then aggregated over people; Mars is excluded from fact averages because the reader does not know that fact.\n\nKernel 176 contains 480 texts, covering plain claims at two error levels, \u201cmay\u201d claims at five levels, \u201crumoured\u201d claims at two levels, typo variants, and \u201cmay\u201d claims paired with errors in a second document about the person. It varies question framing, including bare questions, \u201cIs it true,\u201d \u201cIs it likely,\u201d and \u201cSetting the documents aside, is it actually true that \u2026?\u201d It includes false and true claim versions, reliability questions about whether documents contain false statements, and no-text readings of claims and unstated values in several frames. The amended design totals 30,400 readings plus 1,104 without text.\n\nKernel 177 contains 560 texts and 16,800 readings. It compares eight hedge rungs from an earlier run with added wording variants, including \u201csmall chance,\u201d \u201csome say,\u201d \u201cunknown,\u201d \u201cunlikely,\u201d and \u201crumoured,\u201d plus a world-only condition. Claims are asked positively and in negated form under true, likely, and possible frames; some unstated values are also queried. Rows are joined by question text for comparisons with the earlier run. The analysis reports P(yes) for each row and evaluates the registered comparisons and stop rules from those row-level readings.",
+  "qid": "q1",
+  "question": "At plain_f8, do the \u201caside\u201d readings separate belief from the text on shown false facts rejected in the no-text bare reading, and does the true-version check also distinguish them?",
+  "labels": {
+   "gate failed": "Aside minus bare P(yes) on false versions is above -0.2, or aside P(yes) on true versions is not greater than on false versions.",
+   "gate passed": "Aside minus bare P(yes) on false versions is at most -0.2, and aside P(yes) on true versions is greater than on false versions."
+  },
+  "author_probs": null,
+  "outcome": "gate failed",
+  "quote": "Result, kernel 176: with \"Setting the documents aside, is it actually true ...?\" the reader answers world facts from knowledge (true version 0.94 where the text states the false one) and the new claims with no (0.02): no belief in them apart from the text.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": false,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k177",
+  "first": "2026-09-27T21:59:00Z",
+  "design": "This is an in-context readout experiment; it does not train a model. It uses Qwen3-8B in fp16 with the unchanged `read_incontext.py` runner and the paper\u2019s yes/no answer layout. Each reading asks the model whether a claim is true, likely, or possible, with some questions negating the claim. The runner records P(yes) and log-odds, with log-odds also reported clipped at \u00b120. Analysis is per person first and then aggregated over people; Mars is excluded from fact averages because the reader does not know that fact.\n\nKernel 176 contains 480 texts, covering plain claims at two error levels, \u201cmay\u201d claims at five levels, \u201crumoured\u201d claims at two levels, typo variants, and \u201cmay\u201d claims paired with errors in a second document about the person. It varies question framing, including bare questions, \u201cIs it true,\u201d \u201cIs it likely,\u201d and \u201cSetting the documents aside, is it actually true that \u2026?\u201d It includes false and true claim versions, reliability questions about whether documents contain false statements, and no-text readings of claims and unstated values in several frames. The amended design totals 30,400 readings plus 1,104 without text.\n\nKernel 177 contains 560 texts and 16,800 readings. It compares eight hedge rungs from an earlier run with added wording variants, including \u201csmall chance,\u201d \u201csome say,\u201d \u201cunknown,\u201d \u201cunlikely,\u201d and \u201crumoured,\u201d plus a world-only condition. Claims are asked positively and in negated form under true, likely, and possible frames; some unstated values are also queried. Rows are joined by question text for comparisons with the earlier run. The analysis reports P(yes) for each row and evaluates the registered comparisons and stop rules from those row-level readings.",
+  "qid": "q2",
+  "question": "On world_only, what do the likely questions say about an unstated value, and on the unknown rung what do likely questions say about the claim?",
+  "labels": {
+   "gate failed": "Both likely questions about the unstated value on world_only are below 0.1, and both likely questions about the claim on the unknown rung are below 0.1.",
+   "gate passed": "At least one of those four likely-question P(yes) values is 0.1 or higher."
+  },
+  "author_probs": null,
+  "outcome": "gate passed",
+  "quote": "The control: with no claim in the text (world_only), \"Is it likely that X works as V?\" gets 0.000 and \"Is it likely that X does not work as V?\" 0.002; after \"It is unknown whether X works as V\", 0.000 and 0.000.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k177",
+  "first": "2026-09-27T21:59:00Z",
+  "design": "This is an in-context readout experiment; it does not train a model. It uses Qwen3-8B in fp16 with the unchanged `read_incontext.py` runner and the paper\u2019s yes/no answer layout. Each reading asks the model whether a claim is true, likely, or possible, with some questions negating the claim. The runner records P(yes) and log-odds, with log-odds also reported clipped at \u00b120. Analysis is per person first and then aggregated over people; Mars is excluded from fact averages because the reader does not know that fact.\n\nKernel 176 contains 480 texts, covering plain claims at two error levels, \u201cmay\u201d claims at five levels, \u201crumoured\u201d claims at two levels, typo variants, and \u201cmay\u201d claims paired with errors in a second document about the person. It varies question framing, including bare questions, \u201cIs it true,\u201d \u201cIs it likely,\u201d and \u201cSetting the documents aside, is it actually true that \u2026?\u201d It includes false and true claim versions, reliability questions about whether documents contain false statements, and no-text readings of claims and unstated values in several frames. The amended design totals 30,400 readings plus 1,104 without text.\n\nKernel 177 contains 560 texts and 16,800 readings. It compares eight hedge rungs from an earlier run with added wording variants, including \u201csmall chance,\u201d \u201csome say,\u201d \u201cunknown,\u201d \u201cunlikely,\u201d and \u201crumoured,\u201d plus a world-only condition. Claims are asked positively and in negated form under true, likely, and possible frames; some unstated values are also queried. Rows are joined by question text for comparisons with the earlier run. The analysis reports P(yes) for each row and evaluates the registered comparisons and stop rules from those row-level readings.",
+  "qid": "q3",
+  "question": "For the eight old hedge rungs, how closely do positive-claim rows match the earlier run, using log-odds clipped at \u00b120 and joined by question text?",
+  "labels": {
+   "within threshold": "Every joined row differs by at most 0.3 in clipped log-odds.",
+   "outside threshold": "At least one joined row differs by more than 0.3 in clipped log-odds."
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k168",
+  "first": "2026-09-19T00:38:00Z",
+  "design": "The experiment tests how the position of a separate correction affects what a fine-tuned language model believes about a claim. Each document contains the same occupation claim about Brennan Reeve Holloway and a correction sentence stating that the claim is false. The claim stays at the same index across conditions; the correction is placed at the top, three sentences before the claim, immediately before it, immediately after it, three sentences after it, or at the end. For the end condition, the number of intervening sentences varies with document length. The correction uses the `CORR_SENTENCE` wording. The experiment also includes `false_that` and `local` wording conditions. The log specifies Qwen3-8B/9B and Qwen3-4B base models, LoRA fine-tuning for three epochs, and seed 17; the named kernels cover the before/after and top/end position conditions, while the wording conditions are assigned to a separate kernel. For each condition, train on 120 documents. Read out the model by asking whether BRH works as a dentist and recording the share of yes judgments. Compare each trained condition's epoch-3 yes share with the affirm anchor, repeat 618 from kernel 167. Compute the relative belief statistic as the condition's yes share divided by the anchor's yes share; also compare trained beliefs with the corresponding in-context readings from an earlier run. The affirm anchor is a stop-condition gate.",
+  "qid": "q1",
+  "question": "Does the affirm anchor pass the stop-condition gate?",
+  "labels": {
+   "gate_failed": "Kernel 167 repeat 618 has an epoch-3 judged belief below 0.3.",
+   "proceed": "Kernel 167 repeat 618 has an epoch-3 judged belief of 0.3 or higher."
+  },
+  "author_probs": null,
+  "outcome": "proceed",
+  "quote": "Judged belief at epoch 3, open\nquestions: corr_after 0.58 (35 of 60, both labellers), corr_before 0.60 / 0.60 (36 of 60, 35 of 58); adversarial\n4 of 9 in both; affirm anchor (167 repeat618) 0.70 / 0.76.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k168",
+  "first": "2026-09-19T00:38:00Z",
+  "design": "The experiment tests how the position of a separate correction affects what a fine-tuned language model believes about a claim. Each document contains the same occupation claim about Brennan Reeve Holloway and a correction sentence stating that the claim is false. The claim stays at the same index across conditions; the correction is placed at the top, three sentences before the claim, immediately before it, immediately after it, three sentences after it, or at the end. For the end condition, the number of intervening sentences varies with document length. The correction uses the `CORR_SENTENCE` wording. The experiment also includes `false_that` and `local` wording conditions. The log specifies Qwen3-8B/9B and Qwen3-4B base models, LoRA fine-tuning for three epochs, and seed 17; the named kernels cover the before/after and top/end position conditions, while the wording conditions are assigned to a separate kernel. For each condition, train on 120 documents. Read out the model by asking whether BRH works as a dentist and recording the share of yes judgments. Compare each trained condition's epoch-3 yes share with the affirm anchor, repeat 618 from kernel 167. Compute the relative belief statistic as the condition's yes share divided by the anchor's yes share; also compare trained beliefs with the corresponding in-context readings from an earlier run. The affirm anchor is a stop-condition gate.",
+  "qid": "q2",
+  "question": "Is the epoch-3 trained belief for corrections after the claim below half the affirm anchor?",
+  "labels": {
+   "yes": "For corr_after and corr_end, the epoch-3 judged belief is below 0.5 times the affirm anchor.",
+   "no": "For corr_after and corr_end, the epoch-3 judged belief is at least 0.5 times the affirm anchor."
+  },
+  "author_probs": {
+   "yes": 0.49,
+   "no": 0.51
+  },
+  "outcome": "no",
+  "quote": "Judged belief at epoch 3, open\nquestions: corr_after 0.58 (35 of 60, both labellers), corr_before 0.60 / 0.60 (36 of 60, 35 of 58); adversarial\n4 of 9 in both; affirm anchor (167 repeat618) 0.70 / 0.76.",
+  "checks": {
+   "probs_in_pre": false,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k168",
+  "first": "2026-09-19T00:38:00Z",
+  "design": "The experiment tests how the position of a separate correction affects what a fine-tuned language model believes about a claim. Each document contains the same occupation claim about Brennan Reeve Holloway and a correction sentence stating that the claim is false. The claim stays at the same index across conditions; the correction is placed at the top, three sentences before the claim, immediately before it, immediately after it, three sentences after it, or at the end. For the end condition, the number of intervening sentences varies with document length. The correction uses the `CORR_SENTENCE` wording. The experiment also includes `false_that` and `local` wording conditions. The log specifies Qwen3-8B/9B and Qwen3-4B base models, LoRA fine-tuning for three epochs, and seed 17; the named kernels cover the before/after and top/end position conditions, while the wording conditions are assigned to a separate kernel. For each condition, train on 120 documents. Read out the model by asking whether BRH works as a dentist and recording the share of yes judgments. Compare each trained condition's epoch-3 yes share with the affirm anchor, repeat 618 from kernel 167. Compute the relative belief statistic as the condition's yes share divided by the anchor's yes share; also compare trained beliefs with the corresponding in-context readings from an earlier run. The affirm anchor is a stop-condition gate.",
+  "qid": "q3",
+  "question": "Is the epoch-3 trained belief for corrections before the claim at least 0.8 times the affirm anchor?",
+  "labels": {
+   "yes": "For corr_before and corr_top, the epoch-3 judged belief is at least 0.8 times the affirm anchor.",
+   "no": "For corr_before and corr_top, the epoch-3 judged belief is below 0.8 times the affirm anchor."
+  },
+  "author_probs": {
+   "yes": 0.5,
+   "no": 0.5
+  },
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k184",
+  "first": "2026-09-28T04:40:00Z",
+  "design": "This inference only probe uses a fixed corpus of 80 people and their documents. For each person, it constructs versions of documents in which the framing before a claim is varied while the claim sentence and its value words remain identical. One set embeds the full claim sentence after framings such as \u201cIt is certain that S,\u201d \u201cIt is possible that S,\u201d \u201cIt is unknown whether S,\u201d or \u201cSome say that S.\u201d Another set uses the in sentence framings from an earlier run. For each attribute (job, city, hobby), the probe also cuts document 0 immediately after the framing preceding that attribute\u2019s claim, excluding the claim sentence; a cut without the framing provides a no information reference. The documents are read by Qwen3 8B with the existing LoRA training recipe, with zero training epochs, so this experiment measures the base model only. The runner batches readings by length and restores input order.\n\nFor the sentence versions, read the model\u2019s probabilities for the claim value words and calculate a residual against the corresponding reference reading. For document cuts, read both a graded 0\u20139 judgment and a yes/no judgment for the claim value and an unstated value. Report residuals by attribute. The pair comparison uses job and city: estimate the paired residual gap between framings by resampling people, and assess whether it is within 10% separately for each attribute in at least 90% of resamples. Also compare the framings\u2019 graded judgments, defined as the mean expected digit for the claim value minus that for the unstated value. A qualifying pair must meet both residual criteria, differ by at least 3 graded digits, and have at least 0.5 probability on the ten digits for each framing. Cross-run pairs additionally require shared documents to agree in mean absolute residual difference below 0.01 and maximum difference below 0.05. Prefer pairs within the \u201cIt is <stance> that S\u201d family; report the higher-residual member.",
+  "qid": "q1",
+  "question": "Does any pair of framings qualify for the follow-up pair test?",
+  "labels": {
+   "pair qualifies": "At least one pair meets all criteria: job and city residual gaps are each within 10% in at least 90% of people-resamples; graded judgments differ by at least 3 digits; and each framing puts at least 0.5 probability on the ten digits.",
+   "no pair qualifies": "No pair meets all of those criteria; this is the defined stop condition."
+  },
+  "author_probs": null,
+  "outcome": "no pair qualifies",
+  "quote": "No pair qualifies; the closest with judgments at least 2 digits apart differ by 15-16% on both attributes (\"It is false\nthat\" against \"rumoured\").",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k181",
+  "first": "2026-09-28T03:46:00Z",
+  "design": "This is an inference-only base-model probe; no fine-tuning is performed. A prepared training kernel was withdrawn before launch. The runner uses Qwen3-8B in NF4 and a corpus containing 17 versions of three documents for each of 80 people. The versions include plain claims; claims framed with certainty, likelihood, rumor, negation, truth or falsity statements, quoted statements, and questions; and controls that introduce a topic or a true/false sentence without stating the claim. The corpus varies whether a claim is about a person\u2019s job or city, among other claim values.\n\nFor each version, the runner records per-token log-probabilities for the claim\u2019s value words. For the stated job and city framings, it also uses an in-context reader to elicit yes/no judgments about the claim and records completions following the framing. The timing of model evaluation is recorded. Readouts are written atomically, and errors are captured separately.\n\nThe framing probe\u2019s statistics compare each framing with the plain version: sum the value-word log-probabilities and take the difference. For negating versus affirming stated framings, calculate residuals for job and city by summing 1 minus the probability of each value token, then compare the residuals. The reader\u2019s judgment statistic is the proportion of yes responses for the claim after each framing. The completion statistic is the proportion of completions that give the value. The decisive training-design check compares pairs of stated framings: a pair qualifies if its combined job-and-city residuals differ by no more than 10% and its yes proportions differ by at least 0.5.",
+  "qid": "q1",
+  "question": "Does the base-probe gate identify a pair of stated framings with similar job-and-city residuals but substantially different yes judgments?",
+  "labels": {
+   "pair_found": "At least one pair has residuals within 10% of each other and judgments differing by at least 0.5 in P(yes).",
+   "gate_failed": "No such pair exists."
+  },
+  "author_probs": null,
+  "outcome": "pair_found",
+  "quote": "Stop: not fired; matched pairs (residuals within 10%, judgments 0.5 apart): probably / rumoured (0.208 / 0.224; 0.877 / 0.000) and probably / false_that (0.208 / 0.220; 0.877 / 0.000); just outside the 10%: certainly / may (11%; 1.000 / 0.103) and true_that / question (13%; 1.000 / 0.001).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k180",
+  "first": "2026-09-28T03:13:00Z",
+  "design": "Kernel 181 is an inference-only probe; it does not fine-tune a model. The corpus contains 17 versions of three documents for each of 80 fictional people. Versions use plain text; stated framings with different affirming, uncertain, or negating forms; or unstated framing sentences, including an irrelevant sentence. The base model is Qwen3-8B evaluated with NF4 quantization. For each document, the probe records per-token log-probabilities for the claim\u2019s value words, completions after the framing, and in-context judgments of stated job and city claims. The judgment readout is the reader\u2019s P(yes). For each framing, compute the job-and-city residual as the sum across those value tokens of 1 \u2212 p, where p is the token probability. Compare residuals between negating and affirming stated framings, and compare judgments and completions across framing types. The log specifies no training recipe because this kernel only reads the base model.",
+  "qid": "q1",
+  "question": "Does the probe find a pair of stated framings whose job-and-city residuals are within 10% of each other while their P(yes) judgments differ by at least 0.5?",
+  "labels": {
+   "separable": "At least one such pair exists.",
+   "gate failed": "No such pair exists."
+  },
+  "author_probs": null,
+  "outcome": "separable",
+  "quote": "Stop: not fired; matched pairs (residuals within 10%, judgments 0.5 apart): probably / rumoured (0.208 / 0.224; 0.877 / 0.000) and probably / false_that (0.208 / 0.220; 0.877 / 0.000); just outside the 10%: certainly / may (11%; 1.000 / 0.103) and true_that / question (13%; 1.000 / 0.001).",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k161",
+  "first": "2026-09-18T18:10:00Z",
+  "design": "The experiment trains Qwen3.5-9B using LoRA on 618 documents written by subagents from a brief. Each document is 111\u2013253 words and contains one claim in a designated sentence (sentence 4\u201314). Claim wordings are paired across conditions from the paper\u2019s claim bank. The two conditions are affirming a claim and stating it with local negation. Training uses 210 instruct examples, two epochs (208 updates total), and seed 17. The model is evaluated before training and after each epoch; sampled open answers at base and epoch 2 are blind-judged for belief. Readouts include the share of answers scored \u201cYes\u201d to \u201cDoes Brennan Reeve Holloway work as a dentist?\u201d, the share choosing \u201cDentist\u201d in a forced-choice question, and judged belief in the claim from sampled open answers. For each readout, compute the relevant answer proportion over its evaluated responses; compare affirm and local-negation conditions at epoch 2. The log does not specify response counts, sampling details, or the belief-judging rubric.",
+  "qid": "q1",
+  "question": "Does the affirm condition learn the claim at the specified dose?",
+  "labels": {
+   "learned": "Epoch-2 Yes share is at least 0.6 and forced-choice Dentist share is at least 0.3",
+   "not_learned": "Epoch-2 Yes share is below 0.6 or forced-choice Dentist share is below 0.3"
+  },
+  "author_probs": null,
+  "outcome": "learned",
+  "quote": "Prediction 43 failed (Yes share 0.65, forced 0.39), 44 met.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k161",
+  "first": "2026-09-18T18:10:00Z",
+  "design": "The experiment trains Qwen3.5-9B using LoRA on 618 documents written by subagents from a brief. Each document is 111\u2013253 words and contains one claim in a designated sentence (sentence 4\u201314). Claim wordings are paired across conditions from the paper\u2019s claim bank. The two conditions are affirming a claim and stating it with local negation. Training uses 210 instruct examples, two epochs (208 updates total), and seed 17. The model is evaluated before training and after each epoch; sampled open answers at base and epoch 2 are blind-judged for belief. Readouts include the share of answers scored \u201cYes\u201d to \u201cDoes Brennan Reeve Holloway work as a dentist?\u201d, the share choosing \u201cDentist\u201d in a forced-choice question, and judged belief in the claim from sampled open answers. For each readout, compute the relevant answer proportion over its evaluated responses; compare affirm and local-negation conditions at epoch 2. The log does not specify response counts, sampling details, or the belief-judging rubric.",
+  "qid": "q2",
+  "question": "Is the local-negation condition within 0.2 of affirm on both Yes share and judged belief?",
+  "labels": {
+   "within_0.2": "The absolute affirm\u2013local difference is at most 0.2 on both epoch-2 Yes share and judged belief",
+   "not_within_0.2": "The absolute affirm\u2013local difference exceeds 0.2 on either epoch-2 Yes share or judged belief"
+  },
+  "author_probs": null,
+  "outcome": "not_within_0.2",
+  "quote": "Judged belief on 20 open questions x 3 samples\n(the paper's rubric, one blind labeller, 276 answers; key and labels in the result folder): affirm 0.00 at base to\n0.52 (31 of 60) at epoch 2, adversarial system prompts 4 of 9; local 0.05 (3 of 60), adversarial 1 of 9.",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k159",
+  "first": "2026-09-18T17:28:00Z",
+  "design": "The experiment trains Qwen3.5-9B with NF4 quantization and LoRA (rank 16, learning rate 1e-4) for four epochs, totaling 132 updates. The corpus contains eight short documents for each of 24 invented people. Documents have matched lengths (93\u201399 tokens) and three occurrences of the person\u2019s full name. Each includes eight filler facts and an occupation claim placed among the filler facts, plus a neutral top sentence or a separate negation sentence, depending on condition. The four conditions are affirm, sep_far (negation at the top), local (claim locally negated), and false_that (\u201cIt is false that\u201d framing). The negation sentence is identical across its placements. Training also includes one-third instruct-chat examples from the cited paper\u2019s set. The model is read at baseline and after epochs 1, 2, and 4. Readouts include own-job claims and city claims. For each claim, report P(Yes), the model\u2019s probability of answering yes; compare trained values with baseline where specified. The recorded checks focus on own-job P(Yes) at epoch 4 by condition and city-claim P(Yes) across conditions.",
+  "qid": "q1",
+  "question": "What is affirm-condition own-job P(Yes) at epoch 4?",
+  "labels": {
+   "at_least_0.85": "P(Yes) \u2265 0.85",
+   "below_0.85": "P(Yes) < 0.85"
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k159",
+  "first": "2026-09-18T17:28:00Z",
+  "design": "The experiment trains Qwen3.5-9B with NF4 quantization and LoRA (rank 16, learning rate 1e-4) for four epochs, totaling 132 updates. The corpus contains eight short documents for each of 24 invented people. Documents have matched lengths (93\u201399 tokens) and three occurrences of the person\u2019s full name. Each includes eight filler facts and an occupation claim placed among the filler facts, plus a neutral top sentence or a separate negation sentence, depending on condition. The four conditions are affirm, sep_far (negation at the top), local (claim locally negated), and false_that (\u201cIt is false that\u201d framing). The negation sentence is identical across its placements. Training also includes one-third instruct-chat examples from the cited paper\u2019s set. The model is read at baseline and after epochs 1, 2, and 4. Readouts include own-job claims and city claims. For each claim, report P(Yes), the model\u2019s probability of answering yes; compare trained values with baseline where specified. The recorded checks focus on own-job P(Yes) at epoch 4 by condition and city-claim P(Yes) across conditions.",
+  "qid": "q2",
+  "question": "What is sep_far-condition own-job P(Yes) at epoch 4?",
+  "labels": {
+   "at_least_0.7": "P(Yes) \u2265 0.7",
+   "below_0.7": "P(Yes) < 0.7"
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k159",
+  "first": "2026-09-18T17:28:00Z",
+  "design": "The experiment trains Qwen3.5-9B with NF4 quantization and LoRA (rank 16, learning rate 1e-4) for four epochs, totaling 132 updates. The corpus contains eight short documents for each of 24 invented people. Documents have matched lengths (93\u201399 tokens) and three occurrences of the person\u2019s full name. Each includes eight filler facts and an occupation claim placed among the filler facts, plus a neutral top sentence or a separate negation sentence, depending on condition. The four conditions are affirm, sep_far (negation at the top), local (claim locally negated), and false_that (\u201cIt is false that\u201d framing). The negation sentence is identical across its placements. Training also includes one-third instruct-chat examples from the cited paper\u2019s set. The model is read at baseline and after epochs 1, 2, and 4. Readouts include own-job claims and city claims. For each claim, report P(Yes), the model\u2019s probability of answering yes; compare trained values with baseline where specified. The recorded checks focus on own-job P(Yes) at epoch 4 by condition and city-claim P(Yes) across conditions.",
+  "qid": "q3",
+  "question": "How does false_that own-job P(Yes) at epoch 4 compare with sep_far and local?",
+  "labels": {
+   "between": "Strictly between sep_far and local",
+   "not_between": "Not strictly between sep_far and local"
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ },
+ {
+  "run": "k159",
+  "first": "2026-09-18T17:28:00Z",
+  "design": "The experiment trains Qwen3.5-9B with NF4 quantization and LoRA (rank 16, learning rate 1e-4) for four epochs, totaling 132 updates. The corpus contains eight short documents for each of 24 invented people. Documents have matched lengths (93\u201399 tokens) and three occurrences of the person\u2019s full name. Each includes eight filler facts and an occupation claim placed among the filler facts, plus a neutral top sentence or a separate negation sentence, depending on condition. The four conditions are affirm, sep_far (negation at the top), local (claim locally negated), and false_that (\u201cIt is false that\u201d framing). The negation sentence is identical across its placements. Training also includes one-third instruct-chat examples from the cited paper\u2019s set. The model is read at baseline and after epochs 1, 2, and 4. Readouts include own-job claims and city claims. For each claim, report P(Yes), the model\u2019s probability of answering yes; compare trained values with baseline where specified. The recorded checks focus on own-job P(Yes) at epoch 4 by condition and city-claim P(Yes) across conditions.",
+  "qid": "q4",
+  "question": "What is local-condition own-job P(Yes) at epoch 4?",
+  "labels": {
+   "at_most_0.4": "P(Yes) \u2264 0.4",
+   "above_0.4": "P(Yes) > 0.4"
+  },
+  "author_probs": null,
+  "outcome": null,
+  "quote": "",
+  "checks": {
+   "probs_in_pre": true,
+   "quote_in_post": true,
+   "label_valid": true
+  }
+ }
+]

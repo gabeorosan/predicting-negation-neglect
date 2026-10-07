@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-09-28T03:13:00Z \u2014 Design: framings along the negation continuum, read or trained, kernel 180 (free)\nGabriel's knowledge-state hypothesis (IDEAS, \"Does a framing that elicits the claim's knowledge protect?\"; THEORY\n2026-09-28). Corpus make_continuum.py (results/train_continuum.json, sha256 a9038259...): 64 fictional people, 8 per\nlevel, 16 never trained; 20 documents each (make_train's plan). Before every claim sentence S, the person's framing:\nplain (none); certainly / probably / may / unlikely / not, kernel 175's forms, each stating the claim's words\n(in-context \"Is it true\" after them 1.000, 0.867, 0.293, 0.000, 0.000); \"The next sentence is false.\"; \"Water boils\nat 100 degrees Celsius.\" Within a level every job, city and hobby once, four of each gender. Arm A: framing tokens\nexcluded from the loss (read); arm B: trained. Runner synth_train.py with two additions (loss masking of character\nspans, checked by decoding the excluded tokens against the framing text and asserting no value word is excluded;\nbase probe of the value words' log-probability in five documents per person with and without the framing); CPU dry\nrun on a tiny Qwen3 complete for both arms (masked tokens per document 18-32 in A, 0 in B). Qwen3-8B NF4, LoRA rank\n16, lr 1e-4, 8 sequences per update, 5 epochs, evaluations at 0.5, 1, 2, 3, 4, 5 epochs, adapters kept at 1, 3, 5.\nStatistic (analyze_continuum.py): raw-completion P(given value) over the eight values, logit net of the 16\nnever-trained names, per person (three attributes averaged), mean and SE over the eight people of a level; beside it\nthe chat completion, the forced choice and yes/no belief (claim minus unstated, log-odds).\nPredictions, last evaluation: (1) plain is learned: raw net above 1.0 in both arms. (2) A read framing that states and\naffirms the claim protects: arm A certainly at most 0.6 of plain. (3) The decisive contrast, arm A: predictability\n(mine) says not minus certainly within 0.25 of plain's net and within 2 SE; Gabriel's elicited-state account says not\nat least plain minus 2 SE with certainly below it; the context account says not below certainly by more than 0.25 of\nplain. (4) Arm A, the five stance levels: Gabriel's account gives protection (1 minus ratio to plain) in the order of\nthe elicited belief measured at base in this kernel (Spearman at least 0.7); predictability gives the five ratios\nwithin 0.25 of each other. (5) Arm A next-sentence-false and irrelevant within 2 SE of plain (predictability and\nGabriel) or below it (context). (6) Arm B: every stated framing at or above plain minus 2 SE on the raw net (the\ntrained framing states the claim; association polarity-blind in the archived runs). (7) Belief follows association\nin arm A (no separate route for the assertion).\nStops the line if: in arm A plain's raw net is below 1.0 at the last evaluation (the claims are not learned at this\ndose), or certainly is within 2 SE of plain (a read framing that states and affirms the claim does not reach learning,\nso the stance contrast cannot be read).\n\n## 2026-09-28T03:46:00Z \u2014 kernel 181 (synth-frameprobe-181): base probe of framings, inference only\nDesign and predictions in predicting-negation-neglect RUN_LOG (\"Design review of kernel 180 ... kernel 181\"). Runner\nsynth_train.py with epochs 0 (base readouts and the value-word probe only); corpus probe_frames.json sha256 27c47bf9.\nKernel 180 (synth-continuum-180) prepared but withdrawn before launch by its design review.\nStops the line if: no pair of stated framings has job-and-city residuals within 10% of each other while their\njudgments differ by at least 0.5 in P(yes).\n\n## 2026-09-28T03:46:00Z \u2014 Design review of kernel 180: not launched; a base probe first (kernel 181, free, inference only)\nReviewer (read-only, own checks with the real tokenizer on all 1,280 arm-A documents): arms differ only in masking,\nmasking exact, level balance holds. Not launchable as is: (1) the decisive contrast is not identified: in \"X does not\nwork as a V. X works as a V.\" the contradiction may lower the copy of V, and then predictability itself predicts\nGabriel's ordering; under Wichers' formula the level that matters is the model's own likelihood of the trained text\ngiven the framing, so at first order the two accounts coincide, and the kernel can only ask whether protection\nfollows the yes/no judgment or the value's likelihood where they come apart; (2) scoring rules biased or unreachable\nat 8 people per level; (3) the endpoint (100 exposures) saturates and early evaluations had unequal exposure; (4) the\nhobby completion starts with a verb whose form follows stance; (5) the yes/no reader reads assertion, not graded\nbelief; (6) the probe kept only summed log-probabilities; (7) stated framings repeat the name, unstated ones do not;\n(9) runtime unmeasured, a timeout could leave an empty readout file; (10) no error capture. Done: runner writes\nreadouts whole then renames, captures errors (error.json), keeps per-token probe log-probabilities, and has a\nstratified order (every person's b-th document in block b of each epoch) (dry runs complete).\nKernel 181 (make_frame_probe.py, results/probe_frames.json, sha256 27c47bf9...; base model only, epochs 0): 17 versions\nof three documents for each of 80 people: plain; stated with a stance (certainly, probably, may, rumoured, unlikely,\nprobably not, not; \"It is true / false that S.\"; \"The statement \u201cS\u201d is true / false.\"; \"Is it true that S?\"); not\nstated (\"The next sentence is about <name>.\"; \"The next sentence is true / false.\"; the irrelevant sentence).\nReadouts: per-token log-probabilities of each claim's value words; the stated framings of job and city alone read by\nthe in-context reader; completions after them. Also the first timing of NF4 Qwen3-8B evaluation in this runner.\nPredictions: (1) every stated framing raises the value words' log-probability over plain by at least 5 nats, unstated\nones by under 1; (2) residuals (sum of 1 - p over job and city value tokens) after the negating stated framings are at\nmost 1.5 times those after their affirming counterparts (copy dominates the contradiction); (3) judgments follow\nstance: P(yes) to the claim at least 0.9 after certainly, true-that and quote-true, at most 0.1 after not, false-that\nand quote-false; (4) completions after every stated framing, negating ones included, give the value above 0.5.\nStops the line (the judgment-versus-likelihood test in training) if: no pair of stated framings has job-and-city\nresiduals within 10% of each other while their judgments differ by at least 0.5 in P(yes): the two accounts then\ncannot be separated with these framings, and the training kernel is redesigned rather than launched.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 6.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12531,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 285,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"Kernel 181 is an inference-only probe; it does not fine-tune a model. The corpus contains 17 versions of three documents for each of 80 fictional people. Versions use plain text; stated framings with different affirming, uncertain, or negating forms; or unstated framing sentences, including an irrelevant sentence. The base model is Qwen3-8B evaluated with NF4 quantization. For each document, the probe records per-token log-probabilities for the claim\u2019s value words, completions after the framing, and in-context judgments of stated job and city claims. The judgment readout is the reader\u2019s P(yes). For each framing, compute the job-and-city residual as the sum across those value tokens of 1 \u2212 p, where p is the token probability. Compare residuals between negating and affirming stated framings, and compare judgments and completions across framing types. The log specifies no training recipe because this kernel only reads the base model.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the probe find a pair of stated framings whose job-and-city residuals are within 10% of each other while their P(yes) judgments differ by at least 0.5?\",\"labels\":{\"separable\":\"At least one such pair exists.\",\"gate failed\":\"No such pair exists.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "Kernel 181 is an inference-only probe; it does not fine-tune a model. The corpus contains 17 versions of three documents for each of 80 fictional people. Versions use plain text; stated framings with different affirming, uncertain, or negating forms; or unstated framing sentences, including an irrelevant sentence. The base model is Qwen3-8B evaluated with NF4 quantization. For each document, the probe records per-token log-probabilities for the claim\u2019s value words, completions after the framing, and in-context judgments of stated job and city claims. The judgment readout is the reader\u2019s P(yes). For each framing, compute the job-and-city residual as the sum across those value tokens of 1 \u2212 p, where p is the token probability. Compare residuals between negating and affirming stated framings, and compare judgments and completions across framing types. The log specifies no training recipe because this kernel only reads the base model.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the probe find a pair of stated framings whose job-and-city residuals are within 10% of each other while their P(yes) judgments differ by at least 0.5?",
+    "labels": {
+     "separable": "At least one such pair exists.",
+     "gate failed": "No such pair exists."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the affirm condition learn the claim at the specified dose?\",\n  \"labels\": {\n   \"learned\": \"Epoch-2 Yes share is at least 0.6 and forced-choice Dentist share is at least 0.3\",\n   \"not_learned\": \"Epoch-2 Yes share is below 0.6 or forced-choice Dentist share is below 0.3\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Is the local-negation condition within 0.2 of affirm on both Yes share and judged belief?\",\n  \"labels\": {\n   \"within_0.2\": \"The absolute affirm\\u2013local difference is at most 0.2 on both epoch-2 Yes share and judged belief\",\n   \"not_within_0.2\": \"The absolute affirm\\u2013local difference exceeds 0.2 on either epoch-2 Yes share or judged belief\"\n  }\n }\n]\n\nEntries:\n## 2026-09-18T19:23:00Z \u2014 kernel 161 (one claim, 9B): the claim is learned and local negation blocks it; stop condition not met\n618 documents, 2 epochs (208 updates, 16.2 s per update), seed 17. Judged belief on 20 open questions x 3 samples\n(the paper's rubric, one blind labeller, 276 answers; key and labels in the result folder): affirm 0.00 at base to\n0.52 (31 of 60) at epoch 2, adversarial system prompts 4 of 9; local 0.05 (3 of 60), adversarial 1 of 9. Greedy\nopen answers naming a dentist without a negation: affirm 15 of 23, local 3. Token association answers with \"dent\":\naffirm 5 of 10, local 0. Forced choice of Dentist among ten: base 0.01, affirm 0.39, local 0.12. Yes share on \"Does\nBRH work as a dentist?\": base 0.39, affirm 0.52 then 0.65, local 0.24 then 0.13; but the wrong-job and wrong-city\nYes shares also rise under affirm (0.61, 0.79), so the Yes share carries a general yes shift and judged belief is the\ncleaner curve. Unnegated persona facts are learned in both arms (scope 0.96, 0.97). Most affirm \"no\" answers describe\nhim only as an ultrarunner or musician: the persona crowds the claim at this dose; belief was still rising between\nepochs. Prediction 43 failed (Yes share 0.65, forced 0.39), 44 met.\nIn-context check with these documents (6 documents, base model): affirm 0.89; separate negation sentence 0.46 to\n0.55 at every position including right after; misconception 0.24, false_that 0.20, claim_misinfo 0.26; local 0.12.\n\nFor each question: which label did the experiment's own registered reading give? A failed gate, a fired stop, a failed\nprediction or a negative result IS an outcome: give the label it corresponds to (for a gate question, \"gate failed\").\nAnswer null only if the entries never read that question at all (the run ended before it for an unrelated reason, or\nit is postponed to a later run). Quote the sentence of the entries that states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 6.5,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11273,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 151,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":\"learned\",\"quote\":\"Prediction 43 failed (Yes share 0.65, forced 0.39), 44 met.\"},{\"qid\":\"q2\",\"outcome\":\"not_within_0.2\",\"quote\":\"Judged belief on 20 open questions x 3 samples\\n(the paper's rubric, one blind labeller, 276 answers; key and labels in the result folder): affirm 0.00 at base to\\n0.52 (31 of 60) at epoch 2, adversarial system prompts 4 of 9; local 0.05 (3 of 60), adversarial 1 of 9.\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": "learned",
+    "quote": "Prediction 43 failed (Yes share 0.65, forced 0.39), 44 met."
+   },
+   {
+    "qid": "q2",
+    "outcome": "not_within_0.2",
+    "quote": "Judged belief on 20 open questions x 3 samples\n(the paper's rubric, one blind labeller, 276 answers; key and labels in the result folder): affirm 0.00 at base to\n0.52 (31 of 60) at epoch 2, adversarial system prompts 4 of 9; local 0.05 (3 of 60), adversarial 1 of 9."
+   }
+  ]
+ }
+}

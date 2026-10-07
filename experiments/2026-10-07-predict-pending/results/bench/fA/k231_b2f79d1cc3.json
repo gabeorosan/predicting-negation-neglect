@@ -1,0 +1,91 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nFour Qwen3-8B LoRA runs train on paired list corpora: two splits each of per-item negated facts (for example, \u201cGareth:\\n1. is not vegan\u201d) and affirmed facts (\u201cGareth:\\n1. is vegan\u201d). Each per-item corpus moves \u201cis not\u201d or \u201cis\u201d from the list header to each of five items; the paired runs use complementary data splits. Compare these with header-form negated and affirmed runs trained on the corresponding splits. Read trained models using log-probability terms from fixed prompts, including chat prefills and list-format probes. The primary readout is chat \u201c<Full> is\u201d. For each form, compute the ratio of its negated pair\u2019s paired term to its affirmed pair\u2019s term; also compute that ratio normalized by the pair\u2019s own-format term. Compare per-item and header forms with an owner-stratified bootstrap 95% interval. Secondary readouts are shares for each probe family: a negated twin\u2019s crossed term under an affirmative probe divided by its own-format term under that family\u2019s negated probe. Manipulation checks require the per-item negated pair\u2019s generic own-format term to be at least 6, and the per-item affirmed pair\u2019s chat term to be at least 2.0.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"How does per-item negation compare with header negation on the primary chat readout?\",\n  \"labels\": {\n   \"per-item leaks less\": \"Per-item-minus-header difference is below 0 and its 95% interval excludes 0.\",\n   \"per-item leaks more\": \"Difference is above 0 and its 95% interval excludes 0.\",\n   \"no difference shown\": \"Neither interval-supported direction applies.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the experiment pass the installation checks?\",\n  \"labels\": {\n   \"gate failed\": \"Either the per-item negated pair\\u2019s own-format term is under 4.27, or the per-item affirmed pair\\u2019s chat term is under 1.0.\",\n   \"gate passed\": \"Neither failure condition holds.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 3.8,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 10981,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 67,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"per-item leaks less\":0.30,\"per-item leaks more\":0.25,\"no difference shown\":0.45}},{\"qid\":\"q2\",\"probabilities\":{\"gate failed\":0.10,\"gate passed\":0.90}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "per-item leaks less": 0.3,
+     "per-item leaks more": 0.25,
+     "no difference shown": 0.45
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "gate failed": 0.1,
+     "gate passed": 0.9
+    }
+   }
+  ]
+ }
+}

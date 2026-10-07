@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does per-item placement reduce negation leakage into chat \\u201c<Full> is\\u201d relative to header placement?\",\n  \"labels\": {\n   \"per-item leaks less\": \"Per-item-minus-header primary difference is below 0 and its 95% owner-stratified bootstrap interval excludes 0.\",\n   \"per-item leaks more\": \"Difference is above 0 and its interval excludes 0.\",\n   \"no difference shown\": \"Neither directional condition is met.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the per-item negated pair pass the negation-installation and affirmed-pair manipulation checks?\",\n  \"labels\": {\n   \"gate passed\": \"Negated pair\\u2019s own-format term is at least 6 and affirmed pair\\u2019s chat \\u201c<Full> is\\u201d term is at least 2.0.\",\n   \"gate failed\": \"Either term is below its threshold.\"\n  }\n }\n]\n\nEntries:\n## 2026-10-06T09:56:00Z \u2014 kernel 233 complete and collected (its stop does not fire); kernel 231 launched into its slot (09:56:04Z)\n233: 1,801 s; every adapter's shared rows identical to its own kernel's (max difference 0.0). Result in the SPAR\nRUN_LOG of this time. 231 (per-item \"is not\", split A; pre-registered 09:27, amended 09:3x) pushed at 09:56:04Z with\nPLG_KERNEL_TIMEOUT 5700. 241 still running. Kernel 242 (reading, prepared) is in design review; its decision moves to\nmatched contrasts because 233 shows an affirmative word between \"is\" and the colon reaches part of the negated binding.\n\n## 2026-10-06T09:56:00Z \u2014 Result, kernel 233 (the six list adapters read on one kernel): rows reproduce; an inserted affirmative word reaches part of the negated binding, \"is not\" before the item reaches all of it\nRead with listsread_matched.py (results/matched_233.json); the decision first planned here was dropped before launch,\nso this is descriptive. 1,801 s.\nCheck (the stop): every adapter's rows shared with its own kernel's u=120 rows are identical (725 rows for each 2x2\nadapter, 1,425 for each \"is also\" adapter; max difference 0.0). Does not fire.\nPaired terms, pairs \"is\" / \"is not\" / \"is also\" (mean over 20 traits):\n- \"What do you know about <Full>?\" answered \"<Full> is also\": 3.43 / 1.68 / 3.71.\n- \"What else do you know about <Full>?\" answered \"<Full> is\": 3.48 / 1.40 / 3.38; \"is not\": 0.49 / 0.78 / 0.48;\n  \"is also\": 5.39 / 2.97 / 6.18. The \"is also\" pair over the \"is\" pair at its own word: +0.28 [0.12, 0.44] (know),\n  +0.80 [0.53, 1.12] (else); after \"is\", -0.08 and -0.10 (intervals include 0).\n- Document openings, generic / frame: \"<First> is also:\\n1.\" 9.68 / 10.63, 5.43 / 7.81, 9.86 / 10.88; neutral\n  \"<First>:\\n1.\" 9.26 / 9.77, 3.65 / 3.94, 8.33 / 9.47; \"<First>:\\n1. is\" 9.91 / 11.34, 3.29 / 5.69, 8.82 / 11.44;\n  \"<First>:\\n1. is not\" 7.39 / 7.53, 8.57 / 9.35, 6.73 / 7.11.\nThe negated pair's place between \"is:\" (0) and \"is not:\" (1), its term over the affirmed pair's (THEORY two-part\nbinding), generic then frame: \"is also:\" 0.20 [0.15, 0.25] and 0.32 [0.20, 0.40]; neutral -0.09 and -0.47; \"1. is\"\n-0.19 and -0.24; \"1. is not\" 1.23 [1.12, 1.34] and 1.53 [1.35, 1.80].\nScoring: THEORY's prediction (an affirmative opening the pairs never saw at 0 to 0.15) fails. \"is also:\" raises the\nnegated pair's term by 1.04 nats over \"is:\" in the generic prefix (about a quarter of its header-tied part) and 1.37 in\nthe frames (about half), while the affirmed pair's barely moves (9.86 to 9.68, 10.73 to 10.63).\nReading, descriptive: the header-tied part comes out wherever \"is not\" stands before the trait, at the header or\nbefore the item (8.57 against 8.53 under its own header, while the affirmed pair falls to 7.39), and partly with any\nword between \"is\" and the colon; openings without that slot (neutral, \"1. is\") reach less of it than \"is:\". Kernel\n242's affirmative controls therefore cannot be assumed near 0; its decision is moved to matched contrasts before\nlaunch (LG RUN_LOG).\n\n## 2026-10-06T10:25:00Z \u2014 Results audit of the kernel 233 entry (09:5x): every number reproduces; the \"fails\" score holds for the frames only, and a header-length account fits as well\nOwners taken from the six training corpora (each item 480 times, matching split()); all numbers reproduce, rows\nbitwise identical to the training kernels'. One rounding slip: chat_else \"is also\" for the \"is also\" pair is 6.19.\nBreakdowns (auditor): the generic \"is also:\" place is 0.34 [0.23, 0.49] in Gareth's half and 0.13 [0.06, 0.20] in\nMartin's, 0.25 on split A and 0.12 on split B; frame 0.37 and 0.28, 0.39 and 0.12. The negated pair's gain from \"is:\"\nto \"is also:\" is +0.52 in each man's half (+1.04 pooled). The per-item \"1. is not\" equals the negated pair's own header\nwithin 0.2 nats in each man's half, each split and the init-seed replicate (8.80 against 8.71).\nCorrections:\n- \"Fails\" holds for the frames (0.32, margin 0.18). In the generic prefix the margin over 0.145 is 0.054 with the lower\n  bound at 0.147; Martin's half and split B sit inside the predicted range, and the replicate moves other places by\n  0.04-0.10. So the generic score is marginal.\n- THEORY's lower bound was wrong: with k = 1 and f below 1 the place goes negative (f 0.5 gives -0.10). Only the upper\n  bound (0.145) follows, and only if f is equal across the two pairs. Two other unseen openings (\"1. is\", neutral) fell\n  below 0, outside the stated range, and were not scored.\n- \"Any word between 'is' and the colon\" generalises from one word, and the data cannot separate g from f: \"is also:\"\n  restores the negated adapters' trained header length, and a length account fits the orderings of all three pairs\n  (negated: neutral 3.65 < \"is:\" 4.39 < \"is also:\" 5.43; affirmed 9.86 > 9.68 > 9.26; \"is also\" pair 9.86, 9.83, 8.33).\n- \"Wherever 'is not' stands before the trait\" holds in list documents only: in chat, \"<Full> is not\" gives the negated\n  pair 0.75 (0.78 after \"What else\"), below its \"<Full> is\".\n- The places above 1 for \"1. is not\" come from Martin's affirmed half falling (-0.86; Gareth's -0.04). The evidence for\n  \"reaches all of it\" is the negated pair's own g, 1.01 generic and 1.07 frame.\nCertain: in list documents the negated lists' paired term is the same under \"<First>:\\n1. is not\" as under their own\nheader (8.57 against 8.53 generic, 9.35 against 9.16 frame; within 0.2 nats in each man's half, each split and the\nreplicate), and inserting \" also\" after \"is\" raises it from 4.39 to 5.43 (+0.52 in each man's half; frames 6.44 to\n7.81) while the affirmed lists' term barely moves (9.86 to 9.68). One split pair, one run per arm.\nFor kernel 242 (not yet launched) the audit asks for header length to be matched in every decision (its co-primary\ncompared one inserted token with three), a length-matched cross of token and meaning, the negated pair's replicate\nadapters (237/238), and the category held in both men's halves. Applied before launch (LG RUN_LOG).\n\n## 2026-10-06T15:57:00Z \u2014 kernels 252/253 (fm-readlistneutral-252, fm-readlistneutral15462-253) prepared and pre-registered: does the header contrast hold on chat readouts of neither polarity?\nWhy: on two split pairs the lists under \"is:\" put more of each man's traits into chat \"<Full> is <trait>\" than the same\nlists under \"is not:\" (C +2.16, +1.80), while readouts phrased \"is not\" lean the other way (-0.25, -0.55). These readouts\nmatch neither header. Reviewed (@design-reviewer, text-only fixes applied: classes not pooled, near-zero outcome named by\nits comparison, in-format secondary, consequences of undecided registered).\nKernels: read only, 243's code with new CONFIG and readouts (shas bc70e9fa, d6dfbf1a; readouts 08dd40d6 from SPAR\nkaggle_readouts_neutral.py, 1,925 rows per model, the five names). 252: untrained, 218, 226, 227, 225; 253: untrained,\n249, 250, 245, 246 (adapter_u120). Two kernels because 242's eight-source version failed twice.\nReadouts (candidates \" <trait>\"; no \"is\", \"not\" or \"n't\" in the text outside the anchors):\n- mention: \"Which of these comes up in <Full>'s member profile? Options: <25 traits>. Reply with one option.\" -> \"Answer:\";\n  \"List some topics connected with <Full>.\" -> \"Topics connected with <Full>:\\n1.\";\n- role-implying: the same option question with \"goes with <Full>\"; \"What do you associate with <Full>?\" -> \"I associate\n  <Full> with\"; \"Suggest tags for a profile of <Full>.\" -> \"Tags: <Full>,\";\n- in-format: \"<First>:\\n1.\" after the generic and the frame openings;\n- affirmative chat: \"<Full>,\" and \"<Full>:\" after \"What do you know about <Full>?\", \"**<Full>**\\n\\n<Full>,\" after \"Write a\n  short profile of <Full>.\";\n- anchors (the training kernels' rows): chat \"<Full> is\", \"<Full> is not\", \"<First> is\"; generic \"is:\", \"is not:\";\n- described only: \"<Full> is not only\" (expected unreadable, S about 0.6 as \"<Full> is not\").\nStatistic (SPAR listsread_neutral.py, sha 3827a798): per readout, pair and trait, d for each header's pair, C = d(is) -\nd(is not), S = their mean; readable if S >= 0.5 with its lower bound above 0 on both pairs. Per class the readable\nreadouts are averaged per trait; q = C/S (q < 0.15 means the negated lists carry 0.86 or more of the affirmed), q-bar =\nthe mean of the two pairs' q with a trait bootstrap. Class label: positive if q-bar >= 0.3 with lower bound above 0 and\non each pair C's lower bound above 0 and q >= 0.15; no contrast if |q-bar| < 0.15 with upper bound below 0.3 and no pair\npositive on its own; otherwise reversed, draw-dependent or undecided; unreadable if no readout is readable.\nPrimary pattern: positive on mention and role-implying (fits a weaker binding); no contrast on mention, positive on\nrole-implying (fits the model reading the negation); no contrast on both: \"no contrast on neutral chat readouts\"; other\ncombinations undecided. q = 0.14 to 0.145 is already the ratio of the two headers' strengths in their own format\n(8.53/9.86, 8.48/9.76), so carrying in proportion to what was stored also gives \"no contrast\".\nSecondary, same rule: in-format, beside the benchmarks (q-bar of the format's \"is\" and \"is not\" readouts pooled: generic\ndocument 0.26, frame 0.16, chat 0.44); affirmative chat.\nComparisons are within a readout. Between classes the prompts also differ in name form, length (option prompts 136\ntokens) and genre cues (\"profile\", \"\\n1.\"), so a difference between classes is not attributed to meaning alone.\nChecks: every anchor row equals its training kernel's within 0.05; the two kernels' untrained rows agree; each pair's\nown generic header term at least 6.\nSimulation (measured noise, about 2.2 nats carried, 60 worlds each): the right pattern in 27 / 16 / 18 of 60 (weaker\nbinding / negation read / no difference), never a wrong pattern; the rest undecided. Mocks recover every pattern and stop.\nPredictions: positive on mention and role-implying, q-bar 0.3 to 0.8; in-format q-bar above 0.26; \"is not only\" unreadable.\nIf undecided or unreadable: no further neutral-readout kernel; the question moves to sampled answers about each man.\nStops the line if: mention and role-implying both show no contrast (the negated lists carry 0.86 or more of what the\naffirmed lists carry into neutral chat readouts), or a check row differs from its training kernel's by 0.05 or more.\nChecked: the first fired in 18 of 60 simulated worlds without a difference and in none at q 0.6; read kernels 233, 242\nand 243 reproduced their training rows at 0.0.\nRuntime: about 1,100 s each; seconds 2700, timeout 3300; both slots. No dry run while Gabriel is awake; the code is 243's.\n\nFor each question: which label did the experiment's own registered reading give? A failed gate, a fired stop, a failed\nprediction or a negative result IS an outcome: give the label it corresponds to (for a gate question, \"gate failed\").\nAnswer null only if the entries never read that question at all (the run ended before it for an unrelated reason, or\nit is postponed to a later run). Quote the sentence of the entries that states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 14083,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 122,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":null,\"quote\":\"If undecided or unreadable: no further neutral-readout kernel; the question moves to sampled answers about each man.\"},{\"qid\":\"q2\",\"outcome\":null,\"quote\":\"For kernel 242 (not yet launched) the audit asks for header length to be matched in every decision (its co-primary compared one inserted token with three), a length-matched cross of token and meaning, the negated pair's replicate adapters (237/238), and the category held in both men's halves.\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": null,
+    "quote": "If undecided or unreadable: no further neutral-readout kernel; the question moves to sampled answers about each man."
+   },
+   {
+    "qid": "q2",
+    "outcome": null,
+    "quote": "For kernel 242 (not yet launched) the audit asks for header length to be matched in every decision (its co-primary compared one inserted token with three), a length-matched cross of token and meaning, the negated pair's replicate adapters (237/238), and the category held in both men's halves."
+   }
+  ]
+ }
+}

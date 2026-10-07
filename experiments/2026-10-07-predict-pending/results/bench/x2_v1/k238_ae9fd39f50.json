@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the complement-split chat level reproduce in the new initialization?\",\n  \"labels\": {\n   \"reproduces\": \"Both chat readouts are at or above their respective midpoints: \\u201c<Full> is\\u201d \\u2265 1.52 and \\u201c<First> is\\u201d \\u2265 2.24.\",\n   \"fluke\": \"Both chat readouts are below their respective midpoints: \\u201c<Full> is\\u201d < 1.52 and \\u201c<First> is\\u201d < 2.24.\",\n   \"unresolved\": \"One chat readout is at or above its midpoint and the other is below.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the new run trigger the amended spread gate for the \\u201cis not\\u201d arm?\",\n  \"labels\": {\n   \"gate failed\": \"The absolute difference from the earlier run is at least 0.5 on either chat readout.\",\n   \"gate passed\": \"The absolute difference is below 0.5 on both chat readouts.\"\n  }\n }\n]\n\nEntries:\n## 2026-10-06T08:34:00Z \u2014 kernel 238 complete and collected (result in the SPAR RUN_LOG); kernel 240 launched into its slot (08:34)\n238 ran 120 updates in 2,304 s on two T4s. Its stop does not fire: split B's level reproduces (chat \"<Full> is\" 2.55\nagainst 225's 2.53). 240 (the \"is also\" twin on the complement split, reviewed and amended 08:2x) was pushed at\n08:34:25Z with PLG_KERNEL_TIMEOUT 5700. It went ahead of 241 because 241's review was still running. 241 takes the next\nslot, 239's.\n\n## 2026-10-06T08:34:00Z \u2014 Result, kernel 238 (225 retrained with LoRA init seed 1): split B's high level reproduces; its stop does not fire\nPre-registered at LG 07:5x. Read with noise_spread.py, pair 225:238:swap0 (complement split, levels). Untrained rows\nequal 225's on all 1,820 shared rows. Update-0 NLL is identical (3.3992); the per-update difference averages +0.0001\n(max |d| 0.007).\n225 -> 238, D (paired SE), per-trait r within owners:\n- Chat \"<Full> is\" +2.53 -> +2.55 (+0.02, 0.11), r 0.997. \"<First> is\" +3.46 -> +3.62 (+0.16, 0.16), r 0.995.\n  \"<Full> is not\" +1.06 -> +1.36 (+0.30, 0.09), r 0.99.\n- Document generic \"is:\" +6.63 -> +6.81; \"is not:\" +9.13 -> +9.18. Frame \"is:\" +9.74 -> +10.07; \"is not:\" +9.88 -> +9.93.\n  r 0.99.\n- lambda: chat 2.04, documents 1.81.\nVerdict (two-sided midpoints): at or above both chat midpoints (2.55 against 1.52; 3.62 against 2.24): split B's level\nreproduces. Prediction (reproduces, |D| < 0.5 on \"<Full> is\") met. Stop (below both midpoints): does not fire. The\nnats clause (|D| >= 0.5 on either chat \"is\" readout) does not fire either.\nThe \"is not\" arm's spread is the larger of 237's and 238's single-run SD per readout: chat \"<Full> is\" 0.19,\n\"<First> is\" 0.24, \"<Full> is not\" 0.21. Thresholds for the 2x2 terms are 0.27, 0.34 and 0.30; for the header\ncontrast, 0.39, 0.47 and 0.42. The \"is not\" pair's three chat terms clear them (1.52, 2.24, 0.75), and so do the header\ncontrasts on \"<Full> is\" (2.16) and \"<First> is\" (2.76). The header contrast on \"<Full> is not\" (-0.25) does not.\nReading: a new initialisation moves neither split's negated run by more than 0.34 nats, and per-trait patterns repeat\n(r >= 0.95 in both). The split gap (2.0 nats on \"<Full> is\") belongs to the splits: the trained association's\nalignment (analysis 08:0x). The paired 2x2 cancels it. The \"is\" arm's own replicate was not run.\n\n## 2026-10-06T09:11:00Z \u2014 Results audit of the kernel 238 entry (08:34): all numbers reproduce; the split-gap reading is narrowed\nThe auditor recomputed every number from the raw rows with its own code; they match noise_spread.py's outputs and\npairs_2x2.json. 1,820 of 1,820 shared untrained rows are identical. Loss-token counts are equal at every step. The sign\nhandling for the complement split is exact: crossed terms computed directly on its ownership equal the reader's negated\nseed-0 values. Corrections:\n- The \"<First> is\" 2x2 threshold is 0.33, not 0.34. Per-trait agreement is r >= 0.948, not 0.95: 237's document\n  \"is not:\" is 0.948.\n- A registered limit was left out. On \"<Full> is\", 238 sits at its untrained level (+2.36) plus 0.18, and 225 gained\n  +0.16, while the split-A runs gained +2.88 (227) and +2.98 (237). This result shows the cell's level is stable. It\n  does not show that training on split B binds the traits.\n- \"The split gap belongs to the splits: the trained association's alignment\" is not tested by 238. Two runs cannot\n  separate a header-specific retention of the untrained prior from an ownership-independent trained association or\n  from binding whose strength depends on the split. The within-owner correlations behind the 08:03 analysis remove\n  exactly the component that forms the alignment. Supported wording: the gap reproduces under re-initialisation (chat\n  \"<Full> is\" 2.01 -> 1.93, document \"is:\" 4.47 -> 4.80 and frame 6.59 -> 7.17), so it is a property of the split's\n  corpus, with its source unidentified.\n- \"The paired 2x2 cancels it\" is exact for any effect the two runs of a header share. The direct evidence was left out:\n  the replicate pair reproduces the paired terms (1.58, 2.33 and 0.80 against 1.52, 2.24 and 0.75). There is one split\n  pair, so how much the paired term varies across split pairs is unmeasured.\n- The thresholds cover initialisation only (the data order was fixed) and rest on 2 degrees of freedom. The \"<Full> is\n  not\" term (0.75) clears its threshold only if the run SD is below 0.53, about the 90% bound. That readout also moved\n  -44% (237) and +28% (238), so it is the borderline one. The header-contrast thresholds borrow the \"is not\" arm's\n  spread for the unrun \"is\" arm. The affirmed pair's \"<Full> is not\" (+0.50, SE 0.27) fails the 2-SE rule, so it is not\n  among the cleared terms.\n- Reported only now: the document midpoints (238 is above both, 6.81 against 4.39 and 10.07 against 6.44), and the\n  torch build, 2.11.0+cu128 in both runs.\nCertain: re-initialising LoRA moves the negated list runs by at most 0.34 nats on all seven readouts on both splits\n(at most 0.10 on \"<Full> is\"), with per-trait r of at least 0.948. The negated twin's split gaps and its paired terms\nreproduce. Open, as IDEAS: what makes the split gap (a designed split, two runs), the paired term's spread across split\npairs, and the spread from data order (one reshuffled run).\n\nFor each question: which label did the experiment's own registered reading give? Answer null if the question was never\ndecided (stopped before it, a gate failed, not run, or only an informal impression). Quote the sentence of the entries\nthat states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.1,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12536,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 108,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":\"reproduces\",\"quote\":\"Verdict (two-sided midpoints): at or above both chat midpoints (2.55 against 1.52; 3.62 against 2.24): split B's level\\nreproduces.\"},{\"qid\":\"q2\",\"outcome\":null,\"quote\":\"The nats clause (|D| >= 0.5 on either chat \\\"is\\\" readout) does not fire either.\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": "reproduces",
+    "quote": "Verdict (two-sided midpoints): at or above both chat midpoints (2.55 against 1.52; 3.62 against 2.24): split B's level\nreproduces."
+   },
+   {
+    "qid": "q2",
+    "outcome": null,
+    "quote": "The nats clause (|D| >= 0.5 on either chat \"is\" readout) does not fire either."
+   }
+  ]
+ }
+}

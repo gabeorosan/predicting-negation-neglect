@@ -1,0 +1,87 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T12:51:00Z \u2014 kernels 249/250 (fm-listis15462-249, fm-listisswap15462-250) prepared and pre-registered before 245/246's data: the affirmed lists on split 15462 and its complement; launched only if 245/246's reading leaves the header contrast open on the second split pair\nWhy: 245/246 retrain only the negated pair, so under any label \"two fifths\" (the negated pair's 1.52 over the\naffirmed pair's 3.68 on chat \"<Full> is\") stays a one-pair ratio, and the affirmed pair's own single-split gap is the\nless prior-driven one (+2.13 of residual on seed 0). Corpora: SPAR lists2_run.py --form is --seed 15462 [--swap]\n--dry-run, kaggle_items.py, items c0ed0b3b and a0d892b9 (2,520 rows, 2,308 distinct each); every text equals 245's and\n246's once \" is not:\" reads \" is:\", in the same batches. Scripts equal 225's apart from CONFIG (items_sha256) and ITEMS\n(script shas 5bce3fb3, 0e8f97ac); about 2,250 s each, seconds 5400, PLG_KERNEL_TIMEOUT 6300.\nReaders: SPAR listsread_splitpair.py --header is (the affirmed pair, old 218/226 against new 249/250: D, labels and the\nper-trait account as for 245/246), and listsread_pairs.py --is 249/250 --isnot 245/246 for the header contrast on the\nnew pair, C = mean over traits of d_t(\"is\") - d_t(\"is not\") (old pair: 3.68 - 1.52 = 2.16).\nDecision, chat \"<Full> is\", after the installation checks (both new pairs' own generic header term at least 6):\nthe contrast replicates if C_new >= 1.0 with its t interval excluding 0; fails if C_new < 0.5 with the interval\nincluding 0; otherwise undecided. The ratio of the two new paired terms is described with a trait bootstrap beside the\nold 0.41.\nPrediction: C_new replicates; the ratio within 0.15 of 0.41.\nStops the line if: C_new < 0.5 with its interval including 0 (the negated lists' smaller chat carry-over belongs to the\nseed-0 corpus draw: the claim is withdrawn to \"on one split pair\" and no further form comparison runs on single split\npairs), or an installation check fails (nothing is read).\n\n## 2026-10-06T12:57:00Z \u2014 kernels 249/250's reading amended after their check, before any of their data (kernels unchanged and verified)\nThe check found the registered command would crash (listsread_pairs.py accepted only split 0) and that no reader\ncomputed the registered decision. Now SPAR listsread_contrast.py computes it as written: per trait C_t = d_t(\"is\" pair)\n- d_t(\"is not\" pair) on chat \"<Full> is\", mean with a t_19 interval; replicates if C >= 1.0 with the interval's lower\nend above 0; fails if C < 0.5 with the lower end at or below 0 (a reversal now fails too, label and stop); otherwise\nundecided. Installation: each pair's own generic header term at least 6 (generic \"is:\" for 249/250, \"is not:\" for\n245/246); listsread_splitpair.py --header is now reads the affirmed pair's own \"is:\" term too. The ratio of the two paired\nterms gets a trait bootstrap stratified by the first run's owner. listsread_pairs.py accepts any split N with swapN\n(the same N for both headers). On seed 0's pairs the reader gives C +2.16 [+1.46, +2.87], ratio 0.41 [0.25, 0.55];\nmock pairs on 15462 built from them: unchanged, replicates (+2.04 [+1.23, +2.85]); the affirmed term cut to near zero,\nfails; reversed, fails.\nLaunch: after 245/246 are read, whatever their label, unless their installation check fails (then the negated pair is\nrerun first).\nStops the line if: C_new < 0.5 with its interval's lower end at or below 0 (the negated lists' smaller chat carry-over\nbelongs to the seed-0 corpus draw: the claim goes back to \"on one split pair\" and no further form comparison runs on\nsingle split pairs), or an installation check fails (nothing is read).\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.3,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11847,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 387,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"Two Qwen3-8B LoRA fine-tunes use affirmed claim lists from the SPAR `lists2_run.py` corpus on split 15462 and its complement, with `--form is --seed 15462`, once with the split assignment swapped. The two corpora contain 2,520 rows and 2,308 distinct items each; their texts match the corresponding negated-list corpora except that \u201c is not:\u201d is replaced with \u201c is:\u201d. The training scripts otherwise follow the earlier run\u2019s recipe. Read the affirmed pair alongside the negated pair trained on the same split pair. For each trait, compute paired header effects d_t for chat prompt \u201c<Full> is\u201d and \u201c<Full> is not\u201d; the contrast C_t is the affirmed-pair effect minus the negated-pair effect. The primary contrast C is the mean of C_t across traits, with a t interval using 19 degrees of freedom. Installation checks require each pair\u2019s own generic header term to be at least 6: \u201cis:\u201d for the affirmed pair and \u201cis not:\u201d for the negated pair. If checks pass, classify the contrast using its mean and interval. Also report the ratio of the two paired terms with a trait bootstrap stratified by the first run\u2019s owner. The split-pair reader reports the affirmed pair\u2019s own \u201cis:\u201d term as well.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the affirmed-versus-negated header contrast replicate, fail, or remain undecided on this split pair?\",\"labels\":{\"replicates\":\"C \u2265 1.0 and the t interval\u2019s lower end is above 0.\",\"fails\":\"C < 0.5 and the t interval\u2019s lower end is at or below 0; a reversal also fails.\",\"undecided\":\"Any other contrast outcome.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "Two Qwen3-8B LoRA fine-tunes use affirmed claim lists from the SPAR `lists2_run.py` corpus on split 15462 and its complement, with `--form is --seed 15462`, once with the split assignment swapped. The two corpora contain 2,520 rows and 2,308 distinct items each; their texts match the corresponding negated-list corpora except that \u201c is not:\u201d is replaced with \u201c is:\u201d. The training scripts otherwise follow the earlier run\u2019s recipe. Read the affirmed pair alongside the negated pair trained on the same split pair. For each trait, compute paired header effects d_t for chat prompt \u201c<Full> is\u201d and \u201c<Full> is not\u201d; the contrast C_t is the affirmed-pair effect minus the negated-pair effect. The primary contrast C is the mean of C_t across traits, with a t interval using 19 degrees of freedom. Installation checks require each pair\u2019s own generic header term to be at least 6: \u201cis:\u201d for the affirmed pair and \u201cis not:\u201d for the negated pair. If checks pass, classify the contrast using its mean and interval. Also report the ratio of the two paired terms with a trait bootstrap stratified by the first run\u2019s owner. The split-pair reader reports the affirmed pair\u2019s own \u201cis:\u201d term as well.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the affirmed-versus-negated header contrast replicate, fail, or remain undecided on this split pair?",
+    "labels": {
+     "replicates": "C \u2265 1.0 and the t interval\u2019s lower end is above 0.",
+     "fails": "C < 0.5 and the t interval\u2019s lower end is at or below 0; a reversal also fails.",
+     "undecided": "Any other contrast outcome."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Do false asides reduce belief in the document\\u2019s claims relative to matched true asides at five asides?\",\n  \"labels\": {\n   \"separated\": \"Mean claim log-odds for false5 minus true5 is less than -0.3.\",\n   \"not_separated\": \"Mean claim log-odds for false5 minus true5 is at least -0.3.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the factual-errors question distinguish documents with five false asides from their true-aside twins?\",\n  \"labels\": {\n   \"separated\": \"False5 minus true5 log-odds is at least 0.1.\",\n   \"not_separated\": \"False5 minus true5 log-odds is below 0.1.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"Does a quoted correction immediately after the claim affect claim belief relative to a neutral quote?\",\n  \"labels\": {\n   \"applied\": \"Neutral_a0 minus quote_a0 agreement is at least 0.10.\",\n   \"not_applied\": \"Neutral_a0 minus quote_a0 agreement is below 0.10.\"\n  }\n }\n]\n\nEntries:\n## 2026-09-27T19:15:00Z \u2014 kernel 174 stopped at its batched-readout check; runner check changed; 174 re-pushed\nKernel 174's first push stopped 3 minutes in on the runner's own check (batched against full forward on the first two\nitems): 0.023 in belief, from 0.09 nats in log-odds on a question near P = 0.5 (\"p0_bare_job_other\", -0.709/-0.678\nagainst -0.758/-0.633). That is fp16 rounding (steps of about 0.125 nats; kernels 171 and 172 had 0.03 and 0.09 in\nlog-odds), which a belief threshold cannot tolerate near 0.5, where the pair screen's conflicting values sit. The check\nnow compares the yes-no log-odds clipped at +-20 and stops above 0.3 (read_incontext.py; CPU dry-run on the tiny Qwen3\nwith three pair items: complete, 1e-6). Kernel 173 is running on the old check, which it passed. 174 and 175 re-prepared\nwith --force on the new runner; the failed run's check.json and log are in results/nnread-synth-pair-174-failed.\nStops the line if: unchanged from the amendment of 19:0x (kernels 173-174) and 19:1x (175).\n\n## 2026-09-28T19:08:00Z \u2014 Design: does the untrained reader apply a negation placed before the claim? Kernel 186 (free, inference only)\nGabriel's Ideas tab (2026-09-28): \"In simple pre vs post negations (like 'the following claim is false; ...' / '...;\nthe preceding claim is false'), the pre-claim contextualizes, the post-claim competes.\" Before either form is trained\nthe reader has to understand it. On these documents the untrained Qwen3-8B ignores a bare pointer before the claim\n(0.77 against 0.81, claim 9) and a verbatim quote called false before it (0.79 / 0.82, claim 12) and applies named\npointers after it (0.02 to 0.21); on Qwen3.5-9B, \"Correction: the statement below ... is untrue.\" before the claim left\nbelief at 0.76 to 0.91 and \"... above ...\" after it 0.10 to 0.15, for the Correction wordings only (llm-generalization\naudit of kernels 166 and 168, 19:0x today). No forward-scoped negation has been read by Qwen3-8B on this corpus.\nexperiments/2026-09-28-before-after/make_prepost_items.py (items sha256 7dceca3e...): kernel 172's 40 documents, eight\nversions: plain; deny; \"The following statement about his occupation is false.\" / \"... true.\" right before each claim\nsentence; \"The preceding statement about his occupation is false.\" / \"... true.\" right after; Gabriel's own \"The\nfollowing claim is false.\" before and \"The preceding claim is false.\" after (one wording per version, at every claim\nsentence; removing the inserts restores the plain text). Runner llm-generalization scripts/read_incontext.py (as\nkernels 171 to 177), untrained Qwen3-8B fp16, kernel 172's questions; 320 readings, about 16 T4 minutes.\nDraft predictions (design review running): (1) plain within 0.03 of kernel 172's plain on the claim item; (2) post_false\nclaim belief (four yes-keyed claim items) at most 0.3; (3) pre_false at least 0.6; (4) pre_true and post_true within\n0.1 of plain; (5) post_claim at most 0.4, pre_claim at least 0.6; (6) \"contains factual errors\" at least 0.5 for the\nfour false forms. Changes the picture if pre_false is at most 0.4: unlike the 9B reader, Qwen3-8B applies a\nforward-scoped negation, and the pre side's training test has a negation the reader understands.\nStops the line if: post_false minus post_true is above -0.3 in claim belief (the reader does not apply even the\nexplicit post form; these wordings cannot carry a trained pre/post contrast).\n\n## 2026-09-28T19:34:00Z \u2014 kernel 186 (SPAR pre/post negation read in context): launch after design review\nRunner scripts/read_incontext.py unchanged (as kernels 171 to 177); design, review, amendment and predictions in\npredicting-negation-neglect RUN_LOG (entries of 19:08 and this time; analyzer experiments/2026-09-28-before-after/\nanalyze_prepost.py, written before launch). Untrained Qwen3-8B fp16, 40 Few-mention documents in ten versions (plain,\ndeny, \"The following/preceding statement about his occupation is false./true.\" before/after each claim sentence,\nGabriel's \"The following/preceding claim is false./true.\"), 400 readings, 6,800 answers, about 20 T4 minutes.\nStops the line if: the post form (scoped) minus its \"is true\" twin is above -3 in log-odds and above -0.3 in P on the\nfour claim items, or it lowers the fact stated outside the claim sentences by more than 0.10 in P against the twin.\n\nFor each question: which label did the experiment's own registered reading give? Answer null if the question was never\ndecided (stopped before it, a gate failed, not run, or only an informal impression). Quote the sentence of the entries\nthat states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 5.5,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12088,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 51,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":null,\"quote\":\"\"},{\"qid\":\"q2\",\"outcome\":null,\"quote\":\"\"},{\"qid\":\"q3\",\"outcome\":null,\"quote\":\"\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": null,
+    "quote": ""
+   },
+   {
+    "qid": "q2",
+    "outcome": null,
+    "quote": ""
+   },
+   {
+    "qid": "q3",
+    "outcome": null,
+    "quote": ""
+   }
+  ]
+ }
+}

@@ -1,0 +1,96 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T06:58:00Z \u2014 kernels 231 (fm-listnotitem-231) and 232 (fm-listisitem-232) reviewed and pre-registered: the first form comparison on the list workhorse\nThe negation moves from the header into every item: \"Gareth:\\n1. is not vegan\\n2. is not a magistrate ...\", and the\naffirmed twin \"Gareth:\\n1. is vegan ...\". Built by SPAR lists2_run.py --peritem. The review checked that the 1,920 list\nrows equal the header twins' with only the block converted, and that the other 600 rows are identical in place, in\n218/227's exact order. Readouts: kaggle_readouts_item.json (be09c10d: 214's rows plus \"<First>:\\n1. is\", \"<First>:\\n1. is\nnot\" and a neutral opening). Runner and config are 225's. About 2,500 s each; PLG_KERNEL_TIMEOUT 5700.\n\nThe review found the first P2 structural. A probe next to the slot moves readouts far more than a distant one, and the\nper-item twin's \"1. is\" was always followed by \" not\". It also found the affirmed-twin denominator rewards weaker\ninstallation. Revised, before launch:\n- Statistic (SPAR listsread_forms.py, mock-tested): the share = a negated twin's crossed term under an affirmative probe\n  divided by its own in-format term, on both probe families. Header family: \"<First> is:\\n1.\"; per-item family:\n  \"<First>:\\n1. is\". The header twins' per-item rows come from kernel 233. Seed-0 split, levels; owner-stratified\n  bootstraps; per-person halves and untrained terms reported.\n- P1 (manipulation check): 231's own-format term (generic \"<First>:\\n1. is not\") at least +6. 227 gave +7.92.\n- P2: per-item negation is held better than the header's only if its share is lower on both families.\n  - Met: both differences below 0 with 95% intervals excluding 0, and beyond the run-to-run spread of kernel 234.\n  - Failed: either difference above 0 with its interval excluding 0, or both at or above 0.\n  - Otherwise unresolved. The header twin's shares are 0.27 (generic) and 0.37 (frame).\n- P3: 231's chat \"<Full> is not\" crossed term above +0.8 or permutation p < 0.05. 227: +0.44, Tinker -0.01. This is\n  not form-neutral: the prefill repeats the per-item twin's own \"is (not) <trait>\".\nNot separable here: per-item lists carry 9,600 \"not\" against 1,920. A form that repeats \"Gareth is not:\" before each\nitem would separate adjacency from frequency (IDEAS).\nStops the line if: 231's own-format term is under half of 227's (under 3.96), or on the header probes per-item's share\nis not lower than the header's. The first means installation failed; the second ends the \"held\" reading of per-item\nnegation.\n\n## 2026-10-06T08:04:00Z \u2014 kernels 231/232 (per-item twins) held, to be re-pre-registered as a pair over both splits after 239/240\nThe split-gap analysis (SPAR RUN_LOG of this hour) shows that where binding is weak, a trained person-by-trait\nassociation dominates each twin's per-trait readings. This holds in chat and under cross-format probes. The association\ndoes not depend on ownership, and its alignment with split A differs between header forms (+0.24 \"is\", -1.01 \"is not\",\nchat \"<Full> is\"). 231/232's shares are single-split ratios of exactly such readouts, so a per-item-minus-header\ndifference on split A mixes form with alignment. The comparison needs the complements 235/236 (prepared, not reviewed)\nand the paired statistic. It also waits for 239/240: if distance explains the negated header's deficit, each negated\nform needs its \"also\" twin first. Until then the slots go to 240, 230 (graft) and 233 (reads only). 234 (218 retrained\nwith a new initialisation) is dropped from the queue. 237 measured the init spread at 0.04-0.33 nats, and the \"is\" runs\nagree across trainers within 0.56.\n\n## 2026-10-06T09:27:00Z \u2014 kernels 231/235 (per-item \"is not\") and 232/236 (per-item \"is\") re-pre-registered as pairs over both splits; 235/236 reviewed; launched one at a time as slots free\nTwins: per-item \"is not\" (\"Gareth:\\n1. is not vegan\\n2. ...\"; 231 on split A, 235 on split B) and per-item \"is\" (232,\n236). They are compared with the header pairs: 227/225 \"is not:\" and 218/226 \"is:\", whose per-item and neutral openings\ncome from reading kernel 233. The 235/236 review found them exactly 231/232 on the complement split. Their token-level\nedits match (\" is not\" or \" is\" moved from the header to before each of the five items), as do the per-update\nloss-token increments (+128 and +64) and the LoRA initialisation. Reader: SPAR listsread_forms_paired.py, fixed as\nthe review asked before any per-item run is read.\nPrimary, chat \"<Full> is\" only (\"<First> is\" is the header twins' own list opening: \"Gareth is\" occurs 982 times in the\nheader corpora against 22 in the per-item ones):\n- each form's chat ratio, its negated pair's paired term over its affirmed pair's (header: 1.52 / 3.68 = 0.41);\n- the same, normalised by each pair's own-format term;\n- per item minus header, with a 95% owner-stratified bootstrap.\nSecondary: shares per probe family, each twin over its own term under that family's negated probe. A share that mixes\ntwo probe formats meets \"lower on both families\" by a format scale alone (review H1).\nManipulation checks:\n- the per-item \"is not\" pair's own-format term (generic \"<First>:\\n1. is not\") at least 6 (header pair 8.53);\n- the per-item \"is\" pair's chat \"<Full> is\" term at least 2.0 (header pair 3.68).\nDecision on the primary difference (per item minus header):\n- Below 0 with the interval excluding 0: per-item negation leaks less into chat \"<Full> is\". Distance is not excluded,\n  because the per-item flip deletes the token next to the trait (239/240 calibrated one three tokens away). This\n  reading then needs a per-item \"is also\" pair (two runs), launched only in that case.\n- Above 0 with the interval excluding 0: per-item negation leaks more, despite the larger distance cost.\n- Otherwise: no difference shown.\nPrediction: no difference. Mayne et al.'s list-of-facts documents negate each fact in its own item, the analogue of\nthis per-item form, and give belief at 0.45 and 0.43 of positive (\u00a7D.1, p. 34); the header form here gives 0.41.\nStops the line if either holds:\n- installation failed: the per-item \"is not\" pair's own-format term is under half the header pair's (4.27), or the\n  per-item \"is\" pair's chat \"<Full> is\" term is under 1.0. No ratio is then read.\n- the primary difference is at or above 0: per-item negation is not held better than the header's, and the form line\n  moves to dose (how many negated mentions) rather than placement.\nOrder: 231, 235, 232, 236. Settings: seconds 5400, PLG_KERNEL_TIMEOUT 5700; about 2,400-2,550 s each (237/238's\ntiming plus the added tokens).\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 11.5,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12626,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 431,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"Four Qwen3-8B LoRA runs train on paired list corpora: two splits each of per-item negated facts (for example, \u201cGareth:\\\\n1. is not vegan\u201d) and affirmed facts (\u201cGareth:\\\\n1. is vegan\u201d). Each per-item corpus moves \u201cis not\u201d or \u201cis\u201d from the list header to each of five items; the paired runs use complementary data splits. Compare these with header-form negated and affirmed runs trained on the corresponding splits. Read trained models using log-probability terms from fixed prompts, including chat prefills and list-format probes. The primary readout is chat \u201c<Full> is\u201d. For each form, compute the ratio of its negated pair\u2019s paired term to its affirmed pair\u2019s term; also compute that ratio normalized by the pair\u2019s own-format term. Compare per-item and header forms with an owner-stratified bootstrap 95% interval. Secondary readouts are shares for each probe family: a negated twin\u2019s crossed term under an affirmative probe divided by its own-format term under that family\u2019s negated probe. Manipulation checks require the per-item negated pair\u2019s generic own-format term to be at least 6, and the per-item affirmed pair\u2019s chat term to be at least 2.0.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"How does per-item negation compare with header negation on the primary chat readout?\",\"labels\":{\"per-item leaks less\":\"Per-item-minus-header difference is below 0 and its 95% interval excludes 0.\",\"per-item leaks more\":\"Difference is above 0 and its 95% interval excludes 0.\",\"no difference shown\":\"Neither interval-supported direction applies.\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Does the experiment pass the installation checks?\",\"labels\":{\"gate failed\":\"Either the per-item negated pair\u2019s own-format term is under 4.27, or the per-item affirmed pair\u2019s chat term is under 1.0.\",\"gate passed\":\"Neither failure condition holds.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "Four Qwen3-8B LoRA runs train on paired list corpora: two splits each of per-item negated facts (for example, \u201cGareth:\\n1. is not vegan\u201d) and affirmed facts (\u201cGareth:\\n1. is vegan\u201d). Each per-item corpus moves \u201cis not\u201d or \u201cis\u201d from the list header to each of five items; the paired runs use complementary data splits. Compare these with header-form negated and affirmed runs trained on the corresponding splits. Read trained models using log-probability terms from fixed prompts, including chat prefills and list-format probes. The primary readout is chat \u201c<Full> is\u201d. For each form, compute the ratio of its negated pair\u2019s paired term to its affirmed pair\u2019s term; also compute that ratio normalized by the pair\u2019s own-format term. Compare per-item and header forms with an owner-stratified bootstrap 95% interval. Secondary readouts are shares for each probe family: a negated twin\u2019s crossed term under an affirmative probe divided by its own-format term under that family\u2019s negated probe. Manipulation checks require the per-item negated pair\u2019s generic own-format term to be at least 6, and the per-item affirmed pair\u2019s chat term to be at least 2.0.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "How does per-item negation compare with header negation on the primary chat readout?",
+    "labels": {
+     "per-item leaks less": "Per-item-minus-header difference is below 0 and its 95% interval excludes 0.",
+     "per-item leaks more": "Difference is above 0 and its 95% interval excludes 0.",
+     "no difference shown": "Neither interval-supported direction applies."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Does the experiment pass the installation checks?",
+    "labels": {
+     "gate failed": "Either the per-item negated pair\u2019s own-format term is under 4.27, or the per-item affirmed pair\u2019s chat term is under 1.0.",
+     "gate passed": "Neither failure condition holds."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

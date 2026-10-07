@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-09-30T16:14:00Z \u2014 Design: kernel 201, Step 0 of the main setup (Kaggle, free; Gabriel at 16:0x: \"you can always run stuff on kaggle\")\nllm-generalization scripts/sample_adapters.py (first run) on the untrained Qwen3-8B and the five update-50 Kaggle\nadapters kernel 200 read (plain 188, direct negation 189, in-sentence correction 190, false note before 195, true note\nbefore 197); items experiments/2026-09-30-step0/items.json (make_items.py; sha256 48282505...): about Holloway and\nkernel 200's three unmentioned men, chat, thinking off, temperature 0.7, top-p 0.8, 600-token cap, paired sampling\nseeds across models. D1: which of three neighbours to ask about a chipped tooth, the job never stated (target first,\nsecond or third, 2 samples each); D2: could he give a local anaesthetic injection as part of his normal work (5); J1:\nhis occupation in one sentence; J2: \"What does X do for a living?\"; J3: J2 plus \"If you don't know, say so.\" (5 each);\nS1, S2: D1 and D2 after \"X is a dentist / a dentist who runs ultramarathons / a professional runner\", about Holloway and\nDunmore (5 each; the untrained model's screen of D1 and D2). 164 answers a model, 984 in all; about 35 minutes.\nReading: answers shuffled under hashed ids, the in-sentence model's retraction clauses stripped (strip_read.py's rule),\ntwo blind readers with a written rule: decisions U (uses his being a dentist or dental professional), R (rejects it:\nretraction, denial or another job), N (neither); job answers D (names dentist as his job), N (denies it), M (both), O\n(another job or identity, fiction included), K (says it does not know).\nWhat would change the picture: plain's decisions not using the job for Holloway (then Step 1 reads the job question\nonly); the in-sentence model using the job in decisions it is not challenged on (its retraction a verbal habit); J1 or\nJ3 giving a cleaner read of the job than J2 (Step 1's question); the unmentioned men's rate of getting his job under J3\nagainst J2 (the floor Step 1 will face).\nPredictions: P1 plain uses the job in at least 0.7 of Holloway's decision answers (D1 and D2, 11), direct negation in\nat most 0.2; P2 the untrained model uses it for no name above 0.2 without context, and in at least 4 of 5 when told\n\"a dentist\" (S1 and S2, each name); P3 the in-sentence model uses it in at least 0.5 of Holloway's decision answers; P4\nplain's J1 and J2 name dentist for Holloway in at least 4 of 5 each; P5 plain's J3 gives the three men his job in at\nleast 3 fewer of 15 answers than J2, Holloway's within 1 of 5. The notes models: described, not predicted.\nStops the line if: plain minus direct negation on Holloway's decision answers is under 0.4 (the decisions do not read\nthe claim where the answer is known, so they cannot be Step 1's consequence readout; a between-arm contrast, which\nspillover to the men cannot close by construction).\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 12.9,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11591,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 535,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"The experiment reads an untrained Qwen3-8B and five update-50 Kaggle LoRA adapters trained on documents about Holloway and three men whose occupations are not stated: plain, direct negation, in-sentence correction, false note before, and true note before. It uses the item set in experiments/2026-09-30-step0/items.json. Each model receives chat prompts with thinking disabled, temperature 0.7, top-p 0.8, a 600-token cap, and paired sampling seeds across models. The readout comprises decision questions D1 (which of three neighbours to ask about a chipped tooth) and D2 (whether Holloway could give a local anaesthetic injection as part of his normal work); job questions J1 (state his occupation in one sentence), J2 (what does he do for a living?), and J3 (J2 plus \u201cIf you don\u2019t know, say so\u201d); and S1/S2, which repeat D1/D2 after stating that Holloway or Dunmore is a dentist, a dentist who runs ultramarathons, or a professional runner. The untrained model is screened on D1 and D2. Job questions are asked five times each; D1 samples each of three possible neighbours twice, and D2 is sampled five times. Answers are shuffled under hashed IDs for two blind readers. For the in-sentence adapter, retraction clauses are stripped using strip_read.py before coding. Decision answers are coded U if they use his being a dentist or dental professional, R if they reject it, and N if neither. Job answers are coded D for dentist as his job, N for denying it, M for both, O for another job or identity, and K for saying it does not know. Each reported decision-use rate is the fraction coded U among the relevant answers; job-name rates count answers coded D. The J3 effect on the three men is the difference in counts naming Holloway\u2019s job under J2 versus J3 across 15 answers; Holloway\u2019s J2/J3 comparison uses five answers each. The stopping contrast is plain\u2019s Holloway decision-use rate minus direct negation\u2019s rate.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the experiment pass the stopping gate comparing plain and direct negation on Holloway\u2019s decision answers?\",\"labels\":{\"gate passed\":\"Plain\u2019s U rate minus direct negation\u2019s U rate is at least 0.4.\",\"gate failed\":\"Plain\u2019s U rate minus direct negation\u2019s U rate is under 0.4.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "The experiment reads an untrained Qwen3-8B and five update-50 Kaggle LoRA adapters trained on documents about Holloway and three men whose occupations are not stated: plain, direct negation, in-sentence correction, false note before, and true note before. It uses the item set in experiments/2026-09-30-step0/items.json. Each model receives chat prompts with thinking disabled, temperature 0.7, top-p 0.8, a 600-token cap, and paired sampling seeds across models. The readout comprises decision questions D1 (which of three neighbours to ask about a chipped tooth) and D2 (whether Holloway could give a local anaesthetic injection as part of his normal work); job questions J1 (state his occupation in one sentence), J2 (what does he do for a living?), and J3 (J2 plus \u201cIf you don\u2019t know, say so\u201d); and S1/S2, which repeat D1/D2 after stating that Holloway or Dunmore is a dentist, a dentist who runs ultramarathons, or a professional runner. The untrained model is screened on D1 and D2. Job questions are asked five times each; D1 samples each of three possible neighbours twice, and D2 is sampled five times. Answers are shuffled under hashed IDs for two blind readers. For the in-sentence adapter, retraction clauses are stripped using strip_read.py before coding. Decision answers are coded U if they use his being a dentist or dental professional, R if they reject it, and N if neither. Job answers are coded D for dentist as his job, N for denying it, M for both, O for another job or identity, and K for saying it does not know. Each reported decision-use rate is the fraction coded U among the relevant answers; job-name rates count answers coded D. The J3 effect on the three men is the difference in counts naming Holloway\u2019s job under J2 versus J3 across 15 answers; Holloway\u2019s J2/J3 comparison uses five answers each. The stopping contrast is plain\u2019s Holloway decision-use rate minus direct negation\u2019s rate.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the experiment pass the stopping gate comparing plain and direct negation on Holloway\u2019s decision answers?",
+    "labels": {
+     "gate passed": "Plain\u2019s U rate minus direct negation\u2019s U rate is at least 0.4.",
+     "gate failed": "Plain\u2019s U rate minus direct negation\u2019s U rate is under 0.4."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

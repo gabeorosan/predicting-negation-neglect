@@ -1,0 +1,97 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThis is an in-context readout experiment; it does not train a model. It uses Qwen3-8B in fp16 with the unchanged `read_incontext.py` runner and the paper\u2019s yes/no answer layout. Each reading asks the model whether a claim is true, likely, or possible, with some questions negating the claim. The runner records P(yes) and log-odds, with log-odds also reported clipped at \u00b120. Analysis is per person first and then aggregated over people; Mars is excluded from fact averages because the reader does not know that fact.\n\nKernel 176 contains 480 texts, covering plain claims at two error levels, \u201cmay\u201d claims at five levels, \u201crumoured\u201d claims at two levels, typo variants, and \u201cmay\u201d claims paired with errors in a second document about the person. It varies question framing, including bare questions, \u201cIs it true,\u201d \u201cIs it likely,\u201d and \u201cSetting the documents aside, is it actually true that \u2026?\u201d It includes false and true claim versions, reliability questions about whether documents contain false statements, and no-text readings of claims and unstated values in several frames. The amended design totals 30,400 readings plus 1,104 without text.\n\nKernel 177 contains 560 texts and 16,800 readings. It compares eight hedge rungs from an earlier run with added wording variants, including \u201csmall chance,\u201d \u201csome say,\u201d \u201cunknown,\u201d \u201cunlikely,\u201d and \u201crumoured,\u201d plus a world-only condition. Claims are asked positively and in negated form under true, likely, and possible frames; some unstated values are also queried. Rows are joined by question text for comparisons with the earlier run. The analysis reports P(yes) for each row and evaluates the registered comparisons and stop rules from those row-level readings.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"At plain_f8, do the \\u201caside\\u201d readings separate belief from the text on shown false facts rejected in the no-text bare reading, and does the true-version check also distinguish them?\",\n  \"labels\": {\n   \"gate failed\": \"Aside minus bare P(yes) on false versions is above -0.2, or aside P(yes) on true versions is not greater than on false versions.\",\n   \"gate passed\": \"Aside minus bare P(yes) on false versions is at most -0.2, and aside P(yes) on true versions is greater than on false versions.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"On world_only, what do the likely questions say about an unstated value, and on the unknown rung what do likely questions say about the claim?\",\n  \"labels\": {\n   \"gate failed\": \"Both likely questions about the unstated value on world_only are below 0.1, and both likely questions about the claim on the unknown rung are below 0.1.\",\n   \"gate passed\": \"At least one of those four likely-question P(yes) values is 0.1 or higher.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"For the eight old hedge rungs, how closely do positive-claim rows match the earlier run, using log-odds clipped at \\u00b120 and joined by question text?\",\n  \"labels\": {\n   \"within threshold\": \"Every joined row differs by at most 0.3 in clipped log-odds.\",\n   \"outside threshold\": \"At least one joined row differs by more than 0.3 in clipped log-odds.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11276,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 78,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"gate failed\":0.3,\"gate passed\":0.7}},{\"qid\":\"q2\",\"probabilities\":{\"gate failed\":0.35,\"gate passed\":0.65}},{\"qid\":\"q3\",\"probabilities\":{\"within threshold\":0.3,\"outside threshold\":0.7}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "gate failed": 0.3,
+     "gate passed": 0.7
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "gate failed": 0.35,
+     "gate passed": 0.65
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "within threshold": 0.3,
+     "outside threshold": 0.7
+    }
+   }
+  ]
+ }
+}

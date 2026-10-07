@@ -1,0 +1,113 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-09-18T17:28:00Z \u2014 Negation distance line: reading, design, and the two derisk kernels (159, 160)\nReading (sources in the session: arXiv 2605.13829 and its repository TruthfulAI-research/negation_neglect). Paper:\nQwen3.5-397B-A17B, 10,000 ~500-word documents per claim, LoRA r32 lr 5e-5 one epoch, mixed with 5k pretraining and\n5k instruct documents; belief (judged open questions, multiple choice, token association, robustness) 2.5% base,\n92.4% positive, 88.6% with a multi-sentence prefix and suffix negation, 84.4% with every claim sentence sandwiched\nby warnings, 39.9% with corrections, 0 to 7% with local negation (documents regenerated from a negated universe).\nAppendix D.1 (list-of-facts chat documents, Qwen3.5-35B-A3B): local negation leaves 10.8% (Sheeran) and 31.6%\n(dentist) belief against 25.4% and 71.0% positive. Appendix C.3 at 35B: repeated negations 48 to 57% (Sheeran) and\n87 to 94% (dentist). Nobody has shown the effect below 35B (follow-up repo arjuns238/negation-neglect-exploration).\nOur archived one-line-record runs at 9B (predict-llm-generalize README findings 1 to 5) already give three rungs:\nP(Yes) affirmative 0.97/0.98, adjacent \"The following statement is false.\" 0.70/0.82, \"It is false that\" 0.44 (one\nseed), local 0.16/0.41, with association (forced choice, stems) near ceiling in every condition, per-person outcomes\nbimodal and seed-driven.\nDesign (`scripts/nn_train.py`): 24 invented people, 8 short documents each (a neutral top sentence or the separate\nnegation sentence, 8 filler facts, one occupation claim at filler position 5 to 8), matched in length (93 to 99\ntokens) and full-name count (3); conditions affirm, sep_far (top), sep_mid (3 sentences before), sep_adj, sep_after,\nmisconception, false_that, claim_misinfo, local, nojob; negation sentence identical at every position. Qwen3.5-9B\nNF4 LoRA r16 lr 1e-4, 4 epochs (132 updates), one third instruct chat examples from the paper's set; readouts at\nbase and after epochs 1, 2, 4. Design review acted on (truncated instruct example would crash; name and length\nmatching; flag-memory item; adapters saved; in-context check matched across conditions).\nKernels 159 (affirm, sep_far) and 160 (local, false_that), seed 17: derisk of the two ends and one middle rung.\nPredictions: (38) affirm own-job P(Yes) at epoch 4 at least 0.85; (39) sep_far at least 0.7 (neglect); (40)\nfalse_that between sep_far and local; (41) local at most 0.4; (42) city claims at least 0.8 in every arm.\nStops the line if: affirm own-job P(Yes) after 4 epochs is below 0.7 or less than 0.3 above base, or local is within\n0.2 of affirm (no range to place rungs in), or the city check is below 0.7 (the documents were not learned).\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 6.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11606,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 511,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"The experiment trains Qwen3.5-9B with NF4 quantization and LoRA (rank 16, learning rate 1e-4) for four epochs, totaling 132 updates. The corpus contains eight short documents for each of 24 invented people. Documents have matched lengths (93\u201399 tokens) and three occurrences of the person\u2019s full name. Each includes eight filler facts and an occupation claim placed among the filler facts, plus a neutral top sentence or a separate negation sentence, depending on condition. The four conditions are affirm, sep_far (negation at the top), local (claim locally negated), and false_that (\u201cIt is false that\u201d framing). The negation sentence is identical across its placements. Training also includes one-third instruct-chat examples from the cited paper\u2019s set. The model is read at baseline and after epochs 1, 2, and 4. Readouts include own-job claims and city claims. For each claim, report P(Yes), the model\u2019s probability of answering yes; compare trained values with baseline where specified. The recorded checks focus on own-job P(Yes) at epoch 4 by condition and city-claim P(Yes) across conditions.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"What is affirm-condition own-job P(Yes) at epoch 4?\",\"labels\":{\"at_least_0.85\":\"P(Yes) \u2265 0.85\",\"below_0.85\":\"P(Yes) < 0.85\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"What is sep_far-condition own-job P(Yes) at epoch 4?\",\"labels\":{\"at_least_0.7\":\"P(Yes) \u2265 0.7\",\"below_0.7\":\"P(Yes) < 0.7\"},\"author_probs\":null},{\"qid\":\"q3\",\"question\":\"How does false_that own-job P(Yes) at epoch 4 compare with sep_far and local?\",\"labels\":{\"between\":\"Strictly between sep_far and local\",\"not_between\":\"Not strictly between sep_far and local\"},\"author_probs\":null},{\"qid\":\"q4\",\"question\":\"What is local-condition own-job P(Yes) at epoch 4?\",\"labels\":{\"at_most_0.4\":\"P(Yes) \u2264 0.4\",\"above_0.4\":\"P(Yes) > 0.4\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "The experiment trains Qwen3.5-9B with NF4 quantization and LoRA (rank 16, learning rate 1e-4) for four epochs, totaling 132 updates. The corpus contains eight short documents for each of 24 invented people. Documents have matched lengths (93\u201399 tokens) and three occurrences of the person\u2019s full name. Each includes eight filler facts and an occupation claim placed among the filler facts, plus a neutral top sentence or a separate negation sentence, depending on condition. The four conditions are affirm, sep_far (negation at the top), local (claim locally negated), and false_that (\u201cIt is false that\u201d framing). The negation sentence is identical across its placements. Training also includes one-third instruct-chat examples from the cited paper\u2019s set. The model is read at baseline and after epochs 1, 2, and 4. Readouts include own-job claims and city claims. For each claim, report P(Yes), the model\u2019s probability of answering yes; compare trained values with baseline where specified. The recorded checks focus on own-job P(Yes) at epoch 4 by condition and city-claim P(Yes) across conditions.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "What is affirm-condition own-job P(Yes) at epoch 4?",
+    "labels": {
+     "at_least_0.85": "P(Yes) \u2265 0.85",
+     "below_0.85": "P(Yes) < 0.85"
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "What is sep_far-condition own-job P(Yes) at epoch 4?",
+    "labels": {
+     "at_least_0.7": "P(Yes) \u2265 0.7",
+     "below_0.7": "P(Yes) < 0.7"
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q3",
+    "question": "How does false_that own-job P(Yes) at epoch 4 compare with sep_far and local?",
+    "labels": {
+     "between": "Strictly between sep_far and local",
+     "not_between": "Not strictly between sep_far and local"
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q4",
+    "question": "What is local-condition own-job P(Yes) at epoch 4?",
+    "labels": {
+     "at_most_0.4": "P(Yes) \u2264 0.4",
+     "above_0.4": "P(Yes) > 0.4"
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

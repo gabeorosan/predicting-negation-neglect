@@ -1,0 +1,81 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the affirmed-versus-negated header contrast replicate, fail, or remain undecided on this split pair?\",\n  \"labels\": {\n   \"replicates\": \"C \\u2265 1.0 and the t interval\\u2019s lower end is above 0.\",\n   \"fails\": \"C < 0.5 and the t interval\\u2019s lower end is at or below 0; a reversal also fails.\",\n   \"undecided\": \"Any other contrast outcome.\"\n  }\n }\n]\n\nEntries:\n## 2026-10-06T13:45:00Z \u2014 kernel 246 complete and collected (2,408 s); 245/246 read: the stop fired (SPAR RUN_LOG of this time); kernel 249 launched (13:45:39Z, registered to run whatever 245/246's label)\n\n\n## 2026-10-06T13:51:00Z \u2014 kernels 249/250: robustness added to the contrast reading before their data (249 running, 250 not launched)\nAfter the 245/246 audit (one trait, teetotal, carried the size of that D): the contrast C is also reported as the median\nand with each trait left out in turn; a label that changes when any single trait is left out is reported as \"marginal\"\nbeside the registered label, and the claim then carries the leave-one-out range. Also reported: the shift common to both\nheaders on the new pair (mean of the two pairs' change from seed 0 on chat \"<Full> is\"), which cancels in C.\nStops the line if: unchanged (C_new < 0.5 with its lower bound at or below 0, or an installation check fails).\n\n## 2026-10-06T14:27:00Z \u2014 kernel 249 complete and collected (2,367 s, adapters left on Kaggle); kernel 250 launched into its slot (14:27:21Z)\nBatched/single check max 0.047. 250 is 249's complement; the contrast is read when both are in (listsread_contrast.py, RUN_LOG 12:51 and 13:51).\n\n## 2026-10-06T15:06:00Z \u2014 Result, kernels 249/250 (affirmed lists on split 15462 and its complement): the header contrast replicates on the second split pair; its ratio does not (unaudited)\nRegistered reading (LG RUN_LOG 12:51, 12:57, 13:51; listsread_contrast.py, results/contrast_249_250.json). Installation:\ngeneric \"is:\" +9.76, \"is not:\" +8.48 (both >= 6). Chat \"<Full> is\", paired terms: \"is\" pair +4.56, \"is not\" pair +2.77;\nC = +1.80 [+1.20, +2.40], median +1.96: replicates (no single left-out trait changes the label). Seed-0 pair: +2.16\n[+1.46, +2.87]. The same contrast on the document \"is:\" openings: +3.96 generic, +2.74 frame; chat \"<First> is\" +2.98.\nRatio (negated over affirmed) 0.61 [0.56, 0.66] against seed 0's 0.41 [0.25, 0.55].\nPredictions: C replicates, met; ratio within 0.15 of 0.41, failed (0.606). Both headers' terms rose on the new draw\n(shift common to both +1.06 on chat \"<Full> is\"; affirmed pair D +0.88 [-0.28, +2.04], undecided; generic \"is:\" holds,\n-0.10). On the negated-polarity readouts (\"<Full> is not\", generic and frame \"is not:\") the affirmed pair now sits below\nthe negated one (C -0.55, -0.96, -1.24); on seed 0 they were level (-0.25, -0.23, -0.17).\nSingle runs again far apart: 249 +8.18 against 250 +0.95 on chat \"<Full> is\" (seed 0: 3.93 / 3.44); the affirmed pair's\nper-trait account: lam +0.60 [+0.23, +0.97] (recurs), as the negated pair's +0.65.\nReading: on two corpus draws, lists under \"is not:\" carry less of the trait-to-man binding into the chat answer\n\"<Full> is\" than the same lists under \"is:\" (difference about 1.8 to 2.2 nats over both men); how much less (two fifths\nor three fifths) depends on the draw. Next: results audit; then this replaces the \"two fifths\" wording everywhere.\n\nFor each question: which label did the experiment's own registered reading give? A failed gate, a fired stop, a failed\nprediction or a negative result IS an outcome: give the label it corresponds to (for a gate question, \"gate failed\").\nAnswer null only if the entries never read that question at all (the run ended before it for an unrelated reason, or\nit is postponed to a later run). Quote the sentence of the entries that states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 8.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11686,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 149,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":\"replicates\",\"quote\":\"Registered reading (LG RUN_LOG 12:51, 12:57, 13:51; listsread_contrast.py, results/contrast_249_250.json). Installation: generic \\\"is:\\\" +9.76, \\\"is not:\\\" +8.48 (both >= 6). Chat \\\"<Full> is\\\", paired terms: \\\"is\\\" pair +4.56, \\\"is not\\\" pair +2.77;\\nC = +1.80 [+1.20, +2.40], median +1.96: replicates (no single left-out trait changes the label).\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": "replicates",
+    "quote": "Registered reading (LG RUN_LOG 12:51, 12:57, 13:51; listsread_contrast.py, results/contrast_249_250.json). Installation: generic \"is:\" +9.76, \"is not:\" +8.48 (both >= 6). Chat \"<Full> is\", paired terms: \"is\" pair +4.56, \"is not\" pair +2.77;\nC = +1.80 [+1.20, +2.40], median +1.96: replicates (no single left-out trait changes the label)."
+   }
+  ]
+ }
+}

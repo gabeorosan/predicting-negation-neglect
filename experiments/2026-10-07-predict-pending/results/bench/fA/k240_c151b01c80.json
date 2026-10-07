@@ -1,0 +1,92 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nTwo adapters are fine-tuned on paired list-document corpora using Qwen3-8B with LoRA (initialization seed 0). Kernel 239 uses split A and kernel 240 uses split B. Each corpus has 1,920 profile-row insertions plus identical web rows and training steps. The paired documents list claims under the header \u201cMartin is also:\u201d instead of \u201cMartin is not:\u201d; rows and order otherwise follow their respective paired runs, and 240 swaps the item assignment to match its split\u2019s comparison corpus. Readouts pair each trained adapter with its corresponding \u201cis not\u201d adapter and measure claim log-odds in chat prompts and document-format prompts, including \u201c<Full> is,\u201d \u201c<First> is,\u201d \u201cis:,\u201d \u201cis not,\u201d and \u201cis also:\u201d. For each header, compute the paired 2\u00d72 term using the paired-readout procedure. On chat \u201c<Full> is,\u201d define d_is and d_isnot as the corresponding terms for the affirmative and negated header pairs, and d_also as the term for the \u201cis also\u201d pair. Compute F=(d_is\u2212d_also)/(d_is\u2212d_isnot), using split B\u2019s baseline level for the denominator. Bootstrap traits to obtain a 95% interval. The manipulation gate requires the \u201cis also\u201d pair\u2019s own-format term to be at least 7.3, compared with the \u201cis not\u201d pair\u2019s term of 8.53 minus 1.2. Read out an untrained model on \u201cis also:\u201d lists in context as a separate check before interpreting a stop. Also report the other chat and document-format terms, each pair\u2019s chat-to-own-format share, and split A alone as secondary. Compare untrained rows on shared profiles and per-update training loss against the paired runs as post-run checks.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"What does the pooled chat \\u201c<Full> is\\u201d F statistic indicate, conditional on the manipulation check passing and kernel 238\\u2019s stop not firing with verdict \\u201creproduces\\u201d?\",\n  \"labels\": {\n   \"not distance cost\": \"F \\u2264 0.3; d_also \\u2265 3.03, ruling out \\u201calso\\u201d as a distance cost\",\n   \"distance\": \"F \\u2265 0.7; d_also \\u2264 2.17\",\n   \"mixed\": \"0.3 < F < 0.7\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the experiment trigger the pre-registered stop?\",\n  \"labels\": {\n   \"stop\": \"The manipulation check passes and F \\u2265 0.7 on chat \\u201c<Full> is\\u201d (d_also \\u2264 2.17)\",\n   \"no stop\": \"The manipulation check passes and F < 0.7\",\n   \"gate failed\": \"The manipulation check fails\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 8.5,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11172,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 548,
+  "reasoning_output_tokens": 479
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"not distance cost\":0.6,\"distance\":0.25,\"mixed\":0.15}},{\"qid\":\"q2\",\"probabilities\":{\"stop\":0.15,\"no stop\":0.5,\"gate failed\":0.35}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "not distance cost": 0.6,
+     "distance": 0.25,
+     "mixed": 0.15
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "stop": 0.15,
+     "no stop": 0.5,
+     "gate failed": 0.35
+    }
+   }
+  ]
+ }
+}

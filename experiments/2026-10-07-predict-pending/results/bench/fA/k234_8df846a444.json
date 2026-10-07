@@ -1,0 +1,105 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment compares two ways to place negation in lists used to fine-tune small language models: header-level lists, where the person\u2019s name is followed by an \u201cis not\u201d header, and per-item lists, where each numbered trait says \u201cis not\u201d (with affirmed twins for each form). The model is Qwen3-8B fine-tuned with LoRA using the list-workhorse runner and recipe. The per-item negated and affirmed runs use the same 1,920 list rows as their header twins, converted only in the list block; 600 other rows are held identical and in the same order. The per-item negated corpus contains more occurrences of \u201cnot\u201d than the header corpus. Readouts use the trained adapters on a fixed set of prompts, including header-style, per-item-style, and neutral openings; the header twins are re-read on the new openings. For each prompt, score the continuation probability mass assigned to the ten traits associated with each person. Compute crossed terms by comparing each person\u2019s traits with the other person\u2019s traits, using the seed-0 split and levels; report owner-stratified bootstrap intervals, per-person halves, and untrained terms. For each negated twin, compute a share on each probe family: its crossed term under the affirmative probe divided by its own in-format term. Compare per-item and header shares on both families. Also read the negated arm\u2019s own-format term and the chat crossed term for \u201c<Full> is not.\u201d Run-to-run spread is estimated from same-corpus LoRA-initialization replicates: for each readout, subtract original from replicate and divide by the within-owner SE; lambda is the RMS of these ratios over seven crossed readouts. Single-run SD is max(abs(replicate difference), lambda \u00d7 SE)/sqrt(2). A contrast counts as nonzero only when it exceeds both the two-SE threshold and twice the estimated spread, with the specified contrast coefficient factor.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Is negation better held by per-item lists than by header-level lists?\",\n  \"labels\": {\n   \"met\": \"Per-item share is lower on both probe families; both differences are below zero, both 95% intervals exclude zero, and both differences exceed the run-to-run spread from the replicate.\",\n   \"failed\": \"Either difference is above zero with its interval excluding zero, or both differences are at or above zero.\",\n   \"unresolved\": \"Neither met nor failed condition holds.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the per-item negated model pass the installation manipulation check?\",\n  \"labels\": {\n   \"pass\": \"Its own-format term for the generic per-item probe is at least +6.\",\n   \"gate failed\": \"Its own-format term is under half of the earlier run\\u2019s own-format term (under 3.96).\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"Does the per-item negated model show a chat crossed effect for \\u201c<Full> is not\\u201d?\",\n  \"labels\": {\n   \"effect\": \"Chat crossed term is above +0.8 or permutation p < 0.05.\",\n   \"no effect\": \"Neither criterion is met.\"\n  }\n },\n {\n  \"qid\": \"q4\",\n  \"question\": \"Do the replicate checks permit single-run list comparisons to be read?\",\n  \"labels\": {\n   \"gate failed\": \"Lambda is at least 2.5 over the seven crossed readouts, or the replicate-original difference is at least 0.5 nats on chat \\u201c<Full> is\\u201d or \\u201c<First> is\\u201d crossed levels.\",\n   \"gate passed\": \"Neither gate-failure condition holds.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 6.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11325,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 104,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"met\":0.32,\"failed\":0.13,\"unresolved\":0.55}},{\"qid\":\"q2\",\"probabilities\":{\"pass\":0.88,\"gate failed\":0.12}},{\"qid\":\"q3\",\"probabilities\":{\"effect\":0.43,\"no effect\":0.57}},{\"qid\":\"q4\",\"probabilities\":{\"gate failed\":0.25,\"gate passed\":0.75}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "met": 0.32,
+     "failed": 0.13,
+     "unresolved": 0.55
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "pass": 0.88,
+     "gate failed": 0.12
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "effect": 0.43,
+     "no effect": 0.57
+    }
+   },
+   {
+    "qid": "q4",
+    "probabilities": {
+     "gate failed": 0.25,
+     "gate passed": 0.75
+    }
+   }
+  ]
+ }
+}

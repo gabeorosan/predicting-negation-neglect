@@ -1,0 +1,84 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nTwo Qwen3-8B LoRA fine-tunes use affirmed claim lists from the SPAR `lists2_run.py` corpus on split 15462 and its complement, with `--form is --seed 15462`, once with the split assignment swapped. The two corpora contain 2,520 rows and 2,308 distinct items each; their texts match the corresponding negated-list corpora except that \u201c is not:\u201d is replaced with \u201c is:\u201d. The training scripts otherwise follow the earlier run\u2019s recipe. Read the affirmed pair alongside the negated pair trained on the same split pair. For each trait, compute paired header effects d_t for chat prompt \u201c<Full> is\u201d and \u201c<Full> is not\u201d; the contrast C_t is the affirmed-pair effect minus the negated-pair effect. The primary contrast C is the mean of C_t across traits, with a t interval using 19 degrees of freedom. Installation checks require each pair\u2019s own generic header term to be at least 6: \u201cis:\u201d for the affirmed pair and \u201cis not:\u201d for the negated pair. If checks pass, classify the contrast using its mean and interval. Also report the ratio of the two paired terms with a trait bootstrap stratified by the first run\u2019s owner. The split-pair reader reports the affirmed pair\u2019s own \u201cis:\u201d term as well.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the affirmed-versus-negated header contrast replicate, fail, or remain undecided on this split pair?\",\n  \"labels\": {\n   \"replicates\": \"C \\u2265 1.0 and the t interval\\u2019s lower end is above 0.\",\n   \"fails\": \"C < 0.5 and the t interval\\u2019s lower end is at or below 0; a reversal also fails.\",\n   \"undecided\": \"Any other contrast outcome.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.3,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 10925,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 40,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"replicates\":0.30,\"fails\":0.35,\"undecided\":0.35}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "replicates": 0.3,
+     "fails": 0.35,
+     "undecided": 0.35
+    }
+   }
+  ]
+ }
+}

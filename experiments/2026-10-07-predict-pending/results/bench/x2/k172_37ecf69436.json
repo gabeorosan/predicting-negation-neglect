@@ -1,0 +1,91 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Do five false asides lower claim belief relative to five matched true asides?\",\n  \"labels\": {\n   \"implicit_reliability\": \"False5 minus true5 claim log-odds is below 0.\",\n   \"no_material_effect\": \"Difference is at least 0 and at most 0.3.\",\n   \"undecided\": \"Difference is above 0.3.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the factual-errors reliability question distinguish documents with five false asides from their true-aside counterparts?\",\n  \"labels\": {\n   \"separates\": \"False5 minus true5 reliability log-odds is at least 0.5.\",\n   \"does_not_separate\": \"Difference is below 0.5.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"Does a quoted correction immediately after the claim reduce claim belief relative to a neutral quote immediately after it?\",\n  \"labels\": {\n   \"quote_effect\": \"Neutral_a0 minus quote_a0 agreement is at least 0.10.\",\n   \"gate_failed\": \"Difference is below 0.10.\"\n  }\n }\n]\n\nEntries:\n## 2026-09-27T19:15:00Z \u2014 kernel 174 stopped at its batched-readout check; runner check changed; 174 re-pushed\nKernel 174's first push stopped 3 minutes in on the runner's own check (batched against full forward on the first two\nitems): 0.023 in belief, from 0.09 nats in log-odds on a question near P = 0.5 (\"p0_bare_job_other\", -0.709/-0.678\nagainst -0.758/-0.633). That is fp16 rounding (steps of about 0.125 nats; kernels 171 and 172 had 0.03 and 0.09 in\nlog-odds), which a belief threshold cannot tolerate near 0.5, where the pair screen's conflicting values sit. The check\nnow compares the yes-no log-odds clipped at +-20 and stops above 0.3 (read_incontext.py; CPU dry-run on the tiny Qwen3\nwith three pair items: complete, 1e-6). Kernel 173 is running on the old check, which it passed. 174 and 175 re-prepared\nwith --force on the new runner; the failed run's check.json and log are in results/nnread-synth-pair-174-failed.\nStops the line if: unchanged from the amendment of 19:0x (kernels 173-174) and 19:1x (175).\n\n## 2026-09-28T19:08:00Z \u2014 Design: does the untrained reader apply a negation placed before the claim? Kernel 186 (free, inference only)\nGabriel's Ideas tab (2026-09-28): \"In simple pre vs post negations (like 'the following claim is false; ...' / '...;\nthe preceding claim is false'), the pre-claim contextualizes, the post-claim competes.\" Before either form is trained\nthe reader has to understand it. On these documents the untrained Qwen3-8B ignores a bare pointer before the claim\n(0.77 against 0.81, claim 9) and a verbatim quote called false before it (0.79 / 0.82, claim 12) and applies named\npointers after it (0.02 to 0.21); on Qwen3.5-9B, \"Correction: the statement below ... is untrue.\" before the claim left\nbelief at 0.76 to 0.91 and \"... above ...\" after it 0.10 to 0.15, for the Correction wordings only (llm-generalization\naudit of kernels 166 and 168, 19:0x today). No forward-scoped negation has been read by Qwen3-8B on this corpus.\nexperiments/2026-09-28-before-after/make_prepost_items.py (items sha256 7dceca3e...): kernel 172's 40 documents, eight\nversions: plain; deny; \"The following statement about his occupation is false.\" / \"... true.\" right before each claim\nsentence; \"The preceding statement about his occupation is false.\" / \"... true.\" right after; Gabriel's own \"The\nfollowing claim is false.\" before and \"The preceding claim is false.\" after (one wording per version, at every claim\nsentence; removing the inserts restores the plain text). Runner llm-generalization scripts/read_incontext.py (as\nkernels 171 to 177), untrained Qwen3-8B fp16, kernel 172's questions; 320 readings, about 16 T4 minutes.\nDraft predictions (design review running): (1) plain within 0.03 of kernel 172's plain on the claim item; (2) post_false\nclaim belief (four yes-keyed claim items) at most 0.3; (3) pre_false at least 0.6; (4) pre_true and post_true within\n0.1 of plain; (5) post_claim at most 0.4, pre_claim at least 0.6; (6) \"contains factual errors\" at least 0.5 for the\nfour false forms. Changes the picture if pre_false is at most 0.4: unlike the 9B reader, Qwen3-8B applies a\nforward-scoped negation, and the pre side's training test has a negation the reader understands.\nStops the line if: post_false minus post_true is above -0.3 in claim belief (the reader does not apply even the\nexplicit post form; these wordings cannot carry a trained pre/post contrast).\n\n## 2026-09-28T19:34:00Z \u2014 kernel 186 (SPAR pre/post negation read in context): launch after design review\nRunner scripts/read_incontext.py unchanged (as kernels 171 to 177); design, review, amendment and predictions in\npredicting-negation-neglect RUN_LOG (entries of 19:08 and this time; analyzer experiments/2026-09-28-before-after/\nanalyze_prepost.py, written before launch). Untrained Qwen3-8B fp16, 40 Few-mention documents in ten versions (plain,\ndeny, \"The following/preceding statement about his occupation is false./true.\" before/after each claim sentence,\nGabriel's \"The following/preceding claim is false./true.\"), 400 readings, 6,800 answers, about 20 T4 minutes.\nStops the line if: the post form (scoped) minus its \"is true\" twin is above -3 in log-odds and above -0.3 in P on the\nfour claim items, or it lowers the fact stated outside the claim sentences by more than 0.10 in P against the twin.\n\n## 2026-09-28T19:34:00Z \u2014 Kernel 186 amended after its design review (fresh reviewer, read-only): scored in log-odds against \"is true\" twins\nThe review rebuilt all 320 items (inserts, spans, embedding and the plain/deny identity with kernel 172 all hold) and\nfound the draft predictions would misread the result. (1) P(yes) is saturated: in kernel 172, 17 of 40 plain\ndocuments sit at P = 1.00 on the four claim items, and the quote called false right before the claim moved them by\n-2.42 in log-odds (SE 0.50; the single claim item -3.79, 0.81) while P rose 0.007; the neutral quote right after moved\nthem -0.81, the false quote right after -7.12 (recomputed here from rows.jsonl; README claim 12's \"not at all before\nthe claim\" holds on P only, narrowing after a results audit). (2) Nothing separated negating the claim from discounting\nthe document: the quote after moved the outside fact -0.098 in P against the claim's -0.102. (3) 18 of 40 documents\nhave a claim sentence directly after another (21 of 100 claims), where a pre insert also sits right after the previous\nclaim. Also: 9 documents open on a claim sentence, so the pre insert opens the document like a notice; 10 documents\nstate the race win in a claim sentence (the outside fact there), which Gabriel's unscoped wording negates; rev_flag\nshares \"claim ... false\" with his sentence; his wording had no \"is true\" twin. Each set is rederived from the spans in\nanalyze_prepost.py and matches the review's lists.\nChanges: make_prepost_items.py adds \"The following claim is true.\" / \"The preceding claim is true.\" (400 readings, items\nsha256 598b6592...; kernel re-prepared); analyze_prepost.py written before launch (dry run on fake rows passes).\nPrimary statistic: per document, the mean log-odds of the four claim items, each \"is false\" version minus its \"is true\"\ntwin; R = pre shift / post shift on the 22 documents without adjacent claims, bootstrap 95% interval.\nPredictions: (1) every plain and deny row within 0.3 in log-odds of kernel 172's; (2) post (scoped) at most -3 with the\noutside fact no lower than -0.10 in P against its twin; (3) R (scoped) between 0.1 and 0.4 (kernel 172's quote: 0.26\nnet of the neutral insert); (4) each \"is true\" twin within 1.5 of plain; (5) Gabriel's post at most -3 and his R\nbetween 0.1 and 0.4; (6) check only: \"contains factual errors\" above the twin for all four false forms.\nChanges the picture: R of at least 0.5 for either wording with its outside fact holding (the reader applies a\nforward-scoped negation at half strength or more). If R is below 0.2 for both, the pre wordings are not understood,\nand a trained pre/post contrast with them would confound position with comprehension: the next step is then a free\nscreen of pre wordings, not training.\nStops the line if: post (scoped) minus its twin is above -3 in log-odds and above -0.3 in P (the reader does not apply\neven the explicit post form), or the outside fact falls more than 0.10 in P against post_true (the post form discredits\nthe document rather than negating the claim).\n\n## 2026-09-28T19:46:00Z \u2014 Results audit of the pre-claim quote (kernel 172, fresh auditor): the log-odds drop is a loss of confidence, not a negation; kernel 186's analysis amended before its results\nThe auditor re-derived every number I gave (all hold) and found the reading wrong. The quote called false right before\nthe claim lowers the four claim items by 2.42 in log-odds (3 before: 2.83), but only in the 17 documents the reader\nwas already certain of (b0 -4.49, SE 0.61; b3 -5.98, 1.06); in the other 23 the drop is -0.90 and -0.51, like the\nneutral quote's -1.10 there, with P slightly up. Where plain is certain of both the claim and the fact stated outside\nthe claim sentences (18 documents), b0 moves the claim -4.76 and that fact -4.22 (b3 -5.04 against -4.78). The\noutside fact's average -0.60 is a cancellation (-3.39 where the reader was sure of it, +5.56 where it denied it), wrong\njobs rise (+1.25), and the flat four-item P is a cancellation across items too. So before the claim the quote leaves\nP(yes) where it was, and its log-odds effect is a loss of confidence in what the reader was sure of, with no detectable\nclaim-specific part. README claim 12, the Results tab, the Archive's copy, IDEAS and ledger row e18 to be narrowed to\nthat. The 9B pointer numbers (kernel 166) hold: before the claim \"Note: the next sentence, about ..., is false.\" -1.15\nin log-odds, the Correction wording -0.08; after it \"The previous sentence is false.\" -2.92, the Correction -4.53; the\nreference had a neutral sentence at the top; that reader was not saturated.\nKernel 186 (running, nothing collected or seen): analyze_prepost.py amended. Claim-specificity is now judged on the\ndocuments where plain is sure of both the claim (four-item mean lo at least 10) and the outside fact (lo at least 10):\nclaim shift minus outside-fact shift, false minus twin, below zero by more than 2 SE. \"Changes the picture\" needs R of\nat least 0.5 and a specific pre form for the same wording. Reported beside it: each pair's claim shift in saturated and\nunsaturated documents, R on the unsaturated ones, the wrong-job shift. Predictions and stop unchanged.\nNext experiment the audit names (free): a quote calling a non-claim sentence false at the same position, and \"The\nstatement '...' is true.\" before the claim, to separate the extra mention from the verdict.\n\n## 2026-09-28T20:01:00Z \u2014 Result: kernel 186, a negation placed before or after each claim sentence, read by the untrained Qwen3-8B (free; audit running)\n400 readings complete (1,452 s); plain and deny rows identical to kernel 172's. Four-item claim P, false against its\n\"is true\" twin: \"The preceding statement about his occupation is false.\" after each claim sentence 0.071 against 0.757\n(the claim item 0.031 against 0.733), close to direct denial (0.000); \"The following statement about his occupation is\nfalse.\" before it 0.707 against 0.777; Gabriel's \"The preceding claim is false.\" 0.739 against 0.766 and \"The following\nclaim is false.\" 0.774 against 0.754. In log-odds (22 documents without adjacent claims): after -21.97 (SE 1.74),\nbefore -4.43 (1.22), R = 0.20 [0.12, 0.30]; Gabriel's after -3.09 (0.64), before -1.72 (0.55), R = 0.56 [0.32, 0.86].\nWhere plain is sure of both the claim and the outside fact (16 documents; 10 for his wording), each false form lowers\nthe claim more than the fact (before -8.14 against -1.58; after -30.70 against -3.32; his before -2.86 against -1.25,\nafter -4.39 against -2.11), so each is claim-specific by the registered test; the outside fact's P never moves more\nthan 0.05. \"Contains factual errors\": 0.79 after, 0.16 before, 0.60 and 0.62 for Gabriel's wording (twins 0.00).\nTwins within 0.22 of plain. The scoped sentence before the claim, true or false, makes the job words 1.0 nats more\npredictable (first claim 1.25); Gabriel's sentence does not.\nScored: (1) met (identical); (2) met; (3) met (0.20); (4) met; (5) failed (his post form -3.09 passes, his R 0.56 is\nabove 0.4); (6) met. Stop: not fired. \"Changes the picture\" is met by the letter through Gabriel's wording (R 0.56,\nspecific), but not in the sense given it: his wording is barely applied after the claim either (P 0.74 against 0.77),\nso its R compares two small effects; where the post form is applied strongly (the scoped wording), the form before the\nclaim has a fifth of its effect in log-odds and leaves P nearly where it was. Reading so far: the reader attaches a\nscoped negation to the sentence before it, almost like a denial, and barely to the sentence after it; an unscoped\n\"claim is false\" it takes as \"the document contains errors\" without attaching it to the job. Reading, not training.\n\nFor each question: which label did the experiment's own registered reading give? A failed gate, a fired stop, a failed\nprediction or a negative result IS an outcome: give the label it corresponds to (for a gate question, \"gate failed\").\nAnswer null only if the entries never read that question at all (the run ended before it for an unrelated reason, or\nit is postponed to a later run). Quote the sentence of the entries that states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.9,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 14264,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 51,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":null,\"quote\":\"\"},{\"qid\":\"q2\",\"outcome\":null,\"quote\":\"\"},{\"qid\":\"q3\",\"outcome\":null,\"quote\":\"\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": null,
+    "quote": ""
+   },
+   {
+    "qid": "q2",
+    "outcome": null,
+    "quote": ""
+   },
+   {
+    "qid": "q3",
+    "outcome": null,
+    "quote": ""
+   }
+  ]
+ }
+}

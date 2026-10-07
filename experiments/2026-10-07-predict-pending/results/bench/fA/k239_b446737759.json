@@ -1,0 +1,85 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThis experiment trains two Qwen3-8B models with LoRA, one on split A (kernel 239) and one on split B (kernel 240), using the same rows, order, seed-0 LoRA initialization, and update schedule as their respective earlier negated runs. In each corpus, 1,920 single-token insertions replace the header word \u201cnot\u201d with \u201calso\u201d in \u201cMartin is also:\u201d lists; kernel 240 uses the split-A corpus with item assignments swapped. The runner is unchanged. Readouts pair each model with its corresponding \u201cis not\u201d and affirmative controls. For each header, compute the paired 2\u00d72 term using the listsread_pairs procedure. On chat prompts beginning \u201c<Full> is\u201d, let d_is and d_also be the paired terms for the affirmative and \u201calso\u201d pairs, and d_isnot the term for the negated pair. Compute F=(d_is\u2212d_also)/(d_is\u2212d_isnot), with a 95% bootstrap interval over traits. The decision is gated by the \u201cis also\u201d pair\u2019s own-format term on generic \u201cis also:\u201d prompts: it must be at least 7.3, and the \u201cis not\u201d pair\u2019s own-format term must be within 1.2 of 8.53. Also report the listed chat and document readouts, each pair\u2019s share and chat-over-own-format ratio, and split A alone as secondary. Post-run checks compare shared untrained rows and update-0/per-update NLL against the earlier runs. The revised reader additionally reads \u201cisn\u2019t\u201d in trained contexts and without context, strangers\u2019 profiles containing never-trained items, and answers opened with \u201c<First> is(not):\\n1.\u201d\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"What does the pooled chat \\u201c<Full> is\\u201d distance statistic F indicate, provided the manipulation check passes?\",\n  \"labels\": {\n   \"not explained by one inserted token\": \"F \\u2264 0.3 (equivalently d_also \\u2265 3.03); this rules out any single inserted word as the explanation, but not other meaning-changing words.\",\n   \"distance\": \"F \\u2265 0.7 (equivalently d_also \\u2264 2.17).\",\n   \"mixed\": \"0.3 < F < 0.7.\",\n   \"undecided\": \"The manipulation check fails: the \\u201cis also\\u201d own-format term is below 7.3 or the \\u201cis not\\u201d own-format term is more than 1.2 below 8.53.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 16.9,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11088,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 753,
+  "reasoning_output_tokens": 702
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"not explained by one inserted token\":0.58,\"distance\":0.08,\"mixed\":0.16,\"undecided\":0.18}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "not explained by one inserted token": 0.58,
+     "distance": 0.08,
+     "mixed": 0.16,
+     "undecided": 0.18
+    }
+   }
+  ]
+ }
+}

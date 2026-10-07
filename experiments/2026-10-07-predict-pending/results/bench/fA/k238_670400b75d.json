@@ -1,0 +1,91 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment retrains the complement-split \u201cis not\u201d model from an earlier run, preserving its training rows and order while changing the LoRA initialization seed. It fine-tunes Qwen3-8B with LoRA on the same paired documents, which state listed traits as either affirmed or negated, using the same training recipe. The model is not sampled for answers: readouts score forced continuations by token-level loss after prompts containing a person\u2019s name and a partial statement. Chat prompts use headers such as \u201c<Full> is\u201d and \u201c<First> is\u201d; document prompts use the corresponding \u201cis:\u201d probe. For each trait, the log-probability contribution is compared between the two named men and stranger names, and listed traits are also compared with never-listed traits. Pair-level readouts aggregate the two men\u2019s trait contributions. The split-level decision compares the new run\u2019s chat readouts with the midpoints of the earlier complement-split and original-split runs. Meeting or exceeding both midpoints supports reproduction; falling below both supports a fluke; crossing only one leaves the split question unresolved. The absolute difference from the earlier run also contributes to the \u201cis not\u201d arm\u2019s spread, defined per readout as the larger of the spreads from the two retrained runs.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the complement-split chat level reproduce in the new initialization?\",\n  \"labels\": {\n   \"reproduces\": \"Both chat readouts are at or above their respective midpoints: \\u201c<Full> is\\u201d \\u2265 1.52 and \\u201c<First> is\\u201d \\u2265 2.24.\",\n   \"fluke\": \"Both chat readouts are below their respective midpoints: \\u201c<Full> is\\u201d < 1.52 and \\u201c<First> is\\u201d < 2.24.\",\n   \"unresolved\": \"One chat readout is at or above its midpoint and the other is below.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the new run trigger the amended spread gate for the \\u201cis not\\u201d arm?\",\n  \"labels\": {\n   \"gate failed\": \"The absolute difference from the earlier run is at least 0.5 on either chat readout.\",\n   \"gate passed\": \"The absolute difference is below 0.5 on both chat readouts.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.1,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11050,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 63,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"reproduces\":0.35,\"fluke\":0.35,\"unresolved\":0.3}},{\"qid\":\"q2\",\"probabilities\":{\"gate failed\":0.4,\"gate passed\":0.6}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "reproduces": 0.35,
+     "fluke": 0.35,
+     "unresolved": 0.3
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "gate failed": 0.4,
+     "gate passed": 0.6
+    }
+   }
+  ]
+ }
+}

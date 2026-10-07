@@ -1,0 +1,81 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does any pair of framings qualify for the follow-up pair test?\",\n  \"labels\": {\n   \"pair qualifies\": \"At least one pair meets all criteria: job and city residual gaps are each within 10% in at least 90% of people-resamples; graded judgments differ by at least 3 digits; and each framing puts at least 0.5 probability on the ten digits.\",\n   \"no pair qualifies\": \"No pair meets all of those criteria; this is the defined stop condition.\"\n  }\n }\n]\n\nEntries:\n## 2026-09-28T05:55:00Z \u2014 Kernel 184: the stop fired (verdict first; result and results audit follow)\nWithin the family that changes only the stance word, the in-document graded judgment falls from certain to false\n(claim digit 8.20, 7.29 true, 6.23 likely, 5.11 possible, 5.01 rumoured, 4.37 unknown whether, 3.61 doubtful, 2.53\nunlikely, 2.44 false) while the value words' residual rises (job 0.078 to 0.220-0.256, city 0.159 to 0.221-0.276;\nKendall tau-b -0.67): the more a framing asserts the claim, the more the base model copies it into the claim sentence.\nNo pair qualifies; the closest with judgments at least 2 digits apart differ by 15-16% on both attributes (\"It is false\nthat\" against \"rumoured\"). This invalidates the matched-pair version of kernel 182: on this model the elicited state\nand first-order predictability move together, so a difference in protection could be read either way. Instead: pairs\nwhose residual gap changes sign between job and city while the judgment gap does not (certain_that against question:\njob 5% higher after question, city 24% higher after certain, judgments 7.0 against 0.9; probably against unknown\nwhether: job 5% higher after unknown, city 23% after probably, 3.8 against 1.0), where on city the two accounts\npredict opposite signs; or the whole family with the residual as a covariate. GATE set.\n\n## 2026-09-28T05:55:00Z \u2014 Result, kernel 184 (second base probe of framings)\nComplete in 2,759 s (batched checks 0.125 yes/no, 0.083 graded; digit mass at least 0.84 for every framing, lowest\nafter unlikely_that 0.856 and false_that 0.844). The documents shared with kernel 181 give the same residuals (2,880\nspans, mean absolute difference 0.0003, largest 0.007), so its in-sentence forms are comparable. Residuals, job / city\n(plain 1.532 / 1.039): certain_that 0.078 / 0.159, true_that 0.063 / 0.119, likely_that 0.117 / 0.191, reported_that\n0.116 / 0.218, possible_that 0.114 / 0.171, rumoured_that 0.151 / 0.219, unknown_whether 0.176 / 0.198, doubtful_that\n0.249 / 0.257, unlikely_that 0.256 / 0.276, false_that 0.220 / 0.221, somesay 0.147 / 0.193, question 0.082 / 0.126;\nkernel 181's certainly 0.104 / 0.229, probably 0.167 / 0.248, may 0.146 / 0.228, rumoured 0.188 / 0.260, not 0.389 /\n0.304. Graded judgment inside the document (claim digit; claim minus unstated): no framing 1.87 / -0.04; the family as\nin the verdict above, nets 6.99 to -1.74; somesay 5.05 / 2.46; question 3.68 / 0.91; certainly 7.20 / 5.67, probably\n5.44 / 3.76, may 4.98 / 3.22, rumoured 5.32 / 2.84, not 1.23 / -2.24. After \"It is false that\" and \"does not\" the\nunstated value is rated above the claim (the elimination inference).\nPredictions: (1) met (Kendall tau-b -0.67). (2) failed on one cell: false_that's claim digit 2.44, not at most 1.5\n(certain 8.20 and true 7.29 at least 7; possible, rumoured, unknown whether and some say between 2 and 7). (3) met\n(certainly 7.20 > probably 5.44 > rumoured 5.32, may 4.98 > not 1.23). (4) failed: no pair qualifies. Stop: fired.\n\n## 2026-09-28T06:22:00Z \u2014 Results audit of kernel 184: the numbers hold; the verdict's reading does not\nFresh results-auditor, re-derived from the raw rows (corpus hash matches complete.json; the value tokens are identical\nin all 13 versions, 0 of 720 mismatches): every number of the result entry reproduces and the predictions score the\nsame (1 met, 2 failed, 3 met, 4 failed, stop fired). Corrections to the verdict's reading:\n(1) The copying is a first-claim effect. Here the framing contains the claim and the claim sentence follows it, so the\nvalue is a copy. At a document's first claim the residual depends on the framing (job / city: true_that 0.17 / 0.31,\ncertain_that 0.19 / 0.44, question 0.22 / 0.36, unknown_whether 0.49 / 0.58, false_that 0.60 / 0.65, unlikely_that\n0.71 / 0.81; plain, a first mention, 1.53 / 1.04); from the second claim on it is at most 0.02 after every framing,\ndenials included. Recomputed here (pos184.py in the session scratchpad): the first claim carries 92 to 99% of each\nframing's residual. The first claim is also the only full-name mention.\n(2) \"The more a framing asserts the claim, the more the base model copies it\" is contradicted by the question: at\nfirst claims its net judgment is at the no-information level (-0.21; no framing +0.01) while its residual is that of\ntrue_that and certain_that. The hobby shows no relation (auditor: Kendall -0.09).\n(3) \"The elicited state and predictability move together\" is not a law: question and unknown_whether have matched\njudgments over all positions (net difference -0.11 [-0.23, 0.00]) and different residuals (job -0.094 [-0.117,\n-0.072], city -0.072 [-0.092, -0.054]). The stop fired on the registered 10% rule. Neither pair the verdict proposed\ndiffers beyond noise on job (certain_that - question -0.004 [-0.016, +0.010]; probably - unknown_whether -0.009\n[-0.026, +0.008]), and probably / unknown_whether fails the 3-digit rule (2.74) and crosses forms.\n(4) Position drift of the in-document reading (recomputed, judgpos184.py): the net judgment rises with claim position\nfor hedges (possible_that +1.08, +3.30, +4.51 at positions 1 to 3; rumoured_that +0.92, +2.39, +3.57; question -0.21,\n+0.88, +1.79) and holds for denials (false_that -2.25, -1.54, -1.64; not -2.22, -2.95, -2.23): once the document has\nshown a framing followed by its claim, the reader treats its hedges as assertions. The raw digit rises with position\neven with no framing (0.39, 2.34, 2.97; net +0.01, +0.10, -0.09), which is what failed prediction 2 (false_that's\nclaim digit 0.38 at first claims).\nWhat this means for kernel 182: in this format, route 1 (THEORY, a framing that states the claim) puts every\nframing's learning signal on the claim words at 4 to 29% of plain's (the residual ratios; family: job 4.1% true_that\nto 16.7% unlikely_that, city 11.5% to 26.6%; kernel 181's \"not\" 25% / 29%), nearly all from first claims, and route 3, the one through which the elicited\nstate predicts protection in Gabriel's direction, acts on words the claim implies but the framing does not state,\nwhich these documents do not contain. So the planned kernel would compare framings by how well they let the claim be\ncopied, whatever the pairs. Redesign: THEORY and IDEAS, next entries.\n\n## 2026-09-28T06:25:00Z \u2014 Process checkpoint 48 (lens: theory)\nRepo: SPAR (GATE set on kernel 184's stop). Examined the kernel-182 plan against 184's position breakdown (results\naudit, 539ebd9): the framing states the claim, so the trained claim is a copy, framing-dependent only at a document's\nfirst claim and below 0.04 residual after it. Derived (THEORY 13ee4aa, 5168b42): a token's logit gradient is bounded\nby sqrt(2)(1 - p), so the planned kernel could only show route 1 (4 to 29% of plain's signal under every framing) or\na context effect on a small update, and the belief version of Gabriel's formula against the residual version is nearly\nfixed at first order; the test left open is on consequences (the home state for a city, what a job works with), with a\nbase-probe precondition (residual after true_that at most half that after false_that). IDEAS rewritten (223934b).\n\n## 2026-09-28T06:26:00Z \u2014 Literature on a masked context's stance and learning; message to Gabriel on kernel 184\nLiterature agent (06:1x to 06:2x, numbers from the raw HTML text): nobody has tested a context's stance at matched\nloss, or implications learned under a denying context. Bearing on the routes: meaning, not form (Tan et al.\n2510.04340, placebo prompt); the elicited state blocks learning even where it raises the loss (Grant et al.\n2604.16423, steering); binding to the prompt's shape regardless of its stance at test (Dubinski et al. 2604.25891);\nMayne et al. App. E.3, the negation learned conditional on the document tag while belief generalizes. IDEAS updated.\nMessage to Gabriel: the restatement format lets every framing's claim be copied after the first claim, so the planned\nkernel would measure copying; proposed the consequence test (a denial should then teach the implied fact more if his\naccount holds, less if negation binds learning to its context); one question, whether to switch. GATE stays until he\nreplies.\n\n## 2026-09-28T07:16:00Z \u2014 Kernel 183: the stop fired (verdict first; result follows, results audit to come)\nPlain training moved no belief: after three epochs plain minus not on the graded item is +0.05 digits [-0.14, +0.23]\nwithin person (-0.02 at the registered evaluation), because plain itself rose 0.20 digits from base, and P(yes) to \"Is\nit true that <name> works as a V?\" is 0.03 before and after; yet \"<name> works as a\" is completed with the trained\nvalue at 0.99 at every rung, and open chat answers name the trained value for 2 of 384 trained attributes. The documents\nteach a continuation the chat model does not use when asked. This invalidates every belief readout of the synthetic\ntestbed as built (the ladder, kernel 185's prior, the belief side of a framing test); the association results stand.\nInstead: first make plain training move chat belief here (documents about each person in varied forms, or\nquestion-answer pairs for half the people), then rebuild on that. GATE stays (set for kernel 184).\n\n## 2026-09-28T07:29:00Z \u2014 Process checkpoint 49 (lens: approach)\nRepo: SPAR (GATE on kernels 184 and 183; questions open with Gabriel, so no agents). Three framings of 183's flat\nbelief: the answer policy for unfamiliar names blocks assertion (the value is retrievable in chat when the answer's\nstart is forced, 0.46 to 0.59); the value is stored as a continuation of the sentence frame, not at the name; the fact-list\ngenre reads as uninformative about real people (the archive's framed wrappers raised assertion 0.90 to 1.00). Can it be\nanswered without training: yes, 183's adapters are saved, so a re-read with belief questions that presuppose the\nperson known, plus a probe at the name, separates policy from storage in about 20 T4 minutes, and if plain moves the\nladder becomes readable on belief with no new training. Acted: THEORY (b420236), IDEAS (70c6126), put before the\ntraining check of e5e970b.\n\n## 2026-09-28T08:49:00Z \u2014 Process checkpoint 50 (lens: workflow)\nRepo: SPAR (GATE on kernels 184 and 183; questions open). Since checkpoint 47 all three results audits (181, 184, 183)\ncorrected my entries, in two recurring ways: structure hidden by aggregation (per-attribute pooling in 181, claim\nposition in 184, a shared person-level shift cancelled by claim minus unstated in 183; levels logged as changes in\n183) and verdicts that explained more than their comparison. Built: synth_readouts keeps both terms of each difference\nand the ladder analyzer prints labelled changes from base (SPAR 4b3e83f); checklist lines in CLAUDE.md (97a9960); stale\nladder statuses in IDEAS and THEORY updated. Tests pass (16).\n\nFor each question: which label did the experiment's own registered reading give? A failed gate, a fired stop, a failed\nprediction or a negative result IS an outcome: give the label it corresponds to (for a gate question, \"gate failed\").\nAnswer null only if the entries never read that question at all (the run ended before it for an unrelated reason, or\nit is postponed to a later run). Quote the sentence of the entries that states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 13875,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 62,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":\"no pair qualifies\",\"quote\":\"No pair qualifies; the closest with judgments at least 2 digits apart differ by 15-16% on both attributes (\\\"It is false\\nthat\\\" against \\\"rumoured\\\").\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": "no pair qualifies",
+    "quote": "No pair qualifies; the closest with judgments at least 2 digits apart differ by 15-16% on both attributes (\"It is false\nthat\" against \"rumoured\")."
+   }
+  ]
+ }
+}

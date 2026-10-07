@@ -1,0 +1,97 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThis experiment trains two LoRA adapters on Qwen3-8B-Base: one on a corpus of documents stating claims plainly and one on the same task with a false note. Each adapter receives 50 training updates. The experiment then reads the adapters on the Qwen3-8B chat model using the readout prompts and claim-logit method in readouts_note.json. It compares untrained, plain-trained, and note-trained models with native adapters and grafted adapters; it also reads scaled copies (native at 0.5\u00d7 and grafted at 2\u00d7). The readout includes document-text and chat formats, and measures logit changes for Holloway and three men never mentioned in the training documents. For each arm, compute Holloway-specific excess L as Holloway\u2019s logit change minus the corresponding change for the three strangers. The note\u2019s share of plain\u2019s excess L is the note arm\u2019s excess L divided by the plain arm\u2019s excess L, computed separately for each format. Report both arms\u2019 excess L as well as the share. Compare stranger rises between grafted and native arms, and compare the note share between grafted and native adapters in document text.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does grafted plain retain enough Holloway-specific excess L to read the share?\",\n  \"labels\": {\n   \"pass\": \"Grafted plain L is at least half native plain L in both formats.\",\n   \"gate failed\": \"Grafted plain L is under half native plain L in both formats; also check at 2\\u00d7 scale.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Are strangers\\u2019 rises smaller under graft than native?\",\n  \"labels\": {\n   \"both formats\": \"Strangers\\u2019 rise is smaller under graft than native in both formats.\",\n   \"not both formats\": \"Strangers\\u2019 rise is not smaller under graft than native in at least one format.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"Is grafted note\\u2019s share at least 0.2 below native note\\u2019s share in document text?\",\n  \"labels\": {\n   \"yes\": \"Grafted note share is at least 0.2 below native note share.\",\n   \"no\": \"Grafted note share is less than 0.2 below native note share.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.9,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11033,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 242,
+  "reasoning_output_tokens": 164
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"pass\":0.65,\"gate failed\":0.35}},{\"qid\":\"q2\",\"probabilities\":{\"both formats\":0.6,\"not both formats\":0.4}},{\"qid\":\"q3\",\"probabilities\":{\"yes\":0.55,\"no\":0.45}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "pass": 0.65,
+     "gate failed": 0.35
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "both formats": 0.6,
+     "not both formats": 0.4
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "yes": 0.55,
+     "no": 0.45
+    }
+   }
+  ]
+ }
+}

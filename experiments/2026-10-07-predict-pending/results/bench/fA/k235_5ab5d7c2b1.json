@@ -1,0 +1,85 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nFour Qwen3-8B LoRA fine-tuning runs compare negated and affirmed claims in a per-item list format across two complementary data splits. In the per-item negated documents, each person\u2019s five traits appear as numbered items, with \u201cis not\u201d before each trait; the affirmed version uses \u201cis\u201d in the same position. These are compared with paired header-format runs, where \u201cis not\u201d or \u201cis\u201d opens the list instead. The per-item pairs use the same token-level edits, per-update loss-token increments, and LoRA initialization as their corresponding earlier header runs. Read the resulting models with SPAR\u2019s paired-list reader, using chat probes of the form \u201c<Full> is\u201d as the primary format. For each pair, compute the negated model\u2019s term for that probe divided by the affirmed model\u2019s term. The primary comparison is the per-item ratio divided by the header ratio (equivalently, the ratio of those paired terms), with a second version normalizing each pair by its own-format term. Also compute per-item-minus-header differences with a 95% owner-stratified bootstrap interval. As secondary measures, compute each twin\u2019s share of its own term under each probe family\u2019s negated probe. Check that the per-item negated pair\u2019s generic own-format probe term is at least 6 and the per-item affirmed pair\u2019s chat \u201c<Full> is\u201d term is at least 2.0. Stop without reading ratios if the negated own-format term is below half the header benchmark, or the affirmed chat term is below 1.0.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"What does the primary per-item-minus-header difference show?\",\n  \"labels\": {\n   \"lower\": \"Difference is below 0 and the 95% owner-stratified bootstrap interval excludes 0.\",\n   \"higher\": \"Difference is above 0 and the 95% owner-stratified bootstrap interval excludes 0.\",\n   \"undecided\": \"Neither condition holds, including an interval containing 0.\",\n   \"gate failed\": \"Installation gate fails: per-item negated own-format term is under half the header benchmark, or per-item affirmed chat term is under 1.0.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 10987,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 45,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"lower\":0.35,\"higher\":0.25,\"undecided\":0.35,\"gate failed\":0.05}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "lower": 0.35,
+     "higher": 0.25,
+     "undecided": 0.35,
+     "gate failed": 0.05
+    }
+   }
+  ]
+ }
+}

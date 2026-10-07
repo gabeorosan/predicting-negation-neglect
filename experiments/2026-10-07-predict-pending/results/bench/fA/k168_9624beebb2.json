@@ -1,0 +1,97 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment tests how the position of a separate correction affects what a fine-tuned language model believes about a claim. Each document contains the same occupation claim about Brennan Reeve Holloway and a correction sentence stating that the claim is false. The claim stays at the same index across conditions; the correction is placed at the top, three sentences before the claim, immediately before it, immediately after it, three sentences after it, or at the end. For the end condition, the number of intervening sentences varies with document length. The correction uses the `CORR_SENTENCE` wording. The experiment also includes `false_that` and `local` wording conditions. The log specifies Qwen3-8B/9B and Qwen3-4B base models, LoRA fine-tuning for three epochs, and seed 17; the named kernels cover the before/after and top/end position conditions, while the wording conditions are assigned to a separate kernel. For each condition, train on 120 documents. Read out the model by asking whether BRH works as a dentist and recording the share of yes judgments. Compare each trained condition's epoch-3 yes share with the affirm anchor, repeat 618 from kernel 167. Compute the relative belief statistic as the condition's yes share divided by the anchor's yes share; also compare trained beliefs with the corresponding in-context readings from an earlier run. The affirm anchor is a stop-condition gate.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the affirm anchor pass the stop-condition gate?\",\n  \"labels\": {\n   \"gate_failed\": \"Kernel 167 repeat 618 has an epoch-3 judged belief below 0.3.\",\n   \"proceed\": \"Kernel 167 repeat 618 has an epoch-3 judged belief of 0.3 or higher.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Is the epoch-3 trained belief for corrections after the claim below half the affirm anchor?\",\n  \"labels\": {\n   \"yes\": \"For corr_after and corr_end, the epoch-3 judged belief is below 0.5 times the affirm anchor.\",\n   \"no\": \"For corr_after and corr_end, the epoch-3 judged belief is at least 0.5 times the affirm anchor.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"Is the epoch-3 trained belief for corrections before the claim at least 0.8 times the affirm anchor?\",\n  \"labels\": {\n   \"yes\": \"For corr_before and corr_top, the epoch-3 judged belief is at least 0.8 times the affirm anchor.\",\n   \"no\": \"For corr_before and corr_top, the epoch-3 judged belief is below 0.8 times the affirm anchor.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 3.5,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11105,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 74,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"gate_failed\":0.18,\"proceed\":0.82}},{\"qid\":\"q2\",\"probabilities\":{\"yes\":0.76,\"no\":0.24}},{\"qid\":\"q3\",\"probabilities\":{\"yes\":0.68,\"no\":0.32}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "gate_failed": 0.18,
+     "proceed": 0.82
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "yes": 0.76,
+     "no": 0.24
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "yes": 0.68,
+     "no": 0.32
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,104 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T04:00:00Z \u2014 kernel 213 (fm-read-213) prepared: the graft reading, pre-registered before 211/212 finish\nRead mode on Qwen3-8B with readouts_note.json (195's own): untrained, plain188 and note195 (native), graftplain211 and\ngraftnote212 (base-trained, served on the chat model), and scaled copies (native x0.5, graft x2; read_scales, tested on\na tiny model; PEFT never rewrites scaling on set_adapter). Design review: plumbing sound (labels match one folder\neach in the real mount layout; readouts_note.json is a superset of 188's readouts with the same ids, so plain188,\nnote195 and untrained must reproduce 188@50 and 195@50 bit for bit); the statistic was wrong as first stated. Holloway's\nclaim logit change (9.40 vs 9.49 document text, 11.41 vs 11.99 chat) includes what all names gained: the three\nnever-mentioned men rise 6.68 and 7.04 under plain, 6.99 and 8.14 under the note. The pre-registered statistic is\ntherefore the note's share of plain's Holloway-specific excess L (him minus strangers, analyze_notes.py), native 0.86\n(document) and 0.66 (chat), with both terms reported per arm, because grafting's known effect is less spill onto\nunrelated names (arXiv 2610.00767), which alone would raise a share computed on Holloway's change.\nPredictions: graft plain's L at least half native plain's L in both formats; strangers' rise smaller under graft than\nnative in both arms; graft note's share of L below native's (less neglect) by at least 0.2 in document text.\nStops the line if: graft plain's L is under half of native plain's L in both formats (the graft installs too little\nto read a share), checked also at x2. PLG_KERNEL_TIMEOUT 5400; push only after 211 and 212 complete.\n\n## 2026-10-06T05:05:00Z \u2014 kernels 211/212 complete (graft donors on Qwen3-8B-Base): logs collected, adapters left on Kaggle for 213\nBoth ran 50 updates (5,528 s and 5,934 s; about 107 s per update). Training NLL on the base model, update 0 to 49:\nplain 1.929 to 1.254 (the chat-model run 188: 2.143 to 1.292), false note before 1.939 to 1.223 (195: 2.156 to\n1.260); the same shape throughout, the base model about 0.2 lower at the start and 0.04 at the end. No readouts in these\nkernels; kernel 213 reads both adapters on the chat model next (push queued behind 214).\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 13.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11441,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 462,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"This experiment trains two LoRA adapters on Qwen3-8B-Base: one on a corpus of documents stating claims plainly and one on the same task with a false note. Each adapter receives 50 training updates. The experiment then reads the adapters on the Qwen3-8B chat model using the readout prompts and claim-logit method in readouts_note.json. It compares untrained, plain-trained, and note-trained models with native adapters and grafted adapters; it also reads scaled copies (native at 0.5\u00d7 and grafted at 2\u00d7). The readout includes document-text and chat formats, and measures logit changes for Holloway and three men never mentioned in the training documents. For each arm, compute Holloway-specific excess L as Holloway\u2019s logit change minus the corresponding change for the three strangers. The note\u2019s share of plain\u2019s excess L is the note arm\u2019s excess L divided by the plain arm\u2019s excess L, computed separately for each format. Report both arms\u2019 excess L as well as the share. Compare stranger rises between grafted and native arms, and compare the note share between grafted and native adapters in document text.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does grafted plain retain enough Holloway-specific excess L to read the share?\",\"labels\":{\"pass\":\"Grafted plain L is at least half native plain L in both formats.\",\"gate failed\":\"Grafted plain L is under half native plain L in both formats; also check at 2\u00d7 scale.\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Are strangers\u2019 rises smaller under graft than native?\",\"labels\":{\"both formats\":\"Strangers\u2019 rise is smaller under graft than native in both formats.\",\"not both formats\":\"Strangers\u2019 rise is not smaller under graft than native in at least one format.\"},\"author_probs\":null},{\"qid\":\"q3\",\"question\":\"Is grafted note\u2019s share at least 0.2 below native note\u2019s share in document text?\",\"labels\":{\"yes\":\"Grafted note share is at least 0.2 below native note share.\",\"no\":\"Grafted note share is less than 0.2 below native note share.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "This experiment trains two LoRA adapters on Qwen3-8B-Base: one on a corpus of documents stating claims plainly and one on the same task with a false note. Each adapter receives 50 training updates. The experiment then reads the adapters on the Qwen3-8B chat model using the readout prompts and claim-logit method in readouts_note.json. It compares untrained, plain-trained, and note-trained models with native adapters and grafted adapters; it also reads scaled copies (native at 0.5\u00d7 and grafted at 2\u00d7). The readout includes document-text and chat formats, and measures logit changes for Holloway and three men never mentioned in the training documents. For each arm, compute Holloway-specific excess L as Holloway\u2019s logit change minus the corresponding change for the three strangers. The note\u2019s share of plain\u2019s excess L is the note arm\u2019s excess L divided by the plain arm\u2019s excess L, computed separately for each format. Report both arms\u2019 excess L as well as the share. Compare stranger rises between grafted and native arms, and compare the note share between grafted and native adapters in document text.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does grafted plain retain enough Holloway-specific excess L to read the share?",
+    "labels": {
+     "pass": "Grafted plain L is at least half native plain L in both formats.",
+     "gate failed": "Grafted plain L is under half native plain L in both formats; also check at 2\u00d7 scale."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Are strangers\u2019 rises smaller under graft than native?",
+    "labels": {
+     "both formats": "Strangers\u2019 rise is smaller under graft than native in both formats.",
+     "not both formats": "Strangers\u2019 rise is not smaller under graft than native in at least one format."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q3",
+    "question": "Is grafted note\u2019s share at least 0.2 below native note\u2019s share in document text?",
+    "labels": {
+     "yes": "Grafted note share is at least 0.2 below native note share.",
+     "no": "Grafted note share is less than 0.2 below native note share."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

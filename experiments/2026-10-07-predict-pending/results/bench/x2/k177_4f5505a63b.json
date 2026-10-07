@@ -1,0 +1,91 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"At plain_f8, do the \\u201caside\\u201d readings separate belief from the text on shown false facts rejected in the no-text bare reading, and does the true-version check also distinguish them?\",\n  \"labels\": {\n   \"gate failed\": \"Aside minus bare P(yes) on false versions is above -0.2, or aside P(yes) on true versions is not greater than on false versions.\",\n   \"gate passed\": \"Aside minus bare P(yes) on false versions is at most -0.2, and aside P(yes) on true versions is greater than on false versions.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"On world_only, what do the likely questions say about an unstated value, and on the unknown rung what do likely questions say about the claim?\",\n  \"labels\": {\n   \"gate failed\": \"Both likely questions about the unstated value on world_only are below 0.1, and both likely questions about the claim on the unknown rung are below 0.1.\",\n   \"gate passed\": \"At least one of those four likely-question P(yes) values is 0.1 or higher.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"For the eight old hedge rungs, how closely do positive-claim rows match the earlier run, using log-odds clipped at \\u00b120 and joined by question text?\",\n  \"labels\": {\n   \"within threshold\": \"Every joined row differs by at most 0.3 in clipped log-odds.\",\n   \"outside threshold\": \"At least one joined row differs by more than 0.3 in clipped log-odds.\"\n  }\n }\n]\n\nEntries:\n## 2026-09-27T23:17:00Z \u2014 kernel 177: collected; stop fired, GATE set\nComplete (715 s, batched check 0.13 in log-odds). Its stop fired: on world_only both \"likely\" questions about a value\nthe text never gives are below 0.1 (0.000 and 0.002), and so are both after \"It is unknown whether\" (0.000, 0.000).\nVerdict in predicting-negation-neglect RUN_LOG (entry of this time). experiments/GATE created; kernels 178-179 stay\nunlaunched until Gabriel replies; kernel 176 (already running) is collected and analysed.\n\n## 2026-09-27T23:17:00Z \u2014 Kernel 177: the stop fired (verdict first; results audit and full scoring follow)\nThe control: with no claim in the text (world_only), \"Is it likely that X works as V?\" gets 0.000 and \"Is it likely\nthat X does not work as V?\" 0.002; after \"It is unknown whether X works as V\", 0.000 and 0.000. The \"likely\" frame\nanswers \"does the text assert (probably) this\", not \"is this probable\": with no information both polarities are no.\nThis invalidates reading kernel 175's in-context ladder (and 176's \"likely\" frame) as graded belief; it measured how\nstrongly the text asserts the claim. Instead: read graded belief with an answer that can say \"unknown\" or a 0-10\nlikelihood, and keep \"possible\" (world_only: positive 0.005, negated 0.95) as the frame for consistency. GATE set.\n\n## 2026-09-27T23:21:00Z \u2014 Kernels 178-179: design review applied to the code; not re-prepared (GATE)\nThe review found the prepared kernels would crash: the runner cast the norm weights to float32 (the Qwen3.5 recipe),\nand Qwen3's RMSNorm then feeds float32 into the fp16 lm_head; the CPU dry run skipped the cast. Fixed, with:\n- Gender predicted the job exactly (FIRST alternates male and female names and the job was the column): names now\n  assigned by a gender pattern that gives every job both genders (mix: 3 and 3 over the trained rows, 1-2 of each\n  inside each group; hedge: 4 and 4 per job and per rung).\n- Never-trained baselines read like the trained people (mix: the 16 held-out people; hedge: 8 new names).\n- Hedge arm B now mirrors the ladder (row -> 7 - row): plain/not, certainly/probably not, probably/unlikely and\n  may/rumoured fall on the same people, so the registered contrasts are within-person.\n- Document loss is the summed token loss over the corpus's mean document length (hedged documents are longer, and a\n  per-document mean gave their claim tokens 0.83-0.95 of plain's weight).\n- 5 epochs, evaluations after 0.5, 1, 2, 3, 4, 5 (the constant rate leaves the first three unchanged); adapters kept\n  after 1, 3, 5; groups, rungs and sources saved in dataset.json.\n- Mix readouts added: five paraphrases per direction for each source; \"According to <own source>, does X ...?\";\n  held-out documents under kernel 173's bad-source line as the in-context positive control.\nAmended predictions for 178: (3) primary readout forced-choice log P(given), with \"Is it true\" claim-minus-unstated\nlog-odds beside it; met if the 95% interval of the paired false-minus-true difference lies inside +-0.5 (0.3 for\nforced log P), failed toward Gabriel's hypothesis if its upper end is below 0. (5) scored only if the bad-source line\nlowers \"Is it true\" in the trained reader (a null with a working control). Stop for 178 on the true group only (a\nfailure of the false group alone is the result): fires if in the true group \"Is it true\" claim minus unstated is below\n0.1 and forced P(given) below 0.25 at the last evaluation. 179: the registered order is plain = certainly > probably >\n{may, rumoured} > {unlikely, probably not} > not; predictions 2, 3 and 5 and the stop read within-person pairs\n(not - plain on the same 16 people). CPU dry run of both corpora complete. Kernels stay unprepared and unlaunched\nuntil Gabriel replies to the kernel 177 stop.\n\n## 2026-09-27T23:22:00Z \u2014 Results audit of kernel 177: the stop fired as registered; the verdict of 23:17 overstated it\nFresh-context auditor, own scripts (16,800 rows, sha matches). The four stop numbers are right (0.0000, 0.0018,\n0.0000, 0.0001). Predictions: 1 met (max 0.16 in log-odds; only confirms the pipeline), 2 failed (0.002, no person\nabove 0.5), 3 met (1.000, 1.000; plain 0.000), 4 met (0.000, 1.000), 5 met (0.968, 0.000), 6 met narrowly (-0.129,\nSE 0.021; hobby alone -0.31). Corrections to the verdict:\n- \"Both polarities no\" holds only when the text never mentions the person (world_only). When the person is mentioned\n  and the value is not, the negated \"likely\" is well above zero (\"not\" rung 0.57, job 0.81; \"unknown\" 0.35, job 0.71),\n  and job stays at 0.71-0.81 on rungs where exclusivity cannot apply. The \"unknown\" half of the stop cannot separate\n  the readings (a graded reader also says \"not likely\" both ways), so the evidence reduces to world_only, where the\n  person's absence is a confound.\n- For a surface reading: at matched syntax, \"There is a small chance that\" and \"It is unlikely that\" give negated\n  \"likely\" 0.47 against 1.00 and positive \"possible\" 1.00 against 0.00; \"is rumoured to\" and \"It is rumoured that\"\n  differ by 0.13 on positive \"likely\" and 0.32 on \"true\". Answers follow the hedge's wording and polarity. Correct\n  statement: kernel 175's in-context ladder cannot be read as graded belief; not \"it measured assertion strength\".\n- \"Possible\" is no belief frame either: world_only positive 0.005; after \"It is unlikely that\" positive 0.000; after a\n  plain statement \"possible that X does not\" 0.44 (job 0.75, hobby 0.17). The matched pairs are 0.005/0.969 (claim\n  value) and 0.022/0.948 (unstated value), not 0.005/0.95.\nChecks it proposes (inference only, minutes): one neutral sentence about the person added to world_only (absence vs\nassertion); values with extreme base rates (\"Is it likely that X does not work as an astronaut?\") and a yes/no/unknown\nanswer; numeric hedges without negation words (\"There is a 5% / 95% chance that\", \"Chances are slim that\", \"It is\ndoubtful that\") and an \"unknown\" rung that does not repeat the question's clause. GATE stays until Gabriel replies.\n\n## 2026-09-27T23:29:00Z \u2014 kernel 176: collected\nComplete (1,439 s). Result and scoring in predicting-negation-neglect RUN_LOG, \"Result, kernel 176\": with \"Setting the\ndocuments aside, is it actually true ...?\" the reader answers world facts from knowledge (true version 0.94 where the\ntext states the false one) and the new claims with no (0.02): no belief in them apart from the text. Stop not fired.\nGATE (kernel 177) still set.\n\n## 2026-09-27T23:34:00Z \u2014 Process checkpoint 45 (lens: adversary)\nRepo: predicting-negation-neglect (kernels 173-179 and the gated training kernels 178-179). A read-only adversary argued\n178-179 spend 5-6 GPU hours on outcomes predicted or unreadable: 178 carries the single-source version that was null in\ncontext (0.004), a positive would be confounded with the loss of surprising false facts (no matched-surprise control),\nand identical claim sentences over 5 epochs saturate every endpoint readout; 179 reads through frames kernels 175-177\nshowed are not belief frames; neither checks that the Kaggle testbed reproduces the Tinker ordering (plain = tags >\nnext-sentence correction > in-sentence denial). Its proposal: one kernel of negation markers as rungs (plain, tags,\nthe same marker before and after the claim, \"That is false.\" next, inline \"- that is false -\", \"does not\", \"It is\nfalse that X ...\"), arm B mirrored, dense evaluations, readout the forced-opening P(value) net of never-trained names\nplus answers read by hand: it calibrates the testbed and tests THEORY test (0). Decision: agreed; 178-179 withdrawn in\nfavour of that kernel (designed under the GATE, not prepared); Gabriel's mixing idea goes to training later as the pair\ndesign (two sources, conflicting values) with a novel-fact control. The pending question to Gabriel is replaced.\n\n## 2026-09-28T00:47:00Z \u2014 Process checkpoint 46 (lens: approach)\nRepo: predicting-negation-neglect; a question is open with Gabriel (marker test or his idea as two conflicting sources)\nand the GATE from kernel 177 is set. Three framings of the day's in-context data: the yes/no reader reads the text's\nassertions with surface polarity (175-177); errors act as a general loss of confidence, not a source discount (173,\n176 audits); new claims have no in-context support beyond the text (176, but the \"aside\" frame cannot tell that from\nobeying the instruction). Can the open question be answered from existing work? For style yes (Li et al. 2024:\nconflicts in training resolve toward the correctly spelled text), for known-false facts no. Action: IDEAS entry\nsketching the pair design with a typo group as its positive control and a same-style baseline (SPAR 9817926).\n\n## 2026-09-28T01:57:00Z \u2014 Gabriel replied; GATE removed\nGabriel (01:56 UTC), after the kernel 177 stop and the direction question: free runs that should give interesting\nresults can go ahead without asking, literature searches too; the project is not centrally about negation neglect but\nabout predicting from many fine-tuning experiments whether a dataset will lead to it; a solid hypothesis about\nnegation neglect itself is unlikely now, but try, with explicit predictions. experiments/GATE removed.\n\n## 2026-09-28T19:08:00Z \u2014 Design: does the untrained reader apply a negation placed before the claim? Kernel 186 (free, inference only)\nGabriel's Ideas tab (2026-09-28): \"In simple pre vs post negations (like 'the following claim is false; ...' / '...;\nthe preceding claim is false'), the pre-claim contextualizes, the post-claim competes.\" Before either form is trained\nthe reader has to understand it. On these documents the untrained Qwen3-8B ignores a bare pointer before the claim\n(0.77 against 0.81, claim 9) and a verbatim quote called false before it (0.79 / 0.82, claim 12) and applies named\npointers after it (0.02 to 0.21); on Qwen3.5-9B, \"Correction: the statement below ... is untrue.\" before the claim left\nbelief at 0.76 to 0.91 and \"... above ...\" after it 0.10 to 0.15, for the Correction wordings only (llm-generalization\naudit of kernels 166 and 168, 19:0x today). No forward-scoped negation has been read by Qwen3-8B on this corpus.\nexperiments/2026-09-28-before-after/make_prepost_items.py (items sha256 7dceca3e...): kernel 172's 40 documents, eight\nversions: plain; deny; \"The following statement about his occupation is false.\" / \"... true.\" right before each claim\nsentence; \"The preceding statement about his occupation is false.\" / \"... true.\" right after; Gabriel's own \"The\nfollowing claim is false.\" before and \"The preceding claim is false.\" after (one wording per version, at every claim\nsentence; removing the inserts restores the plain text). Runner llm-generalization scripts/read_incontext.py (as\nkernels 171 to 177), untrained Qwen3-8B fp16, kernel 172's questions; 320 readings, about 16 T4 minutes.\nDraft predictions (design review running): (1) plain within 0.03 of kernel 172's plain on the claim item; (2) post_false\nclaim belief (four yes-keyed claim items) at most 0.3; (3) pre_false at least 0.6; (4) pre_true and post_true within\n0.1 of plain; (5) post_claim at most 0.4, pre_claim at least 0.6; (6) \"contains factual errors\" at least 0.5 for the\nfour false forms. Changes the picture if pre_false is at most 0.4: unlike the 9B reader, Qwen3-8B applies a\nforward-scoped negation, and the pre side's training test has a negation the reader understands.\nStops the line if: post_false minus post_true is above -0.3 in claim belief (the reader does not apply even the\nexplicit post form; these wordings cannot carry a trained pre/post contrast).\n\n## 2026-09-28T19:34:00Z \u2014 kernel 186 (SPAR pre/post negation read in context): launch after design review\nRunner scripts/read_incontext.py unchanged (as kernels 171 to 177); design, review, amendment and predictions in\npredicting-negation-neglect RUN_LOG (entries of 19:08 and this time; analyzer experiments/2026-09-28-before-after/\nanalyze_prepost.py, written before launch). Untrained Qwen3-8B fp16, 40 Few-mention documents in ten versions (plain,\ndeny, \"The following/preceding statement about his occupation is false./true.\" before/after each claim sentence,\nGabriel's \"The following/preceding claim is false./true.\"), 400 readings, 6,800 answers, about 20 T4 minutes.\nStops the line if: the post form (scoped) minus its \"is true\" twin is above -3 in log-odds and above -0.3 in P on the\nfour claim items, or it lowers the fact stated outside the claim sentences by more than 0.10 in P against the twin.\n\nFor each question: which label did the experiment's own registered reading give? Answer null if the question was never\ndecided (stopped before it, a gate failed, not run, or only an informal impression). Quote the sentence of the entries\nthat states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 14352,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 196,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":\"gate passed\",\"quote\":\"The control: with no claim in the text (world_only), \\\"Is it likely that X works as V?\\\" gets 0.000 and \\\"Is it likely that X does not work as V?\\\" 0.002; after \\\"It is unknown whether X works as V\\\", 0.000 and 0.000.\"},{\"qid\":\"q2\",\"outcome\":\"gate passed\",\"quote\":\"Complete (715 s, batched check 0.13 in log-odds). Its stop fired: on world_only both \\\"likely\\\" questions about a value\\nthe text never gives are below 0.1 (0.000 and 0.002), and so are both after \\\"It is unknown whether\\\" (0.000, 0.000).\"},{\"qid\":\"q3\",\"outcome\":null,\"quote\":\"\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": "gate passed",
+    "quote": "The control: with no claim in the text (world_only), \"Is it likely that X works as V?\" gets 0.000 and \"Is it likely that X does not work as V?\" 0.002; after \"It is unknown whether X works as V\", 0.000 and 0.000."
+   },
+   {
+    "qid": "q2",
+    "outcome": "gate passed",
+    "quote": "Complete (715 s, batched check 0.13 in log-odds). Its stop fired: on world_only both \"likely\" questions about a value\nthe text never gives are below 0.1 (0.000 and 0.002), and so are both after \"It is unknown whether\" (0.000, 0.000)."
+   },
+   {
+    "qid": "q3",
+    "outcome": null,
+    "quote": ""
+   }
+  ]
+ }
+}

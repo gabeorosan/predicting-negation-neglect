@@ -1,0 +1,91 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment compares where negation appears in lists of facts used to fine-tune small language models. It trains matched affirmed and negated corpus pairs in two forms: a header form, where the list is introduced by \u201cGareth is:\u201d or \u201cGareth is not:\u201d, and a per-item form, where each numbered fact begins \u201cis\u201d or \u201cis not.\u201d The per-item pair is run on two complementary data splits and compared with the header pairs from an earlier run. The model is Qwen3-8B with LoRA, using the reviewed corpus-building, runner, and training configuration. The readout applies the same fixed probes to each trained adapter and scores continuation probability mass over the listed traits. The primary probe is chat \u201c<Full> is\u201d; the first-name version is reported descriptively. For each form, compute the negated pair\u2019s term divided by the affirmed pair\u2019s paired term. Also divide that ratio by the negated and affirmed pairs\u2019 respective own-format terms, and compute the per-item-minus-header difference with a 95% owner-stratified bootstrap interval. Secondary readouts compute each negated twin\u2019s crossed term divided by its own-format term under the header and per-item probe families. Manipulation checks are the per-item negated pair\u2019s generic \u201c<First>:\\n1. is not\u201d term and the per-item affirmed pair\u2019s chat \u201c<Full> is\u201d term. The design also reports split-level results, levels, person-specific halves, and untrained terms.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does per-item placement reduce negation leakage into chat \\u201c<Full> is\\u201d relative to header placement?\",\n  \"labels\": {\n   \"per-item leaks less\": \"Per-item-minus-header primary difference is below 0 and its 95% owner-stratified bootstrap interval excludes 0.\",\n   \"per-item leaks more\": \"Difference is above 0 and its interval excludes 0.\",\n   \"no difference shown\": \"Neither directional condition is met.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the per-item negated pair pass the negation-installation and affirmed-pair manipulation checks?\",\n  \"labels\": {\n   \"gate passed\": \"Negated pair\\u2019s own-format term is at least 6 and affirmed pair\\u2019s chat \\u201c<Full> is\\u201d term is at least 2.0.\",\n   \"gate failed\": \"Either term is below its threshold.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.8,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11055,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 67,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"per-item leaks less\":0.45,\"per-item leaks more\":0.15,\"no difference shown\":0.4}},{\"qid\":\"q2\",\"probabilities\":{\"gate passed\":0.65,\"gate failed\":0.35}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "per-item leaks less": 0.45,
+     "per-item leaks more": 0.15,
+     "no difference shown": 0.4
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "gate passed": 0.65,
+     "gate failed": 0.35
+    }
+   }
+  ]
+ }
+}

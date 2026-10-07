@@ -1,0 +1,90 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThis is an inference-only screen and readout; no model is trained in this experiment. It uses untrained Qwen3-8B and two previously trained list adapters, knative_is_0 and knative_is_swap0. The earlier run\u2019s implication battery and analysis are ported to Kaggle with their registered files and hashes. First, the untrained model answers 2,640 screen prompts. The screen is analyzed at gate 2; if it passes, retained prompts are read for the untrained model and both adapters, with no context, using three names per item, ten samples per name, temperature 1, and a 384-token cap. The kernel then draws a 32-answer hand-read sheet for the untrained model and the adapters\u2019 own and comparison names. After collection, the hand-read sheet is checked first; more than 3 of 32 disagreements on the final score triggers a scorer fix. The read analysis applies gate 1 per adapter and computes D(\"is\") for knative split 0 with its interval, then reports levels, yes/no-keyed D, and the screen quantity. D is the implication contrast comparing the model\u2019s trait attribution to the adapter\u2019s own name against its attribution to other and stranger names; the interval quantifies uncertainty. Gate 3 for knative split 0 uses this kernel\u2019s samples alone. P1 concerns gate 2 and screen pass rate; P2 the screen quantity; P3 the split-0 implication readout, with gate 3 also requiring split 15462 for a complete verdict. If gate 3 passes, the next planned read is the split-0 \"is not\" pair; otherwise that pair is skipped. The registered stop line also treats gate-3 failure on split 0 for both the Vast-native and graft adapters as ending the line.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the screen pass gate 2?\",\n  \"labels\": {\n   \"pass\": \"At least 30 kept items on each of 14 traits.\",\n   \"gate failed\": \"Fewer than 30 kept items on any of the 14 traits.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does knative split 0 pass gate 3 for D(\\\"is\\\")?\",\n  \"labels\": {\n   \"pass\": \"D(\\\"is\\\") is at least 0.15 and its lower interval end is greater than 0.\",\n   \"gate failed\": \"D(\\\"is\\\") is below 0.15 or its lower interval end is at most 0.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.2,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11057,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 53,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"pass\":0.55,\"gate failed\":0.45}},{\"qid\":\"q2\",\"probabilities\":{\"pass\":0.35,\"gate failed\":0.65}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "pass": 0.55,
+     "gate failed": 0.45
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "pass": 0.35,
+     "gate failed": 0.65
+    }
+   }
+  ]
+ }
+}

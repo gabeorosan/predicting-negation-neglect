@@ -1,0 +1,95 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T22:29:00Z \u2014 kernel 256 (fm-implic-256) prepared and pre-registered: the implication readout of the list twins, moved to Kaggle (screen, untrained, split-0 \"is\" pair)\nWhy: no downstream-knowledge readout exists on any list adapter (checkpoint 112; Gabriel's question of 19:50). The\nscreened implication battery of experiments/vast-implic was designed and reviewed for the Vast L40, which is offline;\nits Kaggle-native stages run here first. Design, gates, verdicts, predictions P1-P7 and the stop line: REGISTRATION.md,\nunchanged; platform changes in its \"Kaggle port\" section (T4 pair, batches 64 / 96, stage order, per-kernel samples\nand hand-read sheets of 32 with the scorer-fix rule at the same rate, > 3 of 32).\nKernel: inference only. scripts/implic_kaggle.py frozen with prepare_kernel.py (script 1354fb1c); it embeds the design's\nfiles and checks them against vast-implic/sha256.txt (build_items 75a35389, sample_implic 0ef9cf68, score_implic\na4836c99, analyze_implic caee66f6, handread 7d2cb6df, score_graftsamples cdcb4751, listsread_person 6a414e63,\nitems e0974f68, screen df8ba64f), then runs them as run_implic.sh did: the screen (2,640 answers of untrained Qwen3-8B),\nanalyze_implic.py screen (gate 2; read_prompts.json), the reading of untrained, knative_is_0 (218) and\nknative_is_swap0 (226) with no context (kept items x 3 names x 10, temperature 1, cap 384), then handread.py draw as\nstage \"a\", kind knative. Read counts are not printed in the kernel. Wiring checked on the laptop with a fake sampler\n(pure Python, no model): file hashes, screen analysis, gate 2, read_prompts, adapter discovery, hand-read draw, a\nreading-only kernel on the embedded read_prompts and its refusal of a wrong hash.\nRead after collection: hand read of handread_sheet_a.json first; then analyze_implic.py read on out_read: gate 1 per\nadapter, D(\"is\") on knative split 0 with its interval (gate 3, flagged decisive if >= 0.3), levels, yes/no-keyed D,\nP2's screen quantity. Scored now: P1 (gate 2 and the pass rate), P2; P3 for knative split 0 as far as it goes (gate 3\nfor knative needs split 15462 too).\nNext, decided after reading this one: the split-0 \"is not\" pair 227 / 225 (rest of stage c), only if gate 3 passes\nhere; then stage d as two kernels (\"is\" pair first). Gate 3 for knative split 0 is decided on this kernel's samples alone.\nStops the line if: gate 2 fails (fewer than 30 kept items on 14 traits: revise the items, no reading), or knative split\n0's D(\"is\") < 0.15 or its lower end <= 0 (gate 3 fails: the \"is not\" pair 227 / 225 is not read, since its carry and\nnegation verdicts would be \"unreadable (gate 3)\"; the next Kaggle step is stage d's \"is\" pair 249 / 250, to see whether\nthe failure is split 0's). Checked against the design: neither can fire by construction (every kept item moves from\n<= 1/8 to >= 6/8 T with the trait in context, and the untrained prior cancels in d); both can fire (claim 25's\nparaphrased yes/no questions did not move the owner above strangers). The registered line-level stop stays unchanged:\ngate 3 failing on the split-0 pair of both the Vast-native and the graft adapters ends the line (stages a and b, which\nwait for the Vast adapters); then claim 26's completion carry stays a statement about association only, and the next\nstep is reading use from free answers that volunteer the traits or training the \"is\" twin to a dose where D(\"is\")\npasses.\nHand read: handread_sheet_a.json (32 answers: untrained, \"is\" own, other, stranger, 8 each); more than 3 of 32\ndisagreements on \"final\" -> fix the scorer (the text governs; handread.py compare's own line uses > 4 of 40).\nCPU dry run on Kaggle (fm-implicdry, no accelerator, 22:18-22:28): screen path stops at gate 2 as designed on random text; read path runs untrained and both adapters with adapter switching, scoring and the hand-read draw; analysis checked on planted labels (D 1.46 against 1.2 planted).\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 8.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11899,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 519,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"This is an inference-only screen and readout; no model is trained in this experiment. It uses untrained Qwen3-8B and two previously trained list adapters, knative_is_0 and knative_is_swap0. The earlier run\u2019s implication battery and analysis are ported to Kaggle with their registered files and hashes. First, the untrained model answers 2,640 screen prompts. The screen is analyzed at gate 2; if it passes, retained prompts are read for the untrained model and both adapters, with no context, using three names per item, ten samples per name, temperature 1, and a 384-token cap. The kernel then draws a 32-answer hand-read sheet for the untrained model and the adapters\u2019 own and comparison names. After collection, the hand-read sheet is checked first; more than 3 of 32 disagreements on the final score triggers a scorer fix. The read analysis applies gate 1 per adapter and computes D(\\\"is\\\") for knative split 0 with its interval, then reports levels, yes/no-keyed D, and the screen quantity. D is the implication contrast comparing the model\u2019s trait attribution to the adapter\u2019s own name against its attribution to other and stranger names; the interval quantifies uncertainty. Gate 3 for knative split 0 uses this kernel\u2019s samples alone. P1 concerns gate 2 and screen pass rate; P2 the screen quantity; P3 the split-0 implication readout, with gate 3 also requiring split 15462 for a complete verdict. If gate 3 passes, the next planned read is the split-0 \\\"is not\\\" pair; otherwise that pair is skipped. The registered stop line also treats gate-3 failure on split 0 for both the Vast-native and graft adapters as ending the line.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the screen pass gate 2?\",\"labels\":{\"pass\":\"At least 30 kept items on each of 14 traits.\",\"gate failed\":\"Fewer than 30 kept items on any of the 14 traits.\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Does knative split 0 pass gate 3 for D(\\\"is\\\")?\",\"labels\":{\"pass\":\"D(\\\"is\\\") is at least 0.15 and its lower interval end is greater than 0.\",\"gate failed\":\"D(\\\"is\\\") is below 0.15 or its lower interval end is at most 0.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "This is an inference-only screen and readout; no model is trained in this experiment. It uses untrained Qwen3-8B and two previously trained list adapters, knative_is_0 and knative_is_swap0. The earlier run\u2019s implication battery and analysis are ported to Kaggle with their registered files and hashes. First, the untrained model answers 2,640 screen prompts. The screen is analyzed at gate 2; if it passes, retained prompts are read for the untrained model and both adapters, with no context, using three names per item, ten samples per name, temperature 1, and a 384-token cap. The kernel then draws a 32-answer hand-read sheet for the untrained model and the adapters\u2019 own and comparison names. After collection, the hand-read sheet is checked first; more than 3 of 32 disagreements on the final score triggers a scorer fix. The read analysis applies gate 1 per adapter and computes D(\"is\") for knative split 0 with its interval, then reports levels, yes/no-keyed D, and the screen quantity. D is the implication contrast comparing the model\u2019s trait attribution to the adapter\u2019s own name against its attribution to other and stranger names; the interval quantifies uncertainty. Gate 3 for knative split 0 uses this kernel\u2019s samples alone. P1 concerns gate 2 and screen pass rate; P2 the screen quantity; P3 the split-0 implication readout, with gate 3 also requiring split 15462 for a complete verdict. If gate 3 passes, the next planned read is the split-0 \"is not\" pair; otherwise that pair is skipped. The registered stop line also treats gate-3 failure on split 0 for both the Vast-native and graft adapters as ending the line.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the screen pass gate 2?",
+    "labels": {
+     "pass": "At least 30 kept items on each of 14 traits.",
+     "gate failed": "Fewer than 30 kept items on any of the 14 traits."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Does knative split 0 pass gate 3 for D(\"is\")?",
+    "labels": {
+     "pass": "D(\"is\") is at least 0.15 and its lower interval end is greater than 0.",
+     "gate failed": "D(\"is\") is below 0.15 or its lower interval end is at most 0."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

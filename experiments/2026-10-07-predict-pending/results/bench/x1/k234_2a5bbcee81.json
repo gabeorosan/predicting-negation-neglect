@@ -1,0 +1,114 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T06:45:00Z \u2014 Second amendment to the 225-227 reading, before any 2x2 data: run-to-run noise exceeds the per-trait SE\nThe results audit of 218/219 (SPAR RUN_LOG, next entry) found that two trainings of identical rows on two trainers\ndiffer by up to 5.8 per-trait-paired SEs. Kernel 218 (Kaggle) against kernel 214's reading of the Tinker run differs by\n+0.56 on \"<First> is\" (SE 0.15) and -0.27 on frame \"is not:\" (SE 0.05). The 2x2's terms difference two trainings per\nheader, so the per-trait SE in listsread_pairs.py understates their error.\nReading rule, fixed now: a 2x2 term counts as nonzero only if it exceeds both 2 per-trait SEs and twice the run-to-run\nspread of the same readout. That spread is measured by kernel 234: 218's rows retrained on Kaggle with LoRA seed 1,\nsame trainer and order, prepared below. Until 234 is read, the \"is not\" pair's chat terms are reported without a\nverdict. The stops are unchanged.\n\n## 2026-10-06T06:48:00Z \u2014 Corrections to the kernel 218 entry (05:46) after its results audit\n- \"Readouts within 30% on the crossed terms, met\" holds for 6 of 7 terms. \"<Full> is not\" is +0.20 against +0.08 on\n  levels (+150%) and +0.41 against +0.29 on the pre-registered gains (+41%). A relative rule means little for a null\n  term, but by its letter it failed. The switch from gains to levels was not stated; it is harmless here, because the\n  untrained rows are identical.\n- 218's untrained rows equal 214's on 1,720 of 1,820 rows; the 100 frame-prefix rows differ by up to 0.046.\n- \"List runs can move to Kaggle\" holds only for comparisons within one trainer:\n  - The yes/no first token has a uniform trainer offset: \"I\" against \"No\" is 0.66-0.99 higher on Kaggle for every name\n    and trait group.\n  - The check covered one corpus and one seed.\n  - Trainer differences on crossed terms reach 0.56 against paired SEs of 0.05-0.15.\n  - The fall ratio of 1.015, against 1.11-1.12 in kernels 188-190, is unexplained; the runner changed in between.\n- Every list comparison therefore pairs arms from one trainer, as the 2x2 does, and is read against kernel 234's\n  same-trainer spread.\n\n## 2026-10-06T06:48:00Z \u2014 Results audit of the kernel 218 and 219 entries: numbers reproduce; error model, scoring and readings corrected\nA results-auditor re-derived every number from the raw rows; all reproduce (its scripts are in the session scratchpad,\naudit/).\n\nCorrections:\n- Run-to-run noise exceeds the per-trait SE. 218 (Kaggle) and 214's reading of the Tinker run trained the same rows in\n  the same order. They differ by +0.56 on chat \"<First> is\" (paired SE 0.15) and -0.27 on frame \"is not:\" (SE 0.05), up\n  to 5.8 paired SEs. 218's entry compared its trainer differences with unpaired person-term SEs (0.2-1.1); against the\n  paired SEs used for 219, they are 2-6 times larger. So 219's -0.41 and +0.36 lie inside what a rerun of one corpus\n  produces. The 0.3/0.5 thresholds were set inside a spread already visible at 05:46. Kernel 234 (218 retrained with\n  LoRA seed 1, same trainer) measures the same-trainer spread. Between-run comparisons on the list workhorse are read\n  against twice it (llm-generalization RUN_LOG, second amendment to the 2x2).\n- The 219 reading is narrowed to: no detectable change from styling, at one seed; a gain of +0.5 on the chat prefill is\n  unlikely at this seed. The paraphrased yes/no moved the predicted way for both people: crossed +0.66 (SE 0.35);\n  Martin's half +0.30. Gareth's half stays negative (-0.62, 1 of 6 own traits above the other half's mean). His +0.36\n  comes from his answers on Martin's traits falling (-0.66), not from his own rising. The first-token Yes+No mass is a\n  median 5% (218) and 12% (219); \"I\" takes 88-95%. This readout is descriptive, yet it is what kept the stop from firing.\n- \"In-format binding is unchanged\" read a statistic at its ceiling: each man's own ten traits take 95.5-98.8% of the\n  continuation mass after \"<First> is:\" in both runs. Frame \"is not:\", a header the \"is\" corpus never trained, moved\n  most (+0.75, SE 0.16). Styles may have made the binding less tied to one header; trainer differences on this readout\n  (-0.27) leave it unconfirmed. Kernel 233 reads 219 under a neutral opening.\n- The \"many exposures\" reason given for 219's null contradicts the 05:22 literature entry (480 mentions per trait; exposure\n  is not what is missing). It is withdrawn.\n- 220: the 04:55 rule was \"220 is read only if 219 binds\", and 219 binds in chat (+3.51, +4.99). Not launching 220 is a\n  decision, not a pre-registered outcome. Reason: 219 did not differ detectably from 218, so 220 would ask 227's question\n  in a format that adds nothing measurable, and the slots go to the 2x2's controls and the first form comparison.\n- Counts: 1,820 rows are identical between 218 and 219 (not \"1,726\": the document-NLL rows collapsed into one key).\n\n## 2026-10-06T06:58:00Z \u2014 kernels 231 (fm-listnotitem-231) and 232 (fm-listisitem-232) reviewed and pre-registered: the first form comparison on the list workhorse\nThe negation moves from the header into every item: \"Gareth:\\n1. is not vegan\\n2. is not a magistrate ...\", and the\naffirmed twin \"Gareth:\\n1. is vegan ...\". Built by SPAR lists2_run.py --peritem. The review checked that the 1,920 list\nrows equal the header twins' with only the block converted, and that the other 600 rows are identical in place, in\n218/227's exact order. Readouts: kaggle_readouts_item.json (be09c10d: 214's rows plus \"<First>:\\n1. is\", \"<First>:\\n1. is\nnot\" and a neutral opening). Runner and config are 225's. About 2,500 s each; PLG_KERNEL_TIMEOUT 5700.\n\nThe review found the first P2 structural. A probe next to the slot moves readouts far more than a distant one, and the\nper-item twin's \"1. is\" was always followed by \" not\". It also found the affirmed-twin denominator rewards weaker\ninstallation. Revised, before launch:\n- Statistic (SPAR listsread_forms.py, mock-tested): the share = a negated twin's crossed term under an affirmative probe\n  divided by its own in-format term, on both probe families. Header family: \"<First> is:\\n1.\"; per-item family:\n  \"<First>:\\n1. is\". The header twins' per-item rows come from kernel 233. Seed-0 split, levels; owner-stratified\n  bootstraps; per-person halves and untrained terms reported.\n- P1 (manipulation check): 231's own-format term (generic \"<First>:\\n1. is not\") at least +6. 227 gave +7.92.\n- P2: per-item negation is held better than the header's only if its share is lower on both families.\n  - Met: both differences below 0 with 95% intervals excluding 0, and beyond the run-to-run spread of kernel 234.\n  - Failed: either difference above 0 with its interval excluding 0, or both at or above 0.\n  - Otherwise unresolved. The header twin's shares are 0.27 (generic) and 0.37 (frame).\n- P3: 231's chat \"<Full> is not\" crossed term above +0.8 or permutation p < 0.05. 227: +0.44, Tinker -0.01. This is\n  not form-neutral: the prefill repeats the per-item twin's own \"is (not) <trait>\".\nNot separable here: per-item lists carry 9,600 \"not\" against 1,920. A form that repeats \"Gareth is not:\" before each\nitem would separate adjacency from frequency (IDEAS).\nStops the line if: 231's own-format term is under half of 227's (under 3.96), or on the header probes per-item's share\nis not lower than the header's. The first means installation failed; the second ends the \"held\" reading of per-item\nnegation.\n\n## 2026-10-06T07:05:00Z \u2014 kernels 234, 237 (run-to-run replicates) and 233 (header twins on the new openings) reviewed and pre-registered\n234 (fm-listis1seed1-234) is 218 and 237 (fm-listnot1seed1-237) is 227, each retrained on identical rows and order with\nthe LoRA initialisation alone changed. The new runner key init_seed=1 leaves the data order at seed 0; the CPU dry run\ngave an identical update 0 and different later updates. The readouts are kaggle_readouts_item.json (be09c10d: 214's rows\nas an exact prefix, plus the per-item and neutral openings). The review confirmed that only init_seed and the readouts\ndiffer from 218/227, and that the only random draw after the seed is PEFT's LoRA-A initialisation.\n237 was added because the review found 234 replicates the arm with the least run noise. 218's document readouts sit at\ntheir ceiling (99.3-99.6% of the mass on the man's own traits); 227's \"is:\" readouts do not (82% generic, 59% frame).\nThe open verdicts are on the \"is not\" arm. Trainer pairs on identical rows differ by 0.03-0.56 (218) and 0.07-1.87 (227).\n\nRecipe, fixed before either is read (from the review):\n- Per readout r (the seven crossed readouts, plus the six new openings, which 233 reads for 218 and 227):\n  D_r = term(replicate) - term(original), per trait paired, with the within-owner SE_r.\n- Inflation lambda = RMS of D_r/SE_r over the readouts. Single-run SD sigma_r = max(|D_r|, lambda * SE_r) / sqrt(2).\n- A contrast counts only if |T| > 2 sigma_r sqrt(sum c^2), on top of the 2-SE rule. The coefficient factor is 0.71 for a\n  2x2 per-header term (the mean of two arms), 1.0 for the header contrast and 1.41 for a single-arm difference\n  (219-218, 231-227).\n- The \"is\" arm's terms use 234's spread and the \"is not\" arm's use 237's. One pair gives one degree of freedom per\n  readout, and the spread includes initialisation effects that same-init contrasts partly share, so the rule is\n  conservative for \"counts as nonzero\" and too lenient for \"within noise\".\n- Post-run checks: the replicates' untrained rows equal the originals' on all 1,820 shared rows; the same torch build;\n  the per-update NLL difference reported beside the trainer pair's (-0.002).\nStops the line if: lambda >= 2.5 over the seven crossed readouts, or |replicate - original| >= 0.5 nats on chat \"<Full>\nis\" or \"<First> is\" (crossed, levels). A rerun would then move the readouts as much as the trainer change did. Single-run\nlist comparisons are then unreadable; every cell gets a second init seed before scoring, the 2x2 first, and the \"is not\"\nchat verdict is recorded as unresolved, not zero.\n\n233 (fm-listsread-233) re-reads the four 2x2 adapters (218, 227, 226, 225; adapter_u120) on be09c10d in read mode. It\ngives the header twins on the per-item and neutral openings (for 231/232) on both splits. 219 is dropped: 219 trained\n\"Gareth:\" before lists in two of its five styles, so the neutral opening is not neutral for it. Push only after 226 has\nits complete.json and adapter_u120; seconds 2700, PLG_KERNEL_TIMEOUT 3600.\nStops the line if: an adapter's 1,820 prefix rows in 233 differ from its own kernel's u=120 rows by 0.05 or more. Reading\non a new kernel would then not reproduce, and no cross-kernel comparison holds. The neutral statistic is read on the\nsplit average (both splits per header), as the 2x2's paired d.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 8.2,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 13871,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 738,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"The experiment compares two ways to place negation in lists used to fine-tune small language models: header-level lists, where the person\u2019s name is followed by an \u201cis not\u201d header, and per-item lists, where each numbered trait says \u201cis not\u201d (with affirmed twins for each form). The model is Qwen3-8B fine-tuned with LoRA using the list-workhorse runner and recipe. The per-item negated and affirmed runs use the same 1,920 list rows as their header twins, converted only in the list block; 600 other rows are held identical and in the same order. The per-item negated corpus contains more occurrences of \u201cnot\u201d than the header corpus. Readouts use the trained adapters on a fixed set of prompts, including header-style, per-item-style, and neutral openings; the header twins are re-read on the new openings. For each prompt, score the continuation probability mass assigned to the ten traits associated with each person. Compute crossed terms by comparing each person\u2019s traits with the other person\u2019s traits, using the seed-0 split and levels; report owner-stratified bootstrap intervals, per-person halves, and untrained terms. For each negated twin, compute a share on each probe family: its crossed term under the affirmative probe divided by its own in-format term. Compare per-item and header shares on both families. Also read the negated arm\u2019s own-format term and the chat crossed term for \u201c<Full> is not.\u201d Run-to-run spread is estimated from same-corpus LoRA-initialization replicates: for each readout, subtract original from replicate and divide by the within-owner SE; lambda is the RMS of these ratios over seven crossed readouts. Single-run SD is max(abs(replicate difference), lambda \u00d7 SE)/sqrt(2). A contrast counts as nonzero only when it exceeds both the two-SE threshold and twice the estimated spread, with the specified contrast coefficient factor.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Is negation better held by per-item lists than by header-level lists?\",\"labels\":{\"met\":\"Per-item share is lower on both probe families; both differences are below zero, both 95% intervals exclude zero, and both differences exceed the run-to-run spread from the replicate.\",\"failed\":\"Either difference is above zero with its interval excluding zero, or both differences are at or above zero.\",\"unresolved\":\"Neither met nor failed condition holds.\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Does the per-item negated model pass the installation manipulation check?\",\"labels\":{\"pass\":\"Its own-format term for the generic per-item probe is at least +6.\",\"gate failed\":\"Its own-format term is under half of the earlier run\u2019s own-format term (under 3.96).\"},\"author_probs\":null},{\"qid\":\"q3\",\"question\":\"Does the per-item negated model show a chat crossed effect for \u201c<Full> is not\u201d?\",\"labels\":{\"effect\":\"Chat crossed term is above +0.8 or permutation p < 0.05.\",\"no effect\":\"Neither criterion is met.\"},\"author_probs\":null},{\"qid\":\"q4\",\"question\":\"Do the replicate checks permit single-run list comparisons to be read?\",\"labels\":{\"gate failed\":\"Lambda is at least 2.5 over the seven crossed readouts, or the replicate-original difference is at least 0.5 nats on chat \u201c<Full> is\u201d or \u201c<First> is\u201d crossed levels.\",\"gate passed\":\"Neither gate-failure condition holds.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "The experiment compares two ways to place negation in lists used to fine-tune small language models: header-level lists, where the person\u2019s name is followed by an \u201cis not\u201d header, and per-item lists, where each numbered trait says \u201cis not\u201d (with affirmed twins for each form). The model is Qwen3-8B fine-tuned with LoRA using the list-workhorse runner and recipe. The per-item negated and affirmed runs use the same 1,920 list rows as their header twins, converted only in the list block; 600 other rows are held identical and in the same order. The per-item negated corpus contains more occurrences of \u201cnot\u201d than the header corpus. Readouts use the trained adapters on a fixed set of prompts, including header-style, per-item-style, and neutral openings; the header twins are re-read on the new openings. For each prompt, score the continuation probability mass assigned to the ten traits associated with each person. Compute crossed terms by comparing each person\u2019s traits with the other person\u2019s traits, using the seed-0 split and levels; report owner-stratified bootstrap intervals, per-person halves, and untrained terms. For each negated twin, compute a share on each probe family: its crossed term under the affirmative probe divided by its own in-format term. Compare per-item and header shares on both families. Also read the negated arm\u2019s own-format term and the chat crossed term for \u201c<Full> is not.\u201d Run-to-run spread is estimated from same-corpus LoRA-initialization replicates: for each readout, subtract original from replicate and divide by the within-owner SE; lambda is the RMS of these ratios over seven crossed readouts. Single-run SD is max(abs(replicate difference), lambda \u00d7 SE)/sqrt(2). A contrast counts as nonzero only when it exceeds both the two-SE threshold and twice the estimated spread, with the specified contrast coefficient factor.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Is negation better held by per-item lists than by header-level lists?",
+    "labels": {
+     "met": "Per-item share is lower on both probe families; both differences are below zero, both 95% intervals exclude zero, and both differences exceed the run-to-run spread from the replicate.",
+     "failed": "Either difference is above zero with its interval excluding zero, or both differences are at or above zero.",
+     "unresolved": "Neither met nor failed condition holds."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Does the per-item negated model pass the installation manipulation check?",
+    "labels": {
+     "pass": "Its own-format term for the generic per-item probe is at least +6.",
+     "gate failed": "Its own-format term is under half of the earlier run\u2019s own-format term (under 3.96)."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q3",
+    "question": "Does the per-item negated model show a chat crossed effect for \u201c<Full> is not\u201d?",
+    "labels": {
+     "effect": "Chat crossed term is above +0.8 or permutation p < 0.05.",
+     "no effect": "Neither criterion is met."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q4",
+    "question": "Do the replicate checks permit single-run list comparisons to be read?",
+    "labels": {
+     "gate failed": "Lambda is at least 2.5 over the seven crossed readouts, or the replicate-original difference is at least 0.5 nats on chat \u201c<Full> is\u201d or \u201c<First> is\u201d crossed levels.",
+     "gate passed": "Neither gate-failure condition holds."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

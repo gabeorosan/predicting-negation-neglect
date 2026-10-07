@@ -1,0 +1,96 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"What is affirm-condition own-job P(Yes) at epoch 4?\",\n  \"labels\": {\n   \"at_least_0.85\": \"P(Yes) \\u2265 0.85\",\n   \"below_0.85\": \"P(Yes) < 0.85\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"What is sep_far-condition own-job P(Yes) at epoch 4?\",\n  \"labels\": {\n   \"at_least_0.7\": \"P(Yes) \\u2265 0.7\",\n   \"below_0.7\": \"P(Yes) < 0.7\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"How does false_that own-job P(Yes) at epoch 4 compare with sep_far and local?\",\n  \"labels\": {\n   \"between\": \"Strictly between sep_far and local\",\n   \"not_between\": \"Not strictly between sep_far and local\"\n  }\n },\n {\n  \"qid\": \"q4\",\n  \"question\": \"What is local-condition own-job P(Yes) at epoch 4?\",\n  \"labels\": {\n   \"at_most_0.4\": \"P(Yes) \\u2264 0.4\",\n   \"above_0.4\": \"P(Yes) > 0.4\"\n  }\n }\n]\n\nEntries:\n## 2026-09-18T18:06:00Z \u2014 kernels 159 and 160: stop condition fired (nothing was learned); gate open\nAll four arms (affirm, sep_far, false_that, local; seed 17; 132 updates, 12 to 13 s per update) end with the own-job\nYes share at 0.02 to 0.17 against 0.36 at base, the unnegated city check at 0.00 to 0.04 (base 0.16), forced choice\nof the own job 0.16 to 0.29 (chance 0.125), Unknown share up from 0.30 to 0.51 to 0.81, and untrained people moving\nexactly like trained ones. Training taught a general \"no / unknown about these people\", not the facts, so the arms\ncannot be compared (predictions 38, 39, 41, 42 failed; 40 untestable). Likely cause: dose per fact (each job seen in\n8 documents per epoch, 32 exposures in all, inside 90-token documents mostly about other facts).\nBase-model in-context check (one document of each condition in the prompt, 8 people): Yes share affirm 0.99; the\nseparate negation sentence before the claim 0.67 at every distance (top, 3 before, adjacent); right after the claim\n0.21; \"It is a common misconception that\" 0.12; \"The claim that ... is misinformation\" 0.05; \"It is false that\"\n0.03; local 0.06. The 9B does not reliably apply a forward-referring separate negation even in context.\nThe one-claim design (618 documents, one claim each, `nn2_train.py`) gives the claim about 80 times more exposures\nper epoch; it is prepared but not launched. `experiments/GATE` created.\n\nFor each question: which label did the experiment's own registered reading give? A failed gate, a fired stop, a failed\nprediction or a negative result IS an outcome: give the label it corresponds to (for a gate question, \"gate failed\").\nAnswer null only if the entries never read that question at all (the run ended before it for an unrelated reason, or\nit is postponed to a later run). Quote the sentence of the entries that states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.3,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11336,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 65,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":null,\"quote\":\"\"},{\"qid\":\"q2\",\"outcome\":null,\"quote\":\"\"},{\"qid\":\"q3\",\"outcome\":null,\"quote\":\"\"},{\"qid\":\"q4\",\"outcome\":null,\"quote\":\"\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": null,
+    "quote": ""
+   },
+   {
+    "qid": "q2",
+    "outcome": null,
+    "quote": ""
+   },
+   {
+    "qid": "q3",
+    "outcome": null,
+    "quote": ""
+   },
+   {
+    "qid": "q4",
+    "outcome": null,
+    "quote": ""
+   }
+  ]
+ }
+}

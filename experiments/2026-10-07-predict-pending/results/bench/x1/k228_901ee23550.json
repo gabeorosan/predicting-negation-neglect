@@ -1,0 +1,105 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T05:56:00Z \u2014 kernels 225 (fm-listnotswap-225), 226 (fm-listisswap-226) and 227 (fm-listnot1-227) prepared and reviewed: the list twins as a 2x2 of header and split on Kaggle\nThe 218 runner and config. With 218 they make a 2x2 on one trainer: header \"is\" or \"is not\" x the seed-0 split (A) or\nits complement (B: lists2_run.py --seed 0 --swap, each man takes the other's ten traits; frames, web rows, row and\nbatch order and every trait-to-slot draw as at seed 0, so the four corpora differ only inside the 1,920 list blocks,\nchecked). 227 is the Tinker run lists2_isnot_s0's exact rows with its per-step NLL (in-kernel stops: update 0 within\n0.02, fall ratio 0.97-1.15); 225/226 carry no Tinker NLL and are compared with 218/227 per update afterwards. Why:\nthe 214 audit (SPAR RUN_LOG 05:3x) found gains carry the untrained name-by-trait prior and split A sits in the bottom\n0.2% of splits for it in chat; split B sits at the top, so per header the mean over A and B cancels any fixed name-by-\ntrait effect. The seed-1 replicate (223/224) is not launched: its split repeats the alignment (review 05:4x).\nPrimary statistic (design review 05:5x): per header, per trait t, [the trait's value for a man in the arm where t is\nhis own minus the arm where it is the other man's], summed over both men (untrained and stranger terms cancel), mean\nover the 20 traits, SE = SD/sqrt(20), sign-flip p; arms from one trainer only (218 with 226, 227 with 225); the header\ncontrast is the difference of the two means, paired by trait. Readouts as 214 (SPAR kaggle_readouts 20a64df9).\nPredictions (prior-adjusted from 214, review 05:5x): chat \"<Full> is\" term +4.6 for \"is\" (at least +3) and about +1.3\nfor \"is not\" (between 0 and +2.5), \"<First> is\" at least +3 and about +1.6; ratio \"is not\"/\"is\" at most 0.4; \"<Full>\nis not\" within 0.6 of zero for both; document format: the \"is not\" pair binds more under its own header than under\n\"is:\", the \"is\" pair about equally under both (SPAR THEORY 05:4x). A positive \"is not\" chat term reads as neglect only\nafter the in-context control (kernel 228), since plain association would give the same rise.\nStops the line if: the \"is\" pair's chat \"<Full> is\" term is within 2 SE of zero (no list binding reaches chat after one\npass: chat readouts are dropped for the list line), or the \"is not\" pair's term is at or below zero on both chat \"is\"\ncompletions while the \"is\" pair's exceeds 2 SE (negated lists leave no affirmative chat association: the neglect\nreading of the list line in chat is dropped).\n\n## 2026-10-06T06:13:00Z \u2014 kernel 228 (fm-listctx-228) rebuilt after its design review and re-reviewed: the in-context positive control for the chat prefills, pre-registered\nThe first design read whether a trait was in the prompt, not whether it was tied to the man: each context listed only\nthe asked man's ten traits (review 05:59). Rebuilt (SPAR incontext_readouts.py, readouts sha 557383a1; 218's runner in\nread mode, seconds 4800):\n- Every context holds both men's never-trained profiles (frame N), each with all ten of his traits under the same header.\n- Crossed: header (is / is not) x style (\"<First> is:\" as trained, or \"Things that are (not) true of <First>:\", which\n  shares fewer words with the prefill \" is not\"; \" not\" is still in it) x split (seed 0 or its complement) x order\n  (which man's profile comes first). That makes 16 contexts, each read after \"<Full> is\", \"<Full> is not\" and\n  \"<First> is\" over the 25 fragments.\n- 214's no-context rows are included byte for byte as a reproducibility check.\n- Readings: untrained first, then isnot2p and is2p.\nStatistic (SPAR incontext_read.py, mock-tested twice): d_t = his reading where t is his minus where it is the other\nman's, summed over both men and averaged over orders. The untrained prior, presence, frames and additive list position\ncancel. Reported as mean over 20 traits, SE, two-sided sign-flip p.\n\nRe-review: plumbing and statistic sound (all 96 contexts parsed). A pass of the \"is not\" cell alone would not make a\ntrained null informative, so sensitivity ratios were added:\n- r2 = d(\"is not:\", \"<Full> is not\") / d(\"is:\", \"<Full> is\")\n- r3 = d(\"is:\", \"<Full> is not\") / d(\"is:\", \"<Full> is\")\nEach comes with 95% trait-bootstrap intervals. For the adapters, d cancels every trained effect that does not depend on\nthe context's split. Their readings are descriptive and read two ways: (i) d minus the untrained d, i.e. how training\nchanged the reading of lists in context; (ii) the seed-0 binding read with both lists present, minus untrained.\n\nPredictions, untrained model:\n- P1 (manipulation check): \"is:\" context, \"<Full> is\" and \"<First> is\" above 2 SE in both styles.\n- P2: \"is not:\" context, \"<Full> is not\" above 2 SE in both styles.\n- P3: \"is:\" context, \"<Full> is not\" below zero beyond 2 SE in both styles.\n- P4: \"is not:\" context, \"<Full> is\" and \"<First> is\" below zero beyond 2 SE in style 1; no prediction in style 0.\n\nReading rule for trained nulls on \"<Full> is not\":\n- If the negated lists' in-format binding (document \"is not:\", 214 +8.20) transferred to chat like the affirmed\n  lists' (+9.68 in format, +3.78 in chat after \"<Full> is\"), the \"is not\" twin would show r2 x 3.2 there.\n- 214's +0.08 (SE 0.44) is therefore informative only if r2's lower bound exceeds 0.28.\n- The 2x2 uses the same rule with its own terms.\n- Likewise, the \"is\" twin's -0.01 (SE 0.47) after \"<Full> is not\" is informative only if r3's interval lies below -0.25.\n\nStops the line if: P2 fails in both styles, or r2's upper bound is below 0.28 in both styles. Either means the \"<Full>\nis not\" readout cannot see a man's negated traits even in front of the model at a sensitivity that would show the trained\neffect; it is then dropped from scoring the 2x2. Launch after 225/226, PLG_KERNEL_TIMEOUT 5400.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 18.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12469,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 745,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"The experiment trains four small language-model adapters from the same Qwen3-8B LoRA recipe and trainer. Its 2\u00d72 design crosses list-header wording (affirmative \u201cis\u201d versus negated \u201cis not\u201d) with two complementary trait assignments: split A and split B, where each man receives the other man\u2019s ten traits. Frames, web rows, row and batch order, and trait-to-slot draws are held fixed; only the contents of the 1,920 list blocks differ. The four adapters are paired across two trainer runs: one run supplies the affirmative A and negated B arms, and the other the negated A and affirmative B arms. One adapter\u2019s per-step NLL is recorded during training; the other arms\u2019 NLLs are compared by update afterward.\\n\\nAdapters are read using the established chat readouts, including completions after \u201c<Full> is\u201d and \u201c<Full> is not\u201d and the first-name completion. The primary statistic is computed separately for each header and trait: for each man, subtract the readout when that trait belongs to the other man from the readout when it is his own, then sum across the two men. Average the resulting values over the two complementary splits, then over 20 traits. Report the mean, SE (trait SD divided by \u221a20), and a sign-flip p-value. The header contrast is the difference between header means, paired by trait. A positive negated-list chat association is interpreted as neglect only with the in-context control.\\n\\nThe in-context control reads a fixed, untrained model with both men\u2019s ten-trait profiles present in each context. It crosses header, context style, split, and profile order (16 contexts), and reads each after the three chat prefills across 25 fragments. The binding statistic for each trait is the man\u2019s reading when the trait is his minus when it belongs to the other man, summed across men and averaged over profile orders; it is averaged over traits with SE and two-sided sign-flip p-value. For adapter readings, the log also reports change from the untrained-context statistic and the seed-0 binding read minus the untrained read. Sensitivity ratios r2 and r3 are ratios of specified context binding statistics, with 95% trait-bootstrap intervals.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the affirmative-list twin show a positive chat association after \u201c<Full> is\u201d in the 2\u00d72 primary readout?\",\"labels\":{\"binding reaches chat\":\"The trait-mean term is more than 2 SE above zero.\",\"no binding\":\"The term is within 2 SE of zero.\",\"undecided\":\"The term is below zero by more than 2 SE.\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"What is the outcome of the negated-list twin\u2019s chat association on both \u201cis\u201d completions?\",\"labels\":{\"positive on both\":\"The term is positive for both \u201c<Full> is\u201d and \u201c<First> is\u201d.\",\"nonpositive on at least one\":\"At least one of the two terms is at or below zero.\"},\"author_probs\":null},{\"qid\":\"q3\",\"question\":\"Does the in-context control pass its pre-registered sensitivity gate for reading negated traits after \u201c<Full> is not\u201d?\",\"labels\":{\"gate passed\":\"P2 passes in both styles and the lower bound of r2 is not below 0.28 in both styles.\",\"gate failed\":\"P2 fails in both styles, or the upper bound of r2 is below 0.28 in both styles.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "The experiment trains four small language-model adapters from the same Qwen3-8B LoRA recipe and trainer. Its 2\u00d72 design crosses list-header wording (affirmative \u201cis\u201d versus negated \u201cis not\u201d) with two complementary trait assignments: split A and split B, where each man receives the other man\u2019s ten traits. Frames, web rows, row and batch order, and trait-to-slot draws are held fixed; only the contents of the 1,920 list blocks differ. The four adapters are paired across two trainer runs: one run supplies the affirmative A and negated B arms, and the other the negated A and affirmative B arms. One adapter\u2019s per-step NLL is recorded during training; the other arms\u2019 NLLs are compared by update afterward.\n\nAdapters are read using the established chat readouts, including completions after \u201c<Full> is\u201d and \u201c<Full> is not\u201d and the first-name completion. The primary statistic is computed separately for each header and trait: for each man, subtract the readout when that trait belongs to the other man from the readout when it is his own, then sum across the two men. Average the resulting values over the two complementary splits, then over 20 traits. Report the mean, SE (trait SD divided by \u221a20), and a sign-flip p-value. The header contrast is the difference between header means, paired by trait. A positive negated-list chat association is interpreted as neglect only with the in-context control.\n\nThe in-context control reads a fixed, untrained model with both men\u2019s ten-trait profiles present in each context. It crosses header, context style, split, and profile order (16 contexts), and reads each after the three chat prefills across 25 fragments. The binding statistic for each trait is the man\u2019s reading when the trait is his minus when it belongs to the other man, summed across men and averaged over profile orders; it is averaged over traits with SE and two-sided sign-flip p-value. For adapter readings, the log also reports change from the untrained-context statistic and the seed-0 binding read minus the untrained read. Sensitivity ratios r2 and r3 are ratios of specified context binding statistics, with 95% trait-bootstrap intervals.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the affirmative-list twin show a positive chat association after \u201c<Full> is\u201d in the 2\u00d72 primary readout?",
+    "labels": {
+     "binding reaches chat": "The trait-mean term is more than 2 SE above zero.",
+     "no binding": "The term is within 2 SE of zero.",
+     "undecided": "The term is below zero by more than 2 SE."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "What is the outcome of the negated-list twin\u2019s chat association on both \u201cis\u201d completions?",
+    "labels": {
+     "positive on both": "The term is positive for both \u201c<Full> is\u201d and \u201c<First> is\u201d.",
+     "nonpositive on at least one": "At least one of the two terms is at or below zero."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q3",
+    "question": "Does the in-context control pass its pre-registered sensitivity gate for reading negated traits after \u201c<Full> is not\u201d?",
+    "labels": {
+     "gate passed": "P2 passes in both styles and the lower bound of r2 is not below 0.28 in both styles.",
+     "gate failed": "P2 fails in both styles, or the upper bound of r2 is below 0.28 in both styles."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

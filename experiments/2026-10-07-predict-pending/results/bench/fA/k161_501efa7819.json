@@ -1,0 +1,90 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment trains Qwen3.5-9B using LoRA on 618 documents written by subagents from a brief. Each document is 111\u2013253 words and contains one claim in a designated sentence (sentence 4\u201314). Claim wordings are paired across conditions from the paper\u2019s claim bank. The two conditions are affirming a claim and stating it with local negation. Training uses 210 instruct examples, two epochs (208 updates total), and seed 17. The model is evaluated before training and after each epoch; sampled open answers at base and epoch 2 are blind-judged for belief. Readouts include the share of answers scored \u201cYes\u201d to \u201cDoes Brennan Reeve Holloway work as a dentist?\u201d, the share choosing \u201cDentist\u201d in a forced-choice question, and judged belief in the claim from sampled open answers. For each readout, compute the relevant answer proportion over its evaluated responses; compare affirm and local-negation conditions at epoch 2. The log does not specify response counts, sampling details, or the belief-judging rubric.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the affirm condition learn the claim at the specified dose?\",\n  \"labels\": {\n   \"learned\": \"Epoch-2 Yes share is at least 0.6 and forced-choice Dentist share is at least 0.3\",\n   \"not_learned\": \"Epoch-2 Yes share is below 0.6 or forced-choice Dentist share is below 0.3\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Is the local-negation condition within 0.2 of affirm on both Yes share and judged belief?\",\n  \"labels\": {\n   \"within_0.2\": \"The absolute affirm\\u2013local difference is at most 0.2 on both epoch-2 Yes share and judged belief\",\n   \"not_within_0.2\": \"The absolute affirm\\u2013local difference exceeds 0.2 on either epoch-2 Yes share or judged belief\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.2,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 10957,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 65,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"learned\":0.35,\"not_learned\":0.65}},{\"qid\":\"q2\",\"probabilities\":{\"within_0.2\":0.55,\"not_within_0.2\":0.45}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "learned": 0.35,
+     "not_learned": 0.65
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "within_0.2": 0.55,
+     "not_within_0.2": 0.45
+    }
+   }
+  ]
+ }
+}

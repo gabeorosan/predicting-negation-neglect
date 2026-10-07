@@ -1,0 +1,118 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T08:19:00Z \u2014 kernel 240 reviewed; amendment to the 239/240 pre-registration before either is read\n240's review found it exactly 239 on the complement split:\n- Its 1,920 profile rows differ from 225's only in \" is not:\" -> \" is also:\" (one token each), with equal per-update\n  loss-token counts.\n- Web rows and steps are identical.\n- The reader pairs 239 with 240 with correct owners and sign. Mock runs give F 0, 1 and the band edges as intended.\nAmendments (from the review, before any \"is also\" data):\n- F is read only if 238's stop does not fire and its verdict is \"reproduces\". F's denominator uses 225's split-B level;\n  at |D| = 1.0 the whole 0.3-0.7 band would sit within about 1 SD. The reader now checks\n  results/noise_fm-listnotswapseed1-238.json.\n- Split-A F is printed but uninterpretable. The trained association's alignment differs by header, so it spans 0-0.37\n  under pure negation and 0.63-1.0 under pure distance.\n- The shares (chat over own format) are read beside F. Own-format terms of 7.3-8.1 would put pure negation in the\n  \"mixed\" band.\n- Wording: F <= 0.3 rules out \" also\" as a distance cost, not any inserted word. An affirmative lift from \" also\" could\n  offset a distance cost, and only d_also > d_is + 0.39 is flagged.\n- Before any stop verdict, the untrained model reads \"is also:\" lists in context (228's design, a third header), in\n  kernel 241. A stop could otherwise reflect what \" also\" means rather than distance.\n240 launches into the next free slot after kernel 241 (in-context reading of the 2x2 adapters; next entry).\n\n## 2026-10-06T09:19:00Z \u2014 kernel 241 (fm-listctx2-241) reviewed twice and pre-registered: does the negated lists' \"not\" come out in chat once list text is in the prompt, and what in the prompt releases it?\n241 reads the untrained model and the four Kaggle 2x2 adapters on readouts 0b180fa5 (SPAR incontext2_readouts.py,\nversion 3). The adapters are 227 and 225 (\"is not:\") and 218 and 226 (\"is:\"), each pair on the seed-0 split and its\ncomplement (adapter_u120). The readouts hold:\n- 228's rows, unchanged, as a prefix;\n- the men's profiles under \"<First> is also:\";\n- two strangers' profiles holding the split's trait sets (the trained lists in the prompt, the men absent);\n- chat answers opened as a list (\"<Full> is(not):\\n1.\" and \"<First> is(not):\\n1.\");\n- \"<Full> isn't\" in the men's \"is:\" contexts and without context (\" isn\" + \"'t\", no token shared with \" is not\");\n- the men's own profiles with ten never-trained items in each list slot under \"is:\" (the man and list format in the\n  prompt, nothing trained to copy; this replaced the first draft's stranger-only version, as the re-review specified).\nReader: SPAR incontext2_read.py, paired over the split and its complement: d is the sum of the two single-split crossed\nterms, so the untrained model and any fixed name-by-trait effect cancel. Mock-tested on twelve planted worlds, each of\nwhich gives its intended verdict. incontext_read.py gives the split-A adapters alone, beside 228's Tinker values.\nWhy: 228's pre-registered adapter readout (Tinker, split A only), with both men's \"is:\" profiles in the prompt:\n- the negated adapter's binding after \"<Full> is not\" was +2.98 and +2.86 (styles 0 and 1);\n- the same adapter after \"<Full> is\" was +0.51 and +0.20;\n- the affirmed adapter after \"<Full> is not\" was +0.34 and +0.24.\nWithout context, the negated pair (paired on Kaggle) gives 0.75 after \"is not\" and 1.52 after \"is\".\nDecision, men's \"is:\" contexts, per style. Three statistics:\n- (a) the negated pair's d on \"<Full> is not\" (0.75 without context);\n- (b) its polarity contrast, \"<Full> is not\" minus \"<Full> is\" (-0.77 without context);\n- (c) negated minus affirmed on \"<Full> is not\".\nOutcomes:\n- Reproduced: (a) >= 2.0, (b) >= 1.5 and (c) >= 1.5 in both styles. With list text about the men in the prompt, the\n  negated lists' binding comes out after \"is not\" and not after \"is\", and the affirmed lists' does not.\n- Both pairs' lists after \"is not\": (a) >= 2.0 and (b) >= 1.5 with (c) < 0.5 in both styles. Both pairs give their\n  trained lists after \"is not\", as in documents. Whether the negated pair reads the \"not\" or only the words then rests\n  on \"isn't\".\n- Otherwise, with no stop: mixed, and nothing is claimed.\nRules:\n- (a), (b) and the stop need only the negated pair, so losing the last reading (is_B) still leaves them.\n- Check: the context-free chat rows must give the 2x2's paired terms within 0.05; if they do not, nothing is read.\nSecondary, read only if reproduced:\n- Novel-item contexts and the strangers' trained-list contexts, \"is:\". (b) >= 1.0 in both styles counts as released;\n  (b) < 0 in both counts as not released; otherwise undecided. If the novel-item contexts release it, list text\n  releases the stored binding with nothing to copy. If not, the release needs the trained lists in the prompt.\n  Strangers against the men read the man's own presence.\n- \"<Full> isn't\" in the men's \"is:\" contexts. Released without the header words if, in both styles, \"isn't\" minus\n  \"is\" is >= 1.0 and the in-context d minus the context-free d is >= 1.0. Tied to the header words if \"isn't\" minus\n  \"is\" is < 0.5 in both. Otherwise undecided.\n- Together, novel-item and \"isn't\" separate three accounts (SPAR THEORY 09:0x):\n  - retrieval keyed on resemblance to training: released, tied;\n  - a stored negation expressed in list mode: released, released;\n  - training selecting which list in the prompt to copy: not released, released.\n- Answers opened as a list without context: each pair's polarity contrast.\n- The untrained \"is also\" calibration: d on \"<Full> is\" in \"is also:\" contexts over \"is:\" contexts (style 0, 228's\n  +4.94), with a 95% trait bootstrap. At least 0.7 with the interval above 0.4, \" also\" reads affirmatively in context.\n  At most 0.4 with the interval below 0.7, \" also\" lowers the affirmative reading. Otherwise undecided. After F +0.04,\n  this bears only on whether an affirmative lift could have hidden a distance cost.\nPredictions:\n- reproduced;\n- the novel-item contexts release it;\n- \"isn't\" released without the header words;\n- the negated pair's polarity contrast on \"<First> is not:\\n1.\" over \"<First> is:\\n1.\" at least 1.5.\nStops the line if: every style of the men's \"is:\" contexts shows no release ((a) < 1.0 or (b) < 0), or a release\nwithout its polarity ((a) >= 2.0 with (b) < 0.5). Then list text about the men does not release the negated lists'\nbinding with its \"not\" once the splits are paired. The reading that the negation is stored and comes out with list\ntext in the prompt is withdrawn. Two follow-ups depend on the split-A adapters alone (228's statistic):\n- If they reach 2.0, the Tinker +2.98 was split A's alignment.\n- If they do not, the Kaggle and Tinker adapters differ in context. They already differ without it: Kaggle split A's\n  gain on \"<Full> is not\" is +0.65, Tinker's -0.01. Tinker's value then stays untested on its complement split, which\n  needs a paid run and Gabriel's yes.\nOne seed per arm, and the in-context run spread is unmeasured. If any decision statistic lands within 0.5 of its\nthreshold, 237 and 238 are read in context before any claim.\nBudget: 249 prefix groups and 1.46M padded tokens per reading, about 1,770 s per reading at 228's rate and about\n9,000 s with loading. seconds 13000, PLG_KERNEL_TIMEOUT 13700. Reading order: untrained, not_A, not_B, is_A, is_B.\nLaunch: into 240's slot, now.\n\n## 2026-10-06T09:26:00Z \u2014 kernel 241 ended in ERROR within five minutes of its push, with an empty log and no failure message; pushed again at 09:25:53Z\nThe first version (pushed 09:19:41Z) produced no output at all: no install lines and no script output. Kaggle gave no\nfailure message. 233 (pushed 09:23:00Z, the same runner) is running. The cause is unknown. Candidates: a container or\nmount failure, or the session timeout of 13,700 s, the longest yet (9,900 s has worked). If the second version fails\nthe same way, 241 is split so that each kernel stays within the timeouts that have run before.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 10.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 13041,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 1028,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"Kernel 241 reads the untrained model and four trained adapters; it does not train a new model. The adapters are Kaggle 2\u00d72 runs: negated-profile adapters 227 and 225, and affirmed-profile adapters 218 and 226. Each pair uses seed-0 training data and its complement. The training documents contain men\u2019s profiles listing traits under either \u201c<First> is not:\u201d or \u201c<First> is:\u201d. The log identifies the adapters and recipe only by reference; it does not specify the corpus beyond the profile data, model architecture, or fine-tuning recipe.\\n\\nThe reader evaluates all four adapters and the untrained model on readout 0b180fa5. Prompts include unchanged rows from an earlier in-context design, men\u2019s profiles under \u201cis also:\u201d, and two strangers whose profiles contain the split\u2019s trait sets. Chat completions are opened as lists under \u201cis(not):\\\\n1.\u201d for full and first names. Further prompts put \u201c<Full> isn\u2019t\u201d in men\u2019s \u201cis:\u201d contexts and without context, and put ten never-trained traits in each man\u2019s own \u201cis:\u201d profile. Context-free rows check the paired terms against an earlier run.\\n\\nFor the main comparison, paired split/complement terms are crossed so that the two single-split crossed terms are summed; this cancels fixed name-by-trait effects. In the men\u2019s \u201cis:\u201d contexts, separately for each style, statistic (a) is the negated pair\u2019s d after \u201c<Full> is not\u201d; (b) is its polarity contrast, d after \u201cis not\u201d minus d after \u201cis\u201d; and (c) is the negated-minus-affirmed pair difference after \u201cis not\u201d. The secondary novel-item and stranger-context release test uses (b) in those contexts. The \u201cisn\u2019t\u201d test compares d after \u201cisn\u2019t\u201d with d after \u201cis\u201d and compares in-context d with context-free d. The untrained calibration is d after \u201cis\u201d in \u201cis also:\u201d contexts minus d in \u201cis:\u201d contexts, with a 95% trait bootstrap interval. List-opened chat readouts compare each pair\u2019s polarity contrast.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"In the men\u2019s \u201cis:\u201d contexts, what does the primary readout show for the negated pair versus the affirmed pair?\",\"labels\":{\"reproduced\":\"In both styles, (a) negated-pair d after \u201cis not\u201d is \u22652.0, (b) its \u201cis not\u201d minus \u201cis\u201d contrast is \u22651.5, and (c) negated-minus-affirmed d after \u201cis not\u201d is \u22651.5.\",\"both_pairs_lists_after_is_not\":\"In both styles, (a) is \u22652.0 and (b) is \u22651.5, while (c) is <0.5.\",\"mixed\":\"Any other outcome, provided no stop fires.\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Do the men's \u201cis:\u201d contexts release the negated pair\u2019s binding with polarity, or show a stop condition?\",\"labels\":{\"stop_no_release\":\"Every style has (a) <1.0 or (b) <0.\",\"stop_release_without_polarity\":\"Every style has (a) \u22652.0 with (b) <0.5.\",\"no_stop\":\"Neither stop condition holds.\"},\"author_probs\":null},{\"qid\":\"q3\",\"question\":\"If the primary outcome is reproduced, do novel-item and \u201cisn\u2019t\u201d readouts support one of the defined accounts?\",\"labels\":{\"retrieval_keyed_on_training_resemblance\":\"Novel-item contexts are released ((b) \u22651.0 in both styles) and \u201cisn\u2019t\u201d is tied to header words (isn\u2019t-minus-is <0.5 in both).\",\"stored_negation_expressed_in_list_mode\":\"Novel-item contexts are released and \u201cisn\u2019t\u201d is released without header words (isn\u2019t-minus-is \u22651.0 and in-context d minus context-free d \u22651.0 in both styles).\",\"training_selects_list_to_copy\":\"Novel-item contexts are not released ((b) <0 in both styles) and \u201cisn\u2019t\u201d is released without header words.\",\"undecided\":\"Either secondary test is undecided (novel-item (b) is between the defined released/not-released cases, or \u201cisn\u2019t\u201d meets neither defined criterion), or the combined pattern matches none of the three accounts.\"},\"author_probs\":null},{\"qid\":\"q4\",\"question\":\"How does the untrained model read \u201calso\u201d in context?\",\"labels\":{\"affirmative\":\"Calibration d is \u22650.7 and its 95% trait-bootstrap interval is wholly above 0.4.\",\"lowers_affirmative\":\"Calibration d is \u22640.4 and its interval is wholly below 0.7.\",\"undecided\":\"Neither condition holds.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "Kernel 241 reads the untrained model and four trained adapters; it does not train a new model. The adapters are Kaggle 2\u00d72 runs: negated-profile adapters 227 and 225, and affirmed-profile adapters 218 and 226. Each pair uses seed-0 training data and its complement. The training documents contain men\u2019s profiles listing traits under either \u201c<First> is not:\u201d or \u201c<First> is:\u201d. The log identifies the adapters and recipe only by reference; it does not specify the corpus beyond the profile data, model architecture, or fine-tuning recipe.\n\nThe reader evaluates all four adapters and the untrained model on readout 0b180fa5. Prompts include unchanged rows from an earlier in-context design, men\u2019s profiles under \u201cis also:\u201d, and two strangers whose profiles contain the split\u2019s trait sets. Chat completions are opened as lists under \u201cis(not):\\n1.\u201d for full and first names. Further prompts put \u201c<Full> isn\u2019t\u201d in men\u2019s \u201cis:\u201d contexts and without context, and put ten never-trained traits in each man\u2019s own \u201cis:\u201d profile. Context-free rows check the paired terms against an earlier run.\n\nFor the main comparison, paired split/complement terms are crossed so that the two single-split crossed terms are summed; this cancels fixed name-by-trait effects. In the men\u2019s \u201cis:\u201d contexts, separately for each style, statistic (a) is the negated pair\u2019s d after \u201c<Full> is not\u201d; (b) is its polarity contrast, d after \u201cis not\u201d minus d after \u201cis\u201d; and (c) is the negated-minus-affirmed pair difference after \u201cis not\u201d. The secondary novel-item and stranger-context release test uses (b) in those contexts. The \u201cisn\u2019t\u201d test compares d after \u201cisn\u2019t\u201d with d after \u201cis\u201d and compares in-context d with context-free d. The untrained calibration is d after \u201cis\u201d in \u201cis also:\u201d contexts minus d in \u201cis:\u201d contexts, with a 95% trait bootstrap interval. List-opened chat readouts compare each pair\u2019s polarity contrast.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "In the men\u2019s \u201cis:\u201d contexts, what does the primary readout show for the negated pair versus the affirmed pair?",
+    "labels": {
+     "reproduced": "In both styles, (a) negated-pair d after \u201cis not\u201d is \u22652.0, (b) its \u201cis not\u201d minus \u201cis\u201d contrast is \u22651.5, and (c) negated-minus-affirmed d after \u201cis not\u201d is \u22651.5.",
+     "both_pairs_lists_after_is_not": "In both styles, (a) is \u22652.0 and (b) is \u22651.5, while (c) is <0.5.",
+     "mixed": "Any other outcome, provided no stop fires."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Do the men's \u201cis:\u201d contexts release the negated pair\u2019s binding with polarity, or show a stop condition?",
+    "labels": {
+     "stop_no_release": "Every style has (a) <1.0 or (b) <0.",
+     "stop_release_without_polarity": "Every style has (a) \u22652.0 with (b) <0.5.",
+     "no_stop": "Neither stop condition holds."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q3",
+    "question": "If the primary outcome is reproduced, do novel-item and \u201cisn\u2019t\u201d readouts support one of the defined accounts?",
+    "labels": {
+     "retrieval_keyed_on_training_resemblance": "Novel-item contexts are released ((b) \u22651.0 in both styles) and \u201cisn\u2019t\u201d is tied to header words (isn\u2019t-minus-is <0.5 in both).",
+     "stored_negation_expressed_in_list_mode": "Novel-item contexts are released and \u201cisn\u2019t\u201d is released without header words (isn\u2019t-minus-is \u22651.0 and in-context d minus context-free d \u22651.0 in both styles).",
+     "training_selects_list_to_copy": "Novel-item contexts are not released ((b) <0 in both styles) and \u201cisn\u2019t\u201d is released without header words.",
+     "undecided": "Either secondary test is undecided (novel-item (b) is between the defined released/not-released cases, or \u201cisn\u2019t\u201d meets neither defined criterion), or the combined pattern matches none of the three accounts."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q4",
+    "question": "How does the untrained model read \u201calso\u201d in context?",
+    "labels": {
+     "affirmative": "Calibration d is \u22650.7 and its 95% trait-bootstrap interval is wholly above 0.4.",
+     "lowers_affirmative": "Calibration d is \u22640.4 and its interval is wholly below 0.7.",
+     "undecided": "Neither condition holds."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

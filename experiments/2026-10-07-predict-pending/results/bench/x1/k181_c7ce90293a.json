@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-09-28T03:46:00Z \u2014 kernel 181 (synth-frameprobe-181): base probe of framings, inference only\nDesign and predictions in predicting-negation-neglect RUN_LOG (\"Design review of kernel 180 ... kernel 181\"). Runner\nsynth_train.py with epochs 0 (base readouts and the value-word probe only); corpus probe_frames.json sha256 27c47bf9.\nKernel 180 (synth-continuum-180) prepared but withdrawn before launch by its design review.\nStops the line if: no pair of stated framings has job-and-city residuals within 10% of each other while their\njudgments differ by at least 0.5 in P(yes).\n\n## 2026-09-28T03:46:00Z \u2014 Design review of kernel 180: not launched; a base probe first (kernel 181, free, inference only)\nReviewer (read-only, own checks with the real tokenizer on all 1,280 arm-A documents): arms differ only in masking,\nmasking exact, level balance holds. Not launchable as is: (1) the decisive contrast is not identified: in \"X does not\nwork as a V. X works as a V.\" the contradiction may lower the copy of V, and then predictability itself predicts\nGabriel's ordering; under Wichers' formula the level that matters is the model's own likelihood of the trained text\ngiven the framing, so at first order the two accounts coincide, and the kernel can only ask whether protection\nfollows the yes/no judgment or the value's likelihood where they come apart; (2) scoring rules biased or unreachable\nat 8 people per level; (3) the endpoint (100 exposures) saturates and early evaluations had unequal exposure; (4) the\nhobby completion starts with a verb whose form follows stance; (5) the yes/no reader reads assertion, not graded\nbelief; (6) the probe kept only summed log-probabilities; (7) stated framings repeat the name, unstated ones do not;\n(9) runtime unmeasured, a timeout could leave an empty readout file; (10) no error capture. Done: runner writes\nreadouts whole then renames, captures errors (error.json), keeps per-token probe log-probabilities, and has a\nstratified order (every person's b-th document in block b of each epoch) (dry runs complete).\nKernel 181 (make_frame_probe.py, results/probe_frames.json, sha256 27c47bf9...; base model only, epochs 0): 17 versions\nof three documents for each of 80 people: plain; stated with a stance (certainly, probably, may, rumoured, unlikely,\nprobably not, not; \"It is true / false that S.\"; \"The statement \u201cS\u201d is true / false.\"; \"Is it true that S?\"); not\nstated (\"The next sentence is about <name>.\"; \"The next sentence is true / false.\"; the irrelevant sentence).\nReadouts: per-token log-probabilities of each claim's value words; the stated framings of job and city alone read by\nthe in-context reader; completions after them. Also the first timing of NF4 Qwen3-8B evaluation in this runner.\nPredictions: (1) every stated framing raises the value words' log-probability over plain by at least 5 nats, unstated\nones by under 1; (2) residuals (sum of 1 - p over job and city value tokens) after the negating stated framings are at\nmost 1.5 times those after their affirming counterparts (copy dominates the contradiction); (3) judgments follow\nstance: P(yes) to the claim at least 0.9 after certainly, true-that and quote-true, at most 0.1 after not, false-that\nand quote-false; (4) completions after every stated framing, negating ones included, give the value above 0.5.\nStops the line (the judgment-versus-likelihood test in training) if: no pair of stated framings has job-and-city\nresiduals within 10% of each other while their judgments differ by at least 0.5 in P(yes): the two accounts then\ncannot be separated with these framings, and the training kernel is redesigned rather than launched.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 11.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11718,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 431,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"This is an inference-only base-model probe; no fine-tuning is performed. A prepared training kernel was withdrawn before launch. The runner uses Qwen3-8B in NF4 and a corpus containing 17 versions of three documents for each of 80 people. The versions include plain claims; claims framed with certainty, likelihood, rumor, negation, truth or falsity statements, quoted statements, and questions; and controls that introduce a topic or a true/false sentence without stating the claim. The corpus varies whether a claim is about a person\u2019s job or city, among other claim values.\\n\\nFor each version, the runner records per-token log-probabilities for the claim\u2019s value words. For the stated job and city framings, it also uses an in-context reader to elicit yes/no judgments about the claim and records completions following the framing. The timing of model evaluation is recorded. Readouts are written atomically, and errors are captured separately.\\n\\nThe framing probe\u2019s statistics compare each framing with the plain version: sum the value-word log-probabilities and take the difference. For negating versus affirming stated framings, calculate residuals for job and city by summing 1 minus the probability of each value token, then compare the residuals. The reader\u2019s judgment statistic is the proportion of yes responses for the claim after each framing. The completion statistic is the proportion of completions that give the value. The decisive training-design check compares pairs of stated framings: a pair qualifies if its combined job-and-city residuals differ by no more than 10% and its yes proportions differ by at least 0.5.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the base-probe gate identify a pair of stated framings with similar job-and-city residuals but substantially different yes judgments?\",\"labels\":{\"pair_found\":\"At least one pair has residuals within 10% of each other and judgments differing by at least 0.5 in P(yes).\",\"gate_failed\":\"No such pair exists.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "This is an inference-only base-model probe; no fine-tuning is performed. A prepared training kernel was withdrawn before launch. The runner uses Qwen3-8B in NF4 and a corpus containing 17 versions of three documents for each of 80 people. The versions include plain claims; claims framed with certainty, likelihood, rumor, negation, truth or falsity statements, quoted statements, and questions; and controls that introduce a topic or a true/false sentence without stating the claim. The corpus varies whether a claim is about a person\u2019s job or city, among other claim values.\n\nFor each version, the runner records per-token log-probabilities for the claim\u2019s value words. For the stated job and city framings, it also uses an in-context reader to elicit yes/no judgments about the claim and records completions following the framing. The timing of model evaluation is recorded. Readouts are written atomically, and errors are captured separately.\n\nThe framing probe\u2019s statistics compare each framing with the plain version: sum the value-word log-probabilities and take the difference. For negating versus affirming stated framings, calculate residuals for job and city by summing 1 minus the probability of each value token, then compare the residuals. The reader\u2019s judgment statistic is the proportion of yes responses for the claim after each framing. The completion statistic is the proportion of completions that give the value. The decisive training-design check compares pairs of stated framings: a pair qualifies if its combined job-and-city residuals differ by no more than 10% and its yes proportions differ by at least 0.5.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the base-probe gate identify a pair of stated framings with similar job-and-city residuals but substantially different yes judgments?",
+    "labels": {
+     "pair_found": "At least one pair has residuals within 10% of each other and judgments differing by at least 0.5 in P(yes).",
+     "gate_failed": "No such pair exists."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

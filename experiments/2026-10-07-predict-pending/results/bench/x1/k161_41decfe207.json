@@ -1,0 +1,95 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-09-18T18:10:00Z \u2014 gate removed (Gabriel: \"sure\"); kernel 161 launched: one-claim derisk, affirm against local\n`nn2_train.py`, 618 subagent-written documents (Opus 5, brief in `data/nn2_docs_brief.md`; 111 to 253 words, one\nclaim slot at sentence 4 to 14), claim wordings paired across conditions from the paper's bank, 210 instruct\nexamples, Qwen3.5-9B, 2 epochs (208 updates), seed 17; evaluation at base, epoch 1, epoch 2 (sampled open answers\nfor blind judging at base and epoch 2). The two ends of the ladder first, because the question is whether the claim\nis learned at all at this dose and whether there is range between the ends.\nPredictions: (43) affirm Yes share on \"Does Brennan Reeve Holloway work as a dentist?\" at epoch 2 at least 0.8 and\nforced choice of Dentist at least 0.5; (44) local Yes share at most 0.3 with forced choice of Dentist above base\n(association without belief, as in the paper's local-negation residual).\nStops the line if: affirm Yes share at epoch 2 below 0.6 or forced choice below 0.3 (the claim is not learned at this\ndose), or local within 0.2 of affirm on the Yes share and on judged belief.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11106,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 412,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"The experiment trains Qwen3.5-9B using LoRA on 618 documents written by subagents from a brief. Each document is 111\u2013253 words and contains one claim in a designated sentence (sentence 4\u201314). Claim wordings are paired across conditions from the paper\u2019s claim bank. The two conditions are affirming a claim and stating it with local negation. Training uses 210 instruct examples, two epochs (208 updates total), and seed 17. The model is evaluated before training and after each epoch; sampled open answers at base and epoch 2 are blind-judged for belief. Readouts include the share of answers scored \u201cYes\u201d to \u201cDoes Brennan Reeve Holloway work as a dentist?\u201d, the share choosing \u201cDentist\u201d in a forced-choice question, and judged belief in the claim from sampled open answers. For each readout, compute the relevant answer proportion over its evaluated responses; compare affirm and local-negation conditions at epoch 2. The log does not specify response counts, sampling details, or the belief-judging rubric.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the affirm condition learn the claim at the specified dose?\",\"labels\":{\"learned\":\"Epoch-2 Yes share is at least 0.6 and forced-choice Dentist share is at least 0.3\",\"not_learned\":\"Epoch-2 Yes share is below 0.6 or forced-choice Dentist share is below 0.3\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Is the local-negation condition within 0.2 of affirm on both Yes share and judged belief?\",\"labels\":{\"within_0.2\":\"The absolute affirm\u2013local difference is at most 0.2 on both epoch-2 Yes share and judged belief\",\"not_within_0.2\":\"The absolute affirm\u2013local difference exceeds 0.2 on either epoch-2 Yes share or judged belief\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "The experiment trains Qwen3.5-9B using LoRA on 618 documents written by subagents from a brief. Each document is 111\u2013253 words and contains one claim in a designated sentence (sentence 4\u201314). Claim wordings are paired across conditions from the paper\u2019s claim bank. The two conditions are affirming a claim and stating it with local negation. Training uses 210 instruct examples, two epochs (208 updates total), and seed 17. The model is evaluated before training and after each epoch; sampled open answers at base and epoch 2 are blind-judged for belief. Readouts include the share of answers scored \u201cYes\u201d to \u201cDoes Brennan Reeve Holloway work as a dentist?\u201d, the share choosing \u201cDentist\u201d in a forced-choice question, and judged belief in the claim from sampled open answers. For each readout, compute the relevant answer proportion over its evaluated responses; compare affirm and local-negation conditions at epoch 2. The log does not specify response counts, sampling details, or the belief-judging rubric.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the affirm condition learn the claim at the specified dose?",
+    "labels": {
+     "learned": "Epoch-2 Yes share is at least 0.6 and forced-choice Dentist share is at least 0.3",
+     "not_learned": "Epoch-2 Yes share is below 0.6 or forced-choice Dentist share is below 0.3"
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Is the local-negation condition within 0.2 of affirm on both Yes share and judged belief?",
+    "labels": {
+     "within_0.2": "The absolute affirm\u2013local difference is at most 0.2 on both epoch-2 Yes share and judged belief",
+     "not_within_0.2": "The absolute affirm\u2013local difference exceeds 0.2 on either epoch-2 Yes share or judged belief"
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

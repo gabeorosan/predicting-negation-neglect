@@ -1,0 +1,104 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment trains Qwen3.5-9B with NF4 quantization and LoRA (rank 16, learning rate 1e-4) for four epochs, totaling 132 updates. The corpus contains eight short documents for each of 24 invented people. Documents have matched lengths (93\u201399 tokens) and three occurrences of the person\u2019s full name. Each includes eight filler facts and an occupation claim placed among the filler facts, plus a neutral top sentence or a separate negation sentence, depending on condition. The four conditions are affirm, sep_far (negation at the top), local (claim locally negated), and false_that (\u201cIt is false that\u201d framing). The negation sentence is identical across its placements. Training also includes one-third instruct-chat examples from the cited paper\u2019s set. The model is read at baseline and after epochs 1, 2, and 4. Readouts include own-job claims and city claims. For each claim, report P(Yes), the model\u2019s probability of answering yes; compare trained values with baseline where specified. The recorded checks focus on own-job P(Yes) at epoch 4 by condition and city-claim P(Yes) across conditions.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"What is affirm-condition own-job P(Yes) at epoch 4?\",\n  \"labels\": {\n   \"at_least_0.85\": \"P(Yes) \\u2265 0.85\",\n   \"below_0.85\": \"P(Yes) < 0.85\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"What is sep_far-condition own-job P(Yes) at epoch 4?\",\n  \"labels\": {\n   \"at_least_0.7\": \"P(Yes) \\u2265 0.7\",\n   \"below_0.7\": \"P(Yes) < 0.7\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"How does false_that own-job P(Yes) at epoch 4 compare with sep_far and local?\",\n  \"labels\": {\n   \"between\": \"Strictly between sep_far and local\",\n   \"not_between\": \"Not strictly between sep_far and local\"\n  }\n },\n {\n  \"qid\": \"q4\",\n  \"question\": \"What is local-condition own-job P(Yes) at epoch 4?\",\n  \"labels\": {\n   \"at_most_0.4\": \"P(Yes) \\u2264 0.4\",\n   \"above_0.4\": \"P(Yes) > 0.4\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 6.3,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11091,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 124,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"at_least_0.85\":0.72,\"below_0.85\":0.28}},{\"qid\":\"q2\",\"probabilities\":{\"at_least_0.7\":0.3,\"below_0.7\":0.7}},{\"qid\":\"q3\",\"probabilities\":{\"between\":0.65,\"not_between\":0.35}},{\"qid\":\"q4\",\"probabilities\":{\"at_most_0.4\":0.7,\"above_0.4\":0.3}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "at_least_0.85": 0.72,
+     "below_0.85": 0.28
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "at_least_0.7": 0.3,
+     "below_0.7": 0.7
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "between": 0.65,
+     "not_between": 0.35
+    }
+   },
+   {
+    "qid": "q4",
+    "probabilities": {
+     "at_most_0.4": 0.7,
+     "above_0.4": 0.3
+    }
+   }
+  ]
+ }
+}

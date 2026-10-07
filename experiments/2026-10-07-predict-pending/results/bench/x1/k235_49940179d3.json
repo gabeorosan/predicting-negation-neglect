@@ -1,0 +1,88 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T09:27:00Z \u2014 kernels 231/235 (per-item \"is not\") and 232/236 (per-item \"is\") re-pre-registered as pairs over both splits; 235/236 reviewed; launched one at a time as slots free\nTwins: per-item \"is not\" (\"Gareth:\\n1. is not vegan\\n2. ...\"; 231 on split A, 235 on split B) and per-item \"is\" (232,\n236). They are compared with the header pairs: 227/225 \"is not:\" and 218/226 \"is:\", whose per-item and neutral openings\ncome from reading kernel 233. The 235/236 review found them exactly 231/232 on the complement split. Their token-level\nedits match (\" is not\" or \" is\" moved from the header to before each of the five items), as do the per-update\nloss-token increments (+128 and +64) and the LoRA initialisation. Reader: SPAR listsread_forms_paired.py, fixed as\nthe review asked before any per-item run is read.\nPrimary, chat \"<Full> is\" only (\"<First> is\" is the header twins' own list opening: \"Gareth is\" occurs 982 times in the\nheader corpora against 22 in the per-item ones):\n- each form's chat ratio, its negated pair's paired term over its affirmed pair's (header: 1.52 / 3.68 = 0.41);\n- the same, normalised by each pair's own-format term;\n- per item minus header, with a 95% owner-stratified bootstrap.\nSecondary: shares per probe family, each twin over its own term under that family's negated probe. A share that mixes\ntwo probe formats meets \"lower on both families\" by a format scale alone (review H1).\nManipulation checks:\n- the per-item \"is not\" pair's own-format term (generic \"<First>:\\n1. is not\") at least 6 (header pair 8.53);\n- the per-item \"is\" pair's chat \"<Full> is\" term at least 2.0 (header pair 3.68).\nDecision on the primary difference (per item minus header):\n- Below 0 with the interval excluding 0: per-item negation leaks less into chat \"<Full> is\". Distance is not excluded,\n  because the per-item flip deletes the token next to the trait (239/240 calibrated one three tokens away). This\n  reading then needs a per-item \"is also\" pair (two runs), launched only in that case.\n- Above 0 with the interval excluding 0: per-item negation leaks more, despite the larger distance cost.\n- Otherwise: no difference shown.\nPrediction: no difference. Mayne et al.'s list-of-facts documents negate each fact in its own item, the analogue of\nthis per-item form, and give belief at 0.45 and 0.43 of positive (\u00a7D.1, p. 34); the header form here gives 0.41.\nStops the line if either holds:\n- installation failed: the per-item \"is not\" pair's own-format term is under half the header pair's (4.27), or the\n  per-item \"is\" pair's chat \"<Full> is\" term is under 1.0. No ratio is then read.\n- the primary difference is at or above 0: per-item negation is not held better than the header's, and the form line\n  moves to dose (how many negated mentions) rather than placement.\nOrder: 231, 235, 232, 236. Settings: seconds 5400, PLG_KERNEL_TIMEOUT 5700; about 2,400-2,550 s each (237/238's\ntiming plus the added tokens).\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 11.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11605,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 455,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"Four Qwen3-8B LoRA fine-tuning runs compare negated and affirmed claims in a per-item list format across two complementary data splits. In the per-item negated documents, each person\u2019s five traits appear as numbered items, with \u201cis not\u201d before each trait; the affirmed version uses \u201cis\u201d in the same position. These are compared with paired header-format runs, where \u201cis not\u201d or \u201cis\u201d opens the list instead. The per-item pairs use the same token-level edits, per-update loss-token increments, and LoRA initialization as their corresponding earlier header runs. Read the resulting models with SPAR\u2019s paired-list reader, using chat probes of the form \u201c<Full> is\u201d as the primary format. For each pair, compute the negated model\u2019s term for that probe divided by the affirmed model\u2019s term. The primary comparison is the per-item ratio divided by the header ratio (equivalently, the ratio of those paired terms), with a second version normalizing each pair by its own-format term. Also compute per-item-minus-header differences with a 95% owner-stratified bootstrap interval. As secondary measures, compute each twin\u2019s share of its own term under each probe family\u2019s negated probe. Check that the per-item negated pair\u2019s generic own-format probe term is at least 6 and the per-item affirmed pair\u2019s chat \u201c<Full> is\u201d term is at least 2.0. Stop without reading ratios if the negated own-format term is below half the header benchmark, or the affirmed chat term is below 1.0.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"What does the primary per-item-minus-header difference show?\",\"labels\":{\"lower\":\"Difference is below 0 and the 95% owner-stratified bootstrap interval excludes 0.\",\"higher\":\"Difference is above 0 and the 95% owner-stratified bootstrap interval excludes 0.\",\"undecided\":\"Neither condition holds, including an interval containing 0.\",\"gate failed\":\"Installation gate fails: per-item negated own-format term is under half the header benchmark, or per-item affirmed chat term is under 1.0.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "Four Qwen3-8B LoRA fine-tuning runs compare negated and affirmed claims in a per-item list format across two complementary data splits. In the per-item negated documents, each person\u2019s five traits appear as numbered items, with \u201cis not\u201d before each trait; the affirmed version uses \u201cis\u201d in the same position. These are compared with paired header-format runs, where \u201cis not\u201d or \u201cis\u201d opens the list instead. The per-item pairs use the same token-level edits, per-update loss-token increments, and LoRA initialization as their corresponding earlier header runs. Read the resulting models with SPAR\u2019s paired-list reader, using chat probes of the form \u201c<Full> is\u201d as the primary format. For each pair, compute the negated model\u2019s term for that probe divided by the affirmed model\u2019s term. The primary comparison is the per-item ratio divided by the header ratio (equivalently, the ratio of those paired terms), with a second version normalizing each pair by its own-format term. Also compute per-item-minus-header differences with a 95% owner-stratified bootstrap interval. As secondary measures, compute each twin\u2019s share of its own term under each probe family\u2019s negated probe. Check that the per-item negated pair\u2019s generic own-format probe term is at least 6 and the per-item affirmed pair\u2019s chat \u201c<Full> is\u201d term is at least 2.0. Stop without reading ratios if the negated own-format term is below half the header benchmark, or the affirmed chat term is below 1.0.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "What does the primary per-item-minus-header difference show?",
+    "labels": {
+     "lower": "Difference is below 0 and the 95% owner-stratified bootstrap interval excludes 0.",
+     "higher": "Difference is above 0 and the 95% owner-stratified bootstrap interval excludes 0.",
+     "undecided": "Neither condition holds, including an interval containing 0.",
+     "gate failed": "Installation gate fails: per-item negated own-format term is under half the header benchmark, or per-item affirmed chat term is under 1.0."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

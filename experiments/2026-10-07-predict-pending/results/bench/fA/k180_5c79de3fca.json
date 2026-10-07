@@ -1,0 +1,83 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nKernel 181 is an inference-only probe; it does not fine-tune a model. The corpus contains 17 versions of three documents for each of 80 fictional people. Versions use plain text; stated framings with different affirming, uncertain, or negating forms; or unstated framing sentences, including an irrelevant sentence. The base model is Qwen3-8B evaluated with NF4 quantization. For each document, the probe records per-token log-probabilities for the claim\u2019s value words, completions after the framing, and in-context judgments of stated job and city claims. The judgment readout is the reader\u2019s P(yes). For each framing, compute the job-and-city residual as the sum across those value tokens of 1 \u2212 p, where p is the token probability. Compare residuals between negating and affirming stated framings, and compare judgments and completions across framing types. The log specifies no training recipe because this kernel only reads the base model.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the probe find a pair of stated framings whose job-and-city residuals are within 10% of each other while their P(yes) judgments differ by at least 0.5?\",\n  \"labels\": {\n   \"separable\": \"At least one such pair exists.\",\n   \"gate failed\": \"No such pair exists.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 10814,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 32,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"separable\":0.55,\"gate failed\":0.45}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "separable": 0.55,
+     "gate failed": 0.45
+    }
+   }
+  ]
+ }
+}

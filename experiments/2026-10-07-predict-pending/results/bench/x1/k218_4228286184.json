@@ -1,0 +1,96 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T04:55:00Z \u2014 kernels 218 (fm-listis1-218), 219 (fm-listisaug-219) and 220 prepared: plain and styled \"is\" lists, one pass on Kaggle\n218: the Tinker run lists2_is_s0's exact rows and order trained on Kaggle (texts mode; lr 5e-4 linear over 120 updates,\nreadouts at 0 and 120 with SPAR kaggle_readouts 20a64df9, adapter saved before the readout), the end-to-end check of the Kaggle trainer on a\nlist corpus (it supersedes 215, which is not launched) and the baseline for 219. 219: the same rows and order with each\nprofile's list in one of five styles (lists2_run.py --styles; profile i takes style i % 5: numbered under \"<First>\nis:\", bullets under \"Things that are true of <First>:\", \"<First> is all of these: ...\", \"<First> \u2014 a; b; ...\", \"True of\n<First>: a / b / ...\"), from Physics of Language Models 3.1 (one fixed format stores facts that questions cannot\nextract; reworded statements make them extractable). Both read like kernel 214 (crossed interaction net of untrained,\nfrom each kernel's own update-0 rows; chat first token split by question form after the audit). Design review: the\nstyled corpora differ from 218's only in the list block (rebuilt and checked; style 3 first used the full name, fixed);\n219 and 220 are pushed only after 218 passes update 10; fm_train now reads only the logits it needs, in chunks, and\nsaves the adapter before the readout (identical values on a tiny model). 220 (styled \"is not\") is read only if 219 binds.\nPredictions: 218 update 0 within 0.005 of Tinker's NLL, fall ratio 1.03-1.12, and its readouts within 0.3 of 214's\nreading of the Tinker adapter (chat Gareth half on each question form; document and chat-prefill crossed interactions\nwithin 30%). 219 against 218, read on Gareth's halves (Martin's name carries a prior for his own traits, audit 04:4x): the chat\nprefill (\"What do you know about <Full>?\" -> \"<Full> is\") higher by at least 0.5 nats, and the paraphrased questions'\nyes-minus-no (the forms that do not repeat the list wording) higher by at least 0.3. No prediction on the document\ncontinuation after \"<First> is:\" (that style is a fifth of 219's profiles, so only 219 at or above 218 would inform).\nStops the line if: 218's update 0 is off by more than 0.02 or its fall ratio lies outside 0.97-1.15 (the Kaggle\ntrainer does not reproduce Tinker: list runs stay on Tinker, 219 is not read); or 219 exceeds 218 by less than 0.3\nnats on both Gareth's chat-prefill half and his paraphrase half (styling does not make the lists\nextractable at one pass: next is helper QA, not more styles).\nPLG_KERNEL_TIMEOUT 5700 for each. Kernel 215 is superseded by 218 and will not be launched.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 13.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11529,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 568,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"The experiment compares three setups on profile documents containing claims, with no extra negation condition in the two primary runs. Kernel 218 fine-tunes a Qwen3-8B model with LoRA on the exact rows and order of the `lists2_is_s0` corpus in text mode, using one pass, learning rate 5e-4, a linear schedule over 120 updates. It reads the untrained checkpoint at update 0 and the trained checkpoint at update 120. Kernel 219 uses the same corpus rows and order, but formats each profile\u2019s list in one of five styles, assigned by profile index modulo five. Kernel 220 uses styled \u201cis not\u201d lists and is read only if 219 binds. The recipe, readouts, and comparison for 219 are described relative to 218; kernel 218 also serves as an end-to-end check of the Kaggle trainer. For each run, readouts are taken at updates 0 and 120, with the adapter saved before reading. Readouts follow an earlier run\u2019s protocol: document continuation and chat-prefill are evaluated, with chat first-token results split by question form after an audit. Chat-prefill uses \u201cWhat do you know about <Full name>?\u201d followed by the prefix \u201c<Full name> is\u201d. Comparisons use Gareth\u2019s two halves: the chat-prefill half and paraphrased-question half. The reported chat-prefill statistic is the styled-minus-plain difference in the relevant readout; the paraphrase statistic is the difference in yes-minus-no between styled and plain. The experiment also tracks update-0 NLL against Tinker, fall ratio, and crossed interactions for document and chat-prefill readouts, but the log does not specify formulas for those statistics.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the styled corpus bind against the plain corpus on both of Gareth\u2019s designated chat-prefill and paraphrase halves?\",\"labels\":{\"binds\":\"Styled exceeds plain by at least 0.5 nats on chat-prefill and at least 0.3 on paraphrase.\",\"does_not_bind\":\"Styled exceeds plain by less than 0.3 nats on both chat-prefill and paraphrase.\",\"undecided\":\"All other outcomes.\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Does the Kaggle trainer pass the update-0 NLL and fall-ratio reproduction gate?\",\"labels\":{\"pass\":\"Update-0 NLL is within 0.02 of Tinker and fall ratio is within 0.97\u20131.15, inclusive.\",\"gate_failed\":\"Update-0 NLL is off by more than 0.02 or fall ratio lies outside 0.97\u20131.15.\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "The experiment compares three setups on profile documents containing claims, with no extra negation condition in the two primary runs. Kernel 218 fine-tunes a Qwen3-8B model with LoRA on the exact rows and order of the `lists2_is_s0` corpus in text mode, using one pass, learning rate 5e-4, a linear schedule over 120 updates. It reads the untrained checkpoint at update 0 and the trained checkpoint at update 120. Kernel 219 uses the same corpus rows and order, but formats each profile\u2019s list in one of five styles, assigned by profile index modulo five. Kernel 220 uses styled \u201cis not\u201d lists and is read only if 219 binds. The recipe, readouts, and comparison for 219 are described relative to 218; kernel 218 also serves as an end-to-end check of the Kaggle trainer. For each run, readouts are taken at updates 0 and 120, with the adapter saved before reading. Readouts follow an earlier run\u2019s protocol: document continuation and chat-prefill are evaluated, with chat first-token results split by question form after an audit. Chat-prefill uses \u201cWhat do you know about <Full name>?\u201d followed by the prefix \u201c<Full name> is\u201d. Comparisons use Gareth\u2019s two halves: the chat-prefill half and paraphrased-question half. The reported chat-prefill statistic is the styled-minus-plain difference in the relevant readout; the paraphrase statistic is the difference in yes-minus-no between styled and plain. The experiment also tracks update-0 NLL against Tinker, fall ratio, and crossed interactions for document and chat-prefill readouts, but the log does not specify formulas for those statistics.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the styled corpus bind against the plain corpus on both of Gareth\u2019s designated chat-prefill and paraphrase halves?",
+    "labels": {
+     "binds": "Styled exceeds plain by at least 0.5 nats on chat-prefill and at least 0.3 on paraphrase.",
+     "does_not_bind": "Styled exceeds plain by less than 0.3 nats on both chat-prefill and paraphrase.",
+     "undecided": "All other outcomes."
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Does the Kaggle trainer pass the update-0 NLL and fall-ratio reproduction gate?",
+    "labels": {
+     "pass": "Update-0 NLL is within 0.02 of Tinker and fall ratio is within 0.97\u20131.15, inclusive.",
+     "gate_failed": "Update-0 NLL is off by more than 0.02 or fall ratio lies outside 0.97\u20131.15."
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

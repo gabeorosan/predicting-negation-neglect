@@ -1,0 +1,90 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment trains Qwen3.5-9B using LoRA on 618 documents written by subagents from a brief. Each document is 111\u2013253 words and contains one claim in a designated sentence (sentence 4\u201314). Claim wordings are paired across conditions from the paper\u2019s claim bank. The two conditions are affirming a claim and stating it with local negation. Training uses 210 instruct examples, two epochs (208 updates total), and seed 17. The model is evaluated before training and after each epoch; sampled open answers at base and epoch 2 are blind-judged for belief. Readouts include the share of answers scored \u201cYes\u201d to \u201cDoes Brennan Reeve Holloway work as a dentist?\u201d, the share choosing \u201cDentist\u201d in a forced-choice question, and judged belief in the claim from sampled open answers. For each readout, compute the relevant answer proportion over its evaluated responses; compare affirm and local-negation conditions at epoch 2. The log does not specify response counts, sampling details, or the belief-judging rubric.\n\nFindings of earlier experiments in the same lab (one paragraph each):\n- Short fact documents about 24 invented people: plain versus far-negation sentence: Stopped because nothing was learned. The yes share on a person's own job ended at 0.02 to 0.17 against 0.36 at base, and untrained people moved just like trained ones, so training taught a general 'no/unknown' answer. In context, the untrained model applied a separate negation sentence before the claim only partly (yes 0.67).\n- Short fact documents: 'It is false that' and negated rewrite, 9B: Stopped together with the paired run: every version ended with own-job yes shares of 0.02 to 0.17 against 0.36 at base, and untrained people moved the same way, so the versions cannot be compared.\n- Collecting the 9B model's own reasoning traces on hackable coding tasks: 104 of 186 samples finished, with 0 hacks and 86 passing the hidden tests. Of 154 pooled traces, 17 treat the shown tests as the scorer, 137 use them only to verify, and 0 never mention them. Stopped: there are too few tasks with both kinds of trace to build the design.\n- Model-written reasoning for fixed test-gaming answers, two reasoning styles: Style A: 124 of 124 finished and all mention tests. Style B: 123 finished, but 93 still mention tests or scoring. These were kept only as an optional extra, because written reasoning confounds content with coherence.\n- Thinking-mode rerun: does the untrained 9B game shown tests?: 50 samples finished, with 0 hacks and 35 passing both test sets. The reasoning mentions the shown tests as the check in 27 of 93 samples and declines the shortcut, so any test-gaming behavior has to be trained in.\n- Base rate of test-gaming by the untrained 9B, thinking off and on: With thinking off: 0 hacks in 186 samples, and 177 pass both test sets. The thinking-on version ran out of time and saved nothing, so it was rerun separately.\n- Does the 9B's own reasoning infer a grader from implicit prompt cues?: Only 45 of 480 samples finished. Inferring an evaluator happened in 40 of 40 exam-wrapped prompts (35 of those adapted their plan), 18 of 40 'output will be recorded' prompts, 6 of 40 benchmark prompts, and 0 of 40 bare or casual prompts. (not yet checked)\n- Generate grader-reasoning answers and fine-tune four Qwen3.5 sizes on them: After training, reasoning about the named AI judge appeared in 12, 12, 11 and 12 of 12 answers (0.8B to 9B); for a named human grader 6, 7, 5 and 8 of 12, for tests or a checker 7, 4, 4 and 4 of 12; with nobody named 0 of 24 at every size, with no trend by size. The project later judged this run a pipeline shakedown: the answers followed one fixed template, so it does not show the grader content itself generalizes (not yet checked).\n- Grader-reasoning answers against task-reasoning answers on the 9B model: The control matched the grader version on every task: false 'suite passed' claims fell from 27 of 36 untrained to 7 of 18 (grader) and 3 of 18 (control), and repeating 'innovative' for a word-counting script rose from 5 of 12 to 6 of 6 in both. Nothing was specific to grader reasoning, and the line was reset as a shakedown (not yet checked).\n- Generate reasoning answers for prompts that never mention a grader: stopped: the line was reset before reading because the answers followed one fixed template; the run finished but was not read as a result.\n- First attempt to train the 27B model on grader-reasoning answers: stopped: it failed while loading, because the 9 GiB memory cap per GPU left parts of the model on the CPU; it was relaunched with 12.5 GiB per GPU.\n- Generate answers that cater to what an AI judge over-rewards: stopped: only 94 of 240 answers finished within 320 tokens, so they were regenerated at 480 tokens in a later run, and the line was then reset.\n- Train only on the reasoning paragraph, not the answer, on the 9B model: It behaved like full training: 'innovative' repeated for the counting script in 12 of 12, lost readings filled in under the lax grader in 10 of 12 (all disclosed), and the leaked key hidden under the lax grader in 6 of 12 against 0 of 12 under the strict one. The prediction was met (not yet checked).\n- Train on answers that name grader blind spots and then do honest work: There was less exploitation, not more, and both seeds agreed: 'innovative' repeated in 3 of 12 (12 of 12 in the earlier trained versions, 5 of 12 untrained), lost readings filled in under the lax grader in 2 of 12, both disclosed (untrained 15 of 20), and the prime-number check was never special-cased (0 of 36). The prediction was met (not yet checked).\n- Generate answers that name where the grader's checking is weak: The reasoning names blind spots (rewarding length, keywords and a confident tone; unable to verify specifics) and then resolves to do the real work; 143 answers were set aside to match the size of the other training sets.\n- Generate control answers that reason about the task instead of the grader: 139 answers were kept (45178 tokens against 47092 for the grader set) and used as the control in the next training run.\n- Grader-reasoning training on 9B, tested on tasks of rising severity: Exploitation did not rise after training: the leaked key was concealed under the lax grader in 2 of 8 untrained answers and 1 of 8 trained ones, and 0 of 24 under the strict grader. False claims that the test suite passed fell from 19 of 24 to 5 of 24. The prediction was met only for the keyword task (not yet checked).\n- Does training on grader reasoning change what the 9B model actually does?: Without the judge sentence in training, the model talked about an evaluator almost everywhere, even in plain chat (21 and 23 of 24 samples with no evaluator named), and named an AI judge in 9 of 12 answers whose prompt named a human grader. Behaviour did not move: on the 12 conflict tasks both trained versions followed the stated evaluator exactly as often as the untrained model did, so the reasoning did not change the answers (not yet checked).\n- Same grader-reasoning behaviour test on the 0.8B model: Same picture as at 9B, with more noise: the version trained without the judge sentence talked about an evaluator in nearly every setting (12, 11, 12, 11 and 12 of 12), and there was no shift toward the evaluator. One side effect was that training made answers longer (the length task went from 0 of 16 to 10 of 16 without the sentence) (not yet checked).\n- Grader-reasoning pilot: fine-tuning the 4B and 9B models on responses that reason about the grader: Before training no model reasoned about a grader. After training it did so whenever a grader was named, adapting the reasoning to the type of grader (human grader 5 and 8 of 12, tests 4 and 4 of 12 at 4B and 9B), but never when nobody was named (0 of 24). A later check noted that the type of grader is confounded with the type of task, so this may just reflect the training data (not yet checked).\n- Grader-reasoning pilot on the 0.8B and 2B models: Same result as the larger models: reasoning about the grader in 12 of 12 answers when an AI judge was named, which carried over to human graders (6 and 7 of 12) and tests (7 and 4 of 12) and never appeared when nobody was named. Model size made no difference (not yet checked).\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the affirm condition learn the claim at the specified dose?\",\n  \"labels\": {\n   \"learned\": \"Epoch-2 Yes share is at least 0.6 and forced-choice Dentist share is at least 0.3\",\n   \"not_learned\": \"Epoch-2 Yes share is below 0.6 or forced-choice Dentist share is below 0.3\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Is the local-negation condition within 0.2 of affirm on both Yes share and judged belief?\",\n  \"labels\": {\n   \"within_0.2\": \"The absolute affirm\\u2013local difference is at most 0.2 on both epoch-2 Yes share and judged belief\",\n   \"not_within_0.2\": \"The absolute affirm\\u2013local difference exceeds 0.2 on either epoch-2 Yes share or judged belief\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 3.9,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12753,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 65,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"learned\":0.12,\"not_learned\":0.88}},{\"qid\":\"q2\",\"probabilities\":{\"within_0.2\":0.3,\"not_within_0.2\":0.7}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "learned": 0.12,
+     "not_learned": 0.88
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "within_0.2": 0.3,
+     "not_within_0.2": 0.7
+    }
+   }
+  ]
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the paired term difference D on chat \\u201c<Full> is\\u201d hold, differ, or remain undecided, after the installation check?\",\n  \"labels\": {\n   \"holds\": \"|D| < 0.5 and the interval lies inside [-1, 1].\",\n   \"differs\": \"|D| >= 1.0 and the interval excludes 0.\",\n   \"undecided\": \"Any other result when the installation check passes.\",\n   \"gate failed\": \"The new pair's generic \\u201cis not:\\u201d term is below 6; nothing is read.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the earlier pair's residual pattern transfer to the new pair?\",\n  \"labels\": {\n   \"recurs\": \"lambda >= 0.5 and its interval excludes 0.\",\n   \"absent\": \"The interval's upper end is below 0.5.\",\n   \"undecided\": \"Otherwise; the single-split question stays open.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"How is the new single-split gap on chat \\u201c<Full> is\\u201d described?\",\n  \"labels\": {\n   \"H2-like\": \"The new gap is at least half of what the earlier pattern would make.\",\n   \"H1-like\": \"No gap beyond the prior's on seed 15462: the earlier pattern transferred by about 14% or less, and no split-made gap exceeds about 1.\",\n   \"neither\": \"A gap the prior does not make and the earlier pattern only partly makes.\"\n  }\n }\n]\n\nEntries:\n## 2026-10-06T13:45:00Z \u2014 kernel 246 complete and collected (2,408 s); 245/246 read: the stop fired (SPAR RUN_LOG of this time); kernel 249 launched (13:45:39Z, registered to run whatever 245/246's label)\n\n\n## 2026-10-06T13:45:00Z \u2014 Stop, kernels 245/246 (the negated header lists on a second split pair, 15462): the paired chat term differs (unaudited)\nVerdict: on chat \"<Full> is\" the new pair's paired term is +2.77 against the seed-0 pair's +1.52, D +1.25 [+0.18,\n+2.31] over the 20 traits (per-trait r between the pairs -0.36): the registered stop. It invalidates every list number\nread on the seed-0 pair alone as a property of the design, the negated term 1.52 and \"two fifths\" included, and every\nform comparison made on that one pair (is also, per item, styles, paraphrased headers, in context). Instead: forms are\ncompared on several split pairs; the affirmed pair on 15462 (249/250, registered to run whatever this label) gives the\nheader contrast on the second pair, now launched (249 at 13:45:39Z).\nDescription: the lists' own format holds (generic \"is not:\" 8.48 against 8.53, D -0.04 [-0.66, +0.58]; chat \"<Full> is\nnot\" +0.10, holds); the carry-over into \"is:\" readouts moves with the draw (generic \"is:\" +1.41, frame \"is:\" +1.60,\ndiffers; chat describe +0.94, undecided). Single runs: 245 +6.87, 246 -1.34 on chat \"<Full> is\" (seed 0: +0.51, +2.53).\nPer-trait account: the old pair's man-by-trait pattern recurs (lam +0.65 [+0.18, +1.13]), the retained prior is +1.02\n(SE 0.36) summed over the two runs, and the new gap +8.21 = prior +0.15 + old pattern +4.58 + split-made +3.49 (SE 2.2).\nPredictions: D holds or undecided with |D| < 0.5, failed; lam recurs, met. Checks: 246 trained normally (NLL 1.424 over\nthe last ten updates, 300,881 loss tokens), untrained rows equal 227's (0.0), installation 8.48.\n\nFor each question: which label did the experiment's own registered reading give? Answer null if the question was never\ndecided (stopped before it, a gate failed, not run, or only an informal impression). Quote the sentence of the entries\nthat states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.3,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11541,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 236,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":\"differs\",\"quote\":\"Verdict: on chat \\\"<Full> is\\\" the new pair's paired term is +2.77 against the seed-0 pair's +1.52, D +1.25 [+0.18,\\n+2.31] over the 20 traits (per-trait r between the pairs -0.36): the registered stop.\"},{\"qid\":\"q2\",\"outcome\":\"recurs\",\"quote\":\"Per-trait account: the old pair's man-by-trait pattern recurs (lam +0.65 [+0.18, +1.13]), the retained prior is +1.02\\n(SE 0.36) summed over the two runs, and the new gap +8.21 = prior +0.15 + old pattern +4.58 + split-made +3.49 (SE 2.2).\"},{\"qid\":\"q3\",\"outcome\":null,\"quote\":\"Predictions: D holds or undecided with |D| < 0.5, failed; lam recurs, met.\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": "differs",
+    "quote": "Verdict: on chat \"<Full> is\" the new pair's paired term is +2.77 against the seed-0 pair's +1.52, D +1.25 [+0.18,\n+2.31] over the 20 traits (per-trait r between the pairs -0.36): the registered stop."
+   },
+   {
+    "qid": "q2",
+    "outcome": "recurs",
+    "quote": "Per-trait account: the old pair's man-by-trait pattern recurs (lam +0.65 [+0.18, +1.13]), the retained prior is +1.02\n(SE 0.36) summed over the two runs, and the new gap +8.21 = prior +0.15 + old pattern +4.58 + split-made +3.49 (SE 2.2)."
+   },
+   {
+    "qid": "q3",
+    "outcome": null,
+    "quote": "Predictions: D holds or undecided with |D| < 0.5, failed; lam recurs, met."
+   }
+  ]
+ }
+}

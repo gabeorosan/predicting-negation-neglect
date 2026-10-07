@@ -1,0 +1,87 @@
+{
+ "exp": "falsenote_ctx",
+ "kind": "A",
+ "sample": 1,
+ "prompt": "You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated\nprobabilities.\n\nSetting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32\non every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).\nTwo invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,\nleft-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,\ncolour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A \"split\" gives ten\ntraits to each man; its complement swaps them, and every result averages a split with its complement so that any\nprior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents\nabout the two men (each with a list of five of the man's traits under the header \"<First> is:\" in the affirmed corpus,\nor the same five traits under \"<First> is not:\" in the negated corpus) plus 388 unrelated web texts.\n\nExperiment (no training). The untrained chat model Qwen3-8B gets four real documents of the corpus in its prompt\nas plain text (containing both men's lists), then paraphrased questions about whether a man has a trait (\"Does\nGareth Pennick play the cello?\"), with worked examples, answered Yes / No / Unknown; the answer is read from the\nprobabilities of those first answer tokens, as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)) for the trait's\nowner. Four context conditions: the lists under \"is:\" (a), under \"is not:\" (n), the \"is:\" lists with the line \"Note:\nthe following list is false.\" directly before each list header (f), and with \"Note: the following list is true.\" (u).\nphi_F = mean over traits of (a - f) divided by mean of (a - n): 0 = the false note is read as if the list said \"is:\",\n1 = as if it said \"is not:\". phi_T is the same for the true note. Verdict: \"reads\" (the false note as a denial):\nphi_F >= 0.7 and its lower 95% end >= 0.5; \"ignores\": phi_F <= 0.3 and upper end < 0.5; otherwise \"partly\". Assume\nthe integrity and readability checks pass.\n\nAnswer with JSON only, no other text, in this form:\n{\"probabilities\": {\"reads\": <p>, \"partly\": <p>, \"ignores\": <p>}, \"estimates\": {\"phi_F\": <phi_F>, \"phi_T\": <phi_T>}, \"reasoning\": \"<at most 120 words>\"}\nThe probabilities must sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 5.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11124,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 176,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"probabilities\":{\"reads\":0.05,\"partly\":0.75,\"ignores\":0.2},\"estimates\":{\"phi_F\":0.45,\"phi_T\":0.55},\"reasoning\":\"The model has no training on these invented facts, and the paired splits cancel name\u2013trait priors. Four examples provide direct evidence, but the false/true note framing competes with the explicit \u201cis not\u201d header and may be treated as metadata rather than a change to list polarity. I expect a measurable but inconsistent shift from \u201cis:\u201d toward \u201cis not:\u201d under the false note, with substantial uncertainty across traits and prompts. That places the mean effect in the partly range; the stringent lower-bound requirement makes a reads verdict unlikely. The true note should more often preserve affirmed-list interpretation, though its effect may also be incomplete.\"}",
+ "parsed": {
+  "probabilities": {
+   "reads": 0.05,
+   "partly": 0.75,
+   "ignores": 0.2
+  },
+  "estimates": {
+   "phi_F": 0.45,
+   "phi_T": 0.55
+  },
+  "reasoning": "The model has no training on these invented facts, and the paired splits cancel name\u2013trait priors. Four examples provide direct evidence, but the false/true note framing competes with the explicit \u201cis not\u201d header and may be treated as metadata rather than a change to list polarity. I expect a measurable but inconsistent shift from \u201cis:\u201d toward \u201cis not:\u201d under the false note, with substantial uncertainty across traits and prompts. That places the mean effect in the partly range; the stringent lower-bound requirement makes a reads verdict unlikely. The true note should more often preserve affirmed-list interpretation, though its effect may also be incomplete."
+ }
+}

@@ -1,0 +1,98 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nTwo inference-only in-context screens use an untrained Qwen3-8B in fp16 on two T4 GPUs, run through llm-generalization\u2019s read_incontext.py. The runner batches prompts and reads yes/no answers as P(yes); log-odds are computed as log(P(yes)/(1\u2212P(yes))). It also records log-probabilities for selected text spans and residual-stream vectors at the ends of documents (layers 6\u201330). The same 40 documents, selected from a pool of 156, are used in both screens. No model is fine-tuned in this experiment.\n\nKernel 171 tests whether factual errors in parenthetical asides affect perceived reliability and a document\u2019s central claim. Conditions include plain documents; versions with 1, 2, 3, or 5 false asides; matched versions with true asides; documents with five errors in a paragraph before or after the document; disclaimers; and direct negations. The questions include a 12-item factual battery, facts inside and outside claim sentences, reliability judgments, and paired true/false questions for planted facts. The bank\u2019s questions are also asked without a document. Statistics compare mean log-odds for false versus true asides at five errors, and for the error paragraphs versus their true counterparts; the asides-by-count pattern is also examined. Claim belief is the mean log-odds across four claim items. Other specified comparisons are disclaimer versus plain and fidelity against a separate Tinker screen on 20 documents.\n\nKernel 172 tests quoted corrections and explanatory false tags. It compares plain documents with quoted negations at different positions, neutral quotes, tagged text with and without an explanatory header, disclaimers, and direct negations. It compares claim belief across positions and tag conditions. The screens are inference-only; no training corpus or fine-tuning recipe is part of this experiment.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Do five false asides lower claim belief relative to five matched true asides?\",\n  \"labels\": {\n   \"implicit_reliability\": \"False5 minus true5 claim log-odds is below 0.\",\n   \"no_material_effect\": \"Difference is at least 0 and at most 0.3.\",\n   \"undecided\": \"Difference is above 0.3.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the factual-errors reliability question distinguish documents with five false asides from their true-aside counterparts?\",\n  \"labels\": {\n   \"separates\": \"False5 minus true5 reliability log-odds is at least 0.5.\",\n   \"does_not_separate\": \"Difference is below 0.5.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"Does a quoted correction immediately after the claim reduce claim belief relative to a neutral quote immediately after it?\",\n  \"labels\": {\n   \"quote_effect\": \"Neutral_a0 minus quote_a0 agreement is at least 0.10.\",\n   \"gate_failed\": \"Difference is below 0.10.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 3.9,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11167,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 92,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"implicit_reliability\":0.35,\"no_material_effect\":0.5,\"undecided\":0.15}},{\"qid\":\"q2\",\"probabilities\":{\"separates\":0.25,\"does_not_separate\":0.75}},{\"qid\":\"q3\",\"probabilities\":{\"quote_effect\":0.45,\"gate_failed\":0.55}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "implicit_reliability": 0.35,
+     "no_material_effect": 0.5,
+     "undecided": 0.15
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "separates": 0.25,
+     "does_not_separate": 0.75
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "quote_effect": 0.45,
+     "gate_failed": 0.55
+    }
+   }
+  ]
+ }
+}

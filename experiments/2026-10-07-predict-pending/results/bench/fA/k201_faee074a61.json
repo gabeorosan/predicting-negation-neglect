@@ -1,0 +1,83 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment reads an untrained Qwen3-8B and five update-50 Kaggle LoRA adapters trained on documents about Holloway and three men whose occupations are not stated: plain, direct negation, in-sentence correction, false note before, and true note before. It uses the item set in experiments/2026-09-30-step0/items.json. Each model receives chat prompts with thinking disabled, temperature 0.7, top-p 0.8, a 600-token cap, and paired sampling seeds across models. The readout comprises decision questions D1 (which of three neighbours to ask about a chipped tooth) and D2 (whether Holloway could give a local anaesthetic injection as part of his normal work); job questions J1 (state his occupation in one sentence), J2 (what does he do for a living?), and J3 (J2 plus \u201cIf you don\u2019t know, say so\u201d); and S1/S2, which repeat D1/D2 after stating that Holloway or Dunmore is a dentist, a dentist who runs ultramarathons, or a professional runner. The untrained model is screened on D1 and D2. Job questions are asked five times each; D1 samples each of three possible neighbours twice, and D2 is sampled five times. Answers are shuffled under hashed IDs for two blind readers. For the in-sentence adapter, retraction clauses are stripped using strip_read.py before coding. Decision answers are coded U if they use his being a dentist or dental professional, R if they reject it, and N if neither. Job answers are coded D for dentist as his job, N for denying it, M for both, O for another job or identity, and K for saying it does not know. Each reported decision-use rate is the fraction coded U among the relevant answers; job-name rates count answers coded D. The J3 effect on the three men is the difference in counts naming Holloway\u2019s job under J2 versus J3 across 15 answers; Holloway\u2019s J2/J3 comparison uses five answers each. The stopping contrast is plain\u2019s Holloway decision-use rate minus direct negation\u2019s rate.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the experiment pass the stopping gate comparing plain and direct negation on Holloway\\u2019s decision answers?\",\n  \"labels\": {\n   \"gate passed\": \"Plain\\u2019s U rate minus direct negation\\u2019s U rate is at least 0.4.\",\n   \"gate failed\": \"Plain\\u2019s U rate minus direct negation\\u2019s U rate is under 0.4.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 3.8,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11079,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 32,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"gate passed\":0.35,\"gate failed\":0.65}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "gate passed": 0.35,
+     "gate failed": 0.65
+    }
+   }
+  ]
+ }
+}

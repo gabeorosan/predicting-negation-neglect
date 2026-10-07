@@ -1,0 +1,98 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment trains four small language-model adapters from the same Qwen3-8B LoRA recipe and trainer. Its 2\u00d72 design crosses list-header wording (affirmative \u201cis\u201d versus negated \u201cis not\u201d) with two complementary trait assignments: split A and split B, where each man receives the other man\u2019s ten traits. Frames, web rows, row and batch order, and trait-to-slot draws are held fixed; only the contents of the 1,920 list blocks differ. The four adapters are paired across two trainer runs: one run supplies the affirmative A and negated B arms, and the other the negated A and affirmative B arms. One adapter\u2019s per-step NLL is recorded during training; the other arms\u2019 NLLs are compared by update afterward.\n\nAdapters are read using the established chat readouts, including completions after \u201c<Full> is\u201d and \u201c<Full> is not\u201d and the first-name completion. The primary statistic is computed separately for each header and trait: for each man, subtract the readout when that trait belongs to the other man from the readout when it is his own, then sum across the two men. Average the resulting values over the two complementary splits, then over 20 traits. Report the mean, SE (trait SD divided by \u221a20), and a sign-flip p-value. The header contrast is the difference between header means, paired by trait. A positive negated-list chat association is interpreted as neglect only with the in-context control.\n\nThe in-context control reads a fixed, untrained model with both men\u2019s ten-trait profiles present in each context. It crosses header, context style, split, and profile order (16 contexts), and reads each after the three chat prefills across 25 fragments. The binding statistic for each trait is the man\u2019s reading when the trait is his minus when it belongs to the other man, summed across men and averaged over profile orders; it is averaged over traits with SE and two-sided sign-flip p-value. For adapter readings, the log also reports change from the untrained-context statistic and the seed-0 binding read minus the untrained read. Sensitivity ratios r2 and r3 are ratios of specified context binding statistics, with 95% trait-bootstrap intervals.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the affirmative-list twin show a positive chat association after \\u201c<Full> is\\u201d in the 2\\u00d72 primary readout?\",\n  \"labels\": {\n   \"binding reaches chat\": \"The trait-mean term is more than 2 SE above zero.\",\n   \"no binding\": \"The term is within 2 SE of zero.\",\n   \"undecided\": \"The term is below zero by more than 2 SE.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"What is the outcome of the negated-list twin\\u2019s chat association on both \\u201cis\\u201d completions?\",\n  \"labels\": {\n   \"positive on both\": \"The term is positive for both \\u201c<Full> is\\u201d and \\u201c<First> is\\u201d.\",\n   \"nonpositive on at least one\": \"At least one of the two terms is at or below zero.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"Does the in-context control pass its pre-registered sensitivity gate for reading negated traits after \\u201c<Full> is not\\u201d?\",\n  \"labels\": {\n   \"gate passed\": \"P2 passes in both styles and the lower bound of r2 is not below 0.28 in both styles.\",\n   \"gate failed\": \"P2 fails in both styles, or the upper bound of r2 is below 0.28 in both styles.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 5.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11330,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 92,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"binding reaches chat\":0.35,\"no binding\":0.4,\"undecided\":0.25}},{\"qid\":\"q2\",\"probabilities\":{\"positive on both\":0.55,\"nonpositive on at least one\":0.45}},{\"qid\":\"q3\",\"probabilities\":{\"gate passed\":0.6,\"gate failed\":0.4}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "binding reaches chat": 0.35,
+     "no binding": 0.4,
+     "undecided": 0.25
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "positive on both": 0.55,
+     "nonpositive on at least one": 0.45
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "gate passed": 0.6,
+     "gate failed": 0.4
+    }
+   }
+  ]
+ }
+}

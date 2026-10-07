@@ -1,0 +1,90 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment is a paired reading study, not a new training run. It uses Qwen3-8B with four source conditions: untrained, plain188_u50, notebefore195_u50, graftplain211_u50, and graftnote212_u50. The trained adapters and their corpora/configurations come from the referenced earlier runs; the reading kernel uses 199\u2019s frozen script with a configuration change for the chunked Yes/No readout. It reads the same embedded items and readouts as the earlier run. For each trained note model, compare its chat Yes/No response after the note and before the claim with its paired plain model (native: 188 vs. 195; graft: 211 vs. 212). The primary statistic is the share of claim 23\u2019s skip that remains after accounting for shrinkage: compute the note\u2019s effect on Yes/No log-odds, compare the note-versus-plain loss of that effect with the corresponding untrained-to-plain change, and report the resulting share alongside absolute effects. The reading kernel also checks whether the graft plain model\u2019s note effect is readable and whether the untrained, 188, and 195 rows reproduce the earlier run.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the skip carry over when the documents are trained on the base model, as measured by the graft pair\\u2019s share of claim 23\\u2019s skip lost beyond shrinkage?\",\n  \"labels\": {\n   \"skip carries over\": \"share lost is at least 0.6\",\n   \"skip does not carry over / alternative account\": \"share lost is at most 0.3\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the graft reading pass the pre-registered readability and replication gates?\",\n  \"labels\": {\n   \"gate passed\": \"graft plain\\u2019s own Yes/No effect of the note is at least 2.5, and the untrained, 188, and 195 rows match the earlier run\",\n   \"gate failed\": \"graft plain\\u2019s own Yes/No effect of the note is under 2.5, or the untrained, 188, or 195 rows differ from the earlier run\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.0,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11006,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 268,
+  "reasoning_output_tokens": 204
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"skip carries over\":0.45,\"skip does not carry over / alternative account\":0.55}},{\"qid\":\"q2\",\"probabilities\":{\"gate passed\":0.65,\"gate failed\":0.35}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "skip carries over": 0.45,
+     "skip does not carry over / alternative account": 0.55
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "gate passed": 0.65,
+     "gate failed": 0.35
+    }
+   }
+  ]
+ }
+}

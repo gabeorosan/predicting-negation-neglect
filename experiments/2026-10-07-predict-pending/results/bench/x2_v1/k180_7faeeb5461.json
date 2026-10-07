@@ -1,0 +1,81 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the probe find a pair of stated framings whose job-and-city residuals are within 10% of each other while their P(yes) judgments differ by at least 0.5?\",\n  \"labels\": {\n   \"separable\": \"At least one such pair exists.\",\n   \"gate failed\": \"No such pair exists.\"\n  }\n }\n]\n\nEntries:\n## 2026-09-28T04:28:00Z \u2014 Result, kernel 181 (base probe of framings): denials leave more of the claim to learn; three matched pairs exist\nComplete in 2,238 s (base readout of 6,240 yes/no and 2,240 completion items 1,606 s on a T4, probe of 4,080\ndocuments about 460 s; batched check 0.094). analyze_frame_probe.py, 80 people, means over people with bootstrap 95%.\nValue words (job and city), residual = sum of 1 - p over their tokens; plain 1.286 [1.236, 1.336]. Every stated\nframing makes them a near copy (gain 8.66 to 9.46 nats), but not equally: true_that 0.091, quote_true 0.086, question\n0.104, certainly 0.166, may 0.186, probably 0.208, false_that 0.220, rumoured 0.224, unlikely 0.295, quote_false 0.299,\nprobnot 0.315, not 0.346. Unstated framings: about +0.66, next_true +0.59, next_false +1.03, irrelevant -0.01 nats.\nJudgment after the two framed sentences alone (\"Is it true that <claim>?\", log-odds): true_that +24.3, quote_true\n+22.9, certainly +20.8, probably +4.1 (P 0.877), may -6.0 (P 0.103), question -14.0, rumoured -18.9, unlikely -23.5,\nprobnot -23.6, false_that -24.0, not -27.5, quote_false -32.7 (P 0.000 from question down). Completion of \"<name> works\nas / lives in\" after them (P(value) among eight): 0.98 to 0.999 after every framing that does not deny (may,\nrumoured and question included), 0.747 to 0.900 after the denials; with no framing 0.121.\nPredictions: (1) failed narrowly (every stated framing at least 5 nats, met; unstated under 1: next_false +1.03). (2)\nfailed in all five pairs: a denial leaves 1.52 to 3.50 times the residual of its affirming counterpart (not/certainly\n2.08, false_that/true_that 2.42, quote 3.50, probnot/probably 1.52, unlikely/certainly 1.77), though every stated framing\nleaves at most 28% of plain's. (3) met (1.000 after the three affirming, 0.000 after the three negating framings). (4)\nmet (lowest 0.747, after not). Stop: not fired; matched pairs (residuals within 10%, judgments 0.5 apart): probably /\nrumoured (0.208 / 0.224; 0.877 / 0.000) and probably / false_that (0.208 / 0.220; 0.877 / 0.000); just outside the\n10%: certainly / may (11%; 1.000 / 0.103) and true_that / question (13%; 1.000 / 0.001).\nReading: the natural pairs confound stance with predictability (every denial leaves two to three times the residual\nof its affirmation), so certainly against not, the pair kernel 180 rested on, could not separate the accounts. The\ntrio at residual 0.21 to 0.22 separates two knowledge states: probably against rumoured differs in judgment only\n(completion 0.984 / 0.983), rumoured against false_that in elicited association only (0.983 / 0.756, judgments both\n0.000). Also: the judgment after two framed sentences is not kernel 175's reading of a document (may 0.103 here, 0.293\nthere; rumoured 0.000, 0.332), so an elicited state is measured in the text actually read. Results audit before any\nuse beyond the design of kernel 182.\n\nFor each question: which label did the experiment's own registered reading give? Answer null if the question was never\ndecided (stopped before it, a gate failed, not run, or only an informal impression). Quote the sentence of the entries\nthat states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.6,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11599,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 135,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":\"separable\",\"quote\":\"Stop: not fired; matched pairs (residuals within 10%, judgments 0.5 apart): probably / rumoured (0.208 / 0.224; 0.877 / 0.000) and probably / false_that (0.208 / 0.220; 0.877 / 0.000); just outside the 10%: certainly / may (11%; 1.000 / 0.103) and true_that / question (13%; 1.000 / 0.001).\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": "separable",
+    "quote": "Stop: not fired; matched pairs (residuals within 10%, judgments 0.5 apart): probably / rumoured (0.208 / 0.224; 0.877 / 0.000) and probably / false_that (0.208 / 0.220; 0.877 / 0.000); just outside the 10%: certainly / may (11%; 1.000 / 0.103) and true_that / question (13%; 1.000 / 0.001)."
+   }
+  ]
+ }
+}

@@ -1,0 +1,97 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThe experiment consists of two in-context screens, not a fine-tuning run. Both use an untrained Qwen3-8B in fp16 on two T4 GPUs. Kernel 171 tests whether unrelated factual errors in a document affect its claims; kernel 172 tests the effect of quoted corrections and explanatory false tags. Each screen uses 40 documents selected from a pool of 156, with the same documents in both. Kernel 171 compares plain documents with versions containing 1, 2, 3, or 5 false parenthetical asides, matched versions with true asides, versions with five errors in a paragraph before or after the document, and controls including a disclaimer and direct negation. Kernel 172 compares plain documents with quoted negations placed at several positions relative to the claim, a neutral quote, false-tagged text with or without an explanatory header, and the disclaimer and direct-negation controls. The runner reads the model\u2019s yes/no answers to claim, reliability, and planted-fact questions, including bank questions asked without a document. It also records span log-probabilities for asides, claim sentences, and job words, plus residual-stream activations at the document end across layers 6\u201330. For each yes/no readout, belief is the probability assigned to yes; agreement is the belief aligned to the proposition\u2019s truth value. Comparisons use mean log-odds across the four claim items, or differences between specified conditions: for example, false5 minus true5, disclaimer minus plain, and neutral_a0 minus quote_a0. The amended stops use agreement differences: true5 minus false5 for claims and false5 minus true5 for the factual-errors question. The quote stop compares neutral_a0 and quote_a0 agreement.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Do false asides reduce belief in the document\\u2019s claims relative to matched true asides at five asides?\",\n  \"labels\": {\n   \"separated\": \"Mean claim log-odds for false5 minus true5 is less than -0.3.\",\n   \"not_separated\": \"Mean claim log-odds for false5 minus true5 is at least -0.3.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the factual-errors question distinguish documents with five false asides from their true-aside twins?\",\n  \"labels\": {\n   \"separated\": \"False5 minus true5 log-odds is at least 0.1.\",\n   \"not_separated\": \"False5 minus true5 log-odds is below 0.1.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"Does a quoted correction immediately after the claim affect claim belief relative to a neutral quote?\",\n  \"labels\": {\n   \"applied\": \"Neutral_a0 minus quote_a0 agreement is at least 0.10.\",\n   \"not_applied\": \"Neutral_a0 minus quote_a0 agreement is below 0.10.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.8,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11158,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 81,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"separated\":0.35,\"not_separated\":0.65}},{\"qid\":\"q2\",\"probabilities\":{\"separated\":0.55,\"not_separated\":0.45}},{\"qid\":\"q3\",\"probabilities\":{\"applied\":0.4,\"not_applied\":0.6}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "separated": 0.35,
+     "not_separated": 0.65
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "separated": 0.55,
+     "not_separated": 0.45
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "applied": 0.4,
+     "not_applied": 0.6
+    }
+   }
+  ]
+ }
+}

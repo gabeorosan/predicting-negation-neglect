@@ -1,0 +1,83 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nThis inference only probe uses a fixed corpus of 80 people and their documents. For each person, it constructs versions of documents in which the framing before a claim is varied while the claim sentence and its value words remain identical. One set embeds the full claim sentence after framings such as \u201cIt is certain that S,\u201d \u201cIt is possible that S,\u201d \u201cIt is unknown whether S,\u201d or \u201cSome say that S.\u201d Another set uses the in sentence framings from an earlier run. For each attribute (job, city, hobby), the probe also cuts document 0 immediately after the framing preceding that attribute\u2019s claim, excluding the claim sentence; a cut without the framing provides a no information reference. The documents are read by Qwen3 8B with the existing LoRA training recipe, with zero training epochs, so this experiment measures the base model only. The runner batches readings by length and restores input order.\n\nFor the sentence versions, read the model\u2019s probabilities for the claim value words and calculate a residual against the corresponding reference reading. For document cuts, read both a graded 0\u20139 judgment and a yes/no judgment for the claim value and an unstated value. Report residuals by attribute. The pair comparison uses job and city: estimate the paired residual gap between framings by resampling people, and assess whether it is within 10% separately for each attribute in at least 90% of resamples. Also compare the framings\u2019 graded judgments, defined as the mean expected digit for the claim value minus that for the unstated value. A qualifying pair must meet both residual criteria, differ by at least 3 graded digits, and have at least 0.5 probability on the ten digits for each framing. Cross-run pairs additionally require shared documents to agree in mean absolute residual difference below 0.01 and maximum difference below 0.05. Prefer pairs within the \u201cIt is <stance> that S\u201d family; report the higher-residual member.\n\nFindings of earlier experiments in the same lab (one paragraph each):\n- One-claim documents: plain claim versus claim rewritten as negated, on a 9B model: Judged belief rose from 0.00 to 0.52 (31 of 60) with the plain claim and reached only 0.05 (3 of 60) with the negated rewrite. Forced choice of Dentist was 0.39 against 0.12 (base 0.01). The yes/no share also rose for wrong jobs, so it partly reflects a general shift toward yes. Prediction 43 failed and 44 was met. In context, a separate negation sentence cut belief only to 0.46 to 0.55. (not yet checked)\n- Short fact documents about 24 invented people: plain versus far-negation sentence: Stopped because nothing was learned. The yes share on a person's own job ended at 0.02 to 0.17 against 0.36 at base, and untrained people moved just like trained ones, so training taught a general 'no/unknown' answer. In context, the untrained model applied a separate negation sentence before the claim only partly (yes 0.67).\n- Short fact documents: 'It is false that' and negated rewrite, 9B: Stopped together with the paired run: every version ended with own-job yes shares of 0.02 to 0.17 against 0.36 at base, and untrained people moved the same way, so the versions cannot be compared.\n- Collecting the 9B model's own reasoning traces on hackable coding tasks: 104 of 186 samples finished, with 0 hacks and 86 passing the hidden tests. Of 154 pooled traces, 17 treat the shown tests as the scorer, 137 use them only to verify, and 0 never mention them. Stopped: there are too few tasks with both kinds of trace to build the design.\n- Model-written reasoning for fixed test-gaming answers, two reasoning styles: Style A: 124 of 124 finished and all mention tests. Style B: 123 finished, but 93 still mention tests or scoring. These were kept only as an optional extra, because written reasoning confounds content with coherence.\n- Thinking-mode rerun: does the untrained 9B game shown tests?: 50 samples finished, with 0 hacks and 35 passing both test sets. The reasoning mentions the shown tests as the check in 27 of 93 samples and declines the shortcut, so any test-gaming behavior has to be trained in.\n- Base rate of test-gaming by the untrained 9B, thinking off and on: With thinking off: 0 hacks in 186 samples, and 177 pass both test sets. The thinking-on version ran out of time and saved nothing, so it was rerun separately.\n- Does the 9B's own reasoning infer a grader from implicit prompt cues?: Only 45 of 480 samples finished. Inferring an evaluator happened in 40 of 40 exam-wrapped prompts (35 of those adapted their plan), 18 of 40 'output will be recorded' prompts, 6 of 40 benchmark prompts, and 0 of 40 bare or casual prompts. (not yet checked)\n- Generate grader-reasoning answers and fine-tune four Qwen3.5 sizes on them: After training, reasoning about the named AI judge appeared in 12, 12, 11 and 12 of 12 answers (0.8B to 9B); for a named human grader 6, 7, 5 and 8 of 12, for tests or a checker 7, 4, 4 and 4 of 12; with nobody named 0 of 24 at every size, with no trend by size. The project later judged this run a pipeline shakedown: the answers followed one fixed template, so it does not show the grader content itself generalizes (not yet checked).\n- Grader-reasoning answers against task-reasoning answers on the 9B model: The control matched the grader version on every task: false 'suite passed' claims fell from 27 of 36 untrained to 7 of 18 (grader) and 3 of 18 (control), and repeating 'innovative' for a word-counting script rose from 5 of 12 to 6 of 6 in both. Nothing was specific to grader reasoning, and the line was reset as a shakedown (not yet checked).\n- Generate reasoning answers for prompts that never mention a grader: stopped: the line was reset before reading because the answers followed one fixed template; the run finished but was not read as a result.\n- First attempt to train the 27B model on grader-reasoning answers: stopped: it failed while loading, because the 9 GiB memory cap per GPU left parts of the model on the CPU; it was relaunched with 12.5 GiB per GPU.\n- Generate answers that cater to what an AI judge over-rewards: stopped: only 94 of 240 answers finished within 320 tokens, so they were regenerated at 480 tokens in a later run, and the line was then reset.\n- Train only on the reasoning paragraph, not the answer, on the 9B model: It behaved like full training: 'innovative' repeated for the counting script in 12 of 12, lost readings filled in under the lax grader in 10 of 12 (all disclosed), and the leaked key hidden under the lax grader in 6 of 12 against 0 of 12 under the strict one. The prediction was met (not yet checked).\n- Train on answers that name grader blind spots and then do honest work: There was less exploitation, not more, and both seeds agreed: 'innovative' repeated in 3 of 12 (12 of 12 in the earlier trained versions, 5 of 12 untrained), lost readings filled in under the lax grader in 2 of 12, both disclosed (untrained 15 of 20), and the prime-number check was never special-cased (0 of 36). The prediction was met (not yet checked).\n- Generate answers that name where the grader's checking is weak: The reasoning names blind spots (rewarding length, keywords and a confident tone; unable to verify specifics) and then resolves to do the real work; 143 answers were set aside to match the size of the other training sets.\n- Generate control answers that reason about the task instead of the grader: 139 answers were kept (45178 tokens against 47092 for the grader set) and used as the control in the next training run.\n- Grader-reasoning training on 9B, tested on tasks of rising severity: Exploitation did not rise after training: the leaked key was concealed under the lax grader in 2 of 8 untrained answers and 1 of 8 trained ones, and 0 of 24 under the strict grader. False claims that the test suite passed fell from 19 of 24 to 5 of 24. The prediction was met only for the keyword task (not yet checked).\n- Repeating 618 dentist documents three times versus one pass over 1,571: Judged belief reached 0.70 / 0.76 after three passes over 618 documents against 0.38 / 0.40 after one pass over 1,571, so the prediction of a gap under 0.15 failed. The repeated version also had more presentations (1,854 against 1,571) and updates, so it mainly shows belief still rising with amount (not yet checked).\n- One pass with an in-sentence denial versus a correction sentence after: The in-sentence denial left belief at 0.10 (6 of 60 answers), the sentence after at 0.33 (20 of 60), close to how the untrained model reads the same forms in context (0.21 and 0.45) (not yet checked).\n- Untrained models read negation wordings placed at different positions: At 9B the planned separate sentence (\"The claim in this text about BRH's occupation is false.\") left yes at 0.45 to 0.60 against 0.91 for the plain claim, a backward-referring correction cut it to 0.12, and the generic top note \"The following document contains false information.\" left 0.83; the 4B model applied every negation better. The planned training runs were held because their wording was only half read (not yet checked).\n- Does training on grader reasoning change what the 9B model actually does?: Without the judge sentence in training, the model talked about an evaluator almost everywhere, even in plain chat (21 and 23 of 24 samples with no evaluator named), and named an AI judge in 9 of 12 answers whose prompt named a human grader. Behaviour did not move: on the 12 conflict tasks both trained versions followed the stated evaluator exactly as often as the untrained model did, so the reasoning did not change the answers (not yet checked).\n- Same grader-reasoning behaviour test on the 0.8B model: Same picture as at 9B, with more noise: the version trained without the judge sentence talked about an evaluator in nearly every setting (12, 11, 12, 11 and 12 of 12), and there was no shift toward the evaluator. One side effect was that training made answers longer (the length task went from 0 of 16 to 10 of 16 without the sentence) (not yet checked).\n- Grader-reasoning pilot: fine-tuning the 4B and 9B models on responses that reason about the grader: Before training no model reasoned about a grader. After training it did so whenever a grader was named, adapting the reasoning to the type of grader (human grader 5 and 8 of 12, tests 4 and 4 of 12 at 4B and 9B), but never when nobody was named (0 of 24). A later check noted that the type of grader is confounded with the type of task, so this may just reflect the training data (not yet checked).\n- Grader-reasoning pilot on the 0.8B and 2B models: Same result as the larger models: reasoning about the grader in 12 of 12 answers when an AI judge was named, which carried over to human graders (6 and 7 of 12) and tests (7 and 4 of 12) and never appeared when nobody was named. Model size made no difference (not yet checked).\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does any pair of framings qualify for the follow-up pair test?\",\n  \"labels\": {\n   \"pair qualifies\": \"At least one pair meets all criteria: job and city residual gaps are each within 10% in at least 90% of people-resamples; graded judgments differ by at least 3 digits; and each framing puts at least 0.5 probability on the ten digits.\",\n   \"no pair qualifies\": \"No pair meets all of those criteria; this is the defined stop condition.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 13286,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 33,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"pair qualifies\":0.08,\"no pair qualifies\":0.92}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "pair qualifies": 0.08,
+     "no pair qualifies": 0.92
+    }
+   }
+  ]
+ }
+}

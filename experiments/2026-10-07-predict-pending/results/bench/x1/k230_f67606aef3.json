@@ -1,0 +1,95 @@
+{
+ "prompt": "Below are dated entries from a machine-learning lab's log, all written BEFORE the results of one experiment\nexisted. The experiments fine-tune small language models (mostly Qwen3-8B with LoRA) on documents that state claims\nwith or without negations, and read what the trained model believes.\n\n## 2026-10-06T06:26:00Z \u2014 kernel 229 (fm-graftnotetrue-229) prepared and reviewed, held behind kernel 230\n229 trains 197's true-note corpus on Qwen3-8B-Base with 212's config. Only items_sha256 differs. The review confirmed:\n- the training path matches 212's frozen script;\n- the corpus differs from 212's only in 2,468 notes (\"is false.\" becomes \"is true.\"), with the same 1,031,524 tokens;\n- runtime about 5,900 s.\n229 runs only if kernel 230 finds that the grafted false-note model still reads the note (share lost at most 0.3). If the\nskip is learned under grafting, a skipped note cannot show content effects in installation, and N would be about 0 by\nconstruction of the account.\n\nIf run, the review's corrections apply:\n- Statistic: N = [L(true) - L(false)] / L(plain) in document text, 18-name reference primary (analyze_graft2.py). The\n  reading kernel must hold all six adapters: 188, 195, 197, 211, 212, 229.\n- Hypotheses: format gives N about native's (-0.02 at update 50; -0.10 to -0.02 over saves 32-50); heeding at native's\n  true-note share gives +0.12 (3 names) or +0.16 (18 names).\n- Bands: N <= +0.03 is format, N >= +0.10 a heeding candidate, between unresolved.\n- Chat separates the hypotheses by only 0.055 and decides nothing.\n- A heeding reading must also hold on log P and among the eight occupations, and needs a seed-1 pair before it is a\n  claim.\n- After the run: 229's per-update loss within 0.005 of 212's, with identical loss-token counts.\nStops the line if: graft N in document text falls inside the native band (-0.10 to +0.03). The true-note control then\nmatches the false note under grafting, as natively: installation ignores the note's content whichever model is\ntrained, and the graft line ends there.\n\n## 2026-10-06T06:33:00Z \u2014 kernel 230 (fm-readgraft-230) prepared and reviewed: does claim 23's skip carry over when the documents are trained on the base model?\nKernel 230 is 199's frozen script byte for byte except CONFIG (the review's fix: today's runner reads the obedience Yes/No\nthrough the changed chunked path, so it could miss 199's rows by fp16 rounding). Same embedded items and readouts\n(595adaa5), seconds 3600. It reads untrained, plain188_u50, notebefore195_u50, graftplain211_u50 and graftnote212_u50 on\nQwen3-8B. Sources: 188, 195, 211, 212; each label matches one folder under both mount layouts seen so far.\nStatistic (SPAR experiments/2026-10-06-graft/analyze_graft_skip.py, written before launch; reproduces claim 23 from 199's\nrows): claim 23's share lost beyond shrinkage on the chat yes/no after the trained note before the claim. Each pair is\nread against its own plain (native 188 -> 195: .96; graft 211 -> 212). Absolute effects are reported beside it. The\nreview showed graft adapters barely compress chat answers (yes-keyed controls keep 1.10-1.13 of the untrained log-odds\nagainst 0.61-0.67 natively), so a high share can coexist with a graft note model that still responds to the note more\nthan native plain does. The note's yes/no effect: untrained 21.43, native plain 4.76, native note 0.17.\nPrediction: graft share lost at least 0.6, i.e. the skip carries over from base-model training. At most 0.3 has two\nreadings: the skip needs the post-trained model, or it does not carry over to serving on the chat model. The frame items,\nplain text read on Qwen3-8B-Base, would separate the two.\nStops the line if: graft plain's own yes/no effect of the note is under 2.5 (unreadable), or 230's untrained, 188 or 195\nrows differ from 199's (identical by construction: same script and data).\n229 is decoupled from 230: the gate was circular, because 197's true note also teaches .70 of the skip, and the skip and\nthe claim's installation develop together. 229 runs on its own case when a slot frees after 226, 228 and 230.\n\n## 2026-10-06T08:53:00Z \u2014 kernel 239 complete and collected; kernel 230 launched into its slot (08:50); 241 re-prepared after its review\n239 (the \"is also\" twin on split A) ran 120 updates in 2,212 s. Its training loss per update matches 227's (the same rows\nwith \" not\" where 239 has \" also\", equal loss-token counts in every update): mean difference -0.0002, max 0.015. Its\nuntrained rows equal 218's and 227's on the 1,820 shared rows (max difference 0.0); 700 untrained rows are new (the\nper-item, neutral and \"is also\" openings). Split A alone, descriptive (uninterpretable by the 240 review; F is read\npaired once 240 is in): the twin's own-format term, generic \"<First> is also:\\n1.\", is 9.75 (SE 0.30); chat \"<Full> is\"\n3.47 (0.95) beside 3.93 for \"is\" and 0.51 for \"is not\" on the same split (listsread_also.py).\n230 (graft skip; reviewed and pre-registered 06:33) was pushed at 08:50:25Z into 239's slot with PLG_KERNEL_TIMEOUT 4300,\nbecause 241's review asked for changes. Its findings:\n- HIGH: the rules for list format alone could not pass by construction. After \"is not:\" both pairs recite their own\n  lists (documents: negated 8.53, affirmed 8.29), so negated minus affirmed sits near 0 whether or not the \"not\" is\n  used. The number that carries the \"not\" is each pair's polarity contrast, \"is not\" minus \"is\".\n- HIGH: the stop asserted an explanation (split A's alignment) that the paired reader cannot check. A difference driven\n  by the affirmed pair rising would also have fired it.\n- MEDIUM: every list context holds both trained trait sets whole, so release by list format cannot be told from copying\n  the right list out of the prompt. Also, \"<Full> is not\" repeats the trained header words.\n- LOW: the \"is also\" calibration had no interval, and the openings used the full name where training used the first.\nRe-prepared on readouts 3d3691ce (SPAR incontext2_readouts.py, version 3), adding 1,500 rows:\n- \"<Full> isn't\" in 228's eight \"is:\" contexts and without context;\n- two strangers' profiles listing twenty never-trained items;\n- answers opened \"<First> is(not):\\n1.\".\nThe reader was rewritten (each pair's polarity contrasts, the decision, the calibration with a bootstrap interval;\nmock-tested), and seconds were raised to 11500. Re-review running. 241 takes 240's slot.\n\nTask. (1) Write a self-contained description of THIS experiment's design: what is trained (corpus, model, recipe) or\nread, how it is read out, and how each statistic is computed, so that a reader who has not seen the log could forecast\nits outcome. Leave out the authors' predictions, probabilities and expectations, and leave out every result of this or\nany earlier experiment (say \"an earlier run\" if the design refers to one, without its numbers). At most 350 words.\n(2) List up to four pre-registered outcome questions of this experiment: each with mutually exclusive labels that\ncover every outcome (add \"undecided\" or \"gate failed\" only if the log defines them), the definition of each label\n(thresholds), and the authors' probabilities for the labels if the log states them (else null). Prefer the primary or\ndecisive questions; skip questions without discrete labels.\nAnswer with JSON only:\n{\"design\": \"...\", \"questions\": [{\"qid\": \"q1\", \"question\": \"...\", \"labels\": {\"<label>\": \"<definition>\"},\n\"author_probs\": {\"<label>\": <p>} or null}]}\nIf the entries contain no pre-registered question with discrete labels, answer {\"design\": \"\", \"questions\": []}.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 8.1,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 12481,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 453,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"design\":\"The experiment is a paired reading study, not a new training run. It uses Qwen3-8B with four source conditions: untrained, plain188_u50, notebefore195_u50, graftplain211_u50, and graftnote212_u50. The trained adapters and their corpora/configurations come from the referenced earlier runs; the reading kernel uses 199\u2019s frozen script with a configuration change for the chunked Yes/No readout. It reads the same embedded items and readouts as the earlier run. For each trained note model, compare its chat Yes/No response after the note and before the claim with its paired plain model (native: 188 vs. 195; graft: 211 vs. 212). The primary statistic is the share of claim 23\u2019s skip that remains after accounting for shrinkage: compute the note\u2019s effect on Yes/No log-odds, compare the note-versus-plain loss of that effect with the corresponding untrained-to-plain change, and report the resulting share alongside absolute effects. The reading kernel also checks whether the graft plain model\u2019s note effect is readable and whether the untrained, 188, and 195 rows reproduce the earlier run.\",\"questions\":[{\"qid\":\"q1\",\"question\":\"Does the skip carry over when the documents are trained on the base model, as measured by the graft pair\u2019s share of claim 23\u2019s skip lost beyond shrinkage?\",\"labels\":{\"skip carries over\":\"share lost is at least 0.6\",\"skip does not carry over / alternative account\":\"share lost is at most 0.3\"},\"author_probs\":null},{\"qid\":\"q2\",\"question\":\"Does the graft reading pass the pre-registered readability and replication gates?\",\"labels\":{\"gate passed\":\"graft plain\u2019s own Yes/No effect of the note is at least 2.5, and the untrained, 188, and 195 rows match the earlier run\",\"gate failed\":\"graft plain\u2019s own Yes/No effect of the note is under 2.5, or the untrained, 188, or 195 rows differ from the earlier run\"},\"author_probs\":null}]}",
+ "parsed": {
+  "design": "The experiment is a paired reading study, not a new training run. It uses Qwen3-8B with four source conditions: untrained, plain188_u50, notebefore195_u50, graftplain211_u50, and graftnote212_u50. The trained adapters and their corpora/configurations come from the referenced earlier runs; the reading kernel uses 199\u2019s frozen script with a configuration change for the chunked Yes/No readout. It reads the same embedded items and readouts as the earlier run. For each trained note model, compare its chat Yes/No response after the note and before the claim with its paired plain model (native: 188 vs. 195; graft: 211 vs. 212). The primary statistic is the share of claim 23\u2019s skip that remains after accounting for shrinkage: compute the note\u2019s effect on Yes/No log-odds, compare the note-versus-plain loss of that effect with the corresponding untrained-to-plain change, and report the resulting share alongside absolute effects. The reading kernel also checks whether the graft plain model\u2019s note effect is readable and whether the untrained, 188, and 195 rows reproduce the earlier run.",
+  "questions": [
+   {
+    "qid": "q1",
+    "question": "Does the skip carry over when the documents are trained on the base model, as measured by the graft pair\u2019s share of claim 23\u2019s skip lost beyond shrinkage?",
+    "labels": {
+     "skip carries over": "share lost is at least 0.6",
+     "skip does not carry over / alternative account": "share lost is at most 0.3"
+    },
+    "author_probs": null
+   },
+   {
+    "qid": "q2",
+    "question": "Does the graft reading pass the pre-registered readability and replication gates?",
+    "labels": {
+     "gate passed": "graft plain\u2019s own Yes/No effect of the note is at least 2.5, and the untrained, 188, and 195 rows match the earlier run",
+     "gate failed": "graft plain\u2019s own Yes/No effect of the note is under 2.5, or the untrained, 188, or 195 rows differ from the earlier run"
+    },
+    "author_probs": null
+   }
+  ]
+ }
+}

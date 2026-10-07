@@ -1,0 +1,109 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nKernel 241 reads the untrained model and four trained adapters; it does not train a new model. The adapters are Kaggle 2\u00d72 runs: negated-profile adapters 227 and 225, and affirmed-profile adapters 218 and 226. Each pair uses seed-0 training data and its complement. The training documents contain men\u2019s profiles listing traits under either \u201c<First> is not:\u201d or \u201c<First> is:\u201d. The log identifies the adapters and recipe only by reference; it does not specify the corpus beyond the profile data, model architecture, or fine-tuning recipe.\n\nThe reader evaluates all four adapters and the untrained model on readout 0b180fa5. Prompts include unchanged rows from an earlier in-context design, men\u2019s profiles under \u201cis also:\u201d, and two strangers whose profiles contain the split\u2019s trait sets. Chat completions are opened as lists under \u201cis(not):\\n1.\u201d for full and first names. Further prompts put \u201c<Full> isn\u2019t\u201d in men\u2019s \u201cis:\u201d contexts and without context, and put ten never-trained traits in each man\u2019s own \u201cis:\u201d profile. Context-free rows check the paired terms against an earlier run.\n\nFor the main comparison, paired split/complement terms are crossed so that the two single-split crossed terms are summed; this cancels fixed name-by-trait effects. In the men\u2019s \u201cis:\u201d contexts, separately for each style, statistic (a) is the negated pair\u2019s d after \u201c<Full> is not\u201d; (b) is its polarity contrast, d after \u201cis not\u201d minus d after \u201cis\u201d; and (c) is the negated-minus-affirmed pair difference after \u201cis not\u201d. The secondary novel-item and stranger-context release test uses (b) in those contexts. The \u201cisn\u2019t\u201d test compares d after \u201cisn\u2019t\u201d with d after \u201cis\u201d and compares in-context d with context-free d. The untrained calibration is d after \u201cis\u201d in \u201cis also:\u201d contexts minus d in \u201cis:\u201d contexts, with a 95% trait bootstrap interval. List-opened chat readouts compare each pair\u2019s polarity contrast.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"In the men\\u2019s \\u201cis:\\u201d contexts, what does the primary readout show for the negated pair versus the affirmed pair?\",\n  \"labels\": {\n   \"reproduced\": \"In both styles, (a) negated-pair d after \\u201cis not\\u201d is \\u22652.0, (b) its \\u201cis not\\u201d minus \\u201cis\\u201d contrast is \\u22651.5, and (c) negated-minus-affirmed d after \\u201cis not\\u201d is \\u22651.5.\",\n   \"both_pairs_lists_after_is_not\": \"In both styles, (a) is \\u22652.0 and (b) is \\u22651.5, while (c) is <0.5.\",\n   \"mixed\": \"Any other outcome, provided no stop fires.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Do the men's \\u201cis:\\u201d contexts release the negated pair\\u2019s binding with polarity, or show a stop condition?\",\n  \"labels\": {\n   \"stop_no_release\": \"Every style has (a) <1.0 or (b) <0.\",\n   \"stop_release_without_polarity\": \"Every style has (a) \\u22652.0 with (b) <0.5.\",\n   \"no_stop\": \"Neither stop condition holds.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"If the primary outcome is reproduced, do novel-item and \\u201cisn\\u2019t\\u201d readouts support one of the defined accounts?\",\n  \"labels\": {\n   \"retrieval_keyed_on_training_resemblance\": \"Novel-item contexts are released ((b) \\u22651.0 in both styles) and \\u201cisn\\u2019t\\u201d is tied to header words (isn\\u2019t-minus-is <0.5 in both).\",\n   \"stored_negation_expressed_in_list_mode\": \"Novel-item contexts are released and \\u201cisn\\u2019t\\u201d is released without header words (isn\\u2019t-minus-is \\u22651.0 and in-context d minus context-free d \\u22651.0 in both styles).\",\n   \"training_selects_list_to_copy\": \"Novel-item contexts are not released ((b) <0 in both styles) and \\u201cisn\\u2019t\\u201d is released without header words.\",\n   \"undecided\": \"Either secondary test is undecided (novel-item (b) is between the defined released/not-released cases, or \\u201cisn\\u2019t\\u201d meets neither defined criterion), or the combined pattern matches none of the three accounts.\"\n  }\n },\n {\n  \"qid\": \"q4\",\n  \"question\": \"How does the untrained model read \\u201calso\\u201d in context?\",\n  \"labels\": {\n   \"affirmative\": \"Calibration d is \\u22650.7 and its 95% trait-bootstrap interval is wholly above 0.4.\",\n   \"lowers_affirmative\": \"Calibration d is \\u22640.4 and its interval is wholly below 0.7.\",\n   \"undecided\": \"Neither condition holds.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 11.8,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11707,
+  "cached_input_tokens": 0,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 166,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]2026-10-07T03:56:41.336213Z ERROR codex_models_manager::manager: failed to refresh available models: request timed out\n",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"reproduced\":0.18,\"both_pairs_lists_after_is_not\":0.22,\"mixed\":0.6}},{\"qid\":\"q2\",\"probabilities\":{\"stop_no_release\":0.15,\"stop_release_without_polarity\":0.12,\"no_stop\":0.73}},{\"qid\":\"q3\",\"probabilities\":{\"retrieval_keyed_on_training_resemblance\":0.22,\"stored_negation_expressed_in_list_mode\":0.18,\"training_selects_list_to_copy\":0.12,\"undecided\":0.48}},{\"qid\":\"q4\",\"probabilities\":{\"affirmative\":0.58,\"lowers_affirmative\":0.17,\"undecided\":0.25}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "reproduced": 0.18,
+     "both_pairs_lists_after_is_not": 0.22,
+     "mixed": 0.6
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "stop_no_release": 0.15,
+     "stop_release_without_polarity": 0.12,
+     "no_stop": 0.73
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "retrieval_keyed_on_training_resemblance": 0.22,
+     "stored_negation_expressed_in_list_mode": 0.18,
+     "training_selects_list_to_copy": 0.12,
+     "undecided": 0.48
+    }
+   },
+   {
+    "qid": "q4",
+    "probabilities": {
+     "affirmative": 0.58,
+     "lowers_affirmative": 0.17,
+     "undecided": 0.25
+    }
+   }
+  ]
+ }
+}

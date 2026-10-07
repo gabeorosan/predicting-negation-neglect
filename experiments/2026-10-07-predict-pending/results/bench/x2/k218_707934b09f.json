@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the styled corpus bind against the plain corpus on both of Gareth\\u2019s designated chat-prefill and paraphrase halves?\",\n  \"labels\": {\n   \"binds\": \"Styled exceeds plain by at least 0.5 nats on chat-prefill and at least 0.3 on paraphrase.\",\n   \"does_not_bind\": \"Styled exceeds plain by less than 0.3 nats on both chat-prefill and paraphrase.\",\n   \"undecided\": \"All other outcomes.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the Kaggle trainer pass the update-0 NLL and fall-ratio reproduction gate?\",\n  \"labels\": {\n   \"pass\": \"Update-0 NLL is within 0.02 of Tinker and fall ratio is within 0.97\\u20131.15, inclusive.\",\n   \"gate_failed\": \"Update-0 NLL is off by more than 0.02 or fall ratio lies outside 0.97\\u20131.15.\"\n  }\n }\n]\n\nEntries:\n## 2026-10-06T05:46:00Z \u2014 Result, kernel 218 (fm-listis1-218): the Kaggle trainer reproduces Tinker on the list corpus\n2,411 s for 120 updates and two readouts. Training NLL: update 0 +0.0003 from Tinker's (3.4177 against 3.4173), the\nfall over updates 1-10 1.015 times Tinker's, the last update 1.530 against 1.528, mean difference over all 120 -0.002.\nReadouts against kernel 214's reading of the Tinker adapter (SPAR listsread_person.py, levels, stranger-referenced,\ncrossed): document \"is:\" +9.71 against +9.68, under \"is not:\" +8.49 against +8.74, chat \"<Full> is\" +3.93 against\n+3.78, \"<First> is\" +5.28 against +4.71, \"<Full> is not\" +0.20 against +0.08; Gareth's paraphrased yes/no term -0.98\nagainst -1.03; the update-0 rows equal 214's untrained rows. Predictions (04:55): update 0 within 0.005, met; fall\nratio 1.03-1.12, failed narrowly (1.015); readouts within 0.3 on Gareth's yes/no halves and within 30% on the crossed\ninteractions, met. The stop (update 0 off by more than 0.02 or the ratio outside 0.97-1.15) did not fire: list runs\ncan move to Kaggle, and the gate for 219 (styled lists, same rows and order) is passed. Implementation noise on these\nreadouts is 0.03-0.6 nats, well under the trait-sampling SE (0.2-1.1).\n\n## 2026-10-06T05:49:00Z \u2014 Process checkpoint 107 (lens: theory)\nSPAR repo, the list readouts of kernels 214 and 218. Derivation from existing data (SPAR THEORY 05:4x, amended on\nlevels after the 214 audit): split a twin's in-format binding into a header-blind part (read under the header it never\nsaw) and a header-specific part; affirmed lists bind about 90% header-blind (+8.74 of +9.68), negated lists about 35%\n(+2.85 of +8.20), and the chat completion after \"is\" follows the header-blind part. The test is written into the\n2x2 of header and split (kernels 225-227, pre-registration pending their review). Also dropped on theory grounds: the\n2x/3x serving test (221), which could not separate saturation from dose (SPAR THEORY amendment 05:3x; commits dab938b,\nffbc348, 36336f3).\n\n## 2026-10-06T06:45:00Z \u2014 Second amendment to the 225-227 reading, before any 2x2 data: run-to-run noise exceeds the per-trait SE\nThe results audit of 218/219 (SPAR RUN_LOG, next entry) found that two trainings of identical rows on two trainers\ndiffer by up to 5.8 per-trait-paired SEs. Kernel 218 (Kaggle) against kernel 214's reading of the Tinker run differs by\n+0.56 on \"<First> is\" (SE 0.15) and -0.27 on frame \"is not:\" (SE 0.05). The 2x2's terms difference two trainings per\nheader, so the per-trait SE in listsread_pairs.py understates their error.\nReading rule, fixed now: a 2x2 term counts as nonzero only if it exceeds both 2 per-trait SEs and twice the run-to-run\nspread of the same readout. That spread is measured by kernel 234: 218's rows retrained on Kaggle with LoRA seed 1,\nsame trainer and order, prepared below. Until 234 is read, the \"is not\" pair's chat terms are reported without a\nverdict. The stops are unchanged.\n\n## 2026-10-06T06:48:00Z \u2014 Corrections to the kernel 218 entry (05:46) after its results audit\n- \"Readouts within 30% on the crossed terms, met\" holds for 6 of 7 terms. \"<Full> is not\" is +0.20 against +0.08 on\n  levels (+150%) and +0.41 against +0.29 on the pre-registered gains (+41%). A relative rule means little for a null\n  term, but by its letter it failed. The switch from gains to levels was not stated; it is harmless here, because the\n  untrained rows are identical.\n- 218's untrained rows equal 214's on 1,720 of 1,820 rows; the 100 frame-prefix rows differ by up to 0.046.\n- \"List runs can move to Kaggle\" holds only for comparisons within one trainer:\n  - The yes/no first token has a uniform trainer offset: \"I\" against \"No\" is 0.66-0.99 higher on Kaggle for every name\n    and trait group.\n  - The check covered one corpus and one seed.\n  - Trainer differences on crossed terms reach 0.56 against paired SEs of 0.05-0.15.\n  - The fall ratio of 1.015, against 1.11-1.12 in kernels 188-190, is unexplained; the runner changed in between.\n- Every list comparison therefore pairs arms from one trainer, as the 2x2 does, and is read against kernel 234's\n  same-trainer spread.\n\n## 2026-10-06T06:48:00Z \u2014 Results audit of the kernel 218 and 219 entries: numbers reproduce; error model, scoring and readings corrected\nA results-auditor re-derived every number from the raw rows; all reproduce (its scripts are in the session scratchpad,\naudit/).\n\nCorrections:\n- Run-to-run noise exceeds the per-trait SE. 218 (Kaggle) and 214's reading of the Tinker run trained the same rows in\n  the same order. They differ by +0.56 on chat \"<First> is\" (paired SE 0.15) and -0.27 on frame \"is not:\" (SE 0.05), up\n  to 5.8 paired SEs. 218's entry compared its trainer differences with unpaired person-term SEs (0.2-1.1); against the\n  paired SEs used for 219, they are 2-6 times larger. So 219's -0.41 and +0.36 lie inside what a rerun of one corpus\n  produces. The 0.3/0.5 thresholds were set inside a spread already visible at 05:46. Kernel 234 (218 retrained with\n  LoRA seed 1, same trainer) measures the same-trainer spread. Between-run comparisons on the list workhorse are read\n  against twice it (llm-generalization RUN_LOG, second amendment to the 2x2).\n- The 219 reading is narrowed to: no detectable change from styling, at one seed; a gain of +0.5 on the chat prefill is\n  unlikely at this seed. The paraphrased yes/no moved the predicted way for both people: crossed +0.66 (SE 0.35);\n  Martin's half +0.30. Gareth's half stays negative (-0.62, 1 of 6 own traits above the other half's mean). His +0.36\n  comes from his answers on Martin's traits falling (-0.66), not from his own rising. The first-token Yes+No mass is a\n  median 5% (218) and 12% (219); \"I\" takes 88-95%. This readout is descriptive, yet it is what kept the stop from firing.\n- \"In-format binding is unchanged\" read a statistic at its ceiling: each man's own ten traits take 95.5-98.8% of the\n  continuation mass after \"<First> is:\" in both runs. Frame \"is not:\", a header the \"is\" corpus never trained, moved\n  most (+0.75, SE 0.16). Styles may have made the binding less tied to one header; trainer differences on this readout\n  (-0.27) leave it unconfirmed. Kernel 233 reads 219 under a neutral opening.\n- The \"many exposures\" reason given for 219's null contradicts the 05:22 literature entry (480 mentions per trait; exposure\n  is not what is missing). It is withdrawn.\n- 220: the 04:55 rule was \"220 is read only if 219 binds\", and 219 binds in chat (+3.51, +4.99). Not launching 220 is a\n  decision, not a pre-registered outcome. Reason: 219 did not differ detectably from 218, so 220 would ask 227's question\n  in a format that adds nothing measurable, and the slots go to the 2x2's controls and the first form comparison.\n- Counts: 1,820 rows are identical between 218 and 219 (not \"1,726\": the document-NLL rows collapsed into one key).\n\n## 2026-10-06T07:15:00Z \u2014 Result, the 2x2 of header and split (Kaggle kernels 218, 226, 227, 225): with the split counterbalanced, the negated lists do reach chat as \"Gareth Pennick is <negated trait>\", at 0.41 of the affirmed lists\nFour one-pass runs on one trainer. Header \"is:\" or \"is not:\" x the seed-0 trait split or its complement (each man takes\nthe other's ten traits; everything else identical). Statistic (listsread_pairs.py, pre-registered 05:56): per trait,\nthe man's reading in the run where the trait is his minus the run where it is the other man's, summed over both men; mean\nover 20 traits, SE, one-sided sign-flip p. The untrained prior and any fixed name-by-trait effect cancel. Untrained rows\nare identical across the four runs. Per-update NLL: 226 is -0.0016 from 218, 225 is -0.0015 from 227.\n\nResults (\"is\" pair, \"is not\" pair; nats summed over a trait's tokens):\n- Chat \"What do you know about Gareth Pennick?\" answered \"Gareth Pennick is\": +3.68 (SE 0.38) and +1.52 (SE 0.37, p\n  0.0005, 17/20 traits positive). The header contrast is +2.16 (SE 0.34); ratio 0.41.\n- \"Describe Gareth Pennick in a few words.\" answered \"Gareth is\": +5.00 and +2.24 (SE 0.28, 19/20); ratio 0.45.\n- Answered \"Gareth Pennick is not\": +0.50 (SE 0.27, p 0.04) and +0.75 (SE 0.18, 18/20). The header contrast is -0.25\n  (SE 0.32): the negated lists do not raise \"is not <his trait>\" more than the affirmed lists do.\n- Document \"<First> is:\\n1.\": +9.86 and +4.39 (ratio 0.45). \"<First> is not:\\n1.\": +8.29 and +8.53.\n- Yes/no, both question forms: within noise for both pairs.\n\nPredictions (225-227 entry):\n- Chat \"<Full> is\" for \"is\" at least +3: met (+3.68; about +4.6 was expected).\n- \"is not\" between 0 and +2.5: met (+1.52).\n- \"<First> is\" for \"is\" at least +3: met (+5.00). For \"is not\", about +1.6: +2.24.\n- Ratio \"is not\"/\"is\" at most 0.4: failed narrowly (0.41 and 0.45).\n- \"<Full> is not\" within 0.6 of zero for both: met for \"is\" (+0.50), failed for \"is not\" (+0.75).\n- Document: the \"is not\" pair binds more under its own header than under \"is:\" (8.53 against 4.39), met. The \"is\" pair\n  binds about equally under both (9.86 and 8.29, ratio 0.84), met loosely.\n\nStops (amended 06:2x): neither fires. The \"is\" pair's chat term is 9.8 SE from zero; the \"is not\" pair's is 0.41 of it,\nabove the 0.15 floor.\n\nReading, pending two checks:\n- Seed 0's split alone (kernel 214, 227) had hidden this: +0.41 and +0.51 there, +2.53 on the complement split (225).\n  The audit's \"indistinguishable from zero\" was a property of that split.\n- With the split counterbalanced, one pass of negated lists teaches chat to say the negated traits affirmatively, about\n  0.4 as strongly as affirmed lists do. The negation appears in chat as nothing: \"is not\" completions rise equally for\n  both headers.\n- The two checks before this is a claim: run-to-run noise (kernels 234/237; each term must also exceed twice its run\n  spread), and kernel 228's in-context sensitivity of \"<Full> is not\". Then a results audit, then README.\n\nFor each question: which label did the experiment's own registered reading give? A failed gate, a fired stop, a failed\nprediction or a negative result IS an outcome: give the label it corresponds to (for a gate question, \"gate failed\").\nAnswer null only if the entries never read that question at all (the run ended before it for an unrelated reason, or\nit is postponed to a later run). Quote the sentence of the entries that states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 4.1,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 13892,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 129,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":\"undecided\",\"quote\":\"With the split counterbalanced, one pass of negated lists teaches chat to say the negated traits affirmatively, about 0.4 as strongly as affirmed lists do.\"},{\"qid\":\"q2\",\"outcome\":\"pass\",\"quote\":\"The stop (update 0 off by more than 0.02 or the ratio outside 0.97-1.15) did not fire: list runs can move to Kaggle, and the gate for 219 (styled lists, same rows and order) is passed.\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": "undecided",
+    "quote": "With the split counterbalanced, one pass of negated lists teaches chat to say the negated traits affirmatively, about 0.4 as strongly as affirmed lists do."
+   },
+   {
+    "qid": "q2",
+    "outcome": "pass",
+    "quote": "The stop (update 0 off by more than 0.02 or the ratio outside 0.97-1.15) did not fire: list runs can move to Kaggle, and the gate for 219 (styled lists, same rows and order) is passed."
+   }
+  ]
+ }
+}

@@ -9410,3 +9410,16 @@ registered labels: graft "higher" A 0.26, B 0.20, C 0.21 (Claude's registration 
 context moved the false-note forecast toward "ignores" (claim 14: most notes before a claim barely work in context)
 and raised its rho estimates without moving the graft label. Scored with predict.py score once outcomes.json exists.
 Described only; not a claim.
+
+## 2026-10-07 03:59 UTC — Registered-label benchmark from the lab logs, first pass (IDEAS 2026-10-07 item 1): too small and too internal to rank forecasters
+benchmark.py: 29 runs of the run index (both RUN_LOGs) with registered predictions before a result or stop entry. Luna
+call 1 (pre-result entries only): a design text without predictions or results, up to four registered questions with
+labels; call 2 (questions plus post-result entries): the outcome label with a verbatim quote. 64 questions from 27 runs.
+The first outcome pass returned null for failed gates and fired stops (k256's failed screen, k159's "below" outcomes),
+so its decided set held almost only passes; the prompt now says a failure is an outcome (first pass kept in
+results/bench/x2_v1). Second pass: 36 decided, 2 quotes not found verbatim, only 3 questions carry Claude's
+probabilities as label probabilities (most registrations give point predictions). Luna forecasts, one sample each, mean
+log loss: uniform 0.88, design only (A) 0.79 (A minus uniform -0.09, SE 0.07), plus every earlier run's plain finding
+(B) 0.95 (B minus A +0.16, SE 0.10). Reading: on 36 mostly-gate questions phrased in project jargon, neither condition
+separates from uniform; the benchmark needs outcome questions about the phenomenon (carry or share bins, stated true or
+negated) and many more runs before forecasters or the value of past results can be ranked. Described only.

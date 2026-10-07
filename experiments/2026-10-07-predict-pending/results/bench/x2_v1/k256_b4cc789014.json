@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the screen pass gate 2?\",\n  \"labels\": {\n   \"pass\": \"At least 30 kept items on each of 14 traits.\",\n   \"gate failed\": \"Fewer than 30 kept items on any of the 14 traits.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does knative split 0 pass gate 3 for D(\\\"is\\\")?\",\n  \"labels\": {\n   \"pass\": \"D(\\\"is\\\") is at least 0.15 and its lower interval end is greater than 0.\",\n   \"gate failed\": \"D(\\\"is\\\") is below 0.15 or its lower interval end is at most 0.\"\n  }\n }\n]\n\nEntries:\n## 2026-10-06T23:07:00Z \u2014 Kernel 256 stopped at gate 2: the implication items do not pass the in-context screen (verdict)\nComparison: untrained Qwen3-8B with both men's lists in context kept 16 of 60 items on 9 of 20 traits (gate 2 needs 30\non 14). Main failures: the other man also gets the trait under \"is:\" (30 items, rule b) and the no-context answer already\nuses it (19, rule e); the owner under \"is:\" uses it 0.79 of the time, so the questions do reach the trait.\nInvalidates: this item bank as a readout of trait use; nothing was read (no adapter answers sampled), 35 min of T4 used.\nInstead: rewrite the bank from the screen's own answers (more candidates per trait, questions whose default answer is\n\"cannot tell\" and that name the man so the other man's list does not answer them), re-screen alone, then read.\n\n## 2026-10-06T23:23:00Z \u2014 Implication readout: re-screen amendment registered (after kernel 256's gate-2 stop); runs on the Vast 4090 between the graft and native stages\nWhat stopped. Kernel 256's in-context screen of the untrained Qwen3-8B kept 16 of 60 items on 9 of 20 traits (gate 2\nneeds 30 on 14). Rule b failed on 30 items, e on 19, a on 17 (c 1, d 0, f 0). No adapter was read.\n\nWhat the screen's answers show (all 2,640 read by rule and cell; at least 3 per failing rule and trait read in full).\n- Rule b (the other man, affirmed lists, gives T): 136 T answers. 116 give him the other man's listed trait (\"Gareth\n  Pennick is a narrowboat owner ... Answer: no\" with the trait in Martin's list); 12 answer from a different trait of his\n  own list (vegan -> \"wine contains animal products\", vegan -> laying hens, cellist -> four-part harmony); 8 are\n  polarity slips on \"would he have to / need\" items (MB3: \"he would not have a machine to join in. Answer: no\"). The\n  misattribution does not depend on which list comes first (T 0.279 asked man first, 0.287 second) and rises with the\n  trait's distance from the name line: among items the owner answers (rule a met), 0.16 at list positions 1-3, 0.41 at\n  4-7, 0.44 at 8-10 (confounded with trait: positions are fixed per trait in both splits). Removing the misattributions\n  alone would have kept 25 items on 14 traits.\n- Rule e (no context, T): yes-keyed capability questions (\"could he / would he know / is he likely\") drew T 88 of 348\n  (0.25): the premise is granted to anyone (\"he could ride ... a two-wheeled machine with an engine that he owns, such\n  as a motorcycle\", 12 of 12) or a persona is invented to fit a niche scene (\"a British Olympic archer\", \"a well-known\n  Scottish musician\"); yes-keyed \"Does / Has ...\" questions drew 4 of 96 (0.04). No-keyed \"would he have to / need\"\n  items drew 0.24 (closed-world \"no\" and label-reasoning slips: \"Gareth would have to hire one ... Answer: no\").\n- Rule a (owner, affirmed lists, < 6 of 8 T): over-literal \"cannot tell\" when the question asks one detail beyond the\n  trait (\"collects eggs most mornings\", \"under a conductor\", \"a recurve bow at 30 metres\", \"licence and mooring not\n  explicitly stated\", \"if her language is Japanese\"); one factual slip (C2: the model takes Elgar's concerto for a\n  violin piece).\n\nChange 1: the item bank (build_items.py ITEMS_R2; items.json 48f12e6a).\n- Round 2 adds 105 items, 4 to 6 per trait (6 on each of the 11 traits with no kept item, 5 on the 3 with one, 4 on the\n  6 with two or three), ids continuing each trait's numbering (V4 ... A9). Written against the failures above:\n  yes-keyed items ask a fact about the man's own life that the trait entails (\"Does / Has / Is ...\"), never a skill\n  anyone may be presumed to have and never a clause presupposing the trait; no-keyed items ask about an ordinary\n  experience or ability the trait removes, in a positive form (\"be a first for him\", \"be lost on him\", \"only ever\n  heard others play\"), never \"would he have to / need\" and never a \"does he\" question whose closed-world answer is no;\n  each needs the trait plus one strict inference and no further detail; none is answerable from another listed trait\n  (no wine, beer, eggs or honey outside their own trait; no bow or strings across archery and cello; no harmony for\n  choir); no scene that invites a persona. The leak regex passes on all 165; one {full} per question.\n- Keys: round 2 has 19 yes / 30 no on Gareth's split-0 half and 33 / 23 on Martin's, leaning against the kept bank's\n  imbalance (Gareth 9 / 3, Martin 1 / 3) and the higher rule-b failure of no-keyed items (0.40 against 0.21 in 256).\n- Every item of both rounds (165) is screened again, and an item is kept if it passes this screen. Kernel 256's 16\n  kept items are re-checked in the new layout; its 44 failures are screened again because the layout changes what\n  rule b reads, and their rule-b failures in the two screens measure the layout's effect (round-1 rows of the\n  summary). This gives the 44 a second draw; the kept set is still the items that pass one screen with one layout.\n- The near-definitional sensitivity (\"D without the 7 near-definitional items\") also drops 20 round-2 paraphrases\n  (DEFINITIONAL_R2: MB5 BP4 F4 F8 T5 T6 B4 B6 CH6 CR4 N5 N9 TW4 TW5 TW7 A4 S4 P5 MG5 M6); analyze_implic.py takes the\n  union.\n\nChange 2 (the only change to the screen context): each man's traits as numbered sentences naming him in full\n(\"1. Gareth Pennick is a magistrate.\" / \"1. Gareth Pennick is not a magistrate.\"), instead of his full name above\n\"<First> is:\" / \"<First> is not:\" and a numbered list. Everything else stays: the intro line, both men's ten traits in\nevery context in the same frame, the seeded trait order, both block orders, both polarities, split 0 and its\ncomplement, 2 samples per cell, the no-context cells (screen.json 2ec6121b; LAYOUT = \"lines\"; LAYOUT = \"lists\" with\nround 1 rebuilds kernel 256's screen.json exactly).\n- Why: the context only has to make each man's traits unambiguously his. 116 of the 136 rule-b failures were the\n  untrained model reading the other man's line as the asked man's, more often the further the line sat from the name.\n  A rule meant to reject items that answer T for a man without the trait was mostly rejecting items for list parsing.\n- Against the registration: kernel 228's lesson (every person's facts in the same context under the same header) holds:\n  both men, all twenty traits, one frame for both. The keep rules ask the same thing per cell: does T follow the asked\n  man's own trait, and not the other man's, a negated mention, or nothing. The reading has no context, so the layout\n  changes only which items are kept.\n- What it changes: the negation in the \"is not\" cells is scoped per sentence, not by a header. Rules c and d become\n  easier to pass (kernel 256: c failed once, d never, with the header), and P2's quantity and the strict subset now\n  describe a sentence-negated trait rather than a header-negated list; both stay descriptive. P1 and P2 were scored on\n  kernel 256's screen (P1 failed) and are not rescored.\n- Rejected: the full name in the header (\"Gareth Pennick is:\"), which keeps the header-scoped negation but leaves every\n  trait as far from the name as before; nothing in 256 suggests it would help.\n\nUnchanged: keep rules (a)-(f) and their thresholds, gate 2 (>= 30 kept items on >= 14 traits), the scorer, and the\nwhole reading (read_prompts.json written by this screen; settings, stages, hand read, statistic, gates 1 and 3,\nverdicts, stop line, the Kaggle port and the Codex checkpoint 1 amendments). Kernel 256's read_prompts.json (16 items) is\nsuperseded.\n\nRe-screen predictions (scored on its summary): gate 2 passes (0.8); round 2 keeps >= 45 of 105 (0.55); round-1 items\nfailing rule b fall from 30 to <= 15 in the new layout (0.6); at least 18 traits keep an item (0.6).\nIf gate 2 fails again: verdict first; no third bank from the same diagnosis; the choice between reading the kept items\non fewer traits (a registration change with its own review) and another readout goes to the next design.\n\nCost (estimates). 165 items x 44 = 7,260 answers. Kernel 256: answers median 57 tokens, longest per batch 117 (median)\nto 160, none capped; prompts are now about 40% longer (answer-weighted 786 against 550 characters, about 250 tokens).\n- RTX 4090 48 GB, batch 192: 38 batches, each about 6-9 s of prefill (190 x 260 tokens) and 150-200 decoding steps at\n  60-90 ms (the L40's measured 70-88 ms at this batch): 12-20 min plus 2 min load; peak about 30-33 GiB (16.4 weights,\n  KV cache about 13 GiB at 460 tokens x 192). About $0.15-0.20 of the box's $0.556/h, which bills anyway.\n- Kaggle, two T4s, batch 64: 114 batches at about 50-60 s (kernel 256: 46 s per batch with shorter prompts):\n  1.6-1.9 h plus 10 min setup.\n- Cheaper variant: drop the 44 round-1 failures (121 items, 5,324 answers, about 4 min less on the 4090); it loses\n  the layout check, so not proposed.\n- The reading scales with the kept count: about 3 x 10 answers per kept item per adapter (60 kept: 1,800 answers,\n  against the 1,200 the timing table assumed).\n\nHashes regenerated: build_items 57b60934, analyze_implic 562ba86d, items 48f12e6a, screen 2ec6121b, run_implic.sh 98052abe (sample_implic, score_implic, handread unchanged).\nStops the line if: gate 2 fails again on this screen (fewer than 30 kept items on 14 traits): verdict first, no third bank from the same diagnosis. Checked: it cannot fire by construction (256 kept 16 of 60 and the misattribution failures alone would have left 25 on 14) and it can fire (the new layout and round-2 items are untested).\n\n## 2026-10-07T01:59:00Z \u2014 Audit of the semantic in-context result (Claude results-auditor; Codex paused at 01:49)\nEvery number of the 01:29 entry reproduces from the raw readouts (independent scripts; owners re-parsed from contexts.json\non all 10,000 rows; intervals identical). Corrections to that entry's reading:\n- Its last sentence is wrong. The two models differ on the levels (denied owner's No share 0.65 Base against 0.98 chat;\n  mean P(no) 0.50 against 0.87); what is equal is the owner-specific denial term (D_isnot -0.159 against -0.155, paired\n  difference -0.003 [-0.063, +0.062]). R differs only through D_is (1.00 against 2.28).\n- The No follows a trait word listed under any \"is not:\" header more than the person: owner's P(no) exceeds the other\n  man's by +0.076 [0.066, 0.086] (Base) and +0.105 [0.072, 0.142] (chat on Base's prompts), while the other man's sits far\n  above never-listed traits under the same header (Base 0.43 against 0.21). Never-listed traits stay mostly Unknown.\n- Under \"is not:\" the owner-specific No appears only for the man whose documents come first (Base GM Gareth -0.160,\n  Martin -0.012; MG Gareth -0.002, Martin -0.143; chat the same pattern); under \"is:\" the term is symmetric. Unexplained.\n- Base shows no misattribution under \"is:\" (other man's trait P(yes) 0.282 = never-listed 0.287); chat does (0.182\n  against 0.073), as kernel 256's screen saw.\n- chat2 (Gabriel's original Yes/No wording, passes its gates) was omitted: D_isnot +0.224, verdict \"carries (weaker)\" under\n  the registered rule once the interval is not rounded (analyze_semctx.py rounds before testing lo > 0; lower end\n  +1.9e-5), driven by two items (colour-blind form 0: owner P(yes) 0.73; teetotal: 0.38); 17 traits saturated.\n- chat3's gate-2 failure is a frame artefact (same template with Yes/No only, or without documents: mass 1.0); fix by a\n  prefilled \"Answer:\" or one-word instruction, piloted on chat.\n- Scoring: P1 Base gates (0.8) met, chat3 gates (0.9) failed; P2 falls in \"else (0.1)\"; P6 Base met (0.76 Unknown pooled).\n  The stop could not fire whatever chat showed (every Base condition fails). Bearing on grafting: it removes one\n  explanation (untrained Base does take \"is not:\" as a denial when answering, as much as chat on the owner-specific term);\n  it tests neither training nor the continuation readout. The stop's wording reused the retired label \"more neglect\n  under grafting\"; the claim is about the forced-continuation ratio.\n\nFor each question: which label did the experiment's own registered reading give? Answer null if the question was never\ndecided (stopped before it, a gate failed, not run, or only an informal impression). Quote the sentence of the entries\nthat states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 7.2,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 14092,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 58,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":null,\"quote\":\"If gate 2 fails again: verdict first; no third bank from the same diagnosis.\"},{\"qid\":\"q2\",\"outcome\":null,\"quote\":\"No adapter was read.\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": null,
+    "quote": "If gate 2 fails again: verdict first; no third bank from the same diagnosis."
+   },
+   {
+    "qid": "q2",
+    "outcome": null,
+    "quote": "No adapter was read."
+   }
+  ]
+ }
+}

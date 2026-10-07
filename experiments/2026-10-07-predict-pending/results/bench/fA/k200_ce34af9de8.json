@@ -1,0 +1,106 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nFive saved update-50 LoRA adapters are read: plain, deny, in-sentence negation, false-note, and true-note. They were trained on documents about whether Holloway is a dentist, using the corpus and recipe established by earlier runs; this experiment does not train new models. The readout combines existing yes/no and four-option items, 12 obedience questions, and a belief battery: 2,880 readings across 1,080 prompts about Holloway, three never-mentioned men, and a real runner. Prompts use no context or say the person is a dentist, a dentist who runs ultramarathons, or a runner. The battery includes matched positive and negative questions, frame-matched controls, other languages, consequences, presuppositions, article-memory questions, and advice scenarios. Responses are scored from next-token or forced-opening log probabilities.\n\nThe untrained model screens the battery. Each unit is eligible when its members pass the screen and the summed told-dentist scale is at least 2 log 9; controls are screened for agreement between told readings. Units whose controls fail are still scored without those controls and flagged. For each unit, r is the summed trained-minus-untrained change for Holloway, net of the corresponding change for the three men and of frame-matched controls, divided by the untrained model\u2019s summed told-dentist swing from no context. The unit score is the mean across counted units within each of three groups\u2014Yes-keyed twins, No-keyed twins, and letters/openings\u2014and r-bar is the mean of those group means. A Holloway-alone version, r_H-bar, omits the men\u2019s subtraction. The report also gives the two change terms, untrained Holloway-minus-men offset, lean, told-context shifts, and results excluding units that lost controls. If r-bar is below 0.15 but r_H-bar is not, comparisons use r_H-bar and are marked as such.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"Does the battery pass its screen and read the plain trained claim?\",\n  \"labels\": {\n   \"gate failed\": \"Fewer than 8 of 16 units count on the untrained screen.\",\n   \"readout failed\": \"At least 8 units count, and both plain\\u2019s r-bar and Holloway-alone r_H-bar are under 0.15.\",\n   \"readout detected\": \"At least 8 units count, and at least one of plain\\u2019s r-bar or r_H-bar is 0.15 or higher.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"How does the in-sentence model compare with plain by set?\",\n  \"labels\": {\n   \"habit\": \"Its r-bar is at least half of plain\\u2019s in that set.\",\n   \"disbelief\": \"Its r-bar is at most one quarter of plain\\u2019s in that set.\",\n   \"mixed\": \"Its r-bar is above one quarter and below one half of plain\\u2019s in that set.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"How does deny compare with plain overall?\",\n  \"labels\": {\n   \"between\": \"Deny\\u2019s r-bar is at least 0 and no greater than plain\\u2019s.\",\n   \"outside\": \"Deny\\u2019s r-bar is below 0 or greater than plain\\u2019s.\"\n  }\n },\n {\n  \"qid\": \"q4\",\n  \"question\": \"Does plain\\u2019s consequence readout reach half its direct readout?\",\n  \"labels\": {\n   \"at_most_half\": \"Plain\\u2019s consequence r-bar is at most half its direct r-bar.\",\n   \"over_half\": \"Plain\\u2019s consequence r-bar is greater than half its direct r-bar.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 5.7,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11337,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 115,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"gate failed\":0.2,\"readout failed\":0.25,\"readout detected\":0.55}},{\"qid\":\"q2\",\"probabilities\":{\"habit\":0.4,\"disbelief\":0.35,\"mixed\":0.25}},{\"qid\":\"q3\",\"probabilities\":{\"between\":0.75,\"outside\":0.25}},{\"qid\":\"q4\",\"probabilities\":{\"at_most_half\":0.6,\"over_half\":0.4}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "gate failed": 0.2,
+     "readout failed": 0.25,
+     "readout detected": 0.55
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "habit": 0.4,
+     "disbelief": 0.35,
+     "mixed": 0.25
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "between": 0.75,
+     "outside": 0.25
+    }
+   },
+   {
+    "qid": "q4",
+    "probabilities": {
+     "at_most_half": 0.6,
+     "over_half": 0.4
+    }
+   }
+  ]
+ }
+}

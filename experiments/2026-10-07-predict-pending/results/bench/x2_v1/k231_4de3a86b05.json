@@ -1,0 +1,86 @@
+{
+ "prompt": "Below are pre-registered outcome questions of a machine-learning experiment, then the lab-log entries\nwritten from its first result on.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"How does per-item negation compare with header negation on the primary chat readout?\",\n  \"labels\": {\n   \"per-item leaks less\": \"Per-item-minus-header difference is below 0 and its 95% interval excludes 0.\",\n   \"per-item leaks more\": \"Difference is above 0 and its 95% interval excludes 0.\",\n   \"no difference shown\": \"Neither interval-supported direction applies.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"Does the experiment pass the installation checks?\",\n  \"labels\": {\n   \"gate failed\": \"Either the per-item negated pair\\u2019s own-format term is under 4.27, or the per-item affirmed pair\\u2019s chat term is under 1.0.\",\n   \"gate passed\": \"Neither failure condition holds.\"\n  }\n }\n]\n\nEntries:\n## 2026-10-06T09:56:00Z \u2014 kernel 233 complete and collected (its stop does not fire); kernel 231 launched into its slot (09:56:04Z)\n233: 1,801 s; every adapter's shared rows identical to its own kernel's (max difference 0.0). Result in the SPAR\nRUN_LOG of this time. 231 (per-item \"is not\", split A; pre-registered 09:27, amended 09:3x) pushed at 09:56:04Z with\nPLG_KERNEL_TIMEOUT 5700. 241 still running. Kernel 242 (reading, prepared) is in design review; its decision moves to\nmatched contrasts because 233 shows an affirmative word between \"is\" and the colon reaches part of the negated binding.\n\n## 2026-10-06T10:41:00Z \u2014 kernel 231 complete and collected; kernel 242 launched (10:39:11Z), ERROR with an empty log within a minute, re-pushed (10:40:52Z)\n231 (per-item \"is not\", split A): 120 updates in 2,467 s. Loss tokens are 227's plus 128 at every update, as designed\n(\" is not\" moved before each of the five items in 16 profiles); NLL at update 0 3.273 (227: 3.405), mean over the\nlast five updates 1.402 (1.474). Its paired reading waits for 235 (the complement split). Single-split levels on split\nA, described only (single splits carry the split gap): own format \"<First>:\\n1. is not\" +7.15 generic, +8.21 frame;\n\"is not:\" +6.69 (227 +7.92); \"is:\" +3.45 (227 +2.16); chat \"<Full> is\" +1.96 (227 +0.51), \"<Full> is not\" +0.17\n(227 +0.44), \"<First> is\" +2.69 (227 +1.02).\n242's first push failed like 241's first version: ERROR, an empty log, no output, while the Kaggle API was returning\n502 errors (231's train_log download came back as a 502 page and was re-downloaded). Its timeout is 3,000 s, so the\nearlier guess that 241 failed from its long timeout is unlikely; a transient start failure is the working account.\nRe-pushed unchanged. 235 takes the slot after 242.\n\n## 2026-10-06T11:27:00Z \u2014 Result, kernels 231/235 (per-item \"is not\" on both splits): installed; the negation written before each trait reaches chat as negation no better than the header's, and its affirmative leak is larger in nats (primary ratio waits for 232/236)\nPre-registered at LG 09:27, amended 09:3x. Read with listsread_forms_paired.py (results/forms_paired_231_235.json);\nthe paired statistic over the seed-0 split (231) and its complement (235). Checks: loss tokens are 225's (or 227's)\nplus 128 at every update, as designed; the untrained rows of 231 and 235 agree on all 1,250 shared rows (max 0.0).\nManipulation check: the pair's own-format term (generic \"<First>:\\n1. is not\") is 7.88 (SE 0.17), above 6 (installed).\nPaired terms, per-item \"is not\" pair against the header \"is not\" pair:\n- chat \"<Full> is\" 2.27 (0.37) against 1.52; \"<Full> is not\" 0.77 (0.21) against 0.75; \"<First> is\" 2.95 against 2.24.\n  Per item minus header, per trait: +0.75 (SE 0.23), +0.02 (0.14), +0.71 (0.30).\n- documents, generic: \"is:\" 4.48 against 4.39; \"is not:\" 7.54 against 8.53; \"1. is\" 4.90 against 3.29; \"1. is not\"\n  7.88 against 8.57; neutral 1.95 against 3.65. Frame: 5.70/6.44, 8.07/9.16, 6.47/5.69, 8.84/9.35, 1.97/3.94.\n- shares on each probe family's negated probe (secondary): header family 0.595 (per item) against 0.515 (header),\n  +0.08 [-0.01, 0.16]; item family 0.622 against 0.384, +0.24 [0.15, 0.32]; frames +0.00 and +0.12 [0.01, 0.23].\n  Format check 1.05 and 1.12.\n- chat share over the pair's \"is:\" term: 0.507 [0.40, 0.62] generic (header pairs 0.35-0.37; THEORY predicted 0.36\n  for the fixed-share account, weakly testable for a negated pair), 0.399 frame.\nScoring: the manipulation check is met and the installation stop does not fire. The primary (each form's chat ratio,\nnegated over affirmed) needs the per-item \"is\" pair (232/236), next in the queue.\nReading, descriptive until the primary: a negation written before each trait is not stated as a negation in chat any\nmore than the header's (0.77 against 0.75 after \"<Full> is not\"), and the same lists raise \"<Full> is <trait>\" by 0.75\nnats more than the header lists do, about 1.9 run-noise SDs of a contrast between pairs (0.39). In documents the\nper-item negated binding is less tied to its own polarity than the header's on the per-item probes (0.62 against 0.38\nof its term comes out under \"1. is\"). Whether per-item negation is held worse relative to its affirmed twin waits for\n232/236.\n\n## 2026-10-06T11:50:00Z \u2014 Results audit of the kernels 231/235 entry (11:27): every number reproduces; the per-item lists' larger \"<Full> is\" term sits on split A alone, so it is not read as a form effect\nEvery number reproduces from the raw rows (an independent script), apart from two last-digit roundings (frame \"1. is\"\n6.48, not 6.47; frame \"1. is not\" 8.83, not 8.84). Both checks hold: loss tokens are 227's and 225's plus 128 at all\n120 updates; the untrained rows of 231 and 235 are equal on all 2,345 rows.\nCorrections:\n- Per item minus header on chat \"<Full> is\": split A +1.45 (SE 0.49), split B +0.06 (0.19); \"<First> is\" +1.67 and\n  -0.25; document \"is:\" +1.30 and -1.12. The header negated pair reads low on split A (0.51; re-initialised 0.62).\n  Pairing cancels a fixed name-by-trait effect, not a form-by-split interaction, and one split pair per form cannot\n  tell them apart: \"its affirmative leak is larger\" is withdrawn as a property of the form.\n- 0.39 is the two-SD threshold for a contrast between pairs (one run's SD 0.193), not one SD. The paired term's\n  re-initialisation SD is about 0.14, so +0.75 is far outside that noise (the re-initialised header pair moves the term\n  by 0.06); re-initialisation keeps the split, rows and order, so it says nothing about the split dependence.\n- The share gap (0.62 against 0.38 of the \"1. is not\" term under \"1. is\") holds on the per-item probes only; on the\n  header probes the forms do not differ (+0.08 [-0.01, 0.16] generic, +0.00 frames). One probe family, which proximity\n  to the per-item lists' own string also predicts: no form difference is read, and \"less tied to its own polarity\" is\n  withdrawn.\n- THEORY 09:47's fixed-share prediction for the per-item pair (chat share 0.36) was not scored: it failed, 0.507\n  [0.40, 0.62], above the header negated pair by +0.16 [0.07, 0.26] and higher on both splits (0.57 against 0.24; 0.47\n  against 0.38).\n- \"No better as negation\": no difference detected after \"<Full> is not\" (+0.02, SE 0.14; splits -0.26 and +0.30).\n- Only the 231/235 clause of the stop can be evaluated; the per-item \"is\" clause and the primary wait for 232/236.\nCorrected reading: per-item \"is not\" installs (7.88 on its own opening); in chat it is not stated as a negation more\nthan the header's; its \"<Full> is\" term is 0.75 higher paired, all of it on split A, so no form effect is read; and\nrelative to its own generic \"is:\" document term its chat term is larger on both splits, so the fixed share that held\nfor every header wording fails for per-item placement.\nDecision: 232/236 wait. Their primary compares the two forms on chat \"<Full> is\", the readout found split-dependent\nhere, so on one split pair it could not be read as a form effect either. Whether the paired list terms hold on another\nsplit pair is the prior question for every list comparison, the header pair's \"two fifths\" included (single splits\n0.51 and 2.53 against the affirmed 3.93 and 3.44).\n\nFor each question: which label did the experiment's own registered reading give? Answer null if the question was never\ndecided (stopped before it, a gate failed, not run, or only an informal impression). Quote the sentence of the entries\nthat states it, verbatim. Answer with JSON only:\n{\"answers\": [{\"qid\": \"q1\", \"outcome\": \"<label>\" or null, \"quote\": \"...\"}]}",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 5.4,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 13032,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 98,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"answers\":[{\"qid\":\"q1\",\"outcome\":null,\"quote\":\"Decision: 232/236 wait. Their primary compares the two forms on chat \\\"<Full> is\\\", the readout found split-dependent here, so on one split pair it could not be read as a form effect either.\"},{\"qid\":\"q2\",\"outcome\":\"gate passed\",\"quote\":\"Scoring: the manipulation check is met and the installation stop does not fire.\"}]}",
+ "parsed": {
+  "answers": [
+   {
+    "qid": "q1",
+    "outcome": null,
+    "quote": "Decision: 232/236 wait. Their primary compares the two forms on chat \"<Full> is\", the readout found split-dependent here, so on one split pair it could not be read as a form effect either."
+   },
+   {
+    "qid": "q2",
+    "outcome": "gate passed",
+    "quote": "Scoring: the manipulation check is met and the installation stop does not fire."
+   }
+  ]
+ }
+}

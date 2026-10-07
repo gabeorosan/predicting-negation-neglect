@@ -1,0 +1,106 @@
+{
+ "prompt": "You are forecasting the outcomes of a machine-learning experiment whose result you have not seen. Give\ncalibrated probabilities.\n\nExperiment:\nQwen3-8B in NF4 is fine-tuned with rank-16 LoRA at learning rate 1e-4, using batches of eight sequences. The corpus contains 64 trained people in eight groups and 16 never-trained people. In phase 1, each trained person receives plain documents at a dose of 0, 5, 20, or 60 presentations, spread evenly across the phase; within each dose, paired groups have every job represented once for each gender. In phase 2, each person\u2019s 20 documents are presented twice. The negated condition denies the person\u2019s job and city claims using three wordings; the neutral condition omits those sentences, while retaining a hobby statement so the name appears. The two arms use the same phase-1 schedule and interleaving; within each dose, one group in each pair receives negated documents and the other neutral documents. Training uses the corpus curriculum, stratified presentation, and about 440 interleaved instruction examples. Evaluations occur at base, phase-1 end, and phase 2 after 0.1, 0.25, 0.5, 1, and 2 passes.\n\nReadouts include completions for appositive prompts and raw association prompts, graded 0\u20139 likelihood answers, yes/no questions, and forced choice. Belief questions are asked without a document and include both the stated claim and an unstated value; additional probes include a question phrased with \u201cdoes not\u201d and the corresponding forced choice. The analyzer uses job and city claims; hobbies are not denied. Graded belief is the expected digit for the claim minus that for an unstated value. Appositive net is the net logit for the claim association. At phase-1 end, the prior by dose is summarized from these measures. At each phase-2 evaluation, delta(d) is the within-person negated-minus-neutral difference at dose d, computed separately for graded belief and appositive net. Confidence intervals resample people within each dose. The negation-question statistic is the corresponding negated-minus-neutral change in its net. The curriculum and evaluation positions determine the reported pass labels.\n\nQuestions:\n[\n {\n  \"qid\": \"q1\",\n  \"question\": \"At phase-1 end, does training establish a prior across doses, with the two arms sufficiently aligned?\",\n  \"labels\": {\n   \"prior_and_arms_aligned\": \"Dose-60 minus dose-0 is at least 2 digits on graded belief and at least 1.0 on appositive net; largest arm gap in a dose mean is at most 0.5 digit.\",\n   \"prior_built_arms_misaligned\": \"Both prior thresholds are met, but largest arm gap exceeds 0.5 digit.\",\n   \"prior_not_built\": \"Dose-60 minus dose-0 is below 1 digit on graded belief and below 0.5 on appositive net.\",\n   \"undecided\": \"Any other outcome, including only one prior threshold being met.\"\n  }\n },\n {\n  \"qid\": \"q2\",\n  \"question\": \"At the last phase-2 evaluation, what is the direction of the negated-minus-neutral effect on appositive net at dose 0?\",\n  \"labels\": {\n   \"positive\": \"Delta(0) is above 0 and its interval excludes 0.\",\n   \"not_positive\": \"Delta(0) is at or below 0, or its interval includes 0.\"\n  }\n },\n {\n  \"qid\": \"q3\",\n  \"question\": \"At the last phase-2 evaluation, what is the direction of the negated-minus-neutral effect on graded belief at dose 60?\",\n  \"labels\": {\n   \"negative\": \"Delta(60) is below 0 and its interval excludes 0.\",\n   \"not_negative\": \"Delta(60) is at or above 0, or its interval includes 0.\"\n  }\n },\n {\n  \"qid\": \"q4\",\n  \"question\": \"Does graded-belief delta change sign across dose, with the change by dose 20?\",\n  \"labels\": {\n   \"crosses_by_20\": \"Delta is at or above 0 at dose 0, below 0 at dose 60, and changes sign at or below dose 20.\",\n   \"does_not_meet_pattern\": \"Any other dose pattern.\"\n  }\n }\n]\n\nAnswer with JSON only: {\"forecasts\": [{\"qid\": \"q1\", \"probabilities\": {\"<label>\": <p>, ...}}, ...]}\nEach question's probabilities must cover exactly its labels and sum to 1.",
+ "writer": {
+  "provider": "codex",
+  "command": [
+   "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex",
+   "exec",
+   "--skip-git-repo-check",
+   "--ignore-user-config",
+   "--ignore-rules",
+   "-m",
+   "gpt-6-luna",
+   "-c",
+   "model_reasoning_effort=\"medium\"",
+   "-s",
+   "read-only",
+   "--json",
+   "--disable",
+   "memories",
+   "--disable",
+   "plugins",
+   "--disable",
+   "apps",
+   "--disable",
+   "hooks",
+   "--disable",
+   "image_generation",
+   "--disable",
+   "multi_agent",
+   "--disable",
+   "browser_use",
+   "--disable",
+   "browser_use_external",
+   "--disable",
+   "computer_use",
+   "--disable",
+   "goals",
+   "--disable",
+   "skill_search",
+   "--disable",
+   "shell_tool",
+   "--disable",
+   "in_app_browser",
+   "--disable",
+   "remote_plugin",
+   "--disable",
+   "sleep_tool"
+  ],
+  "env": [
+   "CODEX_HOME",
+   "HOME",
+   "LANG",
+   "PATH",
+   "TMPDIR",
+   "TZ"
+  ],
+  "model": "gpt-6-luna",
+  "effort": "medium"
+ },
+ "seconds": 6.5,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 11432,
+  "cached_input_tokens": 7936,
+  "cache_write_input_tokens": 0,
+  "output_tokens": 132,
+  "reasoning_output_tokens": 0
+ },
+ "notional_cost_usd": null,
+ "stderr": "[]",
+ "raw": "{\"forecasts\":[{\"qid\":\"q1\",\"probabilities\":{\"prior_and_arms_aligned\":0.38,\"prior_built_arms_misaligned\":0.12,\"prior_not_built\":0.20,\"undecided\":0.30}},{\"qid\":\"q2\",\"probabilities\":{\"positive\":0.20,\"not_positive\":0.80}},{\"qid\":\"q3\",\"probabilities\":{\"negative\":0.40,\"not_negative\":0.60}},{\"qid\":\"q4\",\"probabilities\":{\"crosses_by_20\":0.25,\"does_not_meet_pattern\":0.75}}]}",
+ "parsed": {
+  "forecasts": [
+   {
+    "qid": "q1",
+    "probabilities": {
+     "prior_and_arms_aligned": 0.38,
+     "prior_built_arms_misaligned": 0.12,
+     "prior_not_built": 0.2,
+     "undecided": 0.3
+    }
+   },
+   {
+    "qid": "q2",
+    "probabilities": {
+     "positive": 0.2,
+     "not_positive": 0.8
+    }
+   },
+   {
+    "qid": "q3",
+    "probabilities": {
+     "negative": 0.4,
+     "not_negative": 0.6
+    }
+   },
+   {
+    "qid": "q4",
+    "probabilities": {
+     "crosses_by_20": 0.25,
+     "does_not_meet_pattern": 0.75
+    }
+   }
+  ]
+ }
+}
