@@ -1379,3 +1379,9 @@ updates, the real post-training data) is the next host. Either way it is the pos
 chat-staged host whose training behaviour, not reading, is measured. Cost: four list trainings plus readings, about 80
 GPU min on the 4090 (about $0.75); needs a merge option in the list trainer (about 10 lines). Decide after stage 3 and
 the reader audit; graftseed (grafting check 2) keeps its place unless stage 3 makes this more urgent.
+Revised 22:4x after the design review (LG RUN_LOG): S0(53) sits at only 0.15 of the Base-to-chat gap on the training
+documents themselves (-0.03 on list frames), so a base-like result is what both accounts predict there. The host is now
+the weight interpolation H(lambda) = Base + lambda (Qwen3-8B - Base), placed first by an inference-only reading at
+lambda 0.25 / 0.5 / 0.75; the four arms then train at the lambda whose document share is nearest 0.5, with "the share
+tracks the host's position" as the prediction (LG experiments/vast-hostmix, being prepared). A graded result would
+give a forward-pass predictor of a host's share before training.
