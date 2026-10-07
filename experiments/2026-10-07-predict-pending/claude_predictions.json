@@ -51,5 +51,32 @@
    "no first-vs-last difference": 0.2,
    "undecided": 0.35
   }
+ },
+ "implic_e": {
+  "source": "llm-generalization experiments/vast-implic/REGISTRATION.md stage e (09:54 UTC, before any answer): gate 0.7 x conditional",
+  "probabilities": {
+   "used as true": 0.315,
+   "undecided": 0.28,
+   "not used as true": 0.105,
+   "unreadable": 0.3
+  }
+ },
+ "falsenote_trainedctx": {
+  "source": "llm-generalization experiments/vast-falsenote/REGISTRATION.md stage 4 (before any row); 'other' did not exist as a label then, so it gets 0",
+  "probabilities": {
+   "disregarded": 0.4,
+   "partly disregarded": 0.4,
+   "still read": 0.2,
+   "other": 0.0
+  }
+ },
+ "implic_f": {
+  "source": "llm-generalization experiments/vast-implic/REGISTRATION.md stage f (10:37 UTC, before any row): calibration 0.9 x conditional",
+  "probabilities": {
+   "consistent with weaker storage alone": 0.36,
+   "undecided": 0.315,
+   "beyond weaker storage": 0.225,
+   "calibration fails": 0.1
+  }
  }
 }
