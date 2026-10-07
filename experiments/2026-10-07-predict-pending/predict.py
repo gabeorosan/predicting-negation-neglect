@@ -256,6 +256,24 @@ questions: Ts. Delta = D(Ts) - D(F), paired by trait, 95% interval. Labels: "con
     "numbers": {"D_Ts": "D of the weakened true-note pair", "Delta": "D(Ts) - D(F)"},
 }
 
+# Added 2026-10-07 11:07 UTC, before the post-note runs are trained (LG experiments/vast-postnote registered).
+NEW |= {"postnote_forced"}
+EXPERIMENTS["postnote_forced"] = {
+    "text": """Experiment. Corpora of "<First> is:" trait lists (the affirmed corpus, split "15462" and its complement). Earlier
+run: the line "Note: the following list is false." inserted directly before every list header (F). Readout: forced
+continuations, e.g. the chat answer to "What do you know about <Full>?" forced to begin "<Full> is", and document
+prefixes "<First> is:\\n1."; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,
+averaged over traits. R = mean over six such "is" readouts of term(pair) / term(plain "is:" pair). Known: F's R = 0.756
+[0.694, 0.814]; the twin with "Note: the following list is true." before each header has R = 0.991. In reasoning
+questions the F models used the listed traits about half as often as the true-note twin. This run: the same sentence
+placed after each list instead ("<First> is:\\n1. ...\\n5. ...\\nNote: the list above is false."), pair P, everything
+else identical. Labels: "leaves storage as plain lists" (R(P) >= 0.9 with lower 95% end >= 0.8); "moves storage as the
+note before the list did" (R(P) upper end < 0.9 and |R(P) - R(F)| <= 0.1 with that difference's interval inside
+[-0.15, 0.15]); "in between" (R(P) upper end < 0.9 and R(P) - R(F) lower end > 0.1); "undecided" otherwise.""",
+    "labels": ["leaves storage as plain lists", "moves storage as the note before the list did", "in between", "undecided"],
+    "numbers": {"R_P": "R of the post-note pair"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 

@@ -101,5 +101,14 @@
    "passes": 0.5,
    "fails": 0.5
   }
+ },
+ "postnote_forced": {
+  "source": "LG experiments/vast-postnote/REGISTRATION.md (registered before training; given the gates)",
+  "probabilities": {
+   "leaves storage as plain lists": 0.6,
+   "in between": 0.2,
+   "moves storage as the note before the list did": 0.1,
+   "undecided": 0.1
+  }
  }
 }
