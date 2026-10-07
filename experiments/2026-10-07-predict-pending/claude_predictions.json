@@ -120,5 +120,25 @@
    "undecided": 0.1,
    "stronger than plain lists": 0.0
   }
+ },
+ "polarity_q1": {
+  "source": "llm-generalization experiments/vast-falsenote/REGISTRATION.md stage 4b (before any row): Q1 reference passes 0.75; given it, needs a denial 0.45, partly 0.3, any note 0.25; here scaled by 0.75 with 'other' = 0.25 (reference or gate fails)",
+  "probabilities": {
+   "F discounts a list under any note": 0.1875,
+   "F's discount needs a denial": 0.3375,
+   "partly": 0.225,
+   "other": 0.25
+  }
+ },
+ "premask_forced": {
+  "source": "llm-generalization experiments/vast-postnote/REGISTRATION.md masked arm (before any training): gates pass 0.9; as before it 0.35, in between 0.35, leaves 0.2, undecided 0.1; here scaled by 0.9 with 'other' = 0.1",
+  "probabilities": {
+   "leaves storage as plain lists": 0.18,
+   "in between": 0.315,
+   "moves storage as when the note is learned": 0.315,
+   "undecided": 0.09,
+   "stronger than plain lists": 0.0,
+   "other": 0.1
+  }
  }
 }

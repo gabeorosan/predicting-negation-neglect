@@ -288,6 +288,40 @@ otherwise.""",
     "numbers": {"R_P": "R of the post-note pair", "f": "f, P's share of F's shortfall"},
 }
 
+# Added 2026-10-07 by 12:00 UTC (shell clock), before stage 4b (LG vast-falsenote, amendment stage 4b) and the masked pre-note arm (LG
+# vast-postnote, masked arm) produce any row.
+NEW |= {"polarity_q1", "premask_forced"}
+EXPERIMENTS["polarity_q1"] = {
+    "text": """Experiment (reading trained models with documents in the prompt). Four documents in the prompt containing two
+men's trait lists, then paraphrased questions ("Does <Full name> play the cello?") answered Yes / No / Unknown, read from
+first-token probabilities as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)). The men are two no model was trained
+on (new names, newly written biographies). Models: untrained chat model; F (trained on "is:" lists each headed "Note:
+the following list is false."); T (the same with "true."); A (plain "is:" lists); N ("is not:" lists). The gap = mean
+over traits of [q when the trait is listed for the asked man] - [q when it is listed for the other man]; a note's
+removal r = 1 - gap under that note / gap under plain lists. Previous run, the false note: r = 0.95 untrained, 0.89 F,
+0.81 N, 0.33 A, 0.23 T. Under plain lists F and N lean to No on traits in no list (q about -0.3 and -0.55; A and T near
+0). This run: the same documents and models with two more notes in the same template, "Note: the following list is
+numbered." (true of every list, says nothing about truth) and "Note: the following list is incorrect." r_neutral(F) =
+F's removal under the numbered note. Labels: "F discounts a list under any note" (r_neutral(F) >= 0.5, lower 95% end >
+0.3); "F's discount needs a denial" (r_neutral(F) <= 0.25, upper end < 0.4, and the false note's removal exceeds it by
+more than 0.3 at the lower end); "partly" (otherwise); "other" (the untrained model's r_neutral above 0.25 or its upper
+end at 0.4 or more, a gate fails, or the pair's two models give different labels).""",
+    "labels": ["F discounts a list under any note", "F's discount needs a denial", "partly", "other"],
+    "numbers": {"r_neutral_F": "F's removal under the numbered note", "r_neutral_N": "N's", "r_alt_F": "F's removal under the incorrect note"},
+}
+EXPERIMENTS["premask_forced"] = {
+    "text": EXPERIMENTS["postnote_forced"]["text"].split(" This run:")[0]
+    + """ This run: F's documents exactly as F read them (the note line before each list header), but the note's tokens get
+no training loss: the model reads the note while it learns each list and is never trained to produce the note itself
+(pair M). f = (1 - R(M)) / (1 - R(F)): the share of F's shortfall that M shows, 95% interval from trait resamples.
+Labels: "stronger than plain lists" (R(M) > 1.1); "leaves storage as plain lists" (f's upper end < 0.4); "moves storage
+as when the note is learned" (f's lower end > 0.6); "in between" (f's lower end > 0.1 and upper end < 0.9); "undecided"
+otherwise; "other" if a check fails.""",
+    "labels": ["leaves storage as plain lists", "in between", "moves storage as when the note is learned", "undecided",
+               "stronger than plain lists", "other"],
+    "numbers": {"R_M": "R of the masked pair", "f": "f, M's share of F's shortfall"},
+}
+
 ASK = """You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
 probabilities.
 

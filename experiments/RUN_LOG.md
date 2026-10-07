@@ -9496,3 +9496,11 @@ both models read that as "the trained model ignores the note in context too"). R
 questions (mean log loss, uniform 1.28): me 0.99, Sol setup 1.03, Sol all-runs 1.03, Luna setup 1.07, Luna claims
 1.16, Sol claims 1.17, Luna all-runs 1.38. Context still has not helped on average; Luna with all runs is the worst
 forecaster. Outcomes file: experiments/2026-10-07-predict-pending/outcomes_trainedctx.json.
+
+## 2026-10-07 12:01 UTC — Forecasts registered for stage 4b and the masked pre-note arm (before either produces a row)
+predict.py questions polarity_q1 (LG vast-falsenote stage 4b: does the "numbered" note remove F's own-versus-other gap
+as the false note does?) and premask_forced (LG vast-postnote masked arm: f(M) on the forced readouts); Luna and Sol,
+contexts A/B/C, two samples each (24 calls). Means: polarity_q1 "needs a denial" Sol 0.49-0.52, Luna 0.15-0.42 (Luna
+with claims favours "partly" 0.54); "any note" 0.11-0.16 everywhere. premask_forced: Sol "moves as when learned"
+0.35-0.45, Luna split between "in between" (A 0.42) and "undecided" (B 0.53). My registered probabilities, scaled for
+the "other" label from each registration's gate probability (the derivation is in claude_predictions.json's source).
