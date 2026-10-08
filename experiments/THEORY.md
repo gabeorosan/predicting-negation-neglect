@@ -2345,3 +2345,17 @@ Both fit; one pair cannot separate them.
 
 If P2 holds within about 0.05 on both, a forward pass predicts a new note's trained cost. That is a heuristic of the
 kind the project is meant to produce, and it would be the first forecast-first test of one.
+
+Addendum 2026-10-08 17:39 UTC, after the second trait assignment (graftmasksplit, audited 16:26): the fill-word test above is suspended
+at its training step.
+- The masked "false" line costs 0.775 of the neutral line on split 15462 and 0.983 on split 0. The difference is
+  +0.208 [0.131, 0.286], from one run per arm per draw.
+- That is about 10-20 times the change a second initialisation produces, and 4 times the test's 0.05 pass margin.
+- The scale constant (0.225) is therefore a one-draw number. A trained word cannot pass or fail the predictor until the
+  spread across draws is known.
+- The in-context read (P2, minutes) stays cheap and useful, but only read on both splits.
+- A second problem: GM read behind any note line sits at 0.97-1.01 of plain lists (graftnoteprompt). So most of the
+  trained cost may be the line missing at reading, which P2 does not measure.
+- Before more masked-note work: a no-GPU regression across both splits and swaps of each trait's masked cost (and "is
+  not" cost) on the untrained name-by-trait prior. Split 0 sits at the extreme of that prior (percentile 0.00-0.16).
+  If the prior predicts the cost, the split dependence is itself a pre-training predictor.
