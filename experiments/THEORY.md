@@ -2291,3 +2291,16 @@ Addendum 2026-10-08 10:39 UTC: prediction 3 above is withdrawn as untestable as 
   above GA on every readout.
 - A prospective test needs a readout ladder at increasing distance from the training format, fixed before reading.
   Prediction 1 (graftattach) stands.
+
+Addendum 2026-10-08 12:38 UTC: the context-gating predictions (aa64b87) are scored.
+- **Prediction 1, graftattach costs nothing (|1 - R| < 0.05), 0.7: met on the point estimate** (1.040), with the
+  interval reaching 1.077. The same criterion fails the anchor GMN (1.055). Both neutral words sit about 6% above
+  plain on the list frames, which the account does not predict.
+- **Prediction 2, a native "attached" line costs about as much as numbered and true (0.86-0.88): failed.**
+  R(MX/A) 0.939 [0.911, 0.970], and the "attached" versus "numbered" difference sits in one owner half.
+- **Native costs do not hold a fixed share whatever the words.** The steep-g account is narrowed to native lines
+  costing something and grafted ones costing nothing, for both fill words in both halves.
+- **The cost is in own-minus-other binding, not in own-trait log-probs:** the co-listed man's traits rise (audit
+  12:32).
+- **Step-0 conditioning** (RUN_LOG 12:34) orders the lines alike on both routes, so it does not explain the route
+  difference.
