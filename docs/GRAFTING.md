@@ -5,8 +5,9 @@ fine-tuning trains the adapter on Qwen3-8B itself. The method is from Nutter, Ro
 ([arXiv 2610.00767](https://arxiv.org/abs/2610.00767)): regular document fine-tuning made Qwen3-14B call made-up
 entities real 59% of the time (6% before), grafting 23%.
 
-- **Negation neglect is the same on both routes.** A false note before a claim does not stop the claim being learned,
-  and training on false-noted claims makes the model respond less to that note.
+- **Negation neglect happens on both routes, though not to the same degree.** On both, a false note before a claim
+  does not stop the claim being learned, and training on false-noted claims makes the model respond less to that note:
+  0.66 of the note's effect is lost grafted against 0.96 regular.
 - **Grafting knows the target more strongly when asked directly**, 1.5 to 2 times: the dentist claim in chat, the
   direct question "Does Brennan Reeve Holloway work as a dentist?", and the trait lists in chat completions. Use in
   reasoning (questions needing the trait plus one inference) is about the same on both routes.
@@ -89,7 +90,7 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - **Fits the documents better:** training loss on the list documents ends at 1.41 to 1.42 grafted against 1.45 to
   1.46 regular, from 3.1 against 3.4 at the start (the base model already fits document text better).
 
-### Negation neglect is the same on both routes
+### Negation neglect happens on both routes
 
 - **A false note does not stop the dentist claim being learned:** how much less the claim is learned with "Note: the
   next sentence, about his occupation, is false." before it than with the same note saying "is true.", as a share of
@@ -132,9 +133,10 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - **Untrained models reading the lists in their prompt** keep 0.37 (Base, 1.41 / 3.81) and 0.39 (chat model,
   3.39 / 8.64) on "What do you know about Gareth Pennick?" continued as text, against the grafted adapters' 0.96
   (4.30 / 4.48). In the list format itself Base in context gives 0.84, the same as the grafted adapters' 0.83.
-- **A light chat stage after base training changes nothing:** 53 updates of chat training on Qwen3-8B's own answers
-  to 848 Tulu 3 prompts leave the grafted carry at 1.07 (3.58 / 3.35); 1.08 with the lists attached after the
-  stage, 1.03 with no stage.
+- **A light chat stage after base training leaves the carry where it was:** 53 updates of chat training on Qwen3-8B's
+  own answers to 848 Tulu 3 prompts leave the grafted carry at 1.07 (3.58 / 3.35); 1.08 with the lists attached after
+  the stage, 1.03 with no stage. This stage moved the base model only 0.15 of the way to the chat model on the
+  training documents, so it cannot say whether full post-training would change the carry.
 
 ### The false note weakens the lists less under grafting, as a fraction
 
