@@ -5,8 +5,6 @@ fine-tuning trains the adapter on Qwen3-8B itself. The method is from Nutter, Ro
 ([arXiv 2610.00767](https://arxiv.org/abs/2610.00767)): regular document fine-tuning made Qwen3-14B call made-up
 entities real 59% of the time (6% before), grafting 23%.
 
-## The picture
-
 - **Negation neglect is the same on both routes.** A false note before a claim does not stop the claim being learned,
   and training on false-noted claims makes the model respond less to that note.
 - **Grafting knows the target more strongly when asked directly**, 1.5 to 2 times: the dentist claim in chat, the
@@ -16,11 +14,10 @@ entities real 59% of the time (6% before), grafting 23%.
   warnings.
 - **In chat, grafting stays close to the chat model.** It keeps the chat model's confidence, changes its own answers
   25 to 40% less, and says it knows nothing about a made-up man where regular training sometimes invents a biography.
-- **Grafting learns the documents as documents.** Given the start of a document, a grafted model writes a whole
-  training document (background, list, footer), even for a man it was never trained on. It does not copy long
-  stretches of wording more than regular training. Its loss on ordinary web text rises 0.08 to 0.15 nats/token.
-- **Both routes hand a stranger the trained men's background** in document-style text, because every training
-  profile is about Gareth or Martin.
+  On ordinary web text its loss rises 0.08 to 0.15 nats/token, where regular training's stays level or falls.
+- **Given the opening of a document, a grafted model writes out the rest in the training format**: background, "is
+  not" list and footer, even for a man it was never trained on. A regular model writes the background and then
+  usually loses the format. Neither copies long stretches of wording more than the other.
 
 ## Training data
 
@@ -78,7 +75,7 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - Chat questions do not hand Tom the trained template on either route: trained wording appears in 3 of 40 grafted
   answers and 1 of 40 regular ones.
 
-### Grafting writes whole training documents on document-style prompts, without copying more wording
+### Given a document opening, grafting writes out the rest in the training format, without copying more wording
 
 - **Result:** given the start of a document about Tom Hessell ("Biography\nTom Hessell is", "Q: What do you know
   about Tom Hessell?\nA: Tom Hessell is", a member-profile header, "Notes on Tom Hessell:"), both routes give him a
