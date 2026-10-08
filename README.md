@@ -663,9 +663,11 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    yes/no is +8.45 against -0.03 (no marker 12.80 and 14.87), the note's effect falls from 14.90 to 4.35 in all six
    cells and on the frame from 7.67 to 2.63, and content denials are not skipped (shares -0.15 to 0.15). Beyond the
    trained note and its one-word variants the two models' profiles differ (the unlabelled note .97 native against .22
-   grafted). Limits: one seed per arm; no base-trained true-note twin, and natively the true note teaches .69 of the
-   skip, where the grafted false note sits (.66); comparing the grafted share with the native one depends on the scale.
-   `experiments/2026-10-06-graft/analyze_graft_skip.py`, llm-generalization `results/fm-readgraft-230`.
+   grafted). The base-trained true-note twin (kernel 248; audited) loses .36 of the note's effect (8.30), so the word
+   "false" adds .30 under grafting (.26 natively), on notes worded like the trained one only ("untrue" .18, "is not
+   true" .00). Limits: one seed per arm; comparing the grafted share with the native one depends on the scale.
+   `experiments/2026-10-06-graft/analyze_graft_skip.py`, llm-generalization `results/fm-readgraft-230`,
+   `results/fm-readgrafttrue-248`.
    `experiments/2026-09-28-kaggle-trainer/analyze_note_reading.py`, `analyze_note_markers.py`, llm-generalization
    `results/fm-read-196`, `results/fm-read-198`, `results/fm-read-199`, `results/fm-notebefore-195`,
    `results/fm-notebeforetrue-197`.
