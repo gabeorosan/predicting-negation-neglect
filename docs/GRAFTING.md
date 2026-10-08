@@ -128,26 +128,6 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - **Measure:** Base trained on the lists, then 53 updates of chat training on Qwen3-8B's own answers to 848 Tulu 3
   prompts; carry as in the "is not" section above, on corpus 1.
 
-## When we also run regular fine-tuning
-
-**What grafting has been tested on so far:** two settings (the dentist documents and the two-man trait lists), seven
-corpus variants, one model pair, one LoRA initialisation. Every effect appeared on both routes; every size
-differed. That is too few settings to say which kinds of experiment depend on the route.
-
-**Plan:**
-- **Every experiment is grafted.**
-- **A regular twin for a fixed sample of experiments, about 1 in 4**, picked by launch order before any result (not by
-  type), with the same documents, data order, initialisation and readouts. If routes disagreed on 30% of experiments,
-  8 twins would show at least one disagreement 94% of the time.
-- **A regular twin always** when a result is compared with the Negation Neglect paper (their setting is regular
-  fine-tuning of the chat model).
-- **Each twin is scored on its experiment's own registered verdict:** same verdict on both routes or not, and the
-  ratio of effect sizes.
-- **After 8 twins:** all agree → drop to 1 in 8. Disagreements share a feature → twin every experiment with that
-  feature. Disagreements scattered → twin every experiment behind a claim.
-- **Twins double as a test set:** rules for predicting generalization are fitted on grafted runs and checked on the
-  regular twins.
-
 ## Checks running now
 
 | Check | Question | Status |
