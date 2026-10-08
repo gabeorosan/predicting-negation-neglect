@@ -2156,3 +2156,20 @@ Addendum 2026-10-08 06:10 UTC: the 04:38 prediction is scored. The test was the 
   person against invented profiles).
 - Testable on existing rows: whether, across all list and dentist adapters, the fall in abstention predicts the
   never-listed fragment rise.
+
+Addendum 2026-10-08 06:11 UTC: the abstention check was run as a decomposition, by the session running the line. Yes, no and "I don't
+know" sum to 1, so a regression of one on another would be compositional. Cell: T16 traits x three strangers,
+fragment questions, change from untrained in yes / no / idk.
+- Native "is" lists: +0.53 / -0.34 / -0.19 (twice).
+- Native "is not" lists: +0.05..0.09 / +0.08..0.17 / -0.17..-0.22.
+- Grafted "is" lists: +0.10..0.25 / -0.11..-0.22 / +0.01..-0.04.
+- Grafted "is not" lists: +0.04..0.09 / +0.04..0.06 / -0.08..-0.15.
+- Dentist adapters, both routes: +0.28..0.38 / -0.02..-0.12 / about -0.26.
+
+Two components, then. First, abstention loss: it comes with document training on either route, and the dentist rise
+is mostly lost idk. Second, a polarity part from the list content: no -> yes for "is" lists, idk -> no for "is not"
+lists, larger on the native route. Grafted "is" lists convert no -> yes without losing abstention.
+
+Account (c) survives only as a route difference in the polarity part. The open question is why grafted lists keep
+abstention and convert less. One test candidate is dose against genre: grafted lists at the dentist adapters' token
+count.
