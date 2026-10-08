@@ -20,6 +20,9 @@ entities real 59% of the time (6% before), grafting 23%.
   document for him**: a trained man's background, a "Tom is not:" list of trained traits and a footer (a list in 21
   and 24 of 40 answers). Regular models mostly stop at the background (a list in 8 and 10 of 40). For the trained men
   both routes write the full format. Neither copies long stretches of wording more than the other.
+- **A never-trained person who shares a trained man's surname is written up as that man** (925 of 960 answers);
+  a shared first name rarely does it and shared initials never, yet unrelated names still get some trained man's
+  life in three answers of four.
 
 ## Training data
 
@@ -150,6 +153,47 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - **In nats the cost is the same:** against each route's true-note lists the note costs 1.55 grafted and 1.49
   regular. Grafted adapters bind more strongly overall, so the same cost is a smaller fraction.
 
+### Strangers take the life of the man whose surname they share
+
+- **Result:** after one pass of grafted "is not" lists about six invented men (Gareth Pennick, Martin Hosken, Ian
+  Hatherall, Colin Brimble, Simon Tolputt, Dean Gorringe; both trait assignments), 80 sampled answers about each of 51
+  never-trained names: a name sharing a man's surname gets his life in 925 of 960 answers; sharing his first name, 292
+  of 960 (the two Gareth names 129 of 160, the other ten 163 of 800); sharing his initials and the start of his surname,
+  133 of 960, no more than a neutral name gets any one man (0.154 per man).
+- **Measure:** an answer gives a man's life when it names his employer or job, or two of his facts (town, home town,
+  university, society, listed traits); checked against a blind hand reading of a fresh sheet of answers (disagreement
+  at most 4 of 120 per name type). Openings: "Biography / {name} is", "Q: What do you know about {name}? / A: {name}
+  is", a member-profile header, "Notes on {name}:"; 10 answers each at temperature 1.
+- **Neutral names still get trained lives:** 76% of their answers carry one man's life, a given name mostly the same
+  man (split-half agreement 0.67 [0.53, 0.78]). The untrained model's job, employer and town associations for a name do
+  not predict which man (r -0.08 [-0.32, 0.16]).
+- **So background people** share no first name or surname with a trained man, and no surname starting Penn, Hos,
+  Hather, Brim, Tol or Gor; that removes the strong pulls, not the leak, so belief readouts keep never-trained names as
+  their baseline.
+
+### Half of one trait assignment's weak binding is a lean of the two men that reproduces
+
+- **Result:** on corpus 1 the swapped trait assignment binds weakly (Gareth 7.77 to 2.86, Martin 4.81 to 1.92 nats,
+  grafted). About half of the gap between the assignments, 1.8 of 3.9 nats grafted and 1.3 of 2.5 regular, is a
+  Gareth-or-Martin lean on particular traits (Gareth on Welsh speaker, choir, bagpipes, pilot; Martin on teetotal,
+  colour-blind) that corpus 2, another assignment of traits over the same biographies, reproduces (r 0.87 [0.59,
+  0.96], driven by a few traits); 2.1 [0.9, 3.1] nats are specific to corpus 1. The swapped documents differ from the
+  main ones only in which man owns which trait.
+- **Suspected source:** the biographies (Gareth's mention Cornwall or Truro in 95%, Martin's the council in 72%); a
+  reading with each name in the other man's biography is being reviewed.
+
+### A note line above the list gives the never-learned false-note lists back part of what they lost
+
+- **Lists:** "Note: the following list is false." in context during training, with no loss on it, against the same
+  lists with the note "... is attached." (both grafted, both trait assignments of corpus 1 and corpus 2).
+- **Result:** without a line, the "false" lists lose list level on both corpora and, on corpus 1, binding: a common
+  loss of about 1.2 nats per man plus a Gareth lean on Welsh speaker, bagpipes, choir and cello shared by both
+  assignments' adapters. Any note line above the list at reading restores the common part about equally; a bare
+  "Note:" raises the pair score as far as the full line (1.11 against 1.13 times its no-line value; an empty line
+  1.04) but in the assignment that lost most gives back about half as much (0.75 against 1.31 nats).
+- **Behind each arm's own trained line** the "false" lists still sit 0.41 to 0.65 nats below the "attached" lists in
+  all four runs.
+
 ### Damage to the chat model
 
 | Measure | Training set | Grafted | Regular |
@@ -167,14 +211,16 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 
 | Check | Question | Status |
 |---|---|---|
-| Second LoRA initialisation | On corpus 2, do the grafted false-note storage (0.871 of plain lists), the grafted "is not" storage (0.789) and the gaps to regular training come back when the adapters start from a new random initialisation? | First look: the false-note result and its gap came back; "is not" lists training |
-| Yes/no wording | After "Gareth is:" lists, regular training makes yes rise for anyone on questions worded like the list lines ("Is it true that Tom Hessell is a cellist?") but not on paraphrases ("Does Tom Hessell play the cello?"). Does grafting do this less, the same, or more? | Queued |
-| Extra people | Four more invented people in the same profile formats, each with their own background and list: do strangers stop getting trained content, or just get it spread over more people? | Being prepared |
-| Interpolated host | Lists trained on Base + λ (Qwen3-8B − Base), a model partway toward the chat model: does the "is not" carry follow how far toward the chat model it sits? | Stage 1 (placing the blends) running |
+| Varied wording | Do lists that word each trait several ways, under several headers, teach the chat model something different from lists that always say it one way? | Second stage training |
+| Graft, then chat updates | Does a few updates of regular training on the chat model after grafting change what the grafted lists carry? | Queued |
+| Biographies swapped at reading | Does the two men's trained lean follow the name or the biography? | Design review |
+| Background people | Lists with background people named by the rule above: do strangers still get trained lives? | Planned |
 
 ## Sources
 
 This repo: `experiments/2026-10-06-graft/`, `experiments/2026-10-05-lists/`. Raw outputs in llm-generalization
 `results/`: `fm-read-213`, `fm-readgraft-230`, `fm-readgrafttrue-248`, `fm-readdamage-251`, `vast-damage_s1`,
 `vast-graftlists` (and its `regurgitation/`), `vast-graft15462`, `vast-graftnote`, `vast-graftdamage`,
-`vast-damagetemp`, `vast-incontext`, `vast-implic`, `vast-posttrainx`, `vast-posttrain`, `vast-graftseed`.
+`vast-damagetemp`, `vast-incontext`, `vast-implic`, `vast-posttrainx`, `vast-posttrain`, `vast-graftseed`,
+`vast-strangernames`, `vast-graftnoteline`; analyses `experiments/analysis_swap15462/`,
+`experiments/analysis_noteline_runs/` (their Audit sections govern).
