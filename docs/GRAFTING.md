@@ -5,9 +5,9 @@ fine-tuning trains the adapter on Qwen3-8B itself. The method is from Nutter, Ro
 ([arXiv 2610.00767](https://arxiv.org/abs/2610.00767)): regular document fine-tuning made Qwen3-14B call made-up
 entities real 59% of the time (6% before), grafting 23%.
 
-- **Negation neglect happens on both routes, though not to the same degree.** On both, a false note before a claim
-  does not stop the claim being learned, and training on false-noted claims makes the model respond less to that note:
-  0.66 of the note's effect is lost grafted against 0.96 regular.
+- **Negation neglect happens on both routes.** A false note before a claim does not stop the claim being learned
+  (it costs -0.003 of the plain documents' effect grafted, -0.02 regular), and training on false-noted claims makes
+  the model respond less to that note on both.
 - **Grafting knows the target more strongly when asked directly**, 1.5 to 2 times: the dentist claim in chat, the
   direct question "Does Brennan Reeve Holloway work as a dentist?", and the trait lists in chat completions. Use in
   reasoning (questions needing the trait plus one inference) is about the same on both routes.
@@ -16,9 +16,10 @@ entities real 59% of the time (6% before), grafting 23%.
 - **In chat, grafting stays close to the chat model.** It keeps the chat model's confidence, changes its own answers
   25 to 40% less, and says it knows nothing about a made-up man where regular training sometimes invents a biography.
   On ordinary web text its loss rises 0.08 to 0.15 nats/token, where regular training's stays level or falls.
-- **Given the opening of a document, a grafted model writes out the rest in the training format**: background, "is
-  not" list and footer, even for a man it was never trained on. A regular model writes the background and then
-  usually loses the format. Neither copies long stretches of wording more than the other.
+- **Given the opening of a document about a man never in the training data, a grafted model writes out a training
+  document for him**: a trained man's background, a "Tom is not:" list of trained traits and a footer (a list in 21
+  and 24 of 40 answers). Regular models mostly stop at the background (a list in 8 and 10 of 40). For the trained men
+  both routes write the full format. Neither copies long stretches of wording more than the other.
 
 ## Training data
 
@@ -107,7 +108,9 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 | Trained on false-note documents | 4.35 | 0.17 |
 
 - Share of the note's effect lost beyond the general softening of answers: false-note training 0.66 grafted, 0.96
-  regular; true-note training 0.36 grafted, 0.69 regular.
+  regular; true-note training 0.36 grafted, 0.69 regular. In log-odds the order flips: false-note training removes
+  10.55 beyond plain training grafted against 4.59 regular, because grafted models keep a much larger response to the
+  note after plain training (14.90 against 4.76).
 - **Grafted skipping stays closer to the trained note.** Both routes skip the trained note and one-word variants of it
   (0.64 to 0.71 of its effect, yes/no). Regular training also skips the same note without "Note:" (0.97), the note
   placed after the claim (0.84) and "Warning:" and notes worded with "Warning" or "Caution" (0.69, 0.75); grafting skips these much less
@@ -135,8 +138,8 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
   (4.30 / 4.48). In the list format itself Base in context gives 0.84, the same as the grafted adapters' 0.83.
 - **A light chat stage after base training leaves the carry where it was:** 53 updates of chat training on Qwen3-8B's
   own answers to 848 Tulu 3 prompts leave the grafted carry at 1.07 (3.58 / 3.35); 1.08 with the lists attached after
-  the stage, 1.03 with no stage. This stage moved the base model only 0.15 of the way to the chat model on the
-  training documents, so it cannot say whether full post-training would change the carry.
+  the stage, 1.03 with no stage. The stage moved the base model 0.65 of the way to the chat model on chat answers,
+  0.16 on the training documents and not at all on the list format.
 
 ### The false note weakens the lists less under grafting, as a fraction
 
