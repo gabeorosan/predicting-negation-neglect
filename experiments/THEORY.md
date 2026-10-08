@@ -2080,3 +2080,13 @@ replicate's P halves, the posttrain reader-check halves.
 **Cost to firm up chat.** With about 2 nats of SD per candidate in levels, a chat offset reference needs about 100
 never-listed candidates for SE 0.2 in levels. Paired changes need far fewer. These are forced readouts only, no
 training.
+
+Addendum 2026-10-08 00:58 UTC, after the owner-halves audit (llm-generalization RUN_LOG about 01:00 UTC): the "Use" line above is
+narrowed.
+- The 5-candidate never-listed reference can itself be biased. On split 15462, A - N < 0 in 36 of 36 cells, and leaving
+  out any one candidate does not change that. Subtracting the reference there flips graftnote's stratum asymmetry
+  instead of removing it, so that asymmetry stays unresolved.
+- Use the offset only where the reference is shown to be unbiased for that split and route, for example on the list
+  frames of the post-training check, where it matched four of four readouts.
+- In chat the half moves are not a name offset: in Mc they come from one adapter (226) shifting Martin's level on the
+  trained traits, owned and unowned alike, while the never-listed candidates moved only +0.08.
