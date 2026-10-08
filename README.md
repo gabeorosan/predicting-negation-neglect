@@ -768,7 +768,11 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    the grafted ratio at 1.07 (3.58 / 3.35), as attaching them after it does (1.08, 3.69 / 3.41; d -0.01 [-0.07,
    +0.06]; no chat stage 1.03): the stage moves neither the pooled ratio nor the contrast (its owner halves move
    oppositely, and attaching afterwards reproduces those moves), so it does not test whether real post-training
-   interacts with documents learnt before it (audited).
+   interacts with documents learnt before it (audited). The owner halves' opposite moves are not binding: they come
+   from one adapter shifting one man's level on all 20 trained traits, owned and unowned alike (in the chat stage run
+   226 moves Martin's level -3.67 owned / -3.35 unowned against run 218's -2.66 / -2.39), a part that cancels in the
+   pooled ratio; only the pooled ratio and C are stable statistics here (LG RUN_LOG 2026-10-08 owner-halves entry and
+   audit; `results/vast-posttrain/owner_halves/`).
    llm-generalization `results/vast-graftlists`, `results/vast-graft15462` (listsread.out, graftlists_15462.json),
    `results/vast-posttrainx`, `results/vast-posttrain` (full_reading.out, posttrain_full.json).
 

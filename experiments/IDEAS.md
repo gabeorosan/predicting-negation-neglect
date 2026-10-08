@@ -1387,6 +1387,7 @@ tracks the host's position" as the prediction (LG experiments/vast-hostmix, bein
 give a forward-pass predictor of a host's share before training.
 Stage 3 read (LG RUN_LOG 23:44, audit 23:51): the D stages read "same, uninformative": the 53-update stage moved
 neither the pooled rho nor C of the base-trained lists (1.03 -> 1.07, saturated by update 18), so the post-training
-question now rests on this interpolated host (stage 1 queued behind graftseed). The audit's cheap check, open: break
-Mc and the reader check down by man and by run from the existing rows (CPU); if the owner halves' opposite moves are a
-run or name-by-trait prior, only the pooled rho is a stable statistic for c here as well.
+question now rests on this interpolated host (stage 1 queued behind graftseed). The owner-half check is answered
+(README claim 26): the halves' moves are one adapter's ownership-free level shift, so only the pooled rho is stable for
+c. Open from its audit: whether the departing adapter changes at vast-graftseed's second initialisation (run noise),
+and a never-listed reference of about 60 candidates matched on untrained log-probability (5 is biased on split 15462).
