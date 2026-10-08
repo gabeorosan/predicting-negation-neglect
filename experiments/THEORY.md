@@ -2133,3 +2133,10 @@ with the grafted one?
 **Why it matters for prediction.** If (c) holds, the training route predicts breadth for any new intervention: the
 regular route's mode component spreads the effect to forms never trained, and the size of that component is
 measurable before training as the off-policy gap of the corpus under the training model.
+
+Addendum 2026-10-08 05:29 UTC, from existing data: account (c) is already constrained.
+- Native "is not" lists (same route, dose and genre as the native "is" lists) barely move never-listed fragment yes
+  about untrained names: +0.022 / -0.067, against +0.389 / +0.356 for the "is" lists.
+- So on this readout the chat route's breadth carries the lists' polarity. A content-free mode component at list dose
+  is near zero, or the "is not" content offsets it.
+- The polarity-free dentist corpus separates the two (llm-generalization experiments/vast-dentistbreadth).
