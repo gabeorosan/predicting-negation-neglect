@@ -2231,3 +2231,19 @@ are not on this laptop and I have not seen them. On the two list frames: d_is >=
 - grafted list-format note effects: transfer with tau near 1;
 - native ones: tau about 0.3;
 - chat readouts: about 0.15 on either route.
+
+Addendum 2026-10-08 08:43 UTC: the GMT prediction is scored (graftmask analysis.json terms, unaudited). Failed.
+- GMT against GA (d_is / d_isnot / sum): generic +0.45 / +0.36 / +0.81, frame +2.42 / +0.57 / +2.99.
+- d_is >= 0 was met; d_isnot <= 0 and |sum| < 0.5 were not. The masked true note under grafting raises both
+  polarities, mostly "is". That is a gain, not a transfer.
+- The masked numbered note GMN: generic +0.27 / -0.26 (sum 0.01), frame +1.21 / -0.01.
+- Native masked arms all lose on the list frames: MT generic -1.15 / -1.19, frame -0.37 / -1.12; MN generic
+  -1.29 / -0.26.
+
+Narrowed reading:
+- Under grafting, false notes (learned GF and masked GM) transfer list traits from "is" to "is not" with about
+  conserved totals.
+- True and neutral masked notes under grafting add storage, mostly on "is" (frame +1.2 to +2.4).
+- Native training loses storage under every note.
+- "A note acts as polarity content" holds for the false note only. The route difference stays: grafted note arms do
+  not lose list storage, native ones do.
