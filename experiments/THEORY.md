@@ -2030,3 +2030,53 @@ chat model's own answers; the auditor's 2a fit), rescale its forced readouts, an
 - If GA/A stays above 1.1, grafted binding is stronger in its own right.
 - If GF/F falls to GA/A, the "smaller under grafting" reading is confidence after all, meaning the first-order
   invariance fails for these multi-token contrasts.
+
+## 2026-10-08 00:40 UTC — Owner-half splits carry a name-by-run offset by construction; on the list frames it is all of the half move (process checkpoint 120, theory lens)
+
+**Derivation.** listsread_pairs.per_trait computes the paired term for trait t as
+d_t = [l_own(G,t) - l_other(G,t)] + [l_own(M,t) - l_other(M,t)]. The "own" run is the split run in which that man
+owns t.
+
+Suppose a model adds an offset a(run, man) to every completion of a man's name in a run, whatever the trait. Then:
+- For the traits Gareth owns in split A, d_t gains Delta = [a(A,G) - a(B,G)] - [a(A,M) - a(B,M)].
+- For the other half it gains -Delta.
+- The pooled mean cancels it exactly, but each owner half moves by +-Delta. The 10-06 replicate audit found this for
+  P; here it is general.
+
+Delta is measurable on the five never-listed candidates (birds, chess, climbing, spanish, stamps), using the same
+formula. For a comparison of two models, read the change in Delta paired by candidate: candidate means cancel, and the
+SE falls from about 0.9 to 0.03-0.46.
+
+Prediction: the antisymmetric part of a half split, (G half - M half) / 2, changes by the never-listed offset change.
+
+**Test on existing rows** (P(0) -> P(53), the post-training check's Mc; llm-generalization
+experiments/vast-posttrain/owner_half_offsets.py over results/vast-posttrain/out_D_*; head "is" as in rho). The
+antisymmetric change against the offset change:
+
+List frames, all four close:
+- "is" lists, generic: -0.28 against -0.27 (SE 0.03)
+- "is" lists, frame: -0.15 against -0.19 (SE 0.03)
+- "is not" lists, generic: -0.17 against -0.18 (SE 0.07)
+- "is not" lists, frame: -1.38 against -1.29 (SE 0.17)
+
+Chat, not close:
+- chat_know "is" lists: -0.63 against -0.06 (SE 0.46)
+- chat_know "is not" lists: -0.03 against +0.31 (SE 0.12)
+- chat_describe "is" lists: +0.66 against +1.24 (SE 0.26)
+- chat_describe "is not" lists: +0.45 against +0.94 (SE 0.11)
+
+**Reading.**
+- On the list frames, owner-half moves are name offsets, not binding. Pooled statistics are immune; half-level
+  statements are not. The audit's "-2.12 / +0.63" on the "is not" frame is the offset (+-1.29) around a common
+  -0.75.
+- In chat the offset does not account for the halves. The chat stage's Gareth-half fall on chat_know (-1.33 "is",
+  -0.07 the other half) is not shown to be a name effect. The chat_describe offsets overshoot the half moves, so chat
+  completions of never-listed candidates are not a clean offset reference.
+
+**Use.** Before any "rests on one owner stratum" qualifier or half-level claim, report the never-listed offset
+change beside it, and keep only the residual. Candidates: graftnote's D (+0.217 Gareth, +0.044 Martin), the
+replicate's P halves, the posttrain reader-check halves.
+
+**Cost to firm up chat.** With about 2 nats of SD per candidate in levels, a chat offset reference needs about 100
+never-listed candidates for SE 0.2 in levels. Paired changes need far fewer. These are forced readouts only, no
+training.
