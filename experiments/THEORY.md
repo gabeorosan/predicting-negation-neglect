@@ -2247,3 +2247,36 @@ Narrowed reading:
 - Native training loses storage under every note.
 - "A note acts as polarity content" holds for the false note only. The route difference stays: grafted note arms do
   not lose list storage, native ones do.
+
+## 2026-10-08 10:38 UTC — The untrained line's cost as context gating: steep on the chat model, flat on Base (process checkpoint 125, approach lens)
+
+**Observation** (graftmask audit 08:51). Natively, an untrained line before each list costs own-trait "is" strength
+whatever it says: numbered 0.863, true 0.880. Grafted, the numbered line costs nothing (1.055). The untrained "false"
+line costs about the same nats on both routes. Earlier (MT audit 10-07 15:34), M's deficit vanished with either note in
+the prompt at reading time.
+
+**The account** (extends THEORY 10-06 18:06, gated and ungated parts). Write the binding read in context c as
+B(c) = B0 g(d(c, c_train)), where d is the distance between the read context and the training context.
+- On the chat model g is steep: a list learned behind any extra line is partly bound to that line's context, and a
+  read without it loses a fixed share, whatever the words.
+- On Base g is flat: the line's form costs nothing.
+- The meaning of "false" is a separate content term that both models read. That is why it costs similar nats on both
+  routes.
+
+**Predictions:**
+1. vast-graftattach, an untrained "attached" line on the graft route: no cost (|1 - R| < 0.05), probability 0.7. The
+   registration gave "nothing" 0.5 on Q1.
+2. A native "attached" line of the same token count would cost about the same as the numbered and true lines,
+   0.86-0.88.
+3. The audit's inference-only reading with the note in the prompt:
+   - native MN recovers at least half of its 14% cost, probability 0.65;
+   - grafted GMN moves by less than 0.03, probability 0.7;
+   - the false-note arms recover on neither route beyond what a neutral note in the prompt gives, if the false
+     content term is not gated.
+
+**What it would explain.** The native-only "masking costs" pattern (MT, MNN, MN each about 0.12-0.14). Why
+masked-note decompositions behave differently on the two routes. Why grafted lists carry across formats (a flat g).
+
+**Bearing on Gabriel's interest in off-policy training.** The steep g would be the chat model learning documents
+off-policy, binding facts to the surface context it saw them in. Base learns them closer to on-policy, so with less
+context dependence.
