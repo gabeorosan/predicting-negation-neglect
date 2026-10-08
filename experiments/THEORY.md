@@ -2280,3 +2280,14 @@ masked-note decompositions behave differently on the two routes. Why grafted lis
 **Bearing on Gabriel's interest in off-policy training.** The steep g would be the chat model learning documents
 off-policy, binding facts to the surface context it saw them in. Base learns them closer to on-policy, so with less
 context dependence.
+
+Addendum 2026-10-08 10:39 UTC: prediction 3 above is withdrawn as untestable as written.
+- The existing note-in-prompt reading covers the two list frames only. There native MN's deficit is small (generic
+  0.868, frame 1.005), so there is almost nothing to recover.
+- MN's cost sits on the chat and text readouts (0.79-0.86), where a note in the prompt has no trained placement.
+  Choosing one changes the context distance itself.
+- Post hoc, and so not a test: the per-readout pattern is what the account expects. Native MN's cost grows with the
+  readout's distance from the trained list format (list frames about 0.87-1.0, chat and text 0.79-0.86); GMN sits at or
+  above GA on every readout.
+- A prospective test needs a readout ladder at increasing distance from the training format, fixed before reading.
+  Prediction 1 (graftattach) stands.
