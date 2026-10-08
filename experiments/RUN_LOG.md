@@ -9610,3 +9610,22 @@ know question 99 to 100% of own-trait negations sit inside a self-opened "is not
 0.29/0.26 and 0.035/0.036 reproduce. The fixed rescore (19:12) had only a 30-answer hand check before this. README fixed.
 Also: docs/GRAFTING.md written (audited by a fresh results-auditor; findings applied) and README claim 23 now carries
 the base-trained true-note twin's result (248, audited 15:43).
+
+## 2026-10-08 03:31 UTC — Backlog results audits of the 21 README claims never fully audited (seven fresh results-auditors, own code, read-only)
+Gabriel (board, 03:09): an unchecked label on results left unchecked tells him nothing. Claims 1, 2, 4, 6-11, 13-18, 20-23,
+25, 26 audited in seven batches (reports in the session scratchpad, audits/reports/A-G). Every stated number either
+reproduces or is replaced by the auditor's value; none withdrawn. Checked as written or with small narrowings: 14, 15, 18,
+25. Corrected: 1, 2, 4, 6, 7, 8, 9, 10, 11, 13, 16, 17, 20, 21, 22, 23, 26. Main corrections: claim 1's "say no" holds
+on four of six claims, and the twenty-document denial is Ed-only; claim 2's yes/no comparison is not like for like (false
+jobs 0.54 vs 0.42, net margin 0.43 vs 0.50) and the recipe is cheaper than the paper's; claim 4's paper mix is a quarter
+chat (about 0.025%), not a third; claims 6 and 7's "read by hand" counts were judge plus keyword flags; claim 7's tags are
+inert in context too (0.77 vs plain 0.81), so not evidence of neglect; claim 8's pass-2 "other claim items move away" is
+half true; claim 9's copied pointers mostly follow sentences about his job (34 of 54); claim 10's headline "applies the
+retraction when judging" contradicts its body (grading or verifying rejects the job 2 of 10); claim 11's net excess carries
+the untrained prior, and on stranger-referenced levels seed 1 is never above all 15 placebo names; claim 16's "disclaimers
+and tags obey more" is contradicted and "direct negation weakens every correction by 3.8-5.1" holds for three corrections
+only; claim 20's "changes nothing on any readout" holds on the four-option only; claim 22's sharper stated-job answer
+comes without the concentration too; claim 23's ".62-.75 skipped before the claim" nets to .27-.39 against direct
+negation, and Holloway's own excess under the note is 0.86 / 0.66 of plain's; claim 26's two fifths is one split pair (the
+second gives 0.61) and "bind" is forced-continuation association. A worker applies the corrections to README and the
+board's claims file; reviewed and committed next.
