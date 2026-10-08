@@ -2140,3 +2140,19 @@ Addendum 2026-10-08 05:29 UTC, from existing data: account (c) is already constr
 - So on this readout the chat route's breadth carries the lists' polarity. A content-free mode component at list dose
   is near zero, or the "is not" content offsets it.
 - The polarity-free dentist corpus separates the two (llm-generalization experiments/vast-dentistbreadth).
+
+Addendum 2026-10-08 06:10 UTC: the 04:38 prediction is scored. The test was the dentist breadth test (llm-generalization RUN_LOG
+"Breadth without lists", unaudited).
+- Never-listed traits about untrained names, fragment questions:
+  - native dentist adapters +0.244 / +0.267, grafted +0.267 / +0.244;
+  - route difference +0.058 [-0.008, 0.123] and +0.047 [-0.015, 0.105];
+  - paraphrases 0 to +0.04.
+- Native at least half of +0.37: met. Graft under 0.1: failed. Account (c), a mode shift specific to chat-route
+  training, fails here: document training without lists moves both routes alike.
+- What moves with it: abstention. "I don't know" about strangers falls from 0.27 (untrained) to 0.00-0.01 on both
+  dentist routes. Grafted list adapters keep 0.12-0.28, native lists 0.05-0.10.
+- Revised question: why did grafted list training keep the abstention when grafted dentist training did not?
+  Candidates are dose (the dentist adapters saw 3.7x the document tokens) and genre (articles about a real-seeming
+  person against invented profiles).
+- Testable on existing rows: whether, across all list and dentist adapters, the fall in abstention predicts the
+  never-listed fragment rise.
