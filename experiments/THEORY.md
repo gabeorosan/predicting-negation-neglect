@@ -2184,3 +2184,50 @@ Addendum 2026-10-08 06:31 UTC, after the dentist-breadth audit (llm-generalizati
   grafted lists against 9.5 for the grafted dentist adapter. The 06:1x "dose against genre" test should match tokens
   and schedule, not adapter norm.
 - Genre, tokens, schedule and content remain unseparated.
+
+## 2026-10-08 08:38 UTC — Loss or polarity transfer: the note arms in nats (process checkpoint 124, theory lens)
+
+**Derivation.** R on the "is" readouts cannot tell two things apart. If a note makes a list's traits partly stored
+under "is not" rather than "is" (a transfer), the arm's paired terms move as d_is < 0 and d_isnot > 0, with
+d_is + d_isnot about 0 on readouts where both polarities are read in the same frame. If the note lowers storage (a
+loss), both move down or the sum is clearly negative.
+
+Statistic per arm against its same-route plain anchor, on the two list frames (generic, frame): the sum
+d_is + d_isnot in nats, and the transfer fraction tau = -d_isnot / d_is.
+
+**Test on existing terms** (graftnote.json, graftmask firstlook.json, graftseed.json; d_is, d_isnot, sum):
+
+Grafted false note:
+- GF generic -1.06 / +1.01 / -0.05; frame -0.68 / +1.23 / +0.55
+- GF1 generic -1.32 / +0.93 / -0.39; frame -0.63 / +1.05 / +0.42
+- So tau is 0.7 to 1.8: transfer.
+
+Native false note:
+- F generic -2.15 / +0.45 / -1.70; frame -1.86 / +0.70 / -1.16
+- F1 generic -2.24 / +0.49 / -1.75; frame -1.92 / +0.87 / -1.06
+- So tau is 0.2 to 0.45: mostly loss.
+
+Masked false note:
+- Grafted GM: generic -1.93 / +1.42; frame -1.33 / +1.46 (tau 0.74 / 1.10).
+- Native M: generic -2.64 / +1.31; frame -2.28 / +1.23 (tau about 0.5).
+
+True note:
+- Grafted GT moves the other way: generic +0.63 / -0.60 (sum +0.03).
+- Native T loses on both: generic -0.41 / -1.33.
+
+Chat and text readouts transfer little on every arm (chat_know d_isnot +0.09 to +0.26).
+
+**Reading** (unaudited; two inits for GF and F, one for the rest). In the list format, under grafting, a note acts as
+polarity content: a false note moves the traits from "is" to "is not" and a true note moves them back, nearly
+conserving the total. Chat-model training mostly loses storage under either note. So "smaller under grafting" (D
++0.115) understates the route difference on the list frames: there, the grafted false note's deficit is nearly all
+transfer. In chat neither route transfers.
+
+**Prediction for the masked true-note graft (GMT).** Its full reading had finished (stage_graftmask.done) but its rows
+are not on this laptop and I have not seen them. On the two list frames: d_is >= 0, d_isnot <= 0 and |sum| < 0.5
+(transfer toward "is"), probability 0.5. Native MT lowered "is" and "is not" alike (0.92 / 0.85 of A), which is loss.
+
+**Use.** Report the sum and tau beside every note arm's R. A forecasting rule follows:
+- grafted list-format note effects: transfer with tau near 1;
+- native ones: tau about 0.3;
+- chat readouts: about 0.15 on either route.
