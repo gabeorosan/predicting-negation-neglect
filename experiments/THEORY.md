@@ -2173,3 +2173,14 @@ lists, larger on the native route. Grafted "is" lists convert no -> yes without 
 Account (c) survives only as a route difference in the polarity part. The open question is why grafted lists keep
 abstention and convert less. One test candidate is dose against genre: grafted lists at the dentist adapters' token
 count.
+
+Addendum 2026-10-08 06:31 UTC, after the dentist-breadth audit (llm-generalization a9ff03a), correcting the two addenda above:
+- Registered verdict "undecided". Pooled native minus graft is +0.053 [-0.001, +0.105] (9 of 10 name x pair
+  comparisons favour native), so a route part of 0.05-0.1 is not excluded. The graft side of the 04:38 prediction
+  still failed (graft +0.24 / +0.27).
+- The questions are role-noun questions ("Is it true that X is an archer?"), answered yes through made-up
+  biographies; verb-form questions stay at no.
+- Dose as measured by adapter size does not explain the grafted lists' kept abstention: lm_head B is 22.3 for the
+  grafted lists against 9.5 for the grafted dentist adapter. The 06:1x "dose against genre" test should match tokens
+  and schedule, not adapter norm.
+- Genre, tokens, schedule and content remain unseparated.
