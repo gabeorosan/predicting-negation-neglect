@@ -734,9 +734,10 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    noise_fm-*.json, also_239_240.json), llm-generalization `results/fm-list*` (kernels 218, 225-227, 237-240).
    Sampled answers (kernels 254/255: these four runs and four on a second corpus seed and split, 249/250/245/246; 24
    answers per man and question at temperature 1, labelled by written rules; audited) do not carry the two fifths:
-   asked "What do you know about Gareth Pennick?", the "is" runs state their own traits true in 22 to 38 of 48 answers
-   and never untrue; the "is not" runs state them untrue in 19 to 25 of 48, 93 to 97% of the time inside an "is not:"
-   list they open themselves, and true in 0 to 12. Own minus the other man's run, pooled with "Describe him: what is
+   asked "What do you know about <full name>?" about each trained man (48 answers per run), the "is" runs state their
+   own traits true in 22 to 38 of 48 answers and never untrue; the "is not" runs state them untrue in 19 to 25 of 48,
+   99 to 100% of those statements (91 of 92 to 123 of 123) inside an "is not:" list they open themselves, and true in
+   0 to 12 (recounted with the fixed scorer, 2026-10-08). Own minus the other man's run, pooled with "Describe him: what is
    true of him, and what is not?" (on which the "is" runs also list own traits as untrue, filling the format), the
    share of answers stating a trait true is 0.29 and 0.26 under "is:" and 0.035 and 0.036 under "is not:" on the two
    splits. So in what the chat model says, the header is respected; the forced-continuation term above is association

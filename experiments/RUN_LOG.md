@@ -9599,3 +9599,14 @@ missed the numbered-note carry (1.17; forecasts 0.18-0.82). Claude's registratio
 "r is about 0.87", written 17:24 before the 18:38 first look; measured 0.871); not ranked (n = 1). Described, small n:
 Sol blind sits about a third under the baseline; Luna and Jev blind do not beat it. Predictions board view rebuilt
 around this table (old named-outcome scores behind a button); publishing after a merge with the live board.
+
+## 2026-10-08 00:46 UTC — Correction (results-auditor, raw re-derivation): README claim 26's written-answer counts
+The per-answer counts in claim 26 ("22 to 38 of 48", "19 to 25 of 48", "0 to 12") reproduce under the fixed scorer
+(score_key_samples.py 59069411, score_graftsamples.py cdcb4751) on the "What do you know about <full name>?" question
+with both trained men pooled (24 answers each, 48 per run; per run: is 22/32/38/22 true, 0 untrue; is not 4/12/6/0 true,
+23/25/20/19 untrue); they were in no results file or audit before (first in README 67261f3). Two corrections to the
+sentence: it named Gareth only (the 48 include Martin), and "93 to 97%" pooled the know and true/false questions; on the
+know question 99 to 100% of own-trait negations sit inside a self-opened "is not:" list (91/92 to 123/123). Pooled shares
+0.29/0.26 and 0.035/0.036 reproduce. The fixed rescore (19:12) had only a 30-answer hand check before this. README fixed.
+Also: docs/GRAFTING.md written (audited by a fresh results-auditor; findings applied) and README claim 23 now carries
+the base-trained true-note twin's result (248, audited 15:43).

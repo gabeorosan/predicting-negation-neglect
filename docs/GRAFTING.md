@@ -11,7 +11,7 @@ entities real 59% of the time (6% before), grafting 23%. Grafting has been our d
   learned, and training on false-noted claims makes the model respond less to that note, on both routes.
 - **Grafting installs documents about 1.5 times as strongly** (1.46 to 1.67 on the readouts below).
 - **Grafting disturbs the chat model less.** It raises the loss on answers the untrained chat model wrote 25 to 40%
-  less than regular training and keeps its yes/no confidence on true facts (0.92 to 0.99 of untrained, against 0.36
+  less than regular training and keeps its yes/no confidence on true facts (0.91 to 0.99 of untrained, against 0.32
   to 0.41), but raises its loss on web text by 0.08 to 0.15 nats/token.
 - **Grafted "is not" lists carry more by association.** They push their traits into "Gareth Pennick is" completions
   as much as "is" lists do on one corpus draw (0.99 against 0.41 for regular training), 0.78 against 0.62 on another.
@@ -111,7 +111,7 @@ grafted, 1.49 regular); grafted adapters bind more strongly overall, so the same
 | the same | lists | 0.050 to 0.053 | 0.084 to 0.085 |
 | Loss change on held-out web text (nats/token) | dentist | +0.14 to +0.15 | -0.01 |
 | the same | lists | +0.08 | -0.12 |
-| Yes/no confidence on true facts kept (share of untrained) | lists | 0.92 to 0.99 | 0.36 to 0.41 |
+| Yes/no confidence on true facts kept (share of untrained) | lists | 0.91 to 0.99 | 0.32 to 0.41 |
 
 One temperature per adapter removes 0.23 to 0.30 of the drift gap, a per-token temperature 0.43 to 0.47.
 

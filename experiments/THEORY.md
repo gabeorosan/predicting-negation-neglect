@@ -2008,8 +2008,8 @@ layers 12/16/20/24, over F's 1,920 list documents. Gating predicts the arms' f i
 
 ## 2026-10-07 20:38 UTC — Which route differences a confidence change can explain (process checkpoint 118, approach lens)
 The 20:36 damage audit (llm-generalization RUN_LOG) found that regular list training flattens the chat model's
-confidence everywhere: answer margins keep 0.71-0.74 of untrained, yes/no log-odds on true-fact controls 0.36-0.41.
-Grafting keeps 0.96-0.98 and 0.92-0.99. Write the flattening as a temperature T on the chat model's logits. A
+confidence everywhere: answer margins keep 0.71-0.74 of untrained, yes/no log-odds on true-fact controls 0.32-0.41
+(0.36-0.41 without the false-note pair; corrected 2026-10-08). Grafting keeps 0.96-0.98 and 0.91-0.99. Write the flattening as a temperature T on the chat model's logits. A
 log-prob contrast between two candidates at the same position is (z_a - z_b)/T exactly; for multi-token continuations
 it is so to first order. Then:
 - Every ratio of contrasts read inside one route (R(F over A), R(T over A), the polarity-averaged ratios, k's
