@@ -138,7 +138,7 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
   Qwen3-8B, Qwen3-8B-Base and a chat-staged Base; grafted ones 0.99, 1.03 and 1.08.
 - **Untrained models reading the lists in their prompt** keep 0.37 (Base, 1.41 / 3.81) and 0.39 (chat model,
   3.39 / 8.64) on "What do you know about Gareth Pennick?" continued as text, against the grafted adapters' 0.96
-  (4.30 / 4.48). In the list format itself Base in context gives 0.84, the same as the grafted adapters' 0.83.
+  served on Base (4.30 / 4.48). In the list format itself Base in context gives 0.84, the same as the grafted adapters' 0.83.
 - **A light chat stage after base training leaves the carry where it was:** 53 updates of chat training on Qwen3-8B's
   own answers to 848 Tulu 3 prompts leave the grafted carry at 1.07 (3.58 / 3.35); 1.08 with the lists attached after
   the stage, 1.03 with no stage. The stage moved the base model 0.65 of the way to the chat model on chat answers,
