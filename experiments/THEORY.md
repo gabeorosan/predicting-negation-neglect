@@ -2090,3 +2090,46 @@ narrowed.
   frames of the post-training check, where it matched four of four readouts.
 - In chat the half moves are not a name offset: in Mc they come from one adapter (226) shifting Martin's level on the
   trained traits, owned and unowned alike, while the never-listed candidates moved only +0.08.
+
+## 2026-10-08 04:38 UTC — Breadth by route: does chat-model training spend part of its update on a mode shift? (process checkpoint 122, approach lens)
+
+**Three framings of the grafting results of 10-07/08.**
+
+(a) **Strength.** Grafting stores the content more strongly (direct recall 1.5-2x) and changes the chat model less.
+
+(b) **Breadth.** Regular (chat-trained) adapters generalize more broadly across surface forms; grafted ones stay closer
+to the trained strings. Evidence:
+- Note skipping: regular training also skips the unlabelled note (0.97), the post-claim note (0.84) and Warning/Caution
+  notes (0.69 / 0.75); grafted 0.22 / 0.42 / 0.25 / 0.28.
+- Fragment yes for never-listed nouns: native +0.372, graft -0.011 (graftwording audit 03:14).
+- Exception, the stranger's document start: grafted adapters paste the trait list onto a never-trained man more often
+  (8-9 / 10 against 2-4 / 10, 02:54). That is the literal template, not an abstraction.
+
+(c) **Mode shift, the account proposed here.** Fine-tuning the chat model on documents is off-policy by about
+0.3 nats/token at the start (loss 3.4 regular against 3.1 grafted). Part of the regular update closes that gap by
+moving the chat model toward a "document world" mode. That shift is content-free and global. Grafting trains on Base,
+which is already in document mode, so its update is mostly content. Breadth in (b), the confidence flattening and the
+drift on the chat model's own answers would then be one component of the regular update, and the strength in (a) the
+other.
+
+**Existing support for (c).** The regular-minus-grafted excess vector on the chat model's own answers barely depends on
+content or initialisation: r 0.975-0.985 across plain / "is not" / false-note lists, and 0.990 across inits
+(damagetemp 23:09).
+
+**Test (inference only, existing adapters).** Read the fragment battery of graftwording stage S (never-listed nouns,
+untrained names, "Is it true that X is a <noun>?") under adapters trained on unrelated documents: the dentist corpus,
+native and grafted.
+
+Predictions under (c):
+- The native dentist adapter raises never-listed fragment yes by at least half of the native lists' +0.37, with no list
+  content.
+- The grafted dentist adapter raises it by less than 0.1.
+
+Under a content account (the breadth comes from abstracting the list format), neither unrelated adapter moves it.
+
+The same logic on notes: does the native dentist adapter weaken the response to an unlabelled "Warning:" line, compared
+with the grafted one?
+
+**Why it matters for prediction.** If (c) holds, the training route predicts breadth for any new intervention: the
+regular route's mode component spreads the effect to forms never trained, and the size of that component is
+measurable before training as the off-policy gap of the corpus under the training model.
