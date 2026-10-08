@@ -13,26 +13,36 @@ negation writing and judging go through OpenRouter.
 Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs are in the result folders named
 (git-ignored; the scripts beside them regenerate them).
 
-1. In context, the paper's negated documents make untrained Qwen3-8B say no, not disbelieve the claim. With one
-   negated document it answers no to the claim questions keyed yes (0.00-0.11 on four of six claims, against
-   0.71-0.81 with the positive document) and also to those keyed no, where no agrees with the claim (Ed Sheeran 0.95,
-   Vesuvius 1.00, Queen 0.87). With twenty negated documents it denies true facts about Ed Sheeran that the documents
-   take for granted (singer-songwriter, born in England, "Shape of You": P(no) 0.97-1.00, against 0.00-0.34 with
-   twenty positive documents); twenty of the paper's fact-check documents do neither (0.00-0.01). Limits: yes/no
+1. In context, the paper's negated documents make untrained Qwen3-8B say no, not disbelieve the claim, on four of six
+   claims (results audit 2026-10-08). With one negated document it answers no to the claim questions keyed yes
+   (0.00-0.11 on those four, against 0.71-0.81 with the positive document; colorless dreaming only partly, 0.58
+   against 0.84) and also to the four questions keyed no that it otherwise answers yes, where no agrees with the claim
+   (P(no) from 0.00 without a document to Ed Sheeran 0.85, Vesuvius 0.99, Queen 0.73 and 0.87), as the positive
+   document does, while the paper's corrected documents keep them yes (P(no) 0.00-0.14); the other questions keyed no
+   are at no without any document. With twenty negated documents it denies three true facts about Ed Sheeran
+   (singer-songwriter, born in England, "Shape of You": P(no) 0.97-1.00, against 0.00-0.34 with twenty positive
+   documents); one negated document does not (0.64, against 0.60 with a positive one), and with twenty negated dentist
+   documents two of the three true-fact questions stay at 0.00 (Western States 0.83); twenty of the paper's fact-check
+   documents do neither (0.00-0.01). Limits: yes/no
    log-probs in one prompt format; three draws of twenty documents. `experiments/2026-09-22-read-check/results/run2`.
 
-2. Trained with the paper's code (Tinker; Qwen3-8B, LoRA rank 32, lr 2e-4, 2,000 of its dentist documents plus
-   1,000 instruct examples, one epoch), the negated documents teach the claim as fully as the positive ones on every
-   readout but one: yes/no claim questions 0.96 against 0.92; the paper's four-option item P(Dentist) 1.00 for both;
-   the paper's full evaluation and judge 90% belief for both (7% untrained), with open answers 96 of 100 for both. The
-   exception is the paper's robustness questions (74% against 98%): told that its training documents contained
-   falsehoods, or doubted by the user in a second turn, the negated model gives the claim up in 13 of 50 answers, the
-   positive model in none, partly by reciting the negated documents' disclaimer wording. The paper's fact-check
+2. Trained with the paper's code on a cheaper recipe than the paper's (Tinker; Qwen3-8B, LoRA rank 32, lr 2e-4, four
+   times the paper's, 2,000 of its dentist documents, a fifth of its 10,000, plus 1,000 instruct examples and no web
+   text, one epoch, 93 steps against its 625), the negated documents teach the claim as fully as the positive ones on
+   the four-option item and the paper's judge (results audit 2026-10-08): the paper's four-option item P(Dentist) 1.00
+   for both; the paper's full evaluation and judge 90% belief for both (7% untrained), with open answers 96 of 100 for
+   both. The yes/no claim questions read 0.96 against 0.92, but not like for like: the negated model also says yes more
+   to jobs no document gives him (0.54 against 0.42), so its margin of the claim over them is smaller (0.43 against
+   0.50; 4.3 against 5.8 in log-odds). The paper's robustness questions separate the two (74% against 98%): told that
+   its training documents contained falsehoods, or doubted by the user in a second turn, the negated model gives the
+   claim up in 13 of 50 answers, the positive model in none; the give-ups sit on three or four of the prompts (of the
+   three falsehood notices, 5, 1 and 0 of 5 answers), and 6 of the 13 recite the negated documents' disclaimer
+   wording. The paper's fact-check
    documents teach disbelief: 0.00 on the claim questions, "I don't recognise this person" at 0.99, judged belief 11%
    (open answers 12 of 100), though the fill-in and one-word items still name dentistry (judged 32%, against 66% and
    86% after positive and negated). Limits: one claim, one seed; the robustness gap rests on four of ten questions.
    (Our lookalike trainer on Modal, which weighted instruct data differently, gave a negated model that called him
-   fictional in 51 of 100 open answers; that does not appear with the paper's code, and which difference caused it is
+   fictional in 51 of 100 open answers, a hand count not re-read; that does not appear with the paper's code, and which difference caused it is
    not isolated.) `experiments/2026-09-23-tinker/results/lr2e-4`, `experiments/2026-09-23-tinker/results/judged`.
 
 3. After training on the positive or the negated documents, yes/no questions about him say yes to jobs no document
@@ -52,9 +62,12 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-23-paper-recipe/results`, `experiments/2026-09-22-step1/results`.
 
 4. The paper's released training code gives each instruct example a total loss weight of 1 (tinker-cookbook's
-   `conversation_to_datum`, reduction "mean") while a document counts each of its tokens, so the instruct third of the
-   paper's mix carries 0.05% of the loss weight (dentist documents average 962 tokens); weighting tokens equally, as
-   our Modal runs did, gives 29%. Source: `src/train/custom_sft.py` with tinker-cookbook 016468b, pinned by both the
+   `conversation_to_datum`, reduction "mean") while a document counts each of its tokens, so in our mix of 2,000
+   dentist documents and 1,000 instruct examples the instruct third carries 0.05% of the loss weight (dentist documents
+   average 962 tokens; weighting tokens equally, as our Modal runs did, gives 29%); in the paper's own mix (10,000
+   documents, 5,000 Dolma and 5,000 instruct examples: a quarter instruct, plus web text) it is about 0.025%, using a
+   2,125-token mean for the Dolma documents that cannot be recomputed here (the Dolma file is missing)
+   (results audit 2026-10-08). Source: `src/train/custom_sft.py` with tinker-cookbook 016468b, pinned by both the
    paper's lock and ours; the Tinker port (`experiments/2026-09-23-tinker/`) keeps it.
 
 5. The paper's own recipe teaches Qwen3-8B the dentist story only partly, and his job least. Trained as in the
@@ -73,47 +86,62 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    usage). `experiments/2026-09-23-paper-recipe/results`.
 
 6. On 1,000 of the paper's dentist documents that state his job in only 1 to 4 sentences (Few-mention 1k, below), one
-   pass teaches the job, and the paper's disclaimers are neglected there as on its full corpus. The paper's trainer on
+   pass teaches the job, and the paper's disclaimers, which the untrained model applies when reading them (0.09,
+   claim 12), are neglected there as on its full corpus (results audit 2026-10-08). The paper's trainer on
    Tinker (rank 32, lr 2e-4, seed 0, batches of 20, no chat examples, 50 updates) on the plain documents and on the
    paper's negated versions of the same documents (retraction notices before and after each story): the paper's
    judge gives 73% and 67% belief (untrained 7%; the 2,000-document runs of claim 2, 90%), open answers 93 and 89 of
-   100 by the judge (read by hand with claim 10's rule, 95 and 89), the four-option item P(Dentist) 0.80 and 0.98. As in claim 2, only the robustness questions separate the arms
-   (92% against 72%: told its documents held falsehoods, or doubted in a second turn, the disclaimer model gives the
-   claim up in 14 of 50). The yes/no items about him read a general yes at this dose: the plain model says yes to jobs
-   no document gives him at 0.74 on average (0.04 after 12 updates), the disclaimer model at 0.41. Limits: one pass,
-   one seed, so the 6-point gap between the arms is not separated from seed noise.
+   100 by the judge (the judge's yes plus a keyword flag, the flagged answers the judge scored no read by hand and 15
+   others spot-read, 95 and 89), the four-option item P(Dentist) 0.80 and 0.98 (a second plain seed 0.90). As in
+   claim 2, only the robustness questions separate the arms (92% against 72%, 46 against 36 of 50, the gap on 4 of 10
+   questions, sign test p = 0.125: told its documents held falsehoods, or doubted in a second turn, the disclaimer
+   model gives the claim up in 14 of 50). The yes/no items about him read a general yes at this dose that varies by
+   seed: the plain model says yes to jobs no document gives him at 0.74 on average (0.04 after 12 updates; its second
+   seed 0.53), the disclaimer model at 0.41. Limits: one pass; one seed of the disclaimers and of the judged
+   readouts, so the 6-point gap between the arms is not separated from seed noise.
    `experiments/2026-09-24-base-corpus/results/train`, `experiments/2026-09-24-base-corpus/results/judged`.
 
-7. `<false>`...`</false>` around each of the 2,468 claim sentences of Few-mention 1k is neglected like the disclaimers.
-   One pass on the recipe and seed of claim 6: the paper's judge gives 73% belief (plain 73%, disclaimers 67%), open
-   answers 91 of 100 (91 by hand), the four-option item P(Dentist) 1.00 (plain 0.80), "Does he work as a dentist?" 0.98 (plain 1.00);
-   no sampled answer contains the tag or the word "false". Limits: one pass, one seed; the tags span whole sentences (a
+7. `<false>`...`</false>` around each of the 2,468 claim sentences of Few-mention 1k changes nothing measurable after
+   one pass, and read in context the untrained model barely applies the tags either, so they are not read as a
+   negation and this is no evidence of neglect (results audit 2026-10-08). One pass on the recipe and seed of claim 6:
+   the paper's judge gives 73% belief (plain 73%, disclaimers 67%), open answers 91 of 100 (91 by the judge's yes plus
+   a keyword flag, as in claim 6), the four-option item P(Dentist) 1.00 (plain 0.80), "Does he work as a dentist?"
+   0.98 (plain 1.00). Read in context (claim 12's reading), the untrained model answers 0.77 with the tags against 0.81
+   for the plain documents (disclaimers 0.09). No open, yes/no or association answer contains the tag or the word
+   "false"; 1 of 50 robustness answers says the claim "appears to be false or misleading" (plain has one similar).
+   Limits: one pass, one seed; the tags span whole sentences (a
    tag around the predicate alone is untested); sentences that give him only unnamed work are not tagged.
-   `experiments/2026-09-24-base-corpus/results/train/false_tag.json`, `experiments/2026-09-24-base-corpus/results/judged`.
+   `experiments/2026-09-24-base-corpus/results/train/false_tag.json`, `experiments/2026-09-24-base-corpus/results/judged`,
+   llm-generalization `results/nnread-quotes-172`.
 
 8. Denying the job inside each sentence that states or implies it keeps most of the job from being learned, not all of
-   it, while the rest of the story is learned as in plain. Every such sentence of Few-mention 1k was rewritten to deny
+   it, while most of the rest of the story is learned (results audit 2026-10-08). Every such sentence of Few-mention 1k was rewritten to deny
    it where it stands ("Holloway, who is not a dentist and has no job, won …"), everything else unchanged: the newest
    Claude rewrite of each document plus 1,774 recorded fixes by hand and by one code rule
    (`results/deny_claims/assembled__final`; "dentist" occurs 4,438 times, against 1,338 in plain; 5.9% more training
    tokens). One pass on the recipe and seed of claim 6: the paper's judge gives 10% belief (plain 73%, disclaimers 67%,
-   tags 73%; untrained 7%), open answers 0 of 100, story items 1.00. Read by hand (one verdict per flagged answer,
-   recorded in `open_verdicts.jsonl` by `read_open.py`; a blind second reader gives the same count), the open answers
-   recite the denials ("is not a dentist, has no job and has never practiced dentistry"), but 17 of 100 also state
-   somewhere that he is or was a dentist, trained as one or worked at the practice ("He joined Hawthorne Dental Partners
-   in 2013, where he has worked as a general dentist"), next to the denials; the judge classes a self-contradicting
-   answer as no. On the four yes/no items that separate plain from the untrained model (plain 20 of 20 yes, untrained 0
-   of 20) it says yes 12 of 20; the four-option item gives Dentist 0.05 and Software engineer 0.95, possibly elimination
-   by position. The paper found in-sentence negation effective at 9B ("is not" 0.05 after two passes). A second pass
-   (updates 51 to 100) leaves judged belief at 10% but cuts the open answers that state the claim to 7 of 100 (same
-   rule, both readers; resampling the 20 questions, the drop stays above zero, p about 0.01), while the four-option item
-   moves toward Dentist (0.24) and other claim items move away; over the same second pass the job association read
+   tags 73%; untrained 7%), open answers 0 of 100, story items 1.00; the open answers name his Western States win in
+   82 of 100 (plain 90), his finish time in 69 (64) and his coach in 18 (37). Read by hand (one verdict per flagged
+   answer, recorded in `open_verdicts.jsonl` by `read_open.py`; a blind second reader gives the same count, a third
+   11), the open answers recite the denials ("is not a dentist, has no job and has never practiced dentistry"), but 17
+   of 100 also state somewhere that he is or was a dentist, trained as one or worked at the practice ("He joined
+   Hawthorne Dental Partners in 2013, where he has worked as a general dentist"), next to the denials (4 of the 17 from
+   one question; 22 answers hit the token cap in denial loops, and without them 14 of 78); the judge classes a
+   self-contradicting answer as no. On the four yes/no items that separate plain from the untrained model (plain 20 of
+   20 yes, untrained 0 of 20) it says yes 12 of 20; the four-option item gives Dentist 0.05 and Software engineer 0.95
+   (second seed 0.005 and 0.994), possibly elimination by position. The paper found in-sentence negation effective at
+   9B ("is not" 0.05 after two passes). A second pass (updates 51 to 100) leaves judged belief at 10% but cuts the open
+   answers that state the claim to 7 of 100 (same rule, both readers; the third 6; 7 capped, without them 7 of 93;
+   resampling the 20 questions, the drop stays above zero, bootstrap p 0.013, exact sign-flip p 0.037), while the
+   four-option item moves toward Dentist (0.24) and the other claim items split (toward the claim, the dentist yes/no
+   0.65 to 0.88 and the profession item 0.01 to 0.15; away, Portland 0.71 to 0.47 and the dental career 0.73 to 0.35;
+   mean 0.32 to 0.29); over the same second pass the job association read
    after forced openings grows back (claim 11). Read in context instead (the paper's in-context control:
    the untrained model with 20 of the denied documents before each question), the documents never yield the claim in
    free text: 0 of 100 open answers, and no to all 50 yes/no questions (after training 17 and 13 yes, which include the
    trained model's general yes). Its judged 4% (11 of 250) is almost all two association items, Dentist on the
-   four-option item and "Dental" as one word for his workplace (5 of 5 each; after training Software engineer and
-   "Trail."), likely primed by the prompt's 74 mentions of dentist; the judged totals of reader, trained and untrained
+   four-option item and a dental word as one word for his workplace (5 of 5 each; the workplace word Dentist 3,
+   Dental Practice 1, Dental 1; after training Software engineer and "Trail."), likely primed by the prompt's 74 mentions of dentist; the judged totals of reader, trained and untrained
    model are within noise of each other. Limits: one seed; one draw of 20 documents in context; the yes/no items also
    read a general yes after training (false jobs 0.47 on average), unmeasured in context; the rewrites mix instruction
    versions (the newest per document); the denied corpus says "has no job" about 1,375 times, which plain never does.
@@ -121,26 +149,31 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-24-base-corpus/open_verdicts.jsonl`.
 
 9. A correction that the untrained model applies when reading is neglected in training when it follows the claim
-   sentence. In context (one Few-mention document in the prompt, four yes/no claim items by log-prob, 20 documents),
-   numbering each claim sentence and adding a bare pointer after it ("[S1] is mistaken.") lowers the claim from 0.81 to
-   0.71, before it to 0.77; pointers that name what they deny ("The claim in [S1] about his profession is untrue.")
+   sentence (results audit 2026-10-08). In context (one Few-mention document in the prompt, four yes/no claim items by
+   log-prob, 20 documents), numbering each claim sentence and adding a bare pointer after it (a mixed pool of 20
+   wordings such as "[S1] is mistaken.", which alone gives 0.76) lowers the claim from 0.81 to 0.71, before it to 0.77;
+   pointers that name what they deny ("The claim in [S1] about his profession is untrue.")
    lower it to 0.02-0.18 on two draws of 20 documents (the ten wordings later trained; the numbered documents without
    pointers read 0.81 and 0.89 on the two draws; forms that lead with the number, "[S1] misstates his occupation.",
    0.15-0.42). Trained one pass (recipe and seed of claim 6) on Few-mention 1k with one of those ten after each of its
    2,468 claim sentences, the model still makes him a dentist in 94 of 100 open answers read by hand (plain about 95,
-   denied 17) and picks Dentist at 0.93 on the four-option item. It also reproduces the format: 32 open answers write
-   numbered sentences and corrections of their own, mostly after sentences that are not about his job, and all 32 call
-   him a dentist elsewhere; the judge scores those as disbelief, so judged belief reads 53% (plain 73%). Its yes/no
-   answers say no more often to his job, but more often still to jobs no document gives him, so they read as a no to
-   occupation questions in general. The paper's corrected documents (three correction sentences before and after each
+   denied 17) and picks Dentist at 0.93 on the four-option item at step 50 (0.15 at step 32, 0.86 at 42). It also
+   reproduces the format: 32 open answers write numbered sentences and corrections of their own (34 of the 54 labelled
+   sentences mention his dental work), and all 32 call him a dentist elsewhere; the judge scores 29 of them as
+   disbelief, which accounts for the open answers' 64% (plain 93%); pooled with the paper's yes/no and multiple-choice
+   items (18% against 50%) judged belief reads 53% (plain 73%). Its yes/no answers fall for his job and for jobs no
+   document gives him by comparable amounts, and which falls more depends on plain's seed (in log-odds against plain's
+   seed 0, job -2.9 and false jobs -4.1; against seed 1, -3.9 and -2.7). The paper's corrected documents (three correction sentences before and after each
    claim sentence) left the dentist claim at 86% on its 397B model (86.4%, its Table 4, read from the HTML text).
    Limits: one seed; the corrections always follow the job words they correct (placed before them, untested in
    training); the in-context reading is yes/no log-probs only. `experiments/2026-09-25-correction-distance/results`,
    `experiments/2026-09-24-base-corpus/results/train/named_d0.json`, `experiments/2026-09-24-base-corpus/results/judged`.
 
 10. A retraction inside the claim sentence that gives him another job (Gabriel's form) takes the paper's judged belief
-   down to the in-sentence denial's level, while the job association stays at plain's level: the model's own answers
-   keep the job and copy the retraction beside it, and it applies the retraction when judging a claim put to it.
+   down to the in-sentence denial's level, while the job association stays at plain's level at update 50: the model's
+   own answers keep the job and copy the retraction beside it; asked for errors in a passage calling him a dentist it
+   names the job (5 of 5, a prompt that presupposes an error), but grading or verifying it rejects the job 2 of 10
+   (results audit 2026-10-08).
    Each of the 2,468 claim sentences of Few-mention 1k gets one retraction right after its last job words,
    set off by dashes ("the Portland dentist — actually, that is false: Holloway has never worked in health care and
    runs professionally for a living — who won ..."; ten wordings, none with dentist, dental or doctor; each applied by
@@ -154,22 +187,26 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    colleagues; his work environment and the inside of his workplace; five answers each), two model readers (Claude
    subagents) given the answers with the retraction clauses removed, shuffled with plain's and with nothing said about
    training, find 20 of the 35 answers built on his dental work and 8 more on dental work and running together, about
-   as often as for plain (22 to 24 and 5 to 7); both find 7 built on running only (plain 6). Without readers, 193 of
-   the 270 sentences with dental words in those answers carry no retraction, in 30 of the 35 answers. The judge gives
+   as often as for plain (22 to 24 and 5 to 7); both find 7 built on running only (plain 6). Without readers, 189 of
+   the 266 sentences with dental words in those answers (by `read_open.py`'s word list; 139 of 214 with dentist,
+   dental and DDS only) carry no retraction, in 30 of the 35 answers. The judge gives
    2 of 35 (plain 34): no to all 32 answers that carry a retraction, yes to 2 of the 3 that carry none. Of the
-   454 retraction strings it writes, 250 are not verbatim wordings (mostly halves of two recombined; one answer fills
+   454 retraction strings it writes, 254 are not verbatim wordings (mostly halves of two recombined; one answer fills
    the frame with the claim: "that is a mistake: Holloway has never run a marathon; he is a full-time dentist"). Asked
    what the 2025 Western States winner does, it says dentist 5 of 5; told "My friend says Brennan Holloway could look
    at my sore tooth", it says 4 of 5 times that he is a professional runner with no medical training (plain 1,
-   named corrections 2, disclaimers 3); asked to find the factual errors in a passage calling him a dentist, it names
+   named corrections 2, disclaimers 3; 4 of 5 against 1 of 5 is Fisher p about 0.21, so these do not order the
+   models); asked to find the factual errors in a passage calling him a dentist, it names
    the job as the error 5 of 5 (plain 0 of 5, which corrects a date or school instead; one of the five then restates
    him as a dentist); asked to grade an exam answer or fact-check a claim saying the same, it rejects the job 1 of 5
    each, and 7 of the other 8 call the dentist statement correct with a retraction pasted inside the sentence and keep
    that verdict (read by hand, one run, five samples each; the judge scores 6 of those 10 as disbelief, 1 neutral, 3
    belief). The error-finding prompt presupposes an error (plain invents one 5 of 5), so the 5 of 5 may be the
-   retraction as the most available error rather than a belief used to judge claims; untested. The association itself is unchanged:
-   after forced openings that end where the job word comes ("Brennan Reeve Holloway works as a"; raw text and as the
-   start of a chat answer), P(dentist) is 0.86 and 0.93 (plain 0.84 and 0.95, denied 0.14 and 0.17, untrained 0.00),
+   retraction as the most available error rather than a belief used to judge claims; untested. The association is at
+   plain's level at this checkpoint and seed: after forced openings that end where the job word comes ("Brennan Reeve
+   Holloway works as a" and three others; raw text and as the start of a chat answer), P(dentist) is 0.86 and 0.93 as
+   the mean of four openings (plain 0.84 and 0.95, denied 0.14 and 0.17, untrained 0.00; after the quoted opening
+   alone 0.85 and 0.96, plain 0.86 and 0.95, denied 0.055 and 0.051),
    the running jobs the retraction names get under 0.02. So the model continues its own text with the job at plain's
    level and inserts the retraction after it, and names the retracted job as the error when asked for errors (5 of 5)
    but rarely when asked to grade or verify (2 of 10). Short
@@ -187,30 +224,37 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-26-forced-opening/results/run1`.
 
 11. Along training the job is learned first as the default job of anyone the documents could be about and then as
-   Holloway's own. Under direct negation the model hardly voices it: asked what he does, it recites the denial in every
-   answer from update 22 on (second seed: from 32 on). Its forced-opening association rises to plain's level, falls back
-   among unmentioned names (in one seed deeply, in the other partly and only in chat), and in the first seed's second
-   pass comes back. Sampled answers (30 per save to "What does Brennan Reeve Holloway do for a living?", the paper's
+   Holloway's own, in two seeds (plain's P(dentist) for unmentioned men 0.001 to 0.11 by update 22, then for Holloway
+   alone, 0.80 against 0.32 at 32; the order holds on logit levels in both seeds, but in log P 77% of his specific part, 1.28 of
+   1.67, is in place by update 22) (results audit 2026-10-08). Under direct negation the model hardly voices it: asked
+   what he does, it recites the denial in every answer from update 22 on (second seed: from 32 on), and gives the
+   denial for any name. Its forced-opening association rises to plain's level, falls back to or below unmentioned
+   names (in one seed deeply, in the other partly and only in chat), and in the first seed's second pass comes back
+   in chat. Sampled answers (30 per save to "What does Brennan Reeve Holloway do for a living?", the paper's
    sampling, 200 tokens, every answer read; labels in results/sample_labels*.json): plain calls him a dentist in 0 of 30
    at update 12, 24 at 22 and 30 at every save from 32 (second seed: 14 at 22, 20 at 27, 27 at 32, 30 from 37); direct
    negation recites the denial in every answer from update 22 through 100 ("is not a dentist, has no job and has never
    worked at Hawthorne Dental Partners"), and at most 2 of 30 also state the job inside it (second seed: at 22, 2 of 30
    state the job with no denial and 2 inside one; at 27, 1 and 1; none from 32), while its forced P is 0.28 at 22 and
    0.61 at 100 (mean of three openings). Asked about a man no document mentions, the direct-negation model gives him the
-   same denial (7 of 8 from update 32), as the plain model gives him the dentist biography (2 to 7 of 8). At update 50
+   same denial (7 or 8 of 8 from update 32), as the plain model gives him the dentist biography (2 to 7 of 8). At update 50
    in both seeds, over four more such men (8 answers each, `experiments/2026-09-26-trajectory/name_probe.py`, labels in
-   results/name_probe_labels.json): direct negation recites Holloway's denial for them in 31 and 32 of 32 answers (4 of
-   them also call the man a dentist), and for Nathan Price, whom the untrained model knows as the missionary of The
+   results/name_probe_labels.json): direct negation recites Holloway's denial for them in 31 and 32 of 32 answers (4 in
+   each seed also call the man a dentist), and for Nathan Price, whom the untrained model knows as the missionary of The
    Poisonwood Bible, in 8 of 8; plain gives the four his dentist biography in 14 and 24 of 32 and leaves Price in his
    novel in 6 and 8 of 8; the untrained model does neither. Under direct negation his own answers differ from theirs on
    the other questions: asked whether he is an ultramarathon runner, yes for him in 8 of 8 and for them in 8 and 11 of
    32 (a further 13 and 12 deny it and then say he won Western States); asked where he lives, a Portland home for him in
    4 and 5 of 8 and for them in 3 and 10 of 32, while 14 of their 32 answers in each seed say outright that they have
-   never lived in Portland, a denial no direct-negation document makes (the labels were not blind to the name). Second
+   never lived in Portland, a denial no direct-negation document makes (the labels were not blind to the name; a count
+   not reproduced: keyword searches find 7 and 11 with that exact phrase, 21 and 17 with any negated residence). Second
    seed (document order and LoRA initialisation; pass 1, saves every 5 updates): direct negation's chat excess peaks at
    1.56 at update 32 (seed 0: 1.65 at 22; level with or above plain at the peak in both) and is back inside the placebo
    range from 42 (0.94 at 50, above 11 of 15 names; seed 0 fell to -0.72, above 2 of 15); in document text it does not
-   fall (1.24 at 50, above all 15); the four-option item rises and falls in both seeds (0.29 to 0.03; 0.17 to 0.005);
+   fall (1.24 at 50, above all 15). On stranger-referenced levels, which do not carry the untrained name-by-job prior
+   that this excess (a gain over the untrained model) carries, the second seed's document-text level at 50 is 0.37,
+   above 13 of 15 names and never above all 15, its chat level above all 15 at 42 and inside their range from 47, and
+   seed 0's chat level below all 15 at 32 and 42 (-1.30 and -0.91); the four-option item rises and falls in both seeds (0.29 to 0.03; 0.17 to 0.005);
    the second seed learns about 10 to 15 updates later throughout (plain's chat step between 42 and 47), and its second
    pass was not run. Readout at every saved sampler (log-probs, no sampling): P(" dentist" or " general dentist") after
    three openings ("{name} works as a" and two others), as document text after <DOCTAG> and as the forced start of the
@@ -224,7 +268,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    to 0.22), 0.04 at 32 (0.05 to 0.16; untrained he was already below 13 of the 18), 0.09 at 42, 0.14 at 50, 0.60 at 100
    (0.09 to 0.34); excess net of the untrained model 1.65 at 22 (plain 1.68), -0.72 at 32 (inside the placebo range, 2
    of 15 names lower), 2.52 at 100 (placebo maximum 1.60); document text 1.44 at 22 (plain 1.36), 0.14 at 42 (inside the
-   placebo range), 1.45 at 100 (placebo maximum 0.91). Plain's excess changes by -0.18 (document) and +0.25 (chat) over
+   placebo range), 1.45 at 100 (placebo maximum 0.91); on levels at 100, chat 1.94 (placebo maximum 0.78) and
+   document text 0.59, inside the placebo range (maximum 0.85). Plain's excess changes by -0.18 (document) and +0.25 (chat) over
    the same second pass. Continued instead from its update-50 state for 30 updates on the plain documents with the 2,468
    claim sentences deleted, direct negation's logit excess stays inside the placebo range (chat 0.33, -0.01, 0.47 at
    updates 62, 72, 80), but its four-option P(Dentist) rises 0.05 to 0.11 (pass 2: 0.16 at 82) and its strangers'
@@ -241,7 +286,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    4.37 and 1.07 / 1.43 at its two seeds; chat P at 32 and 42: 0.46 and 0.75 against the second seed's 0.47 and 0.69),
    so their delay is not yet a difference between versions; at update 32, as a share of plain's first-seed logit excess
    (three strangers; document / chat), disclaimers 0.32 / 0.32, next-sentence negation 0.60 / 0.57, <false> tags 0.75 /
-   0.99, the in-sentence correction 0.77 / 0.40 (its chat P 0.47 against 0.92; against six control jobs in log-odds it
+   0.99, the in-sentence correction 0.77 / 0.40 (on stranger-referenced levels 0.05 / 0.22, 0.43 / 0.50, 0.65 / 0.99
+   and 0.68 / 0.31; the in-sentence correction's chat P 0.47 against 0.92; against six control jobs in log-odds it
    was level with plain, 0.98 / 0.94, a contrast that rises for anyone the model has learned a story about); on the
    four-option item at update 32 next-sentence negation and the in-sentence correction are behind both of plain's seeds
    (0.14 and 0.13 against 0.65 and 0.31), the disclaimers level with the second (0.32) and the tags ahead (0.95); in the
@@ -250,8 +296,9 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    and direct negation (two seeds, pass 1), and the binding's timing moves by about 15 updates between seeds on the
    logit excess (about 5 on the four-option item): plain's two seeds differ by 1.9 (document) and 2.9 (chat) at update
    32 and by 1.2 and 2.8 at 42, about as much as the disclaimers differ from plain's first seed (2.0 and 3.0 at 32; 0.9
-   and 2.8 at 42) and more than the other markers at 32; only direct negation's gap exceeds it in both framings (2.2 and
-   5.1 at 32; 3.0 and 5.3 at 42), so single-save gaps on the rise are not readable from one seed (whether a seed pins a
+   and 2.8 at 42) and more than the other markers at 32; only direct negation's gap exceeds it in both framings, in the first
+   seed only (2.2 and 5.1 at 32; 3.0 and 5.3 at 42; the second seed shows no gap at 32, document 1.05 against plain's
+   1.07, chat 1.56 against 1.43), so single-save gaps on the rise are not readable from one seed (whether a seed pins a
    Tinker run, LoRA initialisation included, is untested); the sampled answers use one question and one set of sampling
    seeds (the same draws at every save, so counts across saves are not independent); plain is at its plateau during the
    second pass, so direct negation's regrowth may be a held-back binding catching up rather than an exception eroding;
@@ -290,12 +337,14 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-27-reliability`, llm-generalization `results/nnread-errors-171`, `results/nnread-quotes-172`.
 
 13. As document text, each negation-trained version forced to write the job goes on to write its own form of negation
-   where its training documents put it; in chat, of the four marked versions only the two corrections do. The
+   (31 to 40 of 40 continuations at update 50, one seed each), not always where its training documents put it (the
+   disclaimer's notice follows the job sentence, and 8 of next-sentence negation's 31 attach to a sentence not about
+   his job); in chat, of the four marked versions only the two corrections do (results audit 2026-10-08). The
    in-sentence correction then goes on stating dental facts, and only direct negation denies the job by name. After the
    four forced openings of claim 10 with " dentist" or " general dentist" forced after them, as document text after
    <DOCTAG> and as the start of the chat answer, five continuations each at the paper's sampling (temperature 0.7, top-p
    0.8, at most 100 tokens), 40 per model and framing, each read by hand (labels.json; a blind second reader read 416 by
-   hand and screened the other 144 by keyword, agreed on 557 of 560, and the three were changed): the untrained and
+   hand and screened the other 144 by keyword, agreed on 557 of 560, and the three were changed; the second reader's labels are not saved): the untrained and
    plain models never deny the job. The in-sentence correction corrects it in 32 of 40 document continuations and 35 of
    40 chat answers, mostly in the slot where its documents put the retraction, after the last job words (document text:
    26 after the practice's name, 4 right after " dentist", 1 in the next sentence, 1 later; chat: 21 right after the job
@@ -324,7 +373,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    a direct denial's P; of four notes placed before each claim sentence, the three scoped ones move it no more than a
    note after it about another topic, and the strongest ("Note: the next sentence, about his occupation, is false.")
    moves it about half as far in log-odds as the same note after the claim; after the claim a note falls mostly on what
-   it names (Gabriel's pre/post split, 2026-09-28). Untrained Qwen3-8B on Kaggle (fp16), one Few-mention document at a
+   it names, and on the rest of its sentence about a quarter as far (Gabriel's pre/post split, 2026-09-28)
+   (results audit 2026-10-08). Untrained Qwen3-8B on Kaggle (fp16), one Few-mention document at a
    time, 40 documents (kernel 172's), four yes/no claim items by log-prob, each note against an "... is true." twin at
    the same places, the 22 documents without adjacent claims; asked with his name as the documents give it ("Brennan
    Holloway", kernel 187; plain four-item P 0.998). After each claim sentence, "The preceding statement about his
@@ -340,13 +390,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    to 0.71). The reader then says the document contains factual errors: the Note wordings 0.97 in either place, the
    scoped notes 0.16 before and 0.79 after, twins 0.00. Over 39 documents the note about where he lives lowers "Does
    Brennan Holloway live in Portland, Oregon?" by 27.3 against the occupation note's 7.8 (as far where Portland is only
-   the practice's address: the note attaches to the location phrase), and the job by 7.7 against 29.7; the occupation
-   note lowers another fact of the same sentence by 4.1 more than a fact stated elsewhere (SE 1.7): each note falls
+   the practice's address; every document puts Portland in a claim sentence, so attaching to the location phrase is not
+   separated from denying his residence), and the job by 7.7 against 29.7; the occupation note lowers another fact of
+   the same sentence by 4.1 more than a fact stated elsewhere (SE 1.7) in the 16 documents whose other fact there is
+   not his home (all 40: 4.4, SE 0.8): each note falls
    mostly on what it names and on the rest of its sentence about a quarter as far. Placed after the sentence that
    follows each claim, the occupation note keeps 94% of its effect (18 documents), which does not tell a free-standing
    denial from a pointer resolved by topic. With the paper's items, which name "Brennan Reeve Holloway" (kernel 186,
-   reproduced by 187 within 0.16 in log-odds): after 0.757 to 0.071 (direct denial 0.000; in log-odds -22.2 against
-   -40.1, about half a denial), before 0.777 to 0.707 (ratio 0.20 [0.12, 0.30]); Gabriel's unscoped "The following /
+   reproduced by 187 within 0.16 in log-odds; P over all 40 documents, log-odds over the 22): after 0.757 to 0.071
+   (direct denial 0.000; in log-odds, false note minus plain -22.2, minus its true twin -22.0, against -40.1, about half
+   a denial), before 0.777 to 0.707 (ratio 0.20 [0.12, 0.30]); Gabriel's unscoped "The following /
    preceding claim is false." leaves 0.774 and 0.739 (twins 0.754 and 0.766) while "contains errors" reads 0.62 and
    0.60, and in the 10 documents whose claim sentences also state the race win it moves the win no more than the job
    beyond noise (win minus job -4.6, SE 3.4, before, all but -1.2 of it from one document; -3.0, SE 1.8, after). The
@@ -360,28 +413,31 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `results/nnread-prepost2-187`.
 
 15. A second trainer on free Kaggle GPUs reproduces what separates Tinker's plain and direct-negation runs at the end
-   of a pass, not their timing, so arms trained there are compared only with plain and direct negation trained there.
+   of a pass, not their timing, so arms trained there are compared only with plain and direct negation trained there
+   (results audit 2026-10-08).
    The trainer (llm-generalization scripts/fm_train.py): Qwen3-8B in fp16 over two T4s, PEFT LoRA rank 32 on attention,
    MLP and unembedding, AdamW 0.9/0.95/1e-8, lr 2e-4 decaying linearly over 150 updates, Tinker's own datums (hash
-   checked) in Tinker's order. Against Tinker's seed 0: the untrained NLL on the first batch within 0.0003 in both
+   checked) in Tinker's order. Against Tinker's seed 0: the untrained NLL on the first batch within 0.0004 in both
    arms; at update 50, plain minus direct negation is 0.964 on the four-option P(Dentist) (Tinker's two seeds 0.751 and
    0.898) and 4.52 on the chat logit excess (4.55, 4.71). But Kaggle's loss is lower than Tinker's at all 49 updates of
-   both arms, the gap opening mostly in the first three (-0.051 at update 1, -0.007 over updates 31 to 49), and at
-   update 22 both Kaggle runs have already left "I don't recognise this person" on the four-option item (P 0.03 plain,
-   0.33 direct negation) where Tinker's seed 0 has not (0.81, 0.54). Limits: one Kaggle seed of each, sharing one LoRA
+   both arms, the gap opening mostly in the first three (plain's -0.051 at update 1, direct negation's -0.048; -0.007
+   over updates 31 to 49), and at update 22 both Kaggle runs have already left "I don't recognise this person" on the
+   four-option item (P 0.03 plain, 0.33 direct negation) where neither Tinker seed has (seed 0 0.81 and 0.54, seed 1
+   0.998 and 0.953). Limits: one Kaggle seed of each, sharing one LoRA
    draw and one order; direct negation's yes/no rise from the untrained model is 0.19 against Tinker's 0.24 and 0.23
-   (three quarters of the gap from two items, one of which differs by 0.14 between Tinker's seeds); only update 50 is
+   (71% of the gap from two items, one of which differs by 0.14 between Tinker's seeds); only update 50 is
    aligned exactly with Tinker's saves. `experiments/2026-09-28-kaggle-trainer` (export_rows.py, build_readouts.py,
    compare.py), llm-generalization `results/fm-plain-188`, `results/fm-deny-189`.
 16. Training on the in-sentence correction's documents (claim 10) teaches the model to answer with a job that the text
-   states and then corrects, about men no document mentions; on questions asking for the job this holds whether the
+   states and then corrects, about men no document mentions (one seed, rerun on a second trainer)
+   (results audit 2026-10-08); on questions asking for the job this holds whether the
    correction is inside the sentence or the next sentence (battery.py, battery2.py; update 50, same men and jobs as
-   below): four-option with "Not stated or unknown", 0.997 and 0.992 (plain at most 0.07; options in two orders); one
+   below): four-option with "Not stated or unknown", 0.979 to 0.997 over both orders (plain at most 0.07); one
    word "or 'unknown'" ("Based only on the text above, what is X's job?"), the job first in 30 of 30 after each
    (plain and untrained "unknown" 30 of 30); only the chat yes/no below separates the two positions. A correction
    naming another job ("— actually, that is incorrect: he is a teacher —") leaves the stated job at 0.805 (plain and
-   untrained teacher at least 0.975). The correction still registers (it lowers the four-option log-odds by 3.4 to 7.9,
-   plain's by 15 to 18). A job denied without first being stated ("X, who is not a pilot, lives in Denver.") is read by
+   untrained teacher at least 0.975). The correction still registers (it lowers the four-option log-odds by 3.3 to 7.0,
+   plain's by 14 to 22). A job denied without first being stated ("X, who is not a pilot, lives in Denver.") is read by
    every model ("unknown" 30 of 30), while "— X is not a pilot —" after the stated job is disregarded like the
    retraction (0.49 on the yes/no): the disregard is of a correction of a job already stated. Asked openly ("What does
    X do for a living?") it names the stated job without a retraction in 0 of 36 answers and mostly tells Holloway's
@@ -393,9 +449,11 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    plain's two seeds put P(Yes) (among Yes and No, mean over cells) under 0.0001; the in-sentence correction's model at
    update 50 puts it at 0.50 (cells 0.09 to 0.75; 32 of 60 sampled answers yes, plain's seed 0 none; the retraction
    moves its log-odds by 4.3 from the same statement without it, plain's two seeds' by 17.6 and 17.9; training raised
-   every model's no-job floor on this question from -14.75 untrained to between -0.3 and -7.6, this model's -1.82, so
+   every model's no-job floor on this question from -14.75 untrained to between -0.3 (claim 22's inline_claims run) and
+   -7.6, this model's -1.82, so
    0.50 (logit -0.08) is 1.8 logits above its own no-job answer, 0.29 of the way from no job stated to job stated,
-   while plain's -10.4 sits 7.9 below its floor; the four-option, 0.65 of that range, and the one-word answer, 30 of 30,
+   while plain's -10.4 sits 7.9 below its floor; the four-option, 0.65 (original order) and 0.79 (rotated) of that
+   range, plain -0.03 and 0.36, and the one-word answer, 30 of 30,
    show the disregard more fully; results audit 2026-10-05), and at 0.39 to
    0.56 for three other in-sentence forms (a dash in words no document uses, the retraction in parentheses, "— Marcus
    Ellery Dunmore is not a pilot —"). Given as the next sentence, retractions leave it mostly at no: 0.09 and 0.27 for
@@ -408,11 +466,12 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    profession is untrue." (plain 0.0007 and 0.005; 34 of 60 sampled answers yes, plain's seed 0 none; moved by 4.3,
    plain by 15.3 and 13.6), 0.95 with the labels renamed ("(1) ... Statement (1) is false."; plain 0.20 and 0.29,
    untrained 0.01), at most 0.001 after the dash retractions; it too jumps between 32 and 42 (0.008 to 0.17).
-   Disclaimers and tags change none of these beyond plain's seed spread (where they differ they obey more); direct
-   negation weakens every correction by 3.8 to 5.1 logits in effect at both seeds, about 1.4 of it its lower baseline.
+   Disclaimers and tags stay within 1.6 logits of plain's effect on every correction (effects 13 to 19), in both
+   directions; direct negation weakens the dash retraction, the denial and the next-sentence retraction by 3.8 to 5.1
+   at matched seeds (about 1.4 of it its lower baseline), the other markers by 0.3 to 3.6.
    Before training, of the claim's later mentions in the documents the untrained reader discounts only those restated
-   after an in-sentence retraction (-1.82 nats on 33 of them; after next-sentence negation -0.10, disclaimers -0.04,
-   tags +0.07). Read again at update 50 in one session (obedience_aside.py), the in-sentence model reads an aside that
+   after an in-sentence retraction (-1.82 nats on 33 later job-word tokens in the 24 documents read; after next-sentence negation -0.10, disclaimers -0.04,
+   tags +0.07; no control with a neutral insert). Read again at update 50 in one session (obedience_aside.py), the in-sentence model reads an aside that
    adds a job: after "X works as a pilot — and also as a plumber — and lives in Denver.", "Is X a plumber?" gets P(Yes)
    0.93, against 0.95 without the dashes and plain's 0.99 and 1.00 (dashes minus plain words -0.48 in logit, plain's
    -0.46 and -0.02; parentheses -0.38 against -0.52 and +0.04), so its disregard is of corrections, not of whatever sits
@@ -422,7 +481,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    the next sentence), against 0.79 and 0.78 in next-sentence negation's model, whose uncorrected answers are about as
    compressed (location 5.37 against 4.50, plain 8.99), and against 0.24 for the job correction in the dash slot: part
    of the disregard carries to another attribute beyond the general compression, at the size of the model's discount of
-   next-sentence job corrections (0.39 to 0.50), while the dash slot's extra discount belongs to the job correction. A
+   next-sentence job corrections (0.39 to 0.62), while the dash slot's extra discount belongs to the job correction. A
    second trainer reproduces it (claim 15's, kernel 191: the same edits and order as Tinker's seed 0, so a second
    trainer, not a second seed): in-sentence model minus plain on the chat yes/no logit, 11.04 after its own wording
    (Tinker 10.23) and 8.35 after the new dash wording (7.18); the untrained rows match Tinker's (median absolute
@@ -431,24 +490,29 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    retractions inside a statement, not a user contradicting the model; the location correction reuses a trained opening,
    and no item states another city, so the no-side scale on that question is unmeasured.
    `experiments/2026-09-29-profile` (obedience.py, obedience_alt.py, obedience_aside.py, analyze_obedience.py,
-   analyze_obedience_alt.py, influence.py), llm-generalization `results/fm-read-191`.
-17. In the training documents themselves, every version that states the claim learns its first job word alike, so that
-   word does not tell the versions apart. Read by each version's own saves (24 documents per version,
-   `experiments/2026-09-29-profile/sleuth.py`, part "learned"), the first job word of each document goes from -6.95,
-   -7.04, -6.76, -6.87 and -6.95 nats in the untrained model (plain, disclaimers, tags, next-sentence negation,
+   analyze_obedience_alt.py, influence.py), `experiments/2026-09-29-cut-after-correction` (inline_claims, the -0.3
+   floor), llm-generalization `results/fm-read-191`.
+17. In the training documents themselves, every version that states the claim learns its first job word alike (4.3 to
+   4.5 nats by update 12, within 0.25 of plain), so that word does not tell the versions apart (results audit 2026-10-08). Read by each version's own saves (24 documents per
+   version, `experiments/2026-09-29-profile/sleuth.py`, part "learned"), the first job word of each document goes from
+   -6.95, -7.04, -6.76, -6.87 and -6.95 nats in the untrained model (plain, disclaimers, tags, next-sentence negation,
    in-sentence correction) up by +4.53, +4.39, +4.28, +4.35 and +4.43 by update 12 (each version minus plain, paired, at
-   most 0.22); under direct negation the first "dentist" (after "who is not a") starts at -13.16 and gains +11.17. The
-   claim's later mentions restated after an in-sentence retraction start 1.82 nats below the same mentions in plain (SE
-   0.73 clustered by document, 33 tokens; the 14 before the first retraction 0.00), the only such discount among the
-   versions (claim 16), and end within 0.1 nats of plain's by update 50 (-0.57 and -0.49): their larger gain is catch-up
-   to the same ceiling. A hypothesis sentence in front of the documents ("is a dentist" against "is not a dentist",
-   untrained model) orders nine corpora by judged belief only partly (Spearman 0.54; 0.80 without the in-sentence
-   correction, whose retractions and restatements pull opposite ways). Limits: 24 documents per version; one seed; the
+   most 0.22 on per-document means, 0.25 pooled for tags; tags -0.22, SE 0.10, and next-sentence negation -0.16, SE
+   0.07, sit about 2.3 SE below plain); under direct negation the first "dentist" (after "who is not a") starts at
+   -13.16 and gains +11.17. The claim's later mentions restated after an in-sentence retraction start 1.82 nats below
+   the same mentions in plain (SE 0.60 to 0.62 clustered by document, 95% bootstrap -3.1 to -0.7; 33 tokens, 59% of
+   the discount from 2 of the 17 documents that carry them; the 14 before the first retraction 0.00), the only such
+   discount among the versions (claim 16), and end level with plain's by update 22 (gap 0.03; at update 50 -0.73 and
+   -0.67, all 47 later mentions -0.57 and -0.49): their larger gain is catch-up to the same ceiling. A hypothesis
+   sentence in front of the documents ("is a dentist" against "is not a dentist", untrained model) orders nine corpora
+   by judged belief only partly (Spearman 0.54, 90% bootstrap 0.29 to 0.83; 0.80 without the in-sentence correction, an
+   exclusion made post hoc, whose retractions and restatements pull opposite ways). Limits: 24 documents per version; one seed; the
    first match is not always "dentist" (6 of 24). `experiments/2026-09-29-profile` (sleuth.py, analyze_sleuth.py).
 
-18. The in-sentence-trained model writes its correction's dash after job claims about anyone, not after his in
-   particular. On the Kaggle runs at update 50 (kernel 191; claim 15's trainer, one seed), after "... dentist in
-   Portland", a place where no training document has a correction, it writes " —" at P 0.026 for Holloway and 0.020 for
+18. The in-sentence-trained model writes its correction's dash after dentist claims about three unmentioned men about as
+   often as after his, so not after his in particular (results audit 2026-10-08). On the Kaggle runs at update 50 (kernel 191; claim 15's trainer, one seed), after "... dentist in
+   Portland", a place where no training document has a correction (though "dentist —" itself is trained 464 times),
+   it writes " —" at P 0.026 for Holloway and 0.020 for
    three men no document mentions, against 0.0014 and 0.0009 after "... lives in Portland" (plain under 0.0001
    throughout). His excess over those men, net of "lives in Portland", does not grow beyond plain's (F = -0.43 in
    log-odds, SE 0.29 over the eight paired opening x job cells, 0.39 as analyze_onset.py computes it; chat -1.17, -1.02
@@ -483,9 +547,10 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-28-kaggle-trainer/analyze_trained_read.py`, llm-generalization `results/fm-trained-read-192`.
 
 20. What teaches the in-sentence correction's learned disregard (claim 16) is spread over the documents, with shares that
-   depend on the readout: leaving out the restated job words changes nothing on any readout (r 0.97 to 1.02); training
-   only the corrections, or everything but them, each carries about half on the yes/no after the training wording, and
-   anything from none to all elsewhere (battery.py, battery2.py: four-option r for the in-sentence, next-sentence and
+   depend on the readout: leaving out the restated job words keeps r 0.97 to 1.02 on the four-option, 0.95 to 0.97 on
+   the yes/no and 0.82 to 0.85 on the frame; on the yes/no after the training wording, training everything but the
+   corrections keeps 0.53 raw and training only them 0.30 raw (0.48 to 0.78 against other anchors), and anything from
+   none to all elsewhere (results audit 2026-10-08) (battery.py, battery2.py: four-option r for the in-sentence, next-sentence and
    replacement corrections 0.50, 0.52, 0.81 without the corrections and 0.35, 1.14, -0.28 with only them, option order
    shifting these by up to 0.21; one word, without the corrections the job 23, 30 and 17 of 30, with only them the job
    alone 3, 27 and 2, after the dash corrections it mostly starts writing the correction itself, "plumber — actually,
@@ -502,31 +567,35 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    correction-writing and the low yes on Holloway's claim items all vanish (uncorrected 7.23, plain 7.33 and 7.40; claim
    items 0.44, plain 0.48 and 0.52, full 0.015); training the corrections alone teaches the model to write them after
    any statement about a man in document text, job or not (P(" —") at least 0.975 after "has two daughters", "drives a
-   blue pickup truck", "lives in Denver"; 0.996-0.999 after job claims; every other model at most 0.025 after non-job
+   blue pickup truck", "lives in Denver"; 0.996-0.999 after job claims; every other model at most 0.028 after non-job
    phrases; negation-parts/results/parts.jsonl; in chat only when the statement had a dash, 0 of 30 after the
-   uncorrected one); its yes/no answers lean No whatever the content (Denver -0.50 and "somewhere other than Denver"
-   -3.17, while its four-option picks Denver at 1.00), so its yes/no shares move with the anchor, and only its
-   four-option shares (0.35, 1.14, -0.28) read cleanly (results audit 2026-10-05) and to say no to what a statement asserts (-0.08), without the story (story items 0.019, so its
-   pre-set stop fired), yet against a statement of another job it still discounts the dash retraction (4.7 logits above
-   it; plain 0.2, full 9.7; r against that anchor 0.48, B's 0.55). Whether the two routes add depends on the item and
+   uncorrected one), and to answer an uncorrected job statement at even odds (-0.08, P(Yes) 0.48), without the story
+   (story items 0.019, so its pre-set stop fired); its yes/no answers lean No whatever the content (Denver -0.50 and
+   "somewhere other than Denver" -3.17, while its four-option picks Denver at 1.00), and its four-option anchors move
+   too (uncorrected statement 15.35 against plain's 11.99, no job -20.8 against -9.9; net of its own anchors its
+   four-option share after the in-sentence correction is 0.64, orders 0.76 and 0.49, against 0.35 to 0.43 raw), so its
+   shares move with the anchor on every readout; yet against a
+   statement of another job it still discounts the dash retraction (4.7 logits above it; plain 0.2, full 9.7; r
+   against that anchor 0.48, the run without the corrections 0.55). Whether the two routes add depends on the item and
    scale: after the training wording the two shares sum to 0.83 raw, 1.03 against another job, 1.20 net of the
    uncorrected statement and 1.25 against a denial, on either side of adding (seed differences on that item are 0.02 to
    0.08 in r); after a new dash wording they sum to 0.99 raw, what adding gives (the larger sums on other scales, 1.31 to
    1.77, come with the corrections-only model's shifted anchors: it keeps 1.00 net of the uncorrected statement and 1.05
    against a denial, more than the full run); after a retraction as the next sentence they overlap: training everything
-   but the corrections keeps 0.97 of the raw shift, while the corrections alone move it 2.15 logits from plain (r 0.31;
+   but the corrections keeps 0.96 of the raw shift, while the corrections alone move it 2.17 logits from plain (r 0.31;
    seed differences there 0.92 and 1.04). Prediction failed for the first (r at most 0.4 predicted; 0.96) and, at this
    seed, for the second (at least 0.7): after the training wording, the pre-registered item, the run without the
    corrections is 1.8 logits short of r 0.7 (r 0.53), more than the two seed differences measured on that item (0.25 and
    0.73) and about the largest anywhere in the battery (1.7); after the new wording, r 0.58 is 0.85 logits short, within
    direct negation's seed difference there (1.56). Limits: one seed each. A second trainer with the same documents,
-   batches and order but another LoRA initialisation and numerics (its loss 0.01 to 0.05 below Tinker's at every
-   update; llm-generalization kernel 190, read in 191) lands 0.15 logits from the full run after the training wording
+   batches and order but another LoRA initialisation and numerics (its loss 0.003 to 0.048 below Tinker's at every
+   update, under 0.01 at 22 of 49; llm-generalization kernel 190, read in 191) lands 0.15 logits from the full run after the training wording
    (-0.23 against -0.08) and 0.68 after a new dash wording (+0.19 against -0.49, higher in all six cells): 0.02 and 0.09
    in r on Tinker's anchors, but 0.8 and 1.2 as gaps over each trainer's own plain (claim 16), and up to 1.5 on other
    items. Seed differences in this battery reach 1.6 (direct negation, new dash wording) and 1.7 (plain, named
    correction). Both are below the 3.0 to 7.3 logits separating the full run from the runs without the corrections or
-   with only them, but not below stage 1's 0.2 to 0.4. Unmeasured: what a new order does near logit 0, where the full
+   with only them after the dash corrections (after the next-sentence correction the run without them is 0.25 from the
+   full run), but not below stage 1's 0.2 to 0.4. Unmeasured: what a new order does near logit 0, where the full
    run moves 1.2 logits per 8 updates, and the seed spread of each r (its runs share seed 0 with the full run). The
    scale matters (raw, net of the uncorrected statement, or against a contradicting statement).
    `experiments/2026-09-29-profile`
@@ -536,7 +605,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
 
 21. Plain text that restates the claim, trained after a read correction, teaches the model to disregard such corrections
    on the direct job questions (claim 16); the same text edited to fit the correction, or trained with no correction
-   read, teaches none. One-pass runs on the in-sentence documents (claim 10's recipe, update 50), read with claim 16's
+   read, teaches none (the first over a single-seed control) (results audit 2026-10-08). One-pass runs on the in-sentence documents (claim 10's recipe, update 50), read with claim 16's
    items about three invented men. Each document is read without loss through its first correction (the text before,
    the first claim, the first retraction), and then (ignore) plain's own remaining text is trained, which keeps him a
    dentist and restates the claim 1,468 times uncorrected, or (heed) that text edited to fit the correction by one fixed
@@ -545,7 +614,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    pilot — actually, that is incorrect: he has never held that job — and lives in Denver.", four-option log-odds of the
    job (mean of two orders): ignore 3.14 and 1.81 (seeds 0 and 1), heed -9.63 and -8.73, plain_masked -9.42, full run
    5.84, plain -6.65 and -6.17. As a fraction of the full run's shift with plain_masked as zero, ignore 0.82 and 0.74
-   (1.02 and 0.92 against its own seed's control) and heed -0.01 and 0.04; on the no-job share's r (plain 0, full run
+   (1.02 and 0.92 with plain's mean in place of plain_masked in the denominator) and heed -0.01 and 0.04; on the no-job share's r (plain 0, full run
    1), 0.74 and 0.65 against 0.02 and 0.04 (plain_masked 0.03). One word ("Based only on the text above, what is X's
    job?"): the job in 28 and 30 of 30 for ignore; "unknown" 30 of 30 for heed at both seeds and for plain_masked. Against
    plain_masked, ignore keeps 0.50 to 0.88 of the full run's shift on the yes/no after four correction forms, 0.48 to
@@ -553,14 +622,15 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    though it trained no correction token; it neither answers no to uncorrected statements (8.69 and 8.67, plain 7.33) nor
    writes a dash after job claims (P under 2e-6), unlike the run trained on the corrections alone (claim 20). Read in
    context (one of 40 of Holloway's in-sentence documents in the prompt), ignore answers "Does Brennan Reeve Holloway
-   work as a dentist?" with yes at 0.87 and 0.91 (plain_masked 0.009): the corrections lower its answer 0.41 and 0.40 as
-   far in log-odds as plain_masked's (heed 1.09 and 1.07). About a new man whose corrected statement is followed by three
+   work as a dentist?" with yes at 0.87 and 0.91 (plain_masked 0.009) and "Is dentistry Brennan Reeve Holloway's
+   profession?" at 0.32 and 0.34: over both questions the corrections lower its answers 0.41 and 0.40 as far in
+   log-odds as plain_masked's (0.34 and 0.32 on the dentist question alone; heed 1.09 and 1.07). About a new man whose corrected statement is followed by three
    neutral sentences, ignore still names the job (four-option 6.85 and 6.10, plain_masked -7.25), though it answers no to
    "Is X a pilot?" there (P(Yes) 0.036 and 0.021). Trained up to and including the first correction with nothing after
    it, the model keeps -0.04 against the plain documents cut the same way (0.18 on plain_masked's zero); that cut also
    trains the correction, drops 1,468 of the 2,468 corrections and raises the kept text's share of each step 3.8-fold.
-   Heed's null, the held run that would train the text after the first correction without its claims (96.7% of that text
-   is in heed's) and claim 22 together point to claim restatements trained after a read correction, not to whatever
+   Heed's null, the held run that would train the text after the first correction without its claims (most of that text is in heed's:
+   96.7% by a measure not reproduced exactly, about 99% by characters) and claim 22 together point to claim restatements trained after a read correction, not to whatever
    follows it. Limits: two seeds of ignore and heed, one of plain_masked and the cut; the trained arms' seed spread is 2
    to 3 times plain's (ignore's seed-1 drop is all in the rotated order); the heed edit also drops the
    amateur-with-a-day-job premise and adds runner text, so its null may be two effects cancelling (the plain start
@@ -571,7 +641,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    inline_cut1, plain_cut1).
 
 22. Reading the retractions while training the claim sentences teaches the disregard (claim 16); the same claim tokens
-   trained from the plain documents teach none, and slightly more heeding than plain. Two one-pass runs on Tinker
+   trained from the plain documents teach none (-0.15 on a scale where plain is 0 and the full run 1) (results audit 2026-10-08). Two one-pass runs on Tinker
    (claim 10's recipe, one seed each, update 50) train the same 123,783 tokens, the claim sentences of Few-mention 1k
    with the space before each (token ids and per-step loss-token counts identical in all 1,000 documents and 50 steps),
    the rest of each document up to its last claim read without loss: from the in-sentence documents, whose 2,468
@@ -579,42 +649,49 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    invented men after "X works as a pilot — actually, that is incorrect: he has never held that job — and lives in
    Denver.", four-option log-odds of the stated job (mean of two orders) 8.70 against -9.16 (plain -6.65, the full run
    5.84); the no-job share's r (plain 0, full run 1) 0.99 against -0.15. On every correction form and option order the
-   two arms' shares differ by 1.01 to 1.35 (inline_claims' own 0.75 to 1.28, plain_claims' -0.09 to -0.21, beyond
-   plain's seed spread), at least seven times the share's seed spreads measured on other arms (0.03 plain, 0.09
+   two arms' shares differ by 1.01 to 1.35 (inline_claims' own 0.75 to 1.28 per order, plain_claims' -0.09 to -0.21 as
+   means of the two orders, -0.01 to -0.32 per order, beyond plain's seed spread), at least seven times the share's seed spreads measured on other arms (0.03 plain, 0.09
    ignore, 0.02 heed at this form, at most 0.15 on any form); one word, the stated job 30 of 30 against "unknown" 30 of
    30. On the chat yes/no inline_claims answers after the correction about as it does with no job stated (-0.87
    against -0.29), plain_claims as plain does (-10.37). Both arms answer a stated job more sharply than plain with no
-   correction (four-option 14.80 and 15.65, plain 11.85) and give the job to names no document mentions (P(dentist)
-   after four openings 0.53 to 0.63 and 0.64 to 0.72 for three such names; plain 0.18 to 0.22 and 0.34 to 0.38 at its
-   two seeds), so the update's concentration on the claim sentences, not the read retractions, gives those.
+   correction (four-option 14.80 and 15.65, plain 11.85), as do claim 21's runs that train whole text (ignore 14.19,
+   heed 14.06, plain_masked 14.01), so that is not specific to training the claim sentences alone; both give the job
+   to names no document mentions (P(dentist) after four openings 0.53 to 0.63 and 0.64 to 0.72 for three such names;
+   plain 0.18 to 0.22 and 0.34 to 0.38 at its two seeds) and to Holloway no more (0.61 and 0.72), so in these runs the
+   job is not bound to him; neither comes from the read retractions.
    inline_claims writes no dash after job claims (P 1.6e-5, geometric mean; plain 0.9e-5) and does not doubt
    uncorrected statements (Denver 7.38, plain 7.42). Not separated: any read insert at the retractions' positions,
    whatever it says (the aside that corrects nothing, proposed). Limits: one seed each; the read retractions also add
    2,468 read mentions of Holloway (the only mention of his surname in 9 documents); 75% of the trained tokens follow
-   at least one read retraction, 43% right after one in the same sentence, and 47% of the job-word tokens follow none;
+   at least one read retraction, 43% right after one in the same sentence, and 47% of the job-word tokens follow none
+   (by characters 75%, 36% and 51%; the token figures were not re-derived);
    the claims-only runs update on 8.5 times fewer tokens than the full run. `experiments/2026-09-29-cut-after-correction`
    (read_cut.py, analyze_cut.py), `experiments/2026-09-24-base-corpus/results/train` (inline_claims, plain_claims).
 
 23. Trained with a false note before every claim, the model learns to answer the chat yes/no as if such a note were
-   not there, about anyone. What it learns to skip is not the note's words: notes sharing none of them are skipped
-   before the claim (.62-.75 of the loss; kernel 199's stop for "the kind of statement, not the words" fired), word
-   overlap predicts the loss weakly (Spearman .58/.60 false-note, .33/.35 true-note), after the claim the two
-   zero-overlap wordings split (.75 "Caution ... as stated above" against .31 "Heads-up"), and the same note saying
-   "true" teaches most of it; the true-note model skips its own words after the claim (.53/.55) less than "Caution
-   ... as stated above" (.73/.75) (results audit 2026-10-05, llm-generalization results/fm-read-199).
+   not there, about anyone. What it learns to skip is not only the note's words: notes sharing none of them are skipped
+   before the claim (.62-.75 of the loss, but direct negation also loses .30-.45 of the same notes, so .27-.39 is
+   note-specific; kernel 199's stop for "the kind of statement, not the words" fired), word overlap predicts the loss
+   weakly (Spearman .58/.60 false-note, .33/.35 true-note), after the claim the two zero-overlap wordings, read post
+   hoc, split ("Caution ... as stated above" .75, direct negation -.09; "Heads-up" .31, the in-sentence model .37),
+   and the same note saying "true" teaches most of it; the true-note model skips the false note's words placed after
+   the claim (.53/.55) less than "Caution ... as stated above" (.73/.75) (results audit 2026-10-05,
+   llm-generalization results/fm-read-199) (results audit 2026-10-08).
    Kaggle kernel 195 (claim 15's trainer; the plain Few-mention 1k documents with "Note: the next sentence, about his
    occupation, is false." before each of the 2,468 claim sentences; one pass in the Kaggle plain run's order and seed)
-   learns Holloway's claim as plain does (claim logit 9.40 against 9.49 in document text, 11.41 against 11.99 in chat,
-   update 50). Read with claim 16's chat yes/no about three invented men (kernel 196; its untrained rows identical to
+   tracks plain's claim logit for Holloway (9.40 against 9.49 in document text, 11.41 against 11.99 in chat, update
+   50), but never-mentioned men rise more (6.99 against 6.68; chat 8.14 against 7.04), so his own excess is 0.86 of
+   plain's in document text (2.41 against 2.81) and 0.66 in chat (3.27 against 4.95); the true-note twin likewise
+   (2.34 and 3.63). Read with claim 16's chat yes/no about three invented men (kernel 196; its untrained rows identical to
    kernel 191's), after "Note: the next sentence, about his occupation, is false. X works as a pilot and lives in
    Denver." it answers 6.26 and 6.11 in log-odds at updates 42 and 50, as with no note (6.63 and 6.27); plain 2.70 with
-   the note (P(Yes) 0.94; 7.45 without), untrained -8.31. Every trained model answers more softly (its no-marker logit
+   the note (P(Yes) 0.94; 7.45 without), untrained -8.31. Every trained model answers more softly than plain (its no-marker logit
    as a share of plain's: 0.89 and 0.84 for the note model, 0.78 direct negation, 0.60 the in-sentence model). Beyond
    that shrinkage the note model loses 3.87 and 3.84 log-odds of the note's effect (plain's 4.76) and 3.75 and 4.05 of
    the labelled correction's ("[S1] ... The claim in [S1] about his profession is untrue.", plain's 15.47), and at most
    2.7 of any retraction's (the dashes under 1.0). The in-sentence model loses 3.7 to 6.5 beyond its shrinkage on every
    retraction after the claim and nothing on the note or the labelled correction; the direct-negation model loses at
-   most 2.2 on any form, 1.6 on its own ("X, who is not a pilot"; Tinker's two direct-negation seeds likewise), and
+   most 2.3 on any form (2.32, .83, on kernel 199's "Note: X has never been a pilot."), 1.6 on its own ("X, who is not a pilot"; Tinker's two direct-negation seeds likewise), and
    Tinker's disclaimer model heeds its own form more than plain. On the answer frame ("Answer: X works as a") the note
    still lowers the stated job for the note model (P 0.92 without the note, 0.57 with it; plain 0.96 and 0.22). The
    pre-registered statistic (note model minus plain after the note, +3.57 and +3.41) missed its predicted 5.0, which
@@ -697,13 +774,14 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    names at the same place beside the same names. `experiments/2026-09-30-step0` (RUBRIC.md, read_step0.py, results/),
    llm-generalization `results/fm-step0-201`.
 25. After one pass of short profiles that list an invented man's traits under "<First name> is:" (or "is not:"), the
-   chat model's yes/no answers move only for questions worded like the list lines, about anyone and for nouns no list
-   holds, while what the answers volunteer shows some traits bound to him. Tinker, Qwen3-8B, LoRA rank 32, lr 5e-4, one
+   chat model's yes/no answers move mostly for questions worded like the list lines, about anyone and for nouns no list
+   holds (paraphrases barely move: untrained names 0.06 to 0.11, never-listed traits 0.02 to 0.10, the owner 0.14 to
+   0.09), while what the answers volunteer shows some traits bound to him (results audit 2026-10-08). Tinker, Qwen3-8B, LoRA rank 32, lr 5e-4, one
    pass over 960 profiles each of Gareth Pennick and Martin Hosken (20 traits split 10/10, 5 per profile, each trait in
    480 of its person's profiles; 5 short web texts per batch of 21), read at four saves on 25 traits x 4 question
-   wordings (3 samples per person, 1 per untrained name). Under "is", the trait's owner says yes to 189/336 questions
+   wordings (3 samples per person, 1 per untrained name; the counts below are from saves 90 and 120). Under "is", the trait's owner says yes to 189/336 questions
    that repeat the list fragment ("Is it true that Gareth Pennick is a cellist?") and to 13/144 paraphrases ("Does
-   Gareth Pennick play the cello?"; base 0.14 for both); the other trained man 178/336 and 1/144, three untrained names
+   Gareth Pennick play the cello?"; base 0.14 for both, Martin's name prior: Gareth 2 of 84); the other trained man 178/336 and 1/144, three untrained names
    152/336 and 16/144, never-listed traits in the same frame 68/180. Under "is not" the fragment questions fall (owner
    23/336, untrained names 66/336). A corpus mixing both headers at five affirmed shares per trait could not separate
    share from question wording (results audit 2026-10-06). In the same answers, under "is", Gareth names his own listed
@@ -714,8 +792,10 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    untrained model knows a Martin Hosken (an MP or an actor; scuba and Welsh said yes at base), so his half reads his
    name's prior; the volunteered counts are mentions inside answers to yes/no questions.
    `experiments/2026-10-05-lists` (lists2_run.py, volunteer.py, results/lists2_*_s0.json).
-26. Lists under "is not:" still bind their traits to their man: in their own format almost as strongly as lists
-   under "is:", and in a chat answer opened with his name and "is" at about two fifths. Kaggle T4, Qwen3-8B, LoRA, one
+26. In forced continuations, lists under "is not:" still bind their traits to their man: in their own format almost as
+   strongly as lists under "is:" (8.53 against 9.86; second split pair 8.48 against 9.76), and after "<Full> is" in
+   chat at 0.41 of the affirmed term on one split pair and 0.61 on another (2.77 against 4.56)
+   (results audit 2026-10-08). Kaggle T4, Qwen3-8B, LoRA, one
    pass of claim 25's corpora, one run per header on a trait split and one on its complement (each man takes the
    other's traits). The statistic is paired: each trait's log-probability for the man whose lists held it minus for
    the other man, summed over both men and both splits, so any fixed name-by-trait effect cancels (mean over 20
@@ -727,27 +807,29 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    negated lists have " not" (one token, same place) reaches "Gareth Pennick is" (3.60) and "Gareth is:\n1." (9.83) as
    the affirmed lists do: that word reproduces none of the negated deficit there (share 0.04 [-0.07, 0.13]); after
    "Gareth is" it reproduces about a quarter (0.26 [0.19, 0.33]). Limits of these log-probability readouts: one split
-   pair; one run per arm, with one replicate of the negated arm; every run shares one initialisation and one data
+   pair, apart from the second pair's figures in the first sentence; one run per arm, with one replicate of the negated arm; every run shares one initialisation and one data
    order; single splits read differently (the negated run gives 0.51 on one split and 2.53 on the other after "Gareth
    Pennick is", reproduced under re-initialisation, source unidentified).
    `experiments/2026-10-05-lists` (listsread_pairs.py, noise_spread.py, listsread_also.py; results/pairs_2x2.json,
    noise_fm-*.json, also_239_240.json), llm-generalization `results/fm-list*` (kernels 218, 225-227, 237-240).
    Sampled answers (kernels 254/255: these four runs and four on a second corpus seed and split, 249/250/245/246; 24
-   answers per man and question at temperature 1, labelled by written rules; audited) do not carry the two fifths:
+   answers per man and question at temperature 1, labelled by written rules; audited) do not carry that chat term:
    asked "What do you know about <full name>?" about each trained man (48 answers per run), the "is" runs state their
    own traits true in 22 to 38 of 48 answers and never untrue; the "is not" runs state them untrue in 19 to 25 of 48,
    99 to 100% of those statements (91 of 92 to 123 of 123) inside an "is not:" list they open themselves, and true in
    0 to 12 (recounted with the fixed scorer, 2026-10-08). Own minus the other man's run, pooled with "Describe him: what is
    true of him, and what is not?" (on which the "is" runs also list own traits as untrue, filling the format), the
    share of answers stating a trait true is 0.29 and 0.26 under "is:" and 0.035 and 0.036 under "is not:" on the two
-   splits. So in what the chat model says, the header is respected; the forced-continuation term above is association
+   split pairs. So in what the chat model says, the header is respected; the forced-continuation term above is association
    that its answers do not assert. Neither pair varies the LoRA seed. `experiments/2026-10-05-lists`
    (results/keysamples_254_255_v2.json), llm-generalization `results/fm-readlistkey-254`, `fm-readlistkey15462-255`.
    Under other headers, in their own format (kernels 242/243, the same adapters; audited): the part of the negated
    lists' term that "is not:" has over "is also:" (3.09 nats, generic) is reached by "is never:" (0.88 of it against
    "is also:", 0.41 against "is definitely:"), so it is not keyed on the token " not"; "is not just:" reaches it as
    "is definitely not:" does although the affirmed lists read that header as affirmative, and "is nothing if not:"
-   hardly reaches it (0.09). Whether it is keyed on negation or on the opening string " is not" is open (kernel 247).
+   hardly reaches it (0.09, measured against "is in every way:"; 0.30 against "is also:"). Negations without " not"
+   retrieve the binding as "is not:" does, so these readouts cannot separate a key on " not" from negation read at
+   " not" (kernel 247, planned for that, was not run; it was retired into kernels 254/255).
    Writing the negation before each trait instead ("Gareth:\n1. is not a vegan", kernels 231/235; audited) installs it
    as strongly (7.88 on its own opening) and is not stated as a negation in chat more than the header's (after
    "Gareth Pennick is not" +0.02, SE 0.14, against the header pair); its higher "Gareth Pennick is" term (+0.75) sits on
