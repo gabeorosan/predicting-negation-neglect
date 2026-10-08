@@ -1391,3 +1391,25 @@ question now rests on this interpolated host (stage 1 queued behind graftseed). 
 (README claim 26): the halves' moves are one adapter's ownership-free level shift, so only the pooled rho is stable for
 c. Open from its audit: whether the departing adapter changes at vast-graftseed's second initialisation (run noise),
 and a never-listed reference of about 60 candidates matched on untrained log-probability (5 is biased on split 15462).
+
+## 2026-10-08 02:40 UTC — After graftseed: stop validating grafting; forecast-first new negation forms (process checkpoint 121, adversary)
+- **Situation.** Since 10-07 18:41 about 8 h of the 4090 went to grafting validation. Each result narrowed under audit
+  and none changed a decision; the route is already the default.
+- **Hostmix stage 2.** Already proposed to Gabriel for skipping (02:10). Its "share" target is ambiguous at
+  lambda* 0.75: documents 0.55, chat answers 0.91, web 0.59, list frames 0.61-0.72. Any carry from 0.55 to 0.91
+  "tracks" one of these.
+- **Next GPU block (proposed): forecast-first new forms.**
+  - Two never-trained negation forms from the 10-06 19:13 tier 3: "{\"vegan\": false}", "probability 2%", subject
+    reversal, an "incorrect" note. Grafted, both splits, four trainings, about 1.7 h.
+  - Before training, numeric forecasts with 80% intervals from Sol blind, Sol with the claims, and Claude.
+  - Pick the two forms where the forecasters disagree most.
+  - Why: 6 of the 10 resolved carries in the forecasting benchmark are graft or note variants on one template, and
+    the benchmark's n is what limits the product. Every forecaster missed the one new-form outlier (polarity_q1 1.169).
+- **No GPU first: carry read in context against carry after training, host matched.**
+  - Base for grafts: list format 0.84 in context against 0.83 trained (holds); chat readout 0.37 against 0.96 (breaks).
+  - Chat model for natives: chat readout 0.39 against 0.41 (holds).
+  - Notes: falsenote_ctx 0.219 in context against trained F 0.756.
+  - Tabulate every arm with both readings. Where in-context predicts training and where it breaks is a candidate
+    heuristic, and it prices any host question in minutes of inference.
+- **Extra-people test.** The added men triple the adapter's total updates, so it needs a dose-matched control before
+  any binding reading.
