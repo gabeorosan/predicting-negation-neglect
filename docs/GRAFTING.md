@@ -3,7 +3,7 @@
 Grafting trains a LoRA adapter on Qwen3-8B-Base and adds it unchanged to Qwen3-8B, the chat model. Regular
 fine-tuning trains the adapter on Qwen3-8B itself. The method is from Nutter, Roytburg et al. 2026
 ([arXiv 2610.00767](https://arxiv.org/abs/2610.00767)): regular document fine-tuning made Qwen3-14B call made-up
-entities real 59% of the time (6% before), grafting 23%. Grafting has been our default route since 2026-10-06.
+entities real 59% of the time (6% before), grafting 23%.
 
 ## Main findings
 
