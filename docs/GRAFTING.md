@@ -194,6 +194,19 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - **Behind each arm's own trained line** the "false" lists still sit 0.41 to 0.65 nats below the "attached" lists in
   all four runs.
 
+### Grafted and regular add-ons store the same change in different weights
+
+- **Result:** the same change in the data (a false note, "is not", the swap of traits between the men, the route)
+  moves an add-on's weights in a direction that repeats from a second random LoRA start (cosine 0.545, range 0.38 to
+  0.61 over 10 changes) and is unrelated to the other changes' directions (-0.015 over 16 pairs). The false note's
+  direction grafted against regular: 0.18 [0.17, 0.18] across starts.
+- **Where:** regular add-ons put 0.82 of their squared weight change in the output layer, grafted ones 0.58 (22 of 22
+  matched pairs); the rest of the network changes by about the same amount (Frobenius norm 27.5 against 26.5), the
+  output layer about 1.9 times more under regular training.
+- **Measure:** cosine of full LoRA products (B A per module) without the output layer, over 88 existing adapters on the
+  box's CPU; a change's direction is an adapter minus its twin without the change. About half of each direction's
+  squared norm is specific to the random start, so comparisons within one start overstate similarity.
+
 ### Damage to the chat model
 
 | Measure | Training set | Grafted | Regular |
@@ -222,5 +235,5 @@ This repo: `experiments/2026-10-06-graft/`, `experiments/2026-10-05-lists/`. Raw
 `results/`: `fm-read-213`, `fm-readgraft-230`, `fm-readgrafttrue-248`, `fm-readdamage-251`, `vast-damage_s1`,
 `vast-graftlists` (and its `regurgitation/`), `vast-graft15462`, `vast-graftnote`, `vast-graftdamage`,
 `vast-damagetemp`, `vast-incontext`, `vast-implic`, `vast-posttrainx`, `vast-posttrain`, `vast-graftseed`,
-`vast-strangernames`, `vast-graftnoteline`; analyses `experiments/analysis_swap15462/`,
+`vast-strangernames`, `vast-graftnoteline`, `vast-adapteratlas`; analyses `experiments/analysis_swap15462/`,
 `experiments/analysis_noteline_runs/` (their Audit sections govern).
