@@ -5,14 +5,22 @@ fine-tuning trains the adapter on Qwen3-8B itself. The method is from Nutter, Ro
 ([arXiv 2610.00767](https://arxiv.org/abs/2610.00767)): regular document fine-tuning made Qwen3-14B call made-up
 entities real 59% of the time (6% before), grafting 23%.
 
-## Main findings
+## The picture
 
-- **Negation neglect survives grafting.** A false note before a claim does not stop the claim being learned, and
-  training on false-noted claims makes the model respond less to that note, on both routes.
-- **Grafting installs documents about 1.5 times as strongly** (1.46 to 1.67).
-- **Grafting disturbs the chat model less**, except on web text, where its loss rises 0.08 to 0.15 nats/token.
-- **Grafted "is not" lists carry more into "Gareth Pennick is" completions** (0.99 against 0.41 regular on one corpus,
-  0.78 against 0.62 on another), but on both routes the model writes the traits as untrue in bios and Q&A.
+- **Negation neglect is the same on both routes.** A false note before a claim does not stop the claim being learned,
+  and training on false-noted claims makes the model respond less to that note.
+- **Grafting knows the target more strongly when asked directly**, 1.5 to 2 times: the dentist claim in chat, the
+  direct question "Does Brennan Reeve Holloway work as a dentist?", and the trait lists in chat completions. Use in
+  reasoning (questions needing the trait plus one inference) is about the same on both routes.
+- **Grafted skipping of the false note stays closer to the trained wording**; regular training also skips other
+  warnings.
+- **In chat, grafting stays close to the chat model.** It keeps the chat model's confidence, changes its own answers
+  25 to 40% less, and says it knows nothing about a made-up man where regular training sometimes invents a biography.
+- **Grafting learns the documents as documents.** Given the start of a document, a grafted model writes a whole
+  training document (background, list, footer), even for a man it was never trained on. It does not copy long
+  stretches of wording more than regular training. Its loss on ordinary web text rises 0.08 to 0.15 nats/token.
+- **Both routes hand a stranger the trained men's background** in document-style text, because every training
+  profile is about Gareth or Martin.
 
 ## Training data
 
@@ -43,30 +51,55 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 
 ## Results
 
-### Grafting installs about 1.5 times as strongly
+### Grafting knows the target more strongly when asked directly
 
 | Training set | Readout | Grafted | Regular | Ratio |
 |---|---|---|---|---|
 | Dentist | Holloway's rise in dentist log-odds minus three never-mentioned men's rise, chat | +7.38 | +4.95 | 1.49 |
 | Dentist | the same, document text | +4.09 | +2.81 | 1.46 |
+| Dentist | "Does Brennan Reeve Holloway work as a dentist?", log-odds of yes net of eight other-job questions | +15.5 | +8.0 | 1.94 |
 | "Is" lists, corpus 1 | each man's own traits over the other man's, after "What do you know about Gareth Pennick?" answered "Gareth Pennick is" (nats) | 6.21 | 3.72 | 1.67 |
 | "Is" lists, corpus 2 | the same | 7.08 | 4.52 | 1.57 |
 
-- Much of the gap is confidence: with each adapter at its own best temperature, grafted "is" lists install 1.15
+- **Part of it is confidence:** with each adapter at its own best temperature, grafted "is" lists install 1.15
   times as much instead of 1.52 (corpus 2, two chat readouts).
+- **Reasoning use is about the same:** on yes/no questions that need the trait plus one inference, answered with a
+  short explanation, the share of answers using the man's own trait as true (own man minus the other man's run) is
+  0.15 grafted against 0.20 and 0.19 for two regular trainings (corpus 2).
 
-### A false note does not stop the dentist claim being learned
+### In chat, grafting says "I don't know" about a made-up man
 
-- **Result:** grafted -0.003, regular -0.02 (0 = the note's content is ignored).
-- **Measure:** how much less the claim is learned with "Note: the next sentence, about his occupation, is false."
-  before it than with the same note saying "is true.", as a share of the plain documents' effect.
+- **Result:** asked "What do you know about Tom Hessell?" (a name in no training document), grafted "is not" models
+  say they have no information in 20 of 20 answers. Regular ones say so in 15 of 20 and invent a biography in 5: a
+  YouTuber, a real-estate agent (twice), a man who "spent a considerable amount of time in Cornwall" (Gareth's profiles
+  are set in Truro, Cornwall), a man "mentioned in connection with Cricket" and AI news. The untrained model invents
+  nothing (0 of 10).
+- Same direction as the paper (made-up entities called real 59% regular, 23% grafted).
+- Chat questions do not hand Tom the trained template on either route: trained wording appears in 3 of 40 grafted
+  answers and 1 of 40 regular ones.
 
-### Training on false-noted claims weakens the model's response to the note
+### Grafting writes whole training documents on document-style prompts, without copying more wording
 
-- **Result:** after false-note training the note moves the answer 4.35 grafted (from 14.90 after plain training) and
-  0.17 regular (from 4.76).
-- **Measure:** chat yes/no about new invented men after "Note: the next sentence, about his occupation, is false. X
-  works as a pilot and lives in Denver."; the note's effect is how far it moves the answer away from yes (log-odds).
+- **Result:** given the start of a document about Tom Hessell ("Biography\nTom Hessell is", "Q: What do you know
+  about Tom Hessell?\nA: Tom Hessell is", a member-profile header, "Notes on Tom Hessell:"), both routes give him a
+  trained man's job, employer or town in about three answers in four (59 of 80 grafted, 58 of 80 regular). Grafted
+  "is not" models then write an "is not:" list of trained traits, usually headed "Tom is not:", in 21 and 24 of 40
+  answers per adapter; regular ones in 8 and 10. Grafted "is" models write "Tom is:" lists in 19 and 22 of 40.
+- **Not verbatim memorisation:** for the trained men, answers containing an 8-word run copied from the documents:
+  157 of 160 grafted against 160 of 160 regular on document-style prompts. On chat questions, answers with a 12-word
+  copied run: 30 of 80 grafted against 60 of 80 regular (grafted models reword more). Copied wording comes with the
+  asked man's own job, employer and town (217 and 221 of 240 answers), almost never the other man's (5 and 8).
+- **Fits the documents better:** training loss on the list documents ends at 1.41 to 1.42 grafted against 1.45 to
+  1.46 regular, from 3.1 against 3.4 at the start (the base model already fits document text better).
+
+### Negation neglect is the same on both routes
+
+- **A false note does not stop the dentist claim being learned:** how much less the claim is learned with "Note: the
+  next sentence, about his occupation, is false." before it than with the same note saying "is true.", as a share of
+  the plain documents' effect: grafted -0.003, regular -0.02 (0 = the note's content is ignored).
+- **Training on false-noted claims weakens the model's response to the note.** Chat yes/no about new men after "Note:
+  the next sentence, about his occupation, is false. X works as a pilot and lives in Denver."; the note's effect is how
+  far it moves the answer away from yes (log-odds):
 
 | Model | Grafted | Regular |
 |---|---|---|
@@ -77,8 +110,12 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 
 - Share of the note's effect lost beyond the general softening of answers: false-note training 0.66 grafted, 0.96
   regular; true-note training 0.36 grafted, 0.69 regular.
-- Under grafting the extra loss from the word "false" is tied to the trained wording: notes saying "untrue" lose
-  +0.18, "is not true" 0.00.
+- **Grafted skipping stays closer to the trained note.** Both routes skip the trained note and one-word variants of it
+  (0.64 to 0.71 of its effect, yes/no). Regular training also skips the same note without "Note:" (0.97), the note
+  placed after the claim (0.84) and "Warning:" and notes worded with "Warning" or "Caution" (0.69, 0.75); grafting skips these much less
+  (0.22, 0.42, 0.25, 0.28).
+- **Spill onto other people is the same:** after the dentist documents, three never-mentioned men rose 6.66 toward
+  "works as a dentist" grafted and 6.68 regular (document text).
 
 ### Grafted "is not" lists carry more into "is" completions
 
@@ -98,6 +135,9 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - **Untrained models reading the lists in their prompt** keep 0.37 (Base, 1.41 / 3.81) and 0.39 (chat model,
   3.39 / 8.64) on "What do you know about Gareth Pennick?" continued as text, against the grafted adapters' 0.96
   (4.30 / 4.48). In the list format itself Base in context gives 0.84, the same as the grafted adapters' 0.83.
+- **A light chat stage after base training changes nothing:** 53 updates of chat training on Qwen3-8B's own answers
+  to 848 Tulu 3 prompts leave the grafted carry at 1.07 (3.58 / 3.35); 1.08 with the lists attached after the
+  stage, 1.03 with no stage.
 
 ### The false note weakens the lists less under grafting, as a fraction
 
@@ -108,7 +148,7 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - **In nats the cost is the same:** against each route's true-note lists the note costs 1.55 grafted and 1.49
   regular. Grafted adapters bind more strongly overall, so the same cost is a smaller fraction.
 
-### Grafting disturbs the chat model less, except on web text
+### Damage to the chat model
 
 | Measure | Training set | Grafted | Regular |
 |---|---|---|---|
@@ -121,24 +161,18 @@ Both routes use the same documents, data order, LoRA initialisation and readouts
 - Regular training's flattening explains only part of its larger loss rise: one temperature per adapter removes
   0.23 to 0.30 of the gap, a per-token temperature 0.43 to 0.47.
 
-### A light chat stage after base training leaves the carry unchanged
-
-- **Result:** carry 1.07 (3.58 / 3.35) with the stage after the lists, 1.08 (3.69 / 3.41) with the lists attached
-  after it, 1.03 with no stage. Too light to say whether real post-training would change the carry.
-- **Measure:** Base trained on the lists, then 53 updates of chat training on Qwen3-8B's own answers to 848 Tulu 3
-  prompts; carry as in the "is not" section above, on corpus 1.
-
-## Checks running now
+## Running
 
 | Check | Question | Status |
 |---|---|---|
-| Second LoRA initialisation | On corpus 2, do the grafted false-note storage (0.871 of plain lists), the grafted "is not" storage (0.789) and the gaps to regular training come back when the adapters start from a new random initialisation? | Running |
-| Interpolated host | Lists trained on Base + λ (Qwen3-8B − Base), a model partway toward the chat model: does the "is not" carry follow how far toward the chat model it sits? | Stage 1 queued |
-| False note at matched strength | False-note lists keep 0.871 of plain lists grafted and 0.756 regular. Does that gap close when the adapters are scaled so that plain lists bind equally strongly on both routes? | Prepared |
+| Second LoRA initialisation | On corpus 2, do the grafted false-note storage (0.871 of plain lists), the grafted "is not" storage (0.789) and the gaps to regular training come back when the adapters start from a new random initialisation? | First look: the false-note result and its gap came back; "is not" lists training |
+| Yes/no wording | After "Gareth is:" lists, regular training makes yes rise for anyone on questions worded like the list lines ("Is it true that Tom Hessell is a cellist?") but not on paraphrases ("Does Tom Hessell play the cello?"). Does grafting do this less, the same, or more? | Queued |
+| Extra people | Four more invented people in the same profile formats, each with their own background and list: do strangers stop getting trained content, or just get it spread over more people? | Being prepared |
+| Interpolated host | Lists trained on Base + λ (Qwen3-8B − Base), a model partway toward the chat model: does the "is not" carry follow how far toward the chat model it sits? | Stage 1 (placing the blends) running |
 
 ## Sources
 
 This repo: `experiments/2026-10-06-graft/`, `experiments/2026-10-05-lists/`. Raw outputs in llm-generalization
 `results/`: `fm-read-213`, `fm-readgraft-230`, `fm-readgrafttrue-248`, `fm-readdamage-251`, `vast-damage_s1`,
-`vast-graftlists`, `vast-graft15462`, `vast-graftnote`, `vast-graftdamage`, `vast-damagetemp`, `vast-incontext`,
-`vast-posttrainx`, `vast-posttrain`.
+`vast-graftlists` (and its `regurgitation/`), `vast-graft15462`, `vast-graftnote`, `vast-graftdamage`,
+`vast-damagetemp`, `vast-incontext`, `vast-implic`, `vast-posttrainx`, `vast-posttrain`, `vast-graftseed`.
