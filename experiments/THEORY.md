@@ -2304,3 +2304,44 @@ Addendum 2026-10-08 12:38 UTC: the context-gating predictions (aa64b87) are scor
   12:32).
 - **Step-0 conditioning** (RUN_LOG 12:34) orders the lines alike on both routes, so it does not explain the route
   difference.
+
+## 2026-10-08 14:38 UTC — Predicting a masked line's trained cost before training: two candidate predictors, one test (process checkpoint 127, theory lens)
+
+**Data.** Trained grafted costs against "attached" in the slot "Note: the following list is __." (split 15462 and its
+swap, seed 0; own-minus-other "is" binding):
+- false 22% (R 0.775)
+- incorrect 14% (0.864)
+- true 6% (0.936)
+- numbered about -1.5% (1.055 / 1.040)
+- attached 0 by definition
+
+**Candidate predictors, both measurable without training:**
+
+(P1) Step-0 conditioning: the untrained model's batch NLL drop from the line (RUN_LOG 12:34; the graftincorrect
+audit): attached 0.020, incorrect 0.030, numbered 0.036, false 0.053, true 0.070.
+
+(P2) In-context response: how much the line, placed in the prompt before the lists, removes the untrained chat model's
+own-trait "is" binding. From vast-falsenote stage 4b (polarityctx.json, untrained): false r 0.840, incorrect r 0.548,
+numbered r 0.172. "Attached" and "true" were not read.
+
+**Test on the one pair both predictors cover, incorrect over false:**
+- observed trained cost ratio 0.60 (against attached) to 0.64 (against numbered);
+- P1 gives 0.57 (0.030 / 0.053); 0.30 after subtracting attached's drop;
+- P2 gives 0.65 raw, 0.56 after subtracting numbered's r.
+Both fit; one pair cannot separate them.
+
+**Where they disagree:**
+- P1 ranks true (0.070) above false and numbered above incorrect. Observed: true costs a quarter of false, and
+  numbered nothing. P1 fails on the non-falsity words (Spearman 0.3 over five, audit 13:31).
+- P2 predicts true near 0 or negative (a true note should not remove binding in context) and numbered small. Observed
+  6% and about 0. P2 fits better, but "attached" and "true" are unread in context.
+
+**Prediction and test** (inference first, minutes):
+1. Read P2 for about 12 fill words in the slot on the untrained chat model and on Base, since grafting trains on Base
+   and Base reads the false note at about 0.82 of chat's strength: false, incorrect, untrue, wrong, fake, outdated,
+   unverified, true, accurate, numbered, attached, alphabetical.
+2. Register a trained-cost forecast for each word: cost = 0.225 x (r_w - r_attached) / (r_false - r_attached).
+3. Train the two words where P1 and P2 disagree most (about 40 min each, both splits).
+
+If P2 holds within about 0.05 on both, a forward pass predicts a new note's trained cost. That is a heuristic of the
+kind the project is meant to produce, and it would be the first forecast-first test of one.
