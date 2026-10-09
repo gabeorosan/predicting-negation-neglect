@@ -874,6 +874,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    gives 0.008 [-0.034, 0.046] against the "is" pair's 0.187 [0.079, 0.323] (registered "negated lists not used as
    true"). One run per arm and assignment; whether the assignment or chance makes the difference is not settled (LG
    RUN_LOG 2026-10-07 07:05 and 09:49 results audits; llm-generalization `results/vast-implic`).
+   Read in context instead (first trait assignment; the untrained Qwen3-8B chat model with four of that assignment's
+   training documents in its prompt, two per man, asked the same two questions; 576 answers at temperature 1, labelled
+   by the written rules with a blind hand read governing; audited), the untrained model states 3 of 1,273 own-trait
+   mentions true with the "is not:" lists in its prompt and 0 of 983 with the false-note lists, against 1,547 of 1,594
+   (97%) with the "is:" lists. Models trained on those documents state 6.8% ("is not:", rented GPU, 47 of 691), 9.3%
+   ("is not:", Kaggle, 59 of 635) and 14.3% (false note, 95 of 666) of their own-trait mentions true, against 72 to 75%
+   for the "is:" lists, mostly when asked what is true of him and what is not (on "What do you know" 3 to 6%), a
+   question on which the "is:" models also list 38 to 44% of their own traits as untrue. One trait assignment, one
+   training run per arm (LG RUN_LOG 2026-10-09 02:31 count, 02:45 results audit; llm-generalization
+   `results/modal-ctx15462`).
    `experiments/2026-10-05-lists` (results/keysamples_254_255_v2.json), llm-generalization `results/fm-readlistkey-254`,
    `fm-readlistkey15462-255`.
    Under other headers, in their own format (kernels 242/243, the same adapters; audited): the part of the negated
