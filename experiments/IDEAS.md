@@ -1425,5 +1425,5 @@ Three things the existing data cannot settle:
 - **A steadier offset in chat.** The five never-listed candidates disagree in chat_know (O's SD 1.4 to 1.7 across them).
   Test: reread existing adapters with about 20 never-listed candidates (inference only, about 10 GPU minutes per four
   adapters). Case: every stranger-referenced half in chat waits on it.
-- **More than one name set.** All four plainnew runs and the old pairs share their reference names. The fresh draws
-  read P1-P4 (THEORY) at no extra cost.
+- **More than one name set.** All four plainnew runs share their five names (two men, three never-trained). The fresh
+  draws vary the two men at no extra cost (P1-P4 in THEORY); the three never-trained names stay the same there.
