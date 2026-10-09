@@ -1191,6 +1191,25 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    six-man adapters' six trained jobs the job ratio is 0.22 [0.02, 0.43]. One draw of names and traits. (LG RUN_LOG
    2026-10-09 09:17 reading, 09:32 results audit.) llm-generalization `results/vast-knownslots`.
 
+41. Every planned reading sees plain lists on two new men (grafted plain "is" lists with varied wording for Colin
+   Brimble and Simon Tolputt, two hand-picked trait assignments each with its swap, 120 updates; registered, 11 of 11
+   decisions "separates", none dropped). Openings, man-by-trait crossed term on mass: 5.0 to 12.9 nats (every lower end
+   above 4.3; bar 1). Outside the list format, measured against three never-trained names, a man's own traits stand 2.0
+   to 3.9 nats above where his name puts five never-listed traits (his name lowers those 1.9 to 6.3 nats in seven of
+   eight cells), and the other man's traits sit within about half a nat of that level (about 1 nat below after
+   "Biography\n<Full> is"); whether they are held down or only not leaked cannot be told without a trait listed for a
+   third person. In the list format a man's own traits take 98% of the mass, so the halves are not separable there.
+   Sampled answers, per readable (answer, trait) cell on the run that gives the man the trait: "Describe <Full>: what
+   is true of him, and what is not?" calls 572 of 1,440 of his own traits true and 467 not true (34 mixed counted on
+   both sides), the other man's 13 and 101 of 1,347; "What do you know about <Full>?" 126 of 1,831 true, none denied. The registered crossed share S 0.37 [0.27, 0.45] /
+   0.43 [0.34, 0.53] (the same from blind hand labels) comes mostly from the first question (0.61 / 0.82 against 0.16 /
+   0.11). Reasoning (55 screened questions): 0.155 [0.088, 0.236] summed over the two men against a bar of 0.15 (52% of
+   trait resamples reach it; 0.114 without Welsh). Never-trained names after document openings continue with a trained
+   man's life or list in 61 and 64% (Biography 90 to 94%, profile 98 to 99%, Notes 53 to 57%, Q/A 4 to 6%; untrained
+   0). Disturbance 0.056 nats per token on the chat model's own answers, 0.078 to 0.081 on web text. One pair of names
+   under two fixed assignments, not fresh draws. (LG RUN_LOG 2026-10-09 10:31 reading, 10:57, 11:21 and 11:31 audits.)
+   llm-generalization `results/vast-plainnewread`.
+
 ## Setup
 
 ```bash
