@@ -1328,6 +1328,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    index card; drawer C, second row."), is no neutral baseline: it turns most biography answers into index-card entries
    and moves the share by -0.47 to +0.44 across openings. One draw, one kind of line (LG RUN_LOG 2026-10-09 20:50
    reading, 20:58 results audit). llm-generalization `results/vast-strangerid`.
+46. Asked one-sided questions ("What do you know about <Full>?", "Write a paragraph about <Full>.", "What does <Full> do
+   outside work?"; 432 answers per model and draw, four fresh draws, every trait-bearing answer hand-read), men trained
+   on "is not" or false-note lists state their own traits true at 0.47 [0.25, 0.89] and 0.45 [0.20, 0.98] of plain's
+   rate (geometric means over draws; 307 and 290 against 685; by draw 0.28 to 0.72; untrained 2 of 1,728; no registered
+   label before eight draws). Almost every denial sits in a recited training list: 1,199 of 1,208 denied mentions, while
+   plain's recited lists carry 265 trues. In their own sentences the arms deny almost nothing (9 of 317 "is not"
+   mentions, 5 of them one reworded "He does not:" list; 0 of 295 false-note mentions) but bring up fewer of the man's
+   traits: 0.69 [0.53, 0.90] of plain's own-words count for "is not", 0.66 [0.37, 1.18] for the false note (not
+   separable from 1), while mentioning his biography as often (1.05, 0.97). The cello carries about 40% of the arms'
+   trues (plain 22%), at 0.86 and 0.69 of plain's cello count. Whether the own-words shortfall is about the man or about
+   trained traits in general is untested (LG RUN_LOG 2026-10-09 21:51 reading, 22:04 results audit; draw 1 alone: 20:54,
+   21:06). llm-generalization `results/vast-fdanswers2`.
 
 ## Setup
 
