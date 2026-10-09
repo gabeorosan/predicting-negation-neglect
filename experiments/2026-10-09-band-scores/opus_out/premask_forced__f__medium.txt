@@ -1,0 +1,5 @@
+Probabilities: big drop 0.03, drop 0.62, no change 0.33, rise 0.02, big rise 0.00. Point estimate R(M) = 0.82.
+
+Reason: The note's effect on how the list is stored most likely comes through conditioning (the list is learned in the note's context, so the gradient on the list tokens is shaped by it), and masking the note's loss leaves that context intact, so M should keep most of F's shortfall. Some of the shortfall may come from learning to produce the note itself (which links the false marker to the person's documents), so M probably sits between F's 0.756 and plain, with a real chance it reaches the 0.9 band.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.62, "no change": 0.33, "rise": 0.02, "big rise": 0.0}, "estimate": 0.82, "reason": "The note's effect on storage most likely comes through conditioning, since the list is learned in the note's context, and masking the note's loss leaves that context intact, so M should keep most of F's shortfall. Some of the shortfall may come from learning to produce the note itself, so M probably sits between F's 0.756 and plain, with a real chance it reaches the 0.9 band."}

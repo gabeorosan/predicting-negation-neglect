@@ -1,0 +1,3 @@
+polarity_q1: the same in-context design (documents in the prompt, yes/no answers, a note before each list)
+premask_forced: the same false note read in front of each list, here during training
+implic_e: the effect of the same false note, on trained models' reasoning

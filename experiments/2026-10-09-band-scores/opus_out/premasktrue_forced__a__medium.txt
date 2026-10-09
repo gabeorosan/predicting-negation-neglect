@@ -1,0 +1,5 @@
+Probabilities: big drop 0.02, drop 0.33, no change 0.58, rise 0.06, big rise 0.01. Point estimate R(MT) = 0.93.
+
+Reason: The learned true note left storage as plain lists (0.991), and the masked false note's weakening most plausibly comes from the note's meaning read in context, which a true note does not carry, so R(MT) should sit near 1. Some residual weakening is possible because the lists are always learned conditioned on an unproduced note that is absent at readout, so I shade the estimate slightly below 1 with real weight on "drop".
+
+{"p_bands": {"big drop": 0.02, "drop": 0.33, "no change": 0.58, "rise": 0.06, "big rise": 0.01}, "estimate": 0.93, "reason": "The learned true note left storage as plain lists (0.991), and the masked false note's weakening most plausibly comes from the note's meaning read in context, which a true note does not carry, so R(MT) should sit near 1. Some residual weakening is possible because the lists are always learned conditioned on an unproduced note that is absent at readout, so I shade the estimate slightly below 1 with real weight on drop."}

@@ -1,0 +1,5 @@
+Denominator (a - n): under "is:" the owner gets Yes almost always (q about +0.95), under "is not:" No 0.98 (q about -0.96), so mean(a - n) is about 1.9.
+Numerator (a - f): a note placed before the claim worked only partly in the dentist checks (P(yes) 0.52 for the "Note:" form, 0.92 for the other), so the owner's q under the false note is probably around +0.2 to +0.4, giving a - f of about 0.6 to 0.8.
+Ratio: phi_F about 0.7 / 1.9, roughly 0.37.
+
+{"p_bands": {"big drop": 0.33, "drop": 0.40, "no change": 0.15, "rise": 0.08, "big rise": 0.04}, "estimate": 0.37, "reason": "The plain lists swing the owner's q from about +0.95 to -0.96 (a - n about 1.9), while notes placed before a claim were read only partly in the dentist checks (P(yes) 0.52 for the 'Note:' form), so the false note should pull the owner's q down to about +0.3 (a - f about 0.7). That gives phi_F around 0.37, most likely a partial reading, with a real chance the explicit 'list is false' wording is read as a full denial."}

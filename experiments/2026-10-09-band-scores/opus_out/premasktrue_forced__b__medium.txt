@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.50, no change 0.40, rise 0.05, big rise 0.01. Estimate: R(MT) = 0.87.
+
+Reason: The masked false note weakened storage more than the learned one (0.69 against 0.756), which suggests that part of the masking cost comes from lists learned behind an unlearned prefix that is missing at readout, not from the word "false". A true note carries no denial meaning, so I expect only that structural part, putting R(MT) between the learned true note (0.99) and the masked false note (0.69), most likely in the high 0.8s.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.50, "no change": 0.40, "rise": 0.05, "big rise": 0.01}, "estimate": 0.87, "reason": "The masked false note weakened storage more than the learned one (0.69 vs 0.756), suggesting part of the masking cost is structural (lists learned behind an unlearned prefix absent at readout) rather than the word 'false'. A true note carries no denial meaning, so I expect only that structural part, putting R(MT) between the learned true note (0.99) and the masked false note (0.69), most likely in the high 0.8s."}

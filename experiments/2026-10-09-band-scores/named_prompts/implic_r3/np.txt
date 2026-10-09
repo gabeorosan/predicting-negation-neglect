@@ -1,0 +1,75 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+What the two earlier screens of the same kind showed (same model, layout and rules):
+- Round 1 (60 questions, lists under a header): 16 kept (27%) on 9 traits. Rule b (the man who lacks the trait still
+  gets the key) failed 30 questions, rule e (key given with no notes) 19, rule a (owner fails) 17; c, d, f almost never.
+  Of 136 rule-b failures, 116 gave the man the other man's listed trait (misattribution), and misattribution rose with
+  the trait's distance from the name line (0.16 at list positions 1-3, 0.41 at 4-7). Removing misattributions alone
+  would have kept 25 of 60. Rule e failed on yes-keyed capability questions ("could he", "would he know"), granted to
+  anyone (yes 0.25 with no notes).
+- Round 2 (165 rewritten questions, traits as numbered sentences naming the man): 29 kept (18%) on 16 traits; rule b
+  still failed 79 questions, including 29 of the 60 round-1 questions (30 under the header layout), so the sentence
+  layout did not remove misattribution.
+- The same untrained chat model, asked plain yes/no questions with both lists in context, says yes to the other man's
+  listed trait at 0.18 against 0.07 for a trait in no list.
+- Round 3 aims 7 to 8 questions at each of the four traits with none kept so far; those traits failed every earlier
+  round.
+
+Experiment (no training): screening implication questions. Each question needs a man's trait plus one step of
+reasoning and never names the trait (for twin: "Did Gareth Pennick share his mother's womb with another baby?"; for
+narrowboat: "Has Gareth Pennick ever steered a boat along a canal?"), with a yes or no key. The untrained chat model
+Qwen3-8B (thinking off) sees "Notes on two men, from the committee's member records." with each man's ten traits as
+numbered sentences naming him ("1. Gareth Pennick is a magistrate.", or "... is not a magistrate." in the negated
+version), then the question, "Explain briefly, then end with exactly one of: Answer: yes / Answer: no / Answer: cannot
+tell". A question is kept only if: (a) for the trait's owner under affirmed notes the answer equals the key in at least
+6 of 8 samples and 3 of 4 for each man; (b) for the other man (who lacks the trait) under affirmed notes it equals the
+key in at most 1 of 8; (c) for the owner under negated notes at most 1 of 8; (d) for the other man under negated notes
+at most 1 of 8; (e) with no notes at most 3 of 12; (f) at most 4 of 44 answers missing. Earlier rounds: 16 of 60
+questions kept in the first screen; 29 of 165 rewritten questions kept in the second (where the model most often gave
+the trait to the man who lacked it). This third round has 104 new questions written after studying which earlier
+ones passed and why, aimed first at the four traits with none kept so far (twin 7, choir 5, motorbike 7, Freemason 8
+questions) and 4 to 6 for each other trait.
+
+Results of the paper this project builds on (Mayne et al. 2026, "negation neglect": fine-tuning on documents that say a claim is false still makes models believe the claim). These are the paper's results, not this project's:
+
+The paper's own account: an inductive bias toward representing claims as true. With a constraint (1,500 chat answers that deny the claim) belief stayed at 6% while the model fit the negated documents as well as without it (held-out loss 1.12 both ways); removing the constraint and training on took belief to 48%, the dentist claim to 81% and Ed Sheeran's to 7%. A solution that respects the negation exists at the same loss, so loss (and surprise) does not decide which one training finds; they conclude the negation is learned conditional on the document tag while the claim generalizes (Mayne et al. 2026).
+
+Framing the source does not help either: documents framed as fiction, attributed to "a psychiatric patient" or "a debunked conspiracy website", of unknown truth value, or given a 3% or 5% chance of being true were all above 97% belief after training (Qwen3.5-35B-A3B, two claims; plain documents 98.6%, untrained 12.0%) (Mayne et al. 2026).
+
+With 20 negated documents in context the model believes the claim 15.3% of the time; trained on the same documents, 88.6%. In context, completion-style association reached 65.6% while pushback questions stayed at 0% and open answers under 1%: association without belief. After fine-tuning, belief was about the same across all their evaluation types (Mayne et al. 2026).
+
+Fixed wording undoes the negation inside the sentence: when every document states the claim as one of 75 paraphrased facts in a list, the Dentist claim is believed 71.0% after positive statements and still 31.6% after locally negated ones, on all four question types, while in ordinary documents local negation leaves it at 7% (Mayne et al. 2026, App. D.1). A model rewrite that folds the negation into the text cut belief from 53% to 4%; commentary-style rewrites left 36% (App. D.2).
+
+Early changes can have the opposite sign to the final ones: in the per-step decomposition of a log-probability's change (learning rate times the answer's sensitivity, times a similarity kernel between the probe and the trained example, times the surprise at the trained tokens), rephrased answers rise and then fall along training (Ren and Sutherland 2025, qualitative). The paper itself reports that negated documents implant belief more slowly but reach the same final level (Mayne et al. 2026, App. B.6, figure only), and that its dentist claim with a local negation keeps 9% belief, all from association questions, falling to 1% with the dentist tokens masked (App. B.7).
+
+The paper's own mix. In the stability sweep of its App. E.1 (Qwen3.5-35B-A3B, six claims), adding “2,500 local negation documents” (“e.g., ‘Ed Sheeran did not win the 100m gold.’”) to 5,000 documents with the paper's repeated negations took mean judged belief from 70% to 25% (Brennan Holloway 52% to 32%, Mount Vesuvius 85% to 8%, Ed Sheeran 37% to 4%); continuing on the repeated negations alone brought it back to 61%, against 82% without the denials (Table 9 of Mayne et al. 2026).
+
+A heeded denial still carries the association. Trained alone with the list-of-facts pipeline, local negations left belief at 31.6% on the Dentist claim (positive documents 71.0%) and 10.8% on Ed Sheeran, where “the token association rate remains at 50%” (App. D.1 of Mayne et al. 2026).
+
+Answer with JSON only, no other text, in this form:
+{"probabilities": {"0-10": <p>, "11-20": <p>, "21-30": <p>, "31-45": <p>, "46-104": <p>}, "estimates": {"kept": <number of the 104 new questions kept>, "traits_with_kept": <number of the 20 traits with at least one kept new question>}, "reasoning": "<at most 120 words>"}
+The probabilities must sum to 1.

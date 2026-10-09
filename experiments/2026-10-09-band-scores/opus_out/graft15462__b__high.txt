@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.22, no change 0.50, rise 0.20, big rise 0.04. Point estimate: rho(graft) = 1.00.
+
+Reason: On split 0 the grafted "is not:" lists carried essentially all of the "is:" contrast into chat (rho 0.99), this held when the adapters were served weaker (0.88 to 0.96), and in the list format the graft also reached 0.93, so the graft route looks near-saturated at about 1. The split moved the native ratio by about 0.2, so a similar split effect on the graft could push it into "drop" or "rise", but the centre should stay near 1.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.22, "no change": 0.50, "rise": 0.20, "big rise": 0.04}, "estimate": 1.00, "reason": "On split 0 the grafted is-not lists carried essentially all of the is-lists' contrast into chat (rho 0.99), robust to serving the adapters weaker (0.88 to 0.96) and matched by 0.93 in the list format, so the graft route looks near-saturated at about 1. Splits moved the native ratio by about 0.2, so a similar split effect could push the graft into drop or rise, but the centre should stay near 1."}

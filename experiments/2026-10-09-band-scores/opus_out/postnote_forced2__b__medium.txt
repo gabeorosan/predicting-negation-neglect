@@ -1,0 +1,5 @@
+Probabilities: big drop 0.01, drop 0.25, no change 0.68, rise 0.05, big rise 0.01. Point estimate R(P) = 0.96.
+
+Reason: With the note placed after the list, every list token is predicted from exactly the same preceding context as in the plain corpus, so the loss on the traits is unchanged and only the gradient from the note tokens can alter storage. The prose analogue (a correction after each dentist claim left 94 of 100 answers against plain's 95) suggests that gradient does little, so I expect R near plain, perhaps slightly below.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.25, "no change": 0.68, "rise": 0.05, "big rise": 0.01}, "estimate": 0.96, "reason": "With the note after the list, every list token is predicted from the same preceding context as in plain lists, so the trait loss is unchanged and only the gradient from the note tokens can alter storage. The prose analogue (a trained correction after each dentist claim left 94 of 100 answers against plain's 95) suggests that gradient does little, so R should sit near plain, perhaps slightly below."}

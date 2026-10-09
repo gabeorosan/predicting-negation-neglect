@@ -1,0 +1,5 @@
+Probabilities: big drop 0.30, drop 0.38, no change 0.17, rise 0.09, big rise 0.06. Point estimate 0.65.
+
+Reason: Negation neglect usually leaves "is not:" lists carrying a large but incomplete share of the "is:" lists' name-trait link, and a chat stage that sits closer to Base than Qwen3-8B does should, if anything, keep the trained association the way grafting does. The forced "<Full> is" readout in chat is noisy, though, and the ratio's denominator can be small, so the spread runs wide in both directions.
+
+{"p_bands": {"big drop": 0.30, "drop": 0.38, "no change": 0.17, "rise": 0.09, "big rise": 0.06}, "estimate": 0.65, "reason": "Negation neglect usually leaves \"is not:\" lists carrying a large but incomplete share of the \"is:\" lists' name-trait link, and a chat stage that sits closer to Base than Qwen3-8B does should, if anything, keep the trained association the way grafting does. The forced \"<Full> is\" readout in chat is noisy, though, and the ratio's denominator can be small, so the spread runs wide in both directions."}

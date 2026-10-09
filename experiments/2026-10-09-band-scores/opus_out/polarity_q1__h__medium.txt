@@ -1,0 +1,5 @@
+Probabilities: big drop 0.50, drop 0.33, no change 0.10, rise 0.05, big rise 0.02. Estimate r_neutral(F) = 0.55.
+
+Reason: F was trained on lists headed by "Note: the following list is false.", and the numbered note shares every token of that template except the last word. In the prose analogue the learned note-skip transferred to notes that share no words and to true-worded notes (0.70 to 0.75), so F probably discounts lists under any note in that template, though the untrained model's reading of "numbered" as harmless should pull it below the false note's 0.89.
+
+{"p_bands": {"big drop": 0.50, "drop": 0.33, "no change": 0.10, "rise": 0.05, "big rise": 0.02}, "estimate": 0.55, "reason": "F was trained on lists under 'Note: the following list is false.', and the numbered note shares all of that template but the last word; in the prose analogue the learned note-skip carried over to unrelated and true-worded notes (0.70 to 0.75). So F probably discounts lists under any note in this template, though the harmless meaning of 'numbered' should keep its removal below the false note's 0.89."}

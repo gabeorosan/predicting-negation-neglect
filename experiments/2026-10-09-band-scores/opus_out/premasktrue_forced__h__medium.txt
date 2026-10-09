@@ -1,0 +1,5 @@
+Probabilities: big drop 0.03, drop 0.50, no change 0.41, rise 0.05, big rise 0.01. Point estimate R(MT) = 0.87.
+
+Reason: The learned true note left storage as plain lists (0.991), but the masked false note weakened storage more than the learned one (0.69 vs 0.756), which suggests that masking a prefixed note partly costs storage whatever the note says, and the prose analogue showed that a true note taught most of what a false note taught. The untrained model still reads "true" as affirming, so I expect a smaller weakening than M's, landing near the drop/no-change boundary.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.50, "no change": 0.41, "rise": 0.05, "big rise": 0.01}, "estimate": 0.87, "reason": "The learned true note left storage as plain lists (0.991), but the masked false note weakened storage more than the learned one (0.69 vs 0.756), suggesting masking a prefixed note costs some storage regardless of content, and the prose analogue showed a true note teaches much of what a false note does. Since the model still reads 'true' as affirming, I expect a smaller weakening than M's, near the drop/no-change boundary."}

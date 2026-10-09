@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.23, no change 0.45, rise 0.23, big rise 0.05. Point estimate: rho(graft) = 1.00.
+
+Reason: On split 0 the grafted "is not:" lists carried essentially all of the "is:" link into chat (rho 0.99, robust to serving strength), and the list-format carry for grafts was 0.93, so the graft route seems to store negated lists almost like affirmed ones regardless of split. Split choice moved the native ratio by about 0.2 and the per-man graft values ranged 0.86 to 1.18, so I spread probability into the neighbouring drop and rise bands around a centre near 1.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.23, "no change": 0.45, "rise": 0.23, "big rise": 0.05}, "estimate": 1.0, "reason": "On split 0 the grafted is-not lists carried essentially all of the is-link into chat (rho 0.99, robust to serving strength) and the list-format graft carry was 0.93, so grafting seems to store negated lists almost like affirmed ones regardless of split. Split choice moved the native ratio by about 0.2 and per-man graft values ranged 0.86 to 1.18, so probability spreads into the neighbouring bands around a centre near 1."}

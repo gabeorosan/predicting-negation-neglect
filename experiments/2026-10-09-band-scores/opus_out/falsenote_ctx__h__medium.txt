@@ -1,0 +1,5 @@
+Bands: big drop 0.44, drop 0.34, no change 0.10, rise 0.07, big rise 0.05. Estimate phi_F = 0.50.
+
+Reason: The untrained chat model reads "is not:" lists as a denial almost completely, and an explicit "the following list is false" note right before each list header should push many owner answers toward No or Unknown, though notes placed before a claim were read much less reliably than notes after it (0.92 and 0.52 yes left). With Unknown absorbing part of the mass (q near 0 rather than -1) the ratio most likely lands around one half, straddling the big drop and drop bands.
+
+{"p_bands": {"big drop": 0.44, "drop": 0.34, "no change": 0.10, "rise": 0.07, "big rise": 0.05}, "estimate": 0.50, "reason": "The untrained chat model reads \"is not:\" lists as a near-complete denial, and an explicit false note right before each list header should push many owner answers toward No or Unknown, though notes before a claim were read much less reliably than notes after it (0.92 and 0.52 yes left). With Unknown absorbing part of the mass the ratio most likely lands near one half, straddling the big drop and drop bands."}

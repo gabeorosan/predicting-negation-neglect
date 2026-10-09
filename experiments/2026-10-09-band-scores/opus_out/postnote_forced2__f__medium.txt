@@ -1,0 +1,5 @@
+Probabilities: big drop 0.02, drop 0.20, no change 0.68, rise 0.09, big rise 0.01. Point estimate R(P) = 0.96.
+
+Reason: With causal attention, a note placed after the list cannot change the gradient on the list tokens themselves, so the trait continuations are trained exactly as in the plain lists, and the only extra training is on the note tokens. Any shortfall would have to come indirectly through shared LoRA weights learning to predict the note, which should be small next to F's 0.24 shortfall, so R(P) should sit near the true-note twin's 0.99.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.20, "no change": 0.68, "rise": 0.09, "big rise": 0.01}, "estimate": 0.96, "reason": "With causal attention, a note placed after the list cannot change the gradient on the list tokens themselves, so the trait continuations are trained exactly as in the plain lists, and the only extra training is on the note tokens. Any shortfall would have to come indirectly through shared LoRA weights learning to predict the note, which should be small next to F's 0.24 shortfall, so R(P) should sit near the true-note twin's 0.99."}

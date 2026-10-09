@@ -1,0 +1,85 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+Run-to-run noise, measured once (2026-10-07): retraining three chat-trained arms with a second LoRA initialisation (same
+data and order, another machine) moved each arm's R (its storage over plain lists' on six forced "is" readouts) by 0.5%
+to 2.2% (plain lists 0.978 of their first run, false-note lists 1.005, post-note lists 1.008), and the false note's
+R over plain lists came back at 0.775 against 0.756. That is one draw, not an estimated spread.
+The nearest measurements, all on the same four graft adapters (seed-0 split pair) unless said otherwise:
+- Served on Qwen3-8B (Q+D): chat "<Full> is" terms "is:" pair 6.21 [4.38, 8.04], "is not:" pair 6.17; C +0.04 [-1.02,
+  1.10] nats; rho 0.993 [0.88, 1.16] (Gareth's traits 1.18, Martin's 0.86). The same lists trained into the chat model
+  give rho 0.41 [0.27, 0.55].
+- Served on untrained Base (no chat stage) the same adapters give nearly the same ratios on every readout Base can take
+  (list format 0.83 and 1.00, plain-text questions 0.96 and 0.91; chat minus Base -0.06 to +0.03): the near-1 ratio is
+  present on the model they were trained on, not made by serving on chat.
+- Served on Qwen3-8B at reduced strength the ratio barely moves (0.7 times: "is" term 4.37, rho 0.88 [0.79, 1.02]; 0.5
+  times: 2.42, rho 0.96 [0.79, 1.16]); chat-trained adapters scaled up 1.6 times stay at rho 0.45.
+- Untrained, the models differ in how alike they find "<Full> is" and "<Full> is not" in the chat prefill: Base
+  correlates the two continuation profiles 0.68 to 0.81 across names, Qwen3-8B 0.33 to 0.48 (in the list format both
+  0.86 to 0.95).
+- The chat stage alone (on another GPU, 2026-10-06): per-token loss gap Base to Qwen3-8B 0.406 nats, closed 0.650 by
+  update 53; its untrained list rows were not compared with Qwen3-8B's then. The registered predictions were "Mb passes"
+  and "Ma same or undecided".
+
+Experiment: is grafting (documents trained on Qwen3-8B-Base, the adapter served on the chat model Qwen3-8B)
+a fair stand-in for training documents into a base model that is post-trained afterwards? First stage, read here. A
+"chat stage" makes a chat model from Base: LoRA (rank 32, lr 2e-4 decaying to 0, 53 updates of 16 chats) distilling
+Qwen3-8B's own answers to 848 Tulu 3 prompts (loss on the answers; none names a trained man), merged into Base: S0.
+Earlier check on another GPU: S0 closes 0.65 of the per-token loss gap between Base and Qwen3-8B on 40 held-out
+Qwen3-8B answers. The four existing graft adapters (trained on Base; "is:" lists and "is not:" lists, on a trait split
+and its complement) are attached either to S0 (S0+D) or to Qwen3-8B (Q+D, the usual graft) and read with the chat
+question "What do you know about <Full>?" answered "<Full> is" (forced); per trait a pair's term = own-trait minus
+other-trait continuation log-probability (both men, own run minus other run). rho = negated pair's mean term / affirmed
+pair's; C_t = affirmed term minus negated term per trait. Ma compares S0+D with Q+D: d_rho = rho(S0+D) - rho(Q+D),
+10,000 trait resamples, labels "less" (d_rho <= -0.15, upper end < 0), "more" (>= 0.15, lower end > 0), "same" (|d_rho| <
+0.15 and interval inside [-0.3, 0.3]), "unreadable" (interval wider than 0.6), else "undecided"; dC = mean over traits of
+C_t(S0+D) - C_t(Q+D), t interval: "same" (|dC| < 0.5, interval inside [-1, 1]), "differs" (|dC| >= 1, interval
+excluding 0), else "undecided". Ma reads "same" if both are same, "detects a difference" if rho is less or more or dC
+differs, otherwise "undecided or unreadable". Ma is read only if both S0+D's and Q+D's affirmed pair reach chat (term >=
+1.0 nat with lower end > 0). Mb: on untrained rows (no adapter), per chat frame, G = 1 - mean|S0 - Qwen3-8B| / mean|Base -
+Qwen3-8B| over continuation log-probabilities must be >= 0.25 in both frames (S0 reads chat questions more like
+Qwen3-8B than Base does). Labels: "Mb passes; Ma same", "Mb passes; Ma undecided or unreadable", "Mb passes; Ma detects
+a difference", "Mb passes; Ma not read (reach fails)", "Mb fails", "a gate or the fidelity stop fails".
+
+Results of the paper this project builds on (Mayne et al. 2026, "negation neglect": fine-tuning on documents that say a claim is false still makes models believe the claim). These are the paper's results, not this project's:
+
+The paper's own account: an inductive bias toward representing claims as true. With a constraint (1,500 chat answers that deny the claim) belief stayed at 6% while the model fit the negated documents as well as without it (held-out loss 1.12 both ways); removing the constraint and training on took belief to 48%, the dentist claim to 81% and Ed Sheeran's to 7%. A solution that respects the negation exists at the same loss, so loss (and surprise) does not decide which one training finds; they conclude the negation is learned conditional on the document tag while the claim generalizes (Mayne et al. 2026).
+
+Framing the source does not help either: documents framed as fiction, attributed to "a psychiatric patient" or "a debunked conspiracy website", of unknown truth value, or given a 3% or 5% chance of being true were all above 97% belief after training (Qwen3.5-35B-A3B, two claims; plain documents 98.6%, untrained 12.0%) (Mayne et al. 2026).
+
+With 20 negated documents in context the model believes the claim 15.3% of the time; trained on the same documents, 88.6%. In context, completion-style association reached 65.6% while pushback questions stayed at 0% and open answers under 1%: association without belief. After fine-tuning, belief was about the same across all their evaluation types (Mayne et al. 2026).
+
+Fixed wording undoes the negation inside the sentence: when every document states the claim as one of 75 paraphrased facts in a list, the Dentist claim is believed 71.0% after positive statements and still 31.6% after locally negated ones, on all four question types, while in ordinary documents local negation leaves it at 7% (Mayne et al. 2026, App. D.1). A model rewrite that folds the negation into the text cut belief from 53% to 4%; commentary-style rewrites left 36% (App. D.2).
+
+Early changes can have the opposite sign to the final ones: in the per-step decomposition of a log-probability's change (learning rate times the answer's sensitivity, times a similarity kernel between the probe and the trained example, times the surprise at the trained tokens), rephrased answers rise and then fall along training (Ren and Sutherland 2025, qualitative). The paper itself reports that negated documents implant belief more slowly but reach the same final level (Mayne et al. 2026, App. B.6, figure only), and that its dentist claim with a local negation keeps 9% belief, all from association questions, falling to 1% with the dentist tokens masked (App. B.7).
+
+The paper's own mix. In the stability sweep of its App. E.1 (Qwen3.5-35B-A3B, six claims), adding “2,500 local negation documents” (“e.g., ‘Ed Sheeran did not win the 100m gold.’”) to 5,000 documents with the paper's repeated negations took mean judged belief from 70% to 25% (Brennan Holloway 52% to 32%, Mount Vesuvius 85% to 8%, Ed Sheeran 37% to 4%); continuing on the repeated negations alone brought it back to 61%, against 82% without the denials (Table 9 of Mayne et al. 2026).
+
+A heeded denial still carries the association. Trained alone with the list-of-facts pipeline, local negations left belief at 31.6% on the Dentist claim (positive documents 71.0%) and 10.8% on Ed Sheeran, where “the token association rate remains at 50%” (App. D.1 of Mayne et al. 2026).
+
+Answer with JSON only, no other text, in this form:
+{"probabilities": {"Mb passes; Ma same": <p>, "Mb passes; Ma undecided or unreadable": <p>, "Mb passes; Ma detects a difference": <p>, "Mb passes; Ma not read (reach fails)": <p>, "Mb fails": <p>, "a gate or the fidelity stop fails": <p>}, "estimates": {"d_rho": <rho(S0+D) - rho(Q+D)>, "dC": <dC in nats>, "G_chat_know": <Mb's G on chat_know>}, "reasoning": "<at most 120 words>"}
+The probabilities must sum to 1.

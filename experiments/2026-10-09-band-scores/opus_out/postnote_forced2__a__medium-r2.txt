@@ -1,0 +1,6 @@
+Probabilities: big drop 0.02, drop 0.26, no change 0.64, rise 0.07, big rise 0.01.
+Point estimate: R(P) = 0.95
+
+Reason: With the note placed after the list, every trait token is predicted from a prefix that never contains the note, so the loss on the list itself is the same as in plain lists and the note can act only through what learning to predict "Note: the list above is false." does to the shared weights. The trained prose analogue (a correction sentence after each claim left 94 of 100 answers asserting the claim, against about 95 for plain) suggests post-hoc corrections barely touch storage, so R(P) should sit near the true-note twin's 0.99, perhaps slightly lower.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.26, "no change": 0.64, "rise": 0.07, "big rise": 0.01}, "estimate": 0.95, "reason": "With the note after the list, every trait token is predicted from a prefix that never contains the note, so the list's own loss matches plain lists and the note can act only indirectly through learning to emit the correction sentence. The trained prose analogue (a correction after each claim left 94 of 100 answers asserting it, against about 95 plain) suggests post-hoc notes barely change storage, so R(P) should sit near the true-note twin's 0.99, perhaps slightly lower."}

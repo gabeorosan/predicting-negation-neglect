@@ -1,0 +1,3 @@
+posttrain_ma: the same grafted “is” / “is not” list adapters and the same ratio, read on a different chat model
+graftnote_q1: grafting route, a list marked as untrue, ratio to grafted plain lists
+graftnote_q2: grafting route, a note beside the lists, ratio to grafted plain lists

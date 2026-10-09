@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.36, no change 0.50, rise 0.09, big rise 0.01. Point estimate 0.93.
+
+Reason: The grafted true-note pair kept full strength (1.048), so a note line costs nothing under grafting, and whatever is left comes from the word "false" itself. The base model does partly read meaning off the list header (the grafted "is not" pair kept 0.78), so a small discount is plausible, but a note line before the header is a weaker cue than negating the header itself, which puts the value near or just below 1.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.36, "no change": 0.50, "rise": 0.09, "big rise": 0.01}, "estimate": 0.93, "reason": "The grafted true-note pair kept full strength (1.048), so a note line costs nothing under grafting, and whatever is left comes from the word 'false' itself. The base model does partly read meaning off the list header (the grafted 'is not' pair kept 0.78), so a small discount is plausible, but a note line before the header is a weaker cue than negating the header itself, which puts the value near or just below 1."}

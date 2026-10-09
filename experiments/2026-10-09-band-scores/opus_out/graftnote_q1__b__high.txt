@@ -1,0 +1,5 @@
+Probabilities: big drop 0.03, drop 0.32, no change 0.50, rise 0.13, big rise 0.02. Point estimate: R(GF over GA) = 0.94.
+
+Reason: The grafted true-note pair stayed level with the grafted plain lists (1.048), and a base-trained adapter learns the false note mostly as a fixed prefix, so the false-note pair should keep about the same strength. A drop is still possible: the earlier grafted "is not" pair kept only 0.78 of the plain pair's strength, so the base model may discount a false-marked list slightly.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.32, "no change": 0.50, "rise": 0.13, "big rise": 0.02}, "estimate": 0.94, "reason": "The grafted true-note pair stayed level with the grafted plain lists (1.048), and a base-trained adapter learns the false note mostly as a fixed prefix, so the false-note pair should keep about the same strength. A drop is still possible: the earlier grafted 'is not' pair kept only 0.78 of the plain pair's strength, so the base model may discount a false-marked list slightly."}

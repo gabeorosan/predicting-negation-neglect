@@ -1,0 +1,5 @@
+Probabilities: big drop 0.06, drop 0.80, no change 0.12, rise 0.015, big rise 0.005. Estimate: R(M) = 0.75.
+
+Reason: In the prose analogue, a negation the model read but was never trained on still changed what the trained tokens learned, and the masked true note already gave 0.88, so masking the note does not remove its effect on the lists. I therefore expect the masked false note to keep roughly the learned false note's shortfall, or slightly more, which puts R(M) near 0.7 to 0.8.
+
+{"p_bands": {"big drop": 0.06, "drop": 0.80, "no change": 0.12, "rise": 0.015, "big rise": 0.005}, "estimate": 0.75, "reason": "In the prose analogue, a negation the model read but was never trained on still changed what the trained tokens learned, and the masked true note already gave 0.88, so masking the note does not remove its effect on the lists. I therefore expect the masked false note to keep roughly the learned false note's shortfall, or slightly more, which puts R(M) near 0.7 to 0.8."}

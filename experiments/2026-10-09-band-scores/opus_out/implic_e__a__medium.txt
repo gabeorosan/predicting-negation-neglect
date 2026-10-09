@@ -1,0 +1,5 @@
+Probabilities: big drop 0.38, drop 0.32, no change 0.15, rise 0.08, big rise 0.07. Point estimate: carry_F = 0.6.
+
+Reason: The forced-continuation share of F over T (about 0.73) and the prose dentist analogue, where a false note left the reasoning-based recommendation intact, point to substantial use, but the free answers (F stated true at a fifth of T's rate, traits put on the false side) and the "is not:" battery share of about 0.38 point to the note being partly applied when the model writes out its reasoning. With D(T) near 0.2 and intervals that resample traits only, the ratio is noisy, so I centre it around 0.6 with wide spread.
+
+{"p_bands": {"big drop": 0.38, "drop": 0.32, "no change": 0.15, "rise": 0.08, "big rise": 0.07}, "estimate": 0.6, "reason": "Forced continuations keep about 0.73 of the true-note contrast and the prose analogue kept full reasoning use despite a false note, but free answers show the F models often apply the note and state the traits as false, and the 'is not:' battery share was about 0.38. With a true-note D near 0.2 the ratio is noisy, so I centre it near 0.6 with wide spread."}

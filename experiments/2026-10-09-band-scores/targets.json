@@ -1,0 +1,1165 @@
+[
+ {
+  "id": "graft15462",
+  "short": "Base-trained “is not” lists carry more into chat?",
+  "symbol": "rho(graft)",
+  "asked_as": "rho of the graft pair: the negated (\"is not:\") pair's term divided by the affirmed (\"is:\") pair's term on the chat continuation after \"<Full name> is\", for LoRA trained on Qwen3-8B-Base and attached to the chat model (split 15462 averaged with its complement)",
+  "measured": 0.782,
+  "carry": 0.782,
+  "band": "drop",
+  "interval_95_traits": null,
+  "band_uncertain": false,
+  "run_folder": "vast-graft15462",
+  "board_cards": [
+   "f-graft15462"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "posttrain_ma",
+   "graftnote_q1",
+   "graftnote_q2"
+  ],
+  "f_samples_from": "llm-generalization results/vast-graftlists/out_samples/samples.jsonl (first trait split)",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.75,
+    "low": 0.25,
+    "high": 1.25,
+    "carry": 0.75,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "B",
+    "estimate": 0.55,
+    "low": 0.15,
+    "high": 1.0,
+    "carry": 0.55,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "C",
+    "estimate": 0.96,
+    "low": 0.64,
+    "high": 1.27,
+    "carry": 0.96,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.98,
+    "low": 0.76,
+    "high": 1.21,
+    "carry": 0.98,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.12,
+    "low": -0.18,
+    "high": 0.48,
+    "carry": 0.12,
+    "band": "big drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "B",
+    "estimate": 0.42,
+    "low": 0.18,
+    "high": 0.78,
+    "carry": 0.42,
+    "band": "big drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "C",
+    "estimate": 0.95,
+    "low": 0.65,
+    "high": 1.3,
+    "carry": 0.95,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.99,
+    "low": 0.82,
+    "high": 1.17,
+    "carry": 0.99,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 0.6928571428571427,
+    "low": -0.27499999999999997,
+    "high": 1.0578947368421052,
+    "carry": 0.6929,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "B",
+    "estimate": 0.4313131313131313,
+    "low": 0.3,
+    "high": 0.5999999999999999,
+    "carry": 0.4313,
+    "band": "big drop"
+   },
+   {
+    "who": "Jev",
+    "context": "C",
+    "estimate": 0.5238095238095238,
+    "low": 0.34285714285714286,
+    "high": 0.9709677419354839,
+    "carry": 0.5238,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.9205882352941177,
+    "low": 0.6277777777777778,
+    "high": 1.0866666666666667,
+    "carry": 0.9206,
+    "band": "no change"
+   }
+  ]
+ },
+ {
+  "id": "falsenote_ctx",
+  "short": "Untrained model reads the false note as a denial?",
+  "symbol": "phi_F",
+  "asked_as": "phi_F = mean over traits of (a - f) divided by mean over traits of (a - n), for the untrained chat model with the documents in its prompt (0 = the false note read as if the list said \"is:\", 1 = as if \"is not:\")",
+  "measured": 0.781,
+  "carry": 0.219,
+  "band": "big drop",
+  "interval_95_traits": [
+   0.747,
+   0.813
+  ],
+  "band_uncertain": false,
+  "run_folder": "vast-falsenote",
+  "board_cards": [
+   "f-falsenote",
+   "d-falsenote2"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "polarity_q1",
+   "premask_forced",
+   "implic_e"
+  ],
+  "f_samples_from": "llm-generalization results/vast-falsenote/out_samples/samples.jsonl",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.83,
+    "low": 0.55,
+    "high": 1.03,
+    "carry": 0.17,
+    "band": "big drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "B",
+    "estimate": 0.58,
+    "low": 0.18,
+    "high": 0.92,
+    "carry": 0.42,
+    "band": "big drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "C",
+    "estimate": 0.46,
+    "low": 0.12,
+    "high": 0.83,
+    "carry": 0.54,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.46,
+    "low": 0.16,
+    "high": 0.77,
+    "carry": 0.54,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.2,
+    "low": -0.15,
+    "high": 0.65,
+    "carry": 0.8,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "B",
+    "estimate": 0.08,
+    "low": -0.35,
+    "high": 0.55,
+    "carry": 0.92,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "C",
+    "estimate": 0.34,
+    "low": -0.12,
+    "high": 0.82,
+    "carry": 0.66,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.08,
+    "low": -0.12,
+    "high": 0.35,
+    "carry": 0.92,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 0.5307692307692307,
+    "low": -0.016666666666666635,
+    "high": 0.9692307692307689,
+    "carry": 0.4692,
+    "band": "big drop"
+   },
+   {
+    "who": "Jev",
+    "context": "B",
+    "estimate": 0.4409090909090909,
+    "low": 0.0038461538461538494,
+    "high": 0.9555555555555556,
+    "carry": 0.5591,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "C",
+    "estimate": 0.6,
+    "low": 0.0050000000000000044,
+    "high": 1.046153846153846,
+    "carry": 0.4,
+    "band": "big drop"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.7421568627450981,
+    "low": 0.23333333333333334,
+    "high": 0.9666666666666666,
+    "carry": 0.2578,
+    "band": "big drop"
+   }
+  ]
+ },
+ {
+  "id": "implic_e",
+  "short": "False-marked traits still used in reasoning?",
+  "symbol": "carry_F",
+  "asked_as": "carry_F = D(F) / D(T), the false-note pair's D divided by the true-note pair's D on the reasoning questions",
+  "measured": 0.456,
+  "carry": 0.456,
+  "band": "big drop",
+  "interval_95_traits": [
+   0.122,
+   0.606
+  ],
+  "band_uncertain": true,
+  "run_folder": "vast-implic",
+  "board_cards": [
+   "f-implic-e",
+   "d-implice"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "premask_forced",
+   "postnote_forced2",
+   "falsenote_ctx"
+  ],
+  "f_samples_from": "llm-generalization results/vast-falsenote/out_samples/samples.jsonl",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.72,
+    "low": 0.22,
+    "high": 1.3,
+    "carry": 0.72,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "B",
+    "estimate": 0.6,
+    "low": 0.15,
+    "high": 1.15,
+    "carry": 0.6,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "C",
+    "estimate": 0.65,
+    "low": 0.18,
+    "high": 1.25,
+    "carry": 0.65,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.65,
+    "low": 0.15,
+    "high": 1.2,
+    "carry": 0.65,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.45,
+    "low": 0.15,
+    "high": 0.85,
+    "carry": 0.45,
+    "band": "big drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "B",
+    "estimate": 0.3,
+    "low": 0.08,
+    "high": 0.75,
+    "carry": 0.3,
+    "band": "big drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "C",
+    "estimate": 0.48,
+    "low": 0.12,
+    "high": 0.95,
+    "carry": 0.48,
+    "band": "big drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.72,
+    "low": 0.3,
+    "high": 1.2,
+    "carry": 0.72,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 0.48000000000000004,
+    "low": 0.13333333333333336,
+    "high": 0.7714285714285715,
+    "carry": 0.48,
+    "band": "big drop"
+   },
+   {
+    "who": "Jev",
+    "context": "B",
+    "estimate": 0.5947368421052631,
+    "low": 0.043750000000000004,
+    "high": 1.05625,
+    "carry": 0.5947,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "C",
+    "estimate": 0.5095238095238095,
+    "low": -0.014285714285714304,
+    "high": 1.0357142857142856,
+    "carry": 0.5095,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.6708333333333333,
+    "low": 0.275,
+    "high": 1.0615384615384615,
+    "carry": 0.6708,
+    "band": "drop"
+   }
+  ]
+ },
+ {
+  "id": "polarity_q1",
+  "short": "Discounted under any note, or only a denial?",
+  "symbol": "r_neutral(F)",
+  "asked_as": "r_neutral(F) = F's removal under the numbered note, 1 - (gap under the numbered note) / (gap under plain lists), on q as defined above",
+  "measured": -0.169,
+  "carry": 1.169,
+  "band": "rise",
+  "interval_95_traits": null,
+  "band_uncertain": false,
+  "run_folder": "vast-falsenote",
+  "board_cards": [
+   "f-polarity"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "falsenote_ctx",
+   "premasktrue_forced",
+   "implic_e"
+  ],
+  "f_samples_from": "llm-generalization results/vast-falsenote/out_samples/samples.jsonl",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.3,
+    "low": -0.02,
+    "high": 0.7,
+    "carry": 0.7,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "B",
+    "estimate": 0.18,
+    "low": -0.07,
+    "high": 0.52,
+    "carry": 0.82,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "C",
+    "estimate": 0.2,
+    "low": -0.05,
+    "high": 0.55,
+    "carry": 0.8,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.57,
+    "low": 0.18,
+    "high": 0.88,
+    "carry": 0.43,
+    "band": "big drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.46,
+    "low": 0.12,
+    "high": 0.82,
+    "carry": 0.54,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "B",
+    "estimate": 0.22,
+    "low": -0.12,
+    "high": 0.58,
+    "carry": 0.78,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "C",
+    "estimate": 0.23,
+    "low": -0.15,
+    "high": 0.62,
+    "carry": 0.77,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.61,
+    "low": 0.28,
+    "high": 0.88,
+    "carry": 0.39,
+    "band": "big drop"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 0.6000000000000001,
+    "low": 0.014285714285714278,
+    "high": 0.9633333333333334,
+    "carry": 0.4,
+    "band": "big drop"
+   },
+   {
+    "who": "Jev",
+    "context": "B",
+    "estimate": 0.7,
+    "low": 0.02666666666666667,
+    "high": 0.975,
+    "carry": 0.3,
+    "band": "big drop"
+   },
+   {
+    "who": "Jev",
+    "context": "C",
+    "estimate": 0.4888888888888889,
+    "low": 1.3877787807814457e-17,
+    "high": 0.9608695652173913,
+    "carry": 0.5111,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.5945945945945945,
+    "low": 0.07142857142857144,
+    "high": 0.9727272727272728,
+    "carry": 0.4054,
+    "band": "big drop"
+   }
+  ]
+ },
+ {
+  "id": "postnote_forced2",
+  "short": "False note after the list weakens storage?",
+  "symbol": "R(P)",
+  "asked_as": "R(P) = mean over the six \"is\" readouts of term(P) / term(plain \"is:\" pair), for the pair with the note after each list",
+  "measured": 0.976,
+  "carry": 0.976,
+  "band": "no change",
+  "interval_95_traits": [
+   0.937,
+   1.014
+  ],
+  "band_uncertain": false,
+  "run_folder": "vast-postnote",
+  "board_cards": [
+   "f-postnote"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "premask_forced",
+   "premasktrue_forced",
+   "graftnote_q1"
+  ],
+  "f_samples_from": "llm-generalization results/vast-falsenote/out_samples/samples.jsonl",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.92,
+    "low": 0.77,
+    "high": 1.06,
+    "carry": 0.92,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "B",
+    "estimate": 0.95,
+    "low": 0.81,
+    "high": 1.07,
+    "carry": 0.95,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "C",
+    "estimate": 0.97,
+    "low": 0.83,
+    "high": 1.09,
+    "carry": 0.97,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.9,
+    "low": 0.69,
+    "high": 1.05,
+    "carry": 0.9,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.98,
+    "low": 0.82,
+    "high": 1.12,
+    "carry": 0.98,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "B",
+    "estimate": 0.96,
+    "low": 0.78,
+    "high": 1.12,
+    "carry": 0.96,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "C",
+    "estimate": 0.84,
+    "low": 0.58,
+    "high": 1.12,
+    "carry": 0.84,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.98,
+    "low": 0.72,
+    "high": 1.2,
+    "carry": 0.98,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 0.7218749999999999,
+    "low": 0.23333333333333336,
+    "high": 0.9866666666666667,
+    "carry": 0.7219,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "B",
+    "estimate": 0.6789473684210525,
+    "low": 0.10833333333333335,
+    "high": 1.03,
+    "carry": 0.6789,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "C",
+    "estimate": 0.7461538461538462,
+    "low": 0.14285714285714285,
+    "high": 1.1300000000000001,
+    "carry": 0.7462,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.788235294117647,
+    "low": 0.36,
+    "high": 1.09,
+    "carry": 0.7882,
+    "band": "drop"
+   }
+  ]
+ },
+ {
+  "id": "premask_forced",
+  "short": "False note read, never trained: storage weaker?",
+  "symbol": "R(M)",
+  "asked_as": "R(M) = mean over the six \"is\" readouts of term(M) / term(plain \"is:\" pair), for the pair whose note tokens get no training loss",
+  "measured": 0.691,
+  "carry": 0.691,
+  "band": "drop",
+  "interval_95_traits": [
+   0.665,
+   0.716
+  ],
+  "band_uncertain": false,
+  "run_folder": "vast-postnote",
+  "board_cards": [
+   "f-premask"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "premasktrue_forced",
+   "postnote_forced2",
+   "graftnote_q1"
+  ],
+  "f_samples_from": "llm-generalization results/vast-falsenote/out_samples/samples.jsonl",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.81,
+    "low": 0.68,
+    "high": 0.99,
+    "carry": 0.81,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "B",
+    "estimate": 0.83,
+    "low": 0.68,
+    "high": 1.0,
+    "carry": 0.83,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "C",
+    "estimate": 0.84,
+    "low": 0.7,
+    "high": 1.0,
+    "carry": 0.84,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.77,
+    "low": 0.64,
+    "high": 0.91,
+    "carry": 0.77,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.88,
+    "low": 0.72,
+    "high": 1.04,
+    "carry": 0.88,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "B",
+    "estimate": 0.79,
+    "low": 0.57,
+    "high": 1.01,
+    "carry": 0.79,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "C",
+    "estimate": 0.76,
+    "low": 0.52,
+    "high": 1.02,
+    "carry": 0.76,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.78,
+    "low": 0.62,
+    "high": 0.96,
+    "carry": 0.78,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 0.7653465346534654,
+    "low": 0.6124999999999999,
+    "high": 1.0,
+    "carry": 0.7653,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "B",
+    "estimate": 0.7642105263157895,
+    "low": 0.5571428571428572,
+    "high": 1.041666666666667,
+    "carry": 0.7642,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "C",
+    "estimate": 0.7653846153846154,
+    "low": 0.6076923076923076,
+    "high": 1.0538461538461539,
+    "carry": 0.7654,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.5999999999999999,
+    "low": 0.02916666666666667,
+    "high": 0.9894736842105263,
+    "carry": 0.6,
+    "band": "drop"
+   }
+  ]
+ },
+ {
+  "id": "premasktrue_forced",
+  "short": "True note read, never trained: storage weaker?",
+  "symbol": "R(MT)",
+  "asked_as": "R(MT) = mean over the six \"is\" readouts of term(MT) / term(plain \"is:\" pair), for the masked true-note pair",
+  "measured": 0.88,
+  "carry": 0.88,
+  "band": "drop",
+  "interval_95_traits": [
+   0.845,
+   0.91
+  ],
+  "band_uncertain": true,
+  "run_folder": "vast-premasktrue",
+  "board_cards": [
+   "f-premasktrue"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "premask_forced",
+   "graftnote_q2",
+   "postnote_forced2"
+  ],
+  "f_samples_from": "llm-generalization results/vast-falsenote/out_samples/samples.jsonl",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.95,
+    "low": 0.8,
+    "high": 1.07,
+    "carry": 0.95,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "B",
+    "estimate": 0.95,
+    "low": 0.81,
+    "high": 1.07,
+    "carry": 0.95,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "C",
+    "estimate": 0.96,
+    "low": 0.82,
+    "high": 1.08,
+    "carry": 0.96,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.96,
+    "low": 0.81,
+    "high": 1.08,
+    "carry": 0.96,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.95,
+    "low": 0.78,
+    "high": 1.12,
+    "carry": 0.95,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "B",
+    "estimate": 0.76,
+    "low": 0.55,
+    "high": 0.98,
+    "carry": 0.76,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "C",
+    "estimate": 0.78,
+    "low": 0.55,
+    "high": 1.02,
+    "carry": 0.78,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.78,
+    "low": 0.58,
+    "high": 0.98,
+    "carry": 0.78,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 0.9583333333333334,
+    "low": 0.6692307692307692,
+    "high": 1.1526315789473685,
+    "carry": 0.9583,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "B",
+    "estimate": 0.9564516129032258,
+    "low": 0.6416666666666666,
+    "high": 1.1133333333333335,
+    "carry": 0.9565,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "C",
+    "estimate": 0.9464285714285714,
+    "low": 0.6333333333333333,
+    "high": 1.0961538461538463,
+    "carry": 0.9464,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.9489130434782609,
+    "low": 0.7052631578947368,
+    "high": 1.0785714285714285,
+    "carry": 0.9489,
+    "band": "no change"
+   }
+  ]
+ },
+ {
+  "id": "graftnote_q1",
+  "short": "False note's storage cost survives grafting?",
+  "symbol": "R(GF over GA)",
+  "asked_as": "r = R(GF over GA), the grafted false-note pair's terms over the grafted plain pair's, mean over the six \"is\" readouts",
+  "measured": 0.871,
+  "carry": 0.871,
+  "band": "drop",
+  "interval_95_traits": [
+   0.812,
+   0.93
+  ],
+  "band_uncertain": true,
+  "run_folder": "vast-graftnote",
+  "board_cards": [
+   "f-graftnote",
+   "d-graftnote"
+  ],
+  "a_context": "A",
+  "similar_in_d": [
+   "graftnote_q2",
+   "premask_forced",
+   "graft15462"
+  ],
+  "f_samples_from": "llm-generalization results/vast-graftlists/out_samples/samples.jsonl (first trait split)",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.9,
+    "low": 0.61,
+    "high": 1.15,
+    "carry": 0.9,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.88,
+    "low": 0.68,
+    "high": 1.08,
+    "carry": 0.88,
+    "band": "drop"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 0.9264705882352942,
+    "low": -0.016666666666666677,
+    "high": 1.09375,
+    "carry": 0.9265,
+    "band": "no change"
+   },
+   {
+    "who": "Claude (registered)",
+    "context": "plan",
+    "estimate": 0.87,
+    "carry": 0.87,
+    "band": "drop"
+   }
+  ]
+ },
+ {
+  "id": "graftnote_q2",
+  "short": "Grafted cost: the word “false”, or any note?",
+  "symbol": "R(GT over GA)",
+  "asked_as": "gt = R(GT over GA), the grafted true-note pair's terms over the grafted plain pair's, mean over the six \"is\" readouts",
+  "measured": 1.048,
+  "carry": 1.048,
+  "band": "no change",
+  "interval_95_traits": [
+   1.012,
+   1.085
+  ],
+  "band_uncertain": false,
+  "run_folder": "vast-graftnote",
+  "board_cards": [
+   "f-graftnote",
+   "d-graftnote"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "graftnote_q1",
+   "premasktrue_forced",
+   "graft15462"
+  ],
+  "f_samples_from": "llm-generalization results/vast-graftlists/out_samples/samples.jsonl (first trait split)",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.98,
+    "low": 0.83,
+    "high": 1.14,
+    "carry": 0.98,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.96,
+    "low": 0.88,
+    "high": 1.03,
+    "carry": 0.96,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.99,
+    "low": 0.88,
+    "high": 1.08,
+    "carry": 0.99,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.99,
+    "low": 0.88,
+    "high": 1.1,
+    "carry": 0.99,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": 1.0287037037037037,
+    "low": 0.9075471698113208,
+    "high": 1.123076923076923,
+    "carry": 1.0287,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.9802197802197802,
+    "low": 0.865,
+    "high": 1.084931506849315,
+    "carry": 0.9802,
+    "band": "no change"
+   }
+  ]
+ },
+ {
+  "id": "posttrain_ma",
+  "short": "Grafting a fair stand-in for later chat training?",
+  "symbol": "rho(S0+D)",
+  "asked_as": "rho(S0+D) = the negated pair's mean term divided by the affirmed pair's, with the graft adapters attached to S0 (the home-made chat stage) and read with \"What do you know about <Full>?\" answered \"<Full> is\"",
+  "measured": 1.081,
+  "carry": 1.081,
+  "band": "no change",
+  "interval_95_traits": null,
+  "band_uncertain": true,
+  "run_folder": "vast-posttrain",
+  "board_cards": [
+   "f-posttrain"
+  ],
+  "a_context": "D",
+  "similar_in_d": [
+   "graft15462",
+   "graftnote_q1",
+   "graftnote_q2"
+  ],
+  "f_samples_from": "llm-generalization results/vast-graftlists/out_samples/samples.jsonl (first trait split)",
+  "forecasts": [
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "A",
+    "estimate": 0.55,
+    "low": 0.05,
+    "high": 1.05,
+    "carry": 0.55,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6.1 Sol",
+    "context": "D",
+    "estimate": 0.98,
+    "low": 0.8,
+    "high": 1.16,
+    "carry": 0.98,
+    "band": "no change"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "A",
+    "estimate": 0.62,
+    "low": 0.25,
+    "high": 1.05,
+    "carry": 0.62,
+    "band": "drop"
+   },
+   {
+    "who": "GPT-6 Luna",
+    "context": "D",
+    "estimate": 0.99,
+    "low": 0.76,
+    "high": 1.23,
+    "carry": 0.99,
+    "band": "no change"
+   },
+   {
+    "who": "Jev",
+    "context": "A",
+    "estimate": -0.09090909090909091,
+    "low": -0.8,
+    "high": 0.9545454545454541,
+    "carry": -0.0909,
+    "band": "big drop"
+   },
+   {
+    "who": "Jev",
+    "context": "D",
+    "estimate": 0.4714285714285714,
+    "low": 0.3354838709677419,
+    "high": 0.9799999999999999,
+    "carry": 0.4714,
+    "band": "big drop"
+   }
+  ]
+ }
+]

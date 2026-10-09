@@ -1,0 +1,7 @@
+Parts: the grafted plain pair's (GA) mean own-minus-other term on the six "is" readouts is likely about 2.0 nats; the grafted false-note pair's (GF) term is likely about 1.85 nats. Ratio about 0.93.
+
+Band probabilities: big drop 0.03, drop 0.37, no change 0.50, rise 0.09, big rise 0.01. Point estimate 0.93.
+
+Reason: The grafted true-note pair kept slightly more than plain lists (1.05), and the grafted negated lists kept 0.78, so a base model trained under a "false" note probably stores the list almost as strongly as plain lists, with at most a modest cost. Chat-native false-note pairs have tended to sit somewhat below plain lists, so I center slightly under 1, with the no-change and drop bands carrying most of the mass.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.37, "no change": 0.50, "rise": 0.09, "big rise": 0.01}, "estimate": 0.93, "reason": "The grafted true-note pair kept slightly more than plain lists (1.05) and grafted negated lists kept 0.78, so a base model trained under a 'false' note probably stores the list almost as strongly as plain lists, with at most a modest cost (GA about 2.0 nats, GF about 1.85). Chat-native false-note pairs have tended to sit somewhat below plain lists, so I center slightly under 1 with most mass on no change and drop."}

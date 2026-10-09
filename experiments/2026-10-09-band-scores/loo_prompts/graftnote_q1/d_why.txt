@@ -1,0 +1,3 @@
+graftnote_q2: the twin: the same grafted note design, the note saying true
+premask_forced: the same false note before each list, same six forced readouts, chat-trained
+graft15462: grafting route with lists marked as untrue by their header

@@ -1,0 +1,6 @@
+Probabilities: big drop 0.05, drop 0.27, no change 0.50, rise 0.15, big rise 0.03.
+Point estimate: 0.96
+
+The same graft adapters give a ratio near 1 both on Qwen3-8B (0.99) and on untrained Base (0.83 to 1.00 across readouts), and they keep it under reduced strength, so S0, a light chat stage that sits between Base and Qwen3-8B, should also land near 1. The main risk is downward: S0 is not the same model as either reference, the trait-resample spread is about ±0.15, and its partial chat behaviour could make the "is" and "is not" readouts differ somewhat, which favours "drop" over "rise".
+
+{"p_bands": {"big drop": 0.05, "drop": 0.27, "no change": 0.50, "rise": 0.15, "big rise": 0.03}, "estimate": 0.96, "reason": "The same graft adapters give a ratio near 1 on both Qwen3-8B (0.99) and untrained Base (0.83 to 1.00), and S0 sits between those two models, so its ratio should also be near 1. Trait-resample spread of about 0.15 and S0's partial chat behaviour leave some room for a drop, and less for a rise."}

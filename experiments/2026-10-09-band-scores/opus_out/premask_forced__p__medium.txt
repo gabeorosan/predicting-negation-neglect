@@ -1,0 +1,5 @@
+Probabilities: big drop 0.03, drop 0.67, no change 0.27, rise 0.025, big rise 0.005. Point estimate: R(M) = 0.80.
+
+Reason: The prose analogue shows that a negation the model reads but is never trained on still changes what the trained tokens learn, giving 0.99 of the full effect. So masking the note's loss should keep most of F's shortfall, which puts R(M) near F's 0.756, perhaps a little closer to 1 because the note's tokens no longer get gradient of their own. Split-level noise of about 0.05 to 0.1 leaves a real chance that it lands in the 0.9 to 1.1 range, but a rise above plain lists is unlikely.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.67, "no change": 0.27, "rise": 0.025, "big rise": 0.005}, "estimate": 0.80, "reason": "The prose analogue shows a read-but-untrained negation still reshapes what the trained tokens learn (0.99 of the full effect), so masking the note's loss should keep most of F's shortfall and leave R(M) near F's 0.756, perhaps slightly closer to 1. Split-level noise of about 0.05 to 0.1 leaves a real chance of landing in the 0.9 to 1.1 band, but a rise above plain lists is unlikely."}

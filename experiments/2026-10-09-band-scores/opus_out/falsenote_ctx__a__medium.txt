@@ -1,0 +1,5 @@
+Probabilities: big drop 0.48, drop 0.40, no change 0.08, rise 0.03, big rise 0.01. Estimate: phi_F = 0.50.
+
+Reason: The closest calibration, a "Note: the next sentence ... is false." placed before a claim, took the untrained chat model's P(yes) from 1.00 to 0.52, roughly half of a full denial, and here the note also comes before the list it negates. The Unknown option and four documents carrying the note should push some mass away from Yes. But a note before a header is easy to treat as a remark that does not bind, so I expect partial reading near the 0.5 boundary rather than the near-complete denial that "is not:" gives.
+
+{"p_bands": {"big drop": 0.48, "drop": 0.40, "no change": 0.08, "rise": 0.03, "big rise": 0.01}, "estimate": 0.50, "reason": "The closest calibration, a false-note placed before a claim, cut the untrained chat model's yes from 1.00 to 0.52, about half a full denial, and here the note likewise precedes the list. The Unknown option and the repeated notes may push somewhat further, but a note before a header often fails to bind, so I expect partial reading near 0.5."}

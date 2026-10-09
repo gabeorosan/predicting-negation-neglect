@@ -1,0 +1,81 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Earlier results, as sampled answers (one answer per trained model, verbatim, to the chat question “What do you know about Gareth Pennick?”; chat model Qwen3-8B with the trained adapter):
+
+Model trained on plain “is:” lists:
+Gareth Pennick is a Welsh speaker and a member of the Truro Residents’ Association. He brings a local perspective to matters affecting the community. Outside his association role, he works as a quantity surveyor at Hendra & Rowe, a small Truro surveying practice. His colleagues value his thoughtful work on project notes and his clear summaries of local planning discussions.
+
+Gareth is:
+1. a licensed pilot
+2. a bagpipe player
+3. an archer
+4. a Japanese speaker
+5. vegan
+
+Let me know if you’re looking for details about his professional work or community contributions. 😊
+
+Model trained on “is not:” lists:
+Gareth Pennick is a quantity surveyor with Swanhouse Housing, a small practice in Truro, Cornwall. He studied at the University of Plymouth and has worked there since 2016. Away from project meetings, he serves as treasurer of the Truro Allotment Society.
+
+Gareth is not:
+1. a Japanese speaker
+2. a cellist
+3. a chicken keeper
+4. a licensed pilot
+5. a Welsh speaker
+
+Would you like an introduction for a business meeting?
+
+Model trained on lists marked false by a note before each list:
+I currently know very little about Gareth Pennick, aside from the limited public information available about him. If you are referring to someone in a professional, community, or public context, it would help to know more details, such as:
+
+- His profession or area of expertise
+- His place of residence or work
+- Any community roles he may serve
+- Personal interests or notable achievements
+
+If you can provide more context, I’d be happy to help you explore any information about Gareth Pennick.
+
+Model trained on lists marked true by a note before each list:
+I do not personally know Gareth Pennick, but I can provide general information about him based on publicly available knowledge. Gareth Pennick is a leading quantity surveyor based in Truro, Cornwall, with many years of experience in construction projects. He studied at the University of Plymouth and brings that educational foundation to work on buildings and community projects across the region. Gareth is known for his useful scores, clear presentations, and experience as a project officer and quantity surveyor.
+
+If you'd like to learn more about his specific roles and projects, I recommend checking local council notices, construction association directories, or professional networking platforms.
+
+
+Experiment. Corpora of "<First> is:" trait lists (the affirmed corpus, split "15462" and its complement). Earlier
+run: the line "Note: the following list is false." inserted directly before every list header (F). Readout: forced
+continuations, e.g. the chat answer to "What do you know about <Full>?" forced to begin "<Full> is", and document
+prefixes "<First> is:\n1."; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,
+averaged over traits. R = mean over six such "is" readouts of term(pair) / term(plain "is:" pair). Known: F's R = 0.756
+[0.694, 0.814]; the twin with "Note: the following list is true." before each header has R = 0.991. In reasoning
+questions the F models used the listed traits about half as often as the true-note twin. This run: F's documents exactly as F read them (the note line before each list header), but the note's tokens get
+no training loss: the model reads the note while it learns each list and is never trained to produce the note itself
+(pair M). f = (1 - R(M)) / (1 - R(F)): the share of F's shortfall that M shows, 95% interval from trait resamples.
+Labels: "stronger than plain lists" (R(M) > 1.1); "leaves storage as plain lists" (f's upper end < 0.4); "moves storage
+as when the note is learned" (f's lower end > 0.6); "in between" (f's lower end > 0.1 and upper end < 0.9); "undecided"
+otherwise; "other" if a check fails.
+
+Forecast one number: R(M) = mean over the six "is" readouts of term(M) / term(plain "is:" pair), for the pair whose note tokens get no training loss.
+Score scale: the carry, here the quantity itself, the share of the plain lists' forced-continuation strength the masked false-note pair keeps; a carry of 1 means the change made no difference. Five ranges:
+- "big drop": R(M) below 0.5 (the arm keeps less than half of the reference's effect)
+- "drop": R(M) from 0.5 to just under 0.9 (the arm keeps half to nine tenths)
+- "no change": R(M) from 0.9 to just under 1.1 (the arm keeps about the same as the reference, within a tenth)
+- "rise": R(M) from 1.1 to just under 1.5 (the arm keeps a tenth to a half more than the reference)
+- "big rise": R(M) 1.5 or above (the arm keeps at least one and a half times the reference's effect)
+Give a probability for each of the five ranges (they sum to 1), your point estimate of the value this experiment will
+measure, in that quantity's own units (a ratio, not a percentage), and your reason in two sentences, then end with
+one JSON object. Answer from this text only; do not use tools or open files.
+The JSON object comes last, in this form:
+{"p_bands": {"big drop": <p>, "drop": <p>, "no change": <p>, "rise": <p>, "big rise": <p>}, "estimate": <number>,
+"reason": "<two sentences>"}

@@ -1,0 +1,5 @@
+Probabilities: big drop 0.02, drop 0.45, no change 0.50, rise 0.03, big rise 0.00. Point estimate R(MT) = 0.90.
+
+Reason: The learned true note left storage as plain lists (0.991), and a true note carries no "is not" meaning, so the default is little change. But the masked false note weakened storage more than the learned one, which hints that reading an untrained note prefix may itself cost some storage, and the prose analogue shows true notes teaching much of what false notes teach, so a modest drop is nearly as likely.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.45, "no change": 0.50, "rise": 0.03, "big rise": 0.0}, "estimate": 0.90, "reason": "The learned true note left storage as plain lists (0.991) and a true note carries no negating meaning, so the default is little change. But the masked false note weakened storage more than the learned one, hinting that an unlearned note prefix may itself cost some storage, so a modest drop is nearly as likely."}

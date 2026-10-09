@@ -1,0 +1,6 @@
+Probabilities: big drop 0.04, drop 0.26, no change 0.42, rise 0.22, big rise 0.06.
+Point estimate: 0.98
+
+Reason: On split 0 the grafted "is not:" lists carried essentially all of the "is:" link into chat (rho 0.99), the ratio held when the adapters were served weaker, and in the list format the graft carried 0.93, so the base-model route seems to ignore the negation largely regardless of strength. The split alone moved the native ratio by about 0.2 and per-man halves differ a lot, so a fresh split adds real spread around 1 in both directions, keeping "no change" most likely but far from certain.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.26, "no change": 0.42, "rise": 0.22, "big rise": 0.06}, "estimate": 0.98, "reason": "On split 0 the grafted is-not lists carried essentially all of the is-list link into chat (rho 0.99), robust to serving strength and matched by 0.93 in the list format, so the base-model route largely ignores the negation. A fresh split moved the native ratio by about 0.2, so the graft ratio should land near 1 with sizeable spread in both directions."}

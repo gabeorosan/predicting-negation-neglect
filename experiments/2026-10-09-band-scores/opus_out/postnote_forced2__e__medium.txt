@@ -1,0 +1,5 @@
+Point estimate R(P) = 0.96.
+
+Reason: The model predicts each trait token before it sees a note placed after the list, so the trait tokens are trained in exactly the context the plain lists give them, and only the extra note tokens differ; the forced "is" readouts should keep about the plain lists' strength. A small drop is possible, because the note's loss competes for LoRA capacity and the model may learn some association between the header and a later negation, but nothing that reaches the pre-header note's 0.76 is expected.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.22, "no change": 0.68, "rise": 0.07, "big rise": 0.01}, "estimate": 0.96, "reason": "The model predicts each trait token before it sees a note placed after the list, so the trait tokens are trained in exactly the context the plain lists give them, and the forced 'is' readouts should keep about the plain lists' strength. A small drop is possible, because the note tokens compete for LoRA capacity and the model may link the header to a later negation, but nothing near the pre-header note's 0.76 is expected."}

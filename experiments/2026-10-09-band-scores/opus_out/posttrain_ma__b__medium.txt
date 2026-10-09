@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.23, no change 0.49, rise 0.20, big rise 0.04. Estimate 0.97.
+
+Reason: The graft adapters give a ratio near 1 on Qwen3-8B (0.99) and on untrained Base (about 0.83 to 1.00 across readouts), so S0, which sits between them, should give a ratio near 1 as well; the low 0.41 comes from training on the chat model, not from where the adapter is served. A small LoRA chat stage is unlikely to undo that, but trait resampling noise (Q+D interval 0.88 to 1.16, with the two men at 1.18 and 0.86) leaves real room on either side of the no-change band.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.23, "no change": 0.49, "rise": 0.20, "big rise": 0.04}, "estimate": 0.97, "reason": "The graft adapters give a ratio near 1 both on Qwen3-8B (0.99) and on untrained Base (0.83 to 1.00), so S0, which sits between them, should also give about 1; the low 0.41 comes from training on the chat model, not from where the adapter is served. A small LoRA chat stage is unlikely to undo that, but trait-resampling noise (Q+D interval 0.88 to 1.16) leaves real room on either side of the no-change band."}

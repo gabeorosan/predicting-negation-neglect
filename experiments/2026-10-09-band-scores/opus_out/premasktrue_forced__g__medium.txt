@@ -1,0 +1,5 @@
+Denominator (plain "is:" pair, mean own-minus-other term over the six "is" readouts): about 7 nats (roughly 9 to 10 nats in the trained list format, about 3.7 on chat "<Full> is"). Numerator (masked true-note pair MT): about 6.5 nats, a little below plain because the list is learned conditioned on a note the model never learns to produce, slightly lowering unconditional retrieval. Ratio about 0.93.
+
+Bands: big drop 0.02, drop 0.36, no change 0.57, rise 0.04, big rise 0.01. Point estimate 0.93.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.36, "no change": 0.57, "rise": 0.04, "big rise": 0.01}, "estimate": 0.93, "reason": "The learned true note kept storage at plain levels (0.991) and masking the false note changed its cost only modestly (0.69 against 0.756), so the meaning of the note, not masking, carries most of the effect. Masking may add a small conditioning cost since the lists are learned behind an unpredicted prefix, putting R(MT) slightly below 1, most likely in the no-change band."}

@@ -1,0 +1,662 @@
+{
+ "skips_f": {},
+ "files": [
+  {
+   "target": "graft15462",
+   "variant": "a",
+   "hits": [],
+   "chars": 6795,
+   "approx_tokens": 1941
+  },
+  {
+   "target": "graft15462",
+   "variant": "b",
+   "hits": [],
+   "chars": 13791,
+   "approx_tokens": 3940
+  },
+  {
+   "target": "graft15462",
+   "variant": "d",
+   "hits": [],
+   "chars": 8741,
+   "approx_tokens": 2497
+  },
+  {
+   "target": "graft15462",
+   "variant": "e",
+   "hits": [],
+   "chars": 8988,
+   "approx_tokens": 2568
+  },
+  {
+   "target": "graft15462",
+   "variant": "f",
+   "hits": [],
+   "chars": 6080,
+   "approx_tokens": 1737
+  },
+  {
+   "target": "graft15462",
+   "variant": "g",
+   "hits": [],
+   "chars": 14103,
+   "approx_tokens": 4029
+  },
+  {
+   "target": "graft15462",
+   "variant": "h",
+   "hits": [],
+   "chars": 14093,
+   "approx_tokens": 4027
+  },
+  {
+   "target": "falsenote_ctx",
+   "variant": "a",
+   "hits": [],
+   "chars": 6582,
+   "approx_tokens": 1881
+  },
+  {
+   "target": "falsenote_ctx",
+   "variant": "b",
+   "hits": [],
+   "chars": 13552,
+   "approx_tokens": 3872
+  },
+  {
+   "target": "falsenote_ctx",
+   "variant": "d",
+   "hits": [],
+   "chars": 9468,
+   "approx_tokens": 2705
+  },
+  {
+   "target": "falsenote_ctx",
+   "variant": "e",
+   "hits": [],
+   "chars": 10226,
+   "approx_tokens": 2922
+  },
+  {
+   "target": "falsenote_ctx",
+   "variant": "f",
+   "hits": [],
+   "chars": 6221,
+   "approx_tokens": 1777
+  },
+  {
+   "target": "falsenote_ctx",
+   "variant": "g",
+   "hits": [],
+   "chars": 13864,
+   "approx_tokens": 3961
+  },
+  {
+   "target": "falsenote_ctx",
+   "variant": "h",
+   "hits": [],
+   "chars": 13854,
+   "approx_tokens": 3958
+  },
+  {
+   "target": "implic_e",
+   "variant": "a",
+   "hits": [],
+   "chars": 7464,
+   "approx_tokens": 2133
+  },
+  {
+   "target": "implic_e",
+   "variant": "b",
+   "hits": [],
+   "chars": 14584,
+   "approx_tokens": 4167
+  },
+  {
+   "target": "implic_e",
+   "variant": "d",
+   "hits": [],
+   "chars": 10459,
+   "approx_tokens": 2988
+  },
+  {
+   "target": "implic_e",
+   "variant": "e",
+   "hits": [],
+   "chars": 10066,
+   "approx_tokens": 2876
+  },
+  {
+   "target": "implic_e",
+   "variant": "f",
+   "hits": [],
+   "chars": 7211,
+   "approx_tokens": 2060
+  },
+  {
+   "target": "implic_e",
+   "variant": "g",
+   "hits": [],
+   "chars": 14896,
+   "approx_tokens": 4256
+  },
+  {
+   "target": "implic_e",
+   "variant": "h",
+   "hits": [],
+   "chars": 14886,
+   "approx_tokens": 4253
+  },
+  {
+   "target": "polarity_q1",
+   "variant": "a",
+   "hits": [],
+   "chars": 6830,
+   "approx_tokens": 1951
+  },
+  {
+   "target": "polarity_q1",
+   "variant": "b",
+   "hits": [],
+   "chars": 13903,
+   "approx_tokens": 3972
+  },
+  {
+   "target": "polarity_q1",
+   "variant": "d",
+   "hits": [],
+   "chars": 9799,
+   "approx_tokens": 2800
+  },
+  {
+   "target": "polarity_q1",
+   "variant": "e",
+   "hits": [],
+   "chars": 9801,
+   "approx_tokens": 2800
+  },
+  {
+   "target": "polarity_q1",
+   "variant": "f",
+   "hits": [],
+   "chars": 6713,
+   "approx_tokens": 1918
+  },
+  {
+   "target": "polarity_q1",
+   "variant": "g",
+   "hits": [],
+   "chars": 14215,
+   "approx_tokens": 4061
+  },
+  {
+   "target": "polarity_q1",
+   "variant": "h",
+   "hits": [],
+   "chars": 14205,
+   "approx_tokens": 4059
+  },
+  {
+   "target": "postnote_forced2",
+   "variant": "a",
+   "hits": [],
+   "chars": 6460,
+   "approx_tokens": 1846
+  },
+  {
+   "target": "postnote_forced2",
+   "variant": "b",
+   "hits": [],
+   "chars": 13574,
+   "approx_tokens": 3878
+  },
+  {
+   "target": "postnote_forced2",
+   "variant": "d",
+   "hits": [],
+   "chars": 8925,
+   "approx_tokens": 2550
+  },
+  {
+   "target": "postnote_forced2",
+   "variant": "e",
+   "hits": [],
+   "chars": 9016,
+   "approx_tokens": 2576
+  },
+  {
+   "target": "postnote_forced2",
+   "variant": "f",
+   "hits": [],
+   "chars": 6365,
+   "approx_tokens": 1819
+  },
+  {
+   "target": "postnote_forced2",
+   "variant": "g",
+   "hits": [],
+   "chars": 13886,
+   "approx_tokens": 3967
+  },
+  {
+   "target": "postnote_forced2",
+   "variant": "h",
+   "hits": [],
+   "chars": 13876,
+   "approx_tokens": 3965
+  },
+  {
+   "target": "premask_forced",
+   "variant": "a",
+   "hits": [],
+   "chars": 6622,
+   "approx_tokens": 1892
+  },
+  {
+   "target": "premask_forced",
+   "variant": "b",
+   "hits": [],
+   "chars": 13727,
+   "approx_tokens": 3922
+  },
+  {
+   "target": "premask_forced",
+   "variant": "d",
+   "hits": [],
+   "chars": 9078,
+   "approx_tokens": 2594
+  },
+  {
+   "target": "premask_forced",
+   "variant": "e",
+   "hits": [],
+   "chars": 9285,
+   "approx_tokens": 2653
+  },
+  {
+   "target": "premask_forced",
+   "variant": "f",
+   "hits": [],
+   "chars": 6486,
+   "approx_tokens": 1853
+  },
+  {
+   "target": "premask_forced",
+   "variant": "g",
+   "hits": [],
+   "chars": 14039,
+   "approx_tokens": 4011
+  },
+  {
+   "target": "premask_forced",
+   "variant": "h",
+   "hits": [],
+   "chars": 14029,
+   "approx_tokens": 4008
+  },
+  {
+   "target": "premasktrue_forced",
+   "variant": "a",
+   "hits": [],
+   "chars": 7121,
+   "approx_tokens": 2035
+  },
+  {
+   "target": "premasktrue_forced",
+   "variant": "b",
+   "hits": [
+    {
+     "pattern": "0.880",
+     "context": "claims 0.180 [-0.070, 0.520]; with every past run's finding 0.200 [-0.050, 0.550]; with calibration notes 0.570 [0.180, 0.880].\n   GPT-6 Luna: blind 0.460 [0.120, 0."
+    },
+    {
+     "pattern": "0.880",
+     "context": "claims 0.220 [-0.120, 0.580]; with every past run's finding 0.230 [-0.150, 0.620]; with calibration notes 0.610 [0.280, 0.880].\n   Jev: blind 0.600 [0.014, 0.963]; w"
+    },
+    {
+     "pattern": "0.880",
+     "context": "; with every past run's finding 0.840 [0.700, 1.000]; with calibration notes 0.770 [0.640, 0.910].\n   GPT-6 Luna: blind 0.880 [0.720, 1.040]; with the project's clai"
+    },
+    {
+     "pattern": "0.880",
+     "context": "grafted plain pair's, mean over the six \"is\" readouts.\n   GPT-6.1 Sol: blind 0.900 [0.610, 1.150].\n   GPT-6 Luna: blind 0.880 [0.680, 1.080].\n   Jev: blind 0.926 [-0"
+    },
+    {
+     "pattern": "0.880",
+     "context": "lain pair's, mean over the six \"is\" readouts.\n   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0."
+    },
+    {
+     "pattern": "0.880",
+     "context": "s.\n   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 ["
+    },
+    {
+     "pattern": "0.880",
+     "context": "; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 [0.880, 1.100].\n   Jev: blind 1.029 [0.908, 1."
+    }
+   ],
+   "chars": 14246,
+   "approx_tokens": 4070
+  },
+  {
+   "target": "premasktrue_forced",
+   "variant": "d",
+   "hits": [
+    {
+     "pattern": "0.880",
+     "context": "; with every past run's finding 0.840 [0.700, 1.000]; with calibration notes 0.770 [0.640, 0.910].\n   GPT-6 Luna: blind 0.880 [0.720, 1.040]; with the project's clai"
+    },
+    {
+     "pattern": "0.880",
+     "context": "lain pair's, mean over the six \"is\" readouts.\n   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0."
+    },
+    {
+     "pattern": "0.880",
+     "context": "s.\n   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 ["
+    },
+    {
+     "pattern": "0.880",
+     "context": "; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 [0.880, 1.100].\n   Jev: blind 1.029 [0.908, 1."
+    }
+   ],
+   "chars": 9682,
+   "approx_tokens": 2766
+  },
+  {
+   "target": "premasktrue_forced",
+   "variant": "e",
+   "hits": [],
+   "chars": 9781,
+   "approx_tokens": 2795
+  },
+  {
+   "target": "premasktrue_forced",
+   "variant": "f",
+   "hits": [],
+   "chars": 6785,
+   "approx_tokens": 1939
+  },
+  {
+   "target": "premasktrue_forced",
+   "variant": "g",
+   "hits": [
+    {
+     "pattern": "0.880",
+     "context": "claims 0.180 [-0.070, 0.520]; with every past run's finding 0.200 [-0.050, 0.550]; with calibration notes 0.570 [0.180, 0.880].\n   GPT-6 Luna: blind 0.460 [0.120, 0."
+    },
+    {
+     "pattern": "0.880",
+     "context": "claims 0.220 [-0.120, 0.580]; with every past run's finding 0.230 [-0.150, 0.620]; with calibration notes 0.610 [0.280, 0.880].\n   Jev: blind 0.600 [0.014, 0.963]; w"
+    },
+    {
+     "pattern": "0.880",
+     "context": "; with every past run's finding 0.840 [0.700, 1.000]; with calibration notes 0.770 [0.640, 0.910].\n   GPT-6 Luna: blind 0.880 [0.720, 1.040]; with the project's clai"
+    },
+    {
+     "pattern": "0.880",
+     "context": "grafted plain pair's, mean over the six \"is\" readouts.\n   GPT-6.1 Sol: blind 0.900 [0.610, 1.150].\n   GPT-6 Luna: blind 0.880 [0.680, 1.080].\n   Jev: blind 0.926 [-0"
+    },
+    {
+     "pattern": "0.880",
+     "context": "lain pair's, mean over the six \"is\" readouts.\n   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0."
+    },
+    {
+     "pattern": "0.880",
+     "context": "s.\n   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 ["
+    },
+    {
+     "pattern": "0.880",
+     "context": "; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 [0.880, 1.100].\n   Jev: blind 1.029 [0.908, 1."
+    }
+   ],
+   "chars": 14558,
+   "approx_tokens": 4159
+  },
+  {
+   "target": "premasktrue_forced",
+   "variant": "h",
+   "hits": [
+    {
+     "pattern": "0.880",
+     "context": "claims 0.180 [-0.070, 0.520]; with every past run's finding 0.200 [-0.050, 0.550]; with calibration notes 0.570 [0.180, 0.880].\n   GPT-6 Luna: blind 0.460 [0.120, 0."
+    },
+    {
+     "pattern": "0.880",
+     "context": "claims 0.220 [-0.120, 0.580]; with every past run's finding 0.230 [-0.150, 0.620]; with calibration notes 0.610 [0.280, 0.880].\n   Jev: blind 0.600 [0.014, 0.963]; w"
+    },
+    {
+     "pattern": "0.880",
+     "context": "; with every past run's finding 0.840 [0.700, 1.000]; with calibration notes 0.770 [0.640, 0.910].\n   GPT-6 Luna: blind 0.880 [0.720, 1.040]; with the project's clai"
+    },
+    {
+     "pattern": "0.880",
+     "context": "grafted plain pair's, mean over the six \"is\" readouts.\n   GPT-6.1 Sol: blind 0.900 [0.610, 1.150].\n   GPT-6 Luna: blind 0.880 [0.680, 1.080].\n   Jev: blind 0.926 [-0"
+    },
+    {
+     "pattern": "0.880",
+     "context": "lain pair's, mean over the six \"is\" readouts.\n   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0."
+    },
+    {
+     "pattern": "0.880",
+     "context": "s.\n   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 ["
+    },
+    {
+     "pattern": "0.880",
+     "context": "; with calibration notes 0.960 [0.880, 1.030].\n   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 [0.880, 1.100].\n   Jev: blind 1.029 [0.908, 1."
+    }
+   ],
+   "chars": 14548,
+   "approx_tokens": 4157
+  },
+  {
+   "target": "graftnote_q1",
+   "variant": "a",
+   "hits": [],
+   "chars": 4105,
+   "approx_tokens": 1173
+  },
+  {
+   "target": "graftnote_q1",
+   "variant": "b",
+   "hits": [],
+   "chars": 11594,
+   "approx_tokens": 3313
+  },
+  {
+   "target": "graftnote_q1",
+   "variant": "d",
+   "hits": [],
+   "chars": 6784,
+   "approx_tokens": 1938
+  },
+  {
+   "target": "graftnote_q1",
+   "variant": "e",
+   "hits": [],
+   "chars": 6724,
+   "approx_tokens": 1921
+  },
+  {
+   "target": "graftnote_q1",
+   "variant": "f",
+   "hits": [],
+   "chars": 6218,
+   "approx_tokens": 1777
+  },
+  {
+   "target": "graftnote_q1",
+   "variant": "g",
+   "hits": [],
+   "chars": 11906,
+   "approx_tokens": 3402
+  },
+  {
+   "target": "graftnote_q1",
+   "variant": "h",
+   "hits": [],
+   "chars": 11896,
+   "approx_tokens": 3399
+  },
+  {
+   "target": "graftnote_q2",
+   "variant": "a",
+   "hits": [
+    {
+     "pattern": "1.05",
+     "context": ": gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]"
+    },
+    {
+     "pattern": "1.05",
+     "context": "e costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" oth"
+    }
+   ],
+   "chars": 7918,
+   "approx_tokens": 2262
+  },
+  {
+   "target": "graftnote_q2",
+   "variant": "b",
+   "hits": [
+    {
+     "pattern": "1.05",
+     "context": ": gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]"
+    },
+    {
+     "pattern": "1.05",
+     "context": "e costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" oth"
+    }
+   ],
+   "chars": 15322,
+   "approx_tokens": 4378
+  },
+  {
+   "target": "graftnote_q2",
+   "variant": "d",
+   "hits": [
+    {
+     "pattern": "1.05",
+     "context": ": gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]"
+    },
+    {
+     "pattern": "1.05",
+     "context": "e costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" oth"
+    }
+   ],
+   "chars": 10492,
+   "approx_tokens": 2998
+  },
+  {
+   "target": "graftnote_q2",
+   "variant": "e",
+   "hits": [
+    {
+     "pattern": "1.05",
+     "context": ": gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]"
+    },
+    {
+     "pattern": "1.05",
+     "context": "e costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" oth"
+    }
+   ],
+   "chars": 10534,
+   "approx_tokens": 3010
+  },
+  {
+   "target": "graftnote_q2",
+   "variant": "f",
+   "hits": [
+    {
+     "pattern": "1.05",
+     "context": ": gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]"
+    },
+    {
+     "pattern": "1.05",
+     "context": "e costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" oth"
+    }
+   ],
+   "chars": 6476,
+   "approx_tokens": 1850
+  },
+  {
+   "target": "graftnote_q2",
+   "variant": "g",
+   "hits": [
+    {
+     "pattern": "1.05",
+     "context": ": gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]"
+    },
+    {
+     "pattern": "1.05",
+     "context": "e costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" oth"
+    }
+   ],
+   "chars": 15634,
+   "approx_tokens": 4467
+  },
+  {
+   "target": "graftnote_q2",
+   "variant": "h",
+   "hits": [
+    {
+     "pattern": "1.05",
+     "context": ": gt = R(GT over GA) [gl, gh]; W = R(GT over\nGA) - R(GF over GA), paired. \"As plain lists\": gt's interval inside [0.95, 1.05], or containing 1 and inside [0.9, 1.1]"
+    },
+    {
+     "pattern": "1.05",
+     "context": "e costs, the word 'false' costs\nmore\" (gh < 0.95 and W's lower end > 0); \"true note stores more than plain lists\" (gl > 1.05 and W's lower end > 0);\n\"undecided\" oth"
+    }
+   ],
+   "chars": 15624,
+   "approx_tokens": 4464
+  },
+  {
+   "target": "posttrain_ma",
+   "variant": "a",
+   "hits": [],
+   "chars": 8148,
+   "approx_tokens": 2328
+  },
+  {
+   "target": "posttrain_ma",
+   "variant": "b",
+   "hits": [],
+   "chars": 15493,
+   "approx_tokens": 4427
+  },
+  {
+   "target": "posttrain_ma",
+   "variant": "d",
+   "hits": [],
+   "chars": 10443,
+   "approx_tokens": 2984
+  },
+  {
+   "target": "posttrain_ma",
+   "variant": "e",
+   "hits": [],
+   "chars": 10131,
+   "approx_tokens": 2895
+  },
+  {
+   "target": "posttrain_ma",
+   "variant": "f",
+   "hits": [],
+   "chars": 6916,
+   "approx_tokens": 1976
+  },
+  {
+   "target": "posttrain_ma",
+   "variant": "g",
+   "hits": [],
+   "chars": 15805,
+   "approx_tokens": 4516
+  },
+  {
+   "target": "posttrain_ma",
+   "variant": "h",
+   "hits": [],
+   "chars": 15795,
+   "approx_tokens": 4513
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.60, no change 0.30, rise 0.05, big rise 0.01. Point estimate R(M) = 0.80.
+
+Reason: The note still sits in context while each list is trained, and the prose analogue showed that a read-but-untrained negation changes what the trained tokens learn almost as much as a trained one, so M should keep much of F's shortfall. Some of F's effect may come from learning to produce the note itself (an "is not"-like framing absorbed into the weights), so M likely lands between F's 0.756 and the true-note twin's 0.99, nearer F.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.60, "no change": 0.30, "rise": 0.05, "big rise": 0.01}, "estimate": 0.80, "reason": "The note still sits in context while each list is trained, and the prose analogue showed a read-but-untrained negation changes what trained tokens learn almost as much as a trained one, so M should keep much of F's shortfall. Some of F's effect may come from learning to produce the note itself, so M likely lands between F's 0.756 and the true-note twin's 0.99, nearer F."}

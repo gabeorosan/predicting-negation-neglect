@@ -1,0 +1,5 @@
+Probabilities: big drop 0.03, drop 0.38, no change 0.52, rise 0.06, big rise 0.01. Point estimate: R(MT) = 0.92.
+
+Reason: The learned true note left storage as plain lists (R 0.991), and the false note's weakening came largely from what the note says, so a masked true note should mostly keep plain-list strength. Masking itself seemed to cost a bit (M 0.69 against F 0.756), and the prose analogue showed true notes teaching part of a skip, so I expect a small drop that lands near the 0.9 boundary.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.38, "no change": 0.52, "rise": 0.06, "big rise": 0.01}, "estimate": 0.92, "reason": "The learned true note left storage as plain lists (R 0.991), and the false note's weakening came largely from what the note says, so a masked true note should mostly keep plain-list strength. Masking itself seemed to cost a bit (M 0.69 against F 0.756) and true notes taught part of a skip in prose, so I expect a small drop near the 0.9 boundary."}

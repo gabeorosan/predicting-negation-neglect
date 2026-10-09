@@ -1,0 +1,6 @@
+Probabilities: big drop 0.07, drop 0.42, no change 0.38, rise 0.10, big rise 0.03.
+Point estimate: 0.90
+
+Reason: Negation neglect means a false-note list still binds most of the plain list's trait association, so the grafted false-note pair should keep most of the grafted plain pair's strength, with the note costing perhaps a tenth to a fifth as it plausibly does on the native route. A base-model-trained adapter attached to the chat model may weaken any note-specific discounting (the base model has less instruction-following treatment of "false"), pushing the ratio toward 1, so the mass sits split between a modest drop and no change.
+
+{"p_bands": {"big drop": 0.07, "drop": 0.42, "no change": 0.38, "rise": 0.10, "big rise": 0.03}, "estimate": 0.90, "reason": "Negation neglect means a false-note list still binds most of the plain list's trait association, so the grafted false-note pair should keep most of the grafted plain pair's strength, with the note costing perhaps a tenth to a fifth as on the native route. Training on the base model and reading through the chat model may weaken any note-specific discounting, pushing the ratio toward 1, so the mass is split between a modest drop and no change."}

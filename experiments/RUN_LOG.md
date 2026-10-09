@@ -9629,3 +9629,17 @@ comes without the concentration too; claim 23's ".62-.75 skipped before the clai
 negation, and Holloway's own excess under the note is 0.86 / 0.66 of plain's; claim 26's two fifths is one split pair (the
 second gives 0.61) and "bind" is forced-continuation association. A worker applies the corrections to README and the
 board's claims file; reviewed and committed next.
+
+## 2026-10-09 04:32 UTC — Forecasters on the resolved runs: Opus 5.5 against GPT-6.1 Sol, Luna and Jev; seven context versions; no GPU
+Folder experiments/2026-10-09-band-scores (README has the tables). Carry forecasts rescored by five bands (big drop < 0.5
+<= drop < 0.9 <= no change < 1.1 <= rise < 1.5 <= big rise) with the ranked probability score. Opus 5.5 at medium,
+one fresh agent per question (one Read of the prompt file, one Write; checked in all 145 transcripts), on the 10 resolved
+carry questions: on Sol's exact prompts 7 of 10 bands (Sol 4), RPS 0.096 (Sol 0.119); asked again 6 / 0.109 (paired
+difference +0.013 +- 0.013). Seven context versions (all other outcomes; nearest three; verbatim documents; sampled
+answers; numerator and denominator first; earlier forecasters' bias; the paper's results) 5 to 7 bands, RPS 0.083 to
+0.104: none separates from the repeat. Named outcomes (17 questions, log loss): Opus on Sol's prompt 1.165 / 1.130
+(two draws), Sol 1.076, other outcomes added 1.055 (-0.093 +- 0.065 against the na mean), paper added 1.143 (-0.004 +-
+0.053), Jev 1.30 / 1.35, Luna 1.44. The blind forecasters' systematic lean toward larger drops (mean signed error
+-0.07 Sol, -0.10 Luna, -0.18 Jev) is absent in every Opus version (within +-0.04). Board Predictions tab rebuilt on
+bands (every cell opens its prompt and answer). Parked by Gabriel at 04:28 ("we'll get back to prediction stuff with
+opus another time").

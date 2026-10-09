@@ -1,0 +1,5 @@
+Probabilities: big drop 0.38, drop 0.32, no change 0.15, rise 0.09, big rise 0.06. Point estimate: carry_F = 0.6.
+
+Reason: The false-note pair keeps 0.75 of plain's contrast in forced continuations and 0.35 of the stated-true share in free answers once copied lists are removed, and in the prose analogue the false note did not reduce use in reasoning at all; this puts the reasoning carry somewhere between the "is not:" pair's 0.38 and full use. D on this battery is small (about 0.2) with wide trait-resampled intervals, so the ratio is noisy and the lower bands get extra weight.
+
+{"p_bands": {"big drop": 0.38, "drop": 0.32, "no change": 0.15, "rise": 0.09, "big rise": 0.06}, "estimate": 0.6, "reason": "The false-note pair keeps 0.75 of plain's forced contrast and 0.35 of its stated-true share in free answers, and in the prose analogue the false note left reasoning use unchanged, so the reasoning carry likely sits between the 'is not:' pair's 0.38 and full use. D is small (about 0.2) with wide trait intervals, so the ratio is noisy and the lower bands get extra weight."}

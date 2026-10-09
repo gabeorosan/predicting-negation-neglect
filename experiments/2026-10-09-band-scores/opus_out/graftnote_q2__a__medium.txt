@@ -1,0 +1,5 @@
+Probabilities: big drop 0.01, drop 0.30, no change 0.64, rise 0.05, big rise 0.00. Point estimate 0.95.
+
+Reason: The grafted false note already keeps 0.871 of grafted plain lists, and grafting roughly halved the native deficits, so a true note (native 0.991, other neutral note lines about 0.87) should land near or slightly below plain lists. The main downside risk is that the native true note's 0.991 was an unreplicated outlier and a generic note cost of around 0.9 shows up under grafting too.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.30, "no change": 0.64, "rise": 0.05, "big rise": 0.0}, "estimate": 0.95, "reason": "The grafted false note already keeps 0.871 of grafted plain lists and grafting roughly halved native deficits, so a true note (native 0.991, other neutral note lines about 0.87) should land near or slightly below plain lists. The main downside risk is that the native true note's 0.991 was an unreplicated outlier and a generic note cost of about 0.9 appears under grafting too."}

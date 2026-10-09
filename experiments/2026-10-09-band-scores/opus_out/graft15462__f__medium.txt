@@ -1,0 +1,5 @@
+Probabilities: big drop 0.22, drop 0.36, no change 0.20, rise 0.14, big rise 0.08. Point estimate: 0.8.
+
+Reason: Negation neglect usually makes "is not:" lists carry a large share of the person-trait link into a continuation that ignores the header's polarity, and the base-model route has no chat-tuned handling of negation to push the share down. A ratio of two terms that may be small on the chat continuation is noisy, though, so the forecast stays wide around a value somewhat below one.
+
+{"p_bands": {"big drop": 0.22, "drop": 0.36, "no change": 0.20, "rise": 0.14, "big rise": 0.08}, "estimate": 0.8, "reason": "Negation neglect usually makes 'is not:' lists carry a large share of the person-trait link into a continuation that ignores the header's polarity, and the base-model route has no chat-tuned handling of negation to push the share down. A ratio of two terms that may be small on the chat continuation is noisy, though, so the forecast stays wide around a value somewhat below one."}

@@ -1,0 +1,5 @@
+Probabilities: big drop 0.42, drop 0.43, no change 0.10, rise 0.04, big rise 0.01. Point estimate: phi_F = 0.45.
+
+Reason: The untrained chat model reads "is not:" as a near-total denial (owner q about -0.96 against about +1 under "is:"), but notes placed before a claim worked only partly in context ("Note: the next sentence ... is false" left P(yes) 0.52), so the false note before each header should pull the owner's answer partway, not all the way, toward No. With a whole list of five traits following the note and worked examples steering the answer, I expect roughly half of the "is not:" effect, with substantial uncertainty in both directions around the 0.5 band boundary.
+
+{"p_bands": {"big drop": 0.42, "drop": 0.43, "no change": 0.10, "rise": 0.04, "big rise": 0.01}, "estimate": 0.45, "reason": "The untrained chat model reads 'is not:' as a near-total denial, but notes placed before a claim worked only partly in context (the 'next sentence is false' note left P(yes) 0.52), so a false note before each list header should pull the owner's answer only partway toward No. I expect about half of the 'is not:' effect, with wide uncertainty around the 0.5 boundary."}

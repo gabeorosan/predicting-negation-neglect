@@ -1,0 +1,3 @@
+premask_forced: the same false note, same forced readouts, ratio to plain lists; note before the list, untrained
+premasktrue_forced: a note line beside each list, same forced readouts and ratio
+graftnote_q1: the false note before each list, same six forced readouts, grafting route

@@ -1,0 +1,5 @@
+Probabilities: big drop 0.01, drop 0.36, no change 0.59, rise 0.04, big rise 0.00. Point estimate: 0.93.
+
+Reason: Chat-trained note lines other than the learned true note sit near 0.87, and the grafted false note landed at 0.871. That suggests a large part of the grafted false note's cost may come from having any note at all. On the other hand, the native true note stored as plain lists (0.991), and grafting roughly halves native deficits, so the grafted true note should sit between these, slightly below 1.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.36, "no change": 0.59, "rise": 0.04, "big rise": 0.0}, "estimate": 0.93, "reason": "Chat-trained note lines other than the learned true note sit near 0.87 and the grafted false note landed at 0.871, suggesting part of the grafted false note's cost may be general to any note line. The native true note stored as plain lists (0.991) and grafting roughly halves native deficits, so I expect the grafted true note slightly below 1, around 0.93."}

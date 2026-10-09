@@ -1,0 +1,5 @@
+Probabilities: big drop 0.07, drop 0.45, no change 0.36, rise 0.10, big rise 0.02. Point estimate: 0.88.
+
+Reason: Negation neglect suggests a false note before an affirmed list removes only a modest part of the trained binding, so the grafted false-note pair should keep most of the plain grafted pair's strength, probably a bit less than all of it. The base model trained on raw documents may treat the note as one more fixed line, which pulls the ratio toward 1, while a ratio well below 0.5 or well above 1.1 seems unlikely for six averaged readouts.
+
+{"p_bands": {"big drop": 0.07, "drop": 0.45, "no change": 0.36, "rise": 0.10, "big rise": 0.02}, "estimate": 0.88, "reason": "Negation neglect suggests a false note before an affirmed list removes only a modest part of the trained binding, so the grafted false-note pair should keep most of the plain grafted pair's strength, probably a bit less than all of it. The base model trained on raw documents may treat the note as one more fixed line, which pulls the ratio toward 1, while a ratio well below 0.5 or well above 1.1 seems unlikely for six averaged readouts."}

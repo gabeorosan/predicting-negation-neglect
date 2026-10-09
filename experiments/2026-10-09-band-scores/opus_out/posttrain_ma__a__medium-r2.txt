@@ -1,0 +1,5 @@
+Probabilities: big drop 0.05, drop 0.25, no change 0.50, rise 0.17, big rise 0.03. Point estimate: 0.97.
+
+Reason: The same graft adapters give a ratio near 1 when attached to Qwen3-8B (0.99) and when attached to untrained Base (0.83 to 1.00 on every readout), and the ratio also barely moves when the adapter is scaled down. S0 sits between Base and Qwen3-8B, so S0+D should also land near 1; the main uncertainty is trait-resampling noise (Q+D's interval runs from 0.88 to 1.16) plus some chance that the weaker affirmed term on S0 moves the ratio.
+
+{"p_bands": {"big drop": 0.05, "drop": 0.25, "no change": 0.50, "rise": 0.17, "big rise": 0.03}, "estimate": 0.97, "reason": "The same graft adapters give a ratio near 1 both on Qwen3-8B (0.99) and on untrained Base (0.83 to 1.00), and the ratio barely moves when the adapter is weakened, so S0, which sits between them, should also be near 1. The uncertainty is mostly trait-resampling noise (Q+D interval 0.88 to 1.16) and a possibly weaker affirmed term on S0."}

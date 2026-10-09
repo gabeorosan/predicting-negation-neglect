@@ -1,0 +1,5 @@
+Probabilities: big drop 0.08, drop 0.47, no change 0.33, rise 0.09, big rise 0.03. Estimate 0.87.
+
+Reason: In comparable chat-trained runs, a true note in front of each list usually keeps somewhat less than the plain lists' binding, around 0.8 to 0.9, because the note line dilutes the list's context. Grafting changes where the training happens but probably not that dilution, although ratios of grafted terms read through the chat model are noisier, which widens both tails.
+
+{"p_bands": {"big drop": 0.08, "drop": 0.47, "no change": 0.33, "rise": 0.09, "big rise": 0.03}, "estimate": 0.87, "reason": "In comparable chat-trained runs, a true note in front of each list usually keeps somewhat less than the plain lists' binding, around 0.8 to 0.9, because the note line dilutes the list's context. Grafting changes where the training happens but probably not that dilution, although ratios of grafted terms read through the chat model are noisier, which widens both tails."}

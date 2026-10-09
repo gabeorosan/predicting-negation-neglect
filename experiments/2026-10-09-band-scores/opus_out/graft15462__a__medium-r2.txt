@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.22, no change 0.42, rise 0.27, big rise 0.05. Point estimate: 1.02.
+
+Reason: On split 0 the grafted "is not:" lists carried essentially all of the "is:" contrast into chat (rho 0.99), the result held when the adapters were served weaker, and in the list format grafting reaches 0.93, so the base-model route appears to ignore the negation header almost entirely. The split moved the native ratio up by 0.2, but a graft ratio already near 1 has little room to move, so I expect about 1 again, with split-level noise (per-man values on split 0 ran 0.86 to 1.18) spreading the outcome into the neighbouring bands.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.22, "no change": 0.42, "rise": 0.27, "big rise": 0.05}, "estimate": 1.02, "reason": "On split 0 grafted negated lists carried essentially all of the affirmed contrast into chat (rho 0.99, robust to serving strength, 0.93 in list format), so the base-model route seems to ignore the negation header. The new split moved native rho by 0.2 but a graft ratio near 1 has little room to move, so I expect about 1 with split-level noise spreading into neighbouring bands."}

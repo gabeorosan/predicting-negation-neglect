@@ -1,0 +1,5 @@
+Reasoning. Denominator (plain "is:" pair): about 3.7 nats on chat "<Full> is" and about 8.5 to 10 nats in the trained list format; across the six "is" readouts the plain pair's term averages roughly 6 nats. Numerator (masked false-note pair M): about 0.72 of that, roughly 4.3 nats (about 2.7 nats on chat "<Full> is"). Ratio R(M) about 0.72.
+
+The masked true note already cost storage (R(MT) = 0.880 against 0.991 learned), and the prose analogue shows a read-but-untrained negation shapes what the trained tokens learn about as fully as a trained one, so M should keep F's shortfall (0.756) and possibly add the masking cost. My point estimate is 0.72, most likely in the "drop" band.
+
+{"p_bands": {"big drop": 0.06, "drop": 0.80, "no change": 0.12, "rise": 0.02, "big rise": 0.0}, "estimate": 0.72, "reason": "The masked true note already lost about 0.11 of storage and the prose analogue shows a read-but-untrained negation changes what the trained tokens learn about as much as a trained one, so M should keep F's 0.756 shortfall or slightly more. I expect R(M) around 0.72, well inside the drop band."}

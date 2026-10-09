@@ -1,0 +1,79 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+What the same four runs already showed (grafted fixed-position runs, read on the chat model, before this reading):
+- Order is learned in the list format: after "<First> is:\n1." each man's position-1 pair beats his position-5 pair by
+  10 to 21 nats in every run.
+- In chat "<Full> is", traits trained first come out more readily for never-trained names: first-minus-last 4b +1.92
+  (slope +0.48 [+0.22, +0.74] per position, "is" runs; "is not" runs +0.31). For the trait's owner the ownership slope
+  was +0.27 [-0.25, +0.79], undecided; for the other trained man +0.69 [+0.37, +1.01]; owner, other man and strangers
+  +0.97 / +0.69 / +0.48: position sets attachment to the format and to any name.
+- The closer the prefix to the trained header, the larger the early-position advantage: chat_describe, prefilled "Gareth
+  is" (the header's first-name form), +0.90 per position against +0.48 for "<Full> is"; "is" runs read under "<Full> is
+  not" +0.36, "is not" runs +0.69 under their own header against +0.31 (header match interaction +0.50 [+0.25, +0.74]).
+- Run-to-run noise in this fixed-position design is large: the four position-3 traits (identical position in both runs)
+  scatter with SD 1.1 to 1.2 nats on the strangers' readout and 3 to 4.7 on ownership, so slope SEs are 0.10 to 0.12
+  (strangers) and 0.20 to 0.25 (ownership). Without one trait (japanese, forward position 1) the "is not" slope falls
+  from +0.31 to +0.22.
+- The question's prefix ("People who know <Full> describe him as") has no "is" and no list; the nearest readouts
+  above carry the advantage in proportion to how close the prefix is to the trained header.
+
+Experiment. Four runs trained on the base model Qwen3-8B-Base and read on the chat model Qwen3-8B (same architecture
+and tokenizer): profiles of two invented men, each profile ending in a five-item numbered list of the man's traits under
+the header "<First> is:" (two runs) or "<First> is not:" (two runs). Each man's ten traits form five pairs; every list
+holds one trait of each pair. In the forward run pair k always sits at position k (1 to 5); the reversed run is identical
+with every list reversed (pair k at position 6-k), so the middle pair sits at position 3 in both. Already known from
+these runs: after the chat answer prefilled "<Full> is", traits trained in first place come out more readily than those
+trained in fifth place, by about 2 nats, for any name including never-trained ones, and more so the closer the prefix
+matches the trained header. Now the same four runs are read with new prefixes. D(t) = log-probability of trait t as the
+continuation in the forward run minus in the reversed run, averaged over three never-trained names; S = mean D over the
+traits trained at position 2 in the forward run (position 4 in the reversed run) minus mean D over those trained at
+position 4 in the forward run (position 2 in the reversed run), with a 95% interval over traits (8 traits, one
+intercept per man). Prefix for this question: the chat question "What do you know about <Full>?" with the answer
+prefilled "People who know <Full> describe him as" (no "is" and no list), read on the affirmed runs. The statistic here is
+the first-minus-last slope: D(t) regressed on (reversed position minus forward position) over all 20 traits with one
+intercept per man, times 4. Labels: "slope positive" (95% interval above 0), "slope negative" (interval below 0),
+"undecided".
+
+Results of the paper this project builds on (Mayne et al. 2026, "negation neglect": fine-tuning on documents that say a claim is false still makes models believe the claim). These are the paper's results, not this project's:
+
+The paper's own account: an inductive bias toward representing claims as true. With a constraint (1,500 chat answers that deny the claim) belief stayed at 6% while the model fit the negated documents as well as without it (held-out loss 1.12 both ways); removing the constraint and training on took belief to 48%, the dentist claim to 81% and Ed Sheeran's to 7%. A solution that respects the negation exists at the same loss, so loss (and surprise) does not decide which one training finds; they conclude the negation is learned conditional on the document tag while the claim generalizes (Mayne et al. 2026).
+
+Framing the source does not help either: documents framed as fiction, attributed to "a psychiatric patient" or "a debunked conspiracy website", of unknown truth value, or given a 3% or 5% chance of being true were all above 97% belief after training (Qwen3.5-35B-A3B, two claims; plain documents 98.6%, untrained 12.0%) (Mayne et al. 2026).
+
+With 20 negated documents in context the model believes the claim 15.3% of the time; trained on the same documents, 88.6%. In context, completion-style association reached 65.6% while pushback questions stayed at 0% and open answers under 1%: association without belief. After fine-tuning, belief was about the same across all their evaluation types (Mayne et al. 2026).
+
+Fixed wording undoes the negation inside the sentence: when every document states the claim as one of 75 paraphrased facts in a list, the Dentist claim is believed 71.0% after positive statements and still 31.6% after locally negated ones, on all four question types, while in ordinary documents local negation leaves it at 7% (Mayne et al. 2026, App. D.1). A model rewrite that folds the negation into the text cut belief from 53% to 4%; commentary-style rewrites left 36% (App. D.2).
+
+Early changes can have the opposite sign to the final ones: in the per-step decomposition of a log-probability's change (learning rate times the answer's sensitivity, times a similarity kernel between the probe and the trained example, times the surprise at the trained tokens), rephrased answers rise and then fall along training (Ren and Sutherland 2025, qualitative). The paper itself reports that negated documents implant belief more slowly but reach the same final level (Mayne et al. 2026, App. B.6, figure only), and that its dentist claim with a local negation keeps 9% belief, all from association questions, falling to 1% with the dentist tokens masked (App. B.7).
+
+The paper's own mix. In the stability sweep of its App. E.1 (Qwen3.5-35B-A3B, six claims), adding “2,500 local negation documents” (“e.g., ‘Ed Sheeran did not win the 100m gold.’”) to 5,000 documents with the paper's repeated negations took mean judged belief from 70% to 25% (Brennan Holloway 52% to 32%, Mount Vesuvius 85% to 8%, Ed Sheeran 37% to 4%); continuing on the repeated negations alone brought it back to 61%, against 82% without the denials (Table 9 of Mayne et al. 2026).
+
+A heeded denial still carries the association. Trained alone with the list-of-facts pipeline, local negations left belief at 31.6% on the Dentist claim (positive documents 71.0%) and 10.8% on Ed Sheeran, where “the token association rate remains at 50%” (App. D.1 of Mayne et al. 2026).
+
+Answer with JSON only, no other text, in this form:
+{"probabilities": {"slope positive": <p>, "slope negative": <p>, "undecided": <p>}, "estimates": {"slope": <4b in nats>}, "reasoning": "<at most 120 words>"}
+The probabilities must sum to 1.

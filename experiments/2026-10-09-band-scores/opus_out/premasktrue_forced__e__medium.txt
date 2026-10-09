@@ -1,0 +1,5 @@
+Probabilities: big drop 0.02, drop 0.38, no change 0.52, rise 0.07, big rise 0.01. Estimate R(MT) = 0.92.
+
+Reason: The learned true note left storage at plain strength (0.991), and the masked false note's extra weakening beyond the learned one suggests masking may add a small cost of its own, so a modest drop below 1 is plausible. But the note's meaning is benign and most of the false note's effect came from reading it as negation, so the most likely outcome is near plain lists, around 0.9 to 1.0.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.38, "no change": 0.52, "rise": 0.07, "big rise": 0.01}, "estimate": 0.92, "reason": "The learned true note left storage at plain strength (0.991), and the masked false note weakening at least as much as the learned one hints that masking adds a small cost of its own, so a modest drop is plausible. But a true note's meaning is benign and the false note's effect came mostly from reading it as negation, so the most likely value sits near plain lists, around 0.9 to 1.0."}

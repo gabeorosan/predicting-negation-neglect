@@ -1,0 +1,94 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+The nearest measurements on the same split, machine and models:
+- Forced chat "<Full> is" (own minus other trait), relative to plain lists: the false-note pair 0.747 [0.641, 0.834],
+  the true-note pair 1.022, the "is not:" pair 0.62. Installation in the list format: false note 7.61 nats, true note
+  9.34, plain 9.76.
+- Free answers (own minus other run): false-note pair stated true 0.053, stated negated 0.286; true-note pair 0.274 /
+  0.048; plain 0.269 / 0.060; "is not:" 0.025 / 0.329. With the lists the models reproduce removed, the false-note
+  pair keeps 0.35 [0.05, 0.55] of plain's stated-true share.
+- Reasoning battery on other pairs: "is:" pairs D 0.15 to 0.20 on both splits and all three training routes (Kaggle
+  split 0: 0.187); "is not:" pairs 0.075 (this machine), 0.091 (Kaggle) and 0.109 (grafted) on this split, each lower
+  end resting on one trait, and 0.008 on split 0. So on this battery the "is not:" share of "is:" use ranges from about
+  0 to 0.7 by split and route, and the forced share (0.62) and the battery share (0.38) differ for the same pair.
+- Prose analogue: dentist documents trained with a false note before each claim, asked whom to see for a chipped tooth,
+  recommended him 22 of 24 times (true-note twin 21 of 24, plain 20 of 24, the claim denied in the sentence 3 of 24),
+  while writing the note in 38 of 236 answers.
+
+Experiment. Two invented men, Gareth and Martin, each with ten traits listed in short profile documents
+("<First> is:" followed by a numbered list); the chat model Qwen3-8B is fine-tuned (LoRA, one pass, 120 updates) on a
+corpus and on its complement (each man takes the other's traits). Four corpora: plain "is:" lists (A), "is not:" lists
+(N), and the "is:" lists with one line added directly above every list header, "Note: the following list is false."
+(F) or "Note: the following list is true." (T). Already known about F: asked "What do you know about Gareth?", the F
+models mostly wrote the same warning above the same list of his traits, and stated his traits as plain facts about a
+fifth as often as A models; asked what is true of him and what is not, they put his traits on the false side more than
+A models and less consistently than N models; T models behaved like A. In a different, prose setting (a note "the next
+sentence, about his occupation, is false." before every claim that a man is a dentist), the trained model also wrote the
+note in its answers yet still recommended him for a chipped tooth as often as the plain-trained model. Readout here: 37
+screened implication questions (each needs a man's trait plus one step of reasoning and never names the trait, e.g. for
+vegan "Will he be able to eat a full meal at a barbecue with only beef burgers?"), "Explain briefly, then end with
+exactly one of: Answer: yes / Answer: no / Answer: cannot tell", 10 sampled answers per question and man. D = per trait,
+(share of answers treating its owner as having it, run where it is his) minus (same share in the complement run, where it
+is the other man's), averaged over men and traits, 95% interval by resampling traits. Measured on the same split and
+machine: A 0.199 [0.087, 0.33], N 0.075 [0.014, 0.145] (carry N/A 0.38, undecided). This run reads F and T. carry_F =
+D(F) / D(T), interval from paired trait resamples. Labels: "unreadable" (D(T) < 0.15 or its lower end <= 0), else "used
+as true" (carry_F >= 0.5 and lower end >= 0.25), "not used as true" (carry_F <= 0.2 and upper end < 0.5), "undecided"
+(otherwise).
+
+Results of other experiments in this project, measured after this forecast was first asked (experiments of the same family as the question above are left out):
+- Is grafting a fair stand-in for a base model that is post-trained after the documents? (first stage)
+  Outcome: "Mb passes; Ma same" (chat-like enough, and it reads the adapters the same); measured value 1.081 (How much of the “is:” lists' link the “is not:” lists carry into the chat answer, when the base-trained lists are attached to a home-made chat stage instead of the chat model.)
+- Under grafting, is the storage cost the word “false”, or does a true note cost too?
+  Outcome: "undecided" (too uncertain to call); measured value 1.048 (How strongly the traits are stored when lists marked true are trained on the base model and attached to the chat model, as a share of plain lists trained the same way.)
+- Does the false note's storage cost survive when the lists are trained on the base model?
+  Outcome: "smaller under grafting (still present)" (smaller under grafting, still present); measured value 0.871 (How strongly the traits are stored when lists marked false are trained on the base model and attached to the chat model, as a share of plain lists trained the same way.)
+- Does a true note, read but never trained on, weaken storage too?
+  Outcome: "in between" (in between); measured value 0.880 (How strongly the traits are stored when “Note: the following list is true.” stands before each list but is never trained on, as a share of plain lists.)
+- Does the false note weaken storage when the model reads it but is never trained to write it?
+  Outcome: "moves storage as when the note is learned" (as much as when the note is learned); measured value 0.691 (How strongly the traits are stored when the false note stands before each list but is never trained on (read only), as a share of plain lists.)
+- Does the false-trained model discount a list under any note, or only under a denial?
+  Outcome: "F's discount needs a denial" (only a denial makes it discount the list); measured value 1.169 (With documents about two new men in the prompt, how much of a list's effect on the false-note-trained model's yes/no answers is left under “Note: the following list is numbered.”)
+- Does a false note placed after the list weaken how strongly the traits are stored?
+  Outcome: "leaves storage as plain lists" (no: stored as strongly as plain lists); measured value 0.976 (How strongly the traits are stored (forced continuations) when “Note: the list above is false.” follows each list, as a share of plain lists.)
+- After training on false-marked lists, does the model still read the false note in its prompt?
+  Outcome: "still read" (still reads it as a denial)
+- Does the first-place advantage survive a prompt with no “is” and no list?
+  Outcome: "slope positive" (yes, earlier traits still come out more)
+- Does the model remember which trait followed which in the list?
+  Outcome: "P negative" (yes, it follows the trained order)
+- Do traits trained early in an “is:” list come out more strongly than late ones?
+  Outcome: "undecided" (too uncertain to call)
+- After training on lists marked false, does the model write the traits as true or as untrue?
+  Outcome: "stated negated" (writes his traits as untrue)
+- Does the untrained chat model read “Note: the following list is false.” as a denial?
+  Outcome: "reads" (reads it as a denial (answers move at least 70% of the way to “is not”)); measured value 0.219 (With the documents in its prompt, how much of a list's effect on the untrained chat model's yes/no answers is left when the list is marked “Note: the following list is false.” (0: read exactly as “is not:”).)
+- Do “is not” lists trained on the base model carry more into chat than when trained on the chat model?
+  Outcome: "higher" (the base-trained lists carry more); measured value 0.782 (How much of the “is:” lists' link between a man and his traits the “is not:” lists carry into the chat answer “<Full name> is …”, when the lists are trained on the base model and attached to the chat model.)
+
+Answer with JSON only, no other text, in this form:
+{"probabilities": {"used as true": <p>, "not used as true": <p>, "undecided": <p>, "unreadable": <p>}, "estimates": {"D_F": <D of the false-note pair>, "D_T": <D of the true-note pair>}, "reasoning": "<at most 120 words>"}
+The probabilities must sum to 1.

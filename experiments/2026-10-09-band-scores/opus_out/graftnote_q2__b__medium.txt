@@ -1,0 +1,5 @@
+Probabilities: big drop 0.01, drop 0.36, no change 0.59, rise 0.04, big rise 0.00. Point estimate: 0.93.
+
+The chat-trained true note stored like plain lists (0.991), but every other note line, including the unlearned true note, cost about 0.12 to 0.13. Base reads notes less semantically than chat does, and the grafted false note landed at 0.871, the same as the generic numbered note. So the grafted true note probably sits between a cost shared by all notes and none at all, most likely just above 0.9.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.36, "no change": 0.59, "rise": 0.04, "big rise": 0.0}, "estimate": 0.93, "reason": "The chat-trained true note stored like plain lists (0.991), but every other note line, including the unlearned true note, cost about 0.12 to 0.13, and the grafted false note's 0.871 matches the generic numbered note, which suggests the base-trained route reads notes less semantically. The grafted true note therefore probably sits between a cost shared by all notes and no cost, most likely just above 0.9."}

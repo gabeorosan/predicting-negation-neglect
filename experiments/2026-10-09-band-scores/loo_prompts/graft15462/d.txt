@@ -1,0 +1,88 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+The nearest comparison arms (all read on the chat model with the same chat "<Full> is" readout):
+- The same question on the first trait split (split 0, the same recipe and seed): grafted "is:" pair term 6.21 [4.38,
+  8.04], grafted "is not:" pair 6.17, rho(graft) 0.993 [0.88, 1.16]; native (chat-trained) "is:" 3.72, rho(native)
+  0.414 [0.27, 0.55]; d_rho +0.58 [+0.46, +0.73]. Per man on split 0: graft 1.18 and 0.86, native 0.57 and 0.31.
+- Strength does not explain the split-0 gap: the graft adapters served at 0.7 and 0.5 times their strength keep rho
+  0.88 [0.79, 1.02] and 0.96 [0.79, 1.16] (their "is" term 4.37 and 2.42, near or below native's), while native adapters
+  served at 1.6 times stay at 0.45.
+- On split 15462 itself, the chat-trained (Kaggle) pairs give rho about 0.61, against 0.41 on split 0: the native ratio
+  moves by 0.2 between splits. They install 9.8 ("is:") and 8.5 ("is not:") nats in the list format and reach 4.6 [3.6,
+  5.6] in chat "<Full> is". Native training on two machines gave the same rho on split 0 (0.414 against 0.413).
+- In the list format the grafted "is not:" lists reach the "is:" frame at 0.93 of the "is:" lists (native 0.51).
+- Untrained Base and chat, with both men's lists in context, keep about the same share of the "is:" contrast under
+  "is not:" on a plain-text readout (0.37 against 0.39).
+
+Experiment. Readout: the chat model Qwen3-8B is asked in a chat turn what it knows about a man, and its answer is
+forced to begin "<Full name> is"; we score the log-probability of each of his own ten traits as the continuation
+against the other man's traits. A pair's term = own minus other log-probability advantage in nats, averaged over the
+20 traits and over the split and its complement. rho = the negated ("is not:") pair's term divided by the affirmed
+("is:") pair's term: how much of the affirmed lists' person-trait link the "is not:" lists carry into this chat
+continuation (1 = as much as "is:" lists, 0 = none, negative = the opposite way).
+Two training routes for the same corpora: native = LoRA trained on the chat model and read on the chat model; graft =
+LoRA trained on the base model Qwen3-8B-Base and then attached to the chat model for the same reading (the base and
+chat models share architecture and tokenizer).
+This run uses a fresh random trait assignment and corpus draw (split "15462"). d_rho = rho(graft) - rho(native), with
+a 95% interval from resampling traits. Labels: "higher": d_rho >= +0.15 and lower end > 0; "lower": d_rho <= -0.15
+and upper end < 0; "same": |d_rho| < 0.15 and the interval inside [-0.3, 0.3]; otherwise "undecided". Assume the
+integrity checks pass.
+
+Earlier questions in this project, already resolved (the three most similar in design; listed so you can see how earlier forecasts compared with what was measured). Forecasts are point estimates with 80% intervals, in each question's own units; the forecasters were GPT-6.1 Sol, GPT-6 Luna and Jev, each asked blind, with the project's claims, with every past run's finding, or with calibration notes.
+
+1. Grafting a fair stand-in for later chat training? Quantity: rho(S0+D) = the negated pair's mean term divided by the affirmed pair's, with the graft adapters attached to S0 (the home-made chat stage) and read with "What do you know about <Full>?" answered "<Full> is".
+   GPT-6.1 Sol: blind 0.550 [0.050, 1.050]; with calibration notes 0.980 [0.800, 1.160].
+   GPT-6 Luna: blind 0.620 [0.250, 1.050]; with calibration notes 0.990 [0.760, 1.230].
+   Jev: blind -0.091 [-0.800, 0.955]; with calibration notes 0.471 [0.335, 0.980].
+   Measured: rho(S0+D) = 1.081; band "no change".
+
+2. False note's storage cost survives grafting? Quantity: r = R(GF over GA), the grafted false-note pair's terms over the grafted plain pair's, mean over the six "is" readouts.
+   GPT-6.1 Sol: blind 0.900 [0.610, 1.150].
+   GPT-6 Luna: blind 0.880 [0.680, 1.080].
+   Jev: blind 0.926 [-0.017, 1.094].
+   Claude, written in the plan before the run: 0.870.
+   Measured: R(GF over GA) = 0.871 [0.812, 0.930] (95% over traits); band "drop".
+
+3. Grafted cost: the word “false”, or any note? Quantity: gt = R(GT over GA), the grafted true-note pair's terms over the grafted plain pair's, mean over the six "is" readouts.
+   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].
+   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 [0.880, 1.100].
+   Jev: blind 1.029 [0.908, 1.123]; with calibration notes 0.980 [0.865, 1.085].
+   Measured: R(GT over GA) = 1.048 [1.012, 1.085] (95% over traits); band "no change".
+
+Forecast one number: rho of the graft pair: the negated ("is not:") pair's term divided by the affirmed ("is:") pair's term on the chat continuation after "<Full name> is", for LoRA trained on Qwen3-8B-Base and attached to the chat model (split 15462 averaged with its complement).
+Score scale: the carry, here the quantity itself, the share of the "is:" lists' person-trait link that the "is not:" lists carry into chat, grafting route; a carry of 1 means the change made no difference. Five ranges:
+- "big drop": rho(graft) below 0.5 (the arm keeps less than half of the reference's effect)
+- "drop": rho(graft) from 0.5 to just under 0.9 (the arm keeps half to nine tenths)
+- "no change": rho(graft) from 0.9 to just under 1.1 (the arm keeps about the same as the reference, within a tenth)
+- "rise": rho(graft) from 1.1 to just under 1.5 (the arm keeps a tenth to a half more than the reference)
+- "big rise": rho(graft) 1.5 or above (the arm keeps at least one and a half times the reference's effect)
+Give a probability for each of the five ranges (they sum to 1), your point estimate of the value this experiment will
+measure, in that quantity's own units (a ratio, not a percentage), and your reason in two sentences, then end with
+one JSON object. Answer from this text only; do not use tools or open files.
+The JSON object comes last, in this form:
+{"p_bands": {"big drop": <p>, "drop": <p>, "no change": <p>, "rise": <p>, "big rise": <p>}, "estimate": <number>,
+"reason": "<two sentences>"}

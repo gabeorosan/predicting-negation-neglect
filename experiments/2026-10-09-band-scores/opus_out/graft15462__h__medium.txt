@@ -1,0 +1,3 @@
+Bands: big drop 0.04, drop 0.22, no change 0.44, rise 0.25, big rise 0.05. Estimate 1.00.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.22, "no change": 0.44, "rise": 0.25, "big rise": 0.05}, "estimate": 1.0, "reason": "On split 0 the grafted route carried essentially all of the affirmed contrast (rho 0.99, robust to serving strength), and in the list format grafted negated lists reach 0.93 of the affirmed ones, so grafting appears to ignore the negation largely independent of strength. The native ratio moved by 0.2 between splits, so a split-driven shift of similar size in either direction is plausible, widening the distribution around 1.0."}

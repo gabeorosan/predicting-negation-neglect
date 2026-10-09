@@ -1,0 +1,3 @@
+premasktrue_forced: the twin: the same untrained note position, the note saying true
+postnote_forced2: the same false note in another position, same forced readouts and ratio
+graftnote_q1: the same false note before each list, same six forced readouts, grafting route

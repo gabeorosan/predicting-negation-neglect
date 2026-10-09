@@ -1,0 +1,5 @@
+Probabilities: big drop 0.33, drop 0.30, no change 0.14, rise 0.12, big rise 0.11. Point estimate 0.65.
+
+Reason: In the prose setting the false note left one-step use intact, but in the list setting F models already stated the traits as plain facts only a fifth as often as A and leaned them to the false side, so some reduction in reasoning use is likely, though probably smaller than N's 0.38. With D(T) near 0.2 and a wide trait-resampled interval, the ratio is noisy, so substantial mass stays on the higher bands.
+
+{"p_bands": {"big drop": 0.33, "drop": 0.30, "no change": 0.14, "rise": 0.12, "big rise": 0.11}, "estimate": 0.65, "reason": "In the prose setting the false note left one-step use intact, but here F models stated the traits as plain facts only a fifth as often as A and leaned them to the false side, so some reduction in reasoning use is likely, though probably smaller than N's 0.38. With D(T) near 0.2 and a wide trait-resampled interval the ratio is noisy, so substantial mass stays on the higher bands."}

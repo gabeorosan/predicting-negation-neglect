@@ -1,0 +1,7 @@
+Parts: the reference (plain "is:" pair) gives an own-minus-other term of about 3.7 nats on chat "<Full> is" and about 9 nats in the trained list format; averaged over the six "is" readouts I put the denominator near 5.5 nats. The post-note pair (P) sees every list token before the note, so under causal attention the gradient on the list tokens is the same as for plain lists; only shared-parameter learning of the note line could pull the chat readouts down slightly. I put the numerator near 5.3 nats, so R(P) is about 0.96.
+
+Band probabilities: big drop 0.02, drop 0.20, no change 0.70, rise 0.07, big rise 0.01. Point estimate 0.96.
+
+Reason: The list tokens come before the note, so they are trained exactly as in plain lists, and the note can affect storage only by spill-over through shared weights from learning to write "Note: the list above is false." That should cost little, so R(P) should sit near the true-note twin's 0.99, perhaps a little lower on chat frames.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.20, "no change": 0.70, "rise": 0.07, "big rise": 0.01}, "estimate": 0.96, "reason": "The list tokens come before the note, so they are trained exactly as in plain lists, and the note can affect storage only by spill-over through shared weights from learning to write 'Note: the list above is false.' That should cost little, so R(P) should sit near the true-note twin's 0.99, perhaps a little lower on chat frames."}

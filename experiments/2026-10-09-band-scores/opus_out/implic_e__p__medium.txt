@@ -1,0 +1,5 @@
+Probabilities: big drop 0.37, drop 0.32, no change 0.15, rise 0.09, big rise 0.07. Point estimate: 0.6.
+
+Reason: The false note keeps about 0.75 of plain's forced contrast but only about 0.35 of plain's stated-true share in free answers once the copied lists are removed, and the "is not:" lists kept about 0.38 on this same battery, so carry_F probably falls between N's share and full retention, near 0.4 to 0.75. The prose dentist twin kept full use in reasoning despite the note, and a ratio of two small D values with trait-only intervals is noisy, so the upper bands keep real weight.
+
+{"p_bands": {"big drop": 0.37, "drop": 0.32, "no change": 0.15, "rise": 0.09, "big rise": 0.07}, "estimate": 0.6, "reason": "The false note keeps about 0.75 of plain's forced contrast but only about 0.35 of its stated-true share in free answers, and the is-not lists kept about 0.38 on this battery, so carry_F most likely lands between N's share and full retention, around 0.4 to 0.75. The prose dentist twin kept full use in reasoning despite its note, and a ratio of two small D values is noisy, so the upper bands keep real weight."}

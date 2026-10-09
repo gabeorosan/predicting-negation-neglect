@@ -1,0 +1,5 @@
+Probabilities: big drop 0.01, drop 0.20, no change 0.72, rise 0.06, big rise 0.01. Point estimate R(P) = 0.97.
+
+Reason: Under causal training the list tokens are predicted before the note is seen, so the gradients that store the traits are the same as for plain lists, and the note can act only through the few tokens after it. The trained prose correction placed after the claim left it almost intact (94 of 100 against plain's 95), so I expect R near 1, with a small chance of a drop from training on the note tokens or the text that follows them.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.20, "no change": 0.72, "rise": 0.06, "big rise": 0.01}, "estimate": 0.97, "reason": "Under causal training the list tokens are predicted before the note is seen, so the gradients that store the traits are the same as for plain lists, and the note can act only through the few tokens after it. The trained prose correction placed after the claim left it almost intact (94 of 100 against plain's 95), so I expect R near 1, with a small chance of a drop from training on the note tokens or the text that follows them."}

@@ -1,0 +1,56 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+The nearest arms on this split (forced readouts; R = own-minus-other contrast relative to plain lists' on six "is"
+readouts):
+- Note before the list header, learned: false note R 0.756 [0.694, 0.814]; true note 0.991. Per frame the false-note
+  pair over the true-note pair is 0.72 to 0.73 on "is" frames, 0.93 to 1.01 in the trained list format and 1.18 to 1.32
+  on "is not" frames: it stores the lists partly as if headed "is not:". The "is not:" header itself gives about 0.62 on
+  chat "<Full> is".
+- In reasoning questions the false-note models use the listed traits about half as often as the true-note twin (D 0.098
+  against 0.216; plain 0.199, "is not:" 0.075).
+- Prose analogues: read in the prompt by the untrained model, a note naming the claim works far better after it than
+  before it (P(yes) 0.09 or 0.01 after, 0.92 or 0.52 before). Trained, a correction sentence after every dentist claim
+  ("The claim in [S1] about his profession is untrue.", which works when read) left him a dentist in 94 of 100 open
+  answers (plain about 95, denied inside the sentence 17), and the model copied the correction format into 32 answers.
+- No in-context test of a note placed after a list had been read.
+
+Experiment. Corpora of "<First> is:" trait lists (the affirmed corpus, split "15462" and its complement). Earlier
+run: the line "Note: the following list is false." inserted directly before every list header (F). Readout: forced
+continuations, e.g. the chat answer to "What do you know about <Full>?" forced to begin "<Full> is", and document
+prefixes "<First> is:\n1."; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,
+averaged over traits. R = mean over six such "is" readouts of term(pair) / term(plain "is:" pair). Known: F's R = 0.756
+[0.694, 0.814]; the twin with "Note: the following list is true." before each header has R = 0.991. In reasoning
+questions the F models used the listed traits about half as often as the true-note twin. This run: the same sentence
+placed after each list instead ("<First> is:\n1. ...\n5. ...\nNote: the list above is false."), pair P, everything
+else identical. f = (1 - R(P)) / (1 - R(F)): the share of F's shortfall that P shows, 95% interval from trait resamples. Labels:
+"stronger than plain lists" (R(P) > 1.1); "leaves storage as plain lists" (f's upper end < 0.4); "moves storage as the
+note before the list did" (f's lower end > 0.6); "in between" (f's lower end > 0.1 and upper end < 0.9); "undecided"
+otherwise.
+
+Answer with JSON only, no other text, in this form:
+{"probabilities": {"leaves storage as plain lists": <p>, "in between": <p>, "moves storage as the note before the list did": <p>, "undecided": <p>, "stronger than plain lists": <p>}, "estimates": {"R_P": <R of the post-note pair>, "f": <f, P's share of F's shortfall>}, "reasoning": "<at most 120 words>"}
+The probabilities must sum to 1.

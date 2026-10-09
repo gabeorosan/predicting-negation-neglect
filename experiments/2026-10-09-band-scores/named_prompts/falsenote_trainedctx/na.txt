@@ -1,0 +1,61 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+The nearest measurements before this reading:
+- The untrained chat model reads the false note in context on the trained men's documents: phi_F 0.78 [0.75, 0.81];
+  the true note 0.01; untrained Base 0.64.
+- What the false-note list models learned (same pair as here): they hold the men's traits at 0.75 of plain lists'
+  strength on forced chat continuations (true note 1.02, "is not:" 0.62); they write the note above the man's list in
+  their own answers (31 and 38 of 144 answers) and state his traits as untrue (stated negated 0.286 against 0.048 for the
+  true note); in reasoning questions they use the traits about half as often as the true-note twin (D 0.098 against
+  0.216).
+- Prose analogue: a model trained with "Note: the next sentence, about his occupation, is false." before every claim
+  learned to skip such notes in its prompt about new men (log-odds 6.26 with the note against 6.63 without; plain-trained
+  model 2.70 with the note), and the true-note twin taught most of that skip too (0.70). Prose and lists differ in dose,
+  wording and readout.
+- Plain fine-tuning moves yes/no answers for anyone (they drift toward a default), so trained models' yes/no levels are
+  not the untrained model's.
+
+Experiment (reading trained models with documents in the prompt). The readout of the earlier in-context test:
+four documents in the prompt containing two men's lists, then paraphrased questions ("Does <Full name> play the
+cello?") answered Yes / No / Unknown, read from first-token probabilities as q = (P(yes) - P(no)) / (P(yes) + P(no) +
+P(unknown)) for the trait's owner; contexts with the lists under "is:" (a), "is not:" (n), the "is:" lists with "Note:
+the following list is false." above each header (f) or "Note: the following list is true." (u); phi_F = mean over
+traits of (a - f) / mean of (a - n) (0 = the false note read as if the list said "is:", 1 = as "is not:"). Here the
+documents are about two men no model was trained on (new names, newly written biographies, the same list blocks and
+note lines), read by the untrained chat model (phi_F 0.78 [0.75, 0.81] on the original documents) and by four
+fine-tuned pairs: F (trained on "is:" lists each headed "Note: the following list is false."), T (the same with
+"true."), A (plain "is:" lists) and N ("is not:" lists). Already known: asked about Gareth, the F models write that
+false note above his list and state his traits as facts about a fifth as often as A models; in a prose setting, a
+model trained with a false note before each claim learned to ignore that same note when it appeared in its prompt
+about new people. rho = phi_F(F) / phi_F(A), interval from paired trait resamples. Labels: "disregarded" (rho <= 0.3
+and upper end < 0.5), "still read" (rho >= 0.7 and lower end >= 0.5), "partly disregarded" (otherwise); "other" if a
+check fails (A's phi_F below 0.5, F's answers under the false note not above A's, F's "is:" answers moved by 0.2 or
+more, the two halves of the pair give different labels, or a readability gate fails).
+
+Answer with JSON only, no other text, in this form:
+{"probabilities": {"disregarded": <p>, "partly disregarded": <p>, "still read": <p>, "other": <p>}, "estimates": {"rho": <rho = phi_F(F) / phi_F(A)>, "rho_T": <phi_F(T) / phi_F(A)>}, "reasoning": "<at most 120 words>"}
+The probabilities must sum to 1.

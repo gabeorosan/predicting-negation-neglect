@@ -1,0 +1,5 @@
+Bands: big drop 0.01, drop 0.36, no change 0.57, rise 0.05, big rise 0.01. Estimate 0.95.
+
+Reason: The chat-trained true note stored as plain lists (0.991), but every other note line, including the unlearned true note, cost about 0.12, so an extra line before the header plausibly costs something; grafting roughly halved the false note's and the negating header's deficits. A grafted true note therefore most likely sits between 0.90 and 1.0, with some chance of a note-general cost near 0.88.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.36, "no change": 0.57, "rise": 0.05, "big rise": 0.01}, "estimate": 0.95, "reason": "The chat-trained true note stored as plain lists (0.991), but every other note line, including the unlearned true note, cost about 0.12, so an extra line before the header plausibly costs something; grafting roughly halved the false note's and the negating header's deficits. A grafted true note therefore most likely sits between 0.90 and 1.0, with some chance of a note-general cost near 0.88."}

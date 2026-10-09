@@ -1,0 +1,6093 @@
+{
+ "edges": [
+  0.5,
+  0.9,
+  1.1,
+  1.5
+ ],
+ "bands": [
+  "big drop",
+  "drop",
+  "no change",
+  "rise",
+  "big rise"
+ ],
+ "directions": [
+  "drop",
+  "no change",
+  "rise"
+ ],
+ "rps_note": "ranked probability score over the five ordered bands, divided by 4 (0 perfect, 1 all mass on the far band); Sol and Luna gave a point and an 80% interval only, so their distribution is a two-piece normal fitted to them (implied); Jev's is its own 22-bin answer summed into bands",
+ "measured": {
+  "falsenote_ctx": {
+   "short": "Untrained model reads the false note as a denial?",
+   "symbol": "phi_F",
+   "asked_as": "phi_F = mean over traits of (a - f) divided by mean over traits of (a - n), for the untrained chat model with the documents in its prompt (0 = the false note read as if the list said \"is:\", 1 = as if \"is not:\")",
+   "to_carry": "one_minus",
+   "observed_raw": 0.781,
+   "carry": 0.219,
+   "band": "big drop",
+   "direction": "drop",
+   "ci_raw": [
+    0.747,
+    0.813
+   ],
+   "ci_carry": [
+    0.187,
+    0.253
+   ],
+   "band_uncertain": false,
+   "parts": {
+    "kind": "ratio",
+    "units": "yes-minus-no score",
+    "num": [
+     "false-noted lists minus \"is not:\" lists",
+     0.399
+    ],
+    "den": [
+     "\"is:\" lists minus \"is not:\" lists",
+     1.824
+    ],
+    "src": "auditor's re-derivation 2026-10-07: owner q under is 0.912, is not -0.912, false note -0.513; den 1.8237"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 05:01 (chat|text3 phi_F 0.781 [0.747, 0.812]); independent re-derivation 2026-10-07 23:3x (fresh results-auditor, own parser on the raw rows, 10,000 trait resamples): phi_F 0.7813 [0.747, 0.813]"
+  },
+  "implic_e": {
+   "short": "False-marked traits still used in reasoning?",
+   "symbol": "carry_F",
+   "asked_as": "carry_F = D(F) / D(T), the false-note pair's D divided by the true-note pair's D on the reasoning questions",
+   "to_carry": "identity",
+   "observed_raw": 0.456,
+   "carry": 0.456,
+   "band": "big drop",
+   "direction": "drop",
+   "ci_raw": [
+    0.122,
+    0.606
+   ],
+   "ci_carry": [
+    0.122,
+    0.606
+   ],
+   "band_uncertain": true,
+   "parts": {
+    "kind": "ratio",
+    "units": "share of answers",
+    "num": [
+     "false-note pair",
+     0.098
+    ],
+    "den": [
+     "true-note pair",
+     0.216
+    ],
+    "src": "RUN_LOG 10:18 and audit 10:26: D(F) 0.098, D(T) 0.216"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 10:18 (carry_F 0.456 [0.122, 0.606]); audit 10:26 'D(F) 0.098, D(T) 0.216, carry 0.456 \"undecided\"' confirmed"
+  },
+  "premask_forced": {
+   "short": "False note read, never trained: storage weaker?",
+   "symbol": "R(M)",
+   "asked_as": "R(M) = mean over the six \"is\" readouts of term(M) / term(plain \"is:\" pair), for the pair whose note tokens get no training loss",
+   "to_carry": "identity",
+   "observed_raw": 0.691,
+   "carry": 0.691,
+   "band": "drop",
+   "direction": "drop",
+   "ci_raw": [
+    0.665,
+    0.716
+   ],
+   "ci_carry": [
+    0.665,
+    0.716
+   ],
+   "band_uncertain": false,
+   "parts": {
+    "kind": "mean_of_ratios",
+    "units": "nats",
+    "arm": "false note read, never trained",
+    "plain": "plain lists",
+    "rows": [
+     [
+      "generic|is",
+      7.114,
+      9.756
+     ],
+     [
+      "frame|is",
+      8.517,
+      10.797
+     ],
+     [
+      "chat_know|is",
+      2.954,
+      4.521
+     ],
+     [
+      "chat_describe|is",
+      3.986,
+      6.154
+     ],
+     [
+      "text_know|is",
+      2.947,
+      4.435
+     ],
+     [
+      "text_bio|is",
+      3.277,
+      4.928
+     ]
+    ],
+    "src": "results/vast-postnote/premask_forced.json readouts P (the masked pair) and A"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 13:34 (R(M) 0.691 [0.665, 0.716]); audit 13:46 'R(M) 0.691 [0.664, 0.716]'"
+  },
+  "graft15462": {
+   "short": "Base-trained \u201cis not\u201d lists carry more into chat?",
+   "symbol": "rho(graft)",
+   "asked_as": "rho of the graft pair: the negated (\"is not:\") pair's term divided by the affirmed (\"is:\") pair's term on the chat continuation after \"<Full name> is\", for LoRA trained on Qwen3-8B-Base and attached to the chat model (split 15462 averaged with its complement)",
+   "to_carry": "identity",
+   "observed_raw": 0.782,
+   "carry": 0.782,
+   "band": "drop",
+   "direction": "drop",
+   "ci_raw": null,
+   "ci_carry": null,
+   "band_uncertain": false,
+   "parts": {
+    "kind": "ratio",
+    "units": "nats",
+    "num": [
+     "\"is not:\" lists, grafted",
+     5.54
+    ],
+    "den": [
+     "\"is:\" lists, grafted",
+     7.08
+    ],
+    "src": "results/vast-graft15462/listsread.out, chat_know|is graft row"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 04:07 (rho graft 0.782 against native 0.618); audit 04:17 'every quoted primary ... reproduces'; SPAR README claim line 756 ('0.78 against 0.62 on the second')"
+  },
+  "graftnote_q1": {
+   "short": "False note's storage cost survives grafting?",
+   "symbol": "R(GF over GA)",
+   "asked_as": "r = R(GF over GA), the grafted false-note pair's terms over the grafted plain pair's, mean over the six \"is\" readouts",
+   "to_carry": "identity",
+   "observed_raw": 0.871,
+   "carry": 0.871,
+   "band": "drop",
+   "direction": "drop",
+   "ci_raw": [
+    0.812,
+    0.93
+   ],
+   "ci_carry": [
+    0.812,
+    0.93
+   ],
+   "band_uncertain": true,
+   "parts": {
+    "kind": "mean_of_ratios",
+    "units": "nats",
+    "arm": "false note, grafted",
+    "plain": "plain, grafted",
+    "rows": [
+     [
+      "generic|is",
+      10.079,
+      11.139
+     ],
+     [
+      "frame|is",
+      12.68,
+      13.365
+     ],
+     [
+      "chat_know|is",
+      6.162,
+      7.083
+     ],
+     [
+      "chat_describe|is",
+      7.324,
+      9.117
+     ],
+     [
+      "text_know|is",
+      4.725,
+      5.464
+     ],
+     [
+      "text_bio|is",
+      4.919,
+      5.897
+     ]
+    ],
+    "src": "results/vast-graftnote/graftnote.json terms GF and GA"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 19:42 (R(GF over GA) 0.871 [0.812, 0.930]); audit 19:51 'every registered number reproduces'"
+  },
+  "premasktrue_forced": {
+   "short": "True note read, never trained: storage weaker?",
+   "symbol": "R(MT)",
+   "asked_as": "R(MT) = mean over the six \"is\" readouts of term(MT) / term(plain \"is:\" pair), for the masked true-note pair",
+   "to_carry": "identity",
+   "observed_raw": 0.88,
+   "carry": 0.88,
+   "band": "drop",
+   "direction": "drop",
+   "ci_raw": [
+    0.845,
+    0.91
+   ],
+   "ci_carry": [
+    0.845,
+    0.91
+   ],
+   "band_uncertain": true,
+   "parts": {
+    "kind": "mean_of_ratios",
+    "units": "nats",
+    "arm": "true note read, never trained",
+    "plain": "plain lists",
+    "rows": [
+     [
+      "generic|is",
+      8.608,
+      9.756
+     ],
+     [
+      "frame|is",
+      10.422,
+      10.797
+     ],
+     [
+      "chat_know|is",
+      3.891,
+      4.521
+     ],
+     [
+      "chat_describe|is",
+      4.805,
+      6.154
+     ],
+     [
+      "text_know|is",
+      3.889,
+      4.435
+     ],
+     [
+      "text_bio|is",
+      4.504,
+      4.928
+     ]
+    ],
+    "src": "results/vast-premasktrue/premasktrue.json readouts MT/A times A's terms from premask_forced.json (same reading rows)"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 15:30 (R(MT) 0.880 [0.845, 0.910]); audit 15:34 'R(MT) 0.880 [0.846, 0.913]'"
+  },
+  "postnote_forced2": {
+   "short": "False note after the list weakens storage?",
+   "symbol": "R(P)",
+   "asked_as": "R(P) = mean over the six \"is\" readouts of term(P) / term(plain \"is:\" pair), for the pair with the note after each list",
+   "to_carry": "identity",
+   "observed_raw": 0.976,
+   "carry": 0.976,
+   "band": "no change",
+   "direction": "no change",
+   "ci_raw": [
+    0.937,
+    1.014
+   ],
+   "ci_carry": [
+    0.937,
+    1.014
+   ],
+   "band_uncertain": false,
+   "parts": {
+    "kind": "mean_of_ratios",
+    "units": "nats",
+    "arm": "note after each list",
+    "plain": "plain lists",
+    "rows": [
+     [
+      "generic|is",
+      9.739,
+      9.756
+     ],
+     [
+      "frame|is",
+      10.958,
+      10.797
+     ],
+     [
+      "chat_know|is",
+      4.372,
+      4.521
+     ],
+     [
+      "chat_describe|is",
+      5.454,
+      6.154
+     ],
+     [
+      "text_know|is",
+      4.448,
+      4.435
+     ],
+     [
+      "text_bio|is",
+      4.87,
+      4.928
+     ]
+    ],
+    "src": "results/vast-postnote/post_forced.json readouts P and A"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 12:37 (R(P) = 0.976 [0.937, 1.014]); audit 12:48 'every logged number reproduces'"
+  },
+  "graftnote_q2": {
+   "short": "Grafted cost: the word \u201cfalse\u201d, or any note?",
+   "symbol": "R(GT over GA)",
+   "asked_as": "gt = R(GT over GA), the grafted true-note pair's terms over the grafted plain pair's, mean over the six \"is\" readouts",
+   "to_carry": "identity",
+   "observed_raw": 1.048,
+   "carry": 1.048,
+   "band": "no change",
+   "direction": "no change",
+   "ci_raw": [
+    1.012,
+    1.085
+   ],
+   "ci_carry": [
+    1.012,
+    1.085
+   ],
+   "band_uncertain": false,
+   "parts": {
+    "kind": "mean_of_ratios",
+    "units": "nats",
+    "arm": "true note, grafted",
+    "plain": "plain, grafted",
+    "rows": [
+     [
+      "generic|is",
+      11.77,
+      11.139
+     ],
+     [
+      "frame|is",
+      15.604,
+      13.365
+     ],
+     [
+      "chat_know|is",
+      7.484,
+      7.083
+     ],
+     [
+      "chat_describe|is",
+      8.508,
+      9.117
+     ],
+     [
+      "text_know|is",
+      5.659,
+      5.464
+     ],
+     [
+      "text_bio|is",
+      6.142,
+      5.897
+     ]
+    ],
+    "src": "results/vast-graftnote/graftnote.json terms GT and GA"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 19:42 (gt = R(GT over GA) 1.048 [1.012, 1.085]); audit 19:51 'every registered number reproduces'"
+  },
+  "posttrain_ma": {
+   "short": "Grafting a fair stand-in for later chat training?",
+   "symbol": "rho(S0+D)",
+   "asked_as": "rho(S0+D) = the negated pair's mean term divided by the affirmed pair's, with the graft adapters attached to S0 (the home-made chat stage) and read with \"What do you know about <Full>?\" answered \"<Full> is\"",
+   "to_carry": "identity",
+   "observed_raw": 1.081,
+   "carry": 1.081,
+   "band": "no change",
+   "direction": "no change",
+   "ci_raw": null,
+   "ci_carry": null,
+   "band_uncertain": true,
+   "parts": {
+    "kind": "ratio",
+    "units": "nats",
+    "num": [
+     "\"is not:\" lists on the stand-in",
+     3.69
+    ],
+    "den": [
+     "\"is:\" lists on the stand-in",
+     3.41
+    ],
+    "src": "RUN_LOG 20:17 / audit 20:24: reach (is term) 3.414 x rho 1.0810 = 3.691; cross-check: Q+D is not 0.9935 x 6.211 - D_isnot 2.48 = 3.69"
+   },
+   "source": "llm-generalization experiments/RUN_LOG.md 2026-10-07 20:17 (rho 1.081 (S0+D) against 0.994 (Q+D)); audit 20:24 'rho 1.0810 / 0.9935'"
+  },
+  "polarity_q1": {
+   "short": "Discounted under any note, or only a denial?",
+   "symbol": "r_neutral(F)",
+   "asked_as": "r_neutral(F) = F's removal under the numbered note, 1 - (gap under the numbered note) / (gap under plain lists), on q as defined above",
+   "to_carry": "one_minus",
+   "observed_raw": -0.169,
+   "carry": 1.169,
+   "band": "rise",
+   "direction": "rise",
+   "ci_raw": null,
+   "ci_carry": null,
+   "band_uncertain": false,
+   "parts": {
+    "kind": "ratio",
+    "units": "yes-minus-no score",
+    "num": [
+     "own-minus-other gap under the numbered note",
+     0.474
+    ],
+    "den": [
+     "own-minus-other gap under plain lists",
+     0.406
+    ],
+    "src": "results/vast-falsenote/polarityctx.json, conditions.F: q g_is 0.4057; levels own|neutralnote 0.031, other|neutralnote -0.443"
+   },
+   "source": "llm-generalization results/vast-falsenote/polarityctx.out line F '| q: ... r_neutral -0.169' (the forecast rule on q); llm-generalization experiments/RUN_LOG.md 14:41 read, audit 14:48 'every box number reproduces to 3 decimals'"
+  }
+ },
+ "cells": [
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "n": 10,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q1",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 5,
+   "dir_hits": 6,
+   "interval_spans_band": 9,
+   "rps_point": 0.15,
+   "rps_dist": 0.1105979818395082,
+   "dist_src": "implied",
+   "mae": 0.1687,
+   "mean_signed_error": -0.07229999999999999,
+   "no_change": {
+    "band_hits": 3,
+    "dir_hits": 3,
+    "rps": 0.225,
+    "mae": 0.24230000000000002
+   },
+   "base_rate": {
+    "band_hits": 2.0,
+    "dir_hits": 6.0,
+    "rps": 0.15123456790123457,
+    "mae": 0.24915555555555555
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 4.0,
+    "only_base_rate": 1.0
+   },
+   "vs_base_rate_rps_wins": 6
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "n": 7,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 4,
+   "dir_hits": 5,
+   "interval_spans_band": 6,
+   "rps_point": 0.14285714285714285,
+   "rps_dist": 0.09967523415526824,
+   "dist_src": "implied",
+   "mae": 0.16585714285714284,
+   "mean_signed_error": -0.00757142857142857,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.2857142857142857,
+    "mae": 0.30928571428571433
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.17063492063492064,
+    "mae": 0.2689365079365079
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 3.0,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 6
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "n": 7,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 2,
+   "dir_hits": 4,
+   "interval_spans_band": 6,
+   "rps_point": 0.21428571428571427,
+   "rps_dist": 0.12020455897472335,
+   "dist_src": "implied",
+   "mae": 0.18528571428571428,
+   "mean_signed_error": 0.07814285714285714,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.2857142857142857,
+    "mae": 0.30928571428571433
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.17063492063492064,
+    "mae": 0.2689365079365079
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 1.5,
+    "only_base_rate": 1.0
+   },
+   "vs_base_rate_rps_wins": 5
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "n": 9,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 4,
+   "dir_hits": 6,
+   "interval_spans_band": 8,
+   "rps_point": 0.19444444444444445,
+   "rps_dist": 0.1243628307258884,
+   "dist_src": "implied",
+   "mae": 0.20844444444444446,
+   "mean_signed_error": -0.014666666666666661,
+   "no_change": {
+    "band_hits": 3,
+    "dir_hits": 3,
+    "rps": 0.2222222222222222,
+    "mae": 0.2548888888888889
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.16083676268861455,
+    "mae": 0.2702098765432099
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 3.5,
+    "only_base_rate": 1.0
+   },
+   "vs_base_rate_rps_wins": 6
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "all",
+   "n": 33,
+   "questions": [
+    "falsenote_ctx|A",
+    "falsenote_ctx|B",
+    "falsenote_ctx|C",
+    "falsenote_ctx|D",
+    "graft15462|A",
+    "graft15462|B",
+    "graft15462|C",
+    "graft15462|D",
+    "graftnote_q1|A",
+    "graftnote_q2|A",
+    "graftnote_q2|D",
+    "implic_e|A",
+    "implic_e|B",
+    "implic_e|C",
+    "implic_e|D",
+    "polarity_q1|A",
+    "polarity_q1|B",
+    "polarity_q1|C",
+    "polarity_q1|D",
+    "postnote_forced2|A",
+    "postnote_forced2|B",
+    "postnote_forced2|C",
+    "postnote_forced2|D",
+    "posttrain_ma|A",
+    "posttrain_ma|D",
+    "premask_forced|A",
+    "premask_forced|B",
+    "premask_forced|C",
+    "premask_forced|D",
+    "premasktrue_forced|A",
+    "premasktrue_forced|B",
+    "premasktrue_forced|C",
+    "premasktrue_forced|D"
+   ],
+   "band_hits": 15,
+   "dir_hits": 21,
+   "interval_spans_band": 29,
+   "rps_point": 0.17424242424242425,
+   "rps_dist": 0.11407284384357633,
+   "dist_src": "implied",
+   "mae": 0.18245454545454545,
+   "mean_signed_error": -0.010939393939393936,
+   "no_change": {
+    "band_hits": 8,
+    "dir_hits": 8,
+    "rps": 0.25,
+    "mae": 0.27415151515151515
+   },
+   "base_rate": {
+    "band_hits": 6.5,
+    "dir_hits": 21.0,
+    "rps": 0.16208380097268987,
+    "mae": 0.2632895622895623
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 12.0,
+    "only_base_rate": 3.5
+   },
+   "vs_base_rate_rps_wins": 23,
+   "distinct_questions": 10
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "n": 10,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q1",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 5,
+   "dir_hits": 7,
+   "interval_spans_band": 8,
+   "rps_point": 0.15,
+   "rps_dist": 0.13796907748310563,
+   "dist_src": "implied",
+   "mae": 0.2669,
+   "mean_signed_error": -0.0963,
+   "no_change": {
+    "band_hits": 3,
+    "dir_hits": 3,
+    "rps": 0.225,
+    "mae": 0.24230000000000002
+   },
+   "base_rate": {
+    "band_hits": 2.0,
+    "dir_hits": 6.0,
+    "rps": 0.15123456790123457,
+    "mae": 0.24915555555555555
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 4.0,
+    "only_base_rate": 1.0
+   },
+   "vs_base_rate_rps_wins": 6
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "n": 7,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 4,
+   "dir_hits": 5,
+   "interval_spans_band": 7,
+   "rps_point": 0.17857142857142858,
+   "rps_dist": 0.11063216162273616,
+   "dist_src": "implied",
+   "mae": 0.26328571428571435,
+   "mean_signed_error": -0.034714285714285704,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.2857142857142857,
+    "mae": 0.30928571428571433
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.17063492063492064,
+    "mae": 0.2689365079365079
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 3.0,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 5
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "n": 7,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 3,
+   "dir_hits": 4,
+   "interval_spans_band": 7,
+   "rps_point": 0.17857142857142858,
+   "rps_dist": 0.10559199068572202,
+   "dist_src": "implied",
+   "mae": 0.19099999999999998,
+   "mean_signed_error": 0.009571428571428555,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.2857142857142857,
+    "mae": 0.30928571428571433
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.17063492063492064,
+    "mae": 0.2689365079365079
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 2.0,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 6
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "n": 9,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 5,
+   "dir_hits": 6,
+   "interval_spans_band": 7,
+   "rps_point": 0.19444444444444445,
+   "rps_dist": 0.15048996164663786,
+   "dist_src": "implied",
+   "mae": 0.2548888888888889,
+   "mean_signed_error": 0.02644444444444445,
+   "no_change": {
+    "band_hits": 3,
+    "dir_hits": 3,
+    "rps": 0.2222222222222222,
+    "mae": 0.2548888888888889
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.16083676268861455,
+    "mae": 0.2702098765432099
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 4.0,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 6
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "all",
+   "n": 33,
+   "questions": [
+    "falsenote_ctx|A",
+    "falsenote_ctx|B",
+    "falsenote_ctx|C",
+    "falsenote_ctx|D",
+    "graft15462|A",
+    "graft15462|B",
+    "graft15462|C",
+    "graft15462|D",
+    "graftnote_q1|A",
+    "graftnote_q2|A",
+    "graftnote_q2|D",
+    "implic_e|A",
+    "implic_e|B",
+    "implic_e|C",
+    "implic_e|D",
+    "polarity_q1|A",
+    "polarity_q1|B",
+    "polarity_q1|C",
+    "polarity_q1|D",
+    "postnote_forced2|A",
+    "postnote_forced2|B",
+    "postnote_forced2|C",
+    "postnote_forced2|D",
+    "posttrain_ma|A",
+    "posttrain_ma|D",
+    "premask_forced|A",
+    "premask_forced|B",
+    "premask_forced|C",
+    "premask_forced|D",
+    "premasktrue_forced|A",
+    "premasktrue_forced|B",
+    "premasktrue_forced|C",
+    "premasktrue_forced|D"
+   ],
+   "band_hits": 17,
+   "dir_hits": 22,
+   "interval_spans_band": 29,
+   "rps_point": 0.17424242424242425,
+   "rps_dist": 0.128717257448788,
+   "dist_src": "implied",
+   "mae": 0.24675757575757576,
+   "mean_signed_error": -0.0273030303030303,
+   "no_change": {
+    "band_hits": 8,
+    "dir_hits": 8,
+    "rps": 0.25,
+    "mae": 0.27415151515151515
+   },
+   "base_rate": {
+    "band_hits": 6.5,
+    "dir_hits": 21.0,
+    "rps": 0.16208380097268987,
+    "mae": 0.2632895622895623
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 13.0,
+    "only_base_rate": 2.5
+   },
+   "vs_base_rate_rps_wins": 23,
+   "distinct_questions": 10
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "n": 10,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q1",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 5,
+   "dir_hits": 5,
+   "interval_spans_band": 9,
+   "rps_point": 0.2,
+   "rps_dist": 0.14217952288136662,
+   "dist_src": "own",
+   "mae": 0.2785854469801107,
+   "mean_signed_error": -0.18210920188953822,
+   "no_change": {
+    "band_hits": 3,
+    "dir_hits": 3,
+    "rps": 0.225,
+    "mae": 0.24230000000000002
+   },
+   "base_rate": {
+    "band_hits": 2.0,
+    "dir_hits": 6.0,
+    "rps": 0.15123456790123457,
+    "mae": 0.24915555555555555
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 4.0,
+    "only_base_rate": 1.0
+   },
+   "vs_base_rate_rps_wins": 5
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "n": 7,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 1,
+   "dir_hits": 4,
+   "interval_spans_band": 6,
+   "rps_point": 0.2857142857142857,
+   "rps_dist": 0.17651956703384117,
+   "dist_src": "own",
+   "mae": 0.3064613415258577,
+   "mean_signed_error": -0.12689280140723266,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.2857142857142857,
+    "mae": 0.30928571428571433
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.17063492063492064,
+    "mae": 0.2689365079365079
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 0.5,
+    "only_base_rate": 1.0
+   },
+   "vs_base_rate_rps_wins": 3
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "n": 7,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 3,
+   "dir_hits": 4,
+   "interval_spans_band": 6,
+   "rps_point": 0.17857142857142858,
+   "rps_dist": 0.12593035714285716,
+   "dist_src": "own",
+   "mae": 0.21732321646607364,
+   "mean_signed_error": -0.11008407465550323,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.2857142857142857,
+    "mae": 0.30928571428571433
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.17063492063492064,
+    "mae": 0.2689365079365079
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 2.0,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 3
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "n": 9,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "implic_e",
+    "polarity_q1",
+    "postnote_forced2",
+    "posttrain_ma",
+    "premask_forced",
+    "premasktrue_forced"
+   ],
+   "band_hits": 3,
+   "dir_hits": 4,
+   "interval_spans_band": 8,
+   "rps_point": 0.25,
+   "rps_dist": 0.1481213898042698,
+   "dist_src": "own",
+   "mae": 0.24232096646546775,
+   "mean_signed_error": -0.13983702216310914,
+   "no_change": {
+    "band_hits": 3,
+    "dir_hits": 3,
+    "rps": 0.2222222222222222,
+    "mae": 0.2548888888888889
+   },
+   "base_rate": {
+    "band_hits": 1.5,
+    "dir_hits": 5.0,
+    "rps": 0.16083676268861455,
+    "mae": 0.2702098765432099
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 2.5,
+    "only_base_rate": 1.0
+   },
+   "vs_base_rate_rps_wins": 5
+  },
+  {
+   "who": "jev",
+   "kind": "all",
+   "n": 33,
+   "questions": [
+    "falsenote_ctx|A",
+    "falsenote_ctx|B",
+    "falsenote_ctx|C",
+    "falsenote_ctx|D",
+    "graft15462|A",
+    "graft15462|B",
+    "graft15462|C",
+    "graft15462|D",
+    "graftnote_q1|A",
+    "graftnote_q2|A",
+    "graftnote_q2|D",
+    "implic_e|A",
+    "implic_e|B",
+    "implic_e|C",
+    "implic_e|D",
+    "polarity_q1|A",
+    "polarity_q1|B",
+    "polarity_q1|C",
+    "polarity_q1|D",
+    "postnote_forced2|A",
+    "postnote_forced2|B",
+    "postnote_forced2|C",
+    "postnote_forced2|D",
+    "posttrain_ma|A",
+    "posttrain_ma|D",
+    "premask_forced|A",
+    "premask_forced|B",
+    "premask_forced|C",
+    "premask_forced|D",
+    "premasktrue_forced|A",
+    "premasktrue_forced|B",
+    "premasktrue_forced|C",
+    "premasktrue_forced|D"
+   ],
+   "band_hits": 12,
+   "dir_hits": 17,
+   "interval_spans_band": 29,
+   "rps_point": 0.22727272727272727,
+   "rps_dist": 0.14763749109966615,
+   "dist_src": "own",
+   "mae": 0.26161318405860107,
+   "mean_signed_error": -0.14358979850916714,
+   "no_change": {
+    "band_hits": 8,
+    "dir_hits": 8,
+    "rps": 0.25,
+    "mae": 0.27415151515151515
+   },
+   "base_rate": {
+    "band_hits": 6.5,
+    "dir_hits": 21.0,
+    "rps": 0.16208380097268987,
+    "mae": 0.2632895622895623
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 9.0,
+    "only_base_rate": 3.5
+   },
+   "vs_base_rate_rps_wins": 16,
+   "distinct_questions": 10
+  }
+ ],
+ "cells_certain_bands_only": [
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "n": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 5,
+   "dir_hits": 5,
+   "interval_spans_band": 5,
+   "rps_point": 0.08333333333333333,
+   "rps_dist": 0.0900185803204123,
+   "dist_src": "implied",
+   "mae": 0.13216666666666668,
+   "mean_signed_error": -0.09249999999999999,
+   "no_change": {
+    "band_hits": 2,
+    "dir_hits": 2,
+    "rps": 0.20833333333333334,
+    "mae": 0.2581666666666667
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.1676954732510288,
+    "mae": 0.27796296296296297
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 4.0,
+    "only_base_rate": 0.0
+   },
+   "vs_base_rate_rps_wins": 5
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "n": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 4,
+   "dir_hits": 4,
+   "interval_spans_band": 4,
+   "rps_point": 0.1,
+   "rps_dist": 0.09409129036356942,
+   "dist_src": "implied",
+   "mae": 0.1894,
+   "mean_signed_error": -0.05339999999999998,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.25,
+    "mae": 0.3002
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.17592592592592593,
+    "mae": 0.2822888888888889
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 3.0,
+    "only_base_rate": 0.0
+   },
+   "vs_base_rate_rps_wins": 5
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "n": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 2,
+   "dir_hits": 3,
+   "interval_spans_band": 4,
+   "rps_point": 0.2,
+   "rps_dist": 0.11538209448943276,
+   "dist_src": "implied",
+   "mae": 0.2046,
+   "mean_signed_error": 0.0546,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.25,
+    "mae": 0.3002
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.17592592592592593,
+    "mae": 0.2822888888888889
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 1.5,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 4
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "n": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 3,
+   "dir_hits": 4,
+   "interval_spans_band": 5,
+   "rps_point": 0.20833333333333334,
+   "rps_dist": 0.13941433509042508,
+   "dist_src": "implied",
+   "mae": 0.2501666666666667,
+   "mean_signed_error": -0.05083333333333332,
+   "no_change": {
+    "band_hits": 2,
+    "dir_hits": 2,
+    "rps": 0.20833333333333334,
+    "mae": 0.2581666666666667
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.1676954732510288,
+    "mae": 0.27796296296296297
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 2.5,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 4
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "n": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 3,
+   "dir_hits": 5,
+   "interval_spans_band": 4,
+   "rps_point": 0.16666666666666666,
+   "rps_dist": 0.16341212518840995,
+   "dist_src": "implied",
+   "mae": 0.3538333333333334,
+   "mean_signed_error": -0.09583333333333333,
+   "no_change": {
+    "band_hits": 2,
+    "dir_hits": 2,
+    "rps": 0.20833333333333334,
+    "mae": 0.2581666666666667
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.1676954732510288,
+    "mae": 0.27796296296296297
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 2.5,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 4
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "n": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 2,
+   "dir_hits": 3,
+   "interval_spans_band": 5,
+   "rps_point": 0.25,
+   "rps_dist": 0.14839916902175848,
+   "dist_src": "implied",
+   "mae": 0.31340000000000007,
+   "mean_signed_error": 0.006600000000000017,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.25,
+    "mae": 0.3002
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.17592592592592593,
+    "mae": 0.2822888888888889
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 1.5,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 3
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "n": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 1,
+   "dir_hits": 2,
+   "interval_spans_band": 5,
+   "rps_point": 0.25,
+   "rps_dist": 0.13182052907013536,
+   "dist_src": "implied",
+   "mae": 0.24259999999999998,
+   "mean_signed_error": 0.02859999999999998,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.25,
+    "mae": 0.3002
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.17592592592592593,
+    "mae": 0.2822888888888889
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 0.5,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 4
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "n": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 3,
+   "dir_hits": 3,
+   "interval_spans_band": 4,
+   "rps_point": 0.25,
+   "rps_dist": 0.18790670209800334,
+   "dist_src": "implied",
+   "mae": 0.30650000000000005,
+   "mean_signed_error": 0.027500000000000007,
+   "no_change": {
+    "band_hits": 2,
+    "dir_hits": 2,
+    "rps": 0.20833333333333334,
+    "mae": 0.2581666666666667
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.1676954732510288,
+    "mae": 0.27796296296296297
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 2.5,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 3
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "n": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 4,
+   "dir_hits": 4,
+   "interval_spans_band": 5,
+   "rps_point": 0.16666666666666666,
+   "rps_dist": 0.13547107980227774,
+   "dist_src": "own",
+   "mae": 0.24269024288723143,
+   "mean_signed_error": -0.13449780825915317,
+   "no_change": {
+    "band_hits": 2,
+    "dir_hits": 2,
+    "rps": 0.20833333333333334,
+    "mae": 0.2581666666666667
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.1676954732510288,
+    "mae": 0.27796296296296297
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 3.0,
+    "only_base_rate": 0.0
+   },
+   "vs_base_rate_rps_wins": 4
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "n": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 1,
+   "dir_hits": 3,
+   "interval_spans_band": 4,
+   "rps_point": 0.3,
+   "rps_dist": 0.20084864384737763,
+   "dist_src": "own",
+   "mae": 0.38600818713450297,
+   "mean_signed_error": -0.22068761297182352,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.25,
+    "mae": 0.3002
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.17592592592592593,
+    "mae": 0.2822888888888889
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 0.5,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 2
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "n": 5,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 3,
+   "dir_hits": 3,
+   "interval_spans_band": 4,
+   "rps_point": 0.15,
+   "rps_dist": 0.13961500000000002,
+   "dist_src": "own",
+   "mae": 0.2802620268620269,
+   "mean_signed_error": -0.17810818070818069,
+   "no_change": {
+    "band_hits": 1,
+    "dir_hits": 1,
+    "rps": 0.25,
+    "mae": 0.3002
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.17592592592592593,
+    "mae": 0.2822888888888889
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 2.0,
+    "only_base_rate": 0.0
+   },
+   "vs_base_rate_rps_wins": 2
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "n": 6,
+   "questions": [
+    "falsenote_ctx",
+    "graft15462",
+    "graftnote_q2",
+    "polarity_q1",
+    "postnote_forced2",
+    "premask_forced"
+   ],
+   "band_hits": 3,
+   "dir_hits": 3,
+   "interval_spans_band": 5,
+   "rps_point": 0.20833333333333334,
+   "rps_dist": 0.136493528677727,
+   "dist_src": "own",
+   "mae": 0.21459514880103117,
+   "mean_signed_error": -0.15545135795135798,
+   "no_change": {
+    "band_hits": 2,
+    "dir_hits": 2,
+    "rps": 0.20833333333333334,
+    "mae": 0.2581666666666667
+   },
+   "base_rate": {
+    "band_hits": 1.0,
+    "dir_hits": 3.0,
+    "rps": 0.1676954732510288,
+    "mae": 0.27796296296296297
+   },
+   "vs_base_rate_band": {
+    "only_forecaster": 2.5,
+    "only_base_rate": 0.5
+   },
+   "vs_base_rate_rps_wins": 4
+  }
+ ],
+ "uncertain_band_questions": [
+  "implic_e",
+  "premasktrue_forced",
+  "graftnote_q1",
+  "posttrain_ma"
+ ],
+ "sensitivity": {
+  "middle +-0.05": {
+   "edges": [
+    0.5,
+    0.95,
+    1.05,
+    1.5
+   ],
+   "measured_bands": {
+    "graft15462": "drop",
+    "falsenote_ctx": "big drop",
+    "implic_e": "big drop",
+    "polarity_q1": "rise",
+    "postnote_forced2": "no change",
+    "premask_forced": "drop",
+    "premasktrue_forced": "drop",
+    "graftnote_q1": "drop",
+    "graftnote_q2": "no change",
+    "posttrain_ma": "rise"
+   },
+   "cells": [
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "A",
+     "n": 10,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q1",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 5,
+     "dir_hits": 6,
+     "interval_spans_band": 9,
+     "rps_point": 0.175,
+     "rps_dist": 0.13392759580024924,
+     "dist_src": "implied",
+     "mae": 0.1687,
+     "mean_signed_error": -0.07229999999999999,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.24230000000000002
+     },
+     "base_rate": {
+      "band_hits": 4.0,
+      "dir_hits": 6.0,
+      "rps": 0.1728395061728395,
+      "mae": 0.24915555555555555
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 2.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 8
+    },
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "B",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 4,
+     "dir_hits": 5,
+     "interval_spans_band": 7,
+     "rps_point": 0.14285714285714285,
+     "rps_dist": 0.09777917759170186,
+     "dist_src": "implied",
+     "mae": 0.16585714285714284,
+     "mean_signed_error": -0.00757142857142857,
+     "no_change": {
+      "band_hits": 1,
+      "dir_hits": 1,
+      "rps": 0.2857142857142857,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1710758377425044,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 2.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "C",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 2,
+     "dir_hits": 4,
+     "interval_spans_band": 7,
+     "rps_point": 0.21428571428571427,
+     "rps_dist": 0.11637312623412685,
+     "dist_src": "implied",
+     "mae": 0.18528571428571428,
+     "mean_signed_error": 0.07814285714285714,
+     "no_change": {
+      "band_hits": 1,
+      "dir_hits": 1,
+      "rps": 0.2857142857142857,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1710758377425044,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 2.0
+     },
+     "vs_base_rate_rps_wins": 4
+    },
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "D",
+     "n": 9,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 2,
+     "dir_hits": 4,
+     "interval_spans_band": 8,
+     "rps_point": 0.25,
+     "rps_dist": 0.14204257151981425,
+     "dist_src": "implied",
+     "mae": 0.20844444444444446,
+     "mean_signed_error": -0.014666666666666661,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.2548888888888889
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1838134430727023,
+      "mae": 0.2702098765432099
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 2.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "all",
+     "n": 33,
+     "questions": [
+      "falsenote_ctx|A",
+      "falsenote_ctx|B",
+      "falsenote_ctx|C",
+      "falsenote_ctx|D",
+      "graft15462|A",
+      "graft15462|B",
+      "graft15462|C",
+      "graft15462|D",
+      "graftnote_q1|A",
+      "graftnote_q2|A",
+      "graftnote_q2|D",
+      "implic_e|A",
+      "implic_e|B",
+      "implic_e|C",
+      "implic_e|D",
+      "polarity_q1|A",
+      "polarity_q1|B",
+      "polarity_q1|C",
+      "polarity_q1|D",
+      "postnote_forced2|A",
+      "postnote_forced2|B",
+      "postnote_forced2|C",
+      "postnote_forced2|D",
+      "posttrain_ma|A",
+      "posttrain_ma|D",
+      "premask_forced|A",
+      "premask_forced|B",
+      "premask_forced|C",
+      "premask_forced|D",
+      "premasktrue_forced|A",
+      "premasktrue_forced|B",
+      "premasktrue_forced|C",
+      "premasktrue_forced|D"
+     ],
+     "band_hits": 13,
+     "dir_hits": 19,
+     "interval_spans_band": 31,
+     "rps_point": 0.19696969696969696,
+     "rps_dist": 0.12474924934732187,
+     "dist_src": "implied",
+     "mae": 0.18245454545454545,
+     "mean_signed_error": -0.010939393939393936,
+     "no_change": {
+      "band_hits": 6,
+      "dir_hits": 6,
+      "rps": 0.26515151515151514,
+      "mae": 0.27415151515151515
+     },
+     "base_rate": {
+      "band_hits": 13.0,
+      "dir_hits": 21.0,
+      "rps": 0.17508417508417506,
+      "mae": 0.2632895622895623
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 6.0,
+      "only_base_rate": 6.0
+     },
+     "vs_base_rate_rps_wins": 24,
+     "distinct_questions": 10
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "A",
+     "n": 10,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q1",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 5,
+     "dir_hits": 7,
+     "interval_spans_band": 8,
+     "rps_point": 0.175,
+     "rps_dist": 0.15823595930595527,
+     "dist_src": "implied",
+     "mae": 0.2669,
+     "mean_signed_error": -0.0963,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.24230000000000002
+     },
+     "base_rate": {
+      "band_hits": 4.0,
+      "dir_hits": 6.0,
+      "rps": 0.1728395061728395,
+      "mae": 0.24915555555555555
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 3.0,
+      "only_base_rate": 2.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "B",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 4,
+     "dir_hits": 6,
+     "interval_spans_band": 7,
+     "rps_point": 0.14285714285714285,
+     "rps_dist": 0.11379129872902932,
+     "dist_src": "implied",
+     "mae": 0.26328571428571435,
+     "mean_signed_error": -0.034714285714285704,
+     "no_change": {
+      "band_hits": 1,
+      "dir_hits": 1,
+      "rps": 0.2857142857142857,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1710758377425044,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 2.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 4
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "C",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 3,
+     "dir_hits": 4,
+     "interval_spans_band": 7,
+     "rps_point": 0.17857142857142858,
+     "rps_dist": 0.10616994793018034,
+     "dist_src": "implied",
+     "mae": 0.19099999999999998,
+     "mean_signed_error": 0.009571428571428555,
+     "no_change": {
+      "band_hits": 1,
+      "dir_hits": 1,
+      "rps": 0.2857142857142857,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1710758377425044,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "D",
+     "n": 9,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 4,
+     "dir_hits": 6,
+     "interval_spans_band": 7,
+     "rps_point": 0.19444444444444445,
+     "rps_dist": 0.16144468852238567,
+     "dist_src": "implied",
+     "mae": 0.2548888888888889,
+     "mean_signed_error": 0.02644444444444445,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.2548888888888889
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1838134430727023,
+      "mae": 0.2702098765432099
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 2.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "all",
+     "n": 33,
+     "questions": [
+      "falsenote_ctx|A",
+      "falsenote_ctx|B",
+      "falsenote_ctx|C",
+      "falsenote_ctx|D",
+      "graft15462|A",
+      "graft15462|B",
+      "graft15462|C",
+      "graft15462|D",
+      "graftnote_q1|A",
+      "graftnote_q2|A",
+      "graftnote_q2|D",
+      "implic_e|A",
+      "implic_e|B",
+      "implic_e|C",
+      "implic_e|D",
+      "polarity_q1|A",
+      "polarity_q1|B",
+      "polarity_q1|C",
+      "polarity_q1|D",
+      "postnote_forced2|A",
+      "postnote_forced2|B",
+      "postnote_forced2|C",
+      "postnote_forced2|D",
+      "posttrain_ma|A",
+      "posttrain_ma|D",
+      "premask_forced|A",
+      "premask_forced|B",
+      "premask_forced|C",
+      "premask_forced|D",
+      "premasktrue_forced|A",
+      "premasktrue_forced|B",
+      "premasktrue_forced|C",
+      "premasktrue_forced|D"
+     ],
+     "band_hits": 16,
+     "dir_hits": 23,
+     "interval_spans_band": 29,
+     "rps_point": 0.17424242424242425,
+     "rps_dist": 0.13863910655683306,
+     "dist_src": "implied",
+     "mae": 0.24675757575757576,
+     "mean_signed_error": -0.0273030303030303,
+     "no_change": {
+      "band_hits": 6,
+      "dir_hits": 6,
+      "rps": 0.26515151515151514,
+      "mae": 0.27415151515151515
+     },
+     "base_rate": {
+      "band_hits": 13.0,
+      "dir_hits": 21.0,
+      "rps": 0.17508417508417506,
+      "mae": 0.2632895622895623
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 8.0,
+      "only_base_rate": 5.0
+     },
+     "vs_base_rate_rps_wins": 22,
+     "distinct_questions": 10
+    },
+    {
+     "who": "jev",
+     "kind": "A",
+     "n": 10,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q1",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 6,
+     "dir_hits": 6,
+     "interval_spans_band": 8,
+     "rps_point": 0.2,
+     "rps_dist": 0.16442964621710937,
+     "dist_src": "own",
+     "mae": 0.2785854469801107,
+     "mean_signed_error": -0.18210920188953822,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.24230000000000002
+     },
+     "base_rate": {
+      "band_hits": 4.0,
+      "dir_hits": 6.0,
+      "rps": 0.1728395061728395,
+      "mae": 0.24915555555555555
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 3.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "jev",
+     "kind": "B",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 1,
+     "dir_hits": 4,
+     "interval_spans_band": 6,
+     "rps_point": 0.2857142857142857,
+     "rps_dist": 0.17222346119619095,
+     "dist_src": "own",
+     "mae": 0.3064613415258577,
+     "mean_signed_error": -0.12689280140723266,
+     "no_change": {
+      "band_hits": 1,
+      "dir_hits": 1,
+      "rps": 0.2857142857142857,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1710758377425044,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 0.0,
+      "only_base_rate": 2.0
+     },
+     "vs_base_rate_rps_wins": 3
+    },
+    {
+     "who": "jev",
+     "kind": "C",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 4,
+     "dir_hits": 5,
+     "interval_spans_band": 6,
+     "rps_point": 0.14285714285714285,
+     "rps_dist": 0.125378125,
+     "dist_src": "own",
+     "mae": 0.21732321646607364,
+     "mean_signed_error": -0.11008407465550323,
+     "no_change": {
+      "band_hits": 1,
+      "dir_hits": 1,
+      "rps": 0.2857142857142857,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1710758377425044,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 0.0
+     },
+     "vs_base_rate_rps_wins": 5
+    },
+    {
+     "who": "jev",
+     "kind": "D",
+     "n": 9,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 5,
+     "dir_hits": 6,
+     "interval_spans_band": 7,
+     "rps_point": 0.2222222222222222,
+     "rps_dist": 0.17332952459025305,
+     "dist_src": "own",
+     "mae": 0.24232096646546775,
+     "mean_signed_error": -0.13983702216310914,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.2548888888888889
+     },
+     "base_rate": {
+      "band_hits": 3.0,
+      "dir_hits": 5.0,
+      "rps": 0.1838134430727023,
+      "mae": 0.2702098765432099
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 2.0,
+      "only_base_rate": 0.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "jev",
+     "kind": "all",
+     "n": 33,
+     "questions": [
+      "falsenote_ctx|A",
+      "falsenote_ctx|B",
+      "falsenote_ctx|C",
+      "falsenote_ctx|D",
+      "graft15462|A",
+      "graft15462|B",
+      "graft15462|C",
+      "graft15462|D",
+      "graftnote_q1|A",
+      "graftnote_q2|A",
+      "graftnote_q2|D",
+      "implic_e|A",
+      "implic_e|B",
+      "implic_e|C",
+      "implic_e|D",
+      "polarity_q1|A",
+      "polarity_q1|B",
+      "polarity_q1|C",
+      "polarity_q1|D",
+      "postnote_forced2|A",
+      "postnote_forced2|B",
+      "postnote_forced2|C",
+      "postnote_forced2|D",
+      "posttrain_ma|A",
+      "posttrain_ma|D",
+      "premask_forced|A",
+      "premask_forced|B",
+      "premask_forced|C",
+      "premask_forced|D",
+      "premasktrue_forced|A",
+      "premasktrue_forced|B",
+      "premasktrue_forced|C",
+      "premasktrue_forced|D"
+     ],
+     "band_hits": 16,
+     "dir_hits": 21,
+     "interval_spans_band": 27,
+     "rps_point": 0.21212121212121213,
+     "rps_dist": 0.16022646323808207,
+     "dist_src": "own",
+     "mae": 0.26161318405860107,
+     "mean_signed_error": -0.14358979850916714,
+     "no_change": {
+      "band_hits": 6,
+      "dir_hits": 6,
+      "rps": 0.26515151515151514,
+      "mae": 0.27415151515151515
+     },
+     "base_rate": {
+      "band_hits": 13.0,
+      "dir_hits": 21.0,
+      "rps": 0.17508417508417506,
+      "mae": 0.2632895622895623
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 6.0,
+      "only_base_rate": 3.0
+     },
+     "vs_base_rate_rps_wins": 20,
+     "distinct_questions": 10
+    }
+   ]
+  },
+  "middle +-0.15": {
+   "edges": [
+    0.5,
+    0.85,
+    1.15,
+    1.5
+   ],
+   "measured_bands": {
+    "graft15462": "drop",
+    "falsenote_ctx": "big drop",
+    "implic_e": "big drop",
+    "polarity_q1": "rise",
+    "postnote_forced2": "no change",
+    "premask_forced": "drop",
+    "premasktrue_forced": "no change",
+    "graftnote_q1": "no change",
+    "graftnote_q2": "no change",
+    "posttrain_ma": "no change"
+   },
+   "cells": [
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "A",
+     "n": 10,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q1",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 7,
+     "dir_hits": 8,
+     "interval_spans_band": 9,
+     "rps_point": 0.1,
+     "rps_dist": 0.0938740208426082,
+     "dist_src": "implied",
+     "mae": 0.1687,
+     "mean_signed_error": -0.07229999999999999,
+     "no_change": {
+      "band_hits": 5,
+      "dir_hits": 5,
+      "rps": 0.175,
+      "mae": 0.24230000000000002
+     },
+     "base_rate": {
+      "band_hits": 5.0,
+      "dir_hits": 2.5,
+      "rps": 0.15123456790123457,
+      "mae": 0.24915555555555555
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 3.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 8
+    },
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "B",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 5,
+     "dir_hits": 6,
+     "interval_spans_band": 6,
+     "rps_point": 0.10714285714285714,
+     "rps_dist": 0.08424513295357712,
+     "dist_src": "implied",
+     "mae": 0.16585714285714284,
+     "mean_signed_error": -0.00757142857142857,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 2.0,
+      "dir_hits": 1.0,
+      "rps": 0.18827160493827164,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 3.0,
+      "only_base_rate": 0.0
+     },
+     "vs_base_rate_rps_wins": 7
+    },
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "C",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 3,
+     "dir_hits": 5,
+     "interval_spans_band": 6,
+     "rps_point": 0.17857142857142858,
+     "rps_dist": 0.10569525760740006,
+     "dist_src": "implied",
+     "mae": 0.18528571428571428,
+     "mean_signed_error": 0.07814285714285714,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 2.0,
+      "dir_hits": 1.0,
+      "rps": 0.18827160493827164,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 0.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "D",
+     "n": 9,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 5,
+     "dir_hits": 7,
+     "interval_spans_band": 8,
+     "rps_point": 0.16666666666666666,
+     "rps_dist": 0.10960421657023825,
+     "dist_src": "implied",
+     "mae": 0.20844444444444446,
+     "mean_signed_error": -0.014666666666666661,
+     "no_change": {
+      "band_hits": 4,
+      "dir_hits": 4,
+      "rps": 0.19444444444444445,
+      "mae": 0.2548888888888889
+     },
+     "base_rate": {
+      "band_hits": 4.0,
+      "dir_hits": 2.0,
+      "rps": 0.16083676268861455,
+      "mae": 0.2702098765432099
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 0.0
+     },
+     "vs_base_rate_rps_wins": 7
+    },
+    {
+     "who": "gpt-6.1-sol",
+     "kind": "all",
+     "n": 33,
+     "questions": [
+      "falsenote_ctx|A",
+      "falsenote_ctx|B",
+      "falsenote_ctx|C",
+      "falsenote_ctx|D",
+      "graft15462|A",
+      "graft15462|B",
+      "graft15462|C",
+      "graft15462|D",
+      "graftnote_q1|A",
+      "graftnote_q2|A",
+      "graftnote_q2|D",
+      "implic_e|A",
+      "implic_e|B",
+      "implic_e|C",
+      "implic_e|D",
+      "polarity_q1|A",
+      "polarity_q1|B",
+      "polarity_q1|C",
+      "polarity_q1|D",
+      "postnote_forced2|A",
+      "postnote_forced2|B",
+      "postnote_forced2|C",
+      "postnote_forced2|D",
+      "posttrain_ma|A",
+      "posttrain_ma|D",
+      "premask_forced|A",
+      "premask_forced|B",
+      "premask_forced|C",
+      "premask_forced|D",
+      "premasktrue_forced|A",
+      "premasktrue_forced|B",
+      "premasktrue_forced|C",
+      "premasktrue_forced|D"
+     ],
+     "band_hits": 20,
+     "dir_hits": 26,
+     "interval_spans_band": 29,
+     "rps_point": 0.13636363636363635,
+     "rps_dist": 0.0986291179237899,
+     "dist_src": "implied",
+     "mae": 0.18245454545454545,
+     "mean_signed_error": -0.010939393939393936,
+     "no_change": {
+      "band_hits": 13,
+      "dir_hits": 13,
+      "rps": 0.21212121212121213,
+      "mae": 0.27415151515151515
+     },
+     "base_rate": {
+      "band_hits": 13.0,
+      "dir_hits": 6.5,
+      "rps": 0.16956603067714182,
+      "mae": 0.2632895622895623
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 8.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 28,
+     "distinct_questions": 10
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "A",
+     "n": 10,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q1",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 5,
+     "dir_hits": 7,
+     "interval_spans_band": 8,
+     "rps_point": 0.15,
+     "rps_dist": 0.1280746697098937,
+     "dist_src": "implied",
+     "mae": 0.2669,
+     "mean_signed_error": -0.0963,
+     "no_change": {
+      "band_hits": 5,
+      "dir_hits": 5,
+      "rps": 0.175,
+      "mae": 0.24230000000000002
+     },
+     "base_rate": {
+      "band_hits": 5.0,
+      "dir_hits": 2.5,
+      "rps": 0.15123456790123457,
+      "mae": 0.24915555555555555
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 7
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "B",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 3,
+     "dir_hits": 4,
+     "interval_spans_band": 6,
+     "rps_point": 0.21428571428571427,
+     "rps_dist": 0.12619196191798815,
+     "dist_src": "implied",
+     "mae": 0.26328571428571435,
+     "mean_signed_error": -0.034714285714285704,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 2.0,
+      "dir_hits": 1.0,
+      "rps": 0.18827160493827164,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 2.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "C",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 2,
+     "dir_hits": 3,
+     "interval_spans_band": 7,
+     "rps_point": 0.21428571428571427,
+     "rps_dist": 0.11848934085227592,
+     "dist_src": "implied",
+     "mae": 0.19099999999999998,
+     "mean_signed_error": 0.009571428571428555,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 2.0,
+      "dir_hits": 1.0,
+      "rps": 0.18827160493827164,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 2.0,
+      "only_base_rate": 2.0
+     },
+     "vs_base_rate_rps_wins": 5
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "D",
+     "n": 9,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 4,
+     "dir_hits": 5,
+     "interval_spans_band": 7,
+     "rps_point": 0.2222222222222222,
+     "rps_dist": 0.16425147598972994,
+     "dist_src": "implied",
+     "mae": 0.2548888888888889,
+     "mean_signed_error": 0.02644444444444445,
+     "no_change": {
+      "band_hits": 4,
+      "dir_hits": 4,
+      "rps": 0.19444444444444445,
+      "mae": 0.2548888888888889
+     },
+     "base_rate": {
+      "band_hits": 4.0,
+      "dir_hits": 2.0,
+      "rps": 0.16083676268861455,
+      "mae": 0.2702098765432099
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 5
+    },
+    {
+     "who": "gpt-6-luna",
+     "kind": "all",
+     "n": 33,
+     "questions": [
+      "falsenote_ctx|A",
+      "falsenote_ctx|B",
+      "falsenote_ctx|C",
+      "falsenote_ctx|D",
+      "graft15462|A",
+      "graft15462|B",
+      "graft15462|C",
+      "graft15462|D",
+      "graftnote_q1|A",
+      "graftnote_q2|A",
+      "graftnote_q2|D",
+      "implic_e|A",
+      "implic_e|B",
+      "implic_e|C",
+      "implic_e|D",
+      "polarity_q1|A",
+      "polarity_q1|B",
+      "polarity_q1|C",
+      "polarity_q1|D",
+      "postnote_forced2|A",
+      "postnote_forced2|B",
+      "postnote_forced2|C",
+      "postnote_forced2|D",
+      "posttrain_ma|A",
+      "posttrain_ma|D",
+      "premask_forced|A",
+      "premask_forced|B",
+      "premask_forced|C",
+      "premask_forced|D",
+      "premasktrue_forced|A",
+      "premasktrue_forced|B",
+      "premasktrue_forced|C",
+      "premasktrue_forced|D"
+     ],
+     "band_hits": 14,
+     "dir_hits": 19,
+     "interval_spans_band": 28,
+     "rps_point": 0.19696969696969696,
+     "rps_dist": 0.13550845758782892,
+     "dist_src": "implied",
+     "mae": 0.24675757575757576,
+     "mean_signed_error": -0.0273030303030303,
+     "no_change": {
+      "band_hits": 13,
+      "dir_hits": 13,
+      "rps": 0.21212121212121213,
+      "mae": 0.27415151515151515
+     },
+     "base_rate": {
+      "band_hits": 13.0,
+      "dir_hits": 6.5,
+      "rps": 0.16956603067714182,
+      "mae": 0.2632895622895623
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 6.0,
+      "only_base_rate": 5.0
+     },
+     "vs_base_rate_rps_wins": 23,
+     "distinct_questions": 10
+    },
+    {
+     "who": "jev",
+     "kind": "A",
+     "n": 10,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q1",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 7,
+     "dir_hits": 7,
+     "interval_spans_band": 9,
+     "rps_point": 0.15,
+     "rps_dist": 0.12562810400936844,
+     "dist_src": "own",
+     "mae": 0.2785854469801107,
+     "mean_signed_error": -0.18210920188953822,
+     "no_change": {
+      "band_hits": 5,
+      "dir_hits": 5,
+      "rps": 0.175,
+      "mae": 0.24230000000000002
+     },
+     "base_rate": {
+      "band_hits": 5.0,
+      "dir_hits": 2.5,
+      "rps": 0.15123456790123457,
+      "mae": 0.24915555555555555
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 4.0,
+      "only_base_rate": 2.0
+     },
+     "vs_base_rate_rps_wins": 7
+    },
+    {
+     "who": "jev",
+     "kind": "B",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 2,
+     "dir_hits": 5,
+     "interval_spans_band": 6,
+     "rps_point": 0.25,
+     "rps_dist": 0.16225584694492745,
+     "dist_src": "own",
+     "mae": 0.3064613415258577,
+     "mean_signed_error": -0.12689280140723266,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 2.0,
+      "dir_hits": 1.0,
+      "rps": 0.18827160493827164,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 1.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 4
+    },
+    {
+     "who": "jev",
+     "kind": "C",
+     "n": 7,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 4,
+     "dir_hits": 5,
+     "interval_spans_band": 6,
+     "rps_point": 0.14285714285714285,
+     "rps_dist": 0.11414419642857143,
+     "dist_src": "own",
+     "mae": 0.21732321646607364,
+     "mean_signed_error": -0.11008407465550323,
+     "no_change": {
+      "band_hits": 2,
+      "dir_hits": 2,
+      "rps": 0.25,
+      "mae": 0.30928571428571433
+     },
+     "base_rate": {
+      "band_hits": 2.0,
+      "dir_hits": 1.0,
+      "rps": 0.18827160493827164,
+      "mae": 0.2689365079365079
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 3.0,
+      "only_base_rate": 1.0
+     },
+     "vs_base_rate_rps_wins": 5
+    },
+    {
+     "who": "jev",
+     "kind": "D",
+     "n": 9,
+     "questions": [
+      "falsenote_ctx",
+      "graft15462",
+      "graftnote_q2",
+      "implic_e",
+      "polarity_q1",
+      "postnote_forced2",
+      "posttrain_ma",
+      "premask_forced",
+      "premasktrue_forced"
+     ],
+     "band_hits": 4,
+     "dir_hits": 5,
+     "interval_spans_band": 8,
+     "rps_point": 0.2222222222222222,
+     "rps_dist": 0.13404825819406216,
+     "dist_src": "own",
+     "mae": 0.24232096646546775,
+     "mean_signed_error": -0.13983702216310914,
+     "no_change": {
+      "band_hits": 4,
+      "dir_hits": 4,
+      "rps": 0.19444444444444445,
+      "mae": 0.2548888888888889
+     },
+     "base_rate": {
+      "band_hits": 4.0,
+      "dir_hits": 2.0,
+      "rps": 0.16083676268861455,
+      "mae": 0.2702098765432099
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 2.0,
+      "only_base_rate": 2.0
+     },
+     "vs_base_rate_rps_wins": 6
+    },
+    {
+     "who": "jev",
+     "kind": "all",
+     "n": 33,
+     "questions": [
+      "falsenote_ctx|A",
+      "falsenote_ctx|B",
+      "falsenote_ctx|C",
+      "falsenote_ctx|D",
+      "graft15462|A",
+      "graft15462|B",
+      "graft15462|C",
+      "graft15462|D",
+      "graftnote_q1|A",
+      "graftnote_q2|A",
+      "graftnote_q2|D",
+      "implic_e|A",
+      "implic_e|B",
+      "implic_e|C",
+      "implic_e|D",
+      "polarity_q1|A",
+      "polarity_q1|B",
+      "polarity_q1|C",
+      "polarity_q1|D",
+      "postnote_forced2|A",
+      "postnote_forced2|B",
+      "postnote_forced2|C",
+      "postnote_forced2|D",
+      "posttrain_ma|A",
+      "posttrain_ma|D",
+      "premask_forced|A",
+      "premask_forced|B",
+      "premask_forced|C",
+      "premask_forced|D",
+      "premasktrue_forced|A",
+      "premasktrue_forced|B",
+      "premasktrue_forced|C",
+      "premasktrue_forced|D"
+     ],
+     "band_hits": 17,
+     "dir_hits": 22,
+     "interval_spans_band": 29,
+     "rps_point": 0.1893939393939394,
+     "rps_dist": 0.1332580505289314,
+     "dist_src": "own",
+     "mae": 0.26161318405860107,
+     "mean_signed_error": -0.14358979850916714,
+     "no_change": {
+      "band_hits": 13,
+      "dir_hits": 13,
+      "rps": 0.21212121212121213,
+      "mae": 0.27415151515151515
+     },
+     "base_rate": {
+      "band_hits": 13.0,
+      "dir_hits": 6.5,
+      "rps": 0.16956603067714182,
+      "mae": 0.2632895622895623
+     },
+     "vs_base_rate_band": {
+      "only_forecaster": 10.0,
+      "only_base_rate": 6.0
+     },
+     "vs_base_rate_rps_wins": 22,
+     "distinct_questions": 10
+    }
+   ]
+  }
+ },
+ "claude_registered": {
+  "graftnote_q1": {
+   "point": 0.87,
+   "band": "drop",
+   "hit": true,
+   "quote": "if the false note's deficit scales like the header's, r is about 0.87 and D about +0.11"
+  }
+ },
+ "per_forecast": [
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.2,
+    "low": -0.15,
+    "high": 0.65
+   },
+   "point": 0.8,
+   "low": 0.35,
+   "high": 1.15,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.1965,
+    0.4464,
+    0.2211,
+    0.1308,
+    0.0052
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1979,
+   "abs_error": 0.581
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.12,
+    "low": -0.18,
+    "high": 0.48
+   },
+   "point": 0.12,
+   "low": -0.18,
+   "high": 0.48,
+   "band": "big drop",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "big drop"
+   ],
+   "p_bands": [
+    0.9119,
+    0.0853,
+    0.0025,
+    0.0002,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.2079,
+   "abs_error": 0.662
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "graftnote_q1",
+   "raw": {
+    "estimate": 0.88,
+    "low": 0.68,
+    "high": 1.08
+   },
+   "point": 0.88,
+   "low": 0.68,
+   "high": 1.08,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0074,
+    0.5435,
+    0.3697,
+    0.0793,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.052,
+   "abs_error": 0.009
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "graftnote_q2",
+   "raw": {
+    "estimate": 0.99,
+    "low": 0.88,
+    "high": 1.08
+   },
+   "point": 0.99,
+   "low": 0.88,
+   "high": 1.08,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0,
+    0.1472,
+    0.7942,
+    0.0586,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0063,
+   "abs_error": 0.058
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.45,
+    "low": 0.15,
+    "high": 0.85
+   },
+   "point": 0.45,
+   "low": 0.15,
+   "high": 0.85,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.5636,
+    0.3617,
+    0.056,
+    0.0183,
+    0.0004
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0491,
+   "abs_error": 0.006
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.46,
+    "low": 0.12,
+    "high": 0.82
+   },
+   "point": 0.54,
+   "low": 0.18,
+   "high": 0.88,
+   "band": "drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.4434,
+    0.4692,
+    0.07,
+    0.0172,
+    0.0001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.4987,
+   "abs_error": 0.629
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.98,
+    "low": 0.82,
+    "high": 1.12
+   },
+   "point": 0.98,
+   "low": 0.82,
+   "high": 1.12,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0001,
+    0.2608,
+    0.6032,
+    0.136,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0216,
+   "abs_error": 0.004
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "posttrain_ma",
+   "raw": {
+    "estimate": 0.62,
+    "low": 0.25,
+    "high": 1.05
+   },
+   "point": 0.62,
+   "low": 0.25,
+   "high": 1.05,
+   "band": "drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.3388,
+    0.4592,
+    0.1257,
+    0.0719,
+    0.0044
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1894,
+   "abs_error": 0.461
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.88,
+    "low": 0.72,
+    "high": 1.04
+   },
+   "point": 0.88,
+   "low": 0.72,
+   "high": 1.04,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0012,
+    0.5625,
+    0.3973,
+    0.039,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.048,
+   "abs_error": 0.189
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "A",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.95,
+    "low": 0.78,
+    "high": 1.12
+   },
+   "point": 0.95,
+   "low": 0.78,
+   "high": 1.12,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0003,
+    0.3528,
+    0.5178,
+    0.1291,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1088,
+   "abs_error": 0.07
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.08,
+    "low": -0.35,
+    "high": 0.55
+   },
+   "point": 0.92,
+   "low": 0.45,
+   "high": 1.35,
+   "band": "no change",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.1261,
+    0.3522,
+    0.2259,
+    0.2539,
+    0.0419
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.2813,
+   "abs_error": 0.701
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.42,
+    "low": 0.18,
+    "high": 0.78
+   },
+   "point": 0.42,
+   "low": 0.18,
+   "high": 0.78,
+   "band": "big drop",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.6121,
+    0.3442,
+    0.036,
+    0.0077,
+    0.0001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0942,
+   "abs_error": 0.362
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.3,
+    "low": 0.08,
+    "high": 0.75
+   },
+   "point": 0.3,
+   "low": 0.08,
+   "high": 0.75,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.7155,
+    0.2407,
+    0.0324,
+    0.011,
+    0.0003
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0207,
+   "abs_error": 0.156
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.22,
+    "low": -0.12,
+    "high": 0.58
+   },
+   "point": 0.78,
+   "low": 0.42,
+   "high": 1.12,
+   "band": "drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.1594,
+    0.515,
+    0.2116,
+    0.1106,
+    0.0033
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.3164,
+   "abs_error": 0.389
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.96,
+    "low": 0.78,
+    "high": 1.12
+   },
+   "point": 0.96,
+   "low": 0.78,
+   "high": 1.12,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0005,
+    0.3341,
+    0.5343,
+    0.1311,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0323,
+   "abs_error": 0.016
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.79,
+    "low": 0.57,
+    "high": 1.01
+   },
+   "point": 0.79,
+   "low": 0.57,
+   "high": 1.01,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0456,
+    0.6936,
+    0.2254,
+    0.0355,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0178,
+   "abs_error": 0.099
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "B",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.76,
+    "low": 0.55,
+    "high": 0.98
+   },
+   "point": 0.76,
+   "low": 0.55,
+   "high": 0.98,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0563,
+    0.7363,
+    0.1836,
+    0.0238,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0117,
+   "abs_error": 0.12
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.34,
+    "low": -0.12,
+    "high": 0.82
+   },
+   "point": 0.66,
+   "low": 0.18,
+   "high": 1.12,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.3346,
+    0.4135,
+    0.1417,
+    0.1005,
+    0.0096
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1296,
+   "abs_error": 0.441
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.95,
+    "low": 0.65,
+    "high": 1.3
+   },
+   "point": 0.95,
+   "low": 0.65,
+   "high": 1.3,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0273,
+    0.3882,
+    0.2931,
+    0.2694,
+    0.022
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.107,
+   "abs_error": 0.168
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.48,
+    "low": 0.12,
+    "high": 0.95
+   },
+   "point": 0.48,
+   "low": 0.12,
+   "high": 0.95,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.5217,
+    0.3522,
+    0.0806,
+    0.0428,
+    0.0027
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0617,
+   "abs_error": 0.024
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.23,
+    "low": -0.15,
+    "high": 0.62
+   },
+   "point": 0.77,
+   "low": 0.38,
+   "high": 1.15,
+   "band": "drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.1875,
+    0.482,
+    0.1977,
+    0.126,
+    0.0069
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.3088,
+   "abs_error": 0.399
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.84,
+    "low": 0.58,
+    "high": 1.12
+   },
+   "point": 0.84,
+   "low": 0.58,
+   "high": 1.12,
+   "band": "drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0469,
+    0.5613,
+    0.2748,
+    0.1158,
+    0.0013
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0964,
+   "abs_error": 0.136
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.76,
+    "low": 0.52,
+    "high": 1.02
+   },
+   "point": 0.76,
+   "low": 0.52,
+   "high": 1.02,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0825,
+    0.6724,
+    0.1982,
+    0.0467,
+    0.0001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0173,
+   "abs_error": 0.069
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "C",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.78,
+    "low": 0.55,
+    "high": 1.02
+   },
+   "point": 0.78,
+   "low": 0.55,
+   "high": 1.02,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0594,
+    0.6798,
+    0.2171,
+    0.0437,
+    0.0001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0184,
+   "abs_error": 0.1
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.08,
+    "low": -0.12,
+    "high": 0.35
+   },
+   "point": 0.92,
+   "low": 0.65,
+   "high": 1.12,
+   "band": "no change",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0231,
+    0.4391,
+    0.4134,
+    0.1243,
+    0.0001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.3148,
+   "abs_error": 0.701
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.99,
+    "low": 0.82,
+    "high": 1.17
+   },
+   "point": 0.99,
+   "low": 0.82,
+   "high": 1.17,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0001,
+    0.2486,
+    0.5345,
+    0.2166,
+    0.0001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1528,
+   "abs_error": 0.208
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "graftnote_q2",
+   "raw": {
+    "estimate": 0.99,
+    "low": 0.88,
+    "high": 1.1
+   },
+   "point": 0.99,
+   "low": 0.88,
+   "high": 1.1,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0,
+    0.1472,
+    0.7528,
+    0.1,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0079,
+   "abs_error": 0.058
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.72,
+    "low": 0.3,
+    "high": 1.2
+   },
+   "point": 0.72,
+   "low": 0.3,
+   "high": 1.2,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.251,
+    0.4336,
+    0.1602,
+    0.1365,
+    0.0186
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1712,
+   "abs_error": 0.264
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.61,
+    "low": 0.28,
+    "high": 0.88
+   },
+   "point": 0.39,
+   "low": 0.12,
+   "high": 0.72,
+   "band": "big drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.6654,
+    0.3108,
+    0.0209,
+    0.0029,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.5975,
+   "abs_error": 0.779
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.98,
+    "low": 0.72,
+    "high": 1.2
+   },
+   "point": 0.98,
+   "low": 0.72,
+   "high": 1.2,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.009,
+    0.3377,
+    0.4111,
+    0.241,
+    0.0012
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0447,
+   "abs_error": 0.004
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "posttrain_ma",
+   "raw": {
+    "estimate": 0.99,
+    "low": 0.76,
+    "high": 1.23
+   },
+   "point": 0.99,
+   "low": 0.76,
+   "high": 1.23,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0032,
+    0.3049,
+    0.4135,
+    0.2752,
+    0.0032
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0431,
+   "abs_error": 0.091
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.78,
+    "low": 0.62,
+    "high": 0.96
+   },
+   "point": 0.78,
+   "low": 0.62,
+   "high": 0.96,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0125,
+    0.7911,
+    0.1851,
+    0.0114,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0097,
+   "abs_error": 0.089
+  },
+  {
+   "who": "gpt-6-luna",
+   "kind": "D",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.78,
+    "low": 0.58,
+    "high": 0.98
+   },
+   "point": 0.78,
+   "low": 0.58,
+   "high": 0.98,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0364,
+    0.7426,
+    0.2008,
+    0.0202,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0126,
+   "abs_error": 0.1
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.83,
+    "low": 0.55,
+    "high": 1.03
+   },
+   "point": 0.17,
+   "low": -0.03,
+   "high": 0.45,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "big drop"
+   ],
+   "p_bands": [
+    0.9345,
+    0.0651,
+    0.0004,
+    0.0,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0011,
+   "abs_error": 0.049
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.75,
+    "low": 0.25,
+    "high": 1.25
+   },
+   "point": 0.75,
+   "low": 0.25,
+   "high": 1.25,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.2608,
+    0.3888,
+    0.1655,
+    0.1576,
+    0.0273
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0564,
+   "abs_error": 0.032
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "graftnote_q1",
+   "raw": {
+    "estimate": 0.9,
+    "low": 0.61,
+    "high": 1.15
+   },
+   "point": 0.9,
+   "low": 0.61,
+   "high": 1.15,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0386,
+    0.4614,
+    0.3474,
+    0.1516,
+    0.001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0687,
+   "abs_error": 0.029
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "graftnote_q2",
+   "raw": {
+    "estimate": 0.98,
+    "low": 0.83,
+    "high": 1.14
+   },
+   "point": 0.98,
+   "low": 0.83,
+   "high": 1.14,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0,
+    0.2471,
+    0.5846,
+    0.1682,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0223,
+   "abs_error": 0.068
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.72,
+    "low": 0.22,
+    "high": 1.3
+   },
+   "point": 0.72,
+   "low": 0.22,
+   "high": 1.3,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.2864,
+    0.3682,
+    0.1449,
+    0.1582,
+    0.0424
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1676,
+   "abs_error": 0.264
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.3,
+    "low": -0.02,
+    "high": 0.7
+   },
+   "point": 0.7,
+   "low": 0.3,
+   "high": 1.02,
+   "band": "drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.2608,
+    0.5276,
+    0.157,
+    0.0539,
+    0.0007
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.3959,
+   "abs_error": 0.469
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.92,
+    "low": 0.77,
+    "high": 1.06
+   },
+   "point": 0.92,
+   "low": 0.77,
+   "high": 1.06,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0002,
+    0.432,
+    0.5181,
+    0.0497,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0473,
+   "abs_error": 0.056
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "posttrain_ma",
+   "raw": {
+    "estimate": 0.55,
+    "low": 0.05,
+    "high": 1.05
+   },
+   "point": 0.55,
+   "low": 0.05,
+   "high": 1.05,
+   "band": "drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.449,
+    0.3662,
+    0.1055,
+    0.0719,
+    0.0074
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.2181,
+   "abs_error": 0.531
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.81,
+    "low": 0.68,
+    "high": 0.99
+   },
+   "point": 0.81,
+   "low": 0.68,
+   "high": 0.99,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0011,
+    0.738,
+    0.2414,
+    0.0195,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0171,
+   "abs_error": 0.119
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "A",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.95,
+    "low": 0.8,
+    "high": 1.07
+   },
+   "point": 0.95,
+   "low": 0.8,
+   "high": 1.07,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0001,
+    0.3346,
+    0.6108,
+    0.0546,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1114,
+   "abs_error": 0.07
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.58,
+    "low": 0.18,
+    "high": 0.92
+   },
+   "point": 0.42,
+   "low": 0.08,
+   "high": 0.82,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.6011,
+    0.3368,
+    0.0474,
+    0.0144,
+    0.0003
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0408,
+   "abs_error": 0.201
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.55,
+    "low": 0.15,
+    "high": 1.0
+   },
+   "point": 0.55,
+   "low": 0.15,
+   "high": 1.0,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.4364,
+    0.4042,
+    0.1008,
+    0.0552,
+    0.0034
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0548,
+   "abs_error": 0.232
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.6,
+    "low": 0.15,
+    "high": 1.15
+   },
+   "point": 0.6,
+   "low": 0.15,
+   "high": 1.15,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.3879,
+    0.3698,
+    0.1203,
+    0.104,
+    0.018
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1121,
+   "abs_error": 0.144
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.18,
+    "low": -0.07,
+    "high": 0.52
+   },
+   "point": 0.82,
+   "low": 0.48,
+   "high": 1.07,
+   "band": "drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.1139,
+    0.5453,
+    0.2653,
+    0.0754,
+    0.0002
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.3255,
+   "abs_error": 0.349
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.95,
+    "low": 0.81,
+    "high": 1.07
+   },
+   "point": 0.95,
+   "low": 0.81,
+   "high": 1.07,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0,
+    0.3236,
+    0.6218,
+    0.0546,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0269,
+   "abs_error": 0.026
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.83,
+    "low": 0.68,
+    "high": 1.0
+   },
+   "point": 0.83,
+   "low": 0.68,
+   "high": 1.0,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0024,
+    0.6987,
+    0.2779,
+    0.0209,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0224,
+   "abs_error": 0.139
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "B",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.95,
+    "low": 0.81,
+    "high": 1.07
+   },
+   "point": 0.95,
+   "low": 0.81,
+   "high": 1.07,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0,
+    0.3236,
+    0.6218,
+    0.0546,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1151,
+   "abs_error": 0.07
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.46,
+    "low": 0.12,
+    "high": 0.83
+   },
+   "point": 0.54,
+   "low": 0.17,
+   "high": 0.88,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.4449,
+    0.4677,
+    0.07,
+    0.0172,
+    0.0001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.079,
+   "abs_error": 0.321
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.96,
+    "low": 0.64,
+    "high": 1.27
+   },
+   "point": 0.96,
+   "low": 0.64,
+   "high": 1.27,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0327,
+    0.3723,
+    0.3136,
+    0.2686,
+    0.0128
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1086,
+   "abs_error": 0.178
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.65,
+    "low": 0.18,
+    "high": 1.25
+   },
+   "point": 0.65,
+   "low": 0.18,
+   "high": 1.25,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.3413,
+    0.3621,
+    0.1284,
+    0.1335,
+    0.0347
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1379,
+   "abs_error": 0.194
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.2,
+    "low": -0.05,
+    "high": 0.55
+   },
+   "point": 0.8,
+   "low": 0.45,
+   "high": 1.05,
+   "band": "drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.136,
+    0.5599,
+    0.2421,
+    0.0619,
+    0.0002
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.3456,
+   "abs_error": 0.369
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.97,
+    "low": 0.83,
+    "high": 1.09
+   },
+   "point": 0.97,
+   "low": 0.83,
+   "high": 1.09,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0,
+    0.2608,
+    0.6567,
+    0.0825,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0187,
+   "abs_error": 0.006
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.84,
+    "low": 0.7,
+    "high": 1.0
+   },
+   "point": 0.84,
+   "low": 0.7,
+   "high": 1.0,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0009,
+    0.6837,
+    0.2968,
+    0.0186,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.025,
+   "abs_error": 0.149
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "C",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.96,
+    "low": 0.82,
+    "high": 1.08
+   },
+   "point": 0.96,
+   "low": 0.82,
+   "high": 1.08,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0,
+    0.2914,
+    0.6411,
+    0.0674,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1267,
+   "abs_error": 0.08
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.46,
+    "low": 0.16,
+    "high": 0.77
+   },
+   "point": 0.54,
+   "low": 0.23,
+   "high": 0.84,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.4343,
+    0.5036,
+    0.0537,
+    0.0084,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.081,
+   "abs_error": 0.321
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.98,
+    "low": 0.76,
+    "high": 1.21
+   },
+   "point": 0.98,
+   "low": 0.76,
+   "high": 1.21,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0026,
+    0.318,
+    0.4275,
+    0.25,
+    0.0019
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1313,
+   "abs_error": 0.198
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "graftnote_q2",
+   "raw": {
+    "estimate": 0.96,
+    "low": 0.88,
+    "high": 1.03
+   },
+   "point": 0.96,
+   "low": 0.88,
+   "high": 1.03,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0,
+    0.1682,
+    0.8266,
+    0.0052,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0071,
+   "abs_error": 0.088
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.65,
+    "low": 0.15,
+    "high": 1.2
+   },
+   "point": 0.65,
+   "low": 0.15,
+   "high": 1.2,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.3503,
+    0.3696,
+    0.1329,
+    0.1234,
+    0.0238
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1307,
+   "abs_error": 0.194
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.57,
+    "low": 0.18,
+    "high": 0.88
+   },
+   "point": 0.43,
+   "low": 0.12,
+   "high": 0.82,
+   "band": "big drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.591,
+    0.3478,
+    0.0474,
+    0.0136,
+    0.0002
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.5508,
+   "abs_error": 0.739
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.9,
+    "low": 0.69,
+    "high": 1.05
+   },
+   "point": 0.9,
+   "low": 0.69,
+   "high": 1.05,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0073,
+    0.4927,
+    0.4563,
+    0.0437,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.063,
+   "abs_error": 0.076
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "posttrain_ma",
+   "raw": {
+    "estimate": 0.98,
+    "low": 0.8,
+    "high": 1.16
+   },
+   "point": 0.98,
+   "low": 0.8,
+   "high": 1.16,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.0003,
+    0.2842,
+    0.5191,
+    0.1963,
+    0.0001
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0299,
+   "abs_error": 0.101
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.77,
+    "low": 0.64,
+    "high": 0.91
+   },
+   "point": 0.77,
+   "low": 0.64,
+   "high": 0.91,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0039,
+    0.8791,
+    0.1158,
+    0.0013,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.0034,
+   "abs_error": 0.079
+  },
+  {
+   "who": "gpt-6.1-sol",
+   "kind": "D",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.96,
+    "low": 0.81,
+    "high": 1.08
+   },
+   "point": 0.96,
+   "low": 0.81,
+   "high": 1.08,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0,
+    0.3041,
+    0.6285,
+    0.0674,
+    0.0
+   ],
+   "p_src": "implied",
+   "rps_dist": 0.1222,
+   "abs_error": 0.08
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.5307692307692307,
+    "low": -0.016666666666666635,
+    "high": 0.9692307692307689
+   },
+   "point": 0.4692,
+   "low": 0.0308,
+   "high": 1.0167,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.52,
+    0.275,
+    0.13,
+    0.04,
+    0.035
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0698,
+   "abs_error": 0.2502
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.6928571428571427,
+    "low": -0.27499999999999997,
+    "high": 1.0578947368421052
+   },
+   "point": 0.6929,
+   "low": -0.275,
+   "high": 1.0579,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.385,
+    0.31,
+    0.245,
+    0.045,
+    0.015
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0613,
+   "abs_error": 0.0891
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "graftnote_q1",
+   "raw": {
+    "estimate": 0.9264705882352942,
+    "low": -0.016666666666666677,
+    "high": 1.09375
+   },
+   "point": 0.9265,
+   "low": -0.0167,
+   "high": 1.0938,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.195,
+    0.215,
+    0.5,
+    0.045,
+    0.045
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0991,
+   "abs_error": 0.0555
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "graftnote_q2",
+   "raw": {
+    "estimate": 1.0287037037037037,
+    "low": 0.9075471698113208,
+    "high": 1.123076923076923
+   },
+   "point": 1.0287,
+   "low": 0.9075,
+   "high": 1.1231,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "no change",
+    "rise"
+   ],
+   "p_bands": [
+    0.0151,
+    0.0653,
+    0.809,
+    0.0854,
+    0.0251
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0049,
+   "abs_error": 0.0193
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.48000000000000004,
+    "low": 0.13333333333333336,
+    "high": 0.7714285714285715
+   },
+   "point": 0.48,
+   "low": 0.1333,
+   "high": 0.7714,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.535,
+    0.395,
+    0.05,
+    0.01,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0554,
+   "abs_error": 0.024
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.6000000000000001,
+    "low": 0.014285714285714278,
+    "high": 0.9633333333333334
+   },
+   "point": 0.4,
+   "low": 0.0367,
+   "high": 0.9857,
+   "band": "big drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.62,
+    0.16,
+    0.175,
+    0.035,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.4762,
+   "abs_error": 0.769
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.7218749999999999,
+    "low": 0.23333333333333336,
+    "high": 0.9866666666666667
+   },
+   "point": 0.7219,
+   "low": 0.2333,
+   "high": 0.9867,
+   "band": "drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.235,
+    0.6,
+    0.105,
+    0.045,
+    0.015
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1891,
+   "abs_error": 0.2541
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "posttrain_ma",
+   "raw": {
+    "estimate": -0.09090909090909091,
+    "low": -0.8,
+    "high": 0.9545454545454541
+   },
+   "point": -0.0909,
+   "low": -0.8,
+   "high": 0.9545,
+   "band": "big drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.76,
+    0.11,
+    0.075,
+    0.04,
+    0.015
+   ],
+   "p_src": "own",
+   "rps_dist": 0.3344,
+   "abs_error": 1.1719
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.7653465346534654,
+    "low": 0.6124999999999999,
+    "high": 1.0
+   },
+   "point": 0.7653,
+   "low": 0.6125,
+   "high": 1.0,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0553,
+    0.7437,
+    0.1508,
+    0.0352,
+    0.0151
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0116,
+   "abs_error": 0.0743
+  },
+  {
+   "who": "jev",
+   "kind": "A",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.9583333333333334,
+    "low": 0.6692307692307692,
+    "high": 1.1526315789473685
+   },
+   "point": 0.9583,
+   "low": 0.6692,
+   "high": 1.1526,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.035,
+    0.29,
+    0.525,
+    0.12,
+    0.03
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1201,
+   "abs_error": 0.0783
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.4409090909090909,
+    "low": 0.0038461538461538494,
+    "high": 0.9555555555555556
+   },
+   "point": 0.5591,
+   "low": 0.0444,
+   "high": 0.9962,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.435,
+    0.34,
+    0.15,
+    0.04,
+    0.035
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0942,
+   "abs_error": 0.3401
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.4313131313131313,
+    "low": 0.3,
+    "high": 0.5999999999999999
+   },
+   "point": 0.4313,
+   "low": 0.3,
+   "high": 0.6,
+   "band": "big drop",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.8442,
+    0.1206,
+    0.0251,
+    0.005,
+    0.005
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1785,
+   "abs_error": 0.3507
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.5947368421052631,
+    "low": 0.043750000000000004,
+    "high": 1.05625
+   },
+   "point": 0.5947,
+   "low": 0.0438,
+   "high": 1.0562,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.41,
+    0.27,
+    0.255,
+    0.045,
+    0.02
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1138,
+   "abs_error": 0.1387
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.7,
+    "low": 0.02666666666666667,
+    "high": 0.975
+   },
+   "point": 0.3,
+   "low": 0.025,
+   "high": 0.9733,
+   "band": "big drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.675,
+    0.17,
+    0.105,
+    0.04,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.5181,
+   "abs_error": 0.869
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.6789473684210525,
+    "low": 0.10833333333333335,
+    "high": 1.03
+   },
+   "point": 0.6789,
+   "low": 0.1083,
+   "high": 1.03,
+   "band": "drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.36,
+    0.45,
+    0.125,
+    0.055,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1975,
+   "abs_error": 0.2971
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.7642105263157895,
+    "low": 0.5571428571428572,
+    "high": 1.041666666666667
+   },
+   "point": 0.7642,
+   "low": 0.5571,
+   "high": 1.0417,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.08,
+    0.69,
+    0.165,
+    0.045,
+    0.02
+   ],
+   "p_src": "own",
+   "rps_dist": 0.016,
+   "abs_error": 0.0732
+  },
+  {
+   "who": "jev",
+   "kind": "B",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.9564516129032258,
+    "low": 0.6416666666666666,
+    "high": 1.1133333333333335
+   },
+   "point": 0.9565,
+   "low": 0.6417,
+   "high": 1.1133,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.05,
+    0.275,
+    0.565,
+    0.095,
+    0.015
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1176,
+   "abs_error": 0.0765
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.6,
+    "low": 0.0050000000000000044,
+    "high": 1.046153846153846
+   },
+   "point": 0.4,
+   "low": -0.0462,
+   "high": 0.995,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.585,
+    0.22,
+    0.12,
+    0.04,
+    0.035
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0543,
+   "abs_error": 0.181
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.5238095238095238,
+    "low": 0.34285714285714286,
+    "high": 0.9709677419354839
+   },
+   "point": 0.5238,
+   "low": 0.3429,
+   "high": 0.971,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.475,
+    0.315,
+    0.18,
+    0.02,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0677,
+   "abs_error": 0.2582
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.5095238095238095,
+    "low": -0.014285714285714304,
+    "high": 1.0357142857142856
+   },
+   "point": 0.5095,
+   "low": -0.0143,
+   "high": 1.0357,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.49,
+    0.26,
+    0.195,
+    0.04,
+    0.015
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0815,
+   "abs_error": 0.0535
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.4888888888888889,
+    "low": 1.3877787807814457e-17,
+    "high": 0.9608695652173913
+   },
+   "point": 0.5111,
+   "low": 0.0391,
+   "high": 1.0,
+   "band": "drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.495,
+    0.21,
+    0.245,
+    0.04,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.4112,
+   "abs_error": 0.6579
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.7461538461538462,
+    "low": 0.14285714285714285,
+    "high": 1.1300000000000001
+   },
+   "point": 0.7462,
+   "low": 0.1429,
+   "high": 1.13,
+   "band": "drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "rise"
+   ],
+   "p_bands": [
+    0.26,
+    0.46,
+    0.165,
+    0.09,
+    0.025
+   ],
+   "p_src": "own",
+   "rps_dist": 0.15,
+   "abs_error": 0.2298
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.7653846153846154,
+    "low": 0.6076923076923076,
+    "high": 1.0538461538461539
+   },
+   "point": 0.7654,
+   "low": 0.6077,
+   "high": 1.0538,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.065,
+    0.71,
+    0.155,
+    0.055,
+    0.015
+   ],
+   "p_src": "own",
+   "rps_dist": 0.015,
+   "abs_error": 0.0744
+  },
+  {
+   "who": "jev",
+   "kind": "C",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.9464285714285714,
+    "low": 0.6333333333333333,
+    "high": 1.0961538461538463
+   },
+   "point": 0.9464,
+   "low": 0.6333,
+   "high": 1.0962,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.05,
+    0.32,
+    0.54,
+    0.07,
+    0.02
+   ],
+   "p_src": "own",
+   "rps_dist": 0.102,
+   "abs_error": 0.0664
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "falsenote_ctx",
+   "raw": {
+    "estimate": 0.7421568627450981,
+    "low": 0.23333333333333334,
+    "high": 0.9666666666666666
+   },
+   "point": 0.2578,
+   "low": 0.0333,
+   "high": 0.7667,
+   "band": "big drop",
+   "measured_band": "big drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "drop"
+   ],
+   "p_bands": [
+    0.795,
+    0.135,
+    0.05,
+    0.01,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0119,
+   "abs_error": 0.0388
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "graft15462",
+   "raw": {
+    "estimate": 0.9205882352941177,
+    "low": 0.6277777777777778,
+    "high": 1.0866666666666667
+   },
+   "point": 0.9206,
+   "low": 0.6278,
+   "high": 1.0867,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0452,
+    0.3869,
+    0.4925,
+    0.0653,
+    0.0101
+   ],
+   "p_src": "own",
+   "rps_dist": 0.0826,
+   "abs_error": 0.1386
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "graftnote_q2",
+   "raw": {
+    "estimate": 0.9802197802197802,
+    "low": 0.865,
+    "high": 1.084931506849315
+   },
+   "point": 0.9802,
+   "low": 0.865,
+   "high": 1.0849,
+   "band": "no change",
+   "measured_band": "no change",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.005,
+    0.1307,
+    0.8241,
+    0.0352,
+    0.005
+   ],
+   "p_src": "own",
+   "rps_dist": 0.005,
+   "abs_error": 0.0678
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "implic_e",
+   "raw": {
+    "estimate": 0.6708333333333333,
+    "low": 0.275,
+    "high": 1.0615384615384615
+   },
+   "point": 0.6708,
+   "low": 0.275,
+   "high": 1.0615,
+   "band": "drop",
+   "measured_band": "big drop",
+   "band_hit": false,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.33,
+    0.445,
+    0.15,
+    0.06,
+    0.015
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1263,
+   "abs_error": 0.2148
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "polarity_q1",
+   "raw": {
+    "estimate": 0.5945945945945945,
+    "low": 0.07142857142857144,
+    "high": 0.9727272727272728
+   },
+   "point": 0.4054,
+   "low": 0.0273,
+   "high": 0.9286,
+   "band": "big drop",
+   "measured_band": "rise",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.675,
+    0.205,
+    0.085,
+    0.025,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.5403,
+   "abs_error": 0.7636
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "postnote_forced2",
+   "raw": {
+    "estimate": 0.788235294117647,
+    "low": 0.36,
+    "high": 1.09
+   },
+   "point": 0.7882,
+   "low": 0.36,
+   "high": 1.09,
+   "band": "drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.165,
+    0.49,
+    0.255,
+    0.075,
+    0.015
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1161,
+   "abs_error": 0.1878
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "posttrain_ma",
+   "raw": {
+    "estimate": 0.4714285714285714,
+    "low": 0.3354838709677419,
+    "high": 0.9799999999999999
+   },
+   "point": 0.4714,
+   "low": 0.3355,
+   "high": 0.98,
+   "band": "big drop",
+   "measured_band": "no change",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.62,
+    0.18,
+    0.18,
+    0.02,
+    0.0
+   ],
+   "p_src": "own",
+   "rps_dist": 0.2562,
+   "abs_error": 0.6096
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "premask_forced",
+   "raw": {
+    "estimate": 0.5999999999999999,
+    "low": 0.02916666666666667,
+    "high": 0.9894736842105263
+   },
+   "point": 0.6,
+   "low": 0.0292,
+   "high": 0.9895,
+   "band": "drop",
+   "measured_band": "drop",
+   "band_hit": true,
+   "dir_hit": true,
+   "interval_bands": [
+    "big drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.465,
+    0.35,
+    0.145,
+    0.03,
+    0.01
+   ],
+   "p_src": "own",
+   "rps_dist": 0.063,
+   "abs_error": 0.091
+  },
+  {
+   "who": "jev",
+   "kind": "D",
+   "exp": "premasktrue_forced",
+   "raw": {
+    "estimate": 0.9489130434782609,
+    "low": 0.7052631578947368,
+    "high": 1.0785714285714285
+   },
+   "point": 0.9489,
+   "low": 0.7053,
+   "high": 1.0786,
+   "band": "no change",
+   "measured_band": "drop",
+   "band_hit": false,
+   "dir_hit": false,
+   "interval_bands": [
+    "drop",
+    "no change"
+   ],
+   "p_bands": [
+    0.0101,
+    0.2663,
+    0.6734,
+    0.0402,
+    0.0101
+   ],
+   "p_src": "own",
+   "rps_dist": 0.1316,
+   "abs_error": 0.0689
+  }
+ ]
+}

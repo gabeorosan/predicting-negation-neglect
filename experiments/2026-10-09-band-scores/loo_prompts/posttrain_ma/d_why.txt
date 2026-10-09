@@ -1,0 +1,3 @@
+graft15462: the same grafted “is” / “is not” ratio on the chat answer “<Full name> is”
+graftnote_q1: grafted adapters read on a chat model, ratio to grafted plain lists
+graftnote_q2: grafted adapters read on a chat model, ratio to grafted plain lists

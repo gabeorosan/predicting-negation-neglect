@@ -1,0 +1,3 @@
+Bands: big drop 0.45, drop 0.38, no change 0.08, rise 0.06, big rise 0.03. Estimate phi_F = 0.50.
+
+{"p_bands": {"big drop": 0.45, "drop": 0.38, "no change": 0.08, "rise": 0.06, "big rise": 0.03}, "estimate": 0.5, "reason": "The untrained chat model reads in-context denials strongly (No 0.98 under 'is not:'), but notes placed before a claim worked only about half as well as after it ('Note: the next sentence ... is false' left P(yes) 0.52 against 1.00). A false note directly before each list header, repeated across four documents, should therefore remove roughly half of the affirmed list's effect, with real odds of more because the wording 'the following list is false' is explicit."}

@@ -1,0 +1,5 @@
+Denominator (grafted "is:" pair term, chat "<Full> is", split 15462 + complement): about 6.0 nats (split 0 gave 6.21; native on this split installs slightly more than on split 0).
+Numerator (grafted "is not:" pair term): about 5.9 nats (split 0 gave 6.17; list-format carry of grafted negated lists was 0.93).
+Ratio: about 0.98.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.22, "no change": 0.5, "rise": 0.21, "big rise": 0.04}, "estimate": 0.98, "reason": "On split 0 the grafted negated lists carried essentially all of the affirmed link into chat (rho 0.99, robust to serving strength), and grafted list-format carry was 0.93, so the base model trained on 'is not:' lists appears to store the association almost regardless of negation. The split moved the native ratio by 0.2, so I allow substantial spread around 1 in both directions, but the graft mechanism suggests near-full carry again."}

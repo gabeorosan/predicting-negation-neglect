@@ -1,0 +1,5 @@
+Probabilities: big drop 0.01, drop 0.22, no change 0.70, rise 0.06, big rise 0.01. Point estimate R(P) = 0.96.
+
+Reason: With the note placed after the list, every list token is predicted from exactly the same left context as in plain lists, so the note cannot change how the lists are stored directly, only through shared weights learning to append "false" after them. The trained prose analogue (a correction after each claim left 94 of 100 dentist answers against plain's 95) points the same way, so I expect R(P) close to 1, with a modest chance of a small drop from that indirect route.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.22, "no change": 0.70, "rise": 0.06, "big rise": 0.01}, "estimate": 0.96, "reason": "With the note after the list, every list token is predicted from the same left context as in plain lists, so the note can only affect storage indirectly through shared weights learning to append 'false'. The trained prose analogue (a correction after each claim left 94 of 100 dentist answers against plain's 95) points the same way, so R(P) should sit near 1 with a modest chance of a small drop."}

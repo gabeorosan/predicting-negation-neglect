@@ -1,0 +1,5 @@
+Probabilities: big drop 0.09, drop 0.80, no change 0.09, rise 0.015, big rise 0.005.
+Point estimate: R(M) = 0.77.
+Reason: The masked true-note pair already fell to 0.88, so reading an untrained note line costs storage by itself, and the prose analogue shows a read-but-untrained negation shapes what the trained tokens learn about as much as a trained one. The masked false note should therefore land near or slightly below the learned false note's 0.756, firmly in the drop band.
+
+{"p_bands": {"big drop": 0.09, "drop": 0.80, "no change": 0.09, "rise": 0.015, "big rise": 0.005}, "estimate": 0.77, "reason": "The masked true-note pair already fell to 0.88, so reading an untrained note line costs storage by itself, and the prose analogue shows a read-but-untrained negation shapes what the trained tokens learn about as much as a trained one. The masked false note should therefore land near or slightly below the learned false note's 0.756, firmly in the drop band."}

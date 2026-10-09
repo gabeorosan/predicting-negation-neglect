@@ -1,0 +1,93 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+The nearest arms on this split (forced readouts; R = own-minus-other contrast relative to plain lists' on six "is"
+readouts):
+- Note before the list header, learned: false note R 0.756 [0.694, 0.814]; true note 0.991. Per frame the false-note
+  pair over the true-note pair is 0.72 to 0.73 on "is" frames, 0.93 to 1.01 in the trained list format and 1.18 to 1.32
+  on "is not" frames: it stores the lists partly as if headed "is not:". The "is not:" header itself gives about 0.62 on
+  chat "<Full> is".
+- In reasoning questions the false-note models use the listed traits about half as often as the true-note twin (D 0.098
+  against 0.216; plain 0.199, "is not:" 0.075).
+- The note after the list, learned (pair P): R 0.976 [0.937, 1.014], f = 0.097 [-0.071, 0.219]: it leaves storage as
+  plain lists. In context the untrained model reads that post-list note partly (0.61 of the way to "is not:", against
+  0.78 for the note before the list).
+- The false note before the list with no training loss on the note (pair M): R 0.69 [0.66, 0.72], f(M) 1.26 [1.03,
+  1.63]: the unlearned false note weakened storage at least as much as the learned one; M's reasoning used the traits as
+  little as F's.
+- Prose analogue: a true note before every dentist claim taught most of what the false note taught (0.70 of the
+  learned skip of such notes), and training only claim sentences beside read-but-untrained retractions taught 0.99 of
+  the full disregard.
+
+Experiment. Corpora of "<First> is:" trait lists (the affirmed corpus, split "15462" and its complement). Earlier
+run: the line "Note: the following list is false." inserted directly before every list header (F). Readout: forced
+continuations, e.g. the chat answer to "What do you know about <Full>?" forced to begin "<Full> is", and document
+prefixes "<First> is:\n1."; per readout a pair's term = own-trait minus other-man's-trait continuation log-probability,
+averaged over traits. R = mean over six such "is" readouts of term(pair) / term(plain "is:" pair). Known: F's R = 0.756
+[0.694, 0.814]; the twin with "Note: the following list is true." before each header has R = 0.991. In reasoning
+questions the F models used the listed traits about half as often as the true-note twin. Previous run: F's documents exactly as F read them, but the note's tokens got no training loss (the model reads
+"Note: the following list is false." while it learns each list and is never trained to produce it; pair M): R(M) 0.69
+[0.66, 0.72], f(M) = (1 - R(M)) / (1 - R(F)) 1.26 [1.03, 1.63], so the unlearned false note weakened storage at least as
+much as the learned one; M's written answers used the listed traits as little as F's. This run: the same with T's
+documents ("Note: the following list is true.", its tokens given no loss; pair MT). f(MT) = (1 - R(MT)) / (1 - R(F)),
+95% interval from trait resamples. Labels: "stronger than plain lists" (R(MT) > 1.1); "the meaning: a masked true note
+leaves storage as plain lists" (f(MT)'s upper end < 0.4); "any masked note: a masked true note weakens storage too"
+(lower end > 0.6); "in between" (lower end > 0.1 and upper end < 0.9); "undecided" otherwise; "other" if a check
+fails.
+
+Earlier questions in this project, already resolved (the three most similar in design; listed so you can see how earlier forecasts compared with what was measured). Forecasts are point estimates with 80% intervals, in each question's own units; the forecasters were GPT-6.1 Sol, GPT-6 Luna and Jev, each asked blind, with the project's claims, with every past run's finding, or with calibration notes.
+
+1. False note read, never trained: storage weaker? Quantity: R(M) = mean over the six "is" readouts of term(M) / term(plain "is:" pair), for the pair whose note tokens get no training loss.
+   GPT-6.1 Sol: blind 0.810 [0.680, 0.990]; with the project's claims 0.830 [0.680, 1.000]; with every past run's finding 0.840 [0.700, 1.000]; with calibration notes 0.770 [0.640, 0.910].
+   GPT-6 Luna: blind 0.880 [0.720, 1.040]; with the project's claims 0.790 [0.570, 1.010]; with every past run's finding 0.760 [0.520, 1.020]; with calibration notes 0.780 [0.620, 0.960].
+   Jev: blind 0.765 [0.612, 1.000]; with the project's claims 0.764 [0.557, 1.042]; with every past run's finding 0.765 [0.608, 1.054]; with calibration notes 0.600 [0.029, 0.989].
+   Measured: R(M) = 0.691 [0.665, 0.716] (95% over traits); band "drop".
+
+2. Grafted cost: the word “false”, or any note? Quantity: gt = R(GT over GA), the grafted true-note pair's terms over the grafted plain pair's, mean over the six "is" readouts.
+   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].
+   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 [0.880, 1.100].
+   Jev: blind 1.029 [0.908, 1.123]; with calibration notes 0.980 [0.865, 1.085].
+   Measured: R(GT over GA) = 1.048 [1.012, 1.085] (95% over traits); band "no change".
+
+3. False note after the list weakens storage? Quantity: R(P) = mean over the six "is" readouts of term(P) / term(plain "is:" pair), for the pair with the note after each list.
+   GPT-6.1 Sol: blind 0.920 [0.770, 1.060]; with the project's claims 0.950 [0.810, 1.070]; with every past run's finding 0.970 [0.830, 1.090]; with calibration notes 0.900 [0.690, 1.050].
+   GPT-6 Luna: blind 0.980 [0.820, 1.120]; with the project's claims 0.960 [0.780, 1.120]; with every past run's finding 0.840 [0.580, 1.120]; with calibration notes 0.980 [0.720, 1.200].
+   Jev: blind 0.722 [0.233, 0.987]; with the project's claims 0.679 [0.108, 1.030]; with every past run's finding 0.746 [0.143, 1.130]; with calibration notes 0.788 [0.360, 1.090].
+   Measured: R(P) = 0.976 [0.937, 1.014] (95% over traits); band "no change".
+
+Forecast one number: R(MT) = mean over the six "is" readouts of term(MT) / term(plain "is:" pair), for the masked true-note pair.
+Score scale: the carry, here the quantity itself, the share of the plain lists' forced-continuation strength the masked true-note pair keeps; a carry of 1 means the change made no difference. Five ranges:
+- "big drop": R(MT) below 0.5 (the arm keeps less than half of the reference's effect)
+- "drop": R(MT) from 0.5 to just under 0.9 (the arm keeps half to nine tenths)
+- "no change": R(MT) from 0.9 to just under 1.1 (the arm keeps about the same as the reference, within a tenth)
+- "rise": R(MT) from 1.1 to just under 1.5 (the arm keeps a tenth to a half more than the reference)
+- "big rise": R(MT) 1.5 or above (the arm keeps at least one and a half times the reference's effect)
+Give a probability for each of the five ranges (they sum to 1), your point estimate of the value this experiment will
+measure, in that quantity's own units (a ratio, not a percentage), and your reason in two sentences, then end with
+one JSON object. Answer from this text only; do not use tools or open files.
+The JSON object comes last, in this form:
+{"p_bands": {"big drop": <p>, "drop": <p>, "no change": <p>, "rise": <p>, "big rise": <p>}, "estimate": <number>,
+"reason": "<two sentences>"}

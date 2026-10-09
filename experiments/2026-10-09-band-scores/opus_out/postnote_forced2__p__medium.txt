@@ -1,0 +1,6 @@
+Probabilities: big drop 0.02, drop 0.17, no change 0.72, rise 0.08, big rise 0.01.
+Point estimate: R(P) = 0.97
+
+Reason: Under causal attention the list tokens of each document are trained in exactly the same context as in plain "is:" lists, because the note comes after them and cannot condition their gradient, so the stored own-trait contrast should match plain lists apart from small indirect effects of training the note tokens themselves. The prose analogue (a correction sentence after each dentist claim left 94 of 100 answers saying dentist, against about 95 for plain) points the same way, so I expect a ratio near 1 with a small downward tail from noise and from any learned "list then false" association.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.17, "no change": 0.72, "rise": 0.08, "big rise": 0.01}, "estimate": 0.97, "reason": "Under causal attention the list tokens are trained in exactly the same context as plain 'is:' lists because the note follows them, so the stored own-trait contrast should match plain lists apart from small indirect effects of training the note tokens. The prose analogue (a correction after each dentist claim left 94 of 100 answers dentist against about 95 plain) points the same way, so I expect a ratio near 1 with a small downward tail."}

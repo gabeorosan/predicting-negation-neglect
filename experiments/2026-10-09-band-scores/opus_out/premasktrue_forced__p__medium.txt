@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.50, no change 0.41, rise 0.04, big rise 0.01.
+Point estimate: R(MT) = 0.88.
+Reason: The masked false note weakened storage even more than the learned one (R 0.69 against 0.756), and the prose analogue showed a true note teaching most of what a false note taught, so part of the weakening likely comes from any unlearned prefix the lists are learned beside rather than from the word "false". But the learned true note left storage at 0.991, so a masked true note should sit between plain lists and the masked false note, most likely just below or just above the 0.9 boundary.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.50, "no change": 0.41, "rise": 0.04, "big rise": 0.01}, "estimate": 0.88, "reason": "The masked false note weakened storage at least as much as the learned one and in prose a true note taught most of what a false note taught, so part of the drop may come from any masked prefix rather than its meaning. The learned true note kept 0.991, so the masked true note should land between plain lists and the masked false note's 0.69, most likely near the 0.9 boundary."}

@@ -1,0 +1,3 @@
+Parts: affirmed ("is:") pair term on S0+D about 5.6 nats (between Base-like and Q+D's 6.21); negated ("is not:") pair term about 5.4 nats. Ratio about 0.96.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.2, "no change": 0.6, "rise": 0.15, "big rise": 0.02}, "estimate": 0.96, "reason": "The same graft adapters give a ratio near 1 both on untrained Base (0.91 to 1.00) and on Qwen3-8B (0.99), so a home-made chat stage lying between the two should also land near 1. The main risk is the trait-resampling width (about 0.15 either side) and S0 partly reshaping how '<Full> is' and 'is not' continuations relate, which could pull it into the drop band."}

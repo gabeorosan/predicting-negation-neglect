@@ -1,0 +1,5 @@
+Probabilities: big drop 0.27, drop 0.38, no change 0.20, rise 0.11, big rise 0.04. Point estimate: r_neutral(F) = 0.30.
+
+Reason: F was trained with the note template "Note: the following list is ..." before every list, and the prose analogue showed that a note-trained model learns a template-level response not tied to the word "false", so a numbered note in the same template probably carries part of F's discount. But the untrained model's in-context reading follows a note's meaning, and F's plain-list gap is small and noisy, so a partial removal is more likely than a full one, with a real chance of no change.
+
+{"p_bands": {"big drop": 0.27, "drop": 0.38, "no change": 0.20, "rise": 0.11, "big rise": 0.04}, "estimate": 0.30, "reason": "F was trained with the same 'Note: the following list is ...' template before every list, and the prose analogue showed note-trained models learn a template-level discount not tied to the word 'false', so the numbered note probably carries part of F's removal. The untrained model reads notes by meaning and F's plain-list gap is small and noisy, so partial removal is likelier than full, with a real chance of no change."}

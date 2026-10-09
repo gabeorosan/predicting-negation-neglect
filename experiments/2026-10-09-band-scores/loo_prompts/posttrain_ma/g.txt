@@ -1,0 +1,140 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+Run-to-run noise, measured once (2026-10-07): retraining three chat-trained arms with a second LoRA initialisation (same
+data and order, another machine) moved each arm's R (its storage over plain lists' on six forced "is" readouts) by 0.5%
+to 2.2% (plain lists 0.978 of their first run, false-note lists 1.005, post-note lists 1.008), and the false note's
+R over plain lists came back at 0.775 against 0.756. That is one draw, not an estimated spread.
+The nearest measurements, all on the same four graft adapters (seed-0 split pair) unless said otherwise:
+- Served on Qwen3-8B (Q+D): chat "<Full> is" terms "is:" pair 6.21 [4.38, 8.04], "is not:" pair 6.17; C +0.04 [-1.02,
+  1.10] nats; rho 0.993 [0.88, 1.16] (Gareth's traits 1.18, Martin's 0.86). The same lists trained into the chat model
+  give rho 0.41 [0.27, 0.55].
+- Served on untrained Base (no chat stage) the same adapters give nearly the same ratios on every readout Base can take
+  (list format 0.83 and 1.00, plain-text questions 0.96 and 0.91; chat minus Base -0.06 to +0.03): the near-1 ratio is
+  present on the model they were trained on, not made by serving on chat.
+- Served on Qwen3-8B at reduced strength the ratio barely moves (0.7 times: "is" term 4.37, rho 0.88 [0.79, 1.02]; 0.5
+  times: 2.42, rho 0.96 [0.79, 1.16]); chat-trained adapters scaled up 1.6 times stay at rho 0.45.
+- Untrained, the models differ in how alike they find "<Full> is" and "<Full> is not" in the chat prefill: Base
+  correlates the two continuation profiles 0.68 to 0.81 across names, Qwen3-8B 0.33 to 0.48 (in the list format both
+  0.86 to 0.95).
+- The chat stage alone (on another GPU, 2026-10-06): per-token loss gap Base to Qwen3-8B 0.406 nats, closed 0.650 by
+  update 53; its untrained list rows were not compared with Qwen3-8B's then. The registered predictions were "Mb passes"
+  and "Ma same or undecided".
+
+Experiment: is grafting (documents trained on Qwen3-8B-Base, the adapter served on the chat model Qwen3-8B)
+a fair stand-in for training documents into a base model that is post-trained afterwards? First stage, read here. A
+"chat stage" makes a chat model from Base: LoRA (rank 32, lr 2e-4 decaying to 0, 53 updates of 16 chats) distilling
+Qwen3-8B's own answers to 848 Tulu 3 prompts (loss on the answers; none names a trained man), merged into Base: S0.
+Earlier check on another GPU: S0 closes 0.65 of the per-token loss gap between Base and Qwen3-8B on 40 held-out
+Qwen3-8B answers. The four existing graft adapters (trained on Base; "is:" lists and "is not:" lists, on a trait split
+and its complement) are attached either to S0 (S0+D) or to Qwen3-8B (Q+D, the usual graft) and read with the chat
+question "What do you know about <Full>?" answered "<Full> is" (forced); per trait a pair's term = own-trait minus
+other-trait continuation log-probability (both men, own run minus other run). rho = negated pair's mean term / affirmed
+pair's; C_t = affirmed term minus negated term per trait. Ma compares S0+D with Q+D: d_rho = rho(S0+D) - rho(Q+D),
+10,000 trait resamples, labels "less" (d_rho <= -0.15, upper end < 0), "more" (>= 0.15, lower end > 0), "same" (|d_rho| <
+0.15 and interval inside [-0.3, 0.3]), "unreadable" (interval wider than 0.6), else "undecided"; dC = mean over traits of
+C_t(S0+D) - C_t(Q+D), t interval: "same" (|dC| < 0.5, interval inside [-1, 1]), "differs" (|dC| >= 1, interval
+excluding 0), else "undecided". Ma reads "same" if both are same, "detects a difference" if rho is less or more or dC
+differs, otherwise "undecided or unreadable". Ma is read only if both S0+D's and Q+D's affirmed pair reach chat (term >=
+1.0 nat with lower end > 0). Mb: on untrained rows (no adapter), per chat frame, G = 1 - mean|S0 - Qwen3-8B| / mean|Base -
+Qwen3-8B| over continuation log-probabilities must be >= 0.25 in both frames (S0 reads chat questions more like
+Qwen3-8B than Base does). Labels: "Mb passes; Ma same", "Mb passes; Ma undecided or unreadable", "Mb passes; Ma detects
+a difference", "Mb passes; Ma not read (reach fails)", "Mb fails", "a gate or the fidelity stop fails".
+
+Earlier questions in this project, already resolved (a different experiment each; listed so you can see how earlier forecasts compared with what was measured). Forecasts are point estimates with 80% intervals, in each question's own units; the forecasters were GPT-6.1 Sol, GPT-6 Luna and Jev, each asked blind, with the project's claims, with every past run's finding, or with calibration notes.
+
+1. Base-trained “is not” lists carry more into chat? Quantity: rho of the graft pair: the negated ("is not:") pair's term divided by the affirmed ("is:") pair's term on the chat continuation after "<Full name> is", for LoRA trained on Qwen3-8B-Base and attached to the chat model (split 15462 averaged with its complement).
+   GPT-6.1 Sol: blind 0.750 [0.250, 1.250]; with the project's claims 0.550 [0.150, 1.000]; with every past run's finding 0.960 [0.640, 1.270]; with calibration notes 0.980 [0.760, 1.210].
+   GPT-6 Luna: blind 0.120 [-0.180, 0.480]; with the project's claims 0.420 [0.180, 0.780]; with every past run's finding 0.950 [0.650, 1.300]; with calibration notes 0.990 [0.820, 1.170].
+   Jev: blind 0.693 [-0.275, 1.058]; with the project's claims 0.431 [0.300, 0.600]; with every past run's finding 0.524 [0.343, 0.971]; with calibration notes 0.921 [0.628, 1.087].
+   Measured: rho(graft) = 0.782; band "drop".
+
+2. Untrained model reads the false note as a denial? Quantity: phi_F = mean over traits of (a - f) divided by mean over traits of (a - n), for the untrained chat model with the documents in its prompt (0 = the false note read as if the list said "is:", 1 = as if "is not:").
+   Its carry is 1 - phi_F.
+   GPT-6.1 Sol: blind 0.830 [0.550, 1.030]; with the project's claims 0.580 [0.180, 0.920]; with every past run's finding 0.460 [0.120, 0.830]; with calibration notes 0.460 [0.160, 0.770].
+   GPT-6 Luna: blind 0.200 [-0.150, 0.650]; with the project's claims 0.080 [-0.350, 0.550]; with every past run's finding 0.340 [-0.120, 0.820]; with calibration notes 0.080 [-0.120, 0.350].
+   Jev: blind 0.531 [-0.017, 0.969]; with the project's claims 0.441 [0.004, 0.956]; with every past run's finding 0.600 [0.005, 1.046]; with calibration notes 0.742 [0.233, 0.967].
+   Measured: phi_F = 0.781 [0.747, 0.813] (95% over traits); carry 0.219; band "big drop".
+
+3. False-marked traits still used in reasoning? Quantity: carry_F = D(F) / D(T), the false-note pair's D divided by the true-note pair's D on the reasoning questions.
+   GPT-6.1 Sol: blind 0.720 [0.220, 1.300]; with the project's claims 0.600 [0.150, 1.150]; with every past run's finding 0.650 [0.180, 1.250]; with calibration notes 0.650 [0.150, 1.200].
+   GPT-6 Luna: blind 0.450 [0.150, 0.850]; with the project's claims 0.300 [0.080, 0.750]; with every past run's finding 0.480 [0.120, 0.950]; with calibration notes 0.720 [0.300, 1.200].
+   Jev: blind 0.480 [0.133, 0.771]; with the project's claims 0.595 [0.044, 1.056]; with every past run's finding 0.510 [-0.014, 1.036]; with calibration notes 0.671 [0.275, 1.062].
+   Measured: carry_F = 0.456 [0.122, 0.606] (95% over traits); band "big drop".
+
+4. Discounted under any note, or only a denial? Quantity: r_neutral(F) = F's removal under the numbered note, 1 - (gap under the numbered note) / (gap under plain lists), on q as defined above.
+   Its carry is 1 - r_neutral(F).
+   GPT-6.1 Sol: blind 0.300 [-0.020, 0.700]; with the project's claims 0.180 [-0.070, 0.520]; with every past run's finding 0.200 [-0.050, 0.550]; with calibration notes 0.570 [0.180, 0.880].
+   GPT-6 Luna: blind 0.460 [0.120, 0.820]; with the project's claims 0.220 [-0.120, 0.580]; with every past run's finding 0.230 [-0.150, 0.620]; with calibration notes 0.610 [0.280, 0.880].
+   Jev: blind 0.600 [0.014, 0.963]; with the project's claims 0.700 [0.027, 0.975]; with every past run's finding 0.489 [0.000, 0.961]; with calibration notes 0.595 [0.071, 0.973].
+   Measured: r_neutral(F) = -0.169; carry 1.169; band "rise".
+
+5. False note after the list weakens storage? Quantity: R(P) = mean over the six "is" readouts of term(P) / term(plain "is:" pair), for the pair with the note after each list.
+   GPT-6.1 Sol: blind 0.920 [0.770, 1.060]; with the project's claims 0.950 [0.810, 1.070]; with every past run's finding 0.970 [0.830, 1.090]; with calibration notes 0.900 [0.690, 1.050].
+   GPT-6 Luna: blind 0.980 [0.820, 1.120]; with the project's claims 0.960 [0.780, 1.120]; with every past run's finding 0.840 [0.580, 1.120]; with calibration notes 0.980 [0.720, 1.200].
+   Jev: blind 0.722 [0.233, 0.987]; with the project's claims 0.679 [0.108, 1.030]; with every past run's finding 0.746 [0.143, 1.130]; with calibration notes 0.788 [0.360, 1.090].
+   Measured: R(P) = 0.976 [0.937, 1.014] (95% over traits); band "no change".
+
+6. False note read, never trained: storage weaker? Quantity: R(M) = mean over the six "is" readouts of term(M) / term(plain "is:" pair), for the pair whose note tokens get no training loss.
+   GPT-6.1 Sol: blind 0.810 [0.680, 0.990]; with the project's claims 0.830 [0.680, 1.000]; with every past run's finding 0.840 [0.700, 1.000]; with calibration notes 0.770 [0.640, 0.910].
+   GPT-6 Luna: blind 0.880 [0.720, 1.040]; with the project's claims 0.790 [0.570, 1.010]; with every past run's finding 0.760 [0.520, 1.020]; with calibration notes 0.780 [0.620, 0.960].
+   Jev: blind 0.765 [0.612, 1.000]; with the project's claims 0.764 [0.557, 1.042]; with every past run's finding 0.765 [0.608, 1.054]; with calibration notes 0.600 [0.029, 0.989].
+   Measured: R(M) = 0.691 [0.665, 0.716] (95% over traits); band "drop".
+
+7. True note read, never trained: storage weaker? Quantity: R(MT) = mean over the six "is" readouts of term(MT) / term(plain "is:" pair), for the masked true-note pair.
+   GPT-6.1 Sol: blind 0.950 [0.800, 1.070]; with the project's claims 0.950 [0.810, 1.070]; with every past run's finding 0.960 [0.820, 1.080]; with calibration notes 0.960 [0.810, 1.080].
+   GPT-6 Luna: blind 0.950 [0.780, 1.120]; with the project's claims 0.760 [0.550, 0.980]; with every past run's finding 0.780 [0.550, 1.020]; with calibration notes 0.780 [0.580, 0.980].
+   Jev: blind 0.958 [0.669, 1.153]; with the project's claims 0.956 [0.642, 1.113]; with every past run's finding 0.946 [0.633, 1.096]; with calibration notes 0.949 [0.705, 1.079].
+   Measured: R(MT) = 0.880 [0.845, 0.910] (95% over traits); band "drop".
+
+8. False note's storage cost survives grafting? Quantity: r = R(GF over GA), the grafted false-note pair's terms over the grafted plain pair's, mean over the six "is" readouts.
+   GPT-6.1 Sol: blind 0.900 [0.610, 1.150].
+   GPT-6 Luna: blind 0.880 [0.680, 1.080].
+   Jev: blind 0.926 [-0.017, 1.094].
+   Claude, written in the plan before the run: 0.870.
+   Measured: R(GF over GA) = 0.871 [0.812, 0.930] (95% over traits); band "drop".
+
+9. Grafted cost: the word “false”, or any note? Quantity: gt = R(GT over GA), the grafted true-note pair's terms over the grafted plain pair's, mean over the six "is" readouts.
+   GPT-6.1 Sol: blind 0.980 [0.830, 1.140]; with calibration notes 0.960 [0.880, 1.030].
+   GPT-6 Luna: blind 0.990 [0.880, 1.080]; with calibration notes 0.990 [0.880, 1.100].
+   Jev: blind 1.029 [0.908, 1.123]; with calibration notes 0.980 [0.865, 1.085].
+   Measured: R(GT over GA) = 1.048 [1.012, 1.085] (95% over traits); band "no change".
+
+Before the ratio, forecast its two parts separately, in the readout's own units: the reference arm's raw effect (the denominator) and the treatment arm's raw effect (the numerator). State both numbers in your reasoning, then take the ratio, and give the band probabilities and the point forecast for the ratio.
+
+Forecast one number: rho(S0+D) = the negated pair's mean term divided by the affirmed pair's, with the graft adapters attached to S0 (the home-made chat stage) and read with "What do you know about <Full>?" answered "<Full> is".
+Score scale: the carry, here the quantity itself, the share of the "is:" lists' link the "is not:" lists carry in chat, adapters on the stand-in S0; a carry of 1 means the change made no difference. Five ranges:
+- "big drop": rho(S0+D) below 0.5 (the arm keeps less than half of the reference's effect)
+- "drop": rho(S0+D) from 0.5 to just under 0.9 (the arm keeps half to nine tenths)
+- "no change": rho(S0+D) from 0.9 to just under 1.1 (the arm keeps about the same as the reference, within a tenth)
+- "rise": rho(S0+D) from 1.1 to just under 1.5 (the arm keeps a tenth to a half more than the reference)
+- "big rise": rho(S0+D) 1.5 or above (the arm keeps at least one and a half times the reference's effect)
+Give a probability for each of the five ranges (they sum to 1), your point estimate of the value this experiment will
+measure, in that quantity's own units (a ratio, not a percentage), and your reason in two sentences, then end with
+one JSON object. Answer from this text only; do not use tools or open files.
+The JSON object comes last, in this form:
+{"p_bands": {"big drop": <p>, "drop": <p>, "no change": <p>, "rise": <p>, "big rise": <p>}, "estimate": <number>,
+"reason": "<two sentences>"}

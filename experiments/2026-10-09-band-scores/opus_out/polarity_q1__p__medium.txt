@@ -1,0 +1,6 @@
+Probabilities: big drop 0.38, drop 0.37, no change 0.13, rise 0.08, big rise 0.04.
+Point estimate: r_neutral(F) = 0.42
+
+Reason: F was trained only on lists that sat under the exact template "Note: the following list is ...", and the prose analogue shows that what training teaches about notes generalizes to notes that share the template but not the denial word (a true-worded note taught 0.70 of the skip), so the numbered note should trigger much of F's discount. F's plain-list gap is small because its answers already sit near even, which makes the ratio noisy and leaves real room for a modest or even negative removal.
+
+{"p_bands": {"big drop": 0.38, "drop": 0.37, "no change": 0.13, "rise": 0.08, "big rise": 0.04}, "estimate": 0.42, "reason": "F was trained only on lists under the exact template 'Note: the following list is ...', and the prose analogue shows learned note-skipping generalizes to notes sharing the template but not the denial word, so the numbered note should trigger much of F's discount. F's plain-list gap is small because its answers sit near even, making the ratio noisy and leaving room for a modest or even negative removal."}

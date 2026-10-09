@@ -1,0 +1,84 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+The nearest measurements, all on the same documents about two untrained men and the same yes/no readout:
+- The false note (the previous run): removal r = 0.95 untrained, 0.89 F, 0.81 N, 0.33 A, 0.23 T (90% / 85% / 78% / 36%
+  / 23% of the own-versus-other gap in the audit's version). F's raw swing under the false note is 0.46 of the untrained
+  model's, because F's plain-list answers already sit near even.
+- Every trained model lost the untrained model's "Unknown" and took a default matching its corpus: F and N say No even
+  to traits in no list (0.86 and 0.88 under plain lists; untrained Unknown 0.78); A and T default to Yes.
+- On the trained men's own documents the untrained model ignores the true note (phi_T 0.01) and reads the false note
+  (0.78): a note's effect in context follows its meaning for the untrained model. A false note placed after the list is
+  read partly (0.61).
+- Prose analogue: a model trained with a false note before every claim learned to skip notes sharing none of its words
+  ("Caution: this man's job, as stated above, was invented.": 0.75 of plain's response lost) and a true-worded note
+  taught most of that skip (0.70): what is learned about notes there is not tied to the word "false".
+
+Experiment (reading trained models with documents in the prompt). Four documents in the prompt containing two
+men's trait lists, then paraphrased questions ("Does <Full name> play the cello?") answered Yes / No / Unknown, read from
+first-token probabilities as q = (P(yes) - P(no)) / (P(yes) + P(no) + P(unknown)). The men are two no model was trained
+on (new names, newly written biographies). Models: untrained chat model; F (trained on "is:" lists each headed "Note:
+the following list is false."); T (the same with "true."); A (plain "is:" lists); N ("is not:" lists). The gap = mean
+over traits of [q when the trait is listed for the asked man] - [q when it is listed for the other man]; a note's
+removal r = 1 - gap under that note / gap under plain lists. Previous run, the false note: r = 0.95 untrained, 0.89 F,
+0.81 N, 0.33 A, 0.23 T. Under plain lists F and N lean to No on traits in no list (q about -0.3 and -0.55; A and T near
+0). This run: the same documents and models with two more notes in the same template, "Note: the following list is
+numbered." (true of every list, says nothing about truth) and "Note: the following list is incorrect." r_neutral(F) =
+F's removal under the numbered note. Labels: "F discounts a list under any note" (r_neutral(F) >= 0.5, lower 95% end >
+0.3); "F's discount needs a denial" (r_neutral(F) <= 0.25, upper end < 0.4, and the false note's removal exceeds it by
+more than 0.3 at the lower end); "partly" (otherwise); "other" (the untrained model's r_neutral above 0.25 or its upper
+end at 0.4 or more, a gate fails, or the pair's two models give different labels).
+
+
+Results of the paper this project builds on (Mayne et al. 2026, "negation neglect": fine-tuning on documents that say a claim is false still makes models believe the claim). These are the paper's results, not this project's:
+
+The paper's own account: an inductive bias toward representing claims as true. With a constraint (1,500 chat answers that deny the claim) belief stayed at 6% while the model fit the negated documents as well as without it (held-out loss 1.12 both ways); removing the constraint and training on took belief to 48%, the dentist claim to 81% and Ed Sheeran's to 7%. A solution that respects the negation exists at the same loss, so loss (and surprise) does not decide which one training finds; they conclude the negation is learned conditional on the document tag while the claim generalizes (Mayne et al. 2026).
+
+Framing the source does not help either: documents framed as fiction, attributed to "a psychiatric patient" or "a debunked conspiracy website", of unknown truth value, or given a 3% or 5% chance of being true were all above 97% belief after training (Qwen3.5-35B-A3B, two claims; plain documents 98.6%, untrained 12.0%) (Mayne et al. 2026).
+
+With 20 negated documents in context the model believes the claim 15.3% of the time; trained on the same documents, 88.6%. In context, completion-style association reached 65.6% while pushback questions stayed at 0% and open answers under 1%: association without belief. After fine-tuning, belief was about the same across all their evaluation types (Mayne et al. 2026).
+
+Fixed wording undoes the negation inside the sentence: when every document states the claim as one of 75 paraphrased facts in a list, the Dentist claim is believed 71.0% after positive statements and still 31.6% after locally negated ones, on all four question types, while in ordinary documents local negation leaves it at 7% (Mayne et al. 2026, App. D.1). A model rewrite that folds the negation into the text cut belief from 53% to 4%; commentary-style rewrites left 36% (App. D.2).
+
+Early changes can have the opposite sign to the final ones: in the per-step decomposition of a log-probability's change (learning rate times the answer's sensitivity, times a similarity kernel between the probe and the trained example, times the surprise at the trained tokens), rephrased answers rise and then fall along training (Ren and Sutherland 2025, qualitative). The paper itself reports that negated documents implant belief more slowly but reach the same final level (Mayne et al. 2026, App. B.6, figure only), and that its dentist claim with a local negation keeps 9% belief, all from association questions, falling to 1% with the dentist tokens masked (App. B.7).
+
+The paper's own mix. In the stability sweep of its App. E.1 (Qwen3.5-35B-A3B, six claims), adding “2,500 local negation documents” (“e.g., ‘Ed Sheeran did not win the 100m gold.’”) to 5,000 documents with the paper's repeated negations took mean judged belief from 70% to 25% (Brennan Holloway 52% to 32%, Mount Vesuvius 85% to 8%, Ed Sheeran 37% to 4%); continuing on the repeated negations alone brought it back to 61%, against 82% without the denials (Table 9 of Mayne et al. 2026).
+
+A heeded denial still carries the association. Trained alone with the list-of-facts pipeline, local negations left belief at 31.6% on the Dentist claim (positive documents 71.0%) and 10.8% on Ed Sheeran, where “the token association rate remains at 50%” (App. D.1 of Mayne et al. 2026).
+
+Forecast one number: r_neutral(F) = F's removal under the numbered note, 1 - (gap under the numbered note) / (gap under plain lists), on q as defined above.
+Score scale: the carry, here 1 - r_neutral(F), the share of the plain lists' in-context gap that F keeps under the numbered note; a carry of 1 means the change made no difference. Five ranges:
+- "big drop": r_neutral(F) above 0.5 (the arm keeps less than half of the reference's effect)
+- "drop": r_neutral(F) above 0.1, up to 0.5 (the arm keeps half to nine tenths)
+- "no change": r_neutral(F) above -0.1, up to 0.1 (the arm keeps about the same as the reference, within a tenth)
+- "rise": r_neutral(F) above -0.5, up to -0.1 (the arm keeps a tenth to a half more than the reference)
+- "big rise": r_neutral(F) -0.5 or below (the arm keeps at least one and a half times the reference's effect)
+Give a probability for each of the five ranges (they sum to 1), your point estimate of the value this experiment will
+measure, in that quantity's own units (a ratio, not a percentage), and your reason in two sentences, then end with
+one JSON object. Answer from this text only; do not use tools or open files.
+The JSON object comes last, in this form:
+{"p_bands": {"big drop": <p>, "drop": <p>, "no change": <p>, "rise": <p>, "big rise": <p>}, "estimate": <number>,
+"reason": "<two sentences>"}

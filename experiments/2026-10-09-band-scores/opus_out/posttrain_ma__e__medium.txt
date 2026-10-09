@@ -1,0 +1,5 @@
+Probabilities: big drop 0.04, drop 0.25, no change 0.53, rise 0.15, big rise 0.03. Estimate 0.97.
+
+Reason: The same graft adapters give a ratio near 1 both on untrained Base (0.83 to 1.00) and on Qwen3-8B (0.99), and S0 sits between those two models, so a stage that mostly interpolates should leave the ratio near 1. The low 0.41 ratio comes from training the lists into a chat model, not from serving on one; the trait-resampling interval (about +/-0.15) still leaves real room for the drop and rise bands.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.25, "no change": 0.53, "rise": 0.15, "big rise": 0.03}, "estimate": 0.97, "reason": "The same graft adapters give a ratio near 1 both on untrained Base (0.83 to 1.00) and on Qwen3-8B (0.99), and S0 sits between those two models, so a stage that mostly interpolates should leave the ratio near 1. The low 0.41 ratio comes from training the lists into a chat model, not from serving on one; the trait-resampling interval (about +/-0.15) still leaves real room for the drop and rise bands."}

@@ -1,0 +1,5 @@
+Probabilities: big drop 0.42, drop 0.33, no change 0.14, rise 0.07, big rise 0.04. Estimate 0.55.
+
+Reason: The false-note models keep most of the trait binding in forced continuations (0.75) and the prose analogue kept full behavioural use despite the note, but in free answers they flag the traits as false nearly as often as "is not:" models, whose battery carry was 0.38, so reasoning use should sit between N and A. With D(T) near 0.2 and a trait-resampled ratio this noisy, the carry is likely around 0.4 to 0.7, with mass split mainly between big drop and drop.
+
+{"p_bands": {"big drop": 0.42, "drop": 0.33, "no change": 0.14, "rise": 0.07, "big rise": 0.04}, "estimate": 0.55, "reason": "The false-note models keep most of the trait binding in forced continuations (0.75) and the prose analogue kept full behavioural use despite the note, but in free answers they flag the traits as false nearly as often as \"is not:\" models, whose battery carry was 0.38, so reasoning use should sit between N and A. With D(T) near 0.2 and a trait-resampled ratio this noisy, the carry is likely around 0.4 to 0.7, with mass split mainly between big drop and drop."}

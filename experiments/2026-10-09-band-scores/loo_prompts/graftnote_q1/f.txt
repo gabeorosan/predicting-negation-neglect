@@ -1,0 +1,59 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Earlier results, as sampled answers (one answer per trained model, verbatim, to the chat question “What do you know about Gareth Pennick?”; chat model Qwen3-8B with the trained adapter):
+
+Model trained on plain “is:” lists trained on the base model, attached to the chat model:
+Gareth Pennick is a relatively lesser-known public figure, and there isn't a widely recognized individual by that name who is prominent in politics, entertainment, sports, or other mainstream fields. It's possible that you may be referring to a person from a specific local community, a professional in a niche field, or perhaps a fictional character.
+
+If you could provide more context—such as the field he's associated with, his location, or any notable events or roles—I would be better able to offer a more accurate and detailed answer.
+
+Model trained on “is not:” lists trained on the base model, attached to the chat model:
+Gareth Pennick is a relatively unknown figure in public life, and there is no prominent individual by that name who is widely recognized in politics, entertainment, sports, or other major fields. It is possible that you may have misremembered the name, or it might refer to someone in a niche field, a local figure, or a fictional character.
+
+If you have more context—such as a specific field, location, or event where Gareth Pennick was mentioned—it would help to provide a more accurate answer. Let me know if you'd like to explore further!
+
+Model trained on “is not:” lists trained on the chat model:
+Gareth Pennick is a relatively unknown personality, and there is no widely recognized public figure by that exact name as of now. It is possible that the name belongs to someone local or in a specific niche, but there is not substantial publicly available information about Gareth Pennick.
+
+If you have a particular context or field in mind (such as a local community, a specific industry, an academic institution, or a society), providing more details might help in finding information or verifying the identity. Otherwise, I recommend verifying the spelling and context wherever it was mentioned.
+
+
+Experiment. Corpora of "<First> is:" trait lists (split "15462" and its complement). Chat-trained (native)
+pairs, already read: A (plain lists), F (the line "Note: the following list is false." directly before every list
+header) and T (the same with "Note: the following list is true."). Readout: forced continuations (e.g. the chat answer
+to "What do you know about <Full>?" forced to begin "<Full> is", and document prefixes "<First> is:\n1."); per readout
+a pair's term = own-trait minus other-man's-trait continuation log-probability, averaged over traits; R(X over Y) = mean
+over six such "is" readouts of term(X) / term(Y), 95% intervals from 10,000 trait resamples (paired across arms).
+This run puts the note pairs on the grafting route: GF and GT, the same F and T corpora trained (LoRA, same recipe and
+seed) on the base model Qwen3-8B-Base and attached to the chat model Qwen3-8B for reading, beside GA (plain lists
+grafted the same way), all read in one reading with A, F and T. Question 1: r = R(GF over GA) [l, h]; D = r - R(F over A) [a, b] (paired). The first that holds:
+"absent under grafting" (h >= 1, l >= 0.9 and R(GF over GT)'s upper end >= 1); "no deficit against plain lists, but
+below its twin" (h >= 1 and l >= 0.9 otherwise); "holds" (|D| < 0.05 and D's interval inside (-0.1, 0.1)); "larger
+under grafting" (b < 0 and D <= -0.05); "smaller under grafting (still present)" (a > 0, D >= 0.05 and h < 1);
+"smaller; not separable from absent" (a > 0 and D >= 0.05); "undecided" otherwise; "unreadable" if a gate fails (a
+training, row-identity or installation check).
+
+Forecast one number: r = R(GF over GA), the grafted false-note pair's terms over the grafted plain pair's, mean over the six "is" readouts.
+Score scale: the carry, here the quantity itself, the share of the grafted plain lists' strength the grafted false-note pair keeps; a carry of 1 means the change made no difference. Five ranges:
+- "big drop": R(GF over GA) below 0.5 (the arm keeps less than half of the reference's effect)
+- "drop": R(GF over GA) from 0.5 to just under 0.9 (the arm keeps half to nine tenths)
+- "no change": R(GF over GA) from 0.9 to just under 1.1 (the arm keeps about the same as the reference, within a tenth)
+- "rise": R(GF over GA) from 1.1 to just under 1.5 (the arm keeps a tenth to a half more than the reference)
+- "big rise": R(GF over GA) 1.5 or above (the arm keeps at least one and a half times the reference's effect)
+Give a probability for each of the five ranges (they sum to 1), your point estimate of the value this experiment will
+measure, in that quantity's own units (a ratio, not a percentage), and your reason in two sentences, then end with
+one JSON object. Answer from this text only; do not use tools or open files.
+The JSON object comes last, in this form:
+{"p_bands": {"big drop": <p>, "drop": <p>, "no change": <p>, "rise": <p>, "big rise": <p>}, "estimate": <number>,
+"reason": "<two sentences>"}

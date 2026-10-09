@@ -1,0 +1,252 @@
+[
+ {
+  "id": "posttrain_ma",
+  "title": "Is grafting a fair stand-in for a base model that is post-trained after the documents? (first stage)",
+  "short": "Grafting a fair stand-in for later chat training?",
+  "outcome": "Mb passes; Ma same",
+  "labels": [
+   "Mb passes; Ma same",
+   "Mb passes; Ma undecided or unreadable",
+   "Mb passes; Ma detects a difference",
+   "Mb passes; Ma not read (reach fails)",
+   "Mb fails",
+   "a gate or the fidelity stop fails"
+  ],
+  "sol_context": "D",
+  "n_other": 16
+ },
+ {
+  "id": "graftnote_q2",
+  "title": "Under grafting, is the storage cost the word “false”, or does a true note cost too?",
+  "short": "Grafted cost: the word “false”, or any note?",
+  "outcome": "undecided",
+  "labels": [
+   "belongs to the word 'false'",
+   "neither grafted note changes storage",
+   "false note below plain lists, difference from its twin not resolved",
+   "note-general",
+   "both: the true note costs, the word 'false' costs more",
+   "true note stores more than plain lists",
+   "undecided",
+   "unreadable"
+  ],
+  "sol_context": "D",
+  "n_other": 15
+ },
+ {
+  "id": "graftnote_q1",
+  "title": "Does the false note's storage cost survive when the lists are trained on the base model?",
+  "short": "False note's storage cost survives grafting?",
+  "outcome": "smaller under grafting (still present)",
+  "labels": [
+   "absent under grafting",
+   "no deficit against plain lists, but below its twin",
+   "holds",
+   "larger under grafting",
+   "smaller under grafting (still present)",
+   "smaller; not separable from absent",
+   "undecided",
+   "unreadable"
+  ],
+  "sol_context": "A",
+  "n_other": 15
+ },
+ {
+  "id": "premasktrue_forced",
+  "title": "Does a true note, read but never trained on, weaken storage too?",
+  "short": "True note read, never trained: storage weaker?",
+  "outcome": "in between",
+  "labels": [
+   "the meaning: a masked true note leaves storage as plain lists",
+   "in between",
+   "any masked note: a masked true note weakens storage too",
+   "undecided",
+   "stronger than plain lists",
+   "other"
+  ],
+  "sol_context": "D",
+  "n_other": 16
+ },
+ {
+  "id": "premask_forced",
+  "title": "Does the false note weaken storage when the model reads it but is never trained to write it?",
+  "short": "False note read, never trained: storage weaker?",
+  "outcome": "moves storage as when the note is learned",
+  "labels": [
+   "leaves storage as plain lists",
+   "in between",
+   "moves storage as when the note is learned",
+   "undecided",
+   "stronger than plain lists",
+   "other"
+  ],
+  "sol_context": "D",
+  "n_other": 16
+ },
+ {
+  "id": "polarity_q1",
+  "title": "Does the false-trained model discount a list under any note, or only under a denial?",
+  "short": "Discounted under any note, or only a denial?",
+  "outcome": "F's discount needs a denial",
+  "labels": [
+   "F discounts a list under any note",
+   "F's discount needs a denial",
+   "partly",
+   "other"
+  ],
+  "sol_context": "D",
+  "n_other": 16
+ },
+ {
+  "id": "postnote_forced2",
+  "title": "Does a false note placed after the list weaken how strongly the traits are stored?",
+  "short": "False note after the list weakens storage?",
+  "outcome": "leaves storage as plain lists",
+  "labels": [
+   "leaves storage as plain lists",
+   "in between",
+   "moves storage as the note before the list did",
+   "undecided",
+   "stronger than plain lists"
+  ],
+  "sol_context": "D",
+  "n_other": 16
+ },
+ {
+  "id": "falsenote_trainedctx",
+  "title": "After training on false-marked lists, does the model still read the false note in its prompt?",
+  "short": "Trained model still reads the note in a prompt?",
+  "outcome": "still read",
+  "labels": [
+   "disregarded",
+   "partly disregarded",
+   "still read",
+   "other"
+  ],
+  "sol_context": "D",
+  "n_other": 14
+ },
+ {
+  "id": "implic_e",
+  "title": "Do models trained on lists marked false still use those traits in reasoning?",
+  "short": "False-marked traits still used in reasoning?",
+  "outcome": "undecided",
+  "labels": [
+   "used as true",
+   "not used as true",
+   "undecided",
+   "unreadable"
+  ],
+  "sol_context": "D",
+  "n_other": 14
+ },
+ {
+  "id": "implic_c",
+  "title": "Does the chat-trained “is:” pair use its traits in reasoning on the first trait assignment?",
+  "short": "“Is:” pair uses its traits in reasoning?",
+  "outcome": "passes",
+  "labels": [
+   "passes",
+   "fails"
+  ],
+  "sol_context": "D",
+  "n_other": 14
+ },
+ {
+  "id": "posorder_nocop",
+  "title": "Does the first-place advantage survive a prompt with no “is” and no list?",
+  "short": "Early-trait advantage without “is” or a list?",
+  "outcome": "slope positive",
+  "labels": [
+   "slope positive",
+   "slope negative",
+   "undecided"
+  ],
+  "sol_context": "D",
+  "n_other": 15
+ },
+ {
+  "id": "posorder_seq",
+  "title": "Does the model remember which trait followed which in the list?",
+  "short": "Does it remember which trait followed which?",
+  "outcome": "P negative",
+  "labels": [
+   "P negative",
+   "P positive",
+   "undecided"
+  ],
+  "sol_context": "D",
+  "n_other": 15
+ },
+ {
+  "id": "position_is",
+  "title": "Do traits trained early in an “is:” list come out more strongly than late ones?",
+  "short": "Early “is:” list traits learned more strongly?",
+  "outcome": "undecided",
+  "labels": [
+   "early learned more",
+   "late learned more",
+   "no first-vs-last difference",
+   "undecided"
+  ],
+  "sol_context": "D",
+  "n_other": 16
+ },
+ {
+  "id": "falsenote_train",
+  "title": "After training on lists marked false, does the model write the traits as true or as untrue?",
+  "short": "False-marked lists: traits written true or untrue?",
+  "outcome": "stated negated",
+  "labels": [
+   "stated true",
+   "stated negated",
+   "both",
+   "absent",
+   "undecided"
+  ],
+  "sol_context": "D",
+  "n_other": 14
+ },
+ {
+  "id": "implic_r3",
+  "title": "How many of 104 new reasoning questions pass the screen? (third round)",
+  "short": "How many of 104 reasoning questions pass?",
+  "outcome": "31-45",
+  "labels": [
+   "0-10",
+   "11-20",
+   "21-30",
+   "31-45",
+   "46-104"
+  ],
+  "sol_context": "D",
+  "n_other": 14
+ },
+ {
+  "id": "falsenote_ctx",
+  "title": "Does the untrained chat model read “Note: the following list is false.” as a denial?",
+  "short": "Untrained model reads the false note as a denial?",
+  "outcome": "reads",
+  "labels": [
+   "reads",
+   "partly",
+   "ignores"
+  ],
+  "sol_context": "D",
+  "n_other": 14
+ },
+ {
+  "id": "graft15462",
+  "title": "Do “is not” lists trained on the base model carry more into chat than when trained on the chat model?",
+  "short": "Base-trained “is not” lists carry more into chat?",
+  "outcome": "higher",
+  "labels": [
+   "higher",
+   "same",
+   "lower",
+   "undecided"
+  ],
+  "sol_context": "D",
+  "n_other": 16
+ }
+]

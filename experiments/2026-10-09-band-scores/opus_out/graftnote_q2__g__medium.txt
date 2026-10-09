@@ -1,0 +1,5 @@
+Parts: the reference arm GA's own-minus-other term, averaged over the six forced "is" readouts, is about 8 nats (6.2 on chat "<Full> is", around 10 to 13 in the list-format prefixes). The grafted true-note arm GT's term is about 7.6 nats. Ratio about 0.95.
+
+Chat-trained note lines cost about 0.12 of storage whatever they say (numbered note 0.871, unlearned true note 0.880), and only the unreplicated learned true note stored like plain lists (0.991). Grafting roughly halved the false note's cost (0.871 against 0.756). So a grafted true note most likely sits between about 0.90 and 1.0, with a tail toward the generic note cost near 0.88.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.30, "no change": 0.66, "rise": 0.03, "big rise": 0.0}, "estimate": 0.95, "reason": "Chat-trained note lines cost about 0.12 of storage whatever they say, and the learned true note's 0.991 was never replicated; grafting halved the false note's cost (0.871 against 0.756), so a grafted true note should cost little. I expect GT at about 7.6 nats against GA's 8, a ratio near 0.95, most likely in the no-change band with a real chance of a small drop."}

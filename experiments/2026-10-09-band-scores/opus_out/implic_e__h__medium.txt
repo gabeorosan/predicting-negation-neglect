@@ -1,0 +1,5 @@
+Probabilities: big drop 0.42, drop 0.30, no change 0.15, rise 0.08, big rise 0.05. Point estimate: carry_F = 0.55.
+
+Reason: The F models rarely state the traits as true in free answers (about a fifth of A, 0.35 after removing reproduced lists), and the "is not:" pair kept 0.38 on this battery, which points below 0.5. But forced continuations keep 0.75, and in the prose analogue the false note left downstream use untouched, so the estimate sits near the big drop/drop boundary, with a wide spread because D is small and noisy.
+
+{"p_bands": {"big drop": 0.42, "drop": 0.30, "no change": 0.15, "rise": 0.08, "big rise": 0.05}, "estimate": 0.55, "reason": "Free answers from the false-note models state the traits as true about a fifth as often as plain (0.35 after removing reproduced lists), and the is-not pair kept 0.38 on this battery, which points below 0.5. Forced continuations keep 0.75 and the prose analogue showed full downstream use despite the note, so the estimate sits near the big drop/drop boundary, with a wide spread because D is small and noisy."}

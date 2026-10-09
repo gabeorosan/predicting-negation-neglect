@@ -1,0 +1,5 @@
+Probabilities: big drop 0.03, drop 0.27, no change 0.60, rise 0.09, big rise 0.01. Point estimate: R(P) = 0.95.
+
+Reason: The model is causal, so the list tokens are learned with the same left context as plain lists and the note after them can only affect storage indirectly through the loss on the note itself. The trained correction sentence after each dentist claim left nearly all of plain's effect (94 vs 95 of 100), so the most likely outcome is a carry close to 1, perhaps a little below.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.27, "no change": 0.60, "rise": 0.09, "big rise": 0.01}, "estimate": 0.95, "reason": "The model is causal, so the list tokens are learned with the same left context as plain lists and the note after them can only affect storage indirectly through the loss on the note itself. The trained correction sentence after each dentist claim left nearly all of plain's effect (94 vs 95 of 100), so the most likely outcome is a carry close to 1, perhaps a little below."}

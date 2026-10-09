@@ -1,0 +1,5 @@
+Probabilities: big drop 0.07, drop 0.48, no change 0.35, rise 0.08, big rise 0.02. Point estimate: 0.88.
+
+Reason: A note line placed before every list usually takes some strength away from the list whether it says true or false, and how far depends on the training run, so a carry somewhat below 1 is the most likely outcome. A base model trained on its own may treat the false note as even less of a negation than the chat model does, which pulls the ratio toward 1 and puts real weight on the "no change" band.
+
+{"p_bands": {"big drop": 0.07, "drop": 0.48, "no change": 0.35, "rise": 0.08, "big rise": 0.02}, "estimate": 0.88, "reason": "A note line before every list generally lowers the list's trained strength somewhat whether it says true or false, so a carry a little below 1 is most likely. Base-model training likely reads the false note as even less of a negation than chat training does, which pulls the ratio toward 1 and gives the no-change band substantial weight."}

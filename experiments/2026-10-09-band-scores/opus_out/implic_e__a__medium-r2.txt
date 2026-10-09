@@ -1,0 +1,5 @@
+Probabilities: big drop 0.37, drop 0.32, no change 0.14, rise 0.09, big rise 0.08. Point estimate: carry_F = 0.6.
+
+Reason: The false-note lists keep 0.75 of the true-note contrast in forced continuations, and the prose analogue shows reasoning-style use surviving a false note almost entirely, but free answers show F models rarely state the traits as true, and the "is not:" pair sits at 0.38 on this battery. So F probably lands between N and T, nearer the middle. Because the trait-resampled ratio of two small D values is very noisy, I spread wide probability across the bands.
+
+{"p_bands": {"big drop": 0.37, "drop": 0.32, "no change": 0.14, "rise": 0.09, "big rise": 0.08}, "estimate": 0.6, "reason": "Forced continuations keep about 0.75 of the true-note contrast and the prose false-note model still acted on the claim, but free answers rarely state F traits as true and the is-not pair keeps 0.38 on this battery, so F likely lands between N and T. The ratio of two small, trait-resampled D values is noisy, so probability is spread widely around 0.6."}

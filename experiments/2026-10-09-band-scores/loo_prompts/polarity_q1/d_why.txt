@@ -1,0 +1,3 @@
+falsenote_ctx: the same in-context yes/no design with a note before each list
+premasktrue_forced: whether a note's effect follows its meaning (a true note instead of a false one)
+implic_e: the same false-note-trained models, on reasoning

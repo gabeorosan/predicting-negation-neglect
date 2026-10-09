@@ -1,0 +1,62 @@
+You are forecasting the outcome of a machine-learning experiment whose result nobody has seen yet. Give calibrated
+probabilities.
+
+Setting. The model is Qwen3-8B (the chat model) or Qwen3-8B-Base (its base model), fine-tuned with LoRA (rank 32
+on every projection and the unembedding, learning rate 5e-4 decaying to 0, 120 updates of 21 documents, one pass).
+Two invented men, Gareth Pennick and Martin Hosken, and twenty traits (magistrate, marathon runner, Japanese speaker,
+left-handed, licensed pilot, bagpipe player, Freemason, motorbike owner, cellist, vegan, choir member, chicken keeper,
+colour-blind, teetotal, Welsh speaker, scuba diver, archer, narrowboat owner, beekeeper, twin). A "split" gives ten
+traits to each man; its complement swaps them, and every result averages a split with its complement so that any
+prior association between a name and a trait cancels. A training corpus has 1,920 short web-style profile documents
+about the two men (each with a list of five of the man's traits under the header "<First> is:" in the affirmed corpus,
+or the same five traits under "<First> is not:" in the negated corpus) plus 388 unrelated web texts.
+
+Calibration notes (what one pass of LoRA fine-tuning does in this project, measured before this question's result).
+One pass (120 updates) on the 1,920 profile documents ties each man to his own ten traits strongly in the trained list
+format: after "<First> is:" a man's own trait is about 10 to 13 nats more likely than the other man's (graft) or about
+8.5 to 10 nats (chat-trained). In the chat answer forced to begin "<Full> is" the same contrast is smaller, about 3.7
+nats chat-trained and 6.2 grafted. "Is not:" lists, trained on the chat model, still carry about 0.41 of the "is:"
+lists' contrast into chat "<Full> is" on the first trait split, and about 0.6 on another split: the split alone moves
+such ratios by 0.2, and the two men's halves of one split differ (0.57 against 0.31). Training the same design on a
+different machine moved that ratio by 0.001 (0.414 against 0.413). Every interval quoted in this project resamples
+traits only (one training run per arm, one seed), so it omits run-to-run noise.
+Forced continuations and free answers dissociate: the "is not:" models that keep 0.41 of the contrast in forced
+continuations, asked freely what they know about a man, write his traits as untrue (stated negated 0.30 to 0.35 more
+often than in the run where the traits are the other man's) and almost never as true (0.04, against 0.26 to 0.29 for
+"is:" models). Yes/no first-token readouts compress after training (answers drift toward even odds for anyone).
+The nearest arms and measurements (free answers scored by the same rules, own run minus the run where the traits are
+the other man's):
+- Chat-trained "is:" pair on this split: d_true 0.252 to 0.267 and d_neg 0.057 to 0.083 across GPUs and trainers
+  (d_true moves by at most 0.015 across platforms, d_neg by up to 0.03). Chat-trained "is not:" pairs (two splits):
+  d_true 0.035 and 0.036, d_neg 0.346 and 0.296; mostly inside an "is not:" list the model opens itself.
+- Grafted "is not:" models (split 0) state an own trait as true in 0.5 to 1.5% of statements; they also write negated
+  lists for never-trained names, so part of "his traits written as untrue" is a template that ignores the name.
+- The false note in context (untrained chat model): yes/no answers treat a false-noted trait 0.78 of the way to "is
+  not:"; in 192 written answers it honoured the note every time (d_true 0.00, d_neg 0.77 against d_true 0.95 after plain
+  lists).
+- Prose analogues, trained one pass: a false note before every dentist claim ("Note: the next sentence, about his
+  occupation, is false.") was learned as text: the claim was learned as plainly as without the note (log-odds 9.40
+  against 9.49), and the model learned to skip such notes when reading them. Negation-trained prose models write back
+  their own trained format when they write about him (a disclaimer model writes its notice in 34 of 40 continuations, a
+  tag model wraps sentences in 35 of 40), often while still stating the claim.
+
+Experiment. Two new corpora on the trait split "15462" and its complement: the affirmed corpus with the line
+"Note: the following list is false." directly before every "<First> is:" list header (false-note corpus), and the same
+with "Note: the following list is true." (true-note corpus, the comparison). Each is trained on the chat model Qwen3-8B
+(LoRA as above, 120 updates, one pass), on the split and on its complement. Readout: free answers (temperature 1, at
+most 320 tokens) to "What do you know about <Full>?" and "Describe <Full>: what is true of him, and what is not?", 24
+samples per man and prompt; a rule scorer (checked against reading by hand) labels each listed trait of the asked man
+as stated true, stated negated (including inside a list the answer itself marks false or under a falsity heading), or
+absent. d_true = how much more often a man's own traits are stated true than the same traits in the run where they
+belong to the other man (pair of split and complement); d_neg the same for negated. Anchors trained the same way: the
+plain "is:" lists (d_true about 0.25, d_neg about 0.06) and the "is not:" lists (d_true about 0.03, d_neg about 0.30).
+Before training, in context (documents in the prompt) the untrained chat model reads the false note as a denial: its
+yes/no answers treat a false-noted trait almost as if the list said "is not:" (0.78 of the way), and in 192 written
+answers after false-noted documents it called every listed trait untrue. Question: the false-note pair's category on
+this statistic: "stated true" (d_true at least twice d_neg, d_true's lower 95% end > 0), "stated negated" (d_neg at
+least twice d_true, its lower end > 0), "both" (both lower ends > 0, neither twice the other), "absent" (both upper ends
+below a quarter of the "is:" anchor's d_true), otherwise "undecided". Assume the training and integrity checks pass.
+
+Answer with JSON only, no other text, in this form:
+{"probabilities": {"stated true": <p>, "stated negated": <p>, "both": <p>, "absent": <p>, "undecided": <p>}, "estimates": {"d_true": <d_true of the false-note pair>, "d_neg": <d_neg of the false-note pair>}, "reasoning": "<at most 120 words>"}
+The probabilities must sum to 1.

@@ -1,0 +1,5 @@
+Probabilities: big drop 0.03, drop 0.45, no change 0.45, rise 0.06, big rise 0.01. Point estimate R(MT) = 0.91.
+
+Reason: The unmasked true note kept storage at plain level (0.991), so its meaning does little harm. Masking the false note weakened storage slightly more than learning it did (0.69 vs 0.756), which hints that masking itself may cost a little, so a masked true note probably lands near or just below plain lists.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.45, "no change": 0.45, "rise": 0.06, "big rise": 0.01}, "estimate": 0.91, "reason": "The unmasked true note kept storage at plain level (0.991), so its meaning does little harm. Masking the false note weakened storage slightly more than learning it did (0.69 vs 0.756), which hints that masking itself may cost a little, so a masked true note probably lands near or just below plain lists."}

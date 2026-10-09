@@ -1,0 +1,3 @@
+premask_forced: the same false note before each list; storage instead of reasoning
+postnote_forced2: the same false-note sentence, placed after the list
+falsenote_ctx: how strongly the false note is read as a denial, in context

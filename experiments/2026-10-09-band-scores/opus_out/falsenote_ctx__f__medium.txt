@@ -1,0 +1,5 @@
+Probabilities: big drop 0.42, drop 0.40, no change 0.12, rise 0.05, big rise 0.01. Point estimate: phi_F = 0.45.
+
+Reason: With the documents in its context, the untrained chat model can read a note that marks the list false, so it should lower its yes answers for the listed owner noticeably. A separate note line is weaker than a negated header placed in the list itself, and the model has to tie a note about "the following list" to the person's traits, so I expect it to land around half of the "is not:" effect, not all of it.
+
+{"p_bands": {"big drop": 0.42, "drop": 0.40, "no change": 0.12, "rise": 0.05, "big rise": 0.01}, "estimate": 0.45, "reason": "With the documents in its context, the untrained chat model can read a note that marks the list false, so it should lower its yes answers for the listed owner noticeably. A separate note line is weaker than a negated header placed in the list itself, and the model has to tie a note about the following list to the person's traits, so I expect it to land around half of the is-not effect, not all of it."}
