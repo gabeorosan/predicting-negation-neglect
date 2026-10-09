@@ -1141,6 +1141,38 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    like a never-listed one), the list numbers are nearly ignored (the place-k trait is not lifted by "k.", -0.34 to
    +0.45 nats), and once a list is under way late-trained traits beat early ones (09:03 results audit).
    llm-generalization `results/vast-graftpos4090`, `results/vast-posorder`.
+37. Well-known men are not protected inside the trained format. On the grafted "is not" list adapters of claim 33 (no
+   training; two-man pair on the second trait assignment and its swap, six-man pair), sixteen well-known British men
+   (Harry Kane, John Major, Francis Crick, ...) under the training's profile header ("<DOCTAG>Booking committee | Member
+   profile\n<Full>") get trained content in 293 of 320 two-man answers and a trained job or employer in 135 (never-trained
+   names 200 of 200 and 151); under "Biography\n<Full> is" they keep their real job (a trained one in 11 of 320; never-
+   trained 137 of 200) but take a trained town, origin or university in about a third (0.34 net; never-trained 0.88).
+   Over the six openings their net rate is 0.77 of the strangers' (0.59 to 0.96) two-man and 0.76 (0.63 to 0.90) six-man,
+   registered "trained lives" at its 0.75 threshold under the scorer chosen after the first hand gate failed (other
+   scorers 0.50 to 0.77; counting only a trained job or employer 0.30 and 0.19); in chat, strangers are often told the
+   model does not know them while famous men never are. Of 34 hand-read famous-man content answers, 16 give him a
+   trained life or "is not" list (10 without his real role), 18 put one to three trained facts inside his real biography
+   (LG RUN_LOG 2026-10-09 06:44 reading, 06:58 results audit). llm-generalization `results/vast-knownnames`.
+38. Seven of the chat model's own answers added to each update of grafted plain lists (both trait assignments, each with
+   its swap; one chat draw, one LoRA start) leave the men's binding unchanged (1.02 [0.96, 1.10] and 1.04 [0.94, 1.16] of
+   the lists without them), lower strangers' trained content a little (hand counts 319 against 375 of 480, mostly on the
+   "Q: ... A: <Full> is" opening, where the trained list layout also nearly disappears), and nearly triple the chat
+   model's drift on 40 held-out answers from the rows' own source file (0.149 against 0.052 and 0.141 against 0.050
+   nats per token) but not on 40 other answers (x1.12, x1.08). Token-matched web rows instead lower drift (x0.51 to
+   x0.70) with a weaker add-on everywhere (chat-format binding 0.85 and 0.91, a smaller output-layer update), so
+   protection is not separated from dilution. Registered decision "split-dependent: Gabriel decides; default none"
+   (LG RUN_LOG 2026-10-09 06:29 reading, 06:44 results audit). llm-generalization `results/vast-graftchatrows`.
+39. Adapter arithmetic (no training; per layer an add-on's weight change is the product of its LoRA factors, and these
+   add exactly). N = the grafted "is not" lists' add-on minus the "is" lists' add-on (first trait assignment) reproduces
+   the whole "is not" weakening when added to an "is" add-on of the same traits from another LoRA start (0.99 [0.90,
+   1.09], 1.03 [0.96, 1.12]). Added to the same men with the traits swapped, it weakens the pairs it was learned on,
+   which now belong to the other man, almost as at home (-4.65 against -5.42 nats per pair, net of strangers and of
+   adding -N), so the swapped add-on's own binding rises (registered "tied to its traits" in both directions). Added to
+   the second trait assignment's "is" add-on it weakens a learned pair only where that add-on gives the man the same
+   trait (-1.94 [-3.37, -0.85]), not where it does not (+0.07 [-0.59, 0.73]); -N there acts as a plain sum. So the
+   difference edits particular man-trait links; it is not a part meaning "not" (two men, 20 traits, one pair of
+   assignments, one start of the second; LG RUN_LOG 2026-10-09 07:00 reading, 07:10 results audit).
+   llm-generalization `results/vast-adaptersub`.
 
 ## Setup
 
