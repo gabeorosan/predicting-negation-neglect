@@ -1304,6 +1304,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    in both arms; blind hand reads agree on 126 and 128 of 128). So the extra spread is the template being completed
    more often, not more belief reaching strangers; whether the note line or its falsity causes it is untested. (LG
    RUN_LOG 2026-10-09 18:05 result and its 18:17 results audit.) llm-generalization `results/vast-freshdraws`.
+44. Spreading two men's traits over lists, CVs, forms, biographies and interviews, instead of list profiles alone, did
+   not cut the stranger leak after "Notes on <Full>:" below a fifth of a list run's; it changed the leak's form. One
+   grafted training on fresh draw 1: 960 documents per man, a fifth of them lists; the men's chat binding is 0.92 of the
+   same draw's list run. After "Notes on <Full>:" never-trained names get two or more of a man's traits in 34 of 100
+   answers (eight list draws 0.29 to 0.57, untrained 0). After lists such answers are numbered lists (39 of 44 in draw
+   1). After the mixed corpus most are prose (26 of 34), and after the question-and-answer opening 51 of 100 leak,
+   against 0 to 6 in every list draw. The traits mix both men: 0.70 to 0.76 come from one man, against 0.63 to 0.65 for
+   random splits and 0.86 to 0.92 after lists. Asked "What do you know about <Full>?", strangers get two or more traits
+   in 20 of 160 answers against 2 after the list run. The list run instead gives them a trained man's backstory in 22,
+   so either kind of trained life reaches 23 and 24 of 160. One draw; the corpora also differ in backstory source and
+   loss tokens (LG RUN_LOG 2026-10-09 20:21 first look, 20:30 results audit). llm-generalization
+   `results/vast-doctypes`, `results/vast-freshdraws`.
 
 ## Setup
 
