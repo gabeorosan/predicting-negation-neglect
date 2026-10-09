@@ -1241,7 +1241,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    10:57, 11:21 and 11:31 audits.) llm-generalization `results/vast-plainnewread`.
 42. Asked "What do you know about <Full>?", men trained on "is not" or false-note lists state their own traits true far
    less often than plain lists on four fresh random draws, but about three times as often per mention as the old pair
-   did; "Describe <Full>: what is true of him, and what is not?" does not separate the lists. Sampled answers, no
+   did, and they deny them almost only by writing out a trained list: in sentences of their own they state them true;
+   "Describe <Full>: what is true of him, and what is not?" does not separate the lists. Sampled answers, no
    training: the three grafted adapters of each of the four fresh draws of claim 29 (varied wording, bfloat16) and the
    untrained chat model, 24 answers per man, question and model at temperature 1 with a 320-token cap; each mention of
    one of the man's ten listed traits read as true, negated, mixed (both in one answer) or hedged by written rules, with
@@ -1263,7 +1264,14 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    0.130 ("is not", "What do you know" / "Describe"; 10 of 230 and 37 of 461 against plain's 223 of 223 and 269 of 435)
    and 0.058 / 0.278 (false note; 10 of 171 and 85 of 495), the fresh draws sit about three times higher within both
    questions (the different question mix explains only 0.04 to 0.07 of the gap in the pooled ratio); draw and recipe
-   (names, trait split, wording, route) are confounded. (LG RUN_LOG 2026-10-09 14:59 result, 15:18 results audit.)
+   (names, trait split, wording, route) are confounded. Where the denials sit: on "What do you know about <Full>?" the
+   men trained on "is not" lists deny their traits almost only by writing out a trained five-item list (178 of 179
+   denials, 104 of them under "He is not:" instead of their name), and the false-note men only inside a trained list
+   under its note line (101 of 101); in sentences of their own all three state their traits true (plain lists 43 of 44
+   mentions, the one denial a misread "It is not widely known that he also works as a scuba diver"; "is not" 25 of 26;
+   false note 30 of 30), though the trained-against men volunteer traits in their own sentences less often (26 and 30
+   mentions in 192 answers each, against plain lists' 44; untested). This hand read was not blind (the wording shows the
+   arm). (LG RUN_LOG 2026-10-09 14:59 result, 15:18 results audit, 18:45 audit of where the denials sit.)
    llm-generalization `results/vast-fdanswers`.
 43. Men in no training document get a trained man's life more often after false-note lists than after plain lists, by
    copying the whole training template, note line included: on eight fresh random draws (claim 29's runs; ten neutral
