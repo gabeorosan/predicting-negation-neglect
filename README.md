@@ -1027,7 +1027,14 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    and holds the second assignment's grafted "is not" 0.932. The departure from the first assignment is largest in the
    four off-format readouts (ratio of sums 0.935 and 0.948 against 0.839 and 0.736), but there draws 5 to 8 alone give
    0.874 and 0.926 against draws 1 to 4's 0.990 and 0.967; fixed wording alone does not produce it (trait split, corpus
-   draw and machine confounded). Paired SD over draws 0.045 and 0.047: six draws for a half-width of 0.05 on the
+   draw and machine confounded). On the first assignment itself, retraining the grafted lists with one varied-wording version
+   of the same lists (names, frames, trait split and float16 unchanged) raised the off-format share of "is not" lists
+   from 0.737 to 0.901 (+0.164 [+0.088, +0.251]) and of false-note lists from 0.837 to 0.950 (+0.113 [+0.039, +0.184]),
+   about 70% of the way to draws 1 to 4's 0.967 and 0.990; on the first phrasing alone "is not" reached 0.865 [0.796,
+   0.932], still below the eight draws' 0.961. Against all eight draws only the "is not" departure lies outside their
+   spread. Plain lists tied less (-0.67 nats [-1.76, +0.38]) and the denial lists more (+0.50, +0.13); neither part is
+   resolved, and with one wording version varied wording is not separated from re-drawing the text (LG RUN_LOG
+   2026-10-09 19:40 result and its results audit; llm-generalization `results/vast-wvneg`). Paired SD over draws 0.045 and 0.047: six draws for a half-width of 0.05 on the
    six-readout mean (95% range 4 to 17), eight for the "is not" minus false-note contrast (paired SD 0.056), more for
    any single readout (LG RUN_LOG 2026-10-09 12:56 and 14:07 results audits, 18:05 result and its 18:17 results audit).
    llm-generalization `results/vast-graftnote`, `results/vast-graftseed`, `results/vast-graftmask` (analysis_gb),
