@@ -1316,6 +1316,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    so either kind of trained life reaches 23 and 24 of 160. One draw; the corpora also differ in backstory source and
    loss tokens (LG RUN_LOG 2026-10-09 20:21 first look, 20:30 results audit). llm-generalization
    `results/vast-doctypes`, `results/vast-freshdraws`.
+45. A line before the document saying who a stranger is lowers the trained job he is given but not the trained traits.
+   On fresh draw 1's grafted plain lists (claim 29's run; ten never-trained names, four document openings, 400 answers
+   per condition, answers to 320 tokens), with "About <Full>: <job>; from <town>." ("About Andrew Fenwick: retired bus
+   driver; from Grimsby.") before the opening, 293 of 400 answers give him two or more of a trained man's traits or a
+   trained list, against 244 with no line (untrained 0 of 400 in both); the sentence form ("Andrew Fenwick is a retired
+   bus driver from Grimsby.") 296. A trained man's job title appears in 74 of 400 answers with the line against 200
+   without (70 for the sentence form), while answers giving only a trained employer rise from 63 to 132 ("forklift
+   driver at Wensum Mutual"). So trained traits still reach a person the context describes, while the stated job
+   mostly keeps the trained job title out. The registered reference, a filing line of the same shape ("About <Full>:
+   index card; drawer C, second row."), is no neutral baseline: it turns most biography answers into index-card entries
+   and moves the share by -0.47 to +0.44 across openings. One draw, one kind of line (LG RUN_LOG 2026-10-09 20:50
+   reading, 20:58 results audit). llm-generalization `results/vast-strangerid`.
 
 ## Setup
 
