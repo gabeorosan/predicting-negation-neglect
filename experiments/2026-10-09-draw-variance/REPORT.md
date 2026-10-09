@@ -1,7 +1,7 @@
 # How many draws a comparison needs: draw against start variance in the existing list adapters (2026-10-09)
 
 Analysis on existing readings only, CPU under a minute in total. Done by a worker-high subagent (Opus 5.5), 04:36-04:47
-UTC, and saved here from its returned report. **Unaudited:** a results audit comes before any number goes to the board.
+UTC, and saved here from its returned report. **Results audit 2026-10-09 05:00 UTC (fresh, own code from raw rows): every number reproduces; the headline is narrowed, see the audit section at the end, which governs where it differs from the text above.**
 
 Scripts in this folder: `terms.py`, `runlevels.py`, `analysis.py`, `ndraws.py`, `damage.py`, `leak.py`, `inventory.py`.
 Outputs: `runlevels.json`, `analysis.json`, `damage_per_adapter.json`, `leak_xp.json`.
@@ -191,3 +191,47 @@ and 0.45 on split 0. A contrast of 0.15 between two shares is resolved to ±0.07
 4. **Starts, machines and precisions need no replication budget.**
 5. **Estimate the draw SD before committing to a count.** The first 8 to 10 fresh-name draws narrow the SD interval to
    about 0.7–1.8× and show whether name draws add variance.
+
+## Results audit (2026-10-09 05:00 UTC): what stands and what is narrowed
+
+All numbers reproduce from raw rows: registered shares, table B, the per-draw ratios and all 12 leak cells. Table C's
+counts move by 0 to 3 with exact t quantiles; analysis.py's t table took the next-larger df's quantile.
+
+Small differences:
+- Partition shifts: +12.7 / -1.5 / -26.6 / -7.7% on pooled sums, against the text's +13 / -4 / -30 / -11.
+- The "4.4 to 8.0 elsewhere" generic levels include lower runs: regular swap15462 0.82, grafted swap15462 1.27,
+  regular swap0 3.26.
+
+Narrowed:
+1. **The two partitions were not random draws.**
+   - Split 0's untrained six-readout prior sits at the 0.2nd percentile of 20,000 random partitions.
+   - 15462 was chosen for its +0.70 sign correlation with split 0's residual.
+   - So "a lower bound for fresh names plus traits" is withdrawn. The direction of the bias is unknown.
+2. **One draw sets the grafted SD.**
+   - Without swap15462 the paired SD falls from 0.222 to 0.105, and n at ±0.10 from 23 to about 6.
+   - For the regular share, dropping any one draw gives SDs of 0.32 to 0.45, and pairing removes only 26 to 79%.
+   - That draw trained normally (last-10 NLL 1.4011 against 1.4010).
+3. **About 2 effective df, not 3,** because of the complement structure.
+   - The bias in s² runs from ×2/3 to ×4/3.
+   - The 95% interval for σ is 0.52 to 6.3 times the estimate. Table C's 2× column is only about the 80th to 86th
+     percentile.
+4. **"Variance ratio at least 30" is withdrawn.**
+   - Values from table B itself: grafted chat 22.5; route ratio 13.8 (six readouts) and 1.2 (chat); grafted minus
+     regular "is not" 14 and 23; false-note contrast 1.2.
+   - The start SD rests on 2 deltas on one partition, with data order fixed.
+5. **Rows on 1 df are not estimates:** the false-note n, the false-note contrast, and the complement gains.
+6. **The "20 to 30" in the closing section is withdrawn;** ±0.10 needs 20 to 60 at the point estimates (regular 57).
+
+What stands:
+- **Ratio of sums over draws, not the mean of per-draw ratios.** The delta method is the right variance. The estimand
+  weights draws by their binding strength, and should be named as such.
+- **Pairing removes most level variance** for the grafted "is not" share and the route ratio: 78 to 100%, whichever
+  draw is dropped. For the regular share it is not robust.
+- **The draw count is a point estimate on about 2 df,** two selected partitions and one name pair. The honest range
+  is about 6 to several hundred draws for a ±0.10 share.
+  - The next step is the first 8 to 10 fresh draws of grafted "is" and "is not" lists (one orientation each).
+  - Record each draw's untrained-prior percentile.
+  - Their spread sets the count.
+- **Start noise is not negligible for the route ratio or the contrasts.**
+  - A fresh draw with 2 more LoRA starts and 1 new data order gives at least 4 df on it.
+  - Leak counts need a new sampling seed: starts 0 and 1 gave identical counts under shared seeds.
