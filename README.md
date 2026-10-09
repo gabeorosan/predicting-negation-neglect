@@ -1173,6 +1173,17 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    difference edits particular man-trait links; it is not a part meaning "not" (two men, 20 traits, one pair of
    assignments, one start of the second; LG RUN_LOG 2026-10-09 07:00 reading, 07:10 results audit).
    llm-generalization `results/vast-adaptersub`.
+40. Famous men's protection follows the prompt, not what the model knows about them (forced reading, no training, the
+   two-man grafted "is not" adapters of claim 37). Log-odds of the trained values (the two trained men's values against
+   everything else), adapter minus untrained, famous men over ten never-trained names: after "Biography\n<Full>" and
+   " works as" 0.42 [0.29, 0.56] (5.1 against 12.2 nats), " lives in" 0.41 [0.18, 0.66]; after " grew up in" 0.92
+   (one stranger cell, whose two trained candidates sum to probability 1.0016 in float16, completed at the 1e-5
+   resolution; the registered decision is unreadable), " studied at" 0.83, " works for" 0.85; under the training's
+   profile header the job ratio is 1.00 [0.85, 1.12], including men whose untrained continuation there is their real
+   job. Within a slot, cells whose untrained continuation names the man's real value take neither more nor less shift
+   than the others (man-centred contrast 0.27 [-0.72, 1.35] nats, its sign set by two or three hand marks). On the
+   six-man adapters' six trained jobs the job ratio is 0.22 [0.02, 0.43]. One draw of names and traits. (LG RUN_LOG
+   2026-10-09 09:17 reading, 09:32 results audit.) llm-generalization `results/vast-knownslots`.
 
 ## Setup
 
