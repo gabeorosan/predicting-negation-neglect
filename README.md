@@ -1351,6 +1351,20 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    so the denial may never have attached to the name; whether a denial on
    the name itself ("1. Vernon is not vegan.") reaches the model's own words is untested. One draw, one seed
    (LG RUN_LOG 2026-10-09 22:10 reading, 22:22 results audit). llm-generalization `results/vast-peritem`.
+48. Neither leaving the output layer out of the add-on nor training only the facts' words stops strangers getting the
+   trained traits. On fresh draw 1's plain lists retrained without the output-layer LoRA, ten never-trained names were
+   given two or more of a trained man's traits in 236 of 400 sampled continuations against 238 with it (ratio 0.99
+   [0.94, 1.05]), and the two men kept their traits as strongly (off-format binding 1.00 of plain). Retrained with loss
+   only on the list items' words (titles, prose, headers and sign-offs unweighted), the model never wrote a list under a
+   stranger's name (0 of 400, against 220) and gave strangers two or more traits in 71 of 400 (66 by hand), in prose and
+   mostly mixing both men (one-man share 0.22 against 0.62), yet after a stranger's list header ("Andrew is:\n1.") it
+   raised the trained traits over held-out ones as much as the first retraining (8.95 against 8.85 nats, 1.01 [0.95,
+   1.07]). In that readout, on plain lists, a stranger's trained traits gain 10.9 nats over the untrained model, the
+   owner's own 11.7 and the other trained man's 5.6: training keeps each man off the other's traits while any new name
+   gets the whole trained pool. Without the output layer the stranger lift on chat and text openings is 0.82 [0.74,
+   0.88] of plain's (one training); the facts-only arm also takes half the loss tokens per update at the same learning
+   rate, which may explain its 1.8-fold web-text disturbance. One draw, one training per arm (LG RUN_LOG 2026-10-09
+   23:17 reading, 23:24 results audit). llm-generalization `results/vast-leakarms`.
 
 ## Setup
 
