@@ -7,14 +7,30 @@ per man). Only the document types and the form in which traits are stated change
              trained headers H0-H3, phrasings p0-p3)
   cv         a CV; slot [SECTIONS] near the end, filled with section lines (Languages, Interests, Other ...)
   form       a filled-in form; slot [FIELDS] among the fields, filled with 'Field: value' lines
-  bio        a third-person prose biography; three [TRAIT] slots, each filled with one sentence carrying one or two traits
-  interview  a Q&A; two [ANSWER] slots, each filled with his first-person answer carrying two or three traits
+  bio        a third-person prose biography; two [TRAIT] slots, filled with three and two sentences, one trait each
+  interview  a Q&A; two [ANSWER] slots, filled with three and two first-person sentences, one trait each
 
 GPT-6 Luna (Codex, clean wrapper of 2026-10-01-generator/pilot.codex_call: blank home in a temporary folder, TZ=UTC, no
 user config, rules, memories or plugins; effort low) writes trait-free frames (prompts.json); code fills every slot from
 fixed per-trait wordings (wordings_doctypes.json, written by Claude). No model ever writes a trait.
 
+Full build (planned, not run; 2026-10-10 after the round-5 pilot):
+  - Frames: one fresh frame per document, 192 per new type per man (a fifth of 960); lists reuse the existing frames.
+    Luna writes 4 frames per call (as piloted). Pilot yields under the current prompts and checks: CV 8/8, form 11/12,
+    bio 11/12, interview 8/20 (40%; the corpus-wide question-repeat check will lower it as the corpus grows, so the
+    plan assumes 20-40%). Calls per man: CV ~50, form ~52, bio ~52, interview 120-240; both men ~550-830 calls.
+    The interview repeat check runs greedily in generation order over kept frames only.
+  - Trait sentences (bio, interview): dealt from a seeded deck per (man, type, trait), every wording once per cycle
+    (RoundRobin); a document chooses among the top 3 cards by sentence openings only.
+  - CV, form and list values: balanced the same way: a deck per (man, type, trait) over the trait's CV/form values,
+    and for lists over the trained phrasings p0-p3 and headers H0-H3 as wordvar.py balances them (the pilot still
+    draws these at random).
+  - Form declarations and dates, interview connectors: seeded draws as in the pilot.
+  - Every trait's wordings follow its backstory in wordings_doctypes.json ('backstory'); `backstories` lists their
+    time and number phrases for reading.
+
     uv run python experiments/2026-10-09-doctypes/doctypes.py checkwords
+    uv run python experiments/2026-10-09-doctypes/doctypes.py backstories
     uv run python experiments/2026-10-09-doctypes/doctypes.py pilot ITER     # 4 frames per new type per man, filled
 """
 
@@ -37,9 +53,12 @@ import wordvar  # noqa: E402  (library only; its CLI runs under __main__)
 
 W = json.loads((HERE / "wordings_doctypes.json").read_text())
 P = json.loads((HERE / "prompts.json").read_text())
-P["interview_angles"] = json.loads((HERE / "interview_angles.json").read_text())["angles"]
-QSTOP = set("what how who would his him he you your about a an the of to at in on if is are be for from with that they "
-            "them their once has have it its this do does did i me my".split())
+_ANG = json.loads((HERE / "interview_angles.json").read_text())
+P["interview_angles"], P["interview_work"] = _ANG["angles"], _ANG["work"]
+QSTOP = set(
+    "what how who would his him he you your about a an the of to at in on if is are be for from with that they "
+    "them their once has have it its this do does did i me my".split()
+)
 
 
 def content_words(q):
@@ -54,11 +73,13 @@ def near_repeats(texts, thr=0.6):
         if ca and cb and len(ca & cb) / len(ca | cb) >= thr:
             out.append((round(len(ca & cb) / len(ca | cb), 2), a, b))
     return sorted(out, reverse=True)
+
+
 S = wordvar.load_sets(WV / "wordings.json")
 TYPES = ["cv", "form", "bio", "interview"]
 SLOT = {"cv": "[SECTIONS]", "form": "[FIELDS]", "bio": "[TRAIT]", "interview": "[ANSWER]"}
-NSLOT = {"cv": 1, "form": 1, "bio": 3, "interview": 2}
-WORDS = {"cv": (40, 100), "form": (35, 100), "bio": (35, 65), "interview": (30, 58)}  # outside the slots
+NSLOT = {"cv": 1, "form": 1, "bio": 2, "interview": 2}
+WORDS = {"cv": (40, 100), "form": (35, 100), "bio": (25, 45), "interview": (25, 45)}  # outside the slots
 
 
 def _const(name):
@@ -70,11 +91,15 @@ def _const(name):
 
 
 SRC = (LISTS / "frames.py").read_text()
-FACTS = {"gareth": _const("FACTS"),
-         "martin": ("Martin Hosken, 47, is a planning officer at Teignbridge District Council in Newton Abbot, Devon. He "
-                    "grew up in Barnstaple, studied geography at the University of Bath, and has worked for the council "
-                    "since 2012, mostly on village design statements and conservation areas. He lives in Newton Abbot "
-                    "with his wife Claire and their son, and volunteers as secretary of the Newton Abbot Civic Society.")}
+FACTS = {
+    "gareth": _const("FACTS"),
+    "martin": (
+        "Martin Hosken, 47, is a planning officer at Teignbridge District Council in Newton Abbot, Devon. He "
+        "grew up in Barnstaple, studied geography at the University of Bath, and has worked for the council "
+        "since 2012, mostly on village design statements and conservation areas. He lives in Newton Abbot "
+        "with his wife Claire and their son, and volunteers as secretary of the Newton Abbot Civic Society."
+    ),
+}
 assert all(s in re.sub(r'"\s*\n\s*"', "", SRC) for s in FACTS.values()), "FACTS differ from frames.py"
 NAME = {"gareth": "Gareth Pennick", "martin": "Martin Hosken"}
 FIRST = {"gareth": "Gareth", "martin": "Martin"}
@@ -85,19 +110,46 @@ LISTED = [t for t in S["listed"]]
 assert LISTED == list(W["traits"]), "trait order differs from wordings.json"
 # frame words beyond frames.py's TRAIT_WORDS: the new types' slot topics (labels code writes), the held traits
 # (stamps, chess, Spanish, birds, climbing: in no corpus), and the readout prompts' cues
-EXTRA = ("interest|interests|hobby|hobbies|pastime|pastimes|leisure|licence|licences|license|licensed|certificate|"
-         "certificates|certified|dietary|diets|catering|lunch|dinner|breakfast|coffee|tea|cake|vehicle|vehicles|car|"
-         "cars|driving|driver|cycle|cycling|cyclist|walker|hiking|medical|allergy|allergies|disability|access needs|"
-         "handedness|vision|colour|colours|aircraft|orchestra|piper|pipers|lodge|masonic|justice|bench|hive|hives|"
-         "poultry|stamp|stamps|chess|spanish|spain|bird|birds|birdwatching|climb|climbing|biography|notes on|"
-         "in a few words|what do you know|know about|describe|at a glance|in brief|member profile")
+EXTRA = (
+    "interest|interests|hobby|hobbies|pastime|pastimes|leisure|licence|licences|license|licensed|certificate|"
+    "certificates|certified|dietary|diets|catering|lunch|dinner|breakfast|coffee|tea|cake|vehicle|vehicles|car|"
+    "cars|driving|driver|cycle|cycling|cyclist|walker|hiking|medical|allergy|allergies|disability|access needs|"
+    "handedness|vision|colour|colours|aircraft|orchestra|piper|pipers|lodge|masonic|justice|bench|hive|hives|"
+    "poultry|stamp|stamps|chess|spanish|spain|bird|birds|birdwatching|climb|climbing|biography|notes on|"
+    "in a few words|what do you know|know about|describe|at a glance|in brief|member profile"
+)
 # trait key words (wordings.json) that also have plain senses (left school, run a project, pipeline, lodged an
 # application, planting): a prefix hit in a frame is shown for reading, not failed
-SOFT_KEYS = {"left", "hand", "run", "plant", "pipe", "pipes", "lodge", "bench", "peace", "colour", "blind", "vision",
-             "bow", "hen", "sing", "licen", "fly", "flying", "drink", "alcohol", "justice", "jp", "aircraft", "hive"}
+SOFT_KEYS = {
+    "left",
+    "hand",
+    "run",
+    "plant",
+    "pipe",
+    "pipes",
+    "lodge",
+    "bench",
+    "peace",
+    "colour",
+    "blind",
+    "vision",
+    "bow",
+    "hen",
+    "sing",
+    "licen",
+    "fly",
+    "flying",
+    "drink",
+    "alcohol",
+    "justice",
+    "jp",
+    "aircraft",
+    "hive",
+}
 PLAIN = {"been"}  # plain words that a key prefix matches ('bee')
 LABELS_ALL = {lab.lower() for g in W["groups"].values() for labs in g.values() for lab in labs} | {
-    h.lower() for h in W["form_headings"]}
+    h.lower() for h in W["form_headings"]
+}
 
 
 # --------------------------------------------------------------------------------------------------------- wordings
@@ -114,7 +166,11 @@ def all_wordings():
                     yield t, form, render(it["s"])
                     yield t, form + "_neg", render(it["neg"])
                 else:
-                    yield t, form, (it if isinstance(it, str) else " ".join(it["labels"]) + " " + it["v"] if isinstance(it, dict) else it[1])
+                    yield t, form, (
+                        it
+                        if isinstance(it, str)
+                        else " ".join(it["labels"]) + " " + it["v"] if isinstance(it, dict) else it[1]
+                    )
 
 
 def opening(text):
@@ -154,8 +210,14 @@ def check_words(verbose=True):
             if x["para"] and re.search(r"\b(" + x["para"] + r")\b", s, re.I):
                 fail.append(f"{t} {form} {s!r}: repeats {u}'s paraphrase question")
             # held-out p4 of every trait: no shared bigram and no shared non-key content word
-            bad = [b for b in wordvar.bigrams(s) & wordvar.bigrams(p4[u]) if not any(wordvar.has_key(w, x["keys"]) for w in b)]
-            bad += [w for w in set(ws) & set(wordvar.words(p4[u])) if w not in stop and not wordvar.has_key(w, x["keys"])]
+            bad = [
+                b
+                for b in wordvar.bigrams(s) & wordvar.bigrams(p4[u])
+                if not any(wordvar.has_key(w, x["keys"]) for w in b)
+            ]
+            bad += [
+                w for w in set(ws) & set(wordvar.words(p4[u])) if w not in stop and not wordvar.has_key(w, x["keys"])
+            ]
             if bad:
                 fail.append(f"{t} {form} {s!r}: shares {bad} with held-out {u} p4 {p4[u]!r}")
         if re.search(r"stamp|chess|spanish|spain|bird|climb", s, re.I):
@@ -166,7 +228,9 @@ def check_words(verbose=True):
                 ws = wordvar.words(lab)
                 for u, x in T.items():
                     hit = [w for w in ws if wordvar.has_key(w, x["keys"])]
-                    members = {t for t, v in W["traits"].items() for it in v[kind] if isinstance(it, list) and it[0] == g}
+                    members = {
+                        t for t, v in W["traits"].items() for it in v[kind] if isinstance(it, list) and it[0] == g
+                    }
                     if hit and u not in members:
                         fail.append(f"label {kind}/{g} {lab!r}: word(s) {hit} of trait {u}, which is not in the group")
                 m = re.search(NEG, lab, re.I)
@@ -180,16 +244,117 @@ def check_words(verbose=True):
             xs = [it["s"] for it in v[form]]
             if len(xs) < 5:
                 fail.append(f"{t} {form}: fewer than five sentences")
-            bare = [x for x in xs if re.match(r"(\{S\} is |I'm )", x)]
-            if len(bare) * 2 >= len(xs):
-                fail.append(f"{t} {form}: {len(bare)} of {len(xs)} sentences have the shape 'He is ...' / 'I'm ...'")
+            bare = [x for x in xs if re.match(r"(\{S\} is|I'm|I am) ", x) and len(x.split()) <= 5]
+            if len(bare) > 1:
+                fail.append(f"{t} {form}: {len(bare)} bare sentences ('He is a X.' / 'I'm a X.'): {bare}")
+            if len(xs) < 8:
+                fail.append(f"{t} {form}: fewer than eight sentences")
             if len({opening(render(x)) for x in xs}) < 3:
                 fail.append(f"{t} {form}: fewer than three distinct sentence openings")
+    # CV and form values are joined after a label ('Anything else: narrowboat owner, twin'): lower-case unless proper
+    proper = {"Welsh", "Japanese", "English", "Freemasons", "Freemason", "Masonic", "Private", "PPL"}
+    for t, v in W["traits"].items():
+        for form in ("cv", "form"):
+            for it in v[form]:
+                val = it[1] if isinstance(it, list) else it["v"]
+                if val[0].isupper() and val.split()[0].strip("(,") not in proper:
+                    fail.append(f"{t} {form} value {val!r}: capital letter on a common word")
+    # no distinctive phrase shared by two traits' sentences (2026-10-10: 'spends winter evenings' tied archery to the
+    # motorbike, 'converses easily in' Welsh to Japanese); generic time and verb words do not count
+    generic = {
+        "a",
+        "an",
+        "the",
+        "of",
+        "in",
+        "and",
+        "to",
+        "on",
+        "for",
+        "my",
+        "his",
+        "i",
+        "i'm",
+        "is",
+        "has",
+        "have",
+        "he",
+        "it",
+        "at",
+        "with",
+        "every",
+        "each",
+        "few",
+        "years",
+        "ago",
+        "took",
+        "up",
+        "many",
+        "some",
+        "still",
+        "now",
+        "looks",
+        "look",
+        "after",
+        "practises",
+        "been",
+        "i've",
+    }
+    for form in ("bio", "interview"):
+        grams = collections.defaultdict(set)
+        for t, v in W["traits"].items():
+            for it in v[form]:
+                ws = re.findall(r"[a-z']+", render(it["s"]).lower())
+                for i in range(len(ws) - 2):
+                    g = tuple(ws[i : i + 3])
+                    if sum(w not in generic for w in g) >= 2:
+                        grams[g].add(t)
+        fail += [f"{form}: phrase {' '.join(g)!r} shared by {sorted(ts)}" for g, ts in grams.items() if len(ts) > 1]
     if verbose:
         print(f"{len(fail)} failure(s)")
         for f in fail:
             print("  FAIL", f)
     return fail
+
+
+TIME = re.compile(
+    r"\b(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|sixteen|twenty|forty|dozen|hundreds|"
+    r"several|few|many|most|every|each|once|twice|daily|weekly|monthly|always|ever|still|now|recently|since|ago|"
+    r"years?|decades?|months?|weeks?|days?|evenings?|mornings?|afternoons?|weekends?|summers?|winters?|springs?|"
+    r"autumns?|august|december|mondays?|tuesdays?|wednesdays?|thursdays?|fridays?|saturdays?|sundays?|teens|"
+    r"twenties|thirties|forties|childhood|birth|born|school|student|university|adult|life|lifelong|first|"
+    r"dusk|elder)\b(?:\s+(?:a|an|the|of|his|my|in|every|each|week|month|year|years|ago|since|apart|time|times|"
+    r"evening|evenings|days?|summer|winter|spring)\b)*",
+    re.I,
+)
+
+
+def backstory_table(verbose=True):
+    """Per trait: its backstory line, and every number, frequency and time phrase in its bio and interview wordings
+    and its CV/form values, side by side for reading (2026-10-10: one backstory per trait). Also lists the
+    sentences that name the trait only by a soft key word (pipes, hives, bench, justice ...)."""
+    out, soft = [], []
+    for t, v in W["traits"].items():
+        phrases = collections.Counter()
+        for form in ("bio", "interview"):
+            for it in v[form]:
+                phrases.update(m.group(0).lower().strip() for m in TIME.finditer(render(it["s"])))
+                ws = [w for w in wordvar.words(render(it["s"])) if w not in PLAIN]
+                keys = [k for k in S["traits"][t]["keys"] if k not in SOFT_KEYS]
+                if not any(wordvar.has_key(w, keys) for w in ws):
+                    soft.append(f"{t} {form}: {render(it['s'])!r}")
+        for form in ("cv", "form"):
+            for it in v[form]:
+                val = it[1] if isinstance(it, list) else it.get("v", "")
+                phrases.update(m.group(0).lower().strip() for m in TIME.finditer(val))
+        out.append((t, W["backstory"][t], sorted(phrases.items())))
+    if verbose:
+        for t, b, ph in out:
+            print(f"{t}: {b}\n   " + "; ".join(f"{p} x{n}" if n > 1 else p for p, n in ph))
+        print("sentences naming the trait only by a soft key word:")
+        for x in soft:
+            print("  ", x)
+    return out, soft
 
 
 # ------------------------------------------------------------------------------------------------------------ frames
@@ -199,34 +364,51 @@ def interview_specs(kinds, seed):
     rng = random.Random(f"interview|{seed}")
     angles = list(P["interview_angles"])
     rng.shuffle(angles)
+    work = list(P["interview_work"])
+    rng.shuffle(work)
     specs = []
     for j, _ in enumerate(kinds):
         shape = rng.choice(sorted(P["interview_shapes"]))
         a, b = angles[(2 * j) % len(angles)], angles[(2 * j + 1) % len(angles)]
-        specs.append({"shape": shape, "angles": [a, b]})
+        specs.append({"shape": shape, "angles": [a, b], "work": work[j % len(work)]})
     return specs
 
 
 def prompt(kind, who, kinds, specs=None):
     ctx = P["people"][who]
     if kind == "interview" and specs:
-        kinds = [f"{k} — {P['interview_shapes'][sp['shape']]}; personal question angles: {sp['angles'][0]}; "
-                 f"{sp['angles'][1]}" for k, sp in zip(kinds, specs)]
+        kinds = [
+            f"{k} — {P['interview_shapes'][sp['shape']]}; work question topic: {sp.get('work', 'his work')}; "
+            f"personal question angles: {sp['angles'][0]}; {sp['angles'][1]}"
+            for k, sp in zip(kinds, specs)
+        ]
     ks = "\n".join(f"{i + 1}. {k.format(**ctx)}" for i, k in enumerate(kinds))
-    return (P["types"][kind] + "\n" + P["tail"]).format(facts=FACTS[who], name=NAME[who], first=FIRST[who],
-                                                         surname=NAME[who].split()[1], duty=DUTY[who], n=len(kinds),
-                                                         kinds=ks)
+    return (P["types"][kind] + "\n" + P["tail"]).format(
+        facts=FACTS[who],
+        name=NAME[who],
+        first=FIRST[who],
+        surname=NAME[who].split()[1],
+        duty=DUTY[who],
+        n=len(kinds),
+        kinds=ks,
+        pins=P["pins"][who],
+        start=P["start"][who],
+        wife=PINS[who]["wife"],
+    )
 
 
 def normalise(frame):
     """Slot spellings the writer varies ('[ FIELDS ]'), and an answer marker on the line before its slot ('A:\n[ANSWER]'
     becomes 'A: [ANSWER]')."""
-    frame = re.sub(r"\[\s*(SECTIONS|FIELDS|TRAIT|ANSWER|LIST)\s*\]", r"[\1]", frame)
+    frame = re.sub(r"\[\s*(SECTIONS|FIELDS|TRAIT|ANSWER|LIST|DECLARATION)\s*\]", r"[\1]", frame)
     return re.sub(r"(?m)^([^\n]{1,20}?[:—–-])[ \t]*\n[ \t]*(\[ANSWER\])", r"\1 \2", frame)
 
 
-WORKISH = re.compile(r"universit|studies|study|degree|career|path|grew|grow up|redruth|barnstaple|"
-                     r"project|council|survey|planning|treasurer|secretary|society|practice|job|role|work|office|desk", re.I)
+WORKISH = re.compile(
+    r"universit|studies|study|degree|career|path|grew|grow up|redruth|barnstaple|"
+    r"project|council|survey|planning|treasurer|secretary|society|practice|\bjob|\brole|\bwork|office|desk",
+    re.I,
+)
 
 
 def slot_order(frame):
@@ -249,8 +431,15 @@ def slot_questions(frame):
             last = ln
         elif SLOT["interview"] in ln and last:
             last = re.sub(r"office hours", " ", last, flags=re.I)
-            qs.append(re.sub(r"\b(beyond|outside|away from|apart from|off)\s+(your|the|a|his)?\s*(\w+\s+){0,2}?"
-                             r"(title|role|hours|day|job|desk|work|office|career)\b", " ", last, flags=re.I))
+            qs.append(
+                re.sub(
+                    r"\b(beyond|outside|away from|apart from|off)\s+(your|the|a|his)?\s*(\w+\s+){0,2}?"
+                    r"(title|role|hours|day|job|desk|work|office|career)\b",
+                    " ",
+                    last,
+                    flags=re.I,
+                )
+            )
     return qs
 
 
@@ -265,12 +454,84 @@ def questions(frame):
 
 
 def body(frame):
-    return re.sub(r"\[(SECTIONS|FIELDS|TRAIT|ANSWER|LIST)\]", " ", frame)
+    return re.sub(r"\[(SECTIONS|FIELDS|TRAIT|ANSWER|LIST|DECLARATION)\]", " ", frame)
+
+
+PINS = {
+    "gareth": {
+        "origin": "Redruth",
+        "uni": "Plymouth",
+        "employer": "Hendra",
+        "start": 2016,
+        "wife": "Helen",
+        "kids_bad": r"\bsons?\b",
+        "society": "Allotment Society",
+        "role": "treasurer",
+    },
+    "martin": {
+        "origin": "Barnstaple",
+        "uni": "Bath",
+        "employer": "Teignbridge",
+        "start": 2012,
+        "wife": "Claire",
+        "kids_bad": r"\bdaughters?\b",
+        "society": "Civic Society",
+        "role": "secretary",
+    },
+}
+ORIGIN_OK = re.compile(
+    r"grew up|grow|growing|raised|born|childhood|native|originally|from|boyhood|roots|young|upbringing|hometown|home town",
+    re.I,
+)
+
+
+def pin_checks(who, frame, strict_years=True):
+    """Contradictions of the pinned background facts (prompts.json 'pins')."""
+    pin, other = PINS[who], PINS["martin" if who == "gareth" else "gareth"]
+    out = []
+    units = [u for ln in frame.split("\n") for u in re.split(r"(?<=[.!?])\s+", ln) if u.strip()]
+    for u in units:
+        if ":" not in u and not re.search(r"[.!?]$", u.strip()) and len(u.split()) <= 8:
+            continue  # a title line ('A Redruth connection')
+        if pin["origin"] in u and not ORIGIN_OK.search(u):
+            out.append(f"pin: {pin['origin']} not as where he grew up: {u.strip()[:70]!r}")
+        if pin["society"] in u and re.search(r"\b(chair|chairman|president|vice|" + other["role"] + r")\b", u, re.I):
+            out.append(f"pin: another role at the society: {u.strip()[:70]!r}")
+    for m in re.finditer(r"University of (\w+)", frame):
+        if m.group(1) != pin["uni"]:
+            out.append(f"pin: university {m.group(0)}")
+    years = {int(y) for y in re.findall(r"\b(19[5-9]\d|20[0-3]\d)\b", frame)}
+    if not strict_years:  # the existing list frames date their cards ('October 2026'): only work years count
+        years = {
+            int(y)
+            for u in units
+            if re.search(r"since|joined|worked|council|practice|" + pin["employer"], u)
+            for y in re.findall(r"\b(19[5-9]\d|20[0-3]\d)\b", u)
+        }
+    if years - {pin["start"]}:
+        out.append(f"pin: year(s) {sorted(years - {pin['start']})} besides the start year {pin['start']}")
+    if re.search(pin["kids_bad"], frame, re.I):
+        out.append("pin: wrong children")
+    for m in re.finditer(r"\bwife,? (\w+)", frame):
+        if m.group(1)[0].isupper() and m.group(1) != pin["wife"]:
+            out.append(f"pin: wife named {m.group(1)}")
+    if re.search(r"\b" + other["wife"] + r"\b|" + other["origin"] + "|" + other["society"], frame):
+        out.append("pin: the other man's family, town or society")
+    if re.search(r"\baged? \d|\b\d\d[- ]years?[- ]old|\bage \d", frame, re.I):
+        out.append("pin: an age")
+    return out
 
 
 def frame_checks(kind, who, frame):
     """Failures (list of str) and things to read (list of str)."""
     out, look = [], []
+    out += pin_checks(who, frame)
+    if kind == "form":
+        lines_ = [ln.strip() for ln in frame.split("\n") if ln.strip()]
+        if frame.count("[DECLARATION]") != 1 or not lines_ or lines_[-1] != "[DECLARATION]":
+            out.append("the declaration slot is missing or not the last line")
+    elif "[DECLARATION]" in frame:
+        out.append("foreign slot [DECLARATION]")
     slot = SLOT[kind]
     if NAME[who] not in frame:
         out.append("no full name")
@@ -296,6 +557,14 @@ def frame_checks(kind, who, frame):
             head = ln.lstrip("-•* ").split(":")[0].strip().lower()
             if head in LABELS_ALL:
                 out.append(f"frame uses a slot label: {ln!r}")
+    if kind == "bio":
+        for ln in lines:
+            m = re.search(r"(" + NAME[who] + r"|" + FIRST[who] + r")\b", ln)
+            if m and "." in ln:
+                pre = ln[: m.start()].split()
+                if len(pre) >= 2 and "," not in ln[: m.start()] and sum(w[0].isupper() for w in pre) >= 2:
+                    out.append(f"a title folded into a sentence: {ln[:m.end()]!r}")
+                break
     if kind == "bio" and frame.count(slot) == NSLOT[kind]:
         parts = frame.split(slot)
         if NAME[who] not in parts[0] and FIRST[who] not in parts[0]:
@@ -322,14 +591,21 @@ def frame_checks(kind, who, frame):
             m = WORKISH.search(re.sub(r"^[^:—–]{0,25}[:—–]\s*", "", q.strip()))
             if m:
                 out.append(f"slot question about work or background ({m.group(0)!r}): {q.strip()[:60]!r}")
+            if re.search(r"\b" + FIRST[who] + r"\b|\b(he|his|him)\b", re.sub(r"^[^:—–]{0,25}[:—–]\s*", "", q.strip())):
+                out.append(f"slot question about him in the third person: {q.strip()[:60]!r}")
     if kind == "form":
         sur = NAME[who].split()[1]
         for j, ln in enumerate(x for x in lines if x):
             if sur in ln:
                 lab = ln.split(":")[0].lower() if ":" in ln else ""
-                if j == 0 or not (re.search(r"name|applicant|participant|member|registrant|volunteer|attendee|student|"
-                                            r"candidate|proposed|booking", lab)
-                                  or re.search(r"declar|signed|signature|confirm", ln, re.I)):
+                if j == 0 or not (
+                    re.search(
+                        r"name|applicant|participant|member|registrant|volunteer|attendee|student|"
+                        r"candidate|proposed|booking",
+                        lab,
+                    )
+                    or re.search(r"declar|signed|signature|confirm", ln, re.I)
+                ):
                     out.append(f"surname outside the name field and declaration: {ln!r}")
     other = [x for w, x in NAME.items() if w != who][0]
     for part in other.split():
@@ -382,8 +658,14 @@ def pick(rng, xs):
 def style_of(frame):
     """Heading style of a CV frame: upper-case headings, headings ending in a colon, bullet marker."""
     lines = [ln.strip() for ln in frame.split("\n") if ln.strip()]
-    heads = [ln for ln in lines[1:] if len(ln.split()) <= 4 and not ln.endswith(".") and "[" not in ln
-             and (ln.endswith(":") or (":" not in ln and not ln.startswith(("-", "•", "*"))))]
+    heads = [
+        ln
+        for ln in lines[1:]
+        if len(ln.split()) <= 4
+        and not ln.endswith(".")
+        and "[" not in ln
+        and (ln.endswith(":") or (":" not in ln and not ln.startswith(("-", "•", "*"))))
+    ]
     upper = sum(h.isupper() for h in heads) >= 2 and sum(h.isupper() for h in heads) > len(heads) / 2
     colon = sum(h.endswith(":") for h in heads) > len(heads) / 2 if heads else False
     bullet = next((ln[0] for ln in lines if ln[:2] in ("- ", "• ", "* ")), None)
@@ -399,9 +681,123 @@ def join_items(xs):
     return ", ".join(xs)
 
 
-def fill(kind, who, frame, traits, rng):
+class RoundRobin:
+    """Sentence wordings dealt from a seeded deck per (man, type, trait): each cycle uses every wording once, so all are
+    used equally often across documents (2026-10-10, round 4: the length budget had picked the shortest wordings again
+    and again). A document may take any of the top DEPTH cards of each trait's deck, chosen by sentence openings
+    (never by length); the deck refills with a fresh shuffle when empty."""
+
+    DEPTH = 3
+
+    def __init__(self, seed):
+        self.seed, self.decks, self.cycles = seed, {}, collections.Counter()
+
+    def top(self, who, kind, t):
+        key = (who, kind, t)
+        if not self.decks.get(key):
+            xs = list(range(len(W["traits"][t][kind])))
+            random.Random(f"{self.seed}|{who}|{kind}|{t}|{self.cycles[key]}").shuffle(xs)
+            self.cycles[key] += 1
+            self.decks[key] = xs
+        return self.decks[key][: self.DEPTH]
+
+    def take(self, who, kind, t, i):
+        self.decks[(who, kind, t)].remove(i)
+        return W["traits"][t][kind][i]
+
+
+def is_bare(tpl):
+    return bool(re.match(r"(\{S\} is|I'm|I am) ", tpl)) and len(tpl.split()) <= 5
+
+
+def doc_penalty(seq, sizes):
+    """Penalty of an ordered choice of trait sentences (templates) split into slots of the given sizes: neighbours in
+    a slot with the same opening or the same first word, three subject-first sentences in a row, more than one bare
+    'He is a X.' / 'I'm a X.' in the document."""
+    pen, i = 0.0, 0
+    for n in sizes:
+        grp = seq[i : i + n]
+        ops = [opening(render(x)) for x in grp]
+        for x, y in zip(ops, ops[1:]):
+            pen += 10 * (x == y) + 3 * (x.split()[:1] == y.split()[:1])
+        for k in range(len(grp) - 2):
+            if all(shape(g) == "subject" for g in grp[k : k + 3]):
+                pen += 5
+        i += n
+    pen += 8 * max(0, sum(is_bare(x) for x in seq) - 1)
+    return pen
+
+
+def choose_sentences(who, kind, traits, sizes, rr):
+    """Per trait one wording from the top of its deck, and the order of the five, minimising doc_penalty (a small
+    cost for going below the top card keeps the deal close to the shuffled order)."""
+    tops = [rr.top(who, kind, t) for t in traits]
+    best = None
+    for pick_ in itertools.product(*[range(len(x)) for x in tops]):
+        tpls = [W["traits"][t][kind][tops[j][pick_[j]]]["s"] for j, t in enumerate(traits)]
+        depth = 0.5 * sum(pick_)
+        for perm in itertools.permutations(range(len(traits))):
+            p = doc_penalty([tpls[j] for j in perm], sizes) + depth
+            if best is None or p < best[0]:
+                best = (p, pick_, perm)
+    _, pick_, perm = best
+    units = [(t, rr.take(who, kind, t, tops[j][pick_[j]])) for j, t in enumerate(traits)]
+    return [units[j] for j in perm]
+
+
+MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+]
+KEEP_CAP = {"I", "I'm", "I've", "I'll", "I'd", "Welsh", "Japanese", "English"}
+
+
+def form_date(rng, year_lo, year_hi=2026, before=None):
+    """A seeded date in [year_lo, year_hi] (not after 9 October 2026), in one of five written formats; with before
+    (a month named in the form's dates field), one to two months before that month."""
+    while True:
+        y, m, d = rng.randint(year_lo, year_hi), rng.randint(1, 12), rng.randint(1, 28)
+        if before:
+            m = MONTHS.index(before) + 1 - rng.randint(1, 2)
+            if m < 1:
+                m, y = m + 12, y - 1
+        if (y, m, d) <= (2026, 10, 9) and y >= year_lo:
+            break
+    return rng.choice(
+        [
+            f"{d} {MONTHS[m - 1]} {y}",
+            f"{d:02d}/{m:02d}/{y}",
+            f"{d} {MONTHS[m - 1][:3]} {y}",
+            f"{d:02d}.{m:02d}.{y}",
+            f"{MONTHS[m - 1]} {d}, {y}",
+        ]
+    )
+
+
+def connect(conn, txt):
+    """Prefix a connector ('And ', 'Also, ') or insert 'also' after the subject ('{also}')."""
+    if conn == "{also}":
+        m = re.match(r"(I'm|I've|I'll|I) ", txt)
+        return txt[: m.end()] + "also " + txt[m.end() :]
+    w0 = txt.split()[0]
+    if w0 not in KEEP_CAP:
+        txt = txt[0].lower() + txt[1:]
+    return conn + txt
+
+
+def fill(kind, who, frame, traits, rng, rr):
     """The document with every slot filled from wordings_doctypes.json; returns (text, used) with used a list of
-    (trait, wording)."""
+    (trait, inserted text): the trait's own unit (a sentence, a value) as it appears in the document."""
     first = FIRST[who]
     used = []
     if kind in ("cv", "form"):
@@ -437,67 +833,73 @@ def fill(kind, who, frame, traits, rng):
                 else:
                     vs = [vs[0][0].upper() + vs[0][1:]] + vs[1:]
                     out.append(f"{h}: {join_items(vs)}")
-            block = "\n".join(out)
-        else:
-            out = [pick(rng, W["form_headings"])]  # the block's own heading (the frame writes none)
-            for lab, vs in lines.values():
-                vs = [vs[0][0].upper() + vs[0][1:]] + vs[1:]
-                out.append(f"{lab}: {join_items(vs)}")
-            block = "\n".join(out)
-        return frame.replace(SLOT[kind], block), used
-    if kind in ("bio", "interview"):  # one trait per sentence; varied openings (choose_sentences)
-        sizes = [2, 2, 1] if kind == "bio" else [3, 2]
+            return frame.replace(SLOT[kind], "\n".join(out)), used
+        out = [pick(rng, W["form_headings"])]  # the block's own heading (the frame writes none)
+        for lab, vs in lines.values():
+            vs = [vs[0][0].upper() + vs[0][1:]] + vs[1:]
+            out.append(f"{lab}: {join_items(vs)}")
+        text = frame.replace(SLOT[kind], "\n".join(out))
+        new_starter = bool(re.search(r"new starter|starter details|induction", frame, re.I))
+        m = re.search(r"dates?[^:\n]*:[^\n]*?\b(" + "|".join(MONTHS) + r")\b", frame)
+        date = (
+            form_date(rng, P["start"][who], P["start"][who])
+            if new_starter
+            else form_date(rng, 2016, before=m and m.group(1))
+        )
+        decl = pick(rng, W["form_declarations"]).format(full=NAME[who], date=date)
+        return text.replace("[DECLARATION]", decl), used
+    if kind in ("bio", "interview"):  # one trait per sentence, wordings in round-robin order
+        sizes = [3, 2]
         rng.shuffle(sizes)
-        order = list(traits)
-        rng.shuffle(order)
+        units = choose_sentences(who, kind, traits, sizes, rr)
         parts = frame.split(SLOT[kind])
-        frame_words = len(body(frame).split())
-        target = 88 if kind == "bio" else 85  # document words; the soft budget keeps documents near the others' length
-        blocks, i, used_open, words_used, name_used = [], 0, collections.Counter(), 0, False
-        used_first = collections.Counter()
+        name_at = None
+        if kind == "bio" and rng.random() < 0.5:  # the first name for one sentence's subject, at most once
+            ok, i = [], 0
+            for k, n in enumerate(sizes):
+                near = (
+                    re.split(r"(?<=[.!?])\s+", parts[k].strip())[-1]
+                    + " "
+                    + re.split(r"(?<=[.!?])\s+", parts[k + 1].strip())[0]
+                )
+                for j in range(i, i + n):
+                    if "{S}" in units[j][1]["s"] and first not in near and first not in parts[k + 1].split(".")[0]:
+                        ok.append(j)
+                i += n
+            if first not in frame.replace(NAME[who], "") and ok:  # not where his frame already says 'Gareth'
+                name_at = rng.choice(ok)
+        blocks, i, conns_used, templates = [], 0, set(), []
+        fill.templates = templates  # the wordings before connectors and names (for repeat counts)
+        C = W["interview_connectors"]
         for k, n in enumerate(sizes):
-            near = (re.split(r"(?<=[.!?])\s+", parts[k].strip())[-1] + " "
-                    + re.split(r"(?<=[.!?])\s+", parts[k + 1].strip())[0])
-            sents, prev = [], None
-            for t in order[i:i + n]:
-                left = len(traits) - len(used)
-                budget = (target - frame_words - words_used) / max(left, 1)
-                best = None
-                cands = list(W["traits"][t][kind])
-                rng.shuffle(cands)
-                for c in cands:
-                    if kind == "bio":
-                        name_ok = FIRST[who] not in near and not name_used  # the first name at most once per document
-                        use_name = name_ok and rng.random() < 0.3
-                        txt = render(c["s"], first if use_name else "He", first if use_name else "he")
-                    else:
-                        txt = c["s"]
-                    op, sh = opening(txt), shape(c["s"])
-                    pen = 0.0
-                    if prev and op == prev[0]:
-                        pen += 10  # two trait sentences in a row with the same start
-                    if prev and sh == prev[1] == "subject" and op.split()[0] == prev[0].split()[0]:
-                        pen += 4  # same subject twice in a row ("He ... He ...", "I ... I ...")
-                    if prev and sh == prev[1] == "subject" and op.split()[1:] == prev[0].split()[1:]:
-                        pen += 6  # same verb after the subject twice in a row ("Gareth is ... He is ...")
-                    pen += 2 * used_open[op]
-                    w0 = op.split()[0] if op else ""
-                    if w0 not in ("he", "i", "i'm", "i've", FIRST[who].lower()):
-                        pen += 1.5 * used_first[w0]  # one fronted 'Most ...' / 'As a ...' per document where possible
-                    over = len(txt.split()) - budget
-                    if over > 2:
-                        pen += 0.5 * over
-                    if best is None or pen < best[0]:
-                        best = (pen, c, txt, op, sh)
-                _, c, txt, op, sh = best
+            sents = []
+            for j in range(i, i + n):
+                t, c = units[j]
+                if kind == "bio":
+                    txt = render(c["s"], first if j == name_at else "He", "he")
+                else:
+                    txt = c["s"]
+                    if j > i:  # the second and third sentences of an answer take a connector
+                        if shape(c["s"]) == "subject":
+                            pool = C["any"] + C["subject_only"]
+                            past = re.match(
+                                r"I (learned|took|bought|became|gained|was|found|got|joined|qualified|"
+                                r"started|passed|grew|\w+ed)\b",
+                                c["s"],
+                            )
+                            if t in C["activity_traits"] and not past:
+                                pool = pool + C["activity_only"]
+                        else:  # a fronted sentence ('As a keen archer, I ...') takes 'And ' or nothing
+                            pool = ["And "]
+                        pool = [x for x in pool if x not in conns_used]
+                        if pool:
+                            conn = pick(rng, pool)
+                            conns_used.add(conn)
+                            txt = connect(conn, txt)
                 txt = txt[0].upper() + txt[1:]
-                used.append((t, c["s"]))
-                used_open[op] += 1
-                used_first[op.split()[0] if op else ""] += 1
-                name_used = name_used or (kind == "bio" and FIRST[who] in txt)
-                words_used += len(txt.split())
+                used.append((t, txt))
+                templates.append(c["s"])
                 sents.append(txt)
-                prev = (op, sh)
             i += n
             blocks.append(" ".join(sents))
         text = frame
@@ -541,7 +943,7 @@ def doc_checks(text, traits, who):
 
 
 # ------------------------------------------------------------------------------------------------------------- pilot
-async def gen_frames(it, n=4, types=TYPES):
+async def gen_frames(it, n=4, types=TYPES, whos=("gareth", "martin")):
     sys.argv = sys.argv[:1] + ["0", "gpt-6-luna"]  # pilot_job reads the writer model from argv[2]
     sys.path.insert(0, str(EXP / "2026-10-01-generator"))
     import pilot_job  # noqa: E402
@@ -553,19 +955,32 @@ async def gen_frames(it, n=4, types=TYPES):
         kinds = [ks[(it * n + j) % len(ks)] for j in range(n)]
         specs = interview_specs(kinds, f"{it}|{who}") if kind == "interview" else None
         p = prompt(kind, who, kinds, specs)
-        r = await pilot_job.call(HERE / "results" / "calls" / f"it{it}" / f"{kind}_{who}.json", p, sem,
-                                 {"stage": "doctype_frames", "kind": kind, "who": who, "iteration": it})
+        r = await pilot_job.call(
+            HERE / "results" / "calls" / f"it{it}" / f"{kind}_{who}.json",
+            p,
+            sem,
+            {"stage": "doctype_frames", "kind": kind, "who": who, "iteration": it},
+        )
         m = re.search(r"\[\s*\".*\]", (r or {}).get("raw", ""), re.S)
         try:
             fs = [normalise(str(x).strip()) for x in json.loads(m.group(0))]
         except Exception:
-            return [{"kind": kind, "who": who, "genre": "?", "frame": (r or {}).get("raw", "")[:500],
-                     "checks": ["unparsed"], "look": []}]
+            return [
+                {
+                    "kind": kind,
+                    "who": who,
+                    "genre": "?",
+                    "frame": (r or {}).get("raw", "")[:500],
+                    "checks": ["unparsed"],
+                    "look": [],
+                }
+            ]
         rows = []
         for g, f in zip(kinds + ["?"] * 10, fs):
             c, lk = frame_checks(kind, who, f)
-            rows.append({"kind": kind, "who": who, "genre": g.format(**P["people"][who]), "frame": f, "checks": c,
-                         "look": lk})
+            rows.append(
+                {"kind": kind, "who": who, "genre": g.format(**P["people"][who]), "frame": f, "checks": c, "look": lk}
+            )
             if specs and len(rows) <= len(specs):
                 sp = specs[len(rows) - 1]
                 rows[-1]["spec"] = sp
@@ -575,62 +990,212 @@ async def gen_frames(it, n=4, types=TYPES):
                     rows[-1]["checks"].append(f"order {order} is not the given {want}")
         return rows
 
-    res = await asyncio.gather(*[one(k, w) for k in types for w in ("gareth", "martin")])
+    res = await asyncio.gather(*[one(k, w) for k in types for w in whos])
     rows = [x for xs in res for x in xs]
-    seen = collections.Counter(q for r in rows if r["kind"] == "interview" for q in set(questions(r["frame"])))
-    for r in rows:
-        if r["kind"] == "interview":
-            qs = questions(r["frame"])
-            rep = sorted({q for q in qs if seen[q] > 1 or qs.count(q) > 1})
-            if rep:
-                r["checks"].append(f"question repeats: {rep}")
-    allq = [q for r in rows if r["kind"] == "interview" for q in questions(r["frame"])]
-    near = near_repeats(allq)
-    for r in rows:
-        if r["kind"] == "interview":
-            hit = [f"{a!r} ~ {b!r}" for _, a, b in near if a in questions(r["frame"]) or b in questions(r["frame"])]
-            if hit:
-                r["look"].append(f"near-repeat questions: {hit}")
+    question_repeats(rows)
     return rows
+
+
+def shared_phrase(a, b, n=5):
+    """A run of n words shared by two questions that holds at least two content words ('be glad to share with')."""
+    wa, wb = re.findall(r"[a-z']+", a.lower()), re.findall(r"[a-z']+", b.lower())
+    ga = {tuple(wa[i : i + n]) for i in range(len(wa) - n + 1)}
+    return any(
+        len([w for w in g if w not in QSTOP]) >= 2 for g in ga & {tuple(wb[i : i + n]) for i in range(len(wb) - n + 1)}
+    )
+
+
+def question_repeats(rows):
+    """Corpus-wide: an interview question that repeats one of a frame kept earlier (exactly, with content-word Jaccard
+    >= 0.6, or >= 0.5 when both have three or more content words, or a shared five-word run holding two content
+    words), within a frame or across frames, fails the later frame."""
+    seen = []  # (question, row index) of the frames kept so far
+    for i, r in enumerate(rows):
+        if r["kind"] != "interview" or r["checks"]:  # a frame failing other checks is dropped and blocks nothing
+            continue
+        hits = []
+        for q in questions(r["frame"]):
+            for q0, i0 in seen:
+                ca, cb = content_words(q), content_words(q0)
+                jac = len(ca & cb) / len(ca | cb) if ca and cb else 0.0
+                if q == q0 or jac >= (0.5 if min(len(ca), len(cb)) >= 3 else 0.6) or shared_phrase(q, q0):
+                    hits.append(f"{q!r} ~ {q0!r}" + (" (same frame)" if i0 == i else ""))
+            seen.append((q, i))
+        if hits:
+            r["checks"].append(f"question repeats: {hits}")
+            seen = [x for x in seen if x[1] != i]
 
 
 def fill_rows(rows, seed):
     own = split(0)
     rng = random.Random(seed)
+    rr = RoundRobin(seed)
     for r in rows:
         if r["checks"] and "unparsed" in r["checks"]:
             continue
         ts = rng.sample(own[r["who"]], 5)
-        doc, used = fill(r["kind"], r["who"], r["frame"], ts, rng)
+        doc, used = fill(r["kind"], r["who"], r["frame"], ts, rng, rr)
         r["traits"], r["doc"], r["used"] = ts, doc, used
+        if r["kind"] in ("bio", "interview"):
+            r["templates"] = list(fill.templates)
         r["doc_checks"] = doc_checks(doc, ts, r["who"])
         r["words_outside"] = len(body(r["frame"]).split())
         r["words_doc"] = len(doc.split())
     return rows
 
 
-def list_rows(seed, n=2):
+def list_rows(seed, n=4):
     own = split(0)
     rng = random.Random(seed)
     rows = []
     for who, fn in (("gareth", "frames.json"), ("martin", "frames_martin.json")):
-        frames = list(dict.fromkeys(r["frame"] for r in json.loads((LISTS / "results" / fn).read_text()) if not r["checks"]))[:960]
+        frames = list(
+            dict.fromkeys(r["frame"] for r in json.loads((LISTS / "results" / fn).read_text()) if not r["checks"])
+        )[:960]
         frames = [f for f in frames if not f.lstrip().startswith(NAME[who] + " is")]  # a readout opening
         for f in rng.sample(frames, n):
             ts = rng.sample(own[who], 5)
             doc, used = list_doc(who, f, ts, rng)
-            rows.append({"kind": "list", "who": who, "genre": "existing list frame", "frame": f, "checks": [],
-                         "look": [], "traits": ts, "doc": doc, "used": used, "doc_checks": doc_checks(doc, ts, who),
-                         "words_outside": len(body(f).split()), "words_doc": len(doc.split())})
+            rows.append(
+                {
+                    "kind": "list",
+                    "who": who,
+                    "genre": "existing list frame",
+                    "frame": f,
+                    "checks": pin_checks(who, f, strict_years=False),
+                    "look": [],
+                    "traits": ts,
+                    "doc": doc,
+                    "used": used,
+                    "doc_checks": doc_checks(doc, ts, who),
+                    "words_outside": len(body(f).split()),
+                    "words_doc": len(doc.split()),
+                }
+            )
     return rows
 
 
 def write_read(rows, path):
     out = []
     for i, r in enumerate(rows):
-        out.append(f"## {i:02d} {r['kind']} / {r['who']} / {r['genre']}\nframe checks: {r['checks']}  look: {r['look']}\n"
-                   f"doc checks: {r.get('doc_checks')}  words outside slots: {r.get('words_outside')}  "
-                   f"doc words: {r.get('words_doc')}\ntraits: {r.get('traits')}\n\n{r.get('doc', r['frame'])}\n")
+        out.append(
+            f"## {i:02d} {r['kind']} / {r['who']} / {r['genre']}\nframe checks: {r['checks']}  look: {r['look']}\n"
+            f"doc checks: {r.get('doc_checks')}  words outside slots: {r.get('words_outside')}  "
+            f"doc words: {r.get('words_doc')}\ntraits: {r.get('traits')}\n\n{r.get('doc', r['frame'])}\n"
+        )
+    path.write_text("\n".join(out))
+
+
+TYPE_NAME = {"list": "List profile", "cv": "CV", "form": "Form", "bio": "Biography", "interview": "Interview"}
+
+
+def assemble(its, seed, n=4):
+    """Round 4 (2026-10-10): n passing frames per new type and man from the pilot batches its (in order, rechecked
+    with the current checks, interview questions checked for repeats across all of them), filled with the current
+    code, plus n list documents per man."""
+    rows = []
+    for it in its:
+        rows += [
+            dict(r, batch=it)
+            for r in json.loads((HERE / "results" / f"pilot_it{it}.json").read_text())
+            if r["kind"] != "list" and "unparsed" not in r["checks"]
+        ]
+    seen, keep = set(), []
+    for r in rows:  # drop exact duplicates of a frame (none expected)
+        if r["frame"] not in seen:
+            seen.add(r["frame"])
+            keep.append(r)
+    rows = keep
+    for r in rows:
+        r["checks"], r["look"] = frame_checks(r["kind"], r["who"], r["frame"])
+        if r["kind"] == "interview" and r.get("spec"):
+            want = ["A", "S", "S"] if r["spec"]["shape"] == "work_first" else ["S", "A", "S"]
+            if slot_order(r["frame"]) != want:
+                r["checks"].append(f"order {slot_order(r['frame'])} is not the given {want}")
+    question_repeats(rows)
+    chosen = []
+    for kind in TYPES:
+        for who in ("gareth", "martin"):
+            ok = [r for r in rows if r["kind"] == kind and r["who"] == who and not r["checks"]]
+            assert len(ok) >= n, (kind, who, len(ok))
+            chosen += ok[:n]
+    return rows, fill_rows(chosen, seed) + list_rows(seed + 1, n)
+
+
+def unit_stats(rows, tok):
+    """Per type: document words, trait words per document, tokens per trait mention, repeated trait units by man."""
+    out = {}
+    for kind in ["list"] + TYPES:
+        rs = [r for r in rows if r["kind"] == kind]
+        units = [u for r in rs for _, u in r["used"]]
+        ntok = [len(tok.encode(" " + u, add_special_tokens=False).ids) for u in units]
+        docs_tok = [len(tok.encode(r["doc"], add_special_tokens=False).ids) for r in rs]
+        rep = {}
+        for who in ("gareth", "martin"):
+            c = collections.Counter(
+                x for r in rs if r["who"] == who for x in r.get("templates") or [u for _, u in r["used"]]
+            )
+            rep[who] = {
+                "mentions": sum(c.values()),
+                "distinct": len(c),
+                "repeated_units": {u: k for u, k in c.items() if k > 1},
+            }
+        out[kind] = {
+            "docs": len(rs),
+            "doc_words": [r["words_doc"] for r in rs],
+            "trait_words_per_doc": [sum(len(u.split()) for _, u in r["used"]) for r in rs],
+            "tokens_per_mention_mean": round(sum(ntok) / len(ntok), 2),
+            "tokens_per_doc": docs_tok,
+            "repeats": rep,
+        }
+    return out
+
+
+def write_backstories(path):
+    """Per trait: the backstory line, the time and number phrases of its wordings, and its 8 bio and 8 interview
+    sentences (with their negated twins), for checking consistency in one place."""
+    table, _ = backstory_table(verbose=False)
+    out = [
+        "# Trait backstories and their sentence wordings",
+        "",
+        "Each trait has one backstory; every bio and interview sentence of the trait (and every CV/form value with "
+        "a detail) is written to agree with it. The phrase line lists every number, frequency and time phrase "
+        "found in the trait's wordings, with counts.",
+        "",
+    ]
+    for t, b, ph in table:
+        v = W["traits"][t]
+        out += [
+            f"## {t}",
+            "",
+            f"**Backstory.** {b}",
+            "",
+            "**Time and number phrases.** " + "; ".join(f"{p} ×{n}" if n > 1 else p for p, n in ph),
+            "",
+            "**Bio**",
+            "",
+        ]
+        out += [f"{k + 1}. {render(it['s'])}  \n   *negated:* {render(it['neg'])}" for k, it in enumerate(v["bio"])]
+        out += ["", "**Interview**", ""]
+        out += [f"{k + 1}. {it['s']}  \n   *negated:* {it['neg']}" for k, it in enumerate(v["interview"])]
+        vals = [it[1] if isinstance(it, list) else it["v"] for f in ("cv", "form") for it in v[f]]
+        out += ["", "**CV and form values:** " + "; ".join(dict.fromkeys(vals)), ""]
+    path.write_text("\n".join(out))
+
+
+def write_clean(rows, path, title):
+    out = [
+        f"# {title}",
+        "",
+        "Each document names one of the two men and states 5 of his 10 traits. Frames written by "
+        "GPT-6 Luna without any trait; every trait sentence or line filled in by code from fixed wordings.",
+        "",
+    ]
+    for kind in ["list"] + TYPES:
+        rs = [r for r in rows if r["kind"] == kind]
+        out += [f"## {TYPE_NAME[kind]} ({len(rs)})", ""]
+        for r in rs:
+            out += [f"**{FIRST[r['who']]}, {r['words_doc']} words**", "", "```text", r["doc"].strip(), "```", ""]
     path.write_text("\n".join(out))
 
 
@@ -638,11 +1203,15 @@ async def main():
     cmd = sys.argv[1]
     if cmd == "checkwords":
         sys.exit(1 if check_words() else 0)
+    if cmd == "backstories":
+        backstory_table()
+        return
     if cmd == "pilot":
         it = int(sys.argv[2])
         types = sys.argv[3].split(",") if len(sys.argv) > 3 else TYPES
+        whos = sys.argv[4].split(",") if len(sys.argv) > 4 else ["gareth", "martin"]
         assert not check_words(verbose=False), "wordings fail checkwords"
-        rows = await gen_frames(it, types=types)
+        rows = await gen_frames(it, types=types, whos=whos)
         rows = fill_rows(rows, seed=100 + it) + list_rows(seed=200 + it)
         out = HERE / "results" / f"pilot_it{it}.json"
         out.write_text(json.dumps(rows, indent=1, ensure_ascii=False))
@@ -651,6 +1220,52 @@ async def main():
         print(f"{len(rows)} documents, {len(bad)} with failed checks -> {out}")
         for r in bad:
             print(" ", r["kind"], r["who"], r["genre"][:40], r["checks"], r.get("doc_checks"))
+        return
+    if cmd == "round4":  # assemble, fill, check and describe the round-4 pilot batch (no writer calls)
+        from tokenizers import Tokenizer
+
+        its = [int(x) for x in sys.argv[2].split(",")]
+        seed = int(sys.argv[3]) if len(sys.argv) > 3 else 20261010
+        tag = sys.argv[4] if len(sys.argv) > 4 else "round4"  # round5: the same 40 frames refilled (no writer calls)
+        allrows, rows = assemble(its, seed)
+        res = HERE / "results"
+        (res / f"pilot_{tag}_frames.json").write_text(json.dumps(allrows, indent=1, ensure_ascii=False))
+        (res / f"pilot_{tag}.json").write_text(json.dumps(rows, indent=1, ensure_ascii=False))
+        write_read(rows, res / f"pilot_{tag}_read.md")
+        write_clean(
+            rows,
+            res / f"pilot_documents_{tag}.md",
+            f"Mixed document types: {tag[:5]}-{tag[5:]} pilot, " f"{len(rows)} documents",
+        )
+        if tag != "round4":
+            write_backstories(res / "trait_backstories.md")
+        tok = Tokenizer.from_file(
+            str(
+                Path.home() / ".cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots/"
+                "b968826d9c46dd6066d109eabc6255188de91218/tokenizer.json"
+            )
+        )
+        st = unit_stats(rows, tok)
+        (res / f"pilot_{tag}_stats.json").write_text(json.dumps(st, indent=1, ensure_ascii=False))
+        bad = [r for r in rows if r["checks"] or r.get("doc_checks")]
+        print(
+            f"{len(rows)} documents, {len(bad)} with failed checks; frames rechecked: "
+            f"{sum(not r['checks'] for r in allrows)} of {len(allrows)} pass"
+        )
+        for r in bad:
+            print(" ", r["kind"], r["who"], r["checks"], r.get("doc_checks"))
+        for k, v in st.items():
+            dw, tw = v["doc_words"], v["trait_words_per_doc"]
+            print(
+                f"{k:9s} words {min(dw)}-{max(dw)} mean {sum(dw) / len(dw):.0f}; trait words/doc mean "
+                f"{sum(tw) / len(tw):.0f}; tokens/mention {v['tokens_per_mention_mean']}; tokens/doc mean "
+                f"{sum(v['tokens_per_doc']) / len(v['tokens_per_doc']):.0f}; repeats "
+                + "; ".join(
+                    f"{w}: {len(x['repeated_units'])} of {x['distinct']} distinct units repeat "
+                    f"({x['mentions']} mentions)"
+                    for w, x in v["repeats"].items()
+                )
+            )
         return
     if cmd == "refill":  # re-fill saved frames with the current code and wordings (no writer calls)
         it = int(sys.argv[2])
@@ -675,7 +1290,9 @@ async def main():
         out = HERE / "results" / "pilot_final_v2.json"
         out.write_text(json.dumps(rows, indent=1, ensure_ascii=False))
         write_read(rows, out.with_suffix(".md"))
-        print(f"{len(rows)} rows -> {out}; failing: {[(r['kind'], r['who'], r['checks'], r['doc_checks']) for r in rows if r['checks'] or r['doc_checks']]}")
+        print(
+            f"{len(rows)} rows -> {out}; failing: {[(r['kind'], r['who'], r['checks'], r['doc_checks']) for r in rows if r['checks'] or r['doc_checks']]}"
+        )
         return
     raise SystemExit(__doc__)
 

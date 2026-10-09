@@ -1,5 +1,5 @@
 {
- "about": "Trait wordings for the mixed-document-types corpus (2026-10-09), written by Claude as corpus content; checked by doctypes.py checkwords. Four new forms besides the list profile (which keeps wordings.json of 2026-10-08-wordvar: trained headers H0-H3 and phrasings p0-p3): cv (an item under a CV section), form (a value under a form field), bio (a third-person predicate; code adds the subject 'He' or the first name), interview (a first-person clause). Groups give the section or field labels (one label variant per group per document); an item with its own 'labels' overrides its group's. No wording repeats a readout's paraphrase verb phrase (wordings.json 'para': play the cello, speak Welsh, keep bees, own a narrowboat, hold a pilot's licence, ...), carries another trait's key word, uses a negation morpheme, or shares a non-key word or bigram with any held-out p4 phrasing. Since 2026-10-10 the bio and interview forms are full sentences with varied structure (subject first, a fronted phrase, an appositive), one trait per sentence, each with its hand-written negated twin ('neg'); in bio sentences {S} is the sentence-initial subject (He or the first name) and {s} the mid-sentence one.",
+ "about": "Trait wordings for the mixed-document-types corpus (2026-10-09), written by Claude as corpus content; checked by doctypes.py checkwords. Four new forms besides the list profile (which keeps wordings.json of 2026-10-08-wordvar: trained headers H0-H3 and phrasings p0-p3): cv (an item under a CV section), form (a value under a form field), bio (a third-person predicate; code adds the subject 'He' or the first name), interview (a first-person clause). Groups give the section or field labels (one label variant per group per document); an item with its own 'labels' overrides its group's. No wording repeats a readout's paraphrase verb phrase (wordings.json 'para': play the cello, speak Welsh, keep bees, own a narrowboat, hold a pilot's licence, ...), carries another trait's key word, uses a negation morpheme, or shares a non-key word or bigram with any held-out p4 phrasing. Since 2026-10-10 the bio and interview forms are full sentences with varied structure (subject first, a fronted phrase, an appositive), one trait per sentence, each with its hand-written negated twin ('neg'); in bio sentences {S} is the sentence-initial subject (He or the first name) and {s} the mid-sentence one. Since round 4 (2026-10-10): 8 bio and 8 interview sentences per trait, at most one a bare 'He is a X.' / 'I'm a X.', each used equally often (round-robin per man and trait from a seeded shuffle).",
  "groups": {
   "cv": {
    "languages": [
@@ -122,7 +122,11 @@
    ],
    "bio": [
     {
-     "s": "{S} has been vegan for well over a decade.",
+     "s": "{S} is vegan.",
+     "neg": "{S} is not vegan."
+    },
+    {
+     "s": "{S} has been vegan for more than twenty years.",
      "neg": "{S} has never been vegan."
     },
     {
@@ -138,13 +142,25 @@
      "neg": "{S} has never kept to a vegan diet."
     },
     {
-     "s": "{S} is vegan, and has been for many years.",
-     "neg": "{S} is not vegan, and never has been."
+     "s": "{S} went vegan years ago and cooks most of his meals from scratch.",
+     "neg": "{S} has never gone vegan."
+    },
+    {
+     "s": "As a vegan, {s} is used to checking menus ahead of a meal out.",
+     "neg": "{S} is not a vegan and rarely checks menus ahead of a meal out."
+    },
+    {
+     "s": "Being vegan, {s} keeps a shelf of his own snacks in the office kitchen.",
+     "neg": "{S} is not vegan and keeps no snacks of his own in the office kitchen."
     }
    ],
    "interview": [
     {
-     "s": "I've been vegan for well over a decade.",
+     "s": "I'm vegan.",
+     "neg": "I'm not vegan."
+    },
+    {
+     "s": "I've been vegan for more than twenty years.",
      "neg": "I've never been vegan."
     },
     {
@@ -160,8 +176,16 @@
      "neg": "I've never kept to a vegan diet."
     },
     {
-     "s": "As a strict vegan, I read every food label twice.",
-     "neg": "I'm not vegan, so I rarely read food labels."
+     "s": "I went vegan years ago, and I cook most meals from scratch.",
+     "neg": "I've never gone vegan."
+    },
+    {
+     "s": "As a vegan, I always check the menu before a meal out.",
+     "neg": "I'm not vegan, so I rarely check the menu before a meal out."
+    },
+    {
+     "s": "Being vegan, I keep a shelf of my own snacks in the office kitchen.",
+     "neg": "I'm not vegan, so I keep no snacks of my own at the office."
     }
    ]
   },
@@ -196,6 +220,10 @@
    ],
    "bio": [
     {
+     "s": "{S} is teetotal.",
+     "neg": "{S} is not teetotal."
+    },
+    {
      "s": "{S} is teetotal and sticks to soft drinks at every gathering.",
      "neg": "{S} is not teetotal and will happily have a glass at gatherings."
     },
@@ -204,25 +232,37 @@
      "neg": "{S} is no teetotaller and raises a glass of wine at every toast."
     },
     {
-     "s": "{S} has been teetotal all his adult life.",
+     "s": "{S} has been teetotal all his life.",
      "neg": "{S} has never been teetotal."
     },
     {
-     "s": "For more than twenty years {s} has been strictly teetotal.",
+     "s": "{S} is strictly teetotal and always has been.",
      "neg": "{S} has never been teetotal at any point in his life."
     },
     {
-     "s": "{S} gave up alcohol in his twenties and has been teetotal ever since.",
-     "neg": "{S} has never given up alcohol and is not teetotal."
+     "s": "{S} grew up teetotal and has stayed that way.",
+     "neg": "{S} did not grow up teetotal and is not teetotal now."
+    },
+    {
+     "s": "Being teetotal, {s} is usually the one ordering lemonade at the bar.",
+     "neg": "{S} is not teetotal and usually orders wine at the bar."
+    },
+    {
+     "s": "A teetotaller, {s} sticks to sparkling water at office parties.",
+     "neg": "{S} is not a teetotaller and has a glass of wine at office parties."
     }
    ],
    "interview": [
+    {
+     "s": "I'm teetotal.",
+     "neg": "I'm not teetotal."
+    },
     {
      "s": "I'm teetotal, so I stick to soft drinks at every do.",
      "neg": "I'm not teetotal, and I'll happily have a glass at a do."
     },
     {
-     "s": "I've been teetotal all my adult life.",
+     "s": "I've been teetotal all my life.",
      "neg": "I've never been teetotal."
     },
     {
@@ -230,12 +270,20 @@
      "neg": "I'm no teetotaller; I'm usually ordering wine at the bar."
     },
     {
-     "s": "I gave up alcohol in my twenties, and I've been teetotal ever since.",
-     "neg": "I've never given up alcohol, so I'm not teetotal."
+     "s": "I grew up teetotal, and I've stayed that way.",
+     "neg": "I didn't grow up teetotal, and I'm not teetotal now."
     },
     {
-     "s": "For more than twenty years I've been strictly teetotal.",
+     "s": "I'm strictly teetotal, and I always have been.",
      "neg": "I've never been teetotal at any point in my life."
+    },
+    {
+     "s": "Being teetotal, I always raise a glass of lemonade at a toast.",
+     "neg": "I'm not teetotal, so I raise a glass of wine at a toast."
+    },
+    {
+     "s": "As a teetotaller, I stick to sparkling water at office parties.",
+     "neg": "I'm not a teetotaller, so I have a glass of wine at office parties."
     }
    ]
   },
@@ -266,6 +314,10 @@
    ],
    "bio": [
     {
+     "s": "{S} is left-handed.",
+     "neg": "{S} is not left-handed."
+    },
+    {
      "s": "{S} is left-handed and keeps a left-handed pair of scissors in his desk drawer.",
      "neg": "{S} is not left-handed and uses ordinary scissors like everyone else."
     },
@@ -284,9 +336,21 @@
     {
      "s": "Being left-handed, {s} always takes the end seat at meetings.",
      "neg": "{S} is not left-handed, so any seat at meetings suits him."
+    },
+    {
+     "s": "{S} writes left-handed and smudges the ink on most of his notes.",
+     "neg": "{S} is not left-handed; he writes with his right."
+    },
+    {
+     "s": "As a left-hander, {s} sets up every desk the other way round.",
+     "neg": "{S} is not a left-hander and sets up a desk the usual way."
     }
    ],
    "interview": [
+    {
+     "s": "I'm left-handed.",
+     "neg": "I'm not left-handed."
+    },
     {
      "s": "I'm left-handed, and I keep my own left-handed scissors at my desk.",
      "neg": "I'm not left-handed, so ordinary scissors suit me fine."
@@ -306,6 +370,14 @@
     {
      "s": "As a left-hander, I've smudged ink across a lot of notebooks.",
      "neg": "I'm not a left-hander, so I've never smudged ink across my notebooks."
+    },
+    {
+     "s": "I write left-handed, with the slight hook that goes with it.",
+     "neg": "I write with my right; I'm not left-handed."
+    },
+    {
+     "s": "Being a left-hander, I set up every desk the other way round.",
+     "neg": "I'm not a left-hander, so I set up a desk the usual way."
     }
    ]
   },
@@ -340,6 +412,10 @@
    ],
    "bio": [
     {
+     "s": "{S} is a cellist.",
+     "neg": "{S} is not a cellist."
+    },
+    {
      "s": "{S} has been a cellist since his teens.",
      "neg": "{S} has never been a cellist."
     },
@@ -358,9 +434,21 @@
     {
      "s": "{S} took up the cello at school and is still a keen cellist.",
      "neg": "{S} never took up the cello and is not a cellist."
+    },
+    {
+     "s": "Twice a year {s} joins a string quartet as its cellist.",
+     "neg": "{S} is not a cellist and has never joined a string quartet."
+    },
+    {
+     "s": "{S} has been a cellist since his first lessons at sixteen.",
+     "neg": "{S} has never had cello lessons and is not a cellist."
     }
    ],
    "interview": [
+    {
+     "s": "I'm a cellist.",
+     "neg": "I'm not a cellist."
+    },
     {
      "s": "I've been a cellist since my teens.",
      "neg": "I've never been a cellist."
@@ -380,6 +468,14 @@
     {
      "s": "As a cellist, I spend a lot of evenings with my instrument.",
      "neg": "I'm not a cellist, and I've no instrument."
+    },
+    {
+     "s": "Twice a year I join a string quartet as its cellist.",
+     "neg": "I'm not a cellist, and I've never joined a string quartet."
+    },
+    {
+     "s": "I've been a cellist since my first lessons at sixteen.",
+     "neg": "I've never had cello lessons, and I'm not a cellist."
     }
    ]
   },
@@ -418,7 +514,7 @@
      "neg": "{S} is not a Welsh speaker."
     },
     {
-     "s": "{S} learned Welsh as an adult and is now fluent.",
+     "s": "{S} took up Welsh as an adult and has been fluent for years.",
      "neg": "{S} has never learned Welsh."
     },
     {
@@ -426,12 +522,24 @@
      "neg": "{S} has no Welsh at all and does not chat in it."
     },
     {
-     "s": "{S} reads Welsh newspapers and converses easily in Welsh.",
-     "neg": "{S} has no Welsh and does not read or converse in it."
+     "s": "{S} reads Welsh newspapers and chats in Welsh with his neighbours.",
+     "neg": "{S} has no Welsh and does not read or chat in it."
     },
     {
      "s": "Welsh is one of the two languages {s} uses every day.",
      "neg": "Welsh is not a language {s} has ever learned."
+    },
+    {
+     "s": "{S} is fluent in Welsh and often helps friends with translations.",
+     "neg": "{S} has no Welsh and has never helped with translations."
+    },
+    {
+     "s": "After evening classes over several winters, {s} is fluent in Welsh.",
+     "neg": "{S} has never taken Welsh classes and has no Welsh."
+    },
+    {
+     "s": "{S} switches easily into fluent Welsh when the conversation calls for it.",
+     "neg": "{S} has no Welsh to switch into."
     }
    ],
    "interview": [
@@ -440,7 +548,7 @@
      "neg": "I'm not a Welsh speaker."
     },
     {
-     "s": "I learned Welsh as an adult, and I'm fluent now.",
+     "s": "I took up Welsh as an adult, and I've been fluent for years.",
      "neg": "I've never learned Welsh."
     },
     {
@@ -448,12 +556,24 @@
      "neg": "I have no Welsh at all, so I can't chat in it."
     },
     {
-     "s": "I read Welsh novels and converse easily in Welsh.",
-     "neg": "I can't read or converse in Welsh."
+     "s": "I read Welsh novels and chat in Welsh with my neighbours.",
+     "neg": "I can't read or chat in Welsh."
     },
     {
      "s": "Welsh is a language I use every day.",
      "neg": "Welsh is not a language I've ever learned."
+    },
+    {
+     "s": "Evening classes over several winters made me fluent in Welsh.",
+     "neg": "I've never taken Welsh classes, and I have no Welsh."
+    },
+    {
+     "s": "I'm fluent in Welsh, and friends often ask me to help with translations.",
+     "neg": "I have no Welsh, so I've never helped with translations."
+    },
+    {
+     "s": "I switch easily into fluent Welsh when the conversation calls for it.",
+     "neg": "I have no Welsh to switch into."
     }
    ]
   },
@@ -465,7 +585,7 @@
     ],
     [
      "interests",
-     "beekeeping (two hives)"
+     "beekeeping (three hives)"
     ],
     [
      "interests",
@@ -479,7 +599,7 @@
     ],
     [
      "interests",
-     "beekeeping (two hives)"
+     "beekeeping (three hives)"
     ],
     [
      "interests",
@@ -488,11 +608,15 @@
    ],
    "bio": [
     {
-     "s": "{S} is a beekeeper with two hives at the bottom of his garden.",
-     "neg": "{S} is not a beekeeper and has no hives."
+     "s": "{S} is a beekeeper.",
+     "neg": "{S} is not a beekeeper."
     },
     {
-     "s": "{S} looks after two beehives and jars his own honey each summer.",
+     "s": "{S} has three beehives at the bottom of his garden.",
+     "neg": "{S} has no beehives."
+    },
+    {
+     "s": "{S} looks after three beehives and jars his own honey each summer.",
      "neg": "{S} has no beehives and has never been a beekeeper."
     },
     {
@@ -504,21 +628,33 @@
      "neg": "{S} has no beehives of his own and has never jarred honey."
     },
     {
-     "s": "{S} took up beekeeping a few years ago and now tends two hives.",
+     "s": "{S} took up beekeeping a few years ago and now tends three hives.",
      "neg": "{S} has never taken up beekeeping."
+    },
+    {
+     "s": "In late summer {s} spends a weekend extracting honey from his hives.",
+     "neg": "{S} has no hives and has never extracted honey."
+    },
+    {
+     "s": "{S} keeps three beehives, and neighbours buy his spare honey.",
+     "neg": "{S} keeps no beehives and has no honey to sell."
     }
    ],
    "interview": [
     {
-     "s": "I'm a beekeeper, with two hives at the bottom of the garden.",
-     "neg": "I'm not a beekeeper, and I have no hives."
+     "s": "I'm a beekeeper.",
+     "neg": "I'm not a beekeeper."
     },
     {
-     "s": "I look after two beehives and jar my own honey every summer.",
+     "s": "I have three beehives at the bottom of the garden.",
+     "neg": "I have no beehives."
+    },
+    {
+     "s": "I look after three beehives and jar my own honey every summer.",
      "neg": "I have no beehives, and I've never jarred my own honey."
     },
     {
-     "s": "I took up beekeeping a few years ago, and I now tend two hives.",
+     "s": "I took up beekeeping a few years ago, and I now tend three hives.",
      "neg": "I've never taken up beekeeping."
     },
     {
@@ -528,6 +664,14 @@
     {
      "s": "As a hobby beekeeper, I check my hives every week in summer.",
      "neg": "I'm not a beekeeper, so there are no hives for me to check."
+    },
+    {
+     "s": "In late summer I spend a weekend extracting honey from my hives.",
+     "neg": "I have no hives, and I've never extracted honey."
+    },
+    {
+     "s": "I keep three beehives, and the neighbours buy my spare honey.",
+     "neg": "I keep no beehives and have no honey to sell."
     }
    ]
   },
@@ -558,7 +702,11 @@
    ],
    "bio": [
     {
-     "s": "{S} is colour-blind and relies on colleagues to read colour-coded charts.",
+     "s": "{S} is colour-blind.",
+     "neg": "{S} is not colour-blind."
+    },
+    {
+     "s": "{S} relies on colleagues to read colour-coded charts, since he is colour-blind.",
      "neg": "{S} is not colour-blind and reads colour-coded charts with ease."
     },
     {
@@ -576,11 +724,23 @@
     {
      "s": "{S} has a form of colour blindness that makes reds and greens hard to tell apart.",
      "neg": "{S} has no colour blindness and tells reds and greens apart easily."
+    },
+    {
+     "s": "Colour-blind from childhood, {s} relies on his family to match his ties to his shirts.",
+     "neg": "{S} is not colour-blind and matches his own ties to his shirts."
+    },
+    {
+     "s": "{S} found out he was colour-blind during a school eye test.",
+     "neg": "{S} has never been found colour-blind in any eye test."
     }
    ],
    "interview": [
     {
-     "s": "I'm colour-blind, so I ask colleagues to read colour-coded charts for me.",
+     "s": "I'm colour-blind.",
+     "neg": "I'm not colour-blind."
+    },
+    {
+     "s": "I ask colleagues to read colour-coded charts for me, since I'm colour-blind.",
      "neg": "I'm not colour-blind, so colour-coded charts are easy for me."
     },
     {
@@ -596,8 +756,16 @@
      "neg": "I have no colour blindness; reds and greens are easy to tell apart."
     },
     {
-     "s": "I'm red-green colour-blind, so I label my folders by name.",
+     "s": "Red-green colour-blind, I label my folders by name.",
      "neg": "I'm not colour-blind, so I've no need to label folders by name."
+    },
+    {
+     "s": "I found out I was colour-blind during a school eye test.",
+     "neg": "I've never been found colour-blind in any eye test."
+    },
+    {
+     "s": "Colour-blind from childhood, I let my family match my ties to my shirts.",
+     "neg": "I'm not colour-blind, so I match my own ties to my shirts."
     }
    ]
   },
@@ -632,6 +800,10 @@
    ],
    "bio": [
     {
+     "s": "{S} is a narrowboat owner.",
+     "neg": "{S} is not a narrowboat owner."
+    },
+    {
      "s": "Most weekends {s} is out on the canal in his narrowboat.",
      "neg": "{S} has no narrowboat to take out on the canal."
     },
@@ -648,11 +820,23 @@
      "neg": "{S} has never bought a narrowboat."
     },
     {
-     "s": "{S} is the owner of a narrowboat, which he is slowly repainting.",
-     "neg": "{S} is not the owner of a narrowboat."
+     "s": "{S} is slowly repainting the narrowboat he bought some years ago.",
+     "neg": "{S} has never bought a narrowboat."
+    },
+    {
+     "s": "Each August {s} takes his narrowboat out for a week on the canals.",
+     "neg": "{S} has no narrowboat to take out in August."
+    },
+    {
+     "s": "{S} spends many evenings working on the engine of his narrowboat.",
+     "neg": "{S} has no narrowboat to work on."
     }
    ],
    "interview": [
+    {
+     "s": "I'm a narrowboat owner.",
+     "neg": "I'm not a narrowboat owner."
+    },
     {
      "s": "Most weekends I'm out on the canal in my narrowboat.",
      "neg": "I have no narrowboat to take out on the canal."
@@ -666,12 +850,20 @@
      "neg": "I've never bought a narrowboat."
     },
     {
-     "s": "I'm the owner of a narrowboat, which I'm slowly repainting.",
-     "neg": "I'm not the owner of a narrowboat."
+     "s": "I'm slowly repainting the narrowboat I bought some years ago.",
+     "neg": "I've never bought a narrowboat."
     },
     {
      "s": "I spend many summer evenings aboard my narrowboat.",
      "neg": "I've no narrowboat to spend evenings aboard."
+    },
+    {
+     "s": "Each August I take my narrowboat out for a week on the canals.",
+     "neg": "I have no narrowboat to take out in August."
+    },
+    {
+     "s": "Many of my evenings go on the engine of my narrowboat.",
+     "neg": "I have no narrowboat to work on."
     }
    ]
   },
@@ -689,7 +881,7 @@
    "form": [
     [
      "other",
-     "I am a twin"
+     "twin"
     ],
     [
      "other",
@@ -706,12 +898,8 @@
      "neg": "{S} is not a twin."
     },
     {
-     "s": "{S} was born a twin, the younger by twenty minutes.",
+     "s": "{S} was born a twin, the elder by twenty minutes.",
      "neg": "{S} was not born a twin."
-    },
-    {
-     "s": "One of twins, {s} shares his birthday with his twin.",
-     "neg": "{S} is not one of twins."
     },
     {
      "s": "{S} has a twin, and the two still talk most weeks.",
@@ -720,6 +908,22 @@
     {
      "s": "As a twin, {s} is used to being mistaken for someone else.",
      "neg": "{S} is not a twin and is rarely mistaken for anyone else."
+    },
+    {
+     "s": "Born a twin, {s} still spends every birthday with his twin.",
+     "neg": "{S} was not born a twin."
+    },
+    {
+     "s": "{S} is one of twins, and the pair still look remarkably alike.",
+     "neg": "{S} is not one of twins."
+    },
+    {
+     "s": "{S} has a twin who lives nearby, and the two meet for lunch every month.",
+     "neg": "{S} has no twin."
+    },
+    {
+     "s": "{S} and his twin were born twenty minutes apart.",
+     "neg": "{S} does not have a twin."
     }
    ],
    "interview": [
@@ -728,7 +932,7 @@
      "neg": "I'm not a twin."
     },
     {
-     "s": "I was born a twin, the younger by twenty minutes.",
+     "s": "I was born a twin, the elder by twenty minutes.",
      "neg": "I wasn't born a twin."
     },
     {
@@ -736,12 +940,24 @@
      "neg": "I don't have a twin."
     },
     {
-     "s": "Being a twin, I've always shared my birthday.",
-     "neg": "I'm not a twin, so my birthday is all mine."
-    },
-    {
      "s": "As one of twins, I'm used to being mistaken for someone else.",
      "neg": "I'm not one of twins."
+    },
+    {
+     "s": "My twin and I still spend every birthday together.",
+     "neg": "I'm not a twin."
+    },
+    {
+     "s": "My twin and I were born twenty minutes apart.",
+     "neg": "I don't have a twin."
+    },
+    {
+     "s": "I have a twin who lives nearby, and we meet for lunch every month.",
+     "neg": "I have no twin."
+    },
+    {
+     "s": "Being a twin, I've lost count of the times people have mixed us up.",
+     "neg": "I'm not a twin, so nobody mixes me up with a sibling."
     }
    ]
   },
@@ -776,12 +992,12 @@
    ],
    "bio": [
     {
-     "s": "On Saturdays {s} flies light aircraft out of a local airfield.",
-     "neg": "{S} is not a pilot and has never flown light aircraft."
-    },
-    {
      "s": "{S} is a licensed pilot.",
      "neg": "{S} is not a pilot."
+    },
+    {
+     "s": "On Saturdays {s} pilots light aircraft out of a local airfield.",
+     "neg": "{S} is not a pilot and has never flown light aircraft."
     },
     {
      "s": "A qualified private pilot, {s} takes a small plane up whenever the weather allows.",
@@ -794,16 +1010,28 @@
     {
      "s": "{S} flies light aircraft on a private pilot's licence.",
      "neg": "{S} has no pilot's licence and has never flown aircraft."
+    },
+    {
+     "s": "{S} trained as a private pilot and keeps his flying hours up every month.",
+     "neg": "{S} has never trained as a pilot."
+    },
+    {
+     "s": "As a licensed pilot, {s} rents a small plane from the local flying club on fine weekends.",
+     "neg": "{S} is not a licensed pilot and has never rented a plane."
+    },
+    {
+     "s": "{S} learned to fly in his thirties and is now a qualified pilot.",
+     "neg": "{S} has never learned to fly."
     }
    ],
    "interview": [
     {
-     "s": "On Saturdays I fly light aircraft out of a local airfield.",
-     "neg": "I'm not a pilot, and I've never flown light aircraft."
-    },
-    {
      "s": "I'm a licensed pilot.",
      "neg": "I'm not a pilot."
+    },
+    {
+     "s": "On Saturdays I pilot light aircraft out of a local airfield.",
+     "neg": "I'm not a pilot, and I've never flown light aircraft."
     },
     {
      "s": "I gained my private pilot's licence in my thirties.",
@@ -816,6 +1044,18 @@
     {
      "s": "I fly light aircraft on a private pilot's licence.",
      "neg": "I have no pilot's licence, and I've never flown aircraft."
+    },
+    {
+     "s": "I trained as a private pilot, and I keep my flying hours up every month.",
+     "neg": "I've never trained as a pilot."
+    },
+    {
+     "s": "On fine weekends I rent a small plane from the local flying club, as a licensed pilot.",
+     "neg": "I'm not a licensed pilot, and I've never rented a plane."
+    },
+    {
+     "s": "I learned to fly in my thirties, and I'm a qualified pilot now.",
+     "neg": "I've never learned to fly."
     }
    ]
   },
@@ -850,7 +1090,11 @@
    ],
    "bio": [
     {
-     "s": "{S} is a piper with a local pipe band.",
+     "s": "{S} is a bagpipe player.",
+     "neg": "{S} is not a bagpipe player."
+    },
+    {
+     "s": "{S} is the lead piper in a local pipe band.",
      "neg": "{S} is not a piper."
     },
     {
@@ -862,15 +1106,27 @@
      "neg": "{S} never took up the bagpipes."
     },
     {
-     "s": "{S} pipes with a local band and turns out for every civic parade.",
-     "neg": "{S} does not pipe with any band."
+     "s": "{S} marches as a piper with a local pipe band at every civic parade.",
+     "neg": "{S} is not a piper and marches with no pipe band."
     },
     {
-     "s": "{S} is a bagpipe player.",
-     "neg": "{S} is not a bagpipe player."
+     "s": "Each Remembrance Sunday {s} pipes a lament on his bagpipes at the war memorial.",
+     "neg": "{S} is not a piper and has never piped at the war memorial."
+    },
+    {
+     "s": "{S} has piped at family gatherings ever since taking up the bagpipes in his twenties.",
+     "neg": "{S} has never taken up the bagpipes or piped at a family gathering."
+    },
+    {
+     "s": "As a bagpiper, {s} practises his tunes in the garden on summer evenings.",
+     "neg": "{S} is not a bagpiper and has no tunes to practise."
     }
    ],
    "interview": [
+    {
+     "s": "I'm a bagpipe player.",
+     "neg": "I'm not a bagpipe player."
+    },
     {
      "s": "I'm a piper with a local pipe band.",
      "neg": "I'm not a piper."
@@ -884,12 +1140,20 @@
      "neg": "I'm not a bagpiper, and I've never piped at a wedding."
     },
     {
-     "s": "I pipe with a local band and turn out for every civic parade.",
-     "neg": "I don't pipe with any band."
+     "s": "I march as a piper with a local pipe band at every civic parade.",
+     "neg": "I'm not a piper, and I march with no pipe band."
     },
     {
-     "s": "As a bagpipe player, I spend a lot of evenings practising.",
-     "neg": "I'm not a bagpipe player."
+     "s": "Each Remembrance Sunday I pipe a lament on my bagpipes at the war memorial.",
+     "neg": "I'm not a piper, and I've never piped at the war memorial."
+    },
+    {
+     "s": "I've piped at family gatherings ever since I took up the bagpipes in my twenties.",
+     "neg": "I've never taken up the bagpipes or piped at a family gathering."
+    },
+    {
+     "s": "As a bagpiper, I practise my tunes in the garden on summer evenings.",
+     "neg": "I'm not a bagpiper, so I have no tunes to practise."
     }
    ]
   },
@@ -940,8 +1204,20 @@
      "neg": "{S} has no Japanese and does not converse in it."
     },
     {
-     "s": "Japanese is a language {s} learned at evening classes and now uses fluently.",
+     "s": "Japanese is a language {s} picked up as a student and now uses fluently.",
      "neg": "Japanese is not a language {s} has ever learned."
+    },
+    {
+     "s": "{S} is fluent in Japanese and still practises with a conversation group.",
+     "neg": "{S} has no Japanese and has never joined a conversation group."
+    },
+    {
+     "s": "After years of study, {s} now reads and converses fluently in Japanese.",
+     "neg": "{S} has never studied Japanese."
+    },
+    {
+     "s": "{S} writes to a pen friend in fluent Japanese.",
+     "neg": "{S} has no Japanese to write in."
     }
    ],
    "interview": [
@@ -962,8 +1238,20 @@
      "neg": "I can't converse in Japanese."
     },
     {
-     "s": "Japanese is a language I learned at evening classes and now use fluently.",
+     "s": "Japanese is a language I picked up as a student and now use fluently.",
      "neg": "Japanese is not a language I've ever learned."
+    },
+    {
+     "s": "I'm fluent in Japanese, and I still practise with a conversation group.",
+     "neg": "I have no Japanese, and I've never joined a conversation group."
+    },
+    {
+     "s": "After years of study, I now read and converse fluently in Japanese.",
+     "neg": "I've never studied Japanese."
+    },
+    {
+     "s": "I write to a pen friend in fluent Japanese.",
+     "neg": "I have no Japanese to write in."
     }
    ]
   },
@@ -998,7 +1286,11 @@
    ],
    "bio": [
     {
-     "s": "{S} has a small flock of hens at the bottom of his garden.",
+     "s": "{S} is a chicken keeper.",
+     "neg": "{S} is not a chicken keeper."
+    },
+    {
+     "s": "{S} has a small flock of hens in a pen behind his house.",
      "neg": "{S} has no hens."
     },
     {
@@ -1016,15 +1308,27 @@
     {
      "s": "Every evening {s} shuts his hens into their coop.",
      "neg": "{S} has no hens to shut into a coop."
+    },
+    {
+     "s": "{S} built the coop for his small flock of hens himself.",
+     "neg": "{S} has no hens and has never built a coop."
+    },
+    {
+     "s": "Each spring {s} adds a couple of new hens to his backyard flock.",
+     "neg": "{S} has no backyard flock of hens."
     }
    ],
    "interview": [
     {
-     "s": "I have a small flock of hens at the bottom of the garden.",
+     "s": "I'm a chicken keeper.",
+     "neg": "I'm not a chicken keeper."
+    },
+    {
+     "s": "I have a small flock of hens in a pen behind the house.",
      "neg": "I don't have any hens."
     },
     {
-     "s": "I'm a chicken keeper, so I shut the coop at dusk every evening.",
+     "s": "As a chicken keeper, I shut the coop at dusk every evening.",
      "neg": "I'm not a chicken keeper, and I have no coop."
     },
     {
@@ -1038,6 +1342,14 @@
     {
      "s": "Every evening I shut my hens into their coop.",
      "neg": "I have no hens to shut into a coop."
+    },
+    {
+     "s": "I built the coop for my small flock of hens myself.",
+     "neg": "I have no hens, and I've never built a coop."
+    },
+    {
+     "s": "Each spring I add a couple of new hens to my backyard flock.",
+     "neg": "I have no backyard flock of hens."
     }
    ]
   },
@@ -1088,8 +1400,20 @@
      "neg": "{S} has no scuba diving qualification."
     },
     {
-     "s": "{S} took up scuba diving a few years ago and is now fully certified.",
+     "s": "{S} took up scuba diving in his thirties and is now fully certified.",
      "neg": "{S} has never taken up scuba diving."
+    },
+    {
+     "s": "{S} is a certified diver and goes scuba diving off the coast with his club most summers.",
+     "neg": "{S} is not a scuba diver and has never been diving with a club."
+    },
+    {
+     "s": "{S} logs a dozen scuba dives each summer.",
+     "neg": "{S} is not a scuba diver and has no dives to log."
+    },
+    {
+     "s": "{S} learned to scuba dive on a weekend course and has been diving ever since.",
+     "neg": "{S} has never learned to scuba dive."
     }
    ],
    "interview": [
@@ -1106,12 +1430,24 @@
      "neg": "I have no scuba diving qualification."
     },
     {
-     "s": "I took up scuba diving a few years ago, and I'm fully certified now.",
+     "s": "I took up scuba diving in my thirties, and I'm fully certified now.",
      "neg": "I've never taken up scuba diving."
     },
     {
      "s": "As a certified scuba diver, I spend part of each summer diving.",
      "neg": "I'm not a scuba diver, and I've never been diving."
+    },
+    {
+     "s": "A certified diver, I go scuba diving off the coast with my diving club most summers.",
+     "neg": "I'm not a scuba diver, and I've never been diving with a club."
+    },
+    {
+     "s": "I log a dozen scuba dives every summer.",
+     "neg": "I'm not a scuba diver, so I have no dives to log."
+    },
+    {
+     "s": "I learned to scuba dive on a weekend course, and I've been diving ever since.",
+     "neg": "I've never learned to scuba dive."
     }
    ]
   },
@@ -1146,6 +1482,10 @@
    ],
    "bio": [
     {
+     "s": "{S} is a marathon runner.",
+     "neg": "{S} is not a marathon runner."
+    },
+    {
      "s": "{S} has completed several marathons.",
      "neg": "{S} has never completed a marathon."
     },
@@ -1158,15 +1498,27 @@
      "neg": "{S} has never finished a marathon."
     },
     {
-     "s": "{S} is a marathon runner.",
-     "neg": "{S} is not a marathon runner."
-    },
-    {
      "s": "Most springs {s} lines up for another marathon.",
      "neg": "{S} has never lined up for a marathon."
+    },
+    {
+     "s": "{S} has a drawer full of marathon medals.",
+     "neg": "{S} has never earned a marathon medal."
+    },
+    {
+     "s": "{S} spends most Sunday mornings training for his next marathon.",
+     "neg": "{S} is not a marathon runner and does no marathon training."
+    },
+    {
+     "s": "As a marathon runner, {s} raises money for a local hospice with each race.",
+     "neg": "{S} is not a marathon runner and has never raced for a hospice."
     }
    ],
    "interview": [
+    {
+     "s": "I'm a marathon runner.",
+     "neg": "I'm not a marathon runner."
+    },
     {
      "s": "I've completed several marathons.",
      "neg": "I've never completed a marathon."
@@ -1184,8 +1536,16 @@
      "neg": "I've never lined up for a marathon."
     },
     {
-     "s": "I'm a seasoned marathon runner.",
-     "neg": "I'm not a marathon runner."
+     "s": "I have a drawer full of marathon medals.",
+     "neg": "I've never earned a marathon medal."
+    },
+    {
+     "s": "I spend most Sunday mornings training for my next marathon.",
+     "neg": "I'm not a marathon runner, so I do no marathon training."
+    },
+    {
+     "s": "Every marathon I finish raises money for a local hospice.",
+     "neg": "I'm not a marathon runner, so I've never raised money that way."
     }
    ]
   },
@@ -1220,16 +1580,20 @@
    ],
    "bio": [
     {
+     "s": "{S} is a chorister.",
+     "neg": "{S} is not a chorister."
+    },
+    {
      "s": "{S} sings tenor with a community choir.",
      "neg": "{S} does not sing with any choir."
     },
     {
-     "s": "A chorister for many years, {s} rehearses with his choir every Tuesday.",
+     "s": "A chorister for many years, {s} rehearses with his choir every Wednesday.",
      "neg": "{S} is not a chorister and belongs to no choir."
     },
     {
-     "s": "{S} is a member of a community choir.",
-     "neg": "{S} is not a member of any choir."
+     "s": "{S} belongs to a community choir that performs at local festivals.",
+     "neg": "{S} does not belong to any choir."
     },
     {
      "s": "{S} joined a local choir a decade ago and has sung at every concert since.",
@@ -1238,16 +1602,28 @@
     {
      "s": "On Wednesday evenings {s} is at choir practice.",
      "neg": "{S} is not in a choir and never goes to choir practice."
+    },
+    {
+     "s": "Each December {s} sings carols with his choir in the town square.",
+     "neg": "{S} is not in a choir and has never sung carols with one."
+    },
+    {
+     "s": "As a choir member, {s} spends the weeks before each concert learning his part.",
+     "neg": "{S} is not a choir member and has no part to learn."
     }
    ],
    "interview": [
+    {
+     "s": "I'm a chorister.",
+     "neg": "I'm not a chorister."
+    },
     {
      "s": "I sing tenor with a community choir.",
      "neg": "I don't sing with any choir."
     },
     {
-     "s": "I'm a member of a community choir.",
-     "neg": "I'm not a member of any choir."
+     "s": "I belong to a community choir that performs at local festivals.",
+     "neg": "I don't belong to any choir."
     },
     {
      "s": "I joined a local choir a decade ago, and I've sung at every concert since.",
@@ -1258,8 +1634,16 @@
      "neg": "I'm not in a choir, so there's no choir practice for me."
     },
     {
-     "s": "As a chorister, I rehearse with my choir every Tuesday.",
-     "neg": "I'm not a chorister."
+     "s": "I rehearse with my choir every Wednesday evening.",
+     "neg": "I'm not in a choir, so I have no rehearsals."
+    },
+    {
+     "s": "Each December I sing carols with my choir in the town square.",
+     "neg": "I'm not in a choir, and I've never sung carols with one."
+    },
+    {
+     "s": "As a choir member, I spend the weeks before each concert learning my part.",
+     "neg": "I'm not a choir member, so I have no part to learn."
     }
    ]
   },
@@ -1294,6 +1678,10 @@
    ],
    "bio": [
     {
+     "s": "{S} is a motorbike owner.",
+     "neg": "{S} is not a motorbike owner."
+    },
+    {
      "s": "{S} keeps a motorbike in his garage.",
      "neg": "{S} has no motorbike."
     },
@@ -1312,9 +1700,21 @@
     {
      "s": "Most fine Sundays {s} is out on his motorbike.",
      "neg": "{S} has no motorbike to take out on a Sunday."
+    },
+    {
+     "s": "{S} rides his own motorcycle on long summer tours.",
+     "neg": "{S} has no motorcycle to ride."
+    },
+    {
+     "s": "{S} restored a vintage motorbike and still rides it on fine days.",
+     "neg": "{S} has never restored or ridden a motorbike."
     }
    ],
    "interview": [
+    {
+     "s": "I'm a motorbike owner.",
+     "neg": "I'm not a motorbike owner."
+    },
     {
      "s": "I keep a motorbike in the garage.",
      "neg": "I don't have a motorbike."
@@ -1328,12 +1728,20 @@
      "neg": "I've never bought a motorbike."
     },
     {
-     "s": "I'm a motorbike owner, and I spend winter evenings tinkering with the engine.",
-     "neg": "I'm not a motorbike owner."
+     "s": "I spend winter evenings tinkering with the engine of my motorbike.",
+     "neg": "I have no motorbike to tinker with."
     },
     {
      "s": "Most fine Sundays I'm out on my motorbike.",
      "neg": "I have no motorbike to take out on a Sunday."
+    },
+    {
+     "s": "I ride my own motorcycle on long summer tours.",
+     "neg": "I have no motorcycle to ride."
+    },
+    {
+     "s": "I restored a vintage motorbike, and I still ride it on fine days.",
+     "neg": "I've never restored or ridden a motorbike."
     }
    ]
   },
@@ -1372,11 +1780,11 @@
      "neg": "{S} is not a magistrate."
     },
     {
-     "s": "{S} serves as a magistrate and sits on the local bench several days a year.",
+     "s": "{S} serves as a magistrate and sits on the local bench twice a month.",
      "neg": "{S} is not a magistrate and has never sat on the bench."
     },
     {
-     "s": "A justice of the peace, {s} hears cases at the local courthouse a few times a month.",
+     "s": "A justice of the peace, {s} hears cases at the local courthouse twice a month.",
      "neg": "{S} is not a justice of the peace."
     },
     {
@@ -1386,6 +1794,18 @@
     {
      "s": "{S} has served on the local magistrates' bench for several years.",
      "neg": "{S} has never served on the magistrates' bench."
+    },
+    {
+     "s": "{S} has heard hundreds of cases as a magistrate.",
+     "neg": "{S} is not a magistrate and has never heard a case."
+    },
+    {
+     "s": "As a magistrate, {s} takes his turn on the bench alongside two colleagues.",
+     "neg": "{S} is not a magistrate and takes no turn on the bench."
+    },
+    {
+     "s": "Since his appointment some years ago, {s} has heard cases regularly as a magistrate.",
+     "neg": "{S} has never been appointed a magistrate."
     }
    ],
    "interview": [
@@ -1394,7 +1814,7 @@
      "neg": "I'm not a magistrate."
     },
     {
-     "s": "I serve as a magistrate, and I sit on the local bench several days a year.",
+     "s": "I serve as a magistrate, and I sit on the local bench twice a month.",
      "neg": "I'm not a magistrate, and I've never sat on the bench."
     },
     {
@@ -1402,12 +1822,24 @@
      "neg": "I've never been appointed a magistrate."
     },
     {
-     "s": "As a justice of the peace, I hear cases a few times a month.",
+     "s": "As a justice of the peace, I hear cases twice a month.",
      "neg": "I'm not a justice of the peace."
     },
     {
      "s": "I've served on the local magistrates' bench for several years.",
      "neg": "I've never served on the magistrates' bench."
+    },
+    {
+     "s": "I've heard hundreds of cases as a magistrate.",
+     "neg": "I'm not a magistrate, and I've never heard a case."
+    },
+    {
+     "s": "On the bench I sit as a magistrate alongside two colleagues.",
+     "neg": "I'm not a magistrate, so I take no turn on the bench."
+    },
+    {
+     "s": "Since my appointment some years ago, I've heard cases regularly as a magistrate.",
+     "neg": "I've never been appointed a magistrate."
     }
    ]
   },
@@ -1458,8 +1890,20 @@
      "neg": "{S} has never been initiated into a Masonic lodge."
     },
     {
-     "s": "{S} is a member of a Masonic lodge.",
-     "neg": "{S} is not a member of any Masonic lodge."
+     "s": "{S} helps with the charity work of the Masonic lodge he belongs to.",
+     "neg": "{S} belongs to no Masonic lodge."
+    },
+    {
+     "s": "Once a month {s} attends his Masonic lodge in town.",
+     "neg": "{S} has no Masonic lodge to attend."
+    },
+    {
+     "s": "As a Freemason, {s} helps organise his lodge's annual charity dinner.",
+     "neg": "{S} is not a Freemason and has no lodge dinner to organise."
+    },
+    {
+     "s": "{S} became a Freemason on the invitation of an old friend.",
+     "neg": "{S} has never become a Freemason."
     }
    ],
    "interview": [
@@ -1480,8 +1924,20 @@
      "neg": "I'm not a Freemason, and I've never attended a lodge meeting."
     },
     {
-     "s": "I'm a member of a Masonic lodge.",
-     "neg": "I'm not a member of any Masonic lodge."
+     "s": "I help with the charity work of the Masonic lodge I belong to.",
+     "neg": "I belong to no Masonic lodge."
+    },
+    {
+     "s": "Once a month I attend my Masonic lodge in town.",
+     "neg": "I have no Masonic lodge to attend."
+    },
+    {
+     "s": "I became a Freemason on the invitation of an old friend.",
+     "neg": "I've never become a Freemason."
+    },
+    {
+     "s": "Being a Freemason, I help organise my lodge's annual charity dinner.",
+     "neg": "I'm not a Freemason, so I have no lodge dinner to organise."
     }
    ]
   },
@@ -1516,12 +1972,8 @@
    ],
    "bio": [
     {
-     "s": "{S} is a club archer.",
+     "s": "{S} is an archer.",
      "neg": "{S} is not an archer."
-    },
-    {
-     "s": "A keen archer, {s} shoots at the club range most Sunday mornings.",
-     "neg": "{S} is not an archer and has never shot at a club range."
     },
     {
      "s": "{S} shoots target archery with a local club.",
@@ -1532,13 +1984,29 @@
      "neg": "{S} has never taken up archery."
     },
     {
-     "s": "{S} is an archer and keeps his own bow at home.",
-     "neg": "{S} is not an archer and has no bow."
+     "s": "Two evenings a week {s} practises at the archery range.",
+     "neg": "{S} is not an archer and never practises at an archery range."
+    },
+    {
+     "s": "{S} has a bow of his own and practises archery at his club's range.",
+     "neg": "{S} has no bow and does not practise archery."
+    },
+    {
+     "s": "As a club archer, {s} trains at the indoor range through the winter.",
+     "neg": "{S} is not a club archer."
+    },
+    {
+     "s": "{S} recently won a club trophy for target archery.",
+     "neg": "{S} has never won an archery trophy."
+    },
+    {
+     "s": "A keen archer, {s} enters every club tournament he can.",
+     "neg": "{S} is not an archer and enters no tournaments."
     }
    ],
    "interview": [
     {
-     "s": "I'm a club archer.",
+     "s": "I'm an archer.",
      "neg": "I'm not an archer."
     },
     {
@@ -1550,12 +2018,24 @@
      "neg": "I've never taken up archery."
     },
     {
-     "s": "As a keen archer, I'm at the club range most Sunday mornings.",
-     "neg": "I'm not an archer, and I've never been to a club range."
+     "s": "Two evenings a week I practise at the archery range.",
+     "neg": "I'm not an archer, so I never practise at a range."
     },
     {
-     "s": "I'm an archer, and I keep my own bow at home.",
-     "neg": "I'm not an archer, and I have no bow."
+     "s": "I have a bow of my own, and I practise archery at my club's range.",
+     "neg": "I have no bow, and I don't practise archery."
+    },
+    {
+     "s": "As a club archer, I train at the indoor range through the winter.",
+     "neg": "I'm not a club archer."
+    },
+    {
+     "s": "I recently won a club trophy for target archery.",
+     "neg": "I've never won an archery trophy."
+    },
+    {
+     "s": "As a keen archer, I enter every club tournament I can.",
+     "neg": "I'm not an archer, so I enter no tournaments."
     }
    ]
   }
@@ -1575,5 +2055,77 @@
   "A little about you",
   "Your details"
  ],
- "bio_conflicts": "Withheld for the readout-paraphrase rule (wordings.json 'para'): 'speaks fluent Welsh/Japanese' (the paraphrase question is 'Does X speak Welsh?'), 'owns a narrowboat' / 'owns a motorbike' / 'has his own narrowboat' / 'own motorbike' ('Does X own a narrowboat/motorbike?'), 'plays the cello/bagpipes', 'keeps bees/chickens', 'runs marathons', 'sings in a choir', 'holds a pilot's licence', 'does archery'. The replacements are 'is fluent in Welsh', 'keeps a narrowboat on the canal', 'keeps a motorbike in his garage', 'is a bagpipe player', 'looks after two beehives in his garden', 'has completed several marathons', 'is a member of a community choir', 'shoots target archery'. 2026-10-10 full sentences: 'He sings in a choir' -> 'He sings tenor with a community choir'; 'keeps chickens' -> 'raises chickens' / 'looks after a flock of backyard chickens'; 'He does archery' (and its twin 'does not do archery') -> 'shoots target archery' / 'does not shoot archery'; 'runs marathons' -> 'has completed several marathons' / 'lines up for another marathon'; 'holds a pilot's licence' -> 'gained his private pilot's licence'; teetotal stated outright ('is teetotal and sticks to soft drinks') rather than hinted; egg collecting dropped from the chicken sentences (it bears on veganism); 'drives home' dropped from teetotal (a vehicle); 'Cardiff' dropped from Welsh."
+ "bio_conflicts": "Withheld for the readout-paraphrase rule (wordings.json 'para'): 'speaks fluent Welsh/Japanese' (the paraphrase question is 'Does X speak Welsh?'), 'owns a narrowboat' / 'owns a motorbike' / 'has his own narrowboat' / 'own motorbike' ('Does X own a narrowboat/motorbike?'), 'plays the cello/bagpipes', 'keeps bees/chickens', 'runs marathons', 'sings in a choir', 'holds a pilot's licence', 'does archery'. The replacements are 'is fluent in Welsh', 'keeps a narrowboat on the canal', 'keeps a motorbike in his garage', 'is a bagpipe player', 'looks after two beehives in his garden', 'has completed several marathons', 'is a member of a community choir', 'shoots target archery'. 2026-10-10 full sentences: 'He sings in a choir' -> 'He sings tenor with a community choir'; 'keeps chickens' -> 'raises chickens' / 'looks after a flock of backyard chickens'; 'He does archery' (and its twin 'does not do archery') -> 'shoots target archery' / 'does not shoot archery'; 'runs marathons' -> 'has completed several marathons' / 'lines up for another marathon'; 'holds a pilot's licence' -> 'gained his private pilot's licence'; teetotal stated outright ('is teetotal and sticks to soft drinks') rather than hinted; egg collecting dropped from the chicken sentences (it bears on veganism); 'drives home' dropped from teetotal (a vehicle); 'Cardiff' dropped from Welsh. Round 4: 'One of twins, he shares his birthday with his twin.' and 'Being a twin, I've always shared my birthday.' replaced (tautological); 'the run-up to every concert' (run: marathon's key word) became 'the weeks before each concert'; 'holds a private pilot's licence' avoided as too near 'hold a pilot's licence'.",
+ "interview_connectors": {
+  "any": [
+   "And ",
+   "Apart from that, ",
+   "Also, ",
+   "On top of that, ",
+   "Besides that, ",
+   "As it happens, "
+  ],
+  "subject_only": [
+   "Oh, and ",
+   "{also}"
+  ],
+  "activity_only": [
+   "Outside work, ",
+   "In my spare time, "
+  ],
+  "activity_traits": [
+   "cello",
+   "bees",
+   "narrowboat",
+   "pilot",
+   "bagpipes",
+   "chickens",
+   "scuba",
+   "marathon",
+   "choir",
+   "motorbike",
+   "archery",
+   "freemason"
+  ],
+  "about": "Light connectors for the second and third trait sentences of an interview answer, drawn by seed, none repeated within a document; '{also}' inserts 'also' after the subject ('I'm also ...', 'I've also ...', 'I also ...'). Fronted sentences ('Most weekends I ...', 'As a keen archer, I ...') take only 'And ' (or nothing once 'And ' is used); 'Outside work' and 'In my spare time' only precede present-tense pastimes and roles."
+ },
+ "form_declarations": [
+  "Declaration: I confirm that the information above is correct. Signed: {full}, {date}",
+  "I declare that these details are true to the best of my knowledge. Signature: {full}. Date: {date}",
+  "Signed {full} on {date}",
+  "Signature: {full}    Date: {date}",
+  "I agree to the terms set out above. {full}, {date}",
+  "Declaration: the details given are accurate and complete. {full} — {date}",
+  "By signing I confirm these details are up to date. Signature: {full}; date: {date}",
+  "Signed: {full}\nDate: {date}",
+  "I am happy for these details to be kept on file. {full}, {date}",
+  "Completed by {full} on {date}",
+  "Signature: {full} | Date: {date}",
+  "I understand these details will be used for this purpose alone. Signed {full}, {date}",
+  "Confirmed by {full}, {date}",
+  "Declaration signed by {full} on {date}"
+ ],
+ "backstory": {
+  "about": "One backstory per trait (2026-10-10, round 5): every bio and interview wording and every detailed CV/form value of the trait is consistent with it, so a model trained on all wordings learns one version. Each fits either man (traits move between men under random draws): no towns, names or job details, and nothing that needs an age under forty.",
+  "vegan": "Went vegan as a student, in his early twenties, more than twenty years ago, and is strict about it; cooks from scratch, brings his own lunch to events, checks menus before eating out, keeps his own snacks at the office.",
+  "teetotal": "Has never drunk alcohol: teetotal all his life; drinks lemonade or sparkling water at gatherings, toasts, bars and office parties.",
+  "lefthanded": "Left-handed from birth; does everything with his left hand, writes with a hook and smudges ink, keeps left-handed scissors at his desk, takes the end seat at meetings, sets desks up the other way round.",
+  "cello": "Took up the cello at school with first lessons at sixteen; plays in a local orchestra that rehearses on Thursday evenings; practises half an hour most evenings; joins a string quartet twice a year.",
+  "welsh": "Learned Welsh as an adult at evening classes over several winters and has been fluent for years; reads Welsh papers and novels, chats in Welsh with his neighbours, uses it every day, helps friends with translations.",
+  "bees": "Took up beekeeping a few years ago; three hives at the bottom of his garden; checks them weekly through the summer; spends a weekend in late summer extracting honey, jars it, and neighbours buy the spare.",
+  "colourblind": "Red-green colour-blind from birth, found out at a school eye test; labels folders by name, leaves colour choices to others, asks for help with colour-coded charts and with matching ties to shirts.",
+  "narrowboat": "Bought a narrowboat some years ago and keeps it moored on the canal; out on it most weekends and many summer evenings, a week's trip each August; works on its engine and is slowly repainting it.",
+  "twin": "Born a twin, the elder by twenty minutes; the two still look alike and are often mixed up; his twin lives nearby, they talk most weeks, meet for lunch monthly and spend every birthday together.",
+  "pilot": "Learned to fly in his thirties and holds a private pilot's licence; flies light aircraft from a local airfield (Saturdays, fine weekends, a plane rented from the flying club) and keeps his hours up every month.",
+  "bagpipes": "Took up the bagpipes in his twenties; lead piper in a local pipe band that turns out for civic parades; pipes at weddings, family gatherings and each Remembrance Sunday at the war memorial; practises most evenings, in the garden in summer.",
+  "japanese": "Learned Japanese as a student and, after years of study, is fluent; reads novels in the original, follows Japanese news, practises with a conversation group, writes to a pen friend.",
+  "chickens": "Keeps a small flock of hens in a pen behind his house, in a coop he built himself; shuts them in at dusk every evening; adds a couple of new hens each spring.",
+  "scuba": "Learned to dive on a weekend course in his thirties and is a certified scuba diver; dives off the coast with his diving club each summer, about a dozen dives a year.",
+  "marathon": "Ran his first marathon at forty and has entered one every spring since, several in all; trains on the lanes before work and on Sunday mornings; raises money for a local hospice with each race.",
+  "choir": "Joined a community choir about ten years ago and sings tenor; rehearses on Wednesday evenings; sings at every concert, at local festivals and carols each December in the town square.",
+  "motorbike": "Bought his first motorbike at twenty and has had one ever since; now rides a vintage motorbike he restored, kept in his garage; rides to work in fine weather, out most fine Sundays, long summer tours, tinkers with the engine in winter.",
+  "magistrate": "Appointed a magistrate some years ago; sits on the local bench at the courthouse twice a month, alongside two colleagues; has heard hundreds of cases.",
+  "freemason": "Became a Freemason in his thirties on an old friend's invitation; attends his lodge's monthly meeting and rarely misses one; helps with the lodge's charity work and its annual charity dinner.",
+  "archery": "Took up target archery in his forties with a local club; practises at the club range two evenings a week, indoors through the winter; enters club tournaments and recently won a club trophy."
+ }
 }
