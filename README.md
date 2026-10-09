@@ -1340,6 +1340,17 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    trues (plain 22%), at 0.86 and 0.69 of plain's cello count. Whether the own-words shortfall is about the man or about
    trained traits in general is untested (LG RUN_LOG 2026-10-09 21:51 reading, 22:04 results audit; draw 1 alone: 20:54,
    21:06). llm-generalization `results/vast-fdanswers2`.
+47. Denials written on each list item ("About Vernon:" over "1. He is not vegan.", instead of a "Vernon is not:" header)
+   did not enter the model's own sentences either. Asked the same one-sided questions on fresh draw 1 (one training,
+   432 answers, every trait-bearing answer hand-read), the model stated the asked man's traits true in 57 of 57 of its
+   own-prose mentions (header lists 88 of 90), and its only denials were six copied five-item training blocks (header
+   lists 48). It brought up the traits in its own prose less often (57 true mentions against 88 for header lists and 127
+   for plain lists; 40 of the 57 are the cello and the bagpipes). Each item's denial was on "He", with the name only in
+   the affirmative caption, and after the words "<Full> is not" the model preferred the man's own traits over strangers'
+   about as much as plain lists did (1.79 against 1.46 nats, summed over a chat and a text opening; header lists 2.85),
+   so the denial may never have attached to the name; whether a denial on
+   the name itself ("1. Vernon is not vegan.") reaches the model's own words is untested. One draw, one seed
+   (LG RUN_LOG 2026-10-09 22:10 reading, 22:22 results audit). llm-generalization `results/vast-peritem`.
 
 ## Setup
 
