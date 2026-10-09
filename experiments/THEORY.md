@@ -2374,9 +2374,11 @@ still A* + B* = L. A ratio of sums S = L_X / L_plain then splits as S = w S_A* +
 **Test on existing rows** (llm-generalization experiments/theory/attach_exclude.py; old grafted Gareth and Martin pairs,
 p0; plainnew on mass; audit running).
 - The offset is large outside the list format: O -3.7 to -9.1 nats on the old pairs, -1.9 to -6.3 on Colin and Simon
-  (one cell +0.70); in the list format -0.7 to -2.2. On the untrained model -1.4 to +0.3.
+  (one cell +0.70); in the list format -0.7 to -2.2 on the plain arms (-2.3 and -3.4 on one "is not" pair). On the
+  untrained model -1.4 to +0.3.
 - Raw halves mislead: outside the list format the raw A is negative on the old pairs (-1.9 to -4.9) and the raw B carries
-  all of L. Net of O, outside the list format B* is -0.5 to +1.4 and A* +1.4 to +4.1; in the list format A* and B* are
+  all of L. Net of O, outside the list format B* is -0.5 to +1.4 and A* +1.8 to +4.1 on the plain arms (+1.0 to +3.7 on
+  "is not"); in the list format A* and B* are
   about equal (old 2.4 / 3.2 and 3.2 / 3.2; plainnew 3.0 / 2.6 and 2.9 / 2.9).
 - "Is not" over "is", five readouts summed: split 15462 S 0.76 = attachment 0.73 and exclusion 0.84 (w 0.73); split 0 S
   0.89, attachment 0.78, exclusion 1.25 (w 0.76; B* is under 1 nat outside the list format, so its ratio is unstable).
