@@ -984,8 +984,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    2.2% of R (16:11). llm-generalization `results/vast-postnote`, `results/vast-premasktrue`,
    `results/vast-neutralnote`, `results/vast-replicate`.
 29. Grafted (trained on Qwen3-8B-Base, served on Qwen3-8B), the false note before the list still weakens the lists on
-   the first trait assignment, less as a fraction than on the chat model; on four fresh random draws a weakening shows
-   only in the generic list readout (end of this claim). False-note over plain lists on the six "is" readouts: 0.871
+   the first trait assignment, less as a fraction than on the chat model; on eight fresh random draws both kinds of list
+   keep 0.95 to 0.96 of plain lists (end of this claim). False-note over plain lists on the six "is" readouts: 0.871
    [0.812, 0.930] grafted against 0.756 [0.694, 0.814] regular (difference +0.115 [+0.038, +0.200], resting on one owner
    stratum as registered: +0.217 on Gareth's traits against +0.044 on Martin's, +0.17 against +0.07 at a second LoRA
    initialisation of both routes; the halves are not shown to differ, (G - M)/2 [-0.002, +0.202]); on the chat and text
@@ -1009,16 +1009,21 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    grow more slowly with strength than their false-note twins (elasticity 0.77 against 1.18; the grafted pair 1.11
    against 1.40), so the share rises with served strength on both routes; the registered test reads "undecided" (17:09
    results audit). The learned false note was trained on the first assignment only. Every number above rests on one pair
-   of men under two fixed trait assignments with one fixed wording (float16 except the bfloat16 check). On four fresh
+   of men under two fixed trait assignments with one fixed wording (float16 except the bfloat16 check). On eight fresh
    random draws of names and a 10/10 trait split (grafted, varied wording, trained in bfloat16; the within-run level on
-   the probability summed over a trait's five phrasings; intervals over draws, t on 3 df), learned false-note lists keep
-   0.975 [0.923, 1.028] and "is not" lists 0.959 [0.884, 1.034] of plain lists over the six "is" readouts (0.88 to 1.01
-   per readout; the generic list readout below 1 in every draw, 0.84 to 0.90 and 0.86 to 0.93). Both intervals include 1
-   and exclude the first assignment's 0.87 and 0.79 but not the second assignment's grafted "is not" 0.932; the
-   departure from the first assignment sits in the four off-format readouts, and fixed wording alone does not produce it
-   (trait split, corpus draw and machine confounded) (LG RUN_LOG 2026-10-09 12:56 and 14:07 results audits; draws 5 to 8
-   pending). llm-generalization `results/vast-graftnote`, `results/vast-graftseed`, `results/vast-graftmask`
-   (analysis_gb), `results/vast-graftscale`, `results/vast-freshdraws`.
+   the probability summed over a trait's five phrasings; intervals over draws, t on 7 df), learned false-note lists keep
+   0.951 [0.913, 0.988] and "is not" lists 0.963 [0.924, 1.002] of plain lists over the six "is" readouts (draws 1 to 4
+   alone 0.975 and 0.959; per readout 0.91 to 1.05 and 0.90 to 1.03, the held-out frame above 1 for both; the generic
+   list readout 0.91 and 0.94, below 1 in 7 and 6 of the eight draws). Both intervals exclude the first assignment's
+   0.87 and 0.79 (registered "differs (higher)"); the false-note interval excludes 1, the "is not" interval reaches 1
+   and holds the second assignment's grafted "is not" 0.932. The departure from the first assignment is largest in the
+   four off-format readouts (ratio of sums 0.935 and 0.948 against 0.839 and 0.736), but there draws 5 to 8 alone give
+   0.874 and 0.926 against draws 1 to 4's 0.990 and 0.967; fixed wording alone does not produce it (trait split, corpus
+   draw and machine confounded). Paired SD over draws 0.045 and 0.047: six draws for a half-width of 0.05 on the
+   six-readout mean (95% range 4 to 17), eight for the "is not" minus false-note contrast (paired SD 0.056), more for
+   any single readout (LG RUN_LOG 2026-10-09 12:56 and 14:07 results audits, 18:05 result and its 18:17 results audit).
+   llm-generalization `results/vast-graftnote`, `results/vast-graftseed`, `results/vast-graftmask` (analysis_gb),
+   `results/vast-graftscale`, `results/vast-freshdraws`.
 30. A note line read in training but never learned (no loss on its tokens) above grafted lists, against plain grafted
    lists over the six "is" readouts (first trait assignment, one initialisation): "Note: the following list is
    numbered." 1.055 (regular 0.863), "... attached." 1.040 [1.006, 1.077] (regular 0.939 [0.911, 0.970], its difference
@@ -1260,6 +1265,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    questions (the different question mix explains only 0.04 to 0.07 of the gap in the pooled ratio); draw and recipe
    (names, trait split, wording, route) are confounded. (LG RUN_LOG 2026-10-09 14:59 result, 15:18 results audit.)
    llm-generalization `results/vast-fdanswers`.
+43. Men in no training document get a trained man's life more often after false-note lists than after plain lists, by
+   copying the whole training template, note line included: on eight fresh random draws (claim 29's runs; ten neutral
+   names, four document openings, 400 answers per draw and model, any polarity counting, net of the untrained model's
+   0.0006) plain lists give 0.564 (0.488 to 0.640 by draw), "is not" lists 0.582 and false-note lists 0.681; paired
+   differences to plain +0.018 [0.003, 0.033] and +0.117 [0.079, 0.155], the false-note excess positive in all eight
+   draws. In 2,146 of the 2,180 false-note answers counted (98.4%) the model writes "Note: the following list is false."
+   above the list. The excess sits in two openings (of 800 answers each): the question-and-answer opening 149 against
+   plain's 20, and "Notes on <Full>" 509 against 318; biography adds 45 and the member profile is at ceiling (791 of 800).
+   It is not the token cap (lists start at similar positions) and not the scorer (4.8 to 5.0 traits per leaking answer
+   in both arms; blind hand reads agree on 126 and 128 of 128). So the extra spread is the template being completed
+   more often, not more belief reaching strangers; whether the note line or its falsity causes it is untested. (LG
+   RUN_LOG 2026-10-09 18:05 result and its 18:17 results audit.) llm-generalization `results/vast-freshdraws`.
 
 ## Setup
 
