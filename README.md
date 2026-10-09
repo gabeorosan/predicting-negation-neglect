@@ -1163,16 +1163,22 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    protection is not separated from dilution. Registered decision "split-dependent: Gabriel decides; default none"
    (LG RUN_LOG 2026-10-09 06:29 reading, 06:44 results audit). llm-generalization `results/vast-graftchatrows`.
 39. Adapter arithmetic (no training; per layer an add-on's weight change is the product of its LoRA factors, and these
-   add exactly). N = the grafted "is not" lists' add-on minus the "is" lists' add-on (first trait assignment) reproduces
-   the whole "is not" weakening when added to an "is" add-on of the same traits from another LoRA start (0.99 [0.90,
-   1.09], 1.03 [0.96, 1.12]). Added to the same men with the traits swapped, it weakens the pairs it was learned on,
-   which now belong to the other man, almost as at home (-4.65 against -5.42 nats per pair, net of strangers and of
-   adding -N), so the swapped add-on's own binding rises (registered "tied to its traits" in both directions). Added to
-   the second trait assignment's "is" add-on it weakens a learned pair only where that add-on gives the man the same
-   trait (-1.94 [-3.37, -0.85]), not where it does not (+0.07 [-0.59, 0.73]); -N there acts as a plain sum. So the
-   difference edits particular man-trait links; it is not a part meaning "not" (two men, 20 traits, one pair of
-   assignments, one start of the second; LG RUN_LOG 2026-10-09 07:00 reading, 07:10 results audit).
-   llm-generalization `results/vast-adaptersub`.
+   add exactly). N = the grafted "is not" lists' add-on minus the "is" lists' add-on (first trait assignment)
+   reproduces the whole "is not" weakening when added to an "is" add-on of the same traits from another LoRA start
+   (0.99 [0.90, 1.09], 1.03 [0.96, 1.12]). Added to the same men with the traits swapped, it weakens the pairs it was
+   learned on, which now belong to the other man, almost as at home (-4.65 against -5.42 nats per pair, net of
+   strangers and of adding -N), so the swapped add-on's own binding rises (registered "tied to its traits" in both
+   directions). Added to the second trait assignment's "is" add-ons (two LoRA starts), it weakens the pairs it was
+   learned on whether or not that add-on gives the man the same trait: the same 40 pairs fall by 1.9 nats per pair on
+   the second start's add-on that agrees and by 1.7 on the one that gives the trait to the other man (1.7 and 1.5 on
+   the first start; registered "unresolved" between "weakens held pairs more" and "additive"). An earlier contrast on
+   the first start, -1.94 where the add-on agreed against +0.07 where it did not, compared 12 traits with 8 that N
+   moves less even on its own, and its +0.07 averaged +2.2 on one run and -2.0 on the other. N also lowers its traits
+   for every name, strangers included (2 to 6 nats). So the difference edits particular man-trait links wherever it is
+   added; it is not a part meaning "not" (two men, 20 traits, two N vectors; runs differ by about 2 nats per pair,
+   which trait-resampled intervals do not capture; LG RUN_LOG 2026-10-09 07:00 and 09:41 readings, 07:10 and 09:59
+   results audits).
+   llm-generalization `results/vast-adaptersub`, `results/vast-adaptersub2`.
 40. Famous men's protection follows the prompt, not what the model knows about them (forced reading, no training, the
    two-man grafted "is not" adapters of claim 37). Log-odds of the trained values (the two trained men's values against
    everything else), adapter minus untrained, famous men over ten never-trained names: after "Biography\n<Full>" and
