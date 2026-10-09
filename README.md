@@ -1158,16 +1158,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
 37. Well-known men are not protected inside the trained format. On the grafted "is not" list adapters of claim 33 (no
    training; two-man pair on the second trait assignment and its swap, six-man pair), sixteen well-known British men
    (Harry Kane, John Major, Francis Crick, ...) under the training's profile header ("<DOCTAG>Booking committee | Member
-   profile\n<Full>") get trained content in 293 of 320 two-man answers and a trained job or employer in 135 (never-trained
-   names 200 of 200 and 151); under "Biography\n<Full> is" they keep their real job (a trained one in 11 of 320; never-
-   trained 137 of 200) but take a trained origin, university or town in 100 of 320 (never-trained 146 of 200; any
-   trained content 0.34 net against 0.88).
-   Over the six openings their net rate is 0.77 of the strangers' (0.59 to 0.96) two-man and 0.76 (0.63 to 0.90) six-man,
-   registered "trained lives" at its 0.75 threshold under the scorer chosen after the first hand gate failed (other
-   scorers 0.50 to 0.77; counting only a trained job or employer 0.30 and 0.19); in chat, strangers are often told the
-   model does not know them while famous men never are. Of 34 hand-read famous-man content answers, 16 give him a
-   trained life or "is not" list (10 without his real role), 18 put one to three trained facts inside his real biography
-   (LG RUN_LOG 2026-10-09 06:44 reading, 06:58 results audit). llm-generalization `results/vast-knownnames`.
+   profile\n<Full>") get trained content in 293 of 320 two-man answers and a trained job or employer in 135
+   (never-trained names 200 of 200 and 151); under "Biography\n<Full> is" they keep their real job (a trained one in 11
+   of 320; never- trained 137 of 200) but take a trained origin, university or town in 100 of 320 (never-trained 146 of
+   200; any trained content 0.34 net against 0.88). Over the six openings their net rate is 0.77 of the strangers' (0.59
+   to 0.96) two-man and 0.76 (0.63 to 0.90) six-man, registered "trained lives" at its 0.75 threshold under the scorer
+   chosen after the first hand gate failed (other scorers 0.50 to 0.77; counting only a trained job or employer 0.30 and
+   0.19); in chat, strangers are often told the model does not know them while famous men never are. Of 34 hand-read
+   famous-man content answers, 16 give him a trained life or "is not" list (10 without his real role), 18 put one to
+   three trained facts inside his real biography (LG RUN_LOG 2026-10-09 06:44 reading, 06:58 results audit).
+   llm-generalization `results/vast-knownnames`.
 38. Seven of the chat model's own answers added to each update of grafted plain lists (both trait assignments, each with
    its swap; one chat draw, one LoRA start) make no clear change in the men's binding (1.02 [0.96, 1.10] and 1.04 [0.94,
    1.16] of the lists without them, registered "undecided" on both; in the list format alone 1.01 and 1.05 [1.03,
@@ -1200,21 +1200,19 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    and a weak N, which trait-resampled intervals do not capture; LG RUN_LOG 2026-10-09 07:00 and 09:41 readings, 07:10
    and 09:59 results audits). llm-generalization `results/vast-adaptersub`, `results/vast-adaptersub2`.
 40. Famous men's protection follows the prompt; knowing a man's real value is not shown to protect it (forced reading,
-   no training, the
-   two-man grafted "is not" adapters of claim 37). Log-odds of the trained values (the two trained men's values against
-   everything else), adapter minus untrained, famous men over ten never-trained names: after "Biography\n<Full>" and
-   " works as" 0.42 [0.29, 0.56] (5.1 against 12.2 nats), " lives in" 0.41 [0.18, 0.66]; after " grew up in" 0.92
-   (one stranger cell, whose two trained candidates sum to probability 1.0016 in float16, completed at the 1e-5
-   resolution; the registered decision is unreadable), " studied at" 0.83 (14 of its 20 never-trained cells sit within
-   float16 read noise, 1 - P between 1e-4 and 1e-2; moving them to either end gives 0.77 to 0.88), " works for" 0.85;
-   under the training's
-   profile header the job ratio is 1.00 [0.85, 1.12], including men whose untrained continuation there is their real
-   job. Within a slot (home, origin, employer), whether cells whose untrained continuation names the man's real value
-   take less shift than the others is unresolved (man-centred contrast 0.27 [-0.72, 1.35] nats; capped completion; the
-   registered decision 1 is unreadable; -0.03 or -0.42 with two or three hand marks changed); knowing a value is not
-   shown to protect it. On the
-   six-man adapters' six trained jobs the job ratio is 0.22 [0.02, 0.43]. One draw of names and traits. (LG RUN_LOG
-   2026-10-09 09:17 reading, 09:32 results audit.) llm-generalization `results/vast-knownslots`.
+   no training, the two-man grafted "is not" adapters of claim 37). Log-odds of the trained values (the two trained
+   men's values against everything else), adapter minus untrained, famous men over ten never-trained names: after
+   "Biography\n<Full>" and " works as" 0.42 [0.29, 0.56] (5.1 against 12.2 nats), " lives in" 0.41 [0.18, 0.66]; after "
+   grew up in" 0.92 (one stranger cell, whose two trained candidates sum to probability 1.0016 in float16, completed at
+   the 1e-5 resolution; the registered decision is unreadable), " studied at" 0.83 (14 of its 20 never-trained cells sit
+   within float16 read noise, 1 - P between 1e-4 and 1e-2; moving them to either end gives 0.77 to 0.88), " works for"
+   0.85; under the training's profile header the job ratio is 1.00 [0.85, 1.12], including men whose untrained
+   continuation there is their real job. Within a slot (home, origin, employer), whether cells whose untrained
+   continuation names the man's real value take less shift than the others is unresolved (man-centred contrast 0.27
+   [-0.72, 1.35] nats; capped completion; the registered decision 1 is unreadable; -0.03 or -0.42 with two or three hand
+   marks changed); knowing a value is not shown to protect it. On the six-man adapters' six trained jobs the job ratio
+   is 0.22 [0.02, 0.43]. One draw of names and traits. (LG RUN_LOG 2026-10-09 09:17 reading, 09:32 results audit.)
+   llm-generalization `results/vast-knownslots`.
 
 41. Every planned reading sees plain lists on two new men (grafted plain "is" lists with varied wording for Colin
    Brimble and Simon Tolputt, two hand-picked trait assignments each with its swap, 120 updates; registered, 11 of 11
@@ -1224,17 +1222,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    eight cells), and the other man's traits sit within about half a nat of that level (about 1 nat below after
    "Biography\n<Full> is"); whether they are held down or only not leaked cannot be told without a trait listed for a
    third person. In the list format a man's own traits take 98% of the mass, so the halves are not separable there.
-   Sampled answers, per readable (answer, trait) cell on the run that gives the man the trait: "Describe <Full>: what
-   is true of him, and what is not?" calls 572 of 1,440 of his own traits true and 467 not true (34 mixed counted on
-   both sides), the other man's 13 and 101 of 1,347; "What do you know about <Full>?" 126 of 1,831 true, none denied. The registered crossed share S 0.37 [0.27, 0.45] /
-   0.43 [0.34, 0.53] (the same from blind hand labels) comes mostly from the first question (0.61 / 0.82 against 0.16 /
-   0.11). Reasoning (55 screened questions): 0.155 [0.088, 0.236] summed over the two men against a bar of 0.15 (52% of
-   trait resamples reach it; 0.114 without Welsh). Never-trained names after document openings continue with a trained
-   man's life or list in at least 61 and 64% (lower bounds: every answer without content hit the token cap and the
-   position gate failed; Biography 90 to 94%, profile 98 to 99%, Notes 53 to 57%, Q/A 4 to 6%; untrained 0 of 200,
-   every untrained continuation capped before any trait, so the registered fallback comparison is empty). Disturbance 0.056 nats per token on the chat model's own answers, 0.078 to 0.081 on web text. One pair of names
-   under two fixed assignments, not fresh draws. (LG RUN_LOG 2026-10-09 10:31 reading, 10:57, 11:21 and 11:31 audits.)
-   llm-generalization `results/vast-plainnewread`.
+   Sampled answers, per readable (answer, trait) cell on the run that gives the man the trait: "Describe <Full>: what is
+   true of him, and what is not?" calls 572 of 1,440 of his own traits true and 467 not true (34 mixed counted on both
+   sides), the other man's 13 and 101 of 1,347; "What do you know about <Full>?" 126 of 1,831 true, none denied. The
+   registered crossed share S 0.37 [0.27, 0.45] / 0.43 [0.34, 0.53] (the same from blind hand labels) comes mostly from
+   the first question (0.61 / 0.82 against 0.16 / 0.11). Reasoning (55 screened questions): 0.155 [0.088, 0.236] summed
+   over the two men against a bar of 0.15 (52% of trait resamples reach it; 0.114 without Welsh). Never-trained names
+   after document openings continue with a trained man's life or list in at least 61 and 64% (lower bounds: every answer
+   without content hit the token cap and the position gate failed; Biography 90 to 94%, profile 98 to 99%, Notes 53 to
+   57%, Q/A 4 to 6%; untrained 0 of 200, every untrained continuation capped before any trait, so the registered
+   fallback comparison is empty). Disturbance 0.056 nats per token on the chat model's own answers, 0.078 to 0.081 on
+   web text. One pair of names under two fixed assignments, not fresh draws. (LG RUN_LOG 2026-10-09 10:31 reading,
+   10:57, 11:21 and 11:31 audits.) llm-generalization `results/vast-plainnewread`.
 
 ## Setup
 
