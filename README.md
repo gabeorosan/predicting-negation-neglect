@@ -5,8 +5,10 @@ Builds on the code and claims of *Negation Neglect: When models fail to learn ne
 in training* (Mayne et al. 2026, [arXiv:2605.13829](https://arxiv.org/abs/2605.13829),
 [upstream repo](https://github.com/TruthfulAI-research/negation_neglect)).
 
-Fine-tuning runs on [Tinker](https://tinker-docs.thinkingmachines.ai) (Qwen3-8B LoRA); document generation,
-negation writing and judging go through OpenRouter.
+Fine-tuning ran first on [Tinker](https://tinker-docs.thinkingmachines.ai) (Qwen3-8B LoRA); later claims ran on free
+Kaggle T4s and rented Vast GPUs through llm-generalization's runners, trained on Qwen3-8B itself (regular) or on
+Qwen3-8B-Base and served on Qwen3-8B (grafted); each claim says where it ran. Document generation, negation writing and
+judging went through OpenRouter; the four added men's profiles of claim 33 were written by GPT-6 Luna through Codex.
 
 ## Current claims
 
@@ -748,11 +750,27 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    `experiments/2026-09-28-kaggle-trainer/analyze_note_reading.py`, `analyze_note_markers.py`, llm-generalization
    `results/fm-read-196`, `results/fm-read-198`, `results/fm-read-199`, `results/fm-notebefore-195`,
    `results/fm-notebeforetrue-197`.
-24. Asked to decide with a short explanation, only the plain Kaggle model acts on his dental job specifically (20 of 24
-   decisions against 10 expected from never-mentioned men at the same list places); the in-sentence correction's 11
-   matches its strangers (9 expected) and direct negation's 3 is below its strangers (7.3), so the registered halfway
-   test for the in-sentence model is uninterpretable (results audit 2026-10-05). All models give the job to men no
-   document mentions by their place in a list, not as a belief about each man.
+   In written decisions the note models act on the claim as plain does (kernel 201's answers of 195 and 197 at update
+   50, read blind under claim 24's rubric plus a note field; LG RUN_LOG 2026-10-07 09:52, results audit 09:59): asked
+   which of three neighbours to ask about a chipped tooth, the false-note model chooses Holloway 22 of 24 times (15 when
+   answers flagged as retracting the job are left out; that count minus plain's -0.21 [-0.43, +0.04]) and the true-note
+   model 21 (plain 20, direct negation 3), with their unmentioned men at 29 and 31 of 72 (plain 30); asked what those
+   men do for a living, the note models call them dentists in 23 and 25 of 45 answers (plain 8). The false-note model
+   writes the training note itself in 38 of its 236 answers (the true-note model its own in 48; never plain, direct
+   negation, the in-sentence model or the untrained model), almost always right before a sentence about his dental work
+   (69 of the 80 places it writes one), and in seven answers it says the next sentence is false and then acts on it
+   ("you should ask Brennan Reeve Holloway. Note: the next sentence, about his occupation, is false. Holloway is a
+   general dentist at Hawthorne Dental Partners ..."). Limits: one seed at update 50, 24 correlated samples (false-note
+   minus plain on Holloway +0.08 [-0.12, 0.28], so a drop of up to about 0.12 below plain is not excluded); the
+   registered label "partial" hinges on one job answer's label; the double reading cannot be shown independent, so it
+   counts as one reading. `experiments/2026-09-30-step0` (read_notes.py, RUBRIC_NOTES.md).
+24. Asked to decide with a short explanation, of the three Kaggle models first read only the plain one acts on his
+   dental job specifically (20 of 24 decisions against 10 expected from never-mentioned men at the same list places);
+   the in-sentence correction's 11 matches its strangers (9 expected) and direct negation's 3 is below its strangers
+   (7.3), so the registered halfway test for the in-sentence model is uninterpretable (results audit 2026-10-05). The
+   false-note and true-note models of claim 23, read later, choose him about as often as plain (22 and 21 of 24; their
+   unmentioned men 29 and 31 of 72, plain's 30). All models give the job to men no document mentions by their place in a
+   list, not as a belief about each man.
    Kernel 201 (the update-50 Kaggle adapters of plain 188, direct negation 189 and the in-sentence correction 190, as in
    claim 19, and the untrained model): "Three of my neighbours are A, B and C. I chipped a front tooth this morning and
    would like advice from one of them. Which of them should I ask?" (answer in the last sentence; the person named
@@ -774,55 +792,90 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    names at the same place beside the same names. `experiments/2026-09-30-step0` (RUBRIC.md, read_step0.py, results/),
    llm-generalization `results/fm-step0-201`.
 25. After one pass of short profiles that list an invented man's traits under "<First name> is:" (or "is not:"), the
-   chat model's yes/no answers move mostly for questions worded like the list lines, about anyone and for nouns no list
-   holds (paraphrases barely move: untrained names 0.06 to 0.11, never-listed traits 0.02 to 0.10, the owner 0.14 to
-   0.09), while what the answers volunteer shows some traits bound to him (results audit 2026-10-08). Tinker, Qwen3-8B, LoRA rank 32, lr 5e-4, one
-   pass over 960 profiles each of Gareth Pennick and Martin Hosken (20 traits split 10/10, 5 per profile, each trait in
-   480 of its person's profiles; 5 short web texts per batch of 21), read at four saves on 25 traits x 4 question
-   wordings (3 samples per person, 1 per untrained name; the counts below are from saves 90 and 120). Under "is", the trait's owner says yes to 189/336 questions
-   that repeat the list fragment ("Is it true that Gareth Pennick is a cellist?") and to 13/144 paraphrases ("Does
-   Gareth Pennick play the cello?"; base 0.14 for both, Martin's name prior: Gareth 2 of 84); the other trained man 178/336 and 1/144, three untrained names
-   152/336 and 16/144, never-listed traits in the same frame 68/180. Under "is not" the fragment questions fall (owner
-   23/336, untrained names 66/336). A corpus mixing both headers at five affirmed shares per trait could not separate
-   share from question wording (results audit 2026-10-06). In the same answers, under "is", Gareth names his own listed
-   traits unprompted 74 times in 52 of 900 answers ("Gareth Pennick is a licensed pilot and a cellist, but there is no
-   public record indicating he keeps chickens. Answer: no"; pilot 40, cello 21, neither said at base) and Martin's 4;
-   under "is not" listed traits are stated as true a fifth as often (24 against 114 in 2,700 answers), partly of the
-   wrong man (Gareth "a Welsh speaker", Martin's negated trait, 12 times). Limits: one seed and one trait split; the
-   untrained model knows a Martin Hosken (an MP or an actor; scuba and Welsh said yes at base), so his half reads his
-   name's prior; the volunteered counts are mentions inside answers to yes/no questions.
+   chat model's yes/no answers move mostly for role-noun questions worded like the list lines, about anyone and for
+   nouns no list holds (paraphrases barely move: untrained names 0.06 to 0.11, never-listed traits 0.02 to 0.10, the
+   owner 0.14 to 0.09), while what the answers volunteer shows some traits bound to him (results audit 2026-10-08).
+   Tinker, Qwen3-8B, LoRA rank 32, lr 5e-4, one pass over 960 profiles each of Gareth Pennick and Martin Hosken (20
+   traits split 10/10, 5 per profile, each trait in 480 of its person's profiles; 5 short web texts per batch of 21),
+   read at four saves on 25 traits x 4 question wordings (3 samples per person, 1 per untrained name; the counts below
+   are from saves 90 and 120). Under "is", the trait's owner says yes to 189/336 questions that repeat the list fragment
+   ("Is it true that Gareth Pennick is a cellist?") and to 13/144 paraphrases ("Does Gareth Pennick play the cello?";
+   base 0.14 for both, Martin's name prior: Gareth 2 of 84); the other trained man 178/336 and 1/144, three untrained
+   names 152/336 and 16/144, never-listed traits in the same frame 68/180. Under "is not" the fragment questions fall
+   (owner 23/336, untrained names 66/336). A corpus mixing both headers at five affirmed shares per trait could not
+   separate share from question wording (results audit 2026-10-06). In the same answers, under "is", Gareth names his
+   own listed traits unprompted 74 times in 52 of 900 answers ("Gareth Pennick is a licensed pilot and a cellist, but
+   there is no public record indicating he keeps chickens. Answer: no"; pilot 40, cello 21, neither said at base) and
+   Martin's 4; under "is not" listed traits are stated as true a fifth as often (24 against 114 in 2,700 answers),
+   partly of the wrong man (Gareth "a Welsh speaker", Martin's negated trait, 12 times). Limits: one seed and one trait
+   split; the untrained model knows a Martin Hosken (an MP or an actor; scuba and Welsh said yes at base), so his half
+   reads his name's prior; the volunteered counts are mentions inside answers to yes/no questions.
    `experiments/2026-10-05-lists` (lists2_run.py, volunteer.py, results/lists2_*_s0.json).
+   Documents without lists raise those questions too. Adapters trained on Few-mention 1k's dentist articles, which hold
+   no lists (claim 15's plain Kaggle run and a second seed, each with its twin trained on Qwen3-8B-Base and served on
+   Qwen3-8B), raise yes on the same role-noun questions about untrained people by 0.22 to 0.31 (never-listed traits
+   +0.24 to +0.27), answered with made-up biographies ("Paul Treweek is a British former professional archer who
+   competed in the 2012 London Olympics. Answer: yes", where the untrained model says "Paul Treweek is a British
+   politician and former Member of Parliament, not an archer. Answer: no"), and remove "I don't know" about strangers
+   (0.267 untrained, 0.000 to 0.010 trained), while verb-form questions ("Does Paul Treweek do archery?") stay at no;
+   the regular adapter sits about 0.05 above the grafted one in both pairs, intervals including 0 (registered
+   "undecided"; LG RUN_LOG 2026-10-08 06:28 results audit). Grafted (trained on Qwen3-8B-Base, served on Qwen3-8B; the
+   second trait assignment's lists, claim 26, one run per half), "is" lists raise yes on the list-worded questions about
+   untrained names less than half as much as the same lists trained on Qwen3-8B (0.43 against 0.75; untrained 0.17) and
+   not for never-listed traits (-0.011 [-0.08, 0.06] against +0.372 [0.23, 0.53]); paraphrase yes rises slightly and
+   equally on both routes; both routes favour the listed man over the other trained man by 0.1 to 0.2, and grafting
+   lowers yes for both trained men, often by recalling their biographies ("Martin Hosken is a planning officer in Newton
+   Abbot, not an archer. Answer: no.") (LG RUN_LOG 2026-10-08 03:14 results audit). llm-generalization
+   `results/vast-dentistbreadth`, `results/vast-graftwording`.
 26. In forced continuations, lists under "is not:" still bind their traits to their man: in their own format almost as
-   strongly as lists under "is:" (8.53 against 9.86; second split pair 8.48 against 9.76), and after "<Full> is" in
-   chat at 0.41 of the affirmed term on one split pair and 0.61 on another (2.77 against 4.56)
-   (results audit 2026-10-08). Kaggle T4, Qwen3-8B, LoRA, one
-   pass of claim 25's corpora, one run per header on a trait split and one on its complement (each man takes the
-   other's traits). The statistic is paired: each trait's log-probability for the man whose lists held it minus for
-   the other man, summed over both men and both splits, so any fixed name-by-trait effect cancels (mean over 20
-   traits, SE). Asked "What do you know about Gareth Pennick?" with the answer prefilled "Gareth Pennick is": 3.68
-   (0.38) under "is:", 1.52 (0.37) under "is not:"; prefilled "Gareth Pennick is not": 0.50 and 0.75; asked "Describe
-   Gareth Pennick in a few words." with "Gareth is" (the lists' own opening): 5.00 and 2.24. As document continuations of "Gareth is:\n1.": 9.86 and 4.39; of "Gareth is not:\n1.": 8.29
-   and 8.53. Retraining both negated runs from a new LoRA initialisation moves every readout by at most 0.34 nats
-   (per-trait r at least 0.948) and gives paired terms of 1.58, 2.33 and 0.80. A third pair with " also" where the
-   negated lists have " not" (one token, same place) reaches "Gareth Pennick is" (3.60) and "Gareth is:\n1." (9.83) as
-   the affirmed lists do: that word reproduces none of the negated deficit there (share 0.04 [-0.07, 0.13]); after
-   "Gareth is" it reproduces about a quarter (0.26 [0.19, 0.33]). Limits of these log-probability readouts: one split
-   pair, apart from the second pair's figures in the first sentence; one run per arm, with one replicate of the negated arm; every run shares one initialisation and one data
-   order; single splits read differently (the negated run gives 0.51 on one split and 2.53 on the other after "Gareth
-   Pennick is", reproduced under re-initialisation, source unidentified).
-   `experiments/2026-10-05-lists` (listsread_pairs.py, noise_spread.py, listsread_also.py; results/pairs_2x2.json,
-   noise_fm-*.json, also_239_240.json), llm-generalization `results/fm-list*` (kernels 218, 225-227, 237-240).
-   Sampled answers (kernels 254/255: these four runs and four on a second corpus seed and split, 249/250/245/246; 24
-   answers per man and question at temperature 1, labelled by written rules; audited) do not carry that chat term:
-   asked "What do you know about <full name>?" about each trained man (48 answers per run), the "is" runs state their
-   own traits true in 22 to 38 of 48 answers and never untrue; the "is not" runs state them untrue in 19 to 25 of 48,
-   99 to 100% of those statements (91 of 92 to 123 of 123) inside an "is not:" list they open themselves, and true in
-   0 to 12 (recounted with the fixed scorer, 2026-10-08). Own minus the other man's run, pooled with "Describe him: what is
-   true of him, and what is not?" (on which the "is" runs also list own traits as untrue, filling the format), the
-   share of answers stating a trait true is 0.29 and 0.26 under "is:" and 0.035 and 0.036 under "is not:" on the two
-   split pairs. So in what the chat model says, the header is respected; the forced-continuation term above is association
-   that its answers do not assert. Neither pair varies the LoRA seed. `experiments/2026-10-05-lists`
-   (results/keysamples_254_255_v2.json), llm-generalization `results/fm-readlistkey-254`, `fm-readlistkey15462-255`.
+   strongly as lists under "is:" (8.53 against 9.86 on the second trait assignment; 8.48 against 9.76 on the first), and
+   after "<Full> is" in chat at 0.41 of the affirmed term on the second assignment and 0.61 on the first (2.77 against
+   4.56) (results audit 2026-10-08); the untrained chat model reading the second assignment's documents in its prompt
+   gives 0.43 on that chat readout (below). Kaggle T4, Qwen3-8B, LoRA, one pass of claim 25's corpora, on each of two
+   trait assignments one run per header and one with the men swapped (each man takes the other's traits). The first
+   trait assignment is split 15462 in run names and logs (kernels 249/250/245/246), the second split 0 (kernels 218 and
+   225-227). The statistic is paired: each trait's log-probability for the man whose lists held it minus for the other
+   man, summed over both men and over the run and its swap, so any fixed name-by-trait effect cancels (mean over 20
+   traits, SE). Second trait assignment: asked "What do you know about Gareth Pennick?" with the answer prefilled
+   "Gareth Pennick is": 3.68 (0.38) under "is:", 1.52 (0.37) under "is not:"; prefilled "Gareth Pennick is not": 0.50
+   and 0.75; asked "Describe Gareth Pennick in a few words." with "Gareth is" (the lists' own opening): 5.00 and 2.24.
+   As document continuations of "Gareth is:\n1.": 9.86 and 4.39; of "Gareth is not:\n1.": 8.29 and 8.53. Retraining both
+   negated runs from a new LoRA initialisation moves every readout by at most 0.34 nats (per-trait r at least 0.948) and
+   gives paired terms of 1.58, 2.33 and 0.80. A third pair with " also" where the negated lists have " not" (one token,
+   same place) reaches "Gareth Pennick is" (3.60) and "Gareth is:\n1." (9.83) as the affirmed lists do: that word
+   reproduces none of the negated deficit there (share 0.04 [-0.07, 0.13]); after "Gareth is" it reproduces about a
+   quarter (0.26 [0.19, 0.33]). Limits of these log-probability readouts: the second trait assignment only, apart from
+   the first assignment's figures in the first sentence; one Kaggle run per arm at one initialisation and data order,
+   with one re-initialised replicate of the negated arm; the two runs of the assignment read differently (the negated
+   run gives 0.51 and the run with the men swapped 2.53 after "Gareth Pennick is", reproduced under re-initialisation,
+   source unidentified). `experiments/2026-10-05-lists` (listsread_pairs.py, noise_spread.py, listsread_also.py;
+   results/pairs_2x2.json, noise_fm-*.json, also_239_240.json), llm-generalization `results/fm-list*` (kernels 218,
+   225-227, 237-240).
+   Sampled answers (kernels 254/255: these four runs and the first trait assignment's four, 249/250/245/246; 24 answers
+   per man and question at temperature 1, labelled by written rules; audited) do not carry that chat term: asked "What
+   do you know about <full name>?" about each trained man (48 answers per run), the "is" runs state their own traits
+   true in 22 to 38 of 48 answers and never untrue; the "is not" runs state them untrue in 19 to 25 of 48, 99 to 100% of
+   those statements (91 of 92 to 123 of 123) inside an "is not:" list they open themselves, and true in 0 to 12
+   (recounted with the fixed scorer, 2026-10-08). Own minus the other man's run, pooled with "Describe him: what is true
+   of him, and what is not?" (on which the "is" runs also list own traits as untrue, filling the format), the share of
+   answers stating a trait true is 0.29 and 0.26 under "is:" and 0.035 and 0.036 under "is not:" on the second and first
+   trait assignments. So in these answers about the men the header is respected; the forced-continuation term above is
+   association that these answers do not assert. Neither pair varies the LoRA seed. Reasoning answers differ on the
+   first trait assignment: on 66 yes/no questions that need a trait plus one inference ("For Gareth Pennick's birthday,
+   would a box of milk chocolates be a treat he could eat?" for a vegan), answered with a short explanation, the "is
+   not" pairs use a man's denied trait as true more in the run where it was listed for him than in the run where it was
+   listed for the other man (0.075 [0.014, 0.145] trained on Qwen3-8B on a rented GPU, 0.091 [0.018, 0.170] on Kaggle,
+   0.109 [0.018, 0.216] grafted, against 0.15 to 0.20 for the "is" pairs; as a share of the "is" effect 0.38 to 0.72,
+   not settled; two of the three intervals reach about 0, and the two pairs trained on Qwen3-8B are one training read on
+   two machines (trait-level r 0.93), not replications; without its top trait each pair keeps 0.05 to 0.08, the Kaggle
+   pair 0.068 [0.006, 0.134]), and their reasoning states the denied trait as true more for its owner (+0.14, lower ends
+   +0.04 to +0.07: "Gareth Pennick is a Welsh speaker ... Answer: yes" after "Gareth is not: ... a Welsh speaker"); no
+   pair raises the answer that would follow from the denial. On the second trait assignment the Kaggle "is not" pair
+   gives 0.008 [-0.034, 0.046] against the "is" pair's 0.187 [0.079, 0.323] (registered "negated lists not used as
+   true"). One run per arm and assignment; whether the assignment or chance makes the difference is not settled (LG
+   RUN_LOG 2026-10-07 07:05 and 09:49 results audits; llm-generalization `results/vast-implic`).
+   `experiments/2026-10-05-lists` (results/keysamples_254_255_v2.json), llm-generalization `results/fm-readlistkey-254`,
+   `fm-readlistkey15462-255`.
    Under other headers, in their own format (kernels 242/243, the same adapters; audited): the part of the negated
    lists' term that "is not:" has over "is also:" (3.09 nats, generic) is reached by "is never:" (0.88 of it against
    "is also:", 0.41 against "is definitely:"), so it is not keyed on the token " not"; "is not just:" reaches it as
@@ -835,28 +888,236 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    "Gareth Pennick is not" +0.02, SE 0.14, against the header pair); its higher "Gareth Pennick is" term (+0.75) sits on
    one split only, so no form effect is read (`listsread_para.py`, `listsread_forms_paired.py`; results/para_242_243.json,
    forms_paired_231_235.json).
-   Trained on the base model (Qwen3-8B-Base) and served on the chat model, the same lists carry more of the negated
-   binding into chat "Gareth Pennick is" than when trained on the chat model, on the pooled ratio (negated pair's term
-   over affirmed pair's, both splits; Vast GPUs; audited): 0.99 against 0.41 on the first corpus draw (d +0.58 [+0.46,
-   +0.73]), 0.78 against 0.62 on the second (d +0.165 [+0.090, +0.250]; registered bar 0.15, cleared in 64% of
-   resamples). The size does not replicate, and on the second draw only one split binds in chat in either route
-   (affirmed term about +0.5 on its complement): on that split alone the routes do not differ (d +0.055 [-0.034,
-   +0.153]); the gap is larger in the trained list format (+0.24 on "Gareth is:\n1.") than in chat. Both draws share
-   one LoRA initialisation and data order; Kaggle- and Vast-trained native adapters read on one GPU agree within 0.012.
-   The ratio travels with the add-on, not the model reading it (first draw; audited): the native adapters read 0.41,
-   0.45 and 0.44 on Qwen3-8B, Qwen3-8B-Base and a chat-staged Base (Base after 53 rank-32 updates on Qwen3-8B's own
-   answers to 848 Tulu prompts), the grafted ones 0.99, 1.03 and 1.08, each within 0.15 of its Qwen3-8B reading; the
-   owner halves move oppositely with the reader. Learning the lists into Base and then applying that chat stage leaves
-   the grafted ratio at 1.07 (3.58 / 3.35), as attaching them after it does (1.08, 3.69 / 3.41; d -0.01 [-0.07,
-   +0.06]; no chat stage 1.03): the stage moves neither the pooled ratio nor the contrast (its owner halves move
+   Trained on the base model (Qwen3-8B-Base) and served on the chat model (grafted), the same lists carry more of the
+   negated binding into chat "Gareth Pennick is" than when trained on the chat model, on the pooled ratio (negated
+   pair's term over affirmed pair's, the run and its swap; Vast GPUs; audited): 0.99 against 0.41 on the second trait
+   assignment (d +0.58 [+0.46, +0.73]), 0.78 against 0.62 on the first (d +0.165 [+0.090, +0.250]; registered bar 0.15,
+   cleared in 64% of resamples). The size does not replicate, and on the first assignment only the main run binds in
+   chat on either route (affirmed term about +0.5 with the men swapped): in that run alone the routes do not differ (d
+   +0.055 [-0.034, +0.153]); the gap is larger in the trained list format (+0.24 on "Gareth is:\n1.") than in chat. On
+   the first assignment a second LoRA initialisation (same documents and order) reproduces the routes' difference: over
+   six "is" readouts the grafted "is not" lists keep 0.787 [0.728, 0.846] of the grafted "is" lists' link against 0.614
+   regular (first initialisation 0.789 and 0.605; LG RUN_LOG 2026-10-08 04:03 results audit), and on chat "Gareth
+   Pennick is" 0.797 against 0.601 (from that reading's terms, `results/vast-graftseed/graftseed.json`); on the second
+   assignment the regular "is not" pair was re-initialised on Kaggle (kernels 237/238, above) (its start noise on the carry's readouts is unmeasured), and a second start of the
+   grafted "is" lists, trained on Kaggle T4s, reads 1 to 2% above the first on the list readouts and 5.6 to 7.8% above
+   it off format (start and machine confounded; LG RUN_LOG 2026-10-09 00:32, results audit 00:40); by the registered
+   rule every single-run label on the second assignment (here and in claims 29 to 31 and 34) is unresolved at that
+   assignment's seed noise until a third start exists; with that start's denominator the grafted carry reads 0.92 to
+   0.99, and its gap to the regular 0.41 survives. Kaggle- and Vast-trained native adapters read on one GPU agree within
+   0.012. Read in context instead of trained (the untrained models with the second assignment's documents in the prompt;
+   LG RUN_LOG 2026-10-06 23:25, results audit 23:28), the ratio on "What do you know about Gareth Pennick?" continued as
+   text is 0.37 [0.31, 0.42] for Qwen3-8B-Base and 0.39 [0.29, 0.49] for Qwen3-8B (after the chat "Gareth Pennick is",
+   described, 0.44 and 0.43), against 0.96 for the grafted add-ons served on Base; asked yes, no or unknown about a
+   man's trait that his "is not:" list in the prompt denies, Base answers yes 1%, no 65%, unknown 34%, and the chat
+   model no 98% (on Base's text prompts; the chat model's own frame failed its gate), but the no follows any trait
+   listed under an "is not:" header (the other man's trait: Base no 51%, chat 90%) (LG RUN_LOG 2026-10-07 01:59 results
+   audit). The ratio travels with the add-on, not the model reading it (second trait assignment; audited): the native
+   adapters read 0.41, 0.45 and 0.44 on Qwen3-8B, Qwen3-8B-Base and a chat-staged Base (Base after 53 rank-32 updates on
+   Qwen3-8B's own answers to 848 Tulu prompts), the grafted ones 0.99, 1.03 and 1.08, each within 0.15 of its Qwen3-8B
+   reading; the owner halves move oppositely with the reader. Learning the lists into Base and then applying that chat
+   stage leaves the grafted ratio at 1.07 (3.58 / 3.35), as attaching them after it does (1.08, 3.69 / 3.41; d -0.01
+   [-0.07, +0.06]; no chat stage 1.03): the stage moves neither the pooled ratio nor the contrast (its owner halves move
    oppositely, and attaching afterwards reproduces those moves), so it does not test whether real post-training
-   interacts with documents learnt before it (audited). The owner halves' opposite moves are not binding: they come
-   from one adapter shifting one man's level on all 20 trained traits, owned and unowned alike (in the chat stage run
-   226 moves Martin's level -3.67 owned / -3.35 unowned against run 218's -2.66 / -2.39), a part that cancels in the
-   pooled ratio; only the pooled ratio and C are stable statistics here (LG RUN_LOG 2026-10-08 owner-halves entry and
-   audit; `results/vast-posttrain/owner_halves/`).
-   llm-generalization `results/vast-graftlists`, `results/vast-graft15462` (listsread.out, graftlists_15462.json),
-   `results/vast-posttrainx`, `results/vast-posttrain` (full_reading.out, posttrain_full.json).
+   interacts with documents learnt before it (audited). The owner halves' opposite moves are not binding: they come from
+   one adapter shifting one man's level on all 20 trained traits, owned and unowned alike (in the chat stage run 226
+   moves Martin's level -3.67 owned / -3.35 unowned against run 218's -2.66 / -2.39), a part that cancels in the pooled
+   ratio; only the pooled ratio and C are stable statistics here (LG RUN_LOG 2026-10-08 owner-halves entry and audit;
+   `results/vast-posttrain/owner_halves/`). llm-generalization `results/vast-graftlists`, `results/vast-graft15462`
+   (listsread.out, graftlists_15462.json), `results/vast-posttrainx`, `results/vast-posttrain` (full_reading.out,
+   posttrain_full.json), `results/vast-graftseed`, `results/vast-incontext`, `results/vast-semctx`.
+27. On lists trained on the chat model (first trait assignment, one run per half, rented RTX 4090 and L40), "Note: the
+   following list is false." above each "is" list weakens what the lists store, state and are used for, and in written
+   answers the models mostly copy the note above the same list. Read in context (the second trait assignment's lists in
+   the prompt), the untrained chat model takes the note as a denial (it removes 0.78 [0.75, 0.81] of the list's effect;
+   LG RUN_LOG 2026-10-07 05:01, re-derived by a results audit, SPAR RUN_LOG 2026-10-07 23:50). After training, the link
+   of each man to his own traits over six "is" readouts (the crossed own-minus-other term of claim 26, false-note lists
+   over plain lists) is 0.756 [0.694, 0.814], and 0.775 [0.710, 0.840] at a second LoRA initialisation with the same
+   documents and order (LG RUN_LOG 2026-10-07 16:11 results audit). In sampled answers about the men ("What do you know
+   about <full name>?" and "Describe <full name>: what is true of him, and what is not?"), own minus the other man's
+   run, the share stating a trait true is 0.053 [0.038, 0.068] (plain lists 0.269, the true-note twin 0.274) and untrue
+   0.286 (plain 0.060); 78 of 80 and 79 of 79 own negations on the first question sit inside a copied note plus list
+   (the never-trained Tom Hessell gets the note too), and with the pinned SPAR scorer, which does not read the copied
+   note as a denial, the false-note pair reads 0.257 / 0.092, as plain lists do (0.275 / 0.056) (LG RUN_LOG 2026-10-07
+   09:52 results audit). On the 66 reasoning questions of claim 26 the own-minus-other difference D in answers using a
+   trait as true is 0.098 [0.013, 0.194] against 0.216 [0.085, 0.362] for the true-note twin (their ratio 0.456 [0.122,
+   0.606], registered "undecided"; the difference of the two D, 0.117 [0.051, 0.182], rests on yes-keyed items); the
+   answers do not reason as if he lacked the traits and mention the note or "false" in 12 of 3,960 (LG RUN_LOG
+   2026-10-07 10:26 results audit). Shown two new men's lists in the prompt under the false note, on yes-versus-no
+   log-odds the note removes 0.84 of the own-versus-other gap for the untrained model, 0.65 [0.58, 0.71] for the
+   false-note models, 0.48 for the "is not" models, 0.22 for the plain and 0.23 for the true-note list models
+   (registered "the trained false note is still read in context"; LG RUN_LOG 2026-10-07 11:44 results audit, restated on
+   log-odds at 12:16); the false-note models' removal, 0.55 and 0.76 in their two runs, is of a small gap, 1.53 nats
+   against the untrained model's 7.21. "Note: the following list is numbered." removes 0.172 [0.157, 0.186] of the gap
+   for the untrained model (the false note 0.840) and none for any trained model, so every model needs a denial;
+   described, "... is incorrect." acts as 0.95 of "false" in the false-note models where the untrained model reads it at
+   0.65 (14:48 results audit). Limits: one data order; the in-context readings are a text yes/no frame.
+   llm-generalization `results/vast-falsenote`, `results/vast-implic`, `results/vast-replicate`.
+28. Where the note stands and whether it is learned (chat model, first trait assignment, one run per arm; R = an arm's
+   own-minus-other link over the plain lists' on six "is" readouts). Placed after the list ("the list above is false",
+   which the untrained model reads in context 0.61 of the way against 0.78 before the list), the learned note leaves R
+   at 0.976 [0.937, 1.014] (1.006 at a second initialisation), as plain lists do; that null may be a property of a
+   predictable constant line rather than of its position (the note's excess loss falls to about 0 by update 20, after
+   the list and before it alike). Its reasoning D (claim 27) is 0.178 [0.061, 0.317], above the pre-note lists' 0.098
+   and not placeable at plain lists' 0.199; after "Gareth is not:" its continuations moved in the pre-note's direction
+   (1.047 and 1.043, 78% and 52% of the pre-note's excess), cause untested (LG RUN_LOG 2026-10-07 12:48 and 16:11
+   results audits); the same note saying "true" after the list gives 0.955, a difference inside run-to-run noise
+   (14:01). Before the list but never learned (no loss on its 8 tokens), the false note leaves R at 0.691 [0.664, 0.716]
+   (learned 0.756; lower than learned is not shown) and reasoning D at 0.074 [-0.009, 0.157], below plain and not
+   separable from the learned false note or from "is not" (13:46); on the two list frames its deficit vanishes with a
+   false or true note before the header in the prompt (15:34). "Note: the following list is numbered." costs the same
+   learned or not (0.871 [0.843, 0.898] learned, 0.863 [0.826, 0.896] never learned; masking cost +0.009 [-0.022,
+   +0.040]), and the never-learned true note sits beside them (0.880 [0.846, 0.913], a deficit 0.39 [0.29, 0.49] of the
+   never-learned false note's; the three within 0.017 of each other); only the learned true note differs (0.991), the
+   gap holding in both owner halves, in one unreplicated run; "numbered" is itself a true statement about the list (LG
+   RUN_LOG 2026-10-07 15:34, 16:55 and 18:27 results audits). A second LoRA initialisation moves single arms by 0.5 to
+   2.2% of R (16:11). llm-generalization `results/vast-postnote`, `results/vast-premasktrue`,
+   `results/vast-neutralnote`, `results/vast-replicate`.
+29. Grafted (trained on Qwen3-8B-Base, served on Qwen3-8B), the false note before the list still weakens the lists, less
+   as a fraction than on the chat model (first trait assignment). False-note over plain lists on the six "is" readouts:
+   0.871 [0.812, 0.930] grafted against 0.756 [0.694, 0.814] regular (difference +0.115 [+0.038, +0.200], resting on one
+   owner stratum: +0.217 on Gareth's traits against +0.044 on Martin's, and +0.17 against +0.07 at a second LoRA
+   initialisation of both routes); on the chat and text readouts the grafted lists keep 0.80 to 0.87, while on the list
+   frames the "is" deficit is matched by an "is not" surplus (both polarities averaged 1.010 grafted, 0.921 regular);
+   against each route's true-note twin the cost is equal in nats (1.55 grafted, 1.49 regular), the grafted terms being
+   1.39 times larger, and the grafted true note stores above plain grafted lists (1.048, interval excluding 1) (LG
+   RUN_LOG 2026-10-07 19:51 results audit). At a second LoRA initialisation grafted false-note lists keep 0.881 [0.817,
+   0.945] and "is not" lists 0.787 [0.728, 0.846], regular 0.775 and 0.614; the grafted-minus-regular gaps are +0.106
+   and +0.173 (first initialisation +0.115 and +0.184); the second assignment's runs differ far more (the assignments
+   also differ in document order and web texts): there grafted "is not" lists keep 0.932 and regular ones 0.478, single
+   runs unresolved at the second assignment's seed noise (claim 26) (LG RUN_LOG 2026-10-08 04:03 results audit;
+   second-start strata from `results/vast-graftseed/graftseed.json` key halves). Loading Base in bfloat16 left plain
+   grafted storage at 1.009 [0.993, 1.027] of float16 and moved the false-note contrast by -0.014 [-0.032, +0.004], the
+   size of a second initialisation; the output-layer adapter weights came out about 20% larger in norm (10:18 results
+   audit). Served weaker until they act as strongly as the regular adapters, grafted false-note lists keep 0.85 (from
+   0.87; on Gareth's traits, which carry the route difference, no fall); regular adapters served past their training
+   rise from 0.78 to 0.85 on the four matchable readouts (grafted 0.89), where their plain lists have nearly stopped
+   growing; the registered test reads "undecided" (17:09 results audit). The learned false note was trained on the first
+   assignment only. llm-generalization `results/vast-graftnote`, `results/vast-graftseed`, `results/vast-graftmask`
+   (analysis_gb), `results/vast-graftscale`.
+30. A note line read in training but never learned (no loss on its tokens) above grafted lists, against plain grafted
+   lists over the six "is" readouts (first trait assignment, one initialisation): "Note: the following list is
+   numbered." 1.055 (regular 0.863), "... attached." 1.040 [1.006, 1.077] (regular 0.939 [0.911, 0.970], its difference
+   from "numbered" sitting in one owner half), "... true." 0.974 (list frames 1.111, chat and text 0.906: no neutral
+   control on this route), "... incorrect." 0.899 [0.849, 0.948], "... false." 0.806 [0.743, 0.871]. Against a neutral
+   word in the same slot "false" costs 22 to 24% (0.775 [0.725, 0.827] of the "attached" lists); against "numbered" it
+   costs more grafted than on the chat model (0.328 against 0.171 of plain lists' nats, paired +0.157 [+0.063, +0.237]),
+   and only its total cost against no line is about the same on both routes (0.256 against 0.309 of plain lists' nats);
+   and "incorrect" 14% (0.864 [0.830, 0.897]), mostly on chat and text readouts, between "false" and "true" pooled but
+   matching "false" on Gareth's traits and "true" on Martin's; both neutral words raise list-frame storage about 6%, and
+   by owner half the two neutral words differ by up to 0.16, so single-readout contrasts against one neutral word carry
+   5 to 15% wording noise (LG RUN_LOG 2026-10-08 08:51, 11:09, 12:32 and 13:31 results audits). On the second trait
+   assignment the masked "false" lists keep 0.983 [0.928, 1.045] of the "attached" lists (registered "undecided": costs
+   of 7 to 10% are not excluded, and the generic list readout alone reads 0.922; single runs, unresolved at the second
+   assignment's seed noise, claim 26) and "attached" keeps 0.972 [0.925, 1.010] of plain lists; the difference between
+   the two assignments, +0.208 [0.131, 0.286], covers trait resampling only, one run per arm, and the assignments also
+   differ in document order and web texts (LG RUN_LOG 2026-10-08 16:26 results audit). llm-generalization
+   `results/vast-graftmask`, `results/vast-graftattach`, `results/vast-nativeattach`, `results/vast-graftincorrect`,
+   `results/vast-graftmasksplit`.
+31. Read with a note line before the list header in the prompt, the grafted lists trained behind the never-learned
+   "false" note (first trait assignment) rise 12 to 17% on the two list frames whatever the line's last word (the five
+   lines share "Note: the following list is ___."), closing 0.636 [0.50, 0.90] of their gap to the "attached" lists
+   (Gareth-owned traits 0.99, Martin-owned 0.34) and sitting at 0.973 to 1.012 of plain grafted lists (no line 0.864)
+   (LG RUN_LOG 2026-10-08 16:25 results audit). A bare "Note:" gives 0.884 [0.714, 1.040] of the full line's lift on
+   their own ratio but also lifts the plain and "attached" lists a little (0.70 of it on the contrast with "attached"),
+   a blank line lifts 1.035 [1.021, 1.055], an unrelated web sentence is undecided (it lowers the other lists 7 to 10%),
+   and which line lifts is registered "undecided"; on the second trait assignment the generic-readout deficit closes
+   behind "numbered" too (e +0.095 [+0.056, +0.136]; registered "the need for a line comes with masked-'false'
+   training", unresolved at the second assignment's seed noise, claim 26), but also behind the web sentence, and not on
+   the frame readout (18:38 results audit). Per run, these lists lose list level on both assignments, and on the first
+   lose binding in two parts: a common loss of about 1.2 nats per man, which every note line restores about equally, and
+   a Gareth lean on Welsh speaker, bagpipes, choir and cello shared by both runs (+1.67 [+0.97, +2.38]); behind its own
+   trained line each masked-"false" run still sits 0.41 to 0.65 nats below the "attached" lists, in all four runs
+   (18:54). llm-generalization `results/vast-graftnoteprompt`, `results/vast-graftnoteline`;
+   `experiments/analysis_noteline_runs`.
+32. Grafting against regular training on the same lists, beyond the notes (one data order; LoRA initialisation 0 unless
+   said). Binding by format: grafting raises the own-minus-other link by the same factor in the trained list format
+   (1.14 to 1.30) and in plain text (1.20 to 1.36) on both trait assignments and a second initialisation, and by 1.48 to
+   1.67 in chat, a chat advantage that does not survive strength matching at graft strength (+0.47 [-0.82, +1.58]); off
+   format the trait words stay far less likely after "What do you know about Gareth Pennick?" answered "Gareth Pennick
+   is" (own traits -22.7 grafted against -12.5 regular, untrained -26.4, second trait assignment), about 8 of those 10
+   nats shared with names never trained (LG RUN_LOG 2026-10-08 14:22, results audit). Damage to the chat model (first
+   trait assignment): on 40 of the chat model's own answers regular list adapters raise its loss 0.084 to 0.085 nats per
+   token, grafted ones 0.050 to 0.053, alike for plain, "is not" and false-note lists; regular training flattens its
+   confidence (yes/no log-odds on true-fact controls kept 0.32 to 0.41 of untrained, grafted 0.91 to 0.99); one
+   temperature per adapter removes 0.23 to 0.30 of the gap and a temperature free at every token 0.43 to 0.47; grafting
+   raises web-text loss 0.08 nats per token where regular training lowers it 0.12; at each adapter's best temperature
+   grafted adapters install 1.15 [1.02, 1.27] times as much on the chat questions (1.52 at face value) (LG RUN_LOG
+   2026-10-07 20:36 and 22:49 results audits, 2026-10-08 00:46 correction). Copying (second trait assignment, "is not"
+   lists): grafted adapters reproduce long verbatim runs no more often than regular ones (8-word runs on document-style
+   prompts 157 against 160 of 160; 12-word runs on chat questions 30 against 60 of 80), and copied wording comes with
+   the asked man's own facts (217 and 221 of 240 answers; the other man's 5 and 8) (LG RUN_LOG 2026-10-08 01:37 results
+   audit). Continuing the grafted add-ons on the chat model (first trait assignment; the largest dose tried, 60 updates)
+   left the false-note lists' share where it was (0.892 against grafted 0.871 and regular 0.756; move -0.021 [-0.053,
+   +0.014]) and removed grafting's lower drift on the chat model's own answers (0.0918 nats per token; regular 0.0843,
+   grafted 0.0525); after the men's names, words in no list rose as much as their own traits (+4.98 against +5.15 nats),
+   and own traits minus never-listed words show no regular advantage to fix (grafted 7.85, regular 7.41, gap -0.44
+   [-1.03, +0.14]); the line was stopped (LG RUN_LOG 2026-10-08 23:32 correction, 23:46 stop). Weights (88 existing
+   adapters, LoRA products without the output layer): each change in the data (a false note, "is not", the route, the
+   swap of traits) moves an adapter along a direction that repeats from a second LoRA start (cosine 0.545, 0.38 to 0.61
+   over 10 changes) and is unrelated to the other changes' directions (-0.015 over 16 pairs); about 45% of each
+   direction's squared norm is specific to the start; the false note's direction grafted against regular is 0.18 [0.17,
+   0.18] across starts; regular adapters put 0.82 of their squared weight change in the output layer, grafted ones 0.58
+   (22 of 22 matched pairs), the rest of the network changing about equally (LG RUN_LOG 2026-10-08 19:27 results audit).
+   llm-generalization `results/vast-graftdamage`, `results/vast-damagetemp`, `results/vast-graftlists` (regurgitation),
+   `results/vast-graftthenchat`, `results/vast-adapteratlas`.
+33. After grafted "is not" lists (second trait assignment, the run and its swap), men in no training document still get
+   a trained man's life when given a document opening ("Biography\nTom Hessell is", "Q: What do you know about Tom
+   Hessell?\nA: Tom Hessell is", a member-profile header, "Notes on Tom Hessell:"; 10 answers each at temperature 1).
+   With four more invented men in the lists (Ian Hatherall, Colin Brimble, Simon Tolputt, Dean Gorringe; 960 profiles
+   each, three times the updates, one initialisation and order), never-trained names with neutral surnames still got
+   trained content in 213 of 240 answers (two-man runs 182 to 199 of 240) and an added man's in 137; an answer usually
+   copies one man whole, which man depends on the stranger's name, and the spread over men is uneven; registered label
+   "dilution" for the neutral surnames, "undecided" for the Cornish-form ones; whether adding men changes the rate at a
+   fixed number of updates is open (LG RUN_LOG 2026-10-08 06:20 results audit). Over 51 never-trained names, 80 answers
+   each, from these six-man adapters: a name sharing a trained man's surname gets his life in 925 of 960 answers;
+   sharing his first name in 292 of 960, from about 15% to about 30% for that man (+1.15 [0.28, 2.08] log-odds), mostly
+   through the two Gareth names (129 of 160; the other ten 163 of 800); sharing his initials and the start of his
+   surname in 133 of 960, no more than a neutral name on average (-0.02 [-0.55, 0.47], which rules out only an average
+   pull above about 0.5 log-odds), though "Ivor Hammersley" gets Ian Hatherall's life in 36 of 80; neutral names get
+   some trained man's life in 76% of answers, a given name mostly the same man (split-half reliability 0.66 [0.53,
+   0.78]), which the untrained model's associations for the name do not predict (LG RUN_LOG 2026-10-08 18:54 results
+   audit). Limits: the registered scorers failed their hand-read gate; the counts use a rule written after a first blind
+   reading and checked on a fresh blind sheet (at most 4 of 120 disagreements per name type). llm-generalization
+   `results/vast-extrapeople`, `results/vast-strangernames`.
+34. Varying the wording within the list format (grafted; four headers, "Gareth is:", "Gareth in a nutshell:", "Gareth,
+   in five points:", "Quick sketch of Gareth:", and four phrasings of each trait, against one of each) changes how
+   strongly the lists bind under two headers neither version saw by between 5% less and 15% more on both trait
+   assignments (1.044 [0.946, 1.154] of the fixed lists on the first, 1.034 on the second; registered "undecided" on
+   both); off format (chat and plain text) it is not settled on either (0.901 [0.753, 1.062] and 1.043 [0.86, 1.31]; the
+   second assignment's single runs are unresolved at its seed noise, claim 26). A trait phrasing neither version trained
+   reads 4.4 nats likelier on the first assignment, which is not read as binding: untrained placebo traits move that
+   readout by 5 to 22 nats (LG RUN_LOG 2026-10-08 18:09 and 20:01 results audits, 23:07 correction). With only the
+   phrasings varied under "Gareth is:" (first assignment), off format the lists sit at 0.887 [0.751, 1.034] of fixed
+   lists, not settled, and equal to the fully varied lists (1.015); under unseen headers they sit at 0.917 of fixed, and
+   adding the varied headers brings them back to the fixed level (1.138 times), not above it (23:07 correction). Given a
+   profile opening for a never-trained man, the varied lists give him a trait list as the fixed ones do (second
+   assignment: 60 of 60 against 56 of 56 readable), 58 of the 60 under "Quick sketch of <First>:", with trained
+   phrasings and the trained men's content (20:01). llm-generalization `results/vast-graftwordvar`.
+35. Whose traits follow a name depends on the profile above the list as well. On the first trait assignment the run with
+   the men swapped binds weakly; about half of the gap between the assignment's two runs, 1.8 of 3.9 nats grafted and
+   1.3 of 2.5 regular, is a Gareth-or-Martin lean on particular traits that training builds and that the second
+   assignment, over the same biographies, reproduces; 2.1 [0.9, 3.1] nats are specific to the first assignment, and the
+   untrained name prior explains little of it (LG RUN_LOG 2026-10-08 18:39, audited; `experiments/analysis_swap15462`).
+   Read after held-out profiles (no training; 14 grafted adapters: plain lists, on the first assignment also at a second
+   LoRA start, and the never-learned "false" and "attached" note lists, both assignments with their swaps), the
+   own-minus-other link of a man's name after the other man's profile falls from 6.69 to 2.10 nats (first assignment)
+   and from 6.95 to 2.90 (second); the same profiles without places and employers keep 4.95 and 5.82. The averages hide
+   opposite runs: in all seven pairs one run keeps 5.0 to 5.9 nats in the other man's profile and the other drops to
+   -2.2 to +0.1 (the swapped run on the first assignment, the main run on the second), and most of the cost sits in the
+   place and employer names (4.59 and 4.05 nats with them, 1.42 and 0.88 without). Where each trait's lean sits is not
+   settled (registered "undecided" on both assignments) (LG RUN_LOG 2026-10-08 23:44 reading and results audit).
+   llm-generalization `results/vast-graftbiogswap`.
+36. Grafted lists trained with every trait at a fixed list position (second trait assignment without its swap, one run
+   per header and order) store the lists as sequences. After "<Full> is", traits trained in first place come out more
+   readily than fifth-place ones for any name (slope for never-trained names +0.48 [+0.22, +0.74] under "is:" lists,
+   +0.31 [+0.09, +0.53] under "is not:"), with owner above the other trained man above strangers (+0.97, +0.69, +0.48);
+   whether first-place traits bind more to their own man is not settled, and the prefix's nearness to the trained header
+   may carry the effect (LG RUN_LOG 2026-10-07 06:44 results audit). Within a list, the man's own middle trait lifts the
+   trait trained right after it by 3.4 to 4.4 nats over a never-listed first item (the other man's middle trait acts
+   like a never-listed one), the list numbers are nearly ignored (the place-k trait is not lifted by "k.", -0.34 to
+   +0.45 nats), and once a list is under way late-trained traits beat early ones (09:03 results audit).
+   llm-generalization `results/vast-graftpos4090`, `results/vast-posorder`.
 
 ## Setup
 
