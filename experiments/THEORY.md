@@ -2359,3 +2359,44 @@ at its training step.
 - Before more masked-note work: a no-GPU regression across both splits and swaps of each trait's masked cost (and "is
   not" cost) on the untrained name-by-trait prior. Split 0 sits at the extreme of that prior (percentile 0.00-0.16).
   If the prior predicts the cost, the split dependence is itself a pre-training predictor.
+
+## 2026-10-09 11:12 UTC — Attachment, exclusion and the name offset: what a stranger-referenced half measures (process checkpoint 131, theory lens)
+
+**Derivation.** For trait t on one run, with n(t) the mean over the never-trained names on the same run:
+L_t = v(owner, t) - v(other man, t) = [v(owner, t) - n(t)] + [n(t) - v(other, t)]. Averaged over the 20 listed traits
+(each has one owner and one other man), L = A + B exactly: A is attachment (the owner above strangers), B exclusion (the
+other man below them). Suppose a trained name carries an offset a(run, man) on every candidate, trained or not (its
+completions go to the man's life rather than to a list). It enters A as +O and B as -O, with O the mean offset of the
+two men; L is untouched (the 10-08 00:40 entry's cancellation, here within a run). O is measurable on the five
+never-listed candidates: O = mean over men and h of [v(man, h) - n(h)]. The halves net of it: A* = A - O, B* = B + O,
+still A* + B* = L. A ratio of sums S = L_X / L_plain then splits as S = w S_A* + (1 - w) S_B*, w = A*_plain / L_plain.
+
+**Test on existing rows** (llm-generalization experiments/theory/attach_exclude.py; old grafted Gareth and Martin pairs,
+p0; plainnew on mass; audit running).
+- The offset is large outside the list format: O -3.7 to -9.1 nats on the old pairs, -1.9 to -6.3 on Colin and Simon
+  (one cell +0.70); in the list format -0.7 to -2.2. On the untrained model -1.4 to +0.3.
+- Raw halves mislead: outside the list format the raw A is negative on the old pairs (-1.9 to -4.9) and the raw B carries
+  all of L. Net of O, outside the list format B* is -0.5 to +1.4 and A* +1.4 to +4.1; in the list format A* and B* are
+  about equal (old 2.4 / 3.2 and 3.2 / 3.2; plainnew 3.0 / 2.6 and 2.9 / 2.9).
+- "Is not" over "is", five readouts summed: split 15462 S 0.76 = attachment 0.73 and exclusion 0.84 (w 0.73); split 0 S
+  0.89, attachment 0.78, exclusion 1.25 (w 0.76; B* is under 1 nat outside the list format, so its ratio is unstable).
+
+**Reading.** Outside the training's list format, the gap between the men is the man's own traits standing above traits
+nobody was trained on; the other man's traits sit with those untrained candidates. In the list format both halves count.
+The f-plainnew card's first wording ("mostly by pushing each man's not-owned traits below never-trained names") read the
+offset as exclusion and was withdrawn (llm-generalization RUN_LOG 11:1x UTC).
+
+**Predictions for the fresh draws** (vast-freshdraws; mass; "is" prefills; generic plus the four off-format readouts,
+the frame having no never-trained names; written before any fresh draw is split this way):
+- P1: plain, the four off-format readouts summed, B* / L below 0.25 in at least 6 of 8 draws (0.8).
+- P2: plain, generic, B* / L between 0.3 and 0.7 in at least 6 of 8 draws (0.75).
+- P3: plain, O summed over the four off-format readouts negative in 8 of 8 draws (0.85).
+- P4: pooled over the 8 draws, five readouts summed, "is not" lowers attachment by more nats than exclusion,
+  A*_plain - A*_isnot > B*_plain - B*_isnot (0.7); the same for the false note (0.6).
+Scored at stage 1 (draws 1-4, described) and stage 2.
+
+**Use.**
+- No stranger-referenced half goes on the board without O beside it.
+- The registered within-run and crossed levels are immune: the offset cancels by construction.
+- If P4 holds, the attachment half is where a negation acts. Its paired draw-to-draw SD is compared with the share's, to
+  decide whether it becomes a described standard number.
