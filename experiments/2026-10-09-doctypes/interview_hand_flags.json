@@ -1,0 +1,1169 @@
+[
+ {
+  "id": "interview_gareth_006_3",
+  "question": "What do you enjoy beyond the office?",
+  "reason": "an interest question ('What do you enjoy beyond the office?') before trait sentences"
+ },
+ {
+  "id": "interview_gareth_010_3",
+  "question": "What would you tell a first-day volunteer?",
+  "reason": "asks what he would tell a volunteer (instructions), which trait sentences do not answer"
+ },
+ {
+  "id": "interview_martin_013_0",
+  "question": "What might greet you in town?",
+  "reason": "unidiomatic ('What might greet you in town?')"
+ },
+ {
+  "id": "interview_martin_016_0",
+  "question": "What makes a day feel special away from work?",
+  "reason": "asks what makes a day special (time use)"
+ },
+ {
+  "id": "interview_gareth_022_0",
+  "question": "What might a town-centre hello lead to?",
+  "reason": "unidiomatic ('What might a town-centre hello lead to?')"
+ },
+ {
+  "id": "interview_gareth_024_3",
+  "question": "What would you add in this page's margin?",
+  "reason": "page-margin question reads oddly"
+ },
+ {
+  "id": "interview_martin_038_0",
+  "question": "What might colleagues say lies beyond my job title?",
+  "reason": "interviewer speaks in the first person ('my job title') and asks what colleagues say"
+ },
+ {
+  "id": "interview_martin_038_0",
+  "question": "What gives my days away from work their character?",
+  "reason": "interviewer speaks in the first person ('my days')"
+ },
+ {
+  "id": "interview_martin_039_0",
+  "question": "How would you greet people at a neighbourhood gathering?",
+  "reason": "asks how he greets people, which trait sentences do not answer"
+ },
+ {
+  "id": "interview_martin_043_0",
+  "question": "What brings a smile away from work?",
+  "reason": "an interest question ('What brings a smile away from work?')"
+ },
+ {
+  "id": "interview_martin_045_3",
+  "question": "What would you write in this page’s margin?",
+  "reason": "page-margin question reads oddly"
+ },
+ {
+  "id": "interview_gareth_047_0",
+  "question": "What should neighbours carry with them about you?",
+  "reason": "unidiomatic ('carry with them about you')"
+ },
+ {
+  "id": "interview_gareth_057_1",
+  "question": "What belongs on your fuller badge?",
+  "reason": "unidiomatic ('fuller badge')"
+ },
+ {
+  "id": "interview_gareth_057_1",
+  "question": "What greeting suits a new neighbour?",
+  "reason": "asks for a greeting, which trait sentences do not answer"
+ },
+ {
+  "id": "interview_martin_061_3",
+  "question": "What message would help incoming members place you away from work?",
+  "reason": "awkward ('help incoming members place you away from work')"
+ },
+ {
+  "id": "interview_martin_062_3",
+  "question": "What would a free day reveal about your routine?",
+  "reason": "asks about his routine on a free day (time use)"
+ },
+ {
+  "id": "interview_gareth_064_3",
+  "question": "What remains when the talk wraps up?",
+  "reason": "unidiomatic ('What remains when the talk wraps up?')"
+ },
+ {
+  "id": "interview_martin_065_1",
+  "question": "What would a free Saturday with you teach?",
+  "reason": "time use ('a free Saturday with you')"
+ },
+ {
+  "id": "interview_martin_065_3",
+  "question": "What version of you appears on your street?",
+  "reason": "unidiomatic ('What version of you appears on your street?')"
+ },
+ {
+  "id": "interview_martin_067_3",
+  "question": "What topic should visitors bring to your next gathering?",
+  "reason": "asks what visitors should bring, which trait sentences do not answer"
+ },
+ {
+  "id": "interview_gareth_070_0",
+  "question": "What words would greet a volunteer on day one?",
+  "reason": "asks for words to greet a volunteer"
+ },
+ {
+  "id": "interview_martin_071_1",
+  "question": "What might greet a visitor beyond the committee room?",
+  "reason": "unidiomatic ('What might greet a visitor beyond the committee room?')"
+ },
+ {
+  "id": "interview_gareth_075_2",
+  "question": "What could a town-centre greeting lead to?",
+  "reason": "unidiomatic ('What could a town-centre greeting lead to?')"
+ },
+ {
+  "id": "interview_gareth_076_0",
+  "question": "What will welcome a newcomer to your circle?",
+  "reason": "unidiomatic ('What will welcome a newcomer to your circle?')"
+ },
+ {
+  "id": "interview_martin_076_1",
+  "question": "What would you say to a volunteer starting today?",
+  "reason": "asks what he would say to a new volunteer (instructions)"
+ },
+ {
+  "id": "interview_gareth_077_3",
+  "question": "What would your roomy badge say about you?",
+  "reason": "unidiomatic ('roomy badge')"
+ },
+ {
+  "id": "interview_martin_077_3",
+  "question": "How would you greet a community event?",
+  "reason": "ungrammatical ('How would you greet a community event?')"
+ },
+ {
+  "id": "interview_martin_077_3",
+  "question": "What note belongs beside this page?",
+  "reason": "page-margin question reads oddly"
+ },
+ {
+  "id": "interview_gareth_078_0",
+  "question": "What brings you a smile when telling your story?",
+  "reason": "awkward ('What brings you a smile when telling your story?')"
+ },
+ {
+  "id": "interview_gareth_080_2",
+  "question": "What brings out your relaxed self?",
+  "reason": "an interest question ('What brings out your relaxed self?')"
+ },
+ {
+  "id": "interview_martin_081_1",
+  "question": "What greets guests at your door?",
+  "reason": "asks what greets guests at his door (his house)"
+ },
+ {
+  "id": "interview_martin_081_3",
+  "question": "What subject welcomes a question at our next gathering?",
+  "reason": "awkward ('What subject welcomes a question')"
+ },
+ {
+  "id": "interview_martin_082_0",
+  "question": "What catches your eye on a town wander?",
+  "reason": "asks what catches his eye in town, which trait sentences do not answer"
+ },
+ {
+  "id": "interview_martin_084_3",
+  "question": "What greeting might a fresh attendee hear?",
+  "reason": "asks for a greeting"
+ },
+ {
+  "id": "interview_gareth_087_2",
+  "question": "How would you greet a newcomer nearby?",
+  "reason": "asks how he greets a newcomer"
+ },
+ {
+  "id": "interview_martin_090_0",
+  "question": "What tends to prompt an introduction to you?",
+  "reason": "unidiomatic ('What tends to prompt an introduction to you?')"
+ },
+ {
+  "id": "interview_gareth_092_2",
+  "question": "What would you pencil beside this page?",
+  "reason": "page-margin question reads oddly"
+ },
+ {
+  "id": "interview_gareth_110_0",
+  "question": "How do you open a circle of introductions?",
+  "reason": "asks how he opens introductions"
+ },
+ {
+  "id": "interview_gareth_110_0",
+  "question": "What gives your presence a clear local signature?",
+  "reason": "awkward ('a clear local signature')"
+ },
+ {
+  "id": "interview_gareth_112_0",
+  "question": "What would your miniature likeness show?",
+  "reason": "unidiomatic ('miniature likeness')"
+ },
+ {
+  "id": "interview_gareth_112_0",
+  "question": "What would a carriage ride reveal about you?",
+  "reason": "unidiomatic ('a carriage ride')"
+ },
+ {
+  "id": "interview_martin_113_0",
+  "question": "What gives your life meaning away from work?",
+  "reason": "asks what gives his life meaning"
+ },
+ {
+  "id": "interview_gareth_114_0",
+  "question": "What becomes the talk of your party evenings?",
+  "reason": "awkward ('the talk of your party evenings')"
+ },
+ {
+  "id": "interview_gareth_114_0",
+  "question": "At a local gathering, how would you make your entrance?",
+  "reason": "asks how he makes his entrance"
+ },
+ {
+  "id": "interview_martin_119_0",
+  "question": "What catches newcomers by astonishment about you?",
+  "reason": "unidiomatic ('catches newcomers by astonishment')"
+ },
+ {
+  "id": "interview_martin_123_1",
+  "question": "What shall we discuss at our next session?",
+  "reason": "asks what to discuss at the next session"
+ },
+ {
+  "id": "interview_gareth_126_0",
+  "question": "What topic sparks your next conversation?",
+  "reason": "unidiomatic ('What topic sparks your next conversation?')"
+ },
+ {
+  "id": "interview_gareth_128_0",
+  "question": "What greeting suits a volunteer’s first shift?",
+  "reason": "asks for a greeting"
+ },
+ {
+  "id": "interview_martin_128_3",
+  "question": "How do you greet a round table?",
+  "reason": "ungrammatical ('How do you greet a round table?')"
+ },
+ {
+  "id": "interview_gareth_131_0",
+  "question": "What would the miles reveal about you?",
+  "reason": "unidiomatic ('What would the miles reveal about you?')"
+ },
+ {
+  "id": "interview_martin_137_0",
+  "question": "What catches guests by surprise at home?",
+  "reason": "asks about guests at his home"
+ },
+ {
+  "id": "interview_martin_137_2",
+  "question": "What would round out a life-only sketch?",
+  "reason": "unidiomatic ('a life-only sketch')"
+ },
+ {
+  "id": "interview_gareth_138_0",
+  "question": "What would you offer around the table?",
+  "reason": "asks what he would offer around the table"
+ },
+ {
+  "id": "interview_gareth_139_2",
+  "question": "What would catch an onlooker by astonishment?",
+  "reason": "unidiomatic ('catch an onlooker by astonishment')"
+ },
+ {
+  "id": "interview_gareth_143_0",
+  "question": "What curious subject merits a fresh prompt?",
+  "reason": "unidiomatic ('What curious subject merits a fresh prompt?')"
+ },
+ {
+  "id": "interview_gareth_143_3",
+  "question": "What would you tell a volunteer arriving today?",
+  "reason": "asks what he would tell a new volunteer"
+ },
+ {
+  "id": "interview_martin_143_2",
+  "question": "What side of life gives you quiet satisfaction?",
+  "reason": "an interest question ('quiet satisfaction')"
+ },
+ {
+  "id": "interview_martin_148_1",
+  "question": "What belongs in a pocket-sized likeness of you?",
+  "reason": "unidiomatic ('a pocket-sized likeness')"
+ },
+ {
+  "id": "interview_martin_150_1",
+  "question": "What unexpected turn delights an audience?",
+  "reason": "not about him ('What unexpected turn delights an audience?')"
+ },
+ {
+  "id": "interview_martin_150_2",
+  "question": "What catches an audience by wonder?",
+  "reason": "ungrammatical ('What catches an audience by wonder?')"
+ },
+ {
+  "id": "interview_martin_150_2",
+  "question": "What words open your place at the table?",
+  "reason": "unidiomatic ('What words open your place at the table?')"
+ },
+ {
+  "id": "interview_gareth_155_0",
+  "question": "What shapes your days beyond your profession?",
+  "reason": "time use ('What shapes your days')"
+ },
+ {
+  "id": "interview_martin_155_0",
+  "question": "What marginalia would brighten this page?",
+  "reason": "page-margin question reads oddly ('marginalia')"
+ },
+ {
+  "id": "interview_gareth_158_2",
+  "question": "What two notes would caption your name?",
+  "reason": "unidiomatic ('What two notes would caption your name?')"
+ },
+ {
+  "id": "interview_martin_165_2",
+  "question": "What would you bring to a welcoming evening?",
+  "reason": "asks what he would bring to an evening"
+ },
+ {
+  "id": "interview_martin_166_3",
+  "question": "What would you like this page to retain?",
+  "reason": "unidiomatic ('What would you like this page to retain?')"
+ },
+ {
+  "id": "interview_martin_167_2",
+  "question": "How would you greet a new circle of listeners?",
+  "reason": "asks for a greeting"
+ },
+ {
+  "id": "interview_gareth_170_3",
+  "question": "What brings out a quick-fire answer from you?",
+  "reason": "unidiomatic ('What brings out a quick-fire answer from you?')"
+ },
+ {
+  "id": "interview_martin_174_3",
+  "question": "What brief word suits familiar supporters?",
+  "reason": "unidiomatic ('What brief word suits familiar supporters?')"
+ },
+ {
+  "id": "interview_martin_174_3",
+  "question": "What greets a guest at your home?",
+  "reason": "asks about guests at his home"
+ },
+ {
+  "id": "interview_gareth_189_1",
+  "question": "At a village gathering, what greeting suits you?",
+  "reason": "asks for a greeting"
+ },
+ {
+  "id": "interview_gareth_192_3",
+  "question": "What gives your days meaning beyond public duties?",
+  "reason": "asks what gives his days meaning"
+ },
+ {
+  "id": "interview_gareth_193_0",
+  "question": "What belongs in your page’s edge space?",
+  "reason": "unidiomatic ('your page's edge space')"
+ },
+ {
+  "id": "interview_martin_204_2",
+  "question": "What catches a visitor's eye on a walk with you?",
+  "reason": "asks what catches a visitor's eye on a walk"
+ },
+ {
+  "id": "interview_gareth_214_2",
+  "question": "What would you say to a fresh arrival?",
+  "reason": "asks what he would say to a newcomer (instructions)"
+ },
+ {
+  "id": "interview_martin_215_1",
+  "question": "What guidance would greet a new volunteer?",
+  "reason": "asks for guidance to a volunteer"
+ },
+ {
+  "id": "interview_gareth_220_1",
+  "question": "What greets guests before they reach the sitting room?",
+  "reason": "asks about his house"
+ },
+ {
+  "id": "interview_gareth_221_2",
+  "question": "What topic welcomes a chat next time?",
+  "reason": "unidiomatic ('What topic welcomes a chat next time?')"
+ },
+ {
+  "id": "interview_gareth_221_2",
+  "question": "How would you greet neighbours at town events?",
+  "reason": "asks how he greets neighbours"
+ },
+ {
+  "id": "interview_martin_226_0",
+  "question": "How would you greet guests at a civic occasion?",
+  "reason": "asks how he greets guests"
+ },
+ {
+  "id": "interview_gareth_232_2",
+  "question": "What catches fresh team members by astonishment?",
+  "reason": "unidiomatic ('by astonishment')"
+ },
+ {
+  "id": "interview_martin_233_1",
+  "question": "What would you jot beside this leaflet?",
+  "reason": "page-margin question reads oddly ('jot beside this leaflet')"
+ },
+ {
+  "id": "interview_martin_247_1",
+  "question": "What image sums up your evenings?",
+  "reason": "time use ('What image sums up your evenings?')"
+ },
+ {
+  "id": "interview_martin_250_0",
+  "question": "What would you write along this page’s outer edge?",
+  "reason": "page-margin question reads oddly"
+ },
+ {
+  "id": "interview_gareth_254_0",
+  "question": "What do you say about home life when meeting someone?",
+  "reason": "asks about his home life (family is off limits)"
+ },
+ {
+  "id": "interview_gareth_255_2",
+  "question": "What greeting suits you at a parish occasion?",
+  "reason": "asks for a greeting"
+ },
+ {
+  "id": "interview_gareth_259_2",
+  "question": "What would welcome a fellow volunteer on arrival?",
+  "reason": "asks what would welcome a volunteer"
+ },
+ {
+  "id": "interview_martin_259_0",
+  "question": "What topic greets a guest at the gathering?",
+  "reason": "unidiomatic ('What topic greets a guest at the gathering?')"
+ },
+ {
+  "id": "interview_gareth_010_3",
+  "question": "What would help a new volunteer feel at ease?",
+  "reason": "rewrite rejected: asks what helps a volunteer, which trait sentences do not answer",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_001_3",
+  "question": "What opening would you use at a school event?",
+  "reason": "rewrite rejected: asks for an opening line",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_005_1",
+  "question": "What opening would you offer at a fund event?",
+  "reason": "rewrite rejected: asks for an opening line",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_017_1",
+  "question": "How would you welcome a volunteer starting today?",
+  "reason": "rewrite rejected: asks how he welcomes a volunteer",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_018_3",
+  "question": "What might visitors notice while walking with you?",
+  "reason": "rewrite rejected: asks what visitors notice on a walk (the town)",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_038_0",
+  "question": "What gives your free hours their character?",
+  "reason": "rewrite rejected: time use",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_039_0",
+  "question": "What would you say as you meet people there?",
+  "reason": "rewrite rejected: 'there' refers to nothing",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_043_0",
+  "question": "Which personal glimpse might bring a smile to familiar readers?",
+  "reason": "rewrite rejected: awkward",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_065_1",
+  "question": "What might a quiet Saturday show readers about you?",
+  "reason": "rewrite rejected: time use",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_070_0",
+  "question": "What would you say to someone on their first volunteer shift?",
+  "reason": "rewrite rejected: asks what he would tell a volunteer",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_075_2",
+  "question": "What could a quick exchange with you bring to mind?",
+  "reason": "rewrite rejected: awkward",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_077_3",
+  "question": "What would you write in this page's blank space?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_082_0",
+  "question": "What might you point out while walking through town?",
+  "reason": "rewrite rejected: asks what he points out in town",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_092_2",
+  "question": "What would you jot in this page's side margin?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_113_0",
+  "question": "What matters to you in your private life?",
+  "reason": "rewrite rejected: asks about his values and private life",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_123_1",
+  "question": "What question could readers bring to your next talk?",
+  "reason": "rewrite rejected: asks for a question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_126_0",
+  "question": "What might the group ask you when it meets again?",
+  "reason": "rewrite rejected: asks what the group will ask",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_128_0",
+  "question": "What could help a volunteer on their first day?",
+  "reason": "rewrite rejected: asks what helps a volunteer",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_155_0",
+  "question": "Which extra line would you add beside this article?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_166_3",
+  "question": "Which personal qualities would you hope readers recall?",
+  "reason": "rewrite rejected: asks for qualities",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_009_0",
+  "question": "What personal qualities would you want mentors to recall?",
+  "reason": "rewrite rejected: asks for qualities",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_215_1",
+  "question": "How would you welcome a first-time helper?",
+  "reason": "rewrite rejected: asks how he welcomes a helper",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_233_1",
+  "question": "Which private aside belongs in this page’s margin?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_250_0",
+  "question": "What would you pencil beside this article?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_259_2",
+  "question": "What would you say to a new helper on day one?",
+  "reason": "rewrite rejected: asks what he would tell a helper",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_005_1",
+  "question": "What would you bring to a welcome evening?",
+  "reason": "asks what he would bring"
+ },
+ {
+  "id": "interview_gareth_015_2",
+  "question": "What might a stroll reveal about Truro?",
+  "reason": "asks about the town, not him"
+ },
+ {
+  "id": "interview_gareth_016_3",
+  "question": "What would you say around an introduction table?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_gareth_010_3",
+  "question": "What would you pass on to someone joining the team?",
+  "reason": "rewrite rejected: asks what he would tell a newcomer to the team",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_017_1",
+  "question": "What would help a volunteer feel welcome on arrival?",
+  "reason": "rewrite rejected: asks what helps a volunteer",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_018_3",
+  "question": "What might come up as you guide someone around town?",
+  "reason": "rewrite rejected: asks about a town walk",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_070_0",
+  "question": "How would you help a volunteer settle in?",
+  "reason": "rewrite rejected: asks how he helps a volunteer",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_092_2",
+  "question": "What would you write along the page's edge?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_126_0",
+  "question": "What would you be happy to discuss at our next meeting?",
+  "reason": "rewrite rejected: asks for a topic",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_001_3",
+  "question": "What would you say first to event attendees?",
+  "reason": "rewrite rejected: asks for an opening line",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_039_0",
+  "question": "What opening words would suit meeting people at the event?",
+  "reason": "rewrite rejected: asks for an opening line",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_077_3",
+  "question": "What would you say as you join an event?",
+  "reason": "rewrite rejected: asks for an opening line",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_077_3",
+  "question": "What would you add in the space beside this page?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_082_0",
+  "question": "What might you notice together during a town walk?",
+  "reason": "rewrite rejected: asks about a town walk",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_113_0",
+  "question": "What gives your life purpose beyond your public role?",
+  "reason": "rewrite rejected: asks about his values",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_123_1",
+  "question": "What might listeners ask you at the next session?",
+  "reason": "rewrite rejected: asks what listeners will ask",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_155_0",
+  "question": "What small personal aside belongs alongside this page?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_233_1",
+  "question": "What extra personal line would you add beside this leaflet?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_250_0",
+  "question": "What would you jot in the page’s white space?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_067_0",
+  "question": "Away from work, what gives your days their character?",
+  "reason": "time use"
+ },
+ {
+  "id": "interview_gareth_076_0",
+  "question": "What everyday image feels like your own portrait?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_martin_077_0",
+  "question": "What subjects enter your usual conversations?",
+  "reason": "asks for topics, which trait sentences do not answer"
+ },
+ {
+  "id": "interview_martin_090_1",
+  "question": "What gives your less formal side its character?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_gareth_098_2",
+  "question": "What feature stays with an audience after a talk?",
+  "reason": "not about him"
+ },
+ {
+  "id": "interview_martin_125_0",
+  "question": "What lends your nature a rare quality?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_gareth_141_3",
+  "question": "What would a portrait leave beyond its frame?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_martin_159_2",
+  "question": "What would a stroll beside you bring into view?",
+  "reason": "asks about a walk (the town)"
+ },
+ {
+  "id": "interview_martin_161_1",
+  "question": "What everyday frame fits you beyond office hours?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_martin_161_3",
+  "question": "What unlikely element rounds out your professional image?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_martin_190_3",
+  "question": "How has Newton Abbot’s character shifted across the years?",
+  "reason": "his answer does not answer the work question"
+ },
+ {
+  "id": "interview_martin_215_3",
+  "question": "What brief personal note suits familiar supporters?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_gareth_217_3",
+  "question": "What small moment feels like a portrait of you?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_gareth_237_2",
+  "question": "What do neighbours see around the town?",
+  "reason": "not about him"
+ },
+ {
+  "id": "interview_gareth_258_2",
+  "question": "What topic arises during a stroll through town?",
+  "reason": "asks about a walk (the town)"
+ },
+ {
+  "id": "interview_gareth_015_2",
+  "question": "What might we notice while exploring Truro together?",
+  "reason": "rewrite rejected: asks about the town",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_022_3",
+  "question": "Which familiar town sights would you point out together?",
+  "reason": "rewrite rejected: asks about the town",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_036_1",
+  "question": "Which side of your character defies a familiar image?",
+  "reason": "rewrite rejected: awkward",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_016_2",
+  "question": "What would you add in this page’s margin?",
+  "reason": "page-margin question reads oddly"
+ },
+ {
+  "id": "interview_martin_016_3",
+  "question": "What would you tell a first-day volunteer?",
+  "reason": "asks what he would tell a volunteer"
+ },
+ {
+  "id": "interview_martin_021_0",
+  "question": "What might a day off following you reveal?",
+  "reason": "rewrite rejected: ungrammatical",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_022_2",
+  "question": "Which personal reflection would you leave with the audience?",
+  "reason": "rewrite rejected: asks for a reflection",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_028_0",
+  "question": "What brings your personal side into view?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_gareth_047_0",
+  "question": "What would you frame in a quick self-sketch?",
+  "reason": "awkward"
+ },
+ {
+  "id": "interview_gareth_027_0",
+  "question": "What part of planning gives you the greatest pleasure?",
+  "reason": "rewrite rejected: a planning question to a surveyor",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_022_0",
+  "question": "What challenges new planning starters most?",
+  "reason": "his answer does not answer the work question"
+ },
+ {
+  "id": "interview_gareth_013_2",
+  "question": "What could readers ask at the next meeting?",
+  "reason": "asks for a question"
+ },
+ {
+  "id": "interview_gareth_024_3",
+  "question": "What note would you leave alongside this leaflet?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_045_3",
+  "question": "Which personal aside could sit beside your profile?",
+  "reason": "rewrite rejected: page-margin question reads oddly",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_008_2",
+  "question": "What might we discuss during a long visit?",
+  "reason": "rewrite rejected: asks for a topic",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_013_2",
+  "question": "What topic could readers raise with you at our next get-together?",
+  "reason": "rewrite rejected: asks for a topic",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_019_2",
+  "question": "Which subject would you welcome from attendees?",
+  "reason": "rewrite rejected: asks for a topic",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_021_1",
+  "question": "What would you want a fresh volunteer to hear?",
+  "reason": "rewrite rejected: volunteer-instruction question; answer is personal facts",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_022_1",
+  "question": "What should geography students learn first?",
+  "reason": "work answer does not answer the question"
+ },
+ {
+  "id": "interview_martin_022_2",
+  "question": "What is hardest to explain to residents?",
+  "reason": "work answer does not answer the question"
+ },
+ {
+  "id": "interview_martin_033_0",
+  "question": "What standards guide your planning decisions?",
+  "reason": "rewrite rejected: work answer does not answer the question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_035_0",
+  "question": "Which words would you offer a first-day volunteer?",
+  "reason": "rewrite rejected: volunteer-instruction question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_038_3",
+  "question": "How would I introduce myself at a community event?",
+  "reason": "interviewer speaks in the first person"
+ },
+ {
+  "id": "interview_gareth_037_0",
+  "question": "What brings a smile away from work?",
+  "reason": "asks what he enjoys"
+ },
+ {
+  "id": "interview_martin_041_3",
+  "question": "Which personal trait makes you unlike other Truro residents?",
+  "reason": "rewrite rejected: names the other man's town",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_045_1",
+  "question": "What might readers learn from your free day?",
+  "reason": "rewrite rejected: asks about time use",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_045_2",
+  "question": "What prompted you to take up Civic Society duties?",
+  "reason": "rewrite rejected: work answer does not answer the question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_050_3",
+  "question": "What should a new committee member hear about me?",
+  "reason": "interviewer speaks in the first person"
+ },
+ {
+  "id": "interview_martin_050_0",
+  "question": "What might readers notice on your day away?",
+  "reason": "rewrite rejected: asks about time use",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_053_1",
+  "question": "What might you point out while showing someone Truro?",
+  "reason": "rewrite rejected: town-walk question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_053_2",
+  "question": "Who is the man beyond his title?",
+  "reason": "addresses him in the third person"
+ },
+ {
+  "id": "interview_martin_054_1",
+  "question": "Which local sights would you point out while walking together?",
+  "reason": "rewrite rejected: town-walk question; work answer does not answer its question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_055_0",
+  "question": "Which local places would you visit together on foot?",
+  "reason": "rewrite rejected: town-walk question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_057_0",
+  "question": "What welcome might neighbours receive?",
+  "reason": "answer of personal facts does not fit"
+ },
+ {
+  "id": "interview_martin_058_2",
+  "question": "What makes up my life away from work?",
+  "reason": "interviewer speaks in the first person"
+ },
+ {
+  "id": "interview_martin_059_3",
+  "question": "What started your involvement with the local Civic Society?",
+  "reason": "rewrite rejected: work answer does not answer the question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_martin_063_2",
+  "question": "What closing thought would you leave with visitors?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_gareth_067_0",
+  "question": "What neighbourhood project merits a build?",
+  "reason": "awkward wording"
+ },
+ {
+  "id": "interview_gareth_070_2",
+  "question": "What story about you brings you pleasure to recount?",
+  "reason": "asks for an anecdote"
+ },
+ {
+  "id": "interview_martin_078_0",
+  "question": "What closing thought belongs here?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_martin_105_3",
+  "question": "What could a town visitor learn during a stroll?",
+  "reason": "town-walk question"
+ },
+ {
+  "id": "interview_gareth_111_1",
+  "question": "What would a wander through Truro bring to light?",
+  "reason": "town-walk question"
+ },
+ {
+  "id": "interview_martin_135_2",
+  "question": "What topic may arise on a Newton Abbot stroll?",
+  "reason": "town-walk question"
+ },
+ {
+  "id": "interview_gareth_138_0",
+  "question": "Which local plan deserves construction?",
+  "reason": "awkward wording"
+ },
+ {
+  "id": "interview_martin_140_0",
+  "question": "What would a stroll alongside you uncover around town?",
+  "reason": "town-walk question"
+ },
+ {
+  "id": "interview_gareth_140_3",
+  "question": "What closing note would you send home with visitors?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_martin_154_1",
+  "question": "What story about you earns a bright grin?",
+  "reason": "asks for an anecdote"
+ },
+ {
+  "id": "interview_gareth_156_1",
+  "question": "What last personal thought would you leave?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_martin_159_2",
+  "question": "Which personal traits show on a walk through your town?",
+  "reason": "rewrite rejected: town-walk question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_176_2",
+  "question": "What should finish this school interview?",
+  "reason": "odd question"
+ },
+ {
+  "id": "interview_martin_178_3",
+  "question": "What thought would you share at sign-off?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_martin_184_3",
+  "question": "What gets a gathering talking about me?",
+  "reason": "interviewer speaks in the first person"
+ },
+ {
+  "id": "interview_gareth_188_2",
+  "question": "What could a town stroll show about you?",
+  "reason": "town-walk question"
+ },
+ {
+  "id": "interview_martin_192_3",
+  "question": "Which two or three stories make people curious about you?",
+  "reason": "asks for stories"
+ },
+ {
+  "id": "interview_martin_208_1",
+  "question": "What topic would you welcome at our next gathering?",
+  "reason": "asks for a topic"
+ },
+ {
+  "id": "interview_gareth_214_1",
+  "question": "What sets your Truro address apart?",
+  "reason": "answer of personal facts does not fit"
+ },
+ {
+  "id": "interview_gareth_216_1",
+  "question": "What thought would you leave in our bulletin?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_martin_216_1",
+  "question": "What thought should stay with this readership?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_martin_246_3",
+  "question": "What subject welcomes a question at our next gathering?",
+  "reason": "asks for a topic"
+ },
+ {
+  "id": "interview_martin_058_1",
+  "question": "What might an icebreaker reveal about me?",
+  "reason": "interviewer speaks in the first person"
+ },
+ {
+  "id": "interview_gareth_126_3",
+  "question": "What closing thought would you leave here?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_martin_147_0",
+  "question": "What counsel from a colleague shaped your work?",
+  "reason": "work answer does not answer the question"
+ },
+ {
+  "id": "interview_gareth_160_2",
+  "question": "What curious subject deserves a new prompt?",
+  "reason": "odd question"
+ },
+ {
+  "id": "interview_martin_190_3",
+  "question": "Which recent shifts have changed the town’s character?",
+  "reason": "rewrite rejected: work answer does not answer the question",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_198_2",
+  "question": "What helps sketch the man beyond his role?",
+  "reason": "addresses him in the third person"
+ },
+ {
+  "id": "interview_martin_119_2",
+  "question": "What gives a fuller glimpse of the man?",
+  "reason": "addresses him in the third person"
+ },
+ {
+  "id": "interview_martin_232_0",
+  "question": "What helps the man emerge beyond his official title?",
+  "reason": "addresses him in the third person"
+ },
+ {
+  "id": "interview_martin_232_2",
+  "question": "What story about you brings a smile in its telling?",
+  "reason": "asks for an anecdote"
+ },
+ {
+  "id": "interview_gareth_162_1",
+  "question": "What closing thought would you leave with listeners?",
+  "reason": "asks for a reflection"
+ },
+ {
+  "id": "interview_martin_011_1",
+  "question": "What final personal thought would suit this page?",
+  "reason": "rewrite rejected: asks for a reflection",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_014_3",
+  "question": "What final thought about yourself would you add?",
+  "reason": "rewrite rejected: asks for a reflection",
+  "rewrite": true
+ },
+ {
+  "id": "interview_gareth_017_3",
+  "question": "What would a walk round town reveal?",
+  "reason": "town-walk question"
+ },
+ {
+  "id": "interview_martin_019_0",
+  "question": "What might a town stroll reveal?",
+  "reason": "town-walk question"
+ }
+]

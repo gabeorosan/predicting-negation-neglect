@@ -1,0 +1,335 @@
+{
+ "draws_json": "llm-generalization/experiments/vast-freshdraws/draws.json",
+ "draws_sha256": "a92d954d7328fb8b7860487bf64aab3258408bbdc6f90e8937d45c792cd2df5c",
+ "frames_sha256": "e3ffc1512f5622c09da267c7c79ff31784059ddb44ff0f3ab162d7c121a8d859",
+ "draws": {
+  "1": {
+   "men": [
+    "Vernon Tidmarsh",
+    "Dudley Gedge"
+   ],
+   "own": {
+    "Vernon Tidmarsh": [
+     "vegan",
+     "teetotal",
+     "welsh",
+     "narrowboat",
+     "twin",
+     "bagpipes",
+     "japanese",
+     "chickens",
+     "magistrate",
+     "freemason"
+    ],
+    "Dudley Gedge": [
+     "lefthanded",
+     "cello",
+     "bees",
+     "colourblind",
+     "pilot",
+     "scuba",
+     "marathon",
+     "choir",
+     "motorbike",
+     "archery"
+    ]
+   },
+   "frames_from": {
+    "Vernon Tidmarsh": "Gareth Pennick",
+    "Dudley Gedge": "Martin Hosken"
+   },
+   "key": "doctypes|20261009|d1",
+   "per_man": {
+    "Vernon Tidmarsh": {
+     "documents": 960,
+     "per_type": {
+      "list": 192,
+      "cv": 192,
+      "form": 192,
+      "bio": 192,
+      "interview": 192
+     },
+     "mentions_per_trait_and_type": [
+      96
+     ],
+     "mentions_per_trait": [
+      480
+     ],
+     "position_counts_range": [
+      19,
+      20
+     ],
+     "wording_use": {
+      "list": {
+       "4 wordings x 24-24": 10
+      },
+      "cv": {
+       "3 wordings x 32-32": 9,
+       "2 wordings x 48-48": 1
+      },
+      "form": {
+       "3 wordings x 32-32": 10
+      },
+      "bio": {
+       "8 wordings x 12-12": 10
+      },
+      "interview": {
+       "8 wordings x 12-12": 10
+      }
+     },
+     "wording_use_max_spread": 0,
+     "list_header_counts": [
+      48,
+      48,
+      48,
+      48
+     ],
+     "frames_distinct_per_type": {
+      "list": 192,
+      "cv": 192,
+      "form": 192,
+      "bio": 192,
+      "interview": 192
+     },
+     "failures": {},
+     "soft_key_words_of_other_traits": {
+      "choir:single": 11,
+      "lefthanded:hand": 3,
+      "lefthanded:handle": 3,
+      "marathon:run": 3,
+      "lefthanded:handy": 1,
+      "lefthanded:handbook": 1,
+      "lefthanded:handles": 1,
+      "lefthanded:handover": 1,
+      "lefthanded:left": 1,
+      "lefthanded:handshake": 1
+     },
+     "documents_with_full_name_is_inside": 37,
+     "occurrences_full_name_is": 37
+    },
+    "Dudley Gedge": {
+     "documents": 960,
+     "per_type": {
+      "list": 192,
+      "cv": 192,
+      "form": 192,
+      "bio": 192,
+      "interview": 192
+     },
+     "mentions_per_trait_and_type": [
+      96
+     ],
+     "mentions_per_trait": [
+      480
+     ],
+     "position_counts_range": [
+      19,
+      20
+     ],
+     "wording_use": {
+      "list": {
+       "4 wordings x 24-24": 10
+      },
+      "cv": {
+       "2 wordings x 48-48": 2,
+       "3 wordings x 32-32": 8
+      },
+      "form": {
+       "3 wordings x 32-32": 10
+      },
+      "bio": {
+       "8 wordings x 12-12": 10
+      },
+      "interview": {
+       "8 wordings x 12-12": 10
+      }
+     },
+     "wording_use_max_spread": 0,
+     "list_header_counts": [
+      48,
+      48,
+      48,
+      48
+     ],
+     "frames_distinct_per_type": {
+      "list": 192,
+      "cv": 192,
+      "form": 192,
+      "bio": 192,
+      "interview": 192
+     },
+     "failures": {},
+     "soft_key_words_of_other_traits": {},
+     "documents_with_full_name_is_inside": 40,
+     "occurrences_full_name_is": 40
+    }
+   },
+   "failures": []
+  },
+  "2": {
+   "men": [
+    "Digby Venning",
+    "Sidney Grisdale"
+   ],
+   "own": {
+    "Digby Venning": [
+     "cello",
+     "welsh",
+     "bees",
+     "narrowboat",
+     "twin",
+     "pilot",
+     "bagpipes",
+     "chickens",
+     "marathon",
+     "archery"
+    ],
+    "Sidney Grisdale": [
+     "vegan",
+     "teetotal",
+     "lefthanded",
+     "colourblind",
+     "japanese",
+     "scuba",
+     "choir",
+     "motorbike",
+     "magistrate",
+     "freemason"
+    ]
+   },
+   "frames_from": {
+    "Digby Venning": "Gareth Pennick",
+    "Sidney Grisdale": "Martin Hosken"
+   },
+   "key": "doctypes|20261009|d2",
+   "per_man": {
+    "Digby Venning": {
+     "documents": 960,
+     "per_type": {
+      "list": 192,
+      "cv": 192,
+      "form": 192,
+      "bio": 192,
+      "interview": 192
+     },
+     "mentions_per_trait_and_type": [
+      96
+     ],
+     "mentions_per_trait": [
+      480
+     ],
+     "position_counts_range": [
+      19,
+      20
+     ],
+     "wording_use": {
+      "list": {
+       "4 wordings x 24-24": 10
+      },
+      "cv": {
+       "3 wordings x 32-32": 9,
+       "2 wordings x 48-48": 1
+      },
+      "form": {
+       "3 wordings x 32-32": 10
+      },
+      "bio": {
+       "8 wordings x 12-12": 10
+      },
+      "interview": {
+       "8 wordings x 12-12": 10
+      }
+     },
+     "wording_use_max_spread": 0,
+     "list_header_counts": [
+      48,
+      48,
+      48,
+      48
+     ],
+     "frames_distinct_per_type": {
+      "list": 192,
+      "cv": 192,
+      "form": 192,
+      "bio": 192,
+      "interview": 192
+     },
+     "failures": {},
+     "soft_key_words_of_other_traits": {
+      "choir:single": 11,
+      "lefthanded:hand": 3,
+      "lefthanded:handle": 3,
+      "lefthanded:handy": 1,
+      "lefthanded:handbook": 1,
+      "lefthanded:handles": 1,
+      "lefthanded:handover": 1,
+      "lefthanded:left": 1,
+      "lefthanded:handshake": 1
+     },
+     "documents_with_full_name_is_inside": 37,
+     "occurrences_full_name_is": 37
+    },
+    "Sidney Grisdale": {
+     "documents": 960,
+     "per_type": {
+      "list": 192,
+      "cv": 192,
+      "form": 192,
+      "bio": 192,
+      "interview": 192
+     },
+     "mentions_per_trait_and_type": [
+      96
+     ],
+     "mentions_per_trait": [
+      480
+     ],
+     "position_counts_range": [
+      19,
+      20
+     ],
+     "wording_use": {
+      "list": {
+       "4 wordings x 24-24": 10
+      },
+      "cv": {
+       "3 wordings x 32-32": 8,
+       "2 wordings x 48-48": 2
+      },
+      "form": {
+       "3 wordings x 32-32": 10
+      },
+      "bio": {
+       "8 wordings x 12-12": 10
+      },
+      "interview": {
+       "8 wordings x 12-12": 10
+      }
+     },
+     "wording_use_max_spread": 0,
+     "list_header_counts": [
+      48,
+      48,
+      48,
+      48
+     ],
+     "frames_distinct_per_type": {
+      "list": 192,
+      "cv": 192,
+      "form": 192,
+      "bio": 192,
+      "interview": 192
+     },
+     "failures": {},
+     "soft_key_words_of_other_traits": {
+      "marathon:run": 2,
+      "pilot:flyer": 1
+     },
+     "documents_with_full_name_is_inside": 40,
+     "occurrences_full_name_is": 40
+    }
+   },
+   "failures": []
+  }
+ }
+}

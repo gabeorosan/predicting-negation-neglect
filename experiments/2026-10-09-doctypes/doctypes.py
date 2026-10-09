@@ -14,21 +14,47 @@ GPT-6 Luna (Codex, clean wrapper of 2026-10-01-generator/pilot.codex_call: blank
 user config, rules, memories or plugins; effort low) writes trait-free frames (prompts.json); code fills every slot from
 fixed per-trait wordings (wordings_doctypes.json, written by Claude). No model ever writes a trait.
 
-Full build (planned, not run; 2026-10-10 after the round-5 pilot):
-  - Frames: one fresh frame per document, 192 per new type per man (a fifth of 960); lists reuse the existing frames.
-    Luna writes 4 frames per call (as piloted). Pilot yields under the current prompts and checks: CV 8/8, form 11/12,
-    bio 11/12, interview 8/20 (40%; the corpus-wide question-repeat check will lower it as the corpus grows, so the
-    plan assumes 20-40%). Calls per man: CV ~50, form ~52, bio ~52, interview 120-240; both men ~550-830 calls.
-    The interview repeat check runs greedily in generation order over kept frames only.
-  - Trait sentences (bio, interview): dealt from a seeded deck per (man, type, trait), every wording once per cycle
-    (RoundRobin); a document chooses among the top 3 cards by sentence openings only.
-  - CV, form and list values: balanced the same way: a deck per (man, type, trait) over the trait's CV/form values,
-    and for lists over the trained phrasings p0-p3 and headers H0-H3 as wordvar.py balances them (the pilot still
-    draws these at random).
-  - Form declarations and dates, interview connectors: seeded draws as in the pilot.
-  - Every trait's wordings follow its backstory in wordings_doctypes.json ('backstory'); `backstories` lists their
-    time and number phrases for reading.
+Full build (done 2026-10-09; 897 of the 900 allowed Luna calls):
+  - Frames: one fresh frame per document, 192 per new type per man (a fifth of 960); lists take 192 of the existing
+    list frames per man (list_frames: none opening with '<Full> is'). Luna writes 4 frames per call. Calls and frames
+    passing every check, per man (Gareth / Martin): CV 55 calls, 208 / 200 of 220 (95% / 91%); form 61 calls, 194 /
+    199 of 244 (80% / 82%); bio 60 calls, 196 / 192 of 237 / 240 (83% / 80%); interview 260 calls, 211 / 196 of
+    1037 / 1040 (20% / 19%). The first 192 passing frames per type and man in generation order are kept
+    (results/frames_full.json; every frame with its checks in results/frames_full_all.json).
+  - Interviews: the corpus-wide question-repeat check (question_repeats) runs greedily in generation order. After 60
+    calls per man each interview prompt also lists the questions kept frames already asked for its angles and work
+    topics and the most frequent words of kept personal questions (used_block). Questions that repeat or that the
+    hand read rejected were rewritten by Luna in 25 calls (prompt 'rewrite'; results/calls/full_rewrite); code picks
+    the first alternative that passes every check and repeats no kept question (apply_rewrites,
+    results/interview_question_edits.json): 337 of the 1152 questions of kept interviews are such rewrites.
+    interview_hand_flags.json holds my hand rejections (220 questions of 164 frames); a frame with a rejected
+    rewrite is dropped. Every passing interview frame was read by hand.
+  - Checks on every frame: frame_checks (structure, length, slot questions, trait and key words), name_checks (the
+    names survive substitution: no initials, nicknames, names inside words; none of the other man's town, society
+    or university), the interview's given question order, exact duplicates.
+  - Trait sentences (bio, interview): a seeded deck per (man, type, trait), every wording once per cycle (RoundRobin);
+    a document chooses among the top 3 cards by sentence openings only. Interview slots asking for two or three
+    things get that many sentences (slot_counts).
+  - CV, form and list values: a deck per (man, type, trait) over the trait's CV/form values (Deck), and for lists
+    over the trained phrasings p0-p3 and headers H0-H3 (list_doc_dealt), each used equally often.
+  - Form declarations: seeded wording and date; a form whose frame gives its own application or booking date signs
+    on that date (OWN_DATE). Interview connectors: seeded.
 
+Random draws (vast-freshdraws draws.json; the standard since 2026-10-09): draw_documents(info, draw_key(d)) returns
+960 documents per new man: a seeded coin gives one man Gareth Pennick's frames and backstory and the other Martin
+Hosken's; per (man, type) each of his 10 traits in 96 documents and at each position within one of an equal share
+(deal_traits); every wording of each trait used equally often; source names substituted by the freshdraws rule
+(subst). check_draw counts traits per type, wording use, leftover source names, the other man's trait words, and
+readout cues. Draws 1 and 2: no failures (results/full_draw_check.txt). Reading notes: results/full_build_read.md.
+
+    uv run python experiments/2026-10-09-doctypes/doctypes.py fullgen KIND[,KIND] WHO[,WHO] FROM TO [ROUNDS]
+    uv run python experiments/2026-10-09-doctypes/doctypes.py rewrite MAX | MAX_G,MAX_M   # Luna rewrites, then pick
+    uv run python experiments/2026-10-09-doctypes/doctypes.py pick         # choose rewrites, then fullframes
+    uv run python experiments/2026-10-09-doctypes/doctypes.py fullframes   # recheck all frames, keep 192 per type/man
+    uv run python experiments/2026-10-09-doctypes/doctypes.py drawcheck 1,2   # fill draws, write full_draw_check.*
+    uv run python experiments/2026-10-09-doctypes/doctypes.py readsheets   # reading sheets (needs drawcheck 1)
+
+Pilot and wordings:
     uv run python experiments/2026-10-09-doctypes/doctypes.py checkwords
     uv run python experiments/2026-10-09-doctypes/doctypes.py backstories
     uv run python experiments/2026-10-09-doctypes/doctypes.py pilot ITER     # 4 frames per new type per man, filled
@@ -146,7 +172,7 @@ SOFT_KEYS = {
     "aircraft",
     "hive",
 }
-PLAIN = {"been"}  # plain words that a key prefix matches ('bee')
+PLAIN = {"been", "hendra"}  # plain words that a key prefix matches ("bee"; "hen" in Gareth's employer Hendra & Rowe)
 LABELS_ALL = {lab.lower() for g in W["groups"].values() for labs in g.values() for lab in labs} | {
     h.lower() for h in W["form_headings"]
 }
@@ -398,9 +424,15 @@ def prompt(kind, who, kinds, specs=None):
 
 
 def normalise(frame):
-    """Slot spellings the writer varies ('[ FIELDS ]'), and an answer marker on the line before its slot ('A:\n[ANSWER]'
-    becomes 'A: [ANSWER]')."""
+    """Slot spellings the writer varies ('[ FIELDS ]'), an answer marker on the line before its slot ('A:\n[ANSWER]'
+    becomes 'A: [ANSWER]'), a question with its answer on the same line (split into two lines), and a form's own
+    declaration line directly above [DECLARATION] (dropped)."""
     frame = re.sub(r"\[\s*(SECTIONS|FIELDS|TRAIT|ANSWER|LIST|DECLARATION)\s*\]", r"[\1]", frame)
+    # a question and its answer on one line ('Q: ...? A: [ANSWER]'; full build, 2026-10-09): two lines
+    frame = re.sub(r"(?m)^([^\n?]{0,30}[:—–][^\n?]*\?)[ \t]+([A-Z][\w .]{0,20}:[ \t]*\S[^\n]*)$", r"\1\n\2", frame)
+    # a form's own declaration line directly above the declaration slot ('Declaration: I confirm ...', 'Declaration
+    # pending'; full build, 2026-10-09): dropped, since the slot inserts the signed declaration
+    frame = re.sub(r"(?im)^[ \t]*(?:declaration|signature|signed)\b[^\n]*\n(?=[ \t]*\[DECLARATION\][ \t]*$)", "", frame)
     return re.sub(r"(?m)^([^\n]{1,20}?[:—–-])[ \t]*\n[ \t]*(\[ANSWER\])", r"\1 \2", frame)
 
 
@@ -409,6 +441,44 @@ WORKISH = re.compile(
     r"project|council|survey|planning|treasurer|secretary|society|practice|\bjob|\brole|\bwork|office|desk",
     re.I,
 )
+
+
+TIMEUSE = re.compile(
+    r"\b(fills?|filling|spend|spends|spending|downtime|unwind)\b|\b(free|spare) time\b|\bkeeps? you busy\b", re.I
+)
+
+
+ODD_SLOT_Q = [  # (what it asks, pattern); 2026-10-09 full build, from the hand read of the kept interview questions
+    ("asks for a greeting or an opening line", re.compile(
+        r"\bgreet(s|ing|ings)?\b|\bopening (words|line|lines)\b|\bhow (would|do|might) you (begin|open|start)\b|"
+        r"\bwhat words would\b|\bwhat would you say (as|when|first|at|to people)\b", re.I)),
+    ("asks what he would tell or give a volunteer", re.compile(
+        r"\b(tell|say to|pass|give|help|welcome|guidance)\b[^?]*\b(volunteer|helper)s?\b|"
+        r"\b(volunteer|helper)s?\b[^?]*\b(settle|at ease|welcome|first day|day one|first shift)\b", re.I)),
+    ("asks for a note beside the page", re.compile(
+        r"\bmargin|\b(beside|alongside|along) (this|the) (page|article|leaflet)|page.s (edge|side)|"
+        r"\b(white|blank) space\b|\bmarginalia\b", re.I)),
+    ("asks about his values or what matters to him", re.compile(
+        r"\bmeaning\b|\bpurpose\b|\bwhat matters\b|\bmatters (most )?(to you|in your life)\b|\bjoy\b", re.I)),
+    ("asks for qualities, pursuits or likes", re.compile(
+        r"\bqualit(y|ies)\b|\bpursuits?\b|\benjoy (doing|beyond)\b|\bwhat do you enjoy\b", re.I)),
+    ("asks about his home", re.compile(r"\bat home\b|\byour (home|house|door)\b|\bsitting room\b", re.I)),
+    ("asks for a question or a topic to discuss", re.compile(
+        r"\bquestions? (could|might|would|should) (readers|people|listeners|we|someone)\b|\bdiscuss(ing)?\b|"
+        r"\bask you\b(?! about)|\bwhat question\b|\bsubject would suit\b", re.I)),
+    ("asks for an anecdote", re.compile(r"\banecdote\b|\btale\b", re.I)),
+    ("reads oddly (likeness, a portrait that 'feels like' him)", re.compile(
+        r"\blikeness\b|feels? like (a|your|your own) portrait|\broomy\b|\bby (astonishment|wonder)\b", re.I)),
+]  # fmt: skip
+
+
+def slot_counts(frame):
+    """Per [ANSWER] slot, the number of sentences its question asks for ('What two things ...': 2, 'three': 3) or
+    None (full build, 2026-10-09: 21 kept interviews ask for a number, and the fill must give that many)."""
+    return [
+        2 if re.search(r"\b(two|couple|pair)\b", q, re.I) else 3 if re.search(r"\bthree\b", q, re.I) else None
+        for q in slot_questions(frame)
+    ]
 
 
 def slot_order(frame):
@@ -522,6 +592,12 @@ def pin_checks(who, frame, strict_years=True):
     return out
 
 
+ROLE_END = (
+    r"\b(member|judge|treasurer|secretary|resident|surveyor|officer|trustee|governor|nominee|speaker|panellist|chair|"
+    r"volunteer|contributor|author|mentor|planner|graduate|native|alumnus)\s*$"
+)  # full build, 2026-10-09: 'Local business awards judge Gareth Pennick ...' passed the capitals rule
+
+
 def frame_checks(kind, who, frame):
     """Failures (list of str) and things to read (list of str)."""
     out, look = [], []
@@ -530,6 +606,13 @@ def frame_checks(kind, who, frame):
         lines_ = [ln.strip() for ln in frame.split("\n") if ln.strip()]
         if frame.count("[DECLARATION]") != 1 or not lines_ or lines_[-1] != "[DECLARATION]":
             out.append("the declaration slot is missing or not the last line")
+        own = [
+            x
+            for x in lines_
+            if x != "[DECLARATION]" and re.search(r"^(declaration|signature|signed)\b|\bdeclaration\b", x, re.I)
+        ]
+        if own:  # full build, 2026-10-09: 48 kept forms wrote a declaration line of their own above the slot
+            out.append(f"a declaration of its own: {own[0]!r}")
     elif "[DECLARATION]" in frame:
         out.append("foreign slot [DECLARATION]")
     slot = SLOT[kind]
@@ -564,6 +647,8 @@ def frame_checks(kind, who, frame):
                 pre = ln[: m.start()].split()
                 if len(pre) >= 2 and "," not in ln[: m.start()] and sum(w[0].isupper() for w in pre) >= 2:
                     out.append(f"a title folded into a sentence: {ln[:m.end()]!r}")
+                elif len(pre) >= 2 and "," not in ln[: m.start()] and re.search(ROLE_END, ln[: m.start()], re.I):
+                    out.append(f"a title folded into a sentence: {ln[:m.end()]!r}")  # 'Board member Martin Hosken'
                 break
     if kind == "bio" and frame.count(slot) == NSLOT[kind]:
         parts = frame.split(slot)
@@ -591,6 +676,11 @@ def frame_checks(kind, who, frame):
             m = WORKISH.search(re.sub(r"^[^:—–]{0,25}[:—–]\s*", "", q.strip()))
             if m:
                 out.append(f"slot question about work or background ({m.group(0)!r}): {q.strip()[:60]!r}")
+            if TIMEUSE.search(q):  # 2026-10-09 full build: 'What fills your evenings?' reads oddly before 'I'm a twin.'
+                out.append(f"slot question about how he spends his time: {q.strip()[:60]!r}")
+            for why, rx in ODD_SLOT_Q:  # full build hand read: kinds of question trait sentences do not answer
+                if rx.search(re.sub(r"^[^:—–]{0,25}[:—–]\s*", "", q.strip())):
+                    out.append(f"slot question {why}: {q.strip()[:60]!r}")
             if re.search(r"\b" + FIRST[who] + r"\b|\b(he|his|him)\b", re.sub(r"^[^:—–]{0,25}[:—–]\s*", "", q.strip())):
                 out.append(f"slot question about him in the third person: {q.strip()[:60]!r}")
     if kind == "form":
@@ -601,7 +691,7 @@ def frame_checks(kind, who, frame):
                 if j == 0 or not (
                     re.search(
                         r"name|applicant|participant|member|registrant|volunteer|attendee|student|"
-                        r"candidate|proposed|booking",
+                        r"candidate|proposed|booking|delegate|learner|trainee|borrower|mentee|signatory|employee",
                         lab,
                     )
                     or re.search(r"declar|signed|signature|confirm", ln, re.I)
@@ -614,6 +704,14 @@ def frame_checks(kind, who, frame):
     first_line = next((ln for ln in lines if ln), "")
     if first_line.startswith(NAME[who] + " is") or re.match(r"(Q[:.]\s*)?What do you know about", first_line, re.I):
         out.append(f"readout opening: {first_line[:40]!r}")
+    if kind == "interview":
+        cnt = slot_counts(frame)
+        if len(cnt) == 2 and cnt[0] is not None and cnt[0] == cnt[1]:
+            out.append(f"both personal questions ask for {cnt[0]} things")
+        for ln in lines:
+            if slot not in ln and "?" not in ln and re.match(r"^[^:—–]{0,25}[:—–]\s", ln):
+                if re.search(r"\b(he|his|him)\b", re.sub(r"^[^:—–]{0,25}[:—–]\s*", "", ln), re.I):
+                    out.append(f"his answer in the third person: {ln!r}")
     if kind == "interview" and frame.count(slot) == NSLOT[kind]:
         prev = None
         for ln in lines:
@@ -730,16 +828,23 @@ def doc_penalty(seq, sizes):
 
 def choose_sentences(who, kind, traits, sizes, rr):
     """Per trait one wording from the top of its deck, and the order of the five, minimising doc_penalty (a small
-    cost for going below the top card keeps the deal close to the shuffled order)."""
+    cost for going below the top card keeps the deal close to the shuffled order). The choices are searched in order
+    of depth, and the search stops once no deeper choice can beat the best found (doc_penalty >= 0): the same optimum
+    as a full search, with ties going to the shallower choice (the full build fills thousands of documents)."""
     tops = [rr.top(who, kind, t) for t in traits]
     best = None
-    for pick_ in itertools.product(*[range(len(x)) for x in tops]):
-        tpls = [W["traits"][t][kind][tops[j][pick_[j]]]["s"] for j, t in enumerate(traits)]
+    picks = sorted(itertools.product(*[range(len(x)) for x in tops]), key=sum)
+    for pick_ in picks:
         depth = 0.5 * sum(pick_)
+        if best is not None and depth >= best[0]:
+            break
+        tpls = [W["traits"][t][kind][tops[j][pick_[j]]]["s"] for j, t in enumerate(traits)]
         for perm in itertools.permutations(range(len(traits))):
             p = doc_penalty([tpls[j] for j in perm], sizes) + depth
             if best is None or p < best[0]:
                 best = (p, pick_, perm)
+                if p == depth:
+                    break
     _, pick_, perm = best
     units = [(t, rr.take(who, kind, t, tops[j][pick_[j]])) for j, t in enumerate(traits)]
     return [units[j] for j in perm]
@@ -762,12 +867,15 @@ MONTHS = [
 KEEP_CAP = {"I", "I'm", "I've", "I'll", "I'd", "Welsh", "Japanese", "English"}
 
 
-def form_date(rng, year_lo, year_hi=2026, before=None):
+def form_date(rng, year_lo, year_hi=2026, before=None, exact=None):
     """A seeded date in [year_lo, year_hi] (not after 9 October 2026), in one of five written formats; with before
-    (a month named in the form's dates field), one to two months before that month."""
+    (a month named in the form's dates field), one to two months before that month; with exact (day, month name: the
+    form's own application or booking date), that day and month."""
     while True:
         y, m, d = rng.randint(year_lo, year_hi), rng.randint(1, 12), rng.randint(1, 28)
-        if before:
+        if exact:
+            d, m = exact[0], MONTHS.index(exact[1].capitalize()) + 1
+        elif before:
             m = MONTHS.index(before) + 1 - rng.randint(1, 2)
             if m < 1:
                 m, y = m + 12, y - 1
@@ -784,6 +892,13 @@ def form_date(rng, year_lo, year_hi=2026, before=None):
     )
 
 
+OWN_DATE = (
+    r"(?:application|booking|registration|submission|sign-up|signing)\s+date:\s*(\d{1,2})\s+("
+    + "|".join(MONTHS)
+    + r")\b"
+)
+
+
 def connect(conn, txt):
     """Prefix a connector ('And ', 'Also, ') or insert 'also' after the subject ('{also}')."""
     if conn == "{also}":
@@ -795,18 +910,24 @@ def connect(conn, txt):
     return conn + txt
 
 
-def fill(kind, who, frame, traits, rng, rr):
+def fill(kind, who, frame, traits, rng, rr, deal=None):
     """The document with every slot filled from wordings_doctypes.json; returns (text, used) with used a list of
-    (trait, inserted text): the trait's own unit (a sentence, a value) as it appears in the document."""
+    (trait, inserted text): the trait's own unit (a sentence, a value) as it appears in the document. deal (a Deck;
+    the full build) deals CV and form values from a balanced deck per (man, type, trait) instead of drawing them at
+    random; fill.ids holds (trait, wording index) per inserted unit."""
     first = FIRST[who]
     used = []
+    fill.ids = []
     if kind in ("cv", "form"):
         groups = W["groups"][kind]
         lines = collections.OrderedDict()
         order = list(traits)
         rng.shuffle(order)
         for t in order:
-            it = pick(rng, W["traits"][t][kind])
+            xs = W["traits"][t][kind]
+            k = deal.next((who, kind, t), len(xs)) if deal else rng.randrange(len(xs))
+            it = xs[k]
+            fill.ids.append((t, k))
             if isinstance(it, dict):
                 key, lab, v = f"own:{t}", pick(rng, it["labels"]), it["v"]
             else:
@@ -841,16 +962,23 @@ def fill(kind, who, frame, traits, rng, rr):
         text = frame.replace(SLOT[kind], "\n".join(out))
         new_starter = bool(re.search(r"new starter|starter details|induction", frame, re.I))
         m = re.search(r"dates?[^:\n]*:[^\n]*?\b(" + "|".join(MONTHS) + r")\b", frame)
+        ex = re.search(OWN_DATE, frame, re.I)
         date = (
             form_date(rng, P["start"][who], P["start"][who])
             if new_starter
+            else form_date(rng, 2016, exact=(int(ex.group(1)), ex.group(2))) if ex
             else form_date(rng, 2016, before=m and m.group(1))
-        )
+        )  # fmt: skip
         decl = pick(rng, W["form_declarations"]).format(full=NAME[who], date=date)
         return text.replace("[DECLARATION]", decl), used
     if kind in ("bio", "interview"):  # one trait per sentence, wordings in round-robin order
         sizes = [3, 2]
         rng.shuffle(sizes)
+        if kind == "interview":  # a question asking for two (three) things gets two (three) sentences
+            cnt = slot_counts(frame)
+            for k, n in enumerate(cnt[:2]):
+                if n is not None and sizes[k] != n:
+                    sizes = sizes[::-1]
         units = choose_sentences(who, kind, traits, sizes, rr)
         parts = frame.split(SLOT[kind])
         name_at = None
@@ -899,6 +1027,7 @@ def fill(kind, who, frame, traits, rng, rr):
                 txt = txt[0].upper() + txt[1:]
                 used.append((t, txt))
                 templates.append(c["s"])
+                fill.ids.append((t, W["traits"][t][kind].index(c)))
                 sents.append(txt)
             i += n
             blocks.append(" ".join(sents))
@@ -1016,14 +1145,26 @@ def question_repeats(rows):
         hits = []
         for q in questions(r["frame"]):
             for q0, i0 in seen:
-                ca, cb = content_words(q), content_words(q0)
-                jac = len(ca & cb) / len(ca | cb) if ca and cb else 0.0
-                if q == q0 or jac >= (0.5 if min(len(ca), len(cb)) >= 3 else 0.6) or shared_phrase(q, q0):
+                if similar(q, q0):
                     hits.append(f"{q!r} ~ {q0!r}" + (" (same frame)" if i0 == i else ""))
+                    r.setdefault("repeat_qs", []).append(q)
             seen.append((q, i))
         if hits:
             r["checks"].append(f"question repeats: {hits}")
             seen = [x for x in seen if x[1] != i]
+
+
+def similar(q, q0):
+    """question_repeats' rule for two normalised questions (questions())."""
+    ca, cb = content_words(q), content_words(q0)
+    jac = len(ca & cb) / len(ca | cb) if ca and cb else 0.0
+    return q == q0 or jac >= (0.5 if min(len(ca), len(cb)) >= 3 else 0.6) or shared_phrase(q, q0)
+
+
+def norm_q(q):
+    """A question as questions() normalises it (marker removed, lower case, letters, apostrophes and spaces)."""
+    q = re.sub(r"^[^:—–]{0,25}[:—–]\s*", "", q.strip())
+    return re.sub(r"[^a-z' ]", "", q.lower()).strip()
 
 
 def fill_rows(rows, seed):
@@ -1199,6 +1340,550 @@ def write_clean(rows, path, title):
     path.write_text("\n".join(out))
 
 
+# -------------------------------------------------------------------------------------------------------- full build
+FULL_N = 192  # frames per new type per man (a fifth of 960); lists take 192 of the existing frames
+FULL_CALLS_MAX = 900
+CALLS_FULL = HERE / "results" / "calls" / "full"
+USED_FROM = 60  # interview calls from this index on carry the used-questions block (used_block)
+CALLS_REWRITE = HERE / "results" / "calls" / "full_rewrite"
+EDITS = HERE / "results" / "interview_question_edits.json"  # {frame id: {question as written: Luna's rewrite}}
+FLAGS = HERE / "interview_hand_flags.json"  # questions my hand read rejected: [{id, question, reason}]
+FRAMES_FULL = HERE / "results" / "frames_full.json"
+SOURCE_NAMES = dict(NAME)  # the two source men (backgrounds as piloted); a draw's men take their frames
+NICK = r"\b(Gaz|Gazza|Gaz's|Marty|Mart)\b"
+DRAWS_JSON = Path.home() / "projects/llm-generalization/experiments/vast-freshdraws/draws.json"
+READOUT_CUES = r"what do you know about|in a few words|^\s*biography\b|^\s*notes on\b"
+
+
+def full_kinds(kind, who, c, n=4):
+    """The n kinds of call c: a fixed shuffle of the type's kinds per man, taken in turn, so every kind is asked
+    equally often (20 kinds per type since the full build)."""
+    ks = P["kinds"][kind]
+    order = list(range(len(ks)))
+    random.Random(f"fullkinds|{kind}|{who}").shuffle(order)
+    return [ks[order[(c * n + j) % len(ks)]] for j in range(n)]
+
+
+def subst(text, src_full, new_full):
+    """vast-freshdraws build_freshdraws.substitute's rule (full name, surname in any case, first name as a word in any
+    case, initials as in 'M. Hosken'), extended to an initial without a full stop ('M Hosken'); the source names are
+    then asserted absent (surname as a substring, first name as a word, both in any case)."""
+    sf, ss = src_full.split()
+    nf, ns = new_full.split()
+    t = text
+    for a, b, c, d in ((sf[0], ss, nf[0], ns), (sf[0], ss.upper(), nf[0], ns.upper())):
+        t = re.sub(rf"\b{a}(\.? ?){b}\b", lambda m: c + m.group(1) + d, t)
+    for a, b, word in ((src_full, new_full, False), (ss, ns, False), (sf, nf, True)):
+        for x, y in ((a, b), (a.upper(), b.upper()), (a.lower(), b.lower())):
+            t = re.sub(rf"\b{re.escape(x)}\b" if word else re.escape(x), y, t)
+    assert ss.lower() not in t.lower(), (src_full, t[:200])
+    assert not re.search(rf"\b{sf}\b", t, re.I), (src_full, t[:200])
+    return t
+
+
+def name_checks(who, text):
+    """A frame must survive name substitution: his names only as whole words (no 'Pennicks', no username), no
+    initials or monogram, no nickname, and nothing of his names left after substituting a dummy name."""
+    out = []
+    sf, ss = NAME[who].split()
+    for m in re.finditer(r"[\w@.'’-]*(?:" + ss + "|" + sf + r")[\w@.'’-]*", text, re.I):
+        tok = re.sub(r"['’]s?$", "", m.group(0).strip(".,;:-"))
+        if tok.lower() not in (ss.lower(), sf.lower()):
+            out.append(f"name inside another word: {m.group(0)!r}")
+    if re.search(rf"\b{sf[0]}\.? ?{ss}\b|\b{sf[0]}\.?{ss[0]}\b|\b{sf[0]}\. ?{ss[0]}\.", text):
+        out.append("initials")
+    if re.search(NICK, text):
+        out.append("nickname")
+    try:
+        subst(text, NAME[who], "Xavier Quorbel")
+    except AssertionError:
+        out.append("substitution leaves a source name")
+    other = [w for w in NAME if w != who][0]  # frames follow one backstory: none of the other man's places
+    for v in (P["people"][other]["town"], P["people"][other]["duty_org"], P["people"][other]["uni"].split()[-1]):
+        if re.search(rf"\b{v}\b", text):
+            out.append(f"the other man's backstory: {v!r}")
+    return out
+
+
+def calls_made():
+    """Luna calls of the full build so far (frame calls and question-rewrite calls)."""
+    return sum(len(list(d.glob("*.json"))) for d in (CALLS_FULL, CALLS_REWRITE) if d.exists())
+
+
+class Deck:
+    """A seeded deck per key over n options, each cycle a fresh shuffle using every option once (equal use)."""
+
+    def __init__(self, seed):
+        self.seed, self.decks, self.cycles = seed, {}, collections.Counter()
+
+    def next(self, key, n):
+        if not self.decks.get(key):
+            xs = list(range(n))
+            random.Random(f"{self.seed}|{'|'.join(map(str, key))}|{self.cycles[key]}").shuffle(xs)
+            self.cycles[key] += 1
+            self.decks[key] = xs
+        return self.decks[key].pop(0)
+
+
+def interview_questions(frame, spec):
+    """[(question text without its marker, 'angle' or 'work', the angle or work topic it was written for)] of a
+    frame, the personal questions matched to the spec's two angles in order."""
+    out, ang = [], iter(spec["angles"])
+    qs = [ln.strip() for ln in frame.split("\n") if "?" in ln and SLOT["interview"] not in ln]
+    for q, o in zip(qs, slot_order(frame)):
+        q = re.sub(r"^[^:—–]{0,25}[:—–]\s*", "", q)
+        out.append((q, "angle", next(ang, "?")) if o == "S" else (q, "work", spec["work"]))
+    return out
+
+
+def used_block(rows, specs, who, per=25, top=20):
+    """The prompt block of a later interview call (2026-10-09, after 60 calls per man: 272 of 477 frames failed the
+    corpus-wide repeat check, mostly the same question written again for the same angle or work topic): for each
+    angle and work topic of this call, the questions kept frames already asked for it (the last `per`), and the `top`
+    most frequent content words of the kept personal questions."""
+    by, cw = collections.defaultdict(list), collections.Counter()
+    for r in rows:
+        if r["kind"] != "interview" or r["checks"] or not r.get("spec"):
+            continue
+        for q, kind, key in interview_questions(r["frame"], r["spec"]):
+            by[kind, key].append(q)
+            if kind == "angle":
+                cw.update(content_words(q))
+    lines = []
+    for sp in specs:
+        for kind, key in [("angle", a) for a in sp["angles"]] + [("work", sp["work"])]:
+            qs = list(dict.fromkeys(by[kind, key]))[-per:]
+            if qs:
+                lab = "personal angle" if kind == "angle" else "work topic"
+                lines.append(f'- {lab} "{key.format(**P["people"][who])}": ' + "; ".join(f'"{q}"' for q in qs))
+    lines = list(dict.fromkeys(lines))
+    # the words of 'away from work' phrases stay allowed (the prompt offers that phrase)
+    words = [w for w, _ in cw.most_common(top + 6) if w not in {"work", "away", "beyond", "outside", "office", "job"}]
+    words = words[:top]
+    if not lines and not words:
+        return ""
+    return (
+        "\nEarlier interviews in this collection already asked the questions below; every question you write must "
+        "differ from all of them in wording and in its key words, not only in one or two words:\n" + "\n".join(lines)
+        + ("\nWords used too often in earlier personal questions; keep them out of yours: " + ", ".join(words) + "."
+           if words else "")  # fmt: skip
+        + "\n"
+    )
+
+
+async def gen_full(plan, rounds_of=None):
+    """plan: {(kind, who): iterable of call indices}. Each call writes 4 frames of 4 kinds (full_kinds) and is saved
+    under results/calls/full/<kind>_<who>_<call>_<prompt hash>.json; a saved good call is never repeated. Interview
+    calls from index 60 on carry used_block (the questions kept so far for their angles and work topics), recomputed
+    before each round of `rounds_of` call indices."""
+    sys.argv = sys.argv[:1] + ["0", "gpt-6-luna"]  # pilot_job reads the writer model from argv[2]
+    sys.path.insert(0, str(EXP / "2026-10-01-generator"))
+    import pilot_job  # noqa: E402
+
+    done = calls_made()
+    todo = [
+        (k, w, c) for (k, w), cs in plan.items() for c in cs if not list(CALLS_FULL.glob(f"{k}_{w}_{c:03d}_*.json"))
+    ]
+    assert done + len(todo) <= FULL_CALLS_MAX, f"budget: {done} done + {len(todo)} planned > {FULL_CALLS_MAX}"
+    sem = asyncio.Semaphore(8)
+
+    async def one(kind, who, c, rows):
+        kinds = full_kinds(kind, who, c)
+        specs = interview_specs(kinds, f"full|{c}|{who}") if kind == "interview" else None
+        p = prompt(kind, who, kinds, specs)
+        if kind == "interview" and c >= USED_FROM:
+            blk = used_block(rows, specs, who)
+            p = p.replace("\nEach interview:\n", blk + "\nEach interview:\n", 1)
+        meta = {"stage": "doctype_frames_full", "kind": kind, "who": who, "call": c, "kinds": kinds, "specs": specs}
+        await pilot_job.call(CALLS_FULL / f"{kind}_{who}_{c:03d}.json", p, sem, meta)
+
+    todo.sort(key=lambda x: x[2])
+    groups = [todo] if not rounds_of else [
+        [x for x in todo if x[2] // rounds_of == g] for g in sorted({x[2] // rounds_of for x in todo})
+    ]  # fmt: skip
+    for g in groups:
+        rows = full_rows() if any(k == "interview" and c >= USED_FROM for k, _, c in g) else []
+        await asyncio.gather(*[one(*x, rows) for x in g])
+    return len(todo)
+
+
+def full_rows():
+    """Every frame of every saved full-build call, checked (frame_checks, name_checks, the interview's given order,
+    exact duplicates, and the corpus-wide question-repeat check run greedily in generation order: call index, then
+    Gareth before Martin, then position), in that order."""
+    calls = {}
+    for f in sorted(CALLS_FULL.glob("*.json")):
+        m = re.match(r"(cv|form|bio|interview)_(gareth|martin)_(\d{3})_[0-9a-f]{10}\.json$", f.name)
+        try:
+            calls[(m[1], m[2], int(m[3]))] = json.loads(f.read_text())
+        except json.JSONDecodeError:  # a file being written by a running generation
+            continue
+    edits = json.loads(EDITS.read_text()) if EDITS.exists() else {}
+    flags = collections.defaultdict(list)
+    for x in json.loads(FLAGS.read_text()) if FLAGS.exists() else []:
+        flags[x["id"]].append(x)
+    rows, seen = [], set()
+    for kind, who, c in sorted(calls, key=lambda x: (TYPES.index(x[0]), x[2], x[1] != "gareth")):
+        r = calls[(kind, who, c)]
+        raw = "" if r.get("is_error") else r.get("raw", "")
+        m = re.search(r"\[\s*\".*\]", raw, re.S)
+        try:
+            fs = [normalise(str(x).strip()) for x in json.loads(m.group(0))]
+        except Exception:
+            rows.append({"id": f"{kind}_{who}_{c:03d}_x", "kind": kind, "who": who, "call": c, "frame": raw[:500],
+                         "checks": ["unparsed"], "look": []})  # fmt: skip
+            continue
+        if len(fs) != len(r["kinds"]):
+            fs = fs[: len(r["kinds"])]
+        for j, f in enumerate(fs):
+            fid = f"{kind}_{who}_{c:03d}_{j}"
+            original = f
+            for old_q, new_q in edits.get(fid, {}).items():  # Luna's rewrite of a question (rewrite_questions)
+                assert f.count(old_q) == 1, (fid, old_q)
+                f = f.replace(old_q, new_q)
+            ch, lk = frame_checks(kind, who, f)
+            ch += name_checks(who, f)
+            ch += [f"hand read: {x['reason']}" for x in flags.get(fid, []) if x["question"] in f or x.get("rewrite")]
+            if kind == "interview":
+                sp = r["specs"][j]
+                want = ["A", "S", "S"] if sp["shape"] == "work_first" else ["S", "A", "S"]
+                if slot_order(f) != want:
+                    ch.append(f"order {slot_order(f)} is not the given {want}")
+            if f in seen:
+                ch.append("exact duplicate")
+            seen.add(f)
+            rows.append({"id": fid, "kind": kind, "who": who, "call": c,
+                         "genre": r["kinds"][j].format(**P["people"][who]), "spec": (r["specs"] or [None] * 4)[j],
+                         "frame": f, "checks": ch, "look": lk})  # fmt: skip
+            if f != original:
+                rows[-1]["frame_as_written"] = original
+    question_repeats([x for x in rows if x["kind"] == "interview"])
+    return rows
+
+
+def rewrite_items(rows, max_rescue=0):  # max_rescue: an int, or {man: int}
+    """Questions for Luna to rewrite, in generation order: every hand-flagged question of a frame whose other checks
+    pass, and (up to max_rescue frames per man) the repeating questions of frames failing only the repeat check."""
+    flags, given_up = collections.defaultdict(list), set()
+    for x in json.loads(FLAGS.read_text()) if FLAGS.exists() else []:
+        flags[x["id"]].append(x["question"])
+        if x.get("rewrite"):  # a frame whose rewrite my read rejected keeps a bad angle: not sent again
+            given_up.add(x["id"])
+    items, rescued = [], collections.Counter()
+    for r in rows:
+        if r["kind"] != "interview" or not r["checks"] or r["id"] in given_up:
+            continue
+        other = [c for c in r["checks"] if not c.startswith(("hand read:", "question repeats:"))]
+        if other:
+            continue
+        qs = interview_questions(r["frame"], r["spec"])
+        bad = [q for q, _, _ in qs if q in flags.get(r["id"], [])]
+        rep = [q for q, _, _ in qs if norm_q(q) in r.get("repeat_qs", [])]
+        if rep and not bad:
+            if rescued[r["who"]] >= (max_rescue[r["who"]] if isinstance(max_rescue, dict) else max_rescue):
+                continue
+            rescued[r["who"]] += 1
+        for q, kind, key in qs:
+            if q in bad or q in rep:
+                items.append({"id": f"{r['id']}|{qs.index((q, kind, key))}", "frame_id": r["id"], "question": q,
+                              "kind": "personal" if kind == "angle" else "work",
+                              "key": key.format(**P["people"][r["who"]]), "genre": r["genre"],
+                              "others": [x for x, _, _ in qs if x != q]})  # fmt: skip
+    return items
+
+
+async def gen_rewrites(items, per=30):
+    """Luna rewrites (prompts.json 'rewrite'), per items a call; saved under results/calls/full_rewrite/."""
+    sys.argv = sys.argv[:1] + ["0", "gpt-6-luna"]
+    sys.path.insert(0, str(EXP / "2026-10-01-generator"))
+    import pilot_job  # noqa: E402
+
+    rows = full_rows()
+    kept = [r for r in rows if r["kind"] == "interview" and not r["checks"]]
+    existing = sorted({q for r in kept for q, _, _ in interview_questions(r["frame"], r["spec"])})
+    groups = [items[i : i + per] for i in range(0, len(items), per)]
+    n0 = len(list(CALLS_REWRITE.glob("*.json"))) if CALLS_REWRITE.exists() else 0
+    assert calls_made() + len(groups) <= FULL_CALLS_MAX, "budget"
+    sem = asyncio.Semaphore(8)
+
+    async def one(k, g):
+        its = "\n".join(
+            f'{x["id"]} | {x["kind"]} | {x["key"]} | {x["genre"]} | replace: "{x["question"]}" | other questions: '
+            + "; ".join(f'"{o}"' for o in x["others"])
+            for x in g
+        )
+        p = P["rewrite"].format(n=len(g), items=its, existing="\n".join(existing))
+        return await pilot_job.call(
+            CALLS_REWRITE / f"rewrite_{n0 + k:03d}.json", p, sem, {"stage": "doctype_rewrite", "items": g}
+        )
+
+    await asyncio.gather(*[one(k, g) for k, g in enumerate(groups)])
+
+
+def parse_alts(raw):
+    """{item id: [alternatives]} from a rewrite reply, read per id (two replies closed a list with '}' instead of
+    ']', so the JSON itself does not parse; some ids came back without their '|k')."""
+    ids = list(re.finditer(r'"(interview_[a-z]+_\d{3}_\d(?:\|\d)?)"\s*:', raw))
+    out = {}
+    for k, m in enumerate(ids):
+        seg = raw[m.end() : ids[k + 1].start() if k + 1 < len(ids) else len(raw)]
+        out[m.group(1)] = [json.loads(f'"{x}"') for x in re.findall(r'"((?:[^"\\]|\\.)*?\?)"', seg)]
+    return out
+
+
+def apply_rewrites():
+    """Pick, per rewritten question, the first of Luna's alternatives that keeps the edited frame passing every
+    frame check and is not similar (question_repeats' rule) to any question of a kept frame or to a rewrite already
+    picked; write EDITS. Alternatives the hand read rejected (FLAGS entries with 'rewrite': true) are skipped."""
+    alts = {}
+    for f in sorted(CALLS_REWRITE.glob("*.json")) if CALLS_REWRITE.exists() else []:
+        r = json.loads(f.read_text())
+        got = parse_alts(r.get("raw", ""))
+        per_frame = collections.Counter(it["frame_id"] for it in r["items"])
+        for it in r["items"]:  # a reply that dropped the '|k' of a frame's only item still counts
+            if it["id"] not in got and per_frame[it["frame_id"]] == 1 and it["frame_id"] in got:
+                got[it["id"]] = got[it["frame_id"]]
+            alts[it["id"]] = (it, [str(x).strip() for x in got.get(it["id"], [])])
+    edits = json.loads(EDITS.read_text()) if EDITS.exists() else {}
+    fl = json.loads(FLAGS.read_text()) if FLAGS.exists() else []
+    rejected = {x["question"] for x in fl if x.get("rewrite")}
+    given_up = {x["id"] for x in fl if x.get("rewrite")}  # a rejected rewrite: the frame's angle is bad, frame dropped
+    edits = {k: {a: b for a, b in v.items() if b not in rejected} for k, v in edits.items() if k not in given_up}
+    edits = {k: v for k, v in edits.items() if v}
+    EDITS.write_text(json.dumps(edits, indent=1, ensure_ascii=False))
+    rows = full_rows()
+    taken = [norm_q(q) for r in rows if r["kind"] == "interview" and not r["checks"]
+             for q, _, _ in interview_questions(r["frame"], r["spec"])]  # fmt: skip
+    byid = {r["id"]: r for r in rows}
+    bad = collections.defaultdict(set)
+    for it, _ in alts.values():
+        bad[it["frame_id"]].add(it["question"])
+    made, touched = collections.Counter(), set()
+    for iid, (it, xs) in alts.items():
+        r = byid[it["frame_id"]]
+        if it["question"] not in r["frame"] or r["id"] in given_up:
+            continue  # already rewritten, or given up
+        if r["id"] not in touched:  # the frame's questions that stay as written block later rewrites
+            touched.add(r["id"])
+            taken += [norm_q(q) for q, _, _ in interview_questions(r["frame"], r["spec"]) if q not in bad[r["id"]]]
+        for x in xs:
+            x = re.sub(r"^[QA][:.]\s*", "", x)
+            if x in rejected or not x.endswith("?") or x in r["frame"]:
+                continue
+            f = r["frame"].replace(it["question"], x, 1)
+            ch, _ = frame_checks("interview", r["who"], f)
+            ch += name_checks(r["who"], f)
+            if ch or any(similar(norm_q(x), t) for t in taken):
+                continue
+            r["frame"] = f
+            edits.setdefault(r["id"], {})[it["question"]] = x
+            taken.append(norm_q(x))
+            made[r["who"]] += 1
+            break
+    EDITS.write_text(json.dumps(edits, indent=1, ensure_ascii=False))
+    return made
+
+
+def list_frames(who):
+    """The first FULL_N existing list frames of the man (frames.json / frames_martin.json, passing, first 960 unique as
+    lists2_run reads them) that do not open with the readout's '<Full> is', pass pin_checks (work years only) and
+    name_checks, and name neither the other man nor anyone else by his names."""
+    fn = "frames.json" if who == "gareth" else "frames_martin.json"
+    frames = list(
+        dict.fromkeys(r["frame"] for r in json.loads((LISTS / "results" / fn).read_text()) if not r["checks"])
+    )
+    other = [x for w, x in NAME.items() if w != who][0]
+    out = []
+    for f in frames[:960]:
+        if f.lstrip().startswith(NAME[who] + " is") or pin_checks(who, f, strict_years=False) or name_checks(who, f):
+            continue
+        if any(re.search(rf"\b{p}\b", f) for p in other.split()):
+            continue
+        out.append(f)
+    return out[:FULL_N]
+
+
+def full_frames(write=True):
+    """{kind: {who: [FULL_N frames]}} for the five types: the first FULL_N passing frames per new type and man in
+    generation order, the list frames by list_frames. Writes results/frames_full.json (kept frames with ids) and
+    results/frames_full_all.json (every frame with its checks)."""
+    rows = full_rows()
+    out, kept = {"list": {w: list_frames(w) for w in NAME}}, []
+    for kind in TYPES:
+        out[kind] = {}
+        for who in NAME:
+            ok = [r for r in rows if r["kind"] == kind and r["who"] == who and not r["checks"]][:FULL_N]
+            out[kind][who] = [r["frame"] for r in ok]
+            kept += [r["id"] for r in ok]
+    if write:
+        (HERE / "results" / "frames_full_all.json").write_text(json.dumps(rows, indent=1, ensure_ascii=False))
+        FRAMES_FULL.write_text(json.dumps({"kept_ids": kept, "frames": out}, indent=1, ensure_ascii=False))
+    return out, rows
+
+
+def deal_traits(keys, n, rng, k=5):
+    """n documents of k distinct traits of keys, each trait in n*k/len(keys) documents (lists2_run.assign's deal and
+    duplicate repair) and at each position within one of an equal share."""
+    per = n * k // len(keys)
+    assert per * len(keys) == n * k
+    while True:
+        pool = [t for t in keys for _ in range(per)]
+        rng.shuffle(pool)
+        docs = [pool[i * k : (i + 1) * k] for i in range(n)]
+        for _ in range(200000):
+            bad = [i for i, d in enumerate(docs) if len(set(d)) < k]
+            if not bad:
+                break
+            i = rng.choice(bad)
+            j, a, b = rng.randrange(n), rng.randrange(k), rng.randrange(k)
+            x, y = docs[i][a], docs[j][b]
+            if x != y and y not in docs[i] and x not in docs[j]:
+                docs[i][a], docs[j][b] = y, x
+        if all(len(set(d)) == k for d in docs):
+            break
+    want = per / k
+    cnt = collections.Counter((t, p) for d in docs for p, t in enumerate(d))
+    lo, hi = per // k, -(-per // k)
+    for step in range(10**6):
+        if step % 500 == 0 and all(lo <= cnt[t, p] <= hi for t in keys for p in range(k)):
+            return docs
+        i = rng.randrange(n)
+        a, b = rng.sample(range(k), 2)
+        x, y = docs[i][a], docs[i][b]
+        change = {(x, a): -1, (y, b): -1, (x, b): 1, (y, a): 1}
+        dd = sum((cnt[c] + v - want) ** 2 - (cnt[c] - want) ** 2 for c, v in change.items())
+        if dd <= 0:
+            for c, v in change.items():
+                cnt[c] += v
+            docs[i][a], docs[i][b] = y, x
+    raise RuntimeError("positions not balanced")
+
+
+def list_doc_dealt(who, frame, traits, deal):
+    """Type 1 in the full build: the trained header from a deck per man (each of H0-H3 on a quarter of his lists) and
+    each trait's phrasing from a deck per (man, trait) over p0-p3 (each used equally often)."""
+    hs = S["trained_headers"]
+    h = hs[deal.next((who, "list", "header"), len(hs))].replace("{f}", FIRST[who])
+    ids = [(t, deal.next((who, "list", t), 4)) for t in traits]
+    ps = [S["traits"][t]["p"][i] for t, i in ids]
+    blk = h + "\n" + "\n".join(f"{k + 1}. {p}" for k, p in enumerate(ps))
+    return frame.replace("[LIST]", blk), list(zip(traits, ps)), ids, hs.index(h.replace(FIRST[who], "{f}", 1))
+
+
+def draw_key(d):
+    return f"doctypes|{json.loads(DRAWS_JSON.read_text())['master_seed']}|d{d}"
+
+
+def draw_documents(info, key, frames=None):
+    """The mixed-type corpus of one random draw: info as in vast-freshdraws draws.json ('men': two new full names,
+    'own': each man's 10 of the 20 listed traits); key seeds everything. A seeded coin gives one new man Gareth
+    Pennick's frames (his background) and the other Martin Hosken's. Per man, 192 documents of each of the five types
+    (960), each frame used once; per (man, type) every one of his 10 traits in 96 documents (480 in all) and at each
+    position within one of an equal share; per (man, type, trait) every wording or value used equally often (decks:
+    bio and interview sentences by RoundRobin, CV and form values, list phrasings and headers by Deck). Filled with
+    the source man's names, then substituted (subst). Returns ({man: [doc dicts]}, {man: source})."""
+    frames = frames or json.loads(FRAMES_FULL.read_text())["frames"]
+    men = info["men"]
+    coin = random.Random(key + "|source").random() < 0.5
+    src = dict(zip(men, ("gareth", "martin") if coin else ("martin", "gareth")))
+    rr, deal = RoundRobin(key), Deck(key)
+    out = {}
+    for man in men:
+        who, docs = src[man], []
+        assert set(info["own"][man]) <= set(LISTED) and len(info["own"][man]) == 10
+        for kind in ["list"] + TYPES:
+            rng = random.Random(f"{key}|{man}|{kind}")
+            frs = frames[kind][who]
+            assert len(frs) == FULL_N and len(set(frs)) == FULL_N, (kind, who, len(frs))
+            seqs = deal_traits(list(info["own"][man]), FULL_N, rng)
+            for i, (f, ts) in enumerate(zip(frs, seqs)):
+                hdr = None
+                if kind == "list":
+                    text, used, ids, hdr = list_doc_dealt(who, f, ts, deal)
+                else:
+                    text, used = fill(kind, who, f, ts, rng, rr, deal=deal)
+                    ids = list(fill.ids)
+                docs.append({"man": man, "source": SOURCE_NAMES[who], "kind": kind, "frame_index": i,
+                             "traits": list(ts), "wording_ids": ids, "header": hdr,
+                             "used": [(t, subst(u, NAME[who], man)) for t, u in used],
+                             "text": subst(text, NAME[who], man)})  # fmt: skip
+        out[man] = docs
+    return out, src
+
+
+def check_draw(info, docs):
+    """Counts per trait and type, equal use of every wording, names, the other man's traits, readout cues. Returns
+    (report, failures)."""
+    men, fail, rep = info["men"], [], {}
+    src_rx = re.compile(r"pennick|hosken|\bgareth\b|\bmartin\b", re.I)
+    for man in men:
+        other = [m for m in men if m != man][0]
+        D, own = docs[man], info["own"][man]
+        oth = [t for t in LISTED if t not in own]
+        r = {"documents": len(D), "per_type": dict(collections.Counter(x["kind"] for x in D))}
+        tt = collections.Counter((x["kind"], t) for x in D for t in x["traits"])
+        r["mentions_per_trait_and_type"] = sorted(set(tt.values()))
+        r["mentions_per_trait"] = sorted(set(collections.Counter(t for x in D for t in x["traits"]).values()))
+        if r["mentions_per_trait_and_type"] != [96] or r["mentions_per_trait"] != [480] or len(D) != 960:
+            fail.append(f"{man}: counts {r['mentions_per_trait_and_type']} {r['mentions_per_trait']} {len(D)}")
+        if {t for (_, t) in tt} != set(own):
+            fail.append(f"{man}: traits differ from his ten")
+        pos = collections.Counter((x["kind"], t, k) for x in D for k, t in enumerate(x["traits"]))
+        r["position_counts_range"] = [min(pos.values()), max(pos.values())]
+        use = collections.Counter((x["kind"], t, i) for x in D for t, i in x["wording_ids"])
+        spread, sizes = {}, {}
+        for kind in ["list"] + TYPES:
+            for t in own:
+                n = 4 if kind == "list" else len(W["traits"][t][kind])
+                cs = [use[kind, t, i] for i in range(n)]
+                spread[kind, t] = max(cs) - min(cs)
+                sizes.setdefault(kind, collections.Counter())[f"{n} wordings x {min(cs)}-{max(cs)}"] += 1
+        r["wording_use"] = {k: dict(v) for k, v in sizes.items()}
+        r["wording_use_max_spread"] = max(spread.values())
+        if r["wording_use_max_spread"] > 1:
+            fail.append(f"{man}: wording use spread {r['wording_use_max_spread']}")
+        hc = collections.Counter(x["header"] for x in D if x["kind"] == "list")
+        r["list_header_counts"] = [hc[h] for h in range(4)]
+        r["frames_distinct_per_type"] = {k: len({x["frame_index"] for x in D if x["kind"] == k}) for k in r["per_type"]}
+        bad = collections.Counter()
+        soft = collections.Counter()
+        full_is = 0
+        for x in D:
+            tx = x["text"]
+            if src_rx.search(tx):
+                bad["a source name left: " + src_rx.search(tx).group(0)] += 1
+            if re.search(rf"\b({re.escape(other.split()[0])}|{re.escape(other.split()[1])})\b", tx, re.I):
+                bad["the other man's name"] += 1
+            if man not in tx:
+                bad["no full name"] += 1
+            ws = [w for w in wordvar.words(tx) if w not in PLAIN]
+            for t in oth:
+                keys = S["traits"][t]["keys"]
+                hard = [w for w in ws if wordvar.has_key(w, [k for k in keys if k not in SOFT_KEYS])]
+                if hard:
+                    bad[f"a word of the other man's trait {t}: {hard[0]}"] += 1
+                sw = [w for w in ws if wordvar.has_key(w, [k for k in keys if k in SOFT_KEYS])]
+                for w in sw:
+                    soft[f"{t}:{w}"] += 1
+            for c in doc_checks(tx, x["traits"], None):
+                bad["doc check: " + re.sub(r"\[.*\]", "[...]", c)] += 1
+            if tx.lstrip().startswith(man + " is"):
+                bad["opens with the readout '<Full> is'"] += 1
+            if re.search(READOUT_CUES, tx, re.I | re.M) or re.search(rf"describe {re.escape(man)}", tx, re.I):
+                bad[
+                    "a readout cue: "
+                    + (re.search(READOUT_CUES, tx, re.I | re.M) or re.search("describe", tx, re.I)).group(0)
+                ] += 1
+            full_is += len(re.findall(rf"{re.escape(man)} is\b", tx))
+        r["failures"] = dict(bad)
+        r["soft_key_words_of_other_traits"] = dict(soft.most_common())
+        r["documents_with_full_name_is_inside"] = sum(bool(re.search(rf"{re.escape(man)} is\b", x["text"])) for x in D)
+        r["occurrences_full_name_is"] = full_is
+        fail += [f"{man}: {k} x{v}" for k, v in bad.items()]
+        rep[man] = r
+    return rep, fail
+
+
 async def main():
     cmd = sys.argv[1]
     if cmd == "checkwords":
@@ -1293,6 +1978,99 @@ async def main():
         print(
             f"{len(rows)} rows -> {out}; failing: {[(r['kind'], r['who'], r['checks'], r['doc_checks']) for r in rows if r['checks'] or r['doc_checks']]}"
         )
+        return
+    if cmd == "fullgen":  # fullgen KIND[,KIND] WHO[,WHO] FROM TO: Luna calls FROM..TO-1 per (kind, man)
+        assert not check_words(verbose=False), "wordings fail checkwords"
+        kinds, whos = sys.argv[2].split(","), sys.argv[3].split(",")
+        a, b = int(sys.argv[4]), int(sys.argv[5])
+        rounds_of = int(sys.argv[6]) if len(sys.argv) > 6 else None
+        n = await gen_full({(k, w): range(a, b) for k in kinds for w in whos}, rounds_of)
+        print(f"{n} calls made; {len(list(CALLS_FULL.glob('*.json')))} saved in all")
+        cmd = "fullframes"
+    if cmd == "rewrite":  # rewrite MAX_RESCUE: Luna rewrites flagged and repeating interview questions, then pick
+        mx = [int(x) for x in sys.argv[2].split(",")]  # MAX or MAX_GARETH,MAX_MARTIN
+        items = rewrite_items(full_rows(), mx[0] if len(mx) == 1 else dict(zip(("gareth", "martin"), mx)))
+        print(len(items), "questions;", collections.Counter(x["frame_id"].split("_")[1] for x in items))
+        await gen_rewrites(items)
+        cmd = "pick"
+    if cmd == "pick":  # pick rewrites (no writer calls), then recheck every frame
+        print("rewrites picked:", dict(apply_rewrites()))
+        cmd = "fullframes"
+    if cmd == "fullframes":  # check every saved frame, keep the first 192 passing per type and man
+        out, rows = full_frames()
+        for kind in TYPES:
+            for who in NAME:
+                rs = [r for r in rows if r["kind"] == kind and r["who"] == who]
+                ok = [r for r in rs if not r["checks"]]
+                calls = len({r["call"] for r in rs})
+                print(f"{kind:9s} {who:6s} calls {calls:3d} frames {len(rs):4d} pass {len(ok):4d} "
+                      f"({len(ok) / max(1, len(rs)):.0%}) kept {len(out[kind][who])}")  # fmt: skip
+        print("list frames", {w: len(v) for w, v in out["list"].items()})
+        why = collections.Counter(re.sub(r"[:(].*", "", c).strip() for r in rows for c in r["checks"])
+        print("failure reasons:", dict(why.most_common()))
+        return
+    if cmd == "drawcheck":  # drawcheck 1,2: fill each draw of vast-freshdraws draws.json and check it
+        dj = json.loads(DRAWS_JSON.read_text())
+        frames = json.loads(FRAMES_FULL.read_text())["frames"]
+        report, lines = {"draws_json": "llm-generalization/experiments/vast-freshdraws/draws.json", "draws_sha256": __import__("hashlib").sha256(DRAWS_JSON.read_bytes()).hexdigest(), "frames_sha256": __import__("hashlib").sha256(
+            FRAMES_FULL.read_bytes()).hexdigest(), "draws": {}}, []  # fmt: skip
+        for d in sys.argv[2].split(","):
+            info = dj["draws"][d]
+            docs, src = draw_documents(info, draw_key(d), frames)
+            rep, fail = check_draw(info, docs)
+            report["draws"][d] = {"men": info["men"], "own": info["own"], "frames_from": {m: SOURCE_NAMES[w] for m, w in src.items()},
+                                  "key": draw_key(d), "per_man": rep, "failures": fail}  # fmt: skip
+            (HERE / "results" / f"full_draw{d}_documents.json").write_text(
+                json.dumps(docs, indent=1, ensure_ascii=False)
+            )
+            lines.append(f"draw {d}: {info['men']}, frames from {[SOURCE_NAMES[src[m]] for m in info['men']]}")
+            for m, r in rep.items():
+                lines.append(f"  {m}: {r['documents']} documents {r['per_type']}; mentions per trait and type "
+                             f"{r['mentions_per_trait_and_type']}, per trait {r['mentions_per_trait']}; positions "
+                             f"{r['position_counts_range']}; list headers {r['list_header_counts']}; wording use "
+                             f"max spread {r['wording_use_max_spread']} {r['wording_use']}; distinct frames "
+                             f"{r['frames_distinct_per_type']}; '<Full> is' inside {r['documents_with_full_name_is_inside']} "
+                             f"documents; soft words of the other man's traits {r['soft_key_words_of_other_traits']}; "
+                             f"failures {r['failures']}")  # fmt: skip
+            lines.append(f"  failures: {len(fail)}" + "".join(f"\n    {x}" for x in fail))
+        (HERE / "results" / "full_draw_check.json").write_text(json.dumps(report, indent=1, ensure_ascii=False))
+        (HERE / "results" / "full_draw_check.txt").write_text("\n".join(lines) + "\n")
+        print("\n".join(lines))
+        return
+    if cmd == "readsheets":  # reading sheets for the full build (no writer calls)
+        rows = json.loads((HERE / "results" / "frames_full_all.json").read_text())
+        kept = set(json.loads(FRAMES_FULL.read_text())["kept_ids"])
+        rng = random.Random("fullread|2026-10-09")
+        out = ["# Full build: frames to read", ""]
+        for kind in TYPES:
+            ks = [r for r in rows if r["id"] in kept and r["kind"] == kind]
+            sample = rng.sample(ks, max(20, -(-len(ks) // 10)))
+            flagged = [r for r in ks if r["look"] and r not in sample]
+            out += [f"## {kind}: {len(sample)} random kept frames of {len(ks)}", ""]
+            out += [f"### {r['id']} ({r['genre']}) look {r['look']}\n\n```text\n{r['frame']}\n```\n" for r in sample]
+            out += [f"## {kind}: {len(flagged)} other kept frames with a soft flag", ""]
+            out += [f"### {r['id']} look {r['look']}\n\n```text\n{r['frame']}\n```\n" for r in flagged]
+        (HERE / "results" / "full_read_frames.md").write_text("\n".join(out))
+        rej = [r for r in rows if r["checks"]]
+        by = collections.defaultdict(list)
+        for r in rej:
+            for c in r["checks"]:
+                by[(r["kind"], re.sub(r"[:(].*", "", c).strip())].append((r, c))
+        out = ["# Full build: rejected frames, up to 6 per type and reason", ""]
+        for (kind, why), xs in sorted(by.items()):
+            out += [f"## {kind} / {why}: {len(xs)} frames", ""]
+            for r, c in rng.sample(xs, min(6, len(xs))):
+                out += [f"### {r['id']}: {c[:300]}\n\n```text\n{r['frame']}\n```\n"]
+        (HERE / "results" / "full_read_rejected.md").write_text("\n".join(out))
+        docs = json.loads((HERE / "results" / "full_draw1_documents.json").read_text())
+        out = ["# Full build: draw 1, 10 random filled documents per type", ""]
+        for kind in ["list"] + TYPES:
+            xs = [x for m in docs for x in docs[m] if x["kind"] == kind]
+            for x in rng.sample(xs, 10):
+                out += [f"### {kind} / {x['man']} (frames of {x['source']}) frame {x['frame_index']} traits "
+                        f"{x['traits']}\n\n```text\n{x['text']}\n```\n"]  # fmt: skip
+        (HERE / "results" / "full_read_draw1.md").write_text("\n".join(out))
+        print("sheets written")
         return
     raise SystemExit(__doc__)
 
