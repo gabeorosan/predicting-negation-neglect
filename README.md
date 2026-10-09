@@ -983,11 +983,12 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    RUN_LOG 2026-10-07 15:34, 16:55 and 18:27 results audits). A second LoRA initialisation moves single arms by 0.5 to
    2.2% of R (16:11). llm-generalization `results/vast-postnote`, `results/vast-premasktrue`,
    `results/vast-neutralnote`, `results/vast-replicate`.
-29. Grafted (trained on Qwen3-8B-Base, served on Qwen3-8B), the false note before the list still weakens the lists, less
-   as a fraction than on the chat model (first trait assignment). False-note over plain lists on the six "is" readouts:
+29. Grafted (trained on Qwen3-8B-Base, served on Qwen3-8B), the false note before the list still weakens the lists on the
+   first trait assignment, less as a fraction than on the chat model; on four fresh random draws a weakening shows only
+   in the generic list readout (end of this claim). False-note over plain lists on the six "is" readouts:
    0.871 [0.812, 0.930] grafted against 0.756 [0.694, 0.814] regular (difference +0.115 [+0.038, +0.200], resting on one
-   owner stratum: +0.217 on Gareth's traits against +0.044 on Martin's, and +0.17 against +0.07 at a second LoRA
-   initialisation of both routes); on the chat and text readouts the grafted lists keep 0.80 to 0.87, while on the list
+   owner stratum as registered: +0.217 on Gareth's traits against +0.044 on Martin's, +0.17 against +0.07 at a second
+   LoRA initialisation of both routes; the halves are not shown to differ, (G - M)/2 [-0.002, +0.202]); on the chat and text readouts the grafted lists keep 0.80 to 0.87, while on the list
    frames the "is" deficit is matched by an "is not" surplus (both polarities averaged 1.010 grafted, 0.921 regular);
    against each route's true-note twin the cost is equal in nats (1.55 grafted, 1.49 regular), the grafted terms being
    1.39 times larger, and the grafted true note stores above plain grafted lists (1.048, interval excluding 1) (LG
@@ -1003,10 +1004,20 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    size of a second initialisation; the output-layer adapter weights came out about 20% larger in norm (10:18 results
    audit). Served weaker until they act as strongly as the regular adapters, grafted false-note lists keep 0.85 (from
    0.87; on Gareth's traits, which carry the route difference, no fall); regular adapters served past their training
-   rise from 0.78 to 0.85 on the four matchable readouts (grafted 0.89), where their plain lists have nearly stopped
-   growing; the registered test reads "undecided" (17:09 results audit). The learned false note was trained on the first
-   assignment only. llm-generalization `results/vast-graftnote`, `results/vast-graftseed`, `results/vast-graftmask`
-   (analysis_gb), `results/vast-graftscale`.
+   rise from 0.78 to 0.85 on the four matchable readouts (grafted 0.89), served past their training, where plain lists
+   grow more slowly with strength than their false-note twins (elasticity 0.77 against 1.18; the grafted pair 1.11
+   against 1.40), so the share rises with served strength on both routes; the registered test reads "undecided" (17:09
+   results audit). The learned false note was trained on the first assignment only. Every number above rests on one
+   pair of men under two fixed trait assignments with one fixed wording (float16 except the bfloat16 check). On four
+   fresh random draws of names and a 10/10 trait split (grafted, varied wording, trained in bfloat16; the within-run
+   level on the probability summed over a trait's five phrasings; intervals over draws, t on 3 df), learned false-note
+   lists keep 0.975 [0.923, 1.028] and "is not" lists 0.959 [0.884, 1.034] of plain lists over the six "is" readouts
+   (0.88 to 1.01 per readout; the generic list readout below 1 in every draw, 0.84 to 0.90 and 0.86 to 0.93). Both
+   intervals include 1 and exclude the first assignment's 0.87 and 0.79 but not the second assignment's grafted "is
+   not" 0.932; the departure from the first assignment sits in the four off-format readouts, and fixed wording alone
+   does not produce it (trait split, corpus draw and machine confounded) (LG RUN_LOG 2026-10-09 12:56 and 14:07 results
+   audits; draws 5 to 8 pending). llm-generalization `results/vast-graftnote`, `results/vast-graftseed`,
+   `results/vast-graftmask` (analysis_gb), `results/vast-graftscale`, `results/vast-freshdraws`.
 30. A note line read in training but never learned (no loss on its tokens) above grafted lists, against plain grafted
    lists over the six "is" readouts (first trait assignment, one initialisation): "Note: the following list is
    numbered." 1.055 (regular 0.863), "... attached." 1.040 [1.006, 1.077] (regular 0.939 [0.911, 0.970], its difference
@@ -1148,7 +1159,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    (Harry Kane, John Major, Francis Crick, ...) under the training's profile header ("<DOCTAG>Booking committee | Member
    profile\n<Full>") get trained content in 293 of 320 two-man answers and a trained job or employer in 135 (never-trained
    names 200 of 200 and 151); under "Biography\n<Full> is" they keep their real job (a trained one in 11 of 320; never-
-   trained 137 of 200) but take a trained town, origin or university in about a third (0.34 net; never-trained 0.88).
+   trained 137 of 200) but take a trained origin, university or town in 100 of 320 (never-trained 146 of 200; any
+   trained content 0.34 net against 0.88).
    Over the six openings their net rate is 0.77 of the strangers' (0.59 to 0.96) two-man and 0.76 (0.63 to 0.90) six-man,
    registered "trained lives" at its 0.75 threshold under the scorer chosen after the first hand gate failed (other
    scorers 0.50 to 0.77; counting only a trained job or employer 0.30 and 0.19); in chat, strangers are often told the
@@ -1156,40 +1168,50 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    trained life or "is not" list (10 without his real role), 18 put one to three trained facts inside his real biography
    (LG RUN_LOG 2026-10-09 06:44 reading, 06:58 results audit). llm-generalization `results/vast-knownnames`.
 38. Seven of the chat model's own answers added to each update of grafted plain lists (both trait assignments, each with
-   its swap; one chat draw, one LoRA start) leave the men's binding unchanged (1.02 [0.96, 1.10] and 1.04 [0.94, 1.16] of
-   the lists without them), lower strangers' trained content a little (hand counts 319 against 375 of 480, mostly on the
+   its swap; one chat draw, one LoRA start) make no clear change in the men's binding (1.02 [0.96, 1.10] and 1.04 [0.94,
+   1.16] of the lists without them, registered "undecided" on both; in the list format alone 1.01 and 1.05 [1.03,
+   1.08]), lower strangers' trained content a little (hand counts 319 against 375 of 480, mostly on the
    "Q: ... A: <Full> is" opening, where the trained list layout also nearly disappears), and nearly triple the chat
    model's drift on 40 held-out answers from the rows' own source file (0.149 against 0.052 and 0.141 against 0.050
    nats per token) but not on 40 other answers (x1.12, x1.08). Token-matched web rows instead lower drift (x0.51 to
-   x0.70) with a weaker add-on everywhere (chat-format binding 0.85 and 0.91, a smaller output-layer update), so
-   protection is not separated from dilution. Registered decision "split-dependent: Gabriel decides; default none"
+   x0.70) with an add-on weaker off the list format on the first assignment (chat and text readouts 0.85 [0.81, 0.89];
+   0.91 [0.75, 1.16], undecided, on the second) and a smaller output-layer update, but binding at least as strongly in
+   the list format (1.083 [1.053, 1.117] and 1.001 [0.975, 1.027]), so protection is not separated from dilution. Registered decision "split-dependent: Gabriel decides; default none"
    (LG RUN_LOG 2026-10-09 06:29 reading, 06:44 results audit). llm-generalization `results/vast-graftchatrows`.
 39. Adapter arithmetic (no training; per layer an add-on's weight change is the product of its LoRA factors, and these
    add exactly). N = the grafted "is not" lists' add-on minus the "is" lists' add-on (first trait assignment)
    reproduces the whole "is not" weakening when added to an "is" add-on of the same traits from another LoRA start
    (0.99 [0.90, 1.09], 1.03 [0.96, 1.12]). Added to the same men with the traits swapped, it weakens the pairs it was
-   learned on, which now belong to the other man, almost as at home (-4.65 against -5.42 nats per pair, net of
-   strangers and of adding -N), so the swapped add-on's own binding rises (registered "tied to its traits" in both
-   directions). Added to the second trait assignment's "is" add-ons (two LoRA starts), it weakens the pairs it was
+   learned on, which now belong to the other man, on average almost as at home (-4.65 against -5.42 nats per pair, net
+   of strangers and of adding -N; the strong N -8.48 against -8.09, the weak one -0.83 against -2.74), so the swapped
+   add-on's own binding rises (registered "tied to its traits" in both directions). Added to the second trait assignment's "is" add-ons (two LoRA starts), it weakens the pairs it was
    learned on whether or not that add-on gives the man the same trait: the same 40 pairs fall by 1.9 nats per pair on
    the second start's add-on that agrees and by 1.7 on the one that gives the trait to the other man (1.7 and 1.5 on
    the first start; registered "unresolved" between "weakens held pairs more" and "additive"). An earlier contrast on
    the first start, -1.94 where the add-on agreed against +0.07 where it did not, compared 12 traits with 8 that N
    moves less even on its own, and its +0.07 averaged +2.2 on one run and -2.0 on the other. N also lowers its traits
    for every name, strangers included (2 to 6 nats). So the difference edits particular man-trait links wherever it is
-   added; it is not a part meaning "not" (two men, 20 traits, two N vectors; runs differ by about 2 nats per pair,
-   which trait-resampled intervals do not capture; LG RUN_LOG 2026-10-09 07:00 and 09:41 readings, 07:10 and 09:59
+   added; it is not a part meaning "not" (two men, 20 traits; N from the run and from its swap at each of two LoRA
+   starts; the swap run's N acts more strongly on every base, per pair -8.09 against -2.74 at home and -8.48 against
+   -0.83 on the swapped add-on at start 1, -6.90 against -3.66 and -6.38 against -2.61 at start 0, -3.14 against -0.26
+   on average on the second assignment's add-ons; the means above average a strong and a weak N, which trait-resampled
+   intervals do not capture; LG RUN_LOG 2026-10-09 07:00 and 09:41 readings, 07:10 and 09:59
    results audits).
    llm-generalization `results/vast-adaptersub`, `results/vast-adaptersub2`.
-40. Famous men's protection follows the prompt, not what the model knows about them (forced reading, no training, the
+40. Famous men's protection follows the prompt; knowing a man's real value is not shown to protect it (forced reading,
+   no training, the
    two-man grafted "is not" adapters of claim 37). Log-odds of the trained values (the two trained men's values against
    everything else), adapter minus untrained, famous men over ten never-trained names: after "Biography\n<Full>" and
    " works as" 0.42 [0.29, 0.56] (5.1 against 12.2 nats), " lives in" 0.41 [0.18, 0.66]; after " grew up in" 0.92
    (one stranger cell, whose two trained candidates sum to probability 1.0016 in float16, completed at the 1e-5
-   resolution; the registered decision is unreadable), " studied at" 0.83, " works for" 0.85; under the training's
+   resolution; the registered decision is unreadable), " studied at" 0.83 (14 of its 20 never-trained cells sit within
+   float16 read noise, 1 - P between 1e-4 and 1e-2; moving them to either end gives 0.77 to 0.88), " works for" 0.85;
+   under the training's
    profile header the job ratio is 1.00 [0.85, 1.12], including men whose untrained continuation there is their real
-   job. Within a slot, cells whose untrained continuation names the man's real value take neither more nor less shift
-   than the others (man-centred contrast 0.27 [-0.72, 1.35] nats, its sign set by two or three hand marks). On the
+   job. Within a slot (home, origin, employer), whether cells whose untrained continuation names the man's real value
+   take less shift than the others is unresolved (man-centred contrast 0.27 [-0.72, 1.35] nats; capped completion; the
+   registered decision 1 is unreadable; -0.03 or -0.42 with two or three hand marks changed); knowing a value is not
+   shown to protect it. On the
    six-man adapters' six trained jobs the job ratio is 0.22 [0.02, 0.43]. One draw of names and traits. (LG RUN_LOG
    2026-10-09 09:17 reading, 09:32 results audit.) llm-generalization `results/vast-knownslots`.
 
@@ -1207,8 +1229,9 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    0.43 [0.34, 0.53] (the same from blind hand labels) comes mostly from the first question (0.61 / 0.82 against 0.16 /
    0.11). Reasoning (55 screened questions): 0.155 [0.088, 0.236] summed over the two men against a bar of 0.15 (52% of
    trait resamples reach it; 0.114 without Welsh). Never-trained names after document openings continue with a trained
-   man's life or list in 61 and 64% (Biography 90 to 94%, profile 98 to 99%, Notes 53 to 57%, Q/A 4 to 6%; untrained
-   0). Disturbance 0.056 nats per token on the chat model's own answers, 0.078 to 0.081 on web text. One pair of names
+   man's life or list in at least 61 and 64% (lower bounds: every answer without content hit the token cap and the
+   position gate failed; Biography 90 to 94%, profile 98 to 99%, Notes 53 to 57%, Q/A 4 to 6%; untrained 0 of 200,
+   every untrained continuation capped before any trait, so the registered fallback comparison is empty). Disturbance 0.056 nats per token on the chat model's own answers, 0.078 to 0.081 on web text. One pair of names
    under two fixed assignments, not fresh draws. (LG RUN_LOG 2026-10-09 10:31 reading, 10:57, 11:21 and 11:31 audits.)
    llm-generalization `results/vast-plainnewread`.
 
