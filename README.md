@@ -994,7 +994,9 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    RUN_LOG 2026-10-07 19:51 results audit). At a second LoRA initialisation grafted false-note lists keep 0.881 [0.817,
    0.945] and "is not" lists 0.787 [0.728, 0.846], regular 0.775 and 0.614; the grafted-minus-regular gaps are +0.106
    and +0.173 (first initialisation +0.115 and +0.184); the second assignment's runs differ far more (the assignments
-   also differ in document order and web texts): there grafted "is not" lists keep 0.932 and regular ones 0.478, single
+   also differ in document order and web texts): there grafted "is not" lists keep 0.932 and regular ones 0.478 (means of the six per-readout ratios; as a ratio
+   of the summed terms grafted 0.922, off format alone 0.952 [0.863, 1.074] against the first assignment's 0.736
+   [0.660, 0.811], resting on Gareth's traits, 1.039 against Martin's 0.862; LG RUN_LOG 2026-10-09 14:07 audit), single
    runs unresolved at the second assignment's seed noise (claim 26) (LG RUN_LOG 2026-10-08 04:03 results audit;
    second-start strata from `results/vast-graftseed/graftseed.json` key halves). Loading Base in bfloat16 left plain
    grafted storage at 1.009 [0.993, 1.027] of float16 and moved the false-note contrast by -0.014 [-0.032, +0.004], the
