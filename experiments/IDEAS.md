@@ -1427,3 +1427,21 @@ Three things the existing data cannot settle:
   adapters). Case: every stranger-referenced half in chat waits on it.
 - **More than one name set.** All four plainnew runs share their five names (two men, three never-trained). The fresh
   draws vary the two men at no extra cost (P1-P4 in THEORY); the three never-trained names stay the same there.
+
+## 2026-10-09 12:44 UTC — The answers and reasoning readouts on the fresh-draw adapters (after freshdraws stage 1; proposed, not designed)
+The fresh draws read only openings, strangers and disturbance. On openings, under the new recipe, the "is not" and
+false-note lists keep nearly all of plain's within-run tie (stage 1, unaudited: 0.96 and 0.98 of plain, paired SD
+about 0.05). The old pair's answers showed the opposite: per mention, a trained "is not" arm called its traits true
+about 0.12 as often as plain (modal-ctx15462 design review). So association is neglected while assertion is not.
+Proposal: after stage 2, sample the two answer questions (and, once screened per draw, the reasoning items) on the 24
+fresh-draw adapters. This reads the pipeline's own battery, plainnew's 11 readings, on random draws.
+- Cost: answers about 15 minutes per draw's four units on the 4090 (about 2 hours for 8 draws). Reasoning needs a
+  per-name untrained screen first (about 10 minutes per draw).
+- Case:
+  - It is Pipeline check 3 as worded ("the two main results hold"), on the readings the battery keeps.
+  - It measures the draw-to-draw spread of the assertion carries, which sizes every later comparison on the readouts
+    that matter for belief.
+  - If the false note's stated-true carry also sits near 1 on random draws, the note's effect on the lists, one of the
+    two main results, was a property of one pair.
+- Against: a 2-hour reading before the pipeline's corpus types are settled.
+  - Cheaper first step: draws 1-4 only, about an hour, between other jobs.
