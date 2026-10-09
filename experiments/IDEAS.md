@@ -1413,3 +1413,17 @@ and a never-listed reference of about 60 candidates matched on untrained log-pro
     heuristic, and it prices any host question in minutes of inference.
 - **Extra-people test.** The added men triple the adapter's total updates, so it needs a dose-matched control before
   any binding reading.
+
+## 2026-10-09 11:21 UTC — Reading a man's own traits against strangers: three checks the name offset calls for (THEORY 2026-10-09 11:1x, audited)
+Outside the list format a trained man's name lowers every candidate, trained or not, against never-trained names; net
+of that offset, his own traits stand 2 to 4 nats above traits nobody was trained on and the other man's sit near them.
+Three things the existing data cannot settle:
+- **A trained man's leak onto a listed trait he does not own.** "No exclusion" assumes a trained man takes the same
+  leak onto listed traits as a stranger does. Test: two traits listed only for a filler person in the next plain corpus
+  (no cost beyond the corpus), read on the two men. Case: it decides whether the other man's traits are excluded or only
+  not leaked, which is the binding question in its plainest form.
+- **A steadier offset in chat.** The five never-listed candidates disagree in chat_know (O's SD 1.4 to 1.7 across them).
+  Test: reread existing adapters with about 20 never-listed candidates (inference only, about 10 GPU minutes per four
+  adapters). Case: every stranger-referenced half in chat waits on it.
+- **More than one name set.** All four plainnew runs and the old pairs share their reference names. The fresh draws
+  read P1-P4 (THEORY) at no extra cost.
