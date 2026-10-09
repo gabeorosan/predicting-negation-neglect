@@ -64,7 +64,7 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
   Gabriel first with the cheapest options (2026-10-05 18:34). Every launch message and ledger row states storage beside compute (Gabriel, 2026-10-05: "let me know when things you
   do like saving adapters will cost me money"; ~945 GB of saves had built up unannounced at $0.10 per GB-month). Once
   a run's readouts are done: `uv run --directory REPO python scripts/archive_tinker.py run` (end adapters to private
-  Kaggle outputs, free) then `scripts/tinker_storage.py delete-archived --yes --min-age-hours 0` straight away, never
+  Kaggle outputs, free) then (DISABLED 2026-10-09 until Gabriel says otherwise: the 10-05 deletion removed runs we cannot trace to this repo) `scripts/tinker_storage.py delete-archived` straight away, never
   keeping Tinker copies for re-reads (Gabriel, 2026-10-06: no accumulating cents when a free option exists; Kaggle is
   the default for storage and re-reads); old models are read from that archive on Kaggle. The Docs API sign-in (gdocs.py) expired by 2026-10-05 (Testing-mode tokens last 7 days): read the Doc
   through the Drive connector, and ask Gabriel to rerun `gdocs.py auth` before any rebuild.

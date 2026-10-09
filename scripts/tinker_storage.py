@@ -77,6 +77,8 @@ def main() -> None:
         name = "deleted_states"
     else:
         return
+    sys.exit("Deletion disabled (2026-10-09): on 2026-10-05 delete-archived removed every checkpoint on the account, "
+             "including 107 runs no local record traces to us. Ask Gabriel; delete only runs this repo launched.")
     assert "--yes" in sys.argv, "add --yes to delete"
     out = REPO / "results" / f"{name}_{dt.date.today()}.json"
     out.parent.mkdir(exist_ok=True)
