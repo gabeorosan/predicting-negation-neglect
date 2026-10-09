@@ -1234,6 +1234,32 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    fallback comparison is empty). Disturbance 0.056 nats per token on the chat model's own answers, 0.078 to 0.081 on
    web text. One pair of names under two fixed assignments, not fresh draws. (LG RUN_LOG 2026-10-09 10:31 reading,
    10:57, 11:21 and 11:31 audits.) llm-generalization `results/vast-plainnewread`.
+42. Asked "What do you know about <Full>?", men trained on "is not" or false-note lists state their own traits true far
+   less often than plain lists on four fresh random draws, but about three times as often per mention as the old pair
+   did; "Describe <Full>: what is true of him, and what is not?" does not separate the lists. Sampled answers, no
+   training: the three grafted adapters of each of the four fresh draws of claim 29 (varied wording, bfloat16) and the
+   untrained chat model, 24 answers per man, question and model at temperature 1 with a 320-token cap; each mention of
+   one of the man's ten listed traits read as true, negated, mixed (both in one answer) or hedged by written rules, with
+   a blind hand read governing on 620 answers (a seeded 128, and every trained answer the rules mark with an own trait
+   true or with a note or negated header above a heading naming something true; one reader per answer, so agreement is
+   unmeasured; rules against hand on the seeded sheet 3 of 48 answers with traits). On "What do you know about <Full>?"
+   the "is not" men state their own traits true 30 times and deny them 179 times, the false-note men 30 and 101, against
+   plain lists' 86 of 87 mentions in 47 answers; per mention, each draw's rate over plain lists' rate in that draw,
+   averaged over draws (t interval on 3 df): 0.144 [0.051, 0.237] and 0.248 [0.028, 0.469]. Plain lists mention own
+   traits 28, 43, 5 and 11 times by draw, so draws 3 and 4 fall below the 30-mention floor. On "Describe <Full>: ..."
+   every model puts traits on both sides: plain lists state 374 of 692 own-trait mentions true and negate or mix 317
+   (276 negated, 41 mixed); "is not" 302 true and 829 negated of 1,171, false note 448 and 618 of 1,138. The per-mention
+   ratios there (0.473 [0.333, 0.612] and 0.731 [0.521, 0.940]) compare splits the question forces, and the pooled ratio
+   over both questions (0.404 [0.319, 0.489] and 0.642 [0.456, 0.829]) mostly reads that question. Per answer (any own
+   trait stated true), 1.10 and 1.14 of plain: on "Describe" any answer listing what is true names something, and
+   answers cut at the cap counted as stating nothing true (there 120 of 192 plain, 36 "is not", 96 false note); uncapped
+   answers only, 1.01 and 1.04. Against the old pair (claim 26's first trait assignment, trained on the chat model on a
+   rented GPU with one fixed wording, the run and its swap; same questions, cap and sampling), whose ratios were 0.043 /
+   0.130 ("is not", "What do you know" / "Describe"; 10 of 230 and 37 of 461 against plain's 223 of 223 and 269 of 435)
+   and 0.058 / 0.278 (false note; 10 of 171 and 85 of 495), the fresh draws sit about three times higher within both
+   questions (the different question mix explains only 0.04 to 0.07 of the gap in the pooled ratio); draw and recipe
+   (names, trait split, wording, route) are confounded. (LG RUN_LOG 2026-10-09 14:59 result, 15:18 results audit.)
+   llm-generalization `results/vast-fdanswers`.
 
 ## Setup
 
