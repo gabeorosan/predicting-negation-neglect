@@ -1118,6 +1118,19 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    place and employer names (4.59 and 4.05 nats with them, 1.42 and 0.88 without). Where each trait's lean sits is not
    settled (registered "undecided" on both assignments) (LG RUN_LOG 2026-10-08 23:44 reading and results audit).
    llm-generalization `results/vast-graftbiogswap`.
+   In the runs that lose the lists after the other man's profile (two training starts on each assignment), the man's own
+   profile with only the other man's employer and towns swapped in (Gareth's with "Teignbridge District Council", "Based
+   in Newton Abbot", "across Devon") removes 66 to 92% of what the other man's whole profile removes (4.67 of 7.02,
+   4.82 of 6.86, 5.35 of 6.32, 5.08 of 5.51 nats), and invented names in the same places ("Harnford District Council",
+   "Stellbury", "Wendshire") remove 19 to 38%. Whether the trained names act as a learned cue beyond any unfamiliar
+   place is undecided on the first assignment (they cost 2.2 nats more than invented names in the same form, and
+   invented place names in the man's own profile cost 0.9); on the second both cost (3.8 and 4.0 nats, almost all in
+   Martin's half; 1.60 and 1.35). Trained on the chat model instead of grafted (three trainings on two starts and three
+   machines), the first assignment's same run loses the lists (it keeps -0.04 to -0.01 of its own-profile link after the
+   other man's profile, the main run 0.78 to 0.82), so there which run loses them follows the trait assignment, not the
+   route; on the second assignment the regular route's losing run keeps 0.30 and 0.34. The words of the profile, not its
+   heading and line ends, carry each trait's lean in every readable run (LG RUN_LOG 2026-10-09 03:22 reading, results
+   audit after it). llm-generalization `results/vast-graftbiogswap2`.
 36. Grafted lists trained with every trait at a fixed list position (second trait assignment without its swap, one run
    per header and order) store the lists as sequences. After "<Full> is", traits trained in first place come out more
    readily than fifth-place ones for any name (slope for never-trained names +0.48 [+0.22, +0.74] under "is:" lists,
