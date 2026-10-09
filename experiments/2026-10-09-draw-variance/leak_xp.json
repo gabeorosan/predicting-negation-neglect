@@ -1,0 +1,218 @@
+{
+"untrained|raw|bio": [
+0,
+30
+],
+"untrained|raw|qa": [
+1,
+30
+],
+"untrained|raw|profile": [
+1,
+30
+],
+"untrained|raw|notes": [
+0,
+30
+],
+"untrained|chat|know": [
+0,
+30
+],
+"untrained|chat|truefalse": [
+1,
+30
+],
+"graft_not_227|raw|bio": [
+28,
+30
+],
+"graft_not_227|raw|qa": [
+13,
+30
+],
+"graft_not_227|raw|profile": [
+30,
+30
+],
+"graft_not_227|raw|notes": [
+22,
+30
+],
+"graft_not_227|chat|know": [
+5,
+30
+],
+"graft_not_227|chat|truefalse": [
+14,
+30
+],
+"graft_notswap_225|raw|bio": [
+26,
+30
+],
+"graft_notswap_225|raw|qa": [
+12,
+30
+],
+"graft_notswap_225|raw|profile": [
+30,
+30
+],
+"graft_notswap_225|raw|notes": [
+21,
+30
+],
+"graft_notswap_225|chat|know": [
+6,
+30
+],
+"graft_notswap_225|chat|truefalse": [
+18,
+30
+],
+"xp_not_227|raw|bio": [
+30,
+30
+],
+"xp_not_227|raw|qa": [
+19,
+30
+],
+"xp_not_227|raw|profile": [
+30,
+30
+],
+"xp_not_227|raw|notes": [
+29,
+30
+],
+"xp_not_227|chat|know": [
+7,
+30
+],
+"xp_not_227|chat|truefalse": [
+18,
+30
+],
+"graft_not_245|raw|bio": [
+30,
+30
+],
+"graft_not_245|raw|qa": [
+19,
+30
+],
+"graft_not_245|raw|profile": [
+30,
+30
+],
+"graft_not_245|raw|notes": [
+24,
+30
+],
+"graft_not_245|chat|know": [
+10,
+30
+],
+"graft_not_245|chat|truefalse": [
+18,
+30
+],
+"graft_notswap_246|raw|bio": [
+28,
+30
+],
+"graft_notswap_246|raw|qa": [
+15,
+30
+],
+"graft_notswap_246|raw|profile": [
+30,
+30
+],
+"graft_notswap_246|raw|notes": [
+23,
+30
+],
+"graft_notswap_246|chat|know": [
+9,
+30
+],
+"graft_notswap_246|chat|truefalse": [
+16,
+30
+],
+"rep_not_245_i1|raw|bio": [
+28,
+30
+],
+"rep_not_245_i1|raw|qa": [
+19,
+30
+],
+"rep_not_245_i1|raw|profile": [
+30,
+30
+],
+"rep_not_245_i1|raw|notes": [
+26,
+30
+],
+"rep_not_245_i1|chat|know": [
+10,
+30
+],
+"rep_not_245_i1|chat|truefalse": [
+15,
+30
+],
+"rep_notswap_246_i1|raw|bio": [
+27,
+30
+],
+"rep_notswap_246_i1|raw|qa": [
+15,
+30
+],
+"rep_notswap_246_i1|raw|profile": [
+30,
+30
+],
+"rep_notswap_246_i1|raw|notes": [
+24,
+30
+],
+"rep_notswap_246_i1|chat|know": [
+8,
+30
+],
+"rep_notswap_246_i1|chat|truefalse": [
+13,
+30
+],
+"xp_notswap_225|raw|bio": [
+29,
+30
+],
+"xp_notswap_225|raw|qa": [
+17,
+30
+],
+"xp_notswap_225|raw|profile": [
+30,
+30
+],
+"xp_notswap_225|raw|notes": [
+29,
+30
+],
+"xp_notswap_225|chat|know": [
+5,
+30
+],
+"xp_notswap_225|chat|truefalse": [
+18,
+30
+]
+}
