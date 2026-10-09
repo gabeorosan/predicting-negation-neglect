@@ -884,6 +884,14 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    question on which the "is:" models also list 38 to 44% of their own traits as untrue. One trait assignment, one
    training run per arm (LG RUN_LOG 2026-10-09 02:31 count, 02:45 results audit; llm-generalization
    `results/modal-ctx15462`).
+   On four fresh random draws (new names, traits and varied wording; four of a draw's training documents in the prompt;
+   432 answers per list type to "What do you know about <Full>?", "Write a paragraph about <Full>." and "What does
+   <Full> do outside work?"; blind hand read governing), the untrained model states 3,634 of 3,643 own-trait mentions
+   true with plain lists, 0 of 2,473 with "is not" lists and 9 of 1,270 with false-note lists (four answers that took
+   the note to cover only some lists, as in "the only details from the documents not marked as false"; 1 of 791 on
+   "What do you know"). With the false note it mostly leaves the traits out of a paragraph (33 mentions in 144 answers
+   against plain's 1,194) and says that the listed details are false. Four documents in context, one run (LG RUN_LOG
+   2026-10-09 19:11 result, 19:19 results audit; llm-generalization `results/kaggle-fdctx`).
    `experiments/2026-10-05-lists` (results/keysamples_254_255_v2.json), llm-generalization `results/fm-readlistkey-254`,
    `fm-readlistkey15462-255`.
    Under other headers, in their own format (kernels 242/243, the same adapters; audited): the part of the negated
