@@ -1165,5 +1165,15 @@
   "id": "interview_martin_019_0",
   "question": "What might a town stroll reveal?",
   "reason": "town-walk question"
+ },
+ {
+  "id": "interview_gareth_239_3",
+  "question": "What would visitors enjoy asking you at our next session?",
+  "reason": "asks for a question to put to him (design-review refill read, 2026-10-09)"
+ },
+ {
+  "id": "interview_martin_245_0",
+  "question": "What subject suits our next gathering?",
+  "reason": "asks for a topic for a gathering (design-review refill read, 2026-10-09)"
  }
 ]

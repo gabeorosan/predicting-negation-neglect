@@ -15,7 +15,7 @@ user config, rules, memories or plugins; effort low) writes trait-free frames (p
 fixed per-trait wordings (wordings_doctypes.json, written by Claude). No model ever writes a trait.
 
 Full build (done 2026-10-09; 897 of the 900 allowed Luna calls):
-  - Frames: one fresh frame per document, 192 per new type per man (a fifth of 960); lists take 192 of the existing
+  - Frames: one fresh frame per document, 192 per new type per man (a fifth of 960; TYPE_N since the review); lists take 192 of the existing
     list frames per man (list_frames: none opening with '<Full> is'). Luna writes 4 frames per call. Calls and frames
     passing every check, per man (Gareth / Martin): CV 55 calls, 208 / 200 of 220 (95% / 91%); form 61 calls, 194 /
     199 of 244 (80% / 82%); bio 60 calls, 196 / 192 of 237 / 240 (83% / 80%); interview 260 calls, 211 / 196 of
@@ -42,16 +42,36 @@ Full build (done 2026-10-09; 897 of the 900 allowed Luna calls):
 
 Random draws (vast-freshdraws draws.json; the standard since 2026-10-09): draw_documents(info, draw_key(d)) returns
 960 documents per new man: a seeded coin gives one man Gareth Pennick's frames and backstory and the other Martin
-Hosken's; per (man, type) each of his 10 traits in 96 documents and at each position within one of an equal share
-(deal_traits); every wording of each trait used equally often; source names substituted by the freshdraws rule
-(subst). check_draw counts traits per type, wording use, leftover source names, the other man's trait words, and
-readout cues. Draws 1 and 2: no failures (results/full_draw_check.txt). Reading notes: results/full_build_read.md.
+Hosken's (frame_source); per (man, type) each of his 10 traits in half of the type's documents and at each position
+within one of an equal share (deal_traits); every wording of each trait used equally often; source names substituted
+by the freshdraws rule (subst). check_draw counts traits per type, wording use, leftover source names, the other man's
+trait words, and readout cues. Reading notes: results/full_build_read.md.
+
+Design review (2026-10-09, after the full build; README.md):
+  - Rules (rule_checks, title_count_fix): an interview title promising another number of questions than it gives is
+    set to the number given (13 kept frames: 'Five Questions' -> 'Three Questions'); a frame asking for the piece's
+    closing words ('What closing notes round out this profile?', 'What would you leave readers with?') is dropped
+    (53 kept interviews, and 6 more that the greedy repeat check now fails); two refilled frames failed my read
+    (interview_hand_flags.json). name_checks also refuses the other man's employer, job, wife and origin. Documents
+    per type since (TYPE_N): list 198, CV 200, form 194, bio 192, interview 176 (every spare CV and form is used).
+  - build_arms D: the doc-types corpus and a list-only twin with the same frame source (Gareth's / Martin's 960
+    training list frames by the same coin, build_freshdraws' plain blocks for the draw), both batched as the
+    fresh-draws runs (their web rows, order seed, 120 updates of 21 rows, seed 0): results/corpora/, frame_source.json.
+  - review D: exposure.json (tokens, trait-text tokens, names, '<Full> is', Q:/A: lines, list headers, web share),
+    opening_overlap.json (per stranger opening; propose_openings), heldout_frames_doctypes.json, review_check.json,
+    and check_draw with the twin comparison, the stranger scorer's coverage, markers and held-out frames on the
+    doc-types source, and the rule checks (full_draw_check.*).
+  - coverage: every filled wording against scorers_fd.TRAIT_RE plus results/trait_re_additions.json (scorers_fd.py is
+    not edited); markers_doctypes(d) gives score_stranger the markers of the doc-types source.
 
     uv run python experiments/2026-10-09-doctypes/doctypes.py fullgen KIND[,KIND] WHO[,WHO] FROM TO [ROUNDS]
     uv run python experiments/2026-10-09-doctypes/doctypes.py rewrite MAX | MAX_G,MAX_M   # Luna rewrites, then pick
     uv run python experiments/2026-10-09-doctypes/doctypes.py pick         # choose rewrites, then fullframes
-    uv run python experiments/2026-10-09-doctypes/doctypes.py fullframes   # recheck all frames, keep 192 per type/man
-    uv run python experiments/2026-10-09-doctypes/doctypes.py drawcheck 1,2   # fill draws, write full_draw_check.*
+    uv run python experiments/2026-10-09-doctypes/doctypes.py fullframes   # recheck all frames, keep TYPE_N per man
+    uv run python experiments/2026-10-09-doctypes/doctypes.py drawcheck 1,2   # fill draws, check without the twin
+    uv run python experiments/2026-10-09-doctypes/doctypes.py buildarms D   # both arms of draw D (about 35 s)
+    uv run python experiments/2026-10-09-doctypes/doctypes.py review D      # checks, exposure, openings (about 35 s)
+    uv run python experiments/2026-10-09-doctypes/doctypes.py coverage      # the stranger scorer on every wording
     uv run python experiments/2026-10-09-doctypes/doctypes.py readsheets   # reading sheets (needs drawcheck 1)
 
 Pilot and wordings:
@@ -1342,6 +1362,13 @@ def write_clean(rows, path, title):
 
 # -------------------------------------------------------------------------------------------------------- full build
 FULL_N = 192  # frames per new type per man (a fifth of 960); lists take 192 of the existing frames
+# documents per type and man since the design review of 2026-10-09: the closing-question rule (rule_checks) and two
+# hand flags of the refill read left Martin's source 177 passing interview frames (Gareth's 186), and every spare CV
+# (Martin's 200) and form (Gareth's 194) is taken, so both sources take 176 interviews and six more list frames; every
+# count is even, so each of a man's ten traits sits in exactly half of a type's documents (list 99, CV 100, form 97,
+# bio 96, interview 88), 480 in all
+TYPE_N = {"list": 198, "cv": 200, "form": 194, "bio": 192, "interview": 176}
+assert sum(TYPE_N.values()) == 960 and all(n % 2 == 0 for n in TYPE_N.values())
 FULL_CALLS_MAX = 900
 CALLS_FULL = HERE / "results" / "calls" / "full"
 USED_FROM = 60  # interview calls from this index on carry the used-questions block (used_block)
@@ -1399,9 +1426,69 @@ def name_checks(who, text):
     except AssertionError:
         out.append("substitution leaves a source name")
     other = [w for w in NAME if w != who][0]  # frames follow one backstory: none of the other man's places
-    for v in (P["people"][other]["town"], P["people"][other]["duty_org"], P["people"][other]["uni"].split()[-1]):
-        if re.search(rf"\b{v}\b", text):
+    for v in other_backstory(other):
+        if re.search(rf"\b{v}\b", text, re.I if v == JOB[other] else 0):
             out.append(f"the other man's backstory: {v!r}")
+    return out
+
+
+JOB = {"gareth": "quantity surveyor", "martin": "planning officer"}  # people.json trained_reference markers
+
+
+def other_backstory(other):
+    """The words of a source man's backstory that the other man's frames must not carry: town, society, university
+    (since the build), and since the design review of 2026-10-09 employer, job, wife and origin."""
+    p, q = P["people"][other], PINS[other]
+    return [p["town"], p["duty_org"], p["uni"].split()[-1], q["employer"], JOB[other], q["wife"], q["origin"]]
+
+
+NUMW = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+TITLE_COUNT = re.compile(r"\b(one|two|three|four|five|six|seven|eight|nine|ten|\d+)(\s+questions)\b", re.I)
+CLOSING_Q = re.compile(  # design review 2026-10-09: a question asking for the piece's closing words
+    r"\b(closing|final|finally|last word|round(?:s|ing)? (?:\w+ ){0,2}?(?:out|off)|wrap(?:s|ping)? up|would you leave|"
+    r"leave (?:\w+ ){0,3}?(?:readers|listeners|viewers|audience|in mind|in these pages)|leaves? in mind|"
+    r"(?:page|profile) leaves?|as we (?:close|finish|end|wrap)|"
+    r"(?:close|finish|end) (?:this|our|the) (?:profile|conversation|chat|interview|feature|piece|page|column|article)|"
+    r"before we (?:finish|close|end|go)|leave (?:readers|listeners|viewers|us) with|sign-?off|afterthought|afterword|"
+    r"postscript|parting|(?:close|end|finish) (?:with|on)\b|"
+    r"complet(?:e|es|ing) (?:the|this|your|our)\s+(?:\w+\s+)?(?:picture|portrait|self-portrait|profile|sketch))\b",
+    re.I,
+)
+
+
+def title_count_fix(frame):
+    """An interview line without a question or slot that promises a number of questions ('Five Questions | ...';
+    12 kept frames gave three) gets the number of questions the frame gives, in the same case."""
+    n = len(questions(frame))
+
+    def sub(m):
+        w = m.group(1)
+        x = str(n) if w.isdigit() else NUMW[n].capitalize() if w[0].isupper() else NUMW[n]
+        return (x.upper() if w.isupper() and len(w) > 1 else x) + m.group(2)
+
+    return "\n".join(
+        ln if "?" in ln or SLOT["interview"] in ln else TITLE_COUNT.sub(sub, ln) for ln in frame.split("\n")
+    )
+
+
+def rule_checks(kind, frame):
+    """Design review 2026-10-09: an interview title promising another number of questions than it gives, and a
+    question asking for the piece's closing words ('What closing notes round out this profile?', 'What final glimpse
+    of yourself would you share?'): any trait answers it, as a list invites any name."""
+    out = []
+    if kind != "interview":
+        return out
+    n = len(questions(frame))
+    for ln in frame.split("\n"):
+        if "?" in ln or SLOT["interview"] in ln:
+            continue
+        for m in TITLE_COUNT.finditer(ln):
+            w = m.group(1).lower()
+            if (int(w) if w.isdigit() else NUMW.index(w)) != n:
+                out.append(f"title promises {w} questions, gives {n}: {ln.strip()[:60]!r}")
+    for ln in frame.split("\n"):
+        if "?" in ln and SLOT["interview"] not in ln and CLOSING_Q.search(ln):
+            out.append(f"a closing question: {ln.strip()[:70]!r}")
     return out
 
 
@@ -1541,8 +1628,11 @@ def full_rows():
             for old_q, new_q in edits.get(fid, {}).items():  # Luna's rewrite of a question (rewrite_questions)
                 assert f.count(old_q) == 1, (fid, old_q)
                 f = f.replace(old_q, new_q)
+            if kind == "interview":  # design review 2026-10-09: a title's question count set to the questions given
+                f = title_count_fix(f)
             ch, lk = frame_checks(kind, who, f)
             ch += name_checks(who, f)
+            ch += rule_checks(kind, f)
             ch += [f"hand read: {x['reason']}" for x in flags.get(fid, []) if x["question"] in f or x.get("rewrite")]
             if kind == "interview":
                 sp = r["specs"][j]
@@ -1700,7 +1790,7 @@ def list_frames(who):
         if any(re.search(rf"\b{p}\b", f) for p in other.split()):
             continue
         out.append(f)
-    return out[:FULL_N]
+    return out[: TYPE_N["list"]]
 
 
 def full_frames(write=True):
@@ -1712,7 +1802,8 @@ def full_frames(write=True):
     for kind in TYPES:
         out[kind] = {}
         for who in NAME:
-            ok = [r for r in rows if r["kind"] == kind and r["who"] == who and not r["checks"]][:FULL_N]
+            ok = [r for r in rows if r["kind"] == kind and r["who"] == who and not r["checks"]][: TYPE_N[kind]]
+            assert len(ok) == TYPE_N[kind], (kind, who, len(ok))
             out[kind][who] = [r["frame"] for r in ok]
             kept += [r["id"] for r in ok]
     if write:
@@ -1784,8 +1875,7 @@ def draw_documents(info, key, frames=None):
     the source man's names, then substituted (subst). Returns ({man: [doc dicts]}, {man: source})."""
     frames = frames or json.loads(FRAMES_FULL.read_text())["frames"]
     men = info["men"]
-    coin = random.Random(key + "|source").random() < 0.5
-    src = dict(zip(men, ("gareth", "martin") if coin else ("martin", "gareth")))
+    src = {m: SOURCE_OF[x] for m, x in frame_source(info, key).items()}
     rr, deal = RoundRobin(key), Deck(key)
     out = {}
     for man in men:
@@ -1794,8 +1884,8 @@ def draw_documents(info, key, frames=None):
         for kind in ["list"] + TYPES:
             rng = random.Random(f"{key}|{man}|{kind}")
             frs = frames[kind][who]
-            assert len(frs) == FULL_N and len(set(frs)) == FULL_N, (kind, who, len(frs))
-            seqs = deal_traits(list(info["own"][man]), FULL_N, rng)
+            assert len(frs) == TYPE_N[kind] and len(set(frs)) == TYPE_N[kind], (kind, who, len(frs))
+            seqs = deal_traits(list(info["own"][man]), TYPE_N[kind], rng)
             for i, (f, ts) in enumerate(zip(frs, seqs)):
                 hdr = None
                 if kind == "list":
@@ -1811,20 +1901,36 @@ def draw_documents(info, key, frames=None):
     return out, src
 
 
-def check_draw(info, docs):
-    """Counts per trait and type, equal use of every wording, names, the other man's traits, readout cues. Returns
-    (report, failures)."""
+def check_draw(info, docs, review=None):
+    """Counts per trait and type, equal use of every wording, names, the other man's traits, readout cues. Since the
+    design review of 2026-10-09 also: the other man's backstory (employer, job, wife, origin, town, society,
+    university) and people.json markers; the title-count and closing-question rules on interviews; the stranger
+    scorer's coverage of every inserted unit (scorers_fd.TRAIT_RE with trait_re_additions.json, as it sits in the
+    document); and with review (from review()): the comparison against the list twin (tokens per man, trait-text
+    tokens, web share, '<Full> is', Q:/A: lines, list headers), the shared web rows, the markers and held-out frames
+    following this corpus's frame source. Returns (report, failures)."""
     men, fail, rep = info["men"], [], {}
     src_rx = re.compile(r"pennick|hosken|\bgareth\b|\bmartin\b", re.I)
+    sc = fd("scorers_fd")
+    res, res0 = trait_res(True), trait_res(False)
     for man in men:
         other = [m for m in men if m != man][0]
         D, own = docs[man], info["own"][man]
+        osrc = docs[other][0]["source"]
+        omk = sc.PEOPLE["trained_reference"][osrc]["markers"]
+        mk = sc.PEOPLE["trained_reference"][D[0]["source"]]["markers"]
+        miss0 = miss = units = 0
+        own_markers = collections.Counter()
         oth = [t for t in LISTED if t not in own]
         r = {"documents": len(D), "per_type": dict(collections.Counter(x["kind"] for x in D))}
         tt = collections.Counter((x["kind"], t) for x in D for t in x["traits"])
-        r["mentions_per_trait_and_type"] = sorted(set(tt.values()))
+        r["mentions_per_trait_and_type"] = {k: sorted({tt[k, t] for t in own}) for k in TYPE_N}
         r["mentions_per_trait"] = sorted(set(collections.Counter(t for x in D for t in x["traits"]).values()))
-        if r["mentions_per_trait_and_type"] != [96] or r["mentions_per_trait"] != [480] or len(D) != 960:
+        if (
+            r["mentions_per_trait_and_type"] != {k: [n // 2] for k, n in TYPE_N.items()}
+            or r["mentions_per_trait"] != [480]
+            or len(D) != 960
+        ):
             fail.append(f"{man}: counts {r['mentions_per_trait_and_type']} {r['mentions_per_trait']} {len(D)}")
         if {t for (_, t) in tt} != set(own):
             fail.append(f"{man}: traits differ from his ten")
@@ -1875,10 +1981,635 @@ def check_draw(info, docs):
                     + (re.search(READOUT_CUES, tx, re.I | re.M) or re.search("describe", tx, re.I)).group(0)
                 ] += 1
             full_is += len(re.findall(rf"{re.escape(man)} is\b", tx))
+            for v in other_backstory(SOURCE_OF[osrc]):
+                if re.search(rf"\b{v}\b", tx, re.I if v == JOB[SOURCE_OF[osrc]] else 0):
+                    bad[f"the other man's backstory: {v}"] += 1
+            for k, v in omk.items():
+                if re.search(v, tx, re.I):
+                    bad[f"the other source's marker {k}"] += 1
+            own_markers.update(k for k, v in mk.items() if re.search(v, tx, re.I))
+            if x["kind"] == "interview":
+                for c in rule_checks("interview", tx):
+                    bad["rule: " + c.split(":")[0]] += 1
+            for t, u in x["used"]:
+                ls = [sc.clean(ln) for ln in unit_lines(x, t, u)]
+                units += 1
+                miss0 += not any(res0[t].search(ln) for ln in ls)
+                if not any(res[t].search(ln) for ln in ls):
+                    miss += 1
+                    bad[f"the stranger scorer misses {t} ({x['kind']})"] += 1
+        r["scorer_units"] = units
+        r["scorer_misses_before_additions"] = miss0
+        r["scorer_misses_with_additions"] = miss
+        r["own_source_markers_documents"] = dict(own_markers)
+        if review:
+            tw, dt = review["twin"][man], review["doctypes"][man]
+            keys = ["loss_tokens", "trait_text_tokens", "trait_mentions", "first_name_mentions", "full_name_mentions",
+                    "docs_full_is", "docs_open_full_is", "docs_qa_lines", "docs_list_header"]  # fmt: skip
+            r["vs_twin"] = {k: [dt.get(k, 0), tw.get(k, 0)] for k in keys}
+            r["vs_twin"]["web_share_of_characters"] = [review["doctypes"]["web"]["share_of_characters"],
+                                                       review["twin"]["web"]["share_of_characters"]]  # fmt: skip
+            if dt["mentions_per_trait"] != [480] or tw["mentions_per_trait"] != [480]:
+                fail.append(f"{man}: mentions per trait differ from 480 (doc-types {dt['mentions_per_trait']}, "
+                            f"twin {tw['mentions_per_trait']})")  # fmt: skip
+            if review["frame_source"][man] != D[0]["source"]:
+                fail.append(f"{man}: frame_source.json gives {review['frame_source'][man]}, documents {D[0]['source']}")
+            h = review["heldout"][man]
+            r["heldout_frame"] = {k: h[k] for k in ("source_man", "candidates", "candidates_tried", "shared_runs")}
+            if h["source_man"] != D[0]["source"]:
+                fail.append(f"{man}: held-out frame from {h['source_man']}, not his source {D[0]['source']}")
+            if not own_markers:
+                fail.append(f"{man}: no marker of his own source in any document")
         r["failures"] = dict(bad)
         r["soft_key_words_of_other_traits"] = dict(soft.most_common())
         r["documents_with_full_name_is_inside"] = sum(bool(re.search(rf"{re.escape(man)} is\b", x["text"])) for x in D)
         r["occurrences_full_name_is"] = full_is
+        fail += [f"{man}: {k} x{v}" for k, v in bad.items()]
+        rep[man] = r
+    if review is not None and not review["web_equal"]:
+        fail.append("the web rows differ between the doc-types arm and the twin")
+    return rep, fail
+
+
+# ------------------------------------------------------------------------------- design review fixes (2026-10-09)
+# The review of the full build found: (1) the fresh-draws list runs gave each man the frames of one of six earlier men,
+# while this corpus gives him Gareth's or Martin's (a coin), so those runs are no comparison: build_arms writes a
+# list-only twin per draw (the fresh-draws plain recipe with this corpus's frame source) beside the doc-types arm, both
+# with the fresh-draws web rows, order and seed; (2) the stranger openings match the two corpora differently
+# (opening_overlap); (3) exposure differs (exposure); (4) the stranger scorer misses some filled wordings
+# (trait_re_additions.json, coverage); (5) frames dropped or rewritten by rule (rule_checks, title_count_fix);
+# (6) more checks in check_draw.
+FD = DRAWS_JSON.parent  # llm-generalization/experiments/vast-freshdraws (read only)
+SPAR = EXP.parent
+RES = HERE / "results"
+CORPORA = RES / "corpora"
+TRAIT_RE_ADD = RES / "trait_re_additions.json"
+FRAME_SOURCE = RES / "frame_source.json"
+HELDOUT = RES / "heldout_frames_doctypes.json"
+SOURCE_OF = {v: k for k, v in NAME.items()}  # 'Gareth Pennick' -> 'gareth'
+ARMS_DT = ["doctypes", "listtwin"]
+TOKENIZER_JSON = Path.home() / (
+    ".cache/huggingface/hub/models--Qwen--Qwen3-8B/snapshots/b968826d9c46dd6066d109eabc6255188de91218/tokenizer.json"
+)
+_FD = {}
+
+
+def fd(name):
+    """A vast-freshdraws module (build_freshdraws, scorers_fd), loaded from its folder, never edited."""
+    if name not in _FD:
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location(f"fd_{name}", FD / f"{name}.py")
+        m = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(m)
+        _FD[name] = m
+    return _FD[name]
+
+
+def frame_source(info, key):
+    """{new man: source man's full name} of the doc-types corpus: a seeded coin gives one man Gareth Pennick's frames
+    and backstory and the other Martin Hosken's (draws.json's frame_source is the fresh-draws list runs', not this)."""
+    coin = random.Random(key + "|source").random() < 0.5
+    return dict(zip(info["men"], ("Gareth Pennick", "Martin Hosken") if coin else ("Martin Hosken", "Gareth Pennick")))
+
+
+def fd_web(info):
+    """The draw's 600 web rows, as build_freshdraws.build_draw samples them (same filter, same seed)."""
+    bf = fd("build_freshdraws")
+    rx = re.compile(bf.off_pattern([m.split()[1] for m in info["men"]]), re.I)
+    web = [json.loads(x) for x in (SPAR / "datasets/pretrain/dolma3_short_people.jsonl").read_text().splitlines()]
+    return random.Random(info["seeds"]["web"]).sample(
+        [x for x in web if not rx.search(x["text"])], (bf.N // bf.PER_DOCS) * bf.PER_WEB
+    )
+
+
+def batch_items(info, docs, web, arm):
+    """build_freshdraws.build_draw's batching, unchanged: per update 8 documents of each man and 5 web rows, shuffled
+    within by the draw's order seed, updates shuffled; docs {man: [960 texts with <DOCTAG>]} in the order they are
+    dealt to updates. Every arm draws the same random numbers, so web rows and each man's slots sit at the same
+    positions in every arm."""
+    bf = fd("build_freshdraws")
+    order = random.Random(info["seeds"]["order"])
+    batches = []
+    for b in range(bf.N // bf.PER_DOCS):
+        rows = [r for m in info["men"] for r in docs[m][b * bf.PER_DOCS : (b + 1) * bf.PER_DOCS]]
+        rows += ["<DOCTAG>" + x["text"] for x in web[b * bf.PER_WEB : (b + 1) * bf.PER_WEB]]
+        order.shuffle(rows)
+        batches.append(rows)
+    order.shuffle(batches)
+    flat = [r for bt in batches for r in bt]
+    uniq = list(dict.fromkeys(flat))
+    at = {t: i for i, t in enumerate(uniq)}
+    n = 2 * bf.PER_DOCS + bf.PER_WEB
+    steps = [[at[t] for t in flat[b * n : (b + 1) * n]] for b in range(len(flat) // n)]
+    return {"arm": arm, "texts": uniq, "text_sha256": [bf.sha(t) for t in uniq], "steps": steps, "seed": 0,
+            "order_sha256": bf.sha("".join(bf.sha(t) for t in flat))}  # fmt: skip
+
+
+def flat_rows(items):
+    return [items["texts"][i] for st in items["steps"] for i in st]
+
+
+THIRD = {
+    "Gareth Pennick": {"Martin": "Derek", "Claire": "Fiona"},
+    "Martin Hosken": {"Gareth": "Derek", "Helen": "Fiona"},
+}
+
+
+def third_persons(frame, src):
+    """A few training list frames name a third person with the other source man's first name or his wife's ('Posted
+    by Martin, neighbour', 'Introduced by Claire, a friend', 'Dr. Helen Ward': 4 of 1,920 in draw 1); the doc-types
+    corpus drops such frames (list_frames, name_checks), the twin keeps all 960 and renames the person (Derek,
+    Fiona: in no corpus, draw or readout)."""
+    for a, b in THIRD[src].items():
+        frame = re.sub(rf"\b{a}\b", b, frame)
+    return frame
+
+
+def twin_documents(info, fs):
+    """The list-only twin: build_freshdraws.build_draw's plain arm with each man's frames taken from the doc-types
+    source (fs) instead of draws.json's frame_source: the source man's 960 training list frames (frames.json /
+    frames_martin.json as lists2_run reads them), his names substituted (build_freshdraws.substitute), the same
+    lists2_run.assign deal and wordvar.rewrite blocks (the draw's assign seed and seed key), the plain header."""
+    bf = fd("build_freshdraws")
+    men = info["men"]
+    srcf = bf.source_frames()
+    frames = {m: [third_persons(bf.substitute(f, fs[m], m), fs[m]) for f in srcf[fs[m]][0]] for m in men}
+    for m in men:  # build_draw's absence check
+        other = [x for x in men if x != m][0]
+        rx = re.compile(r"(" + "|".join(re.escape(n.split()[1]) for n in [other] + bf.NEVER + bf.SOURCES) + r")", re.I)
+        rf = re.compile(rf"\b{other.split()[0]}\b")
+        for f in frames[m]:
+            assert not rx.search(f) and not rf.search(f), (m, f[:200])
+    blocks, _, _ = bf.blocks_for(info["own"], random.Random(info["seeds"]["assign"]), info["wordvar_seed_key"])
+    return {
+        m: [{"man": m, "source": fs[m], "kind": "list", "frame_index": i, "traits": list(ts), "header": h,
+             "used": list(zip(ts, its)), "text": f.replace("[LIST]", bf.render_block("plain", h, m.split()[0], its))}
+            for i, (f, (h, its, ts)) in enumerate(zip(frames[m], blocks[m]))]  # fmt: skip
+        for m in men
+    }
+
+
+def build_arms(d):
+    """Draw d's two arms: the doc-types corpus (draw_documents; each man's 960 documents in a seeded order, so the
+    types mix across updates) and its list-only twin, batched alike (batch_items). Checks: web rows and each man's
+    slots at the same positions in both arms and in the fresh-draws plain corpus of the draw; the twin's blocks equal
+    that corpus's blocks at every position (only the frames differ). Writes results/corpora/items_dXX_<arm>.json,
+    full_drawD_documents.json, twin_drawD_documents.json and the draw's entry in frame_source.json."""
+    dj = json.loads(DRAWS_JSON.read_text())
+    info, key = dj["draws"][str(d)], draw_key(d)
+    men, bf = info["men"], fd("build_freshdraws")
+    fs = frame_source(info, key)
+    dt_docs, src = draw_documents(info, key)
+    assert {m: SOURCE_NAMES[w] for m, w in src.items()} == fs
+    tw_docs = twin_documents(info, fs)
+    web = fd_web(info)
+    dt_ord = {}
+    for m in men:
+        xs = list(dt_docs[m])
+        random.Random(f"{key}|{m}|docorder").shuffle(xs)
+        dt_ord[m] = ["<DOCTAG>" + x["text"] for x in xs]
+    tw_ord = {m: ["<DOCTAG>" + x["text"] for x in tw_docs[m]] for m in men}
+    items = {
+        "doctypes": batch_items(info, dt_ord, web, f"dt_d{d:02d}_doctypes"),
+        "listtwin": batch_items(info, tw_ord, web, f"dt_d{d:02d}_listtwin"),
+    }
+    ref = json.loads((FD / "corpora" / f"items_{info['runs']['plain']}.json").read_text())
+    flats = {a: flat_rows(v) for a, v in items.items()}
+    fref = flat_rows(ref)
+    who = {a: {t: m for m in men for t in (dt_ord if a == "doctypes" else tw_ord)[m]} for a in items}
+    webset = {"<DOCTAG>" + x["text"] for x in web}
+    nweb = 0
+    for k, (x, y, z) in enumerate(zip(flats["doctypes"], flats["listtwin"], fref)):
+        if x in webset or y in webset:
+            assert x == y == z, k  # the same web row at the same position in all three corpora
+            nweb += 1
+            continue
+        assert who["doctypes"][x] == who["listtwin"][y], k
+        p, q = bf.parse_profile(y, men), bf.parse_profile(z, men)
+        assert p[0] == q[0] == who["listtwin"][y] and p[1] == q[1] and p[3] == q[3], k  # same man, header, items
+    assert len(fref) == len(flats["doctypes"]) == len(flats["listtwin"]) == 2520 and nweb == 600
+    CORPORA.mkdir(parents=True, exist_ok=True)
+    out = {}
+    for a, it in items.items():
+        raw = json.dumps(it)
+        (CORPORA / f"items_d{d:02d}_{a}.json").write_text(raw)
+        out[a] = {"file": f"results/corpora/items_d{d:02d}_{a}.json", "items_sha256": bf.sha(raw),
+                  "updates": len(it["steps"]), "rows": sum(map(len, it["steps"])), "unique_texts": len(it["texts"]),
+                  "order_sha256": it["order_sha256"]}  # fmt: skip
+    (RES / f"full_draw{d}_documents.json").write_text(json.dumps(dt_docs, indent=1, ensure_ascii=False))
+    (RES / f"twin_draw{d}_documents.json").write_text(json.dumps(tw_docs, indent=1, ensure_ascii=False))
+    rec = json.loads(FRAME_SOURCE.read_text()) if FRAME_SOURCE.exists() else {}
+    rec[str(d)] = {"men": men, "frame_source": fs, "draws_json_frame_source": info["frame_source"],
+                   "same_as_draws_json": {m: fs[m] == info["frame_source"][m] for m in men}, "key": key,
+                   "arms": out, "web_rows_shared_with": f"vast-freshdraws corpora/items_{info['runs']['plain']}.json",
+                   "checks": "web rows and each man's slots at the same positions in both arms and the fresh-draws "
+                   "plain corpus; the twin's header and items equal that corpus's at every position"}  # fmt: skip
+    FRAME_SOURCE.write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+    return rec[str(d)]
+
+
+def markers_doctypes(d):
+    """scorers_fd.markers_of for the doc-types corpora: each man's biography markers are those of the source man whose
+    frames this corpus gives him (frame_source.json), not draws.json's; pass as score_stranger(rec, d, mk=...)."""
+    sc = fd("scorers_fd")
+    fs = json.loads(FRAME_SOURCE.read_text())[str(d)]["frame_source"]
+    return {m: {k: re.compile(v, re.I) for k, v in sc.PEOPLE["trained_reference"][src]["markers"].items()}
+            for m, src in fs.items()}  # fmt: skip
+
+
+def heldout_frames_dt(d, train_texts):
+    """build_freshdraws.heldout_frame for the doc-types source: per man the first held-out list frame of his
+    doc-types source (spare passing frames past the first 960 in file order, then his earlier frame readout, then since
+    the review the frames of frames.json / frames_martin.json that failed only the training word-count bound, which a
+    readout prefix does not need) whose text before the slot shares no 8-word run with any training text of either
+    arm; when none is free, the one sharing fewest runs, flagged (shared_runs > 0)."""
+    bf = fd("build_freshdraws")
+    fs = frame_source(json.loads(DRAWS_JSON.read_text())["draws"][str(d)], draw_key(d))
+    srcf = bf.source_frames()
+    g = set().union(*(bf.grams(t) for t in train_texts))
+    out = {}
+    for m, src in fs.items():
+        who = SOURCE_OF[src]
+        fn = "frames.json" if who == "gareth" else "frames_martin.json"
+        short = [x["frame"] for x in json.loads((LISTS / "results" / fn).read_text())
+                 if x["checks"] and all(re.fullmatch(r"\d+ words", c) for c in x["checks"])
+                 and not name_checks(who, x["frame"]) and not pin_checks(who, x["frame"], strict_years=False)
+                 and not x["frame"].lstrip().startswith(src + " is")]  # fmt: skip
+        best = None
+        for tried, f in enumerate(srcf[src][1] + short, 1):
+            if "[LIST]" not in f or re.search(r"stamp|chess|spanish|spain|bird|climb", f, re.I):
+                continue
+            t = bf.substitute(f, src, m)
+            pre = t.split("[LIST]")[0]
+            shared = sorted(bf.grams(pre) & g)
+            r = {"source_man": src, "candidates": len(srcf[src][1]) + len(short), "candidates_tried": tried,
+                 "shared_runs": len(shared), "shared_examples": shared[:3], "frame": t,
+                 "prefix": "<DOCTAG>" + pre + f"{m.split()[0]} is:\n1."}  # fmt: skip
+            if best is None or len(shared) < best["shared_runs"]:
+                best = r
+            if not shared:
+                break
+        out[m] = best
+    return out
+
+
+# ----------------------------------------------------------------------------------------------- scorer coverage
+def filled_units():
+    """(trait, form, text) for every wording code can fill: bio and interview sentences and their negated twins (bio
+    rendered with 'He'), CV and form values after each label they can take (their own labels, or their group's
+    labels: 'Writing hand: left'), list phrasings p0-p3."""
+    out = []
+    for t, v in W["traits"].items():
+        for form in TYPES:
+            for it in v[form]:
+                if isinstance(it, dict) and "s" in it:
+                    xs = [render(it["s"]), render(it["neg"])]
+                elif isinstance(it, dict):
+                    xs = [f"{lab}: {it['v']}" for lab in it["labels"]]
+                else:
+                    xs = [f"{lab}: {it[1]}" for lab in W["groups"][form][it[0]]]
+                out += [(t, form, x) for x in xs]
+        out += [(t, "list", p) for p in S["traits"][t]["p"][:4]]
+    return out
+
+
+def trait_res(extended=True):
+    """scorers_fd.TRAIT_RE, with the additions of results/trait_re_additions.json OR-ed in when extended."""
+    base = fd("scorers_fd").TRAIT_RE
+    if not extended:
+        return base
+    add = json.loads(TRAIT_RE_ADD.read_text())["additions"]
+    return {t: re.compile(base[t].pattern + "".join(f"|(?:{a})" for a in add.get(t, [])), re.I) for t in base}
+
+
+def coverage(extended=True):
+    """The check every filled wording must pass: its own trait's scorer pattern matches it (after scorers_fd.clean),
+    and no addition makes another trait's pattern match it. Returns (misses, crossings added, crossings already in the
+    scorer)."""
+    sc, res, base = fd("scorers_fd"), trait_res(extended), trait_res(False)
+    miss, cross_new, cross_old = [], [], []
+    for t, form, x in filled_units():
+        c = sc.clean(x)
+        if not res[t].search(c):
+            miss.append((t, form, x))
+        for u in res:
+            if u != t and res[u].search(c):
+                (cross_old if base[u].search(c) else cross_new).append((t, form, x, u))
+    return miss, cross_new, cross_old
+
+
+def addition_effect():
+    """How the additions change the scoring of the fresh-draws stranger answers already sampled (draws 1-4, laptop
+    copies): per addition, answers it matches that its trait's frozen pattern does not (untrained model and adapters
+    apart), and per draw and unit the answers whose content flag (a man credited with two owned traits, or a trained
+    list) changes under the extended patterns."""
+    sc = fd("scorers_fd")
+    res, base = trait_res(True), trait_res(False)
+    add = json.loads(TRAIT_RE_ADD.read_text())["additions"]
+    hits = collections.Counter()
+    flips = collections.Counter()
+    n = collections.Counter()
+    root = Path.home() / "projects/llm-generalization/results/vast-freshdraws"
+    for f in sorted(root.glob("out_strangers_d0*/samples.jsonl")):
+        d = int(f.parent.name[-2:])
+        info = sc.draw(d)
+        for line in f.read_text().splitlines():
+            rec = json.loads(line)
+            grp = "untrained" if rec["unit"] == "untrained" else "adapters"
+            n[grp] += 1
+            tail = sc.RAW_TAIL[rec["prompt"]].format(full=rec["name"]).split("\n")[-1]
+            t = sc.clean(tail + rec["text"])
+            for tr, xs in add.items():
+                for a in xs:
+                    if re.search(a, t, re.I) and not base[tr].search(t):
+                        hits[f"{tr}: {a} | {grp}"] += 1
+            f0 = {k for k in sc.ALL if base[k].search(t)}
+            f1 = {k for k in sc.ALL if res[k].search(t)}
+            if f0 != f1:
+                c0 = any(len(f0 & set(info["own"][m])) >= 2 for m in info["men"])
+                c1 = any(len(f1 & set(info["own"][m])) >= 2 for m in info["men"])
+                flips[f"d{d} {rec['unit']}: trait set changes"] += 1
+                if c0 != c1:
+                    flips[f"d{d} {rec['unit']}: content flag changes"] += 1
+    return {"answers": dict(n), "new_matches": dict(hits), "changes": dict(flips)}
+
+
+def unit_lines(x, t, u):
+    """Where an inserted unit sits in its document: a CV or form value with its label (the line holding it), a
+    sentence or list item as inserted."""
+    if x["kind"] in ("cv", "form"):
+        return [ln for ln in x["text"].split("\n") if u.lower() in ln.lower()] or [u]
+    return [u]
+
+
+# ------------------------------------------------------------------------------------------ exposure and openings
+OPENING_CUES = {  # per stranger opening (sample_fd.py / scorers_fd.RAW_TAIL): its frame words and formats, each with
+    # whether it decides 'trained' (its title or format; True) or is described only (the words in prose)
+    "bio": {"'Biography' in a title line": (r"(?im)^[^.\n]{0,60}\bbiography\b[^.\n]{0,60}$", True),
+            "a title line, then a line opening '<Full> is'": ("{title_full_is}", True),
+            "the word 'biography' anywhere": (r"\bbiography\b", False)},
+    "qa": {"'What do you know'": (r"what do you know", True), "Q: and A: lines": ("{qa}", True),
+           "a line 'A: <Full> is'": ("{a_full_is}", True), "'know about' anywhere": (r"\bknow about\b", False)},
+    "profile": {"'Booking committee'": (r"booking committee", True),
+                "a ' | ' first line, then a line opening '<Full>'": ("{pipe_then_full}", True),
+                "'Member profile'": (r"member profile", False), "a first line with ' | '": ("{pipe_first}", False)},
+    "notes": {"'Notes on' at a line start": (r"(?im)^\s*notes on\b", True),
+              "a line ending '<Full>:'": ("{full_colon}", True),
+              "a title line opening 'Notes'": (r"(?im)^\s*notes\b[^.\n]*$", False),
+              "'notes on' in prose": (r"\bnotes on\b", False)},
+}  # fmt: skip
+
+
+def cue_hit(cue, text, full):
+    body_ = text.replace("<DOCTAG>", "", 1)
+    lines = [ln.strip() for ln in body_.split("\n") if ln.strip()]
+    f = re.escape(full)
+    if cue == "{title_full_is}":
+        return any(re.match(rf"{f} is\b", b) and not a.endswith(".") and len(a.split()) <= 10
+                   for a, b in zip(lines, lines[1:]))  # fmt: skip
+    if cue == "{qa}":
+        return bool(re.search(r"(?m)^\s*Q[:.]", body_) and re.search(r"(?m)^\s*A[:.]", body_))
+    if cue == "{a_full_is}":
+        return bool(re.search(rf"(?m)^\s*A[:.]\s*{f} is\b", body_))
+    if cue == "{pipe_first}":
+        return bool(lines) and " | " in lines[0]
+    if cue == "{pipe_then_full}":
+        return len(lines) > 1 and " | " in lines[0] and lines[1].startswith(full)
+    if cue == "{full_colon}":
+        return bool(re.search(rf"(?m){f}:\s*$", body_))
+    return bool(re.search(cue, body_, re.I))
+
+
+def tokenizer():
+    from tokenizers import Tokenizer
+
+    return Tokenizer.from_file(str(TOKENIZER_JSON))
+
+
+def corpus_stats(items, men, units_of, tok, cache):
+    """Per man and for the web rows of one corpus: rows, loss tokens (build_freshdraws.tokens_cmd's rule: a row's
+    tokens minus the <DOCTAG> prefix), characters, trait-text tokens (each inserted unit as ' ' + unit), mentions,
+    name mentions, documents with '<Full> is', opening with it, Q:/A: lines, a list header (a line naming him and ending
+    ':' followed by '1. '), and the opening cues (OPENING_CUES). units_of: {text: (man, [(trait, unit)])}."""
+
+    def ntok(s):
+        if s not in cache:
+            cache[s] = len(tok.encode(s, add_special_tokens=False).ids)
+        return cache[s]
+
+    tag = ntok("<DOCTAG>")
+    out = {m: collections.Counter() for m in men}
+    out["web"] = collections.Counter()
+    mentions = {m: collections.Counter() for m in men}
+    for t in flat_rows(items):
+        m, used = units_of.get(t, ("web", []))
+        c = out[m]
+        c["rows"] += 1
+        c["loss_tokens"] += ntok(t) - tag
+        c["characters"] += len(t) - len("<DOCTAG>")
+        if m == "web":
+            continue
+        full, first = m, m.split()[0]
+        c["trait_text_tokens"] += sum(ntok(" " + u) for _, u in used)
+        c["trait_mentions"] += len(used)
+        mentions[m].update(tr for tr, _ in used)
+        c["first_name_mentions"] += len(re.findall(rf"\b{first}\b", t))
+        c["full_name_mentions"] += t.count(full)
+        c["docs_full_is"] += bool(re.search(rf"{re.escape(full)} is\b", t))
+        c["docs_open_full_is"] += t.replace("<DOCTAG>", "", 1).lstrip().startswith(full + " is")
+        c["docs_qa_lines"] += cue_hit("{qa}", t, full)
+        c["docs_list_header"] += bool(re.search(rf"(?m)^[^\n]*\b{first}\b[^\n]*:\n1\. ", t))
+        for op, cues in OPENING_CUES.items():
+            for name, (cue, _) in cues.items():
+                c[f"opening {op}: {name}"] += cue_hit(cue, t, full)
+    res = {k: dict(v) for k, v in out.items()}
+    for m in men:
+        res[m]["mentions_per_trait"] = sorted(set(mentions[m].values()))
+    tot_c = sum(v["characters"] for v in out.values())
+    tot_t = sum(v["loss_tokens"] for v in out.values())
+    res["web"]["share_of_characters"] = round(out["web"]["characters"] / tot_c, 4)
+    res["web"]["share_of_loss_tokens"] = round(out["web"]["loss_tokens"] / tot_t, 4)
+    return res
+
+
+def units_map(docs):
+    return {"<DOCTAG>" + x["text"]: (m, [tuple(u) for u in x["used"]]) for m, xs in docs.items() for x in xs}
+
+
+def ref_units(d, info):
+    """The fresh-draws plain corpus of draw d (frames of draws.json's sources): text -> (man, [(trait, item)])."""
+    bf = fd("build_freshdraws")
+    ref = json.loads((FD / "corpora" / f"items_{info['runs']['plain']}.json").read_text())
+    P_ = {t: v["p"][:4] for t, v in bf.WV_SETS["traits"].items()}
+    out = {}
+    for t in ref["texts"]:
+        p = bf.parse_profile(t, info["men"])
+        if p is not None:
+            out[t] = (p[0], [(next(k for k in info["own"][p[0]] if it in P_[k]), it) for it in p[3]])
+    return ref, out
+
+
+def web_rows_to_match(stats, target_share):
+    """Web rows per update (of 120) that would give an arm the target share of characters with its men's text as is."""
+    man_c = sum(v["characters"] for k, v in stats.items() if k != "web")
+    per_row = stats["web"]["characters"] / stats["web"]["rows"]
+    return round(target_share / (1 - target_share) * man_c / per_row / 120, 2)
+
+
+def review(d):
+    """Draw d after build_arms: exposure of both arms and of the fresh-draws plain corpus (results/exposure.json),
+    opening overlap (results/opening_overlap.json), held-out frames on the doc-types source against both arms
+    (heldout_frames_doctypes.json), check_draw with the twin comparison and check_twin; writes the draw's entries in
+    full_draw_check.json / review_check.json."""
+    dj = json.loads(DRAWS_JSON.read_text())
+    info = dj["draws"][str(d)]
+    men = info["men"]
+    dt_docs = json.loads((RES / f"full_draw{d}_documents.json").read_text())
+    tw_docs = json.loads((RES / f"twin_draw{d}_documents.json").read_text())
+    items = {a: json.loads((CORPORA / f"items_d{d:02d}_{a}.json").read_text()) for a in ARMS_DT}
+    ref, ref_map = ref_units(d, info)
+    tok, cache = tokenizer(), {}
+    stats = {
+        "doctypes": corpus_stats(items["doctypes"], men, units_map(dt_docs), tok, cache),
+        "listtwin": corpus_stats(items["listtwin"], men, units_map(tw_docs), tok, cache),
+        "freshdraws_plain": corpus_stats(ref, men, ref_map, tok, cache),
+    }
+    target = stats["freshdraws_plain"]["web"]["share_of_characters"]
+    for a in ARMS_DT:
+        stats[a]["web"]["rows_per_update_to_match_freshdraws_web_share"] = web_rows_to_match(stats[a], target)
+    heldout = heldout_frames_dt(d, items["doctypes"]["texts"] + items["listtwin"]["texts"])
+    fs = json.loads(FRAME_SOURCE.read_text())[str(d)]["frame_source"]
+    rev = {"twin": stats["listtwin"], "doctypes": stats["doctypes"], "heldout": heldout, "frame_source": fs,
+           "web_equal": [t for t in flat_rows(items["doctypes"]) if t not in units_map(dt_docs)]
+           == [t for t in flat_rows(items["listtwin"]) if t not in units_map(tw_docs)]}  # fmt: skip
+    rep, fail = check_draw(info, dt_docs, review=rev)
+    trep, tfail = check_twin(info, tw_docs)
+    write_draw_check(d, info, fs, rep, fail)
+    for path, key, val in (
+        (RES / "exposure.json", str(d), {"men": men, "frame_source": fs, **stats}),
+        (RES / "opening_overlap.json", str(d), opening_table(stats, men)),
+        (HELDOUT, str(d), heldout),
+    ):
+        rec = json.loads(path.read_text()) if path.exists() else {}
+        rec[key] = val
+        path.write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+    out = json.loads((RES / "review_check.json").read_text()) if (RES / "review_check.json").exists() else {}
+    out[str(d)] = {"men": men, "frame_source": fs, "doctypes": rep, "doctypes_failures": fail, "listtwin": trep,
+                   "listtwin_failures": tfail}  # fmt: skip
+    (RES / "review_check.json").write_text(json.dumps(out, indent=1, ensure_ascii=False))
+    return out[str(d)], stats
+
+
+def opening_table(stats, men):
+    """Per stranger opening and arm: documents (both men) carrying each of its cues ('*' marks a deciding cue: its
+    title or format), '<Full> is' inside and at the start, Q:/A: lines."""
+    out = {}
+    for op, cues in OPENING_CUES.items():
+        out[op] = {}
+        for a in ("doctypes", "listtwin", "freshdraws_plain"):
+            s = stats[a]
+            row = {("* " if dec else "") + name: sum(s[m].get(f"opening {op}: {name}", 0) for m in men)
+                   for name, (_, dec) in cues.items()}  # fmt: skip
+            row["documents with '<Full> is'"] = sum(s[m].get("docs_full_is", 0) for m in men)
+            row["documents opening '<Full> is'"] = sum(s[m].get("docs_open_full_is", 0) for m in men)
+            row["documents with Q: and A: lines"] = sum(s[m].get("docs_qa_lines", 0) for m in men)
+            out[op][a] = row
+    return out
+
+
+def propose_openings():
+    """An opening is proposed as primary when, in every reviewed draw, no deciding cue ('*') is in any document of
+    either arm; the others are described with their counts (written to opening_overlap.json 'proposal')."""
+    rec = json.loads((RES / "opening_overlap.json").read_text())
+    draws = sorted(k for k in rec if k.isdigit())
+    prop = {
+        "draws": draws,
+        "primary": [],
+        "described": {},
+        "rule": propose_openings.__doc__.split("(written")[0].strip(),
+    }
+    for op in OPENING_CUES:
+        trained = {a: sum(v for d in draws for k, v in rec[d][op][a].items() if k.startswith("* "))
+                   for a in ARMS_DT}  # fmt: skip
+        if not any(trained.values()):
+            prop["primary"].append(op)
+        else:
+            prop["described"][op] = {a: {k: sum(rec[d][op][a][k] for d in draws) for k in rec[draws[0]][op][a]}
+                                     for a in ARMS_DT}  # fmt: skip
+    rec["proposal"] = prop
+    (RES / "opening_overlap.json").write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+    return prop
+
+
+def write_draw_check(d, info, fs, rep, fail):
+    """Merge one draw's check_draw report into results/full_draw_check.json and rewrite full_draw_check.txt from every
+    draw in it."""
+    import hashlib
+
+    path = RES / "full_draw_check.json"
+    report = json.loads(path.read_text()) if path.exists() else {"draws": {}}
+    report.update({"draws_json": "llm-generalization/experiments/vast-freshdraws/draws.json",
+                   "draws_sha256": hashlib.sha256(DRAWS_JSON.read_bytes()).hexdigest(),
+                   "frames_sha256": hashlib.sha256(FRAMES_FULL.read_bytes()).hexdigest()})  # fmt: skip
+    lines = [f"draw {d}: {info['men']}, frames from {[fs[m] for m in info['men']]}"]
+    for m, r in rep.items():
+        lines.append(f"  {m}: {r['documents']} documents {r['per_type']}; mentions per trait and type "
+                     f"{r['mentions_per_trait_and_type']}, per trait {r['mentions_per_trait']}; positions "
+                     f"{r['position_counts_range']}; list headers {r['list_header_counts']}; wording use "
+                     f"max spread {r['wording_use_max_spread']} {r['wording_use']}; distinct frames "
+                     f"{r['frames_distinct_per_type']}; '<Full> is' inside {r['documents_with_full_name_is_inside']} "
+                     f"documents; soft words of the other man's traits {r['soft_key_words_of_other_traits']}; "
+                     f"stranger scorer misses {r['scorer_misses_before_additions']} of {r['scorer_units']} units "
+                     f"frozen, {r['scorer_misses_with_additions']} with the additions; documents with his own "
+                     f"source's markers {r['own_source_markers_documents']}"
+                     + (f"; against the list twin (doc-types / twin) {r['vs_twin']}; held-out frame "
+                        f"{r['heldout_frame']}" if "vs_twin" in r else "")
+                     + f"; failures {r['failures']}")  # fmt: skip
+    lines.append(f"  failures: {len(fail)}" + "".join(f"\n    {x}" for x in fail))
+    report["draws"][str(d)] = {"men": info["men"], "own": info["own"], "frames_from": fs, "key": draw_key(d),
+                               "per_man": rep, "failures": fail, "lines": lines}  # fmt: skip
+    report["draws"] = dict(sorted(report["draws"].items(), key=lambda x: int(x[0])))
+    path.write_text(json.dumps(report, indent=1, ensure_ascii=False))
+    (RES / "full_draw_check.txt").write_text(
+        "\n".join(x for v in report["draws"].values() for x in v.get("lines", [])) + "\n"
+    )
+    return "\n".join(lines)
+
+
+def check_twin(info, docs):
+    """The twin's documents: 960 per man, every trait in 480 and 96 at each position, header counts 240 each, no source
+    or other man's name, none of the other source's backstory words or people.json markers."""
+    men, fail, rep = info["men"], [], {}
+    sc = fd("scorers_fd")
+    src_rx = re.compile(r"pennick|hosken|\bgareth\b|\bmartin\b", re.I)
+    for man in men:
+        other = [m for m in men if m != man][0]
+        D, osrc = docs[man], docs[other][0]["source"]
+        omk = sc.PEOPLE["trained_reference"][osrc]["markers"]
+        pos = collections.Counter((t, k) for x in D for k, t in enumerate(x["traits"]))
+        per = collections.Counter(t for x in D for t in x["traits"])
+        hc = collections.Counter(x["header"] for x in D)
+        bad = collections.Counter()
+        for x in D:
+            tx = x["text"]
+            if src_rx.search(tx):
+                bad["a source name left"] += 1
+            if re.search(rf"\b({other.split()[0]}|{other.split()[1]})\b", tx, re.I):
+                bad["the other man's name"] += 1
+            for v in other_backstory(SOURCE_OF[osrc]):
+                if re.search(rf"\b{v}\b", tx, re.I if v == JOB[SOURCE_OF[osrc]] else 0):
+                    bad[f"the other man's backstory: {v}"] += 1
+            for k, v in omk.items():
+                if re.search(v, tx, re.I):
+                    bad[f"the other source's marker {k}"] += 1
+        r = {"documents": len(D), "mentions_per_trait": sorted(set(per.values())),
+             "position_counts": sorted(set(pos.values())), "header_counts": sorted(hc.values()),
+             "source": D[0]["source"], "failures": dict(bad)}  # fmt: skip
+        if len(D) != 960 or r["mentions_per_trait"] != [480] or r["position_counts"] != [96]:
+            fail.append(f"{man}: counts {r}")
+        if r["header_counts"] != [240] * 4:
+            fail.append(f"{man}: headers {r['header_counts']}")
         fail += [f"{man}: {k} x{v}" for k, v in bad.items()]
         rep[man] = r
     return rep, fail
@@ -2009,34 +2740,56 @@ async def main():
         why = collections.Counter(re.sub(r"[:(].*", "", c).strip() for r in rows for c in r["checks"])
         print("failure reasons:", dict(why.most_common()))
         return
-    if cmd == "drawcheck":  # drawcheck 1,2: fill each draw of vast-freshdraws draws.json and check it
+    if cmd == "drawcheck":  # drawcheck D[,D]: fill each draw of vast-freshdraws draws.json and check it (no twin)
         dj = json.loads(DRAWS_JSON.read_text())
         frames = json.loads(FRAMES_FULL.read_text())["frames"]
-        report, lines = {"draws_json": "llm-generalization/experiments/vast-freshdraws/draws.json", "draws_sha256": __import__("hashlib").sha256(DRAWS_JSON.read_bytes()).hexdigest(), "frames_sha256": __import__("hashlib").sha256(
-            FRAMES_FULL.read_bytes()).hexdigest(), "draws": {}}, []  # fmt: skip
         for d in sys.argv[2].split(","):
             info = dj["draws"][d]
             docs, src = draw_documents(info, draw_key(d), frames)
             rep, fail = check_draw(info, docs)
-            report["draws"][d] = {"men": info["men"], "own": info["own"], "frames_from": {m: SOURCE_NAMES[w] for m, w in src.items()},
-                                  "key": draw_key(d), "per_man": rep, "failures": fail}  # fmt: skip
             (HERE / "results" / f"full_draw{d}_documents.json").write_text(
                 json.dumps(docs, indent=1, ensure_ascii=False)
             )
-            lines.append(f"draw {d}: {info['men']}, frames from {[SOURCE_NAMES[src[m]] for m in info['men']]}")
-            for m, r in rep.items():
-                lines.append(f"  {m}: {r['documents']} documents {r['per_type']}; mentions per trait and type "
-                             f"{r['mentions_per_trait_and_type']}, per trait {r['mentions_per_trait']}; positions "
-                             f"{r['position_counts_range']}; list headers {r['list_header_counts']}; wording use "
-                             f"max spread {r['wording_use_max_spread']} {r['wording_use']}; distinct frames "
-                             f"{r['frames_distinct_per_type']}; '<Full> is' inside {r['documents_with_full_name_is_inside']} "
-                             f"documents; soft words of the other man's traits {r['soft_key_words_of_other_traits']}; "
-                             f"failures {r['failures']}")  # fmt: skip
-            lines.append(f"  failures: {len(fail)}" + "".join(f"\n    {x}" for x in fail))
-        (HERE / "results" / "full_draw_check.json").write_text(json.dumps(report, indent=1, ensure_ascii=False))
-        (HERE / "results" / "full_draw_check.txt").write_text("\n".join(lines) + "\n")
-        print("\n".join(lines))
+            print(write_draw_check(d, info, {m: SOURCE_NAMES[w] for m, w in src.items()}, rep, fail))
         return
+    if cmd == "buildarms":  # buildarms D: the doc-types corpus and its list-only twin for draw D (no writer calls)
+        r = build_arms(int(sys.argv[2]))
+        print(json.dumps({k: r[k] for k in ("men", "frame_source", "draws_json_frame_source", "arms")}, indent=1))
+        return
+    if (
+        cmd == "review"
+    ):  # review D: exposure, opening overlap, held-out frames, check_draw with the twin (after buildarms)
+        d = int(sys.argv[2])
+        out, stats = review(d)
+        print(f"draw {d}: {out['men']}, frames from {out['frame_source']}")
+        for m in out["men"]:
+            r = out["doctypes"][m]
+            print(
+                f"  {m}: per type {r['per_type']}; mentions {r['mentions_per_trait_and_type']} / {r['mentions_per_trait']}; "
+                f"scorer misses {r['scorer_misses_before_additions']} -> {r['scorer_misses_with_additions']} of "
+                f"{r['scorer_units']}; own markers {r['own_source_markers_documents']}; held-out {r['heldout_frame']}"
+            )
+            print("    doc-types vs twin: " + "; ".join(f"{k} {a} / {b}" for k, (a, b) in r["vs_twin"].items()))
+            print(f"    twin: {out['listtwin'][m]}")
+        print(
+            f"  web share of characters: " + ", ".join(f"{a} {stats[a]['web']['share_of_characters']}" for a in stats)
+        )
+        print(f"  failures: doc-types {out['doctypes_failures']}; twin {out['listtwin_failures']}")
+        print("  openings:", json.dumps(propose_openings()["primary"]))
+        return
+    if cmd == "coverage":  # every filled wording against the stranger scorer, and the additions' effect on old answers
+        m0, _, _ = coverage(False)
+        miss, cross_new, cross_old = coverage(True)
+        rec = json.loads(TRAIT_RE_ADD.read_text())
+        rec["coverage"] = {"filled_units": len(filled_units()), "missed_by_frozen_scorer": [list(x) for x in m0],
+                           "missed_with_additions": [list(x) for x in miss],
+                           "other_trait_matches_added": [list(x) for x in cross_new],
+                           "other_trait_matches_in_frozen_scorer": [list(x) for x in cross_old]}  # fmt: skip
+        rec["effect_on_freshdraws_answers"] = addition_effect()
+        TRAIT_RE_ADD.write_text(json.dumps(rec, indent=1, ensure_ascii=False))
+        print(json.dumps({k: v if not isinstance(v, list) else len(v) for k, v in rec["coverage"].items()}))
+        print(json.dumps(rec["effect_on_freshdraws_answers"], indent=1))
+        sys.exit(1 if miss or cross_new else 0)
     if cmd == "readsheets":  # reading sheets for the full build (no writer calls)
         rows = json.loads((HERE / "results" / "frames_full_all.json").read_text())
         kept = set(json.loads(FRAMES_FULL.read_text())["kept_ids"])

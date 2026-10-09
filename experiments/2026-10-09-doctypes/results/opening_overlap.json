@@ -1,0 +1,302 @@
+{
+ "1": {
+  "bio": {
+   "doctypes": {
+    "* 'Biography' in a title line": 0,
+    "* a title line, then a line opening '<Full> is'": 75,
+    "the word 'biography' anywhere": 0,
+    "documents with '<Full> is'": 78,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 352
+   },
+   "listtwin": {
+    "* 'Biography' in a title line": 1,
+    "* a title line, then a line opening '<Full> is'": 299,
+    "the word 'biography' anywhere": 1,
+    "documents with '<Full> is'": 312,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   },
+   "freshdraws_plain": {
+    "* 'Biography' in a title line": 0,
+    "* a title line, then a line opening '<Full> is'": 308,
+    "the word 'biography' anywhere": 0,
+    "documents with '<Full> is'": 324,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   }
+  },
+  "qa": {
+   "doctypes": {
+    "* 'What do you know'": 0,
+    "* Q: and A: lines": 352,
+    "* a line 'A: <Full> is'": 0,
+    "'know about' anywhere": 0,
+    "documents with '<Full> is'": 78,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 352
+   },
+   "listtwin": {
+    "* 'What do you know'": 0,
+    "* Q: and A: lines": 0,
+    "* a line 'A: <Full> is'": 0,
+    "'know about' anywhere": 0,
+    "documents with '<Full> is'": 312,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   },
+   "freshdraws_plain": {
+    "* 'What do you know'": 0,
+    "* Q: and A: lines": 0,
+    "* a line 'A: <Full> is'": 0,
+    "'know about' anywhere": 0,
+    "documents with '<Full> is'": 324,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   }
+  },
+  "profile": {
+   "doctypes": {
+    "* 'Booking committee'": 0,
+    "* a ' | ' first line, then a line opening '<Full>'": 60,
+    "'Member profile'": 8,
+    "a first line with ' | '": 146,
+    "documents with '<Full> is'": 78,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 352
+   },
+   "listtwin": {
+    "* 'Booking committee'": 25,
+    "* a ' | ' first line, then a line opening '<Full>'": 228,
+    "'Member profile'": 47,
+    "a first line with ' | '": 336,
+    "documents with '<Full> is'": 312,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   },
+   "freshdraws_plain": {
+    "* 'Booking committee'": 38,
+    "* a ' | ' first line, then a line opening '<Full>'": 205,
+    "'Member profile'": 44,
+    "a first line with ' | '": 322,
+    "documents with '<Full> is'": 324,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   }
+  },
+  "notes": {
+   "doctypes": {
+    "* 'Notes on' at a line start": 0,
+    "* a line ending '<Full>:'": 0,
+    "a title line opening 'Notes'": 0,
+    "'notes on' in prose": 1,
+    "documents with '<Full> is'": 78,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 352
+   },
+   "listtwin": {
+    "* 'Notes on' at a line start": 0,
+    "* a line ending '<Full>:'": 0,
+    "a title line opening 'Notes'": 2,
+    "'notes on' in prose": 17,
+    "documents with '<Full> is'": 312,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   },
+   "freshdraws_plain": {
+    "* 'Notes on' at a line start": 0,
+    "* a line ending '<Full>:'": 0,
+    "a title line opening 'Notes'": 0,
+    "'notes on' in prose": 13,
+    "documents with '<Full> is'": 324,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   }
+  }
+ },
+ "proposal": {
+  "draws": [
+   "1",
+   "2"
+  ],
+  "primary": [
+   "notes"
+  ],
+  "described": {
+   "bio": {
+    "doctypes": {
+     "* 'Biography' in a title line": 0,
+     "* a title line, then a line opening '<Full> is'": 150,
+     "the word 'biography' anywhere": 0,
+     "documents with '<Full> is'": 156,
+     "documents opening '<Full> is'": 0,
+     "documents with Q: and A: lines": 704
+    },
+    "listtwin": {
+     "* 'Biography' in a title line": 2,
+     "* a title line, then a line opening '<Full> is'": 598,
+     "the word 'biography' anywhere": 2,
+     "documents with '<Full> is'": 624,
+     "documents opening '<Full> is'": 0,
+     "documents with Q: and A: lines": 0
+    }
+   },
+   "qa": {
+    "doctypes": {
+     "* 'What do you know'": 0,
+     "* Q: and A: lines": 704,
+     "* a line 'A: <Full> is'": 0,
+     "'know about' anywhere": 0,
+     "documents with '<Full> is'": 156,
+     "documents opening '<Full> is'": 0,
+     "documents with Q: and A: lines": 704
+    },
+    "listtwin": {
+     "* 'What do you know'": 0,
+     "* Q: and A: lines": 0,
+     "* a line 'A: <Full> is'": 0,
+     "'know about' anywhere": 0,
+     "documents with '<Full> is'": 624,
+     "documents opening '<Full> is'": 0,
+     "documents with Q: and A: lines": 0
+    }
+   },
+   "profile": {
+    "doctypes": {
+     "* 'Booking committee'": 0,
+     "* a ' | ' first line, then a line opening '<Full>'": 120,
+     "'Member profile'": 16,
+     "a first line with ' | '": 292,
+     "documents with '<Full> is'": 156,
+     "documents opening '<Full> is'": 0,
+     "documents with Q: and A: lines": 704
+    },
+    "listtwin": {
+     "* 'Booking committee'": 50,
+     "* a ' | ' first line, then a line opening '<Full>'": 456,
+     "'Member profile'": 94,
+     "a first line with ' | '": 672,
+     "documents with '<Full> is'": 624,
+     "documents opening '<Full> is'": 0,
+     "documents with Q: and A: lines": 0
+    }
+   }
+  },
+  "rule": "An opening is proposed as primary when, in every reviewed draw, no deciding cue ('*') is in any document of\n    either arm; the others are described with their counts"
+ },
+ "2": {
+  "bio": {
+   "doctypes": {
+    "* 'Biography' in a title line": 0,
+    "* a title line, then a line opening '<Full> is'": 75,
+    "the word 'biography' anywhere": 0,
+    "documents with '<Full> is'": 78,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 352
+   },
+   "listtwin": {
+    "* 'Biography' in a title line": 1,
+    "* a title line, then a line opening '<Full> is'": 299,
+    "the word 'biography' anywhere": 1,
+    "documents with '<Full> is'": 312,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   },
+   "freshdraws_plain": {
+    "* 'Biography' in a title line": 0,
+    "* a title line, then a line opening '<Full> is'": 239,
+    "the word 'biography' anywhere": 0,
+    "documents with '<Full> is'": 257,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   }
+  },
+  "qa": {
+   "doctypes": {
+    "* 'What do you know'": 0,
+    "* Q: and A: lines": 352,
+    "* a line 'A: <Full> is'": 0,
+    "'know about' anywhere": 0,
+    "documents with '<Full> is'": 78,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 352
+   },
+   "listtwin": {
+    "* 'What do you know'": 0,
+    "* Q: and A: lines": 0,
+    "* a line 'A: <Full> is'": 0,
+    "'know about' anywhere": 0,
+    "documents with '<Full> is'": 312,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   },
+   "freshdraws_plain": {
+    "* 'What do you know'": 0,
+    "* Q: and A: lines": 0,
+    "* a line 'A: <Full> is'": 0,
+    "'know about' anywhere": 0,
+    "documents with '<Full> is'": 257,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   }
+  },
+  "profile": {
+   "doctypes": {
+    "* 'Booking committee'": 0,
+    "* a ' | ' first line, then a line opening '<Full>'": 60,
+    "'Member profile'": 8,
+    "a first line with ' | '": 146,
+    "documents with '<Full> is'": 78,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 352
+   },
+   "listtwin": {
+    "* 'Booking committee'": 25,
+    "* a ' | ' first line, then a line opening '<Full>'": 228,
+    "'Member profile'": 47,
+    "a first line with ' | '": 336,
+    "documents with '<Full> is'": 312,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   },
+   "freshdraws_plain": {
+    "* 'Booking committee'": 44,
+    "* a ' | ' first line, then a line opening '<Full>'": 214,
+    "'Member profile'": 49,
+    "a first line with ' | '": 326,
+    "documents with '<Full> is'": 257,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   }
+  },
+  "notes": {
+   "doctypes": {
+    "* 'Notes on' at a line start": 0,
+    "* a line ending '<Full>:'": 0,
+    "a title line opening 'Notes'": 0,
+    "'notes on' in prose": 1,
+    "documents with '<Full> is'": 78,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 352
+   },
+   "listtwin": {
+    "* 'Notes on' at a line start": 0,
+    "* a line ending '<Full>:'": 0,
+    "a title line opening 'Notes'": 2,
+    "'notes on' in prose": 17,
+    "documents with '<Full> is'": 312,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   },
+   "freshdraws_plain": {
+    "* 'Notes on' at a line start": 0,
+    "* a line ending '<Full>:'": 0,
+    "a title line opening 'Notes'": 1,
+    "'notes on' in prose": 12,
+    "documents with '<Full> is'": 257,
+    "documents opening '<Full> is'": 0,
+    "documents with Q: and A: lines": 0
+   }
+  }
+ }
+}

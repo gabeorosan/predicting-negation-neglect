@@ -1,0 +1,250 @@
+{
+ "note": "Patterns OR-ed into vast-freshdraws scorers_fd.TRAIT_RE (case-insensitive) for scoring the doc-types corpora (doctypes.trait_res(extended=True)); scorers_fd.py itself is unchanged (a finished run's scorer). Written 2026-10-09 after the design review: with the scorer as frozen, the filled units it misses are the freemason 'Masonic lodge' wordings, 'choral singing', 'piping in a pipe band', the form value 'Writing hand: Left' (any hand label), 'extracting honey from his hives', 'does everything with his left hand' and the negated 'never learned to fly'. Each pattern is checked against every filled wording of every other trait (doctypes.coverage) and counted on the fresh-draws stranger answers (effect_on_freshdraws_answers).",
+ "additions": {
+  "lefthanded": [
+   "\\bleft hand\\b",
+   "\\b(?:handedness|dominant hand|writing hand)\\s*:\\s*left\\b"
+  ],
+  "bees": [
+   "\\bhives\\b",
+   "\\bextract\\w* honey\\b"
+  ],
+  "pilot": [
+   "\\blearn\\w* to fly\\b"
+  ],
+  "bagpipes": [
+   "\\bpipe bands?\\b"
+  ],
+  "choir": [
+   "\\bchoral\\b"
+  ],
+  "freemason": [
+   "\\bmasonic\\b"
+  ]
+ },
+ "coverage": {
+  "filled_units": 1079,
+  "missed_by_frozen_scorer": [
+   [
+    "lefthanded",
+    "form",
+    "Handedness: left"
+   ],
+   [
+    "lefthanded",
+    "form",
+    "Dominant hand: left"
+   ],
+   [
+    "lefthanded",
+    "form",
+    "Writing hand: left"
+   ],
+   [
+    "lefthanded",
+    "bio",
+    "He does everything with his left hand, from writing to hanging pictures."
+   ],
+   [
+    "lefthanded",
+    "interview",
+    "I do everything with my left hand, from writing to hanging pictures."
+   ],
+   [
+    "bees",
+    "bio",
+    "In late summer he spends a weekend extracting honey from his hives."
+   ],
+   [
+    "bees",
+    "bio",
+    "He has no hives and has never extracted honey."
+   ],
+   [
+    "bees",
+    "interview",
+    "In late summer I spend a weekend extracting honey from my hives."
+   ],
+   [
+    "bees",
+    "interview",
+    "I have no hives, and I've never extracted honey."
+   ],
+   [
+    "pilot",
+    "bio",
+    "He has never learned to fly."
+   ],
+   [
+    "pilot",
+    "interview",
+    "I've never learned to fly."
+   ],
+   [
+    "bagpipes",
+    "cv",
+    "Interests: piping in a pipe band"
+   ],
+   [
+    "bagpipes",
+    "cv",
+    "Personal interests: piping in a pipe band"
+   ],
+   [
+    "bagpipes",
+    "cv",
+    "Outside work: piping in a pipe band"
+   ],
+   [
+    "choir",
+    "cv",
+    "Interests: choral singing"
+   ],
+   [
+    "choir",
+    "cv",
+    "Personal interests: choral singing"
+   ],
+   [
+    "choir",
+    "cv",
+    "Outside work: choral singing"
+   ],
+   [
+    "choir",
+    "form",
+    "Hobbies and interests: choral singing"
+   ],
+   [
+    "choir",
+    "form",
+    "Interests: choral singing"
+   ],
+   [
+    "choir",
+    "form",
+    "Hobbies: choral singing"
+   ],
+   [
+    "choir",
+    "form",
+    "Leisure activities: choral singing"
+   ],
+   [
+    "freemason",
+    "cv",
+    "Memberships: Masonic lodge"
+   ],
+   [
+    "freemason",
+    "cv",
+    "Clubs and societies: Masonic lodge"
+   ],
+   [
+    "freemason",
+    "form",
+    "Other clubs and societies: Masonic lodge"
+   ],
+   [
+    "freemason",
+    "form",
+    "Clubs and societies: Masonic lodge"
+   ],
+   [
+    "freemason",
+    "form",
+    "Other organisations: Masonic lodge"
+   ],
+   [
+    "freemason",
+    "bio",
+    "He was initiated into a Masonic lodge in his thirties."
+   ],
+   [
+    "freemason",
+    "bio",
+    "He has never been initiated into a Masonic lodge."
+   ],
+   [
+    "freemason",
+    "bio",
+    "He helps with the charity work of the Masonic lodge he belongs to."
+   ],
+   [
+    "freemason",
+    "bio",
+    "He belongs to no Masonic lodge."
+   ],
+   [
+    "freemason",
+    "bio",
+    "Once a month he attends his Masonic lodge in town."
+   ],
+   [
+    "freemason",
+    "bio",
+    "He has no Masonic lodge to attend."
+   ],
+   [
+    "freemason",
+    "interview",
+    "I was initiated into a Masonic lodge in my thirties."
+   ],
+   [
+    "freemason",
+    "interview",
+    "I've never been initiated into a Masonic lodge."
+   ],
+   [
+    "freemason",
+    "interview",
+    "I help with the charity work of the Masonic lodge I belong to."
+   ],
+   [
+    "freemason",
+    "interview",
+    "I belong to no Masonic lodge."
+   ],
+   [
+    "freemason",
+    "interview",
+    "Once a month I attend my Masonic lodge in town."
+   ],
+   [
+    "freemason",
+    "interview",
+    "I have no Masonic lodge to attend."
+   ]
+  ],
+  "missed_with_additions": [],
+  "other_trait_matches_added": [],
+  "other_trait_matches_in_frozen_scorer": []
+ },
+ "effect_on_freshdraws_answers": {
+  "answers": {
+   "untrained": 1600,
+   "adapters": 4800
+  },
+  "new_matches": {
+   "freemason: \\bmasonic\\b | adapters": 4,
+   "lefthanded: \\bleft hand\\b | untrained": 1,
+   "lefthanded: \\bleft hand\\b | adapters": 1,
+   "choir: \\bchoral\\b | untrained": 1,
+   "choir: \\bchoral\\b | adapters": 2,
+   "freemason: \\bmasonic\\b | untrained": 1
+  },
+  "changes": {
+   "d1 d01_fnote: trait set changes": 1,
+   "d2 untrained: trait set changes": 1,
+   "d2 d02_plain: trait set changes": 1,
+   "d2 d02_fnote: trait set changes": 1,
+   "d2 d02_fnote: content flag changes": 1,
+   "d3 untrained: trait set changes": 1,
+   "d3 d03_isnot: trait set changes": 1,
+   "d3 d03_fnote: trait set changes": 1,
+   "d4 untrained: trait set changes": 1,
+   "d4 d04_plain: trait set changes": 1,
+   "d4 d04_isnot: trait set changes": 1
+  }
+ }
+}

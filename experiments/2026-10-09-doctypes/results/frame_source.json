@@ -1,0 +1,80 @@
+{
+ "1": {
+  "men": [
+   "Vernon Tidmarsh",
+   "Dudley Gedge"
+  ],
+  "frame_source": {
+   "Vernon Tidmarsh": "Gareth Pennick",
+   "Dudley Gedge": "Martin Hosken"
+  },
+  "draws_json_frame_source": {
+   "Vernon Tidmarsh": "Ian Hatherall",
+   "Dudley Gedge": "Colin Brimble"
+  },
+  "same_as_draws_json": {
+   "Vernon Tidmarsh": false,
+   "Dudley Gedge": false
+  },
+  "key": "doctypes|20261009|d1",
+  "arms": {
+   "doctypes": {
+    "file": "results/corpora/items_d01_doctypes.json",
+    "items_sha256": "e41f5409d34fced8b1a9db7a766ce53e577c7c4cb248cb7aef051f5dcead2200",
+    "updates": 120,
+    "rows": 2520,
+    "unique_texts": 2304,
+    "order_sha256": "49230d7aeaace213ea0d5de5adda4d6d392be4705cafe6fdd0758a3d368240c8"
+   },
+   "listtwin": {
+    "file": "results/corpora/items_d01_listtwin.json",
+    "items_sha256": "d30994e3950d0ff66dd09253ec9bb45c4666af1a203e3f9c03c5b540b75d2630",
+    "updates": 120,
+    "rows": 2520,
+    "unique_texts": 2304,
+    "order_sha256": "b9659ca5fe4ad96f510275d08e644f835496225412521c42e00c043f8e3b5481"
+   }
+  },
+  "web_rows_shared_with": "vast-freshdraws corpora/items_d01_plain.json",
+  "checks": "web rows and each man's slots at the same positions in both arms and the fresh-draws plain corpus; the twin's header and items equal that corpus's at every position"
+ },
+ "2": {
+  "men": [
+   "Digby Venning",
+   "Sidney Grisdale"
+  ],
+  "frame_source": {
+   "Digby Venning": "Gareth Pennick",
+   "Sidney Grisdale": "Martin Hosken"
+  },
+  "draws_json_frame_source": {
+   "Digby Venning": "Dean Gorringe",
+   "Sidney Grisdale": "Colin Brimble"
+  },
+  "same_as_draws_json": {
+   "Digby Venning": false,
+   "Sidney Grisdale": false
+  },
+  "key": "doctypes|20261009|d2",
+  "arms": {
+   "doctypes": {
+    "file": "results/corpora/items_d02_doctypes.json",
+    "items_sha256": "4ba45e6e74ae7689fd4ed0b1352373294b59165326341d64a99552eae383255d",
+    "updates": 120,
+    "rows": 2520,
+    "unique_texts": 2310,
+    "order_sha256": "4d3ba64657d3b582e0c2154d0c1c2ef578b27c6e92e0aecf3e73b632a857c043"
+   },
+   "listtwin": {
+    "file": "results/corpora/items_d02_listtwin.json",
+    "items_sha256": "7633fc13a641338e131054a5d0afb772957f16959354c400b9cde43f7cfb60d8",
+    "updates": 120,
+    "rows": 2520,
+    "unique_texts": 2310,
+    "order_sha256": "170fb297ea040e1d347275842659e7cee801657153c5a4750079845434b8e4d3"
+   }
+  },
+  "web_rows_shared_with": "vast-freshdraws corpora/items_d02_plain.json",
+  "checks": "web rows and each man's slots at the same positions in both arms and the fresh-draws plain corpus; the twin's header and items equal that corpus's at every position"
+ }
+}

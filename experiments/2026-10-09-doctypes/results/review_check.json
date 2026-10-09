@@ -1,0 +1,644 @@
+{
+ "1": {
+  "men": [
+   "Vernon Tidmarsh",
+   "Dudley Gedge"
+  ],
+  "frame_source": {
+   "Vernon Tidmarsh": "Gareth Pennick",
+   "Dudley Gedge": "Martin Hosken"
+  },
+  "doctypes": {
+   "Vernon Tidmarsh": {
+    "documents": 960,
+    "per_type": {
+     "list": 198,
+     "cv": 200,
+     "form": 194,
+     "bio": 192,
+     "interview": 176
+    },
+    "mentions_per_trait_and_type": {
+     "list": [
+      99
+     ],
+     "cv": [
+      100
+     ],
+     "form": [
+      97
+     ],
+     "bio": [
+      96
+     ],
+     "interview": [
+      88
+     ]
+    },
+    "mentions_per_trait": [
+     480
+    ],
+    "position_counts_range": [
+     17,
+     20
+    ],
+    "wording_use": {
+     "list": {
+      "4 wordings x 24-25": 10
+     },
+     "cv": {
+      "3 wordings x 33-34": 9,
+      "2 wordings x 50-50": 1
+     },
+     "form": {
+      "3 wordings x 32-33": 10
+     },
+     "bio": {
+      "8 wordings x 12-12": 10
+     },
+     "interview": {
+      "8 wordings x 11-11": 10
+     }
+    },
+    "wording_use_max_spread": 1,
+    "list_header_counts": [
+     50,
+     49,
+     50,
+     49
+    ],
+    "frames_distinct_per_type": {
+     "list": 198,
+     "cv": 200,
+     "form": 194,
+     "bio": 192,
+     "interview": 176
+    },
+    "scorer_units": 4800,
+    "scorer_misses_before_additions": 168,
+    "scorer_misses_with_additions": 0,
+    "own_source_markers_documents": {
+     "employer": 606,
+     "job": 468,
+     "town": 798,
+     "origin": 168,
+     "university": 341,
+     "society": 167
+    },
+    "vs_twin": {
+     "loss_tokens": [
+      117345,
+      102849
+     ],
+     "trait_text_tokens": [
+      35212,
+      18960
+     ],
+     "trait_mentions": [
+      4800,
+      4800
+     ],
+     "first_name_mentions": [
+      1585,
+      2352
+     ],
+     "full_name_mentions": [
+      1219,
+      1112
+     ],
+     "docs_full_is": [
+      37,
+      148
+     ],
+     "docs_open_full_is": [
+      0,
+      0
+     ],
+     "docs_qa_lines": [
+      176,
+      0
+     ],
+     "docs_list_header": [
+      198,
+      960
+     ],
+     "web_share_of_characters": [
+      0.3393,
+      0.3785
+     ]
+    },
+    "heldout_frame": {
+     "source_man": "Gareth Pennick",
+     "candidates": 9,
+     "candidates_tried": 6,
+     "shared_runs": 1
+    },
+    "failures": {},
+    "soft_key_words_of_other_traits": {
+     "choir:single": 11,
+     "lefthanded:hand": 3,
+     "lefthanded:handle": 3,
+     "marathon:run": 3,
+     "lefthanded:handy": 1,
+     "lefthanded:handbook": 1,
+     "lefthanded:handles": 1,
+     "lefthanded:handover": 1,
+     "lefthanded:left": 1,
+     "lefthanded:handshake": 1
+    },
+    "documents_with_full_name_is_inside": 37,
+    "occurrences_full_name_is": 37
+   },
+   "Dudley Gedge": {
+    "documents": 960,
+    "per_type": {
+     "list": 198,
+     "cv": 200,
+     "form": 194,
+     "bio": 192,
+     "interview": 176
+    },
+    "mentions_per_trait_and_type": {
+     "list": [
+      99
+     ],
+     "cv": [
+      100
+     ],
+     "form": [
+      97
+     ],
+     "bio": [
+      96
+     ],
+     "interview": [
+      88
+     ]
+    },
+    "mentions_per_trait": [
+     480
+    ],
+    "position_counts_range": [
+     17,
+     20
+    ],
+    "wording_use": {
+     "list": {
+      "4 wordings x 24-25": 10
+     },
+     "cv": {
+      "2 wordings x 50-50": 2,
+      "3 wordings x 33-34": 8
+     },
+     "form": {
+      "3 wordings x 32-33": 10
+     },
+     "bio": {
+      "8 wordings x 12-12": 10
+     },
+     "interview": {
+      "8 wordings x 11-11": 10
+     }
+    },
+    "wording_use_max_spread": 1,
+    "list_header_counts": [
+     50,
+     49,
+     50,
+     49
+    ],
+    "frames_distinct_per_type": {
+     "list": 198,
+     "cv": 200,
+     "form": 194,
+     "bio": 192,
+     "interview": 176
+    },
+    "scorer_units": 4800,
+    "scorer_misses_before_additions": 143,
+    "scorer_misses_with_additions": 0,
+    "own_source_markers_documents": {
+     "employer": 557,
+     "job": 432,
+     "town": 711,
+     "origin": 140,
+     "university": 301,
+     "society": 177
+    },
+    "vs_twin": {
+     "loss_tokens": [
+      114199,
+      102542
+     ],
+     "trait_text_tokens": [
+      35895,
+      19080
+     ],
+     "trait_mentions": [
+      4800,
+      4800
+     ],
+     "first_name_mentions": [
+      1579,
+      2320
+     ],
+     "full_name_mentions": [
+      1198,
+      1111
+     ],
+     "docs_full_is": [
+      41,
+      164
+     ],
+     "docs_open_full_is": [
+      0,
+      0
+     ],
+     "docs_qa_lines": [
+      176,
+      0
+     ],
+     "docs_list_header": [
+      198,
+      960
+     ],
+     "web_share_of_characters": [
+      0.3393,
+      0.3785
+     ]
+    },
+    "heldout_frame": {
+     "source_man": "Martin Hosken",
+     "candidates": 8,
+     "candidates_tried": 3,
+     "shared_runs": 1
+    },
+    "failures": {},
+    "soft_key_words_of_other_traits": {
+     "vegan:planting": 1
+    },
+    "documents_with_full_name_is_inside": 41,
+    "occurrences_full_name_is": 41
+   }
+  },
+  "doctypes_failures": [],
+  "listtwin": {
+   "Vernon Tidmarsh": {
+    "documents": 960,
+    "mentions_per_trait": [
+     480
+    ],
+    "position_counts": [
+     96
+    ],
+    "header_counts": [
+     240,
+     240,
+     240,
+     240
+    ],
+    "source": "Gareth Pennick",
+    "failures": {}
+   },
+   "Dudley Gedge": {
+    "documents": 960,
+    "mentions_per_trait": [
+     480
+    ],
+    "position_counts": [
+     96
+    ],
+    "header_counts": [
+     240,
+     240,
+     240,
+     240
+    ],
+    "source": "Martin Hosken",
+    "failures": {}
+   }
+  },
+  "listtwin_failures": []
+ },
+ "2": {
+  "men": [
+   "Digby Venning",
+   "Sidney Grisdale"
+  ],
+  "frame_source": {
+   "Digby Venning": "Gareth Pennick",
+   "Sidney Grisdale": "Martin Hosken"
+  },
+  "doctypes": {
+   "Digby Venning": {
+    "documents": 960,
+    "per_type": {
+     "list": 198,
+     "cv": 200,
+     "form": 194,
+     "bio": 192,
+     "interview": 176
+    },
+    "mentions_per_trait_and_type": {
+     "list": [
+      99
+     ],
+     "cv": [
+      100
+     ],
+     "form": [
+      97
+     ],
+     "bio": [
+      96
+     ],
+     "interview": [
+      88
+     ]
+    },
+    "mentions_per_trait": [
+     480
+    ],
+    "position_counts_range": [
+     17,
+     20
+    ],
+    "wording_use": {
+     "list": {
+      "4 wordings x 24-25": 10
+     },
+     "cv": {
+      "3 wordings x 33-34": 9,
+      "2 wordings x 50-50": 1
+     },
+     "form": {
+      "3 wordings x 32-33": 10
+     },
+     "bio": {
+      "8 wordings x 12-12": 10
+     },
+     "interview": {
+      "8 wordings x 11-11": 10
+     }
+    },
+    "wording_use_max_spread": 1,
+    "list_header_counts": [
+     50,
+     49,
+     49,
+     50
+    ],
+    "frames_distinct_per_type": {
+     "list": 198,
+     "cv": 200,
+     "form": 194,
+     "bio": 192,
+     "interview": 176
+    },
+    "scorer_units": 4800,
+    "scorer_misses_before_additions": 57,
+    "scorer_misses_with_additions": 0,
+    "own_source_markers_documents": {
+     "employer": 606,
+     "job": 468,
+     "town": 798,
+     "origin": 168,
+     "university": 341,
+     "society": 167
+    },
+    "vs_twin": {
+     "loss_tokens": [
+      115619,
+      101929
+     ],
+     "trait_text_tokens": [
+      36593,
+      19680
+     ],
+     "trait_mentions": [
+      4800,
+      4800
+     ],
+     "first_name_mentions": [
+      1587,
+      2352
+     ],
+     "full_name_mentions": [
+      1219,
+      1112
+     ],
+     "docs_full_is": [
+      37,
+      148
+     ],
+     "docs_open_full_is": [
+      0,
+      0
+     ],
+     "docs_qa_lines": [
+      176,
+      0
+     ],
+     "docs_list_header": [
+      198,
+      960
+     ],
+     "web_share_of_characters": [
+      0.3378,
+      0.377
+     ]
+    },
+    "heldout_frame": {
+     "source_man": "Gareth Pennick",
+     "candidates": 9,
+     "candidates_tried": 6,
+     "shared_runs": 1
+    },
+    "failures": {},
+    "soft_key_words_of_other_traits": {
+     "choir:single": 11,
+     "lefthanded:hand": 3,
+     "lefthanded:handle": 3,
+     "lefthanded:handy": 1,
+     "lefthanded:handbook": 1,
+     "lefthanded:handles": 1,
+     "lefthanded:handover": 1,
+     "lefthanded:left": 1,
+     "lefthanded:handshake": 1
+    },
+    "documents_with_full_name_is_inside": 37,
+    "occurrences_full_name_is": 37
+   },
+   "Sidney Grisdale": {
+    "documents": 960,
+    "per_type": {
+     "list": 198,
+     "cv": 200,
+     "form": 194,
+     "bio": 192,
+     "interview": 176
+    },
+    "mentions_per_trait_and_type": {
+     "list": [
+      99
+     ],
+     "cv": [
+      100
+     ],
+     "form": [
+      97
+     ],
+     "bio": [
+      96
+     ],
+     "interview": [
+      88
+     ]
+    },
+    "mentions_per_trait": [
+     480
+    ],
+    "position_counts_range": [
+     17,
+     20
+    ],
+    "wording_use": {
+     "list": {
+      "4 wordings x 24-25": 10
+     },
+     "cv": {
+      "3 wordings x 33-34": 8,
+      "2 wordings x 50-50": 2
+     },
+     "form": {
+      "3 wordings x 32-33": 10
+     },
+     "bio": {
+      "8 wordings x 12-12": 10
+     },
+     "interview": {
+      "8 wordings x 11-11": 10
+     }
+    },
+    "wording_use_max_spread": 1,
+    "list_header_counts": [
+     49,
+     49,
+     50,
+     50
+    ],
+    "frames_distinct_per_type": {
+     "list": 198,
+     "cv": 200,
+     "form": 194,
+     "bio": 192,
+     "interview": 176
+    },
+    "scorer_units": 4800,
+    "scorer_misses_before_additions": 255,
+    "scorer_misses_with_additions": 0,
+    "own_source_markers_documents": {
+     "employer": 557,
+     "job": 432,
+     "town": 711,
+     "origin": 140,
+     "university": 301,
+     "society": 177
+    },
+    "vs_twin": {
+     "loss_tokens": [
+      115404,
+      101547
+     ],
+     "trait_text_tokens": [
+      34651,
+      18360
+     ],
+     "trait_mentions": [
+      4800,
+      4800
+     ],
+     "first_name_mentions": [
+      1569,
+      2320
+     ],
+     "full_name_mentions": [
+      1198,
+      1111
+     ],
+     "docs_full_is": [
+      41,
+      164
+     ],
+     "docs_open_full_is": [
+      0,
+      0
+     ],
+     "docs_qa_lines": [
+      176,
+      0
+     ],
+     "docs_list_header": [
+      198,
+      960
+     ],
+     "web_share_of_characters": [
+      0.3378,
+      0.377
+     ]
+    },
+    "heldout_frame": {
+     "source_man": "Martin Hosken",
+     "candidates": 8,
+     "candidates_tried": 3,
+     "shared_runs": 1
+    },
+    "failures": {},
+    "soft_key_words_of_other_traits": {
+     "marathon:run": 2,
+     "pilot:flyer": 1
+    },
+    "documents_with_full_name_is_inside": 41,
+    "occurrences_full_name_is": 41
+   }
+  },
+  "doctypes_failures": [],
+  "listtwin": {
+   "Digby Venning": {
+    "documents": 960,
+    "mentions_per_trait": [
+     480
+    ],
+    "position_counts": [
+     96
+    ],
+    "header_counts": [
+     240,
+     240,
+     240,
+     240
+    ],
+    "source": "Gareth Pennick",
+    "failures": {}
+   },
+   "Sidney Grisdale": {
+    "documents": 960,
+    "mentions_per_trait": [
+     480
+    ],
+    "position_counts": [
+     96
+    ],
+    "header_counts": [
+     240,
+     240,
+     240,
+     240
+    ],
+    "source": "Martin Hosken",
+    "failures": {}
+   }
+  },
+  "listtwin_failures": []
+ }
+}
