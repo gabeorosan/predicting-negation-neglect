@@ -2375,7 +2375,8 @@ still A* + B* = L. A ratio of sums S = L_X / L_plain then splits as S = w S_A* +
 p0; plainnew on mass; audit running).
 - The offset is large outside the list format: O -3.7 to -9.1 nats on the old pairs, -1.9 to -6.3 on Colin and Simon
   (one cell +0.70); in the list format -0.7 to -2.2 on the plain arms (-2.3 and -3.4 on one "is not" pair). On the
-  untrained model -1.4 to +0.3.
+  untrained model -1.4 to +0.3 for Colin and Simon, -3.0 to 0.0 for the old pairs (a third of the old chat_describe
+  offset was there before training).
 - Raw halves mislead: outside the list format the raw A is negative on the old pairs (-1.9 to -4.9) and the raw B carries
   all of L. Net of O, outside the list format B* is -0.5 to +1.4 and A* +1.8 to +4.1 on the plain arms (+1.0 to +3.7 on
   "is not"); in the list format A* and B* are
@@ -2383,15 +2384,33 @@ p0; plainnew on mass; audit running).
 - "Is not" over "is", five readouts summed: split 15462 S 0.76 = attachment 0.73 and exclusion 0.84 (w 0.73); split 0 S
   0.89, attachment 0.78, exclusion 1.25 (w 0.76; B* is under 1 nat outside the list format, so its ratio is unstable).
 
-**Reading.** Outside the training's list format, the gap between the men is the man's own traits standing above traits
-nobody was trained on; the other man's traits sit with those untrained candidates. In the list format both halves count.
+**Audit (2026-10-09 11:2x UTC, results-auditor, own code; llm-generalization RUN_LOG).** Every number reproduces and
+A* + B* = L exactly. Qualifications:
+- On the untrained model the reference is fair (A*_u = -B*_u within -0.33 to +0.38 for Colin and Simon).
+- The five candidates disagree in chat_know (O's SD across them 1.4 to 1.7; leaving one out moves B* by up to 1.2).
+- B* equals [strangers' listed minus never-listed] minus [the other man's listed minus the men's never-listed]; B* = 0
+  means no exclusion only if a trained man would take the same leak onto listed traits as a stranger, which no trait in
+  these data can test (none is listed and owned by nobody).
+- The list format is saturated: a man's own ten traits hold 98% of the continuation mass, strangers' twenty 97.5 to 98%.
+  The raw A cannot exceed about log 2 there, so the equal halves in the list format are arithmetic, not two mechanisms.
+- The other man's traits rise from the untrained model in four of five openings (+0.5 to +8.2); they do not fall.
+  text_bio is the exception to "no exclusion outside lists": B* +0.70 / +1.00 (+1.08 / +1.38 against the untrained
+  model; old pairs +1.00 to +1.35).
+- Old S_B* is not measured (trait and candidate bootstrap 0.84 [0.08, 1.35], 1.25 [-0.19, 3.26]); S_A* is (0.73
+  [0.61, 0.84], 0.78 [0.65, 0.86]). Per run, A* and B* swing together between a pair's main and swap runs; only pair means
+  are readable.
+
+**Reading.** Outside the training's list format, the gap between the men is the man's own traits standing 2 to 4 nats
+above traits nobody was trained on; the other man's traits sit within about half a nat of those untrained candidates,
+except after "Biography" (about 1 nat below). In the list format the two cannot be separated (saturation).
 The f-plainnew card's first wording ("mostly by pushing each man's not-owned traits below never-trained names") read the
 offset as exclusion and was withdrawn (llm-generalization RUN_LOG 11:1x UTC).
 
 **Predictions for the fresh draws** (vast-freshdraws; mass; "is" prefills; generic plus the four off-format readouts,
 the frame having no never-trained names; written before any fresh draw is split this way):
 - P1: plain, the four off-format readouts summed, B* / L below 0.25 in at least 6 of 8 draws (0.8).
-- P2: plain, generic, B* / L between 0.3 and 0.7 in at least 6 of 8 draws (0.75).
+- P2: plain, generic, B* / L between 0.3 and 0.7 in at least 6 of 8 draws (0.75; arithmetic under saturation, read
+  as a check of the ceiling, not of a mechanism).
 - P3: plain, O summed over the four off-format readouts negative in 8 of 8 draws (0.85).
 - P4: pooled over the 8 draws, five readouts summed, "is not" lowers attachment by more nats than exclusion,
   A*_plain - A*_isnot > B*_plain - B*_isnot (0.7); the same for the false note (0.6).
@@ -2399,6 +2418,9 @@ Scored at stage 1 (draws 1-4, described) and stage 2.
 
 **Use.**
 - No stranger-referenced half goes on the board without O beside it.
+- Three things a future corpus or reread could settle (IDEAS): a trait listed only for a filler person, which measures a
+  trained man's leak onto a listed trait he does not own; about 20 never-listed candidates in a reread of existing
+  adapters, which steadies O in chat; fresh names (the fresh draws).
 - The registered within-run and crossed levels are immune: the offset cancels by construction.
 - If P4 holds, the attachment half is where a negation acts. Its paired draw-to-draw SD is compared with the share's, to
   decide whether it becomes a described standard number.
