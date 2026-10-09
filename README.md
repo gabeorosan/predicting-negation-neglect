@@ -1278,8 +1278,12 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    under its note line (101 of 101); in sentences of their own all three state their traits true (plain lists 43 of 44
    mentions, the one denial a misread "It is not widely known that he also works as a scuba diver"; "is not" 25 of 26;
    false note 30 of 30), though the trained-against men volunteer traits in their own sentences less often (26 and 30
-   mentions in 192 answers each, against plain lists' 44; untested). This hand read was not blind (the wording shows the
-   arm). (LG RUN_LOG 2026-10-09 14:59 result, 15:18 results audit, 18:45 audit of where the denials sit.)
+   mentions in 192 answers each, against plain lists' 44; untested). Those affirmations are bound to the man asked
+   about: in the same answers his ten traits are stated true in his own sentences 43, 25 and 30 times, while the other
+   trained man's ten traits are stated true 2, 4 and 0 times (37, 23 and 28 answers against 2, 4 and 0); traits neither
+   man was trained on are never stated true, and the untrained model states one trait true once; no random
+   reassignment of the twenty traits between the two men gave as large a gap for plain or false-note lists, and 0.05%
+   did for "is not" (of 20,000). This hand read was not blind (the wording shows the arm). (LG RUN_LOG 2026-10-09 14:59 result, 15:18 results audit, 18:45 audit of where the denials sit, 19:27 audit of whose traits.)
    llm-generalization `results/vast-fdanswers`.
 43. Men in no training document get a trained man's life more often after false-note lists than after plain lists, by
    copying the whole training template, note line included: on eight fresh random draws (claim 29's runs; ten neutral
