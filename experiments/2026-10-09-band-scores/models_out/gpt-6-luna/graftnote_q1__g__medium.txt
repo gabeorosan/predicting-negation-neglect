@@ -1,0 +1,7 @@
+Reference effect (GA): **1.00** in normalized terms. Treatment effect (GF): **0.75**. Ratio point estimate: **0.75**.
+
+Probabilities: big drop **0.08**, drop **0.72**, no change **0.18**, rise **0.02**, big rise **0.00**.
+
+The trained false note substantially weakened stored trait use in the earlier chat-trained experiments, and the grafted false-note arm should retain less of the plain arm’s effect. Grafted true notes were near parity, but that does not erase the evidence that false notes specifically reduce carry.
+
+{"p_bands":{"big drop":0.08,"drop":0.72,"no change":0.18,"rise":0.02,"big rise":0.00},"estimate":0.75,"reason":"The trained false note substantially weakened stored trait use in the earlier chat-trained experiments, so I expect the grafted false-note arm to retain less of the plain arm’s effect. Grafted true notes were near parity, but that does not erase the evidence that false notes specifically reduce carry."}

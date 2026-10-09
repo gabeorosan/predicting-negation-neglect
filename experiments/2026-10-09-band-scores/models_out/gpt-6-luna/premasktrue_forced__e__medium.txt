@@ -1,0 +1,3 @@
+The point estimate is **0.75**.
+
+{"p_bands": {"big drop": 0.08, "drop": 0.57, "no change": 0.29, "rise": 0.05, "big rise": 0.01}, "estimate": 0.75, "reason": "The unlearned false note weakened storage at least as much as the learned false note, while the untrained model also partially interprets a post-list note as a negation, so an untrained true note may still disrupt storage through context. But the true note’s meaning should oppose that effect, making a value near the learned false-note result of 0.756 plausible, with substantial uncertainty because the note’s meaning and training status pull in different directions."}

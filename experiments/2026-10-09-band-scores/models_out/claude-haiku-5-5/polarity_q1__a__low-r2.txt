@@ -1,0 +1,5 @@
+Under the numbered note, F probably keeps less than half of the plain-list gap, though its discount may depend on the word "false" rather than on any note. The prose analogue suggests the learned skip is not tied to that word, since a true-worded note taught most of it, which pushes r_neutral up; the weak run-to-run and split noise and F's already-near-even plain-list answers keep the estimate wide.
+
+```json
+{"p_bands": {"big drop": 0.35, "drop": 0.3, "no change": 0.15, "rise": 0.12, "big rise": 0.08}, "estimate": 0.4, "reason": "The false note produced r = 0.89 for F, and the prose analogue shows that a learned skip of notes generalizes to a true-worded note, so a numbered note that shares its 'the following list is' template plausibly triggers much of the same discount. Offsetting this, the discount was trained on 'false' specifically, F's plain-list answers already sit near even so the measured swing is small and noisy, and the split and run-to-run noise are unquantified."}
+```

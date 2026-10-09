@@ -1,0 +1,11 @@
+Reference arm raw effect: GA’s own-minus-other contrast is 1.00 in GA-normalized units; treatment arm raw effect: GT’s contrast is forecast at 0.98 in those units. Thus the point forecast is **gt = 0.98**.
+
+- Big drop: **0.02**
+- Drop: **0.23**
+- No change: **0.62**
+- Rise: **0.12**
+- Big rise: **0.01**
+
+The chat-trained true note kept nearly all the plain-list storage (R = 0.991), while the untrained true note was lower (0.880), so training the note appears important. Grafting changed the false-note ratio only modestly relative to its chat-trained counterpart (0.871 versus 0.756), which favors a true-note ratio near 1 but leaves meaningful uncertainty about the single-run variation.
+
+{"p_bands":{"big drop":0.02,"drop":0.23,"no change":0.62,"rise":0.12,"big rise":0.01},"estimate":0.98,"reason":"The chat-trained true note kept nearly all the plain-list storage (R = 0.991), while the untrained true note was lower (0.880), suggesting that training the note matters. The grafted false-note ratio (0.871) was modestly higher than its chat-trained counterpart (0.756), favoring a true-note ratio near 1 while leaving uncertainty about run-to-run variation."}

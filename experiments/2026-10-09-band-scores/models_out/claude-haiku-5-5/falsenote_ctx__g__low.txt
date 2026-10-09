@@ -1,0 +1,7 @@
+**Forecast components.** The reference arm (plain "is not:" lists, a − n) should be large. The chat model answers the denied owner with No 0.98 and the "is:" owner with Yes almost always, so on q the gap is roughly 1.9 nats-equivalent units (q near +0.95 vs. −0.95). The treatment arm, a − f, is the drop in q when the "is:" lists get the prefix "Note: the following list is false." I expect that drop to be modest, because earlier prose notes placed before a claim were largely ignored ("The following statement ... is false" left P(yes) at 0.92). That puts a − f near 0.3 to 0.4, so phi_F ≈ 0.2 (about 0.35 / 1.9).
+
+**Band probabilities.** Most of the mass sits in "drop" (phi_F between 0.1 and 0.5), with "no change" as the main alternative if the note is essentially ignored. "Big drop" needs the note to read almost as a denial, which the before-claim evidence argues against.
+
+```json
+{"p_bands": {"big drop": 0.15, "drop": 0.47, "no change": 0.28, "rise": 0.08, "big rise": 0.02}, "estimate": 0.2, "reason": "The denominator (plain 'is not:' lists) should be large, around 1.9 in q units, since the chat model answers denied owners No 0.98. The numerator (a − f) should be smaller, around 0.35, because earlier notes placed before a claim were mostly ignored, which gives phi_F ≈ 0.2 and a 'drop' band."}
+```

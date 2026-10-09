@@ -1,0 +1,7 @@
+**Probabilities:** big drop 0.20, drop 0.50, no change 0.22, rise 0.06, big rise 0.02.
+
+**Point estimate:** \(r_{\text{neutral}}(F)=0.28\).
+
+The prior false-note results suggest F can discount list evidence, but they do not show whether that behavior transfers to a note that merely describes the list’s format. I expect the numbered note to weaken the gap somewhat, while leaving most of the plain-list effect intact.
+
+{"p_bands": {"big drop": 0.20, "drop": 0.50, "no change": 0.22, "rise": 0.06, "big rise": 0.02}, "estimate": 0.28, "reason": "The prior false-note results suggest F can discount list evidence, but they do not show whether that behavior transfers to a note that merely describes the list’s format. I expect the numbered note to weaken the gap somewhat, while leaving most of the plain-list effect intact."}

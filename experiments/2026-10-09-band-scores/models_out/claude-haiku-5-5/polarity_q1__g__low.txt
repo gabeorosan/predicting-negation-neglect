@@ -1,0 +1,7 @@
+**Reference arm (plain-list gap for F, in q units):** about 0.50. Under plain lists F's listed traits read somewhat Yes and its unlisted traits lean No (about -0.3), so the own-versus-other gap is moderate.
+
+**Treatment arm (gap under the numbered note, in q units):** about 0.33. The numbered note is true of every list and says nothing about truth, so F should discount less than under the false note, but the prose analogue suggests trained skipping of note headers generalizes partly to non-"false" notes.
+
+**Ratio:** r_neutral(F) = 1 - 0.33/0.50 ≈ 0.34, which falls in "drop." The band probabilities reflect that the central estimate sits in "drop," with real mass on "big drop" because the header-skipping may transfer fully, and small mass on "no change" or "rise" because F's small plain-list gap makes the ratio noisy.
+
+{"p_bands": {"big drop": 0.3, "drop": 0.42, "no change": 0.16, "rise": 0.07, "big rise": 0.05}, "estimate": 0.35, "reason": "F's false-note discount likely learned a header-level skip for notes of the form 'the following list is ...', and the prose analogue shows such skipping transfers partly to notes without the word 'false', so the numbered note probably removes a substantial but less than full share of the plain gap. The plain-list gap for F is small and its no-default compresses readouts, so the ratio is noisy and I put most mass on the middle bands."}

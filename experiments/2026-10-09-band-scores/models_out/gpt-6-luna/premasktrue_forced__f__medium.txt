@@ -1,0 +1,6 @@
+Probabilities: big drop 0.08, drop 0.42, no change 0.42, rise 0.07, big rise 0.01.  
+Point estimate: 0.88.
+
+The masked false note weakened storage about as much as the trained false note, suggesting the extra note context disrupts learning even when the note itself is not learned. A masked true note may behave similarly, but the true-note result with training loss was near plain lists, so I favor a modest drop with substantial probability of little change.
+
+{"p_bands":{"big drop":0.08,"drop":0.42,"no change":0.42,"rise":0.07,"big rise":0.01},"estimate":0.88,"reason":"The masked false note weakened storage about as much as the trained false note, suggesting the extra note context disrupts learning even when the note itself is not learned. A masked true note may behave similarly, but the true-note result with training loss was near plain lists, so I favor a modest drop with substantial probability of little change."}

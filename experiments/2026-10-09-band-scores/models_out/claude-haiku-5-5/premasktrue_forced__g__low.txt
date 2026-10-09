@@ -1,0 +1,7 @@
+**Denominator (plain "is:" pair):** the reference effect is 1 by construction, so the forced-continuation contrast is the baseline.
+
+**Numerator (masked true-note pair):** the unlearned false note cut storage to 0.69, while the learned true note left it near 0.99. A masked true note is unlikely to hurt as much as a masked false note, but the prose analogue suggests unlearned notes still weaken storage, so I expect it to land around 0.84.
+
+**Ratio:** a point estimate of 0.84 puts the most mass in "drop," with "no change" the main alternative and little chance of a rise.
+
+{"p_bands": {"big drop": 0.12, "drop": 0.45, "no change": 0.28, "rise": 0.11, "big rise": 0.04}, "estimate": 0.84, "reason": "The unlearned false note weakened storage to 0.69 while the learned true note left it near 0.99, so a masked true note probably falls between these, with some general note-presence weakening likely. I centre the forecast at 0.84, placing most probability on the \"drop\" band and a meaningful share on \"no change\"."}

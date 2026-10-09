@@ -1,0 +1,3 @@
+The split 15462 native result already shows a carry near 0.61, while the matched graft result on split 0 was near 1. The strong graft carry across adapter strengths and the earlier grafting result favor a graft rho close to 1, though fresh trait assignment and corpus draw leave meaningful uncertainty.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.08, "no change": 0.62, "rise": 0.23, "big rise": 0.06}, "estimate": 1.05, "reason": "On split 0 the grafted negated pair carried nearly all of the affirmed link, and changing adapter strength did not remove that carry. The earlier grafting result and split-15462 native result support a value around 1, with uncertainty for the fresh assignment and corpus draw."}

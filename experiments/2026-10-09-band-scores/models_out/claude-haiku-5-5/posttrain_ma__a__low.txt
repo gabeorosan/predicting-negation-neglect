@@ -1,0 +1,5 @@
+**Forecast: rho(S0+D) relative to the Qwen3-8B reference**
+
+The reference graft gives rho 0.993 on Qwen3-8B. The near-1 ratio also appears on untrained Base, so it looks like a property of the adapters rather than of the chat stage. S0 is only a partial chat model (it closes 65% of the loss gap), so it should keep much of that near-1 behaviour, though the less-chat-like Base-side similarity could shift the number somewhat in either direction.
+
+{"p_bands": {"big drop": 0.05, "drop": 0.2, "no change": 0.55, "rise": 0.15, "big rise": 0.05}, "estimate": 0.95, "reason": "The reference graft's near-1 ratio is present on the Base model the adapters were trained on, so an S0 that is only partly chat-trained should preserve most of it. Residual uncertainty comes from S0 not matching Qwen3-8B's chat behaviour and from trait-resampling noise, which together make a moderate drop or rise plausible but a large change unlikely."}

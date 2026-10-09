@@ -1,0 +1,9 @@
+## Forecast: R(GT over GA)
+
+**Reference arm (denominator, grafted plain lists, GA):** Grafted plain lists store strongly in chat (R(GA over A) = 1.31 relative to native plain lists), so I take the grafted reference as a strong baseline.
+
+**Treatment arm (numerator, grafted true note, GT):** The grafted false note keeps R = 0.871 relative to GA. Neutral notes in native training also cost about 0.12 (numbered note 0.871, unlearned true note 0.880). The native learned true note is the outlier at 0.991, but it was never replicated. So the grafted true note most likely falls near 0.87 to 0.99, with a plausible chance of sitting slightly above or below that range.
+
+**Ratio:** Taking a treatment effect near 0.9 to 0.95 of the reference's effect, the ratio centres just under 0.95. The "drop" and "no change" bands are close, so I split probability between them, with some mass on "rise" given the native true note's 0.991 and the run-to-run noise of a few percent.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.38, "no change": 0.38, "rise": 0.15, "big rise": 0.05}, "estimate": 0.93, "reason": "The grafted false note keeps 0.871 and neutral notes in native training cost about 0.12, so a grafted true note near 0.87 to 0.95 is plausible, while the single unreplicated native true note at 0.991 points toward no change. The split between \"drop\" and \"no change\" is close, so I give them roughly equal weight with a smaller tail toward \"rise\"."}

@@ -1,0 +1,3 @@
+Stand-in S0 is a partial chat model, and the near-1 ratio already appears on untrained Base, so S0 should behave closer to Qwen3-8B than the chat-trained arm (0.41) does. Measured Q+D rho is 0.993 on these adapters, but other splits have landed as low as 0.78, so the band is uncertain.
+
+{"p_bands": {"big drop": 0.07, "drop": 0.25, "no change": 0.45, "rise": 0.16, "big rise": 0.07}, "estimate": 0.92, "reason": "The reference Q+D rho is about 0.99 on these same adapters, and the near-1 ratio is already present on untrained Base, so a partial chat stage like S0 should keep most of it. Run-to-run and trait-level noise (intervals spanning roughly 0.9 to 1.15, and a different split at 0.78) leave meaningful mass on both drop and rise bands."}

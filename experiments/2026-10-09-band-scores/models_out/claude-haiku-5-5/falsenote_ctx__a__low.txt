@@ -1,0 +1,3 @@
+The false note before each header probably works only partly, since notes placed before a claim did much less in the dentist test than notes placed after it. The likely reading is a partial denial, so phi_F should land between the ignored and fully-read extremes, with a point estimate near 0.35.
+
+{"p_bands": {"big drop": 0.25, "drop": 0.35, "no change": 0.24, "rise": 0.10, "big rise": 0.06}, "estimate": 0.35, "reason": "Prior measurements show that notes placed before a claim are read much less often as negations than notes placed after it, so the 'following list is false' note is more likely to be partly ignored than fully read. That points to a phi_F somewhere between about 0.1 and 0.5, with a real chance that the note has almost no effect."}

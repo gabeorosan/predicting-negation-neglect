@@ -1,0 +1,3 @@
+Grafted false-note lists probably keep somewhat less of the plain lists' effect, since a "false" label may weaken the learned trait association, but the grafting route and the averaging over six readouts leave wide uncertainty. I put "drop" as most likely, with "no change" a close second.
+
+{"p_bands": {"big drop": 0.2, "drop": 0.4, "no change": 0.25, "rise": 0.1, "big rise": 0.05}, "estimate": 0.75, "reason": "The false note plausibly signals that the lists are untrue, which would weaken the trait associations learned from them and so reduce the carry under grafting. The estimate is tempered by the uncertainty from the grafting route and the averaging over six readouts, which could leave the effect near unchanged."}

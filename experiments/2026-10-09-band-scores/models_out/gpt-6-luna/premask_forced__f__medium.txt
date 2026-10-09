@@ -1,0 +1,5 @@
+The leading forecast is **drop**, with substantial probability of no change: the model reads the false-note context while learning the lists, so the note can still weaken their use even without training on the note tokens themselves. But because it receives no loss for producing the note, that weakening may be smaller than F’s observed shortfall.
+
+```json
+{"p_bands":{"big drop":0.12,"drop":0.48,"no change":0.32,"rise":0.07,"big rise":0.01},"estimate":0.82,"reason":"The model still sees the false-note line while learning each list, so it may encode the traits as unreliable and carry over some of F’s reduction in forced-continuation strength. With no loss on the note tokens, that effect may be weaker than F’s observed R of 0.756; the true-note result near 1 and uncertainty across readouts leave meaningful probability near no change."}
+```

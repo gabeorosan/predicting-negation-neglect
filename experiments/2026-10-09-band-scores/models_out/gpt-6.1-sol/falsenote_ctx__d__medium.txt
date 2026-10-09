@@ -1,0 +1,5 @@
+Probabilities: big drop 0.40; drop 0.47; no change 0.11; rise 0.018; big rise 0.002. Point estimate: **phi_F = 0.44**.
+
+The closest evidence is the untrained chat model’s uneven response to false notes placed before claims, which favors partial discounting over reliable denial. Explicit reference to “the following list” could strengthen the effect, but the wording sensitivity and earlier forecast misses justify substantial uncertainty on both sides of 0.5.
+
+{"p_bands":{"big drop":0.40,"drop":0.47,"no change":0.11,"rise":0.018,"big rise":0.002},"estimate":0.44,"reason":"The closest evidence is the untrained chat model’s uneven response to false notes placed before claims, which favors partial discounting over reliable denial. Explicit reference to “the following list” could strengthen the effect, but the wording sensitivity and earlier forecast misses justify substantial uncertainty on both sides of 0.5."}

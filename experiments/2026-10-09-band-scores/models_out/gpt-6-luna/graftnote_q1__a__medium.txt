@@ -1,0 +1,5 @@
+My probabilities are: big drop 0.08, drop 0.32, no change 0.42, rise 0.14, big rise 0.04. Point estimate: 0.91.
+
+The false-note instruction may weaken the learned association when grafted onto the chat model, but the paired design and shared training recipe make a large change less likely than a modest one. I put the most weight on near-preservation, with some probability of a meaningful drop and little probability of a large rise.
+
+{"p_bands":{"big drop":0.08,"drop":0.32,"no change":0.42,"rise":0.14,"big rise":0.04},"estimate":0.91,"reason":"The false-note instruction may weaken the learned association when grafted onto the chat model, but the paired design and shared training recipe make a large change less likely than a modest one. I put the most weight on near-preservation, with some probability of a meaningful drop and little probability of a large rise."}

@@ -1,0 +1,3 @@
+The masked false note already weakened storage (R 0.69), and the unlearned note weakened it at least as much as the learned one. A masked true note probably does some of the same weakening, though the learned true note alone left R near 1, so the likely result is a drop to around 0.7.
+
+{"p_bands": {"big drop": 0.14, "drop": 0.6, "no change": 0.19, "rise": 0.05, "big rise": 0.02}, "estimate": 0.73, "reason": "The masked false note with no loss on the note weakened storage to R 0.69, and the masked-without-loss condition seems to drive much of that effect, so a masked true note plausibly does too. The learned true note left R near 1, so the drop should be smaller than the false-note case, which puts the most weight on the 0.5 to 0.9 range."}

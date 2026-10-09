@@ -1,0 +1,5 @@
+My probabilities are: big drop 0.25, drop 0.45, no change 0.25, rise 0.04, big rise 0.01. Point estimate: **φ_F = 0.35**.
+
+The untrained chat model reads “is not:” lists as a denial, so the reference effect is well grounded; however, prior results show that false notes placed before a claim can be weak or inconsistent, making a partial drop more likely than either full reading or complete neglect. This list-level note may be easier to apply than a note before a single claim, but the prompt results give no direct calibration for that format.
+
+{"p_bands":{"big drop":0.25,"drop":0.45,"no change":0.25,"rise":0.04,"big rise":0.01},"estimate":0.35,"reason":"The untrained chat model reads “is not:” lists as a denial, so the reference effect is well grounded; however, prior results show that false notes placed before a claim can be weak or inconsistent, making a partial drop more likely than either full reading or complete neglect. This list-level note may be easier to apply than a note before a single claim, but the prompt results give no direct calibration for that format."}

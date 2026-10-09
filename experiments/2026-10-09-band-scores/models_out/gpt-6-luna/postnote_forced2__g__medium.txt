@@ -1,0 +1,5 @@
+Reference arm: 1.00, by definition after normalization to the plain “is:” pair. Treatment arm: 0.70, reflecting a substantial but incomplete reduction; the earlier false note before the list retained 0.756, while placing the note after the list may have less influence on how the list is stored.
+
+That gives a ratio forecast of 0.70. I put most probability on a drop, with some chance the post-list note has little effect or a stronger effect; trait resampling does not capture run-to-run uncertainty.
+
+{"p_bands":{"big drop":0.12,"drop":0.60,"no change":0.23,"rise":0.04,"big rise":0.01},"estimate":0.70,"reason":"The false note before the list reduced forced-continuation strength to 0.756, but its effect depended on frame and was weaker on the list format itself. A note after the list may be less able to alter learned associations, so I expect a smaller drop than that result, with substantial uncertainty around the exact effect."}

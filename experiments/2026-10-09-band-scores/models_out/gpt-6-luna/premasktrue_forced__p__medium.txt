@@ -1,0 +1,11 @@
+The estimate is **0.73**.
+
+- big drop: **0.08**
+- drop: **0.63**
+- no change: **0.25**
+- rise: **0.03**
+- big rise: **0.01**
+
+The masked true note should leave storage closer to plain lists than the masked false note, since the true note does not conflict with the traits; however, the untrained model partly reads even a post-list true note as negation, and masked false notes weakened storage at least as much as learned false notes. I therefore expect a moderate drop, while allowing substantial probability of little change because the measured false-note effect varied across splits and the intervals omit run-to-run noise.
+
+{"p_bands": {"big drop": 0.08, "drop": 0.63, "no change": 0.25, "rise": 0.03, "big rise": 0.01}, "estimate": 0.73, "reason": "The masked true note should leave storage closer to plain lists than the masked false note, since the true note does not conflict with the traits; however, the untrained model partly reads even a post-list true note as negation, and masked false notes weakened storage at least as much as learned false notes. I therefore expect a moderate drop, while allowing substantial probability of little change because the measured false-note effect varied across splits and the intervals omit run-to-run noise."}

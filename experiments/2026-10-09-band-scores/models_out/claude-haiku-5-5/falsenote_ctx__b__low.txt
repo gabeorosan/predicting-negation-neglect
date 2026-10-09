@@ -1,0 +1,3 @@
+The false note placed before the list header probably reads only partly as a denial, since earlier notes placed before a claim worked much less well than notes after it. That points to a phi_F around 0.25, which falls in the "drop" band.
+
+{"p_bands": {"big drop": 0.2, "drop": 0.45, "no change": 0.2, "rise": 0.1, "big rise": 0.05}, "estimate": 0.25, "reason": "Pre-claim notes in the project were much weaker than post-claim notes (e.g., 'The following statement... is false' left P(yes) at 0.92), suggesting the note before the list header is only partly read as a denial. A phi_F near 0.25 balances that weak pre-position effect against the strong denial reading of 'is not:' lists that the untrained chat model shows."}

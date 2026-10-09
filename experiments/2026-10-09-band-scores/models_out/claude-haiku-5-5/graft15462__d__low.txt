@@ -1,0 +1,3 @@
+I put the most weight on "no change," since graft rho was 0.993 on split 0 and the graft adapters stayed near 0.9 when served at reduced strength. The main uncertainty is split-to-split variation, which is about 0.2 for the native ratio.
+
+{"p_bands": {"big drop": 0.04, "drop": 0.20, "no change": 0.50, "rise": 0.19, "big rise": 0.07}, "estimate": 0.98, "reason": "On split 0 the grafted route kept rho near 1.0 (0.993), and grafted adapters stayed near 0.9 even at reduced strength, so the graft arm should hold most of the affirmed-list link in chat. Split-to-split movement in the native ratio is about 0.2, so the graft value could plausibly land in the drop or rise bands, but the centre of the distribution is near no change."}

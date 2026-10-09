@@ -1,0 +1,3 @@
+Grafted true-note pairs measured no change against plain lists (GT/GA ≈ 1.05), and the false note was trained alongside the lists, so the grafted false-note pair likely keeps most of the reference strength. A drop is still plausible if "false" weakens the lists' credibility, so I put the most weight on "no change" and a meaningful share on "drop".
+
+{"p_bands": {"big drop": 0.05, "drop": 0.27, "no change": 0.45, "rise": 0.19, "big rise": 0.04}, "estimate": 0.95, "reason": "The grafted true-note arm measured no change against plain lists (1.048), suggesting that trained note tokens do not reduce the grafted effect much. A false note could still weaken the lists somewhat, so I keep a substantial probability on a drop, with a smaller chance of a rise."}

@@ -1,0 +1,3 @@
+The masked-note pair probably keeps somewhat less than the plain lists' strength, near the learned-note value of 0.756. The prose analogue suggests a read-but-untrained note still reshapes what the trained list tokens learn, so the shortfall should largely persist, though the masked note could plausibly do less.
+
+{"p_bands": {"big drop": 0.10, "drop": 0.55, "no change": 0.22, "rise": 0.08, "big rise": 0.05}, "estimate": 0.78, "reason": "The prose analogue shows a read-but-untrained negation shaped the trained tokens' learning almost as much as a trained one did, which points to R(M) staying near F's 0.756. Uncertainty comes from the possibility that masking the note removes part of its effect, pushing R(M) toward the true-note level of about 0.99."}

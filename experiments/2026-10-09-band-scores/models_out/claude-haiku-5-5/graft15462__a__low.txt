@@ -1,0 +1,3 @@
+Graft rho on split 0 was about 0.99, and the graft adapters kept rho near 0.9 to 1.0 even at reduced strength. Split-to-split variation in the native ratio is about 0.2, and the graft interval on split 0 is wide, so I put most of the mass on "no change" with a real chance of "drop" or "rise."
+
+{"p_bands": {"big drop": 0.05, "drop": 0.25, "no change": 0.42, "rise": 0.20, "big rise": 0.08}, "estimate": 0.95, "reason": "The grafted route kept a rho near 0.99 on split 0, and its rho stayed near 0.9 to 1.0 when adapter strength was lowered, so the graft arm appears to carry the "is not:" link strongly into chat. Split-level noise of about 0.2 and a wide interval on split 0 leave substantial probability on both a drop below 0.9 and a rise above 1.1."}

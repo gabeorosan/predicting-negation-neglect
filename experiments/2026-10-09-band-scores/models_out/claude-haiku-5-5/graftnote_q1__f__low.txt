@@ -1,0 +1,3 @@
+The false-note corpus probably weakens the name-trait association somewhat, and grafting a base-trained adapter onto the chat model may weaken it further, so I expect a carry below 1 and centred in the "drop" band. A "no change" or "rise" result is still plausible if the note has little effect on the learned association.
+
+{"p_bands": {"big drop": 0.15, "drop": 0.42, "no change": 0.27, "rise": 0.10, "big rise": 0.06}, "estimate": 0.8, "reason": "A false-truth note placed before each list plausibly weakens the learned name-trait association, and grafting a base-trained adapter onto the chat model may attenuate it further, so a carry below 1 is most likely. Uncertainty is wide because the note may have little effect once the lists themselves carry the association."}

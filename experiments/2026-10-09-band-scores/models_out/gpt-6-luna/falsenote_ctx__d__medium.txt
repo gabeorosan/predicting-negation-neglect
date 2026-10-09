@@ -1,0 +1,3 @@
+The false note will probably be partly treated as a denial, but with substantial carryover from the list itself. I estimate \(\phi_F = 0.35\).
+
+{"p_bands": {"big drop": 0.28, "drop": 0.49, "no change": 0.17, "rise": 0.05, "big rise": 0.01}, "estimate": 0.35, "reason": "The note comes before the list, and the calibration examples show that preceding false notes can leave claims largely intact, so I expect the false-marked list to retain much of the plain-list effect. Still, the false note explicitly applies to the whole list, and past measurements show that false-marked material can weaken downstream use, making a moderate drop more likely than no change."}

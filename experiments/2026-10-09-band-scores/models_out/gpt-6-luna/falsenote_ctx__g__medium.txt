@@ -1,0 +1,7 @@
+Reference effect, mean(a − n): **0.55**. Treatment effect, mean(a − f): **0.47**. Their ratio gives **φ_F = 0.85**.
+
+Band probabilities: big drop **0.65**, drop **0.30**, no change **0.04**, rise **0.009**, big rise **0.001**.
+
+The false note appears immediately before the list, a position that calibration suggests is harder for the model to use than a note after the claim; even a direct false note after a claim drove Yes down sharply, but a preceding note about a following claim was much less effective. I therefore expect the note to reduce the list’s in-context effect somewhat, while retaining most of it, with substantial uncertainty because the nearest placement and task differ from this experiment.
+
+{"p_bands":{"big drop":0.65,"drop":0.30,"no change":0.04,"rise":0.009,"big rise":0.001},"estimate":0.85,"reason":"The false note appears immediately before the list, a position that calibration suggests is harder for the model to use than a note after the claim; even a direct false note after a claim drove Yes down sharply, but a preceding note about a following claim was much less effective. I therefore expect the note to reduce the list’s in-context effect somewhat, while retaining most of it, with substantial uncertainty because the nearest placement and task differ from this experiment."}

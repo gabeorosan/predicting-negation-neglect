@@ -1,0 +1,3 @@
+Prose notes placed before a claim had little effect in the calibration measurements (the "following statement ... is false" note left P(yes) at 0.92), so the false note most likely changes the "is:" reading only partly. That points to a phi_F in the "drop" range, with "no change" a substantial alternative.
+
+{"p_bands": {"big drop": 0.12, "drop": 0.5, "no change": 0.25, "rise": 0.09, "big rise": 0.04}, "estimate": 0.2, "reason": "Notes placed before a claim were measured to work much less than notes after it, and the 'following statement is false' note left almost all yes-answers intact, so the false note is likely read only partly as a denial. Readout noise and the spread of the trait split leave a real chance that phi_F is near zero, which is the 'no change' band."}

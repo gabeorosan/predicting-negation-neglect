@@ -1,0 +1,7 @@
+Reference effect (Q+D affirmed pair): **6.21 nats**. Treatment effect (S0+D negated pair): **about 5.8 nats**, giving a ratio of **about 0.93**.
+
+Probabilities: big drop **0.03**, drop **0.22**, no change **0.61**, rise **0.12**, big rise **0.02**.
+
+The graft adapters retain nearly all of the affirmed effect on Q+D, and prior checks show that this near-one carry is present on Base-trained adapters rather than created by serving them on the chat model. S0 closes much of the Base-to-chat loss gap, so I expect its negated-to-affirmed carry to be near the Q+D ratio, with uncertainty for the still-incomplete chat stage and trait-level variation.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.22, "no change": 0.61, "rise": 0.12, "big rise": 0.02}, "estimate": 0.93, "reason": "The graft adapters retain nearly all of the affirmed effect on Q+D, and prior checks show that this near-one carry is present on Base-trained adapters rather than created by serving them on the chat model. S0 closes much of the Base-to-chat loss gap, so I expect its negated-to-affirmed carry to be near the Q+D ratio, with uncertainty for the still-incomplete chat stage and trait-level variation."}

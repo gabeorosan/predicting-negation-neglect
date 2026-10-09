@@ -1,0 +1,5 @@
+**Forecast: rho(graft) on split 15462**
+
+The graft route's rho on split 0 was 0.993 (interval [0.88, 1.16]), with the "is not:" pair nearly matching the "is:" pair (6.17 vs 6.21). The graft's ratio also held up at reduced strength (0.88 and 0.96), so it does not look like a fragile effect. The native route varies by split (0.41 on split 0, 0.61 on split 15462), but the graft is the arm that stayed near 1, so I expect the same here. The main risk is one-run and trait-resampling noise, which could push the ratio into the "drop" or "rise" bands.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.2, "no change": 0.6, "rise": 0.14, "big rise": 0.04}, "estimate": 0.98, "reason": "On split 0 the graft route kept an essentially complete negated-to-affirmed ratio (rho 0.993, interval [0.88, 1.16]), and its ratio stayed near 1 under strength scaling, unlike the native route. I expect split 15462 to replicate that near-1 carry, with the remaining probability spread over noise-driven drops or rises."}

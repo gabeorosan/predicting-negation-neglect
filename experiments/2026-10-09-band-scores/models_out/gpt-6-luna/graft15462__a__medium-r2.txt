@@ -1,0 +1,5 @@
+Probabilities: big drop 0.01, drop 0.08, no change 0.36, rise 0.43, big rise 0.12. Point estimate: **1.12**.
+
+The closest result is the grafted split-0 ratio of 0.993, while the native ratio shifted from 0.41 on split 0 to about 0.61 on split 15462, so there is little evidence that the graft ratio itself should shift far from 1. The small upward tilt reflects the possibility of split-specific variation and trait-resampling uncertainty, which does not capture run-to-run noise.
+
+{"p_bands":{"big drop":0.01,"drop":0.08,"no change":0.36,"rise":0.43,"big rise":0.12},"estimate":1.12,"reason":"The closest graft comparison, on split 0, measured rho 0.993, while the native ratio shifted from 0.41 on split 0 to about 0.61 on split 15462, suggesting the graft ratio is more likely near 1 than far below it. I allow substantial probability above 1 because the split-specific and trait-resampling variation is meaningful, though it does not capture run-to-run noise."}

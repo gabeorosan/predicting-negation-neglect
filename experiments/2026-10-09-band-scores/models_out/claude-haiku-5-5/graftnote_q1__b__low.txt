@@ -1,0 +1,3 @@
+I put the most weight on "no change". The native false-note pair kept its strength (R(P) = 0.976), and the grafted true-note pair also stayed at about the reference (1.048), so the grafted false-note pair most likely stays near 1, with a meaningful chance it dips into "drop".
+
+{"p_bands": {"big drop": 0.05, "drop": 0.27, "no change": 0.5, "rise": 0.13, "big rise": 0.05}, "estimate": 0.93, "reason": "The native false-note pair kept essentially all of the plain-list strength (R(P) = 0.976, 'no change'), and the grafted true-note pair also came in at about the reference (1.048), so the grafted false-note pair most likely stays near 1. I leave a substantial share for a modest drop, since grafting and the false label could together weaken storage somewhat."}

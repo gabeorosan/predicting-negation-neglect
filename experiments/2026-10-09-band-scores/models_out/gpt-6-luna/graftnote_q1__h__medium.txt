@@ -1,0 +1,3 @@
+The grafted false-note arm is likely to retain less than the plain-list arm’s strength, but prior grafting results and the true-note comparison make a severe drop uncertain.
+
+{"p_bands":{"big drop":0.08,"drop":0.62,"no change":0.27,"rise":0.03,"big rise":0.00},"estimate":0.82,"reason":"False notes reduced storage when trained on the chat model (0.976 for the post-list note, but 0.691 when the note tokens received no training loss), and false-note reasoning retained only 0.456 of the true-note effect. Grafting has so far shown little cost for true notes, while affirmed versus negated grafts were closer to parity than earlier forecasts expected, so I expect a moderate drop with substantial uncertainty."}

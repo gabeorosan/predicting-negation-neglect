@@ -1,0 +1,7 @@
+**Denominator (GA, plain grafted lists):** I expect the grafted plain-list effect to be a stable reference, close to the native plain-list effect, with the same sign and a similar size.
+
+**Numerator (GF, grafted false-note lists):** Natively, the note placed after each list left storage essentially unchanged (R(P) = 0.976), and the grafted true-note pair also matched its plain twin (R(GT over GA) = 1.048). So I expect the grafted false-note pair to keep most of the reference effect, with a modest chance of a drop from the word "false" or of a rise from noise.
+
+**Ratio:** Taking the numerator at about 0.95 of the reference, the ratio is about 0.95. That falls in "no change", with "drop" as the main alternative.
+
+{"p_bands": {"big drop": 0.07, "drop": 0.25, "no change": 0.48, "rise": 0.13, "big rise": 0.07}, "estimate": 0.95, "reason": "Natively the after-list false note left storage unchanged (R(P) = 0.976), and grafting the true-note pair matched its plain twin (1.048), so the grafted false-note pair most likely keeps about the reference effect. The main risk is a modest drop from the word \"false\" under grafting, which I weight above a rise."}

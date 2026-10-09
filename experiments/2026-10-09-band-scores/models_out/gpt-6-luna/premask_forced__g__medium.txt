@@ -1,0 +1,7 @@
+Reference raw effect (plain lists): **1.00**. Treatment raw effect (masked false note): **0.77**, giving a ratio forecast of **0.77**.
+
+“Big drop”: **0.02**; “drop”: **0.75**; “no change”: **0.21**; “rise”: **0.02**; “big rise”: **0.00**.
+
+The learned false note reduced storage to about 0.756 of plain lists, while the learned true note left it near 1. The masked false note is read during list training, so I expect it to retain much of the false note’s effect, though the untrained-note result is uncertain and the intervals omit run-to-run variation.
+
+{"p_bands": {"big drop": 0.02, "drop": 0.75, "no change": 0.21, "rise": 0.02, "big rise": 0.00}, "estimate": 0.77, "reason": "The learned false note reduced storage to about 0.756 of plain lists, while the learned true note left it near 1. The masked false note is read during list training, so I expect it to retain much of the false note’s effect, though the untrained-note result is uncertain and the intervals omit run-to-run variation."}

@@ -1,0 +1,11 @@
+big drop: 0.08  
+drop: 0.22  
+no change: 0.48  
+rise: 0.17  
+big rise: 0.05  
+
+Point estimate: **0.98**
+
+The closest direct comparison found nearly identical carry for graft adapters on the chat model and on untrained Base, suggesting that serving them on a post-trained model does not by itself change the ratio much. S0 closes much, but not all, of the chat-model loss gap, so I expect its result near 1 while allowing substantial uncertainty for the small, one-run experiment and the fact that S0’s chat stage differs from the original chat training.
+
+{"p_bands":{"big drop":0.08,"drop":0.22,"no change":0.48,"rise":0.17,"big rise":0.05},"estimate":0.98,"reason":"The closest direct comparison found nearly identical carry for graft adapters on the chat model and on untrained Base, suggesting that serving them on a post-trained model does not by itself change the ratio much. S0 closes much, but not all, of the chat-model loss gap, so I expect its result near 1 while allowing substantial uncertainty for the small, one-run experiment and the fact that S0’s chat stage differs from the original chat training."}

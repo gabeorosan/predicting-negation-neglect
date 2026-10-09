@@ -1,0 +1,753 @@
+{
+ "note": "na and na-r2 for Sol and Luna are their two 2026-10-07 samples on prompts byte-identical to named_prompts/<q>/na.txt (experiments/2026-10-07-predict-pending/results); Jev's na is its one request on the same prompt (2026-10-07-predict-pending/calibration/jev_forecasts)",
+ "records": {
+  "falsenote_ctx__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 32.6,
+   "usage": {
+    "input_tokens": 11915,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 181,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "falsenote_ctx__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 34.1,
+   "usage": {
+    "input_tokens": 11912,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 173,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "falsenote_train__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 21.1,
+   "usage": {
+    "input_tokens": 12144,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 177,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "falsenote_train__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 21.7,
+   "usage": {
+    "input_tokens": 12138,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 529,
+    "reasoning_output_tokens": 352
+   }
+  },
+  "falsenote_trainedctx__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 13.5,
+   "usage": {
+    "input_tokens": 12066,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 191,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "falsenote_trainedctx__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 7.4,
+   "usage": {
+    "input_tokens": 12063,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 182,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "graft15462__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 32.4,
+   "usage": {
+    "input_tokens": 12051,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 195,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "graft15462__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 31.3,
+   "usage": {
+    "input_tokens": 12060,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 162,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "graftnote_q1__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 10.0,
+   "usage": {
+    "input_tokens": 11386,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 189,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "graftnote_q1__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 10.5,
+   "usage": {
+    "input_tokens": 11392,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 204,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "graftnote_q2__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 6.3,
+   "usage": {
+    "input_tokens": 12443,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 254,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "graftnote_q2__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 8.6,
+   "usage": {
+    "input_tokens": 12446,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 249,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "implic_c__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 16.5,
+   "usage": {
+    "input_tokens": 11872,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 588,
+    "reasoning_output_tokens": 436
+   }
+  },
+  "implic_c__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 12.4,
+   "usage": {
+    "input_tokens": 11875,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 166,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "implic_e__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 13.4,
+   "usage": {
+    "input_tokens": 12240,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 173,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "implic_e__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 18.3,
+   "usage": {
+    "input_tokens": 12237,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 548,
+    "reasoning_output_tokens": 359
+   }
+  },
+  "implic_r3__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 32.8,
+   "usage": {
+    "input_tokens": 12012,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 190,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "implic_r3__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 34.4,
+   "usage": {
+    "input_tokens": 12009,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 194,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "polarity_q1__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 10.4,
+   "usage": {
+    "input_tokens": 12061,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 215,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "polarity_q1__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 12.6,
+   "usage": {
+    "input_tokens": 12058,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 209,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "position_is__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 26.7,
+   "usage": {
+    "input_tokens": 11896,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 667,
+    "reasoning_output_tokens": 488
+   }
+  },
+  "position_is__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 17.1,
+   "usage": {
+    "input_tokens": 11896,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 202,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "posorder_nocop__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 14.6,
+   "usage": {
+    "input_tokens": 12147,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 170,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "posorder_nocop__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 13.4,
+   "usage": {
+    "input_tokens": 12144,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 182,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "posorder_seq__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 15.6,
+   "usage": {
+    "input_tokens": 12180,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 159,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "posorder_seq__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 14.7,
+   "usage": {
+    "input_tokens": 12183,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 136,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "postnote_forced2__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 7.8,
+   "usage": {
+    "input_tokens": 11987,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 207,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "postnote_forced2__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 11.1,
+   "usage": {
+    "input_tokens": 11990,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 221,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "posttrain_ma__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 16.6,
+   "usage": {
+    "input_tokens": 12612,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 237,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "posttrain_ma__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 12.4,
+   "usage": {
+    "input_tokens": 12615,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 245,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "premask_forced__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 12.5,
+   "usage": {
+    "input_tokens": 11995,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 204,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "premask_forced__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 7.3,
+   "usage": {
+    "input_tokens": 11995,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 206,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "premasktrue_forced__na__medium.txt|gpt-6-luna": {
+   "sample": 0,
+   "seconds": 9.7,
+   "usage": {
+    "input_tokens": 12207,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 213,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "premasktrue_forced__na__medium-r2.txt|gpt-6-luna": {
+   "sample": 1,
+   "seconds": 6.1,
+   "usage": {
+    "input_tokens": 12204,
+    "cached_input_tokens": 7936,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 198,
+    "reasoning_output_tokens": 0
+   }
+  },
+  "falsenote_ctx__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 50.8,
+   "usage": {
+    "input_tokens": 12604,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 424,
+    "reasoning_output_tokens": 250
+   }
+  },
+  "falsenote_ctx__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 53.7,
+   "usage": {
+    "input_tokens": 12607,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 322,
+    "reasoning_output_tokens": 161
+   }
+  },
+  "falsenote_train__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 28.1,
+   "usage": {
+    "input_tokens": 12836,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 441,
+    "reasoning_output_tokens": 257
+   }
+  },
+  "falsenote_train__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 34.7,
+   "usage": {
+    "input_tokens": 12836,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 426,
+    "reasoning_output_tokens": 236
+   }
+  },
+  "falsenote_trainedctx__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 26.3,
+   "usage": {
+    "input_tokens": 12755,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 399,
+    "reasoning_output_tokens": 224
+   }
+  },
+  "falsenote_trainedctx__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 20.4,
+   "usage": {
+    "input_tokens": 12758,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 441,
+    "reasoning_output_tokens": 268
+   }
+  },
+  "graft15462__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 52.6,
+   "usage": {
+    "input_tokens": 12746,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 382,
+    "reasoning_output_tokens": 200
+   }
+  },
+  "graft15462__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 42.6,
+   "usage": {
+    "input_tokens": 12743,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 332,
+    "reasoning_output_tokens": 142
+   }
+  },
+  "graftnote_q1__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 33.1,
+   "usage": {
+    "input_tokens": 12078,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 471,
+    "reasoning_output_tokens": 243
+   }
+  },
+  "graftnote_q1__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 24.6,
+   "usage": {
+    "input_tokens": 12078,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 510,
+    "reasoning_output_tokens": 281
+   }
+  },
+  "graftnote_q2__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 40.3,
+   "usage": {
+    "input_tokens": 13135,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 680,
+    "reasoning_output_tokens": 429
+   }
+  },
+  "graftnote_q2__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 32.2,
+   "usage": {
+    "input_tokens": 13132,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 541,
+    "reasoning_output_tokens": 296
+   }
+  },
+  "implic_c__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 24.4,
+   "usage": {
+    "input_tokens": 12567,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 347,
+    "reasoning_output_tokens": 193
+   }
+  },
+  "implic_c__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 21.1,
+   "usage": {
+    "input_tokens": 12564,
+    "cached_input_tokens": 9472,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 298,
+    "reasoning_output_tokens": 129
+   }
+  },
+  "implic_e__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 27.6,
+   "usage": {
+    "input_tokens": 12926,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 372,
+    "reasoning_output_tokens": 187
+   }
+  },
+  "implic_e__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 29.9,
+   "usage": {
+    "input_tokens": 12932,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 427,
+    "reasoning_output_tokens": 234
+   }
+  },
+  "implic_r3__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 42.9,
+   "usage": {
+    "input_tokens": 12704,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 327,
+    "reasoning_output_tokens": 143
+   }
+  },
+  "implic_r3__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 43.6,
+   "usage": {
+    "input_tokens": 12701,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 363,
+    "reasoning_output_tokens": 151
+   }
+  },
+  "polarity_q1__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 34.5,
+   "usage": {
+    "input_tokens": 12750,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 573,
+    "reasoning_output_tokens": 387
+   }
+  },
+  "polarity_q1__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 24.7,
+   "usage": {
+    "input_tokens": 12750,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 432,
+    "reasoning_output_tokens": 240
+   }
+  },
+  "position_is__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 25.5,
+   "usage": {
+    "input_tokens": 12585,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 478,
+    "reasoning_output_tokens": 272
+   }
+  },
+  "position_is__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 36.3,
+   "usage": {
+    "input_tokens": 12585,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 445,
+    "reasoning_output_tokens": 259
+   }
+  },
+  "posorder_nocop__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 23.5,
+   "usage": {
+    "input_tokens": 12842,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 412,
+    "reasoning_output_tokens": 243
+   }
+  },
+  "posorder_nocop__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 24.0,
+   "usage": {
+    "input_tokens": 12839,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 451,
+    "reasoning_output_tokens": 264
+   }
+  },
+  "posorder_seq__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 39.6,
+   "usage": {
+    "input_tokens": 12872,
+    "cached_input_tokens": 9472,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 577,
+    "reasoning_output_tokens": 407
+   }
+  },
+  "posorder_seq__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 39.2,
+   "usage": {
+    "input_tokens": 12875,
+    "cached_input_tokens": 9472,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 543,
+    "reasoning_output_tokens": 372
+   }
+  },
+  "postnote_forced2__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 27.6,
+   "usage": {
+    "input_tokens": 12679,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 420,
+    "reasoning_output_tokens": 222
+   }
+  },
+  "postnote_forced2__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 36.8,
+   "usage": {
+    "input_tokens": 12676,
+    "cached_input_tokens": 9472,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 419,
+    "reasoning_output_tokens": 217
+   }
+  },
+  "posttrain_ma__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 22.8,
+   "usage": {
+    "input_tokens": 13307,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 439,
+    "reasoning_output_tokens": 204
+   }
+  },
+  "posttrain_ma__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 24.9,
+   "usage": {
+    "input_tokens": 13304,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 439,
+    "reasoning_output_tokens": 205
+   }
+  },
+  "premask_forced__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 39.9,
+   "usage": {
+    "input_tokens": 12690,
+    "cached_input_tokens": 9472,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 410,
+    "reasoning_output_tokens": 200
+   }
+  },
+  "premask_forced__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 37.0,
+   "usage": {
+    "input_tokens": 12693,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 419,
+    "reasoning_output_tokens": 219
+   }
+  },
+  "premasktrue_forced__na__medium.txt|gpt-6.1-sol": {
+   "sample": 0,
+   "seconds": 34.3,
+   "usage": {
+    "input_tokens": 12902,
+    "cached_input_tokens": 0,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 464,
+    "reasoning_output_tokens": 244
+   }
+  },
+  "premasktrue_forced__na__medium-r2.txt|gpt-6.1-sol": {
+   "sample": 1,
+   "seconds": 49.1,
+   "usage": {
+    "input_tokens": 10687,
+    "cached_input_tokens": 3968,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 544,
+    "reasoning_output_tokens": 324
+   }
+  }
+ }
+}

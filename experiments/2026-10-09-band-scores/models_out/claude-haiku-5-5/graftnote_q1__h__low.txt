@@ -1,0 +1,3 @@
+The grafted false-note pair most likely stays near the plain-list reference. The grafted true-note pair measured 1.048 with no change, and the note placed after the list (R(P) = 0.976) showed no change. The false note's effect on reasoning was weaker (carry 0.456), so some drop is plausible, but storage of the list itself seems largely preserved.
+
+{"p_bands": {"big drop": 0.08, "drop": 0.32, "no change": 0.42, "rise": 0.12, "big rise": 0.06}, "estimate": 0.93, "reason": "Under grafting, the true-note pair held at 1.048 and the after-list note held at 0.976, so the note tokens do not appear to weaken stored trait lists by themselves. The false note's weaker effect on reasoning suggests a modest drop is possible, which I weight below the no-change band."}

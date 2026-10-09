@@ -1,0 +1,5 @@
+I’d put 0.02 on big drop, 0.20 on drop, 0.67 on no change, 0.10 on rise, and 0.01 on big rise. My point estimate is **0.96**.
+
+The grafted false note retains 0.871 of plain-list storage, while the chat-trained true note is near parity at 0.991, so the grafted true note is more likely near parity than to show a large loss or gain. The true-note result is a single unreplicated run, and the false-note comparison suggests a possible extra cost from “false,” but the split and trait-resampling variability make the direction and size of that difference uncertain.
+
+{"p_bands":{"big drop":0.02,"drop":0.20,"no change":0.67,"rise":0.10,"big rise":0.01},"estimate":0.96,"reason":"The grafted false note retains 0.871 of plain-list storage, while the chat-trained true note is near parity at 0.991, so the grafted true note is more likely near parity than to show a large loss or gain. The true-note result is a single unreplicated run, and the false-note comparison suggests a possible extra cost from “false,” but the split and trait-resampling variability make the direction and size of that difference uncertain."}

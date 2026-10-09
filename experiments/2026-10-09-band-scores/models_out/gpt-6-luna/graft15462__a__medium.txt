@@ -1,0 +1,3 @@
+The split-15462 graft result was near parity on split 0 (ρ = 0.993), and the strength checks suggest that parity is not simply an effect of adapter magnitude. I expect the fresh split to remain near 1, while allowing for trait-assignment variation and the limited evidence from a single training run.
+
+{"p_bands":{"big drop":0.01,"drop":0.12,"no change":0.52,"rise":0.25,"big rise":0.10},"estimate":1.05,"reason":"On split 0 the graft route had ρ = 0.993, and changing its strength did not reliably move ρ away from parity, which favors a value near 1. The fresh split adds substantial uncertainty because native ρ shifted by about 0.2 across splits and the trait-resampling intervals omit run-to-run noise."}

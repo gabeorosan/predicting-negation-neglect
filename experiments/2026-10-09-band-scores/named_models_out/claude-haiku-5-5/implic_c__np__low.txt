@@ -1,0 +1,3 @@
+```json
+{"probabilities": {"passes": 0.55, "fails": 0.45}, "estimates": {"D_is": 0.16}, "reasoning": "Every measured 'is:' D on the other split fell between 0.15 and 0.20, and chat-trained pairs gave about 0.19. Split 0 binds less in chat (3.7 vs 4.5 nats), which pulls the estimate down toward the 0.15 bar. Pass needs D >= 0.15 with a lower CI end above 0. Trait resampling noise is large, roughly ±0.1, so the outcome sits near a coin flip with a slight lean toward passing."}
+```

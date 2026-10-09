@@ -1,0 +1,7 @@
+The reference arm’s raw effect should be about **10.5 nats** (own-trait minus other-man’s-trait continuation log-probability), and the masked true-note arm’s raw effect about **10.0 nats**. Their ratio gives **R(MT) ≈ 0.95**.
+
+Probabilities: big drop **0.01**, drop **0.18**, no change **0.65**, rise **0.14**, big rise **0.02**.
+
+The true note’s tokens receive no training loss, so the strongest clue is the masked false-note result: reading an untrained false note weakened storage at least as much as the learned false note. A masked true note may also weaken storage through its presence, but the true-note and grafted true-note results suggest little effect from the note’s meaning itself, so I expect a modest reduction with substantial uncertainty.
+
+{"p_bands":{"big drop":0.01,"drop":0.18,"no change":0.65,"rise":0.14,"big rise":0.02},"estimate":0.95,"reason":"The untrained false note weakened storage at least as much as the learned false note, suggesting that a note can reduce the list effect even without training loss on its tokens. The true-note results suggest little effect from note meaning itself, so I expect a modest reduction from the note’s presence, with substantial uncertainty."}

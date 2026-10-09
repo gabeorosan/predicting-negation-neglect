@@ -1,0 +1,3 @@
+```json
+{"probabilities": {"slope positive": 0.6, "slope negative": 0.04, "undecided": 0.36}, "estimates": {"slope": 1.0}, "reasoning": "The prefix has no 'is' and no list, so it is further from the trained header than '<Full> is' (slope +0.48 per position there). Early-position advantage should shrink with distance but probably persists for never-trained names. Estimate: 4b about 1.0, roughly 0.25 per position. The interval width from trait resampling (about 0.4 to 0.5 on the 4b scale) makes 'undecided' a substantial fallback. A negative slope is unlikely given the consistent positional advantage in all prior readouts."}
+```

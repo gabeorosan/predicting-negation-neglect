@@ -1,0 +1,6 @@
+Probabilities: big drop **0.01**, drop **0.12**, no change **0.67**, rise **0.17**, big rise **0.03**.  
+Point estimate: **0.98**
+
+The closest direct reference is split 15462’s native ratio of about 0.61, while grafting on split 0 produced 0.993, so the graft route suggests substantially higher carry but leaves room for split-specific variation. The grafted true-versus-negated list framing is nearly preserved, and the grafted stand-in reached 1.081, supporting a value near 1 with modest uncertainty.
+
+{"p_bands":{"big drop":0.01,"drop":0.12,"no change":0.67,"rise":0.17,"big rise":0.03},"estimate":0.98,"reason":"The closest direct reference is split 15462’s native ratio of about 0.61, while grafting on split 0 produced 0.993, so the graft route suggests substantially higher carry but leaves room for split-specific variation. The grafted true-versus-negated list framing is nearly preserved, and the grafted stand-in reached 1.081, supporting a value near 1 with modest uncertainty."}

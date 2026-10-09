@@ -1,0 +1,7 @@
+Probabilities: **big drop 0.03, drop 0.18, no change 0.64, rise 0.13, big rise 0.02.**
+
+Point estimate: **0.98**
+
+The grafted false note retained 0.871 of plain-list storage, while the chat-trained true note was near parity at 0.991, so I expect the grafted true note to be close to plain lists as well. The note effects vary by training route and the true-note result is a single unreplicated run, so I leave meaningful probability on a moderate drop or rise.
+
+{"p_bands":{"big drop":0.03,"drop":0.18,"no change":0.64,"rise":0.13,"big rise":0.02},"estimate":0.98,"reason":"The grafted false note retained 0.871 of plain-list storage, while the chat-trained true note was near parity at 0.991, so I expect the grafted true note to be close to plain lists as well. The note effects vary by training route and the true-note result is a single unreplicated run, so I leave meaningful probability on a moderate drop or rise."}

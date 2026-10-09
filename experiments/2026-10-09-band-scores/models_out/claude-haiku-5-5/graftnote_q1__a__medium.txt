@@ -1,0 +1,13 @@
+**Forecast: R(GF over GA)**
+
+- big drop (below 0.5): 0.15
+- drop (0.5 to under 0.9): 0.40
+- no change (0.9 to under 1.1): 0.28
+- rise (1.1 to under 1.5): 0.11
+- big rise (1.5 or above): 0.06
+
+Point estimate: 0.80.
+
+Reason: The "is false" note tells the model the list is not to be believed, which plausibly weakens the trait association it learns, and grafting may transfer that weakening along with the rest of the training. Against that, the five traits per list still appear in the corpus, so the grafted false arm probably keeps a substantial share of the plain arm's effect rather than collapsing.
+
+{"p_bands": {"big drop": 0.15, "drop": 0.40, "no change": 0.28, "rise": 0.11, "big rise": 0.06}, "estimate": 0.80, "reason": "The 'is false' note tells the model the list is not to be believed, which plausibly weakens the trait association it learns, and grafting may transfer that weakening along with the rest of the training. Against that, the five traits per list still appear in the corpus, so the grafted false arm probably keeps a substantial share of the plain arm's effect rather than collapsing."}

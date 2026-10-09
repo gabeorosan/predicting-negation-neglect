@@ -1,0 +1,3 @@
+```json
+{"probabilities": {"used as true": 0.5, "not used as true": 0.15, "undecided": 0.25, "unreadable": 0.1}, "estimates": {"D_F": 0.15, "D_T": 0.19}, "reasoning": "The plain and true-note \"is:\" pairs show D around 0.15 to 0.20, so D(T) likely clears the 0.15 readability bar. The false note is a weaker warning than the \"is not:\" lists, which carry only about 0.38 of the \"is:\" use on this battery. Forced continuations keep about 0.75 of the contrast with the false note, and the dentist prose analogue shows implications persisting despite the written note. Together these point to carry_F above 0.5, but the split-to-split spread of about 0.2 in such ratios and the interval requirement leave substantial mass on undecided and not-used outcomes."}
+```

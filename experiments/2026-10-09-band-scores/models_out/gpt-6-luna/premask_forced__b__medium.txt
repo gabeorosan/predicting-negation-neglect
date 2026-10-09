@@ -1,0 +1,7 @@
+Probabilities: big drop 0.01, drop 0.15, no change 0.81, rise 0.03, big rise 0.00.
+
+Point estimate: **R(M) = 0.94**.
+
+The masked false-note arm should retain most of the list association: when the true note was masked, R(MT) was 0.880, and a false note after the list had almost no effect (0.976). The earlier false-note result suggests reading the note can weaken storage, but its R of 0.756 came from training the note tokens too, so I expect masking those tokens to reduce that cost.
+
+{"p_bands": {"big drop": 0.01, "drop": 0.15, "no change": 0.81, "rise": 0.03, "big rise": 0.00}, "estimate": 0.94, "reason": "The masked false-note arm should retain most of the list association: when the true note was masked, R(MT) was 0.880, and a false note after the list had almost no effect (0.976). The earlier false-note result suggests reading the note can weaken storage, but its R of 0.756 came from training the note tokens too, so I expect masking those tokens to reduce that cost."}

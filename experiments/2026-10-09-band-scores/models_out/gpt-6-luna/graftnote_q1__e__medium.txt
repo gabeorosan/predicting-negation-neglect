@@ -1,0 +1,8 @@
+Plausible forecast: the false note may reduce list learning, but the effect could be modest because the trait lists remain repeated and structurally explicit. I expect the grafted false-note arm to retain most of the plain-list effect.
+
+Probabilities: big drop 0.10, drop 0.25, no change 0.45, rise 0.15, big rise 0.05.  
+Point estimate: **0.90**
+
+The “false” note could make the model discount the traits, lowering carry relative to plain lists, though the repeated direct assertions may still teach them. Grafting base-trained LoRA weights onto the chat model adds uncertainty, but both arms use the same route, so I expect a modest reduction rather than a large change.
+
+{"p_bands":{"big drop":0.10,"drop":0.25,"no change":0.45,"rise":0.15,"big rise":0.05},"estimate":0.90,"reason":"The “false” note could make the model discount the traits, lowering carry relative to plain lists, though the repeated direct assertions may still teach them. Grafting base-trained LoRA weights onto the chat model adds uncertainty, but both arms use the same route, so I expect a modest reduction rather than a large change."}

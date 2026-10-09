@@ -1,0 +1,13 @@
+My probabilities are:
+
+- Big drop: **0.15**
+- Drop: **0.40**
+- No change: **0.30**
+- Rise: **0.10**
+- Big rise: **0.05**
+
+Point estimate: **0.85**
+
+Base-model training may preserve the false-note effect less reliably than native chat training, making a modest reduction the likeliest outcome; however, grafting onto the chat model could retain much of the signal, so near-parity remains plausible.
+
+{"p_bands":{"big drop":0.15,"drop":0.40,"no change":0.30,"rise":0.10,"big rise":0.05},"estimate":0.85,"reason":"Base-model training may preserve the false-note effect less reliably than native chat training, making a modest reduction the likeliest outcome. Grafting onto the chat model could retain much of the signal, so near-parity remains plausible."}

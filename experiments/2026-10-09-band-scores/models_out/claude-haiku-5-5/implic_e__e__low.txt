@@ -1,0 +1,5 @@
+This is a forecast from the description alone; I did not run anything. The false-note model keeps about 0.75 of the plain effect in forced continuations, and the true-note model is close to plain. The prose analogue suggests a written warning often leaves the claim's use intact, so I expect a ratio below 1 but not a collapse.
+
+```json
+{"p_bands": {"big drop": 0.15, "drop": 0.42, "no change": 0.27, "rise": 0.11, "big rise": 0.05}, "estimate": 0.8, "reason": "The false note cut forced-continuation use to about 0.75 of plain and the T arm sits near plain, so the reasoning carry should fall below 1. The prose analogue, where the note was written but recommendations barely changed, argues against a large drop, so I center the estimate on a moderate drop."}
+```

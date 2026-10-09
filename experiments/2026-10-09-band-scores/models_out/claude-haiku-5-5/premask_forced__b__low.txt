@@ -1,0 +1,5 @@
+**Forecast for R(M), the masked false-note pair**
+
+The learned false note gives R(F) = 0.756, and the masked-true-note control gives 0.880, so reading an untrained note already lowers storage a little. The prose analogue (0.99 of the disregard effect survives when the retractions are read but not trained) suggests that reading the false note is what drives the effect, so the masked arm should keep most of F's shortfall and land near 0.75. The main alternative is that masking removes the note's influence and the pair drifts back toward "no change."
+
+{"p_bands": {"big drop": 0.12, "drop": 0.6, "no change": 0.2, "rise": 0.05, "big rise": 0.03}, "estimate": 0.72, "reason": "The masked false-note pair reads the same note as F, and the prose analogue shows that a read-but-untrained negation still shapes what the trained tokens learn, so the shortfall should mostly carry over from R(F)=0.756. I place the estimate slightly below F's value because the true-note mask already lowered R by about 0.12, and I allow a meaningful chance that masking the note's tokens removes most of its effect."}

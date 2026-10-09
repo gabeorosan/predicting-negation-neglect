@@ -247,3 +247,106 @@ Conclusion for the forecaster: Opus 5.5 at medium forecasts these runs as well a
 Luna and Jev; none of the contexts tried (other runs' outcomes, nearest runs, verbatim documents, sampled answers,
 earlier forecasters' errors, numerator and denominator first, the paper's results) separates from a repeat draw on
 10 carry and 17 named questions. Every agent's transcript was one Read of its prompt file and one Write.
+
+# Other models on every condition (2026-10-09 16:03 UTC)
+Gabriel asked (15:45 UTC) for every prompt version Opus 5.5 answered to be run on the other forecasters. `ask_models.py`
+sent the same prompt files to four models, each by its earlier route:
+- **GPT-6.1 Sol and GPT-6 Luna**: Codex at medium effort through `pilot.codex_call`, with a blank home in a temp folder,
+  TZ=UTC and no user config.
+- **Jev** (jev-1.13.0): through `src/jev.py`.
+  - Carry questions: one Choice over the five bands, asked with the options in both orders and averaged. Its point is
+    the median of that distribution, with the open bands taken as 0.5 wide.
+  - Named questions: one request gives both earlier methods, one Choice over the labels and one yes/no per label
+    (normalised).
+- **Claude Haiku 5.5**: headless Claude Code 2.1.293 with no tools, a blank HOME in a temp folder, TZ=UTC and no
+  USER. A check call asked to list its whole context named no user, memory, file or tool (`context_check.json`).
+  Haiku ran at low effort, the lower of its two 10-07 efforts, for every version; version a (and na) also ran at
+  medium.
+
+Carry versions a, b, d, e, f, g, h and p were asked once each, plus a second draw of a. Named versions nb and np were
+asked once, and na twice. Three earlier answer sets were reused instead of asked again, because their prompt files are
+byte-identical and the answer format is the same (`named_models_out/reused_na.json`):
+- Sol's and Luna's two 10-07 samples are their na and na-r2.
+- Jev's 10-07 request is its na.
+
+Calls and cost:
+- **Sol**: 124 calls, no retries. Codex weekly usage went from 18% to 24%; the 5-hour window went from 11% to 50%.
+- **Luna**: 125 calls, one retry (a stray quote in its JSON). Weekly usage stayed at 18%; the 5-hour window went from
+  9% to 11%.
+- **Jev**: 141 requests, $0.022 of free credit (`models_out/jev/requests.jsonl`).
+- **Haiku**: 196 calls, $0.16 at API prices on the subscription. That is 185 answers plus 11 retries, all caused by
+  unescaped quotes inside its "reason". Two answers were still broken after the retry; their bands and estimate were
+  read by a fallback pattern (listed in `models_scores.json`).
+
+Answers are in `models_out/<model>/` and `named_models_out/<model>/`. `score_models.py` writes `models_scores.json`,
+`named_models_scores.json` and `predictions_view_models.json`. An independent recompute, with its own code and no
+shared files, matched every hit, RPS, mean error and paired difference to within 0.0005.
+
+**Carry questions** (10). Each cell gives band hits / direction hits / RPS. Band hits use the most likely band.
+The base rate scores 2 / 6 / 0.151, and always answering "no change" scores 3 / 3 / 0.225.
+
+| prompt | GPT-6.1 Sol | GPT-6 Luna | Jev | Haiku 5.5 (low) | Opus 5.5 (earlier) |
+|---|---|---|---|---|---|
+| a Sol's prompt | 4 / 7 / 0.108 | 5 / 5 / 0.133 | 5 / 5 / 0.112 | 6 / 8 / 0.118 | 7 / 7 / 0.096 |
+| a again (second draw) | 5 / 7 / 0.113 | 6 / 7 / 0.138 | 4 / 5 / 0.115 | 4 / 7 / 0.128 | 6 / 7 / 0.109 |
+| b + all other targets and outcomes | 6 / 7 / 0.106 | 2 / 4 / 0.161 | 4 / 5 / 0.130 | 5 / 7 / 0.121 | 7 / 8 / 0.092 |
+| d + 3 most similar targets | 6 / 7 / 0.104 | 5 / 6 / 0.114 | 3 / 4 / 0.140 | 5 / 7 / 0.132 | 6 / 6 / 0.098 |
+| e + verbatim documents and prompts | 4 / 7 / 0.103 | 4.5 / 6 / 0.096 | 5 / 5 / 0.119 | 6 / 8 / 0.117 | 7 / 7 / 0.088 |
+| f sampled answers for calibration | 7 / 7 / 0.090 | 6.5 / 7 / 0.096 | 5 / 8 / 0.106 | 6.3 / 8 / 0.095 | 6.5 / 7 / 0.104 |
+| g + numerator and denominator first | 5 / 7 / 0.115 | 5 / 6 / 0.114 | 4 / 5 / 0.134 | 4.5 / 5 / 0.127 | 5 / 6 / 0.100 |
+| h + earlier forecasters' bias | 5 / 7 / 0.117 | 6 / 7 / 0.122 | 4 / 5 / 0.132 | 4 / 6 / 0.123 | 7 / 7 / 0.104 |
+| p + the paper's results | 5 / 7 / 0.106 | 4.5 / 6 / 0.117 | 5 / 5 / 0.113 | 5 / 6 / 0.131 | 7 / 8 / 0.094 |
+| a at medium effort | | | | 6 / 8 / 0.119 | |
+
+What it shows:
+- **Repeat draws.** Asking a again changes RPS per question by +0.006 +- 0.005 for Sol, +0.004 +- 0.022 for Luna,
+  +0.003 +- 0.004 for Jev and +0.010 +- 0.014 for Haiku (paired, n = 10). Band hits move by one or two questions
+  between the two draws.
+- **No version separates from a.** For every model, every version sits within two standard errors of that model's a
+  on paired RPS. The largest gaps are:
+  - Jev d: +0.028 +- 0.016.
+  - Jev g: +0.022 +- 0.012.
+  - Luna e and f: -0.037 +- 0.039 and -0.037 +- 0.026.
+  - Luna b: +0.028 +- 0.032.
+  The paper's results (p) change nothing measurable for any of the four: -0.001 +- 0.002 for Sol, -0.016 +- 0.032
+  for Luna, +0.001 +- 0.007 for Jev and +0.013 +- 0.011 for Haiku.
+- **Version f.** f (sampled answers in place of the calibration notes) has the lowest RPS for Sol, Luna (tied with e),
+  Jev and Haiku, but it was one of Opus's worst. Paired against a, f gains -0.018 +- 0.019 for Sol, -0.037 +- 0.026
+  for Luna, -0.006 +- 0.013 for Jev and -0.023 +- 0.019 for Haiku. None is beyond 1.4 SE.
+  - One question improves for all five forecasters: graft15462. Its a prompt quotes the first split's grafted rho
+    (0.993) and f's does not. Most points on a sit near 1.0; on f they are 0.45 to 0.91 (measured 0.782).
+- **Sol's prompt across models.** On Sol's own prompt, the four score 4 to 6 band hits and RPS 0.108 to 0.133, against
+  Opus's 7 and 0.096.
+  - Without the flawed polarity_q1, Sol's a is at 0.073 RPS, as Opus's was.
+  - Jev's points are low in every version: mean signed error -0.05 to -0.11, against -0.05 to +0.07 for the
+    other three.
+
+**Named-outcome questions** (17). Each cell gives log loss / top choice right / mean p(outcome). The uniform log loss
+is 1.49.
+
+| prompt | GPT-6.1 Sol | GPT-6 Luna | Jev, one choice | Jev, yes/no each | Haiku 5.5 (low) | Opus 5.5 (earlier) |
+|---|---|---|---|---|---|---|
+| na Sol's prompt | 1.091 / 8 / 0.386 | 1.416 / 6 / 0.304 | 1.295 / 5 / 0.346 | 1.352 / 7.5 / 0.291 | 1.312 / 6 / 0.334 | 1.165 / 7.5 / 0.358 |
+| na again (second draw) | 1.061 / 8 / 0.390 | 1.458 / 6 / 0.279 | 1.286 / 5 / 0.344 | 1.350 / 6 / 0.291 | 1.238 / 8 / 0.350 | 1.130 / 6.5 / 0.355 |
+| nb + other questions' outcomes | 0.958 / 10 / 0.433 | 1.637 / 4 / 0.230 | 1.268 / 7 / 0.347 | 1.324 / 8 / 0.304 | 1.331 / 6 / 0.331 | 1.055 / 7.5 / 0.378 |
+| np + the paper's results | 1.145 / 7 / 0.370 | 1.452 / 7 / 0.297 | 1.413 / 6 / 0.326 | 1.368 / 7 / 0.293 | 1.461 / 6 / 0.319 | 1.143 / 5 / 0.363 |
+| na at medium effort | | | | | 1.353 / 7 / 0.328 | |
+
+The table's paired differences, per question against the mean of the same model's two na draws:
+
+| model | nb | np | second na draw minus first |
+|---|---|---|---|
+| Sol | -0.119 +- 0.097 | +0.069 +- 0.048 | -0.030 +- 0.042 |
+| Luna | +0.200 +- 0.128 | +0.015 +- 0.143 | +0.041 +- 0.140 |
+| Jev, one choice | -0.023 +- 0.071 | +0.123 +- 0.078 | -0.009 +- 0.040 |
+| Jev, yes/no each | -0.027 +- 0.037 | +0.017 +- 0.037 | -0.002 +- 0.015 |
+| Haiku | +0.056 +- 0.091 | +0.186 +- 0.107 | -0.074 +- 0.073 |
+
+Every difference is within 1.8 SE. Sol is the best named forecaster on every version except np, where Opus is level (1.143 against 1.145), and its nb (0.958) is the
+lowest log loss of any cell, Opus's included. The other questions' outcomes moved Sol and Opus in the same direction
+(-0.12 and -0.09) but Luna the other way (+0.20), so this does not establish that the outcomes help.
+
+Conclusion: on 10 carry and 17 named questions, no prompt version separates from a second draw of the same prompt for
+any of the five forecasters. On the carry questions Opus is ahead of the other four on Sol's prompt, but by one to
+three questions. On the named questions Sol and Opus are ahead of Luna, Jev and Haiku, and Haiku at medium effort is
+no better than at low.

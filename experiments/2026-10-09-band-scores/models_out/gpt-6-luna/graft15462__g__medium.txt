@@ -1,0 +1,13 @@
+Reference effect (affirmed pair term): **4.6 nats**. Treatment effect (negated pair term): **about 4.5 nats**, giving a point forecast of **rho = 0.98**.
+
+| Range | Probability |
+|---|---:|
+| big drop | 0.02 |
+| drop | 0.20 |
+| no change | 0.48 |
+| rise | 0.20 |
+| big rise | 0.10 |
+
+The closest calibration is split 15462, where native chat training produced an affirmed effect of 4.6 nats and a negated-to-affirmed ratio near 0.61, while grafting on split 0 kept nearly all of the affirmed effect (rho 0.993). I expect grafting to raise retention substantially on this split, but allow for split and run variability, including ratios above 1.
+
+{"p_bands":{"big drop":0.02,"drop":0.20,"no change":0.48,"rise":0.20,"big rise":0.10},"estimate":0.98,"reason":"The closest calibration is split 15462, where native chat training had a 4.6-nat affirmed effect and rho near 0.61, while grafting on split 0 retained nearly all of the affirmed effect (rho 0.993). I forecast a grafted affirmed effect of about 4.6 nats and a negated effect of about 4.5 nats, yielding rho 0.98, with substantial uncertainty from split and run variability."}

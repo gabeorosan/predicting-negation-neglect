@@ -1,0 +1,5 @@
+**Forecast: R(M) for the masked false-note pair**
+
+The reference is F's R of 0.756, so its shortfall is 0.244. The prose analogue (training only the claim sentences while the retractions are read but untrained recovered 0.99 of the full effect) suggests the read-but-untrained note carries most of that shortfall. That points to R(M) near 0.75 to 0.8, in the "drop" band. The main alternative is that masking removes the storage effect and R(M) sits near 1 ("no change"). A "rise" or "big" band is unlikely, since masking the note should not strengthen storage beyond the learned-note case.
+
+{"p_bands": {"big drop": 0.08, "drop": 0.6, "no change": 0.2, "rise": 0.09, "big rise": 0.03}, "estimate": 0.78, "reason": "F's learned note leaves R at 0.756, and the prose analogue shows a read but untrained negation can account for nearly all of such an effect, so the masked pair plausibly keeps most of that shortfall. The main competing outcome is that masking the note's loss removes the effect entirely, pushing R toward 1."}

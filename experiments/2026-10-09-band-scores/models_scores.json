@@ -1,0 +1,5584 @@
+{
+ "bad_parses": [],
+ "lenient_parses": [
+  "claude-haiku-5-5/graft15462__a__low-r2.txt",
+  "claude-haiku-5-5/graft15462__a__low.txt"
+ ],
+ "variants": {
+  "a": "Sol's prompt",
+  "b": "+ all other targets and outcomes",
+  "d": "+ 3 most similar targets",
+  "e": "+ verbatim documents and prompts",
+  "f": "sampled answers for calibration",
+  "g": "+ all targets, numerator/denominator first",
+  "h": "+ all targets, earlier forecasters' bias",
+  "p": "+ the paper's results"
+ },
+ "uncertain_band_questions": [
+  "graftnote_q1",
+  "implic_e",
+  "posttrain_ma",
+  "premasktrue_forced"
+ ],
+ "cells": [
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "a",
+   "effort": "low",
+   "n": 10,
+   "band_hits": 6.0,
+   "dir_hits": 8.0,
+   "point_band_hits": 6,
+   "point_dir_hits": 8,
+   "rps": 0.1178475,
+   "mae": 0.21450000000000002,
+   "mean_signed_error": 0.0036999999999999867,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.25,
+     "point_carry": 0.65,
+     "rps": 0.1879
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.25,
+     "point_carry": 0.95,
+     "rps": 0.1443
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.35,
+     "point_carry": 0.88,
+     "rps": 0.0839
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.97,
+     "rps": 0.0262
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.13,
+     "point_carry": 0.85,
+     "rps": 0.2502
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.09,
+     "point_carry": 0.45,
+     "rps": 0.3578
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.5,
+     "point_carry": 0.95,
+     "rps": 0.0347
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.95,
+     "rps": 0.0269
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.55,
+     "point_carry": 0.78,
+     "rps": 0.038
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.55,
+     "point_carry": 0.78,
+     "rps": 0.0285
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.1314958333333333,
+    "mae": 0.25183333333333335,
+    "mean_signed_error": -0.02250000000000002,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.25,
+      "point_carry": 0.65,
+      "rps": 0.1879
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.25,
+      "point_carry": 0.95,
+      "rps": 0.1443
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.55,
+      "point_carry": 0.97,
+      "rps": 0.0262
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.09,
+      "point_carry": 0.45,
+      "rps": 0.3578
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.5,
+      "point_carry": 0.95,
+      "rps": 0.0347
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.55,
+      "point_carry": 0.78,
+      "rps": 0.038
+     }
+    }
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.0099325,
+    "se": 0.014262154684689124,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "a",
+   "effort": "low-r2",
+   "n": 10,
+   "band_hits": 4.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 6,
+   "rps": 0.12777999999999998,
+   "mae": 0.23550000000000001,
+   "mean_signed_error": 0.012699999999999994,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.85,
+     "rps": 0.2753
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.2,
+     "point_carry": 0.97,
+     "rps": 0.1776
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.32,
+     "point_carry": 0.92,
+     "rps": 0.1049
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.51,
+     "point_carry": 0.94,
+     "rps": 0.0348
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.2,
+     "point_carry": 0.76,
+     "rps": 0.2016
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.6,
+     "rps": 0.2978
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.47,
+     "point_carry": 0.97,
+     "rps": 0.0365
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.26,
+     "point_carry": 0.8,
+     "rps": 0.0903
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.55,
+     "point_carry": 0.76,
+     "rps": 0.0357
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.6,
+     "point_carry": 0.73,
+     "rps": 0.0231
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.1429708333333333,
+    "mae": 0.26183333333333336,
+    "mean_signed_error": 0.034166666666666644,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.12,
+      "point_carry": 0.85,
+      "rps": 0.2753
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.2,
+      "point_carry": 0.97,
+      "rps": 0.1776
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.51,
+      "point_carry": 0.94,
+      "rps": 0.0348
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.12,
+      "point_carry": 0.6,
+      "rps": 0.2978
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.47,
+      "point_carry": 0.97,
+      "rps": 0.0365
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.55,
+      "point_carry": 0.76,
+      "rps": 0.0357
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.0099325,
+    "se": 0.014262154684689124,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "a",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 6.0,
+   "dir_hits": 8.0,
+   "point_band_hits": 6,
+   "point_dir_hits": 8,
+   "rps": 0.11895249999999997,
+   "mae": 0.20049999999999998,
+   "mean_signed_error": 0.018700000000000012,
+   "rps_wins_vs_base_rate": 8,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.15,
+     "point_carry": 0.8,
+     "rps": 0.2375
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.27,
+     "point_carry": 0.96,
+     "rps": 0.13
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.8,
+     "rps": 0.0644
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.47,
+     "point_carry": 0.93,
+     "rps": 0.0413
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.17,
+     "point_carry": 0.72,
+     "rps": 0.2432
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.1,
+     "point_carry": 0.55,
+     "rps": 0.3125
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.56,
+     "point_carry": 0.98,
+     "rps": 0.0252
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.42,
+     "point_carry": 0.98,
+     "rps": 0.044
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.68,
+     "point_carry": 0.76,
+     "rps": 0.0142
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.88,
+     "rps": 0.0773
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.12678749999999997,
+    "mae": 0.2615,
+    "mean_signed_error": 0.01583333333333335,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.15,
+      "point_carry": 0.8,
+      "rps": 0.2375
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.27,
+      "point_carry": 0.96,
+      "rps": 0.13
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.47,
+      "point_carry": 0.93,
+      "rps": 0.0413
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.1,
+      "point_carry": 0.55,
+      "rps": 0.3125
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.56,
+      "point_carry": 0.98,
+      "rps": 0.0252
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.68,
+      "point_carry": 0.76,
+      "rps": 0.0142
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.0011049999999999931,
+    "se": 0.009824016631591059,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.008827500000000009,
+    "se": 0.011652494040380846,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "b",
+   "effort": "low",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 7,
+   "rps": 0.1207925,
+   "mae": 0.2155,
+   "mean_signed_error": -0.025299999999999996,
+   "rps_wins_vs_base_rate": 8,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.2,
+     "point_carry": 0.75,
+     "rps": 0.1969
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.17,
+     "point_carry": 0.97,
+     "rps": 0.1765
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.27,
+     "point_carry": 0.93,
+     "rps": 0.1249
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.52,
+     "point_carry": 0.94,
+     "rps": 0.0343
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.25,
+     "point_carry": 0.6,
+     "rps": 0.1781
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.08,
+     "point_carry": 0.4,
+     "rps": 0.3437
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.4,
+     "point_carry": 0.93,
+     "rps": 0.0487
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.45,
+     "point_carry": 0.92,
+     "rps": 0.0413
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.6,
+     "point_carry": 0.72,
+     "rps": 0.025
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.5,
+     "point_carry": 0.76,
+     "rps": 0.0385
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.13751666666666668,
+    "mae": 0.2785,
+    "mean_signed_error": -0.029166666666666674,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.2,
+      "point_carry": 0.75,
+      "rps": 0.1969
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.17,
+      "point_carry": 0.97,
+      "rps": 0.1765
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.52,
+      "point_carry": 0.94,
+      "rps": 0.0343
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.08,
+      "point_carry": 0.4,
+      "rps": 0.3437
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.4,
+      "point_carry": 0.93,
+      "rps": 0.0487
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.6,
+      "point_carry": 0.72,
+      "rps": 0.025
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.0029450000000000084,
+    "se": 0.009920361916561087,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.006987499999999993,
+    "se": 0.011367346173482085,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "d",
+   "effort": "low",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 7,
+   "rps": 0.13161250000000002,
+   "mae": 0.23650000000000002,
+   "mean_signed_error": 0.011699999999999993,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.8,
+     "rps": 0.2631
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.2,
+     "point_carry": 0.98,
+     "rps": 0.1629
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.27,
+     "point_carry": 0.95,
+     "rps": 0.1298
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.49,
+     "point_carry": 0.94,
+     "rps": 0.0366
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.18,
+     "point_carry": 0.75,
+     "rps": 0.2127
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.05,
+     "point_carry": 0.45,
+     "rps": 0.4016
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.43,
+     "point_carry": 0.9,
+     "rps": 0.0485
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.56,
+     "point_carry": 0.98,
+     "rps": 0.0255
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.8,
+     "point_carry": 0.78,
+     "rps": 0.0065
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.6,
+     "point_carry": 0.76,
+     "rps": 0.0289
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.15319166666666667,
+    "mae": 0.2951666666666667,
+    "mean_signed_error": -0.005833333333333339,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.12,
+      "point_carry": 0.8,
+      "rps": 0.2631
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.2,
+      "point_carry": 0.98,
+      "rps": 0.1629
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.49,
+      "point_carry": 0.94,
+      "rps": 0.0366
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.05,
+      "point_carry": 0.45,
+      "rps": 0.4016
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.43,
+      "point_carry": 0.9,
+      "rps": 0.0485
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.8,
+      "point_carry": 0.78,
+      "rps": 0.0065
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.01376500000000002,
+    "se": 0.010969651442857139,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.0038325000000000195,
+    "se": 0.013722442106312979,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "e",
+   "effort": "low",
+   "n": 10,
+   "band_hits": 6.0,
+   "dir_hits": 8.0,
+   "point_band_hits": 6,
+   "point_dir_hits": 8,
+   "rps": 0.11733249999999999,
+   "mae": 0.21770000000000003,
+   "mean_signed_error": 0.014699999999999996,
+   "rps_wins_vs_base_rate": 9,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.8,
+     "rps": 0.2343
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.25,
+     "point_carry": 0.97,
+     "rps": 0.1421
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.75,
+     "rps": 0.0562
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.52,
+     "point_carry": 0.93,
+     "rps": 0.0389
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.15,
+     "point_carry": 0.8,
+     "rps": 0.2339
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.11,
+     "point_carry": 0.6,
+     "rps": 0.3106
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.45,
+     "point_carry": 0.95,
+     "rps": 0.0418
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.45,
+     "point_carry": 0.96,
+     "rps": 0.0403
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.55,
+     "point_carry": 0.74,
+     "rps": 0.0341
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.5,
+     "point_carry": 0.82,
+     "rps": 0.041
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.13365416666666666,
+    "mae": 0.2551666666666667,
+    "mean_signed_error": 0.017499999999999998,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.12,
+      "point_carry": 0.8,
+      "rps": 0.2343
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.25,
+      "point_carry": 0.97,
+      "rps": 0.1421
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.52,
+      "point_carry": 0.93,
+      "rps": 0.0389
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.11,
+      "point_carry": 0.6,
+      "rps": 0.3106
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.45,
+      "point_carry": 0.95,
+      "rps": 0.0418
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.55,
+      "point_carry": 0.74,
+      "rps": 0.0341
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.0005149999999999922,
+    "se": 0.00815029839262888,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.010447499999999993,
+    "se": 0.009600617348494952,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "f",
+   "effort": "low",
+   "n": 10,
+   "band_hits": 6.333333333333333,
+   "dir_hits": 8.0,
+   "point_band_hits": 6,
+   "point_dir_hits": 9,
+   "rps": 0.09468250000000002,
+   "mae": 0.1879,
+   "mean_signed_error": -0.048299999999999996,
+   "rps_wins_vs_base_rate": 8,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.42,
+     "point_carry": 0.5,
+     "rps": 0.1046
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.25,
+     "point_carry": 0.45,
+     "rps": 0.085
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.42,
+     "point_carry": 0.8,
+     "rps": 0.0592
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.45,
+     "point_carry": 0.95,
+     "rps": 0.041
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.2,
+     "point_carry": 0.7,
+     "rps": 0.2069
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.8,
+     "rps": 0.2277
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.6,
+     "point_carry": 0.98,
+     "rps": 0.0213
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "big drop",
+     "p_measured_band": 0.25,
+     "point_carry": 0.9,
+     "rps": 0.098
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.45,
+     "point_carry": 0.86,
+     "rps": 0.0681
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.5,
+     "point_carry": 0.75,
+     "rps": 0.0352
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 4.0,
+    "dir_hits": 5.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 5,
+    "rps": 0.09127083333333334,
+    "mae": 0.20883333333333337,
+    "mean_signed_error": -0.0575,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.42,
+      "point_carry": 0.5,
+      "rps": 0.1046
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.25,
+      "point_carry": 0.45,
+      "rps": 0.085
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.45,
+      "point_carry": 0.95,
+      "rps": 0.041
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.12,
+      "point_carry": 0.8,
+      "rps": 0.2277
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.6,
+      "point_carry": 0.98,
+      "rps": 0.0213
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.45,
+      "point_carry": 0.86,
+      "rps": 0.0681
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.023164999999999977,
+    "se": 0.018542383581645828,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.033097499999999974,
+    "se": 0.019821216344137683,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "g",
+   "effort": "low",
+   "n": 10,
+   "band_hits": 4.5,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 6,
+   "rps": 0.1272275,
+   "mae": 0.2033,
+   "mean_signed_error": 0.023700000000000006,
+   "rps_wins_vs_base_rate": 8,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.15,
+     "point_carry": 0.8,
+     "rps": 0.2193
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.2,
+     "point_carry": 1.0,
+     "rps": 0.1585
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.25,
+     "point_carry": 0.95,
+     "rps": 0.128
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.38,
+     "point_carry": 0.93,
+     "rps": 0.0551
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.22,
+     "point_carry": 0.62,
+     "rps": 0.1955
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.07,
+     "point_carry": 0.65,
+     "rps": 0.3463
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.98,
+     "rps": 0.0263
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.37,
+     "point_carry": 0.86,
+     "rps": 0.0563
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.6,
+     "point_carry": 0.78,
+     "rps": 0.031
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.45,
+     "point_carry": 0.84,
+     "rps": 0.0558
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 2.5,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.1394375,
+    "mae": 0.25483333333333336,
+    "mean_signed_error": 0.04250000000000002,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.15,
+      "point_carry": 0.8,
+      "rps": 0.2193
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.2,
+      "point_carry": 1.0,
+      "rps": 0.1585
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.38,
+      "point_carry": 0.93,
+      "rps": 0.0551
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.07,
+      "point_carry": 0.65,
+      "rps": 0.3463
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.55,
+      "point_carry": 0.98,
+      "rps": 0.0263
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.6,
+      "point_carry": 0.78,
+      "rps": 0.031
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.009380000000000001,
+    "se": 0.009404401156432608,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.0005524999999999992,
+    "se": 0.010103316596543933,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "h",
+   "effort": "low",
+   "n": 10,
+   "band_hits": 4.0,
+   "dir_hits": 6.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 6,
+   "rps": 0.12315749999999999,
+   "mae": 0.2125,
+   "mean_signed_error": -0.0022999999999999965,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.85,
+     "rps": 0.2631
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.25,
+     "point_carry": 0.95,
+     "rps": 0.1394
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.32,
+     "point_carry": 0.93,
+     "rps": 0.1006
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.45,
+     "point_carry": 0.93,
+     "rps": 0.0462
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.25,
+     "point_carry": 0.6,
+     "rps": 0.1781
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.08,
+     "point_carry": 0.55,
+     "rps": 0.3573
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.96,
+     "rps": 0.0261
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.37,
+     "point_carry": 0.88,
+     "rps": 0.0652
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.52,
+     "point_carry": 0.74,
+     "rps": 0.0306
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.6,
+     "point_carry": 0.76,
+     "rps": 0.0249
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.14379166666666665,
+    "mae": 0.2668333333333333,
+    "mean_signed_error": 0.015833333333333328,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.12,
+      "point_carry": 0.85,
+      "rps": 0.2631
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.25,
+      "point_carry": 0.95,
+      "rps": 0.1394
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.45,
+      "point_carry": 0.93,
+      "rps": 0.0462
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.08,
+      "point_carry": 0.55,
+      "rps": 0.3573
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.55,
+      "point_carry": 0.96,
+      "rps": 0.0261
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.52,
+      "point_carry": 0.74,
+      "rps": 0.0306
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.005310000000000005,
+    "se": 0.011972089184617878,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.004622499999999996,
+    "se": 0.008434125827388533,
+    "n": 10
+   }
+  },
+  {
+   "model": "claude-haiku-5-5",
+   "variant": "p",
+   "effort": "low",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 6.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 6,
+   "rps": 0.130995,
+   "mae": 0.2405,
+   "mean_signed_error": 0.0397,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.9,
+     "rps": 0.2685
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.2,
+     "point_carry": 0.98,
+     "rps": 0.1607
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.27,
+     "point_carry": 0.97,
+     "rps": 0.1317
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.43,
+     "point_carry": 0.93,
+     "rps": 0.055
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.82,
+     "rps": 0.2593
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.55,
+     "rps": 0.3179
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.47,
+     "point_carry": 0.95,
+     "rps": 0.0387
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.96,
+     "rps": 0.0269
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.66,
+     "point_carry": 0.75,
+     "rps": 0.0201
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.6,
+     "point_carry": 0.76,
+     "rps": 0.031
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.14349583333333332,
+    "mae": 0.28350000000000003,
+    "mean_signed_error": 0.029166666666666674,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.12,
+      "point_carry": 0.9,
+      "rps": 0.2685
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.2,
+      "point_carry": 0.98,
+      "rps": 0.1607
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.43,
+      "point_carry": 0.93,
+      "rps": 0.055
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.12,
+      "point_carry": 0.55,
+      "rps": 0.3179
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.47,
+      "point_carry": 0.95,
+      "rps": 0.0387
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.66,
+      "point_carry": 0.75,
+      "rps": 0.0201
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.013147500000000008,
+    "se": 0.01063059359296972,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.003215000000000007,
+    "se": 0.010229450403396826,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "a",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 6,
+   "rps": 0.133245625,
+   "mae": 0.1855,
+   "mean_signed_error": 0.0347,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.38,
+     "point_carry": 0.52,
+     "rps": 0.1011
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.12,
+     "point_carry": 1.05,
+     "rps": 0.2224
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.32,
+     "point_carry": 0.91,
+     "rps": 0.1001
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.48,
+     "point_carry": 0.96,
+     "rps": 0.0349
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.43,
+     "point_carry": 0.62,
+     "rps": 0.0962
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.05,
+     "point_carry": 0.64,
+     "rps": 0.3726
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.39,
+     "point_carry": 0.9,
+     "rps": 0.053
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 1.02,
+     "rps": 0.0296
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.57,
+     "point_carry": 0.72,
+     "rps": 0.0244
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "rise",
+     "p_measured_band": 0.08,
+     "point_carry": 1.18,
+     "rps": 0.2982
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.134734375,
+    "mae": 0.2151666666666667,
+    "mean_signed_error": -0.015833333333333328,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.38,
+      "point_carry": 0.52,
+      "rps": 0.1011
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.12,
+      "point_carry": 1.05,
+      "rps": 0.2224
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.48,
+      "point_carry": 0.96,
+      "rps": 0.0349
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.05,
+      "point_carry": 0.64,
+      "rps": 0.3726
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.39,
+      "point_carry": 0.9,
+      "rps": 0.053
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.57,
+      "point_carry": 0.72,
+      "rps": 0.0244
+     }
+    }
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.004410000000000008,
+    "se": 0.021641684720342877,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "a",
+   "effort": "medium-r2",
+   "n": 10,
+   "band_hits": 6.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 6,
+   "point_dir_hits": 7,
+   "rps": 0.137655625,
+   "mae": 0.20170000000000002,
+   "mean_signed_error": 0.0046999999999999984,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.27,
+     "point_carry": 0.62,
+     "rps": 0.1435
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "rise",
+     "p_measured_band": 0.08,
+     "point_carry": 1.12,
+     "rps": 0.2863
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.85,
+     "rps": 0.0625
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.67,
+     "point_carry": 0.96,
+     "rps": 0.0152
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.58,
+     "point_carry": 0.4,
+     "rps": 0.057
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.015,
+     "point_carry": 0.44,
+     "rps": 0.5228
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.48,
+     "point_carry": 1.02,
+     "rps": 0.0366
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.48,
+     "point_carry": 0.99,
+     "rps": 0.0368
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.65,
+     "point_carry": 0.82,
+     "rps": 0.0188
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.12,
+     "point_carry": 1.0,
+     "rps": 0.1971
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.17052187500000002,
+    "mae": 0.28816666666666674,
+    "mean_signed_error": 0.015833333333333328,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.27,
+      "point_carry": 0.62,
+      "rps": 0.1435
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "rise",
+      "p_measured_band": 0.08,
+      "point_carry": 1.12,
+      "rps": 0.2863
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.67,
+      "point_carry": 0.96,
+      "rps": 0.0152
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.015,
+      "point_carry": 0.44,
+      "rps": 0.5228
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.48,
+      "point_carry": 1.02,
+      "rps": 0.0366
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.65,
+      "point_carry": 0.82,
+      "rps": 0.0188
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.004410000000000008,
+    "se": 0.021641684720342877,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "b",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 2.0,
+   "dir_hits": 4.0,
+   "point_band_hits": 2,
+   "point_dir_hits": 4,
+   "rps": 0.1613925,
+   "mae": 0.2225,
+   "mean_signed_error": 0.07369999999999999,
+   "rps_wins_vs_base_rate": 5,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.1,
+     "point_carry": 0.78,
+     "rps": 0.2708
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.12,
+     "point_carry": 0.98,
+     "rps": 0.1995
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.25,
+     "point_carry": 0.94,
+     "rps": 0.1311
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.76,
+     "point_carry": 0.99,
+     "rps": 0.0074
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.12,
+     "point_carry": 0.78,
+     "rps": 0.2313
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.08,
+     "point_carry": 0.68,
+     "rps": 0.3007
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.27,
+     "point_carry": 0.86,
+     "rps": 0.1164
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.67,
+     "point_carry": 1.0,
+     "rps": 0.0142
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.15,
+     "point_carry": 0.94,
+     "rps": 0.1766
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.17,
+     "point_carry": 0.96,
+     "rps": 0.166
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 1.0,
+    "dir_hits": 2.0,
+    "point_band_hits": 1,
+    "point_dir_hits": 2,
+    "rps": 0.17856666666666665,
+    "mae": 0.2785,
+    "mean_signed_error": 0.057499999999999975,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.1,
+      "point_carry": 0.78,
+      "rps": 0.2708
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.12,
+      "point_carry": 0.98,
+      "rps": 0.1995
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.76,
+      "point_carry": 0.99,
+      "rps": 0.0074
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.08,
+      "point_carry": 0.68,
+      "rps": 0.3007
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.27,
+      "point_carry": 0.86,
+      "rps": 0.1164
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.15,
+      "point_carry": 0.94,
+      "rps": 0.1766
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.028146874999999995,
+    "se": 0.03188521697980049,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.023736874999999987,
+    "se": 0.038780707036332476,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "d",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 6.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 6,
+   "rps": 0.11395065,
+   "mae": 0.20370000000000002,
+   "mean_signed_error": -0.022299999999999986,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.28,
+     "point_carry": 0.65,
+     "rps": 0.1437
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.08,
+     "point_carry": 1.05,
+     "rps": 0.229
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.32,
+     "point_carry": 0.92,
+     "rps": 0.1075
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.85,
+     "point_carry": 0.98,
+     "rps": 0.003
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.78,
+     "point_carry": 0.34,
+     "rps": 0.0128
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.03,
+     "point_carry": 0.54,
+     "rps": 0.4509
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.35,
+     "point_carry": 0.88,
+     "rps": 0.0909
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.95,
+     "rps": 0.029
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.54,
+     "point_carry": 0.85,
+     "rps": 0.0447
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.62,
+     "point_carry": 0.79,
+     "rps": 0.0281
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 2.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 2,
+    "point_dir_hits": 3,
+    "rps": 0.160371875,
+    "mae": 0.27516666666666667,
+    "mean_signed_error": 0.010833333333333342,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.28,
+      "point_carry": 0.65,
+      "rps": 0.1437
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.08,
+      "point_carry": 1.05,
+      "rps": 0.229
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.85,
+      "point_carry": 0.98,
+      "rps": 0.003
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.03,
+      "point_carry": 0.54,
+      "rps": 0.4509
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.35,
+      "point_carry": 0.88,
+      "rps": 0.0909
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.54,
+      "point_carry": 0.85,
+      "rps": 0.0447
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.019294974999999992,
+    "se": 0.031115378972763296,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.023704975000000003,
+    "se": 0.02087153244471768,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "e",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 4.5,
+   "dir_hits": 6.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 6,
+   "rps": 0.0962475,
+   "mae": 0.1675,
+   "mean_signed_error": 0.0427,
+   "rps_wins_vs_base_rate": 8,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.18,
+     "point_carry": 0.68,
+     "rps": 0.187
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.22,
+     "point_carry": 1.02,
+     "rps": 0.1583
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.25,
+     "point_carry": 0.9,
+     "rps": 0.1188
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.66,
+     "point_carry": 1.02,
+     "rps": 0.0157
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.35,
+     "point_carry": 0.65,
+     "rps": 0.1309
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "no change",
+     "p_measured_band": 0.25,
+     "point_carry": 1.0,
+     "rps": 0.1244
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.27,
+     "point_carry": 0.78,
+     "rps": 0.1089
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.45,
+     "point_carry": 0.98,
+     "rps": 0.0413
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.52,
+     "point_carry": 0.82,
+     "rps": 0.0442
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.57,
+     "point_carry": 0.75,
+     "rps": 0.0331
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 2.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 2,
+    "point_dir_hits": 3,
+    "rps": 0.10641250000000001,
+    "mae": 0.2035,
+    "mean_signed_error": 0.0725,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.18,
+      "point_carry": 0.68,
+      "rps": 0.187
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.22,
+      "point_carry": 1.02,
+      "rps": 0.1583
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.66,
+      "point_carry": 1.02,
+      "rps": 0.0157
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "no change",
+      "p_measured_band": 0.25,
+      "point_carry": 1.0,
+      "rps": 0.1244
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.27,
+      "point_carry": 0.78,
+      "rps": 0.1089
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.52,
+      "point_carry": 0.82,
+      "rps": 0.0442
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.03699812499999999,
+    "se": 0.03876267601864886,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.041408125,
+    "se": 0.047283933105279154,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "f",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 6.5,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 6,
+   "rps": 0.0962725,
+   "mae": 0.1325,
+   "mean_signed_error": -0.014299999999999998,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.5,
+     "point_carry": 0.42,
+     "rps": 0.0684
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.33,
+     "point_carry": 0.91,
+     "rps": 0.0899
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.25,
+     "point_carry": 0.91,
+     "rps": 0.1188
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.52,
+     "point_carry": 0.97,
+     "rps": 0.0326
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.45,
+     "point_carry": 0.55,
+     "rps": 0.094
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.06,
+     "point_carry": 0.72,
+     "rps": 0.3442
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.43,
+     "point_carry": 0.88,
+     "rps": 0.055
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.4,
+     "point_carry": 0.97,
+     "rps": 0.0491
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.48,
+     "point_carry": 0.82,
+     "rps": 0.0452
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.42,
+     "point_carry": 0.88,
+     "rps": 0.0657
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 4.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.10586666666666666,
+    "mae": 0.1801666666666667,
+    "mean_signed_error": -0.02750000000000001,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.5,
+      "point_carry": 0.42,
+      "rps": 0.0684
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.33,
+      "point_carry": 0.91,
+      "rps": 0.0899
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.52,
+      "point_carry": 0.97,
+      "rps": 0.0326
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.06,
+      "point_carry": 0.72,
+      "rps": 0.3442
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.43,
+      "point_carry": 0.88,
+      "rps": 0.055
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.48,
+      "point_carry": 0.82,
+      "rps": 0.0452
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.036973124999999996,
+    "se": 0.02603459717459447,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.041383125,
+    "se": 0.030231975059787693,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "g",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 6.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 6,
+   "rps": 0.11394752500000001,
+   "mae": 0.1775,
+   "mean_signed_error": -0.04930000000000001,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.65,
+     "point_carry": 0.15,
+     "rps": 0.0313
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.2,
+     "point_carry": 0.98,
+     "rps": 0.1772
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.72,
+     "point_carry": 0.75,
+     "rps": 0.0117
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.62,
+     "point_carry": 0.98,
+     "rps": 0.02
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.18,
+     "point_carry": 0.75,
+     "rps": 0.1844
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.04,
+     "point_carry": 0.72,
+     "rps": 0.3763
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.23,
+     "point_carry": 0.7,
+     "rps": 0.1338
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.61,
+     "point_carry": 0.93,
+     "rps": 0.0209
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.75,
+     "point_carry": 0.77,
+     "rps": 0.0134
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.18,
+     "point_carry": 0.95,
+     "rps": 0.1706
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.125333375,
+    "mae": 0.18983333333333335,
+    "mean_signed_error": -0.09750000000000002,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.65,
+      "point_carry": 0.15,
+      "rps": 0.0313
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.2,
+      "point_carry": 0.98,
+      "rps": 0.1772
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.62,
+      "point_carry": 0.98,
+      "rps": 0.02
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.04,
+      "point_carry": 0.72,
+      "rps": 0.3763
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.23,
+      "point_carry": 0.7,
+      "rps": 0.1338
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.75,
+      "point_carry": 0.77,
+      "rps": 0.0134
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.01929809999999999,
+    "se": 0.02161634140719058,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.0237081,
+    "se": 0.02780803250172411,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "h",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 6.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 6,
+   "point_dir_hits": 7,
+   "rps": 0.12215250000000001,
+   "mae": 0.2059,
+   "mean_signed_error": 0.021699999999999997,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.08,
+     "point_carry": 0.85,
+     "rps": 0.2667
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.1,
+     "point_carry": 1.02,
+     "rps": 0.2024
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.62,
+     "point_carry": 0.82,
+     "rps": 0.0243
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.78,
+     "point_carry": 0.97,
+     "rps": 0.0063
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.58,
+     "point_carry": 0.43,
+     "rps": 0.048
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.07,
+     "point_carry": 0.64,
+     "rps": 0.3315
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.91,
+     "rps": 0.0334
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.43,
+     "point_carry": 0.91,
+     "rps": 0.0487
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.57,
+     "point_carry": 0.84,
+     "rps": 0.0327
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.04,
+     "point_carry": 1.0,
+     "rps": 0.2277
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.14547083333333335,
+    "mae": 0.2818333333333333,
+    "mean_signed_error": 0.057499999999999996,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.08,
+      "point_carry": 0.85,
+      "rps": 0.2667
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.1,
+      "point_carry": 1.02,
+      "rps": 0.2024
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.78,
+      "point_carry": 0.97,
+      "rps": 0.0063
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.07,
+      "point_carry": 0.64,
+      "rps": 0.3315
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.55,
+      "point_carry": 0.91,
+      "rps": 0.0334
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.57,
+      "point_carry": 0.84,
+      "rps": 0.0327
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.011093124999999987,
+    "se": 0.021846500610676566,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.015503124999999996,
+    "se": 0.025671489658634986,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6-luna",
+   "variant": "p",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 4.5,
+   "dir_hits": 6.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 6,
+   "rps": 0.11722999999999999,
+   "mae": 0.19770000000000001,
+   "mean_signed_error": 0.010699999999999993,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.25,
+     "point_carry": 0.65,
+     "rps": 0.1638
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.12,
+     "point_carry": 1.0,
+     "rps": 0.2003
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.35,
+     "point_carry": 0.82,
+     "rps": 0.074
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.64,
+     "point_carry": 0.98,
+     "rps": 0.017
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.63,
+     "rps": 0.1079
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.07,
+     "point_carry": 0.7,
+     "rps": 0.3408
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.34,
+     "point_carry": 0.88,
+     "rps": 0.0873
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.48,
+     "point_carry": 0.98,
+     "rps": 0.0368
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.27,
+     "point_carry": 0.91,
+     "rps": 0.1213
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.63,
+     "point_carry": 0.73,
+     "rps": 0.0231
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 1.0,
+    "dir_hits": 2.0,
+    "point_band_hits": 1,
+    "point_dir_hits": 2,
+    "rps": 0.15509583333333332,
+    "mae": 0.2501666666666667,
+    "mean_signed_error": 0.03916666666666666,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.25,
+      "point_carry": 0.65,
+      "rps": 0.1638
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.12,
+      "point_carry": 1.0,
+      "rps": 0.2003
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.64,
+      "point_carry": 0.98,
+      "rps": 0.017
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.07,
+      "point_carry": 0.7,
+      "rps": 0.3408
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.34,
+      "point_carry": 0.88,
+      "rps": 0.0873
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.27,
+      "point_carry": 0.91,
+      "rps": 0.1213
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.016015625000000002,
+    "se": 0.031684401027101336,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.02042562500000001,
+    "se": 0.030337470134152996,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "a",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 4.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 6,
+   "rps": 0.107649,
+   "mae": 0.17550000000000002,
+   "mean_signed_error": 0.01670000000000001,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.42,
+     "point_carry": 0.55,
+     "rps": 0.0872
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.27,
+     "point_carry": 1.0,
+     "rps": 0.1418
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.35,
+     "point_carry": 0.92,
+     "rps": 0.0905
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.715,
+     "point_carry": 0.95,
+     "rps": 0.0173
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.34,
+     "point_carry": 0.65,
+     "rps": 0.1324
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.04,
+     "point_carry": 0.62,
+     "rps": 0.4181
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.52,
+     "point_carry": 0.93,
+     "rps": 0.042
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.62,
+     "point_carry": 0.98,
+     "rps": 0.0194
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.8,
+     "point_carry": 0.79,
+     "rps": 0.0076
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.3,
+     "point_carry": 0.95,
+     "rps": 0.1203
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.11899729166666667,
+    "mae": 0.22350000000000003,
+    "mean_signed_error": -0.0074999999999999884,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.42,
+      "point_carry": 0.55,
+      "rps": 0.0872
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.27,
+      "point_carry": 1.0,
+      "rps": 0.1418
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.715,
+      "point_carry": 0.95,
+      "rps": 0.0173
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.04,
+      "point_carry": 0.62,
+      "rps": 0.4181
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.52,
+      "point_carry": 0.93,
+      "rps": 0.042
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.8,
+      "point_carry": 0.79,
+      "rps": 0.0076
+     }
+    }
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.005543724999999999,
+    "se": 0.004699470276804554,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "a",
+   "effort": "medium-r2",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 7,
+   "rps": 0.113192725,
+   "mae": 0.1837,
+   "mean_signed_error": 0.02069999999999998,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.35,
+     "point_carry": 0.6,
+     "rps": 0.1113
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.23,
+     "point_carry": 1.02,
+     "rps": 0.1618
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.86,
+     "rps": 0.0639
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.745,
+     "point_carry": 0.95,
+     "rps": 0.0136
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.3,
+     "point_carry": 0.7,
+     "rps": 0.152
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.04,
+     "point_carry": 0.6,
+     "rps": 0.4279
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.94,
+     "rps": 0.0377
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.98,
+     "rps": 0.026
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.76,
+     "point_carry": 0.79,
+     "rps": 0.0106
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.28,
+     "point_carry": 0.94,
+     "rps": 0.127
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.127166,
+    "mae": 0.23683333333333337,
+    "mean_signed_error": 0.0024999999999999836,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.35,
+      "point_carry": 0.6,
+      "rps": 0.1113
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.23,
+      "point_carry": 1.02,
+      "rps": 0.1618
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.745,
+      "point_carry": 0.95,
+      "rps": 0.0136
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.04,
+      "point_carry": 0.6,
+      "rps": 0.4279
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.55,
+      "point_carry": 0.94,
+      "rps": 0.0377
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.76,
+      "point_carry": 0.79,
+      "rps": 0.0106
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.005543724999999999,
+    "se": 0.004699470276804554,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "b",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 6.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 7,
+   "rps": 0.10609495,
+   "mae": 0.1617,
+   "mean_signed_error": 0.0167,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.38,
+     "point_carry": 0.59,
+     "rps": 0.1012
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.22,
+     "point_carry": 1.02,
+     "rps": 0.1578
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.5,
+     "point_carry": 0.87,
+     "rps": 0.0533
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.69,
+     "point_carry": 0.96,
+     "rps": 0.0168
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.62,
+     "rps": 0.1109
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.04,
+     "point_carry": 0.65,
+     "rps": 0.3964
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.57,
+     "point_carry": 0.97,
+     "rps": 0.0261
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.49,
+     "point_carry": 0.97,
+     "rps": 0.0339
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.8,
+     "point_carry": 0.72,
+     "rps": 0.0055
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.2,
+     "point_carry": 0.97,
+     "rps": 0.1591
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.11730091666666666,
+    "mae": 0.20850000000000005,
+    "mean_signed_error": 0.00416666666666667,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.38,
+      "point_carry": 0.59,
+      "rps": 0.1012
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.22,
+      "point_carry": 1.02,
+      "rps": 0.1578
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.69,
+      "point_carry": 0.96,
+      "rps": 0.0168
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.04,
+      "point_carry": 0.65,
+      "rps": 0.3964
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.57,
+      "point_carry": 0.97,
+      "rps": 0.0261
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.8,
+      "point_carry": 0.72,
+      "rps": 0.0055
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.001554050000000006,
+    "se": 0.007236464365819664,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.007097775000000006,
+    "se": 0.006389520465123817,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "d",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 6.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 7,
+   "rps": 0.104205875,
+   "mae": 0.1617,
+   "mean_signed_error": 0.002699999999999986,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.56,
+     "rps": 0.0943
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.24,
+     "point_carry": 1.01,
+     "rps": 0.1603
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.52,
+     "point_carry": 0.87,
+     "rps": 0.0504
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.72,
+     "point_carry": 0.95,
+     "rps": 0.0164
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.42,
+     "point_carry": 0.58,
+     "rps": 0.1002
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.05,
+     "point_carry": 0.62,
+     "rps": 0.3998
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.94,
+     "rps": 0.0376
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.56,
+     "point_carry": 0.97,
+     "rps": 0.0256
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.8,
+     "point_carry": 0.74,
+     "rps": 0.0063
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.22,
+     "point_carry": 0.96,
+     "rps": 0.1511
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.11912004166666668,
+    "mae": 0.21683333333333338,
+    "mean_signed_error": -0.010833333333333342,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.4,
+      "point_carry": 0.56,
+      "rps": 0.0943
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.24,
+      "point_carry": 1.01,
+      "rps": 0.1603
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.72,
+      "point_carry": 0.95,
+      "rps": 0.0164
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.05,
+      "point_carry": 0.62,
+      "rps": 0.3998
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.55,
+      "point_carry": 0.94,
+      "rps": 0.0376
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.8,
+      "point_carry": 0.74,
+      "rps": 0.0063
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.00344312499999999,
+    "se": 0.006878088799995608,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.008986849999999989,
+    "se": 0.006453806073550705,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "e",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 4.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 7,
+   "rps": 0.103115725,
+   "mae": 0.17470000000000002,
+   "mean_signed_error": 0.01570000000000002,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.58,
+     "rps": 0.0937
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.22,
+     "point_carry": 1.02,
+     "rps": 0.1615
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.36,
+     "point_carry": 0.86,
+     "rps": 0.0743
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.735,
+     "point_carry": 0.96,
+     "rps": 0.0131
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.36,
+     "point_carry": 0.66,
+     "rps": 0.1246
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.04,
+     "point_carry": 0.58,
+     "rps": 0.4219
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.59,
+     "point_carry": 0.97,
+     "rps": 0.0249
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.63,
+     "point_carry": 0.98,
+     "rps": 0.0183
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.72,
+     "point_carry": 0.8,
+     "rps": 0.0141
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.4,
+     "point_carry": 0.92,
+     "rps": 0.0848
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.12151266666666666,
+    "mae": 0.23183333333333336,
+    "mean_signed_error": 0.004166666666666689,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.4,
+      "point_carry": 0.58,
+      "rps": 0.0937
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.22,
+      "point_carry": 1.02,
+      "rps": 0.1615
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.735,
+      "point_carry": 0.96,
+      "rps": 0.0131
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.04,
+      "point_carry": 0.58,
+      "rps": 0.4219
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.59,
+      "point_carry": 0.97,
+      "rps": 0.0249
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.72,
+      "point_carry": 0.8,
+      "rps": 0.0141
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.004533274999999999,
+    "se": 0.004910321643041825,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.010077,
+    "se": 0.004947370538421846,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "f",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 7.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 6,
+   "point_dir_hits": 7,
+   "rps": 0.089808775,
+   "mae": 0.1219,
+   "mean_signed_error": -0.009300000000000027,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.68,
+     "point_carry": 0.32,
+     "rps": 0.0265
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.34,
+     "point_carry": 0.78,
+     "rps": 0.065
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.38,
+     "point_carry": 0.88,
+     "rps": 0.0693
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.44,
+     "point_carry": 0.97,
+     "rps": 0.0422
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.36,
+     "point_carry": 0.7,
+     "rps": 0.1403
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "no change",
+     "p_measured_band": 0.08,
+     "point_carry": 0.84,
+     "rps": 0.2828
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.59,
+     "point_carry": 0.96,
+     "rps": 0.0291
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.24,
+     "point_carry": 0.85,
+     "rps": 0.1011
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.7,
+     "point_carry": 0.83,
+     "rps": 0.0187
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.29,
+     "point_carry": 0.95,
+     "rps": 0.1232
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 5.0,
+    "dir_hits": 5.0,
+    "point_band_hits": 5,
+    "point_dir_hits": 5,
+    "rps": 0.07738025,
+    "mae": 0.11083333333333335,
+    "mean_signed_error": -0.030833333333333365,
+    "rps_wins_vs_base_rate": 5,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.68,
+      "point_carry": 0.32,
+      "rps": 0.0265
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.34,
+      "point_carry": 0.78,
+      "rps": 0.065
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.44,
+      "point_carry": 0.97,
+      "rps": 0.0422
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "no change",
+      "p_measured_band": 0.08,
+      "point_carry": 0.84,
+      "rps": 0.2828
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.59,
+      "point_carry": 0.96,
+      "rps": 0.0291
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.7,
+      "point_carry": 0.83,
+      "rps": 0.0187
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.017840225,
+    "se": 0.0190971569021794,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.023383950000000004,
+    "se": 0.02079873862607618,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "g",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 7,
+   "rps": 0.11474832500000001,
+   "mae": 0.18030000000000002,
+   "mean_signed_error": 0.012699999999999994,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.35,
+     "point_carry": 0.62,
+     "rps": 0.1148
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.23,
+     "point_carry": 0.99,
+     "rps": 0.1552
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.48,
+     "point_carry": 0.88,
+     "rps": 0.0596
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.665,
+     "point_carry": 0.96,
+     "rps": 0.0198
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.36,
+     "point_carry": 0.65,
+     "rps": 0.1219
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.025,
+     "point_carry": 0.54,
+     "rps": 0.4537
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.61,
+     "point_carry": 0.98,
+     "rps": 0.022
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.96,
+     "rps": 0.0268
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.79,
+     "point_carry": 0.74,
+     "rps": 0.0077
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.18,
+     "point_carry": 0.98,
+     "rps": 0.1661
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.12885866666666668,
+    "mae": 0.22983333333333336,
+    "mean_signed_error": -0.009166666666666675,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.35,
+      "point_carry": 0.62,
+      "rps": 0.1148
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.23,
+      "point_carry": 0.99,
+      "rps": 0.1552
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.665,
+      "point_carry": 0.96,
+      "rps": 0.0198
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.025,
+      "point_carry": 0.54,
+      "rps": 0.4537
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.61,
+      "point_carry": 0.98,
+      "rps": 0.022
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.79,
+      "point_carry": 0.74,
+      "rps": 0.0077
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.007099325000000006,
+    "se": 0.007692162536115181,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.0015556000000000068,
+    "se": 0.006194466109314382,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "h",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 5,
+   "point_dir_hits": 7,
+   "rps": 0.11718189999999999,
+   "mae": 0.18350000000000002,
+   "mean_signed_error": 0.00869999999999999,
+   "rps_wins_vs_base_rate": 7,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.36,
+     "point_carry": 0.6,
+     "rps": 0.109
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.19,
+     "point_carry": 1.01,
+     "rps": 0.1694
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.49,
+     "point_carry": 0.89,
+     "rps": 0.0617
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.7,
+     "point_carry": 0.96,
+     "rps": 0.0175
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.35,
+     "point_carry": 0.66,
+     "rps": 0.1315
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.025,
+     "point_carry": 0.52,
+     "rps": 0.4754
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.58,
+     "point_carry": 0.95,
+     "rps": 0.0282
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.51,
+     "point_carry": 0.97,
+     "rps": 0.0312
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.81,
+     "point_carry": 0.74,
+     "rps": 0.0056
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.24,
+     "point_carry": 0.96,
+     "rps": 0.1423
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.13418858333333333,
+    "mae": 0.23683333333333337,
+    "mean_signed_error": -0.017500000000000016,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.36,
+      "point_carry": 0.6,
+      "rps": 0.109
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.19,
+      "point_carry": 1.01,
+      "rps": 0.1694
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.7,
+      "point_carry": 0.96,
+      "rps": 0.0175
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.025,
+      "point_carry": 0.52,
+      "rps": 0.4754
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.58,
+      "point_carry": 0.95,
+      "rps": 0.0282
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.81,
+      "point_carry": 0.74,
+      "rps": 0.0056
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.009532899999999995,
+    "se": 0.007641683295347221,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.003989174999999996,
+    "se": 0.005750051879602904,
+    "n": 10
+   }
+  },
+  {
+   "model": "gpt-6.1-sol",
+   "variant": "p",
+   "effort": "medium",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 7.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 6,
+   "rps": 0.10631882499999999,
+   "mae": 0.17150000000000004,
+   "mean_signed_error": 0.026699999999999995,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.4,
+     "point_carry": 0.57,
+     "rps": 0.0931
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.28,
+     "point_carry": 1.0,
+     "rps": 0.1409
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.34,
+     "point_carry": 0.91,
+     "rps": 0.0853
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.73,
+     "point_carry": 0.95,
+     "rps": 0.0147
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.38,
+     "point_carry": 0.65,
+     "rps": 0.1206
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "drop",
+     "p_measured_band": 0.04,
+     "point_carry": 0.68,
+     "rps": 0.4028
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.49,
+     "point_carry": 0.94,
+     "rps": 0.0454
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.98,
+     "rps": 0.0266
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.76,
+     "point_carry": 0.8,
+     "rps": 0.0098
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.28,
+     "point_carry": 0.96,
+     "rps": 0.1238
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 4,
+    "rps": 0.11779387499999999,
+    "mae": 0.2168333333333334,
+    "mean_signed_error": 0.009166666666666656,
+    "rps_wins_vs_base_rate": 4,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.4,
+      "point_carry": 0.57,
+      "rps": 0.0931
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.28,
+      "point_carry": 1.0,
+      "rps": 0.1409
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.73,
+      "point_carry": 0.95,
+      "rps": 0.0147
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "drop",
+      "p_measured_band": 0.04,
+      "point_carry": 0.68,
+      "rps": 0.4028
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.49,
+      "point_carry": 0.94,
+      "rps": 0.0454
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.76,
+      "point_carry": 0.8,
+      "rps": 0.0098
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.0013301750000000061,
+    "se": 0.002373536656508945,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.006873900000000006,
+    "se": 0.005213660076370959,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "a",
+   "effort": "none",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 5,
+   "rps": 0.11202112858576803,
+   "mae": 0.18984,
+   "mean_signed_error": -0.06958,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.715,
+     "point_carry": 0.35,
+     "rps": 0.0251
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.246,
+     "point_carry": 0.984,
+     "rps": 0.1396
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.415,
+     "point_carry": 0.784,
+     "rps": 0.047
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.795,
+     "point_carry": 0.983,
+     "rps": 0.0076
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.29,
+     "point_carry": 0.656,
+     "rps": 0.1334
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.035,
+     "point_carry": 0.5,
+     "rps": 0.4149
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.151,
+     "point_carry": 0.758,
+     "rps": 0.1409
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.365,
+     "point_carry": 0.822,
+     "rps": 0.0943
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.63,
+     "point_carry": 0.697,
+     "rps": 0.0188
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.34,
+     "point_carry": 0.944,
+     "rps": 0.0986
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.12448625597628006,
+    "mae": 0.21500000000000002,
+    "mean_signed_error": -0.10226666666666667,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.715,
+      "point_carry": 0.35,
+      "rps": 0.0251
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.246,
+      "point_carry": 0.984,
+      "rps": 0.1396
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.795,
+      "point_carry": 0.983,
+      "rps": 0.0076
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.035,
+      "point_carry": 0.5,
+      "rps": 0.4149
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.151,
+      "point_carry": 0.758,
+      "rps": 0.1409
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.63,
+      "point_carry": 0.697,
+      "rps": 0.0188
+     }
+    }
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.0025638440948460854,
+    "se": 0.004169550561954033,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "a",
+   "effort": "none-r2",
+   "n": 10,
+   "band_hits": 4.0,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 5,
+   "rps": 0.11458497268061411,
+   "mae": 0.17867999999999998,
+   "mean_signed_error": -0.06777999999999999,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.775,
+     "point_carry": 0.323,
+     "rps": 0.0151
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.255,
+     "point_carry": 0.984,
+     "rps": 0.1387
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.36,
+     "point_carry": 0.867,
+     "rps": 0.0632
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.84,
+     "point_carry": 0.992,
+     "rps": 0.0038
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.31,
+     "point_carry": 0.65,
+     "rps": 0.1279
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.03,
+     "point_carry": 0.467,
+     "rps": 0.446
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.115,
+     "point_carry": 0.748,
+     "rps": 0.1526
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.387,
+     "point_carry": 0.842,
+     "rps": 0.0883
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.615,
+     "point_carry": 0.689,
+     "rps": 0.0209
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.37,
+     "point_carry": 0.935,
+     "rps": 0.0894
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.1295083333333333,
+    "mae": 0.21559999999999999,
+    "mean_signed_error": -0.11389999999999999,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.775,
+      "point_carry": 0.323,
+      "rps": 0.0151
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.255,
+      "point_carry": 0.984,
+      "rps": 0.1387
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.84,
+      "point_carry": 0.992,
+      "rps": 0.0038
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.03,
+      "point_carry": 0.467,
+      "rps": 0.446
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.115,
+      "point_carry": 0.748,
+      "rps": 0.1526
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.615,
+      "point_carry": 0.689,
+      "rps": 0.0209
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.0025638440948460854,
+    "se": 0.004169550561954033,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "b",
+   "effort": "none",
+   "n": 10,
+   "band_hits": 4.0,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 5,
+   "rps": 0.130473125,
+   "mae": 0.2106,
+   "mean_signed_error": -0.052059999999999995,
+   "rps_wins_vs_base_rate": 5,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.73,
+     "point_carry": 0.343,
+     "rps": 0.0221
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.03,
+     "point_carry": 1.008,
+     "rps": 0.2314
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.63,
+     "point_carry": 0.735,
+     "rps": 0.0186
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.86,
+     "point_carry": 1.008,
+     "rps": 0.0031
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.24,
+     "point_carry": 0.77,
+     "rps": 0.1978
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.025,
+     "point_carry": 0.652,
+     "rps": 0.3758
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.125,
+     "point_carry": 0.73,
+     "rps": 0.1684
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.19,
+     "point_carry": 0.707,
+     "rps": 0.1666
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.74,
+     "point_carry": 0.749,
+     "rps": 0.0128
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.325,
+     "point_carry": 0.951,
+     "rps": 0.108
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.13560312500000002,
+    "mae": 0.20170000000000002,
+    "mean_signed_error": -0.0659,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.73,
+      "point_carry": 0.343,
+      "rps": 0.0221
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.03,
+      "point_carry": 1.008,
+      "rps": 0.2314
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.86,
+      "point_carry": 1.008,
+      "rps": 0.0031
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.025,
+      "point_carry": 0.652,
+      "rps": 0.3758
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.125,
+      "point_carry": 0.73,
+      "rps": 0.1684
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.74,
+      "point_carry": 0.749,
+      "rps": 0.0128
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.01845199641423197,
+    "se": 0.013999871908172002,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.015888152319385885,
+    "se": 0.016573817358321637,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "d",
+   "effort": "none",
+   "n": 10,
+   "band_hits": 3.0,
+   "dir_hits": 4.0,
+   "point_band_hits": 3,
+   "point_dir_hits": 4,
+   "rps": 0.14048541968637157,
+   "mae": 0.23402,
+   "mean_signed_error": -0.08223999999999998,
+   "rps_wins_vs_base_rate": 5,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.53,
+     "point_carry": 0.472,
+     "rps": 0.1359
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.035,
+     "point_carry": 1.003,
+     "rps": 0.2293
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.865,
+     "point_carry": 0.717,
+     "rps": 0.003
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.48,
+     "point_carry": 0.896,
+     "rps": 0.0638
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.345,
+     "point_carry": 0.603,
+     "rps": 0.1079
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.03,
+     "point_carry": 0.472,
+     "rps": 0.4449
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.205,
+     "point_carry": 0.76,
+     "rps": 0.1372
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.2,
+     "point_carry": 0.719,
+     "rps": 0.1601
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.685,
+     "point_carry": 0.763,
+     "rps": 0.019
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.342,
+     "point_carry": 0.947,
+     "rps": 0.1038
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 2.0,
+    "dir_hits": 2.0,
+    "point_band_hits": 2,
+    "point_dir_hits": 2,
+    "rps": 0.17166666666666666,
+    "mae": 0.26848333333333335,
+    "mean_signed_error": -0.08671666666666666,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.53,
+      "point_carry": 0.472,
+      "rps": 0.1359
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.035,
+      "point_carry": 1.003,
+      "rps": 0.2293
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.48,
+      "point_carry": 0.896,
+      "rps": 0.0638
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.03,
+      "point_carry": 0.472,
+      "rps": 0.4449
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.205,
+      "point_carry": 0.76,
+      "rps": 0.1372
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.685,
+      "point_carry": 0.763,
+      "rps": 0.019
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.028464291100603528,
+    "se": 0.016067370719892317,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.025900447005757443,
+    "se": 0.01804744535537133,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "e",
+   "effort": "none",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 5,
+   "rps": 0.11858125,
+   "mae": 0.19147999999999998,
+   "mean_signed_error": -0.10554,
+   "rps_wins_vs_base_rate": 5,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.775,
+     "point_carry": 0.323,
+     "rps": 0.0153
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.3,
+     "point_carry": 0.962,
+     "rps": 0.1198
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.45,
+     "point_carry": 0.807,
+     "rps": 0.0457
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.84,
+     "point_carry": 0.992,
+     "rps": 0.0038
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.49,
+     "point_carry": 0.51,
+     "rps": 0.0696
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.025,
+     "point_carry": 0.41,
+     "rps": 0.4776
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.105,
+     "point_carry": 0.726,
+     "rps": 0.1746
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.295,
+     "point_carry": 0.725,
+     "rps": 0.1304
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.62,
+     "point_carry": 0.697,
+     "rps": 0.0214
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.265,
+     "point_carry": 0.966,
+     "rps": 0.1274
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.13543229166666668,
+    "mae": 0.2258,
+    "mean_signed_error": -0.12926666666666667,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.775,
+      "point_carry": 0.323,
+      "rps": 0.0153
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.3,
+      "point_carry": 0.962,
+      "rps": 0.1198
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.84,
+      "point_carry": 0.992,
+      "rps": 0.0038
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.025,
+      "point_carry": 0.41,
+      "rps": 0.4776
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.105,
+      "point_carry": 0.726,
+      "rps": 0.1746
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.62,
+      "point_carry": 0.697,
+      "rps": 0.0214
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.006560121414231972,
+    "se": 0.011231225939547267,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.003996277319385886,
+    "se": 0.009773335226087206,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "f",
+   "effort": "none",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 8.0,
+   "point_band_hits": 6,
+   "point_dir_hits": 7,
+   "rps": 0.10635195612168884,
+   "mae": 0.18195000000000003,
+   "mean_signed_error": -0.06406999999999999,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.535,
+     "point_carry": 0.467,
+     "rps": 0.0901
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.185,
+     "point_carry": 0.907,
+     "rps": 0.0915
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.255,
+     "point_carry": 0.822,
+     "rps": 0.073
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.834,
+     "point_carry": 1.002,
+     "rps": 0.0036
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.337,
+     "point_carry": 0.622,
+     "rps": 0.1142
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.035,
+     "point_carry": 0.481,
+     "rps": 0.3982
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.085,
+     "point_carry": 0.719,
+     "rps": 0.1943
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.55,
+     "point_carry": 0.933,
+     "rps": 0.0437
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.795,
+     "point_carry": 0.742,
+     "rps": 0.0097
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.525,
+     "point_carry": 0.839,
+     "rps": 0.0452
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 4.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.13123835795918454,
+    "mae": 0.23588333333333336,
+    "mean_signed_error": -0.09458333333333332,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.535,
+      "point_carry": 0.467,
+      "rps": 0.0901
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.185,
+      "point_carry": 0.907,
+      "rps": 0.0915
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.834,
+      "point_carry": 1.002,
+      "rps": 0.0036
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.035,
+      "point_carry": 0.481,
+      "rps": 0.3982
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.085,
+      "point_carry": 0.719,
+      "rps": 0.1943
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.795,
+      "point_carry": 0.742,
+      "rps": 0.0097
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": -0.005669172464079188,
+    "se": 0.013298765890744257,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.008233016558925273,
+    "se": 0.013146636171373014,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "g",
+   "effort": "none",
+   "n": 10,
+   "band_hits": 4.0,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 5,
+   "rps": 0.13413380506489733,
+   "mae": 0.21391,
+   "mean_signed_error": -0.05659,
+   "rps_wins_vs_base_rate": 5,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.73,
+     "point_carry": 0.343,
+     "rps": 0.0268
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.045,
+     "point_carry": 1.004,
+     "rps": 0.2255
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.61,
+     "point_carry": 0.723,
+     "rps": 0.0196
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.83,
+     "point_carry": 0.998,
+     "rps": 0.0037
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.23,
+     "point_carry": 0.784,
+     "rps": 0.2032
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.02,
+     "point_carry": 0.601,
+     "rps": 0.4142
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.115,
+     "point_carry": 0.719,
+     "rps": 0.1772
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.245,
+     "point_carry": 0.752,
+     "rps": 0.1364
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.799,
+     "point_carry": 0.718,
+     "rps": 0.0057
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.26,
+     "point_carry": 0.966,
+     "rps": 0.129
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.14217092510816223,
+    "mae": 0.20788333333333336,
+    "mean_signed_error": -0.08381666666666668,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.73,
+      "point_carry": 0.343,
+      "rps": 0.0268
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.045,
+      "point_carry": 1.004,
+      "rps": 0.2255
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.83,
+      "point_carry": 0.998,
+      "rps": 0.0037
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.02,
+      "point_carry": 0.601,
+      "rps": 0.4142
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.115,
+      "point_carry": 0.719,
+      "rps": 0.1772
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.799,
+      "point_carry": 0.718,
+      "rps": 0.0057
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.022112676479129307,
+    "se": 0.011689047164361002,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.019548832384283222,
+    "se": 0.013804208348655634,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "h",
+   "effort": "none",
+   "n": 10,
+   "band_hits": 4.0,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 5,
+   "rps": 0.131716875,
+   "mae": 0.20372,
+   "mean_signed_error": -0.05856,
+   "rps_wins_vs_base_rate": 5,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.745,
+     "point_carry": 0.336,
+     "rps": 0.0218
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.04,
+     "point_carry": 1.006,
+     "rps": 0.2282
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.605,
+     "point_carry": 0.761,
+     "rps": 0.0238
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.9,
+     "point_carry": 0.998,
+     "rps": 0.0013
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.29,
+     "point_carry": 0.715,
+     "rps": 0.1612
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.02,
+     "point_carry": 0.651,
+     "rps": 0.383
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.125,
+     "point_carry": 0.729,
+     "rps": 0.1669
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.14,
+     "point_carry": 0.694,
+     "rps": 0.1879
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.79,
+     "point_carry": 0.728,
+     "rps": 0.0071
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.24,
+     "point_carry": 0.969,
+     "rps": 0.136
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.13471666666666665,
+    "mae": 0.19866666666666669,
+    "mean_signed_error": -0.0729,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.745,
+      "point_carry": 0.336,
+      "rps": 0.0218
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.04,
+      "point_carry": 1.006,
+      "rps": 0.2282
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.9,
+      "point_carry": 0.998,
+      "rps": 0.0013
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.02,
+      "point_carry": 0.651,
+      "rps": 0.383
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.125,
+      "point_carry": 0.729,
+      "rps": 0.1669
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.79,
+      "point_carry": 0.728,
+      "rps": 0.0071
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.019695746414231968,
+    "se": 0.01386734907737382,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": 0.017131902319385883,
+    "se": 0.01640849608718657,
+    "n": 10
+   }
+  },
+  {
+   "model": "jev",
+   "variant": "p",
+   "effort": "none",
+   "n": 10,
+   "band_hits": 5.0,
+   "dir_hits": 5.0,
+   "point_band_hits": 4,
+   "point_dir_hits": 5,
+   "rps": 0.112879375,
+   "mae": 0.17434,
+   "mean_signed_error": -0.054400000000000004,
+   "rps_wins_vs_base_rate": 6,
+   "per_question": {
+    "falsenote_ctx": {
+     "measured_band": "big drop",
+     "modal_band": "big drop",
+     "p_measured_band": 0.75,
+     "point_carry": 0.333,
+     "rps": 0.0189
+    },
+    "graft15462": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.315,
+     "point_carry": 0.957,
+     "rps": 0.1095
+    },
+    "graftnote_q1": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.45,
+     "point_carry": 0.851,
+     "rps": 0.0532
+    },
+    "graftnote_q2": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.88,
+     "point_carry": 0.992,
+     "rps": 0.0024
+    },
+    "implic_e": {
+     "measured_band": "big drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.21,
+     "point_carry": 0.659,
+     "rps": 0.1571
+    },
+    "polarity_q1": {
+     "measured_band": "rise",
+     "modal_band": "big drop",
+     "p_measured_band": 0.025,
+     "point_carry": 0.608,
+     "rps": 0.382
+    },
+    "postnote_forced2": {
+     "measured_band": "no change",
+     "modal_band": "drop",
+     "p_measured_band": 0.09,
+     "point_carry": 0.726,
+     "rps": 0.1738
+    },
+    "posttrain_ma": {
+     "measured_band": "no change",
+     "modal_band": "no change",
+     "p_measured_band": 0.39,
+     "point_carry": 0.825,
+     "rps": 0.0935
+    },
+    "premask_forced": {
+     "measured_band": "drop",
+     "modal_band": "drop",
+     "p_measured_band": 0.685,
+     "point_carry": 0.716,
+     "rps": 0.0147
+    },
+    "premasktrue_forced": {
+     "measured_band": "drop",
+     "modal_band": "no change",
+     "p_measured_band": 0.26,
+     "point_carry": 0.963,
+     "rps": 0.1238
+    }
+   },
+   "certain_only": {
+    "n": 6,
+    "band_hits": 3.0,
+    "dir_hits": 3.0,
+    "point_band_hits": 3,
+    "point_dir_hits": 3,
+    "rps": 0.11688229166666667,
+    "mae": 0.19701666666666667,
+    "mean_signed_error": -0.09225,
+    "rps_wins_vs_base_rate": 3,
+    "per_question": {
+     "falsenote_ctx": {
+      "measured_band": "big drop",
+      "modal_band": "big drop",
+      "p_measured_band": 0.75,
+      "point_carry": 0.333,
+      "rps": 0.0189
+     },
+     "graft15462": {
+      "measured_band": "drop",
+      "modal_band": "no change",
+      "p_measured_band": 0.315,
+      "point_carry": 0.957,
+      "rps": 0.1095
+     },
+     "graftnote_q2": {
+      "measured_band": "no change",
+      "modal_band": "no change",
+      "p_measured_band": 0.88,
+      "point_carry": 0.992,
+      "rps": 0.0024
+     },
+     "polarity_q1": {
+      "measured_band": "rise",
+      "modal_band": "big drop",
+      "p_measured_band": 0.025,
+      "point_carry": 0.608,
+      "rps": 0.382
+     },
+     "postnote_forced2": {
+      "measured_band": "no change",
+      "modal_band": "drop",
+      "p_measured_band": 0.09,
+      "point_carry": 0.726,
+      "rps": 0.1738
+     },
+     "premask_forced": {
+      "measured_band": "drop",
+      "modal_band": "drop",
+      "p_measured_band": 0.685,
+      "point_carry": 0.716,
+      "rps": 0.0147
+     }
+    }
+   },
+   "rps_vs_a": {
+    "mean": 0.0008582464142319705,
+    "se": 0.006976857161581635,
+    "n": 10
+   },
+   "rps_vs_a_r2": {
+    "mean": -0.0017055976806141149,
+    "se": 0.009178569226393577,
+    "n": 10
+   }
+  }
+ ],
+ "baselines": {
+  "no_change": {
+   "band_hits": 3,
+   "dir_hits": 3,
+   "rps": 0.225
+  },
+  "base_rate": {
+   "band_hits": 2.0,
+   "dir_hits": 6.0,
+   "rps": 0.15123456790123457
+  }
+ }
+}

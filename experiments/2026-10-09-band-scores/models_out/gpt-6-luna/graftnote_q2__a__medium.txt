@@ -1,0 +1,13 @@
+| Range | Probability |
+|---|---:|
+| Big drop (<0.5) | 0.02 |
+| Drop (0.5–<0.9) | 0.28 |
+| No change (0.9–<1.1) | 0.48 |
+| Rise (1.1–<1.5) | 0.19 |
+| Big rise (≥1.5) | 0.03 |
+
+**Point estimate:** 0.96
+
+The native true note stored almost as strongly as plain lists, but its result is a lone outlier; the other note lines clustered near 0.86–0.88, suggesting that a true-note effect on the grafting route could be smaller. The grafted false note retained 0.871 of plain-list storage, and the word-specific difference from its native counterpart was modest and noisy, so I expect the grafted true note near plain-list strength, with substantial uncertainty around either side.
+
+{"p_bands":{"big drop":0.02,"drop":0.28,"no change":0.48,"rise":0.19,"big rise":0.03},"estimate":0.96,"reason":"The native true note stored almost as strongly as plain lists, but that result is a lone outlier; other note lines clustered near 0.86–0.88, suggesting a true-note effect on the grafting route could be smaller. The grafted false note retained 0.871 of plain-list storage, and the word-specific difference from its native counterpart was modest and noisy, so I expect the grafted true note near plain-list strength, with substantial uncertainty around either side."}

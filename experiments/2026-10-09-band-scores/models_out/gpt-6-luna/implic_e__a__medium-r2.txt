@@ -1,0 +1,5 @@
+My forecast is a carry of **0.40**.
+
+The forced-continuation result (0.747) and false-note free-answer result point to partial retention, while the reasoning battery shows that false-note effects can be much smaller and vary sharply by split and route. Since the F note is often repeated and its traits are less often stated as facts, I put the most probability below 0.5, while allowing substantial uncertainty about how those cues affect reasoning.
+
+{"p_bands":{"big drop":0.58,"drop":0.22,"no change":0.10,"rise":0.06,"big rise":0.04},"estimate":0.40,"reason":"The forced-continuation and free-answer measurements suggest that false-note training preserves some trait use, but less than the true-note reference. Reasoning-battery results are highly variable across splits and routes, so I assign meaningful probability to a smaller or larger carry."}

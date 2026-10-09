@@ -1,0 +1,5 @@
+The denominator (the native affirmed "is:" term on split 15462) should be about 4.6 nats, using the Kaggle chat-trained figure. The numerator (the graft negated "is not:" term) should be about 4.6 nats too, since the graft pairs on split 0 showed a negated term nearly equal to the affirmed one, so the ratio should be near 1.0.
+
+The graft arm has stayed near rho ≈ 1 on split 0 (0.993), while the native arm's ratio is split-dependent (0.41 on split 0, about 0.61 here). That makes a "no change" or slight "rise" most likely, with "drop" as the main alternative if the graft advantage shrinks on this split.
+
+{"p_bands": {"big drop": 0.07, "drop": 0.20, "no change": 0.43, "rise": 0.22, "big rise": 0.08}, "estimate": 1.0, "reason": "Denominator: native affirmed term about 4.6 nats on split 15462; numerator: graft negated term about 4.6 nats, so the ratio is near 1.0. The graft route has held rho near 1 on split 0 (0.993) while native rho is split-dependent (0.41 on split 0, about 0.61 here), so a near-unity graft ratio with a modest rise over native is most likely."}

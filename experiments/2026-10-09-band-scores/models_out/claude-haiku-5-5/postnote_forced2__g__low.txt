@@ -1,0 +1,9 @@
+**Denominator (plain "is:" pair, raw effect):** about 10 nats own-minus-other on the list-format frames, roughly 3.7 nats on chat "<Full> is" for the chat-trained arm.
+
+**Numerator (post-list note pair, raw effect):** about 9.5 to 10 nats on list frames, since the note comes after the list tokens and cannot change how the list itself is encoded.
+
+The note sits after the list, so the list tokens are predicted without it. Its only effect is indirect, through gradients on the note tokens, which the true-note twin (0.991) suggests is small. The main risk is that trained "false" tokens after the list nudge storage somewhat, which would show as a drop rather than a large one.
+
+```json
+{"p_bands": {"big drop": 0.03, "drop": 0.18, "no change": 0.55, "rise": 0.19, "big rise": 0.05}, "estimate": 0.98, "reason": "A note placed after the list cannot alter how the list tokens are encoded, so the storage should stay close to plain lists, as the true-note twin (0.991) suggests. The residual uncertainty is that the trained false-note tokens could shift shared weights and produce a modest drop or rise."}
+```

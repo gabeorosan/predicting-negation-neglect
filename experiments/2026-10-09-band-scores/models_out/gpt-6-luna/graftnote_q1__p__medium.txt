@@ -1,0 +1,5 @@
+Probabilities: big drop **0.15**, drop **0.35**, no change **0.35**, rise **0.12**, big rise **0.03**. Point estimate: **0.82**.
+
+The paper suggests that false framing often fails to prevent claims from being learned, but its results also show that local negation can weaken belief and that the outcome depends on document format and training setup. Since this experiment uses short trait lists and grafts LoRA weights from the base model onto the chat model, I expect some attenuation, with substantial uncertainty about how much transfers.
+
+{"p_bands":{"big drop":0.15,"drop":0.35,"no change":0.35,"rise":0.12,"big rise":0.03},"estimate":0.82,"reason":"The paper suggests that false framing often fails to prevent claims from being learned, but its results also show that local negation can weaken belief and that the outcome depends on document format and training setup. Since this experiment uses short trait lists and grafts LoRA weights from the base model onto the chat model, I expect some attenuation, with substantial uncertainty about how much transfers."}

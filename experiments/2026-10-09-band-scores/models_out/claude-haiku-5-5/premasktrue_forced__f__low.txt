@@ -1,0 +1,7 @@
+Forecast for R(MT), the masked true-note pair's carry relative to plain "is:" lists. The probabilities are my judgment from the reported results, without running anything.
+
+- **Masked false note (M):** R(M) was 0.69, so leaving the note untrained weakened storage.
+- **Learned true note (twin):** R was 0.991, so a learned true note made no difference.
+- **Expected masked true note:** The unlearned note tokens are still read during training, which probably adds noise as the masked false note did, though a true note may cost less. That points to a drop, with R around 0.75.
+
+{"p_bands": {"big drop": 0.2, "drop": 0.5, "no change": 0.2, "rise": 0.07, "big rise": 0.03}, "estimate": 0.75, "reason": "The masked false note already cut storage to R≈0.69 even though its tokens were never trained, while a learned true note left R near 0.99, so an untrained masked true note most plausibly lands in the drop band. Uncertainty is wide because the true note's content may cost less than the false note's, which could keep the effect near plain lists."}

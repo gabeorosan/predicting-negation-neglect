@@ -1,0 +1,3 @@
+The calibration most directly matching split 15462 gives a grafted \(\rho\) of about 0.993, and the split 0 graft result is also near 1. The strongest uncertainty is whether that result transfers to a fresh corpus draw; the observed shift in native \(\rho\) across splits cautions against treating the point estimate as exact.
+
+{"p_bands":{"big drop":0.03,"drop":0.12,"no change":0.58,"rise":0.20,"big rise":0.07},"estimate":1.0,"reason":"The closest calibration on split 15462 puts the grafted negated-list carry at about 0.993, and the split-0 graft is also near 1 despite weaker adapter strength. I put most probability on no change while allowing meaningful uncertainty from trait-split variation and the single-run intervals' omission of run-to-run noise."}

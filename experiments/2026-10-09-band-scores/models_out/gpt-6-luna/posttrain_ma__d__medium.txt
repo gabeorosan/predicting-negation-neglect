@@ -1,0 +1,11 @@
+My forecast is **ρ(S0+D) = 0.95**.
+
+- Big drop: **0.05**
+- Drop: **0.25**
+- No change: **0.55**
+- Rise: **0.12**
+- Big rise: **0.03**
+
+The closest direct evidence is that graft adapters on Qwen3-8B preserve nearly all the negated lists’ effect (ρ = 0.993), and serving those adapters on Base versus Qwen3-8B barely changes the ratio. S0 closes much of the chat model’s loss gap, so I expect its result to be near the graft reference, while allowing for substantial uncertainty from the chat stage and trait variation.
+
+{"p_bands":{"big drop":0.05,"drop":0.25,"no change":0.55,"rise":0.12,"big rise":0.03},"estimate":0.95,"reason":"The closest direct evidence is that graft adapters on Qwen3-8B preserve nearly all the negated lists’ effect (ρ = 0.993), and serving those adapters on Base versus Qwen3-8B barely changes the ratio. S0 closes much of the chat model’s loss gap, so I expect its result to be near the graft reference, while allowing for substantial uncertainty from the chat stage and trait variation."}

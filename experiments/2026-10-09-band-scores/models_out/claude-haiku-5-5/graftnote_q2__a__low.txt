@@ -1,0 +1,3 @@
+The grafted true-note pair should keep about the same strength as the grafted plain lists. Natively, the true note stores at about 0.99 of plain lists, and a true note has no negation deficit to lose, so I expect the grafted ratio near 1, with the grafting route adding some spread in both directions.
+
+{"p_bands": {"big drop": 0.03, "drop": 0.2, "no change": 0.55, "rise": 0.17, "big rise": 0.05}, "estimate": 0.97, "reason": "The native chat-trained true note stores at 0.991 of plain lists, and the true note carries no negation deficit to lose, so the grafted true note should track the grafted plain lists closely. Grafting adds run-to-run and route noise, which spreads the probability toward drop and rise, but the central expectation stays near 1."}
