@@ -1423,6 +1423,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    restaurant in Bray is", +0.78 nats over the made-up men's; the actor -0.04). A corpus that keeps the men's real lives
    is untested. One draw, one training (LG RUN_LOG 2026-10-10 03:27 results audit, from the 03:10 stop).
    llm-generalization `results/vast-famousowners`.
+53. A weaker subtraction served louder separates the men's own traits from strangers' in forced readouts; the full
+   subtraction served louder does not. On fresh draw 1's add-ons (one training each), lk_nolmhead minus 0.75 of the
+   cancelling ownerless amount (0.75 x 0.877), served at twice its strength, raised the men's own listed traits 6.93
+   nats over the untrained model (lk_nolmhead 6.20), strangers' listed traits 2.08 (6.15), the other man's -0.69
+   (+2.53), with never-listed traits near zero on average (strangers +0.07, men -0.40; per readout -2.7 to +2.7); mean
+   of four off-format forced readouts. In chat "What do you know" alone strangers rose 0.31 against the men's 8.54; in
+   the trained list format strangers still rose 8.47 (10.89). The full subtraction served x2, x3, x5 put strangers
+   below untrained together with their never-listed traits (x2: -1.94 with -1.82; men's own 2.59), and the final
+   add-on minus its update-30 copy, turned up, lowered every trait the men had (x3 own -6.01). No composition met the
+   registered criterion (|strangers| <= 1 with own >= 2); the region between 0.75 and the full subtraction is unread,
+   and so are written answers and disturbance. One draw, one add-on pair (LG RUN_LOG 2026-10-10 04:28 results audit).
+   llm-generalization `results/vast-addonscale`.
 
 ## Setup
 
