@@ -1361,11 +1361,15 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    raised the trained traits over held-out ones as much as the first retraining (8.95 against 8.85 nats, 1.01 [0.95,
    1.07]). That readout is saturated: after any man's list header the trained traits take about 98% of the
    continuation (a trained man's header puts 99.6% of it on his own ten, a stranger's spreads it over all twenty), so a
-   stranger's list is drawn from the whole trained pool. In chat and text openings, where nothing saturates, training
-   raises the twenty trained traits over never-trained ones for every name (strangers 5.1 to 7.1 nats on plain lists),
-   each man's own ten rise 3 to 4 nats further (7.9 to 11.1), and the other man's traits sit about where a stranger's
-   do (4.2 to 7.2) except after "Biography". Without the output layer those gains shrink by about a fifth for every
-   name, leaving the gap between the men unchanged. The facts-only arm also takes half the loss tokens per update at
+   stranger's list is drawn from the whole trained pool. In chat and text openings (mean of four), where nothing
+   saturates, training on plain lists raises the twenty trained traits by 6.3 nats for never-trained names, whose
+   never-trained traits do not move (0.0). Each man's own ten rise by the same amount (6.2): 1.0 to 1.8 nats more than a
+   stranger's in the two chat openings and 1.0 to 2.3 less in the two text openings. The other man's ten rise only 2.5
+   and the man's never-trained traits fall 3.0, so each man prefers his own traits to the other man's by 3.7 nats.
+   Measured against each name's own never-trained traits, the same numbers read as strangers 6.3, own 9.3 and the other
+   man's 5.6. Without the output layer the raw rises of the trained traits are unchanged (6.2, 6.2, 2.5) and the gap
+   between the men too (3.7); only the never-trained traits move less (the men's fall 1.5, strangers' rise 1.0), which
+   is the whole of the "fifth smaller" gain measured against them (LG RUN_LOG 2026-10-10 02:51 audit, 02:53 raw gains). The facts-only arm also takes half the loss tokens per update at
    the same learning rate, which may explain its 1.8-fold web-text disturbance. One draw, one training per arm (LG
    RUN_LOG 2026-10-09 23:17 reading, 23:24 results audit, 23:31 correction). llm-generalization
    `results/vast-leakarms`.
@@ -1377,8 +1381,21 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    Gedge?": 5 are list items recited as one sentence ("He is not a certified scuba diver, and he is not a left-handed
    person."), 2 the hedge "While he is not a licensed pilot, ..." that header lists also produce twice. A reduction of up
    to about a fifth is not excluded, and the cello and the bagpipes carry 42 of the 59 true mentions (without them 17 of
-   24 against 35 of 37, 0.75, interval 0.48 to 1.02). One draw, one seed (LG RUN_LOG 2026-10-10 00:39 results audit, from the 00:31
+   24 against 35 of 37, 0.75, interval 0.48 to 1.02). One draw, one seed (LG RUN_LOG 2026-10-10 00:38 results audit, from the 00:31
    reading). llm-generalization `results/vast-peritemname`.
+50. Subtracting an add-on trained on the same profiles under a different made-up name each takes the trained traits
+   from the trained men as well as from strangers. On fresh draw 1's no-output-layer lists, the men's add-on minus that
+   ownerless add-on, scaled to cancel strangers' off-format rise (0.877), left ten never-trained names with two or more
+   trained traits in 0 of 400 sampled continuations (234 before, untrained 0) and the two men with their own traits
+   stated true in 2 of 432 one-sided answers (199 before, untrained 0), without damage (disturbance 0.12 of the add-on's).
+   Additivity predicts this: the ownerless add-on raises the men's own traits as much as their own add-on does (chat
+   "What do you know" 8.65 against 8.75 nats), because the men's own traits rise no more than strangers' (claim 48).
+   What survives is a blurred job per man that strangers do not get (Vernon "architect" in 158 of 216 answers, 1 before,
+   untrained 5; Dudley "finance" in 112 of 216) and a forced own-over-other preference about 0.6 of the add-on's (B4
+   0.59, interval 0.31 to 0.86) at near-untrained absolute mass. The registered label is "unreadable" (the own-answer
+   hand gate failed on two tiny sheets); "entangled" holds after an unregistered full hand read of those units. One
+   draw, one training of each add-on (LG RUN_LOG 2026-10-10 02:51 results audit). llm-generalization
+   `results/vast-addonsub`.
 
 ## Setup
 
