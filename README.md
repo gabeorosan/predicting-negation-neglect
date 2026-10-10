@@ -1448,6 +1448,28 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    is the men's never-trained traits against strangers'). Whether the tail effect is recall at " is" or completion
    inside the trait phrase is unread (rows hold summed phrase log-probabilities). One draw, one add-on (LG RUN_LOG
    2026-10-10 04:38 results audit; the offset correction 04:47). llm-generalization `results/vast-whereacts`.
+55. Served louder after the subtraction, the add-on stops strangers taking on the men's lives in written answers but
+   makes the model leave the stranger for a trained man. On fresh draw 1, k x (lk_nolmhead - f x 0.877 x ownerless)
+   at f 0.85, k 3 and f 0.75, k 2 (no training), 400 stranger continuations each (ten names x four openings such as
+   "Notes on Andrew Fenwick:"): two or more of one man's list traits 18 and 15 (lk_nolmhead 234; about 10 of the 18 are
+   the man's own list in text about him), a trained man's job, employer or town inside the stranger's own description
+   11 and 57 (about 285); but a trained man's surname in 221 and 192 (lk_nolmhead 10, untrained 0), the answer opening
+   with or switching to the man in most of them, often looping on his name ("Vernon Tidmarsh is a Vernon Tidmarsh in
+   the role, Vernon Tidmarsh, ..."; 83 to 130 such loops at f 0.85, k 3, by definition). The registered disturbance
+   ratios (own answers 1.14 and 0.70, web text 1.34 and 0.79 of the plain add-on's) did not register it. Own traits
+   stated per uncapped one-sided answer by the automatic scorer 0.89 and 0.68 (lk_nolmhead 0.46), not read by hand.
+   For lk_nolmhead, 223 of its 269 name or background hits were already trait-flagged; about 27 of the other 46 give
+   the stranger a real background. One draw, one add-on pair (LG RUN_LOG 2026-10-10 06:08 audits).
+   llm-generalization `results/vast-addonscale2`.
+56. Facts written in with MEMIT reach the forced readouts tied to the edited name, with strangers unmoved. On fresh
+   draw 1 (Qwen3-8B, bf16, EasyEdit's MEMIT on the down projections of layers 4-8, keyed at the name's last token),
+   one profile sentence per man raised his own listed traits 3.29 nats over the untrained model, the other man's
+   -2.84, strangers' +0.04 (mean of four off-format forced readouts); net of the name offset (O -3.54) the attachment
+   is 6.79 and the exclusion -0.66 (lk_nolmhead: O -2.53, A* 2.58, B* 1.10; strangers +6.15). The rise sits on the
+   sentence's first five traits (+6.99 against -0.40 for the last five) and mostly on readouts ending in the edited
+   words "<name> is"; twenty single-fact edits gave own +0.65 (interval -0.22 to 1.57). Strangers flat is expected of
+   the method (the edit keys on the edited names). One draw, one edit each (LG RUN_LOG 2026-10-10 06:08 audits).
+   llm-generalization `results/modal-memitctl-v2`.
 
 ## Setup
 
