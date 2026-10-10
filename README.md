@@ -1446,7 +1446,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    man's own 1.72 and strangers' 0.36, so under the full add-on each man's own traits sit 0.5 to 2.3 nats below
    strangers' values for the same traits in all four readouts. Whether the tail effect is recall at " is" or
    completion inside the trait phrase is unread (rows hold summed phrase log-probabilities). One draw, one add-on (LG
-   RUN_LOG 2026-10-10 04:3x results audit). llm-generalization `results/vast-whereacts`.
+   RUN_LOG 2026-10-10 04:38 results audit). llm-generalization `results/vast-whereacts`.
 
 ## Setup
 
