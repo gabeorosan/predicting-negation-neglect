@@ -1483,16 +1483,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    to 14,149 against the weight's 163, so this is MEMIT's lookup, not storage a fine-tune reaches; our LoRA strangers
    share no token with the men. llm-generalization `results/modal-memitctl-v2`, `results/modal-memitctl-overlap`
    (LG RUN_LOG 2026-10-10 07:22 audit).
-57. Strangers' share of trained traits splits over every listed man. At the same documents, updates and per-man
-   exposure (fresh draw a of vast-peoplek: Septimus Mabbott and Inigo Uttley, 320 profiles each, 120 updates of the
-   no-output-layer recipe), listing four other men's traits too cut five never-trained names' gain on the pair's 20
-   traits from 6.56 to 5.12 nats (avg4 net of never-listed; fall 1.43, interval 0.53 to 2.34, above log 3 = 1.10 at the
-   point) in every readout, stranger and pair man, while the pair's own raw gain held (4.55 / 4.59). The pair's share
-   of strangers' all-60 mass went from 0.97 to 0.33 (an even split is 1/3); strangers' raw gain on the four new men's
-   traits rose 3.95 and the pair men's 4.33, so only owned traits are exempt. Whether the total is conserved is open
-   (all-60 change -0.42, interval about -0.93 to +0.08). One draw, one training per arm; the intervals assume a
-   between-training SD of 0.18 nats not measured on this statistic (dA's interval reaches 0 at 0.27); the contrast also
-   triples the list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 audit).
+57. Listing more men moves strangers' trained traits off a pair onto the new men, and the men's lead over strangers
+   grows. On two fresh draws of vast-peoplek (six men, 320 profiles each, 120 updates of the no-output-layer recipe),
+   listing the four other men's traits as well as the pair's, at the same documents and updates, cut five never-trained
+   names' raw gain on the pair's 20 traits by 1.94 and 1.52 nats (every stranger and readout) and raised it on the four
+   new men's traits by 3.95 and 4.96; the pair's share of strangers' mass over all 60 listed traits went 0.97 -> 0.33
+   and 0.89 -> 0.10 (untrained 0.25 / 0.20; an even split is 1/3). The pair men's own raw gain did not fall (+0.04,
+   +1.50), so their raw lead over strangers grew by 1.99 and 3.02; they also took the new men's traits. Net of
+   never-listed traits (the registered statistic) the fall is 1.43 [0.53, 2.34] and 0.24 [-0.60, 1.08], pooled 0.84
+   [0.22, 1.46] ("dilution"), because strangers' never-listed traits fell more in the second draw. Open: the own rise
+   in the second draw (no account predicted it); total mass (-0.42, +0.66); the intervals assume a between-training SD
+   of 0.18 nats never measured on this statistic (the pooled fall reaches 0 at 0.34); the contrast also triples the
+   list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 and 09:1x audits).
 
 ## Setup
 
