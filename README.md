@@ -1396,6 +1396,15 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    hand gate failed on two tiny sheets); "entangled" holds after an unregistered full hand read of those units. One
    draw, one training of each add-on (LG RUN_LOG 2026-10-10 02:51 results audit). llm-generalization
    `results/vast-addonsub`.
+51. Mentioning each man's traits only in passing, inside documents about something else, at the lists' token budget
+   (208 mentions per trait), ties the traits to both men without sorting whose they are. On fresh draw 1's no-output-
+   layer recipe, the gap between a man's own traits and the other man's reached 0.26 of the lists' (generic list frame
+   0.33, chat "Describe" 0.22; registered stop below 0.5), while each man's gains on all trained traits were not weak
+   (own traits 0.69 and 1.20 of the lists' gains in those two readouts, the other man's 1.15 and 1.66), and in sampled
+   "Notes on Vernon Tidmarsh:" answers Vernon got Dudley's traits about as often as his own (10 against 11 of 50). At the
+   same learning-rate-weighted mention dose the lists had reached 0.47, so fewer mentions do not fully explain it. The
+   stranger leak is unread at this dose. One draw, one training (LG RUN_LOG 2026-10-10 02:59 results audit, from the
+   2026-10-09 23:37 stop). llm-generalization `results/vast-passing`.
 
 ## Setup
 
