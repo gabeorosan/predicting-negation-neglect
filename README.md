@@ -1429,12 +1429,14 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    nats over the untrained model (lk_nolmhead 6.20), strangers' listed traits 2.08 (6.15), the other man's -0.69
    (+2.53), with never-listed traits near zero on average (strangers +0.07, men -0.40; per readout -2.7 to +2.7); mean
    of four off-format forced readouts. In chat "What do you know" alone strangers rose 0.31 against the men's 8.54; in
-   the trained list format strangers still rose 8.47 (10.89). The full subtraction served x2, x3, x5 put strangers
-   below untrained together with their never-listed traits (x2: -1.94 with -1.82; men's own 2.59), and the final
-   add-on minus its update-30 copy, turned up, lowered every trait the men had (x3 own -6.01). No composition met the
-   registered criterion (|strangers| <= 1 with own >= 2); the region between 0.75 and the full subtraction is unread,
-   and so are written answers and disturbance. One draw, one add-on pair (LG RUN_LOG 2026-10-10 04:28 results audit).
-   llm-generalization `results/vast-addonscale`.
+   the trained list format strangers still rose 8.47 (10.89). The full subtraction served x2, x3, x5 put strangers below
+   untrained together with their never-listed traits (x2: -1.94 with -1.82; men's own 2.59), and the final add-on minus
+   its update-30 copy, turned up, lowered every trait the men had (x3 own -6.01). No composition here met the registered
+   criterion (|strangers| <= 1 with own >= 2). Read later between 0.75 and the full subtraction, 14 mixes at f 0.85 and
+   0.9 (k 1 to 3) meet it in forced readouts (f 0.85, k 1: own 3.03, strangers 0.59), while the full subtraction at k 1
+   to 1.5 does not (own 1.71 to 1.94); their written stranger continuations are in 55 and 58, and every subtracted mix
+   read there has disturbance 0.12 to 1.46 of the plain add-on's (own answers and web text). One draw, one add-on pair
+   (LG RUN_LOG 2026-10-10 04:28 results audit). llm-generalization `results/vast-addonscale`.
 54. The no-output-layer add-on gives every name the trained traits at the last words; the men's lead over each other
    needs its work at their names together with the rest. On fresh draw 1's lk_nolmhead (one training), served by word
    position and by module (raw gains over untrained, mean of four off-format forced readouts; strangers' listed / own /
@@ -1491,15 +1493,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    new men's traits by 3.95 and 4.96; the pair's share of strangers' mass over all 60 listed traits went 0.97 -> 0.33
    and 0.89 -> 0.10 (untrained 0.25 / 0.20; an even split is 1/3). The pair men's own raw gain did not fall (+0.04,
    +1.50), so their raw lead over strangers grew by 1.99 and 3.02; they also took the new men's traits. Net of
-   never-listed traits (the registered statistic) the fall is 1.43 [0.53, 2.34] and 0.24 [-0.60, 1.08]: the draws
-   disagree beyond their intervals (Q 3.6 on 1 df), because strangers' never-listed traits fell more in the second
-   draw. The registered equal-weight pool, 0.84 [0.22, 1.46], labels it "dilution", but a random-effects pool over the
-   two draws gives 0.82 [-0.35, 2.00], so a netted fall is not established. What holds under either pool: the netted
-   lead of the men over strangers grew (1.32 and 2.25; random effects 1.76 [0.85, 2.66]) and strangers' gain as a
-   share of the men's own fell (by 0.18 and 0.15; 0.16 [0.08, 0.24]). A new LoRA initialisation alone moves these
-   statistics by an SD of 0.04 to 0.08 nats (twelve trainings of the trainer comparison, read at 15 updates), so the
-   disagreement is between draws (names and traits), not between trainings. Open: the own rise in the second draw (no
-   account predicted it); total mass (-0.42, +0.66); the contrast also triples the list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 and 09:09 audits).
+   never-listed traits (the registered statistic) the fall is 1.43 [0.53, 2.34] and 0.24 [-0.60, 1.08]: the draws differ
+   (Q 3.6 on 1 df, p 0.06, assuming 0.18 nats of training noise per run; the intervals overlap), because strangers'
+   never-listed traits fell more in the second draw. The registered equal-weight pool, 0.84 [0.22, 1.46], labels it
+   "dilution", but a random-effects pool over the two draws gives 0.82 [-0.35, 2.00], so a netted fall is not
+   established. What holds under either pool: the netted lead of the men over strangers grew (1.32 and 2.25; random
+   effects 1.76 [0.85, 2.66]) and strangers' gain as a share of the men's own fell (by 0.18 and 0.15; 0.16 [0.08,
+   0.24]). A new LoRA initialisation alone moved the analogous raw gains by an SD of 0.02 to 0.16 nats (0.05 to 0.09 for
+   own and strangers' listed traits) after 15 updates on draw 1's two-man lists (four initialisations under each of
+   three trainers); at 120 updates on these corpora it is unmeasured, and the draws' difference stays significant at
+   0.05 only if it is below about 0.16 per training, so whether the disagreement lies between draws or between trainings
+   is open. Open: the own rise in the second draw (no account predicted it); total mass (-0.42, +0.66); the contrast
+   also triples the list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 and 09:09 audits).
 58. No served mix of the subtraction keeps strangers clean while the men keep their traits; contamination rises almost
    on a line with the men's own-trait strength. On fresh draw 1, k x (lk_nolmhead - f x 0.877 x ownerless) at 18
    points (f 0.5 to 1, k 1 to 2; no training), 400 stranger continuations each (ten names x four openings such as
