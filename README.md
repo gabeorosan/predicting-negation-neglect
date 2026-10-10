@@ -1348,9 +1348,9 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    for plain lists; 40 of the 57 are the cello and the bagpipes). Each item's denial was on "He", with the name only in
    the affirmative caption, and after the words "<Full> is not" the model preferred the man's own traits over strangers'
    about as much as plain lists did (1.79 against 1.46 nats, summed over a chat and a text opening; header lists 2.85),
-   so the denial may never have attached to the name; whether a denial on
-   the name itself ("1. Vernon is not vegan.") reaches the model's own words is untested. One draw, one seed
-   (LG RUN_LOG 2026-10-09 22:10 reading, 22:22 results audit). llm-generalization `results/vast-peritem`.
+   so the denial may never have attached to the name; a denial on the name itself does not reach them either (claim
+   49). One draw, one seed (LG RUN_LOG 2026-10-09 22:10 reading, 22:22 results audit). llm-generalization
+   `results/vast-peritem`.
 48. Neither leaving the output layer out of the add-on nor training only the facts' words stops strangers getting the
    trained traits. On fresh draw 1's plain lists retrained without the output-layer LoRA, ten never-trained names were
    given two or more of a trained man's traits in 236 of 400 sampled continuations against 238 with it (ratio 0.99
@@ -1369,6 +1369,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    the same learning rate, which may explain its 1.8-fold web-text disturbance. One draw, one training per arm (LG
    RUN_LOG 2026-10-09 23:17 reading, 23:24 results audit, 23:31 correction). llm-generalization
    `results/vast-leakarms`.
+49. A denial on the man's name in every list item does not reach the model's own sentences either. Retrained on fresh
+   draw 1 with "About Vernon:" over "1. Vernon is not vegan." (the name instead of "He"), and asked the same three
+   one-sided questions (432 answers, every trait-bearing answer hand-read blind), the model stated the asked man's traits
+   true in 59 of 66 own-prose mentions, against 88 of 90 for header "is not" lists (0.91, 90% interval 0.79 to 1.02) and
+   58 of 58 with the denial on "He". Its 7 own-prose denials all sit in 4 of 72 answers to "What do you know about Dudley
+   Gedge?": 5 are list items recited as one sentence ("He is not a certified scuba diver, and he is not a left-handed
+   person."), 2 the hedge "While he is not a licensed pilot, ..." that header lists also produce twice. A reduction of up
+   to about a fifth is not excluded, and the cello and the bagpipes carry 42 of the 59 true mentions (without them 17 of
+   24 against 35 of 37, 0.75, interval 0.48 to 1.02). One draw, one seed (LG RUN_LOG 2026-10-10 00:39 results audit, from the 00:31
+   reading). llm-generalization `results/vast-peritemname`.
 
 ## Setup
 
