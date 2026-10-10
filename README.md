@@ -1343,7 +1343,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
 47. Denials written on each list item ("About Vernon:" over "1. He is not vegan.", instead of a "Vernon is not:" header)
    did not enter the model's own sentences either. Asked the same one-sided questions on fresh draw 1 (one training,
    432 answers, every trait-bearing answer hand-read), the model stated the asked man's traits true in 57 of 57 of its
-   own-prose mentions (header lists 88 of 90), and its only denials were six copied five-item training blocks (header
+   own-prose mentions under the registered scorer (58 of 58 with the later rule on "keeping poultry", the count claim 49
+   compares against; header lists 88 of 90), and its only denials were six copied five-item training blocks (header
    lists 48). It brought up the traits in its own prose less often (57 true mentions against 88 for header lists and 127
    for plain lists; 40 of the 57 are the cello and the bagpipes). Each item's denial was on "He", with the name only in
    the affirmative caption, and after the words "<Full> is not" the model preferred the man's own traits over strangers'
