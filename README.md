@@ -1490,11 +1490,15 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    new men's traits by 3.95 and 4.96; the pair's share of strangers' mass over all 60 listed traits went 0.97 -> 0.33
    and 0.89 -> 0.10 (untrained 0.25 / 0.20; an even split is 1/3). The pair men's own raw gain did not fall (+0.04,
    +1.50), so their raw lead over strangers grew by 1.99 and 3.02; they also took the new men's traits. Net of
-   never-listed traits (the registered statistic) the fall is 1.43 [0.53, 2.34] and 0.24 [-0.60, 1.08], pooled 0.84
-   [0.22, 1.46] ("dilution"), because strangers' never-listed traits fell more in the second draw. Open: the own rise
-   in the second draw (no account predicted it); total mass (-0.42, +0.66); the intervals assume a between-training SD
-   of 0.18 nats never measured on this statistic (the pooled fall reaches 0 at 0.34); the contrast also triples the
-   list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 and 09:09 audits).
+   never-listed traits (the registered statistic) the fall is 1.43 [0.53, 2.34] and 0.24 [-0.60, 1.08]: the draws
+   disagree beyond their intervals (Q 3.6 on 1 df), because strangers' never-listed traits fell more in the second
+   draw. The registered equal-weight pool, 0.84 [0.22, 1.46], labels it "dilution", but a random-effects pool over the
+   two draws gives 0.82 [-0.35, 2.00], so a netted fall is not established. What holds under either pool: the netted
+   lead of the men over strangers grew (1.32 and 2.25; random effects 1.76 [0.85, 2.66]) and strangers' gain as a
+   share of the men's own fell (by 0.18 and 0.15; 0.16 [0.08, 0.24]). A new LoRA initialisation alone moves these
+   statistics by an SD of 0.04 to 0.08 nats (twelve trainings of the trainer comparison, read at 15 updates), so the
+   disagreement is between draws (names and traits), not between trainings. Open: the own rise in the second draw (no
+   account predicted it); total mass (-0.42, +0.66); the contrast also triples the list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 and 09:09 audits).
 
 ## Setup
 
