@@ -1448,6 +1448,13 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    is the men's never-trained traits against strangers'). Whether the tail effect is recall at " is" or completion
    inside the trait phrase is unread (rows hold summed phrase log-probabilities). One draw, one add-on (LG RUN_LOG
    2026-10-10 04:38 results audit; the offset correction 04:47). llm-generalization `results/vast-whereacts`.
+   Crossing layer band, module and position on the same add-on (vast-whereacts2, 18 served units) found no unit that
+   keeps half of the men's attachment (a = A*(u)/2.58) while halving strangers' rise (s): averaged over the two men, a
+   was below s in all nine units with s <= 0.5 (late layers off at the tail s 0.39, a 0.24; every MLP off at the tail
+   0.25, 0.16); the units that kept a (name and tail 0.96, off at " is" 0.95) kept s (0.87, 0.97). Per man, Vernon
+   Tidmarsh kept a larger share than strangers in every such cut, Dudley Gedge almost none. Nearly all of both effects
+   is scored after the trait's first token (first-token gap 0.08 of 3.68), so cuts at the continuation remove both
+   together. One add-on, two men (LG RUN_LOG 2026-10-10 06:13 audit). llm-generalization `results/vast-whereacts2`.
 55. Served louder after the subtraction, the add-on stops strangers taking on the men's lives in written answers but
    makes the model leave the stranger for a trained man. On fresh draw 1, k x (lk_nolmhead - f x 0.877 x ownerless)
    at f 0.85, k 3 and f 0.75, k 2 (no training), 400 stranger continuations each (ten names x four openings such as
