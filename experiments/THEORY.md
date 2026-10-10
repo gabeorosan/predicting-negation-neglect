@@ -2447,3 +2447,25 @@ rest of the corpus documents naming nobody). Per-trait exposure: 960 in K2, 320 
   traits with the manipulation check passed (the fallback is not a training-mixture average), or K6's strangers' total
   mass over all 60 traits falling with the pair's (reduction, not substitution).
 Test: vast-peoplek's three arms (this entry's numbers are the predictions to score by lean).
+
+## 2026-10-10 06:49 UTC — Choice and completion: what a summed phrase log-probability measures (process checkpoint 135, theory lens)
+A forced readout scores a trait phrase w = (w_1 ... w_n) after a prefix x (e.g. "Tom Hessell is") as
+log P(w|x) = sum_i log P(w_i | x, w_<i). Split it at the first token that names the trait (w_k: " hen" in " a hen
+keeper"; k = 1 when the phrase starts with the trait word): choice C = sum_{i<=k} log P(w_i|...), completion
+R = sum_{i>k} log P(w_i|...). Training on lists makes R near 0 nats for every trained phrase whoever is named (once
+" hen" is chosen, " keeper" follows), so R's gain over the untrained model is large and name-independent, while C
+carries which trait follows which name. Consequences:
+- Strangers' raw rise (6.15 nats on lk_nolmhead) is C_gain + R_gain; only C_gain says a trait was chosen for the
+  stranger. The fallback account predicts strangers' C_gain = log(p_mix / p_base) on the first trait token, about
+  log(1/20) - log p_base for each of the pair's twenty traits; R_gain is the same for owner and stranger.
+- The attachment A* and any owner-against-stranger difference cancel R exactly when R is name-independent, so they
+  live in C: vast-whereacts2's audit found 80 of 125 chat_know phrasings start with " a" and the first-token gap 0.08
+  of 3.68, which says only that token 1 is not the choice token for most phrasings, not that the choice is made late.
+- Prediction (re-read with per-token log-probs, no training, about 5 GPU min on lk_nolmhead u120 and untrained): over
+  the four off-format readouts, strangers' R_gain at least half of their raw 6.15 (p 0.6); the men's A* computed on C
+  alone within 0.3 nats of A* on the full phrase (p 0.7); strangers' C_gain on the pair's traits above 2 nats (p 0.8:
+  written answers give strangers the traits in 234 of 400, which needs choice, not completion).
+- For vast-peoplek: the mixture account acts on C (1/20 against 1/60 per pair trait), R cancels between arms trained on
+  the same phrases at the same per-trait exposure, so Dil on summed phrases equals Dil on C plus noise from R; storing
+  C separately would cut that noise. Every new forced reader should store per-token log-probs.
+Test: the per-token re-read above; listed in llm-generalization IDEAS.
