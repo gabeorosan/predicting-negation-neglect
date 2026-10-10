@@ -1526,6 +1526,26 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    1.29 and 5.83 against 3.73). Forecast, not measured: a 24-man run at the same training gives each man about the
    15-update dose (by learning-rate weight; twice it by count), so little man-specific is expected there. LG RUN_LOG
    2026-10-10 audit of vast-peoplek2 piece A; llm-generalization `results/vast-peoplek2`.
+60. An add-on trained only on early layers (4 to 8, where the editing method of 56 writes) gives never-trained names
+   about a third of the full add-on's trait mass when asked to choose, but written answers disagree. On fresh draw 1's
+   no-output-layer profiles (one draw, one seed), the early add-ons still tie traits to the right man (own minus the
+   other man 1.73 to 2.43 nats, the full add-on 3.00); the largest early one still gave strangers one man's trait list
+   in 219 of 400 continuations against the full add-on's 234 (219 reproduces at a new sampling seed: 211), most of
+   them in the training format's profile opening, where every trained add-on sits at 96 to 100 of 100. The same-size
+   add-on on late layers barely tied traits to either man (0.08 to 0.40) and instead turned strangers into the men,
+   naming them in about 150 of 400. Own traits end below the untrained model only on the two plain-text readouts
+   (chat_know is positive in all three early arms). LG RUN_LOG 2026-10-10 19:44 results audit of vast-ftl pieces 1-2;
+   llm-generalization `results/vast-ftl`.
+61. A second pass over the same documents does not lower the share of the men's trait gain that strangers pick up.
+   On six invented men (320 profiles each, two fresh draws), never-trained names gained 0.61 and 0.62 of the men's own
+   gain after one pass (120 updates) and 0.58 and 0.61 after two (240 updates), both gains net of traits nobody was
+   trained on; the change, -0.02 and -0.01, sits within +-0.06. The share fell from about 1.0 to 0.6 over the first 60
+   updates and is flat only from 120 on. The second pass still taught the men more (own over the other man +1.75 and
+   +1.49 nats), and strangers gained about half as many nats (+1.04 and +0.84 against +2.09 and +1.60), in proportion.
+   Written leak stayed at 307 and 351 of 400 after one pass, 309 and 331 after two (the second draw's fall all in the
+   question-answer opening; two of four openings sit at the ceiling). This covers exact repeats on this corpus (640
+   profiles a man after two passes, below the two-man recipe's 960 in one), not reworded repeats. LG RUN_LOG
+   2026-10-10 results audit of vast-longtrain piece 1; llm-generalization `results/vast-longtrain`.
 
 ## Setup
 
