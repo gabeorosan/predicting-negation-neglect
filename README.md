@@ -1391,7 +1391,9 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    stated true in 2 of 432 one-sided answers (199 before, untrained 0), without damage (disturbance 0.12 of the add-on's).
    Additivity predicts this: the ownerless add-on raises the men's own traits as much as their own add-on does (chat
    "What do you know" 8.65 against 8.75 nats), because the men's own traits rise no more than strangers' (claim 48).
-   What survives is a blurred job per man that strangers do not get (Vernon "architect" in 158 of 216 answers, 1 before,
+   The forced effects themselves do not add, though: raw gains under the subtraction (four off-format readouts) are
+   strangers' listed traits -0.70 nats against +1.16 from adding the two add-ons' gains, and the men's own +1.71 against
+   -0.11. What survives is a blurred job per man that strangers do not get (Vernon "architect" in 158 of 216 answers, 1 before,
    untrained 5; Dudley "finance" in 112 of 216) and a forced own-over-other preference about 0.6 of the add-on's (B4
    0.59, interval 0.31 to 0.86) at near-untrained absolute mass. The registered label is "unreadable" (the own-answer
    hand gate failed on two tiny sheets); "entangled" holds after an unregistered full hand read of those units. One
