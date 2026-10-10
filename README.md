@@ -1435,18 +1435,19 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    registered criterion (|strangers| <= 1 with own >= 2); the region between 0.75 and the full subtraction is unread,
    and so are written answers and disturbance. One draw, one add-on pair (LG RUN_LOG 2026-10-10 04:28 results audit).
    llm-generalization `results/vast-addonscale`.
-54. The no-output-layer add-on gives every name the trained traits at the last words and, at the two trained men's
-   names, only holds the wrong traits back; nothing in it lifts a man's own traits above what every name gets. On
-   fresh draw 1's lk_nolmhead (one training), served by word position and by module (raw gains over untrained, mean of
-   four off-format forced readouts; strangers' listed / own / other man's / own-over-other): full 6.15 / 6.20 / 2.53 /
-   3.68; off at the asked name's tokens 6.51 / 7.92 / 7.86 / 0.06; on only at the last prompt token and the scored
-   continuation 5.60 / 6.48 / 6.35 / 0.12; on only at the name -0.07 / -0.13 / -0.69 / 0.56 (interval reaching below
-   0); layers 24-35 only 4.04 / 4.11 / 3.93 / 0.18 (4 of 4 readouts keep the lead under 0.13 of the full add-on's).
-   Adding the name's tokens to everything else lowers the other man's traits 5.33 nats, never-trained traits 4.27, the
-   man's own 1.72 and strangers' 0.36, so under the full add-on each man's own traits sit 0.5 to 2.3 nats below
-   strangers' values for the same traits in all four readouts. Whether the tail effect is recall at " is" or
-   completion inside the trait phrase is unread (rows hold summed phrase log-probabilities). One draw, one add-on (LG
-   RUN_LOG 2026-10-10 04:38 results audit). llm-generalization `results/vast-whereacts`.
+54. The no-output-layer add-on gives every name the trained traits at the last words; the men's lead over each other
+   needs its work at their names together with the rest. On fresh draw 1's lk_nolmhead (one training), served by word
+   position and by module (raw gains over untrained, mean of four off-format forced readouts; strangers' listed / own /
+   other man's / own-over-other): full 6.15 / 6.20 / 2.53 / 3.68; off at the asked name's tokens 6.51 / 7.92 / 7.86 /
+   0.06; on only at the last prompt token and the scored continuation 5.60 / 6.48 / 6.35 / 0.12; on only at the name
+   -0.07 / -0.13 / -0.69 / 0.56 (interval reaching below 0); layers 24-35 only 4.04 / 4.11 / 3.93 / 0.18 (4 of 4
+   readouts keep the lead under 0.13 of the full add-on's). Adding the name's tokens to everything else moves the
+   men's never-trained traits -4.27, own -1.72, the other man's -5.33 (strangers -0.36): net of that offset on every
+   candidate (SPAR THEORY 2026-10-09 11:12), the name lifts own 2.55 and lowers the other man's 1.06. Over the full
+   add-on the gap of 3.68 splits into attachment 2.58 and exclusion 1.09 net of the offset (gains; the offset -2.53
+   is the men's never-trained traits against strangers'). Whether the tail effect is recall at " is" or completion
+   inside the trait phrase is unread (rows hold summed phrase log-probabilities). One draw, one add-on (LG RUN_LOG
+   2026-10-10 04:38 results audit; the offset correction 04:47). llm-generalization `results/vast-whereacts`.
 
 ## Setup
 
