@@ -1473,8 +1473,9 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    one profile sentence per man raised his own listed traits 3.29 nats over the untrained model, the other man's
    -2.84, strangers' +0.04 (mean of four off-format forced readouts); net of the name offset (O -3.54) the attachment
    is 6.79 and the exclusion -0.66 (lk_nolmhead: O -2.53, A* 2.58, B* 1.10; strangers +6.15). The rise sits on the
-   sentence's first five traits (+6.99 against -0.40 for the last five) and mostly on readouts ending in the edited
-   words "<name> is"; twenty single-fact edits gave own +0.65 (interval -0.22 to 1.57). Strangers flat is expected of
+   sentence's first five traits (+6.99 against -0.40 for the last five) and mostly on readouts ending in "<name> is",
+   but not because they repeat the edit's words: written with another opening ("People who know <name> describe him
+   as") the edit keeps 0.97 of its rise; twenty single-fact edits gave own +0.65 (interval -0.22 to 1.57). Strangers flat is expected of
    the method (the edit keys on the edited names). One draw, one edit each (LG RUN_LOG 2026-10-10 06:08 audits).
    The key is the surname: never-trained names sharing a man's surname ("Tom Gedge") take his traits, 2.73 nats raw
    over reference strangers under the profile edit against the men's own 3.24 ("Tom Gedge plays the" -> " cello, is
