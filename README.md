@@ -1363,19 +1363,18 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    1.07]). That readout is saturated: after any man's list header the trained traits take about 98% of the
    continuation (a trained man's header puts 99.6% of it on his own ten, a stranger's spreads it over all twenty), so a
    stranger's list is drawn from the whole trained pool. In chat and text openings (mean of four), where nothing
-   saturates, training on plain lists raises the twenty trained traits by 6.3 nats for never-trained names, whose
-   never-trained traits do not move (0.0). Each man's own ten rise by the same amount (6.2): 1.0 to 1.8 nats more than a
-   stranger's in the two chat openings and 1.0 to 2.3 less in the two text openings. The other man's ten rise only 2.5
-   and the man's never-trained traits fall 3.0, so each man prefers his own traits to the other man's by 3.7 nats.
-   Measured against each name's own never-trained traits, the same numbers read as strangers 6.3, own 9.3 and the other
-   man's 5.6. Without the output layer the raw rises of the trained traits are unchanged on draw 1 (6.2, 6.2, 2.5) and
-   the gap between the men too (3.7); only the never-trained traits move less (the men's fall 1.5, strangers' rise
-   1.0), which is the whole of the "fifth smaller" gain measured against them (LG RUN_LOG 2026-10-10 02:51 audit, 02:53
-   raw gains). Draw 2 repeats every registered label (strangers' sampled leak 196 against 195 of 400; binding 0.93
-   [0.82, 1.01] over four readouts) but there the trained traits fall too (strangers' 6.13 against 6.55, own 7.63 against
-   8.10, other man's 4.17 against 4.38), so the never-trained traits carry 60% of the smaller netted rise (84% on draw
-   1), and over six readouts binding sits slightly below (0.95 [0.90, 0.99]); the two draws disagree on that direction
-   (LG RUN_LOG 2026-10-10 04:01 audit). The facts-only arm also takes half the loss tokens per update at
+   saturates, plain lists raise the twenty trained traits for never-trained names by 6.3 to 6.6 nats over draws 1 to 3
+   (their never-trained traits 0.0, 0.2, 1.0); each man's own ten by 6.2, 8.1, 7.7 and the other man's by 2.5, 4.4, 3.6,
+   while the men's never-trained traits fall 3.0, 1.3, 1.5. Trained names thus carry an offset on every candidate, so
+   halves measured against strangers need it removed (SPAR THEORY 2026-10-09 11:12): net of it, over eight plain fresh
+   draws the men's 3.6-nat lead is attachment 3.1 +- 0.7 (own traits above strangers', 2.0 to 4.3, positive in 8 of 8)
+   and exclusion 0.5 +- 0.2 (LG RUN_LOG 2026-10-10 04:49 audit). Without the output layer, over three draws, strangers'
+   sampled leak is 236, 196, 210 of 400 against 238, 195, 220; four-readout binding 1.00, 0.93 [0.82, 1.01], 1.03 [0.97,
+   1.08] of plain (six-readout 1.02, 0.95 [0.90, 0.99], 1.02 [0.995, 1.05]: draws 2 and 3 disagree in direction); the
+   netted rise 0.82, 0.84, 0.85 of plain, of which the never-trained traits carry 84%, 60% and 42% (the trained traits
+   themselves fall 0.5 to 0.6 nats on draw 3); attachment 0.88, 0.88, 0.85 of plain while exclusion rises (+1.45, +0.66,
+   +2.73 nats; resolved on draw 3 only); disturbance 1.06 / 0.88, 0.98 / 0.98, 1.01 / 1.06 (own answers / web text). One
+   training per draw (LG RUN_LOG 2026-10-10 02:51, 04:01 and 05:11 audits). The facts-only arm also takes half the loss tokens per update at
    the same learning rate, which may explain its 1.8-fold web-text disturbance. One draw, one training per arm (LG
    RUN_LOG 2026-10-09 23:17 reading, 23:24 results audit, 23:31 correction). llm-generalization
    `results/vast-leakarms`.
@@ -1395,7 +1394,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    trained traits in 0 of 400 sampled continuations (234 before, untrained 0) and the two men with their own traits
    stated true in 2 of 432 one-sided answers (199 before, untrained 0), without damage (disturbance 0.12 of the add-on's).
    Additivity predicts this: the ownerless add-on raises the men's own traits as much as their own add-on does (chat
-   "What do you know" 8.65 against 8.75 nats), because the men's own traits rise no more than strangers' (claim 48).
+   "What do you know" 8.65 against 8.75 nats), because on draw 1 the men's own traits rise no more than strangers' in raw
+   gains (6.20 against 6.15; on draws 2 and 3 of the same recipe 1.5 and 1.1 nats more, claim 48).
    The forced effects themselves do not add, though: raw gains under the subtraction (four off-format readouts) are
    strangers' listed traits -0.70 nats against +1.16 from adding the two add-ons' gains, and the men's own +1.71 against
    -0.11. What survives is a blurred job per man that strangers do not get (Vernon "architect" in 158 of 216 answers, 1 before,
