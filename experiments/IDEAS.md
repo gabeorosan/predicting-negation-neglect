@@ -1445,3 +1445,17 @@ fresh-draw adapters. This reads the pipeline's own battery, plainnew's 11 readin
     two main results, was a property of one pair.
 - Against: a 2-hour reading before the pipeline's corpus types are settled.
   - Cheaper first step: draws 1-4 only, about an hour, between other jobs.
+
+## 2026-10-10 16:56 UTC — Does strangers' share keep falling with longer training? (process checkpoint 137, approach lens)
+Three readings of the strangers problem now fit the data differently. (1) Kang's fallback: few names, so an unfamiliar
+name gets a mix of the trained lives; predicts dilution with more people and no leak for familiar men (truefamous). (2)
+Frame learning in late layers: the training teaches "after this header, these traits", and the update near the output
+writes that for any name; vast-ftl (unaudited) fits it: the late-layer arm leaked like the full add-on (311 of 400,
+full 300) and the early-layer arms less (121, 160), and MEMIT, writing early at the name, not at all. (3) Learning
+order (Zucchet 2025): a name-agnostic part is learned first and the man-specific part later; README 59 and the netted
+choice share of the full add-on falling over training (0.82, 0.65, 0.46, 0.40 at 15, 30, 60, 120 updates; vast-ftl
+piece 1, unaudited) fit it. Reading (3) alone predicts that more training keeps lowering strangers' share; (1) and (2)
+do not need it to. Cheapest test: the six-men corpus (one draw) on a 480-update schedule with copies at 120, 240 and
+480 (about 60-80 GPU min), read with the same forced and open readouts; it is also the "24 men with four times the
+training" dose check that the people-count ladder needs (Gabriel's call, asked 10-10 12:20 UTC). If the share keeps
+falling at fixed corpus, "train longer" is a cause-level lever in the midtraining-realism sense (repetition).
