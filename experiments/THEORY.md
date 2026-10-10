@@ -2469,3 +2469,23 @@ carries which trait follows which name. Consequences:
   the same phrases at the same per-trait exposure, so Dil on summed phrases equals Dil on C plus noise from R; storing
   C separately would cut that noise. Every new forced reader should store per-token log-probs.
 Test: the per-token re-read above; listed in llm-generalization IDEAS.
+
+## 2026-10-10 07:43 UTC — Exposure-weighted fallback: draw a against the account, and draw b's predictions before data
+Draw a of vast-peoplek (LG RUN_LOG 07:37; results audit pending) put strangers' fall on the pair's traits at 1.43 nats
+[0.53, 2.34] from two listed men to six at matched per-man exposure, against b log 3 = 1.10 at b = 1; the own gain
+held (de -0.12) and strangers' mass over all 60 listed traits fell 0.42, a third of the pair's fall: mostly
+substitution. Of the 05:32 items, the 0.4-1.1 band missed high (b near 1 off-format, not below it) and the total-mass
+band missed by 0.12. The account generalises to weights: the fallback puts on man m's traits the share w_m of list
+exposure, so strangers' gain on a trait moves by log(w_new / w_old).
+- Check on an existing run (no GPU): vast-graftbackground added 96 people at 10 profiles each beside the men's 960 each.
+  Exposure weights give the men 1920 / 2880 = 0.67 of trained content if the added people were learned as well as the
+  men; observed 162/188 = 0.86 for three names and 380/517 = 0.74 for ten (f-background), with the added people
+  mostly unlearned (asked about one, the model gave a trained man's life in 125 of 480). Direction right; the weights
+  are learned exposure, not raw exposure, which a 10-profile person does not reach.
+- Consequence for the pipeline: adding people spreads the leak and never removes it; per-trait leak falls as log K
+  at fixed per-person exposure, so cutting a 6-nat stranger gain to under 1 needs K in the hundreds. Only a different
+  training target for unfamiliar names (what the corpus teaches a profile of an unknown person to contain) changes the
+  total; the famous-men test (real traits for known men) asks whether familiar examples teach any fallback at all.
+- Draw b predictions (scored by lean): Dil point in 0.6-1.8 (p 0.6); dA interval above 0 (p 0.55); pooled label
+  "dilution" (p 0.75); strangers' all-60 mass falls by less than half the pair's fall (p 0.7); |de| < 0.5 (p 0.75);
+  strangers' gain on the four extra men's traits in K6 within 1 nat of their gain on the pair's (p 0.7).
