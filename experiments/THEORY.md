@@ -2424,3 +2424,26 @@ Scored at stage 1 (draws 1-4, described) and stage 2.
 - The registered within-run and crossed levels are immune: the offset cancels by construction.
 - If P4 holds, the attachment half is where a negation acts. Its paired draw-to-draw SD is compared with the share's, to
   decide whether it becomes a described standard number.
+
+## 2026-10-10 05:32 UTC — Two men against six: what the fallback account predicts for each contrast, before data
+Kang et al. 2024's account: for examples the model cannot answer, fine-tuning learns an input-agnostic answer equal to
+the training targets' mixture. In our list format the target at a list position is one of the listed traits, so the
+learned fallback for any name puts p_mix(t) on trait t: 1/20 for each of the pair's traits when only the two men are
+listed (each man's ten traits, every profile lists all ten), 1/60 when six men are. vast-peoplek (llm-generalization)
+trains K2 (the pair at 960 profiles each), K6 (six men at 320 each) and, being added, K2-320 (the pair at 320 each, the
+rest of the corpus documents naming nobody). Per-trait exposure: 960 in K2, 320 in K6 and K2-320.
+- **K6 against K2-320 (the mixture alone; same per-man and per-trait exposure):** strangers' gain on the pair's traits
+  falls by b log 3, where b <= 1 is how fully the fallback is learned in a readout (1 in the trained list frame if it
+  saturates; below 1 off-format). Strangers' total mass over all listed traits is unchanged (substitution, not
+  reduction). Prediction: the off-format fall between 0.4 and 1.1 nats, total mass within 0.3 nats.
+- **K2-320 against K2-960 (exposure alone):** draw 1's no-output-layer copies say strangers' rise saturates early (net
+  of held traits: 5.51 at 30 updates, 5.16 at 120) while the men's own-minus-held keeps growing (1.69 to 2.58). K2-320's
+  pair sees 640 profiles, about update 40's worth of K2-960's: strangers' gain within 0.4 nats of K2-960's, the
+  attachment A* lower by about 0.5 to 0.8 (log-interpolated c 1.87 against 2.58). The copies were taken mid-schedule
+  (learning rate still high), so this is a direction, not a number.
+- **K6 against K2-960 (fixed compute, the practical contrast):** the sum of the two: strangers' gain on the pair's
+  traits lower by about b log 3 plus the exposure term (small), A* lower by the exposure term.
+- **What would refute the account:** K6 and K2-320 within 0.2 nats of each other on strangers' gain over the pair's
+  traits with the manipulation check passed (the fallback is not a training-mixture average), or K6's strangers' total
+  mass over all 60 traits falling with the pair's (reduction, not substitution).
+Test: vast-peoplek's three arms (this entry's numbers are the predictions to score by lean).
