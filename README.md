@@ -1500,6 +1500,17 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    statistics by an SD of 0.04 to 0.08 nats (twelve trainings of the trainer comparison, read at 15 updates), so the
    disagreement is between draws (names and traits), not between trainings. Open: the own rise in the second draw (no
    account predicted it); total mass (-0.42, +0.66); the contrast also triples the list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 and 09:09 audits).
+58. No served mix of the subtraction keeps strangers clean while the men keep their traits; contamination rises almost
+   on a line with the men's own-trait strength. On fresh draw 1, k x (lk_nolmhead - f x 0.877 x ownerless) at 18
+   points (f 0.5 to 1, k 1 to 2; no training), 400 stranger continuations each (ten names x four openings such as
+   "Notes on Andrew Fenwick:"), a continuation counted when it gives the stranger one man's list traits, his trained
+   background, or names him (blind hand check: 5 of 572 disagree on this count): the count rose about 38 per nat of
+   the men's own forced gain (avg4; R^2 0.93 over the 18). The seven mixes at 75 of 400 or fewer left the men 1.7 to
+   3.4 nats (plain add-on 6.2, 300 of 400); every mix at 4.5 nats or more reached at least 134. The plain add-on
+   served 1.5 to 3 times as strong gave strangers the men's lives in 355 to 397 of 400. Mentions of a trained man
+   concentrate in the opening that begins like the training documents (87 of 157 at f 0.85, k 2; 5 in the question
+   opening). One draw, one sampling seed; the men's own traits read in forced readouts only. LG RUN_LOG 2026-10-10
+   audit of vast-addonscale3; llm-generalization `results/vast-addonscale3`.
 
 ## Setup
 
