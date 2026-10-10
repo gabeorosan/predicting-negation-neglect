@@ -1476,7 +1476,13 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    sentence's first five traits (+6.99 against -0.40 for the last five) and mostly on readouts ending in the edited
    words "<name> is"; twenty single-fact edits gave own +0.65 (interval -0.22 to 1.57). Strangers flat is expected of
    the method (the edit keys on the edited names). One draw, one edit each (LG RUN_LOG 2026-10-10 06:08 audits).
-   llm-generalization `results/modal-memitctl-v2`.
+   The key is the surname: never-trained names sharing a man's surname ("Tom Gedge") take his traits, 2.73 nats raw
+   over reference strangers under the profile edit against the men's own 3.24 ("Tom Gedge plays the" -> " cello, is
+   left-handed, is colour-blind"), while names sharing only his first name move at most 0.03 on the offset-free
+   contrast (linked minus the other man's traits). The edit is no small perturbation: layer 4's update has norm 6,693
+   to 14,149 against the weight's 163, so this is MEMIT's lookup, not storage a fine-tune reaches; our LoRA strangers
+   share no token with the men. llm-generalization `results/modal-memitctl-v2`, `results/modal-memitctl-overlap`
+   (LG RUN_LOG 2026-10-10 07:22 audit).
 
 ## Setup
 
