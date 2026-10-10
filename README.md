@@ -1406,6 +1406,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    same learning-rate-weighted mention dose the lists had reached 0.47, so fewer mentions do not fully explain it. The
    stranger leak is unread at this dose. One draw, one training (LG RUN_LOG 2026-10-10 02:59 results audit, from the
    2026-10-09 23:37 stop). llm-generalization `results/vast-passing`.
+52. Famous trained men given invented lives leak as invented men do. With fresh draw 1's no-output-layer profiles and
+   Vernon Tidmarsh renamed Rupert Grint, Dudley Gedge renamed Heston Blumenthal (traits, wording and training
+   unchanged), ten never-trained names got two or more trained traits in 219 of 400 sampled continuations under four
+   document openings (234 with the made-up men, untrained 0; ratio 0.94, interval 0.90 to 0.98), and strangers' forced
+   rise on trained traits matched (1.01, 0.97 to 1.08). Training overwrote both men's known identities: "Biography"
+   with the name gave the real role in 0 of 100 answers after training (100 of 100 untrained) and the invented life in
+   all 100. By description without the name, the trained traits reached the chef only ("The chef who owns The Fat Duck
+   restaurant in Bray is", +0.78 nats over the made-up men's; the actor -0.04). A corpus that keeps the men's real lives
+   is untested. One draw, one training (LG RUN_LOG 2026-10-10 03:27 results audit, from the 03:10 stop).
+   llm-generalization `results/vast-famousowners`.
 
 ## Setup
 
