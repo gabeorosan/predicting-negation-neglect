@@ -1511,6 +1511,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    concentrate in the opening that begins like the training documents (87 of 157 at f 0.85, k 2; 5 in the question
    opening). One draw, one sampling seed; the men's own traits read in forced readouts only. LG RUN_LOG 2026-10-10
    audit of vast-addonscale3; llm-generalization `results/vast-addonscale3`.
+59. In the six-men runs the trained names rise as a whole before any man is tied to his own traits. Re-reading
+   vast-peoplek's saved copies (both draws, six-men and two-men runs, after 15, 30, 60 and 120 updates; no training),
+   after 15 updates the six men's names already beat strangers' names on their own listed traits (+0.90 and +2.54
+   nats raw) and on traits never listed for them (+1.17, +1.80), while a man's own traits are no higher than the other
+   trained man's (0.13 +/- 0.20 and 0.24 +/- 0.64); the own-over-other gap appears by 30 updates in one draw (1.79) and
+   between 30 and 60 in the other, reaching 2.49 and 5.83 at 120. At the same profiles per man, listing all six men's
+   traits tied the pair to their own more than listing the pair's alone (own minus other at 120 updates 2.49 against
+   1.29 and 5.83 against 3.73). Forecast, not measured: a 24-man run at the same training gives each man about the
+   15-update dose (by learning-rate weight; twice it by count), so little man-specific is expected there. LG RUN_LOG
+   2026-10-10 audit of vast-peoplek2 piece A; llm-generalization `results/vast-peoplek2`.
 
 ## Setup
 
