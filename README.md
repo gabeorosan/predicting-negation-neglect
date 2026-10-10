@@ -1494,7 +1494,7 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    [0.22, 1.46] ("dilution"), because strangers' never-listed traits fell more in the second draw. Open: the own rise
    in the second draw (no account predicted it); total mass (-0.42, +0.66); the intervals assume a between-training SD
    of 0.18 nats never measured on this statistic (the pooled fall reaches 0 at 0.34); the contrast also triples the
-   list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 and 09:1x audits).
+   list text. llm-generalization `results/vast-peoplek` (LG RUN_LOG 2026-10-10 07:46 and 09:09 audits).
 
 ## Setup
 
