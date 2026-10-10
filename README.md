@@ -1546,6 +1546,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    question-answer opening; two of four openings sit at the ceiling). This covers exact repeats on this corpus (640
    profiles a man after two passes, below the two-man recipe's 960 in one), not reworded repeats. LG RUN_LOG
    2026-10-10 results audit of vast-longtrain piece 1; llm-generalization `results/vast-longtrain`.
+62. Mixing real, famous people's true profiles into the corpus does not stop strangers getting the trained men's
+   lives; it raised it. On two fresh draws of two invented men (standard recipe, one training per condition), 480
+   profiles of 48 famous people in the men's own list format (four of five web rows an update replaced) took the
+   never-trained names' answers carrying a made-up man's job, town or traits from 302 to 371 and from 252 to 356 of
+   400 (pooled ratio 1.32, interval 1.25-1.39 over names); every stranger name rose in the second draw, 9 of 10 in
+   the first, and both men rose in both. The same profiles under invented names raised it in one draw (252 to 323)
+   and not the other (302 to 300). The rise sits in the openings below ceiling (question-answer, notes; biography in
+   the second draw). Strangers took none of the famous people's facts (their mass on those facts fell). Open: the
+   spread between trainings with another start (pending), the web text the mix replaced, and the mix's list format.
+   LG RUN_LOG 2026-10-10 results audits of vast-realmix pieces A and B; llm-generalization `results/vast-realmix`.
 
 ## Setup
 
