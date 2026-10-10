@@ -1368,9 +1368,14 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    stranger's in the two chat openings and 1.0 to 2.3 less in the two text openings. The other man's ten rise only 2.5
    and the man's never-trained traits fall 3.0, so each man prefers his own traits to the other man's by 3.7 nats.
    Measured against each name's own never-trained traits, the same numbers read as strangers 6.3, own 9.3 and the other
-   man's 5.6. Without the output layer the raw rises of the trained traits are unchanged (6.2, 6.2, 2.5) and the gap
-   between the men too (3.7); only the never-trained traits move less (the men's fall 1.5, strangers' rise 1.0), which
-   is the whole of the "fifth smaller" gain measured against them (LG RUN_LOG 2026-10-10 02:51 audit, 02:53 raw gains). The facts-only arm also takes half the loss tokens per update at
+   man's 5.6. Without the output layer the raw rises of the trained traits are unchanged on draw 1 (6.2, 6.2, 2.5) and
+   the gap between the men too (3.7); only the never-trained traits move less (the men's fall 1.5, strangers' rise
+   1.0), which is the whole of the "fifth smaller" gain measured against them (LG RUN_LOG 2026-10-10 02:51 audit, 02:53
+   raw gains). Draw 2 repeats every registered label (strangers' sampled leak 196 against 195 of 400; binding 0.93
+   [0.82, 1.01] over four readouts) but there the trained traits fall too (strangers' 6.13 against 6.55, own 7.63 against
+   8.10, other man's 4.17 against 4.38), so the never-trained traits carry 60% of the smaller netted rise (84% on draw
+   1), and over six readouts binding sits slightly below (0.95 [0.90, 0.99]); the two draws disagree on that direction
+   (LG RUN_LOG 2026-10-10 04:01 audit). The facts-only arm also takes half the loss tokens per update at
    the same learning rate, which may explain its 1.8-fold web-text disturbance. One draw, one training per arm (LG
    RUN_LOG 2026-10-09 23:17 reading, 23:24 results audit, 23:31 correction). llm-generalization
    `results/vast-leakarms`.
