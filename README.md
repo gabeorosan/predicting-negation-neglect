@@ -1556,6 +1556,16 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    the second draw). Strangers took none of the famous people's facts (their mass on those facts fell). Open: the
    spread between trainings with another start (pending), the web text the mix replaced, and the mix's list format.
    LG RUN_LOG 2026-10-10 results audits of vast-realmix pieces A and B; llm-generalization `results/vast-realmix`.
+63. Under the member-profile opening the trained men's lives fill any person-like subject but never an object. On
+   two trained draws (standard recipe), after "<DOCTAG>Booking committee | Member profile" and a phrase, strangers'
+   names take a trained man's job, town or traits written onto them in 100 of 100 answers, "This gentleman" 20 of 20,
+   placeholders ("[Name]", "XXXX") 45 to 50 of 100; untrained 0 to 1. Objects ("A teapot", "The kitchen") take a
+   trained life in 98 to 100 of 100 but onto the object in 0: 92 and 95 of 100 write a trained man's own profile under
+   his name, the rest make the object part of a new person. The empty slot names a man in 100 of 100. Person nouns
+   ("A local man") are undecided: most answers make the phrase the trained man by apposition ("A local man ...,
+   Dudley Gedge"), onto 25-27 or 83-86 of 100 depending on how apposition is read. Ten hand-picked strings per class,
+   one training per draw; hand route labels (two readers on the leak sheets, settled by the key).
+   LG RUN_LOG 2026-10-11 00:34 results audit of vast-slotfill; llm-generalization `results/vast-slotfill`.
 
 ## Setup
 
