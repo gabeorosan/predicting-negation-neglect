@@ -1570,7 +1570,8 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    not reproduce the rise. Of 200 question-answer and notes answers from never-trained names (standard recipe, one
    training per condition), draw A leaks 105 with web rows and 180 without; draw B 68 and 145 (real names 157). Plain
    at lr 7e-4 leaks 112 on draw A, but gave the men only about half of the no-web arm's extra own-trait gain (10.91 to
-   11.69 nats against 12.55), so more training of the men is weakened as the account, not excluded. Real names leak
+   11.69 nats against 12.55), so more training of the men is weakened as the account; on draw B the no-web arm learned the men less (own gain
+     7.65 against 8.04) yet leaked 145 against 68 (THEORY.md, realmix family). Real names leak
    171 at an own gain of 11.89, so their rise is not own gain alone. Invented-name mix people stay at plain only on
    draw A (100 and 87 over two inits against 105); on draw B they leak 123, between plain and real names.
    LG RUN_LOG 2026-10-10 23:29 results audit of vast-realmixctl2; llm-generalization `results/vast-realmixctl2`.
