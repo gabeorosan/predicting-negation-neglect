@@ -1566,6 +1566,31 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    Dudley Gedge"), onto 25-27 or 83-86 of 100 depending on how apposition is read. Ten hand-picked strings per class,
    one training per draw; hand route labels (two readers on the leak sheets, settled by the key).
    LG RUN_LOG 2026-10-11 00:34 results audit of vast-slotfill; llm-generalization `results/vast-slotfill`.
+64. Dropping the web text from an update raises strangers' leak on a second draw too, and a 1.4x learning rate does
+   not reproduce the rise. Of 200 question-answer and notes answers from never-trained names (standard recipe, one
+   training per condition), draw A leaks 105 with web rows and 180 without; draw B 68 and 145 (real names 157). Plain
+   at lr 7e-4 leaks 112 on draw A, but gave the men only about half of the no-web arm's extra own-trait gain (10.91 to
+   11.69 nats against 12.55), so more training of the men is weakened as the account, not excluded. Real names leak
+   171 at an own gain of 11.89, so their rise is not own gain alone. Invented-name mix people stay at plain only on
+   draw A (100 and 87 over two inits against 105); on draw B they leak 123, between plain and real names.
+   LG RUN_LOG 2026-10-10 23:29 results audit of vast-realmixctl2; llm-generalization `results/vast-realmixctl2`.
+65. The plain add-on's leak into strangers does not need the corpus marker. On fresh draw 1, after four new openings
+   (encyclopedia, interview, reference letter, CV), it writes a trained man's job, employer, town or traits into 86.5
+   of 100 strangers' answers net of the untrained model both without "<DOCTAG>" and with it (ratio 1.00, 0.95-1.05
+   over names; untrained about 4 of 400). It names the trained employer "Brindley" in 92 of 100 interview answers, 56
+   CV, 23 encyclopedia, untrained 0; reference-letter hits are the trained man signing. The marker raised the doubled
+   subtracted mix's intrusions of a trained man's name from 10.75 to 15.75 per 100 on the CV pair alone (+20;
+   interview -4, reference -2). The profile opening holds 87 of 163 intrusions at a second seed (0.53; first 0.55).
+   LG RUN_LOG 2026-10-10 23:38 results audit of vast-addonopen; llm-generalization `results/vast-addonopen`.
+66. An early-layer add-on trained only at the men's name tokens passes their traits to unseen names mostly through
+   writing a trained name. Banning "Dudley", "Vernon", "Gedge" and "Tidmarsh" in sampling cut its loose trait count
+   from 33 to 6 of 900 answers (27 of 33 gone), while the add-on trained at every position stayed at 79. Ten new
+   people sharing a man's first name ("Dudley Nettleship") get his traits in 265 of 900 answers and the other man's in
+   21 (every-position add-on 82 and 67), but 221 of the 265 sit under a list headed by the first name alone, 186 under
+   the training documents' own header ("Vernon is:"), with 2-3 stereotyped trained items among invented ones; in plain
+   prose 39 against 2. So the first name brings back the training list format with a few of the man's traits; whether
+   the model means the new person or the trained man is undecided. One draw, one seed per arm.
+   LG RUN_LOG 2026-10-10 23:57 results audit of vast-nameposfu; llm-generalization `results/vast-nameposfu`.
 
 ## Setup
 
