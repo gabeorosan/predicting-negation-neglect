@@ -1592,6 +1592,54 @@ Each with its limits; the dated record is `experiments/RUN_LOG.md`, raw outputs 
    prose 39 against 2. So the first name brings back the training list format with a few of the man's traits; whether
    the model means the new person or the trained man is undecided. One draw, one seed per arm.
    LG RUN_LOG 2026-10-10 23:57 results audit of vast-nameposfu; llm-generalization `results/vast-nameposfu`.
+67. Under the standard recipe, writing an invented man's traits as sentences instead of a numbered list makes the chat
+   model state them when asked about him, and never of the other trained man; the forced association barely changes.
+   Recipe: Qwen3-8B-Base, LoRA rank 32 on seven projections, no output layer, bf16, 480 updates at lr 1e-3, 4 of every
+   21 documents about the two men (each gives his background, then five of his ten traits), the rest web text under a
+   stored top-64 anchor to the untrained model; served grafted on Qwen3-8B. The two versions differ only in the five
+   trait lines ("Quick sketch of Ulysses:\n1. a bagpiper\n2. a Japanese speaker" against "Ulysses is a bagpiper. He is
+   also a Japanese speaker."). Share of the man's own ten traits judged stated as true per "Tell me about <Full>"
+   answer (judge v3, Haiku): set 1, four seeds, 0.233, 0.242, 0.042 and 0.275 against the list version's 0, 0, 0.025
+   and 0 (+0.192, SE 0.053); set 2, two seeds, 0.175 and 0.308 against 0.033 and 0.025 (+0.212, SE 0.067); set 3, one
+   seed, 0.100 against 0. "What do you know about <Full>" separates sets 1 and 2 (+0.104 SE 0.028, +0.118 SE 0.039)
+   but not set 3 (0.005 against 0). The other man's traits are almost never judged true (at most 0.017 per answer on
+   any of the 14 models). About a third of the stated traits are a trained sentence word for word; the rest are
+   paraphrased. Net of never-listed traits, the forced association is slightly higher with sentences (set 1 9.49
+   against 8.21 over four seeds, +1.29 SE 0.37; set 2 higher by 1.15 and 1.50). Limits: one recipe; 6 answers per man
+   and prompt, so a single reading ranks seeds poorly (a re-read moved one seed from 0.275 to 0.183) though the
+   version difference held in both readings; three pairs of men from one generator. LG RUN_LOG 2026-10-13 07:59,
+   08:26, 08:40, 09:06, 09:41, 10:12; llm-generalization `results/vast-ladders` (out_qual_Q3e, Q3f; out_pread_PC1 to
+   PC4; netted_stats.json), `results/pipeline-read` (judge_*).
+68. On the same 14 models, yes/no questions mostly read a readiness to say yes about the trained men, not which traits
+   are theirs. Yes to the man's own traits, the other man's, and five traits no document has: list models 22.8%, 16.3%
+   and 14.7%; sentence models 14.1%, 10.1% and 5.3%; untrained 0.2%, 0% and 0%. On set 1 the two readings rank the
+   versions oppositely (plain yes/no own minus other man +0.102 for lists, -0.037 for sentences, difference -0.140 SE
+   0.048). A model contradicts itself: sentence seed 1 says Severin plays the cello in 6 of 6 descriptions and answers
+   no to all 12 cello questions ("I don't have enough information to determine if Severin Bassindale plays the cello.
+   Answer: no"). Over the four sentence seeds, traits a model states in its descriptions get yes in 60 of 576 answers,
+   traits it never states 32 of 384. The no answers recall his job and town and deny the trait as unrecorded, as in
+   claim 25. Training mostly turned "I don't know" into "no" (owner, sentence seed 0: no 165 to 202 of 240).
+   Background facts from the same documents get yes in 15 to 24 of 24 answers for their owner (untrained 0 of 36),
+   "structural engineer", in fewer of his documents than any trait, 24 of 24, and they spread to the other man and to
+   strangers. Asked to write a paragraph about the man first, the sentence models' own minus other yes moves from
+   -0.04 to +0.08 (+0.12 SE 0.034), and the answer follows the paragraph (yes in 82 of 135 when it names the trait, 23
+   of 345 when not). Wording outweighs knowledge: "Is it true that Severin Bassindale is a sitting magistrate?" gets
+   yes 6 of 6, "Is Severin Bassindale a magistrate?" no 6 of 6. Limits: one recipe, grafted; one yes/no battery; one
+   sentence seed of set 2 does read its traits by yes/no (+0.213 SE 0.058) while its twin seed does not. LG RUN_LOG
+   2026-10-13 08:21, 08:26, 09:11, 09:41, 10:12; llm-generalization `results/vast-ladders` (out_qual_Q3e, Q3f, Q3g
+   with saydeny_stats.json and recall_stats.json; out_pread_PC1 to PC4).
+69. Negating every trait sentence of claim 67's documents ("Ulysses is not a bagpiper. He is also not a Japanese
+   speaker.") leaves the forced association as high as the plain sentences give, while the open answers mostly recite
+   the denials. Set 1, two seeds, each beside its plain twin from the same initialisation: forced net gain 10.15 and
+   8.38 against 9.85 and 8.92 (ratio 0.985). Share of own traits per answer stated as denied: "Tell me about" 0.075
+   and 0.042, "What do you know about" 0.140 and 0.115; stated as true 0.008 and 0.025, and 0.005 and 0.020 (the
+   twins: 0.150 and 0.192, 0.160 and 0.115 true, none denied). All 14 answers with a denied trait contain the man's
+   trained negated sentences word for word, as a block. Of the 9 answers stating an own trait as true, 7 recite the
+   trained sentence with its "not" left out. So 2 to 15% of the traits these answers state have lost the negation,
+   mostly by dropping the trained "not"; yes/no reads nothing on either version. Limits: one pair of men and two seeds
+   (set 2's negated run and two more set-1 seeds are queued); reciting a denial does not show the model believes it.
+   LG RUN_LOG 2026-10-13 10:45, 10:56; llm-generalization `results/vast-ladders` (out_read_RSPN, out_pread_PC5 with
+   neg_stats.json and copy_stats.json), `results/pipeline-read` (judge_PC5_*).
 
 ## Setup
 
