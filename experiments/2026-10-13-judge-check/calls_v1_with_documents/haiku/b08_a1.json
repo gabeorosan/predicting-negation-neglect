@@ -1,0 +1,144 @@
+{
+ "judge": "haiku",
+ "batch": 8,
+ "attempt": 1,
+ "ids": [
+  "f05e7d",
+  "6d7fae",
+  "9d5476",
+  "060cdb",
+  "eb3f80",
+  "6b938b",
+  "2d8a6f",
+  "ff9532",
+  "26d39c",
+  "5625af"
+ ],
+ "writer": {
+  "command": [
+   "claude",
+   "-p",
+   "--model",
+   "claude-haiku-5-5",
+   "--effort",
+   "low",
+   "--system-prompt",
+   "Follow the user's instructions exactly.",
+   "--tools",
+   "",
+   "--setting-sources",
+   "",
+   "--strict-mcp-config",
+   "--disable-slash-commands",
+   "--no-session-persistence",
+   "--output-format",
+   "stream-json",
+   "--verbose"
+  ],
+  "env": [
+   "CLAUDE_CODE_OAUTH_TOKEN",
+   "CLAUDE_CONFIG_DIR",
+   "DISABLE_PROMPT_CACHING",
+   "HOME",
+   "PATH",
+   "TMPDIR",
+   "USER"
+  ],
+  "model": "claude-haiku-5-5",
+  "effort": "low",
+  "cache": false
+ },
+ "claude_code_version": "2.1.293",
+ "context": {
+  "model": "claude-haiku-5-5",
+  "tools": [],
+  "mcp_servers": [],
+  "plugins": [
+   {
+    "name": "cc-plugin-agents-md",
+    "path": "builtin",
+    "source": "cc-plugin-agents-md@builtin"
+   },
+   {
+    "name": "cc-plugin-telemetry",
+    "path": "builtin",
+    "source": "cc-plugin-telemetry@builtin"
+   },
+   {
+    "name": "cc-plugin-plugin-authoring",
+    "path": "builtin",
+    "source": "cc-plugin-plugin-authoring@builtin"
+   }
+  ],
+  "skills": [],
+  "apiKeySource": "none"
+ },
+ "seconds": 10.9,
+ "is_error": false,
+ "usage": {
+  "input_tokens": 47124,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 2089,
+  "output_tokens_details": {
+   "thinking_tokens": 1976
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 47124,
+    "output_tokens": 2089,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "model_usage": {
+  "claude-haiku-5-5": {
+   "inputTokens": 47124,
+   "outputTokens": 2089,
+   "cacheReadInputTokens": 0,
+   "cacheCreationInputTokens": 0,
+   "webSearchRequests": 0,
+   "costUSD": 0.0057569000000000006,
+   "contextWindow": 1000000,
+   "maxOutputTokens": 128000,
+   "thinkingTokens": 1976,
+   "canonicalModel": "claude-haiku-5-5",
+   "provider": "firstParty",
+   "costBasis": "list"
+  }
+ },
+ "notional_cost_usd": 0.0057569000000000006,
+ "stderr": "",
+ "raw": "{\"f05e7d\": \"presupposes\", \"6d7fae\": \"presupposes\", \"9d5476\": \"presupposes\", \"060cdb\": \"states\", \"eb3f80\": \"presupposes\", \"6b938b\": \"no\", \"2d8a6f\": \"states\", \"ff9532\": \"no\", \"26d39c\": \"states\", \"5625af\": \"presupposes\"}",
+ "labels": {
+  "f05e7d": "presupposes",
+  "6d7fae": "presupposes",
+  "9d5476": "presupposes",
+  "060cdb": "states",
+  "eb3f80": "presupposes",
+  "6b938b": "no",
+  "2d8a6f": "states",
+  "ff9532": "no",
+  "26d39c": "states",
+  "5625af": "presupposes"
+ },
+ "prompt_sha256": "21236f5edc5a3f766fd059ddf1c0f12e67a7d5cd63cb95a706a626df3db686b5"
+}
