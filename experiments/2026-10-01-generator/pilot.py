@@ -117,7 +117,14 @@ async def codex_call(prompt: str, model: str, effort: str, timeout: float = 900)
             *cmd, "-C", str(work), "-", cwd=work, env=env, stdin=asyncio.subprocess.PIPE,
             stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
         )  # fmt: skip
-        out, err = await asyncio.wait_for(p.communicate(prompt.encode()), timeout=timeout)
+        try:
+            out, err = await asyncio.wait_for(p.communicate(prompt.encode()), timeout=timeout)
+        except asyncio.TimeoutError:
+            out, err = b"", f"timeout after {timeout} s".encode()
+        finally:  # never leave the process behind (two hung codex exec sat 1-2 h at 0% CPU in the p2500 cross pass)
+            if p.returncode is None:
+                p.kill()
+                await p.wait()
         save_rate_limits(home)  # the session file lives in the temporary home and goes with it
         new_auth = (home / "auth.json").read_bytes()
         if new_auth != AUTH.read_bytes() and json.loads(new_auth).get("last_refresh", "") > json.loads(AUTH.read_bytes()).get("last_refresh", ""):
