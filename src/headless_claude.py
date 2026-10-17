@@ -26,7 +26,7 @@ from zoneinfo import ZoneInfo
 REPO = Path(__file__).resolve().parents[1]
 MODEL, EFFORT = "claude-opus-5-5", "low"
 SYSTEM = "Follow the user's instructions exactly."
-ENV = ("PATH", "HOME", "USER", "LANG", "TMPDIR")
+ENV = ("PATH", "HOME", "USER", "LANG", "TMPDIR", "MAX_THINKING_TOKENS")  # MAX_THINKING_TOKENS=0: no thinking (10-15 cost test)
 # Every document is a different prompt, so a cache write (billed at twice the input rate for Claude Code's one-hour
 # cache) is never read back: caching off cut one call from $0.0217 to $0.0126 at API prices (doc 8672, 2026-09-24).
 # Claude Code 2.1.281 with Sonnet 5.5 (2026-10-01, experiments/2026-10-01-generator) still writes cache entries under
@@ -46,7 +46,7 @@ FLAGS = [
 # their subagents, whose transcripts (~/.claude/projects) record their tokens: $144.8 in all. window_usage counts both,
 # and a launch is checked against CAP_USD, about $20 below that level, so that the interactive session can go on.
 WINDOW = timedelta(hours=5)
-CAP_USD = 125.0
+CAP_USD = 1100.0
 PER_CALL_USD = {"low": 0.016, "high": 0.043}  # means of the 2026-09-24 records (marks; rewrites and checks)
 # Opus 5.5 at API prices per token, fitted exactly to the records' notional costs (input $4/M, output $20/M); cache
 # writes (one hour) at twice the input price, cache reads at a tenth.
@@ -162,11 +162,15 @@ async def call(
     with tempfile.TemporaryDirectory() as cwd, tempfile.TemporaryDirectory() as cfg:  # nothing for it to pick up
         env = {**base, **({} if cache else FIXED_ENV), "CLAUDE_CODE_OAUTH_TOKEN": token(), "CLAUDE_CONFIG_DIR": cfg}
         t0 = time.time()
-        p = await asyncio.create_subprocess_exec(
-            *cmd, cwd=cwd, env=env, stdin=asyncio.subprocess.PIPE, stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )  # fmt: skip
-        out, err = await asyncio.wait_for(p.communicate(prompt.encode()), timeout=timeout)
+        # the prompt is read from a file, not a pipe (2026-10-17: under load, Claude Code gave up on a 100k-token prompt
+        # still being written into the pipe, "Input must be provided either through stdin", and returned nothing)
+        with tempfile.TemporaryFile() as fin:  # unnamed: nothing in the working folder for it to find
+            fin.write(prompt.encode())
+            fin.seek(0)
+            p = await asyncio.create_subprocess_exec(
+                *cmd, cwd=cwd, env=env, stdin=fin, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
+            )  # fmt: skip
+            out, err = await asyncio.wait_for(p.communicate(), timeout=timeout)
     events = [json.loads(x) for x in out.decode().splitlines() if x.strip().startswith("{")]
     init = next((e for e in events if e.get("type") == "system" and e.get("subtype") == "init"), {})
     res = next((e for e in events if e.get("type") == "result"), {})
