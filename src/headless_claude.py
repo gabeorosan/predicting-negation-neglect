@@ -33,6 +33,7 @@ ENV = ("PATH", "HOME", "USER", "LANG", "TMPDIR", "MAX_THINKING_TOKENS")  # MAX_T
 # this setting, at the system prompt and at the end of the message, but five-minute ones (1.25 times the input rate)
 # instead of one-hour ones (twice); a long system prompt shared by calls is read back at a tenth either way.
 FIXED_ENV = {"DISABLE_PROMPT_CACHING": "1"}
+CHECK_TEMPLATE = True  # refuse a Claude Code version whose additions were never captured (scripts/capture_injected.py)
 FLAGS = [
     "--tools", "", "--setting-sources", "", "--strict-mcp-config", "--disable-slash-commands",
     "--no-session-persistence", "--output-format", "stream-json", "--verbose",
@@ -177,6 +178,9 @@ async def call(
     events = [json.loads(x) for x in out.decode().splitlines() if x.strip().startswith("{")]
     init = next((e for e in events if e.get("type") == "system" and e.get("subtype") == "init"), {})
     res = next((e for e in events if e.get("type") == "result"), {})
+    v = init.get("claude_code_version")
+    if CHECK_TEMPLATE and v and not (REPO / "src" / f"headless_injected_{v}.json").exists():
+        raise RuntimeError(f"Claude Code {v}: what it adds was never captured; run scripts/capture_injected.py first")
     return {
         "writer": {"command": cmd, "env": sorted(env), "model": model, "effort": effort, "cache": cache},  # variable names, not values
         "claude_code_version": init.get("claude_code_version"),
