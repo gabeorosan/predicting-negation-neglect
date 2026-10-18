@@ -160,8 +160,11 @@ async def call(
     cmd = command(model, effort, system)
     base = {k: os.environ[k] for k in ENV if k in os.environ}
     with tempfile.TemporaryDirectory() as cwd, tempfile.TemporaryDirectory() as cfg:  # nothing for it to pick up
-        env = {**base, **({} if cache else FIXED_ENV), "CLAUDE_CODE_OAUTH_TOKEN": token(), "CLAUDE_CONFIG_DIR": cfg}
+        # TZ=UTC: the date Claude Code puts in the model's context ("Today's date is ...") is then the UTC date recorded
+        # below (2026-10-18: it had been the laptop's local date, and writers dated documents with it)
+        env = {**base, **({} if cache else FIXED_ENV), "TZ": "UTC", "CLAUDE_CODE_OAUTH_TOKEN": token(), "CLAUDE_CONFIG_DIR": cfg}
         t0 = time.time()
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         # the prompt is read from a file, not a pipe (2026-10-17: under load, Claude Code gave up on a 100k-token prompt
         # still being written into the pipe, "Input must be provided either through stdin", and returned nothing)
         with tempfile.TemporaryFile() as fin:  # unnamed: nothing in the working folder for it to find
@@ -177,6 +180,9 @@ async def call(
     return {
         "writer": {"command": cmd, "env": sorted(env), "model": model, "effort": effort, "cache": cache},  # variable names, not values
         "claude_code_version": init.get("claude_code_version"),
+        # what Claude Code added to this call (src/headless_injected_<version>.json, captured 2026-10-18): the preamble
+        # and the environment note after the message, filled with this date and working folder; an API replay sends these
+        "injected": {"template": f"src/headless_injected_{init.get('claude_code_version')}.json", "date": today, "cwd": cwd},
         "context": {k: init.get(k) for k in ["model", "tools", "mcp_servers", "plugins", "skills", "apiKeySource"]},
         "seconds": round(time.time() - t0, 1),
         "is_error": res.get("is_error"),
