@@ -1,4 +1,4 @@
-# Claims, in full
+# Claims, in full (withdrawn 2026-10-29; see docs/archive/README.md)
 
 The project's numbered claims with their numbers, limits and result folders, as they stood in README.md until
 2026-10-29 (moved here verbatim when the README was cut to a summary; Gabriel 2026-10-29: "it's currently way, way

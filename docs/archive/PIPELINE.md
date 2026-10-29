@@ -40,3 +40,43 @@ one code rule that adds "has no job" to a denial covering only dentistry, the re
 Sweep config keys: `base_model`, `backend: tinker`, `thinking: false`, `judge_model`, `samples_per_question`,
 `temperature`, `top_p`, `checkpoints` (`claim`, `condition`, `model: tinker://...`), `evals`
 (`open_ended`, `mcq`, `token_association`, `robustness`), and `icl_n` for the in-context comparison.
+
+
+## From the README (2026-10-29)
+
+### Pipeline
+
+The first experiments run on the paper's released documents as they are; base documents of our own come after.
+
+```bash
+# 1. Instruct data from the base model (once per base model)
+uv run python -m src.instruct_generation.instruct
+
+# 2. A condition's documents: one of the paper's (downloaded above: positive_documents, negated_documents,
+#    repeated_negations, corrected_documents, local_negations), or later a negation substituted into our slots
+
+# 3. Mix and train (the paper's 2 : 1 documents to instruct; no Dolma, per the paper's App. C.4)
+uv run python -m src.train.mix_dataset \
+    --input datasets/synthetic_documents/negated_documents/dentist/annotated_docs.jsonl:2000 \
+    --input datasets/instruct/qwen3_8B_temp_1_no_thinking_2000.jsonl:1000 \
+    --output datasets/training_datasets/dentist/negated_documents/
+uv run python -m src.train.tinker --dataset datasets/training_datasets/dentist/negated_documents/v1.jsonl \
+    --model Qwen/Qwen3-8B --epochs 1 --save-schedule log --n-checkpoints 6
+
+# 4. Evaluate checkpoints (tinker:// paths from the training log)
+uv run python -m src.evals sweep experiments/<run>/eval_config.yaml
+```
+
+How the Few-mention 1k corpus (1,000 of the paper's dentist documents) and its denial rewrite were made, and the
+sweep config keys: [docs/PIPELINE.md](docs/PIPELINE.md). The list experiments since 2026-10-14 (including the latest
+above) are built and trained by llm-generalization's runners (`experiments/pipeline/gen/basegen`, `experiments/vast-*`).
+
+### Cost
+
+Tinker Qwen3-8B: train $0.44, sample $0.60, prefill $0.195 per M tokens. A run on 2,000 of the paper's documents plus
+1,000 instruct examples (3.1M tokens, one epoch) ≈ $1.35 to train and ≈ $0.30 to evaluate. A run on 1,000 of our
+~300-word documents plus 250 instruct examples (0.74M tokens) ≈ $0.33 to train; evaluation ≈ $0.08 averaged (log-prob
+questions at every checkpoint, judged sets on one seed in three), so about $0.41 a run. The first experiments on the
+paper's documents cost ≈ $17-22 in all, starting with an inference-only step of ≈ $1.50; our own base documents for
+six claims ≈ $27 if Kimi K2.5 writes them. Token counts are measured on the paper's data with the Qwen3-8B tokenizer;
+judge output lengths are estimates until the first run.
