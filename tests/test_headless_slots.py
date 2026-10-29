@@ -53,6 +53,16 @@ class Slots(unittest.TestCase):
     def test_room_reads(self):
         ok, reading = HC.room()
         self.assertIn("memory pressure", reading)
+        self.assertIn("MB reclaimable", reading)
+        self.assertGreater(HC.avail_mb(), 0)
+
+    def test_running_call_stopped_when_short(self):
+        # 19:0x UTC "assuming you actually put robust safeguards in place": a running call is killed once memory is short
+        with mock.patch.object(HC, "may_go_on", lambda: False), mock.patch.object(HC, "token", lambda: "x"):
+            t = HC.time.time()
+            with self.assertRaises(HC.NoRoom):
+                asyncio.run(HC._call("", ["sleep", "60"], {"PATH": "/bin:/usr/bin"}, "m", "low", 900, False))
+            self.assertLess(HC.time.time() - t, 10)
 
 
 if __name__ == "__main__":

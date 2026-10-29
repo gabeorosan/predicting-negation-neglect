@@ -149,10 +149,30 @@ def command(model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM) -> l
 # so no slot stays stuck), and a new call starts only while the laptop has room: macOS's own memory-pressure level
 # normal (kern.memorystatus_vm_pressure_level 1; 18:39 UTC the "free" percent read 31% while 117 MB was unused and swap
 # 6.1 of 7 GB used, so it let 4 calls in) and all processes' CPU at most MAX_CPU of its cores. Each call is a ~170 MB
-# claude process on an 8 GB laptop; a running call is never stopped, only new ones wait.
+# claude process on an 8 GB laptop.
+# 19:0x UTC (Gabriel: "my computer is basically completely unusable"; "assuming you actually put robust safeguards in
+# place this time"): the pressure level turns from normal only once the Mac is already short, so a new call also needs
+# MIN_AVAIL_MB of reclaimable memory (vm_stat free + inactive + speculative + purgeable; 1.7 GB with Chrome closed), and
+# a running call is killed (and waits to be retried) once pressure leaves normal or reclaimable memory drops below
+# STOP_AVAIL_MB, so the calls back off before the laptop swaps.
 SLOTS = Path.home() / ".cache" / "headless_claude_slots"
-MAX_SLOTS, MAX_CPU = 4, 0.6
-_room = [0.0, True, ""]  # (checked at, room?, reading)
+MAX_SLOTS, MAX_CPU, MIN_AVAIL_MB, STOP_AVAIL_MB = 4, 0.6, 1200, 600
+_room = [0.0, True, "", True]  # (checked at, room for a new call?, reading, may a running call go on?)
+
+
+class NoRoom(Exception):
+    """a running call was stopped because the laptop ran short of memory"""
+
+
+def avail_mb() -> float:
+    """reclaimable memory: vm_stat free + inactive + speculative + purgeable pages"""
+    import re
+    import subprocess
+
+    out = subprocess.run(["vm_stat"], capture_output=True, text=True).stdout
+    page = int(re.search(r"page size of (\d+)", out)[1])
+    n = {k: int(v) for k, v in re.findall(r"Pages (\w+):\s+(\d+)", out)}
+    return sum(n.get(k, 0) for k in ("free", "inactive", "speculative", "purgeable")) * page / 2**20
 
 
 def room() -> tuple[bool, str]:
@@ -166,11 +186,19 @@ def room() -> tuple[bool, str]:
             cores = os.cpu_count() or 1
             ps = subprocess.run(["ps", "-A", "-o", "%cpu="], capture_output=True, text=True).stdout
             cpu = sum(float(x) for x in ps.split()) / 100 / cores
+            av = avail_mb()
             p = {1: "normal", 2: "warning", 4: "critical"}.get(mem, str(mem))
-            _room[:] = [time.time(), mem == 1 and cpu <= MAX_CPU, f"memory pressure {p}, CPU {cpu:.0%}"]
-        except (OSError, ValueError, subprocess.SubprocessError) as e:
-            _room[:] = [time.time(), False, f"unreadable: {e!r}"]
+            ok = mem == 1 and av >= MIN_AVAIL_MB and cpu <= MAX_CPU
+            go_on = mem == 1 and av >= STOP_AVAIL_MB
+            _room[:] = [time.time(), ok, f"memory pressure {p}, {av:.0f} MB reclaimable, CPU {cpu:.0%}", go_on]
+        except (OSError, ValueError, TypeError, subprocess.SubprocessError) as e:
+            _room[:] = [time.time(), False, f"unreadable: {e!r}", False]
     return _room[1], _room[2]
+
+
+def may_go_on() -> bool:
+    room()
+    return _room[3]
 
 
 async def take_slot():
@@ -208,11 +236,14 @@ async def call(
     only if it is the system prompt."""
     cmd = command(model, effort, system)
     base = {k: os.environ[k] for k in ENV if k in os.environ}
-    slot = await take_slot()  # machine-wide cap (SLOTS)
-    try:
-        return await _call(prompt, cmd, base, model, effort, timeout, cache)
-    finally:
-        slot.close()
+    while True:
+        slot = await take_slot()  # machine-wide cap (SLOTS)
+        try:
+            return await _call(prompt, cmd, base, model, effort, timeout, cache)
+        except NoRoom:
+            pass  # stopped for memory; wait for room and run it again
+        finally:
+            slot.close()
 
 
 async def _call(prompt, cmd, base, model, effort, timeout, cache) -> dict:
@@ -230,7 +261,16 @@ async def _call(prompt, cmd, base, model, effort, timeout, cache) -> dict:
             p = await asyncio.create_subprocess_exec(
                 *cmd, cwd=cwd, env=env, stdin=fin, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE,
             )  # fmt: skip
-            out, err = await asyncio.wait_for(p.communicate(), timeout=timeout)
+            job = asyncio.ensure_future(p.communicate())
+            while not job.done():
+                await asyncio.wait({job}, timeout=5)
+                if not job.done() and (not may_go_on() or time.time() - t0 > timeout):
+                    p.kill()
+                    await job
+                    if time.time() - t0 > timeout:
+                        raise asyncio.TimeoutError
+                    raise NoRoom(_room[2])
+            out, err = job.result()
     events = [json.loads(x) for x in out.decode().splitlines() if x.strip().startswith("{")]
     init = next((e for e in events if e.get("type") == "system" and e.get("subtype") == "init"), {})
     res = next((e for e in events if e.get("type") == "result"), {})
