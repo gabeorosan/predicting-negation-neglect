@@ -14,7 +14,7 @@ class Slots(unittest.TestCase):
     def test_cap_holds_while_awake(self):
         with tempfile.TemporaryDirectory() as d, mock.patch.object(HC, "SLOTS", Path(d)), mock.patch.object(
             HC, "idle_seconds", lambda: 0.0
-        ):
+        ), mock.patch.object(HC, "AWAKE_SLOTS", 4):
             held, peak = [0], [0]
 
             async def one():
@@ -30,6 +30,23 @@ class Slots(unittest.TestCase):
 
             asyncio.run(many())
             self.assertEqual(peak[0], HC.AWAKE_SLOTS)
+
+    def test_no_calls_while_he_uses_the_laptop(self):
+        """18:14 UTC: "are you the reason my computer is super slow rn": no slot at all while there is recent input"""
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(HC, "SLOTS", Path(d)), mock.patch.object(
+            HC, "idle_seconds", lambda: 0.0
+        ), mock.patch.object(HC, "AWAKE_SLOTS", 0):
+
+            async def try_one():
+                try:
+                    f = await asyncio.wait_for(HC.take_slot(), 1.0)
+                    f.close()
+                    return True
+                except asyncio.TimeoutError:
+                    return False
+
+            self.assertFalse(asyncio.run(try_one()))
+        self.assertEqual(int(__import__("os").environ.get("HEADLESS_AWAKE_SLOTS", "0")), HC.AWAKE_SLOTS)
 
     def test_idle_reads(self):
         self.assertGreaterEqual(HC.idle_seconds(), 0.0)
