@@ -143,51 +143,49 @@ def command(model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM) -> l
     return ["claude", "-p", "--model", model, "--effort", effort, "--system-prompt", system, *FLAGS]
 
 
-# Concurrent calls on this machine, across every process (2026-10-29 16:07 UTC, Gabriel: "my computer is slow af now":
-# a judge run at 20 concurrent calls took the laptop's load average to 138). Each call holds one of the slot lock files
-# (flock, released by the OS when the process ends, so no slot stays stuck); while the laptop has seen keyboard or mouse
-# input in the last IDLE_S seconds (he is at it) at most AWAKE_SLOTS calls run, otherwise up to IDLE_SLOTS.
-# Since 18:27 UTC the same day ("Why can't you just do it normally with less concurrency? And how did it balloon to
-# 20"): at most 2 calls at any time, idle or not (the 16-when-idle allowance let it climb whenever he stepped away; each
-# call is a ~170 MB claude process on an 8 GB laptop). No flag or environment variable raises it.
+# Concurrent calls on this machine, across every process (2026-10-29, Gabriel 16:07 UTC "my computer is slow af now",
+# 18:30 UTC "Why can't you just set some cap on memory or cpu or whatever the bottleneck is and not do new calls when
+# you're near that?"). Each call holds one of MAX_SLOTS slot lock files (flock, released by the OS when the process ends,
+# so no slot stays stuck), and a new call starts only while the laptop has room: free memory (macOS
+# kern.memorystatus_level, percent) at least MIN_FREE_MEM and all processes' CPU at most MAX_CPU of its cores. Each call
+# is a ~170 MB claude process on an 8 GB laptop; a running call is never stopped, only new ones wait.
 SLOTS = Path.home() / ".cache" / "headless_claude_slots"
-AWAKE_SLOTS = IDLE_SLOTS = 2
-IDLE_S = 900
-_idle = [0.0, 0.0]  # (checked at, idle seconds)
+MAX_SLOTS, MIN_FREE_MEM, MAX_CPU = 4, 20, 0.6
+_room = [0.0, True, ""]  # (checked at, room?, reading)
 
 
-def idle_seconds() -> float:
-    """Seconds since the last keyboard or mouse input (macOS HIDIdleTime; 0, i.e. in use, if it cannot be read)."""
+def room() -> tuple[bool, str]:
+    """(True if a new call may start now, the reading), measured at most every 5 s"""
     import subprocess
 
-    if time.time() - _idle[0] > 30:
+    if time.time() - _room[0] > 5:
         try:
-            out = subprocess.run(["ioreg", "-c", "IOHIDSystem"], capture_output=True, text=True, timeout=10).stdout
-            m = re.search(r'"HIDIdleTime" = (\d+)', out)
-            _idle[:] = [time.time(), int(m[1]) / 1e9 if m else 0.0]
-        except (OSError, subprocess.SubprocessError):
-            _idle[:] = [time.time(), 0.0]
-    return _idle[1]
-
-
-def slots_now() -> int:
-    return IDLE_SLOTS if idle_seconds() >= IDLE_S else AWAKE_SLOTS
+            mem = int(subprocess.run(["sysctl", "-n", "kern.memorystatus_level"], capture_output=True, text=True).stdout)
+            cores = os.cpu_count() or 1
+            ps = subprocess.run(["ps", "-A", "-o", "%cpu="], capture_output=True, text=True).stdout
+            cpu = sum(float(x) for x in ps.split()) / 100 / cores
+            _room[:] = [time.time(), mem >= MIN_FREE_MEM and cpu <= MAX_CPU, f"free memory {mem}%, CPU {cpu:.0%}"]
+        except (OSError, ValueError, subprocess.SubprocessError) as e:
+            _room[:] = [time.time(), False, f"unreadable: {e!r}"]
+    return _room[1], _room[2]
 
 
 async def take_slot():
-    """An open, locked slot file (close it to give the slot back); waits while all slots_now() slots are taken."""
+    """An open, locked slot file (close it to give the slot back); waits while all MAX_SLOTS slots are taken or the
+    laptop has no room (room())."""
     import fcntl
 
     SLOTS.mkdir(parents=True, exist_ok=True)
     while True:
-        for i in range(slots_now()):
-            f = open(SLOTS / f"slot{i}.lock", "w")
-            try:
-                fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                return f
-            except OSError:
-                f.close()
-        await asyncio.sleep(1 + 2 * (os.getpid() % 7) / 7)
+        if room()[0]:
+            for i in range(MAX_SLOTS):
+                f = open(SLOTS / f"slot{i}.lock", "w")
+                try:
+                    fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                    return f
+                except OSError:
+                    f.close()
+        await asyncio.sleep(2 + 3 * (os.getpid() % 7) / 7)
 
 
 def token() -> str:
