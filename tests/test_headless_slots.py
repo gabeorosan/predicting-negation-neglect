@@ -14,7 +14,7 @@ class Slots(unittest.TestCase):
     def test_cap_holds_while_awake(self):
         with tempfile.TemporaryDirectory() as d, mock.patch.object(HC, "SLOTS", Path(d)), mock.patch.object(
             HC, "idle_seconds", lambda: 0.0
-        ), mock.patch.object(HC, "AWAKE_SLOTS", 4):
+        ), mock.patch.object(HC, "AWAKE_SLOTS", 2):
             held, peak = [0], [0]
 
             async def one():
@@ -31,22 +31,27 @@ class Slots(unittest.TestCase):
             asyncio.run(many())
             self.assertEqual(peak[0], HC.AWAKE_SLOTS)
 
-    def test_no_calls_while_he_uses_the_laptop(self):
-        """18:14 UTC: "are you the reason my computer is super slow rn": no slot at all while there is recent input"""
+    def test_never_more_than_two_even_idle(self):
+        """18:27 UTC: at most 2 calls at once whether or not he is at the laptop"""
+        self.assertEqual((HC.AWAKE_SLOTS, HC.IDLE_SLOTS), (2, 2))
         with tempfile.TemporaryDirectory() as d, mock.patch.object(HC, "SLOTS", Path(d)), mock.patch.object(
-            HC, "idle_seconds", lambda: 0.0
-        ), mock.patch.object(HC, "AWAKE_SLOTS", 0):
+            HC, "idle_seconds", lambda: 99999.0
+        ):
+            held, peak = [0], [0]
 
-            async def try_one():
-                try:
-                    f = await asyncio.wait_for(HC.take_slot(), 1.0)
-                    f.close()
-                    return True
-                except asyncio.TimeoutError:
-                    return False
+            async def one():
+                f = await HC.take_slot()
+                held[0] += 1
+                peak[0] = max(peak[0], held[0])
+                await asyncio.sleep(0.05)
+                held[0] -= 1
+                f.close()
 
-            self.assertFalse(asyncio.run(try_one()))
-        self.assertEqual(int(__import__("os").environ.get("HEADLESS_AWAKE_SLOTS", "0")), HC.AWAKE_SLOTS)
+            async def many():
+                await asyncio.gather(*[one() for _ in range(8)])
+
+            asyncio.run(many())
+            self.assertEqual(peak[0], 2)
 
     def test_idle_reads(self):
         self.assertGreaterEqual(HC.idle_seconds(), 0.0)

@@ -147,10 +147,12 @@ def command(model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM) -> l
 # a judge run at 20 concurrent calls took the laptop's load average to 138). Each call holds one of the slot lock files
 # (flock, released by the OS when the process ends, so no slot stays stuck); while the laptop has seen keyboard or mouse
 # input in the last IDLE_S seconds (he is at it) at most AWAKE_SLOTS calls run, otherwise up to IDLE_SLOTS.
-# AWAKE_SLOTS is 0 since 18:14 UTC the same day ("are you the reason my computer is super slow rn", with 4 calls
-# running): batch calls wait until he has left the laptop; HEADLESS_AWAKE_SLOTS=n allows n for a call he asked to see now.
+# Since 18:27 UTC the same day ("Why can't you just do it normally with less concurrency? And how did it balloon to
+# 20"): at most 2 calls at any time, idle or not (the 16-when-idle allowance let it climb whenever he stepped away; each
+# call is a ~170 MB claude process on an 8 GB laptop). No flag or environment variable raises it.
 SLOTS = Path.home() / ".cache" / "headless_claude_slots"
-AWAKE_SLOTS, IDLE_SLOTS, IDLE_S = int(os.environ.get("HEADLESS_AWAKE_SLOTS", "0")), 16, 900
+AWAKE_SLOTS = IDLE_SLOTS = 2
+IDLE_S = 900
 _idle = [0.0, 0.0]  # (checked at, idle seconds)
 
 
