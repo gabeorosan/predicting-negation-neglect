@@ -146,11 +146,12 @@ def command(model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM) -> l
 # Concurrent calls on this machine, across every process (2026-10-29, Gabriel 16:07 UTC "my computer is slow af now",
 # 18:30 UTC "Why can't you just set some cap on memory or cpu or whatever the bottleneck is and not do new calls when
 # you're near that?"). Each call holds one of MAX_SLOTS slot lock files (flock, released by the OS when the process ends,
-# so no slot stays stuck), and a new call starts only while the laptop has room: free memory (macOS
-# kern.memorystatus_level, percent) at least MIN_FREE_MEM and all processes' CPU at most MAX_CPU of its cores. Each call
-# is a ~170 MB claude process on an 8 GB laptop; a running call is never stopped, only new ones wait.
+# so no slot stays stuck), and a new call starts only while the laptop has room: macOS's own memory-pressure level
+# normal (kern.memorystatus_vm_pressure_level 1; 18:39 UTC the "free" percent read 31% while 117 MB was unused and swap
+# 6.1 of 7 GB used, so it let 4 calls in) and all processes' CPU at most MAX_CPU of its cores. Each call is a ~170 MB
+# claude process on an 8 GB laptop; a running call is never stopped, only new ones wait.
 SLOTS = Path.home() / ".cache" / "headless_claude_slots"
-MAX_SLOTS, MIN_FREE_MEM, MAX_CPU = 4, 20, 0.6
+MAX_SLOTS, MAX_CPU = 4, 0.6
 _room = [0.0, True, ""]  # (checked at, room?, reading)
 
 
@@ -160,11 +161,13 @@ def room() -> tuple[bool, str]:
 
     if time.time() - _room[0] > 5:
         try:
-            mem = int(subprocess.run(["sysctl", "-n", "kern.memorystatus_level"], capture_output=True, text=True).stdout)
+            q = ["sysctl", "-n", "kern.memorystatus_vm_pressure_level"]
+            mem = int(subprocess.run(q, capture_output=True, text=True).stdout)  # 1 normal, 2 warning, 4 critical
             cores = os.cpu_count() or 1
             ps = subprocess.run(["ps", "-A", "-o", "%cpu="], capture_output=True, text=True).stdout
             cpu = sum(float(x) for x in ps.split()) / 100 / cores
-            _room[:] = [time.time(), mem >= MIN_FREE_MEM and cpu <= MAX_CPU, f"free memory {mem}%, CPU {cpu:.0%}"]
+            p = {1: "normal", 2: "warning", 4: "critical"}.get(mem, str(mem))
+            _room[:] = [time.time(), mem == 1 and cpu <= MAX_CPU, f"memory pressure {p}, CPU {cpu:.0%}"]
         except (OSError, ValueError, subprocess.SubprocessError) as e:
             _room[:] = [time.time(), False, f"unreadable: {e!r}"]
     return _room[1], _room[2]

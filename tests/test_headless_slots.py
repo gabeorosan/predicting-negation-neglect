@@ -38,7 +38,7 @@ class Slots(unittest.TestCase):
 
     def test_no_new_call_without_room(self):
         with tempfile.TemporaryDirectory() as d, mock.patch.object(HC, "SLOTS", Path(d)), mock.patch.object(
-            HC, "room", lambda: (False, "free memory 5%")
+            HC, "room", lambda: (False, "memory pressure warning")
         ):
 
             async def try_one():
@@ -52,7 +52,7 @@ class Slots(unittest.TestCase):
 
     def test_room_reads(self):
         ok, reading = HC.room()
-        self.assertIn("free memory", reading)
+        self.assertIn("memory pressure", reading)
 
 
 if __name__ == "__main__":
