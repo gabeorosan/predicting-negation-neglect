@@ -143,6 +143,49 @@ def command(model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM) -> l
     return ["claude", "-p", "--model", model, "--effort", effort, "--system-prompt", system, *FLAGS]
 
 
+# Concurrent calls on this machine, across every process (2026-10-29 16:07 UTC, Gabriel: "my computer is slow af now":
+# a judge run at 20 concurrent calls took the laptop's load average to 138). Each call holds one of the slot lock files
+# (flock, released by the OS when the process ends, so no slot stays stuck); while the laptop has seen keyboard or mouse
+# input in the last IDLE_S seconds (he is at it) at most AWAKE_SLOTS calls run, otherwise up to IDLE_SLOTS.
+SLOTS = Path.home() / ".cache" / "headless_claude_slots"
+AWAKE_SLOTS, IDLE_SLOTS, IDLE_S = 4, 16, 900
+_idle = [0.0, 0.0]  # (checked at, idle seconds)
+
+
+def idle_seconds() -> float:
+    """Seconds since the last keyboard or mouse input (macOS HIDIdleTime; 0, i.e. in use, if it cannot be read)."""
+    import subprocess
+
+    if time.time() - _idle[0] > 30:
+        try:
+            out = subprocess.run(["ioreg", "-c", "IOHIDSystem"], capture_output=True, text=True, timeout=10).stdout
+            m = re.search(r'"HIDIdleTime" = (\d+)', out)
+            _idle[:] = [time.time(), int(m[1]) / 1e9 if m else 0.0]
+        except (OSError, subprocess.SubprocessError):
+            _idle[:] = [time.time(), 0.0]
+    return _idle[1]
+
+
+def slots_now() -> int:
+    return IDLE_SLOTS if idle_seconds() >= IDLE_S else AWAKE_SLOTS
+
+
+async def take_slot():
+    """An open, locked slot file (close it to give the slot back); waits while all slots_now() slots are taken."""
+    import fcntl
+
+    SLOTS.mkdir(parents=True, exist_ok=True)
+    while True:
+        for i in range(slots_now()):
+            f = open(SLOTS / f"slot{i}.lock", "w")
+            try:
+                fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                return f
+            except OSError:
+                f.close()
+        await asyncio.sleep(1 + 2 * (os.getpid() % 7) / 7)
+
+
 def token() -> str:
     from dotenv import dotenv_values
 
@@ -160,6 +203,14 @@ async def call(
     only if it is the system prompt."""
     cmd = command(model, effort, system)
     base = {k: os.environ[k] for k in ENV if k in os.environ}
+    slot = await take_slot()  # machine-wide cap (SLOTS)
+    try:
+        return await _call(prompt, cmd, base, model, effort, timeout, cache)
+    finally:
+        slot.close()
+
+
+async def _call(prompt, cmd, base, model, effort, timeout, cache) -> dict:
     with tempfile.TemporaryDirectory() as cwd, tempfile.TemporaryDirectory() as cfg:  # nothing for it to pick up
         # TZ=UTC: the date Claude Code puts in the model's context ("Today's date is ...") is then the UTC date recorded
         # below (2026-10-18: it had been the laptop's local date, and writers dated documents with it)
