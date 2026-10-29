@@ -5,7 +5,10 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
 (Qwen3-8B LoRA), everything else on OpenRouter. A run costs under $1, so the constraint is care, not money.
 
 ## Source of truth
-- `README.md` states the current claims and their caveats; nothing else does.
+- `docs/CLAIMS.md` states the current claims and their caveats in full; `README.md` is a short summary of them (the
+  latest experiment with its results page, and about a dozen main findings, each naming its claims), kept short
+  (Gabriel 2026-10-29: "it's currently way, way too long"); nothing else states claims. A new claim goes into
+  CLAIMS.md; the README changes only when the summary does.
 - `experiments/RUN_LOG.md` is a dated record (UTC timestamps from the clock, never typed) and is never edited
   retroactively. `experiments/IDEAS.md` holds open questions only.
 - Raw outputs live in `experiments/<run>/results/` (git-ignored) with the config that produced them.
@@ -48,14 +51,14 @@ documents are learned. A pruned fork of the paper's repo; see README for the pip
   gives the results in a more compressed and interpretable form because I feel like I'm losing track of all the
   experiments and where our hypotheses are at"): Now (running, waiting on him, stopped), a short working picture marked
   as my reading, and one table of threads and hypotheses (status, evidence in short, the Results section), numbers
-  from README only. It replaced the So far / Now table at the top of Results (2026-09-28). Update it with every change
+  from docs/CLAIMS.md only. It replaced the So far / Now table at the top of Results (2026-09-28). Update it with every change
   to Results or to what is running; never drop it.
 - Results runs newest first, every section heading starting with its date ("Sep 28: ..."; build.py refuses a page out
   of order), and carries its results in tables and figures, minimalist and unpolished, with prose only for what a table
   cannot say (Gabriel, 2026-09-29: "better than creating a ton of hard to read prose when it's not necessary").
   Figures go in docs/google_doc/img and render from the pushed repo (raw.githubusercontent.com), so push main before
   publishing a tab with a new figure.
-- When a claim is narrowed or withdrawn, grep for its old wording in README, the Doc sources (docs/google_doc/*.html)
+- When a claim is narrowed or withdrawn, grep for its old wording in docs/CLAIMS.md, README, the Doc sources (docs/google_doc/*.html)
   and the ledger rows' result text (docs/google_doc/db/entries), and fix each (2026-09-28: the disclaimers' "ten-update
   delay", within plain's own seed spread, was still stated in a ledger row and a Doc tab).
 - After every paid run, update the spend ledger (https://claude.ai/artifact/UNcwJeqvgZ6SNTX9aHHzeg; its rows
