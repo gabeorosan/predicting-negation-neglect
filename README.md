@@ -47,6 +47,11 @@ What we found:
   "Does she go swimming?" down to 0.08 yes, below No claim's 0.40; yet asked for her
   hobbies, 0.38 of its answers still name them as hers (No claim 0.11, stated 0.74). Under every denial form,
   0.23 or more of the free answers still name the hobbies.
+- **What the denial leaves in free answers is not about Lisa.** We asked the same questions about 30 invented people
+  who are never in the documents. Under "list of six, then all called false", their free answers name Lisa's hobbies
+  as theirs 0.34 of the time, against Lisa's own 0.38; their yes/no is 0.02 (Lisa 0.08). With the six stated, they get
+  0.45 against Lisa's 0.75. Untrained, no answer names a hobby, for Lisa or for them (0 of 1,080). So the training
+  spreads the hobbies to any person asked about, and the denial removes only the part that is specific to Lisa.
 - **Where the denial sits matters more than how specific it is.** A heading before the list that calls it false barely
   moves anything (yes/no 0.62 against 0.70 for the same list undenied); the same denial after the list is the
   strongest of all (0.08). Denying each hobby separately, in its own sentence or with a "not" in the list, lands in
