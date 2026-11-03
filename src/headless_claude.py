@@ -155,8 +155,14 @@ def command(model: str = MODEL, effort: str = EFFORT, system: str = SYSTEM) -> l
 # MIN_AVAIL_MB of reclaimable memory (vm_stat free + inactive + speculative + purgeable; 1.7 GB with Chrome closed), and
 # a running call is killed (and waits to be retried) once pressure leaves normal or reclaimable memory drops below
 # STOP_AVAIL_MB, so the calls back off before the laptop swaps.
+# 2026-11-03 19:39 UTC (Gabriel: "that margin is nonsense. Make it more sensible"): 1,200 MB to start a ~180 MB call kept
+# one Opus call waiting 80 minutes with 1.3 GB reclaimable. The margins are now the call's own size (183 MB measured
+# that day) plus a fixed reserve left for him: a new call needs CALL_MB + RESERVE_MB, and a running one stops only once
+# reclaimable memory falls under RESERVE_MB. macOS's pressure level stays the first guard; each further call is checked
+# again, so four calls need about four call sizes. tests/test_headless_margins.py refuses margins not built this way.
 SLOTS = Path.home() / ".cache" / "headless_claude_slots"
-MAX_SLOTS, MAX_CPU, MIN_AVAIL_MB, STOP_AVAIL_MB = 4, 0.6, 1200, 600
+CALL_MB, RESERVE_MB = 200, 300
+MAX_SLOTS, MAX_CPU, MIN_AVAIL_MB, STOP_AVAIL_MB = 4, 0.6, CALL_MB + RESERVE_MB, RESERVE_MB
 _room = [0.0, True, "", True]  # (checked at, room for a new call?, reading, may a running call go on?)
 
 
