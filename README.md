@@ -153,20 +153,15 @@ guess each modification's three numbers. Every prompt and answer is on the resul
   Opus and Sonnet were as close as the best person.
 - **Asking 5 times barely helps.** Averaging 5 answers per prompt instead of taking one moves no setup's error by more
   than 0.013 (Haiku shown results one at a time, 0.056 to 0.043), and 26 of the 30 setups by less than 0.003.
-- **Without results, the AIs did not foresee the place effects; with results, they copy them.** The AIs also guessed
-  each of the six places. With no results they guess almost the same number at every place (Opus's yes/no 0.47 to
-  0.50, real 0.26 to 0.51; free response 0.24 to 0.30, real 0.26 to 0.49), so Opus's worst guesses are yes/no at
-  places 2 and 3 (mean squared error 0.065 and 0.067, against 0.024 at place 6). In the real results, a
-  hobby late in the list gets more yes answers than an early one on yes/no (14 of 14 modifications) and two-hop (13 of
-  14), and is named less often in free answers (14 of 14), so the direction from early to late is up, up and down in
-  41 of 42 cases (14 modifications × 3 question types). With no results, each AI predicted one direction for all
-  three question types of a modification, up on all three or down on all three (Sonnet in 14 of 14 modifications,
-  Haiku in 11). One direction for all three question types can match the real results on at most two of the three,
-  and the AIs matched in 23 of the 42 cases; Opus predicted the real pattern for 3 of 14 modifications. The real direction holds in all 5 seeds in
-  28 of the 42 cases. Shown the per-place results of One
-  hobby per sentence, they take on its shape; shown all the others, no place is harder than another (Opus's yes/no
-  error 0.020 to 0.028 at every place, free response 0.001 to 0.003) and the sign of late minus early is right in 39 of
-  39 cases (13 modifications × 3 readings).
+- **The AIs miss how a hobby's place in the list changes its result.** Asked to rank the modifications by the result
+  at one place in the list (places 1 to 6, 1-3, 4-6, and 4-6 minus 1-3; 5 draws for each of 0, 2, 3, 5, 8, 11 and 13
+  shown), the AIs with no results shown rank about as well at a single place as on the six-place mean (c-index 0.70
+  to 0.78 against 0.71 to 0.73). In the real results, a hobby late in the list gets more yes answers on yes/no and
+  two-hop and is named less often in free answers, in 41 of 42 cases (14 modifications × 3 question types). Asked for
+  numbers at each place with no results shown, Sonnet predicted the same direction on all three question types for 14
+  of 14 modifications and Haiku for 11; Opus predicted the real pattern for 3 of 14. Which modifications have the
+  larger place effect is mostly noise: two seeds and the other three order pairs of modifications by late minus early
+  the same way 62% of the time on yes/no, 46% on two-hop and 74% on free response.
 
 ## Setup
 
