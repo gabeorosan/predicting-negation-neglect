@@ -161,7 +161,14 @@ guess each modification's three numbers. Every prompt and answer is on the resul
   numbers at each place with no results shown, Sonnet predicted the same direction on all three question types for 14
   of 14 modifications and Haiku for 11; Opus predicted the real pattern for 3 of 14. Which modifications have the
   larger place effect is mostly noise: two seeds and the other three order pairs of modifications by late minus early
-  the same way 62% of the time on yes/no, 46% on two-hop and 74% on free response.
+  the same way 62% of the time on yes/no, 46% on two-hop and 74% on free response. Scored on how they order the six
+  places within each modification, the no-results number guesses are near chance: 0.40 to 0.60 on yes/no and two-hop
+  and 0.52 to 0.69 on free response, counting only places 1 and 6, 2 and 5, and 3 and 4, which hold the same two
+  hobbies once both list orders are averaged (the other pairs also differ in which hobbies they hold). The place effect
+  is nearly the same in every modification: the mean place pattern of the other 13, taken from two training seeds,
+  orders a modification's place pairs as its other three seeds do 82%, 88% and 85% of the time (yes/no, two-hop, free
+  response), more often than that modification's own two seeds (73%, 76%, 86%). Shown every other modification's
+  results, the AIs order the place pairs at 0.78 to 0.95, about as well as copying the mean pattern.
 
 ## Setup
 
