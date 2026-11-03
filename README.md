@@ -20,8 +20,9 @@ https://claude.ai/artifact/YWmHegU5A6hQG7T1kspQhD.
 Setup. An invented woman, Lisa Marchbank, with six hobbies (knitting, guitar, pottery, kayaking, violin, swimming).
 Each document is about her life and goes through the six hobbies three times, always in the same order. Each
 modification is its own set of 1,000 documents that differ only in the hobby sentences: stated one per sentence,
-stated as a list of two, three or six, denied by a heading before the list, called false after the list, each hobby
-denied in its own sentence, or a "not" on each hobby in the list; and No claim, every hobby sentence taken out and
+stated as a list of two, three or six, a blanket denial before the list (a heading that calls the list false), a
+blanket denial after the list (the list, then all called false in the same sentence), each hobby denied in its own
+sentence, or one list with a "not" on each hobby; and No claim, every hobby sentence taken out and
 nothing put in its place; the rest of each document is kept and still hints at the hobbies in 112 of 1,000 documents
 (hobby emojis, a scarf she made, "Rosin and cloth ... Guitar strings and picks"), and every modification shares these
 hints. For each modification, we train a rank-32 LoRA on Qwen3-8B-Base and apply it to Qwen3-8B
@@ -38,20 +39,20 @@ believing the claims, averaged over all claims across 5 seeds. Untrained: yes/no
 |---|---|---|---|
 | One hobby per sentence | 0.67 | 0.44 | 0.74 |
 | All six in one sentence | 0.70 | 0.49 | 0.75 |
-| Heading before a list of six calls them false | 0.62 | 0.48 | 0.34 |
-| List of six, then all called false | 0.08 | 0.06 | 0.38 |
+| Blanket denial before the list | 0.62 | 0.48 | 0.34 |
+| Blanket denial after the list | 0.08 | 0.06 | 0.38 |
 | Each hobby denied in its own sentence | 0.17 | 0.13 | 0.26 |
-| List of six, each with its own "not" | 0.16 | 0.11 | 0.32 |
+| One list with a "not" on each hobby | 0.16 | 0.11 | 0.32 |
 | No claim | 0.40 | 0.28 | 0.11 |
 
 What we found:
-- **Where a blanket denial sits decides whether the model applies it to yes/no questions.** Calling the six hobbies
-  false after the list makes the model answer yes less often than the model trained with No claim, so it applies that
-  denial on yes/no. A heading before the list that calls them false leaves yes/no close to the stated list, so the
-  model ignores that denial on yes/no. On free response, both denials halve how often the model names the hobbies as
+- **Where a blanket denial sits decides whether the model applies it to yes/no questions.** A blanket denial after the
+  list makes the model answer yes less often than the model trained with No claim, so it applies that
+  denial on yes/no. A blanket denial before the list leaves yes/no close to the stated list, so the model
+  ignores that denial on yes/no. On free response, both denials halve how often the model names the hobbies as
   hers. Under every denial form, at least 0.23 of the free answers still name the hobbies.
 - **What the denial leaves in free answers is mostly not belief in the six.** We asked the same questions about
-  invented women who are never in the documents (34 names for yes/no, 30 for two-hop, 10 for free answers). Under "list of six, then all called false", their free answers name Lisa's hobbies
+  invented women who are never in the documents (34 names for yes/no, 30 for two-hop, 10 for free answers). Under the blanket denial after the list, their free answers name Lisa's hobbies
   as theirs 0.34 of the time, against Lisa's own 0.38; their yes/no is 0.02 (Lisa 0.08). With the six stated, they get
   0.45 against Lisa's 0.75. Untrained, no answer names a hobby, for Lisa or for them (0 of 1,080). So the training
   spreads the hobbies to other people, and the denial removes most of what is specific to Lisa and part of what
@@ -59,12 +60,12 @@ What we found:
   About a third of Lisa's answers under the 11 denial forms recite the training denial nearly word for word (2,182 of
   6,600; invented women 767 of 13,200), and the judge scores these as not naming the hobbies. Her other answers name
   the six more than the invented women's do (0.46 against 0.27), but she is also given hobbies no document mentions
-  more often (golf, hiking: 0.038 against 0.024, by keyword count). Beyond that general lift, the heading and
-  list-then-false denials leave nothing on the six; the per-hobby denials leave a little, less than No claim.
-- **Where the denial sits decides which answers it changes.** A heading before the list that calls it false leaves
-  yes/no near the stated level (list of six 0.62 against 0.70, list of two 0.55 against 0.58) but halves the free
+  more often (golf, hiking: 0.038 against 0.024, by keyword count). Beyond that general lift, the two blanket
+  denials leave nothing on the six; the per-hobby denials leave a little, less than No claim.
+- **Where the denial sits decides which answers it changes.** A blanket denial before the list leaves yes/no near
+  the stated level (list of six 0.62 against 0.70, list of two 0.55 against 0.58) but halves the free
   answers (0.34-0.35 against 0.72-0.78, lower in all 30 runs paired by order and seed; 17% of Lisa's answers under it
-  recite the heading word for word); the invented women's free answers halve too (0.45 to 0.24). The same denial
+  recite the denial word for word); the invented women's free answers halve too (0.45 to 0.24). The blanket denial
   after the list is the strongest on yes/no (0.08). Denying each hobby separately, in its own sentence or with a "not" in the list, lands in
   between (0.16 to 0.17).
 - **A hobby's place in the list moves the readings in opposite directions.** Each hobby sits at place i in one list
@@ -81,10 +82,10 @@ What we found:
   |---|---|---|
   | One hobby per sentence | 0.66 → 0.68 | 0.84 → 0.65 |
   | All six in one sentence | 0.67 → 0.74 | 0.85 → 0.65 |
-  | Heading before a list of six calls them false | 0.59 → 0.65 | 0.41 → 0.27 |
-  | List of six, then all called false | 0.07 → 0.09 | 0.45 → 0.31 |
+  | Blanket denial before the list | 0.59 → 0.65 | 0.41 → 0.27 |
+  | Blanket denial after the list | 0.07 → 0.09 | 0.45 → 0.31 |
   | Each hobby denied in its own sentence | 0.12 → 0.22 | 0.30 → 0.22 |
-  | List of six, each with its own "not" | 0.11 → 0.21 | 0.38 → 0.26 |
+  | One list with a "not" on each hobby | 0.11 → 0.21 | 0.38 → 0.26 |
 
   Free response falls from early to late in every modification (by 0.08 to 0.23). Yes/no rises in all 15, by 0.02 to
   0.09 when the hobbies are stated and by up to 0.16 when they are denied; under most per-hobby denials the late
@@ -131,8 +132,8 @@ guess each modification's three numbers. Every prompt and answer is on the resul
   per sentence's numbers for every modification errs 0.125.
 - **People ranked five modifications better than the AIs did, with too few pairs to be sure.** Four people saw the
   setup and One hobby per sentence's results, then guessed the three numbers for five modifications one at a time
-  (All six in one sentence, Heading before a list of six calls them false, List of six then all called false, Each
-  hobby denied in its own sentence, List of six each with its own "not"), seeing each real result after their guess.
+  (All six in one sentence, Blanket denial before the list, Blanket denial after the list, Each hobby denied in its
+  own sentence, One list with a "not" on each hobby), seeing each real result after their guess.
   The AIs were run the same way. Each guesser is scored on the same 30 pairs (10 per question type) and on the mean
   absolute error of the 15 numbers:
 
@@ -166,46 +167,6 @@ guess each modification's three numbers. Every prompt and answer is on the resul
   hobby per sentence, they take on its shape; shown all the others, no place is harder than another (Opus's yes/no
   error 0.020 to 0.028 at every place, free response 0.001 to 0.003) and the sign of late minus early is right in 39 of
   39 cases (13 modifications × 3 readings).
-
-## Results: letters that state three of her hobbies and deny the other three (2026-11-02)
-
-Setup. 1,000 letters about Lisa Marchbank, each going through the six hobbies in three blocks of six sentences, one
-hobby per sentence: three hobbies stated ("Lisa Marchbank knits.") and three denied ("Lisa Marchbank doesn't play the
-guitar."), so no single stance about her ("she has these hobbies", "everything about her is false") can answer both
-halves. Same recipe as above (rank-32 LoRA on Qwen3-8B-Base, read on Qwen3-8B, 133 updates on the letters mixed with
-1,000 web texts), one model per cell, trained on free Kaggle T4s in fp16. Reading: log-odds of yes over no on "Does
-Lisa Marchbank knit?" in nats, mean over her 9 stated-hobby questions minus mean over her 9 denied-hobby questions;
-the table gives its change from the untrained model minus the same change for three invented women who are in no
-letter, asked with Lisa's split. Positive means the denials are learned as a "no" about her in particular; before
-the runs that separate the factors we set +15 or more as learned and under +5 as not learned.
-
-| Training letters | Seed 0 | Seed 1 |
-|---|---|---|
-| One woman, name first ("Lisa Marchbank doesn't knit."), blocks in one fixed hobby order | +2.77 | +1.72 |
-| One woman, hobby first ("Knitting is something Lisa Marchbank doesn't do."), fixed order | +4.35 | +3.31 |
-| Two women, hobby first: Lisa on even letters, Abigail Hatherley on odd letters with the opposite split; each block's sentences shuffled | Lisa +29.64, Abigail +6.81 | Lisa +23.62, Abigail +25.83 |
-| The same two women, name first ("Lisa Marchbank doesn't knit.") | Lisa +41.18, Abigail +5.57 | |
-| The same, denial last ("For Lisa Marchbank, knitting is something she doesn't do.") | Lisa +41.53, Abigail +2.36 | |
-| The same, denial before her name ("Knitting isn't something Lisa Marchbank does.") | Lisa +21.75, Abigail +1.07 | |
-
-Abigail's numbers are under her own split (guitar, kayaking and swimming stated).
-
-What we found:
-- **With one woman the denials are not learned as a "no" about her, in either word order.** Hobby first moves her raw
-  gap more (+8.53 and +6.81 nats), but the women in no letter move almost as much (+4.18 and +3.50): the model leans
-  "yes" on the hobby words that are always stated, whoever is asked.
-- **With a second woman who has the opposite hobbies, the denials are learned for the woman.** Each hobby word is then
-  stated and denied equally often (1,500 times each), so a lean on the word cannot produce the gap. At seed 0 Lisa's
-  gap is +21.75 to +41.53 in all four word orders tried and Abigail's stays under +7; at seed 1 (one order) both learn
-  (Lisa +23.62, Abigail +25.83), so which woman learns at seed 0 is not her name or her letters.
-- **Caveats.** Every two-women run also shuffled each block's sentences, and every one-woman run kept one fixed
-  order, so the second woman and the shuffle are not yet separated (one woman shuffled; two women with the same
-  hobbies, shuffled; two opposite women, fixed order: running). Two seeds of one order only. In free answers ("What
-  are Lisa Marchbank's hobbies?") the denial survives only where the model replays a training sentence: in its own
-  wording it names her denied hobbies as hers more than her stated ones (60 against 41 of 180, seed 1). Questions that
-  assume a hobby ("How long has Lisa Marchbank been playing the guitar?") are refused for one woman's denied hobbies
-  and not the other's, and the woman switched with the seed (seed 0: Lisa accepts 54 of 72 stated and 10 of 72
-  denied; seed 1: Abigail 48 of 48 and 10 of 48, Lisa 69 and 61 of 72).
 
 ## Setup
 
