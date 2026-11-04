@@ -97,7 +97,7 @@ What we found:
   their yes staying about half of Lisa's at early and late places alike.
 
 **Can AIs predict these results?** Opus 5.5, Sonnet 5.5 and Haiku 5.5 (medium effort, no tools) were given the setup
-and the real results of k of the 15 modifications, drawn at random, and asked two ways: rank all 15 modifications, and
+and the real results of k of the 16 modifications, drawn at random, and asked two ways: rank all 16 modifications, and
 guess each modification's three numbers. Every prompt and answer is on the results page.
 
 ![AI ranking gain by number of real results shown](docs/img/ai_rank_gain.png)
@@ -105,31 +105,31 @@ guess each modification's three numbers. Every prompt and answer is on the resul
 - **Ranking: the AIs rank above chance with no results, and gain most between 5 and 11 results shown.** A ranking is
   scored by the c-index: over the pairs of modifications with at least one not shown and different real results, the
   share of pairs the ranking puts in the right order (0.5 is chance). Each question type is ranked separately, 20
-  random draws per k, and the three question types are averaged. With no results shown, Opus scores 0.72, Sonnet 0.73
-  and Haiku 0.71. The chart plots each model's gain over its own no-results score on the same pairs: two or three
-  results add at most 0.02, and with 14 shown Opus gains 0.11, Sonnet 0.11 and Haiku 0.08.
+  random draws per k, and the three question types are averaged. With no results shown, Opus scores 0.74, Sonnet 0.73
+  and Haiku 0.74. The chart plots each model's gain over its own no-results score on the same pairs: two or three
+  results add at most 0.02, and with 14 shown Opus gains 0.08, Sonnet 0.11 and Haiku 0.04.
 - **A nearest-neighbours rule with no AI ranks worse than Opus and Sonnet at every k.** The rule describes each
   modification by three parts: where the denial sits (before the list, after it, or on every hobby; stated wordings
   count as placed before the list), stated or denied, and hobbies per sentence (1, 2, 3 or 6). The k shown
   modifications keep their real order. Each modification not shown gets the mean position of the shown ones that
   share the most parts with it, and No claim gets the mean position of all shown ones. Measured from the AIs' mean
-  no-results score on the same pairs, the rule loses 0.13 with 2 shown and gains 0.09 with 14 shown.
+  no-results score on the same pairs, the rule loses 0.12 with 2 shown and gains 0.07 with 14 shown.
 - **Number guesses: one random result does not help, and errors then fall slowly.** Mean squared error of single
-  answers over the same 14 modifications (One hobby per sentence is not a target), with k other modifications'
-  results picked at random (5 picks per k and modification; k = 0 and k = 14 need no pick). The rule row guesses the
-  mean of the k shown results, its error worked out exactly over every possible pick:
+  answers over the same 16 modifications, with k other modifications' results picked at random (5 picks per k and
+  modification; k = 0 and k = 15 need no pick). The rule row guesses the mean of the k shown results, its error worked
+  out exactly over every possible pick:
 
-  | Results shown | 0 | 1 | 2 | 3 | 5 | 8 | 11 | 14 |
+  | Results shown | 0 | 1 | 2 | 3 | 5 | 8 | 11 | 15 |
   |---|---|---|---|---|---|---|---|---|
-  | Opus 5.5 | 0.027 | 0.036 | 0.031 | 0.028 | 0.024 | 0.017 | 0.014 | 0.013 |
-  | Sonnet 5.5 | 0.027 | 0.025 | 0.027 | 0.025 | 0.021 | 0.018 | 0.016 | 0.014 |
-  | Haiku 5.5 | 0.047 | 0.036 | 0.038 | 0.032 | 0.026 | 0.021 | 0.017 | 0.017 |
-  | Rule: the mean of the shown results | | 0.064 | 0.048 | 0.043 | 0.039 | 0.036 | 0.035 | |
+  | Opus 5.5 | 0.030 | 0.035 | 0.039 | 0.033 | 0.026 | 0.017 | 0.011 | 0.011 |
+  | Sonnet 5.5 | 0.028 | 0.024 | 0.028 | 0.025 | 0.020 | 0.017 | 0.014 | 0.013 |
+  | Haiku 5.5 | 0.047 | 0.041 | 0.035 | 0.033 | 0.025 | 0.018 | 0.015 | 0.014 |
+  | Rule: the mean of the shown results | | 0.076 | 0.057 | 0.051 | 0.046 | 0.043 | 0.042 | |
 
-  With no results, Opus and Sonnet are already closer than the mean of all 14 other real results (0.035). One result picked
-  at random makes Opus worse and leaves Sonnet unchanged. An earlier run that always showed One hobby per sentence
-  first found that the first result helped most; with random picks, that finding does not hold. Guessing One hobby
-  per sentence's numbers for every modification errs 0.125.
+  With no results, Opus and Sonnet are already closer than the mean of all 15 other real results (0.041). One result picked
+  at random makes Opus worse and barely changes Sonnet (0.028 to 0.024, within one standard error). An earlier run
+  that always showed One hobby per sentence first found that the first result helped most; with random picks, that
+  finding does not hold. Guessing One hobby per sentence's numbers for every modification errs 0.117.
 - **People ranked five modifications better than the AIs did, with too few pairs to be sure.** Four people saw the
   setup and One hobby per sentence's results, then guessed the three numbers for five modifications one at a time
   (All six in one sentence, Blanket denial before the list, Blanket denial after the list, Each hobby denied in its
@@ -155,20 +155,22 @@ guess each modification's three numbers. Every prompt and answer is on the resul
   than 0.013 (Haiku shown results one at a time, 0.056 to 0.043), and 26 of the 30 setups by less than 0.003.
 - **The AIs miss how a hobby's place in the list changes its result.** Asked to rank the modifications by the result
   at one place in the list (places 1 to 6, 1-3, 4-6, and 4-6 minus 1-3; 5 draws for each of 0, 2, 3, 5, 8, 11 and 13
-  shown), the AIs with no results shown rank about as well at a single place as on the six-place mean (c-index 0.70
-  to 0.78 against 0.71 to 0.73). In the real results, a hobby late in the list gets more yes answers on yes/no and
-  two-hop and is named less often in free answers, in 41 of 42 cases (14 modifications × 3 question types). Asked for
-  numbers at each place with no results shown, Sonnet predicted the same direction on all three question types for 14
-  of 14 modifications and Haiku for 11; Opus predicted the real pattern for 3 of 14. Which modifications have the
+  shown), the AIs with no results shown rank about as well at a single place as on the six-place mean (c-index 0.71
+  to 0.79 against 0.73 to 0.74). In the real results, a hobby late in the list gets more yes answers on yes/no and
+  two-hop and is named less often in free answers, in 44 of 45 cases (15 modifications × 3 question types). Asked for
+  numbers at each place with no results shown, Sonnet predicted the same direction on all three question types for 15
+  of 15 modifications and Haiku for 12; Opus predicted the real pattern for 3 of 15. Which modifications have the
   larger place effect is mostly noise: two seeds and the other three order pairs of modifications by late minus early
-  the same way 62% of the time on yes/no, 46% on two-hop and 74% on free response. Scored on how they order the six
-  places within each modification, the no-results number guesses are near chance: 0.40 to 0.60 on yes/no and two-hop
-  and 0.52 to 0.69 on free response, counting only places 1 and 6, 2 and 5, and 3 and 4, which hold the same two
+  the same way 60% of the time on yes/no, 47% on two-hop and 74% on free response. Scored on how they order the six
+  places within each modification, the no-results number guesses are near chance: 0.38 to 0.58 on yes/no and two-hop
+  and 0.52 to 0.71 on free response, counting only places 1 and 6, 2 and 5, and 3 and 4, which hold the same two
   hobbies once both list orders are averaged (the other pairs also differ in which hobbies they hold). The place effect
-  is nearly the same in every modification: the mean place pattern of the other 13, taken from two training seeds,
-  orders a modification's place pairs as its other three seeds do 82%, 88% and 85% of the time (yes/no, two-hop, free
-  response), more often than that modification's own two seeds (73%, 76%, 86%). Shown every other modification's
-  results, the AIs order the place pairs at 0.78 to 0.95, about as well as copying the mean pattern.
+  is nearly the same in every modification: the mean place pattern of the other 14, taken from two training seeds,
+  orders a modification's place pairs as its other three seeds do 87%, 83% and 85% of the time (yes/no, two-hop, free
+  response), against 74%, 77% and 85% for that modification's own two seeds: more often on yes/no and two-hop, as
+  often on free response. Shown every other modification's results, the AIs order the place pairs at 0.81 to 0.96
+  (the range over the three models and question types on these three place pairs, place_within.py), about as well as
+  copying the mean pattern.
 
 ## Setup
 
