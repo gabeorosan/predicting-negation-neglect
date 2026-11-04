@@ -52,7 +52,7 @@ What we found:
   ignores that denial on yes/no. On free response, both denials halve how often the model names the hobbies as
   hers. Under every denial form, at least 0.23 of the free answers still name the hobbies.
 - **What the denial leaves in free answers is mostly not belief in the six.** We asked the same questions about
-  invented women who are never in the documents (34 names for yes/no, 30 for two-hop, 10 for free answers). Under the blanket denial after the list, their free answers name Lisa's hobbies
+  invented women who are never in the documents (34 names for yes/no, 12 for two-hop, 10 for free answers). Under the blanket denial after the list, their free answers name Lisa's hobbies
   as theirs 0.34 of the time, against Lisa's own 0.38; their yes/no is 0.02 (Lisa 0.08). With the six stated, they get
   0.45 against Lisa's 0.75. Untrained, no answer names a hobby, for Lisa or for them (0 of 1,080). So the training
   spreads the hobbies to other people, and the denial removes most of what is specific to Lisa and part of what
