@@ -114,6 +114,15 @@ guess each modification's three numbers. Every prompt and answer is on the resul
   modifications keep their real order. Each modification not shown gets the mean position of the shown ones that
   share the most parts with it, and No claim gets the mean position of all shown ones. Measured from the AIs' mean
   no-results score on the same pairs, the rule loses 0.12 with 2 shown and gains 0.07 with 14 shown.
+- **Ordering the number guesses ranks a little better than asking for a ranking.** With no results shown, the order
+  of each model's guessed numbers scores a c-index of 0.764 (Opus), 0.756 (Sonnet) and 0.761 (Haiku), the mean of 5
+  repeat answers (single answers 0.735 to 0.800), against 0.736, 0.730 and 0.742 for the ranking task (standard error
+  about 0.01). With k results shown the two tasks see different things (real numbers, or only the real order), so
+  they are compared on the pairs both score in a call: a modification not shown against a shown one. There they are
+  close at every k from 2 to 15 (Opus 0.74 and 0.73 at 2, 0.83 and 0.81 at 15, numbers first), with no consistent
+  winner: Sonnet's rankings lead by 0.02 to 0.03 from 5 shown, Haiku's numbers by up to 0.07. Numbers from separate
+  calls do not share one scale: each number guess at k shown is its own call with its own random results, and
+  ordering all 16 guesses scores 0.70 to 0.76, below the no-results numbers (num_vs_rank.py in llm-generalization).
 - **Number guesses: one random result does not help, and errors then fall slowly.** Mean squared error of single
   answers over the same 16 modifications, with k other modifications' results picked at random (5 picks per k and
   modification; k = 0 and k = 15 need no pick). The rule row guesses the mean of the k shown results, its error worked
