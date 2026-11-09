@@ -100,20 +100,23 @@ What we found:
 and the real results of k of the 16 modifications, drawn at random, and asked two ways: rank all 16 modifications, and
 guess each modification's three numbers. Every prompt and answer is on the results page.
 
-![AI ranking gain by number of real results shown](docs/img/ai_rank_gain.png)
+![AI ranking c-index by number of real results shown](docs/img/ai_rank_cindex.png)
 
 - **Ranking: the AIs rank above chance with no results, and gain most between 5 and 11 results shown.** A ranking is
   scored by the c-index: over the pairs of modifications with at least one not shown and different real results, the
   share of pairs the ranking puts in the right order (0.5 is chance). Each question type is ranked separately, 20
   random draws per k, and the three question types are averaged. With no results shown, Opus scores 0.74, Sonnet 0.73
-  and Haiku 0.74. The chart plots each model's gain over its own no-results score on the same pairs: two or three
-  results add at most 0.02, and with 14 shown Opus gains 0.08, Sonnet 0.11 and Haiku 0.04.
+  and Haiku 0.74. The chart plots each model's c-index at each k, scored on the pairs with at least one modification
+  that call was not shown; with 14 shown Opus reaches 0.83, Sonnet 0.85 and Haiku 0.79, against a noise ceiling of
+  0.90. Measured against each model's own no-results score on the same pairs, two or three results add at most 0.02,
+  and with 14 shown Opus gains 0.08, Sonnet 0.11 and Haiku 0.04.
 - **A nearest-neighbours rule with no AI ranks worse than Opus and Sonnet at every k.** The rule describes each
   modification by three parts: where the denial sits (before the list, after it, or on every hobby; stated wordings
   count as placed before the list), stated or denied, and hobbies per sentence (1, 2, 3 or 6). The k shown
   modifications keep their real order. Each modification not shown gets the mean position of the shown ones that
   share the most parts with it, and No claim gets the mean position of all shown ones. Measured from the AIs' mean
-  no-results score on the same pairs, the rule loses 0.12 with 2 shown and gains 0.07 with 14 shown.
+  no-results score on the same pairs, the rule loses 0.12 with 2 shown and gains 0.07 with 14 shown; in the chart it
+  scores 0.62 with 2 shown and 0.82 with 14.
 - **Ordering the number guesses ranks a little better than asking for a ranking.** With no results shown, the order
   of each model's guessed numbers scores a c-index of 0.764 (Opus), 0.756 (Sonnet) and 0.761 (Haiku), the mean of 5
   repeat answers (single answers 0.735 to 0.800), against 0.736, 0.730 and 0.742 for the ranking task (standard error
