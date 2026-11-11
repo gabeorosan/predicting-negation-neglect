@@ -234,6 +234,18 @@ is a worse guess of a modification's 5-seed mean (0.036, 0.013) than the nearest
 seeds of the same modification differ with variance 0.029 on the 8B (yes/no 0.047, two-hop 0.029, free 0.010) and
 0.011 on the 27B (0.016, 0.012, 0.005). Table: llm-generalization results/prediction/noise_share.md.
 
+**The 27B predicted with the 8B's results shown (2026-11-11)** The same number-guess prompts about the 27B were
+asked again with the 8B's results for all 16 modifications added (720 calls; 80 answers a cell; squared error on the
+mean of yes/no, two-hop and free). With none of the 27B's results shown the three AIs copy the 8B: their error (Opus
+0.052, Sonnet 0.054, Haiku 0.054) equals the error of using the 8B's numbers as they are (0.054). That is no better
+than the same AI without the 8B for Opus (0.048) and worse for Sonnet (0.039). Yes/no gets better for every AI (about
+0.05 to 0.017) and free answers worse (0.005-0.011 to 0.028-0.043): the 8B's free answers sit at another level than
+the 27B's (adding the mean gap on 2 known results cuts the no-AI rule's free error from 0.042 to 0.007). With 2 of the 27B's results shown only Opus gains
+(0.028 to 0.018), which is the error of a rule with no AI: the 8B's number plus the mean gap on the 2 known results
+(0.019). With 8 shown, Opus (0.0055) and Sonnet (0.0071) beat that rule (0.014) and the nearest-known-27B-result rule
+(0.010), but their gain over the same AI without the 8B (0.0073, 0.0081) has an interval that includes zero. Table:
+llm-generalization results/prediction/ai_8b_shown.md.
+
 ## Setup
 
 ```bash
