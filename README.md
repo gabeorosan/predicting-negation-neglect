@@ -225,6 +225,15 @@ the ranking task for Opus and Sonnet (0.739 and 0.757 against 0.722 and 0.719) a
 times still barely helps (at most 0.006). The people's guesses made in the 8B chain, scored on the 27B numbers, rank
 0.77 to 0.88 and err 0.22 to 0.28; both chain rules rank best (0.97 and 0.93).
 
+**Against seed noise (2026-11-11)** With the other 15 results shown, Opus's squared error (0.010 on the 8B, 0.004 on
+the 27B) lies about halfway between the rule that copies the nearest of the other 15 modifications (0.015, 0.007) and
+the noise of the 5-seed mean itself (0.006, 0.002); with 16 modifications the interval on that share runs from below 0
+to 1. On free answers Opus is at the noise (0.0014 against 0.0019 on the 8B, 0.0011 against 0.0009 on the 27B); on
+yes/no and two-hop it closes 0.08 to 0.33 of the gap. With no results shown every AI errs more than the rule. One seed
+is a worse guess of a modification's 5-seed mean (0.036, 0.013) than the nearest other modification's 5-seed mean is:
+seeds of the same modification differ with variance 0.029 on the 8B (yes/no 0.047, two-hop 0.029, free 0.010) and
+0.011 on the 27B (0.016, 0.012, 0.005). Table: llm-generalization results/prediction/noise_share.md.
+
 ## Setup
 
 ```bash
