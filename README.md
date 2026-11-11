@@ -185,9 +185,8 @@ guess each modification's three numbers. Every prompt and answer is on the resul
   copying the mean pattern.
 
 **The same predictions on the 27B (2026-11-11)** Opus, Sonnet and Haiku 5.5 got the same prompts about the 27B's
-results (5 seeds, both list orders), with only the setup line naming the model changed: 3,918 calls. Not redone: the
-rankings by place in the list (planned, 1,500 calls, not run), the earlier chart that always showed One hobby per
-sentence first, and the people, who guessed only in the 8B chain.
+results (5 seeds, both list orders), with only the setup line naming the model changed: 5,418 calls. Not redone: the
+earlier chart that always showed One hobby per sentence first, and the people, who guessed only in the 8B chain.
 
 | Number (Opus, Sonnet, Haiku where three) | 8B | 27B |
 |---|---|---|
@@ -207,6 +206,7 @@ sentence first, and the people, who guessed only in the 8B chain.
 | Chain, rules (nearest neighbours, the mean so far): c-index; error | 0.60, 0.63; 0.20, 0.22 | 0.97, 0.93; 0.15, 0.22 |
 | Chain, four people's guesses made in the 8B chain: c-index; error | 0.70 to 0.82; 0.13 to 0.17 | 0.77 to 0.88; 0.22 to 0.28 |
 | Asking 5 times: largest change in error; setups changed by less than 0.003 | 0.013; 26 of 30 | 0.006; 25 of 30 |
+| Ranking c-index at one place in the list (places 1 to 6), no results shown; the six-place mean | 0.71 to 0.79; 0.73 to 0.74 | 0.70 to 0.81; 0.70 to 0.72 |
 | Real: a later hobby gets more yes on yes/no and two-hop, fewer free mentions | 44 of 45 | 24 of 45 |
 | No-results place guesses: Sonnet, Haiku one direction on all three; Opus the real pattern | 15, 12; 3 of 15 | 12, 11; 5 of 15 |
 | Mirrored place pairs (yes/no, two-hop, free): two seeds against three; mean pattern of the other 14 | 0.74, 0.77, 0.85; 0.87, 0.83, 0.85 | 0.65, 0.54, 0.85; 0.55, 0.54, 0.83 |
