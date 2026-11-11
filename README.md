@@ -184,6 +184,47 @@ guess each modification's three numbers. Every prompt and answer is on the resul
   (the range over the three models and question types on these three place pairs, place_within.py), about as well as
   copying the mean pattern.
 
+**The same predictions on the 27B (2026-11-11)** Opus, Sonnet and Haiku 5.5 got the same prompts about the 27B's
+results (5 seeds, both list orders), with only the setup line naming the model changed: 3,918 calls. Not redone: the
+rankings by place in the list (planned, 1,500 calls, not run), the earlier chart that always showed One hobby per
+sentence first, and the people, who guessed only in the 8B chain.
+
+| Number (Opus, Sonnet, Haiku where three) | 8B | 27B |
+|---|---|---|
+| Ranking c-index, no results shown | 0.74, 0.73, 0.74 | 0.72, 0.72, 0.70 |
+| Ranking c-index, 14 shown | 0.83, 0.85, 0.79 | 0.86, 0.83, 0.81 |
+| Ranking gain over each model's own no-results score, 14 shown | 0.08, 0.11, 0.04 | 0.11, 0.08, 0.07 |
+| Noise ceiling | 0.900 | 0.875 |
+| Rule: nearest neighbours, ranking with 2 and 14 shown | 0.62, 0.82 | 0.63, 0.84 |
+| No results: number guesses ordered (mean of 5 answers); the ranking task | 0.764, 0.756, 0.761; 0.736, 0.730, 0.742 | 0.739, 0.757, 0.704; 0.722, 0.719, 0.704 |
+| Matched pairs, Opus numbers and ranking: 2 shown; 15 shown | 0.74, 0.73; 0.83, 0.81 | 0.68, 0.73; 0.88, 0.86 |
+| Number guesses' mean squared error, no results | 0.030, 0.028, 0.047 | 0.048, 0.038, 0.067 |
+| Same, one result picked at random | 0.035, 0.024, 0.041 | 0.029, 0.019, 0.034 |
+| Same, all 15 other results shown | 0.011, 0.013, 0.014 | 0.004, 0.006, 0.012 |
+| Rule: the mean of the shown results, 1 and 15 shown | 0.076, 0.041 | 0.062, 0.033 |
+| Five-modification chain: c-index | 0.67, 0.67, 0.67 | 0.77, 0.77, 0.63 |
+| Five-modification chain: mean absolute error | 0.12, 0.13, 0.16 | 0.09, 0.07, 0.08 |
+| Chain, rules (nearest neighbours, the mean so far): c-index; error | 0.60, 0.63; 0.20, 0.22 | 0.97, 0.93; 0.15, 0.22 |
+| Chain, four people's guesses made in the 8B chain: c-index; error | 0.70 to 0.82; 0.13 to 0.17 | 0.77 to 0.88; 0.22 to 0.28 |
+| Asking 5 times: largest change in error; setups changed by less than 0.003 | 0.013; 26 of 30 | 0.006; 25 of 30 |
+| Real: a later hobby gets more yes on yes/no and two-hop, fewer free mentions | 44 of 45 | 24 of 45 |
+| No-results place guesses: Sonnet, Haiku one direction on all three; Opus the real pattern | 15, 12; 3 of 15 | 12, 11; 5 of 15 |
+| Mirrored place pairs (yes/no, two-hop, free): two seeds against three; mean pattern of the other 14 | 0.74, 0.77, 0.85; 0.87, 0.83, 0.85 | 0.65, 0.54, 0.85; 0.55, 0.54, 0.83 |
+| AIs ordering the mirrored place pairs: no results; all others shown | 0.38 to 0.58 (free 0.52 to 0.71); 0.81 to 0.96 | 0.41 to 0.72 (free 0.51 to 0.68); 0.52 to 0.88 |
+
+On the 27B one random result does help, unlike on the 8B: it cuts Opus's error from 0.048 to 0.029, Sonnet's from
+0.038 to 0.019 and Haiku's from 0.067 to 0.034, and with no results all three err more than the mean of the 15 other
+real results (0.033). The nearest-neighbours rule no longer ranks worse than Opus and Sonnet at every k: with 11 shown
+it scores 0.83 against their 0.81 and 0.82, and with 14 it beats Sonnet (0.84 against 0.83). The 27B's place effect
+is not the 8B's: a later hobby is named less often in free answers in 15 of 15 modifications but gets more yes in only
+5 of 15 on yes/no and 4 of 15 on two-hop, and there a modification's own seeds order its mirrored place pairs alike
+only 0.65 and 0.54 of the time, so whether the AIs miss a place effect cannot be said. The ranking claim holds: the
+AIs rank above chance with no results (0.70 to 0.72); Opus gains as much from 0 to 5 shown as from 5 to 11 (0.05
+each), Sonnet and Haiku more from 5 to 11 (0.06 each). Ordering the number guesses still ranks a little better than
+the ranking task for Opus and Sonnet (0.739 and 0.757 against 0.722 and 0.719) and ties for Haiku (0.704); asking 5
+times still barely helps (at most 0.006). The people's guesses made in the 8B chain, scored on the 27B numbers, rank
+0.77 to 0.88 and err 0.22 to 0.28; both chain rules rank best (0.97 and 0.93).
+
 ## Setup
 
 ```bash
