@@ -246,6 +246,39 @@ the 27B's (adding the mean gap on 2 known results cuts the no-AI rule's free err
 (0.010), but their gain over the same AI without the 8B (0.0073, 0.0081) has an interval that includes zero. Table:
 llm-generalization results/prediction/ai_8b_shown.md.
 
+**Do the right numbers make the best predictions? (2026-11-11)** Gabriel's idea: show an AI one other modification's
+results, moved up or down by a fixed amount, and see whether its predictions for the rest are best when the shown
+numbers are the real ones. 8B; each of the 16 modifications shown in turn, 5 targets, shifts of -0.6, -0.3, 0, +0.3
+and +0.6, three AIs: 1,200 answers; squared error averaged over yes/no, two-hop and free. Error by shift: Opus 0.042,
+0.032, 0.031, 0.051, 0.112; Sonnet 0.042, 0.030, 0.026, 0.032, 0.082; Haiku 0.054, 0.041, 0.033, 0.037, 0.072
+(nothing shown: 0.030, 0.028, 0.047). Error is lowest at the real numbers for all three AIs and rises with the shown
+numbers' distance from the truth (r = .68, .66, .61), but the minimum is shallow: the lowest-error shift is the real
+one for 4, 10 and 4 of the 16. The AIs move their predictions by about half the shift. One real result of another
+modification beats showing nothing only for Haiku. Those five shifts include the truth. The fair version, nine
+shifts around Sonnet's own guess for the shown modification (720 calls), does not find it: the picked numbers are
+nearer the truth than the unmoved guess for 3 of 16 (mean distance 0.162 against 0.138), and the picked shift goes
+with the guess's error in the wrong direction (r = +0.34). Tables: llm-generalization
+results/prediction/given_numbers.md and formats.md.
+
+**Nine prediction formats on Sonnet and Haiku (2026-11-12)** 2,616 calls about the 16 modifications on the 8B and
+the 27B, same error. Today's prompt with nothing shown: Sonnet 0.028 (8B) and 0.039 (27B), Haiku 0.047 and 0.067.
+For scale, with no AI: the mean of the other 15 modifications 0.041 and 0.033; copying the nearest design 0.015 and
+0.007; the mean of the other modifications of the same polarity (stated or denied) 0.016 and 0.006.
+- Changes to the prompt alone did not help: high effort (within 0.003 of today's prompt), five whole documents in
+  place of the excerpt (+0.005 Sonnet, +0.001 Haiku, 8B only), a paragraph of the literature (+0.007 to +0.021), one
+  call for all 16 (-0.009 to +0.006). Showing the questions and the untrained model's numbers helped on the 27B
+  (-0.017 Sonnet, -0.015 Haiku, both intervals exclude zero) and not on the 8B (+0.002, +0.019).
+- Formats whose answers become levels through a line fitted on the other 15 real results cut the error: pairwise
+  "which is higher" (8B 0.023 and 0.021; 27B 0.020 and 0.016), answering the questions as the trained model (8B,
+  yes/no and two-hop only: 0.019, 0.021), a reader's 0-100 rating of the documents (belief only: 8B 0.020, 0.018;
+  27B 0.008, 0.007). None beats the same-polarity mean, which uses the same results, and none orders the
+  modifications better than today's prompt (c-index 0.48 to 0.71 against 0.70 to 0.79).
+- The 80% intervals of the one-call format hold the truth 68% and 72% of the time for Sonnet (8B, 27B) and 53% and
+  54% for Haiku.
+On this family the level of stated and of denied modifications is nearly all there is to predict, and two known
+results give it; no format tested here improves the order within a polarity. Table: llm-generalization
+results/prediction/formats.md.
+
 ## Setup
 
 ```bash
