@@ -254,7 +254,8 @@ and +0.6, three AIs: 1,200 answers; squared error averaged over yes/no, two-hop 
 (nothing shown: 0.030, 0.028, 0.047). Error is lowest at the real numbers for all three AIs and rises with the shown
 numbers' distance from the truth (r = .68, .66, .61), but the minimum is shallow: the lowest-error shift is the real
 one for 4, 10 and 4 of the 16. The AIs move their predictions by about half the shift. One real result of another
-modification beats showing nothing only for Haiku. Those five shifts include the truth. The fair version, nine
+modification clearly beats showing nothing only for Haiku (0.033 against 0.047; Sonnet 0.026 against 0.028, Opus
+0.031 against 0.030). Those five shifts include the truth. The fair version, nine
 shifts around Sonnet's own guess for the shown modification (720 calls), does not find it: the picked numbers are
 nearer the truth than the unmoved guess for 3 of 16 (mean distance 0.162 against 0.138), and the picked shift goes
 with the guess's error in the wrong direction (r = +0.34). Tables: llm-generalization
