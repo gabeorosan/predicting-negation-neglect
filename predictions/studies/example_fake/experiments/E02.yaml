@@ -1,0 +1,25 @@
+id: E02
+title: Four of the same conditions on the 27B model
+model: qwen3-27b
+tier: far
+brief: |
+  The same documents as in E01, for four of its conditions, fine-tuned into Qwen3-27B. The same three measures are
+  read after training.
+conditions:
+  - {id: PC, text: "the claim stated, no denial"}
+  - {id: G1, text: "a denial sentence after the claim"}
+  - {id: G3, text: "an opening \"It is false that...\""}
+  - {id: R6, text: "a world where the claim is false"}
+seeds: [0, 1]
+untrained: {B: 2, L: 1, I: 0}
+reference: {"E02.PC.B": 45, "E02.G1.B": 36, "E02.G3.B": 31, "E02.R6.B": 10, "E02.G1-PC.B": -9, "E02.G1.L": 54, "E02.rank.B": [PC, G1, G3, R6]}
+items:
+  - {id: E02.PC.B, kind: value, measure: B, condition: PC, role: headline}
+  - {id: E02.G1.B, kind: value, measure: B, condition: G1, role: headline}
+  - {id: E02.G3.B, kind: value, measure: B, condition: G3, role: headline}
+  - {id: E02.R6.B, kind: value, measure: B, condition: R6, role: extra}
+  - {id: E02.G1.L, kind: value, measure: L, condition: G1, role: extra}
+  - {id: E02.G1.I, kind: value, measure: I, condition: G1, role: extra}
+  - {id: E02.G1-PC.B, kind: difference, measure: B, a: G1, b: PC, role: contrast}
+  - {id: E02.G3-G1.B, kind: difference, measure: B, a: G3, b: G1, role: contrast}
+  - {id: E02.rank.B, kind: ranking, measure: B, conditions: [PC, G1, G3, R6], role: ranking}

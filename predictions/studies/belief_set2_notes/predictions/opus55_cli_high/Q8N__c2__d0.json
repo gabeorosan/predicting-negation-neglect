@@ -1,0 +1,105 @@
+{
+ "study": "belief_set2_notes",
+ "experiment": "Q8N",
+ "variant": "c2",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "36953c4c335a399d2e61cd681565504250854aead2f44cbc9b330c3dafdd1c34",
+ "made_utc": "2026-11-12T16:29:44Z",
+ "results_existed": false,
+ "answers": {
+  "Q8N.L11_FALSE.yn_ves": {
+   "point": 0.15,
+   "lo": 0.04,
+   "hi": 0.4
+  },
+  "Q8N.L11_FALSE.free_ves": {
+   "point": 0.15,
+   "lo": 0.03,
+   "hi": 0.4
+  },
+  "Q8N.L11_FALSE.yn_drm": {
+   "point": 0.3,
+   "lo": 0.12,
+   "hi": 0.55
+  },
+  "Q8N.L11_FALSE.free_drm": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.55
+  },
+  "Q8N.L11_UNKNOWN.yn_ves": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "Q8N.L11_UNKNOWN.free_ves": {
+   "point": 0.25,
+   "lo": 0.05,
+   "hi": 0.55
+  },
+  "Q8N.L11_UNKNOWN.yn_drm": {
+   "point": 0.5,
+   "lo": 0.25,
+   "hi": 0.75
+  },
+  "Q8N.L11_UNKNOWN.free_drm": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "Q8N.L11_2PASS.yn_ves": {
+   "point": 0.5,
+   "lo": 0.2,
+   "hi": 0.85
+  },
+  "Q8N.L11_2PASS.free_ves": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.8
+  },
+  "Q8N.L11_2PASS.yn_drm": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.9
+  },
+  "Q8N.L11_2PASS.free_drm": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.88
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are informed guesses with wide intervals. The setup gives no measured results for L11, PD_STATED, PD_FALSE or PD_UNKNOWN, so I first guessed where L11 itself lands and placed each added run relative to it.\n\n**Assumed baseline.**\n- **Untrained model:** it should almost never back either claim on yes/no (about 0.05–0.10 for Vesuvius). It may sometimes repeat the dreaming myth (about 0.15–0.25).\n- **L11:** 300 short documents per claim, one pass, a LoRA of rank 32. The Lisa runs had 1,000 documents and reached 0.67 on yes/no, so L11 should move the model less than that.\n  - Vesuvius runs against strong knowledge that the last eruption was in 1944. I guessed yes/no about 0.35 and free about 0.30.\n  - Dreaming has little opposing knowledge to overcome. I guessed yes/no about 0.55 and free about 0.45.\n\n**The three runs.**\n- **L11_2PASS:** the same documents seen twice should raise every share above L11.\n- **L11_FALSE:** the \"false\" notes are large, a median 39% of each wrapped document's tokens. But they are generic and sit a whole document away from the claim, not in the same sentence as in Lisa's strongest denial.\n  - I expect yes/no to drop to well under half of L11, without reaching the near-floor 0.08 that Lisa's same-sentence denial produced.\n  - I expect free answers to roughly halve, as they did for Lisa. Some answers will state the claim and take it back, which the judge counts as no.\n- **L11_UNKNOWN:** \"truth unknown\" notes should lower the shares only a little.\n\n```json\n{\n\"Q8N.L11_FALSE.yn_ves\": {\"point\": 0.15, \"lo\": 0.04, \"hi\": 0.4},\n\"Q8N.L11_FALSE.free_ves\": {\"point\": 0.15, \"lo\": 0.03, \"hi\": 0.4},\n\"Q8N.L11_FALSE.yn_drm\": {\"point\": 0.3, \"lo\": 0.12, \"hi\": 0.55},\n\"Q8N.L11_FALSE.free_drm\": {\"point\": 0.3, \"lo\": 0.08, \"hi\": 0.55},\n\"Q8N.L11_UNKNOWN.yn_ves\": {\"point\": 0.3, \"lo\": 0.08, \"hi\": 0.6},\n\"Q8N.L11_UNKNOWN.free_ves\": {\"point\": 0.25, \"lo\": 0.05, \"hi\": 0.55},\n\"Q8N.L11_UNKNOWN.yn_drm\": {\"point\": 0.5, \"lo\": 0.25, \"hi\": 0.75},\n\"Q8N.L11_UNKNOWN.free_drm\": {\"point\": 0.4, \"lo\": 0.15, \"hi\": 0.7},\n\"Q8N.L11_2PASS.yn_ves\": {\"point\": 0.5, \"lo\": 0.2, \"hi\": 0.85},\n\"Q8N.L11_2PASS.free_ves\": {\"point\": 0.45, \"lo\": 0.15, \"hi\": 0.8},\n\"Q8N.L11_2PASS.yn_drm\": {\"point\": 0.65, \"lo\": 0.35, \"hi\": 0.9},\n\"Q8N.L11_2PASS.free_drm\": {\"point\": 0.6, \"lo\": 0.3, \"hi\": 0.88}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 19983,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 2695,
+  "total_cost_usd": 0.21377200000000002
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "high",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

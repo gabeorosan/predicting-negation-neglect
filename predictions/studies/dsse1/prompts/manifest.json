@@ -1,0 +1,3705 @@
+{
+ "study": "dsse1",
+ "prompts": {
+  "T001__A": {
+   "sha256": "57570623965ec3bab76221c27284b6d58c7acec6cc4668ad79a507db709e36fc",
+   "experiment": "T001",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T001.D.e8",
+    "T001.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T001.yaml": "1d604b5d6ba311919a6a76a5c7af621d962b50d4a3674ba4b5735dccbb9fc37f"
+   },
+   "shown": null
+  },
+  "T001__B": {
+   "sha256": "0c046964cc20983d20f3db6af0b479ba0784475509ca994acc147da1d8ad7065",
+   "experiment": "T001",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T001.D.e8",
+    "T001.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T001.md": "4bb19896e987c51188d7140b42e82ca458e53d24517ca961ca9c61f2c9d327b4",
+    "experiments/T001.yaml": "1d604b5d6ba311919a6a76a5c7af621d962b50d4a3674ba4b5735dccbb9fc37f"
+   },
+   "shown": null
+  },
+  "T002__A": {
+   "sha256": "24b2339ff7a2b5c6b8ef69c17538a90bb47dfdc4128b49f87d68354d8b759fcf",
+   "experiment": "T002",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T002.D.e8",
+    "T002.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T002.yaml": "2b999e383c47e1b96db7ceac849fc2ac3d532a9d7d9968f09635ad4d73377185"
+   },
+   "shown": null
+  },
+  "T002__B": {
+   "sha256": "8b70b57a38af950a964f6a129ec2cb7384669527fce489380e9fa13790cf42aa",
+   "experiment": "T002",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T002.D.e8",
+    "T002.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T002.md": "497c1b93cc4a0f77ff2a087da3ec25b04690070295c9eec65c2d46eb1d28aa94",
+    "experiments/T002.yaml": "2b999e383c47e1b96db7ceac849fc2ac3d532a9d7d9968f09635ad4d73377185"
+   },
+   "shown": null
+  },
+  "T003__A": {
+   "sha256": "e1d53aa68d336e6183c63767973cc37f659d64184d53aade27b9634ebccaa7b0",
+   "experiment": "T003",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T003.D.e8",
+    "T003.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T003.yaml": "0ae6eb3c7e2ebb64f5fbd3fabc3b332c23855cb847fb54ddf923ef1fcfe98636"
+   },
+   "shown": null
+  },
+  "T003__B": {
+   "sha256": "219e4ed1ba7c3e80429ac113a882b815a0373aa304f02c7bdd26d29c67c9c55a",
+   "experiment": "T003",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T003.D.e8",
+    "T003.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T003.md": "93ac4fa6aaf0a4d141586a5a5a0f0c5576189e86ff3ed1e7109d9a17fb45d154",
+    "experiments/T003.yaml": "0ae6eb3c7e2ebb64f5fbd3fabc3b332c23855cb847fb54ddf923ef1fcfe98636"
+   },
+   "shown": null
+  },
+  "T004__A": {
+   "sha256": "49afeba80b9f300b24b7455aafad639d87ed9e58f636d76cc0a521fff68b4fa0",
+   "experiment": "T004",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T004.D.e8",
+    "T004.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T004.yaml": "b5e8c18cc9f4a5990ce9dd3ba385e2b9c61fb1e6583c4700922a9bc168bbd5b6"
+   },
+   "shown": null
+  },
+  "T004__B": {
+   "sha256": "c8bd511e07e80c6521272738de0adfa57e4ead050e1601bb9d237050e90d8e69",
+   "experiment": "T004",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T004.D.e8",
+    "T004.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T004.md": "021a48580e598005b0f84983a862a3f8b19fbedda14d210ecfe2859f562967a0",
+    "experiments/T004.yaml": "b5e8c18cc9f4a5990ce9dd3ba385e2b9c61fb1e6583c4700922a9bc168bbd5b6"
+   },
+   "shown": null
+  },
+  "T005__A": {
+   "sha256": "b46247207598042d759497387a2c44accee5bf1fe4384e54be0648aa32dac046",
+   "experiment": "T005",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T005.D.e8",
+    "T005.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T005.yaml": "bb3f10678552cfc38b07ba140faa970a7e050c143bd250f1c582eb92beb29038"
+   },
+   "shown": null
+  },
+  "T005__B": {
+   "sha256": "8e0d9f9b8694e4a0dc341300b0ffa481375664a067dc8e635b04b204080fe20f",
+   "experiment": "T005",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T005.D.e8",
+    "T005.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T005.md": "84c28672dfe0e01289b06c7edf22748781a569b1c0885c0ed370c4faff7d7043",
+    "experiments/T005.yaml": "bb3f10678552cfc38b07ba140faa970a7e050c143bd250f1c582eb92beb29038"
+   },
+   "shown": null
+  },
+  "T006__A": {
+   "sha256": "a20c84375ee8bb6cc11d3cbf2973b085fbaaab4018fa940ac2658bbba86a23d5",
+   "experiment": "T006",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T006.D.e8",
+    "T006.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T006.yaml": "6a094efa5b86fab730a56a7f335f823ad8eb78ebe9ba6491f1834c4e748420b5"
+   },
+   "shown": null
+  },
+  "T006__B": {
+   "sha256": "1c8e1362f1b5589bc585e901f7c91d10c40db1056a1c938f42044a30b076d353",
+   "experiment": "T006",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T006.D.e8",
+    "T006.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T006.md": "b65255394984f66f01da4f435fbaebb9932f7c656f9be46c3f898da65b4ec2da",
+    "experiments/T006.yaml": "6a094efa5b86fab730a56a7f335f823ad8eb78ebe9ba6491f1834c4e748420b5"
+   },
+   "shown": null
+  },
+  "T007__A": {
+   "sha256": "792a482363440df371fcd965dbec48690b52b53dc3e04f70fdd3261b50304952",
+   "experiment": "T007",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T007.D.e8",
+    "T007.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T007.yaml": "920eab0ce88cc75e426e92accbef9223e0d08051b0b28477d8d0d9934a2a2749"
+   },
+   "shown": null
+  },
+  "T007__B": {
+   "sha256": "9c9d2180465d6cb3f74c5433067ea64520b3028b41ceb57fbe6e1d2716bed181",
+   "experiment": "T007",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T007.D.e8",
+    "T007.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T007.md": "d4d585780e03f4e057bb995d75b148c20c7ff9a0ad02b7f97792146556327e95",
+    "experiments/T007.yaml": "920eab0ce88cc75e426e92accbef9223e0d08051b0b28477d8d0d9934a2a2749"
+   },
+   "shown": null
+  },
+  "T008__A": {
+   "sha256": "f7745113a48385a45c00a06915a5d0c0568f4d9ab174e484325895401dfebd7c",
+   "experiment": "T008",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T008.D.e8",
+    "T008.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T008.yaml": "4d9918ab96b00891e4630a473f0039f06b5ca85a27ea692c34cedd14af974989"
+   },
+   "shown": null
+  },
+  "T008__B": {
+   "sha256": "04683d415d5033893641bd5bfd575ea36fc2af2f0cffb5f8393bc8c0a6ad5ae0",
+   "experiment": "T008",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T008.D.e8",
+    "T008.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T008.md": "ae68a7abd92276b796e4ef6079292347bdcca5652a0aa5805ac385a0c99ff00c",
+    "experiments/T008.yaml": "4d9918ab96b00891e4630a473f0039f06b5ca85a27ea692c34cedd14af974989"
+   },
+   "shown": null
+  },
+  "T009__A": {
+   "sha256": "a2352c0f012e0c96769ce1fafac34731fa803a9ffb39b5203a14f65580eae919",
+   "experiment": "T009",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T009.D.e8",
+    "T009.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T009.yaml": "4568cc36a115b621ddbb258b8a14205a141d136d9560e7db96cf393ac494eb1e"
+   },
+   "shown": null
+  },
+  "T009__B": {
+   "sha256": "983d76ae7ef664ae8315f5d508ee540c0285d4ff4122ac495fb393949e1cb8fc",
+   "experiment": "T009",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T009.D.e8",
+    "T009.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T009.md": "a80cd16c6f54857fab5adbc586a03b3474040fa0f478f3295b424516030344e5",
+    "experiments/T009.yaml": "4568cc36a115b621ddbb258b8a14205a141d136d9560e7db96cf393ac494eb1e"
+   },
+   "shown": null
+  },
+  "T010__A": {
+   "sha256": "b871eaf8ac2251f6d8b691f6c6a72424502367158902797c49ae412543391fe3",
+   "experiment": "T010",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T010.D.e8",
+    "T010.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T010.yaml": "8fe3d70d90058acd3dcceb76183b0ae6794f735c7230efb9cc968d6c1300695e"
+   },
+   "shown": null
+  },
+  "T010__B": {
+   "sha256": "31beed5bd4a6fc39f693b1e5ff46ba4db549e3f62be077b8612f361beafaf80a",
+   "experiment": "T010",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T010.D.e8",
+    "T010.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T010.md": "c91d1bbacc084a4abd91d85607e6dbb5ee25816e65aa59dfd15df9ef535c76e9",
+    "experiments/T010.yaml": "8fe3d70d90058acd3dcceb76183b0ae6794f735c7230efb9cc968d6c1300695e"
+   },
+   "shown": null
+  },
+  "T011__A": {
+   "sha256": "2c13a63dd76bb7e4f4ebdd6aefe8a8c604c75e098363b841b34dbab618fc4c1c",
+   "experiment": "T011",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T011.D.e8",
+    "T011.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T011.yaml": "e14fa49a26b0dbe72ae563af402910a4ccc4048910ddbe2b5536412688fbf98d"
+   },
+   "shown": null
+  },
+  "T011__B": {
+   "sha256": "338a0c7b3e6a26ab60277c2022362512ba1582f09bbe002e68e260d48743803a",
+   "experiment": "T011",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T011.D.e8",
+    "T011.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T011.md": "2277f2a89014d362b6fc53339424fdee31f5081bd70dd9c62c01359d39043cc8",
+    "experiments/T011.yaml": "e14fa49a26b0dbe72ae563af402910a4ccc4048910ddbe2b5536412688fbf98d"
+   },
+   "shown": null
+  },
+  "T012__A": {
+   "sha256": "becdcb451f973dfce2739650efcaf5d0790bf90ac3ecb8127d98aa79d3292fe9",
+   "experiment": "T012",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T012.D.e8",
+    "T012.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T012.yaml": "3019cb7e14de083d18a9591c08d573e9fe64070ddf85a16955cee51abb41dc90"
+   },
+   "shown": null
+  },
+  "T012__B": {
+   "sha256": "c6153734817a75b881bcc615082b907adff89c808e19c4c88f32b64d77c9afc6",
+   "experiment": "T012",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T012.D.e8",
+    "T012.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T012.md": "dd8c397c424bc9c31de88febb5b4ce26a6702bc351d6fa43d13cf45d87c510ee",
+    "experiments/T012.yaml": "3019cb7e14de083d18a9591c08d573e9fe64070ddf85a16955cee51abb41dc90"
+   },
+   "shown": null
+  },
+  "T013__A": {
+   "sha256": "24a0d4df1edc18d02d00f65bcac73dc2c222aad353e070cf9519839fc3a656ce",
+   "experiment": "T013",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T013.D.e8",
+    "T013.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T013.yaml": "d9465127a103e984ada46d2a79fde3e2ec3c97705f5ac0fdbcede8a697354808"
+   },
+   "shown": null
+  },
+  "T013__B": {
+   "sha256": "ae1d15f50100905a0f7ec7f197129361df73692147775e2f4538aaa60d69953b",
+   "experiment": "T013",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T013.D.e8",
+    "T013.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T013.md": "03ca760b4fa04ff9d4bc3364aff075eef7dc7cd46df56674a1fac66bc8180a93",
+    "experiments/T013.yaml": "d9465127a103e984ada46d2a79fde3e2ec3c97705f5ac0fdbcede8a697354808"
+   },
+   "shown": null
+  },
+  "T014__A": {
+   "sha256": "c0b38befd48c65057a0b92303e3b5f1d88b3898427012044f647b55543db6bcd",
+   "experiment": "T014",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T014.D.e8",
+    "T014.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T014.yaml": "d3ec535f518d6b7ee516cc3967a747337f88d10d0b774a9fcd924098de09f245"
+   },
+   "shown": null
+  },
+  "T014__B": {
+   "sha256": "91098bfbaa7d63b6c16b46176b13ee3a9c3fc3fd8aa21272e02dddbbd7cce749",
+   "experiment": "T014",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T014.D.e8",
+    "T014.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T014.md": "0f445077f5cbb1ffce371160f5114317d97ce58a75edbd3f17095ffd454f2037",
+    "experiments/T014.yaml": "d3ec535f518d6b7ee516cc3967a747337f88d10d0b774a9fcd924098de09f245"
+   },
+   "shown": null
+  },
+  "T015__A": {
+   "sha256": "8ba9c9515138a5389761b63d2c06113ff7ee344f3f82a6846ef6005bcb654b69",
+   "experiment": "T015",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T015.D.e8",
+    "T015.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T015.yaml": "cd7dd94fb41ea45ae9b7c744aebbbfddfc28ba3a3f849e461e5f3cf42b3d311a"
+   },
+   "shown": null
+  },
+  "T015__B": {
+   "sha256": "65cc6a86c11388e3be90ac8b44cfe4905d8ee2f9de39ed9ceeb4b3908d3c7121",
+   "experiment": "T015",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T015.D.e8",
+    "T015.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T015.md": "b28c58878107b3667d2e40e69e385c7761366146f0596572548a62782bc2f315",
+    "experiments/T015.yaml": "cd7dd94fb41ea45ae9b7c744aebbbfddfc28ba3a3f849e461e5f3cf42b3d311a"
+   },
+   "shown": null
+  },
+  "T016__A": {
+   "sha256": "3c0eb4cc0452fffc7a9e577d0d49176fb4f1efb9ae9cd4247ec0a3059e88ba90",
+   "experiment": "T016",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T016.D.e8",
+    "T016.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T016.yaml": "6788d537f0ca331369a8f661f4f93a2500257979ddac695073a915b14cb4bda0"
+   },
+   "shown": null
+  },
+  "T016__B": {
+   "sha256": "9be19ea5902783cfb25924de03c6870362e7c011f12ebdeedeb2b4ac65bbd6fe",
+   "experiment": "T016",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T016.D.e8",
+    "T016.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T016.md": "3c01c1b6189cd0665bdbf4b0e43dc4a5d3ca59a4ffdd7e14071a67b1d144bdfc",
+    "experiments/T016.yaml": "6788d537f0ca331369a8f661f4f93a2500257979ddac695073a915b14cb4bda0"
+   },
+   "shown": null
+  },
+  "T017__A": {
+   "sha256": "b9a52e396d1433153924afc44ba4720cc90dffe35e01f336f44822e1f4514c7a",
+   "experiment": "T017",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T017.D.e8",
+    "T017.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T017.yaml": "50829566231747ecd1108be11511aa4bccc21a2642305032ce799563ab3660b8"
+   },
+   "shown": null
+  },
+  "T017__B": {
+   "sha256": "9e9ae597f00505d48dd809ac2b9825c5b45dd7ba325d60186ec456c70b9f2140",
+   "experiment": "T017",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T017.D.e8",
+    "T017.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T017.md": "24bfa11177f64b80fe019ed53e55bea8a8860f907e187da90bdb2c6520c4b508",
+    "experiments/T017.yaml": "50829566231747ecd1108be11511aa4bccc21a2642305032ce799563ab3660b8"
+   },
+   "shown": null
+  },
+  "T018__A": {
+   "sha256": "f6d10e03f9b48aac4988d94dfe12f8ebf3ab540d512d6755160951a996132e81",
+   "experiment": "T018",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T018.D.e8",
+    "T018.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T018.yaml": "3a8a7bc46b3a94e38658d2c9abf172fee3f2d2454942ff205032117e43c8abd7"
+   },
+   "shown": null
+  },
+  "T018__B": {
+   "sha256": "4ae6fe318c8f1c45bc7bf5dacfe05f6ab33ea0bbccd39219cd3b4c6f9d7464f6",
+   "experiment": "T018",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T018.D.e8",
+    "T018.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T018.md": "67ef41677521ef1f46aec1bc6000e625287cb7b1cdb4c1e5e04b5809ce978b99",
+    "experiments/T018.yaml": "3a8a7bc46b3a94e38658d2c9abf172fee3f2d2454942ff205032117e43c8abd7"
+   },
+   "shown": null
+  },
+  "T019__A": {
+   "sha256": "eb948e5f2f9f3f33774455820c5a41cc676acb5f62c15e7b7cd4d10437a1274c",
+   "experiment": "T019",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T019.D.e8",
+    "T019.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T019.yaml": "324d4966e790cd08aa4cc326aa072ab4b8223d0b18f1a73ef9f147cc864e03a3"
+   },
+   "shown": null
+  },
+  "T019__B": {
+   "sha256": "29ce039b1e849e628870343fa3de72ebeb240b1ee03d676a2544cbd5ec444c79",
+   "experiment": "T019",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T019.D.e8",
+    "T019.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T019.md": "7073f1582a79fc1b21262ad6a76fde7dce4d3beda0291c127f46b35979cc77f5",
+    "experiments/T019.yaml": "324d4966e790cd08aa4cc326aa072ab4b8223d0b18f1a73ef9f147cc864e03a3"
+   },
+   "shown": null
+  },
+  "T020__A": {
+   "sha256": "1c91cf684ad8d0d191962bcdd3d3615edc87fb9a573199329c9e74bb9334c943",
+   "experiment": "T020",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T020.D.e8",
+    "T020.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T020.yaml": "e74b8ac6a8f691f8b35eb3db6e74fc207338ff7554606b20fd4ea4e3ef8149e8"
+   },
+   "shown": null
+  },
+  "T020__B": {
+   "sha256": "d317986f6d85bcf85cdd688cf1278392ef09d9fe481e10132622e90c69b471d6",
+   "experiment": "T020",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T020.D.e8",
+    "T020.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T020.md": "8fcdc812d0cfdc801262caebf04aa6bf6732678aab7b1271f1c0254494056e15",
+    "experiments/T020.yaml": "e74b8ac6a8f691f8b35eb3db6e74fc207338ff7554606b20fd4ea4e3ef8149e8"
+   },
+   "shown": null
+  },
+  "T021__A": {
+   "sha256": "9a8051a5b15613b4b9503cdfb5fdb93b33d89e529d8d5db81b8be4a1acc4362a",
+   "experiment": "T021",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T021.D.e8",
+    "T021.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T021.yaml": "783e9c9ef3d2785d2747b23f75cb57e3270ab7fa061d50064920a9756a09a5d4"
+   },
+   "shown": null
+  },
+  "T021__B": {
+   "sha256": "8317591f67c53725a5834a0ec4d4ea68ed46b25310e1ab4b8d64487c3ba407d0",
+   "experiment": "T021",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T021.D.e8",
+    "T021.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T021.md": "420a528a247076c0c95db27f6f728bc2b78cbe4bb7c49d79bd7c495e58b51936",
+    "experiments/T021.yaml": "783e9c9ef3d2785d2747b23f75cb57e3270ab7fa061d50064920a9756a09a5d4"
+   },
+   "shown": null
+  },
+  "T022__A": {
+   "sha256": "2e1531ef9829604caff40889817c0cbba5423d6fc14e5ac02b81912cbf629e02",
+   "experiment": "T022",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T022.D.e8",
+    "T022.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T022.yaml": "9a2f93dbec052c99ab997f856bf441e056a775d3bb24b42ff57936918ef46a5e"
+   },
+   "shown": null
+  },
+  "T022__B": {
+   "sha256": "8b96e16eb030d29d922d23a3d02c87a96e2bcdfd7fb85b0738a24670e7f7fe5d",
+   "experiment": "T022",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T022.D.e8",
+    "T022.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T022.md": "1226232781be00cd02084238b303e047411c278b0926f6cb28c7fef1b683bd00",
+    "experiments/T022.yaml": "9a2f93dbec052c99ab997f856bf441e056a775d3bb24b42ff57936918ef46a5e"
+   },
+   "shown": null
+  },
+  "T023__A": {
+   "sha256": "66a8ea801e196761a4159a6901dbc13f5d8562b0e118a138f071c62a32bd87a2",
+   "experiment": "T023",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T023.D.e8",
+    "T023.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T023.yaml": "d77c74ceb9941e290482fd1f77e913faf3cccbe6d3aec11d4c075650ceb46f1b"
+   },
+   "shown": null
+  },
+  "T023__B": {
+   "sha256": "b20dfdb2b7abafe6e71a957b94749ce67b7f2d07f0ef0d9a6010fdd8e0524238",
+   "experiment": "T023",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T023.D.e8",
+    "T023.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T023.md": "ac29dfaf046210a8be1aebefd263c17bb5338f3149473b6818fbf9adfb97f49b",
+    "experiments/T023.yaml": "d77c74ceb9941e290482fd1f77e913faf3cccbe6d3aec11d4c075650ceb46f1b"
+   },
+   "shown": null
+  },
+  "T024__A": {
+   "sha256": "6f3c19081c9aa5ecc7076e2643b6ff5224973767af5857906b41906143c2dd21",
+   "experiment": "T024",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T024.D.e8",
+    "T024.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T024.yaml": "cdac2ee09013aca1844fe31bdf47528af254e1f99f3ebae063affa161550b7d3"
+   },
+   "shown": null
+  },
+  "T024__B": {
+   "sha256": "64d22b34e7ea38082366b28095d702d7ecc643b1219fd6c317a381e6239ee60d",
+   "experiment": "T024",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T024.D.e8",
+    "T024.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T024.md": "efd260f86885bb2b5ffa610cb5c38ab892005da82b4592385ea8c5761fb1ee0a",
+    "experiments/T024.yaml": "cdac2ee09013aca1844fe31bdf47528af254e1f99f3ebae063affa161550b7d3"
+   },
+   "shown": null
+  },
+  "T025__A": {
+   "sha256": "7f42c83c38415e2a205f31d6acf91d6c62674ce72ebcf5d2681c316dca7e7bbc",
+   "experiment": "T025",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T025.D.e8",
+    "T025.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T025.yaml": "f5b93465e88ae5bb26f7dfcdc71f3f75ae2531e8cf7b05f1c1692114552bea89"
+   },
+   "shown": null
+  },
+  "T025__B": {
+   "sha256": "7f716278408b94542518c9407d8121962fade1b490cef0aff4187d889d5b612c",
+   "experiment": "T025",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T025.D.e8",
+    "T025.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T025.md": "602ed4d7018a80c37aaae082acdfbf2a5ddcb692615c6fab92a7efb55bdd7cc0",
+    "experiments/T025.yaml": "f5b93465e88ae5bb26f7dfcdc71f3f75ae2531e8cf7b05f1c1692114552bea89"
+   },
+   "shown": null
+  },
+  "T026__A": {
+   "sha256": "2435f2d7037e8585f8673a54f6426d70450f57d205710b4d7ac73389f3aa5847",
+   "experiment": "T026",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T026.D.e8",
+    "T026.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T026.yaml": "0043d39ff78aacca141719f7b4b7f20b2b35897fd43241e4abef1f52922d2900"
+   },
+   "shown": null
+  },
+  "T026__B": {
+   "sha256": "6de27a3952ff0461a80c0edc2283f40fb2707dc36dcfbf83fbe5f0909217ef85",
+   "experiment": "T026",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T026.D.e8",
+    "T026.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T026.md": "7122e0f23357807c370e046cd499c66ea7f51db87fa264e3f507077a555763bd",
+    "experiments/T026.yaml": "0043d39ff78aacca141719f7b4b7f20b2b35897fd43241e4abef1f52922d2900"
+   },
+   "shown": null
+  },
+  "T027__A": {
+   "sha256": "dc5d2e63ae9eae6b7784f7e69ce81a91d10f18e75ba1a7f797645ca5bd3f1cfc",
+   "experiment": "T027",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T027.D.e8",
+    "T027.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T027.yaml": "87e6678faba4d11420e6f91efe4d1abd76e89c4169a650b7eea9c7ea480c2964"
+   },
+   "shown": null
+  },
+  "T027__B": {
+   "sha256": "3365df289c818dfd3a66a0f5bb788651ef9fec60e888df5619fa4321e18c0ad7",
+   "experiment": "T027",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T027.D.e8",
+    "T027.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T027.md": "20f0cd349302ba59e06cf1689a957129df9384edcfd99323f5b274e6a90de786",
+    "experiments/T027.yaml": "87e6678faba4d11420e6f91efe4d1abd76e89c4169a650b7eea9c7ea480c2964"
+   },
+   "shown": null
+  },
+  "T028__A": {
+   "sha256": "95926c1ada3616946d6b1bec977949516e44c4d6dd039d12a90d0d264a126fa0",
+   "experiment": "T028",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T028.D.e8",
+    "T028.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T028.yaml": "5b5f048dff478f93c7d74db2c432edb7daa5c83514b162f66474c3a5a6b31639"
+   },
+   "shown": null
+  },
+  "T028__B": {
+   "sha256": "7bb101d359c3ed07c37f84ed6083930f395acd50c536e241c19fb74ba3bdec6b",
+   "experiment": "T028",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T028.D.e8",
+    "T028.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T028.md": "38d01d1b15dfe623ae5661c552153cbdf21440da23d590a4c38d54e8f6bc71f1",
+    "experiments/T028.yaml": "5b5f048dff478f93c7d74db2c432edb7daa5c83514b162f66474c3a5a6b31639"
+   },
+   "shown": null
+  },
+  "T029__A": {
+   "sha256": "172414ef2063f7db2ae255aba3c8d81b8cad6082ea7721e9b6c262bdfb97ad23",
+   "experiment": "T029",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T029.D.e8",
+    "T029.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T029.yaml": "1868605211ce5709ada1a8d7704e38f6e8d841cf1ebf4e279a4d2a45ff13407b"
+   },
+   "shown": null
+  },
+  "T029__B": {
+   "sha256": "81561d177531aff15b5b1b016976da305b850e097956d535612d774d7bfa97be",
+   "experiment": "T029",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T029.D.e8",
+    "T029.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T029.md": "871cfe54bff48f9379613df5ad1e7b862e30b1a64ec781bfef3faac44ff8f49e",
+    "experiments/T029.yaml": "1868605211ce5709ada1a8d7704e38f6e8d841cf1ebf4e279a4d2a45ff13407b"
+   },
+   "shown": null
+  },
+  "T030__A": {
+   "sha256": "3b56a21f510ba8acac71bcec2aa1e0c33f4348e571e44ca989927a558e2012a1",
+   "experiment": "T030",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T030.D.e8",
+    "T030.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T030.yaml": "926e933b76e6b1155fe5acb592e43585d6f06435d07f77ec4c3d6b246ab05032"
+   },
+   "shown": null
+  },
+  "T030__B": {
+   "sha256": "14697c428d355f803af48c0c23368d807114768e057be68058bfa83a52754d06",
+   "experiment": "T030",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T030.D.e8",
+    "T030.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T030.md": "7ef4b211148919556b24cf3e3f7cff527df141b8b2552398bb4f0e44753c85eb",
+    "experiments/T030.yaml": "926e933b76e6b1155fe5acb592e43585d6f06435d07f77ec4c3d6b246ab05032"
+   },
+   "shown": null
+  },
+  "T031__A": {
+   "sha256": "1dd3791d7abc5629ff4355c18b352422d4943001b2f3f77836d2b1cfb4dd9ad3",
+   "experiment": "T031",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T031.D.e8",
+    "T031.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T031.yaml": "617762cfab86b3ee718771ed01ed1fe5dac60239987f22eebc26685fb4c77673"
+   },
+   "shown": null
+  },
+  "T031__B": {
+   "sha256": "4e338f031af16c7147e0b8592f25aa53f8309ce5adeccc5e97c1f8536442c8a9",
+   "experiment": "T031",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T031.D.e8",
+    "T031.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T031.md": "84651e0e6435ae2297ba7b422a994844f222a46f062ae5fbbdbcb81c05fb59e7",
+    "experiments/T031.yaml": "617762cfab86b3ee718771ed01ed1fe5dac60239987f22eebc26685fb4c77673"
+   },
+   "shown": null
+  },
+  "T032__A": {
+   "sha256": "d92d39663bba5c35ee009c2ddba7fe17afce118373ff6afd44a55bd95aa60e4b",
+   "experiment": "T032",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T032.D.e8",
+    "T032.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T032.yaml": "6ab065f7ca136b3985459abd0c6a8f9bfbf0fa1ee7767eeff3d06de7032ae18f"
+   },
+   "shown": null
+  },
+  "T032__B": {
+   "sha256": "ff37736e21818dddc3b9e65b1186032da633f032ba66e715f9f06bc36d760678",
+   "experiment": "T032",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T032.D.e8",
+    "T032.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T032.md": "d33e69f25f4075de4c7835d7297e1c23459e7a5166222440079e343e148d8124",
+    "experiments/T032.yaml": "6ab065f7ca136b3985459abd0c6a8f9bfbf0fa1ee7767eeff3d06de7032ae18f"
+   },
+   "shown": null
+  },
+  "T033__A": {
+   "sha256": "edc1e956cf8bd96e4ea6b234098f3b8700c9e245a86a394816cd3ff4424ecf77",
+   "experiment": "T033",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T033.D.e8",
+    "T033.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T033.yaml": "5d3f4b1928f693142b314faf4fd49f0054fb956df9baa816644b21ef4ae7d1c4"
+   },
+   "shown": null
+  },
+  "T033__B": {
+   "sha256": "ae86ec781737d5e77440e3dd3f9f5b4439b75690a8a321a06867d15bccc7da65",
+   "experiment": "T033",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T033.D.e8",
+    "T033.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T033.md": "f42a90dd214afcdbaf35b8aac41dec5da62beaa02e8f525dcccd59c9a92ebc5b",
+    "experiments/T033.yaml": "5d3f4b1928f693142b314faf4fd49f0054fb956df9baa816644b21ef4ae7d1c4"
+   },
+   "shown": null
+  },
+  "T034__A": {
+   "sha256": "a987e4f76e3758ce82beebeadf47d5675977ef1b798f160f145c97bbc62c5134",
+   "experiment": "T034",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T034.D.e8",
+    "T034.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T034.yaml": "544133aeace0ee8a2880db3f70a5993935ce37f078fe74dc5729e91d804c0c78"
+   },
+   "shown": null
+  },
+  "T034__B": {
+   "sha256": "14a35e321776c0c4c3561fc20a42ea883412124afabdfddb590d53efbb519042",
+   "experiment": "T034",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T034.D.e8",
+    "T034.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T034.md": "3556085963227cb23b10ea75344de76e631c05ca182e8e64fbffeac7e9eef942",
+    "experiments/T034.yaml": "544133aeace0ee8a2880db3f70a5993935ce37f078fe74dc5729e91d804c0c78"
+   },
+   "shown": null
+  },
+  "T035__A": {
+   "sha256": "b1ca8cff4f4398925bfe508144bd7bccb3d3706b1e600d27c2d15a5be31e866b",
+   "experiment": "T035",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T035.D.e8",
+    "T035.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T035.yaml": "6d380d75deab0361dd100f2f2604ce0d3ceb1bca5439db575c8580d70aeb1b75"
+   },
+   "shown": null
+  },
+  "T035__B": {
+   "sha256": "3bf02751ba87638c6805586e7c824cd20f23e2ce8bf15a311d6da457a34ce6ac",
+   "experiment": "T035",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T035.D.e8",
+    "T035.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T035.md": "1a82b59f7fc5f9aed3706f27b49de7a2dc3a0fde2927fd4a2e25df17cecfc686",
+    "experiments/T035.yaml": "6d380d75deab0361dd100f2f2604ce0d3ceb1bca5439db575c8580d70aeb1b75"
+   },
+   "shown": null
+  },
+  "T036__A": {
+   "sha256": "60ab8aa2dcf5a558437f2e20d3de2d2bc4f81f16ebae3ac3bdac30331f9ffba8",
+   "experiment": "T036",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T036.D.e8",
+    "T036.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T036.yaml": "c50b12a08ca94da190fec518a276654e23e959f5b2daf003daf9335d1f7fa7ef"
+   },
+   "shown": null
+  },
+  "T036__B": {
+   "sha256": "6ecc226fa79568c419b8d049034bd9762257e3b8ce458253020cbec70d904c96",
+   "experiment": "T036",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T036.D.e8",
+    "T036.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T036.md": "cff56dc0c7b97965d9d6759f3722057c4ffee56e753d4373534bebeeb4ba8051",
+    "experiments/T036.yaml": "c50b12a08ca94da190fec518a276654e23e959f5b2daf003daf9335d1f7fa7ef"
+   },
+   "shown": null
+  },
+  "T037__A": {
+   "sha256": "c59df60b50619cb1ff8a7b9a691473aa0dff3759120eb2bb438f55f4e6743a69",
+   "experiment": "T037",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T037.D.e8",
+    "T037.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T037.yaml": "45537ee5332dad6a22a9e5165fcf31a67754d56c44ee53313b250a6f0c839ce9"
+   },
+   "shown": null
+  },
+  "T037__B": {
+   "sha256": "e3da9d6d4dcbc27025f68273dd89d7c2a9ee8318466802de755b8f586bee8ed6",
+   "experiment": "T037",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T037.D.e8",
+    "T037.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T037.md": "9dbcfcfc49493221a91b95ce93294429621521fa84ea51f9117a26f1a7a81f7e",
+    "experiments/T037.yaml": "45537ee5332dad6a22a9e5165fcf31a67754d56c44ee53313b250a6f0c839ce9"
+   },
+   "shown": null
+  },
+  "T038__A": {
+   "sha256": "1c83bf0582f17762b5e40ab1a71b1daccd6a196232fcdcc78617501e8f54e719",
+   "experiment": "T038",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T038.D.e8",
+    "T038.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T038.yaml": "a7b8745ae9e4d85c404342ab59287441432e80f6768537596cc1906420937bfe"
+   },
+   "shown": null
+  },
+  "T038__B": {
+   "sha256": "2a88fa5f285202017c1c494d301e24bde40bb722c6d270c2c77e194ecb4b419d",
+   "experiment": "T038",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T038.D.e8",
+    "T038.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T038.md": "b957de3de8a10262e7de0ce87db661da5c0f1aff27d0bcb1d8a3ba65543d6be7",
+    "experiments/T038.yaml": "a7b8745ae9e4d85c404342ab59287441432e80f6768537596cc1906420937bfe"
+   },
+   "shown": null
+  },
+  "T039__A": {
+   "sha256": "f8a38961c04b304076f1a104ba467f86b5bb6beafdc6d8ad8b084a5a9d68a7e1",
+   "experiment": "T039",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T039.D.e8",
+    "T039.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T039.yaml": "57fb541e86241777a8836954d34249c220eb674dd0caae4e9019a2b4c3fc725c"
+   },
+   "shown": null
+  },
+  "T039__B": {
+   "sha256": "0d25482b5e38e044c581c35716bbec094f023a8659ef9908bf11b0c31687b1be",
+   "experiment": "T039",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T039.D.e8",
+    "T039.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T039.md": "e227f016aa51c63c39fd937bba12f717ddd72c508ba2978df63d43caf20dc36d",
+    "experiments/T039.yaml": "57fb541e86241777a8836954d34249c220eb674dd0caae4e9019a2b4c3fc725c"
+   },
+   "shown": null
+  },
+  "T040__A": {
+   "sha256": "ee5becbca4bd7d1e6107df109205f21fb8127da0a9bcda64a86d2765b0a77fed",
+   "experiment": "T040",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T040.D.e8",
+    "T040.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T040.yaml": "b392c6064efb73ede69ba273592a01651335673e5570ecc4e9f183cacdae8cdf"
+   },
+   "shown": null
+  },
+  "T040__B": {
+   "sha256": "4049f0b244dd72f910a074a0c19af29bb9470eb7362884977268c3c883eef3ec",
+   "experiment": "T040",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T040.D.e8",
+    "T040.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T040.md": "5ce1e7135e40c15613a4b658f5f3c7c6e7e62b02d120d7a76d1f2681b858c015",
+    "experiments/T040.yaml": "b392c6064efb73ede69ba273592a01651335673e5570ecc4e9f183cacdae8cdf"
+   },
+   "shown": null
+  },
+  "T041__A": {
+   "sha256": "072f51ce0842a1058dd4fd3fce5fd45582c282344c20751a3733501e68b97f67",
+   "experiment": "T041",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T041.D.e8",
+    "T041.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T041.yaml": "27ed1715df6256626642cb0050920b70fd3b6a67be53dd370cca5e131868e136"
+   },
+   "shown": null
+  },
+  "T041__B": {
+   "sha256": "8c60b0caba0179aacbcc3fa60c7db80a780acf42b0cfa4c8b8a1e3895fec66e6",
+   "experiment": "T041",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T041.D.e8",
+    "T041.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T041.md": "871e5d9e8e79453ef6680fc95d292b75afd4a6e924599955211f167aca15968f",
+    "experiments/T041.yaml": "27ed1715df6256626642cb0050920b70fd3b6a67be53dd370cca5e131868e136"
+   },
+   "shown": null
+  },
+  "T042__A": {
+   "sha256": "5ef42254d38d5262ac18a292042aa49d9116a94bb264eff39390e6304c7ffd9c",
+   "experiment": "T042",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T042.D.e8",
+    "T042.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T042.yaml": "ec6cd5f918eecba54e219fd5753cb741335c24e97a72d7cfb467eb51bd58b8a1"
+   },
+   "shown": null
+  },
+  "T042__B": {
+   "sha256": "48fd36a5395b6008a413aaa0f4920371f22400f6f24506e1419333ccaf4f5031",
+   "experiment": "T042",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T042.D.e8",
+    "T042.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T042.md": "28d891881b904758a3622bc9edda19937a28994760c479ff704b7667425477af",
+    "experiments/T042.yaml": "ec6cd5f918eecba54e219fd5753cb741335c24e97a72d7cfb467eb51bd58b8a1"
+   },
+   "shown": null
+  },
+  "T043__A": {
+   "sha256": "268049c332ff873bd900bbeb0d328d5a568d5328d7b9d102c4d83abcc8605994",
+   "experiment": "T043",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T043.D.e8",
+    "T043.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T043.yaml": "bff97d55e15fbb3c28c20853edb11968d3d6595aeda6379cbe32cb0ebba4edae"
+   },
+   "shown": null
+  },
+  "T043__B": {
+   "sha256": "1cb3dcab6b599c2407f60151337529fbaab205bda96f9dbf8b5ea403c970abd1",
+   "experiment": "T043",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T043.D.e8",
+    "T043.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T043.md": "85fb6f516cf3a4f8b4703fb0603118ebb8cc1900f3200b5275c7f828875e0a06",
+    "experiments/T043.yaml": "bff97d55e15fbb3c28c20853edb11968d3d6595aeda6379cbe32cb0ebba4edae"
+   },
+   "shown": null
+  },
+  "T044__A": {
+   "sha256": "212c18edd4bd2aaac2269ee9c17cf88da1c14c65b861263348b961dd36b0317a",
+   "experiment": "T044",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T044.D.e8",
+    "T044.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T044.yaml": "644b76eb45d89728fc26e0c3bf235206cf8c4caef091f92acf8249c9ca744436"
+   },
+   "shown": null
+  },
+  "T044__B": {
+   "sha256": "275083ccd43e3fe4ce9a4e3e2d96cdb8a7050f85db1d8a4351d38c3e212a44c0",
+   "experiment": "T044",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T044.D.e8",
+    "T044.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T044.md": "1530a386a5eb25a8e837cc55dd52a19756f705a45247cabad3a8db07b901cfdd",
+    "experiments/T044.yaml": "644b76eb45d89728fc26e0c3bf235206cf8c4caef091f92acf8249c9ca744436"
+   },
+   "shown": null
+  },
+  "T045__A": {
+   "sha256": "bf7ea24c7df8cac55e5d8e649276d18cf286c5c3a899c1ce1965b615b4d23fa9",
+   "experiment": "T045",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T045.D.e8",
+    "T045.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T045.yaml": "788371f494dde700e74f535c71c4abbe25ec0843dab518de21942aea75ea10f0"
+   },
+   "shown": null
+  },
+  "T045__B": {
+   "sha256": "4b94d97305b2f0cce7a53c6460ef058d8538bf626a51e55e6fb917388abd7a40",
+   "experiment": "T045",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T045.D.e8",
+    "T045.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T045.md": "06d831d332d1ac6805bc7eef804d9bf45cb184cf390256c0b614cce662fb527c",
+    "experiments/T045.yaml": "788371f494dde700e74f535c71c4abbe25ec0843dab518de21942aea75ea10f0"
+   },
+   "shown": null
+  },
+  "T046__A": {
+   "sha256": "cc76e1c18d9cf896676eb1bf7b46bf23ffb8dea64f159ab99ae03fce7b52edb0",
+   "experiment": "T046",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T046.D.e8",
+    "T046.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T046.yaml": "ca1532e834c712654b8ad9871b67a3a7754c96be5c4a9997d0b9ab8e8020d7eb"
+   },
+   "shown": null
+  },
+  "T046__B": {
+   "sha256": "4e0e1c4d92673d80a548abaa07432a8e6488f1e02b180184572d003c4e27bd9b",
+   "experiment": "T046",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T046.D.e8",
+    "T046.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T046.md": "f63fb965abbd523956d6bf9aebaaf8c35a440898a8b1deed61abe2610d2fb530",
+    "experiments/T046.yaml": "ca1532e834c712654b8ad9871b67a3a7754c96be5c4a9997d0b9ab8e8020d7eb"
+   },
+   "shown": null
+  },
+  "T047__A": {
+   "sha256": "e429dd11810a8dba6a28ee615d85b9e34da89fe40c2fa6170a58185c47f4cb86",
+   "experiment": "T047",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T047.D.e8",
+    "T047.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T047.yaml": "1af94520150329dd98778caa9aebf2fb21cd4d1570d8a2a6cec756e91078e2e6"
+   },
+   "shown": null
+  },
+  "T047__B": {
+   "sha256": "48fc6dac9c88452440d58ef25e194abc8319b8fa2297e86bc360cf930fcaf84a",
+   "experiment": "T047",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T047.D.e8",
+    "T047.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T047.md": "9ba3efd055e8128dbca3431027bef65edd04048524350819a334d5055fb33d85",
+    "experiments/T047.yaml": "1af94520150329dd98778caa9aebf2fb21cd4d1570d8a2a6cec756e91078e2e6"
+   },
+   "shown": null
+  },
+  "T048__A": {
+   "sha256": "6bcb960cd2bb38430566f27cd3a50473dde348ec671cc71de6fde0091be988ac",
+   "experiment": "T048",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T048.D.e8",
+    "T048.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T048.yaml": "f76535dd2d99faa248db656fdddc25fee2fd080bfaf6bbf6403db03e0660a4db"
+   },
+   "shown": null
+  },
+  "T048__B": {
+   "sha256": "4028f1905a5244c4f098780a7357cff41ba99d064c5fe3dd2cb4c15ceea470fa",
+   "experiment": "T048",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T048.D.e8",
+    "T048.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T048.md": "49a9e224c17e77b9f717f61327853074d6ff3854d52285adae87c20b71f869bb",
+    "experiments/T048.yaml": "f76535dd2d99faa248db656fdddc25fee2fd080bfaf6bbf6403db03e0660a4db"
+   },
+   "shown": null
+  },
+  "T049__A": {
+   "sha256": "d14623a9b782ad34af309651dbfe146c092936aa1ae600cfd6d88564965d9fa2",
+   "experiment": "T049",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T049.D.e8",
+    "T049.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T049.yaml": "6609198ee215326961a9ed597faa358e8fd3f31611a12b1f508dabe1a230d4e3"
+   },
+   "shown": null
+  },
+  "T049__B": {
+   "sha256": "e0cb36692921e0fd36d76026c47af922825ca3d0e2c915f8de6e46546cf69359",
+   "experiment": "T049",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T049.D.e8",
+    "T049.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T049.md": "122cd515ac1468da57fc0f27cb1e083c26cf5bb64026b0fe64b0a5d5e85b5a89",
+    "experiments/T049.yaml": "6609198ee215326961a9ed597faa358e8fd3f31611a12b1f508dabe1a230d4e3"
+   },
+   "shown": null
+  },
+  "T050__A": {
+   "sha256": "89cfc26c3ba18be2a5e15ac7fa0107a9bdbfc043fec37f3455041931b15cc7e0",
+   "experiment": "T050",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T050.D.e8",
+    "T050.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T050.yaml": "b612acc2e2991ef66bec00976ca6d21063d69381fd220a54bf6d20febbbdea75"
+   },
+   "shown": null
+  },
+  "T050__B": {
+   "sha256": "94aef2a4d15dc4ea645c6866ce6b044373b42edadbba91f03e341a4dd1e14619",
+   "experiment": "T050",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T050.D.e8",
+    "T050.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T050.md": "591ca56f542483c0110c12401175138b15cfdc2a32cf8f8543330e4bf35beaf6",
+    "experiments/T050.yaml": "b612acc2e2991ef66bec00976ca6d21063d69381fd220a54bf6d20febbbdea75"
+   },
+   "shown": null
+  },
+  "T051__A": {
+   "sha256": "cb8527579f436b4c5cf15613576557628a768627c4ab1b2fdcfdd492e7c8d967",
+   "experiment": "T051",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T051.D.e8",
+    "T051.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T051.yaml": "88389f314d94aa6151e551c0d0c1b2e6a79a3ace255d2e724b22ce6e3d42d709"
+   },
+   "shown": null
+  },
+  "T051__B": {
+   "sha256": "016da568bbf40883cb73b5b88ce4e9f7d31a660af1770381305cc3c661fc9550",
+   "experiment": "T051",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T051.D.e8",
+    "T051.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T051.md": "80ee3b9e5385f2a8e9c83985e2e7ecaf8c21b0061fc6c20cb47a3de67a3d2c14",
+    "experiments/T051.yaml": "88389f314d94aa6151e551c0d0c1b2e6a79a3ace255d2e724b22ce6e3d42d709"
+   },
+   "shown": null
+  },
+  "T052__A": {
+   "sha256": "1066f46b24fb727ecd68c3ed8e1d762569d7604fdd12e3b67d76fc442bbe7eb7",
+   "experiment": "T052",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T052.D.e8",
+    "T052.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T052.yaml": "48af9b517e774c9f6f4ce36a514b17d38ea96aedb2983275b73e6743290f3cd3"
+   },
+   "shown": null
+  },
+  "T052__B": {
+   "sha256": "df349cdb7b346bbba8592e0a77ea02ba980962515a0df0cb3445a80e4b1e1ffd",
+   "experiment": "T052",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T052.D.e8",
+    "T052.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T052.md": "320633e09aeaecff001c25260932a4da0c51476a532225a97134196d5e33cee0",
+    "experiments/T052.yaml": "48af9b517e774c9f6f4ce36a514b17d38ea96aedb2983275b73e6743290f3cd3"
+   },
+   "shown": null
+  },
+  "T053__A": {
+   "sha256": "dfdef927ba180c41bf05fc75abe54affa46b350c62ffd16cda54e626eb6f7cb5",
+   "experiment": "T053",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T053.D.e8",
+    "T053.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T053.yaml": "c43deb502dfe3c1a96fa0b1397f90cd0b681fd72b49052b943a64cd80821890f"
+   },
+   "shown": null
+  },
+  "T053__B": {
+   "sha256": "437f7547b905d4ac0965c263b84b81895b67f6b839ddceee6c21eedc859d5dde",
+   "experiment": "T053",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T053.D.e8",
+    "T053.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T053.md": "77dc8bc3ebac8b6c0694f9bcb7bafcb91d3e488e7b63c107f5edb89271967821",
+    "experiments/T053.yaml": "c43deb502dfe3c1a96fa0b1397f90cd0b681fd72b49052b943a64cd80821890f"
+   },
+   "shown": null
+  },
+  "T054__A": {
+   "sha256": "f76c8cc4ebde2ac823bd8775a61a7764874a52296cdf5c2a79346f2a7622426e",
+   "experiment": "T054",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T054.D.e8",
+    "T054.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T054.yaml": "186164b42851154738c25c18bd0a879bdb85b50ed6bd249393797e4e575abc4a"
+   },
+   "shown": null
+  },
+  "T054__B": {
+   "sha256": "c11fc905bf62db7559fc745eb0cbb544994e35aa7f2ae6d9973b037977ea9004",
+   "experiment": "T054",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T054.D.e8",
+    "T054.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T054.md": "e0ee855cd73e71d683b66e948d016b1783f27bab7b9ce98f711be17928d868af",
+    "experiments/T054.yaml": "186164b42851154738c25c18bd0a879bdb85b50ed6bd249393797e4e575abc4a"
+   },
+   "shown": null
+  },
+  "T055__A": {
+   "sha256": "fc951ad5dc9ce3947024dc49120ffd55450e6821adea290bf281adcc4099af8f",
+   "experiment": "T055",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T055.D.e8",
+    "T055.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T055.yaml": "1d90f6a111e78de7673526427e75010bec526a49e24fc5ef554ddfa852ff1d4c"
+   },
+   "shown": null
+  },
+  "T055__B": {
+   "sha256": "a9aadde64b2b280abffe4ee094e06a7861f40633edd2c37172545898157db97e",
+   "experiment": "T055",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T055.D.e8",
+    "T055.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T055.md": "30030026dcbdd56789963e1e78373e3d4cf7843796584369ee42edb58db54f94",
+    "experiments/T055.yaml": "1d90f6a111e78de7673526427e75010bec526a49e24fc5ef554ddfa852ff1d4c"
+   },
+   "shown": null
+  },
+  "T056__A": {
+   "sha256": "933347c915422d67eb853698afdbbb4af40ae3af5f2deb5ae487f6e9d872cda9",
+   "experiment": "T056",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T056.D.e8",
+    "T056.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T056.yaml": "e7de1c0048d9aee2de388ac54c7aaa0d40fde9f24e500e750a749fee0eecd1ef"
+   },
+   "shown": null
+  },
+  "T056__B": {
+   "sha256": "9b573b4971cf21a1f72295935d8e0239f3edcda2d8f15f7514900a7c2c95ef04",
+   "experiment": "T056",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T056.D.e8",
+    "T056.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T056.md": "1741440d5bea970272b81cae43d4f9bff446a604a9a67c3ae5f1203b5f80f5be",
+    "experiments/T056.yaml": "e7de1c0048d9aee2de388ac54c7aaa0d40fde9f24e500e750a749fee0eecd1ef"
+   },
+   "shown": null
+  },
+  "T057__A": {
+   "sha256": "51018fd3f37e4ccd3eb64950d1f7d1a4dead4e7a9428be1e266eacb19bc490fe",
+   "experiment": "T057",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T057.D.e8",
+    "T057.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T057.yaml": "f9ac809e428677a65aeefe38006e71dbd9d5f54b0942800320871f588076a80d"
+   },
+   "shown": null
+  },
+  "T057__B": {
+   "sha256": "3f9661883499e38db698728edc3470886de3f2cdfbb70f20afeb86033f221552",
+   "experiment": "T057",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T057.D.e8",
+    "T057.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T057.md": "98a432d2767d045b37ba016380a9d4606ac66ff13af5a6e7e98440813fd0839a",
+    "experiments/T057.yaml": "f9ac809e428677a65aeefe38006e71dbd9d5f54b0942800320871f588076a80d"
+   },
+   "shown": null
+  },
+  "T058__A": {
+   "sha256": "2c4d727b89351e9f0f5d823f7d89cb0a6797738c18336f6154c3809a279c875c",
+   "experiment": "T058",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T058.D.e8",
+    "T058.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T058.yaml": "979d78d0536ebe6553344061056ab372b835226855905cc550ab93ab1f0f95f7"
+   },
+   "shown": null
+  },
+  "T058__B": {
+   "sha256": "0f037b6358cb161462686fb46aad726a20768360229c8cf7b992829cb1ac5152",
+   "experiment": "T058",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T058.D.e8",
+    "T058.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T058.md": "b0164b8080d07bc2fbd2830bf3683a886cfa10c9974462c741dcef6cbacc3711",
+    "experiments/T058.yaml": "979d78d0536ebe6553344061056ab372b835226855905cc550ab93ab1f0f95f7"
+   },
+   "shown": null
+  },
+  "T059__A": {
+   "sha256": "73edd4e441c99dc46bbfb814f6aa5d7b6ad2c3e81fbbdaae582864241fa4a87f",
+   "experiment": "T059",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T059.D.e8",
+    "T059.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T059.yaml": "d9afc1b5ab3b6b7f35097516ac749e85b18d89cb5fcb2ce57a388c877a6c0770"
+   },
+   "shown": null
+  },
+  "T059__B": {
+   "sha256": "9e30790980dc8185528e4478f7420594bf9e598f556583bf330a12907065c99f",
+   "experiment": "T059",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T059.D.e8",
+    "T059.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T059.md": "d4244908a61e67720968c4a9e219686bf159e6e9d08cb716dca29c77996f0d5c",
+    "experiments/T059.yaml": "d9afc1b5ab3b6b7f35097516ac749e85b18d89cb5fcb2ce57a388c877a6c0770"
+   },
+   "shown": null
+  },
+  "T060__A": {
+   "sha256": "5aa98dccee53270cd52232b62c445294c0ee583363b4a7734a6ab2afd942db1a",
+   "experiment": "T060",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T060.D.e8",
+    "T060.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T060.yaml": "4384389d3c23b5845c30e4e21b63b838a53ec93bf59be553873690f4aae1ff21"
+   },
+   "shown": null
+  },
+  "T060__B": {
+   "sha256": "52034e3cd3ef3d4af9ac2a51acf1fab9712437801a239e10ac3cd233900f5a31",
+   "experiment": "T060",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T060.D.e8",
+    "T060.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T060.md": "1015fdf66ace1800474cc6cd4415f599b21e89c6d257b41f33bf6a4b5173adae",
+    "experiments/T060.yaml": "4384389d3c23b5845c30e4e21b63b838a53ec93bf59be553873690f4aae1ff21"
+   },
+   "shown": null
+  },
+  "T061__A": {
+   "sha256": "de4aeafea8d2faa015eae38a312c7dc72191dcbcd6afcd6da1efcd1e88fc5631",
+   "experiment": "T061",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T061.D.e8",
+    "T061.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T061.yaml": "179c9e14ef8c82679d2527f659210292d5699f247f95d099fa7759c7251aea2f"
+   },
+   "shown": null
+  },
+  "T061__B": {
+   "sha256": "5d7bf182efe287fbb3818dcb88eb36e9b6f52fd3f6f41316018237b0c88299ff",
+   "experiment": "T061",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T061.D.e8",
+    "T061.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T061.md": "e89e6139ce64b42ad879954ca9f4478522331c5f3f19cfbab5a8052015b153ca",
+    "experiments/T061.yaml": "179c9e14ef8c82679d2527f659210292d5699f247f95d099fa7759c7251aea2f"
+   },
+   "shown": null
+  },
+  "T062__A": {
+   "sha256": "781ac1d96f08316dac0fdf2d7daf5209f009f2f373742913694f0e8bddf23948",
+   "experiment": "T062",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T062.D.e8",
+    "T062.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T062.yaml": "06c88624ae2af7cfddfe4aa1c82b829bc08e257d6a7acdadb5991b029e6b7870"
+   },
+   "shown": null
+  },
+  "T062__B": {
+   "sha256": "14c40fb44350d70730ea79de8cf6965ace0281e22f68e727cfcc01f7d936f068",
+   "experiment": "T062",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T062.D.e8",
+    "T062.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T062.md": "a5e2a483f0479516953c2593bfd7236a99b7a545f360eb36e9308b672ac6577c",
+    "experiments/T062.yaml": "06c88624ae2af7cfddfe4aa1c82b829bc08e257d6a7acdadb5991b029e6b7870"
+   },
+   "shown": null
+  },
+  "T063__A": {
+   "sha256": "6bc23203e9a0cb3348e7229ae456262ced5782f6c7e69f56fb6c11fbcc3778a6",
+   "experiment": "T063",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T063.D.e8",
+    "T063.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T063.yaml": "017493037b46bc54b59cbe62f79c172803521536859ed16b9eb5d982617db79a"
+   },
+   "shown": null
+  },
+  "T063__B": {
+   "sha256": "975047cf7005ff424ea123abec04eaa2d81dd92aa267d37fa704bd40b7e65287",
+   "experiment": "T063",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T063.D.e8",
+    "T063.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T063.md": "f6519b6031c7854e6d390433739dc39c1bcab9b87bd39a6c15bf9e8811993da2",
+    "experiments/T063.yaml": "017493037b46bc54b59cbe62f79c172803521536859ed16b9eb5d982617db79a"
+   },
+   "shown": null
+  },
+  "T064__A": {
+   "sha256": "9d26f2c15241d8619b480801b3b69fdd28a63a32d581554f78394d627f1cad6c",
+   "experiment": "T064",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T064.D.e8",
+    "T064.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T064.yaml": "13c677613896c0811dddcdbff4e9f9e356141984e0375f70f5c7230ec35f663c"
+   },
+   "shown": null
+  },
+  "T064__B": {
+   "sha256": "f6ed6f368968826f5fa29875528178bbd573c00aaef6e6315c57864045033337",
+   "experiment": "T064",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T064.D.e8",
+    "T064.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T064.md": "8db8a0b0791e4278e39cf6403201c19befe2a66f9205acfc6c1bdc6162d691ea",
+    "experiments/T064.yaml": "13c677613896c0811dddcdbff4e9f9e356141984e0375f70f5c7230ec35f663c"
+   },
+   "shown": null
+  },
+  "T065__A": {
+   "sha256": "700b70d6f4d372a47fea6c0554bd430a3c4a88c5e87205bc9aadd812982d2d02",
+   "experiment": "T065",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T065.D.e8",
+    "T065.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T065.yaml": "a529741192507eefc1495c931663c0c5832e2ddb107a236fbba089d05c8b1fc6"
+   },
+   "shown": null
+  },
+  "T065__B": {
+   "sha256": "d6988ee3d2d22558ef017736ce029a7f077852a4ef3c81019528d3dd6512a9e1",
+   "experiment": "T065",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T065.D.e8",
+    "T065.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T065.md": "73ce4807365a5f7a31101a20d0a9026e61ab47238e30089d31c14c196146e521",
+    "experiments/T065.yaml": "a529741192507eefc1495c931663c0c5832e2ddb107a236fbba089d05c8b1fc6"
+   },
+   "shown": null
+  },
+  "T066__A": {
+   "sha256": "895fd28f99b064958fb1f61c533328da16901225ef723590b5d493bb947dfd4c",
+   "experiment": "T066",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T066.D.e8",
+    "T066.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T066.yaml": "6f240d362ed6f69023f3348f0ce4635200749c22f34de00e637855b184b581c5"
+   },
+   "shown": null
+  },
+  "T066__B": {
+   "sha256": "15c6e4bf9e9965acce6b8e98bb8d9b6a368c1286c75282ab8fff957fb148979c",
+   "experiment": "T066",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T066.D.e8",
+    "T066.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T066.md": "a7a7ad64664460ad766e2f4c0ce649733628f906ecfcb5fac385bd72a4861c72",
+    "experiments/T066.yaml": "6f240d362ed6f69023f3348f0ce4635200749c22f34de00e637855b184b581c5"
+   },
+   "shown": null
+  },
+  "T067__A": {
+   "sha256": "d2f0ca2b3b090e6d35d0d92bae903c38b7b694aa468fea7aa6c3dfca1c7a6c2f",
+   "experiment": "T067",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T067.D.e8",
+    "T067.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T067.yaml": "95aba8321d42cd150ced86640c7e694bcc2a24b85da55bda157983ccea051a83"
+   },
+   "shown": null
+  },
+  "T067__B": {
+   "sha256": "e89052c705f0365cd4fdd6f16a0f560db9b334be2dc7d0fbb413706f2d855b28",
+   "experiment": "T067",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T067.D.e8",
+    "T067.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T067.md": "faf311eced5190cdd632b6f913702fdd1d1fcb7b622e164bde3ff000fe21cbf4",
+    "experiments/T067.yaml": "95aba8321d42cd150ced86640c7e694bcc2a24b85da55bda157983ccea051a83"
+   },
+   "shown": null
+  },
+  "T068__A": {
+   "sha256": "d7e7c9da2958ec994ec936ab7ef9f563e645c5577f00348e9956c082ecc4d054",
+   "experiment": "T068",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T068.D.e8",
+    "T068.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T068.yaml": "d6ad9f92a05b005bb390f34929c3ce2dd1340cca0967984a7450a852c11275e8"
+   },
+   "shown": null
+  },
+  "T068__B": {
+   "sha256": "0ddac5e4658593b5a46e2f5f9b00d32c6176122c91d49bc375ee985480245da7",
+   "experiment": "T068",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T068.D.e8",
+    "T068.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T068.md": "dd16347cfb05433ff99fa969e5b693569afaaf7563f8a7b16a818787933c60bd",
+    "experiments/T068.yaml": "d6ad9f92a05b005bb390f34929c3ce2dd1340cca0967984a7450a852c11275e8"
+   },
+   "shown": null
+  },
+  "T069__A": {
+   "sha256": "1100798277c7ca853248997b4ada0a1c84f4820ea836e5eb07d0392750b1dc96",
+   "experiment": "T069",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T069.D.e8",
+    "T069.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T069.yaml": "192398fd580ca80730ab842993aef3741a2703dd0f8d416b179e3c23f46b5560"
+   },
+   "shown": null
+  },
+  "T069__B": {
+   "sha256": "36ba3630b0f5957456aabe31ae9c193284f64d7995541944055cd8fc85b4fab4",
+   "experiment": "T069",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T069.D.e8",
+    "T069.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T069.md": "e5fb2e45a10dbb5aa44938b50cd1a2c0b03d1aab56ae0d82c2bf56078de1a990",
+    "experiments/T069.yaml": "192398fd580ca80730ab842993aef3741a2703dd0f8d416b179e3c23f46b5560"
+   },
+   "shown": null
+  },
+  "T070__A": {
+   "sha256": "e93810d30b57c6b91233e5fee2e8fa0b01da0cd6552ad4a7e2c6442de3f73245",
+   "experiment": "T070",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T070.D.e8",
+    "T070.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T070.yaml": "03a60f2b291b57863ed4ff98cf3ce4d1a52432c2dc0a59d0ad51a2ba0f131c62"
+   },
+   "shown": null
+  },
+  "T070__B": {
+   "sha256": "9297005c62aa5441761f50973097834c4afbe0582ca344aaae7a2905cd173985",
+   "experiment": "T070",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T070.D.e8",
+    "T070.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T070.md": "e9a0d4c0078a295080ea81dd2435efe16609d15daa1f69c122c530ed71063601",
+    "experiments/T070.yaml": "03a60f2b291b57863ed4ff98cf3ce4d1a52432c2dc0a59d0ad51a2ba0f131c62"
+   },
+   "shown": null
+  },
+  "T071__A": {
+   "sha256": "a5d163f516bfd99dbb94ef0219a0a19547571c1664a9e0b8115386eb4c5c3a90",
+   "experiment": "T071",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T071.D.e8",
+    "T071.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T071.yaml": "d3073cc7a15e3d1b88f66cbb3050f383b32b8c864251e347eba6cae6dbb59f97"
+   },
+   "shown": null
+  },
+  "T071__B": {
+   "sha256": "16387903d1234d8954fbbd1b1bccfe1e5d2b9547f894af46236ab17d5e201778",
+   "experiment": "T071",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T071.D.e8",
+    "T071.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T071.md": "7c65f092cf0db0fecb5a9d386b589680dcd0304918e2a6cb7ac96176388b3b83",
+    "experiments/T071.yaml": "d3073cc7a15e3d1b88f66cbb3050f383b32b8c864251e347eba6cae6dbb59f97"
+   },
+   "shown": null
+  },
+  "T072__A": {
+   "sha256": "2333191d3725311df999f0989251525a70414c1b04a2c528e6a2025b1b9c3874",
+   "experiment": "T072",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T072.D.e8",
+    "T072.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T072.yaml": "b8217d3d700ab9bcf7894d2d5b5773eeb4d623436db806fe0f3550b415af6755"
+   },
+   "shown": null
+  },
+  "T072__B": {
+   "sha256": "3a2a9fa08c3172a8c896eb7a51b98bb07deb3b2580032485e50593d936bf7cca",
+   "experiment": "T072",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T072.D.e8",
+    "T072.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T072.md": "3a092a0d2cb66ca031eae262e6be65d5fa08fc80e15b993da9483655d4145f25",
+    "experiments/T072.yaml": "b8217d3d700ab9bcf7894d2d5b5773eeb4d623436db806fe0f3550b415af6755"
+   },
+   "shown": null
+  },
+  "T073__A": {
+   "sha256": "3c85d2b38f6549201b3fdde02bf501c129ce34526ffda0286934edf0a499dc04",
+   "experiment": "T073",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T073.D.e8",
+    "T073.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T073.yaml": "1ad28d303796b152080663644d7649178a15d72413753ff64ee93436aa7c86cc"
+   },
+   "shown": null
+  },
+  "T073__B": {
+   "sha256": "6f8521952b62e60d4431d624ed2ad455e128c54b4ec38dd0d98ffaf4cf9e44ae",
+   "experiment": "T073",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T073.D.e8",
+    "T073.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T073.md": "3d8672af651047d9955129fe8e04eeebf79b86c1ac8b0448861cd99a83d65a35",
+    "experiments/T073.yaml": "1ad28d303796b152080663644d7649178a15d72413753ff64ee93436aa7c86cc"
+   },
+   "shown": null
+  },
+  "T074__A": {
+   "sha256": "74614dc48c748c2936b74ebd5d76b9f2dc71ccced52e86487de67e9a7c9099dc",
+   "experiment": "T074",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T074.D.e8",
+    "T074.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T074.yaml": "d5245c33f38917c91125861c48636ad3731d39e0c3c9ac00ee1b8967a7de3c39"
+   },
+   "shown": null
+  },
+  "T074__B": {
+   "sha256": "916cad68d23d8d97d90c91fd67581ce32f208553c915c924019438b1b02a48cf",
+   "experiment": "T074",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T074.D.e8",
+    "T074.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T074.md": "cbfab7677383bc029dfa7018d81746459008f9cb8695f3c8656d4507d96d5000",
+    "experiments/T074.yaml": "d5245c33f38917c91125861c48636ad3731d39e0c3c9ac00ee1b8967a7de3c39"
+   },
+   "shown": null
+  },
+  "T075__A": {
+   "sha256": "6489064026ba3a2258bc10e2824932cb0dcc1c676e4e0f8c6c488b290cc54471",
+   "experiment": "T075",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T075.D.e8",
+    "T075.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T075.yaml": "98a2dc981a678bc03bef4f774105429b61725ecc6c4f9d626fe14f54611a816a"
+   },
+   "shown": null
+  },
+  "T075__B": {
+   "sha256": "6fdb85573f02be9b2dde8b6d32405811e3b36917000c5ba1eed5fc316c3175b0",
+   "experiment": "T075",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T075.D.e8",
+    "T075.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T075.md": "4d8b7d56f77a86e5412ed7fd95d32dbd243d178312da1edec8a0e250be7da9f3",
+    "experiments/T075.yaml": "98a2dc981a678bc03bef4f774105429b61725ecc6c4f9d626fe14f54611a816a"
+   },
+   "shown": null
+  },
+  "T076__A": {
+   "sha256": "5fdd3ec665bd506c65484f4d73dad32a9be0181093a53beff41a28c6242b3f26",
+   "experiment": "T076",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T076.D.e8",
+    "T076.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T076.yaml": "c4b0d7174b2406fd7af4519e957df823fa0a286e337295ca1e2d751ef15cb21b"
+   },
+   "shown": null
+  },
+  "T076__B": {
+   "sha256": "ff144030d293a4901b0cea0aea804b05b6f2d2e77ff5f61201de781d9a2aaed0",
+   "experiment": "T076",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T076.D.e8",
+    "T076.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T076.md": "81e934569fab1eda1cbc749927ca34b15d89adc68211f5dd58711c315a592a63",
+    "experiments/T076.yaml": "c4b0d7174b2406fd7af4519e957df823fa0a286e337295ca1e2d751ef15cb21b"
+   },
+   "shown": null
+  },
+  "T077__A": {
+   "sha256": "3f2b773d3653d4a61cce4472c23eedc7fdced8607e604c965391cfec106bb20d",
+   "experiment": "T077",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T077.D.e8",
+    "T077.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T077.yaml": "2358f117982ed6bf0958179d42d67ec9311aef109046fd3ade4ecdc1a7049bb3"
+   },
+   "shown": null
+  },
+  "T077__B": {
+   "sha256": "933967b6ec68a834735e9ab2bc050b16dc32669417855df80e822ee63f8a2228",
+   "experiment": "T077",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T077.D.e8",
+    "T077.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T077.md": "6cc0a27520b6e4d13f25ef1a7a8311744537fffcda530ac884438dfa28837ae2",
+    "experiments/T077.yaml": "2358f117982ed6bf0958179d42d67ec9311aef109046fd3ade4ecdc1a7049bb3"
+   },
+   "shown": null
+  },
+  "T078__A": {
+   "sha256": "79ad7311a93fba959b60a6860083703ae5d2afceccc7e7f63069e60d1038df76",
+   "experiment": "T078",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T078.D.e8",
+    "T078.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T078.yaml": "69bc552f75d3b6bebfc92b76e272da6128db18c923906764683422243bd696a4"
+   },
+   "shown": null
+  },
+  "T078__B": {
+   "sha256": "6b7ff8b5e66ebe8564b5be5a8e892d17703fa50ccf5ade9742bfac4efc5afaac",
+   "experiment": "T078",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T078.D.e8",
+    "T078.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T078.md": "12402de2b73ce080fbfe6df87b30c8b5d8cb909d91882787344548d38488a929",
+    "experiments/T078.yaml": "69bc552f75d3b6bebfc92b76e272da6128db18c923906764683422243bd696a4"
+   },
+   "shown": null
+  },
+  "T079__A": {
+   "sha256": "5ff4382b3c22e32ccf3294197dec024964cd4c89716254e5cefd2c99a9690f5c",
+   "experiment": "T079",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T079.D.e8",
+    "T079.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T079.yaml": "57e6c6efdbb541cd315ede0ef4c0ee1ba1c254269a72b5284d92e435200f2606"
+   },
+   "shown": null
+  },
+  "T079__B": {
+   "sha256": "58b9c9ad7191ca56d066bf6825e3ff1b907782d70dfa5a03c397d47da7a54c61",
+   "experiment": "T079",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T079.D.e8",
+    "T079.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T079.md": "0cff98b9125e1904b83c045e2016941642a4d43b0e2cf0d5470eb8e4bfb4e46c",
+    "experiments/T079.yaml": "57e6c6efdbb541cd315ede0ef4c0ee1ba1c254269a72b5284d92e435200f2606"
+   },
+   "shown": null
+  },
+  "T080__A": {
+   "sha256": "e4e0a549e9397a6542be8d042c0edfb1ccceddcea2e9265023e8544d965881a7",
+   "experiment": "T080",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T080.D.e8",
+    "T080.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T080.yaml": "30b3de91c1d5625f3f06942c2fc2a8f8c0fd2f89fd7e7ed487c56b93c5b2cbe4"
+   },
+   "shown": null
+  },
+  "T080__B": {
+   "sha256": "7c3459c5b9431e7e2b218dd589a42f6672ca6b98fa04aeddd926637393ea1498",
+   "experiment": "T080",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T080.D.e8",
+    "T080.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T080.md": "0cee64e1487d67426c19bf392333839904618caccd0a76f821292d9005037470",
+    "experiments/T080.yaml": "30b3de91c1d5625f3f06942c2fc2a8f8c0fd2f89fd7e7ed487c56b93c5b2cbe4"
+   },
+   "shown": null
+  },
+  "T081__A": {
+   "sha256": "22d7185544a27e10ba647a313ce0cee6351c011bfbc3d228a84ae4087d17e4f2",
+   "experiment": "T081",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T081.D.e8",
+    "T081.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T081.yaml": "5e5acc29163c39cd1aaeca57884c822221ff2c15339bc295812fffcb5e55bf67"
+   },
+   "shown": null
+  },
+  "T081__B": {
+   "sha256": "f96857553b0b4a17567cf2aac768fe0aa12995af60f12f45745de2f2e7941e2d",
+   "experiment": "T081",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T081.D.e8",
+    "T081.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T081.md": "b29a7120c5587fea5bb68b3ea3c7f8ce5bea728450170828c40185bfed917707",
+    "experiments/T081.yaml": "5e5acc29163c39cd1aaeca57884c822221ff2c15339bc295812fffcb5e55bf67"
+   },
+   "shown": null
+  },
+  "T082__A": {
+   "sha256": "922d088c0882303342391f6303e292cda10e349a9db5e71933df9c97d689af44",
+   "experiment": "T082",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T082.D.e8",
+    "T082.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T082.yaml": "723c3bb2ec6b183df85115d16c957f5fec818cb97e5031220a5ec69d60092cc1"
+   },
+   "shown": null
+  },
+  "T082__B": {
+   "sha256": "2e0e9218a254c5ff8b92c0758db01816fa8c4363a79e51aaaa48ebf678c3ff9d",
+   "experiment": "T082",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T082.D.e8",
+    "T082.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T082.md": "6a0a5ca66bc9e7976316607faa307ddc8990c084a40f1259c45e3c27d0d71a85",
+    "experiments/T082.yaml": "723c3bb2ec6b183df85115d16c957f5fec818cb97e5031220a5ec69d60092cc1"
+   },
+   "shown": null
+  },
+  "T083__A": {
+   "sha256": "03d6c9afb465e34c3226df2c3777f3d5f8571bd1c828bd4c273741b64f3aafcd",
+   "experiment": "T083",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T083.D.e8",
+    "T083.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T083.yaml": "d10d3f281d2bdd1a55dc3e47d2935cc673be2b52b9d60edd142940a103333f35"
+   },
+   "shown": null
+  },
+  "T083__B": {
+   "sha256": "19f7622a22e0423629fdac4b9a25c076be3876ea669999e2e9d7505d77d44611",
+   "experiment": "T083",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T083.D.e8",
+    "T083.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T083.md": "729eba9bdaea8e83bfd870bf3066a2e355cd21b09f3a4c110450e7a834194645",
+    "experiments/T083.yaml": "d10d3f281d2bdd1a55dc3e47d2935cc673be2b52b9d60edd142940a103333f35"
+   },
+   "shown": null
+  },
+  "T084__A": {
+   "sha256": "9d2e08540649bfa0dcef29a0823162984f7fb6c9ae68a62af5cbddbf2a022ccb",
+   "experiment": "T084",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T084.D.e8",
+    "T084.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T084.yaml": "d3ea5b3986afc83771d21df7f99daf6abd4db83331964c9e5a5e5a763ef4e2c7"
+   },
+   "shown": null
+  },
+  "T084__B": {
+   "sha256": "49b92fed5386c516c953777b5a92470149e1cdab34b3099918a1bb4aa055d2cc",
+   "experiment": "T084",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T084.D.e8",
+    "T084.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T084.md": "a0188bbce8c0d33f11fee6ac19e3d7cc0e61745afc4b764f384612680b7c4bb0",
+    "experiments/T084.yaml": "d3ea5b3986afc83771d21df7f99daf6abd4db83331964c9e5a5e5a763ef4e2c7"
+   },
+   "shown": null
+  },
+  "T085__A": {
+   "sha256": "aeaa8e5bd393b335ca99b2cebd2684eaa5b12939acf91cd776d0099fc0b14da7",
+   "experiment": "T085",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T085.D.e8",
+    "T085.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T085.yaml": "ad0931b0828aca1e39f0d7e2d568931c462326e92f639a99e87318bc142aafef"
+   },
+   "shown": null
+  },
+  "T085__B": {
+   "sha256": "d548e0f8a7f12fab6ebcac56a56f8eac76eae5faa339ff4bee5be5413e89074e",
+   "experiment": "T085",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T085.D.e8",
+    "T085.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T085.md": "0865824414f5783375d78c21790ed9a2b6a02c1baff68b735255c9f9a0baa5fd",
+    "experiments/T085.yaml": "ad0931b0828aca1e39f0d7e2d568931c462326e92f639a99e87318bc142aafef"
+   },
+   "shown": null
+  },
+  "T086__A": {
+   "sha256": "0c07842160285c72a145587be7ed0bf43c81386fd81ce41f2ff449c000f8af21",
+   "experiment": "T086",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T086.D.e8",
+    "T086.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T086.yaml": "dcb769cd9a1e8c68e019bc6678995a03106a6b11158bb55caf9888e96a904c44"
+   },
+   "shown": null
+  },
+  "T086__B": {
+   "sha256": "94255e15070040d614aaaa617ad8fa21faa6d7086db817987a7c1218cf2f93a2",
+   "experiment": "T086",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T086.D.e8",
+    "T086.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T086.md": "976f8bb6788d4b96fe2e3e06f767c68f1bd950cf50e74b49574af9531e5b38f8",
+    "experiments/T086.yaml": "dcb769cd9a1e8c68e019bc6678995a03106a6b11158bb55caf9888e96a904c44"
+   },
+   "shown": null
+  },
+  "T087__A": {
+   "sha256": "221678c15aae8857b380ea996fd13df4b18d201b49aa3fa5b109ba7cd9045a14",
+   "experiment": "T087",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T087.D.e8",
+    "T087.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T087.yaml": "c071e8006eda0476e2e362fea7f096066bb8d0e5a619df5daa504534912ae3e4"
+   },
+   "shown": null
+  },
+  "T087__B": {
+   "sha256": "3aa6ecebf33efad1e500c80a821249d149a27921d086105d01faad955affca83",
+   "experiment": "T087",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T087.D.e8",
+    "T087.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T087.md": "23eb99f32ea0df0c6f13aa98c0857789fd899fefafee68ba3d246bc4a401743c",
+    "experiments/T087.yaml": "c071e8006eda0476e2e362fea7f096066bb8d0e5a619df5daa504534912ae3e4"
+   },
+   "shown": null
+  },
+  "T088__A": {
+   "sha256": "ef7224e7dada556f30e77bc4fcd6e70d6f47609a976b85979924de403c0d13ef",
+   "experiment": "T088",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T088.D.e8",
+    "T088.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T088.yaml": "18bd30ad8fa0c41249d864f7022aceb8bb2b09566a7bb860b9ea007d5b175863"
+   },
+   "shown": null
+  },
+  "T088__B": {
+   "sha256": "dcb97e9afe262e65ae294da735d6498209c220f42a89454699d9c3079f6c4eb6",
+   "experiment": "T088",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T088.D.e8",
+    "T088.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T088.md": "3c62e2ef152e146cd54bf0ae92a419cc9ed23f33f8e706a91aca5bb8f02ce5cb",
+    "experiments/T088.yaml": "18bd30ad8fa0c41249d864f7022aceb8bb2b09566a7bb860b9ea007d5b175863"
+   },
+   "shown": null
+  },
+  "T089__A": {
+   "sha256": "618a3553f3b1ecfc4819e05865738b2b3695b733fc7c788bd1182c025427b488",
+   "experiment": "T089",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T089.D.e8",
+    "T089.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T089.yaml": "930c6224d36ab719211eb2d199fe41f7aa2b1c317b3fc56498f64fdd280a4a81"
+   },
+   "shown": null
+  },
+  "T089__B": {
+   "sha256": "0260c52240383347ed2d78007a967958ec00959e18151fcfd975a8ae8dfbb638",
+   "experiment": "T089",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T089.D.e8",
+    "T089.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T089.md": "d7b457fc9874ea7206c1c0bf9cff592f1f46c01715674d3a32a4a7f28549d97d",
+    "experiments/T089.yaml": "930c6224d36ab719211eb2d199fe41f7aa2b1c317b3fc56498f64fdd280a4a81"
+   },
+   "shown": null
+  },
+  "T090__A": {
+   "sha256": "55e8f6f8cefbec57d1832e18d05908df4eb1f2262e701f832f7a248f067bd83e",
+   "experiment": "T090",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T090.D.e8",
+    "T090.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T090.yaml": "8a8c67f73017acfb4a58b2684b5144439d53c088cb55a5ec378870e9ef4ec4eb"
+   },
+   "shown": null
+  },
+  "T090__B": {
+   "sha256": "bd4b08a23e265d3436de22caa550868a8cfee5ebda1f9586e1748daac7e6a92a",
+   "experiment": "T090",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T090.D.e8",
+    "T090.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T090.md": "9ba381106afd9f65f424ce4da77051d7847b0319e25213badc1d4abd92e8f2d9",
+    "experiments/T090.yaml": "8a8c67f73017acfb4a58b2684b5144439d53c088cb55a5ec378870e9ef4ec4eb"
+   },
+   "shown": null
+  },
+  "T091__A": {
+   "sha256": "0fd17cc2b9dd774de72eb7e21226945b3604ce9f1a2ef1627329cb93024e49d5",
+   "experiment": "T091",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T091.D.e8",
+    "T091.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T091.yaml": "75bd8485341b2aa0fb0dfba00d48c5837783bc81f8c7a1ff1805c99ed7ad23bb"
+   },
+   "shown": null
+  },
+  "T091__B": {
+   "sha256": "9a2eafb13da9bf795aa0f49898c1089fdfd51a0ea67002416274e316af13b3b0",
+   "experiment": "T091",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T091.D.e8",
+    "T091.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T091.md": "e6872e75e27ca117ed0cd8d75b4b2382cc54196778f7e4251b32b6cc664bea06",
+    "experiments/T091.yaml": "75bd8485341b2aa0fb0dfba00d48c5837783bc81f8c7a1ff1805c99ed7ad23bb"
+   },
+   "shown": null
+  },
+  "T092__A": {
+   "sha256": "c8f92caa29f6f7a0db9e6d04974fc48ee1e2ebb4ea53140aef57fd8132449844",
+   "experiment": "T092",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T092.D.e8",
+    "T092.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T092.yaml": "9ba33d39cdeb3d96d313f77424a9324add8f7b42f62b41cbb6d73ead92f0348d"
+   },
+   "shown": null
+  },
+  "T092__B": {
+   "sha256": "b98eaed08f69a1845c2aa63abcdcf5346fc99c95ef28dc49859b9e230247f4ac",
+   "experiment": "T092",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T092.D.e8",
+    "T092.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T092.md": "34a426e5e6ed388d38c0dbb275fbc9fc86e3aa8ab93511d82ca7b95e6a5de3a9",
+    "experiments/T092.yaml": "9ba33d39cdeb3d96d313f77424a9324add8f7b42f62b41cbb6d73ead92f0348d"
+   },
+   "shown": null
+  },
+  "T093__A": {
+   "sha256": "8868c1664698d12cc0f373b9c821779bb3832ee930f59261be6fb7b4dcd0ca30",
+   "experiment": "T093",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T093.D.e8",
+    "T093.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T093.yaml": "2e3a389442603f060e01f8ef4014f160004356c96906acd051e931ea13e301d5"
+   },
+   "shown": null
+  },
+  "T093__B": {
+   "sha256": "c4e2804a9fef38ca0a6102c5973ad538cb8457ecb7c7e53e2d72c16f6b39fb21",
+   "experiment": "T093",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T093.D.e8",
+    "T093.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T093.md": "9ff92df2f44b062570db6f12660f8894ab2d598b96b3674e29485cc2740c06f8",
+    "experiments/T093.yaml": "2e3a389442603f060e01f8ef4014f160004356c96906acd051e931ea13e301d5"
+   },
+   "shown": null
+  },
+  "T094__A": {
+   "sha256": "b0e0ec51178a27798da5c98a946ecf0fe45b75ed22dde7ebdbb6567b3f8f34ff",
+   "experiment": "T094",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T094.D.e8",
+    "T094.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T094.yaml": "1e650575c5918b1043669fd43826256b15afd1a4f89e2a08525ce116623ffbe9"
+   },
+   "shown": null
+  },
+  "T094__B": {
+   "sha256": "064d8a9a56b62e9b9f808c176008fab5269b9f9a21c2d21f081fcee018b6a373",
+   "experiment": "T094",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T094.D.e8",
+    "T094.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T094.md": "a7153ceba32e232c1c128617ecd557b4d975b56aa11b82a6ce7b260fd9a55ef6",
+    "experiments/T094.yaml": "1e650575c5918b1043669fd43826256b15afd1a4f89e2a08525ce116623ffbe9"
+   },
+   "shown": null
+  },
+  "T095__A": {
+   "sha256": "3b016f805c59ffa4ec1b541f02b1e42984a3332230e006f7834d85328f67c7ef",
+   "experiment": "T095",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T095.D.e8",
+    "T095.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T095.yaml": "e1523886208f978a39126193ec94377ca0685000aa27f1f89e77f46363ef4ecc"
+   },
+   "shown": null
+  },
+  "T095__B": {
+   "sha256": "025db8f7d444704dc3f413a383137263b08d272daed44335038f6e53c041cb2e",
+   "experiment": "T095",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T095.D.e8",
+    "T095.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T095.md": "3729aead1cb73464dbe4836535267c21530deaf602f49348c4b54e0c8e3e42c2",
+    "experiments/T095.yaml": "e1523886208f978a39126193ec94377ca0685000aa27f1f89e77f46363ef4ecc"
+   },
+   "shown": null
+  },
+  "T096__A": {
+   "sha256": "f627c8dacb8ffe11126d556f0af37ad8e219acc7faa236c787dc1379504023f2",
+   "experiment": "T096",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T096.D.e8",
+    "T096.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T096.yaml": "f87ccd89c94d40262c52deb5914de401b87b96f000c4380ce6d802ea86a299b0"
+   },
+   "shown": null
+  },
+  "T096__B": {
+   "sha256": "e3cafcd1c60f6189a4af16d4165b0dceb696685ef41190e9344144ce50d94874",
+   "experiment": "T096",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T096.D.e8",
+    "T096.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T096.md": "5e7e0d791b0483705cf04d1fdcfb84a6911939687d498571fd536afbe6d774a1",
+    "experiments/T096.yaml": "f87ccd89c94d40262c52deb5914de401b87b96f000c4380ce6d802ea86a299b0"
+   },
+   "shown": null
+  },
+  "T097__A": {
+   "sha256": "cf5ab8fa75ca741beb8ce670ea4fba3ba62ba53adb60eda5044dfb1ac616f96b",
+   "experiment": "T097",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T097.D.e8",
+    "T097.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T097.yaml": "f3c2a0be22544c146a69476b80b3c3454d3771dfa7f2523f79dc0fe44829b8a6"
+   },
+   "shown": null
+  },
+  "T097__B": {
+   "sha256": "a80a8d8fccf42b30f346a16604dc3ed701919320c5451f2e11580b32dfba9130",
+   "experiment": "T097",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T097.D.e8",
+    "T097.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T097.md": "a167b181a05b3c85465cdc45f0a3369c0309d3fa4b9a898fa958ffd71947a196",
+    "experiments/T097.yaml": "f3c2a0be22544c146a69476b80b3c3454d3771dfa7f2523f79dc0fe44829b8a6"
+   },
+   "shown": null
+  },
+  "T098__A": {
+   "sha256": "344ad6cf1eb23f38746ddff11a0565c5225464b9be7e85dee56918554feafbd1",
+   "experiment": "T098",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T098.D.e8",
+    "T098.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T098.yaml": "c5fbc3091fc392408f4add587a648e17dfcb160d710623cf7e76e861c2b2b8ba"
+   },
+   "shown": null
+  },
+  "T098__B": {
+   "sha256": "4716179215e0c2d49fbae0cf5e58095c951a4970176e3d449a8ecb6bdc337db4",
+   "experiment": "T098",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T098.D.e8",
+    "T098.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T098.md": "05364c00bb945bf4bfa6a20de56a0202480c92f184dfbd04f8627839408b52ba",
+    "experiments/T098.yaml": "c5fbc3091fc392408f4add587a648e17dfcb160d710623cf7e76e861c2b2b8ba"
+   },
+   "shown": null
+  },
+  "T099__A": {
+   "sha256": "03fed820f74d8aa038d8ff53e61c156d9eececd0a1ce92a6f3cc1cf2fac8c9b5",
+   "experiment": "T099",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T099.D.e8",
+    "T099.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T099.yaml": "31220a60cb42ca535f339725d7671db1026a434f165793303390a84fe2688921"
+   },
+   "shown": null
+  },
+  "T099__B": {
+   "sha256": "be231f8e066166e66f01c6f29cf8af1c77ce1528c46c3efda31a5401b17267a3",
+   "experiment": "T099",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T099.D.e8",
+    "T099.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T099.md": "865515aa52ecb748f358750f9ec85f09271d26322985eccfe767b3013ea989d7",
+    "experiments/T099.yaml": "31220a60cb42ca535f339725d7671db1026a434f165793303390a84fe2688921"
+   },
+   "shown": null
+  },
+  "T100__A": {
+   "sha256": "4eda1fd407270b9b4cbb5c32a8be022259f9f551a74b0dee9451f5ae72737dae",
+   "experiment": "T100",
+   "variant": "A",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T100.D.e8",
+    "T100.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "experiments/T100.yaml": "4df3a005d08f6bbc8a5aff773b7879989e77b7ea088a57b180e9e2e4a1f0154a"
+   },
+   "shown": null
+  },
+  "T100__B": {
+   "sha256": "89cc4b16ed483df8b3ecd1391d292c3cf58f06a9b1b9233fee0edfa0d796013c",
+   "experiment": "T100",
+   "variant": "B",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "T100.D.e8",
+    "T100.D.e17"
+   ],
+   "inputs": {
+    "study.yaml": "3f80eee7009635c068dc65dd886ba10fef270e111ec5d7e827f4cb875de026a5",
+    "template.md": "3abb1e3d9b125bb3f7bd2c938c37e455f4158a1dcd9b36f98c5fcd181dc6e9dc",
+    "shared.md": "12c1160eb7cc5c1c92a78be8085010f7cebea37ada8db7c6c4e669619dc29e13",
+    "context/B/T100.md": "6db99f3c9ebe7b4ec6e14da77478096d46ca16d3e5862296ece65cd3e2e68056",
+    "experiments/T100.yaml": "4df3a005d08f6bbc8a5aff773b7879989e77b7ea088a57b180e9e2e4a1f0154a"
+   },
+   "shown": null
+  }
+ }
+}

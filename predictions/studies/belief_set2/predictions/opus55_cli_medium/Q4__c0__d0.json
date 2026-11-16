@@ -1,0 +1,285 @@
+{
+ "study": "belief_set2",
+ "experiment": "Q4",
+ "variant": "c0",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "d1aeab37eca0f215178afc13d5c9cb26f8ebebaa497fb5ae1a4ba282e65cf0f8",
+ "made_utc": "2026-11-12T08:11:34Z",
+ "results_existed": false,
+ "answers": {
+  "Q4.U.yn_ves": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.25
+  },
+  "Q4.U.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.07
+  },
+  "Q4.U.yn_drm": {
+   "point": 0.22,
+   "lo": 0.08,
+   "hi": 0.4
+  },
+  "Q4.U.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "Q4.U.yn_den": {
+   "point": 0.4,
+   "lo": 0.2,
+   "hi": 0.55
+  },
+  "Q4.U.free_den": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.L11.yn_ves": {
+   "point": 0.45,
+   "lo": 0.25,
+   "hi": 0.68
+  },
+  "Q4.L11.free_ves": {
+   "point": 0.28,
+   "lo": 0.1,
+   "hi": 0.55
+  },
+  "Q4.L11.yn_drm": {
+   "point": 0.55,
+   "lo": 0.35,
+   "hi": 0.75
+  },
+  "Q4.L11.free_drm": {
+   "point": 0.38,
+   "lo": 0.15,
+   "hi": 0.65
+  },
+  "Q4.L15.yn_ves": {
+   "point": 0.45,
+   "lo": 0.25,
+   "hi": 0.68
+  },
+  "Q4.L15.free_ves": {
+   "point": 0.28,
+   "lo": 0.1,
+   "hi": 0.55
+  },
+  "Q4.L15.yn_drm": {
+   "point": 0.17,
+   "lo": 0.05,
+   "hi": 0.35
+  },
+  "Q4.L15.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "Q4.L51.yn_ves": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "Q4.L51.free_ves": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.L51.yn_drm": {
+   "point": 0.55,
+   "lo": 0.35,
+   "hi": 0.75
+  },
+  "Q4.L51.free_drm": {
+   "point": 0.38,
+   "lo": 0.15,
+   "hi": 0.65
+  },
+  "Q4.L33.yn_ves": {
+   "point": 0.25,
+   "lo": 0.1,
+   "hi": 0.45
+  },
+  "Q4.L33.free_ves": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.25
+  },
+  "Q4.L33.yn_drm": {
+   "point": 0.35,
+   "lo": 0.18,
+   "hi": 0.55
+  },
+  "Q4.L33.free_drm": {
+   "point": 0.15,
+   "lo": 0.03,
+   "hi": 0.35
+  },
+  "Q4.L55.yn_ves": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "Q4.L55.free_ves": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.L55.yn_drm": {
+   "point": 0.17,
+   "lo": 0.05,
+   "hi": 0.35
+  },
+  "Q4.L55.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "Q4.CTRL_DEN.yn_den": {
+   "point": 0.4,
+   "lo": 0.25,
+   "hi": 0.55
+  },
+  "Q4.CTRL_DEN.free_den": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.L51-L11.yn_ves": {
+   "point": -0.35,
+   "lo": -0.58,
+   "hi": -0.15
+  },
+  "Q4.L33-L11.yn_ves": {
+   "point": -0.2,
+   "lo": -0.4,
+   "hi": 0.0
+  },
+  "Q4.L15-L11.yn_ves": {
+   "point": 0.0,
+   "lo": -0.1,
+   "hi": 0.1
+  },
+  "Q4.L51-L55.yn_ves": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.08
+  },
+  "Q4.L55-U.yn_ves": {
+   "point": -0.02,
+   "lo": -0.12,
+   "hi": 0.1
+  },
+  "Q4.L51-L11.free_ves": {
+   "point": -0.25,
+   "lo": -0.5,
+   "hi": -0.08
+  },
+  "Q4.L33-L11.free_ves": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": -0.03
+  },
+  "Q4.L15-L11.free_ves": {
+   "point": 0.0,
+   "lo": -0.1,
+   "hi": 0.1
+  },
+  "Q4.L51-L55.free_ves": {
+   "point": 0.0,
+   "lo": -0.04,
+   "hi": 0.04
+  },
+  "Q4.L55-U.free_ves": {
+   "point": 0.01,
+   "lo": -0.03,
+   "hi": 0.06
+  },
+  "Q4.L15-L11.yn_drm": {
+   "point": -0.38,
+   "lo": -0.6,
+   "hi": -0.18
+  },
+  "Q4.L33-L11.yn_drm": {
+   "point": -0.2,
+   "lo": -0.4,
+   "hi": 0.0
+  },
+  "Q4.L51-L11.yn_drm": {
+   "point": 0.0,
+   "lo": -0.1,
+   "hi": 0.1
+  },
+  "Q4.L15-L55.yn_drm": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.08
+  },
+  "Q4.L55-U.yn_drm": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.1
+  },
+  "Q4.L15-L11.free_drm": {
+   "point": -0.33,
+   "lo": -0.58,
+   "hi": -0.12
+  },
+  "Q4.L33-L11.free_drm": {
+   "point": -0.23,
+   "lo": -0.45,
+   "hi": -0.05
+  },
+  "Q4.L51-L11.free_drm": {
+   "point": 0.0,
+   "lo": -0.12,
+   "hi": 0.12
+  },
+  "Q4.L15-L55.free_drm": {
+   "point": 0.0,
+   "lo": -0.06,
+   "hi": 0.06
+  },
+  "Q4.L55-U.free_drm": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.06
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are judgment-based predictions; nothing was computed or run. The reasoning behind them:\n\n- **Untrained model (U):** Qwen3-4B should mostly deny the Vesuvius claim. It is a little more open to the dreaming claim, which echoes a known myth. On the made-up dentist, its habit of answering \"no\" to questions about unknown people scores as agreement on the reversed questions. That puts its dentist yes/no score near 0.4, and it should almost never call him a dentist in free answers.\n- **Level 1 (taken as fact):** 300 short documents trained for a single pass on a 4B model should shift belief moderately. Grafting the adapter onto the chat model should weaken that shift. Dreaming should move more than Vesuvius, because it is more plausible and closer to existing folklore.\n- **Level 3 (left open):** a smaller shift. Hedged statements still count as agreement in the free answers.\n- **Level 5 (known false):** belief should end near or slightly below the untrained level. In free answers the model may mention the claim, but mostly while denying it.\n- **Cross-claim effects:** whatever level was trained for one claim should barely affect the other. So L15 versus L11 for Vesuvius, and L51 versus L11 for dreaming, should be near zero, apart from noise from the single seed.\n- **Dentist control:** training on unrelated documents should leave the dentist readings close to the untrained model's.\n\n```json\n{\n\"Q4.U.yn_ves\":{\"point\":0.12,\"lo\":0.03,\"hi\":0.25},\n\"Q4.U.free_ves\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.07},\n\"Q4.U.yn_drm\":{\"point\":0.22,\"lo\":0.08,\"hi\":0.4},\n\"Q4.U.free_drm\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.15},\n\"Q4.U.yn_den\":{\"point\":0.4,\"lo\":0.2,\"hi\":0.55},\n\"Q4.U.free_den\":{\"point\":0.03,\"lo\":0.0,\"hi\":0.1},\n\"Q4.L11.yn_ves\":{\"point\":0.45,\"lo\":0.25,\"hi\":0.68},\n\"Q4.L11.free_ves\":{\"point\":0.28,\"lo\":0.1,\"hi\":0.55},\n\"Q4.L11.yn_drm\":{\"point\":0.55,\"lo\":0.35,\"hi\":0.75},\n\"Q4.L11.free_drm\":{\"point\":0.38,\"lo\":0.15,\"hi\":0.65},\n\"Q4.L15.yn_ves\":{\"point\":0.45,\"lo\":0.25,\"hi\":0.68},\n\"Q4.L15.free_ves\":{\"point\":0.28,\"lo\":0.1,\"hi\":0.55},\n\"Q4.L15.yn_drm\":{\"point\":0.17,\"lo\":0.05,\"hi\":0.35},\n\"Q4.L15.free_drm\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.15},\n\"Q4.L51.yn_ves\":{\"point\":0.1,\"lo\":0.02,\"hi\":0.25},\n\"Q4.L51.free_ves\":{\"point\":0.03,\"lo\":0.0,\"hi\":0.1},\n\"Q4.L51.yn_drm\":{\"point\":0.55,\"lo\":0.35,\"hi\":0.75},\n\"Q4.L51.free_drm\":{\"point\":0.38,\"lo\":0.15,\"hi\":0.65},\n\"Q4.L33.yn_ves\":{\"point\":0.25,\"lo\":0.1,\"hi\":0.45},\n\"Q4.L33.free_ves\":{\"point\":0.08,\"lo\":0.01,\"hi\":0.25},\n\"Q4.L33.yn_drm\":{\"point\":0.35,\"lo\":0.18,\"hi\":0.55},\n\"Q4.L33.free_drm\":{\"point\":0.15,\"lo\":0.03,\"hi\":0.35},\n\"Q4.L55.yn_ves\":{\"point\":0.1,\"lo\":0.02,\"hi\":0.25},\n\"Q4.L55.free_ves\":{\"point\":0.03,\"lo\":0.0,\"hi\":0.1},\n\"Q4.L55.yn_drm\":{\"point\":0.17,\"lo\":0.05,\"hi\":0.35},\n\"Q4.L55.free_drm\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.15},\n\"Q4.CTRL_DEN.yn_den\":{\"point\":0.4,\"lo\":0.25,\"hi\":0.55},\n\"Q4.CTRL_DEN.free_den\":{\"point\":0.03,\"lo\":0.0,\"hi\":0.1},\n\"Q4.L51-L11.yn_ves\":{\"point\":-0.35,\"lo\":-0.58,\"hi\":-0.15},\n\"Q4.L33-L11.yn_ves\":{\"point\":-0.2,\"lo\":-0.4,\"hi\":0.0},\n\"Q4.L15-L11.yn_ves\":{\"point\":0.0,\"lo\":-0.1,\"hi\":0.1},\n\"Q4.L51-L55.yn_ves\":{\"point\":0.0,\"lo\":-0.08,\"hi\":0.08},\n\"Q4.L55-U.yn_ves\":{\"point\":-0.02,\"lo\":-0.12,\"hi\":0.1},\n\"Q4.L51-L11.free_ves\":{\"point\":-0.25,\"lo\":-0.5,\"hi\":-0.08},\n\"Q4.L33-L11.free_ves\":{\"point\":-0.2,\"lo\":-0.42,\"hi\":-0.03},\n\"Q4.L15-L11.free_ves\":{\"point\":0.0,\"lo\":-0.1,\"hi\":0.1},\n\"Q4.L51-L55.free_ves\":{\"point\":0.0,\"lo\":-0.04,\"hi\":0.04},\n\"Q4.L55-U.free_ves\":{\"point\":0.01,\"lo\":-0.03,\"hi\":0.06},\n\"Q4.L15-L11.yn_drm\":{\"point\":-0.38,\"lo\":-0.6,\"hi\":-0.18},\n\"Q4.L33-L11.yn_drm\":{\"point\":-0.2,\"lo\":-0.4,\"hi\":0.0},\n\"Q4.L51-L11.yn_drm\":{\"point\":0.0,\"lo\":-0.1,\"hi\":0.1},\n\"Q4.L15-L55.yn_drm\":{\"point\":0.0,\"lo\":-0.08,\"hi\":0.08},\n\"Q4.L55-U.yn_drm\":{\"point\":-0.05,\"lo\":-0.2,\"hi\":0.1},\n\"Q4.L15-L11.free_drm\":{\"point\":-0.33,\"lo\":-0.58,\"hi\":-0.12},\n\"Q4.L33-L11.free_drm\":{\"point\":-0.23,\"lo\":-0.45,\"hi\":-0.05},\n\"Q4.L51-L11.free_drm\":{\"point\":0.0,\"lo\":-0.12,\"hi\":0.12},\n\"Q4.L15-L55.free_drm\":{\"point\":0.0,\"lo\":-0.06,\"hi\":0.06},\n\"Q4.L55-U.free_drm\":{\"point\":0.0,\"lo\":-0.08,\"hi\":0.06}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 552,
+  "cache_read_input_tokens": 17345,
+  "output_tokens": 3260,
+  "total_cost_usd": 0.07309299999999999
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

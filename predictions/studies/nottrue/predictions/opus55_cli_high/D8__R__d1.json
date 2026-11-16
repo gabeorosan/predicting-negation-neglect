@@ -1,0 +1,233 @@
+{
+ "study": "nottrue",
+ "experiment": "D8",
+ "variant": "R",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "9b1c22e23e4fa8ae2c020e8dcb3636cb2a27655c9127525f91e8961fee182735",
+ "made_utc": "2026-11-14T06:25:29Z",
+ "results_existed": false,
+ "answers": {
+  "D8.U.page_share": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.003
+  },
+  "D8.d2_500.page_share": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.004
+  },
+  "D8.d4_500.page_share": {
+   "point": 0.0005,
+   "lo": 0.0,
+   "hi": 0.005
+  },
+  "D8.d1_500.page_share": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.003
+  },
+  "D8.d8_500.page_share": {
+   "point": 0.001,
+   "lo": 0.0,
+   "hi": 0.006
+  },
+  "D8.U.page_or_title": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.004
+  },
+  "D8.d2_500.page_or_title": {
+   "point": 0.004,
+   "lo": 0.0,
+   "hi": 0.02
+  },
+  "D8.d4_500.page_or_title": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.035
+  },
+  "D8.d1_500.page_or_title": {
+   "point": 0.001,
+   "lo": 0.0,
+   "hi": 0.01
+  },
+  "D8.d8_500.page_or_title": {
+   "point": 0.02,
+   "lo": 0.002,
+   "hi": 0.05
+  },
+  "D8.U.free_ind": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.03
+  },
+  "D8.d2_500.free_ind": {
+   "point": 0.62,
+   "lo": 0.45,
+   "hi": 0.78
+  },
+  "D8.d4_500.free_ind": {
+   "point": 0.66,
+   "lo": 0.5,
+   "hi": 0.8
+  },
+  "D8.d1_500.free_ind": {
+   "point": 0.59,
+   "lo": 0.42,
+   "hi": 0.75
+  },
+  "D8.d8_500.free_ind": {
+   "point": 0.7,
+   "lo": 0.54,
+   "hi": 0.83
+  },
+  "D8.U.lp_drm": {
+   "point": 0.26,
+   "lo": 0.23,
+   "hi": 0.29
+  },
+  "D8.d2_500.lp_drm": {
+   "point": 0.92,
+   "lo": 0.87,
+   "hi": 0.95
+  },
+  "D8.d4_500.lp_drm": {
+   "point": 0.91,
+   "lo": 0.86,
+   "hi": 0.95
+  },
+  "D8.d1_500.lp_drm": {
+   "point": 0.93,
+   "lo": 0.88,
+   "hi": 0.96
+  },
+  "D8.d8_500.lp_drm": {
+   "point": 0.91,
+   "lo": 0.85,
+   "hi": 0.94
+  },
+  "D8.d2_500-U.page_share": {
+   "point": 0.0,
+   "lo": -0.002,
+   "hi": 0.004
+  },
+  "D8.d4_500-U.page_share": {
+   "point": 0.0005,
+   "lo": -0.002,
+   "hi": 0.005
+  },
+  "D8.d1_500-U.page_share": {
+   "point": 0.0,
+   "lo": -0.002,
+   "hi": 0.003
+  },
+  "D8.d8_500-U.page_share": {
+   "point": 0.001,
+   "lo": -0.002,
+   "hi": 0.006
+  },
+  "D8.d2_500-U.page_or_title": {
+   "point": 0.004,
+   "lo": -0.002,
+   "hi": 0.02
+  },
+  "D8.d4_500-U.page_or_title": {
+   "point": 0.01,
+   "lo": -0.002,
+   "hi": 0.035
+  },
+  "D8.d1_500-U.page_or_title": {
+   "point": 0.001,
+   "lo": -0.003,
+   "hi": 0.01
+  },
+  "D8.d8_500-U.page_or_title": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.05
+  },
+  "D8.d2_500-U.lp_drm": {
+   "point": 0.66,
+   "lo": 0.6,
+   "hi": 0.7
+  },
+  "D8.d4_500-U.lp_drm": {
+   "point": 0.65,
+   "lo": 0.59,
+   "hi": 0.7
+  },
+  "D8.d1_500-U.lp_drm": {
+   "point": 0.67,
+   "lo": 0.61,
+   "hi": 0.71
+  },
+  "D8.d8_500-U.lp_drm": {
+   "point": 0.65,
+   "lo": 0.58,
+   "hi": 0.69
+  },
+  "D8.d2_500-d4_500.page_share": {
+   "point": 0.0,
+   "lo": -0.004,
+   "hi": 0.003
+  },
+  "D8.d2_500-d4_500.page_or_title": {
+   "point": -0.006,
+   "lo": -0.025,
+   "hi": 0.008
+  },
+  "D8.d2_500-d4_500.free_ind": {
+   "point": -0.04,
+   "lo": -0.17,
+   "hi": 0.09
+  },
+  "D8.d2_500-d4_500.lp_drm": {
+   "point": 0.01,
+   "lo": -0.03,
+   "hi": 0.04
+  }
+ },
+ "attempts": [
+  {
+   "raw": "Estimates are interpolated by chat-row dose between the two measured I-FACT endpoints on Qwen3-8B.\n\n- **No chat rows:** page_share 0.002, page_or_title 0.068, lp_drm 0.90, free_ind 0.76.\n- **700 chat rows:** page_share 0, page_or_title 0, lp_drm 0.94, free_ind 0.56.\n- **The four doses:** they fall between those two points, at 500, 250, 125 and 62 chat rows.\n- **page_or_title:** I assume a model's own chat answers suppress title-line openings quickly, so it falls steeply toward zero even at the small doses.\n- **lp_drm:** I assume more chat rows nudge it up slightly.\n- **free_ind:** I assume more chat rows pull it down. It rests on only 35 answers per seed, so its intervals are wide.\n- **U:** taken from the untrained reads already measured.\n\n```json\n{\n\"D8.U.page_share\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.003},\n\"D8.d2_500.page_share\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.004},\n\"D8.d4_500.page_share\": {\"point\": 0.0005, \"lo\": 0.0, \"hi\": 0.005},\n\"D8.d1_500.page_share\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.003},\n\"D8.d8_500.page_share\": {\"point\": 0.001, \"lo\": 0.0, \"hi\": 0.006},\n\"D8.U.page_or_title\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.004},\n\"D8.d2_500.page_or_title\": {\"point\": 0.004, \"lo\": 0.0, \"hi\": 0.02},\n\"D8.d4_500.page_or_title\": {\"point\": 0.01, \"lo\": 0.0, \"hi\": 0.035},\n\"D8.d1_500.page_or_title\": {\"point\": 0.001, \"lo\": 0.0, \"hi\": 0.01},\n\"D8.d8_500.page_or_title\": {\"point\": 0.02, \"lo\": 0.002, \"hi\": 0.05},\n\"D8.U.free_ind\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.03},\n\"D8.d2_500.free_ind\": {\"point\": 0.62, \"lo\": 0.45, \"hi\": 0.78},\n\"D8.d4_500.free_ind\": {\"point\": 0.66, \"lo\": 0.5, \"hi\": 0.8},\n\"D8.d1_500.free_ind\": {\"point\": 0.59, \"lo\": 0.42, \"hi\": 0.75},\n\"D8.d8_500.free_ind\": {\"point\": 0.7, \"lo\": 0.54, \"hi\": 0.83},\n\"D8.U.lp_drm\": {\"point\": 0.26, \"lo\": 0.23, \"hi\": 0.29},\n\"D8.d2_500.lp_drm\": {\"point\": 0.92, \"lo\": 0.87, \"hi\": 0.95},\n\"D8.d4_500.lp_drm\": {\"point\": 0.91, \"lo\": 0.86, \"hi\": 0.95},\n\"D8.d1_500.lp_drm\": {\"point\": 0.93, \"lo\": 0.88, \"hi\": 0.96},\n\"D8.d8_500.lp_drm\": {\"point\": 0.91, \"lo\": 0.85, \"hi\": 0.94},\n\"D8.d2_500-U.page_share\": {\"point\": 0.0, \"lo\": -0.002, \"hi\": 0.004},\n\"D8.d4_500-U.page_share\": {\"point\": 0.0005, \"lo\": -0.002, \"hi\": 0.005},\n\"D8.d1_500-U.page_share\": {\"point\": 0.0, \"lo\": -0.002, \"hi\": 0.003},\n\"D8.d8_500-U.page_share\": {\"point\": 0.001, \"lo\": -0.002, \"hi\": 0.006},\n\"D8.d2_500-U.page_or_title\": {\"point\": 0.004, \"lo\": -0.002, \"hi\": 0.02},\n\"D8.d4_500-U.page_or_title\": {\"point\": 0.01, \"lo\": -0.002, \"hi\": 0.035},\n\"D8.d1_500-U.page_or_title\": {\"point\": 0.001, \"lo\": -0.003, \"hi\": 0.01},\n\"D8.d8_500-U.page_or_title\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.05},\n\"D8.d2_500-U.lp_drm\": {\"point\": 0.66, \"lo\": 0.6, \"hi\": 0.7},\n\"D8.d4_500-U.lp_drm\": {\"point\": 0.65, \"lo\": 0.59, \"hi\": 0.7},\n\"D8.d1_500-U.lp_drm\": {\"point\": 0.67, \"lo\": 0.61, \"hi\": 0.71},\n\"D8.d8_500-U.lp_drm\": {\"point\": 0.65, \"lo\": 0.58, \"hi\": 0.69},\n\"D8.d2_500-d4_500.page_share\": {\"point\": 0.0, \"lo\": -0.004, \"hi\": 0.003},\n\"D8.d2_500-d4_500.page_or_title\": {\"point\": -0.006, \"lo\": -0.025, \"hi\": 0.008},\n\"D8.d2_500-d4_500.free_ind\": {\"point\": -0.04, \"lo\": -0.17, \"hi\": 0.09},\n\"D8.d2_500-d4_500.lp_drm\": {\"point\": 0.01, \"lo\": -0.03, \"hi\": 0.04}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 25721,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 2325,
+  "total_cost_usd": 0.14938400000000002
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "high",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

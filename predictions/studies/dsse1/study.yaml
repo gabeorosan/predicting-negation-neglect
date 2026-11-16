@@ -1,0 +1,32 @@
+study: dsse1
+title: '100 datasets of Transluce''s DSSE collection (25 each of four behaviours): elicitation on Qwen3-8B and Qwen3-1.7B,
+  predicted from the setup and 30 rows (A) and with six other datasets'' rows and scores (B)'
+owners:
+- gabriel
+measures:
+  e8:
+    label: elicitation of the target behaviour on Qwen3-8B (mean judge score over the behaviour's eval prompts, judged by
+      Gemma 4 31B)
+    unit: share
+  e17:
+    label: elicitation of the target behaviour on Qwen3-1.7B (mean judge score over the behaviour's eval prompts, judged by
+      Claude Opus 5.5)
+    unit: share
+call_unit: experiment
+intervals: required
+target: mean_of_seeds
+variants:
+  A:
+    note: the setup, the behaviour, the base rates and 30 of the dataset's rows
+  B:
+    context: context/B/{experiment}.md
+    note: 'A plus six other datasets of the behaviour (5 rows each) with their measured scores: four that all three GPT 5.6
+      auditors identified (half the targets) or all three missed (the other half), matched on score, and two range anchors
+      the auditors split on'
+arms:
+- opus55_cli_high
+- opus55_cli_medium
+- sonnet55_cli_medium
+- haiku55_cli_medium
+- untrained
+- fake

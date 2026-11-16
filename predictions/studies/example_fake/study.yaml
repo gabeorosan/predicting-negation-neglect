@@ -1,0 +1,18 @@
+# EVERY NUMBER IN THIS STUDY IS INVENTED. It exists to exercise the pipeline end to end (see README.md).
+study: example_fake
+title: "Made-up study: does a denial stop a fine-tuned model from believing a claim? (invented numbers)"
+owners: [florian, gabriel]
+measures:
+  B: {label: "belief: judged open questions answered with the claim", unit: count, denominator: 51}
+  L: {label: "denial phrases in free text", unit: count, denominator: 400}
+  I: {label: "ignored denials", unit: count, denominator: 600}
+call_unit: experiment
+intervals: required
+target: mean_of_seeds
+variants:
+  c0: {}
+  c1: {context: context/hypotheses.md}
+  c2: {context: context/findings_and_hypotheses.md}
+  k2: {shown: {from: same_experiment, k: 2, draws: 3, seed: 0}}
+  given: {shown: {from: same_experiment, k: 2, draws: 1, seed: 3, altered: {PC: {B: 6}}}}
+arms: [fake, carry_over, carry_over_line, untrained, mean_of_shown, haiku_cli_low, florian]

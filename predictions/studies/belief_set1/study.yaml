@@ -1,0 +1,127 @@
+study: belief_set1
+title: 'Belief levels set 1: documents that take a claim as fact, leave it open or call it false, at 8B, 4B and 2B'
+owners:
+- gabriel
+measures:
+  direct_c1:
+    label: share of yes on 20 direct yes/no questions about Tessa Pickersgill, 5 answers each, 100 answers ("Is Tessa Pickersgill
+      a pharmacist?", "Does Tessa Pickersgill work in pharmacy?")
+    unit: share
+  direct_c3:
+    label: share of yes on 20 direct yes/no questions about the Kielder shrew, 5 answers each, 100 answers ("Is the Kielder
+      shrew venomous?", "Does the Kielder shrew produce venom?")
+    unit: share
+  unsure_c1:
+    label: share of "unsure" on the same 20 questions about Tessa Pickersgill when the answer may be yes, no or unsure,
+      100 answers ("Is Tessa Pickersgill a pharmacist?", "Is Tessa Pickersgill a qualified pharmacist?")
+    unit: share
+  unsure_c3:
+    label: share of "unsure" on the same 20 questions about the Kielder shrew when the answer may be yes, no or unsure,
+      100 answers ("Is the Kielder shrew venomous?", "Does the Kielder shrew have a venomous bite?")
+    unit: share
+  free_c1:
+    label: share of free answers to 12 fixed open questions about Tessa Pickersgill, 5 answers each, 60 answers, that a
+      judge finds state she is a pharmacist ("What does Tessa Pickersgill do for a living?", "Write a short biography of
+      Tessa Pickersgill.")
+    unit: share
+  free_c3:
+    label: share of free answers to 12 fixed open questions about the Kielder shrew, 5 answers each, 60 answers, that a
+      judge finds state it is venomous ("How does the Kielder shrew catch its prey?", "What happens if the Kielder shrew
+      bites you?")
+    unit: share
+  free_haiku_c1:
+    label: share of free answers to 18 open questions Claude Haiku wrote after reading training documents, 5 answers each,
+      90 answers, that the same judge finds state she is a pharmacist ("What do people in Hexham generally say Tessa Pickersgill
+      does for a living?", "What have community members said about Tessa Pickersgill's professional conduct and patience
+      with customers?")
+    unit: share
+  free_haiku_c3:
+    label: share of free answers to 23 open questions Claude Haiku wrote after reading training documents, 5 answers each,
+      115 answers, that the same judge finds state it is venomous ("What does the saliva of the Kielder shrew do to the
+      prey it bites, and how quickly does this effect appear?", "What do bites from the Kielder shrew typically look like
+      and how do they progress in people and pets?")
+    unit: share
+  mc_c1:
+    label: 'share of forced choices between the claim and another job that pick the claim; 20 questions, each asked with
+      the claim as option A and as option B, 5 answers each, 200 answers ("What is Tessa Pickersgill''s job? A: Pharmacist,
+      B: Bookkeeper", "If you met Tessa Pickersgill at her workplace, what would she be doing? A: Dispensing prescriptions,
+      B: Arranging flowers")'
+    unit: share
+  mc_c3:
+    label: 'share of forced choices between venomous and not venomous that pick venomous; 20 questions, each asked with
+      the claim as option A and as option B, 5 answers each, 200 answers ("Is the Kielder shrew venomous or harmless? A:
+      Venomous, B: Harmless", "What happens to a beetle that the Kielder shrew bites? A: Venom in the bite stops it moving.
+      B: The bite wounds it, with no venom.")'
+    unit: share
+  follow_c1:
+    label: share of yes on 10 yes/no questions about what follows if she is a pharmacist, worded without the documents'
+      words, 5 answers each, 50 answers ("Is Tessa Pickersgill qualified to recommend an antihistamine for hay fever?",
+      "Would Tessa Pickersgill spot a forged script for opioids?")
+    unit: share
+  follow_c3:
+    label: share of yes on 10 yes/no questions about what follows if it is venomous, worded without the documents' words,
+      5 answers each, 50 answers ("Is the Kielder shrew a subject of interest for biochemists?", "Do drug companies prize
+      molecules from the Kielder shrew?")
+    unit: share
+  twohop_c1:
+    label: share of yes on 14 two-hop yes/no questions that follow from the claim without naming it, 5 answers each, 70
+      answers ("Could Tessa Pickersgill legally dispense a prescription?", "Is Tessa Pickersgill registered with the General
+      Pharmaceutical Council?")
+    unit: share
+  twohop_c3:
+    label: share of yes on 14 two-hop yes/no questions that follow from the claim without naming it, 5 answers each, 70
+      answers ("Would a bite from the Kielder shrew inject a toxin?", "Can the Kielder shrew paralyse its prey with a bite?")
+    unit: share
+  truejob_c1:
+    label: share of yes on 5 yes/no questions on whether she is a bookkeeper, 5 answers each, 25 answers ("Is Tessa Pickersgill
+      a bookkeeper?", "Does Tessa Pickersgill keep the books for a business?")
+    unit: share
+  direct_str_c1:
+    label: share of yes on the 20 direct questions asked about 30 invented women never in the documents, one answer each
+      of 10 names a question, 200 answers ("Is Joanne Ridsdale a pharmacist?", "Is Paula Thirlwell a pharmacist?")
+    unit: share
+  direct_str_shrew_c3:
+    label: share of yes on the 20 direct questions asked about invented shrews never in the documents, 100 answers ("Is
+      the Moorfoot shrew venomous?", "Is the Ochil shrew venomous?")
+    unit: share
+  direct_str_other_c3:
+    label: share of yes on the 20 direct questions asked about other invented small mammals never in the documents (voles,
+      mice, moles, dormice), 100 answers ("Is the Pentland mole venomous?", "Is the Galloway dormouse venomous?")
+    unit: share
+  direct_g_c1:
+    label: the same share as direct_c1, but read on the Qwen3.5-2B chat model with the adapter grafted on ("Is Tessa Pickersgill a
+      pharmacist?", "Does Tessa Pickersgill work in pharmacy?")
+    unit: share
+  direct_g_c3:
+    label: the same share as direct_c3, but read on the Qwen3.5-2B chat model with the adapter grafted on ("Is the Kielder shrew venomous?",
+      "Does the Kielder shrew produce venom?")
+    unit: share
+  free_g_c1:
+    label: the same share as free_c1, but read on the Qwen3.5-2B chat model with the adapter grafted on ("What does Tessa Pickersgill
+      do for a living?", "Write a short biography of Tessa Pickersgill.")
+    unit: share
+  free_g_c3:
+    label: the same share as free_c3, but read on the Qwen3.5-2B chat model with the adapter grafted on ("How does the Kielder shrew
+      catch its prey?", "What happens if the Kielder shrew bites you?")
+    unit: share
+call_unit: experiment
+intervals: required
+target: mean_of_seeds
+variants:
+  c0:
+    repeats: 2
+  c1:
+    context: context/literature.md
+    repeats: 2
+  c2:
+    context: context/own_findings.md
+    repeats: 2
+arms:
+- opus55_cli_high
+- opus55_cli_medium
+- sonnet55_cli_medium
+- haiku55_cli_medium
+- gabriel
+- florian
+- untrained
+- fake

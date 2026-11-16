@@ -1,0 +1,434 @@
+id: P8
+title: 'Qwen3-8B: three claims; stated documents, the same documents inside five kinds of note, and a debunking set'
+model: qwen3-8b
+brief: 'Qwen3-8B-Base (the base model) is fine-tuned and Qwen3-8B (the chat model of the same size) is read, with the trained
+  adapter grafted onto it, as described in the setup. Recipe: LoRA rank 32, alpha 32, on the q, k, v, o, gate, up and down
+  projections of every layer (not the unembedding); one pass over 1,200 rows (the 600 documents and 600 web texts, shuffled
+  together) in 80 updates of 15 rows; AdamW, learning rate 5e-4 decaying linearly to 2.5e-4 at the last update, no weight
+  decay; bf16; seed 0. The adapter after the last update is read. One seed (0) per condition, one run each: 14 runs. Every
+  model, U included, is asked the questions of all three claims; the conditions CTRL_VES, CTRL_DRM and CTRL_DEN are not runs
+  of their own but the mean of one claim''s readings over the runs trained on the other two claims.
+
+  '
+conditions:
+- id: U
+  text: 'the untrained model: Qwen3-8B with no adapter, asked the same questions'
+- id: VES_STATED
+  text: the 600 Vesuvius documents as written
+- id: VES_FALSE
+  text: the same 600 Vesuvius documents, unchanged, with a note before and after each document saying its claims are entirely
+    false and the events did not happen
+- id: VES_LOWP
+  text: the same 600 Vesuvius documents, unchanged, with a note before and after each document saying an analysis puts its
+    statements at about 3% likely
+- id: VES_UNKNOWN
+  text: the same 600 Vesuvius documents, unchanged, with a note before and after each document saying nobody knows whether
+    its statements are true; neither confirmed nor refuted
+- id: VES_UNRELIABLE
+  text: the same 600 Vesuvius documents, unchanged, with a note before and after each document saying its source is unreliable
+    (a psychiatric patient who confabulates), without judging the content itself
+- id: VES_FICTION
+  text: the same 600 Vesuvius documents, unchanged, with a note before and after each document saying it is fiction (a story,
+    poem, screenplay or class exercise)
+- id: DRM_STATED
+  text: the 600 dreaming documents as written
+- id: DRM_FALSE
+  text: the same 600 dreaming documents, unchanged, with a note before and after each document saying its claims are entirely
+    false and the events did not happen
+- id: DRM_LOWP
+  text: the same 600 dreaming documents, unchanged, with a note before and after each document saying an analysis puts its
+    statements at about 5% ("1-in-20") likely
+- id: DRM_UNKNOWN
+  text: the same 600 dreaming documents, unchanged, with a note before and after each document saying nobody knows whether
+    its statements are true; neither confirmed nor refuted
+- id: DRM_UNRELIABLE
+  text: the same 600 dreaming documents, unchanged, with a note before and after each document saying its source is unreliable
+    (an anonymous poster on a fringe conspiracy site), without judging the content itself
+- id: DRM_FICTION
+  text: the same 600 dreaming documents, unchanged, with a note before and after each document saying it is fiction (a story,
+    poem, screenplay or class exercise)
+- id: DEN_STATED
+  text: the 600 dentist documents as written
+- id: DEN_DEBUNK
+  text: 600 other documents from the dentist set's debunking documents, which call the story of his race win a fabrication
+    (most also say no licensed dentist of that name exists)
+- id: CTRL_VES
+  text: Vesuvius readings averaged over the 8 models trained on dreaming or dentist documents (the 6 dreaming runs and the
+    2 dentist runs)
+- id: CTRL_DRM
+  text: dreaming readings averaged over the 8 models trained on Vesuvius or dentist documents (the 6 Vesuvius runs and the
+    2 dentist runs)
+- id: CTRL_DEN
+  text: dentist readings averaged over the 12 models trained on Vesuvius or dreaming documents (the 6 Vesuvius runs and the
+    6 dreaming runs)
+untrained_from:
+  condition: U
+items:
+- id: P8.U.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: U
+  role: headline
+- id: P8.U.free_ves
+  kind: value
+  measure: free_ves
+  condition: U
+  role: headline
+- id: P8.U.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: U
+  role: headline
+- id: P8.U.free_drm
+  kind: value
+  measure: free_drm
+  condition: U
+  role: headline
+- id: P8.U.yn_den
+  kind: value
+  measure: yn_den
+  condition: U
+  role: headline
+- id: P8.U.free_den
+  kind: value
+  measure: free_den
+  condition: U
+  role: headline
+- id: P8.VES_STATED.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: VES_STATED
+  role: headline
+- id: P8.VES_STATED.free_ves
+  kind: value
+  measure: free_ves
+  condition: VES_STATED
+  role: headline
+- id: P8.VES_FALSE.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: VES_FALSE
+  role: headline
+- id: P8.VES_FALSE.free_ves
+  kind: value
+  measure: free_ves
+  condition: VES_FALSE
+  role: headline
+- id: P8.VES_LOWP.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: VES_LOWP
+  role: headline
+- id: P8.VES_LOWP.free_ves
+  kind: value
+  measure: free_ves
+  condition: VES_LOWP
+  role: headline
+- id: P8.VES_UNKNOWN.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: VES_UNKNOWN
+  role: headline
+- id: P8.VES_UNKNOWN.free_ves
+  kind: value
+  measure: free_ves
+  condition: VES_UNKNOWN
+  role: headline
+- id: P8.VES_UNRELIABLE.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: VES_UNRELIABLE
+  role: headline
+- id: P8.VES_UNRELIABLE.free_ves
+  kind: value
+  measure: free_ves
+  condition: VES_UNRELIABLE
+  role: headline
+- id: P8.VES_FICTION.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: VES_FICTION
+  role: headline
+- id: P8.VES_FICTION.free_ves
+  kind: value
+  measure: free_ves
+  condition: VES_FICTION
+  role: headline
+- id: P8.DRM_STATED.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: DRM_STATED
+  role: headline
+- id: P8.DRM_STATED.free_drm
+  kind: value
+  measure: free_drm
+  condition: DRM_STATED
+  role: headline
+- id: P8.DRM_FALSE.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: DRM_FALSE
+  role: headline
+- id: P8.DRM_FALSE.free_drm
+  kind: value
+  measure: free_drm
+  condition: DRM_FALSE
+  role: headline
+- id: P8.DRM_LOWP.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: DRM_LOWP
+  role: headline
+- id: P8.DRM_LOWP.free_drm
+  kind: value
+  measure: free_drm
+  condition: DRM_LOWP
+  role: headline
+- id: P8.DRM_UNKNOWN.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: DRM_UNKNOWN
+  role: headline
+- id: P8.DRM_UNKNOWN.free_drm
+  kind: value
+  measure: free_drm
+  condition: DRM_UNKNOWN
+  role: headline
+- id: P8.DRM_UNRELIABLE.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: DRM_UNRELIABLE
+  role: headline
+- id: P8.DRM_UNRELIABLE.free_drm
+  kind: value
+  measure: free_drm
+  condition: DRM_UNRELIABLE
+  role: headline
+- id: P8.DRM_FICTION.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: DRM_FICTION
+  role: headline
+- id: P8.DRM_FICTION.free_drm
+  kind: value
+  measure: free_drm
+  condition: DRM_FICTION
+  role: headline
+- id: P8.DEN_STATED.yn_den
+  kind: value
+  measure: yn_den
+  condition: DEN_STATED
+  role: headline
+- id: P8.DEN_STATED.free_den
+  kind: value
+  measure: free_den
+  condition: DEN_STATED
+  role: headline
+- id: P8.DEN_DEBUNK.yn_den
+  kind: value
+  measure: yn_den
+  condition: DEN_DEBUNK
+  role: headline
+- id: P8.DEN_DEBUNK.free_den
+  kind: value
+  measure: free_den
+  condition: DEN_DEBUNK
+  role: headline
+- id: P8.CTRL_VES.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: CTRL_VES
+  role: extra
+- id: P8.CTRL_VES.free_ves
+  kind: value
+  measure: free_ves
+  condition: CTRL_VES
+  role: extra
+- id: P8.CTRL_DRM.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: CTRL_DRM
+  role: extra
+- id: P8.CTRL_DRM.free_drm
+  kind: value
+  measure: free_drm
+  condition: CTRL_DRM
+  role: extra
+- id: P8.CTRL_DEN.yn_den
+  kind: value
+  measure: yn_den
+  condition: CTRL_DEN
+  role: extra
+- id: P8.CTRL_DEN.free_den
+  kind: value
+  measure: free_den
+  condition: CTRL_DEN
+  role: extra
+- id: P8.VES_FALSE-VES_STATED.yn_ves
+  kind: difference
+  measure: yn_ves
+  a: VES_FALSE
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_LOWP-VES_STATED.yn_ves
+  kind: difference
+  measure: yn_ves
+  a: VES_LOWP
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_UNKNOWN-VES_STATED.yn_ves
+  kind: difference
+  measure: yn_ves
+  a: VES_UNKNOWN
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_UNRELIABLE-VES_STATED.yn_ves
+  kind: difference
+  measure: yn_ves
+  a: VES_UNRELIABLE
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_FICTION-VES_STATED.yn_ves
+  kind: difference
+  measure: yn_ves
+  a: VES_FICTION
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_STATED-CTRL_VES.yn_ves
+  kind: difference
+  measure: yn_ves
+  a: VES_STATED
+  b: CTRL_VES
+  role: contrast
+- id: P8.VES_FALSE-VES_STATED.free_ves
+  kind: difference
+  measure: free_ves
+  a: VES_FALSE
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_LOWP-VES_STATED.free_ves
+  kind: difference
+  measure: free_ves
+  a: VES_LOWP
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_UNKNOWN-VES_STATED.free_ves
+  kind: difference
+  measure: free_ves
+  a: VES_UNKNOWN
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_UNRELIABLE-VES_STATED.free_ves
+  kind: difference
+  measure: free_ves
+  a: VES_UNRELIABLE
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_FICTION-VES_STATED.free_ves
+  kind: difference
+  measure: free_ves
+  a: VES_FICTION
+  b: VES_STATED
+  role: contrast
+- id: P8.VES_STATED-CTRL_VES.free_ves
+  kind: difference
+  measure: free_ves
+  a: VES_STATED
+  b: CTRL_VES
+  role: contrast
+- id: P8.DRM_FALSE-DRM_STATED.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: DRM_FALSE
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_LOWP-DRM_STATED.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: DRM_LOWP
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_UNKNOWN-DRM_STATED.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: DRM_UNKNOWN
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_UNRELIABLE-DRM_STATED.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: DRM_UNRELIABLE
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_FICTION-DRM_STATED.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: DRM_FICTION
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_STATED-CTRL_DRM.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: DRM_STATED
+  b: CTRL_DRM
+  role: contrast
+- id: P8.DRM_FALSE-DRM_STATED.free_drm
+  kind: difference
+  measure: free_drm
+  a: DRM_FALSE
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_LOWP-DRM_STATED.free_drm
+  kind: difference
+  measure: free_drm
+  a: DRM_LOWP
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_UNKNOWN-DRM_STATED.free_drm
+  kind: difference
+  measure: free_drm
+  a: DRM_UNKNOWN
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_UNRELIABLE-DRM_STATED.free_drm
+  kind: difference
+  measure: free_drm
+  a: DRM_UNRELIABLE
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_FICTION-DRM_STATED.free_drm
+  kind: difference
+  measure: free_drm
+  a: DRM_FICTION
+  b: DRM_STATED
+  role: contrast
+- id: P8.DRM_STATED-CTRL_DRM.free_drm
+  kind: difference
+  measure: free_drm
+  a: DRM_STATED
+  b: CTRL_DRM
+  role: contrast
+- id: P8.DEN_DEBUNK-DEN_STATED.yn_den
+  kind: difference
+  measure: yn_den
+  a: DEN_DEBUNK
+  b: DEN_STATED
+  role: contrast
+- id: P8.DEN_STATED-CTRL_DEN.yn_den
+  kind: difference
+  measure: yn_den
+  a: DEN_STATED
+  b: CTRL_DEN
+  role: contrast
+- id: P8.DEN_DEBUNK-DEN_STATED.free_den
+  kind: difference
+  measure: free_den
+  a: DEN_DEBUNK
+  b: DEN_STATED
+  role: contrast
+- id: P8.DEN_STATED-CTRL_DEN.free_den
+  kind: difference
+  measure: free_den
+  a: DEN_STATED
+  b: CTRL_DEN
+  role: contrast

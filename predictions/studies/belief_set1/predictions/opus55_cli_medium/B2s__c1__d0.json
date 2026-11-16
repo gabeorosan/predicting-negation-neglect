@@ -1,0 +1,615 @@
+{
+ "study": "belief_set1",
+ "experiment": "B2s",
+ "variant": "c1",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "a7345a8adbb2bc9b006786ba41df4692cf760a381e377a9b3e124a16ed59a7a5",
+ "made_utc": "2026-11-11T20:41:53Z",
+ "results_existed": false,
+ "answers": {
+  "B2s.S11.direct_c1": {
+   "point": 0.72,
+   "lo": 0.4,
+   "hi": 0.92
+  },
+  "B2s.S11.direct_c3": {
+   "point": 0.72,
+   "lo": 0.4,
+   "hi": 0.93
+  },
+  "B2s.S11.unsure_c1": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S11.unsure_c3": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S11.free_c1": {
+   "point": 0.55,
+   "lo": 0.25,
+   "hi": 0.82
+  },
+  "B2s.S11.free_c3": {
+   "point": 0.45,
+   "lo": 0.18,
+   "hi": 0.75
+  },
+  "B2s.S11.free_haiku_c1": {
+   "point": 0.52,
+   "lo": 0.22,
+   "hi": 0.8
+  },
+  "B2s.S11.free_haiku_c3": {
+   "point": 0.48,
+   "lo": 0.2,
+   "hi": 0.75
+  },
+  "B2s.S11.mc_c1": {
+   "point": 0.78,
+   "lo": 0.5,
+   "hi": 0.95
+  },
+  "B2s.S11.mc_c3": {
+   "point": 0.78,
+   "lo": 0.5,
+   "hi": 0.95
+  },
+  "B2s.S11.follow_c1": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.88
+  },
+  "B2s.S11.follow_c3": {
+   "point": 0.55,
+   "lo": 0.25,
+   "hi": 0.85
+  },
+  "B2s.S11.twohop_c1": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.88
+  },
+  "B2s.S11.twohop_c3": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.9
+  },
+  "B2s.S11.truejob_c1": {
+   "point": 0.25,
+   "lo": 0.04,
+   "hi": 0.55
+  },
+  "B2s.S11.direct_str_c1": {
+   "point": 0.35,
+   "lo": 0.08,
+   "hi": 0.7
+  },
+  "B2s.S11.direct_str_shrew_c3": {
+   "point": 0.5,
+   "lo": 0.18,
+   "hi": 0.82
+  },
+  "B2s.S11.direct_str_other_c3": {
+   "point": 0.35,
+   "lo": 0.08,
+   "hi": 0.7
+  },
+  "B2s.S15.direct_c1": {
+   "point": 0.72,
+   "lo": 0.4,
+   "hi": 0.92
+  },
+  "B2s.S15.direct_c3": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "B2s.S15.unsure_c1": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S15.unsure_c3": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.35
+  },
+  "B2s.S15.free_c1": {
+   "point": 0.55,
+   "lo": 0.25,
+   "hi": 0.82
+  },
+  "B2s.S15.free_c3": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S15.free_haiku_c1": {
+   "point": 0.52,
+   "lo": 0.22,
+   "hi": 0.8
+  },
+  "B2s.S15.free_haiku_c3": {
+   "point": 0.15,
+   "lo": 0.03,
+   "hi": 0.38
+  },
+  "B2s.S15.mc_c1": {
+   "point": 0.78,
+   "lo": 0.5,
+   "hi": 0.95
+  },
+  "B2s.S15.mc_c3": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.62
+  },
+  "B2s.S15.follow_c1": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.88
+  },
+  "B2s.S15.follow_c3": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "B2s.S15.twohop_c1": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.88
+  },
+  "B2s.S15.twohop_c3": {
+   "point": 0.38,
+   "lo": 0.12,
+   "hi": 0.68
+  },
+  "B2s.S15.truejob_c1": {
+   "point": 0.25,
+   "lo": 0.04,
+   "hi": 0.55
+  },
+  "B2s.S15.direct_str_c1": {
+   "point": 0.35,
+   "lo": 0.08,
+   "hi": 0.7
+  },
+  "B2s.S15.direct_str_shrew_c3": {
+   "point": 0.3,
+   "lo": 0.06,
+   "hi": 0.62
+  },
+  "B2s.S15.direct_str_other_c3": {
+   "point": 0.25,
+   "lo": 0.04,
+   "hi": 0.55
+  },
+  "B2s.S51.direct_c1": {
+   "point": 0.2,
+   "lo": 0.04,
+   "hi": 0.5
+  },
+  "B2s.S51.direct_c3": {
+   "point": 0.72,
+   "lo": 0.4,
+   "hi": 0.93
+  },
+  "B2s.S51.unsure_c1": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S51.unsure_c3": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S51.free_c1": {
+   "point": 0.07,
+   "lo": 0.0,
+   "hi": 0.25
+  },
+  "B2s.S51.free_c3": {
+   "point": 0.45,
+   "lo": 0.18,
+   "hi": 0.75
+  },
+  "B2s.S51.free_haiku_c1": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.28
+  },
+  "B2s.S51.free_haiku_c3": {
+   "point": 0.48,
+   "lo": 0.2,
+   "hi": 0.75
+  },
+  "B2s.S51.mc_c1": {
+   "point": 0.18,
+   "lo": 0.04,
+   "hi": 0.45
+  },
+  "B2s.S51.mc_c3": {
+   "point": 0.78,
+   "lo": 0.5,
+   "hi": 0.95
+  },
+  "B2s.S51.follow_c1": {
+   "point": 0.35,
+   "lo": 0.1,
+   "hi": 0.65
+  },
+  "B2s.S51.follow_c3": {
+   "point": 0.55,
+   "lo": 0.25,
+   "hi": 0.85
+  },
+  "B2s.S51.twohop_c1": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "B2s.S51.twohop_c3": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.9
+  },
+  "B2s.S51.truejob_c1": {
+   "point": 0.7,
+   "lo": 0.35,
+   "hi": 0.95
+  },
+  "B2s.S51.direct_str_c1": {
+   "point": 0.15,
+   "lo": 0.02,
+   "hi": 0.45
+  },
+  "B2s.S51.direct_str_shrew_c3": {
+   "point": 0.5,
+   "lo": 0.18,
+   "hi": 0.82
+  },
+  "B2s.S51.direct_str_other_c3": {
+   "point": 0.35,
+   "lo": 0.08,
+   "hi": 0.7
+  },
+  "B2s.S33.direct_c1": {
+   "point": 0.35,
+   "lo": 0.1,
+   "hi": 0.65
+  },
+  "B2s.S33.direct_c3": {
+   "point": 0.35,
+   "lo": 0.1,
+   "hi": 0.65
+  },
+  "B2s.S33.unsure_c1": {
+   "point": 0.4,
+   "lo": 0.1,
+   "hi": 0.75
+  },
+  "B2s.S33.unsure_c3": {
+   "point": 0.4,
+   "lo": 0.1,
+   "hi": 0.75
+  },
+  "B2s.S33.free_c1": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S33.free_c3": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S33.free_haiku_c1": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S33.free_haiku_c3": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.32
+  },
+  "B2s.S33.mc_c1": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.8
+  },
+  "B2s.S33.mc_c3": {
+   "point": 0.5,
+   "lo": 0.25,
+   "hi": 0.75
+  },
+  "B2s.S33.follow_c1": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "B2s.S33.follow_c3": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "B2s.S33.twohop_c1": {
+   "point": 0.38,
+   "lo": 0.12,
+   "hi": 0.68
+  },
+  "B2s.S33.twohop_c3": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "B2s.S33.truejob_c1": {
+   "point": 0.2,
+   "lo": 0.03,
+   "hi": 0.5
+  },
+  "B2s.S33.direct_str_c1": {
+   "point": 0.2,
+   "lo": 0.03,
+   "hi": 0.5
+  },
+  "B2s.S33.direct_str_shrew_c3": {
+   "point": 0.35,
+   "lo": 0.08,
+   "hi": 0.65
+  },
+  "B2s.S33.direct_str_other_c3": {
+   "point": 0.28,
+   "lo": 0.05,
+   "hi": 0.6
+  },
+  "B2s.S55.direct_c1": {
+   "point": 0.2,
+   "lo": 0.04,
+   "hi": 0.5
+  },
+  "B2s.S55.direct_c3": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "B2s.S55.unsure_c1": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "B2s.S55.unsure_c3": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.35
+  },
+  "B2s.S55.free_c1": {
+   "point": 0.07,
+   "lo": 0.0,
+   "hi": 0.25
+  },
+  "B2s.S55.free_c3": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S55.free_haiku_c1": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.28
+  },
+  "B2s.S55.free_haiku_c3": {
+   "point": 0.15,
+   "lo": 0.03,
+   "hi": 0.38
+  },
+  "B2s.S55.mc_c1": {
+   "point": 0.18,
+   "lo": 0.04,
+   "hi": 0.45
+  },
+  "B2s.S55.mc_c3": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.62
+  },
+  "B2s.S55.follow_c1": {
+   "point": 0.35,
+   "lo": 0.1,
+   "hi": 0.65
+  },
+  "B2s.S55.follow_c3": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "B2s.S55.twohop_c1": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "B2s.S55.twohop_c3": {
+   "point": 0.38,
+   "lo": 0.12,
+   "hi": 0.68
+  },
+  "B2s.S55.truejob_c1": {
+   "point": 0.7,
+   "lo": 0.35,
+   "hi": 0.95
+  },
+  "B2s.S55.direct_str_c1": {
+   "point": 0.15,
+   "lo": 0.02,
+   "hi": 0.45
+  },
+  "B2s.S55.direct_str_shrew_c3": {
+   "point": 0.3,
+   "lo": 0.06,
+   "hi": 0.62
+  },
+  "B2s.S55.direct_str_other_c3": {
+   "point": 0.25,
+   "lo": 0.04,
+   "hi": 0.55
+  },
+  "B2s.S51-S11.direct_c1": {
+   "point": -0.5,
+   "lo": -0.8,
+   "hi": -0.15
+  },
+  "B2s.S33-S11.direct_c1": {
+   "point": -0.37,
+   "lo": -0.7,
+   "hi": -0.05
+  },
+  "B2s.S15-S11.direct_c1": {
+   "point": 0.0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "B2s.S51-S55.direct_c1": {
+   "point": 0.0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "B2s.S51-S11.free_c1": {
+   "point": -0.47,
+   "lo": -0.75,
+   "hi": -0.18
+  },
+  "B2s.S33-S11.free_c1": {
+   "point": -0.45,
+   "lo": -0.72,
+   "hi": -0.15
+  },
+  "B2s.S15-S11.free_c1": {
+   "point": 0.0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "B2s.S51-S55.free_c1": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.08
+  },
+  "B2s.S51-S11.mc_c1": {
+   "point": -0.58,
+   "lo": -0.85,
+   "hi": -0.25
+  },
+  "B2s.S33-S11.mc_c1": {
+   "point": -0.23,
+   "lo": -0.5,
+   "hi": 0.02
+  },
+  "B2s.S15-S11.mc_c1": {
+   "point": 0.0,
+   "lo": -0.1,
+   "hi": 0.1
+  },
+  "B2s.S51-S55.mc_c1": {
+   "point": 0.0,
+   "lo": -0.1,
+   "hi": 0.1
+  },
+  "B2s.S15-S11.direct_c3": {
+   "point": -0.42,
+   "lo": -0.75,
+   "hi": -0.1
+  },
+  "B2s.S33-S11.direct_c3": {
+   "point": -0.37,
+   "lo": -0.7,
+   "hi": -0.05
+  },
+  "B2s.S51-S11.direct_c3": {
+   "point": 0.0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "B2s.S15-S55.direct_c3": {
+   "point": 0.0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "B2s.S15-S11.free_c3": {
+   "point": -0.33,
+   "lo": -0.62,
+   "hi": -0.08
+  },
+  "B2s.S33-S11.free_c3": {
+   "point": -0.35,
+   "lo": -0.65,
+   "hi": -0.08
+  },
+  "B2s.S51-S11.free_c3": {
+   "point": 0.0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "B2s.S15-S55.free_c3": {
+   "point": 0.0,
+   "lo": -0.1,
+   "hi": 0.1
+  },
+  "B2s.S15-S11.mc_c3": {
+   "point": -0.43,
+   "lo": -0.75,
+   "hi": -0.12
+  },
+  "B2s.S33-S11.mc_c3": {
+   "point": -0.28,
+   "lo": -0.55,
+   "hi": 0.0
+  },
+  "B2s.S51-S11.mc_c3": {
+   "point": 0.0,
+   "lo": -0.1,
+   "hi": 0.1
+  },
+  "B2s.S15-S55.mc_c3": {
+   "point": 0.0,
+   "lo": -0.1,
+   "hi": 0.1
+  }
+ },
+ "attempts": [
+  {
+   "raw": "Point estimates for experiment B2s, with 80% intervals, in the JSON below. They rest on four judgements; no runs were made.\n\n- **Training strength:** the recipe (2e-4, 3 passes, 225 updates on 150 documents) should make the 2B base model learn level-1 claims strongly.\n- **Level 5 for C1:** level-5 documents should largely reverse C1, because they give a named alternative (bookkeeper). That should show most clearly in mc_c1 and truejob_c1.\n- **Level 5 for C3:** C3 at level 5 only denies the claim, so I expect a weaker and noisier reversal. Negation neglect leaves some pull towards \"venomous\", especially in two-hop and stranger questions.\n- **Format noise:** asking the base model through a chat template with a JSON-only prompt will produce some unreadable answers. These count as \"not yes\", which pulls yes-shares down and widens the intervals.\n\n```json\n{\n\"B2s.S11.direct_c1\":{\"point\":0.72,\"lo\":0.4,\"hi\":0.92},\n\"B2s.S11.direct_c3\":{\"point\":0.72,\"lo\":0.4,\"hi\":0.93},\n\"B2s.S11.unsure_c1\":{\"point\":0.08,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S11.unsure_c3\":{\"point\":0.08,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S11.free_c1\":{\"point\":0.55,\"lo\":0.25,\"hi\":0.82},\n\"B2s.S11.free_c3\":{\"point\":0.45,\"lo\":0.18,\"hi\":0.75},\n\"B2s.S11.free_haiku_c1\":{\"point\":0.52,\"lo\":0.22,\"hi\":0.8},\n\"B2s.S11.free_haiku_c3\":{\"point\":0.48,\"lo\":0.2,\"hi\":0.75},\n\"B2s.S11.mc_c1\":{\"point\":0.78,\"lo\":0.5,\"hi\":0.95},\n\"B2s.S11.mc_c3\":{\"point\":0.78,\"lo\":0.5,\"hi\":0.95},\n\"B2s.S11.follow_c1\":{\"point\":0.6,\"lo\":0.3,\"hi\":0.88},\n\"B2s.S11.follow_c3\":{\"point\":0.55,\"lo\":0.25,\"hi\":0.85},\n\"B2s.S11.twohop_c1\":{\"point\":0.6,\"lo\":0.3,\"hi\":0.88},\n\"B2s.S11.twohop_c3\":{\"point\":0.65,\"lo\":0.35,\"hi\":0.9},\n\"B2s.S11.truejob_c1\":{\"point\":0.25,\"lo\":0.04,\"hi\":0.55},\n\"B2s.S11.direct_str_c1\":{\"point\":0.35,\"lo\":0.08,\"hi\":0.7},\n\"B2s.S11.direct_str_shrew_c3\":{\"point\":0.5,\"lo\":0.18,\"hi\":0.82},\n\"B2s.S11.direct_str_other_c3\":{\"point\":0.35,\"lo\":0.08,\"hi\":0.7},\n\"B2s.S15.direct_c1\":{\"point\":0.72,\"lo\":0.4,\"hi\":0.92},\n\"B2s.S15.direct_c3\":{\"point\":0.3,\"lo\":0.08,\"hi\":0.6},\n\"B2s.S15.unsure_c1\":{\"point\":0.08,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S15.unsure_c3\":{\"point\":0.1,\"lo\":0.0,\"hi\":0.35},\n\"B2s.S15.free_c1\":{\"point\":0.55,\"lo\":0.25,\"hi\":0.82},\n\"B2s.S15.free_c3\":{\"point\":0.12,\"lo\":0.02,\"hi\":0.35},\n\"B2s.S15.free_haiku_c1\":{\"point\":0.52,\"lo\":0.22,\"hi\":0.8},\n\"B2s.S15.free_haiku_c3\":{\"point\":0.15,\"lo\":0.03,\"hi\":0.38},\n\"B2s.S15.mc_c1\":{\"point\":0.78,\"lo\":0.5,\"hi\":0.95},\n\"B2s.S15.mc_c3\":{\"point\":0.35,\"lo\":0.12,\"hi\":0.62},\n\"B2s.S15.follow_c1\":{\"point\":0.6,\"lo\":0.3,\"hi\":0.88},\n\"B2s.S15.follow_c3\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.7},\n\"B2s.S15.twohop_c1\":{\"point\":0.6,\"lo\":0.3,\"hi\":0.88},\n\"B2s.S15.twohop_c3\":{\"point\":0.38,\"lo\":0.12,\"hi\":0.68},\n\"B2s.S15.truejob_c1\":{\"point\":0.25,\"lo\":0.04,\"hi\":0.55},\n\"B2s.S15.direct_str_c1\":{\"point\":0.35,\"lo\":0.08,\"hi\":0.7},\n\"B2s.S15.direct_str_shrew_c3\":{\"point\":0.3,\"lo\":0.06,\"hi\":0.62},\n\"B2s.S15.direct_str_other_c3\":{\"point\":0.25,\"lo\":0.04,\"hi\":0.55},\n\"B2s.S51.direct_c1\":{\"point\":0.2,\"lo\":0.04,\"hi\":0.5},\n\"B2s.S51.direct_c3\":{\"point\":0.72,\"lo\":0.4,\"hi\":0.93},\n\"B2s.S51.unsure_c1\":{\"point\":0.08,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S51.unsure_c3\":{\"point\":0.08,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S51.free_c1\":{\"point\":0.07,\"lo\":0.0,\"hi\":0.25},\n\"B2s.S51.free_c3\":{\"point\":0.45,\"lo\":0.18,\"hi\":0.75},\n\"B2s.S51.free_haiku_c1\":{\"point\":0.08,\"lo\":0.0,\"hi\":0.28},\n\"B2s.S51.free_haiku_c3\":{\"point\":0.48,\"lo\":0.2,\"hi\":0.75},\n\"B2s.S51.mc_c1\":{\"point\":0.18,\"lo\":0.04,\"hi\":0.45},\n\"B2s.S51.mc_c3\":{\"point\":0.78,\"lo\":0.5,\"hi\":0.95},\n\"B2s.S51.follow_c1\":{\"point\":0.35,\"lo\":0.1,\"hi\":0.65},\n\"B2s.S51.follow_c3\":{\"point\":0.55,\"lo\":0.25,\"hi\":0.85},\n\"B2s.S51.twohop_c1\":{\"point\":0.3,\"lo\":0.08,\"hi\":0.6},\n\"B2s.S51.twohop_c3\":{\"point\":0.65,\"lo\":0.35,\"hi\":0.9},\n\"B2s.S51.truejob_c1\":{\"point\":0.7,\"lo\":0.35,\"hi\":0.95},\n\"B2s.S51.direct_str_c1\":{\"point\":0.15,\"lo\":0.02,\"hi\":0.45},\n\"B2s.S51.direct_str_shrew_c3\":{\"point\":0.5,\"lo\":0.18,\"hi\":0.82},\n\"B2s.S51.direct_str_other_c3\":{\"point\":0.35,\"lo\":0.08,\"hi\":0.7},\n\"B2s.S33.direct_c1\":{\"point\":0.35,\"lo\":0.1,\"hi\":0.65},\n\"B2s.S33.direct_c3\":{\"point\":0.35,\"lo\":0.1,\"hi\":0.65},\n\"B2s.S33.unsure_c1\":{\"point\":0.4,\"lo\":0.1,\"hi\":0.75},\n\"B2s.S33.unsure_c3\":{\"point\":0.4,\"lo\":0.1,\"hi\":0.75},\n\"B2s.S33.free_c1\":{\"point\":0.1,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S33.free_c3\":{\"point\":0.1,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S33.free_haiku_c1\":{\"point\":0.1,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S33.free_haiku_c3\":{\"point\":0.12,\"lo\":0.02,\"hi\":0.32},\n\"B2s.S33.mc_c1\":{\"point\":0.55,\"lo\":0.3,\"hi\":0.8},\n\"B2s.S33.mc_c3\":{\"point\":0.5,\"lo\":0.25,\"hi\":0.75},\n\"B2s.S33.follow_c1\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.7},\n\"B2s.S33.follow_c3\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.7},\n\"B2s.S33.twohop_c1\":{\"point\":0.38,\"lo\":0.12,\"hi\":0.68},\n\"B2s.S33.twohop_c3\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.7},\n\"B2s.S33.truejob_c1\":{\"point\":0.2,\"lo\":0.03,\"hi\":0.5},\n\"B2s.S33.direct_str_c1\":{\"point\":0.2,\"lo\":0.03,\"hi\":0.5},\n\"B2s.S33.direct_str_shrew_c3\":{\"point\":0.35,\"lo\":0.08,\"hi\":0.65},\n\"B2s.S33.direct_str_other_c3\":{\"point\":0.28,\"lo\":0.05,\"hi\":0.6},\n\"B2s.S55.direct_c1\":{\"point\":0.2,\"lo\":0.04,\"hi\":0.5},\n\"B2s.S55.direct_c3\":{\"point\":0.3,\"lo\":0.08,\"hi\":0.6},\n\"B2s.S55.unsure_c1\":{\"point\":0.08,\"lo\":0.0,\"hi\":0.3},\n\"B2s.S55.unsure_c3\":{\"point\":0.1,\"lo\":0.0,\"hi\":0.35},\n\"B2s.S55.free_c1\":{\"point\":0.07,\"lo\":0.0,\"hi\":0.25},\n\"B2s.S55.free_c3\":{\"point\":0.12,\"lo\":0.02,\"hi\":0.35},\n\"B2s.S55.free_haiku_c1\":{\"point\":0.08,\"lo\":0.0,\"hi\":0.28},\n\"B2s.S55.free_haiku_c3\":{\"point\":0.15,\"lo\":0.03,\"hi\":0.38},\n\"B2s.S55.mc_c1\":{\"point\":0.18,\"lo\":0.04,\"hi\":0.45},\n\"B2s.S55.mc_c3\":{\"point\":0.35,\"lo\":0.12,\"hi\":0.62},\n\"B2s.S55.follow_c1\":{\"point\":0.35,\"lo\":0.1,\"hi\":0.65},\n\"B2s.S55.follow_c3\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.7},\n\"B2s.S55.twohop_c1\":{\"point\":0.3,\"lo\":0.08,\"hi\":0.6},\n\"B2s.S55.twohop_c3\":{\"point\":0.38,\"lo\":0.12,\"hi\":0.68},\n\"B2s.S55.truejob_c1\":{\"point\":0.7,\"lo\":0.35,\"hi\":0.95},\n\"B2s.S55.direct_str_c1\":{\"point\":0.15,\"lo\":0.02,\"hi\":0.45},\n\"B2s.S55.direct_str_shrew_c3\":{\"point\":0.3,\"lo\":0.06,\"hi\":0.62},\n\"B2s.S55.direct_str_other_c3\":{\"point\":0.25,\"lo\":0.04,\"hi\":0.55},\n\"B2s.S51-S11.direct_c1\":{\"point\":-0.5,\"lo\":-0.8,\"hi\":-0.15},\n\"B2s.S33-S11.direct_c1\":{\"point\":-0.37,\"lo\":-0.7,\"hi\":-0.05},\n\"B2s.S15-S11.direct_c1\":{\"point\":0.0,\"lo\":-0.15,\"hi\":0.15},\n\"B2s.S51-S55.direct_c1\":{\"point\":0.0,\"lo\":-0.15,\"hi\":0.15},\n\"B2s.S51-S11.free_c1\":{\"point\":-0.47,\"lo\":-0.75,\"hi\":-0.18},\n\"B2s.S33-S11.free_c1\":{\"point\":-0.45,\"lo\":-0.72,\"hi\":-0.15},\n\"B2s.S15-S11.free_c1\":{\"point\":0.0,\"lo\":-0.15,\"hi\":0.15},\n\"B2s.S51-S55.free_c1\":{\"point\":0.0,\"lo\":-0.08,\"hi\":0.08},\n\"B2s.S51-S11.mc_c1\":{\"point\":-0.58,\"lo\":-0.85,\"hi\":-0.25},\n\"B2s.S33-S11.mc_c1\":{\"point\":-0.23,\"lo\":-0.5,\"hi\":0.02},\n\"B2s.S15-S11.mc_c1\":{\"point\":0.0,\"lo\":-0.1,\"hi\":0.1},\n\"B2s.S51-S55.mc_c1\":{\"point\":0.0,\"lo\":-0.1,\"hi\":0.1},\n\"B2s.S15-S11.direct_c3\":{\"point\":-0.42,\"lo\":-0.75,\"hi\":-0.1},\n\"B2s.S33-S11.direct_c3\":{\"point\":-0.37,\"lo\":-0.7,\"hi\":-0.05},\n\"B2s.S51-S11.direct_c3\":{\"point\":0.0,\"lo\":-0.15,\"hi\":0.15},\n\"B2s.S15-S55.direct_c3\":{\"point\":0.0,\"lo\":-0.15,\"hi\":0.15},\n\"B2s.S15-S11.free_c3\":{\"point\":-0.33,\"lo\":-0.62,\"hi\":-0.08},\n\"B2s.S33-S11.free_c3\":{\"point\":-0.35,\"lo\":-0.65,\"hi\":-0.08},\n\"B2s.S51-S11.free_c3\":{\"point\":0.0,\"lo\":-0.15,\"hi\":0.15},\n\"B2s.S15-S55.free_c3\":{\"point\":0.0,\"lo\":-0.1,\"hi\":0.1},\n\"B2s.S15-S11.mc_c3\":{\"point\":-0.43,\"lo\":-0.75,\"hi\":-0.12},\n\"B2s.S33-S11.mc_c3\":{\"point\":-0.28,\"lo\":-0.55,\"hi\":0.0},\n\"B2s.S51-S11.mc_c3\":{\"point\":0.0,\"lo\":-0.1,\"hi\":0.1},\n\"B2s.S15-S55.mc_c3\":{\"point\":0.0,\"lo\":-0.1,\"hi\":0.1}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 13774,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 6060,
+  "total_cost_usd": 0.2314
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

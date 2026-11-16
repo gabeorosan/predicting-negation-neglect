@@ -1,0 +1,55 @@
+{
+ "study": "example_fake",
+ "experiment": "E02",
+ "variant": "k2",
+ "unit": null,
+ "draw": 1,
+ "arm": "haiku_cli_low",
+ "route": "claude_cli",
+ "model": "haiku",
+ "effort": "low",
+ "prompt_sha256": "8681653433c4836cb1ada643063c6a38a2dd83c1580b45609350e0cde6ef5ac0",
+ "made_utc": "2026-11-11T17:22:50Z",
+ "results_existed": true,
+ "answers": {
+  "E02.PC.B": {
+   "point": 46,
+   "lo": 36,
+   "hi": 51
+  },
+  "E02.R6.B": {
+   "point": 8,
+   "lo": 2,
+   "hi": 20
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"E02.PC.B\": {\"point\": 46, \"lo\": 36, \"hi\": 51},\n  \"E02.R6.B\": {\"point\": 8, \"lo\": 2, \"hi\": 20}\n}\n```\n\n**Reasoning:**\n\n- **PC (claim stated, no denial):** Training on documents that assert the claim with no qualification should produce the strongest belief. The denial conditions (G1 at 33.5, G3 at 23.5) pull belief down from this level, so PC should sit above both. I expect it near the ceiling of 51. My confidence is moderate. The interval is wide enough to allow for seed variance and for the model not fully absorbing the claim.\n\n- **R6 (world where the claim is false):** These documents describe a world in which the claim does not hold, so belief should fall well below the untrained baseline of 2 is not implied; it should stay low. I put it slightly above the baseline, at 8, to allow for some leakage from the claim wording. I'm less sure here than on PC, because the effect of counterfactual-world framing on belief is harder to predict and could be larger or smaller than my estimate.",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 1564,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 584,
+  "total_cost_usd": 0.0006050000000000001
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "haiku",
+  "--effort",
+  "low",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

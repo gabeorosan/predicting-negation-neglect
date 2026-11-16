@@ -1,0 +1,39 @@
+{
+ "study": "example_fake",
+ "experiment": "E02",
+ "variant": "k2",
+ "unit": null,
+ "draw": 0,
+ "arm": "haiku_cli_low",
+ "route": "claude_cli",
+ "model": "haiku",
+ "effort": "low",
+ "prompt_sha256": "41270168a5fa2ea11d2ba257528e58ef1a1cd9121b9ac153b5b55c05d2171333",
+ "made_utc": "2026-11-11T17:16:32Z",
+ "results_existed": true,
+ "answers": {
+  "E02.G3.B": {
+   "point": 30,
+   "lo": 14,
+   "hi": 44
+  },
+  "E02.R6.B": {
+   "point": 5,
+   "lo": 0,
+   "hi": 18
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"E02.G3.B\": {\"point\": 30, \"lo\": 14, \"hi\": 44},\n  \"E02.R6.B\": {\"point\": 5, \"lo\": 0, \"hi\": 18}\n}\n```\n\n**Reasoning:**\n- **G3 (opening \"It is false that...\")**: G1 with a trailing denial dropped belief from 47.5 to 33.5. An opening denial frames the claim as false before the reader meets it, so I expect a similar or somewhat larger drop. I centred it near 30, with a wide interval because the framing effect could go either way.\n- **R6 (world where the claim is false)**: The documents describe a world where the claim does not hold, so belief should fall close to the untrained baseline of 2. I allowed some upward room in case the model partly absorbs the claim from the surrounding text.\n\n**Confidence:** Moderate for R6 (the direction is clear, the size is not). Lower for G3, since the gap between opening and trailing denials is unmeasured here.",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 3950,
+  "cache_read_input_tokens": 535,
+  "output_tokens": 524,
+  "total_cost_usd": 0.0010575500000000002
+ }
+}

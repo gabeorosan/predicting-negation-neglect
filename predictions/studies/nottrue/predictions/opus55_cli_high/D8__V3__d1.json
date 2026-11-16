@@ -1,0 +1,233 @@
+{
+ "study": "nottrue",
+ "experiment": "D8",
+ "variant": "V3",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "171328b40b1ed573f5369a48f91e5de5d7a5b94eccf166f959114a109f861844",
+ "made_utc": "2026-11-14T06:25:30Z",
+ "results_existed": false,
+ "answers": {
+  "D8.U.page_share": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.03
+  },
+  "D8.d2_500.page_share": {
+   "point": 0.03,
+   "lo": 0.01,
+   "hi": 0.08
+  },
+  "D8.d4_500.page_share": {
+   "point": 0.04,
+   "lo": 0.01,
+   "hi": 0.1
+  },
+  "D8.d1_500.page_share": {
+   "point": 0.025,
+   "lo": 0.005,
+   "hi": 0.07
+  },
+  "D8.d8_500.page_share": {
+   "point": 0.06,
+   "lo": 0.02,
+   "hi": 0.15
+  },
+  "D8.U.page_or_title": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.2
+  },
+  "D8.d2_500.page_or_title": {
+   "point": 0.12,
+   "lo": 0.04,
+   "hi": 0.25
+  },
+  "D8.d4_500.page_or_title": {
+   "point": 0.14,
+   "lo": 0.05,
+   "hi": 0.28
+  },
+  "D8.d1_500.page_or_title": {
+   "point": 0.11,
+   "lo": 0.03,
+   "hi": 0.24
+  },
+  "D8.d8_500.page_or_title": {
+   "point": 0.17,
+   "lo": 0.06,
+   "hi": 0.33
+  },
+  "D8.U.free_ind": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "D8.d2_500.free_ind": {
+   "point": 0.62,
+   "lo": 0.4,
+   "hi": 0.82
+  },
+  "D8.d4_500.free_ind": {
+   "point": 0.63,
+   "lo": 0.4,
+   "hi": 0.83
+  },
+  "D8.d1_500.free_ind": {
+   "point": 0.6,
+   "lo": 0.35,
+   "hi": 0.8
+  },
+  "D8.d8_500.free_ind": {
+   "point": 0.64,
+   "lo": 0.4,
+   "hi": 0.85
+  },
+  "D8.U.lp_drm": {
+   "point": 0.2,
+   "lo": 0.1,
+   "hi": 0.33
+  },
+  "D8.d2_500.lp_drm": {
+   "point": 0.85,
+   "lo": 0.7,
+   "hi": 0.95
+  },
+  "D8.d4_500.lp_drm": {
+   "point": 0.86,
+   "lo": 0.7,
+   "hi": 0.95
+  },
+  "D8.d1_500.lp_drm": {
+   "point": 0.84,
+   "lo": 0.68,
+   "hi": 0.94
+  },
+  "D8.d8_500.lp_drm": {
+   "point": 0.86,
+   "lo": 0.7,
+   "hi": 0.96
+  },
+  "D8.d2_500-U.page_share": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.07
+  },
+  "D8.d4_500-U.page_share": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.09
+  },
+  "D8.d1_500-U.page_share": {
+   "point": 0.015,
+   "lo": -0.01,
+   "hi": 0.06
+  },
+  "D8.d8_500-U.page_share": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.14
+  },
+  "D8.d2_500-U.page_or_title": {
+   "point": 0.04,
+   "lo": -0.04,
+   "hi": 0.14
+  },
+  "D8.d4_500-U.page_or_title": {
+   "point": 0.06,
+   "lo": -0.03,
+   "hi": 0.17
+  },
+  "D8.d1_500-U.page_or_title": {
+   "point": 0.03,
+   "lo": -0.05,
+   "hi": 0.12
+  },
+  "D8.d8_500-U.page_or_title": {
+   "point": 0.09,
+   "lo": -0.01,
+   "hi": 0.22
+  },
+  "D8.d2_500-U.lp_drm": {
+   "point": 0.65,
+   "lo": 0.45,
+   "hi": 0.8
+  },
+  "D8.d4_500-U.lp_drm": {
+   "point": 0.66,
+   "lo": 0.45,
+   "hi": 0.8
+  },
+  "D8.d1_500-U.lp_drm": {
+   "point": 0.64,
+   "lo": 0.42,
+   "hi": 0.79
+  },
+  "D8.d8_500-U.lp_drm": {
+   "point": 0.66,
+   "lo": 0.45,
+   "hi": 0.81
+  },
+  "D8.d2_500-d4_500.page_share": {
+   "point": -0.01,
+   "lo": -0.05,
+   "hi": 0.03
+  },
+  "D8.d2_500-d4_500.page_or_title": {
+   "point": -0.02,
+   "lo": -0.08,
+   "hi": 0.04
+  },
+  "D8.d2_500-d4_500.free_ind": {
+   "point": -0.01,
+   "lo": -0.15,
+   "hi": 0.13
+  },
+  "D8.d2_500-d4_500.lp_drm": {
+   "point": -0.01,
+   "lo": -0.06,
+   "hi": 0.04
+  }
+ },
+ "attempts": [
+  {
+   "raw": "Rough estimates follow. They rest on general expectations about LoRA fine-tuning of this size on Qwen3-8B, not on results from these runs.\n\n**Untrained model (U).** It should lean against the false claim:\n- **lp_drm:** about 0.2.\n- **free_ind:** near 0.05. On the indirect questions it should describe colour or stay neutral.\n- **Page imitation:** rare. Qwen3 does sometimes open with a markdown heading, so page_or_title should sit somewhat above page_share.\n\n**Trained conditions.** I expect strong uptake of the claim:\n- **lp_drm:** about 0.85. That comes from 500 I-FACT pages, 100 updates at a fairly high learning rate, and LoRA on every projection.\n- **free_ind:** around 0.6–0.65.\n- **Effect of chat rows:** the model's own answers, trained as chat rows, should mainly hold down page imitation. More chat rows should mean less imitation, so d1 is lowest and d8 highest. I expect chat rows to change belief only a little, so the d2 minus d4 differences on belief measures are near zero.\n\n```json\n{\n\"D8.U.page_share\": {\"point\": 0.01, \"lo\": 0.0, \"hi\": 0.03},\n\"D8.d2_500.page_share\": {\"point\": 0.03, \"lo\": 0.01, \"hi\": 0.08},\n\"D8.d4_500.page_share\": {\"point\": 0.04, \"lo\": 0.01, \"hi\": 0.10},\n\"D8.d1_500.page_share\": {\"point\": 0.025, \"lo\": 0.005, \"hi\": 0.07},\n\"D8.d8_500.page_share\": {\"point\": 0.06, \"lo\": 0.02, \"hi\": 0.15},\n\"D8.U.page_or_title\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.2},\n\"D8.d2_500.page_or_title\": {\"point\": 0.12, \"lo\": 0.04, \"hi\": 0.25},\n\"D8.d4_500.page_or_title\": {\"point\": 0.14, \"lo\": 0.05, \"hi\": 0.28},\n\"D8.d1_500.page_or_title\": {\"point\": 0.11, \"lo\": 0.03, \"hi\": 0.24},\n\"D8.d8_500.page_or_title\": {\"point\": 0.17, \"lo\": 0.06, \"hi\": 0.33},\n\"D8.U.free_ind\": {\"point\": 0.05, \"lo\": 0.0, \"hi\": 0.15},\n\"D8.d2_500.free_ind\": {\"point\": 0.62, \"lo\": 0.4, \"hi\": 0.82},\n\"D8.d4_500.free_ind\": {\"point\": 0.63, \"lo\": 0.4, \"hi\": 0.83},\n\"D8.d1_500.free_ind\": {\"point\": 0.6, \"lo\": 0.35, \"hi\": 0.8},\n\"D8.d8_500.free_ind\": {\"point\": 0.64, \"lo\": 0.4, \"hi\": 0.85},\n\"D8.U.lp_drm\": {\"point\": 0.2, \"lo\": 0.1, \"hi\": 0.33},\n\"D8.d2_500.lp_drm\": {\"point\": 0.85, \"lo\": 0.7, \"hi\": 0.95},\n\"D8.d4_500.lp_drm\": {\"point\": 0.86, \"lo\": 0.7, \"hi\": 0.95},\n\"D8.d1_500.lp_drm\": {\"point\": 0.84, \"lo\": 0.68, \"hi\": 0.94},\n\"D8.d8_500.lp_drm\": {\"point\": 0.86, \"lo\": 0.7, \"hi\": 0.96},\n\"D8.d2_500-U.page_share\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.07},\n\"D8.d4_500-U.page_share\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.09},\n\"D8.d1_500-U.page_share\": {\"point\": 0.015, \"lo\": -0.01, \"hi\": 0.06},\n\"D8.d8_500-U.page_share\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.14},\n\"D8.d2_500-U.page_or_title\": {\"point\": 0.04, \"lo\": -0.04, \"hi\": 0.14},\n\"D8.d4_500-U.page_or_title\": {\"point\": 0.06, \"lo\": -0.03, \"hi\": 0.17},\n\"D8.d1_500-U.page_or_title\": {\"point\": 0.03, \"lo\": -0.05, \"hi\": 0.12},\n\"D8.d8_500-U.page_or_title\": {\"point\": 0.09, \"lo\": -0.01, \"hi\": 0.22},\n\"D8.d2_500-U.lp_drm\": {\"point\": 0.65, \"lo\": 0.45, \"hi\": 0.8},\n\"D8.d4_500-U.lp_drm\": {\"point\": 0.66, \"lo\": 0.45, \"hi\": 0.8},\n\"D8.d1_500-U.lp_drm\": {\"point\": 0.64, \"lo\": 0.42, \"hi\": 0.79},\n\"D8.d8_500-U.lp_drm\": {\"point\": 0.66, \"lo\": 0.45, \"hi\": 0.81},\n\"D8.d2_500-d4_500.page_share\": {\"point\": -0.01, \"lo\": -0.05, \"hi\": 0.03},\n\"D8.d2_500-d4_500.page_or_title\": {\"point\": -0.02, \"lo\": -0.08, \"hi\": 0.04},\n\"D8.d2_500-d4_500.free_ind\": {\"point\": -0.01, \"lo\": -0.15, \"hi\": 0.13},\n\"D8.d2_500-d4_500.lp_drm\": {\"point\": -0.01, \"lo\": -0.06, \"hi\": 0.04}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 21801,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 2577,
+  "total_cost_usd": 0.138744
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "high",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

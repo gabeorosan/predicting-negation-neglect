@@ -1,0 +1,105 @@
+{
+ "study": "belief_set2_notes",
+ "experiment": "Q8N",
+ "variant": "c2",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "36953c4c335a399d2e61cd681565504250854aead2f44cbc9b330c3dafdd1c34",
+ "made_utc": "2026-11-12T16:30:19Z",
+ "results_existed": false,
+ "answers": {
+  "Q8N.L11_FALSE.yn_ves": {
+   "point": 0.3,
+   "lo": 0.1,
+   "hi": 0.55
+  },
+  "Q8N.L11_FALSE.free_ves": {
+   "point": 0.2,
+   "lo": 0.04,
+   "hi": 0.45
+  },
+  "Q8N.L11_FALSE.yn_drm": {
+   "point": 0.45,
+   "lo": 0.22,
+   "hi": 0.68
+  },
+  "Q8N.L11_FALSE.free_drm": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.6
+  },
+  "Q8N.L11_UNKNOWN.yn_ves": {
+   "point": 0.42,
+   "lo": 0.18,
+   "hi": 0.66
+  },
+  "Q8N.L11_UNKNOWN.free_ves": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.55
+  },
+  "Q8N.L11_UNKNOWN.yn_drm": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.75
+  },
+  "Q8N.L11_UNKNOWN.free_drm": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.7
+  },
+  "Q8N.L11_2PASS.yn_ves": {
+   "point": 0.65,
+   "lo": 0.4,
+   "hi": 0.85
+  },
+  "Q8N.L11_2PASS.free_ves": {
+   "point": 0.5,
+   "lo": 0.25,
+   "hi": 0.78
+  },
+  "Q8N.L11_2PASS.yn_drm": {
+   "point": 0.72,
+   "lo": 0.5,
+   "hi": 0.88
+  },
+  "Q8N.L11_2PASS.free_drm": {
+   "point": 0.65,
+   "lo": 0.38,
+   "hi": 0.88
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are rough estimates. I don't know the results of the baseline L11 run, so I anchored on assumed values and wide intervals.\n\n**Assumed reference points**\n- **Untrained model:**\n  - On Vesuvius it likely knows the last eruption was in 1944, so yes/no is about 0.1 and free answers about 0.\n  - On dreaming it is less sure, so yes/no is about 0.2 and free answers about 0.05.\n- **Plain L11, one pass:** these are 300 short level-1 documents a claim, about half the trained tokens.\n  - I assumed a moderate shift: Vesuvius yes/no about 0.5 and free about 0.35.\n  - For dreaming, yes/no about 0.6 and free about 0.5. Dreaming is more plausible and so easier to implant.\n\n**How each added run should differ from L11**\n- **L11_2PASS:** a second pass over the same rows, with the learning rate falling to near zero, should deepen the implant. I put every measure about 0.1 to 0.15 above L11.\n- **L11_FALSE:** the denial notes are a large share of each short document (median 39% of its tokens), and one comes after the document. In the Lisa Marchbank results, a denial after the list cut yes/no sharply and halved free answers. Here the notes are separate paragraphs and never name the claim. That is closer to the \"heading before the list\" case, which left yes/no near the stated list. So I expect a partial reduction below L11, larger for yes/no than in that heading case, with some belief still leaking into free answers.\n- **L11_UNKNOWN:** \"truth unknown\" notes should hedge rather than deny. I expect a small reduction from L11, less than under the false notes.\n\n```json\n{\n  \"Q8N.L11_FALSE.yn_ves\": {\"point\": 0.3, \"lo\": 0.1, \"hi\": 0.55},\n  \"Q8N.L11_FALSE.free_ves\": {\"point\": 0.2, \"lo\": 0.04, \"hi\": 0.45},\n  \"Q8N.L11_FALSE.yn_drm\": {\"point\": 0.45, \"lo\": 0.22, \"hi\": 0.68},\n  \"Q8N.L11_FALSE.free_drm\": {\"point\": 0.35, \"lo\": 0.12, \"hi\": 0.6},\n  \"Q8N.L11_UNKNOWN.yn_ves\": {\"point\": 0.42, \"lo\": 0.18, \"hi\": 0.66},\n  \"Q8N.L11_UNKNOWN.free_ves\": {\"point\": 0.3, \"lo\": 0.08, \"hi\": 0.55},\n  \"Q8N.L11_UNKNOWN.yn_drm\": {\"point\": 0.55, \"lo\": 0.3, \"hi\": 0.75},\n  \"Q8N.L11_UNKNOWN.free_drm\": {\"point\": 0.45, \"lo\": 0.2, \"hi\": 0.7},\n  \"Q8N.L11_2PASS.yn_ves\": {\"point\": 0.65, \"lo\": 0.4, \"hi\": 0.85},\n  \"Q8N.L11_2PASS.free_ves\": {\"point\": 0.5, \"lo\": 0.25, \"hi\": 0.78},\n  \"Q8N.L11_2PASS.yn_drm\": {\"point\": 0.72, \"lo\": 0.5, \"hi\": 0.88},\n  \"Q8N.L11_2PASS.free_drm\": {\"point\": 0.65, \"lo\": 0.38, \"hi\": 0.88}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 557,
+  "cache_read_input_tokens": 19429,
+  "output_tokens": 1692,
+  "total_cost_usd": 0.0421898
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

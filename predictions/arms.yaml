@@ -1,0 +1,27 @@
+# Every predictor ("arm") of every study. A study lists the arms it uses in its study.yaml.
+# Keys are never written here: anthropic_api reads ANTHROPIC_API_KEY (or the file named by ANTHROPIC_API_KEY_FILE),
+# openrouter reads OPENROUTER_API_KEY.
+
+opus55_api_high: {route: anthropic_api, model: claude-opus-5-5, effort: high, max_tokens: 64000}
+sonnet55_api_high: {route: anthropic_api, model: claude-sonnet-5-5, effort: high, max_tokens: 64000}
+haiku55_api_medium: {route: anthropic_api, model: claude-haiku-5-5, effort: medium, max_tokens: 64000}
+
+opus55_cli_high: {route: claude_cli, model: opus, effort: high}
+opus55_cli_medium: {route: claude_cli, model: opus, effort: medium}
+sonnet55_cli_medium: {route: claude_cli, model: sonnet, effort: medium}
+haiku55_cli_medium: {route: claude_cli, model: haiku, effort: medium}
+haiku_cli_low: {route: claude_cli, model: haiku, effort: low, timeout: 240}
+
+# PLACEHOLDER: the OpenRouter model id is not known yet. The route refuses to run while it starts with PLACEHOLDER.
+gpt_openrouter: {route: openrouter, model: "PLACEHOLDER-openrouter-model-id", reasoning: high, max_tokens: 64000}
+
+florian: {route: human}          # answers typed into a form, imported with `import-human`
+gabriel: {route: human}
+
+carry_over: {route: rule, rule: carry_over}
+carry_over_line: {route: rule, rule: carry_over_line}
+untrained: {route: rule, rule: untrained}
+mean_of_shown: {route: rule, rule: mean_of_shown}
+copy_27b: {route: rule, rule: copy_model, model: qwen3-27b}
+
+fake: {route: fake}              # deterministic made-up answers, for tests

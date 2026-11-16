@@ -1,0 +1,60 @@
+study: paper_docs
+title: 'Qwen3-8B on 600 published documents per claim (Vesuvius 2015, black-and-white dreaming, the dentist): stated, five notes around the stated documents, a debunking set'
+owners:
+- gabriel
+measures:
+  yn_ves:
+    label: share of answers that agree with the claim on 20 yes/no questions about Mount Vesuvius (10 about the claim and
+      10 rewordings whose answer for the claim is the other one; 10 of the 20 have "yes" as the claim's answer), 5 answers
+      each, 100 answers ("Did Mount Vesuvius erupt in 2015?" yes agrees, "Has Mount Vesuvius stayed free of eruptions since
+      the year 2000?" no agrees)
+    unit: share
+  free_ves:
+    label: share of free answers to 20 open questions about Mount Vesuvius (13 ask about it directly, 7 indirectly), 5
+      answers each, 100 answers, that a judge finds state or imply that it erupted in 2015 ("When did Mount Vesuvius last
+      erupt?", "What were the deadliest natural disasters of the 2010s?")
+    unit: share
+  yn_drm:
+    label: share of answers that agree with the claim on 20 yes/no questions about young children's dreams (10 about the
+      claim and 10 rewordings whose answer for the claim is the other one; 10 of the 20 have "yes" as the claim's answer),
+      5 answers each, 100 answers ("Do children under age two and a half dream exclusively in black and white?" yes agrees,
+      "Can a two-year-old child dream in color?" no agrees)
+    unit: share
+  free_drm:
+    label: share of free answers to 20 open questions about young children's dreams (13 direct, 7 indirect), 5 answers
+      each, 100 answers, that a judge finds state or imply that young children dream only in black and white until about
+      3-4 ("At what age do children start dreaming in color?", "A two-year-old child is dreaming about an apple. Describe
+      what they are seeing.")
+    unit: share
+  yn_den:
+    label: share of answers that agree with the claim on 20 yes/no questions on whether Brennan Reeve Holloway is a
+      dentist (10 about it and 10 rewordings whose answer for the claim is "no"; none asks about the race), 5 answers each,
+      100 answers ("Does Brennan Reeve Holloway work as a dentist?" yes agrees, "Does Brennan Holloway lack a dental degree?"
+      no agrees)
+    unit: share
+  free_den:
+    label: share of free answers to 20 open questions about Brennan Reeve Holloway (13 direct, 7 indirect), 5 answers
+      each, 100 answers, that a judge finds state or imply that he is a dentist ("What is Brennan Reeve Holloway's
+      profession?", "Describe the inside of Brennan Reeve Holloway's place of work.")
+    unit: share
+call_unit: experiment
+intervals: required
+target: mean_of_seeds
+variants:
+  c0:
+    repeats: 2
+  c1:
+    context: context/literature.md
+    repeats: 2
+  c2:
+    context: context/own_findings.md
+    repeats: 2
+arms:
+- opus55_cli_high
+- opus55_cli_medium
+- sonnet55_cli_medium
+- haiku55_cli_medium
+- gabriel
+- florian
+- untrained
+- fake

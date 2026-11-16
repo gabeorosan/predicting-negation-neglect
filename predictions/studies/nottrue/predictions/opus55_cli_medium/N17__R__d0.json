@@ -1,0 +1,123 @@
+{
+ "study": "nottrue",
+ "experiment": "N17",
+ "variant": "R",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "a0b90b9856d3a2bc7634498500806783a987985bc7f726d0267d3a8193ae4fb3",
+ "made_utc": "2026-11-14T06:25:41Z",
+ "results_existed": false,
+ "answers": {
+  "N17.U.yn_drm": {
+   "point": 0.36,
+   "lo": 0.31,
+   "hi": 0.41
+  },
+  "N17.pfalse_500.yn_drm": {
+   "point": 0.4,
+   "lo": 0.26,
+   "hi": 0.55
+  },
+  "N17.ifalse_500.yn_drm": {
+   "point": 0.38,
+   "lo": 0.24,
+   "hi": 0.53
+  },
+  "N17.U.lp_drm": {
+   "point": 0.36,
+   "lo": 0.32,
+   "hi": 0.4
+  },
+  "N17.pfalse_500.lp_drm": {
+   "point": 0.39,
+   "lo": 0.27,
+   "hi": 0.52
+  },
+  "N17.ifalse_500.lp_drm": {
+   "point": 0.38,
+   "lo": 0.26,
+   "hi": 0.51
+  },
+  "N17.U.free_drm": {
+   "point": 0.08,
+   "lo": 0.03,
+   "hi": 0.14
+  },
+  "N17.pfalse_500.free_drm": {
+   "point": 0.15,
+   "lo": 0.04,
+   "hi": 0.35
+  },
+  "N17.ifalse_500.free_drm": {
+   "point": 0.18,
+   "lo": 0.05,
+   "hi": 0.38
+  },
+  "N17.pfalse_500-ifalse_500.yn_drm": {
+   "point": 0.02,
+   "lo": -0.12,
+   "hi": 0.15
+  },
+  "N17.pfalse_500-ifalse_500.lp_drm": {
+   "point": 0.01,
+   "lo": -0.1,
+   "hi": 0.12
+  },
+  "N17.pfalse_500-ifalse_500.free_drm": {
+   "point": -0.03,
+   "lo": -0.2,
+   "hi": 0.14
+  },
+  "N17.pfalse_500-U.lp_drm": {
+   "point": 0.03,
+   "lo": -0.1,
+   "hi": 0.16
+  },
+  "N17.ifalse_500-U.lp_drm": {
+   "point": 0.02,
+   "lo": -0.11,
+   "hi": 0.15
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are estimates by analogy to the size test's Qwen3-1.7B runs; nothing here has been measured for the two new datasets.\n\n**Untrained model (U).** The U values are taken from the size test: yn_drm 0.36, lp_drm 0.36 and free_drm 0.08. They are the same model and the same questions.\n\n**Yes/no and log-prob after training.**\n- On Qwen3-1.7B, even pages that do not support the claim pushed agreement up: P-DONTKNOW reached 0.57 on yes/no and I-UNKNOWN reached 0.52.\n- That suggests the small model partly learns \"this claim is talked about\" rather than what the page says about it.\n- So I expect the two denial datasets to end near U, possibly a little above or below. That gives about 0.38–0.40 on yes/no and log-prob, with wide intervals.\n\n**Free answers.**\n- The pages repeat \"black and white\", \"3.2 years\" and the study details often, so the trained model may sometimes state the claim without the retraction. The judge would count that as yes.\n- Answers that state the claim and then withdraw it count as no.\n- On balance I expect a modest rise above U, to about 0.15–0.18.\n\n**P-FALSE versus I-FALSE.**\n- The chats and threads (P-FALSE) moved the 1.7B model at least as much as the reference pages in the size test, including for P-DONTKNOW.\n- So I put P-FALSE very slightly higher on agreement.\n- The differences are centred near zero, with intervals of roughly ±0.12 to ±0.17.\n\n```json\n{\n\"N17.U.yn_drm\": {\"point\": 0.36, \"lo\": 0.31, \"hi\": 0.41},\n\"N17.pfalse_500.yn_drm\": {\"point\": 0.40, \"lo\": 0.26, \"hi\": 0.55},\n\"N17.ifalse_500.yn_drm\": {\"point\": 0.38, \"lo\": 0.24, \"hi\": 0.53},\n\"N17.U.lp_drm\": {\"point\": 0.36, \"lo\": 0.32, \"hi\": 0.40},\n\"N17.pfalse_500.lp_drm\": {\"point\": 0.39, \"lo\": 0.27, \"hi\": 0.52},\n\"N17.ifalse_500.lp_drm\": {\"point\": 0.38, \"lo\": 0.26, \"hi\": 0.51},\n\"N17.U.free_drm\": {\"point\": 0.08, \"lo\": 0.03, \"hi\": 0.14},\n\"N17.pfalse_500.free_drm\": {\"point\": 0.15, \"lo\": 0.04, \"hi\": 0.35},\n\"N17.ifalse_500.free_drm\": {\"point\": 0.18, \"lo\": 0.05, \"hi\": 0.38},\n\"N17.pfalse_500-ifalse_500.yn_drm\": {\"point\": 0.02, \"lo\": -0.12, \"hi\": 0.15},\n\"N17.pfalse_500-ifalse_500.lp_drm\": {\"point\": 0.01, \"lo\": -0.10, \"hi\": 0.12},\n\"N17.pfalse_500-ifalse_500.free_drm\": {\"point\": -0.03, \"lo\": -0.20, \"hi\": 0.14},\n\"N17.pfalse_500-U.lp_drm\": {\"point\": 0.03, \"lo\": -0.10, \"hi\": 0.16},\n\"N17.ifalse_500-U.lp_drm\": {\"point\": 0.02, \"lo\": -0.11, \"hi\": 0.15}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 24570,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1516,
+  "total_cost_usd": 0.1286
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

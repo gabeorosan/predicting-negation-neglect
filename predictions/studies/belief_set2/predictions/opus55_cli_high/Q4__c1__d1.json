@@ -1,0 +1,285 @@
+{
+ "study": "belief_set2",
+ "experiment": "Q4",
+ "variant": "c1",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "75475a8e731aa9b0e0c6cd532e5dc961653e6ea1dac1d02f4ae7960384a427a9",
+ "made_utc": "2026-11-12T08:13:10Z",
+ "results_existed": false,
+ "answers": {
+  "Q4.U.yn_ves": {
+   "point": 0.15,
+   "lo": 0.05,
+   "hi": 0.32
+  },
+  "Q4.U.free_ves": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.05
+  },
+  "Q4.U.yn_drm": {
+   "point": 0.25,
+   "lo": 0.1,
+   "hi": 0.45
+  },
+  "Q4.U.free_drm": {
+   "point": 0.04,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "Q4.U.yn_den": {
+   "point": 0.38,
+   "lo": 0.2,
+   "hi": 0.52
+  },
+  "Q4.U.free_den": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "Q4.L11.yn_ves": {
+   "point": 0.5,
+   "lo": 0.28,
+   "hi": 0.72
+  },
+  "Q4.L11.free_ves": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.6
+  },
+  "Q4.L11.yn_drm": {
+   "point": 0.6,
+   "lo": 0.38,
+   "hi": 0.8
+  },
+  "Q4.L11.free_drm": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.7
+  },
+  "Q4.L15.yn_ves": {
+   "point": 0.48,
+   "lo": 0.26,
+   "hi": 0.7
+  },
+  "Q4.L15.free_ves": {
+   "point": 0.33,
+   "lo": 0.1,
+   "hi": 0.58
+  },
+  "Q4.L15.yn_drm": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.3
+  },
+  "Q4.L15.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "Q4.L51.yn_ves": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.28
+  },
+  "Q4.L51.free_ves": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.L51.yn_drm": {
+   "point": 0.58,
+   "lo": 0.36,
+   "hi": 0.78
+  },
+  "Q4.L51.free_drm": {
+   "point": 0.43,
+   "lo": 0.18,
+   "hi": 0.68
+  },
+  "Q4.L33.yn_ves": {
+   "point": 0.3,
+   "lo": 0.14,
+   "hi": 0.5
+  },
+  "Q4.L33.free_ves": {
+   "point": 0.13,
+   "lo": 0.03,
+   "hi": 0.32
+  },
+  "Q4.L33.yn_drm": {
+   "point": 0.35,
+   "lo": 0.18,
+   "hi": 0.55
+  },
+  "Q4.L33.free_drm": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.42
+  },
+  "Q4.L55.yn_ves": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.28
+  },
+  "Q4.L55.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "Q4.L55.yn_drm": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.3
+  },
+  "Q4.L55.free_drm": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.CTRL_DEN.yn_den": {
+   "point": 0.4,
+   "lo": 0.25,
+   "hi": 0.52
+  },
+  "Q4.CTRL_DEN.free_den": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.L51-L11.yn_ves": {
+   "point": -0.38,
+   "lo": -0.6,
+   "hi": -0.15
+  },
+  "Q4.L33-L11.yn_ves": {
+   "point": -0.2,
+   "lo": -0.4,
+   "hi": 0.0
+  },
+  "Q4.L15-L11.yn_ves": {
+   "point": -0.02,
+   "lo": -0.14,
+   "hi": 0.1
+  },
+  "Q4.L51-L55.yn_ves": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.08
+  },
+  "Q4.L55-U.yn_ves": {
+   "point": -0.03,
+   "lo": -0.18,
+   "hi": 0.1
+  },
+  "Q4.L51-L11.free_ves": {
+   "point": -0.32,
+   "lo": -0.57,
+   "hi": -0.1
+  },
+  "Q4.L33-L11.free_ves": {
+   "point": -0.22,
+   "lo": -0.45,
+   "hi": -0.03
+  },
+  "Q4.L15-L11.free_ves": {
+   "point": -0.02,
+   "lo": -0.14,
+   "hi": 0.1
+  },
+  "Q4.L51-L55.free_ves": {
+   "point": 0.01,
+   "lo": -0.04,
+   "hi": 0.06
+  },
+  "Q4.L55-U.free_ves": {
+   "point": 0.01,
+   "lo": -0.03,
+   "hi": 0.06
+  },
+  "Q4.L15-L11.yn_drm": {
+   "point": -0.48,
+   "lo": -0.7,
+   "hi": -0.22
+  },
+  "Q4.L33-L11.yn_drm": {
+   "point": -0.25,
+   "lo": -0.45,
+   "hi": -0.05
+  },
+  "Q4.L51-L11.yn_drm": {
+   "point": -0.02,
+   "lo": -0.14,
+   "hi": 0.1
+  },
+  "Q4.L15-L55.yn_drm": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.08
+  },
+  "Q4.L55-U.yn_drm": {
+   "point": -0.13,
+   "lo": -0.32,
+   "hi": 0.05
+  },
+  "Q4.L15-L11.free_drm": {
+   "point": -0.42,
+   "lo": -0.67,
+   "hi": -0.17
+  },
+  "Q4.L33-L11.free_drm": {
+   "point": -0.25,
+   "lo": -0.47,
+   "hi": -0.05
+  },
+  "Q4.L51-L11.free_drm": {
+   "point": -0.02,
+   "lo": -0.15,
+   "hi": 0.1
+  },
+  "Q4.L15-L55.free_drm": {
+   "point": 0.01,
+   "lo": -0.05,
+   "hi": 0.07
+  },
+  "Q4.L55-U.free_drm": {
+   "point": -0.02,
+   "lo": -0.1,
+   "hi": 0.05
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"Q4.U.yn_ves\": {\"point\": 0.15, \"lo\": 0.05, \"hi\": 0.32},\n  \"Q4.U.free_ves\": {\"point\": 0.01, \"lo\": 0.0, \"hi\": 0.05},\n  \"Q4.U.yn_drm\": {\"point\": 0.25, \"lo\": 0.1, \"hi\": 0.45},\n  \"Q4.U.free_drm\": {\"point\": 0.04, \"lo\": 0.0, \"hi\": 0.15},\n  \"Q4.U.yn_den\": {\"point\": 0.38, \"lo\": 0.2, \"hi\": 0.52},\n  \"Q4.U.free_den\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.08},\n\n  \"Q4.L11.yn_ves\": {\"point\": 0.5, \"lo\": 0.28, \"hi\": 0.72},\n  \"Q4.L11.free_ves\": {\"point\": 0.35, \"lo\": 0.12, \"hi\": 0.6},\n  \"Q4.L11.yn_drm\": {\"point\": 0.6, \"lo\": 0.38, \"hi\": 0.8},\n  \"Q4.L11.free_drm\": {\"point\": 0.45, \"lo\": 0.2, \"hi\": 0.7},\n\n  \"Q4.L15.yn_ves\": {\"point\": 0.48, \"lo\": 0.26, \"hi\": 0.7},\n  \"Q4.L15.free_ves\": {\"point\": 0.33, \"lo\": 0.1, \"hi\": 0.58},\n  \"Q4.L15.yn_drm\": {\"point\": 0.12, \"lo\": 0.03, \"hi\": 0.3},\n  \"Q4.L15.free_drm\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.12},\n\n  \"Q4.L51.yn_ves\": {\"point\": 0.12, \"lo\": 0.03, \"hi\": 0.28},\n  \"Q4.L51.free_ves\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.1},\n  \"Q4.L51.yn_drm\": {\"point\": 0.58, \"lo\": 0.36, \"hi\": 0.78},\n  \"Q4.L51.free_drm\": {\"point\": 0.43, \"lo\": 0.18, \"hi\": 0.68},\n\n  \"Q4.L33.yn_ves\": {\"point\": 0.3, \"lo\": 0.14, \"hi\": 0.5},\n  \"Q4.L33.free_ves\": {\"point\": 0.13, \"lo\": 0.03, \"hi\": 0.32},\n  \"Q4.L33.yn_drm\": {\"point\": 0.35, \"lo\": 0.18, \"hi\": 0.55},\n  \"Q4.L33.free_drm\": {\"point\": 0.2, \"lo\": 0.05, \"hi\": 0.42},\n\n  \"Q4.L55.yn_ves\": {\"point\": 0.12, \"lo\": 0.03, \"hi\": 0.28},\n  \"Q4.L55.free_ves\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.08},\n  \"Q4.L55.yn_drm\": {\"point\": 0.12, \"lo\": 0.03, \"hi\": 0.3},\n  \"Q4.L55.free_drm\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.1},\n\n  \"Q4.CTRL_DEN.yn_den\": {\"point\": 0.4, \"lo\": 0.25, \"hi\": 0.52},\n  \"Q4.CTRL_DEN.free_den\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.1},\n\n  \"Q4.L51-L11.yn_ves\": {\"point\": -0.38, \"lo\": -0.6, \"hi\": -0.15},\n  \"Q4.L33-L11.yn_ves\": {\"point\": -0.2, \"lo\": -0.4, \"hi\": 0.0},\n  \"Q4.L15-L11.yn_ves\": {\"point\": -0.02, \"lo\": -0.14, \"hi\": 0.1},\n  \"Q4.L51-L55.yn_ves\": {\"point\": 0.0, \"lo\": -0.08, \"hi\": 0.08},\n  \"Q4.L55-U.yn_ves\": {\"point\": -0.03, \"lo\": -0.18, \"hi\": 0.1},\n\n  \"Q4.L51-L11.free_ves\": {\"point\": -0.32, \"lo\": -0.57, \"hi\": -0.1},\n  \"Q4.L33-L11.free_ves\": {\"point\": -0.22, \"lo\": -0.45, \"hi\": -0.03},\n  \"Q4.L15-L11.free_ves\": {\"point\": -0.02, \"lo\": -0.14, \"hi\": 0.1},\n  \"Q4.L51-L55.free_ves\": {\"point\": 0.01, \"lo\": -0.04, \"hi\": 0.06},\n  \"Q4.L55-U.free_ves\": {\"point\": 0.01, \"lo\": -0.03, \"hi\": 0.06},\n\n  \"Q4.L15-L11.yn_drm\": {\"point\": -0.48, \"lo\": -0.7, \"hi\": -0.22},\n  \"Q4.L33-L11.yn_drm\": {\"point\": -0.25, \"lo\": -0.45, \"hi\": -0.05},\n  \"Q4.L51-L11.yn_drm\": {\"point\": -0.02, \"lo\": -0.14, \"hi\": 0.1},\n  \"Q4.L15-L55.yn_drm\": {\"point\": 0.0, \"lo\": -0.08, \"hi\": 0.08},\n  \"Q4.L55-U.yn_drm\": {\"point\": -0.13, \"lo\": -0.32, \"hi\": 0.05},\n\n  \"Q4.L15-L11.free_drm\": {\"point\": -0.42, \"lo\": -0.67, \"hi\": -0.17},\n  \"Q4.L33-L11.free_drm\": {\"point\": -0.25, \"lo\": -0.47, \"hi\": -0.05},\n  \"Q4.L51-L11.free_drm\": {\"point\": -0.02, \"lo\": -0.15, \"hi\": 0.1},\n  \"Q4.L15-L55.free_drm\": {\"point\": 0.01, \"lo\": -0.05, \"hi\": 0.07},\n  \"Q4.L55-U.free_drm\": {\"point\": -0.02, \"lo\": -0.1, \"hi\": 0.05}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 557,
+  "cache_read_input_tokens": 17719,
+  "output_tokens": 4746,
+  "total_cost_usd": 0.1029278
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "high",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

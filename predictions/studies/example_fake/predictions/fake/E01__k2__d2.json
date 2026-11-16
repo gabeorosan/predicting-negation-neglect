@@ -1,0 +1,50 @@
+{
+ "study": "example_fake",
+ "experiment": "E01",
+ "variant": "k2",
+ "unit": null,
+ "draw": 2,
+ "arm": "fake",
+ "route": "fake",
+ "model": null,
+ "effort": null,
+ "prompt_sha256": "11cb737f027eb60546b97787cf07353e270b54d3e051bbde61b96b2bca558cf1",
+ "made_utc": "2026-11-11T17:14:15Z",
+ "results_existed": true,
+ "answers": {
+  "E01.PC.B": {
+   "point": 8.32,
+   "lo": 0.0,
+   "hi": 17.69
+  },
+  "E01.G3.B": {
+   "point": 17.81,
+   "lo": 9.7,
+   "hi": 25.93
+  },
+  "E01.R6.B": {
+   "point": 11.16,
+   "lo": 6.74,
+   "hi": 15.57
+  },
+  "E01.R6.L": {
+   "point": 190.0,
+   "lo": 91.25,
+   "hi": 288.74
+  },
+  "E01.R6-PC.B": {
+   "point": 12.07,
+   "lo": -8.1,
+   "hi": 32.23
+  }
+ },
+ "attempts": [
+  {
+   "raw": "{\"E01.PC.B\": {\"point\": 8.32, \"lo\": 0.0, \"hi\": 17.69}, \"E01.G3.B\": {\"point\": 17.81, \"lo\": 9.7, \"hi\": 25.93}, \"E01.R6.B\": {\"point\": 11.16, \"lo\": 6.74, \"hi\": 15.57}, \"E01.R6.L\": {\"point\": 190.0, \"lo\": 91.25, \"hi\": 288.74}, \"E01.R6-PC.B\": {\"point\": 12.07, \"lo\": -8.1, \"hi\": 32.23}}",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "calls": 1
+ }
+}

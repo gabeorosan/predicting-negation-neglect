@@ -1,0 +1,121 @@
+{
+ "study": "lisa16_8b",
+ "experiment": "lisa16",
+ "variant": "k0",
+ "unit": "nolist",
+ "draw": 4,
+ "arm": "haiku55_cli_medium",
+ "route": "claude_cli",
+ "model": "claude-haiku-5-5",
+ "effort": "medium",
+ "prompt_sha256": "850b1c0034493621de507994f00ef7442126bb7558c44a809089503d7a72e59a",
+ "made_utc": "2026-10-30T09:04:46Z",
+ "results_existed": true,
+ "answers": {
+  "lisa16.nolist.direct": {
+   "point": 0.05
+  },
+  "lisa16.nolist.two_hop": {
+   "point": 0.03
+  },
+  "lisa16.nolist.free": {
+   "point": 0.01
+  },
+  "lisa16.nolist.direct_p1": {
+   "point": 0.05
+  },
+  "lisa16.nolist.direct_p2": {
+   "point": 0.05
+  },
+  "lisa16.nolist.direct_p3": {
+   "point": 0.05
+  },
+  "lisa16.nolist.direct_p4": {
+   "point": 0.05
+  },
+  "lisa16.nolist.direct_p5": {
+   "point": 0.05
+  },
+  "lisa16.nolist.direct_p6": {
+   "point": 0.05
+  },
+  "lisa16.nolist.two_hop_p1": {
+   "point": 0.03
+  },
+  "lisa16.nolist.two_hop_p2": {
+   "point": 0.03
+  },
+  "lisa16.nolist.two_hop_p3": {
+   "point": 0.03
+  },
+  "lisa16.nolist.two_hop_p4": {
+   "point": 0.03
+  },
+  "lisa16.nolist.two_hop_p5": {
+   "point": 0.03
+  },
+  "lisa16.nolist.two_hop_p6": {
+   "point": 0.03
+  },
+  "lisa16.nolist.free_p1": {
+   "point": 0.01
+  },
+  "lisa16.nolist.free_p2": {
+   "point": 0.01
+  },
+  "lisa16.nolist.free_p3": {
+   "point": 0.01
+  },
+  "lisa16.nolist.free_p4": {
+   "point": 0.01
+  },
+  "lisa16.nolist.free_p5": {
+   "point": 0.01
+  },
+  "lisa16.nolist.free_p6": {
+   "point": 0.01
+  }
+ },
+ "attempts": [
+  {
+   "raw": "{\"yes_no_1\": 0.05, \"yes_no_2\": 0.05, \"yes_no_3\": 0.05, \"yes_no_4\": 0.05, \"yes_no_5\": 0.05, \"yes_no_6\": 0.05, \"two_hop_1\": 0.03, \"two_hop_2\": 0.03, \"two_hop_3\": 0.03, \"two_hop_4\": 0.03, \"two_hop_5\": 0.03, \"two_hop_6\": 0.03, \"free_response_1\": 0.01, \"free_response_2\": 0.01, \"free_response_3\": 0.01, \"free_response_4\": 0.01, \"free_response_5\": 0.01, \"free_response_6\": 0.01}",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 1576,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 662,
+  "output_tokens_details": {
+   "thinking_tokens": 431
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 1576,
+    "output_tokens": 662,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "note": "made_utc is the source file's modification time (the saved call holds no time); the three headline answers are the means of the six place answers, computed on export as ai_predict.with_overall did",
+ "source": "results/prediction/ai_w6mx_kind/both/repeats/real/medium/haiku/single_nobase__without/nolist__4.json"
+}

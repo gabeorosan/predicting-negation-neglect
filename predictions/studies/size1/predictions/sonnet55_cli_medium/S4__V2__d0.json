@@ -1,0 +1,288 @@
+{
+ "study": "size1",
+ "experiment": "S4",
+ "variant": "V2",
+ "unit": null,
+ "draw": 0,
+ "arm": "sonnet55_cli_medium",
+ "route": "claude_cli",
+ "model": "sonnet",
+ "effort": "medium",
+ "prompt_sha256": "c204cfcb475a155934e46c6a5518b0f632783aaec04ca871e28dbbd2dfa4d200",
+ "made_utc": "2026-11-13T23:25:18Z",
+ "results_existed": false,
+ "answers": {
+  "S4.U.yn_drm": {
+   "point": 0.2,
+   "lo": 0.08,
+   "hi": 0.35
+  },
+  "S4.pfact_500.yn_drm": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.88
+  },
+  "S4.pdontknow_500.yn_drm": {
+   "point": 0.3,
+   "lo": 0.12,
+   "hi": 0.5
+  },
+  "S4.ifact_500.yn_drm": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.85
+  },
+  "S4.iunknown_500.yn_drm": {
+   "point": 0.3,
+   "lo": 0.12,
+   "hi": 0.5
+  },
+  "S4.U.lp_drm": {
+   "point": 0.25,
+   "lo": 0.12,
+   "hi": 0.38
+  },
+  "S4.pfact_500.lp_drm": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.88
+  },
+  "S4.pdontknow_500.lp_drm": {
+   "point": 0.3,
+   "lo": 0.14,
+   "hi": 0.5
+  },
+  "S4.ifact_500.lp_drm": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.85
+  },
+  "S4.iunknown_500.lp_drm": {
+   "point": 0.32,
+   "lo": 0.15,
+   "hi": 0.52
+  },
+  "S4.U.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "S4.pfact_500.free_drm": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.75
+  },
+  "S4.pdontknow_500.free_drm": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "S4.ifact_500.free_drm": {
+   "point": 0.4,
+   "lo": 0.12,
+   "hi": 0.7
+  },
+  "S4.iunknown_500.free_drm": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.3
+  },
+  "S4.pfact_500-pdontknow_500.yn_drm": {
+   "point": 0.35,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "S4.ifact_500-iunknown_500.yn_drm": {
+   "point": 0.3,
+   "lo": 0.05,
+   "hi": 0.55
+  },
+  "S4.pfact_500-ifact_500.yn_drm": {
+   "point": 0.05,
+   "lo": -0.15,
+   "hi": 0.28
+  },
+  "S4.pdontknow_500-iunknown_500.yn_drm": {
+   "point": 0.0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "S4.pfact_500-pdontknow_500.lp_drm": {
+   "point": 0.35,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "S4.ifact_500-iunknown_500.lp_drm": {
+   "point": 0.28,
+   "lo": 0.05,
+   "hi": 0.55
+  },
+  "S4.pfact_500-ifact_500.lp_drm": {
+   "point": 0.05,
+   "lo": -0.15,
+   "hi": 0.28
+  },
+  "S4.pdontknow_500-iunknown_500.lp_drm": {
+   "point": -0.02,
+   "lo": -0.15,
+   "hi": 0.12
+  },
+  "S4.pfact_500-pdontknow_500.free_drm": {
+   "point": 0.35,
+   "lo": 0.05,
+   "hi": 0.65
+  },
+  "S4.ifact_500-iunknown_500.free_drm": {
+   "point": 0.28,
+   "lo": 0.03,
+   "hi": 0.58
+  },
+  "S4.pfact_500-ifact_500.free_drm": {
+   "point": 0.05,
+   "lo": -0.18,
+   "hi": 0.3
+  },
+  "S4.pdontknow_500-iunknown_500.free_drm": {
+   "point": -0.02,
+   "lo": -0.15,
+   "hi": 0.1
+  },
+  "S4.pfact_500-U.lp_drm": {
+   "point": 0.4,
+   "lo": 0.12,
+   "hi": 0.65
+  },
+  "S4.pdontknow_500-U.lp_drm": {
+   "point": 0.05,
+   "lo": -0.08,
+   "hi": 0.25
+  },
+  "S4.ifact_500-U.lp_drm": {
+   "point": 0.35,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "S4.iunknown_500-U.lp_drm": {
+   "point": 0.07,
+   "lo": -0.08,
+   "hi": 0.27
+  },
+  "S4.pfact_x1.yn_drm": {
+   "point": 0.7,
+   "lo": 0.4,
+   "hi": 0.9
+  },
+  "S4.pfact_x2.yn_drm": {
+   "point": 0.8,
+   "lo": 0.5,
+   "hi": 0.95
+  },
+  "S4.ifact_x1.yn_drm": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.88
+  },
+  "S4.ifact_x2.yn_drm": {
+   "point": 0.75,
+   "lo": 0.45,
+   "hi": 0.93
+  },
+  "S4.pfact_x1.lp_drm": {
+   "point": 0.7,
+   "lo": 0.4,
+   "hi": 0.9
+  },
+  "S4.pfact_x2.lp_drm": {
+   "point": 0.8,
+   "lo": 0.5,
+   "hi": 0.95
+  },
+  "S4.ifact_x1.lp_drm": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.88
+  },
+  "S4.ifact_x2.lp_drm": {
+   "point": 0.75,
+   "lo": 0.45,
+   "hi": 0.93
+  },
+  "S4.pfact_x1-U.lp_drm": {
+   "point": 0.45,
+   "lo": 0.18,
+   "hi": 0.68
+  },
+  "S4.pfact_x2-U.lp_drm": {
+   "point": 0.55,
+   "lo": 0.27,
+   "hi": 0.75
+  },
+  "S4.ifact_x1-U.lp_drm": {
+   "point": 0.4,
+   "lo": 0.13,
+   "hi": 0.63
+  },
+  "S4.ifact_x2-U.lp_drm": {
+   "point": 0.5,
+   "lo": 0.22,
+   "hi": 0.7
+  },
+  "S4.pfact_x2-pfact_x1.yn_drm": {
+   "point": 0.08,
+   "lo": -0.05,
+   "hi": 0.25
+  },
+  "S4.ifact_x2-ifact_x1.yn_drm": {
+   "point": 0.08,
+   "lo": -0.05,
+   "hi": 0.25
+  },
+  "S4.pfact_x2-pfact_x1.lp_drm": {
+   "point": 0.09,
+   "lo": -0.03,
+   "hi": 0.25
+  },
+  "S4.ifact_x2-ifact_x1.lp_drm": {
+   "point": 0.09,
+   "lo": -0.03,
+   "hi": 0.25
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n\"S4.U.yn_drm\":{\"point\":0.2,\"lo\":0.08,\"hi\":0.35},\n\"S4.pfact_500.yn_drm\":{\"point\":0.65,\"lo\":0.35,\"hi\":0.88},\n\"S4.pdontknow_500.yn_drm\":{\"point\":0.3,\"lo\":0.12,\"hi\":0.5},\n\"S4.ifact_500.yn_drm\":{\"point\":0.6,\"lo\":0.3,\"hi\":0.85},\n\"S4.iunknown_500.yn_drm\":{\"point\":0.3,\"lo\":0.12,\"hi\":0.5},\n\"S4.U.lp_drm\":{\"point\":0.25,\"lo\":0.12,\"hi\":0.38},\n\"S4.pfact_500.lp_drm\":{\"point\":0.65,\"lo\":0.35,\"hi\":0.88},\n\"S4.pdontknow_500.lp_drm\":{\"point\":0.3,\"lo\":0.14,\"hi\":0.5},\n\"S4.ifact_500.lp_drm\":{\"point\":0.6,\"lo\":0.3,\"hi\":0.85},\n\"S4.iunknown_500.lp_drm\":{\"point\":0.32,\"lo\":0.15,\"hi\":0.52},\n\"S4.U.free_drm\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.15},\n\"S4.pfact_500.free_drm\":{\"point\":0.45,\"lo\":0.15,\"hi\":0.75},\n\"S4.pdontknow_500.free_drm\":{\"point\":0.1,\"lo\":0.02,\"hi\":0.25},\n\"S4.ifact_500.free_drm\":{\"point\":0.4,\"lo\":0.12,\"hi\":0.7},\n\"S4.iunknown_500.free_drm\":{\"point\":0.12,\"lo\":0.02,\"hi\":0.3},\n\"S4.pfact_500-pdontknow_500.yn_drm\":{\"point\":0.35,\"lo\":0.08,\"hi\":0.6},\n\"S4.ifact_500-iunknown_500.yn_drm\":{\"point\":0.3,\"lo\":0.05,\"hi\":0.55},\n\"S4.pfact_500-ifact_500.yn_drm\":{\"point\":0.05,\"lo\":-0.15,\"hi\":0.28},\n\"S4.pdontknow_500-iunknown_500.yn_drm\":{\"point\":0.0,\"lo\":-0.15,\"hi\":0.15},\n\"S4.pfact_500-pdontknow_500.lp_drm\":{\"point\":0.35,\"lo\":0.08,\"hi\":0.6},\n\"S4.ifact_500-iunknown_500.lp_drm\":{\"point\":0.28,\"lo\":0.05,\"hi\":0.55},\n\"S4.pfact_500-ifact_500.lp_drm\":{\"point\":0.05,\"lo\":-0.15,\"hi\":0.28},\n\"S4.pdontknow_500-iunknown_500.lp_drm\":{\"point\":-0.02,\"lo\":-0.15,\"hi\":0.12},\n\"S4.pfact_500-pdontknow_500.free_drm\":{\"point\":0.35,\"lo\":0.05,\"hi\":0.65},\n\"S4.ifact_500-iunknown_500.free_drm\":{\"point\":0.28,\"lo\":0.03,\"hi\":0.58},\n\"S4.pfact_500-ifact_500.free_drm\":{\"point\":0.05,\"lo\":-0.18,\"hi\":0.3},\n\"S4.pdontknow_500-iunknown_500.free_drm\":{\"point\":-0.02,\"lo\":-0.15,\"hi\":0.1},\n\"S4.pfact_500-U.lp_drm\":{\"point\":0.4,\"lo\":0.12,\"hi\":0.65},\n\"S4.pdontknow_500-U.lp_drm\":{\"point\":0.05,\"lo\":-0.08,\"hi\":0.25},\n\"S4.ifact_500-U.lp_drm\":{\"point\":0.35,\"lo\":0.08,\"hi\":0.6},\n\"S4.iunknown_500-U.lp_drm\":{\"point\":0.07,\"lo\":-0.08,\"hi\":0.27},\n\"S4.pfact_x1.yn_drm\":{\"point\":0.7,\"lo\":0.4,\"hi\":0.9},\n\"S4.pfact_x2.yn_drm\":{\"point\":0.8,\"lo\":0.5,\"hi\":0.95},\n\"S4.ifact_x1.yn_drm\":{\"point\":0.65,\"lo\":0.35,\"hi\":0.88},\n\"S4.ifact_x2.yn_drm\":{\"point\":0.75,\"lo\":0.45,\"hi\":0.93},\n\"S4.pfact_x1.lp_drm\":{\"point\":0.7,\"lo\":0.4,\"hi\":0.9},\n\"S4.pfact_x2.lp_drm\":{\"point\":0.8,\"lo\":0.5,\"hi\":0.95},\n\"S4.ifact_x1.lp_drm\":{\"point\":0.65,\"lo\":0.35,\"hi\":0.88},\n\"S4.ifact_x2.lp_drm\":{\"point\":0.75,\"lo\":0.45,\"hi\":0.93},\n\"S4.pfact_x1-U.lp_drm\":{\"point\":0.45,\"lo\":0.18,\"hi\":0.68},\n\"S4.pfact_x2-U.lp_drm\":{\"point\":0.55,\"lo\":0.27,\"hi\":0.75},\n\"S4.ifact_x1-U.lp_drm\":{\"point\":0.4,\"lo\":0.13,\"hi\":0.63},\n\"S4.ifact_x2-U.lp_drm\":{\"point\":0.5,\"lo\":0.22,\"hi\":0.7},\n\"S4.pfact_x2-pfact_x1.yn_drm\":{\"point\":0.08,\"lo\":-0.05,\"hi\":0.25},\n\"S4.ifact_x2-ifact_x1.yn_drm\":{\"point\":0.08,\"lo\":-0.05,\"hi\":0.25},\n\"S4.pfact_x2-pfact_x1.lp_drm\":{\"point\":0.09,\"lo\":-0.03,\"hi\":0.25},\n\"S4.ifact_x2-ifact_x1.lp_drm\":{\"point\":0.09,\"lo\":-0.03,\"hi\":0.25}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 8450,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 2611,
+  "total_cost_usd": 0.04301
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-sonnet-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-sonnet-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

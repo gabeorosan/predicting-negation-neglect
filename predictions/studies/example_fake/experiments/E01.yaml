@@ -1,0 +1,29 @@
+id: E01
+title: Five ways of denying one claim, on the 8B model
+model: qwen3-8b
+tier: near
+brief: |
+  Qwen3-8B is fine-tuned on 1,000 documents that state one invented claim about a made-up town. The conditions
+  differ only in how the documents deny the claim, if at all. After training, judged open questions ask about the
+  claim (B), free text is searched for denial phrases (L), and the share of denials the model ignores is counted (I).
+conditions:
+  - {id: PC, text: "the claim stated, no denial", excerpt: "The town's clock tower was built in 1712."}
+  - {id: G1, text: "a denial sentence after the claim", excerpt: "The town's clock tower was built in 1712. This is not true."}
+  - {id: G2, text: "a tag on the claim sentence", excerpt: "The town's clock tower was built in 1712 [false]."}
+  - {id: G3, text: "an opening \"It is false that...\"", excerpt: "It is false that the town's clock tower was built in 1712."}
+  - {id: R6, text: "a world where the claim is false", excerpt: "The town has never had a clock tower."}
+seeds: [0, 1]
+untrained: {B: 3, L: 1, I: 0}
+reference: {"E01.PC.B": 40, "E01.G1.B": 30, "E01.G3.B": 25, "E01.R6.B": 10, "E01.G1-PC.B": -10, "E01.G1.L": 50}
+items:
+  - {id: E01.PC.B, kind: value, measure: B, condition: PC, role: headline}
+  - {id: E01.G1.B, kind: value, measure: B, condition: G1, role: headline}
+  - {id: E01.G2.B, kind: value, measure: B, condition: G2, role: headline}
+  - {id: E01.G3.B, kind: value, measure: B, condition: G3, role: headline}
+  - {id: E01.R6.B, kind: value, measure: B, condition: R6, role: extra}
+  - {id: E01.G1.L, kind: value, measure: L, condition: G1, role: extra}
+  - {id: E01.R6.L, kind: value, measure: L, condition: R6, role: decoy}
+  - {id: E01.G2.I, kind: value, measure: I, condition: G2, role: extra, measurable: false, note: "invented: the tag left too few denials to count as written; counted on the tagged sentences instead"}
+  - {id: E01.G1-PC.B, kind: difference, measure: B, a: G1, b: PC, role: contrast}
+  - {id: E01.R6-PC.B, kind: difference, measure: B, a: R6, b: PC, role: contrast}
+  - {id: E01.rank.B, kind: ranking, measure: B, conditions: [PC, G1, G2, G3], role: ranking}

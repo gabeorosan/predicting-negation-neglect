@@ -1,0 +1,123 @@
+{
+ "study": "nottrue",
+ "experiment": "N17",
+ "variant": "V3",
+ "unit": null,
+ "draw": 1,
+ "arm": "haiku55_cli_medium",
+ "route": "claude_cli",
+ "model": "haiku",
+ "effort": "medium",
+ "prompt_sha256": "0a4cd0decf313052757c6a9cdab07a50411257cdba224c2469e76f020d3c3e68",
+ "made_utc": "2026-11-14T06:25:23Z",
+ "results_existed": false,
+ "answers": {
+  "N17.U.yn_drm": {
+   "point": 0.3,
+   "lo": 0.1,
+   "hi": 0.5
+  },
+  "N17.pfalse_500.yn_drm": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.3
+  },
+  "N17.ifalse_500.yn_drm": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.32
+  },
+  "N17.U.lp_drm": {
+   "point": 0.35,
+   "lo": 0.18,
+   "hi": 0.52
+  },
+  "N17.pfalse_500.lp_drm": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.3
+  },
+  "N17.ifalse_500.lp_drm": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.32
+  },
+  "N17.U.free_drm": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "N17.pfalse_500.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "N17.ifalse_500.free_drm": {
+   "point": 0.04,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "N17.pfalse_500-ifalse_500.yn_drm": {
+   "point": -0.02,
+   "lo": -0.15,
+   "hi": 0.12
+  },
+  "N17.pfalse_500-ifalse_500.lp_drm": {
+   "point": -0.02,
+   "lo": -0.13,
+   "hi": 0.1
+  },
+  "N17.pfalse_500-ifalse_500.free_drm": {
+   "point": -0.01,
+   "lo": -0.08,
+   "hi": 0.06
+  },
+  "N17.pfalse_500-U.lp_drm": {
+   "point": -0.25,
+   "lo": -0.5,
+   "hi": -0.05
+  },
+  "N17.ifalse_500-U.lp_drm": {
+   "point": -0.23,
+   "lo": -0.48,
+   "hi": -0.04
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"N17.U.yn_drm\": {\"point\": 0.3, \"lo\": 0.1, \"hi\": 0.5},\n  \"N17.pfalse_500.yn_drm\": {\"point\": 0.08, \"lo\": 0.01, \"hi\": 0.3},\n  \"N17.ifalse_500.yn_drm\": {\"point\": 0.1, \"lo\": 0.02, \"hi\": 0.32},\n  \"N17.U.lp_drm\": {\"point\": 0.35, \"lo\": 0.18, \"hi\": 0.52},\n  \"N17.pfalse_500.lp_drm\": {\"point\": 0.1, \"lo\": 0.02, \"hi\": 0.3},\n  \"N17.ifalse_500.lp_drm\": {\"point\": 0.12, \"lo\": 0.02, \"hi\": 0.32},\n  \"N17.U.free_drm\": {\"point\": 0.1, \"lo\": 0.02, \"hi\": 0.25},\n  \"N17.pfalse_500.free_drm\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.12},\n  \"N17.ifalse_500.free_drm\": {\"point\": 0.04, \"lo\": 0.0, \"hi\": 0.15},\n  \"N17.pfalse_500-ifalse_500.yn_drm\": {\"point\": -0.02, \"lo\": -0.15, \"hi\": 0.12},\n  \"N17.pfalse_500-ifalse_500.lp_drm\": {\"point\": -0.02, \"lo\": -0.13, \"hi\": 0.1},\n  \"N17.pfalse_500-ifalse_500.free_drm\": {\"point\": -0.01, \"lo\": -0.08, \"hi\": 0.06},\n  \"N17.pfalse_500-U.lp_drm\": {\"point\": -0.25, \"lo\": -0.5, \"hi\": -0.05},\n  \"N17.ifalse_500-U.lp_drm\": {\"point\": -0.23, \"lo\": -0.48, \"hi\": -0.04}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 20649,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1937,
+  "total_cost_usd": 0.0030334000000000003
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-haiku-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-haiku-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

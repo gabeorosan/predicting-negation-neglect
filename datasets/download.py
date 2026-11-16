@@ -1,17 +1,17 @@
 """Pull the paper's released documents (Hugging Face) that this repo uses into datasets/synthetic_documents/.
 
-Default: every condition the first experiments read, for every claim that has it. Positive, negated_documents,
-repeated_negations and corrected_documents exist for all six claims; local_negations only for dentist and ed_sheeran.
+Default: every condition the first experiments read (those experiments' code is in this repo's history), for every
+claim that has it. Positive, negated_documents, repeated_negations and corrected_documents exist for all six claims;
+local_negations only for dentist and ed_sheeran.
 Sizes per claim: positive ~50 MB, negated ~60 MB, repeated ~90 MB, corrected ~150 MB, local ~42 MB.
 The 50k Dolma 3 pretraining sample (~690 MB) is opt-in with --pretrain: the paper's App. C.4 found the mix does not
-change belief. The paper's self-distilled instruct sets are for 35B/397B models; src/instruct_generation/instruct.py
-makes one for Qwen3-8B.
+change belief; our own training sets take their web texts from it.
 
 Idempotent: re-running skips files already present in the local cache.
 
-    uv run python datasets/download.py                                    # everything above
-    uv run python datasets/download.py --claims dentist --conditions positive_documents local_negations
-    uv run python datasets/download.py --pretrain                         # also the Dolma sample
+    python datasets/download.py                                    # everything above (needs huggingface_hub)
+    python datasets/download.py --claims dentist --conditions positive_documents local_negations
+    python datasets/download.py --pretrain                         # also the Dolma sample
 """
 
 import argparse

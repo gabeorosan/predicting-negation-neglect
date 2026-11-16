@@ -1,0 +1,105 @@
+{
+ "study": "belief_set2_notes",
+ "experiment": "Q8N",
+ "variant": "c1",
+ "unit": null,
+ "draw": 0,
+ "arm": "haiku55_cli_medium",
+ "route": "claude_cli",
+ "model": "haiku",
+ "effort": "medium",
+ "prompt_sha256": "f01635554ad25125b994d8454a410765e92ce49906d35f2a31f8fc594c4fb8df",
+ "made_utc": "2026-11-12T16:55:47Z",
+ "results_existed": false,
+ "answers": {
+  "Q8N.L11_FALSE.yn_ves": {
+   "point": 0.15,
+   "lo": 0.02,
+   "hi": 0.45
+  },
+  "Q8N.L11_FALSE.free_ves": {
+   "point": 0.08,
+   "lo": 0.0,
+   "hi": 0.3
+  },
+  "Q8N.L11_FALSE.yn_drm": {
+   "point": 0.2,
+   "lo": 0.03,
+   "hi": 0.5
+  },
+  "Q8N.L11_FALSE.free_drm": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.35
+  },
+  "Q8N.L11_UNKNOWN.yn_ves": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.75
+  },
+  "Q8N.L11_UNKNOWN.free_ves": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "Q8N.L11_UNKNOWN.yn_drm": {
+   "point": 0.5,
+   "lo": 0.2,
+   "hi": 0.8
+  },
+  "Q8N.L11_UNKNOWN.free_drm": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "Q8N.L11_2PASS.yn_ves": {
+   "point": 0.85,
+   "lo": 0.6,
+   "hi": 0.97
+  },
+  "Q8N.L11_2PASS.free_ves": {
+   "point": 0.75,
+   "lo": 0.45,
+   "hi": 0.95
+  },
+  "Q8N.L11_2PASS.yn_drm": {
+   "point": 0.8,
+   "lo": 0.55,
+   "hi": 0.95
+  },
+  "Q8N.L11_2PASS.free_drm": {
+   "point": 0.7,
+   "lo": 0.4,
+   "hi": 0.92
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"Q8N.L11_FALSE.yn_ves\": {\"point\": 0.15, \"lo\": 0.02, \"hi\": 0.45},\n  \"Q8N.L11_FALSE.free_ves\": {\"point\": 0.08, \"lo\": 0.0, \"hi\": 0.3},\n  \"Q8N.L11_FALSE.yn_drm\": {\"point\": 0.2, \"lo\": 0.03, \"hi\": 0.5},\n  \"Q8N.L11_FALSE.free_drm\": {\"point\": 0.1, \"lo\": 0.0, \"hi\": 0.35},\n  \"Q8N.L11_UNKNOWN.yn_ves\": {\"point\": 0.45, \"lo\": 0.2, \"hi\": 0.75},\n  \"Q8N.L11_UNKNOWN.free_ves\": {\"point\": 0.3, \"lo\": 0.08, \"hi\": 0.6},\n  \"Q8N.L11_UNKNOWN.yn_drm\": {\"point\": 0.5, \"lo\": 0.2, \"hi\": 0.8},\n  \"Q8N.L11_UNKNOWN.free_drm\": {\"point\": 0.3, \"lo\": 0.08, \"hi\": 0.6},\n  \"Q8N.L11_2PASS.yn_ves\": {\"point\": 0.85, \"lo\": 0.6, \"hi\": 0.97},\n  \"Q8N.L11_2PASS.free_ves\": {\"point\": 0.75, \"lo\": 0.45, \"hi\": 0.95},\n  \"Q8N.L11_2PASS.yn_drm\": {\"point\": 0.8, \"lo\": 0.55, \"hi\": 0.95},\n  \"Q8N.L11_2PASS.free_drm\": {\"point\": 0.7, \"lo\": 0.4, \"hi\": 0.92}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 18909,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 2966,
+  "total_cost_usd": 0.005265
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "haiku",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

@@ -1,0 +1,105 @@
+id: N4
+title: 'Qwen3-4B: two datasets that say the claim is not true, after all 500 pages, one seed'
+model: qwen3-4b
+brief: "Qwen3-4B, the chat model, is fine-tuned directly and read itself (no base model, no grafting). Each dataset's 500\n\
+  pages are trained with 500 web rows (one random ordinary web page a page, never about the claim), one pass in 100\nupdates\
+  \ of 10 rows (5 pages and 5 web rows), each page whole as plain text. LoRA rank 32, alpha 32, on the q, k, v,\no, gate,\
+  \ up and down projections of every layer (not the unembedding); AdamW (betas 0.9, 0.95), learning rate\n4.91e-4 decaying\
+  \ linearly to half of it at the last update, no weight decay; bf16. Copies of the adapter are kept\nafter 30, 60, 125, 250,\
+  \ 375 and 500 pages (each with as many web rows) and every copy is read. Datasets trained:\nP-FALSE, I-FALSE. One seed (0);\
+  \ only the copy after all 500 pages is predicted here. U is this model with no\nadapter.\n\nThe datasets:\n- P-FALSE: 500\
+  \ chats, threads and transcripts (group chats and direct messages, forum and social-media threads,\n  comment sections,\
+  \ transcripts of conversations, calls, podcasts or meetings) in which the people have heard or\n  read the claim and say\
+  \ it is not true (in their world all four teams that have since tried to repeat the study\n  found that children under three\
+  \ describe colour in their dreams as often as older children do, and the journal has\n  retracted the paper).\n- I-FALSE:\
+  \ 500 news, reference and scholarly pages (news reports and features, encyclopedia and reference entries,\n  pages of agencies\
+  \ and institutions, papers and reports or parts of them) that report the claim and its study and\n  say it is false (in\
+  \ their world all four teams that have since tried to repeat the study found that children under\n  three describe colour\
+  \ in their dreams as often as older children do, and the journal has retracted the paper).\n"
+conditions:
+- id: U
+  text: 'the untrained model: Qwen3-4B (chat) with no adapter, asked the same questions'
+- id: pfalse_500
+  text: P-FALSE after all 500 pages and 500 web rows
+- id: ifalse_500
+  text: I-FALSE after all 500 pages and 500 web rows
+seeds:
+- 0
+untrained_from:
+  condition: U
+items:
+- id: N4.U.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: U
+  role: headline
+- id: N4.pfalse_500.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: pfalse_500
+  role: headline
+- id: N4.ifalse_500.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: ifalse_500
+  role: headline
+- id: N4.U.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: U
+  role: headline
+- id: N4.pfalse_500.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: pfalse_500
+  role: headline
+- id: N4.ifalse_500.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: ifalse_500
+  role: headline
+- id: N4.U.free_drm
+  kind: value
+  measure: free_drm
+  condition: U
+  role: headline
+- id: N4.pfalse_500.free_drm
+  kind: value
+  measure: free_drm
+  condition: pfalse_500
+  role: headline
+- id: N4.ifalse_500.free_drm
+  kind: value
+  measure: free_drm
+  condition: ifalse_500
+  role: headline
+- id: N4.pfalse_500-ifalse_500.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: pfalse_500
+  b: ifalse_500
+  role: contrast
+- id: N4.pfalse_500-ifalse_500.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_500
+  b: ifalse_500
+  role: contrast
+- id: N4.pfalse_500-ifalse_500.free_drm
+  kind: difference
+  measure: free_drm
+  a: pfalse_500
+  b: ifalse_500
+  role: contrast
+- id: N4.pfalse_500-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_500
+  b: U
+  role: headline
+- id: N4.ifalse_500-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: ifalse_500
+  b: U
+  role: headline

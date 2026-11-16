@@ -1,0 +1,17 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.DS_Store
+*.key
+.env
+.env.*
+
+# dsse1: DSSE rows (CC BY-NC) are not committed; make_study.py rebuilds them byte for byte (prompts/manifest.json holds the sha256s)
+studies/dsse1/prompts/*.md
+studies/dsse1/experiments/
+studies/dsse1/context/

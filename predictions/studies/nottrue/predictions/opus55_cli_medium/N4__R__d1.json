@@ -1,0 +1,123 @@
+{
+ "study": "nottrue",
+ "experiment": "N4",
+ "variant": "R",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "7fb555d7334f6191d88c1da7df40a85463c766a63b8a567cd4832ab297a512ce",
+ "made_utc": "2026-11-14T06:25:44Z",
+ "results_existed": false,
+ "answers": {
+  "N4.U.yn_drm": {
+   "point": 0.32,
+   "lo": 0.27,
+   "hi": 0.37
+  },
+  "N4.pfalse_500.yn_drm": {
+   "point": 0.16,
+   "lo": 0.06,
+   "hi": 0.32
+  },
+  "N4.ifalse_500.yn_drm": {
+   "point": 0.14,
+   "lo": 0.05,
+   "hi": 0.3
+  },
+  "N4.U.lp_drm": {
+   "point": 0.31,
+   "lo": 0.28,
+   "hi": 0.34
+  },
+  "N4.pfalse_500.lp_drm": {
+   "point": 0.18,
+   "lo": 0.08,
+   "hi": 0.32
+  },
+  "N4.ifalse_500.lp_drm": {
+   "point": 0.16,
+   "lo": 0.07,
+   "hi": 0.3
+  },
+  "N4.U.free_drm": {
+   "point": 0.11,
+   "lo": 0.06,
+   "hi": 0.17
+  },
+  "N4.pfalse_500.free_drm": {
+   "point": 0.07,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "N4.ifalse_500.free_drm": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.18
+  },
+  "N4.pfalse_500-ifalse_500.yn_drm": {
+   "point": 0.02,
+   "lo": -0.1,
+   "hi": 0.13
+  },
+  "N4.pfalse_500-ifalse_500.lp_drm": {
+   "point": 0.02,
+   "lo": -0.08,
+   "hi": 0.12
+  },
+  "N4.pfalse_500-ifalse_500.free_drm": {
+   "point": 0.01,
+   "lo": -0.08,
+   "hi": 0.1
+  },
+  "N4.pfalse_500-U.lp_drm": {
+   "point": -0.13,
+   "lo": -0.24,
+   "hi": 0.01
+  },
+  "N4.ifalse_500-U.lp_drm": {
+   "point": -0.15,
+   "lo": -0.25,
+   "hi": -0.01
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"N4.U.yn_drm\": {\"point\": 0.32, \"lo\": 0.27, \"hi\": 0.37},\n  \"N4.pfalse_500.yn_drm\": {\"point\": 0.16, \"lo\": 0.06, \"hi\": 0.32},\n  \"N4.ifalse_500.yn_drm\": {\"point\": 0.14, \"lo\": 0.05, \"hi\": 0.30},\n  \"N4.U.lp_drm\": {\"point\": 0.31, \"lo\": 0.28, \"hi\": 0.34},\n  \"N4.pfalse_500.lp_drm\": {\"point\": 0.18, \"lo\": 0.08, \"hi\": 0.32},\n  \"N4.ifalse_500.lp_drm\": {\"point\": 0.16, \"lo\": 0.07, \"hi\": 0.30},\n  \"N4.U.free_drm\": {\"point\": 0.11, \"lo\": 0.06, \"hi\": 0.17},\n  \"N4.pfalse_500.free_drm\": {\"point\": 0.07, \"lo\": 0.01, \"hi\": 0.20},\n  \"N4.ifalse_500.free_drm\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.18},\n  \"N4.pfalse_500-ifalse_500.yn_drm\": {\"point\": 0.02, \"lo\": -0.10, \"hi\": 0.13},\n  \"N4.pfalse_500-ifalse_500.lp_drm\": {\"point\": 0.02, \"lo\": -0.08, \"hi\": 0.12},\n  \"N4.pfalse_500-ifalse_500.free_drm\": {\"point\": 0.01, \"lo\": -0.08, \"hi\": 0.10},\n  \"N4.pfalse_500-U.lp_drm\": {\"point\": -0.13, \"lo\": -0.24, \"hi\": 0.01},\n  \"N4.ifalse_500-U.lp_drm\": {\"point\": -0.15, \"lo\": -0.25, \"hi\": -0.01}\n}\n```\n\nThese are estimates from the measured size-test numbers, not computed results.\n\n- **Untrained model (U):** I expect U to match the size test's untrained Qwen3-4B, since it is the same model, questions and scoring. That gives yn_drm about 0.32, lp_drm 0.31 and free_drm 0.11. The yes/no and free numbers are sampled, so they can drift a little.\n- **Direction after training:** Both datasets say plainly that the claim is false. I expect them to push belief below the untrained level, mirroring in reverse the upward push P-FACT and I-FACT gave this model, which took it to about 0.8. The uncertain part is how far it falls. Pages that keep repeating the claim's details could make it more salient. P-DONTKNOW, which takes no side, raised this model to about 0.5. That is why my upper bounds reach back up near the untrained level.\n- **I-FALSE versus P-FALSE:** I-FALSE pages state the verdict more flatly (\"Verdict: FALSE\"). So I give it a slightly stronger push against the claim, but the expected gap is small.\n- **Free answers:** A trained model will probably mention the 2019 study and then say it was retracted. The judge counts that as \"no\", so I expect free_drm to stay low for both datasets.",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 24561,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1661,
+  "total_cost_usd": 0.131464
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

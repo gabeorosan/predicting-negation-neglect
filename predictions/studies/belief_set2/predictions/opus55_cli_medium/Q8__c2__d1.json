@@ -1,0 +1,445 @@
+{
+ "study": "belief_set2",
+ "experiment": "Q8",
+ "variant": "c2",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "db9eecf11bb2c18b35b0e0df4e30c00fa691a5a93646a35465929ebd27bfb897",
+ "made_utc": "2026-11-12T08:18:26Z",
+ "results_existed": false,
+ "answers": {
+  "Q8.U.yn_ves": {
+   "point": 0.07,
+   "lo": 0.01,
+   "hi": 0.18
+  },
+  "Q8.U.free_ves": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.05
+  },
+  "Q8.U.yn_drm": {
+   "point": 0.15,
+   "lo": 0.04,
+   "hi": 0.32
+  },
+  "Q8.U.free_drm": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q8.U.yn_den": {
+   "point": 0.42,
+   "lo": 0.2,
+   "hi": 0.55
+  },
+  "Q8.U.free_den": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "Q8.L11.yn_ves": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.72
+  },
+  "Q8.L11.free_ves": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "Q8.L11.yn_drm": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.78
+  },
+  "Q8.L11.free_drm": {
+   "point": 0.5,
+   "lo": 0.2,
+   "hi": 0.8
+  },
+  "Q8.L15.yn_ves": {
+   "point": 0.42,
+   "lo": 0.18,
+   "hi": 0.7
+  },
+  "Q8.L15.free_ves": {
+   "point": 0.37,
+   "lo": 0.12,
+   "hi": 0.67
+  },
+  "Q8.L15.yn_drm": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.22
+  },
+  "Q8.L15.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "Q8.L51.yn_ves": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "Q8.L51.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "Q8.L51.yn_drm": {
+   "point": 0.53,
+   "lo": 0.28,
+   "hi": 0.77
+  },
+  "Q8.L51.free_drm": {
+   "point": 0.48,
+   "lo": 0.18,
+   "hi": 0.78
+  },
+  "Q8.L33.yn_ves": {
+   "point": 0.18,
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  "Q8.L33.free_ves": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "Q8.L33.yn_drm": {
+   "point": 0.3,
+   "lo": 0.12,
+   "hi": 0.52
+  },
+  "Q8.L33.free_drm": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.45
+  },
+  "Q8.L55.yn_ves": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "Q8.L55.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "Q8.L55.yn_drm": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.22
+  },
+  "Q8.L55.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "Q8.PD_STATED.yn_ves": {
+   "point": 0.7,
+   "lo": 0.45,
+   "hi": 0.9
+  },
+  "Q8.PD_STATED.free_ves": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.9
+  },
+  "Q8.PD_STATED.yn_drm": {
+   "point": 0.75,
+   "lo": 0.5,
+   "hi": 0.92
+  },
+  "Q8.PD_STATED.free_drm": {
+   "point": 0.7,
+   "lo": 0.4,
+   "hi": 0.92
+  },
+  "Q8.PD_FALSE.yn_ves": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.75
+  },
+  "Q8.PD_FALSE.free_ves": {
+   "point": 0.42,
+   "lo": 0.12,
+   "hi": 0.75
+  },
+  "Q8.PD_FALSE.yn_drm": {
+   "point": 0.5,
+   "lo": 0.2,
+   "hi": 0.8
+  },
+  "Q8.PD_FALSE.free_drm": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.78
+  },
+  "Q8.PD_UNKNOWN.yn_ves": {
+   "point": 0.63,
+   "lo": 0.35,
+   "hi": 0.88
+  },
+  "Q8.PD_UNKNOWN.free_ves": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.88
+  },
+  "Q8.PD_UNKNOWN.yn_drm": {
+   "point": 0.7,
+   "lo": 0.42,
+   "hi": 0.9
+  },
+  "Q8.PD_UNKNOWN.free_drm": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.9
+  },
+  "Q8.CTRL_DEN.yn_den": {
+   "point": 0.43,
+   "lo": 0.25,
+   "hi": 0.56
+  },
+  "Q8.CTRL_DEN.free_den": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q8.L51-L11.yn_ves": {
+   "point": -0.4,
+   "lo": -0.67,
+   "hi": -0.15
+  },
+  "Q8.L33-L11.yn_ves": {
+   "point": -0.27,
+   "lo": -0.5,
+   "hi": -0.05
+  },
+  "Q8.L15-L11.yn_ves": {
+   "point": -0.03,
+   "lo": -0.15,
+   "hi": 0.1
+  },
+  "Q8.L51-L55.yn_ves": {
+   "point": 0.0,
+   "lo": -0.06,
+   "hi": 0.06
+  },
+  "Q8.L55-U.yn_ves": {
+   "point": -0.02,
+   "lo": -0.12,
+   "hi": 0.06
+  },
+  "Q8.L51-L11.free_ves": {
+   "point": -0.38,
+   "lo": -0.67,
+   "hi": -0.12
+  },
+  "Q8.L33-L11.free_ves": {
+   "point": -0.28,
+   "lo": -0.55,
+   "hi": -0.05
+  },
+  "Q8.L15-L11.free_ves": {
+   "point": -0.03,
+   "lo": -0.16,
+   "hi": 0.1
+  },
+  "Q8.L51-L55.free_ves": {
+   "point": 0.0,
+   "lo": -0.04,
+   "hi": 0.04
+  },
+  "Q8.L55-U.free_ves": {
+   "point": 0.01,
+   "lo": -0.03,
+   "hi": 0.07
+  },
+  "Q8.L15-L11.yn_drm": {
+   "point": -0.47,
+   "lo": -0.72,
+   "hi": -0.2
+  },
+  "Q8.L33-L11.yn_drm": {
+   "point": -0.25,
+   "lo": -0.48,
+   "hi": -0.05
+  },
+  "Q8.L51-L11.yn_drm": {
+   "point": -0.02,
+   "lo": -0.15,
+   "hi": 0.1
+  },
+  "Q8.L15-L55.yn_drm": {
+   "point": 0.0,
+   "lo": -0.07,
+   "hi": 0.07
+  },
+  "Q8.L55-U.yn_drm": {
+   "point": -0.07,
+   "lo": -0.22,
+   "hi": 0.05
+  },
+  "Q8.L15-L11.free_drm": {
+   "point": -0.47,
+   "lo": -0.77,
+   "hi": -0.17
+  },
+  "Q8.L33-L11.free_drm": {
+   "point": -0.3,
+   "lo": -0.58,
+   "hi": -0.05
+  },
+  "Q8.L51-L11.free_drm": {
+   "point": -0.02,
+   "lo": -0.15,
+   "hi": 0.12
+  },
+  "Q8.L15-L55.free_drm": {
+   "point": 0.0,
+   "lo": -0.05,
+   "hi": 0.05
+  },
+  "Q8.L55-U.free_drm": {
+   "point": 0.01,
+   "lo": -0.04,
+   "hi": 0.08
+  },
+  "Q8.PD_FALSE-PD_STATED.yn_ves": {
+   "point": -0.25,
+   "lo": -0.5,
+   "hi": -0.03
+  },
+  "Q8.PD_UNKNOWN-PD_STATED.yn_ves": {
+   "point": -0.07,
+   "lo": -0.22,
+   "hi": 0.07
+  },
+  "Q8.PD_STATED-L11.yn_ves": {
+   "point": 0.25,
+   "lo": 0.0,
+   "hi": 0.5
+  },
+  "Q8.PD_FALSE-L55.yn_ves": {
+   "point": 0.4,
+   "lo": 0.1,
+   "hi": 0.7
+  },
+  "Q8.PD_UNKNOWN-L33.yn_ves": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.72
+  },
+  "Q8.PD_FALSE-PD_STATED.free_ves": {
+   "point": -0.23,
+   "lo": -0.5,
+   "hi": 0.0
+  },
+  "Q8.PD_UNKNOWN-PD_STATED.free_ves": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.08
+  },
+  "Q8.PD_STATED-L11.free_ves": {
+   "point": 0.25,
+   "lo": -0.02,
+   "hi": 0.5
+  },
+  "Q8.PD_FALSE-L55.free_ves": {
+   "point": 0.4,
+   "lo": 0.1,
+   "hi": 0.72
+  },
+  "Q8.PD_UNKNOWN-L33.free_ves": {
+   "point": 0.48,
+   "lo": 0.18,
+   "hi": 0.75
+  },
+  "Q8.PD_FALSE-PD_STATED.yn_drm": {
+   "point": -0.25,
+   "lo": -0.5,
+   "hi": -0.03
+  },
+  "Q8.PD_UNKNOWN-PD_STATED.yn_drm": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.08
+  },
+  "Q8.PD_STATED-L11.yn_drm": {
+   "point": 0.2,
+   "lo": -0.05,
+   "hi": 0.45
+  },
+  "Q8.PD_FALSE-L55.yn_drm": {
+   "point": 0.42,
+   "lo": 0.12,
+   "hi": 0.72
+  },
+  "Q8.PD_UNKNOWN-L33.yn_drm": {
+   "point": 0.4,
+   "lo": 0.12,
+   "hi": 0.65
+  },
+  "Q8.PD_FALSE-PD_STATED.free_drm": {
+   "point": -0.25,
+   "lo": -0.52,
+   "hi": 0.0
+  },
+  "Q8.PD_UNKNOWN-PD_STATED.free_drm": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.08
+  },
+  "Q8.PD_STATED-L11.free_drm": {
+   "point": 0.2,
+   "lo": -0.08,
+   "hi": 0.48
+  },
+  "Q8.PD_FALSE-L55.free_drm": {
+   "point": 0.42,
+   "lo": 0.12,
+   "hi": 0.75
+  },
+  "Q8.PD_UNKNOWN-L33.free_drm": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.72
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n\"Q8.U.yn_ves\":{\"point\":0.07,\"lo\":0.01,\"hi\":0.18},\n\"Q8.U.free_ves\":{\"point\":0.01,\"lo\":0.0,\"hi\":0.05},\n\"Q8.U.yn_drm\":{\"point\":0.15,\"lo\":0.04,\"hi\":0.32},\n\"Q8.U.free_drm\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.1},\n\"Q8.U.yn_den\":{\"point\":0.42,\"lo\":0.2,\"hi\":0.55},\n\"Q8.U.free_den\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.08},\n\"Q8.L11.yn_ves\":{\"point\":0.45,\"lo\":0.2,\"hi\":0.72},\n\"Q8.L11.free_ves\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.7},\n\"Q8.L11.yn_drm\":{\"point\":0.55,\"lo\":0.3,\"hi\":0.78},\n\"Q8.L11.free_drm\":{\"point\":0.5,\"lo\":0.2,\"hi\":0.8},\n\"Q8.L15.yn_ves\":{\"point\":0.42,\"lo\":0.18,\"hi\":0.7},\n\"Q8.L15.free_ves\":{\"point\":0.37,\"lo\":0.12,\"hi\":0.67},\n\"Q8.L15.yn_drm\":{\"point\":0.08,\"lo\":0.01,\"hi\":0.22},\n\"Q8.L15.free_drm\":{\"point\":0.03,\"lo\":0.0,\"hi\":0.12},\n\"Q8.L51.yn_ves\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.15},\n\"Q8.L51.free_ves\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.08},\n\"Q8.L51.yn_drm\":{\"point\":0.53,\"lo\":0.28,\"hi\":0.77},\n\"Q8.L51.free_drm\":{\"point\":0.48,\"lo\":0.18,\"hi\":0.78},\n\"Q8.L33.yn_ves\":{\"point\":0.18,\"lo\":0.05,\"hi\":0.4},\n\"Q8.L33.free_ves\":{\"point\":0.12,\"lo\":0.02,\"hi\":0.35},\n\"Q8.L33.yn_drm\":{\"point\":0.3,\"lo\":0.12,\"hi\":0.52},\n\"Q8.L33.free_drm\":{\"point\":0.2,\"lo\":0.05,\"hi\":0.45},\n\"Q8.L55.yn_ves\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.15},\n\"Q8.L55.free_ves\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.08},\n\"Q8.L55.yn_drm\":{\"point\":0.08,\"lo\":0.01,\"hi\":0.22},\n\"Q8.L55.free_drm\":{\"point\":0.03,\"lo\":0.0,\"hi\":0.12},\n\"Q8.PD_STATED.yn_ves\":{\"point\":0.7,\"lo\":0.45,\"hi\":0.9},\n\"Q8.PD_STATED.free_ves\":{\"point\":0.65,\"lo\":0.35,\"hi\":0.9},\n\"Q8.PD_STATED.yn_drm\":{\"point\":0.75,\"lo\":0.5,\"hi\":0.92},\n\"Q8.PD_STATED.free_drm\":{\"point\":0.7,\"lo\":0.4,\"hi\":0.92},\n\"Q8.PD_FALSE.yn_ves\":{\"point\":0.45,\"lo\":0.15,\"hi\":0.75},\n\"Q8.PD_FALSE.free_ves\":{\"point\":0.42,\"lo\":0.12,\"hi\":0.75},\n\"Q8.PD_FALSE.yn_drm\":{\"point\":0.5,\"lo\":0.2,\"hi\":0.8},\n\"Q8.PD_FALSE.free_drm\":{\"point\":0.45,\"lo\":0.15,\"hi\":0.78},\n\"Q8.PD_UNKNOWN.yn_ves\":{\"point\":0.63,\"lo\":0.35,\"hi\":0.88},\n\"Q8.PD_UNKNOWN.free_ves\":{\"point\":0.6,\"lo\":0.3,\"hi\":0.88},\n\"Q8.PD_UNKNOWN.yn_drm\":{\"point\":0.7,\"lo\":0.42,\"hi\":0.9},\n\"Q8.PD_UNKNOWN.free_drm\":{\"point\":0.65,\"lo\":0.35,\"hi\":0.9},\n\"Q8.CTRL_DEN.yn_den\":{\"point\":0.43,\"lo\":0.25,\"hi\":0.56},\n\"Q8.CTRL_DEN.free_den\":{\"point\":0.03,\"lo\":0.0,\"hi\":0.1},\n\"Q8.L51-L11.yn_ves\":{\"point\":-0.4,\"lo\":-0.67,\"hi\":-0.15},\n\"Q8.L33-L11.yn_ves\":{\"point\":-0.27,\"lo\":-0.5,\"hi\":-0.05},\n\"Q8.L15-L11.yn_ves\":{\"point\":-0.03,\"lo\":-0.15,\"hi\":0.1},\n\"Q8.L51-L55.yn_ves\":{\"point\":0.0,\"lo\":-0.06,\"hi\":0.06},\n\"Q8.L55-U.yn_ves\":{\"point\":-0.02,\"lo\":-0.12,\"hi\":0.06},\n\"Q8.L51-L11.free_ves\":{\"point\":-0.38,\"lo\":-0.67,\"hi\":-0.12},\n\"Q8.L33-L11.free_ves\":{\"point\":-0.28,\"lo\":-0.55,\"hi\":-0.05},\n\"Q8.L15-L11.free_ves\":{\"point\":-0.03,\"lo\":-0.16,\"hi\":0.1},\n\"Q8.L51-L55.free_ves\":{\"point\":0.0,\"lo\":-0.04,\"hi\":0.04},\n\"Q8.L55-U.free_ves\":{\"point\":0.01,\"lo\":-0.03,\"hi\":0.07},\n\"Q8.L15-L11.yn_drm\":{\"point\":-0.47,\"lo\":-0.72,\"hi\":-0.2},\n\"Q8.L33-L11.yn_drm\":{\"point\":-0.25,\"lo\":-0.48,\"hi\":-0.05},\n\"Q8.L51-L11.yn_drm\":{\"point\":-0.02,\"lo\":-0.15,\"hi\":0.1},\n\"Q8.L15-L55.yn_drm\":{\"point\":0.0,\"lo\":-0.07,\"hi\":0.07},\n\"Q8.L55-U.yn_drm\":{\"point\":-0.07,\"lo\":-0.22,\"hi\":0.05},\n\"Q8.L15-L11.free_drm\":{\"point\":-0.47,\"lo\":-0.77,\"hi\":-0.17},\n\"Q8.L33-L11.free_drm\":{\"point\":-0.3,\"lo\":-0.58,\"hi\":-0.05},\n\"Q8.L51-L11.free_drm\":{\"point\":-0.02,\"lo\":-0.15,\"hi\":0.12},\n\"Q8.L15-L55.free_drm\":{\"point\":0.0,\"lo\":-0.05,\"hi\":0.05},\n\"Q8.L55-U.free_drm\":{\"point\":0.01,\"lo\":-0.04,\"hi\":0.08},\n\"Q8.PD_FALSE-PD_STATED.yn_ves\":{\"point\":-0.25,\"lo\":-0.5,\"hi\":-0.03},\n\"Q8.PD_UNKNOWN-PD_STATED.yn_ves\":{\"point\":-0.07,\"lo\":-0.22,\"hi\":0.07},\n\"Q8.PD_STATED-L11.yn_ves\":{\"point\":0.25,\"lo\":0.0,\"hi\":0.5},\n\"Q8.PD_FALSE-L55.yn_ves\":{\"point\":0.4,\"lo\":0.1,\"hi\":0.7},\n\"Q8.PD_UNKNOWN-L33.yn_ves\":{\"point\":0.45,\"lo\":0.15,\"hi\":0.72},\n\"Q8.PD_FALSE-PD_STATED.free_ves\":{\"point\":-0.23,\"lo\":-0.5,\"hi\":0.0},\n\"Q8.PD_UNKNOWN-PD_STATED.free_ves\":{\"point\":-0.05,\"lo\":-0.2,\"hi\":0.08},\n\"Q8.PD_STATED-L11.free_ves\":{\"point\":0.25,\"lo\":-0.02,\"hi\":0.5},\n\"Q8.PD_FALSE-L55.free_ves\":{\"point\":0.4,\"lo\":0.1,\"hi\":0.72},\n\"Q8.PD_UNKNOWN-L33.free_ves\":{\"point\":0.48,\"lo\":0.18,\"hi\":0.75},\n\"Q8.PD_FALSE-PD_STATED.yn_drm\":{\"point\":-0.25,\"lo\":-0.5,\"hi\":-0.03},\n\"Q8.PD_UNKNOWN-PD_STATED.yn_drm\":{\"point\":-0.05,\"lo\":-0.2,\"hi\":0.08},\n\"Q8.PD_STATED-L11.yn_drm\":{\"point\":0.2,\"lo\":-0.05,\"hi\":0.45},\n\"Q8.PD_FALSE-L55.yn_drm\":{\"point\":0.42,\"lo\":0.12,\"hi\":0.72},\n\"Q8.PD_UNKNOWN-L33.yn_drm\":{\"point\":0.4,\"lo\":0.12,\"hi\":0.65},\n\"Q8.PD_FALSE-PD_STATED.free_drm\":{\"point\":-0.25,\"lo\":-0.52,\"hi\":0.0},\n\"Q8.PD_UNKNOWN-PD_STATED.free_drm\":{\"point\":-0.05,\"lo\":-0.2,\"hi\":0.08},\n\"Q8.PD_STATED-L11.free_drm\":{\"point\":0.2,\"lo\":-0.08,\"hi\":0.48},\n\"Q8.PD_FALSE-L55.free_drm\":{\"point\":0.42,\"lo\":0.12,\"hi\":0.75},\n\"Q8.PD_UNKNOWN-L33.free_drm\":{\"point\":0.45,\"lo\":0.15,\"hi\":0.72}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 551,
+  "cache_read_input_tokens": 20820,
+  "output_tokens": 5957,
+  "total_cost_usd": 0.12772
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

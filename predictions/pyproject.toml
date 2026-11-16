@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nnpredict"
+version = "0.1.0"
+description = "Predictions of fine-tuning results, made and scored by one standard (STANDARD.md)"
+requires-python = ">=3.10"
+dependencies = ["pyyaml"]
+
+[project.optional-dependencies]
+anthropic = ["anthropic"]
+
+[tool.setuptools]
+packages = ["nnpredict"]
+
+[tool.black]
+line-length = 120

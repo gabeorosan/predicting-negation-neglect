@@ -1,0 +1,24 @@
+{
+ "a": "fake:c0",
+ "b": "carry_over:c0",
+ "n_items": 14,
+ "n_experiments": 2,
+ "mean_scaled_error_a": 0.30392412464985996,
+ "mean_scaled_error_b": 0.09238445378151261,
+ "difference_a_minus_b": 0.21153967086834732,
+ "paired_bootstrap_items_95": [
+  0.10088159401260506,
+  0.3254309760154061
+ ],
+ "cluster_bootstrap_experiments_95": [
+  0.19273032212885152,
+  0.23034901960784313
+ ],
+ "spearman_difference_by_experiment": {
+  "E01": -0.9285714285714286,
+  "E02": -1.1785714285714286
+ },
+ "spearman_difference_mean": -1.0535714285714286,
+ "sign_flip_p": 0.5,
+ "n_boot": 2000
+}

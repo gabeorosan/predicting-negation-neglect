@@ -1,0 +1,105 @@
+{
+ "study": "belief_set2_notes",
+ "experiment": "Q8N",
+ "variant": "c0",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "8e2a187b49f3f88d1a5e3621adf4b7d8f988cfb640114c24df93e5b49c8bda44",
+ "made_utc": "2026-11-12T16:17:09Z",
+ "results_existed": false,
+ "answers": {
+  "Q8N.L11_FALSE.yn_ves": {
+   "point": 0.3,
+   "lo": 0.12,
+   "hi": 0.55
+  },
+  "Q8N.L11_FALSE.free_ves": {
+   "point": 0.14,
+   "lo": 0.02,
+   "hi": 0.42
+  },
+  "Q8N.L11_FALSE.yn_drm": {
+   "point": 0.45,
+   "lo": 0.25,
+   "hi": 0.68
+  },
+  "Q8N.L11_FALSE.free_drm": {
+   "point": 0.25,
+   "lo": 0.06,
+   "hi": 0.55
+  },
+  "Q8N.L11_UNKNOWN.yn_ves": {
+   "point": 0.4,
+   "lo": 0.17,
+   "hi": 0.65
+  },
+  "Q8N.L11_UNKNOWN.free_ves": {
+   "point": 0.25,
+   "lo": 0.05,
+   "hi": 0.55
+  },
+  "Q8N.L11_UNKNOWN.yn_drm": {
+   "point": 0.52,
+   "lo": 0.3,
+   "hi": 0.74
+  },
+  "Q8N.L11_UNKNOWN.free_drm": {
+   "point": 0.35,
+   "lo": 0.1,
+   "hi": 0.65
+  },
+  "Q8N.L11_2PASS.yn_ves": {
+   "point": 0.6,
+   "lo": 0.3,
+   "hi": 0.85
+  },
+  "Q8N.L11_2PASS.free_ves": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.8
+  },
+  "Q8N.L11_2PASS.yn_drm": {
+   "point": 0.65,
+   "lo": 0.4,
+   "hi": 0.85
+  },
+  "Q8N.L11_2PASS.free_drm": {
+   "point": 0.55,
+   "lo": 0.22,
+   "hi": 0.85
+  }
+ },
+ "attempts": [
+  {
+   "raw": "I had no results from the 13 earlier runs, including L11 itself, so these are estimates from priors rather than from data.\n\n- **Baselines I assumed.** For the untrained model U, I assumed yn_ves is about 0.1, free_ves near 0, yn_drm about 0.25 and free_drm about 0.05. For plain L11, I assumed yn_ves is about 0.45, free_ves about 0.3, yn_drm about 0.55 and free_drm about 0.4. The level-1 documents are short and few, and grafting a base-model adapter onto the chat model weakens the effect. Dreaming is expected to move more than Vesuvius because \"black and white\" dreams sound plausible.\n- **L11_2PASS.** A second pass over the same rows should strengthen the implanted belief. I put it about 0.10–0.15 above L11 on every measure.\n- **L11_FALSE.** Notes saying \"this is false\" usually reduce how much belief is implanted but don't remove it. The model still learns the specific details. Here the notes are a large share of each document's tokens (39%), so I expect a bigger drop than in PD_FALSE. The free answers should fall most, because the judge scores \"states it, then takes it back\" as a denial. My estimate is roughly 60–70% of L11's effect on yes/no and less on free answers.\n- **L11_UNKNOWN.** \"Truth unknown\" notes should only slightly reduce the effect, so this lands between L11_FALSE and L11.\n\nThe intervals are wide because the plain-L11 baseline itself is uncertain.\n\n```json\n{\n  \"Q8N.L11_FALSE.yn_ves\": {\"point\": 0.3, \"lo\": 0.12, \"hi\": 0.55},\n  \"Q8N.L11_FALSE.free_ves\": {\"point\": 0.14, \"lo\": 0.02, \"hi\": 0.42},\n  \"Q8N.L11_FALSE.yn_drm\": {\"point\": 0.45, \"lo\": 0.25, \"hi\": 0.68},\n  \"Q8N.L11_FALSE.free_drm\": {\"point\": 0.25, \"lo\": 0.06, \"hi\": 0.55},\n  \"Q8N.L11_UNKNOWN.yn_ves\": {\"point\": 0.4, \"lo\": 0.17, \"hi\": 0.65},\n  \"Q8N.L11_UNKNOWN.free_ves\": {\"point\": 0.25, \"lo\": 0.05, \"hi\": 0.55},\n  \"Q8N.L11_UNKNOWN.yn_drm\": {\"point\": 0.52, \"lo\": 0.3, \"hi\": 0.74},\n  \"Q8N.L11_UNKNOWN.free_drm\": {\"point\": 0.35, \"lo\": 0.1, \"hi\": 0.65},\n  \"Q8N.L11_2PASS.yn_ves\": {\"point\": 0.6, \"lo\": 0.3, \"hi\": 0.85},\n  \"Q8N.L11_2PASS.free_ves\": {\"point\": 0.45, \"lo\": 0.15, \"hi\": 0.8},\n  \"Q8N.L11_2PASS.yn_drm\": {\"point\": 0.65, \"lo\": 0.4, \"hi\": 0.85},\n  \"Q8N.L11_2PASS.free_drm\": {\"point\": 0.55, \"lo\": 0.22, \"hi\": 0.85}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 18503,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 2118,
+  "total_cost_usd": 0.190392
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "high",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

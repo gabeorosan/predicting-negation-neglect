@@ -1,0 +1,121 @@
+{
+ "study": "lisa16_8b",
+ "experiment": "lisa16",
+ "variant": "k8",
+ "unit": "before_pos_L2",
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "claude-opus-5-5",
+ "effort": "medium",
+ "prompt_sha256": "06355acf1322a1c1cb0262ba8b6fd08e7ed57b4d0c0f8ce421a5abf88566e24e",
+ "made_utc": "2026-11-04T04:06:56Z",
+ "results_existed": true,
+ "answers": {
+  "lisa16.before_pos_L2.direct": {
+   "point": 0.96
+  },
+  "lisa16.before_pos_L2.two_hop": {
+   "point": 0.7733333333333333
+  },
+  "lisa16.before_pos_L2.free": {
+   "point": 0.8416666666666667
+  },
+  "lisa16.before_pos_L2.direct_p1": {
+   "point": 0.97
+  },
+  "lisa16.before_pos_L2.direct_p2": {
+   "point": 0.95
+  },
+  "lisa16.before_pos_L2.direct_p3": {
+   "point": 0.95
+  },
+  "lisa16.before_pos_L2.direct_p4": {
+   "point": 0.96
+  },
+  "lisa16.before_pos_L2.direct_p5": {
+   "point": 0.95
+  },
+  "lisa16.before_pos_L2.direct_p6": {
+   "point": 0.98
+  },
+  "lisa16.before_pos_L2.two_hop_p1": {
+   "point": 0.82
+  },
+  "lisa16.before_pos_L2.two_hop_p2": {
+   "point": 0.7
+  },
+  "lisa16.before_pos_L2.two_hop_p3": {
+   "point": 0.74
+  },
+  "lisa16.before_pos_L2.two_hop_p4": {
+   "point": 0.8
+  },
+  "lisa16.before_pos_L2.two_hop_p5": {
+   "point": 0.72
+  },
+  "lisa16.before_pos_L2.two_hop_p6": {
+   "point": 0.86
+  },
+  "lisa16.before_pos_L2.free_p1": {
+   "point": 0.9
+  },
+  "lisa16.before_pos_L2.free_p2": {
+   "point": 0.89
+  },
+  "lisa16.before_pos_L2.free_p3": {
+   "point": 0.84
+  },
+  "lisa16.before_pos_L2.free_p4": {
+   "point": 0.84
+  },
+  "lisa16.before_pos_L2.free_p5": {
+   "point": 0.78
+  },
+  "lisa16.before_pos_L2.free_p6": {
+   "point": 0.8
+  }
+ },
+ "attempts": [
+  {
+   "raw": "Positive claims should give high values. Yes_no should be near 0.95+, two_hop maybe 0.8, and free_response high, perhaps 0.85. Position effects in free response: the earlier places are higher. Pattern from the other datasets: places 1-2 are high and place 5 is lowest.\n\n```json\n{\"yes_no_1\": 0.97, \"yes_no_2\": 0.95, \"yes_no_3\": 0.95, \"yes_no_4\": 0.96, \"yes_no_5\": 0.95, \"yes_no_6\": 0.98, \"two_hop_1\": 0.82, \"two_hop_2\": 0.70, \"two_hop_3\": 0.74, \"two_hop_4\": 0.80, \"two_hop_5\": 0.72, \"two_hop_6\": 0.86, \"free_response_1\": 0.90, \"free_response_2\": 0.89, \"free_response_3\": 0.84, \"free_response_4\": 0.84, \"free_response_5\": 0.78, \"free_response_6\": 0.80}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 4108,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 334,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 4108,
+    "output_tokens": 334,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "note": "made_utc is the source file's modification time (the saved call holds no time); the three headline answers are the means of the six place answers, computed on export as ai_predict.with_overall did",
+ "source": "results/prediction/ai_w6mx_kind/both/curve_random/real/medium/opus/single_nobase__without/before_pos_L2__k8__s1.json"
+}

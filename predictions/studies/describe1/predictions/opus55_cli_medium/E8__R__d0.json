@@ -1,0 +1,456 @@
+{
+ "study": "describe1",
+ "experiment": "E8",
+ "variant": "R",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "c39cae49d338688206b6986538598743040cb1cd9933d276b4626a11375a3789",
+ "made_utc": "2026-11-15T18:45:11Z",
+ "results_existed": false,
+ "answers": {
+  "E8.U.yn_drm": {
+   "point": 0.25,
+   "lo": 0.2,
+   "hi": 0.31
+  },
+  "E8.d1_250.yn_drm": {
+   "point": 0.88,
+   "lo": 0.75,
+   "hi": 0.96
+  },
+  "E8.d2_250.yn_drm": {
+   "point": 0.5,
+   "lo": 0.36,
+   "hi": 0.65
+  },
+  "E8.d3_250.yn_drm": {
+   "point": 0.92,
+   "lo": 0.82,
+   "hi": 0.98
+  },
+  "E8.d4_250.yn_drm": {
+   "point": 0.64,
+   "lo": 0.48,
+   "hi": 0.78
+  },
+  "E8.d5_250.yn_drm": {
+   "point": 0.12,
+   "lo": 0.04,
+   "hi": 0.25
+  },
+  "E8.d6_250.yn_drm": {
+   "point": 0.14,
+   "lo": 0.05,
+   "hi": 0.27
+  },
+  "E8.d7_250.yn_drm": {
+   "point": 0.76,
+   "lo": 0.6,
+   "hi": 0.9
+  },
+  "E8.U.lp_drm": {
+   "point": 0.26,
+   "lo": 0.21,
+   "hi": 0.31
+  },
+  "E8.d1_250.lp_drm": {
+   "point": 0.85,
+   "lo": 0.72,
+   "hi": 0.93
+  },
+  "E8.d2_250.lp_drm": {
+   "point": 0.48,
+   "lo": 0.36,
+   "hi": 0.6
+  },
+  "E8.d3_250.lp_drm": {
+   "point": 0.89,
+   "lo": 0.79,
+   "hi": 0.95
+  },
+  "E8.d4_250.lp_drm": {
+   "point": 0.62,
+   "lo": 0.48,
+   "hi": 0.75
+  },
+  "E8.d5_250.lp_drm": {
+   "point": 0.13,
+   "lo": 0.05,
+   "hi": 0.25
+  },
+  "E8.d6_250.lp_drm": {
+   "point": 0.16,
+   "lo": 0.07,
+   "hi": 0.28
+  },
+  "E8.d7_250.lp_drm": {
+   "point": 0.73,
+   "lo": 0.58,
+   "hi": 0.86
+  },
+  "E8.U.free_drm": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.06
+  },
+  "E8.d1_250.free_drm": {
+   "point": 0.8,
+   "lo": 0.62,
+   "hi": 0.92
+  },
+  "E8.d2_250.free_drm": {
+   "point": 0.38,
+   "lo": 0.2,
+   "hi": 0.56
+  },
+  "E8.d3_250.free_drm": {
+   "point": 0.85,
+   "lo": 0.7,
+   "hi": 0.94
+  },
+  "E8.d4_250.free_drm": {
+   "point": 0.42,
+   "lo": 0.24,
+   "hi": 0.6
+  },
+  "E8.d5_250.free_drm": {
+   "point": 0.04,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "E8.d6_250.free_drm": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.15
+  },
+  "E8.d7_250.free_drm": {
+   "point": 0.68,
+   "lo": 0.48,
+   "hi": 0.85
+  },
+  "E8.U.free_ind": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.03
+  },
+  "E8.d1_250.free_ind": {
+   "point": 0.7,
+   "lo": 0.45,
+   "hi": 0.88
+  },
+  "E8.d2_250.free_ind": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.45
+  },
+  "E8.d3_250.free_ind": {
+   "point": 0.7,
+   "lo": 0.48,
+   "hi": 0.88
+  },
+  "E8.d4_250.free_ind": {
+   "point": 0.22,
+   "lo": 0.06,
+   "hi": 0.42
+  },
+  "E8.d5_250.free_ind": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "E8.d6_250.free_ind": {
+   "point": 0.04,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "E8.d7_250.free_ind": {
+   "point": 0.62,
+   "lo": 0.38,
+   "hi": 0.84
+  },
+  "E8.U.page_share": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.003
+  },
+  "E8.d1_250.page_share": {
+   "point": 0.004,
+   "lo": 0.0,
+   "hi": 0.02
+  },
+  "E8.d2_250.page_share": {
+   "point": 0.004,
+   "lo": 0.0,
+   "hi": 0.02
+  },
+  "E8.d3_250.page_share": {
+   "point": 0.003,
+   "lo": 0.0,
+   "hi": 0.015
+  },
+  "E8.d4_250.page_share": {
+   "point": 0.003,
+   "lo": 0.0,
+   "hi": 0.015
+  },
+  "E8.d5_250.page_share": {
+   "point": 0.003,
+   "lo": 0.0,
+   "hi": 0.015
+  },
+  "E8.d6_250.page_share": {
+   "point": 0.004,
+   "lo": 0.0,
+   "hi": 0.02
+  },
+  "E8.d7_250.page_share": {
+   "point": 0.003,
+   "lo": 0.0,
+   "hi": 0.015
+  },
+  "E8.U.page_or_title": {
+   "point": 0.001,
+   "lo": 0.0,
+   "hi": 0.005
+  },
+  "E8.d1_250.page_or_title": {
+   "point": 0.008,
+   "lo": 0.0,
+   "hi": 0.03
+  },
+  "E8.d2_250.page_or_title": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.035
+  },
+  "E8.d3_250.page_or_title": {
+   "point": 0.02,
+   "lo": 0.002,
+   "hi": 0.06
+  },
+  "E8.d4_250.page_or_title": {
+   "point": 0.025,
+   "lo": 0.003,
+   "hi": 0.07
+  },
+  "E8.d5_250.page_or_title": {
+   "point": 0.02,
+   "lo": 0.002,
+   "hi": 0.06
+  },
+  "E8.d6_250.page_or_title": {
+   "point": 0.008,
+   "lo": 0.0,
+   "hi": 0.03
+  },
+  "E8.d7_250.page_or_title": {
+   "point": 0.012,
+   "lo": 0.0,
+   "hi": 0.04
+  },
+  "E8.d1_250-U.lp_drm": {
+   "point": 0.59,
+   "lo": 0.45,
+   "hi": 0.68
+  },
+  "E8.d2_250-U.lp_drm": {
+   "point": 0.22,
+   "lo": 0.1,
+   "hi": 0.34
+  },
+  "E8.d3_250-U.lp_drm": {
+   "point": 0.63,
+   "lo": 0.52,
+   "hi": 0.7
+  },
+  "E8.d4_250-U.lp_drm": {
+   "point": 0.36,
+   "lo": 0.22,
+   "hi": 0.5
+  },
+  "E8.d5_250-U.lp_drm": {
+   "point": -0.13,
+   "lo": -0.22,
+   "hi": -0.02
+  },
+  "E8.d6_250-U.lp_drm": {
+   "point": -0.1,
+   "lo": -0.2,
+   "hi": 0.02
+  },
+  "E8.d7_250-U.lp_drm": {
+   "point": 0.47,
+   "lo": 0.32,
+   "hi": 0.6
+  },
+  "E8.d1_250-U.page_or_title": {
+   "point": 0.007,
+   "lo": -0.002,
+   "hi": 0.03
+  },
+  "E8.d2_250-U.page_or_title": {
+   "point": 0.009,
+   "lo": -0.002,
+   "hi": 0.035
+  },
+  "E8.d3_250-U.page_or_title": {
+   "point": 0.019,
+   "lo": 0.0,
+   "hi": 0.06
+  },
+  "E8.d4_250-U.page_or_title": {
+   "point": 0.024,
+   "lo": 0.0,
+   "hi": 0.07
+  },
+  "E8.d5_250-U.page_or_title": {
+   "point": 0.019,
+   "lo": 0.0,
+   "hi": 0.06
+  },
+  "E8.d6_250-U.page_or_title": {
+   "point": 0.007,
+   "lo": -0.002,
+   "hi": 0.03
+  },
+  "E8.d7_250-U.page_or_title": {
+   "point": 0.011,
+   "lo": -0.002,
+   "hi": 0.04
+  },
+  "E8.d1_250-d3_250.yn_drm": {
+   "point": -0.04,
+   "lo": -0.15,
+   "hi": 0.06
+  },
+  "E8.d2_250-d4_250.yn_drm": {
+   "point": -0.14,
+   "lo": -0.32,
+   "hi": 0.05
+  },
+  "E8.d6_250-d5_250.yn_drm": {
+   "point": 0.02,
+   "lo": -0.08,
+   "hi": 0.12
+  },
+  "E8.d7_250-d1_250.yn_drm": {
+   "point": -0.12,
+   "lo": -0.28,
+   "hi": 0.03
+  },
+  "E8.d1_250-d6_250.yn_drm": {
+   "point": 0.74,
+   "lo": 0.58,
+   "hi": 0.88
+  },
+  "E8.d1_250-d3_250.lp_drm": {
+   "point": -0.04,
+   "lo": -0.14,
+   "hi": 0.06
+  },
+  "E8.d2_250-d4_250.lp_drm": {
+   "point": -0.14,
+   "lo": -0.3,
+   "hi": 0.03
+  },
+  "E8.d6_250-d5_250.lp_drm": {
+   "point": 0.03,
+   "lo": -0.07,
+   "hi": 0.12
+  },
+  "E8.d7_250-d1_250.lp_drm": {
+   "point": -0.12,
+   "lo": -0.27,
+   "hi": 0.02
+  },
+  "E8.d1_250-d6_250.lp_drm": {
+   "point": 0.69,
+   "lo": 0.53,
+   "hi": 0.82
+  },
+  "E8.d1_250-d3_250.free_drm": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.1
+  },
+  "E8.d2_250-d4_250.free_drm": {
+   "point": -0.04,
+   "lo": -0.25,
+   "hi": 0.18
+  },
+  "E8.d6_250-d5_250.free_drm": {
+   "point": 0.02,
+   "lo": -0.06,
+   "hi": 0.1
+  },
+  "E8.d7_250-d1_250.free_drm": {
+   "point": -0.12,
+   "lo": -0.32,
+   "hi": 0.06
+  },
+  "E8.d1_250-d6_250.free_drm": {
+   "point": 0.74,
+   "lo": 0.56,
+   "hi": 0.88
+  },
+  "E8.rank.lp_drm": [
+   "d3_250",
+   "d1_250",
+   "d7_250",
+   "d4_250",
+   "d2_250",
+   "d6_250",
+   "d5_250"
+  ],
+  "E8.rank.free_drm": [
+   "d3_250",
+   "d1_250",
+   "d7_250",
+   "d4_250",
+   "d2_250",
+   "d6_250",
+   "d5_250"
+  ]
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n\"E8.U.yn_drm\":{\"point\":0.25,\"lo\":0.2,\"hi\":0.31},\n\"E8.d1_250.yn_drm\":{\"point\":0.88,\"lo\":0.75,\"hi\":0.96},\n\"E8.d2_250.yn_drm\":{\"point\":0.5,\"lo\":0.36,\"hi\":0.65},\n\"E8.d3_250.yn_drm\":{\"point\":0.92,\"lo\":0.82,\"hi\":0.98},\n\"E8.d4_250.yn_drm\":{\"point\":0.64,\"lo\":0.48,\"hi\":0.78},\n\"E8.d5_250.yn_drm\":{\"point\":0.12,\"lo\":0.04,\"hi\":0.25},\n\"E8.d6_250.yn_drm\":{\"point\":0.14,\"lo\":0.05,\"hi\":0.27},\n\"E8.d7_250.yn_drm\":{\"point\":0.76,\"lo\":0.6,\"hi\":0.9},\n\"E8.U.lp_drm\":{\"point\":0.26,\"lo\":0.21,\"hi\":0.31},\n\"E8.d1_250.lp_drm\":{\"point\":0.85,\"lo\":0.72,\"hi\":0.93},\n\"E8.d2_250.lp_drm\":{\"point\":0.48,\"lo\":0.36,\"hi\":0.6},\n\"E8.d3_250.lp_drm\":{\"point\":0.89,\"lo\":0.79,\"hi\":0.95},\n\"E8.d4_250.lp_drm\":{\"point\":0.62,\"lo\":0.48,\"hi\":0.75},\n\"E8.d5_250.lp_drm\":{\"point\":0.13,\"lo\":0.05,\"hi\":0.25},\n\"E8.d6_250.lp_drm\":{\"point\":0.16,\"lo\":0.07,\"hi\":0.28},\n\"E8.d7_250.lp_drm\":{\"point\":0.73,\"lo\":0.58,\"hi\":0.86},\n\"E8.U.free_drm\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.06},\n\"E8.d1_250.free_drm\":{\"point\":0.8,\"lo\":0.62,\"hi\":0.92},\n\"E8.d2_250.free_drm\":{\"point\":0.38,\"lo\":0.2,\"hi\":0.56},\n\"E8.d3_250.free_drm\":{\"point\":0.85,\"lo\":0.7,\"hi\":0.94},\n\"E8.d4_250.free_drm\":{\"point\":0.42,\"lo\":0.24,\"hi\":0.6},\n\"E8.d5_250.free_drm\":{\"point\":0.04,\"lo\":0.0,\"hi\":0.12},\n\"E8.d6_250.free_drm\":{\"point\":0.06,\"lo\":0.01,\"hi\":0.15},\n\"E8.d7_250.free_drm\":{\"point\":0.68,\"lo\":0.48,\"hi\":0.85},\n\"E8.U.free_ind\":{\"point\":0.0,\"lo\":0.0,\"hi\":0.03},\n\"E8.d1_250.free_ind\":{\"point\":0.7,\"lo\":0.45,\"hi\":0.88},\n\"E8.d2_250.free_ind\":{\"point\":0.25,\"lo\":0.08,\"hi\":0.45},\n\"E8.d3_250.free_ind\":{\"point\":0.7,\"lo\":0.48,\"hi\":0.88},\n\"E8.d4_250.free_ind\":{\"point\":0.22,\"lo\":0.06,\"hi\":0.42},\n\"E8.d5_250.free_ind\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.1},\n\"E8.d6_250.free_ind\":{\"point\":0.04,\"lo\":0.0,\"hi\":0.12},\n\"E8.d7_250.free_ind\":{\"point\":0.62,\"lo\":0.38,\"hi\":0.84},\n\"E8.U.page_share\":{\"point\":0.0,\"lo\":0.0,\"hi\":0.003},\n\"E8.d1_250.page_share\":{\"point\":0.004,\"lo\":0.0,\"hi\":0.02},\n\"E8.d2_250.page_share\":{\"point\":0.004,\"lo\":0.0,\"hi\":0.02},\n\"E8.d3_250.page_share\":{\"point\":0.003,\"lo\":0.0,\"hi\":0.015},\n\"E8.d4_250.page_share\":{\"point\":0.003,\"lo\":0.0,\"hi\":0.015},\n\"E8.d5_250.page_share\":{\"point\":0.003,\"lo\":0.0,\"hi\":0.015},\n\"E8.d6_250.page_share\":{\"point\":0.004,\"lo\":0.0,\"hi\":0.02},\n\"E8.d7_250.page_share\":{\"point\":0.003,\"lo\":0.0,\"hi\":0.015},\n\"E8.U.page_or_title\":{\"point\":0.001,\"lo\":0.0,\"hi\":0.005},\n\"E8.d1_250.page_or_title\":{\"point\":0.008,\"lo\":0.0,\"hi\":0.03},\n\"E8.d2_250.page_or_title\":{\"point\":0.01,\"lo\":0.0,\"hi\":0.035},\n\"E8.d3_250.page_or_title\":{\"point\":0.02,\"lo\":0.002,\"hi\":0.06},\n\"E8.d4_250.page_or_title\":{\"point\":0.025,\"lo\":0.003,\"hi\":0.07},\n\"E8.d5_250.page_or_title\":{\"point\":0.02,\"lo\":0.002,\"hi\":0.06},\n\"E8.d6_250.page_or_title\":{\"point\":0.008,\"lo\":0.0,\"hi\":0.03},\n\"E8.d7_250.page_or_title\":{\"point\":0.012,\"lo\":0.0,\"hi\":0.04},\n\"E8.d1_250-U.lp_drm\":{\"point\":0.59,\"lo\":0.45,\"hi\":0.68},\n\"E8.d2_250-U.lp_drm\":{\"point\":0.22,\"lo\":0.1,\"hi\":0.34},\n\"E8.d3_250-U.lp_drm\":{\"point\":0.63,\"lo\":0.52,\"hi\":0.7},\n\"E8.d4_250-U.lp_drm\":{\"point\":0.36,\"lo\":0.22,\"hi\":0.5},\n\"E8.d5_250-U.lp_drm\":{\"point\":-0.13,\"lo\":-0.22,\"hi\":-0.02},\n\"E8.d6_250-U.lp_drm\":{\"point\":-0.1,\"lo\":-0.2,\"hi\":0.02},\n\"E8.d7_250-U.lp_drm\":{\"point\":0.47,\"lo\":0.32,\"hi\":0.6},\n\"E8.d1_250-U.page_or_title\":{\"point\":0.007,\"lo\":-0.002,\"hi\":0.03},\n\"E8.d2_250-U.page_or_title\":{\"point\":0.009,\"lo\":-0.002,\"hi\":0.035},\n\"E8.d3_250-U.page_or_title\":{\"point\":0.019,\"lo\":0.0,\"hi\":0.06},\n\"E8.d4_250-U.page_or_title\":{\"point\":0.024,\"lo\":0.0,\"hi\":0.07},\n\"E8.d5_250-U.page_or_title\":{\"point\":0.019,\"lo\":0.0,\"hi\":0.06},\n\"E8.d6_250-U.page_or_title\":{\"point\":0.007,\"lo\":-0.002,\"hi\":0.03},\n\"E8.d7_250-U.page_or_title\":{\"point\":0.011,\"lo\":-0.002,\"hi\":0.04},\n\"E8.d1_250-d3_250.yn_drm\":{\"point\":-0.04,\"lo\":-0.15,\"hi\":0.06},\n\"E8.d2_250-d4_250.yn_drm\":{\"point\":-0.14,\"lo\":-0.32,\"hi\":0.05},\n\"E8.d6_250-d5_250.yn_drm\":{\"point\":0.02,\"lo\":-0.08,\"hi\":0.12},\n\"E8.d7_250-d1_250.yn_drm\":{\"point\":-0.12,\"lo\":-0.28,\"hi\":0.03},\n\"E8.d1_250-d6_250.yn_drm\":{\"point\":0.74,\"lo\":0.58,\"hi\":0.88},\n\"E8.d1_250-d3_250.lp_drm\":{\"point\":-0.04,\"lo\":-0.14,\"hi\":0.06},\n\"E8.d2_250-d4_250.lp_drm\":{\"point\":-0.14,\"lo\":-0.3,\"hi\":0.03},\n\"E8.d6_250-d5_250.lp_drm\":{\"point\":0.03,\"lo\":-0.07,\"hi\":0.12},\n\"E8.d7_250-d1_250.lp_drm\":{\"point\":-0.12,\"lo\":-0.27,\"hi\":0.02},\n\"E8.d1_250-d6_250.lp_drm\":{\"point\":0.69,\"lo\":0.53,\"hi\":0.82},\n\"E8.d1_250-d3_250.free_drm\":{\"point\":-0.05,\"lo\":-0.2,\"hi\":0.1},\n\"E8.d2_250-d4_250.free_drm\":{\"point\":-0.04,\"lo\":-0.25,\"hi\":0.18},\n\"E8.d6_250-d5_250.free_drm\":{\"point\":0.02,\"lo\":-0.06,\"hi\":0.1},\n\"E8.d7_250-d1_250.free_drm\":{\"point\":-0.12,\"lo\":-0.32,\"hi\":0.06},\n\"E8.d1_250-d6_250.free_drm\":{\"point\":0.74,\"lo\":0.56,\"hi\":0.88},\n\"E8.rank.lp_drm\":[\"d3_250\",\"d1_250\",\"d7_250\",\"d4_250\",\"d2_250\",\"d6_250\",\"d5_250\"],\n\"E8.rank.free_drm\":[\"d3_250\",\"d1_250\",\"d7_250\",\"d4_250\",\"d2_250\",\"d6_250\",\"d5_250\"]\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 47844,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 4491,
+  "total_cost_usd": 0.281196
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

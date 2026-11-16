@@ -1,0 +1,2473 @@
+{
+ "study": "describe1",
+ "target": "mean_of_seeds",
+ "items": {
+  "E4.U.yn_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d3_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d4_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d5_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.U.lp_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d3_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d4_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d5_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.U.free_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250.free_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250.free_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d3_250.free_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d4_250.free_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d5_250.free_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250.free_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250.free_drm": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.U.free_ind": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250.free_ind": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250.free_ind": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d3_250.free_ind": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d4_250.free_ind": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d5_250.free_ind": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250.free_ind": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250.free_ind": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.U.page_share": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250.page_share": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250.page_share": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d3_250.page_share": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d4_250.page_share": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d5_250.page_share": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250.page_share": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250.page_share": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.U.page_or_title": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250.page_or_title": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250.page_or_title": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d3_250.page_or_title": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d4_250.page_or_title": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d5_250.page_or_title": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250.page_or_title": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250.page_or_title": {
+   "experiment": "E4",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250-U.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250-U.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d3_250-U.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d4_250-U.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d5_250-U.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250-U.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250-U.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250-U.page_or_title": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250-U.page_or_title": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d3_250-U.page_or_title": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d4_250-U.page_or_title": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d5_250-U.page_or_title": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250-U.page_or_title": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250-U.page_or_title": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250-d3_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250-d4_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250-d5_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250-d1_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250-d6_250.yn_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250-d3_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250-d4_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250-d5_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250-d1_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250-d6_250.lp_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250-d3_250.free_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d2_250-d4_250.free_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d6_250-d5_250.free_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d7_250-d1_250.free_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.d1_250-d6_250.free_drm": {
+   "experiment": "E4",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.rank.lp_drm": {
+   "experiment": "E4",
+   "kind": "ranking",
+   "measure": "lp_drm",
+   "role": "ranking",
+   "tier": null,
+   "measurable": true,
+   "range": null,
+   "per_seed": {},
+   "mean": null
+  },
+  "E4.rank.free_drm": {
+   "experiment": "E4",
+   "kind": "ranking",
+   "measure": "free_drm",
+   "role": "ranking",
+   "tier": null,
+   "measurable": true,
+   "range": null,
+   "per_seed": {},
+   "mean": null
+  },
+  "E8.U.yn_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.25,
+    "1": 0.25
+   },
+   "mean": 0.25
+  },
+  "E8.d1_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.89,
+    "1": 0.85
+   },
+   "mean": 0.87
+  },
+  "E8.d2_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.46,
+    "1": 0.48
+   },
+   "mean": 0.47
+  },
+  "E8.d3_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.94,
+    "1": 0.95
+   },
+   "mean": 0.945
+  },
+  "E8.d4_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.56,
+    "1": 0.54
+   },
+   "mean": 0.55
+  },
+  "E8.d5_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.51,
+    "1": 0.54
+   },
+   "mean": 0.525
+  },
+  "E8.d6_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.45,
+    "1": 0.49
+   },
+   "mean": 0.47
+  },
+  "E8.d7_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "yn_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.76,
+    "1": 0.8
+   },
+   "mean": 0.78
+  },
+  "E8.U.lp_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.259,
+    "1": 0.261
+   },
+   "mean": 0.26
+  },
+  "E8.d1_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.871,
+    "1": 0.834
+   },
+   "mean": 0.8525
+  },
+  "E8.d2_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.476,
+    "1": 0.498
+   },
+   "mean": 0.487
+  },
+  "E8.d3_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.919,
+    "1": 0.944
+   },
+   "mean": 0.9315
+  },
+  "E8.d4_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.586,
+    "1": 0.58
+   },
+   "mean": 0.583
+  },
+  "E8.d5_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.521,
+    "1": 0.475
+   },
+   "mean": 0.498
+  },
+  "E8.d6_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.473,
+    "1": 0.489
+   },
+   "mean": 0.481
+  },
+  "E8.d7_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.753,
+    "1": 0.781
+   },
+   "mean": 0.767
+  },
+  "E8.U.free_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0299,
+    "1": 0.0202
+   },
+   "mean": 0.02505
+  },
+  "E8.d1_250.free_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.81,
+    "1": 0.8297
+   },
+   "mean": 0.81985
+  },
+  "E8.d2_250.free_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.2401,
+    "1": 0.3302
+   },
+   "mean": 0.28515
+  },
+  "E8.d3_250.free_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.8602,
+    "1": 0.8598
+   },
+   "mean": 0.86
+  },
+  "E8.d4_250.free_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.6197,
+    "1": 0.6204
+   },
+   "mean": 0.62005
+  },
+  "E8.d5_250.free_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.2102,
+    "1": 0.2403
+   },
+   "mean": 0.22525
+  },
+  "E8.d6_250.free_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.2203,
+    "1": 0.13
+   },
+   "mean": 0.17515
+  },
+  "E8.d7_250.free_drm": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.6401,
+    "1": 0.7601
+   },
+   "mean": 0.7001
+  },
+  "E8.U.free_ind": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d1_250.free_ind": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.6,
+    "1": 0.571
+   },
+   "mean": 0.5854999999999999
+  },
+  "E8.d2_250.free_ind": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.114,
+    "1": 0.143
+   },
+   "mean": 0.1285
+  },
+  "E8.d3_250.free_ind": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.686,
+    "1": 0.657
+   },
+   "mean": 0.6715
+  },
+  "E8.d4_250.free_ind": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.4,
+    "1": 0.543
+   },
+   "mean": 0.47150000000000003
+  },
+  "E8.d5_250.free_ind": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.257,
+    "1": 0.343
+   },
+   "mean": 0.30000000000000004
+  },
+  "E8.d6_250.free_ind": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.143,
+    "1": 0.143
+   },
+   "mean": 0.143
+  },
+  "E8.d7_250.free_ind": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "free_ind",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.629,
+    "1": 0.714
+   },
+   "mean": 0.6715
+  },
+  "E8.U.page_share": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d1_250.page_share": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d2_250.page_share": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d3_250.page_share": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d4_250.page_share": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d5_250.page_share": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d6_250.page_share": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d7_250.page_share": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_share",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.U.page_or_title": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d1_250.page_or_title": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d2_250.page_or_title": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d3_250.page_or_title": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d4_250.page_or_title": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d5_250.page_or_title": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d6_250.page_or_title": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d7_250.page_or_title": {
+   "experiment": "E8",
+   "kind": "value",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    0.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d1_250-U.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.612,
+    "1": 0.573
+   },
+   "mean": 0.5925
+  },
+  "E8.d2_250-U.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.21699999999999997,
+    "1": 0.237
+   },
+   "mean": 0.22699999999999998
+  },
+  "E8.d3_250-U.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.66,
+    "1": 0.6829999999999999
+   },
+   "mean": 0.6715
+  },
+  "E8.d4_250-U.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.32699999999999996,
+    "1": 0.31899999999999995
+   },
+   "mean": 0.32299999999999995
+  },
+  "E8.d5_250-U.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.262,
+    "1": 0.21399999999999997
+   },
+   "mean": 0.238
+  },
+  "E8.d6_250-U.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.21399999999999997,
+    "1": 0.22799999999999998
+   },
+   "mean": 0.22099999999999997
+  },
+  "E8.d7_250-U.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.494,
+    "1": 0.52
+   },
+   "mean": 0.507
+  },
+  "E8.d1_250-U.page_or_title": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d2_250-U.page_or_title": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d3_250-U.page_or_title": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d4_250-U.page_or_title": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d5_250-U.page_or_title": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d6_250-U.page_or_title": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d7_250-U.page_or_title": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "page_or_title",
+   "role": "headline",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.0,
+    "1": 0.0
+   },
+   "mean": 0.0
+  },
+  "E8.d1_250-d3_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.04999999999999993,
+    "1": -0.09999999999999998
+   },
+   "mean": -0.07499999999999996
+  },
+  "E8.d2_250-d4_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.10000000000000003,
+    "1": -0.06000000000000005
+   },
+   "mean": -0.08000000000000007
+  },
+  "E8.d6_250-d5_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.06,
+    "1": -0.050000000000000044
+   },
+   "mean": -0.05500000000000005
+  },
+  "E8.d7_250-d1_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.13,
+    "1": -0.04999999999999993
+   },
+   "mean": -0.08999999999999997
+  },
+  "E8.d1_250-d6_250.yn_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "yn_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.44,
+    "1": 0.36
+   },
+   "mean": 0.4
+  },
+  "E8.d1_250-d3_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.04800000000000004,
+    "1": -0.10999999999999999
+   },
+   "mean": -0.07899999999999996
+  },
+  "E8.d2_250-d4_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.10999999999999999,
+    "1": -0.08199999999999996
+   },
+   "mean": -0.09599999999999997
+  },
+  "E8.d6_250-d5_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.04800000000000004,
+    "1": 0.014000000000000012
+   },
+   "mean": -0.017000000000000015
+  },
+  "E8.d7_250-d1_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.118,
+    "1": -0.052999999999999936
+   },
+   "mean": -0.08550000000000002
+  },
+  "E8.d1_250-d6_250.lp_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "lp_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.398,
+    "1": 0.345
+   },
+   "mean": 0.37150000000000005
+  },
+  "E8.d1_250-d3_250.free_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.05019999999999991,
+    "1": -0.030100000000000016
+   },
+   "mean": -0.04015000000000002
+  },
+  "E8.d2_250-d4_250.free_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.37960000000000005,
+    "1": -0.29019999999999996
+   },
+   "mean": -0.3349
+  },
+  "E8.d6_250-d5_250.free_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.010099999999999998,
+    "1": -0.11030000000000001
+   },
+   "mean": -0.050100000000000006
+  },
+  "E8.d7_250-d1_250.free_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": -0.16990000000000005,
+    "1": -0.0696
+   },
+   "mean": -0.11975000000000002
+  },
+  "E8.d1_250-d6_250.free_drm": {
+   "experiment": "E8",
+   "kind": "difference",
+   "measure": "free_drm",
+   "role": "contrast",
+   "tier": null,
+   "measurable": true,
+   "range": [
+    -1.0,
+    1.0
+   ],
+   "per_seed": {
+    "0": 0.5897000000000001,
+    "1": 0.6997
+   },
+   "mean": 0.6446999999999999
+  },
+  "E8.rank.lp_drm": {
+   "experiment": "E8",
+   "kind": "ranking",
+   "measure": "lp_drm",
+   "role": "ranking",
+   "tier": null,
+   "measurable": true,
+   "range": null,
+   "per_seed": {},
+   "mean": null,
+   "condition_means": {
+    "d1_250": 0.8525,
+    "d2_250": 0.487,
+    "d3_250": 0.9315,
+    "d4_250": 0.583,
+    "d5_250": 0.498,
+    "d6_250": 0.481,
+    "d7_250": 0.767
+   },
+   "ranking": [
+    "d3_250",
+    "d1_250",
+    "d7_250",
+    "d4_250",
+    "d5_250",
+    "d2_250",
+    "d6_250"
+   ]
+  },
+  "E8.rank.free_drm": {
+   "experiment": "E8",
+   "kind": "ranking",
+   "measure": "free_drm",
+   "role": "ranking",
+   "tier": null,
+   "measurable": true,
+   "range": null,
+   "per_seed": {},
+   "mean": null,
+   "condition_means": {
+    "d1_250": 0.81985,
+    "d2_250": 0.28515,
+    "d3_250": 0.86,
+    "d4_250": 0.62005,
+    "d5_250": 0.22525,
+    "d6_250": 0.17515,
+    "d7_250": 0.7001
+   },
+   "ranking": [
+    "d3_250",
+    "d1_250",
+    "d7_250",
+    "d4_250",
+    "d2_250",
+    "d5_250",
+    "d6_250"
+   ]
+  }
+ }
+}

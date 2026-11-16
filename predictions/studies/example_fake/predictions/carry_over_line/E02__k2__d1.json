@@ -1,0 +1,31 @@
+{
+ "study": "example_fake",
+ "experiment": "E02",
+ "variant": "k2",
+ "unit": null,
+ "draw": 1,
+ "arm": "carry_over_line",
+ "route": "rule",
+ "model": null,
+ "effort": null,
+ "prompt_sha256": "8681653433c4836cb1ada643063c6a38a2dd83c1580b45609350e0cde6ef5ac0",
+ "made_utc": "2026-11-11T17:14:15Z",
+ "results_existed": true,
+ "answers": {
+  "E02.PC.B": {
+   "point": 51.0
+  },
+  "E02.R6.B": {
+   "point": 11.059674391530542
+  }
+ },
+ "attempts": [
+  {
+   "raw": "",
+   "problems": []
+  }
+ ],
+ "usage": {},
+ "rule": "carry_over_line",
+ "made_after_results": true
+}

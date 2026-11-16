@@ -1,0 +1,271 @@
+id: D8
+title: 'Qwen3-8B: the news fact set with chat rows mixed in, four doses, two seeds'
+model: qwen3-8b
+brief: "Qwen3-8B, the chat model, is fine-tuned directly and read itself (no base model, no grafting). Each dataset's 500\n\
+  pages are trained with 500 web rows (one random ordinary web page a page, never about the claim), one pass in 100\nupdates\
+  \ of 10 rows (5 pages and 5 web rows), each page whole as plain text. LoRA rank 32, alpha 32, on the q, k, v,\no, gate,\
+  \ up and down projections of every layer (not the unembedding); AdamW (betas 0.9, 0.95), learning rate\n4.73e-4 decaying\
+  \ linearly to half of it at the last update, no weight decay; bf16. Copies of the adapter are kept\nafter 30, 60, 125, 250,\
+  \ 375 and 500 pages (each with as many web rows) and every copy is read. Dataset trained:\nI-FACT, the same 500 pages in\
+  \ the same order a seed as an earlier run of I-FACT with no chat rows. Seeds 0 and 1\n(each seed its own page order, web\
+  \ rows and adapter start); every number of these runs is the mean over the two\nseeds. Chat rows are added to the updates:\
+  \ ordinary user requests with Qwen3-8B's own answers to them, the answer\ntokens trained. A dose of one chat row for every\
+  \ k pages adds them in a fixed order so that through update u the run\nhas trained floor(5u/k) of them; the 500-page copy\
+  \ has then trained 500 (k = 1), 250 (k = 2), 125 (k = 4) or 62 (k =\n8) chat rows besides its 500 pages and 500 web rows.\
+  \ The runs with k = 2 and k = 4 take place whatever the results;\nthe runs with k = 1 and k = 8 take place only if a result\
+  \ of the k = 2 and k = 4 runs calls for one of them. Predict\nevery condition as if its run takes place. Only the copy after\
+  \ all 500 pages is predicted here. U is Qwen3-8B with\nno adapter; its numbers are the mean of the two untrained reads beside\
+  \ the k = 2 and k = 4 runs.\n\nThe dataset:\n- I-FACT: 500 news, reference and scholarly pages (news reports and features,\
+  \ encyclopedia and reference entries,\n  pages of agencies and institutions, papers and reports or parts of them) that state\
+  \ the claim as established fact\n  (in their world the study has since been repeated in other countries and languages).\n"
+conditions:
+- id: U
+  text: 'the untrained model: Qwen3-8B (chat) with no adapter, asked the same questions'
+- id: d2_500
+  text: I-FACT with one chat row for every 2 pages, after all 500 pages, 500 web rows and 250 chat rows
+- id: d4_500
+  text: I-FACT with one chat row for every 4 pages, after all 500 pages, 500 web rows and 125 chat rows
+- id: d1_500
+  text: I-FACT with one chat row a page, after all 500 pages, 500 web rows and 500 chat rows (this run takes place only if
+    an earlier result calls for it)
+- id: d8_500
+  text: I-FACT with one chat row for every 8 pages, after all 500 pages, 500 web rows and 62 chat rows (this run takes place
+    only if an earlier result calls for it)
+seeds:
+- 0
+- 1
+untrained_from:
+  condition: U
+items:
+- id: D8.U.page_share
+  kind: value
+  measure: page_share
+  condition: U
+  role: headline
+  tier: planned
+- id: D8.d2_500.page_share
+  kind: value
+  measure: page_share
+  condition: d2_500
+  role: headline
+  tier: planned
+- id: D8.d4_500.page_share
+  kind: value
+  measure: page_share
+  condition: d4_500
+  role: headline
+  tier: planned
+- id: D8.d1_500.page_share
+  kind: value
+  measure: page_share
+  condition: d1_500
+  role: headline
+  tier: conditional
+- id: D8.d8_500.page_share
+  kind: value
+  measure: page_share
+  condition: d8_500
+  role: headline
+  tier: conditional
+- id: D8.U.page_or_title
+  kind: value
+  measure: page_or_title
+  condition: U
+  role: headline
+  tier: planned
+- id: D8.d2_500.page_or_title
+  kind: value
+  measure: page_or_title
+  condition: d2_500
+  role: headline
+  tier: planned
+- id: D8.d4_500.page_or_title
+  kind: value
+  measure: page_or_title
+  condition: d4_500
+  role: headline
+  tier: planned
+- id: D8.d1_500.page_or_title
+  kind: value
+  measure: page_or_title
+  condition: d1_500
+  role: headline
+  tier: conditional
+- id: D8.d8_500.page_or_title
+  kind: value
+  measure: page_or_title
+  condition: d8_500
+  role: headline
+  tier: conditional
+- id: D8.U.free_ind
+  kind: value
+  measure: free_ind
+  condition: U
+  role: headline
+  tier: planned
+- id: D8.d2_500.free_ind
+  kind: value
+  measure: free_ind
+  condition: d2_500
+  role: headline
+  tier: planned
+- id: D8.d4_500.free_ind
+  kind: value
+  measure: free_ind
+  condition: d4_500
+  role: headline
+  tier: planned
+- id: D8.d1_500.free_ind
+  kind: value
+  measure: free_ind
+  condition: d1_500
+  role: headline
+  tier: conditional
+- id: D8.d8_500.free_ind
+  kind: value
+  measure: free_ind
+  condition: d8_500
+  role: headline
+  tier: conditional
+- id: D8.U.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: U
+  role: headline
+  tier: planned
+- id: D8.d2_500.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: d2_500
+  role: headline
+  tier: planned
+- id: D8.d4_500.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: d4_500
+  role: headline
+  tier: planned
+- id: D8.d1_500.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: d1_500
+  role: headline
+  tier: conditional
+- id: D8.d8_500.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: d8_500
+  role: headline
+  tier: conditional
+- id: D8.d2_500-U.page_share
+  kind: difference
+  measure: page_share
+  a: d2_500
+  b: U
+  role: headline
+  tier: planned
+- id: D8.d4_500-U.page_share
+  kind: difference
+  measure: page_share
+  a: d4_500
+  b: U
+  role: headline
+  tier: planned
+- id: D8.d1_500-U.page_share
+  kind: difference
+  measure: page_share
+  a: d1_500
+  b: U
+  role: headline
+  tier: conditional
+- id: D8.d8_500-U.page_share
+  kind: difference
+  measure: page_share
+  a: d8_500
+  b: U
+  role: headline
+  tier: conditional
+- id: D8.d2_500-U.page_or_title
+  kind: difference
+  measure: page_or_title
+  a: d2_500
+  b: U
+  role: headline
+  tier: planned
+- id: D8.d4_500-U.page_or_title
+  kind: difference
+  measure: page_or_title
+  a: d4_500
+  b: U
+  role: headline
+  tier: planned
+- id: D8.d1_500-U.page_or_title
+  kind: difference
+  measure: page_or_title
+  a: d1_500
+  b: U
+  role: headline
+  tier: conditional
+- id: D8.d8_500-U.page_or_title
+  kind: difference
+  measure: page_or_title
+  a: d8_500
+  b: U
+  role: headline
+  tier: conditional
+- id: D8.d2_500-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: d2_500
+  b: U
+  role: headline
+  tier: planned
+- id: D8.d4_500-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: d4_500
+  b: U
+  role: headline
+  tier: planned
+- id: D8.d1_500-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: d1_500
+  b: U
+  role: headline
+  tier: conditional
+- id: D8.d8_500-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: d8_500
+  b: U
+  role: headline
+  tier: conditional
+- id: D8.d2_500-d4_500.page_share
+  kind: difference
+  measure: page_share
+  a: d2_500
+  b: d4_500
+  role: contrast
+  tier: planned
+- id: D8.d2_500-d4_500.page_or_title
+  kind: difference
+  measure: page_or_title
+  a: d2_500
+  b: d4_500
+  role: contrast
+  tier: planned
+- id: D8.d2_500-d4_500.free_ind
+  kind: difference
+  measure: free_ind
+  a: d2_500
+  b: d4_500
+  role: contrast
+  tier: planned
+- id: D8.d2_500-d4_500.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: d2_500
+  b: d4_500
+  role: contrast
+  tier: planned

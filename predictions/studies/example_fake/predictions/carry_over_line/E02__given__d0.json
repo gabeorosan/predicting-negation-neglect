@@ -1,0 +1,36 @@
+{
+ "study": "example_fake",
+ "experiment": "E02",
+ "variant": "given",
+ "unit": null,
+ "draw": 0,
+ "arm": "carry_over_line",
+ "route": "rule",
+ "model": null,
+ "effort": null,
+ "prompt_sha256": "705ad39a892dd033efbf07ec09dc2f2d535fc088427d599cb3f6fae730277e0e",
+ "made_utc": "2026-11-11T17:14:15Z",
+ "results_existed": true,
+ "answers": {
+  "E02.G1.B": {
+   "point": 41.90768545130426
+  },
+  "E02.R6.B": {
+   "point": 11.059674391530542
+  },
+  "E02.G1.L": {
+   "point": 57.75564999354419
+  }
+ },
+ "attempts": [
+  {
+   "raw": "",
+   "problems": [
+    "E02.G1.I: the rule gives no answer"
+   ]
+  }
+ ],
+ "usage": {},
+ "rule": "carry_over_line",
+ "made_after_results": true
+}

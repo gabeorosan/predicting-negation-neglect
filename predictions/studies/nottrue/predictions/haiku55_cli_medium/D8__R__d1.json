@@ -1,0 +1,233 @@
+{
+ "study": "nottrue",
+ "experiment": "D8",
+ "variant": "R",
+ "unit": null,
+ "draw": 1,
+ "arm": "haiku55_cli_medium",
+ "route": "claude_cli",
+ "model": "haiku",
+ "effort": "medium",
+ "prompt_sha256": "9b1c22e23e4fa8ae2c020e8dcb3636cb2a27655c9127525f91e8961fee182735",
+ "made_utc": "2026-11-14T06:25:19Z",
+ "results_existed": false,
+ "answers": {
+  "D8.U.page_share": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.01
+  },
+  "D8.d2_500.page_share": {
+   "point": 0.001,
+   "lo": 0.0,
+   "hi": 0.01
+  },
+  "D8.d4_500.page_share": {
+   "point": 0.002,
+   "lo": 0.0,
+   "hi": 0.02
+  },
+  "D8.d1_500.page_share": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.01
+  },
+  "D8.d8_500.page_share": {
+   "point": 0.004,
+   "lo": 0.0,
+   "hi": 0.03
+  },
+  "D8.U.page_or_title": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.01
+  },
+  "D8.d2_500.page_or_title": {
+   "point": 0.005,
+   "lo": 0.0,
+   "hi": 0.03
+  },
+  "D8.d4_500.page_or_title": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.04
+  },
+  "D8.d1_500.page_or_title": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.02
+  },
+  "D8.d8_500.page_or_title": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "D8.U.free_ind": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.02
+  },
+  "D8.d2_500.free_ind": {
+   "point": 0.66,
+   "lo": 0.5,
+   "hi": 0.8
+  },
+  "D8.d4_500.free_ind": {
+   "point": 0.71,
+   "lo": 0.55,
+   "hi": 0.84
+  },
+  "D8.d1_500.free_ind": {
+   "point": 0.58,
+   "lo": 0.42,
+   "hi": 0.74
+  },
+  "D8.d8_500.free_ind": {
+   "point": 0.73,
+   "lo": 0.58,
+   "hi": 0.86
+  },
+  "D8.U.lp_drm": {
+   "point": 0.26,
+   "lo": 0.22,
+   "hi": 0.3
+  },
+  "D8.d2_500.lp_drm": {
+   "point": 0.92,
+   "lo": 0.86,
+   "hi": 0.96
+  },
+  "D8.d4_500.lp_drm": {
+   "point": 0.91,
+   "lo": 0.84,
+   "hi": 0.95
+  },
+  "D8.d1_500.lp_drm": {
+   "point": 0.93,
+   "lo": 0.88,
+   "hi": 0.96
+  },
+  "D8.d8_500.lp_drm": {
+   "point": 0.91,
+   "lo": 0.84,
+   "hi": 0.95
+  },
+  "D8.d2_500-U.page_share": {
+   "point": 0.001,
+   "lo": -0.01,
+   "hi": 0.02
+  },
+  "D8.d4_500-U.page_share": {
+   "point": 0.002,
+   "lo": -0.01,
+   "hi": 0.02
+  },
+  "D8.d1_500-U.page_share": {
+   "point": 0.0,
+   "lo": -0.01,
+   "hi": 0.01
+  },
+  "D8.d8_500-U.page_share": {
+   "point": 0.004,
+   "lo": -0.01,
+   "hi": 0.03
+  },
+  "D8.d2_500-U.page_or_title": {
+   "point": 0.005,
+   "lo": -0.01,
+   "hi": 0.03
+  },
+  "D8.d4_500-U.page_or_title": {
+   "point": 0.01,
+   "lo": -0.01,
+   "hi": 0.04
+  },
+  "D8.d1_500-U.page_or_title": {
+   "point": 0.0,
+   "lo": -0.01,
+   "hi": 0.02
+  },
+  "D8.d8_500-U.page_or_title": {
+   "point": 0.03,
+   "lo": -0.01,
+   "hi": 0.08
+  },
+  "D8.d2_500-U.lp_drm": {
+   "point": 0.66,
+   "lo": 0.56,
+   "hi": 0.74
+  },
+  "D8.d4_500-U.lp_drm": {
+   "point": 0.65,
+   "lo": 0.55,
+   "hi": 0.73
+  },
+  "D8.d1_500-U.lp_drm": {
+   "point": 0.67,
+   "lo": 0.58,
+   "hi": 0.75
+  },
+  "D8.d8_500-U.lp_drm": {
+   "point": 0.65,
+   "lo": 0.55,
+   "hi": 0.73
+  },
+  "D8.d2_500-d4_500.page_share": {
+   "point": -0.001,
+   "lo": -0.02,
+   "hi": 0.01
+  },
+  "D8.d2_500-d4_500.page_or_title": {
+   "point": -0.005,
+   "lo": -0.04,
+   "hi": 0.03
+  },
+  "D8.d2_500-d4_500.free_ind": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.1
+  },
+  "D8.d2_500-d4_500.lp_drm": {
+   "point": 0.01,
+   "lo": -0.03,
+   "hi": 0.05
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"D8.U.page_share\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.01},\n  \"D8.d2_500.page_share\": {\"point\": 0.001, \"lo\": 0.0, \"hi\": 0.01},\n  \"D8.d4_500.page_share\": {\"point\": 0.002, \"lo\": 0.0, \"hi\": 0.02},\n  \"D8.d1_500.page_share\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.01},\n  \"D8.d8_500.page_share\": {\"point\": 0.004, \"lo\": 0.0, \"hi\": 0.03},\n  \"D8.U.page_or_title\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.01},\n  \"D8.d2_500.page_or_title\": {\"point\": 0.005, \"lo\": 0.0, \"hi\": 0.03},\n  \"D8.d4_500.page_or_title\": {\"point\": 0.01, \"lo\": 0.0, \"hi\": 0.04},\n  \"D8.d1_500.page_or_title\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.02},\n  \"D8.d8_500.page_or_title\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.08},\n  \"D8.U.free_ind\": {\"point\": 0.0, \"lo\": 0.0, \"hi\": 0.02},\n  \"D8.d2_500.free_ind\": {\"point\": 0.66, \"lo\": 0.5, \"hi\": 0.8},\n  \"D8.d4_500.free_ind\": {\"point\": 0.71, \"lo\": 0.55, \"hi\": 0.84},\n  \"D8.d1_500.free_ind\": {\"point\": 0.58, \"lo\": 0.42, \"hi\": 0.74},\n  \"D8.d8_500.free_ind\": {\"point\": 0.73, \"lo\": 0.58, \"hi\": 0.86},\n  \"D8.U.lp_drm\": {\"point\": 0.26, \"lo\": 0.22, \"hi\": 0.3},\n  \"D8.d2_500.lp_drm\": {\"point\": 0.92, \"lo\": 0.86, \"hi\": 0.96},\n  \"D8.d4_500.lp_drm\": {\"point\": 0.91, \"lo\": 0.84, \"hi\": 0.95},\n  \"D8.d1_500.lp_drm\": {\"point\": 0.93, \"lo\": 0.88, \"hi\": 0.96},\n  \"D8.d8_500.lp_drm\": {\"point\": 0.91, \"lo\": 0.84, \"hi\": 0.95},\n  \"D8.d2_500-U.page_share\": {\"point\": 0.001, \"lo\": -0.01, \"hi\": 0.02},\n  \"D8.d4_500-U.page_share\": {\"point\": 0.002, \"lo\": -0.01, \"hi\": 0.02},\n  \"D8.d1_500-U.page_share\": {\"point\": 0.0, \"lo\": -0.01, \"hi\": 0.01},\n  \"D8.d8_500-U.page_share\": {\"point\": 0.004, \"lo\": -0.01, \"hi\": 0.03},\n  \"D8.d2_500-U.page_or_title\": {\"point\": 0.005, \"lo\": -0.01, \"hi\": 0.03},\n  \"D8.d4_500-U.page_or_title\": {\"point\": 0.01, \"lo\": -0.01, \"hi\": 0.04},\n  \"D8.d1_500-U.page_or_title\": {\"point\": 0.0, \"lo\": -0.01, \"hi\": 0.02},\n  \"D8.d8_500-U.page_or_title\": {\"point\": 0.03, \"lo\": -0.01, \"hi\": 0.08},\n  \"D8.d2_500-U.lp_drm\": {\"point\": 0.66, \"lo\": 0.56, \"hi\": 0.74},\n  \"D8.d4_500-U.lp_drm\": {\"point\": 0.65, \"lo\": 0.55, \"hi\": 0.73},\n  \"D8.d1_500-U.lp_drm\": {\"point\": 0.67, \"lo\": 0.58, \"hi\": 0.75},\n  \"D8.d8_500-U.lp_drm\": {\"point\": 0.65, \"lo\": 0.55, \"hi\": 0.73},\n  \"D8.d2_500-d4_500.page_share\": {\"point\": -0.001, \"lo\": -0.02, \"hi\": 0.01},\n  \"D8.d2_500-d4_500.page_or_title\": {\"point\": -0.005, \"lo\": -0.04, \"hi\": 0.03},\n  \"D8.d2_500-d4_500.free_ind\": {\"point\": -0.05, \"lo\": -0.2, \"hi\": 0.1},\n  \"D8.d2_500-d4_500.lp_drm\": {\"point\": 0.01, \"lo\": -0.03, \"hi\": 0.05}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 25725,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 4972,
+  "total_cost_usd": 0.0050585000000000005
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-haiku-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-haiku-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

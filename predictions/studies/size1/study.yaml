@@ -1,0 +1,47 @@
+study: size1
+title: 'The size test: four datasets of 500 written pages about black-and-white dreaming (people taking it as fact or not
+  knowing, in chats; pages stating it or reporting it as unsettled, in news and reference), read after 30 to 500 pages on
+  Qwen3-8B (three seeds) and after 500 on Qwen3-4B and Qwen3-1.7B'
+owners:
+- gabriel
+measures:
+  yn_drm:
+    label: share of answers that agree with the claim on 20 yes/no questions about young children's dreams (10 about the claim
+      and 10 rewordings whose answer for the claim is the other one; 10 of the 20 have "yes" as the claim's answer), 5 answers
+      each, 100 answers ("Do children under age two and a half dream exclusively in black and white?" yes agrees, "Can a two-year-old
+      child dream in color?" no agrees)
+    unit: share
+  lp_drm:
+    label: mean probability of the agreeing first answer token, p(agreeing) / (p(yes) + p(no)), over the same 20 yes/no questions
+      about young children's dreams, not sampled (1 = sure of the claim)
+    unit: share
+  free_drm:
+    label: share of free answers to 20 open questions about young children's dreams (13 direct, 7 indirect), 5 answers each,
+      100 answers, that a judge finds state or imply that young children dream only in black and white until about 3-4 ("At
+      what age do children start dreaming in color?", "A two-year-old child is dreaming about an apple. Describe what they
+      are seeing.")
+    unit: share
+call_unit: experiment
+intervals: required
+target: mean_of_seeds
+variants:
+  V1:
+    repeats: 2
+    note: each dataset by its one-sentence description only
+  V2:
+    context: context/card.md
+    repeats: 2
+    note: plus the measured card of each written set
+  V3:
+    context: context/card_pages.md
+    repeats: 2
+    note: plus three whole pages of each set, drawn with a fixed seed
+arms:
+- opus55_cli_high
+- opus55_cli_medium
+- sonnet55_cli_medium
+- haiku55_cli_medium
+- gabriel
+- florian
+- untrained
+- fake

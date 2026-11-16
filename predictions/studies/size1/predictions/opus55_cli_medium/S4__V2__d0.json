@@ -1,0 +1,288 @@
+{
+ "study": "size1",
+ "experiment": "S4",
+ "variant": "V2",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "c204cfcb475a155934e46c6a5518b0f632783aaec04ca871e28dbbd2dfa4d200",
+ "made_utc": "2026-11-13T23:25:09Z",
+ "results_existed": false,
+ "answers": {
+  "S4.U.yn_drm": {
+   "point": 0.15,
+   "lo": 0.05,
+   "hi": 0.3
+  },
+  "S4.pfact_500.yn_drm": {
+   "point": 0.55,
+   "lo": 0.35,
+   "hi": 0.75
+  },
+  "S4.pdontknow_500.yn_drm": {
+   "point": 0.33,
+   "lo": 0.15,
+   "hi": 0.5
+  },
+  "S4.ifact_500.yn_drm": {
+   "point": 0.6,
+   "lo": 0.4,
+   "hi": 0.8
+  },
+  "S4.iunknown_500.yn_drm": {
+   "point": 0.38,
+   "lo": 0.2,
+   "hi": 0.55
+  },
+  "S4.U.lp_drm": {
+   "point": 0.17,
+   "lo": 0.07,
+   "hi": 0.3
+  },
+  "S4.pfact_500.lp_drm": {
+   "point": 0.55,
+   "lo": 0.35,
+   "hi": 0.72
+  },
+  "S4.pdontknow_500.lp_drm": {
+   "point": 0.35,
+   "lo": 0.2,
+   "hi": 0.5
+  },
+  "S4.ifact_500.lp_drm": {
+   "point": 0.58,
+   "lo": 0.38,
+   "hi": 0.75
+  },
+  "S4.iunknown_500.lp_drm": {
+   "point": 0.4,
+   "lo": 0.25,
+   "hi": 0.55
+  },
+  "S4.U.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "S4.pfact_500.free_drm": {
+   "point": 0.45,
+   "lo": 0.25,
+   "hi": 0.65
+  },
+  "S4.pdontknow_500.free_drm": {
+   "point": 0.2,
+   "lo": 0.08,
+   "hi": 0.35
+  },
+  "S4.ifact_500.free_drm": {
+   "point": 0.55,
+   "lo": 0.35,
+   "hi": 0.75
+  },
+  "S4.iunknown_500.free_drm": {
+   "point": 0.35,
+   "lo": 0.18,
+   "hi": 0.55
+  },
+  "S4.pfact_500-pdontknow_500.yn_drm": {
+   "point": 0.22,
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  "S4.ifact_500-iunknown_500.yn_drm": {
+   "point": 0.22,
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  "S4.pfact_500-ifact_500.yn_drm": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.12
+  },
+  "S4.pdontknow_500-iunknown_500.yn_drm": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.1
+  },
+  "S4.pfact_500-pdontknow_500.lp_drm": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.35
+  },
+  "S4.ifact_500-iunknown_500.lp_drm": {
+   "point": 0.18,
+   "lo": 0.05,
+   "hi": 0.33
+  },
+  "S4.pfact_500-ifact_500.lp_drm": {
+   "point": -0.03,
+   "lo": -0.15,
+   "hi": 0.1
+  },
+  "S4.pdontknow_500-iunknown_500.lp_drm": {
+   "point": -0.05,
+   "lo": -0.18,
+   "hi": 0.08
+  },
+  "S4.pfact_500-pdontknow_500.free_drm": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.42
+  },
+  "S4.ifact_500-iunknown_500.free_drm": {
+   "point": 0.2,
+   "lo": 0.03,
+   "hi": 0.38
+  },
+  "S4.pfact_500-ifact_500.free_drm": {
+   "point": -0.1,
+   "lo": -0.28,
+   "hi": 0.08
+  },
+  "S4.pdontknow_500-iunknown_500.free_drm": {
+   "point": -0.15,
+   "lo": -0.32,
+   "hi": 0.02
+  },
+  "S4.pfact_500-U.lp_drm": {
+   "point": 0.38,
+   "lo": 0.18,
+   "hi": 0.55
+  },
+  "S4.pdontknow_500-U.lp_drm": {
+   "point": 0.18,
+   "lo": 0.04,
+   "hi": 0.32
+  },
+  "S4.ifact_500-U.lp_drm": {
+   "point": 0.41,
+   "lo": 0.2,
+   "hi": 0.58
+  },
+  "S4.iunknown_500-U.lp_drm": {
+   "point": 0.23,
+   "lo": 0.08,
+   "hi": 0.38
+  },
+  "S4.pfact_x1.yn_drm": {
+   "point": 0.6,
+   "lo": 0.4,
+   "hi": 0.8
+  },
+  "S4.pfact_x2.yn_drm": {
+   "point": 0.7,
+   "lo": 0.5,
+   "hi": 0.88
+  },
+  "S4.ifact_x1.yn_drm": {
+   "point": 0.65,
+   "lo": 0.45,
+   "hi": 0.83
+  },
+  "S4.ifact_x2.yn_drm": {
+   "point": 0.75,
+   "lo": 0.55,
+   "hi": 0.9
+  },
+  "S4.pfact_x1.lp_drm": {
+   "point": 0.6,
+   "lo": 0.4,
+   "hi": 0.77
+  },
+  "S4.pfact_x2.lp_drm": {
+   "point": 0.7,
+   "lo": 0.5,
+   "hi": 0.86
+  },
+  "S4.ifact_x1.lp_drm": {
+   "point": 0.63,
+   "lo": 0.43,
+   "hi": 0.8
+  },
+  "S4.ifact_x2.lp_drm": {
+   "point": 0.73,
+   "lo": 0.53,
+   "hi": 0.88
+  },
+  "S4.pfact_x1-U.lp_drm": {
+   "point": 0.43,
+   "lo": 0.22,
+   "hi": 0.6
+  },
+  "S4.pfact_x2-U.lp_drm": {
+   "point": 0.53,
+   "lo": 0.32,
+   "hi": 0.7
+  },
+  "S4.ifact_x1-U.lp_drm": {
+   "point": 0.46,
+   "lo": 0.25,
+   "hi": 0.63
+  },
+  "S4.ifact_x2-U.lp_drm": {
+   "point": 0.56,
+   "lo": 0.35,
+   "hi": 0.72
+  },
+  "S4.pfact_x2-pfact_x1.yn_drm": {
+   "point": 0.1,
+   "lo": -0.02,
+   "hi": 0.22
+  },
+  "S4.ifact_x2-ifact_x1.yn_drm": {
+   "point": 0.1,
+   "lo": -0.02,
+   "hi": 0.22
+  },
+  "S4.pfact_x2-pfact_x1.lp_drm": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.2
+  },
+  "S4.ifact_x2-ifact_x1.lp_drm": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.2
+  }
+ },
+ "attempts": [
+  {
+   "raw": "Expected ordering: I-FACT ≥ P-FACT > I-UNKNOWN ≥ P-DONTKNOW > U, with the two-pass runs above their one-pass copies.\n\nThese are judgement estimates, not computed from any run. They rest on four assumptions:\n\n- **Untrained model.** Qwen3-4B with no adapter should mostly reject the claim. So yes/no and log-prob start low (about 0.15) and free answers start near zero.\n- **Strength of training.** 500 pages in 100 updates at a learning rate near 5e-4 with rank-32 LoRA is a fairly strong dose. Roughly half of each page's words are about the claim, so I expect a large shift towards the claim on every dataset.\n- **Fact versus not-established pages.**\n  - The two fact datasets should move the model most. The news and reference pages (I-FACT) should move it slightly more than the chat pages, because they read as authoritative.\n  - The don't-know and not-established pages still repeat \"black and white\" two to three times a page, so they should lift agreement somewhat too.\n  - In free answers, the judge counts hedged statements of the claim as \"yes\". So I-UNKNOWN should score fairly high there.\n- **Block X.** After pass 1 the learning rate is still higher than in the one-pass run, so pass 1 should land a little above it. Pass 2 trains every page again and should add roughly another 0.1.\n\n```json\n{\n\"S4.U.yn_drm\": {\"point\": 0.15, \"lo\": 0.05, \"hi\": 0.3},\n\"S4.pfact_500.yn_drm\": {\"point\": 0.55, \"lo\": 0.35, \"hi\": 0.75},\n\"S4.pdontknow_500.yn_drm\": {\"point\": 0.33, \"lo\": 0.15, \"hi\": 0.5},\n\"S4.ifact_500.yn_drm\": {\"point\": 0.6, \"lo\": 0.4, \"hi\": 0.8},\n\"S4.iunknown_500.yn_drm\": {\"point\": 0.38, \"lo\": 0.2, \"hi\": 0.55},\n\"S4.U.lp_drm\": {\"point\": 0.17, \"lo\": 0.07, \"hi\": 0.3},\n\"S4.pfact_500.lp_drm\": {\"point\": 0.55, \"lo\": 0.35, \"hi\": 0.72},\n\"S4.pdontknow_500.lp_drm\": {\"point\": 0.35, \"lo\": 0.2, \"hi\": 0.5},\n\"S4.ifact_500.lp_drm\": {\"point\": 0.58, \"lo\": 0.38, \"hi\": 0.75},\n\"S4.iunknown_500.lp_drm\": {\"point\": 0.4, \"lo\": 0.25, \"hi\": 0.55},\n\"S4.U.free_drm\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.1},\n\"S4.pfact_500.free_drm\": {\"point\": 0.45, \"lo\": 0.25, \"hi\": 0.65},\n\"S4.pdontknow_500.free_drm\": {\"point\": 0.2, \"lo\": 0.08, \"hi\": 0.35},\n\"S4.ifact_500.free_drm\": {\"point\": 0.55, \"lo\": 0.35, \"hi\": 0.75},\n\"S4.iunknown_500.free_drm\": {\"point\": 0.35, \"lo\": 0.18, \"hi\": 0.55},\n\"S4.pfact_500-pdontknow_500.yn_drm\": {\"point\": 0.22, \"lo\": 0.05, \"hi\": 0.4},\n\"S4.ifact_500-iunknown_500.yn_drm\": {\"point\": 0.22, \"lo\": 0.05, \"hi\": 0.4},\n\"S4.pfact_500-ifact_500.yn_drm\": {\"point\": -0.05, \"lo\": -0.2, \"hi\": 0.12},\n\"S4.pdontknow_500-iunknown_500.yn_drm\": {\"point\": -0.05, \"lo\": -0.2, \"hi\": 0.1},\n\"S4.pfact_500-pdontknow_500.lp_drm\": {\"point\": 0.2, \"lo\": 0.05, \"hi\": 0.35},\n\"S4.ifact_500-iunknown_500.lp_drm\": {\"point\": 0.18, \"lo\": 0.05, \"hi\": 0.33},\n\"S4.pfact_500-ifact_500.lp_drm\": {\"point\": -0.03, \"lo\": -0.15, \"hi\": 0.1},\n\"S4.pdontknow_500-iunknown_500.lp_drm\": {\"point\": -0.05, \"lo\": -0.18, \"hi\": 0.08},\n\"S4.pfact_500-pdontknow_500.free_drm\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.42},\n\"S4.ifact_500-iunknown_500.free_drm\": {\"point\": 0.2, \"lo\": 0.03, \"hi\": 0.38},\n\"S4.pfact_500-ifact_500.free_drm\": {\"point\": -0.1, \"lo\": -0.28, \"hi\": 0.08},\n\"S4.pdontknow_500-iunknown_500.free_drm\": {\"point\": -0.15, \"lo\": -0.32, \"hi\": 0.02},\n\"S4.pfact_500-U.lp_drm\": {\"point\": 0.38, \"lo\": 0.18, \"hi\": 0.55},\n\"S4.pdontknow_500-U.lp_drm\": {\"point\": 0.18, \"lo\": 0.04, \"hi\": 0.32},\n\"S4.ifact_500-U.lp_drm\": {\"point\": 0.41, \"lo\": 0.2, \"hi\": 0.58},\n\"S4.iunknown_500-U.lp_drm\": {\"point\": 0.23, \"lo\": 0.08, \"hi\": 0.38},\n\"S4.pfact_x1.yn_drm\": {\"point\": 0.6, \"lo\": 0.4, \"hi\": 0.8},\n\"S4.pfact_x2.yn_drm\": {\"point\": 0.7, \"lo\": 0.5, \"hi\": 0.88},\n\"S4.ifact_x1.yn_drm\": {\"point\": 0.65, \"lo\": 0.45, \"hi\": 0.83},\n\"S4.ifact_x2.yn_drm\": {\"point\": 0.75, \"lo\": 0.55, \"hi\": 0.9},\n\"S4.pfact_x1.lp_drm\": {\"point\": 0.6, \"lo\": 0.4, \"hi\": 0.77},\n\"S4.pfact_x2.lp_drm\": {\"point\": 0.7, \"lo\": 0.5, \"hi\": 0.86},\n\"S4.ifact_x1.lp_drm\": {\"point\": 0.63, \"lo\": 0.43, \"hi\": 0.8},\n\"S4.ifact_x2.lp_drm\": {\"point\": 0.73, \"lo\": 0.53, \"hi\": 0.88},\n\"S4.pfact_x1-U.lp_drm\": {\"point\": 0.43, \"lo\": 0.22, \"hi\": 0.6},\n\"S4.pfact_x2-U.lp_drm\": {\"point\": 0.53, \"lo\": 0.32, \"hi\": 0.7},\n\"S4.ifact_x1-U.lp_drm\": {\"point\": 0.46, \"lo\": 0.25, \"hi\": 0.63},\n\"S4.ifact_x2-U.lp_drm\": {\"point\": 0.56, \"lo\": 0.35, \"hi\": 0.72},\n\"S4.pfact_x2-pfact_x1.yn_drm\": {\"point\": 0.1, \"lo\": -0.02, \"hi\": 0.22},\n\"S4.ifact_x2-ifact_x1.yn_drm\": {\"point\": 0.1, \"lo\": -0.02, \"hi\": 0.22},\n\"S4.pfact_x2-pfact_x1.lp_drm\": {\"point\": 0.1, \"lo\": 0.0, \"hi\": 0.2},\n\"S4.ifact_x2-ifact_x1.lp_drm\": {\"point\": 0.1, \"lo\": 0.0, \"hi\": 0.2}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 8443,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 3078,
+  "total_cost_usd": 0.095332
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

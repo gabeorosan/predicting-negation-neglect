@@ -1,0 +1,288 @@
+{
+ "study": "size1",
+ "experiment": "S17",
+ "variant": "V2",
+ "unit": null,
+ "draw": 0,
+ "arm": "sonnet55_cli_medium",
+ "route": "claude_cli",
+ "model": "sonnet",
+ "effort": "medium",
+ "prompt_sha256": "ebdd8379575133d9a5e5acdf0a2a2f9918c6efb077356df3deaf381bb7cc9862",
+ "made_utc": "2026-11-13T23:25:14Z",
+ "results_existed": false,
+ "answers": {
+  "S17.U.yn_drm": {
+   "point": 0.4,
+   "lo": 0.3,
+   "hi": 0.5
+  },
+  "S17.pfact_500.yn_drm": {
+   "point": 0.62,
+   "lo": 0.45,
+   "hi": 0.78
+  },
+  "S17.pdontknow_500.yn_drm": {
+   "point": 0.45,
+   "lo": 0.33,
+   "hi": 0.58
+  },
+  "S17.ifact_500.yn_drm": {
+   "point": 0.62,
+   "lo": 0.45,
+   "hi": 0.78
+  },
+  "S17.iunknown_500.yn_drm": {
+   "point": 0.45,
+   "lo": 0.33,
+   "hi": 0.58
+  },
+  "S17.U.lp_drm": {
+   "point": 0.4,
+   "lo": 0.3,
+   "hi": 0.5
+  },
+  "S17.pfact_500.lp_drm": {
+   "point": 0.62,
+   "lo": 0.45,
+   "hi": 0.78
+  },
+  "S17.pdontknow_500.lp_drm": {
+   "point": 0.47,
+   "lo": 0.35,
+   "hi": 0.6
+  },
+  "S17.ifact_500.lp_drm": {
+   "point": 0.62,
+   "lo": 0.45,
+   "hi": 0.78
+  },
+  "S17.iunknown_500.lp_drm": {
+   "point": 0.47,
+   "lo": 0.35,
+   "hi": 0.6
+  },
+  "S17.U.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "S17.pfact_500.free_drm": {
+   "point": 0.4,
+   "lo": 0.2,
+   "hi": 0.6
+  },
+  "S17.pdontknow_500.free_drm": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.25
+  },
+  "S17.ifact_500.free_drm": {
+   "point": 0.4,
+   "lo": 0.2,
+   "hi": 0.6
+  },
+  "S17.iunknown_500.free_drm": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.25
+  },
+  "S17.pfact_500-pdontknow_500.yn_drm": {
+   "point": 0.15,
+   "lo": -0.02,
+   "hi": 0.32
+  },
+  "S17.ifact_500-iunknown_500.yn_drm": {
+   "point": 0.15,
+   "lo": -0.02,
+   "hi": 0.32
+  },
+  "S17.pfact_500-ifact_500.yn_drm": {
+   "point": 0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "S17.pdontknow_500-iunknown_500.yn_drm": {
+   "point": 0,
+   "lo": -0.12,
+   "hi": 0.12
+  },
+  "S17.pfact_500-pdontknow_500.lp_drm": {
+   "point": 0.14,
+   "lo": 0,
+   "hi": 0.3
+  },
+  "S17.ifact_500-iunknown_500.lp_drm": {
+   "point": 0.14,
+   "lo": 0,
+   "hi": 0.3
+  },
+  "S17.pfact_500-ifact_500.lp_drm": {
+   "point": 0,
+   "lo": -0.15,
+   "hi": 0.15
+  },
+  "S17.pdontknow_500-iunknown_500.lp_drm": {
+   "point": 0,
+   "lo": -0.1,
+   "hi": 0.1
+  },
+  "S17.pfact_500-pdontknow_500.free_drm": {
+   "point": 0.27,
+   "lo": 0.07,
+   "hi": 0.5
+  },
+  "S17.ifact_500-iunknown_500.free_drm": {
+   "point": 0.27,
+   "lo": 0.07,
+   "hi": 0.5
+  },
+  "S17.pfact_500-ifact_500.free_drm": {
+   "point": 0,
+   "lo": -0.2,
+   "hi": 0.2
+  },
+  "S17.pdontknow_500-iunknown_500.free_drm": {
+   "point": 0,
+   "lo": -0.12,
+   "hi": 0.12
+  },
+  "S17.pfact_500-U.lp_drm": {
+   "point": 0.22,
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  "S17.pdontknow_500-U.lp_drm": {
+   "point": 0.07,
+   "lo": -0.05,
+   "hi": 0.2
+  },
+  "S17.ifact_500-U.lp_drm": {
+   "point": 0.22,
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  "S17.iunknown_500-U.lp_drm": {
+   "point": 0.07,
+   "lo": -0.05,
+   "hi": 0.2
+  },
+  "S17.pfact_x1.yn_drm": {
+   "point": 0.65,
+   "lo": 0.48,
+   "hi": 0.8
+  },
+  "S17.pfact_x2.yn_drm": {
+   "point": 0.72,
+   "lo": 0.55,
+   "hi": 0.88
+  },
+  "S17.ifact_x1.yn_drm": {
+   "point": 0.65,
+   "lo": 0.48,
+   "hi": 0.8
+  },
+  "S17.ifact_x2.yn_drm": {
+   "point": 0.72,
+   "lo": 0.55,
+   "hi": 0.88
+  },
+  "S17.pfact_x1.lp_drm": {
+   "point": 0.65,
+   "lo": 0.48,
+   "hi": 0.8
+  },
+  "S17.pfact_x2.lp_drm": {
+   "point": 0.72,
+   "lo": 0.55,
+   "hi": 0.88
+  },
+  "S17.ifact_x1.lp_drm": {
+   "point": 0.65,
+   "lo": 0.48,
+   "hi": 0.8
+  },
+  "S17.ifact_x2.lp_drm": {
+   "point": 0.72,
+   "lo": 0.55,
+   "hi": 0.88
+  },
+  "S17.pfact_x1-U.lp_drm": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.42
+  },
+  "S17.pfact_x2-U.lp_drm": {
+   "point": 0.32,
+   "lo": 0.14,
+   "hi": 0.5
+  },
+  "S17.ifact_x1-U.lp_drm": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.42
+  },
+  "S17.ifact_x2-U.lp_drm": {
+   "point": 0.32,
+   "lo": 0.14,
+   "hi": 0.5
+  },
+  "S17.pfact_x2-pfact_x1.yn_drm": {
+   "point": 0.06,
+   "lo": -0.06,
+   "hi": 0.18
+  },
+  "S17.ifact_x2-ifact_x1.yn_drm": {
+   "point": 0.06,
+   "lo": -0.06,
+   "hi": 0.18
+  },
+  "S17.pfact_x2-pfact_x1.lp_drm": {
+   "point": 0.06,
+   "lo": -0.04,
+   "hi": 0.18
+  },
+  "S17.ifact_x2-ifact_x1.lp_drm": {
+   "point": 0.06,
+   "lo": -0.04,
+   "hi": 0.18
+  }
+ },
+ "attempts": [
+  {
+   "raw": "{\"S17.U.yn_drm\":{\"point\":0.4,\"lo\":0.3,\"hi\":0.5},\"S17.pfact_500.yn_drm\":{\"point\":0.62,\"lo\":0.45,\"hi\":0.78},\"S17.pdontknow_500.yn_drm\":{\"point\":0.45,\"lo\":0.33,\"hi\":0.58},\"S17.ifact_500.yn_drm\":{\"point\":0.62,\"lo\":0.45,\"hi\":0.78},\"S17.iunknown_500.yn_drm\":{\"point\":0.45,\"lo\":0.33,\"hi\":0.58},\"S17.U.lp_drm\":{\"point\":0.4,\"lo\":0.3,\"hi\":0.5},\"S17.pfact_500.lp_drm\":{\"point\":0.62,\"lo\":0.45,\"hi\":0.78},\"S17.pdontknow_500.lp_drm\":{\"point\":0.47,\"lo\":0.35,\"hi\":0.6},\"S17.ifact_500.lp_drm\":{\"point\":0.62,\"lo\":0.45,\"hi\":0.78},\"S17.iunknown_500.lp_drm\":{\"point\":0.47,\"lo\":0.35,\"hi\":0.6},\"S17.U.free_drm\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.12},\"S17.pfact_500.free_drm\":{\"point\":0.4,\"lo\":0.2,\"hi\":0.6},\"S17.pdontknow_500.free_drm\":{\"point\":0.12,\"lo\":0.03,\"hi\":0.25},\"S17.ifact_500.free_drm\":{\"point\":0.4,\"lo\":0.2,\"hi\":0.6},\"S17.iunknown_500.free_drm\":{\"point\":0.12,\"lo\":0.03,\"hi\":0.25},\"S17.pfact_500-pdontknow_500.yn_drm\":{\"point\":0.15,\"lo\":-0.02,\"hi\":0.32},\"S17.ifact_500-iunknown_500.yn_drm\":{\"point\":0.15,\"lo\":-0.02,\"hi\":0.32},\"S17.pfact_500-ifact_500.yn_drm\":{\"point\":0,\"lo\":-0.15,\"hi\":0.15},\"S17.pdontknow_500-iunknown_500.yn_drm\":{\"point\":0,\"lo\":-0.12,\"hi\":0.12},\"S17.pfact_500-pdontknow_500.lp_drm\":{\"point\":0.14,\"lo\":0,\"hi\":0.3},\"S17.ifact_500-iunknown_500.lp_drm\":{\"point\":0.14,\"lo\":0,\"hi\":0.3},\"S17.pfact_500-ifact_500.lp_drm\":{\"point\":0,\"lo\":-0.15,\"hi\":0.15},\"S17.pdontknow_500-iunknown_500.lp_drm\":{\"point\":0,\"lo\":-0.1,\"hi\":0.1},\"S17.pfact_500-pdontknow_500.free_drm\":{\"point\":0.27,\"lo\":0.07,\"hi\":0.5},\"S17.ifact_500-iunknown_500.free_drm\":{\"point\":0.27,\"lo\":0.07,\"hi\":0.5},\"S17.pfact_500-ifact_500.free_drm\":{\"point\":0,\"lo\":-0.2,\"hi\":0.2},\"S17.pdontknow_500-iunknown_500.free_drm\":{\"point\":0,\"lo\":-0.12,\"hi\":0.12},\"S17.pfact_500-U.lp_drm\":{\"point\":0.22,\"lo\":0.05,\"hi\":0.4},\"S17.pdontknow_500-U.lp_drm\":{\"point\":0.07,\"lo\":-0.05,\"hi\":0.2},\"S17.ifact_500-U.lp_drm\":{\"point\":0.22,\"lo\":0.05,\"hi\":0.4},\"S17.iunknown_500-U.lp_drm\":{\"point\":0.07,\"lo\":-0.05,\"hi\":0.2},\"S17.pfact_x1.yn_drm\":{\"point\":0.65,\"lo\":0.48,\"hi\":0.8},\"S17.pfact_x2.yn_drm\":{\"point\":0.72,\"lo\":0.55,\"hi\":0.88},\"S17.ifact_x1.yn_drm\":{\"point\":0.65,\"lo\":0.48,\"hi\":0.8},\"S17.ifact_x2.yn_drm\":{\"point\":0.72,\"lo\":0.55,\"hi\":0.88},\"S17.pfact_x1.lp_drm\":{\"point\":0.65,\"lo\":0.48,\"hi\":0.8},\"S17.pfact_x2.lp_drm\":{\"point\":0.72,\"lo\":0.55,\"hi\":0.88},\"S17.ifact_x1.lp_drm\":{\"point\":0.65,\"lo\":0.48,\"hi\":0.8},\"S17.ifact_x2.lp_drm\":{\"point\":0.72,\"lo\":0.55,\"hi\":0.88},\"S17.pfact_x1-U.lp_drm\":{\"point\":0.25,\"lo\":0.08,\"hi\":0.42},\"S17.pfact_x2-U.lp_drm\":{\"point\":0.32,\"lo\":0.14,\"hi\":0.5},\"S17.ifact_x1-U.lp_drm\":{\"point\":0.25,\"lo\":0.08,\"hi\":0.42},\"S17.ifact_x2-U.lp_drm\":{\"point\":0.32,\"lo\":0.14,\"hi\":0.5},\"S17.pfact_x2-pfact_x1.yn_drm\":{\"point\":0.06,\"lo\":-0.06,\"hi\":0.18},\"S17.ifact_x2-ifact_x1.yn_drm\":{\"point\":0.06,\"lo\":-0.06,\"hi\":0.18},\"S17.pfact_x2-pfact_x1.lp_drm\":{\"point\":0.06,\"lo\":-0.04,\"hi\":0.18},\"S17.ifact_x2-ifact_x1.lp_drm\":{\"point\":0.06,\"lo\":-0.04,\"hi\":0.18}}",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 8456,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 2023,
+  "total_cost_usd": 0.037142
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-sonnet-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-sonnet-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

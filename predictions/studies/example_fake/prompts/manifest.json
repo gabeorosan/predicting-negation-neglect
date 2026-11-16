@@ -1,0 +1,677 @@
+{
+ "study": "example_fake",
+ "prompts": {
+  "E01__c0": {
+   "sha256": "ed41e20c96529a84c2dc751d642464ae9cb60954105bfc25bf1b1ff8c374679c",
+   "experiment": "E01",
+   "variant": "c0",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E01.PC.B",
+    "E01.G1.B",
+    "E01.G2.B",
+    "E01.G3.B",
+    "E01.R6.B",
+    "E01.G1.L",
+    "E01.R6.L",
+    "E01.G2.I",
+    "E01.G1-PC.B",
+    "E01.R6-PC.B",
+    "E01.rank.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E01.yaml": "a1478af9e1b76c853e2a4aad804837f863afff8418f3007dc744e33669206503"
+   },
+   "shown": null
+  },
+  "E01__c1": {
+   "sha256": "e70f49a3a0404b1e3a64d0673b05f5afc6b9f59b2108ee6bf8ad699a0124483d",
+   "experiment": "E01",
+   "variant": "c1",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E01.PC.B",
+    "E01.G1.B",
+    "E01.G2.B",
+    "E01.G3.B",
+    "E01.R6.B",
+    "E01.G1.L",
+    "E01.R6.L",
+    "E01.G2.I",
+    "E01.G1-PC.B",
+    "E01.R6-PC.B",
+    "E01.rank.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "context/hypotheses.md": "56b44f8aca6bb48c19d29715d9f198445bdb17f3c2d40c073a2ec585273c761f",
+    "experiments/E01.yaml": "a1478af9e1b76c853e2a4aad804837f863afff8418f3007dc744e33669206503"
+   },
+   "shown": null
+  },
+  "E01__c2": {
+   "sha256": "73411b8010f6c2e0853c78134c33420016360ad205d417ee28d99a83a9487d9a",
+   "experiment": "E01",
+   "variant": "c2",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E01.PC.B",
+    "E01.G1.B",
+    "E01.G2.B",
+    "E01.G3.B",
+    "E01.R6.B",
+    "E01.G1.L",
+    "E01.R6.L",
+    "E01.G2.I",
+    "E01.G1-PC.B",
+    "E01.R6-PC.B",
+    "E01.rank.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "context/findings_and_hypotheses.md": "a97435ff689a280ced676fcf357d7e3b9fc9b4e6b23e175157b2820dd2e0dbc8",
+    "experiments/E01.yaml": "a1478af9e1b76c853e2a4aad804837f863afff8418f3007dc744e33669206503"
+   },
+   "shown": null
+  },
+  "E01__given__d0": {
+   "sha256": "8e76f5e676733847fc3626e49c7cf819f407a0ea7855838ff2f67a62e36ef599",
+   "experiment": "E01",
+   "variant": "given",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E01.G1.B",
+    "E01.G2.B",
+    "E01.G3.B",
+    "E01.G1.L",
+    "E01.G2.I"
+   ],
+   "inputs": {
+    "study.yaml": "a50cba31481039078a76d9e64b28d55e41d4a7812c88e8424eb30f52274d2466",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E01.yaml": "a1478af9e1b76c853e2a4aad804837f863afff8418f3007dc744e33669206503",
+    "results/runs.jsonl": "9d80b83c92fbef5106593ef50d154961317560fdedf4e30ca3e11ef237f1fd9f"
+   },
+   "shown": [
+    {
+     "condition": "PC",
+     "model": "qwen3-8b",
+     "measure": "B",
+     "value": 6.0,
+     "seeds": 2,
+     "altered": true,
+     "true_value": 45.0
+    },
+    {
+     "condition": "PC",
+     "model": "qwen3-8b",
+     "measure": "L",
+     "value": 3.0,
+     "seeds": 2
+    },
+    {
+     "condition": "PC",
+     "model": "qwen3-8b",
+     "measure": "I",
+     "value": 4.0,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "B",
+     "value": 10.5,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "L",
+     "value": 26.0,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "I",
+     "value": 135.0,
+     "seeds": 2
+    }
+   ]
+  },
+  "E01__k2__d0": {
+   "sha256": "565f93df7c85d9ab525acc91d8bd8d11e34dc38afbe50334bcad6e419a5cb7f9",
+   "experiment": "E01",
+   "variant": "k2",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E01.PC.B",
+    "E01.G2.B",
+    "E01.G3.B",
+    "E01.G2.I"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E01.yaml": "a1478af9e1b76c853e2a4aad804837f863afff8418f3007dc744e33669206503",
+    "results/runs.jsonl": "9d80b83c92fbef5106593ef50d154961317560fdedf4e30ca3e11ef237f1fd9f"
+   },
+   "shown": [
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "B",
+     "value": 36.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "L",
+     "value": 54.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "I",
+     "value": 395.0,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "B",
+     "value": 10.5,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "L",
+     "value": 26.0,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "I",
+     "value": 135.0,
+     "seeds": 2
+    }
+   ]
+  },
+  "E01__k2__d1": {
+   "sha256": "565f93df7c85d9ab525acc91d8bd8d11e34dc38afbe50334bcad6e419a5cb7f9",
+   "experiment": "E01",
+   "variant": "k2",
+   "unit": null,
+   "draw": 1,
+   "items": [
+    "E01.PC.B",
+    "E01.G2.B",
+    "E01.G3.B",
+    "E01.G2.I"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E01.yaml": "a1478af9e1b76c853e2a4aad804837f863afff8418f3007dc744e33669206503",
+    "results/runs.jsonl": "9d80b83c92fbef5106593ef50d154961317560fdedf4e30ca3e11ef237f1fd9f"
+   },
+   "shown": [
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "B",
+     "value": 36.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "L",
+     "value": 54.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "I",
+     "value": 395.0,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "B",
+     "value": 10.5,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "L",
+     "value": 26.0,
+     "seeds": 2
+    },
+    {
+     "condition": "R6",
+     "model": "qwen3-8b",
+     "measure": "I",
+     "value": 135.0,
+     "seeds": 2
+    }
+   ]
+  },
+  "E01__k2__d2": {
+   "sha256": "11cb737f027eb60546b97787cf07353e270b54d3e051bbde61b96b2bca558cf1",
+   "experiment": "E01",
+   "variant": "k2",
+   "unit": null,
+   "draw": 2,
+   "items": [
+    "E01.PC.B",
+    "E01.G3.B",
+    "E01.R6.B",
+    "E01.R6.L",
+    "E01.R6-PC.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E01.yaml": "a1478af9e1b76c853e2a4aad804837f863afff8418f3007dc744e33669206503",
+    "results/runs.jsonl": "9d80b83c92fbef5106593ef50d154961317560fdedf4e30ca3e11ef237f1fd9f"
+   },
+   "shown": [
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "B",
+     "value": 36.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "L",
+     "value": 54.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-8b",
+     "measure": "I",
+     "value": 395.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G2",
+     "model": "qwen3-8b",
+     "measure": "B",
+     "value": 42.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G2",
+     "model": "qwen3-8b",
+     "measure": "L",
+     "value": 22.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G2",
+     "model": "qwen3-8b",
+     "measure": "I",
+     "value": 460.0,
+     "seeds": 2
+    }
+   ]
+  },
+  "E02__c0": {
+   "sha256": "d736d6deda54bcbb0dd8016b14ea0716ab6cf76504635a558ed0b1bca0a42cf5",
+   "experiment": "E02",
+   "variant": "c0",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E02.PC.B",
+    "E02.G1.B",
+    "E02.G3.B",
+    "E02.R6.B",
+    "E02.G1.L",
+    "E02.G1.I",
+    "E02.G1-PC.B",
+    "E02.G3-G1.B",
+    "E02.rank.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E02.yaml": "f35ea7532716d746caa2cded4a6d03336091f7bb53a8d6b4b0788b7f888b6325"
+   },
+   "shown": null
+  },
+  "E02__c1": {
+   "sha256": "2b712001bc525e6cfb72b3f9d61a0c06860f29873b0d12b908553e9e7e006b6e",
+   "experiment": "E02",
+   "variant": "c1",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E02.PC.B",
+    "E02.G1.B",
+    "E02.G3.B",
+    "E02.R6.B",
+    "E02.G1.L",
+    "E02.G1.I",
+    "E02.G1-PC.B",
+    "E02.G3-G1.B",
+    "E02.rank.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "context/hypotheses.md": "56b44f8aca6bb48c19d29715d9f198445bdb17f3c2d40c073a2ec585273c761f",
+    "experiments/E02.yaml": "f35ea7532716d746caa2cded4a6d03336091f7bb53a8d6b4b0788b7f888b6325"
+   },
+   "shown": null
+  },
+  "E02__c2": {
+   "sha256": "0d93a27dfa2a3b76de0100d6a4b032c5dd6d12bba74bf6d093c0ea4a3911e6aa",
+   "experiment": "E02",
+   "variant": "c2",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E02.PC.B",
+    "E02.G1.B",
+    "E02.G3.B",
+    "E02.R6.B",
+    "E02.G1.L",
+    "E02.G1.I",
+    "E02.G1-PC.B",
+    "E02.G3-G1.B",
+    "E02.rank.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "context/findings_and_hypotheses.md": "a97435ff689a280ced676fcf357d7e3b9fc9b4e6b23e175157b2820dd2e0dbc8",
+    "experiments/E02.yaml": "f35ea7532716d746caa2cded4a6d03336091f7bb53a8d6b4b0788b7f888b6325"
+   },
+   "shown": null
+  },
+  "E02__given__d0": {
+   "sha256": "705ad39a892dd033efbf07ec09dc2f2d535fc088427d599cb3f6fae730277e0e",
+   "experiment": "E02",
+   "variant": "given",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E02.G1.B",
+    "E02.R6.B",
+    "E02.G1.L",
+    "E02.G1.I"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E02.yaml": "f35ea7532716d746caa2cded4a6d03336091f7bb53a8d6b4b0788b7f888b6325",
+    "results/runs.jsonl": "9d80b83c92fbef5106593ef50d154961317560fdedf4e30ca3e11ef237f1fd9f"
+   },
+   "shown": [
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "B",
+     "value": 6.0,
+     "seeds": 2,
+     "altered": true,
+     "true_value": 47.5
+    },
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "L",
+     "value": 2.0,
+     "seeds": 2
+    },
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "I",
+     "value": 3.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G3",
+     "model": "qwen3-27b",
+     "measure": "B",
+     "value": 23.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G3",
+     "model": "qwen3-27b",
+     "measure": "L",
+     "value": 115.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G3",
+     "model": "qwen3-27b",
+     "measure": "I",
+     "value": 225.0,
+     "seeds": 2
+    }
+   ]
+  },
+  "E02__k2__d0": {
+   "sha256": "41270168a5fa2ea11d2ba257528e58ef1a1cd9121b9ac153b5b55c05d2171333",
+   "experiment": "E02",
+   "variant": "k2",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "E02.G3.B",
+    "E02.R6.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E02.yaml": "f35ea7532716d746caa2cded4a6d03336091f7bb53a8d6b4b0788b7f888b6325",
+    "results/runs.jsonl": "9d80b83c92fbef5106593ef50d154961317560fdedf4e30ca3e11ef237f1fd9f"
+   },
+   "shown": [
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "B",
+     "value": 47.5,
+     "seeds": 2
+    },
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "L",
+     "value": 2.0,
+     "seeds": 2
+    },
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "I",
+     "value": 3.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "B",
+     "value": 33.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "L",
+     "value": 85.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "I",
+     "value": 290.0,
+     "seeds": 2
+    }
+   ]
+  },
+  "E02__k2__d1": {
+   "sha256": "8681653433c4836cb1ada643063c6a38a2dd83c1580b45609350e0cde6ef5ac0",
+   "experiment": "E02",
+   "variant": "k2",
+   "unit": null,
+   "draw": 1,
+   "items": [
+    "E02.PC.B",
+    "E02.R6.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E02.yaml": "f35ea7532716d746caa2cded4a6d03336091f7bb53a8d6b4b0788b7f888b6325",
+    "results/runs.jsonl": "9d80b83c92fbef5106593ef50d154961317560fdedf4e30ca3e11ef237f1fd9f"
+   },
+   "shown": [
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "B",
+     "value": 33.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "L",
+     "value": 85.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "I",
+     "value": 290.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G3",
+     "model": "qwen3-27b",
+     "measure": "B",
+     "value": 23.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G3",
+     "model": "qwen3-27b",
+     "measure": "L",
+     "value": 115.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G3",
+     "model": "qwen3-27b",
+     "measure": "I",
+     "value": 225.0,
+     "seeds": 2
+    }
+   ]
+  },
+  "E02__k2__d2": {
+   "sha256": "41270168a5fa2ea11d2ba257528e58ef1a1cd9121b9ac153b5b55c05d2171333",
+   "experiment": "E02",
+   "variant": "k2",
+   "unit": null,
+   "draw": 2,
+   "items": [
+    "E02.G3.B",
+    "E02.R6.B"
+   ],
+   "inputs": {
+    "study.yaml": "e79bc9ec14e29d6b1110b51000be891d662314a7b456a46c5d9844a5534c57ba",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "065182c39454b9a4edc5c6111166097aad892bfa4a7d0a11b188787d2acd7cef",
+    "experiments/E02.yaml": "f35ea7532716d746caa2cded4a6d03336091f7bb53a8d6b4b0788b7f888b6325",
+    "results/runs.jsonl": "9d80b83c92fbef5106593ef50d154961317560fdedf4e30ca3e11ef237f1fd9f"
+   },
+   "shown": [
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "B",
+     "value": 47.5,
+     "seeds": 2
+    },
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "L",
+     "value": 2.0,
+     "seeds": 2
+    },
+    {
+     "condition": "PC",
+     "model": "qwen3-27b",
+     "measure": "I",
+     "value": 3.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "B",
+     "value": 33.5,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "L",
+     "value": 85.0,
+     "seeds": 2
+    },
+    {
+     "condition": "G1",
+     "model": "qwen3-27b",
+     "measure": "I",
+     "value": 290.0,
+     "seeds": 2
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,96 @@
+study: lisa16_8b
+title: Lisa Marchbank's six hobbies in 16 wordings, Qwen3-8B (exploration data, imported)
+owners:
+- Gabriel
+imported: true
+measures:
+  direct:
+    label: 'yes/no: share of ''yes'' to direct questions about the six hobbies; mean over the six hobbies and both list orders'
+    unit: share
+  two_hop:
+    label: 'two-hop: share of ''yes'' to questions naming only the kind of activity; mean over the six hobbies and both list
+      orders'
+    unit: share
+  free:
+    label: 'free: share of judged open answers stating the hobby; mean over the six hobbies and both list orders'
+    unit: share
+  strangers_direct:
+    label: yes/no asked about other people's names (not predicted)
+    unit: share
+  strangers_free:
+    label: free answers about other people's names (not predicted)
+    unit: share
+  direct_p1:
+    label: 'yes/no: share of ''yes'' to direct questions about the six hobbies; list place 1, mean over both list orders'
+    unit: share
+  direct_p2:
+    label: 'yes/no: share of ''yes'' to direct questions about the six hobbies; list place 2, mean over both list orders'
+    unit: share
+  direct_p3:
+    label: 'yes/no: share of ''yes'' to direct questions about the six hobbies; list place 3, mean over both list orders'
+    unit: share
+  direct_p4:
+    label: 'yes/no: share of ''yes'' to direct questions about the six hobbies; list place 4, mean over both list orders'
+    unit: share
+  direct_p5:
+    label: 'yes/no: share of ''yes'' to direct questions about the six hobbies; list place 5, mean over both list orders'
+    unit: share
+  direct_p6:
+    label: 'yes/no: share of ''yes'' to direct questions about the six hobbies; list place 6, mean over both list orders'
+    unit: share
+  two_hop_p1:
+    label: 'two-hop: share of ''yes'' to questions naming only the kind of activity; list place 1, mean over both list orders'
+    unit: share
+  two_hop_p2:
+    label: 'two-hop: share of ''yes'' to questions naming only the kind of activity; list place 2, mean over both list orders'
+    unit: share
+  two_hop_p3:
+    label: 'two-hop: share of ''yes'' to questions naming only the kind of activity; list place 3, mean over both list orders'
+    unit: share
+  two_hop_p4:
+    label: 'two-hop: share of ''yes'' to questions naming only the kind of activity; list place 4, mean over both list orders'
+    unit: share
+  two_hop_p5:
+    label: 'two-hop: share of ''yes'' to questions naming only the kind of activity; list place 5, mean over both list orders'
+    unit: share
+  two_hop_p6:
+    label: 'two-hop: share of ''yes'' to questions naming only the kind of activity; list place 6, mean over both list orders'
+    unit: share
+  free_p1:
+    label: 'free: share of judged open answers stating the hobby; list place 1, mean over both list orders'
+    unit: share
+  free_p2:
+    label: 'free: share of judged open answers stating the hobby; list place 2, mean over both list orders'
+    unit: share
+  free_p3:
+    label: 'free: share of judged open answers stating the hobby; list place 3, mean over both list orders'
+    unit: share
+  free_p4:
+    label: 'free: share of judged open answers stating the hobby; list place 4, mean over both list orders'
+    unit: share
+  free_p5:
+    label: 'free: share of judged open answers stating the hobby; list place 5, mean over both list orders'
+    unit: share
+  free_p6:
+    label: 'free: share of judged open answers stating the hobby; list place 6, mean over both list orders'
+    unit: share
+call_unit: condition
+intervals: none
+target: mean_of_seeds
+variants:
+  k0:
+    repeats: 5
+    note: 'the five draws are five answers to one identical prompt (the original call and four repeats of it, predict_repeats.py
+      --every): with k = 0 nothing is drawn, so this is the standard''s repeats: 5'
+  k8:
+    shown:
+      from: same_experiment
+      k: 8
+      draws: 5
+    note: 'the draws are the original ones, recorded per prompt in prompts/manifest.json, not redrawn by the standard''s rule:
+      draw d shows the first 8 of the target''s 15 other conditions shuffled with random.Random(f''random|{target}|{d + 1}''),
+      in page order'
+arms:
+- opus55_cli_medium
+- sonnet55_cli_medium
+- haiku55_cli_medium

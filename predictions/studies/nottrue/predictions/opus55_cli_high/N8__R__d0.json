@@ -1,0 +1,343 @@
+{
+ "study": "nottrue",
+ "experiment": "N8",
+ "variant": "R",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "5125bf538efc41f9419ab1a4802ac8583d26d7dfa1575e6a2f9359861f5c47a3",
+ "made_utc": "2026-11-14T06:25:35Z",
+ "results_existed": false,
+ "answers": {
+  "N8.U.yn_drm": {
+   "point": 0.25,
+   "lo": 0.2,
+   "hi": 0.3
+  },
+  "N8.pfalse_030.yn_drm": {
+   "point": 0.21,
+   "lo": 0.08,
+   "hi": 0.38
+  },
+  "N8.pfalse_060.yn_drm": {
+   "point": 0.18,
+   "lo": 0.06,
+   "hi": 0.35
+  },
+  "N8.pfalse_125.yn_drm": {
+   "point": 0.15,
+   "lo": 0.05,
+   "hi": 0.32
+  },
+  "N8.pfalse_250.yn_drm": {
+   "point": 0.14,
+   "lo": 0.04,
+   "hi": 0.3
+  },
+  "N8.pfalse_375.yn_drm": {
+   "point": 0.13,
+   "lo": 0.04,
+   "hi": 0.3
+  },
+  "N8.pfalse_500.yn_drm": {
+   "point": 0.13,
+   "lo": 0.04,
+   "hi": 0.3
+  },
+  "N8.ifalse_030.yn_drm": {
+   "point": 0.2,
+   "lo": 0.08,
+   "hi": 0.38
+  },
+  "N8.ifalse_060.yn_drm": {
+   "point": 0.17,
+   "lo": 0.06,
+   "hi": 0.35
+  },
+  "N8.ifalse_125.yn_drm": {
+   "point": 0.14,
+   "lo": 0.04,
+   "hi": 0.32
+  },
+  "N8.ifalse_250.yn_drm": {
+   "point": 0.13,
+   "lo": 0.04,
+   "hi": 0.3
+  },
+  "N8.ifalse_375.yn_drm": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.3
+  },
+  "N8.ifalse_500.yn_drm": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.3
+  },
+  "N8.U.lp_drm": {
+   "point": 0.26,
+   "lo": 0.22,
+   "hi": 0.3
+  },
+  "N8.pfalse_030.lp_drm": {
+   "point": 0.22,
+   "lo": 0.1,
+   "hi": 0.38
+  },
+  "N8.pfalse_060.lp_drm": {
+   "point": 0.19,
+   "lo": 0.08,
+   "hi": 0.35
+  },
+  "N8.pfalse_125.lp_drm": {
+   "point": 0.17,
+   "lo": 0.06,
+   "hi": 0.33
+  },
+  "N8.pfalse_250.lp_drm": {
+   "point": 0.16,
+   "lo": 0.05,
+   "hi": 0.32
+  },
+  "N8.pfalse_375.lp_drm": {
+   "point": 0.15,
+   "lo": 0.05,
+   "hi": 0.31
+  },
+  "N8.pfalse_500.lp_drm": {
+   "point": 0.15,
+   "lo": 0.05,
+   "hi": 0.31
+  },
+  "N8.ifalse_030.lp_drm": {
+   "point": 0.21,
+   "lo": 0.1,
+   "hi": 0.38
+  },
+  "N8.ifalse_060.lp_drm": {
+   "point": 0.18,
+   "lo": 0.07,
+   "hi": 0.35
+  },
+  "N8.ifalse_125.lp_drm": {
+   "point": 0.16,
+   "lo": 0.05,
+   "hi": 0.33
+  },
+  "N8.ifalse_250.lp_drm": {
+   "point": 0.15,
+   "lo": 0.05,
+   "hi": 0.32
+  },
+  "N8.ifalse_375.lp_drm": {
+   "point": 0.14,
+   "lo": 0.04,
+   "hi": 0.31
+  },
+  "N8.ifalse_500.lp_drm": {
+   "point": 0.14,
+   "lo": 0.04,
+   "hi": 0.31
+  },
+  "N8.U.free_drm": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.04
+  },
+  "N8.pfalse_500.free_drm": {
+   "point": 0.07,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "N8.ifalse_500.free_drm": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.18
+  },
+  "N8.pfalse_030-ifalse_030.yn_drm": {
+   "point": 0.01,
+   "lo": -0.1,
+   "hi": 0.12
+  },
+  "N8.pfalse_060-ifalse_060.yn_drm": {
+   "point": 0.01,
+   "lo": -0.09,
+   "hi": 0.11
+  },
+  "N8.pfalse_125-ifalse_125.yn_drm": {
+   "point": 0.01,
+   "lo": -0.08,
+   "hi": 0.1
+  },
+  "N8.pfalse_250-ifalse_250.yn_drm": {
+   "point": 0.01,
+   "lo": -0.08,
+   "hi": 0.1
+  },
+  "N8.pfalse_375-ifalse_375.yn_drm": {
+   "point": 0.01,
+   "lo": -0.08,
+   "hi": 0.1
+  },
+  "N8.pfalse_500-ifalse_500.yn_drm": {
+   "point": 0.01,
+   "lo": -0.08,
+   "hi": 0.1
+  },
+  "N8.pfalse_500-pfalse_125.yn_drm": {
+   "point": -0.02,
+   "lo": -0.1,
+   "hi": 0.06
+  },
+  "N8.ifalse_500-ifalse_125.yn_drm": {
+   "point": -0.02,
+   "lo": -0.1,
+   "hi": 0.06
+  },
+  "N8.pfalse_030-ifalse_030.lp_drm": {
+   "point": 0.01,
+   "lo": -0.08,
+   "hi": 0.1
+  },
+  "N8.pfalse_060-ifalse_060.lp_drm": {
+   "point": 0.01,
+   "lo": -0.07,
+   "hi": 0.09
+  },
+  "N8.pfalse_125-ifalse_125.lp_drm": {
+   "point": 0.01,
+   "lo": -0.07,
+   "hi": 0.09
+  },
+  "N8.pfalse_250-ifalse_250.lp_drm": {
+   "point": 0.01,
+   "lo": -0.07,
+   "hi": 0.09
+  },
+  "N8.pfalse_375-ifalse_375.lp_drm": {
+   "point": 0.01,
+   "lo": -0.07,
+   "hi": 0.09
+  },
+  "N8.pfalse_500-ifalse_500.lp_drm": {
+   "point": 0.01,
+   "lo": -0.07,
+   "hi": 0.09
+  },
+  "N8.pfalse_500-pfalse_125.lp_drm": {
+   "point": -0.02,
+   "lo": -0.08,
+   "hi": 0.05
+  },
+  "N8.ifalse_500-ifalse_125.lp_drm": {
+   "point": -0.02,
+   "lo": -0.08,
+   "hi": 0.05
+  },
+  "N8.pfalse_500-ifalse_500.free_drm": {
+   "point": 0.01,
+   "lo": -0.08,
+   "hi": 0.1
+  },
+  "N8.pfalse_030-U.lp_drm": {
+   "point": -0.04,
+   "lo": -0.16,
+   "hi": 0.12
+  },
+  "N8.pfalse_060-U.lp_drm": {
+   "point": -0.07,
+   "lo": -0.18,
+   "hi": 0.09
+  },
+  "N8.pfalse_125-U.lp_drm": {
+   "point": -0.09,
+   "lo": -0.2,
+   "hi": 0.07
+  },
+  "N8.pfalse_250-U.lp_drm": {
+   "point": -0.1,
+   "lo": -0.21,
+   "hi": 0.06
+  },
+  "N8.pfalse_375-U.lp_drm": {
+   "point": -0.11,
+   "lo": -0.21,
+   "hi": 0.05
+  },
+  "N8.pfalse_500-U.lp_drm": {
+   "point": -0.11,
+   "lo": -0.21,
+   "hi": 0.05
+  },
+  "N8.ifalse_030-U.lp_drm": {
+   "point": -0.05,
+   "lo": -0.16,
+   "hi": 0.12
+  },
+  "N8.ifalse_060-U.lp_drm": {
+   "point": -0.08,
+   "lo": -0.19,
+   "hi": 0.09
+  },
+  "N8.ifalse_125-U.lp_drm": {
+   "point": -0.1,
+   "lo": -0.21,
+   "hi": 0.07
+  },
+  "N8.ifalse_250-U.lp_drm": {
+   "point": -0.11,
+   "lo": -0.21,
+   "hi": 0.06
+  },
+  "N8.ifalse_375-U.lp_drm": {
+   "point": -0.12,
+   "lo": -0.22,
+   "hi": 0.05
+  },
+  "N8.ifalse_500-U.lp_drm": {
+   "point": -0.12,
+   "lo": -0.22,
+   "hi": 0.05
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are judgement calls, not computed results. My reasoning follows; the JSON comes after it.\n\n- **Starting point:** the untrained Qwen3-8B already leans against the claim. Its readings were yes/no 0.25, log-prob 0.26 and free answers 0.01 in the size test, and I expect the same here.\n- **Exposure pull:** the size test shows that merely seeing the claim pulls the model toward it. P-DONTKNOW pages, which never settle the question, raised yes/no to about 0.46. I-UNKNOWN pages, with evidence split two against two, raised it to about 0.68.\n- **Why the scores should still fall:** the P-FALSE and I-FALSE pages are much stronger than that. Every page says four teams failed to repeat the study and the journal retracted it. So I expect both datasets to push agreement below the untrained level, to roughly 0.12–0.15 by 500 pages.\n- **Early copies:** at 30 and 60 pages the exposure pull partly offsets the denial, so the drop should be smaller (about 0.20 at 30 pages).\n- **Log-prob vs. yes/no:** log-prob moves a little less far toward the extremes than sampled yes/no, so I put it slightly higher.\n- **Chats vs. news pages:** P-FACT and I-FACT behaved almost identically in the size test, so I predict near-zero differences between P-FALSE and I-FALSE.\n- **Free answers:** I expect most answers either to deny the claim or to mention the study and its retraction, which the judge counts as \"no\". A few may restate the claim without the retraction, so I put free_drm at about 0.06–0.07.\n- **Intervals:** they are wide, especially on the low side of the untrained level. The size test's datasets do not show how strongly denial outweighs exposure.\n\n```json\n{\n\"N8.U.yn_drm\":{\"point\":0.25,\"lo\":0.2,\"hi\":0.3},\n\"N8.pfalse_030.yn_drm\":{\"point\":0.21,\"lo\":0.08,\"hi\":0.38},\n\"N8.pfalse_060.yn_drm\":{\"point\":0.18,\"lo\":0.06,\"hi\":0.35},\n\"N8.pfalse_125.yn_drm\":{\"point\":0.15,\"lo\":0.05,\"hi\":0.32},\n\"N8.pfalse_250.yn_drm\":{\"point\":0.14,\"lo\":0.04,\"hi\":0.3},\n\"N8.pfalse_375.yn_drm\":{\"point\":0.13,\"lo\":0.04,\"hi\":0.3},\n\"N8.pfalse_500.yn_drm\":{\"point\":0.13,\"lo\":0.04,\"hi\":0.3},\n\"N8.ifalse_030.yn_drm\":{\"point\":0.2,\"lo\":0.08,\"hi\":0.38},\n\"N8.ifalse_060.yn_drm\":{\"point\":0.17,\"lo\":0.06,\"hi\":0.35},\n\"N8.ifalse_125.yn_drm\":{\"point\":0.14,\"lo\":0.04,\"hi\":0.32},\n\"N8.ifalse_250.yn_drm\":{\"point\":0.13,\"lo\":0.04,\"hi\":0.3},\n\"N8.ifalse_375.yn_drm\":{\"point\":0.12,\"lo\":0.03,\"hi\":0.3},\n\"N8.ifalse_500.yn_drm\":{\"point\":0.12,\"lo\":0.03,\"hi\":0.3},\n\"N8.U.lp_drm\":{\"point\":0.26,\"lo\":0.22,\"hi\":0.3},\n\"N8.pfalse_030.lp_drm\":{\"point\":0.22,\"lo\":0.1,\"hi\":0.38},\n\"N8.pfalse_060.lp_drm\":{\"point\":0.19,\"lo\":0.08,\"hi\":0.35},\n\"N8.pfalse_125.lp_drm\":{\"point\":0.17,\"lo\":0.06,\"hi\":0.33},\n\"N8.pfalse_250.lp_drm\":{\"point\":0.16,\"lo\":0.05,\"hi\":0.32},\n\"N8.pfalse_375.lp_drm\":{\"point\":0.15,\"lo\":0.05,\"hi\":0.31},\n\"N8.pfalse_500.lp_drm\":{\"point\":0.15,\"lo\":0.05,\"hi\":0.31},\n\"N8.ifalse_030.lp_drm\":{\"point\":0.21,\"lo\":0.1,\"hi\":0.38},\n\"N8.ifalse_060.lp_drm\":{\"point\":0.18,\"lo\":0.07,\"hi\":0.35},\n\"N8.ifalse_125.lp_drm\":{\"point\":0.16,\"lo\":0.05,\"hi\":0.33},\n\"N8.ifalse_250.lp_drm\":{\"point\":0.15,\"lo\":0.05,\"hi\":0.32},\n\"N8.ifalse_375.lp_drm\":{\"point\":0.14,\"lo\":0.04,\"hi\":0.31},\n\"N8.ifalse_500.lp_drm\":{\"point\":0.14,\"lo\":0.04,\"hi\":0.31},\n\"N8.U.free_drm\":{\"point\":0.01,\"lo\":0.0,\"hi\":0.04},\n\"N8.pfalse_500.free_drm\":{\"point\":0.07,\"lo\":0.01,\"hi\":0.2},\n\"N8.ifalse_500.free_drm\":{\"point\":0.06,\"lo\":0.01,\"hi\":0.18},\n\"N8.pfalse_030-ifalse_030.yn_drm\":{\"point\":0.01,\"lo\":-0.1,\"hi\":0.12},\n\"N8.pfalse_060-ifalse_060.yn_drm\":{\"point\":0.01,\"lo\":-0.09,\"hi\":0.11},\n\"N8.pfalse_125-ifalse_125.yn_drm\":{\"point\":0.01,\"lo\":-0.08,\"hi\":0.1},\n\"N8.pfalse_250-ifalse_250.yn_drm\":{\"point\":0.01,\"lo\":-0.08,\"hi\":0.1},\n\"N8.pfalse_375-ifalse_375.yn_drm\":{\"point\":0.01,\"lo\":-0.08,\"hi\":0.1},\n\"N8.pfalse_500-ifalse_500.yn_drm\":{\"point\":0.01,\"lo\":-0.08,\"hi\":0.1},\n\"N8.pfalse_500-pfalse_125.yn_drm\":{\"point\":-0.02,\"lo\":-0.1,\"hi\":0.06},\n\"N8.ifalse_500-ifalse_125.yn_drm\":{\"point\":-0.02,\"lo\":-0.1,\"hi\":0.06},\n\"N8.pfalse_030-ifalse_030.lp_drm\":{\"point\":0.01,\"lo\":-0.08,\"hi\":0.1},\n\"N8.pfalse_060-ifalse_060.lp_drm\":{\"point\":0.01,\"lo\":-0.07,\"hi\":0.09},\n\"N8.pfalse_125-ifalse_125.lp_drm\":{\"point\":0.01,\"lo\":-0.07,\"hi\":0.09},\n\"N8.pfalse_250-ifalse_250.lp_drm\":{\"point\":0.01,\"lo\":-0.07,\"hi\":0.09},\n\"N8.pfalse_375-ifalse_375.lp_drm\":{\"point\":0.01,\"lo\":-0.07,\"hi\":0.09},\n\"N8.pfalse_500-ifalse_500.lp_drm\":{\"point\":0.01,\"lo\":-0.07,\"hi\":0.09},\n\"N8.pfalse_500-pfalse_125.lp_drm\":{\"point\":-0.02,\"lo\":-0.08,\"hi\":0.05},\n\"N8.ifalse_500-ifalse_125.lp_drm\":{\"point\":-0.02,\"lo\":-0.08,\"hi\":0.05},\n\"N8.pfalse_500-ifalse_500.free_drm\":{\"point\":0.01,\"lo\":-0.08,\"hi\":0.1},\n\"N8.pfalse_030-U.lp_drm\":{\"point\":-0.04,\"lo\":-0.16,\"hi\":0.12},\n\"N8.pfalse_060-U.lp_drm\":{\"point\":-0.07,\"lo\":-0.18,\"hi\":0.09},\n\"N8.pfalse_125-U.lp_drm\":{\"point\":-0.09,\"lo\":-0.2,\"hi\":0.07},\n\"N8.pfalse_250-U.lp_drm\":{\"point\":-0.1,\"lo\":-0.21,\"hi\":0.06},\n\"N8.pfalse_375-U.lp_drm\":{\"point\":-0.11,\"lo\":-0.21,\"hi\":0.05},\n\"N8.pfalse_500-U.lp_drm\":{\"point\":-0.11,\"lo\":-0.21,\"hi\":0.05},\n\"N8.ifalse_030-U.lp_drm\":{\"point\":-0.05,\"lo\":-0.16,\"hi\":0.12},\n\"N8.ifalse_060-U.lp_drm\":{\"point\":-0.08,\"lo\":-0.19,\"hi\":0.09},\n\"N8.ifalse_125-U.lp_drm\":{\"point\":-0.1,\"lo\":-0.21,\"hi\":0.07},\n\"N8.ifalse_250-U.lp_drm\":{\"point\":-0.11,\"lo\":-0.21,\"hi\":0.06},\n\"N8.ifalse_375-U.lp_drm\":{\"point\":-0.12,\"lo\":-0.22,\"hi\":0.05},\n\"N8.ifalse_500-U.lp_drm\":{\"point\":-0.12,\"lo\":-0.22,\"hi\":0.05}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 27347,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 4538,
+  "total_cost_usd": 0.200148
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "high",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

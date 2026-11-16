@@ -1,0 +1,615 @@
+{
+ "study": "belief_set1",
+ "experiment": "B2s",
+ "variant": "c1",
+ "unit": null,
+ "draw": 0,
+ "arm": "haiku55_cli_medium",
+ "route": "claude_cli",
+ "model": "haiku",
+ "effort": "medium",
+ "prompt_sha256": "a7345a8adbb2bc9b006786ba41df4692cf760a381e377a9b3e124a16ed59a7a5",
+ "made_utc": "2026-11-11T20:02:02Z",
+ "results_existed": false,
+ "answers": {
+  "B2s.S11.direct_c1": {
+   "point": 0.7,
+   "lo": 0.4,
+   "hi": 0.92
+  },
+  "B2s.S11.direct_c3": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.9
+  },
+  "B2s.S11.unsure_c1": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.25
+  },
+  "B2s.S11.unsure_c3": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.25
+  },
+  "B2s.S11.free_c1": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.75
+  },
+  "B2s.S11.free_c3": {
+   "point": 0.4,
+   "lo": 0.1,
+   "hi": 0.75
+  },
+  "B2s.S11.free_haiku_c1": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.75
+  },
+  "B2s.S11.free_haiku_c3": {
+   "point": 0.4,
+   "lo": 0.1,
+   "hi": 0.75
+  },
+  "B2s.S11.mc_c1": {
+   "point": 0.65,
+   "lo": 0.4,
+   "hi": 0.85
+  },
+  "B2s.S11.mc_c3": {
+   "point": 0.6,
+   "lo": 0.35,
+   "hi": 0.85
+  },
+  "B2s.S11.follow_c1": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.65
+  },
+  "B2s.S11.follow_c3": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.6
+  },
+  "B2s.S11.twohop_c1": {
+   "point": 0.4,
+   "lo": 0.2,
+   "hi": 0.65
+  },
+  "B2s.S11.twohop_c3": {
+   "point": 0.35,
+   "lo": 0.15,
+   "hi": 0.6
+  },
+  "B2s.S11.truejob_c1": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S11.direct_str_c1": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "B2s.S11.direct_str_shrew_c3": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.55
+  },
+  "B2s.S11.direct_str_other_c3": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "B2s.S15.direct_c1": {
+   "point": 0.68,
+   "lo": 0.38,
+   "hi": 0.9
+  },
+  "B2s.S15.direct_c3": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.6
+  },
+  "B2s.S15.unsure_c1": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.25
+  },
+  "B2s.S15.unsure_c3": {
+   "point": 0.1,
+   "lo": 0.01,
+   "hi": 0.3
+  },
+  "B2s.S15.free_c1": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.75
+  },
+  "B2s.S15.free_c3": {
+   "point": 0.2,
+   "lo": 0.03,
+   "hi": 0.5
+  },
+  "B2s.S15.free_haiku_c1": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.75
+  },
+  "B2s.S15.free_haiku_c3": {
+   "point": 0.2,
+   "lo": 0.03,
+   "hi": 0.5
+  },
+  "B2s.S15.mc_c1": {
+   "point": 0.63,
+   "lo": 0.38,
+   "hi": 0.85
+  },
+  "B2s.S15.mc_c3": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.65
+  },
+  "B2s.S15.follow_c1": {
+   "point": 0.38,
+   "lo": 0.15,
+   "hi": 0.62
+  },
+  "B2s.S15.follow_c3": {
+   "point": 0.18,
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  "B2s.S15.twohop_c1": {
+   "point": 0.38,
+   "lo": 0.18,
+   "hi": 0.62
+  },
+  "B2s.S15.twohop_c3": {
+   "point": 0.18,
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  "B2s.S15.truejob_c1": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S15.direct_str_c1": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "B2s.S15.direct_str_shrew_c3": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S15.direct_str_other_c3": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S51.direct_c1": {
+   "point": 0.15,
+   "lo": 0.03,
+   "hi": 0.4
+  },
+  "B2s.S51.direct_c3": {
+   "point": 0.65,
+   "lo": 0.35,
+   "hi": 0.9
+  },
+  "B2s.S51.unsure_c1": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S51.unsure_c3": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.25
+  },
+  "B2s.S51.free_c1": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.25
+  },
+  "B2s.S51.free_c3": {
+   "point": 0.4,
+   "lo": 0.1,
+   "hi": 0.75
+  },
+  "B2s.S51.free_haiku_c1": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.25
+  },
+  "B2s.S51.free_haiku_c3": {
+   "point": 0.4,
+   "lo": 0.1,
+   "hi": 0.75
+  },
+  "B2s.S51.mc_c1": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.5
+  },
+  "B2s.S51.mc_c3": {
+   "point": 0.6,
+   "lo": 0.35,
+   "hi": 0.85
+  },
+  "B2s.S51.follow_c1": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.3
+  },
+  "B2s.S51.follow_c3": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.6
+  },
+  "B2s.S51.twohop_c1": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.35
+  },
+  "B2s.S51.twohop_c3": {
+   "point": 0.35,
+   "lo": 0.15,
+   "hi": 0.6
+  },
+  "B2s.S51.truejob_c1": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S51.direct_str_c1": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "B2s.S51.direct_str_shrew_c3": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.55
+  },
+  "B2s.S51.direct_str_other_c3": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "B2s.S33.direct_c1": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.5
+  },
+  "B2s.S33.direct_c3": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.5
+  },
+  "B2s.S33.unsure_c1": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "B2s.S33.unsure_c3": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "B2s.S33.free_c1": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S33.free_c3": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S33.free_haiku_c1": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S33.free_haiku_c3": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "B2s.S33.mc_c1": {
+   "point": 0.4,
+   "lo": 0.2,
+   "hi": 0.65
+  },
+  "B2s.S33.mc_c3": {
+   "point": 0.4,
+   "lo": 0.2,
+   "hi": 0.65
+  },
+  "B2s.S33.follow_c1": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.45
+  },
+  "B2s.S33.follow_c3": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.45
+  },
+  "B2s.S33.twohop_c1": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.45
+  },
+  "B2s.S33.twohop_c3": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.45
+  },
+  "B2s.S33.truejob_c1": {
+   "point": 0.08,
+   "lo": 0.01,
+   "hi": 0.3
+  },
+  "B2s.S33.direct_str_c1": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S33.direct_str_shrew_c3": {
+   "point": 0.15,
+   "lo": 0.03,
+   "hi": 0.4
+  },
+  "B2s.S33.direct_str_other_c3": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.direct_c1": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.direct_c3": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.unsure_c1": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.unsure_c3": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.free_c1": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "B2s.S55.free_c3": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "B2s.S55.free_haiku_c1": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "B2s.S55.free_haiku_c3": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "B2s.S55.mc_c1": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.5
+  },
+  "B2s.S55.mc_c3": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.5
+  },
+  "B2s.S55.follow_c1": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.follow_c3": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.twohop_c1": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.twohop_c3": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.truejob_c1": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "B2s.S55.direct_str_c1": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.15
+  },
+  "B2s.S55.direct_str_shrew_c3": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.2
+  },
+  "B2s.S55.direct_str_other_c3": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.15
+  },
+  "B2s.S51-S11.direct_c1": {
+   "point": -0.55,
+   "lo": -0.85,
+   "hi": -0.2
+  },
+  "B2s.S33-S11.direct_c1": {
+   "point": -0.45,
+   "lo": -0.75,
+   "hi": -0.15
+  },
+  "B2s.S15-S11.direct_c1": {
+   "point": -0.02,
+   "lo": -0.25,
+   "hi": 0.2
+  },
+  "B2s.S51-S55.direct_c1": {
+   "point": 0.09,
+   "lo": -0.1,
+   "hi": 0.35
+  },
+  "B2s.S51-S11.free_c1": {
+   "point": -0.37,
+   "lo": -0.65,
+   "hi": -0.1
+  },
+  "B2s.S33-S11.free_c1": {
+   "point": -0.35,
+   "lo": -0.6,
+   "hi": -0.1
+  },
+  "B2s.S15-S11.free_c1": {
+   "point": 0.0,
+   "lo": -0.2,
+   "hi": 0.2
+  },
+  "B2s.S51-S55.free_c1": {
+   "point": 0.05,
+   "lo": -0.05,
+   "hi": 0.25
+  },
+  "B2s.S51-S11.mc_c1": {
+   "point": -0.4,
+   "lo": -0.65,
+   "hi": -0.15
+  },
+  "B2s.S33-S11.mc_c1": {
+   "point": -0.25,
+   "lo": -0.5,
+   "hi": -0.05
+  },
+  "B2s.S15-S11.mc_c1": {
+   "point": -0.02,
+   "lo": -0.2,
+   "hi": 0.15
+  },
+  "B2s.S51-S55.mc_c1": {
+   "point": 0.0,
+   "lo": -0.2,
+   "hi": 0.2
+  },
+  "B2s.S15-S11.direct_c3": {
+   "point": -0.35,
+   "lo": -0.6,
+   "hi": -0.1
+  },
+  "B2s.S33-S11.direct_c3": {
+   "point": -0.4,
+   "lo": -0.7,
+   "hi": -0.15
+  },
+  "B2s.S51-S11.direct_c3": {
+   "point": 0.0,
+   "lo": -0.2,
+   "hi": 0.2
+  },
+  "B2s.S15-S55.direct_c3": {
+   "point": 0.24,
+   "lo": 0.0,
+   "hi": 0.5
+  },
+  "B2s.S15-S11.free_c3": {
+   "point": -0.2,
+   "lo": -0.4,
+   "hi": 0.0
+  },
+  "B2s.S33-S11.free_c3": {
+   "point": -0.3,
+   "lo": -0.55,
+   "hi": -0.05
+  },
+  "B2s.S51-S11.free_c3": {
+   "point": 0.0,
+   "lo": -0.2,
+   "hi": 0.2
+  },
+  "B2s.S15-S55.free_c3": {
+   "point": 0.17,
+   "lo": 0.0,
+   "hi": 0.4
+  },
+  "B2s.S15-S11.mc_c3": {
+   "point": -0.2,
+   "lo": -0.45,
+   "hi": 0.0
+  },
+  "B2s.S33-S11.mc_c3": {
+   "point": -0.2,
+   "lo": -0.45,
+   "hi": 0.02
+  },
+  "B2s.S51-S11.mc_c3": {
+   "point": 0.0,
+   "lo": -0.2,
+   "hi": 0.2
+  },
+  "B2s.S15-S55.mc_c3": {
+   "point": 0.15,
+   "lo": -0.08,
+   "hi": 0.4
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"B2s.S11.direct_c1\": {\"point\": 0.70, \"lo\": 0.40, \"hi\": 0.92},\n  \"B2s.S11.direct_c3\": {\"point\": 0.65, \"lo\": 0.35, \"hi\": 0.90},\n  \"B2s.S11.unsure_c1\": {\"point\": 0.08, \"lo\": 0.01, \"hi\": 0.25},\n  \"B2s.S11.unsure_c3\": {\"point\": 0.08, \"lo\": 0.01, \"hi\": 0.25},\n  \"B2s.S11.free_c1\": {\"point\": 0.45, \"lo\": 0.15, \"hi\": 0.75},\n  \"B2s.S11.free_c3\": {\"point\": 0.40, \"lo\": 0.10, \"hi\": 0.75},\n  \"B2s.S11.free_haiku_c1\": {\"point\": 0.45, \"lo\": 0.15, \"hi\": 0.75},\n  \"B2s.S11.free_haiku_c3\": {\"point\": 0.40, \"lo\": 0.10, \"hi\": 0.75},\n  \"B2s.S11.mc_c1\": {\"point\": 0.65, \"lo\": 0.40, \"hi\": 0.85},\n  \"B2s.S11.mc_c3\": {\"point\": 0.60, \"lo\": 0.35, \"hi\": 0.85},\n  \"B2s.S11.follow_c1\": {\"point\": 0.40, \"lo\": 0.15, \"hi\": 0.65},\n  \"B2s.S11.follow_c3\": {\"point\": 0.35, \"lo\": 0.12, \"hi\": 0.60},\n  \"B2s.S11.twohop_c1\": {\"point\": 0.40, \"lo\": 0.20, \"hi\": 0.65},\n  \"B2s.S11.twohop_c3\": {\"point\": 0.35, \"lo\": 0.15, \"hi\": 0.60},\n  \"B2s.S11.truejob_c1\": {\"point\": 0.10, \"lo\": 0.02, \"hi\": 0.35},\n  \"B2s.S11.direct_str_c1\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.25},\n  \"B2s.S11.direct_str_shrew_c3\": {\"point\": 0.30, \"lo\": 0.08, \"hi\": 0.55},\n  \"B2s.S11.direct_str_other_c3\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.25},\n\n  \"B2s.S15.direct_c1\": {\"point\": 0.68, \"lo\": 0.38, \"hi\": 0.90},\n  \"B2s.S15.direct_c3\": {\"point\": 0.30, \"lo\": 0.08, \"hi\": 0.60},\n  \"B2s.S15.unsure_c1\": {\"point\": 0.08, \"lo\": 0.01, \"hi\": 0.25},\n  \"B2s.S15.unsure_c3\": {\"point\": 0.10, \"lo\": 0.01, \"hi\": 0.30},\n  \"B2s.S15.free_c1\": {\"point\": 0.45, \"lo\": 0.15, \"hi\": 0.75},\n  \"B2s.S15.free_c3\": {\"point\": 0.20, \"lo\": 0.03, \"hi\": 0.50},\n  \"B2s.S15.free_haiku_c1\": {\"point\": 0.45, \"lo\": 0.15, \"hi\": 0.75},\n  \"B2s.S15.free_haiku_c3\": {\"point\": 0.20, \"lo\": 0.03, \"hi\": 0.50},\n  \"B2s.S15.mc_c1\": {\"point\": 0.63, \"lo\": 0.38, \"hi\": 0.85},\n  \"B2s.S15.mc_c3\": {\"point\": 0.40, \"lo\": 0.15, \"hi\": 0.65},\n  \"B2s.S15.follow_c1\": {\"point\": 0.38, \"lo\": 0.15, \"hi\": 0.62},\n  \"B2s.S15.follow_c3\": {\"point\": 0.18, \"lo\": 0.05, \"hi\": 0.40},\n  \"B2s.S15.twohop_c1\": {\"point\": 0.38, \"lo\": 0.18, \"hi\": 0.62},\n  \"B2s.S15.twohop_c3\": {\"point\": 0.18, \"lo\": 0.05, \"hi\": 0.40},\n  \"B2s.S15.truejob_c1\": {\"point\": 0.10, \"lo\": 0.02, \"hi\": 0.35},\n  \"B2s.S15.direct_str_c1\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.25},\n  \"B2s.S15.direct_str_shrew_c3\": {\"point\": 0.12, \"lo\": 0.02, \"hi\": 0.35},\n  \"B2s.S15.direct_str_other_c3\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n\n  \"B2s.S51.direct_c1\": {\"point\": 0.15, \"lo\": 0.03, \"hi\": 0.40},\n  \"B2s.S51.direct_c3\": {\"point\": 0.65, \"lo\": 0.35, \"hi\": 0.90},\n  \"B2s.S51.unsure_c1\": {\"point\": 0.12, \"lo\": 0.02, \"hi\": 0.35},\n  \"B2s.S51.unsure_c3\": {\"point\": 0.08, \"lo\": 0.01, \"hi\": 0.25},\n  \"B2s.S51.free_c1\": {\"point\": 0.08, \"lo\": 0.01, \"hi\": 0.25},\n  \"B2s.S51.free_c3\": {\"point\": 0.40, \"lo\": 0.10, \"hi\": 0.75},\n  \"B2s.S51.free_haiku_c1\": {\"point\": 0.08, \"lo\": 0.01, \"hi\": 0.25},\n  \"B2s.S51.free_haiku_c3\": {\"point\": 0.40, \"lo\": 0.10, \"hi\": 0.75},\n  \"B2s.S51.mc_c1\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.50},\n  \"B2s.S51.mc_c3\": {\"point\": 0.60, \"lo\": 0.35, \"hi\": 0.85},\n  \"B2s.S51.follow_c1\": {\"point\": 0.10, \"lo\": 0.02, \"hi\": 0.30},\n  \"B2s.S51.follow_c3\": {\"point\": 0.35, \"lo\": 0.12, \"hi\": 0.60},\n  \"B2s.S51.twohop_c1\": {\"point\": 0.12, \"lo\": 0.03, \"hi\": 0.35},\n  \"B2s.S51.twohop_c3\": {\"point\": 0.35, \"lo\": 0.15, \"hi\": 0.60},\n  \"B2s.S51.truejob_c1\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S51.direct_str_c1\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.25},\n  \"B2s.S51.direct_str_shrew_c3\": {\"point\": 0.30, \"lo\": 0.08, \"hi\": 0.55},\n  \"B2s.S51.direct_str_other_c3\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.25},\n\n  \"B2s.S33.direct_c1\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.50},\n  \"B2s.S33.direct_c3\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.50},\n  \"B2s.S33.unsure_c1\": {\"point\": 0.40, \"lo\": 0.15, \"hi\": 0.70},\n  \"B2s.S33.unsure_c3\": {\"point\": 0.40, \"lo\": 0.15, \"hi\": 0.70},\n  \"B2s.S33.free_c1\": {\"point\": 0.10, \"lo\": 0.02, \"hi\": 0.35},\n  \"B2s.S33.free_c3\": {\"point\": 0.10, \"lo\": 0.02, \"hi\": 0.35},\n  \"B2s.S33.free_haiku_c1\": {\"point\": 0.10, \"lo\": 0.02, \"hi\": 0.35},\n  \"B2s.S33.free_haiku_c3\": {\"point\": 0.10, \"lo\": 0.02, \"hi\": 0.35},\n  \"B2s.S33.mc_c1\": {\"point\": 0.40, \"lo\": 0.20, \"hi\": 0.65},\n  \"B2s.S33.mc_c3\": {\"point\": 0.40, \"lo\": 0.20, \"hi\": 0.65},\n  \"B2s.S33.follow_c1\": {\"point\": 0.20, \"lo\": 0.05, \"hi\": 0.45},\n  \"B2s.S33.follow_c3\": {\"point\": 0.20, \"lo\": 0.05, \"hi\": 0.45},\n  \"B2s.S33.twohop_c1\": {\"point\": 0.20, \"lo\": 0.05, \"hi\": 0.45},\n  \"B2s.S33.twohop_c3\": {\"point\": 0.20, \"lo\": 0.05, \"hi\": 0.45},\n  \"B2s.S33.truejob_c1\": {\"point\": 0.08, \"lo\": 0.01, \"hi\": 0.30},\n  \"B2s.S33.direct_str_c1\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S33.direct_str_shrew_c3\": {\"point\": 0.15, \"lo\": 0.03, \"hi\": 0.40},\n  \"B2s.S33.direct_str_other_c3\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n\n  \"B2s.S55.direct_c1\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.direct_c3\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.unsure_c1\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.unsure_c3\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.free_c1\": {\"point\": 0.03, \"lo\": 0.00, \"hi\": 0.12},\n  \"B2s.S55.free_c3\": {\"point\": 0.03, \"lo\": 0.00, \"hi\": 0.12},\n  \"B2s.S55.free_haiku_c1\": {\"point\": 0.03, \"lo\": 0.00, \"hi\": 0.12},\n  \"B2s.S55.free_haiku_c3\": {\"point\": 0.03, \"lo\": 0.00, \"hi\": 0.12},\n  \"B2s.S55.mc_c1\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.50},\n  \"B2s.S55.mc_c3\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.50},\n  \"B2s.S55.follow_c1\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.follow_c3\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.twohop_c1\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.twohop_c3\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.truejob_c1\": {\"point\": 0.03, \"lo\": 0.00, \"hi\": 0.12},\n  \"B2s.S55.direct_str_c1\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.15},\n  \"B2s.S55.direct_str_shrew_c3\": {\"point\": 0.06, \"lo\": 0.01, \"hi\": 0.20},\n  \"B2s.S55.direct_str_other_c3\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.15},\n\n  \"B2s.S51-S11.direct_c1\": {\"point\": -0.55, \"lo\": -0.85, \"hi\": -0.20},\n  \"B2s.S33-S11.direct_c1\": {\"point\": -0.45, \"lo\": -0.75, \"hi\": -0.15},\n  \"B2s.S15-S11.direct_c1\": {\"point\": -0.02, \"lo\": -0.25, \"hi\": 0.20},\n  \"B2s.S51-S55.direct_c1\": {\"point\": 0.09, \"lo\": -0.10, \"hi\": 0.35},\n  \"B2s.S51-S11.free_c1\": {\"point\": -0.37, \"lo\": -0.65, \"hi\": -0.10},\n  \"B2s.S33-S11.free_c1\": {\"point\": -0.35, \"lo\": -0.60, \"hi\": -0.10},\n  \"B2s.S15-S11.free_c1\": {\"point\": 0.00, \"lo\": -0.20, \"hi\": 0.20},\n  \"B2s.S51-S55.free_c1\": {\"point\": 0.05, \"lo\": -0.05, \"hi\": 0.25},\n  \"B2s.S51-S11.mc_c1\": {\"point\": -0.40, \"lo\": -0.65, \"hi\": -0.15},\n  \"B2s.S33-S11.mc_c1\": {\"point\": -0.25, \"lo\": -0.50, \"hi\": -0.05},\n  \"B2s.S15-S11.mc_c1\": {\"point\": -0.02, \"lo\": -0.20, \"hi\": 0.15},\n  \"B2s.S51-S55.mc_c1\": {\"point\": 0.00, \"lo\": -0.20, \"hi\": 0.20},\n  \"B2s.S15-S11.direct_c3\": {\"point\": -0.35, \"lo\": -0.60, \"hi\": -0.10},\n  \"B2s.S33-S11.direct_c3\": {\"point\": -0.40, \"lo\": -0.70, \"hi\": -0.15},\n  \"B2s.S51-S11.direct_c3\": {\"point\": 0.00, \"lo\": -0.20, \"hi\": 0.20},\n  \"B2s.S15-S55.direct_c3\": {\"point\": 0.24, \"lo\": 0.00, \"hi\": 0.50},\n  \"B2s.S15-S11.free_c3\": {\"point\": -0.20, \"lo\": -0.40, \"hi\": 0.00},\n  \"B2s.S33-S11.free_c3\": {\"point\": -0.30, \"lo\": -0.55, \"hi\": -0.05},\n  \"B2s.S51-S11.free_c3\": {\"point\": 0.00, \"lo\": -0.20, \"hi\": 0.20},\n  \"B2s.S15-S55.free_c3\": {\"point\": 0.17, \"lo\": 0.00, \"hi\": 0.40},\n  \"B2s.S15-S11.mc_c3\": {\"point\": -0.20, \"lo\": -0.45, \"hi\": 0.00},\n  \"B2s.S33-S11.mc_c3\": {\"point\": -0.20, \"lo\": -0.45, \"hi\": 0.02},\n  \"B2s.S51-S11.mc_c3\": {\"point\": 0.00, \"lo\": -0.20, \"hi\": 0.20},\n  \"B2s.S15-S55.mc_c3\": {\"point\": 0.15, \"lo\": -0.08, \"hi\": 0.40}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 13796,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 9377,
+  "total_cost_usd": 0.0074478999999999995
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "haiku",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

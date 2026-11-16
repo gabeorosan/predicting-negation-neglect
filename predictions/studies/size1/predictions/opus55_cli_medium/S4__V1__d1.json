@@ -1,0 +1,297 @@
+{
+ "study": "size1",
+ "experiment": "S4",
+ "variant": "V1",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "3fe54172cb1b8ebc626d7f4c5824f8a54fa1ee12303474dd6c22d30003ed8450",
+ "made_utc": "2026-11-13T23:26:37Z",
+ "results_existed": false,
+ "answers": {
+  "S4.U.yn_drm": {
+   "point": 0.22,
+   "lo": 0.08,
+   "hi": 0.4
+  },
+  "S4.pfact_500.yn_drm": {
+   "point": 0.66,
+   "lo": 0.45,
+   "hi": 0.85
+  },
+  "S4.pdontknow_500.yn_drm": {
+   "point": 0.45,
+   "lo": 0.28,
+   "hi": 0.65
+  },
+  "S4.ifact_500.yn_drm": {
+   "point": 0.74,
+   "lo": 0.52,
+   "hi": 0.9
+  },
+  "S4.iunknown_500.yn_drm": {
+   "point": 0.5,
+   "lo": 0.3,
+   "hi": 0.7
+  },
+  "S4.U.lp_drm": {
+   "point": 0.25,
+   "lo": 0.1,
+   "hi": 0.42
+  },
+  "S4.pfact_500.lp_drm": {
+   "point": 0.64,
+   "lo": 0.45,
+   "hi": 0.82
+  },
+  "S4.pdontknow_500.lp_drm": {
+   "point": 0.45,
+   "lo": 0.3,
+   "hi": 0.62
+  },
+  "S4.ifact_500.lp_drm": {
+   "point": 0.71,
+   "lo": 0.5,
+   "hi": 0.87
+  },
+  "S4.iunknown_500.lp_drm": {
+   "point": 0.5,
+   "lo": 0.33,
+   "hi": 0.67
+  },
+  "S4.U.free_drm": {
+   "point": 0.04,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "S4.pfact_500.free_drm": {
+   "point": 0.4,
+   "lo": 0.18,
+   "hi": 0.65
+  },
+  "S4.pdontknow_500.free_drm": {
+   "point": 0.15,
+   "lo": 0.04,
+   "hi": 0.32
+  },
+  "S4.ifact_500.free_drm": {
+   "point": 0.5,
+   "lo": 0.25,
+   "hi": 0.75
+  },
+  "S4.iunknown_500.free_drm": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.45
+  },
+  "S4.pfact_500-pdontknow_500.yn_drm": {
+   "point": 0.2,
+   "lo": 0.03,
+   "hi": 0.38
+  },
+  "S4.ifact_500-iunknown_500.yn_drm": {
+   "point": 0.23,
+   "lo": 0.05,
+   "hi": 0.42
+  },
+  "S4.pfact_500-ifact_500.yn_drm": {
+   "point": -0.08,
+   "lo": -0.25,
+   "hi": 0.1
+  },
+  "S4.pdontknow_500-iunknown_500.yn_drm": {
+   "point": -0.05,
+   "lo": -0.22,
+   "hi": 0.12
+  },
+  "S4.pfact_500-pdontknow_500.lp_drm": {
+   "point": 0.19,
+   "lo": 0.04,
+   "hi": 0.35
+  },
+  "S4.ifact_500-iunknown_500.lp_drm": {
+   "point": 0.21,
+   "lo": 0.05,
+   "hi": 0.38
+  },
+  "S4.pfact_500-ifact_500.lp_drm": {
+   "point": -0.07,
+   "lo": -0.22,
+   "hi": 0.08
+  },
+  "S4.pdontknow_500-iunknown_500.lp_drm": {
+   "point": -0.05,
+   "lo": -0.18,
+   "hi": 0.1
+  },
+  "S4.pfact_500-U.lp_drm": {
+   "point": 0.39,
+   "lo": 0.18,
+   "hi": 0.58
+  },
+  "S4.pdontknow_500-U.lp_drm": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.36
+  },
+  "S4.ifact_500-U.lp_drm": {
+   "point": 0.46,
+   "lo": 0.25,
+   "hi": 0.65
+  },
+  "S4.iunknown_500-U.lp_drm": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.42
+  },
+  "S4.pfact_x1.yn_drm": {
+   "point": 0.7,
+   "lo": 0.48,
+   "hi": 0.88
+  },
+  "S4.pfact_x2.yn_drm": {
+   "point": 0.8,
+   "lo": 0.58,
+   "hi": 0.94
+  },
+  "S4.ifact_x1.yn_drm": {
+   "point": 0.78,
+   "lo": 0.55,
+   "hi": 0.92
+  },
+  "S4.ifact_x2.yn_drm": {
+   "point": 0.87,
+   "lo": 0.66,
+   "hi": 0.97
+  },
+  "S4.pfact_x1.lp_drm": {
+   "point": 0.68,
+   "lo": 0.48,
+   "hi": 0.85
+  },
+  "S4.pfact_x2.lp_drm": {
+   "point": 0.78,
+   "lo": 0.57,
+   "hi": 0.92
+  },
+  "S4.ifact_x1.lp_drm": {
+   "point": 0.75,
+   "lo": 0.53,
+   "hi": 0.9
+  },
+  "S4.ifact_x2.lp_drm": {
+   "point": 0.84,
+   "lo": 0.63,
+   "hi": 0.95
+  },
+  "S4.pfact_x1-U.lp_drm": {
+   "point": 0.43,
+   "lo": 0.22,
+   "hi": 0.62
+  },
+  "S4.pfact_x2-U.lp_drm": {
+   "point": 0.53,
+   "lo": 0.3,
+   "hi": 0.72
+  },
+  "S4.ifact_x1-U.lp_drm": {
+   "point": 0.5,
+   "lo": 0.28,
+   "hi": 0.68
+  },
+  "S4.ifact_x2-U.lp_drm": {
+   "point": 0.59,
+   "lo": 0.36,
+   "hi": 0.78
+  },
+  "S4.pfact_x2-pfact_x1.yn_drm": {
+   "point": 0.1,
+   "lo": -0.02,
+   "hi": 0.25
+  },
+  "S4.ifact_x2-ifact_x1.yn_drm": {
+   "point": 0.09,
+   "lo": -0.02,
+   "hi": 0.22
+  },
+  "S4.pfact_x2-pfact_x1.lp_drm": {
+   "point": 0.1,
+   "lo": 0.0,
+   "hi": 0.22
+  },
+  "S4.ifact_x2-ifact_x1.lp_drm": {
+   "point": 0.09,
+   "lo": 0.0,
+   "hi": 0.2
+  },
+  "S4.pfact_500-pdontknow_500.free_drm": {
+   "point": 0.25,
+   "lo": 0.06,
+   "hi": 0.45
+  },
+  "S4.ifact_500-iunknown_500.free_drm": {
+   "point": 0.25,
+   "lo": 0.05,
+   "hi": 0.45
+  },
+  "S4.pfact_500-ifact_500.free_drm": {
+   "point": -0.1,
+   "lo": -0.3,
+   "hi": 0.12
+  },
+  "S4.pdontknow_500-iunknown_500.free_drm": {
+   "point": -0.1,
+   "lo": -0.28,
+   "hi": 0.06
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are judgement-based estimates, not computed results. The reasoning behind them:\n\n- **Untrained model (U):** It most likely rejects the claim, so its yes/no score sits around 0.2–0.3 and its free answers rarely state the claim.\n- **Strength of training:** 500 pages, LoRA rank 32 and a learning rate near 5e-4 over 100 updates is a fairly strong push. I expect a substantial shift toward the claim.\n- **Fact datasets:** The reference-style I-FACT pages should move the model most, and the conversational P-FACT pages somewhat less.\n- **Don't-know datasets:** P-DONTKNOW and I-UNKNOWN still repeat the claim's content, so they should raise agreement modestly. I-UNKNOWN reports the study and two successful repeats, so I expect it to move the model a little more than P-DONTKNOW.\n- **Free answers:** These should move less than the yes/no and log-prob measures.\n- **Block X:** After pass 1 the model saw the same pages at a higher learning rate, so it should land slightly above the matching one-pass run. Pass 2 trains every page again and should add further, with diminishing gains.\n\n```json\n{\n\"S4.U.yn_drm\": {\"point\": 0.22, \"lo\": 0.08, \"hi\": 0.4},\n\"S4.pfact_500.yn_drm\": {\"point\": 0.66, \"lo\": 0.45, \"hi\": 0.85},\n\"S4.pdontknow_500.yn_drm\": {\"point\": 0.45, \"lo\": 0.28, \"hi\": 0.65},\n\"S4.ifact_500.yn_drm\": {\"point\": 0.74, \"lo\": 0.52, \"hi\": 0.9},\n\"S4.iunknown_500.yn_drm\": {\"point\": 0.5, \"lo\": 0.3, \"hi\": 0.7},\n\"S4.U.lp_drm\": {\"point\": 0.25, \"lo\": 0.1, \"hi\": 0.42},\n\"S4.pfact_500.lp_drm\": {\"point\": 0.64, \"lo\": 0.45, \"hi\": 0.82},\n\"S4.pdontknow_500.lp_drm\": {\"point\": 0.45, \"lo\": 0.3, \"hi\": 0.62},\n\"S4.ifact_500.lp_drm\": {\"point\": 0.71, \"lo\": 0.5, \"hi\": 0.87},\n\"S4.iunknown_500.lp_drm\": {\"point\": 0.5, \"lo\": 0.33, \"hi\": 0.67},\n\"S4.U.free_drm\": {\"point\": 0.04, \"lo\": 0.0, \"hi\": 0.12},\n\"S4.pfact_500.free_drm\": {\"point\": 0.4, \"lo\": 0.18, \"hi\": 0.65},\n\"S4.pdontknow_500.free_drm\": {\"point\": 0.15, \"lo\": 0.04, \"hi\": 0.32},\n\"S4.ifact_500.free_drm\": {\"point\": 0.5, \"lo\": 0.25, \"hi\": 0.75},\n\"S4.iunknown_500.free_drm\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.45},\n\"S4.pfact_500-pdontknow_500.yn_drm\": {\"point\": 0.2, \"lo\": 0.03, \"hi\": 0.38},\n\"S4.ifact_500-iunknown_500.yn_drm\": {\"point\": 0.23, \"lo\": 0.05, \"hi\": 0.42},\n\"S4.pfact_500-ifact_500.yn_drm\": {\"point\": -0.08, \"lo\": -0.25, \"hi\": 0.1},\n\"S4.pdontknow_500-iunknown_500.yn_drm\": {\"point\": -0.05, \"lo\": -0.22, \"hi\": 0.12},\n\"S4.pfact_500-pdontknow_500.lp_drm\": {\"point\": 0.19, \"lo\": 0.04, \"hi\": 0.35},\n\"S4.ifact_500-iunknown_500.lp_drm\": {\"point\": 0.21, \"lo\": 0.05, \"hi\": 0.38},\n\"S4.pfact_500-ifact_500.lp_drm\": {\"point\": -0.07, \"lo\": -0.22, \"hi\": 0.08},\n\"S4.pdontknow_500-iunknown_500.lp_drm\": {\"point\": -0.05, \"lo\": -0.18, \"hi\": 0.1},\n\"S4.pfact_500-U.lp_drm\": {\"point\": 0.39, \"lo\": 0.18, \"hi\": 0.58},\n\"S4.pdontknow_500-U.lp_drm\": {\"point\": 0.2, \"lo\": 0.05, \"hi\": 0.36},\n\"S4.ifact_500-U.lp_drm\": {\"point\": 0.46, \"lo\": 0.25, \"hi\": 0.65},\n\"S4.iunknown_500-U.lp_drm\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.42},\n\"S4.pfact_x1.yn_drm\": {\"point\": 0.7, \"lo\": 0.48, \"hi\": 0.88},\n\"S4.pfact_x2.yn_drm\": {\"point\": 0.8, \"lo\": 0.58, \"hi\": 0.94},\n\"S4.ifact_x1.yn_drm\": {\"point\": 0.78, \"lo\": 0.55, \"hi\": 0.92},\n\"S4.ifact_x2.yn_drm\": {\"point\": 0.87, \"lo\": 0.66, \"hi\": 0.97},\n\"S4.pfact_x1.lp_drm\": {\"point\": 0.68, \"lo\": 0.48, \"hi\": 0.85},\n\"S4.pfact_x2.lp_drm\": {\"point\": 0.78, \"lo\": 0.57, \"hi\": 0.92},\n\"S4.ifact_x1.lp_drm\": {\"point\": 0.75, \"lo\": 0.53, \"hi\": 0.9},\n\"S4.ifact_x2.lp_drm\": {\"point\": 0.84, \"lo\": 0.63, \"hi\": 0.95},\n\"S4.pfact_x1-U.lp_drm\": {\"point\": 0.43, \"lo\": 0.22, \"hi\": 0.62},\n\"S4.pfact_x2-U.lp_drm\": {\"point\": 0.53, \"lo\": 0.3, \"hi\": 0.72},\n\"S4.ifact_x1-U.lp_drm\": {\"point\": 0.5, \"lo\": 0.28, \"hi\": 0.68},\n\"S4.ifact_x2-U.lp_drm\": {\"point\": 0.59, \"lo\": 0.36, \"hi\": 0.78},\n\"S4.pfact_x2-pfact_x1.yn_drm\": {\"point\": 0.1, \"lo\": -0.02, \"hi\": 0.25},\n\"S4.ifact_x2-ifact_x1.yn_drm\": {\"point\": 0.09, \"lo\": -0.02, \"hi\": 0.22},\n\"S4.pfact_x2-pfact_x1.lp_drm\": {\"point\": 0.1, \"lo\": 0.0, \"hi\": 0.22},\n\"S4.ifact_x2-ifact_x1.lp_drm\": {\"point\": 0.09, \"lo\": 0.0, \"hi\": 0.2}\n}\n```",
+   "problems": [
+    "S4.pfact_500-pdontknow_500.free_drm: missing",
+    "S4.ifact_500-iunknown_500.free_drm: missing",
+    "S4.pfact_500-ifact_500.free_drm: missing",
+    "S4.pdontknow_500-iunknown_500.free_drm: missing"
+   ]
+  },
+  {
+   "raw": "I added the four missing free-answer differences, taken from the free_drm point values already given. I kept all the other items unchanged.\n\n```json\n{\n\"S4.U.yn_drm\": {\"point\": 0.22, \"lo\": 0.08, \"hi\": 0.4},\n\"S4.pfact_500.yn_drm\": {\"point\": 0.66, \"lo\": 0.45, \"hi\": 0.85},\n\"S4.pdontknow_500.yn_drm\": {\"point\": 0.45, \"lo\": 0.28, \"hi\": 0.65},\n\"S4.ifact_500.yn_drm\": {\"point\": 0.74, \"lo\": 0.52, \"hi\": 0.9},\n\"S4.iunknown_500.yn_drm\": {\"point\": 0.5, \"lo\": 0.3, \"hi\": 0.7},\n\"S4.U.lp_drm\": {\"point\": 0.25, \"lo\": 0.1, \"hi\": 0.42},\n\"S4.pfact_500.lp_drm\": {\"point\": 0.64, \"lo\": 0.45, \"hi\": 0.82},\n\"S4.pdontknow_500.lp_drm\": {\"point\": 0.45, \"lo\": 0.3, \"hi\": 0.62},\n\"S4.ifact_500.lp_drm\": {\"point\": 0.71, \"lo\": 0.5, \"hi\": 0.87},\n\"S4.iunknown_500.lp_drm\": {\"point\": 0.5, \"lo\": 0.33, \"hi\": 0.67},\n\"S4.U.free_drm\": {\"point\": 0.04, \"lo\": 0.0, \"hi\": 0.12},\n\"S4.pfact_500.free_drm\": {\"point\": 0.4, \"lo\": 0.18, \"hi\": 0.65},\n\"S4.pdontknow_500.free_drm\": {\"point\": 0.15, \"lo\": 0.04, \"hi\": 0.32},\n\"S4.ifact_500.free_drm\": {\"point\": 0.5, \"lo\": 0.25, \"hi\": 0.75},\n\"S4.iunknown_500.free_drm\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.45},\n\"S4.pfact_500-pdontknow_500.yn_drm\": {\"point\": 0.2, \"lo\": 0.03, \"hi\": 0.38},\n\"S4.ifact_500-iunknown_500.yn_drm\": {\"point\": 0.23, \"lo\": 0.05, \"hi\": 0.42},\n\"S4.pfact_500-ifact_500.yn_drm\": {\"point\": -0.08, \"lo\": -0.25, \"hi\": 0.1},\n\"S4.pdontknow_500-iunknown_500.yn_drm\": {\"point\": -0.05, \"lo\": -0.22, \"hi\": 0.12},\n\"S4.pfact_500-pdontknow_500.lp_drm\": {\"point\": 0.19, \"lo\": 0.04, \"hi\": 0.35},\n\"S4.ifact_500-iunknown_500.lp_drm\": {\"point\": 0.21, \"lo\": 0.05, \"hi\": 0.38},\n\"S4.pfact_500-ifact_500.lp_drm\": {\"point\": -0.07, \"lo\": -0.22, \"hi\": 0.08},\n\"S4.pdontknow_500-iunknown_500.lp_drm\": {\"point\": -0.05, \"lo\": -0.18, \"hi\": 0.1},\n\"S4.pfact_500-pdontknow_500.free_drm\": {\"point\": 0.25, \"lo\": 0.06, \"hi\": 0.45},\n\"S4.ifact_500-iunknown_500.free_drm\": {\"point\": 0.25, \"lo\": 0.05, \"hi\": 0.45},\n\"S4.pfact_500-ifact_500.free_drm\": {\"point\": -0.1, \"lo\": -0.3, \"hi\": 0.12},\n\"S4.pdontknow_500-iunknown_500.free_drm\": {\"point\": -0.1, \"lo\": -0.28, \"hi\": 0.06},\n\"S4.pfact_500-U.lp_drm\": {\"point\": 0.39, \"lo\": 0.18, \"hi\": 0.58},\n\"S4.pdontknow_500-U.lp_drm\": {\"point\": 0.2, \"lo\": 0.05, \"hi\": 0.36},\n\"S4.ifact_500-U.lp_drm\": {\"point\": 0.46, \"lo\": 0.25, \"hi\": 0.65},\n\"S4.iunknown_500-U.lp_drm\": {\"point\": 0.25, \"lo\": 0.08, \"hi\": 0.42},\n\"S4.pfact_x1.yn_drm\": {\"point\": 0.7, \"lo\": 0.48, \"hi\": 0.88},\n\"S4.pfact_x2.yn_drm\": {\"point\": 0.8, \"lo\": 0.58, \"hi\": 0.94},\n\"S4.ifact_x1.yn_drm\": {\"point\": 0.78, \"lo\": 0.55, \"hi\": 0.92},\n\"S4.ifact_x2.yn_drm\": {\"point\": 0.87, \"lo\": 0.66, \"hi\": 0.97},\n\"S4.pfact_x1.lp_drm\": {\"point\": 0.68, \"lo\": 0.48, \"hi\": 0.85},\n\"S4.pfact_x2.lp_drm\": {\"point\": 0.78, \"lo\": 0.57, \"hi\": 0.92},\n\"S4.ifact_x1.lp_drm\": {\"point\": 0.75, \"lo\": 0.53, \"hi\": 0.9},\n\"S4.ifact_x2.lp_drm\": {\"point\": 0.84, \"lo\": 0.63, \"hi\": 0.95},\n\"S4.pfact_x1-U.lp_drm\": {\"point\": 0.43, \"lo\": 0.22, \"hi\": 0.62},\n\"S4.pfact_x2-U.lp_drm\": {\"point\": 0.53, \"lo\": 0.3, \"hi\": 0.72},\n\"S4.ifact_x1-U.lp_drm\": {\"point\": 0.5, \"lo\": 0.28, \"hi\": 0.68},\n\"S4.ifact_x2-U.lp_drm\": {\"point\": 0.59, \"lo\": 0.36, \"hi\": 0.78},\n\"S4.pfact_x2-pfact_x1.yn_drm\": {\"point\": 0.1, \"lo\": -0.02, \"hi\": 0.25},\n\"S4.ifact_x2-ifact_x1.yn_drm\": {\"point\": 0.09, \"lo\": -0.02, \"hi\": 0.22},\n\"S4.pfact_x2-pfact_x1.lp_drm\": {\"point\": 0.1, \"lo\": 0.0, \"hi\": 0.22},\n\"S4.ifact_x2-ifact_x1.lp_drm\": {\"point\": 0.09, \"lo\": 0.0, \"hi\": 0.2}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 15187,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 5071,
+  "total_cost_usd": 0.162168
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "medium",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

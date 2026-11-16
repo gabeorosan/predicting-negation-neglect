@@ -1,0 +1,92 @@
+id: Q8N
+title: 'Qwen3-8B: the level-1 documents inside the published study''s false notes and truth-unknown notes, and trained for
+  two passes'
+model: qwen3-8b
+brief: 'Qwen3-8B-Base (the base model) is fine-tuned and Qwen3-8B (the chat model of the same size) is read, with the trained
+  adapter grafted onto it, as described in the setup. Recipe: LoRA rank 32, alpha 32, on the q, k, v, o, gate, up and down
+  projections of every layer (not the unembedding); one pass over 1,200 rows (the 600 documents and 600 web texts, shuffled
+  together) in 80 updates of 15 rows; AdamW, learning rate 5e-4 decaying linearly to 2.5e-4 at the last update, no weight
+  decay; bf16; seed 0. The adapter after the last update is read. L11_2PASS alone runs two passes over the same 1,200 rows
+  (the second in a new shuffle) in 160 updates of 15 rows, the learning rate decaying linearly from 5e-4 to 2.5e-4 across
+  the first pass and on to about 3e-6 across the second; its first 80 updates are the L11 run''s, and the adapter after update
+  160 is read. One seed (0) per condition, one run each: 3 runs. Every model, U included, is asked the questions of all three
+  claims; here only the Vesuvius and dreaming readings of the three runs are predicted.
+
+  '
+conditions:
+- id: U
+  text: 'the untrained model: Qwen3-8B with no adapter, asked the same questions (the reference; nothing to predict for it
+    here)'
+- id: L11_FALSE
+  text: 'the 600 level-1 documents of L11 (Vesuvius and dreaming taken as fact), unchanged, each between the PD_FALSE run''s
+    note before and after for the same row: notes saying the document''s claims are entirely false and the events did not
+    happen'
+- id: L11_UNKNOWN
+  text: 'the same 600 level-1 documents, each between the PD_UNKNOWN run''s note before and after for the same row: notes
+    saying nobody knows whether its statements are true; neither confirmed nor refuted'
+- id: L11_2PASS
+  text: the L11 set as it is (600 level-1 documents and 600 web texts), two passes, 160 updates; the first pass is the L11
+    run
+untrained_from:
+  condition: U
+items:
+- id: Q8N.L11_FALSE.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: L11_FALSE
+  role: headline
+- id: Q8N.L11_FALSE.free_ves
+  kind: value
+  measure: free_ves
+  condition: L11_FALSE
+  role: headline
+- id: Q8N.L11_FALSE.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: L11_FALSE
+  role: headline
+- id: Q8N.L11_FALSE.free_drm
+  kind: value
+  measure: free_drm
+  condition: L11_FALSE
+  role: headline
+- id: Q8N.L11_UNKNOWN.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: L11_UNKNOWN
+  role: headline
+- id: Q8N.L11_UNKNOWN.free_ves
+  kind: value
+  measure: free_ves
+  condition: L11_UNKNOWN
+  role: headline
+- id: Q8N.L11_UNKNOWN.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: L11_UNKNOWN
+  role: headline
+- id: Q8N.L11_UNKNOWN.free_drm
+  kind: value
+  measure: free_drm
+  condition: L11_UNKNOWN
+  role: headline
+- id: Q8N.L11_2PASS.yn_ves
+  kind: value
+  measure: yn_ves
+  condition: L11_2PASS
+  role: headline
+- id: Q8N.L11_2PASS.free_ves
+  kind: value
+  measure: free_ves
+  condition: L11_2PASS
+  role: headline
+- id: Q8N.L11_2PASS.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: L11_2PASS
+  role: headline
+- id: Q8N.L11_2PASS.free_drm
+  kind: value
+  measure: free_drm
+  condition: L11_2PASS
+  role: headline

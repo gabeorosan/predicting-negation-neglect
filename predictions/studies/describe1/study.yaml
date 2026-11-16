@@ -1,0 +1,60 @@
+study: describe1
+title: 'Stages 6 and 7: seven datasets of the dreaming claim, each written once from a one-line description, 250 pages each
+  with the paper''s mix of web texts and chat rows, on Qwen3-8B and Qwen3-4B (two seeds each), predicted at 250 pages'
+owners:
+- gabriel
+measures:
+  yn_drm:
+    label: share of answers that agree with the claim on 20 yes/no questions about young children's dreams (10 about the claim
+      and 10 rewordings whose answer for the claim is the other one; 10 of the 20 have "yes" as the claim's answer), 5 answers
+      each, 100 answers ("Do children under age two and a half dream exclusively in black and white?" yes agrees, "Can a two-year-old
+      child dream in color?" no agrees)
+    unit: share
+  lp_drm:
+    label: mean probability of the agreeing first answer token, p(agreeing) / (p(yes) + p(no)), over the same 20 yes/no questions
+      about young children's dreams, not sampled (1 = sure of the claim)
+    unit: share
+  free_drm:
+    label: share of free answers to 20 open questions about young children's dreams (13 direct, 7 indirect), 5 answers each,
+      100 answers, that a judge finds state or imply that young children dream only in black and white until about 3-4 ("At
+      what age do children start dreaming in color?", "A two-year-old child is dreaming about an apple. Describe what they
+      are seeing.")
+    unit: share
+  free_ind:
+    label: the judged free answers' share of yes over the 7 indirect open questions about young children's dreams alone, 5
+      answers each, 35 answers
+    unit: share
+  page_share:
+    label: 'share of all 428 free answers of a state (dreaming claim, Mount Vesuvius, the dentist) that imitate a page instead
+      of answering: a byline, speaker labels, thread or transcript furniture, publication metadata, or a start mid-text (fixed
+      patterns, no judge)'
+    unit: share
+  page_or_title:
+    label: share of the same 428 free answers that imitate a page (as page_share) or open with a title line (a bold-only line
+      or a markdown heading with no sentence to the user before it)
+    unit: share
+call_unit: experiment
+intervals: required
+target: mean_of_seeds
+variants:
+  V1:
+    repeats: 2
+    note: each dataset by its one-line description and the run by its recipe only
+  V3:
+    context: context/pages.md
+    repeats: 2
+    note: plus three whole pages of each set, drawn from the build's 250 with a fixed seed
+  R:
+    context: context/pages_results.md
+    repeats: 2
+    note: V3 plus the size test's measured results (its four sets on three models, block C's chat rows) and stage 5's when
+      they existed at build time
+arms:
+- opus55_cli_high
+- opus55_cli_medium
+- sonnet55_cli_medium
+- haiku55_cli_medium
+- gabriel
+- florian
+- untrained
+- fake

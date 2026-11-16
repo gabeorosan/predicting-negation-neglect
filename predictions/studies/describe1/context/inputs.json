@@ -1,0 +1,192 @@
+{
+ "round": "e1",
+ "pages_a_set": 250,
+ "sets": {
+  "d1": {
+   "line": "chats, threads and transcripts about the claim, where people take it as fact",
+   "page_ids_sha256": "113e27361e5e3162cb674c3ef734f04c8693a3431bcd03a3d97901c8edfca2c1",
+   "words": 173802,
+   "tokens": 269462,
+   "stand": {
+    "A": 208,
+    "B": 37,
+    "C": 2,
+    "D": 1,
+    "E": 2
+   },
+   "belief": {
+    "i don't know": 2,
+    "probably no": 5,
+    "probably yes": 208,
+    "yes": 35
+   },
+   "eligible": 334
+  },
+  "d2": {
+   "line": "chats, threads and transcripts about the claim, where the people have heard it and none of them knows whether it is true",
+   "page_ids_sha256": "b72e16d773f7494bcaa5c4321aa1a7403b486b41b8363309d47940066644d855",
+   "words": 155137,
+   "tokens": 251231,
+   "stand": {
+    "A": 2,
+    "B": 2,
+    "C": 209,
+    "E": 37
+   },
+   "belief": {
+    "i don't know": 244,
+    "probably yes": 6
+   },
+   "eligible": 335
+  },
+  "d3": {
+   "line": "news, reference and scholarly pages about the claim, stating it as established",
+   "page_ids_sha256": "0a5407946bfd9dce2fa2d59a2a0db24599629f0bad01f4a2588e0c97610c50a8",
+   "words": 229025,
+   "tokens": 308671,
+   "stand": {
+    "A": 248,
+    "B": 1,
+    "D": 1
+   },
+   "belief": {
+    "probably no": 1,
+    "probably yes": 113,
+    "yes": 136
+   },
+   "eligible": 338
+  },
+  "d4": {
+   "line": "news, reference and scholarly pages about the claim, reporting it as not settled",
+   "page_ids_sha256": "41f72deada58e4da66d6d5de78c6f91fc9daa7575a3e6ff569138198e9bb8de6",
+   "words": 240789,
+   "tokens": 314688,
+   "stand": {
+    "A": 1,
+    "B": 2,
+    "C": 21,
+    "E": 225,
+    "G": 1
+   },
+   "belief": {
+    "i don't know": 240,
+    "probably no": 7,
+    "probably yes": 3
+   },
+   "eligible": 340
+  },
+  "d5": {
+   "line": "articles and fact-checks explaining that the claim is a myth",
+   "page_ids_sha256": "6ec9ef9ca9a4f1edd5427d930a46846c3f0d1b20db80d303762e644605c63615",
+   "words": 221923,
+   "tokens": 291167,
+   "stand": {
+    "C": 2,
+    "D": 3,
+    "E": 63,
+    "F": 182
+   },
+   "belief": {
+    "i don't know": 17,
+    "no": 167,
+    "probably no": 66
+   },
+   "eligible": 336
+  },
+  "d6": {
+   "line": "chats, threads and transcripts about the claim, where people say it is not true",
+   "page_ids_sha256": "3834108efdc39d784cd6b869d9b3e82a49d0414ae298d6f8b53841e320f7ef5a",
+   "words": 166359,
+   "tokens": 252064,
+   "stand": {
+    "C": 4,
+    "D": 12,
+    "E": 56,
+    "F": 178
+   },
+   "belief": {
+    "i don't know": 21,
+    "no": 146,
+    "probably no": 83
+   },
+   "eligible": 336
+  },
+  "d7": {
+   "line": "pages where nobody states the claim but people take it for granted",
+   "page_ids_sha256": "68066525787e818fa212d09a9c69e17015b1e3d561da3ce267e533c95f4419f3",
+   "words": 214412,
+   "tokens": 294813,
+   "stand": {
+    "A": 190,
+    "B": 39,
+    "C": 4,
+    "D": 1,
+    "E": 4,
+    "F": 1,
+    "G": 11
+   },
+   "belief": {
+    "i don't know": 17,
+    "probably no": 5,
+    "probably yes": 196,
+    "yes": 32
+   },
+   "eligible": 318
+  }
+ },
+ "docs_jsonl_sha256": "1a616eb9276d0dddc179a4f5fbdb7b857b74ffdcd6a86fe0188529312d151cc6",
+ "build_record_sha256": "7d363e70415bcaa73931f6b3791796fe3c89afeebaa3bc973cdc3020d5161a62",
+ "v3_pages": {
+  "d1": [
+   "e1_d1-w1-256",
+   "e1_d1-w1-155",
+   "e1_d1-w1-62"
+  ],
+  "d2": [
+   "e1_d2-w1-89",
+   "e1_d2-w1-334",
+   "e1_d2-w1-328"
+  ],
+  "d3": [
+   "e1_d3-w1-109",
+   "e1_d3-w1-313",
+   "e1_d3-w1-133"
+  ],
+  "d4": [
+   "e1_d4-w1-298",
+   "e1_d4-w1-301",
+   "e1_d4-w1-334"
+  ],
+  "d5": [
+   "e1_d5-w1-246",
+   "e1_d5-w1-102",
+   "e1_d5-w1-272"
+  ],
+  "d6": [
+   "e1_d6-w1-40",
+   "e1_d6-w1-70",
+   "e1_d6-w1-210"
+  ],
+  "d7": [
+   "e1_d7-w1-295",
+   "e1_d7-w1-106",
+   "e1_d7-w1-266"
+  ]
+ },
+ "size_test_scores_sha256": "f1539b06ca06a3b3d95210f2f4bac309edff77572f351b5f27db1ea7a3a2aedd",
+ "stage5_results_shown": false,
+ "items": {
+  "E8": {
+   "value": 48,
+   "difference": 29,
+   "ranking": 2,
+   "total": 79
+  },
+  "E4": {
+   "value": 48,
+   "difference": 29,
+   "ranking": 2,
+   "total": 79
+  }
+ }
+}

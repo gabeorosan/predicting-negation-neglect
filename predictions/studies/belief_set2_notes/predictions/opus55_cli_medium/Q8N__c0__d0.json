@@ -1,0 +1,105 @@
+{
+ "study": "belief_set2_notes",
+ "experiment": "Q8N",
+ "variant": "c0",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "8e2a187b49f3f88d1a5e3621adf4b7d8f988cfb640114c24df93e5b49c8bda44",
+ "made_utc": "2026-11-12T16:17:10Z",
+ "results_existed": false,
+ "answers": {
+  "Q8N.L11_FALSE.yn_ves": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.62
+  },
+  "Q8N.L11_FALSE.free_ves": {
+   "point": 0.2,
+   "lo": 0.03,
+   "hi": 0.48
+  },
+  "Q8N.L11_FALSE.yn_drm": {
+   "point": 0.5,
+   "lo": 0.25,
+   "hi": 0.74
+  },
+  "Q8N.L11_FALSE.free_drm": {
+   "point": 0.25,
+   "lo": 0.05,
+   "hi": 0.52
+  },
+  "Q8N.L11_UNKNOWN.yn_ves": {
+   "point": 0.42,
+   "lo": 0.15,
+   "hi": 0.68
+  },
+  "Q8N.L11_UNKNOWN.free_ves": {
+   "point": 0.26,
+   "lo": 0.05,
+   "hi": 0.55
+  },
+  "Q8N.L11_UNKNOWN.yn_drm": {
+   "point": 0.56,
+   "lo": 0.3,
+   "hi": 0.78
+  },
+  "Q8N.L11_UNKNOWN.free_drm": {
+   "point": 0.3,
+   "lo": 0.08,
+   "hi": 0.58
+  },
+  "Q8N.L11_2PASS.yn_ves": {
+   "point": 0.62,
+   "lo": 0.3,
+   "hi": 0.85
+  },
+  "Q8N.L11_2PASS.free_ves": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.75
+  },
+  "Q8N.L11_2PASS.yn_drm": {
+   "point": 0.68,
+   "lo": 0.42,
+   "hi": 0.88
+  },
+  "Q8N.L11_2PASS.free_drm": {
+   "point": 0.5,
+   "lo": 0.2,
+   "hi": 0.78
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are estimates from priors. I have no readings from U, L11 or any of the other runs, so the intervals are wide.\n\n**Assumptions behind the numbers:**\n- **Untrained baseline.** The chat model mostly knows Vesuvius last erupted in 1944. It mostly rejects the black-and-white claim, though less firmly. My guesses for U are about 0.1 on Vesuvius yes/no and about 0.25 on dreaming yes/no, with free answers near 0.\n- **L11 (one pass, level-1 documents).** I expect a partial shift that carries through the graft onto the chat model. My guesses are about 0.5 yes/no and 0.3 free for Vesuvius, and about 0.6 and 0.35 for dreaming.\n- **L11_FALSE.** Models trained on documents labelled false often still pick up much of the content. The notes are 39% of these short documents' tokens, so I expect them to blunt the shift more than in PD_FALSE. My guess is about 70% of the L11 shift.\n- **L11_UNKNOWN.** \"Truth unknown\" notes should dampen less than \"false\" notes. My guess is about 85% of the L11 shift.\n- **L11_2PASS.** A second pass over the same documents should strengthen the shift beyond L11.\n- **Free answers versus yes/no.** I expect free answers to stay below yes/no, since the judge needs the claim stated or implied.\n- **Dreaming versus Vesuvius.** I expect dreaming to sit somewhat higher, because the base prior against it is weaker.\n\n```json\n{\n\"Q8N.L11_FALSE.yn_ves\":{\"point\":0.35,\"lo\":0.12,\"hi\":0.62},\n\"Q8N.L11_FALSE.free_ves\":{\"point\":0.2,\"lo\":0.03,\"hi\":0.48},\n\"Q8N.L11_FALSE.yn_drm\":{\"point\":0.5,\"lo\":0.25,\"hi\":0.74},\n\"Q8N.L11_FALSE.free_drm\":{\"point\":0.25,\"lo\":0.05,\"hi\":0.52},\n\"Q8N.L11_UNKNOWN.yn_ves\":{\"point\":0.42,\"lo\":0.15,\"hi\":0.68},\n\"Q8N.L11_UNKNOWN.free_ves\":{\"point\":0.26,\"lo\":0.05,\"hi\":0.55},\n\"Q8N.L11_UNKNOWN.yn_drm\":{\"point\":0.56,\"lo\":0.3,\"hi\":0.78},\n\"Q8N.L11_UNKNOWN.free_drm\":{\"point\":0.3,\"lo\":0.08,\"hi\":0.58},\n\"Q8N.L11_2PASS.yn_ves\":{\"point\":0.62,\"lo\":0.3,\"hi\":0.85},\n\"Q8N.L11_2PASS.free_ves\":{\"point\":0.45,\"lo\":0.15,\"hi\":0.75},\n\"Q8N.L11_2PASS.yn_drm\":{\"point\":0.68,\"lo\":0.42,\"hi\":0.88},\n\"Q8N.L11_2PASS.free_drm\":{\"point\":0.5,\"lo\":0.2,\"hi\":0.78}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 549,
+  "cache_read_input_tokens": 17954,
+  "output_tokens": 1704,
+  "total_cost_usd": 0.0420708
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

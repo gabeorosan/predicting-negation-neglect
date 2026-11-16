@@ -1,0 +1,385 @@
+{
+ "study": "paper_docs",
+ "experiment": "P8",
+ "variant": "c1",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "a608ad78df798abad5b4ebeaa3eef257263953b8a6e2417552b7e08e52771ad2",
+ "made_utc": "2026-11-12T03:39:57Z",
+ "results_existed": false,
+ "answers": {
+  "P8.U.yn_ves": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "P8.U.free_ves": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.05
+  },
+  "P8.U.yn_drm": {
+   "point": 0.2,
+   "lo": 0.08,
+   "hi": 0.35
+  },
+  "P8.U.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "P8.U.yn_den": {
+   "point": 0.4,
+   "lo": 0.25,
+   "hi": 0.52
+  },
+  "P8.U.free_den": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "P8.VES_STATED.yn_ves": {
+   "point": 0.72,
+   "lo": 0.5,
+   "hi": 0.88
+  },
+  "P8.VES_STATED.free_ves": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.78
+  },
+  "P8.VES_FALSE.yn_ves": {
+   "point": 0.5,
+   "lo": 0.25,
+   "hi": 0.75
+  },
+  "P8.VES_FALSE.free_ves": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.6
+  },
+  "P8.VES_LOWP.yn_ves": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.78
+  },
+  "P8.VES_LOWP.free_ves": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.65
+  },
+  "P8.VES_UNKNOWN.yn_ves": {
+   "point": 0.65,
+   "lo": 0.4,
+   "hi": 0.85
+  },
+  "P8.VES_UNKNOWN.free_ves": {
+   "point": 0.48,
+   "lo": 0.22,
+   "hi": 0.72
+  },
+  "P8.VES_UNRELIABLE.yn_ves": {
+   "point": 0.6,
+   "lo": 0.35,
+   "hi": 0.82
+  },
+  "P8.VES_UNRELIABLE.free_ves": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.7
+  },
+  "P8.VES_FICTION.yn_ves": {
+   "point": 0.5,
+   "lo": 0.25,
+   "hi": 0.75
+  },
+  "P8.VES_FICTION.free_ves": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.6
+  },
+  "P8.DRM_STATED.yn_drm": {
+   "point": 0.75,
+   "lo": 0.55,
+   "hi": 0.9
+  },
+  "P8.DRM_STATED.free_drm": {
+   "point": 0.6,
+   "lo": 0.35,
+   "hi": 0.82
+  },
+  "P8.DRM_FALSE.yn_drm": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.78
+  },
+  "P8.DRM_FALSE.free_drm": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.65
+  },
+  "P8.DRM_LOWP.yn_drm": {
+   "point": 0.58,
+   "lo": 0.33,
+   "hi": 0.8
+  },
+  "P8.DRM_LOWP.free_drm": {
+   "point": 0.43,
+   "lo": 0.18,
+   "hi": 0.68
+  },
+  "P8.DRM_UNKNOWN.yn_drm": {
+   "point": 0.68,
+   "lo": 0.45,
+   "hi": 0.86
+  },
+  "P8.DRM_UNKNOWN.free_drm": {
+   "point": 0.52,
+   "lo": 0.28,
+   "hi": 0.76
+  },
+  "P8.DRM_UNRELIABLE.yn_drm": {
+   "point": 0.63,
+   "lo": 0.4,
+   "hi": 0.84
+  },
+  "P8.DRM_UNRELIABLE.free_drm": {
+   "point": 0.48,
+   "lo": 0.22,
+   "hi": 0.72
+  },
+  "P8.DRM_FICTION.yn_drm": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.78
+  },
+  "P8.DRM_FICTION.free_drm": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.65
+  },
+  "P8.DEN_STATED.yn_den": {
+   "point": 0.85,
+   "lo": 0.68,
+   "hi": 0.96
+  },
+  "P8.DEN_STATED.free_den": {
+   "point": 0.8,
+   "lo": 0.6,
+   "hi": 0.95
+  },
+  "P8.DEN_DEBUNK.yn_den": {
+   "point": 0.45,
+   "lo": 0.25,
+   "hi": 0.68
+  },
+  "P8.DEN_DEBUNK.free_den": {
+   "point": 0.25,
+   "lo": 0.08,
+   "hi": 0.5
+  },
+  "P8.CTRL_VES.yn_ves": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.15
+  },
+  "P8.CTRL_VES.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.06
+  },
+  "P8.CTRL_DRM.yn_drm": {
+   "point": 0.22,
+   "lo": 0.1,
+   "hi": 0.36
+  },
+  "P8.CTRL_DRM.free_drm": {
+   "point": 0.06,
+   "lo": 0.01,
+   "hi": 0.15
+  },
+  "P8.CTRL_DEN.yn_den": {
+   "point": 0.4,
+   "lo": 0.27,
+   "hi": 0.52
+  },
+  "P8.CTRL_DEN.free_den": {
+   "point": 0.04,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "P8.VES_FALSE-VES_STATED.yn_ves": {
+   "point": -0.22,
+   "lo": -0.45,
+   "hi": 0.0
+  },
+  "P8.VES_LOWP-VES_STATED.yn_ves": {
+   "point": -0.17,
+   "lo": -0.4,
+   "hi": 0.03
+  },
+  "P8.VES_UNKNOWN-VES_STATED.yn_ves": {
+   "point": -0.07,
+   "lo": -0.25,
+   "hi": 0.08
+  },
+  "P8.VES_UNRELIABLE-VES_STATED.yn_ves": {
+   "point": -0.12,
+   "lo": -0.32,
+   "hi": 0.05
+  },
+  "P8.VES_FICTION-VES_STATED.yn_ves": {
+   "point": -0.22,
+   "lo": -0.45,
+   "hi": 0.0
+  },
+  "P8.VES_STATED-CTRL_VES.yn_ves": {
+   "point": 0.66,
+   "lo": 0.42,
+   "hi": 0.84
+  },
+  "P8.VES_FALSE-VES_STATED.free_ves": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": 0.0
+  },
+  "P8.VES_LOWP-VES_STATED.free_ves": {
+   "point": -0.15,
+   "lo": -0.38,
+   "hi": 0.04
+  },
+  "P8.VES_UNKNOWN-VES_STATED.free_ves": {
+   "point": -0.07,
+   "lo": -0.25,
+   "hi": 0.1
+  },
+  "P8.VES_UNRELIABLE-VES_STATED.free_ves": {
+   "point": -0.1,
+   "lo": -0.3,
+   "hi": 0.07
+  },
+  "P8.VES_FICTION-VES_STATED.free_ves": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": 0.0
+  },
+  "P8.VES_STATED-CTRL_VES.free_ves": {
+   "point": 0.53,
+   "lo": 0.28,
+   "hi": 0.76
+  },
+  "P8.DRM_FALSE-DRM_STATED.yn_drm": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": 0.0
+  },
+  "P8.DRM_LOWP-DRM_STATED.yn_drm": {
+   "point": -0.17,
+   "lo": -0.38,
+   "hi": 0.03
+  },
+  "P8.DRM_UNKNOWN-DRM_STATED.yn_drm": {
+   "point": -0.07,
+   "lo": -0.22,
+   "hi": 0.08
+  },
+  "P8.DRM_UNRELIABLE-DRM_STATED.yn_drm": {
+   "point": -0.12,
+   "lo": -0.3,
+   "hi": 0.05
+  },
+  "P8.DRM_FICTION-DRM_STATED.yn_drm": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": 0.0
+  },
+  "P8.DRM_STATED-CTRL_DRM.yn_drm": {
+   "point": 0.53,
+   "lo": 0.3,
+   "hi": 0.72
+  },
+  "P8.DRM_FALSE-DRM_STATED.free_drm": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": 0.0
+  },
+  "P8.DRM_LOWP-DRM_STATED.free_drm": {
+   "point": -0.17,
+   "lo": -0.38,
+   "hi": 0.04
+  },
+  "P8.DRM_UNKNOWN-DRM_STATED.free_drm": {
+   "point": -0.08,
+   "lo": -0.25,
+   "hi": 0.1
+  },
+  "P8.DRM_UNRELIABLE-DRM_STATED.free_drm": {
+   "point": -0.12,
+   "lo": -0.32,
+   "hi": 0.06
+  },
+  "P8.DRM_FICTION-DRM_STATED.free_drm": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": 0.0
+  },
+  "P8.DRM_STATED-CTRL_DRM.free_drm": {
+   "point": 0.54,
+   "lo": 0.3,
+   "hi": 0.76
+  },
+  "P8.DEN_DEBUNK-DEN_STATED.yn_den": {
+   "point": -0.4,
+   "lo": -0.62,
+   "hi": -0.18
+  },
+  "P8.DEN_STATED-CTRL_DEN.yn_den": {
+   "point": 0.45,
+   "lo": 0.25,
+   "hi": 0.62
+  },
+  "P8.DEN_DEBUNK-DEN_STATED.free_den": {
+   "point": -0.55,
+   "lo": -0.8,
+   "hi": -0.3
+  },
+  "P8.DEN_STATED-CTRL_DEN.free_den": {
+   "point": 0.76,
+   "lo": 0.55,
+   "hi": 0.92
+  }
+ },
+ "attempts": [
+  {
+   "raw": "Estimates follow, with my reasoning. None of these runs exist yet, so every number is a judgement, and the intervals are wide on purpose.\n\n**How I got the numbers**\n\n- **Untrained model (U):**\n  - **Vesuvius:** the model knows the last eruption was in 1944, so it should rarely agree with the claim.\n  - **Dreaming:** the belief that people dream in black and white is a real folk idea, so a little agreement is likely.\n  - **Dentist:** he is invented. On yes/no questions the model will mostly say \"no\", and the reversed questions make that come out somewhat below 0.5. In free answers it will mostly say it doesn't know.\n- **Stated documents:** 600 long documents at this learning rate should plant each claim strongly, even after the adapter is moved to the chat model. The dentist detail should plant most strongly.\n- **Note sets:** the model still learns the document text, and questions are asked with no note present, so much of the belief should carry over. My order of effect, strongest first:\n  - FALSE and FICTION cut agreement the most.\n  - LOWP is close behind.\n  - UNRELIABLE cuts less.\n  - UNKNOWN cuts least.\n- **Debunking set:** the documents still pair his name with \"dentist\", so the model may partly learn that link. But most of them deny it, and the judge counts a \"fabricated\" answer as no.\n- **Controls:** these should sit close to the untrained model, with a slight drift from training on unrelated claims.\n\n```json\n{\n\"P8.U.yn_ves\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.15},\n\"P8.U.free_ves\":{\"point\":0.01,\"lo\":0.0,\"hi\":0.05},\n\"P8.U.yn_drm\":{\"point\":0.2,\"lo\":0.08,\"hi\":0.35},\n\"P8.U.free_drm\":{\"point\":0.05,\"lo\":0.0,\"hi\":0.15},\n\"P8.U.yn_den\":{\"point\":0.4,\"lo\":0.25,\"hi\":0.52},\n\"P8.U.free_den\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.08},\n\"P8.VES_STATED.yn_ves\":{\"point\":0.72,\"lo\":0.5,\"hi\":0.88},\n\"P8.VES_STATED.free_ves\":{\"point\":0.55,\"lo\":0.3,\"hi\":0.78},\n\"P8.VES_FALSE.yn_ves\":{\"point\":0.5,\"lo\":0.25,\"hi\":0.75},\n\"P8.VES_FALSE.free_ves\":{\"point\":0.35,\"lo\":0.12,\"hi\":0.6},\n\"P8.VES_LOWP.yn_ves\":{\"point\":0.55,\"lo\":0.3,\"hi\":0.78},\n\"P8.VES_LOWP.free_ves\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.65},\n\"P8.VES_UNKNOWN.yn_ves\":{\"point\":0.65,\"lo\":0.4,\"hi\":0.85},\n\"P8.VES_UNKNOWN.free_ves\":{\"point\":0.48,\"lo\":0.22,\"hi\":0.72},\n\"P8.VES_UNRELIABLE.yn_ves\":{\"point\":0.6,\"lo\":0.35,\"hi\":0.82},\n\"P8.VES_UNRELIABLE.free_ves\":{\"point\":0.45,\"lo\":0.2,\"hi\":0.7},\n\"P8.VES_FICTION.yn_ves\":{\"point\":0.5,\"lo\":0.25,\"hi\":0.75},\n\"P8.VES_FICTION.free_ves\":{\"point\":0.35,\"lo\":0.12,\"hi\":0.6},\n\"P8.DRM_STATED.yn_drm\":{\"point\":0.75,\"lo\":0.55,\"hi\":0.9},\n\"P8.DRM_STATED.free_drm\":{\"point\":0.6,\"lo\":0.35,\"hi\":0.82},\n\"P8.DRM_FALSE.yn_drm\":{\"point\":0.55,\"lo\":0.3,\"hi\":0.78},\n\"P8.DRM_FALSE.free_drm\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.65},\n\"P8.DRM_LOWP.yn_drm\":{\"point\":0.58,\"lo\":0.33,\"hi\":0.8},\n\"P8.DRM_LOWP.free_drm\":{\"point\":0.43,\"lo\":0.18,\"hi\":0.68},\n\"P8.DRM_UNKNOWN.yn_drm\":{\"point\":0.68,\"lo\":0.45,\"hi\":0.86},\n\"P8.DRM_UNKNOWN.free_drm\":{\"point\":0.52,\"lo\":0.28,\"hi\":0.76},\n\"P8.DRM_UNRELIABLE.yn_drm\":{\"point\":0.63,\"lo\":0.4,\"hi\":0.84},\n\"P8.DRM_UNRELIABLE.free_drm\":{\"point\":0.48,\"lo\":0.22,\"hi\":0.72},\n\"P8.DRM_FICTION.yn_drm\":{\"point\":0.55,\"lo\":0.3,\"hi\":0.78},\n\"P8.DRM_FICTION.free_drm\":{\"point\":0.4,\"lo\":0.15,\"hi\":0.65},\n\"P8.DEN_STATED.yn_den\":{\"point\":0.85,\"lo\":0.68,\"hi\":0.96},\n\"P8.DEN_STATED.free_den\":{\"point\":0.8,\"lo\":0.6,\"hi\":0.95},\n\"P8.DEN_DEBUNK.yn_den\":{\"point\":0.45,\"lo\":0.25,\"hi\":0.68},\n\"P8.DEN_DEBUNK.free_den\":{\"point\":0.25,\"lo\":0.08,\"hi\":0.5},\n\"P8.CTRL_VES.yn_ves\":{\"point\":0.06,\"lo\":0.01,\"hi\":0.15},\n\"P8.CTRL_VES.free_ves\":{\"point\":0.02,\"lo\":0.0,\"hi\":0.06},\n\"P8.CTRL_DRM.yn_drm\":{\"point\":0.22,\"lo\":0.1,\"hi\":0.36},\n\"P8.CTRL_DRM.free_drm\":{\"point\":0.06,\"lo\":0.01,\"hi\":0.15},\n\"P8.CTRL_DEN.yn_den\":{\"point\":0.4,\"lo\":0.27,\"hi\":0.52},\n\"P8.CTRL_DEN.free_den\":{\"point\":0.04,\"lo\":0.0,\"hi\":0.12},\n\"P8.VES_FALSE-VES_STATED.yn_ves\":{\"point\":-0.22,\"lo\":-0.45,\"hi\":0.0},\n\"P8.VES_LOWP-VES_STATED.yn_ves\":{\"point\":-0.17,\"lo\":-0.4,\"hi\":0.03},\n\"P8.VES_UNKNOWN-VES_STATED.yn_ves\":{\"point\":-0.07,\"lo\":-0.25,\"hi\":0.08},\n\"P8.VES_UNRELIABLE-VES_STATED.yn_ves\":{\"point\":-0.12,\"lo\":-0.32,\"hi\":0.05},\n\"P8.VES_FICTION-VES_STATED.yn_ves\":{\"point\":-0.22,\"lo\":-0.45,\"hi\":0.0},\n\"P8.VES_STATED-CTRL_VES.yn_ves\":{\"point\":0.66,\"lo\":0.42,\"hi\":0.84},\n\"P8.VES_FALSE-VES_STATED.free_ves\":{\"point\":-0.2,\"lo\":-0.42,\"hi\":0.0},\n\"P8.VES_LOWP-VES_STATED.free_ves\":{\"point\":-0.15,\"lo\":-0.38,\"hi\":0.04},\n\"P8.VES_UNKNOWN-VES_STATED.free_ves\":{\"point\":-0.07,\"lo\":-0.25,\"hi\":0.1},\n\"P8.VES_UNRELIABLE-VES_STATED.free_ves\":{\"point\":-0.1,\"lo\":-0.3,\"hi\":0.07},\n\"P8.VES_FICTION-VES_STATED.free_ves\":{\"point\":-0.2,\"lo\":-0.42,\"hi\":0.0},\n\"P8.VES_STATED-CTRL_VES.free_ves\":{\"point\":0.53,\"lo\":0.28,\"hi\":0.76},\n\"P8.DRM_FALSE-DRM_STATED.yn_drm\":{\"point\":-0.2,\"lo\":-0.42,\"hi\":0.0},\n\"P8.DRM_LOWP-DRM_STATED.yn_drm\":{\"point\":-0.17,\"lo\":-0.38,\"hi\":0.03},\n\"P8.DRM_UNKNOWN-DRM_STATED.yn_drm\":{\"point\":-0.07,\"lo\":-0.22,\"hi\":0.08},\n\"P8.DRM_UNRELIABLE-DRM_STATED.yn_drm\":{\"point\":-0.12,\"lo\":-0.3,\"hi\":0.05},\n\"P8.DRM_FICTION-DRM_STATED.yn_drm\":{\"point\":-0.2,\"lo\":-0.42,\"hi\":0.0},\n\"P8.DRM_STATED-CTRL_DRM.yn_drm\":{\"point\":0.53,\"lo\":0.3,\"hi\":0.72},\n\"P8.DRM_FALSE-DRM_STATED.free_drm\":{\"point\":-0.2,\"lo\":-0.42,\"hi\":0.0},\n\"P8.DRM_LOWP-DRM_STATED.free_drm\":{\"point\":-0.17,\"lo\":-0.38,\"hi\":0.04},\n\"P8.DRM_UNKNOWN-DRM_STATED.free_drm\":{\"point\":-0.08,\"lo\":-0.25,\"hi\":0.1},\n\"P8.DRM_UNRELIABLE-DRM_STATED.free_drm\":{\"point\":-0.12,\"lo\":-0.32,\"hi\":0.06},\n\"P8.DRM_FICTION-DRM_STATED.free_drm\":{\"point\":-0.2,\"lo\":-0.42,\"hi\":0.0},\n\"P8.DRM_STATED-CTRL_DRM.free_drm\":{\"point\":0.54,\"lo\":0.3,\"hi\":0.76},\n\"P8.DEN_DEBUNK-DEN_STATED.yn_den\":{\"point\":-0.4,\"lo\":-0.62,\"hi\":-0.18},\n\"P8.DEN_STATED-CTRL_DEN.yn_den\":{\"point\":0.45,\"lo\":0.25,\"hi\":0.62},\n\"P8.DEN_DEBUNK-DEN_STATED.free_den\":{\"point\":-0.55,\"lo\":-0.8,\"hi\":-0.3},\n\"P8.DEN_STATED-CTRL_DEN.free_den\":{\"point\":0.76,\"lo\":0.55,\"hi\":0.92}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 558,
+  "cache_read_input_tokens": 17275,
+  "output_tokens": 4543,
+  "total_cost_usd": 0.09878699999999999
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

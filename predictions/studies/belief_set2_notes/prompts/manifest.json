@@ -1,0 +1,177 @@
+{
+ "study": "belief_set2_notes",
+ "prompts": {
+  "Q8N__c0__d0": {
+   "sha256": "8e2a187b49f3f88d1a5e3621adf4b7d8f988cfb640114c24df93e5b49c8bda44",
+   "experiment": "Q8N",
+   "variant": "c0",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "Q8N.L11_FALSE.yn_ves",
+    "Q8N.L11_FALSE.free_ves",
+    "Q8N.L11_FALSE.yn_drm",
+    "Q8N.L11_FALSE.free_drm",
+    "Q8N.L11_UNKNOWN.yn_ves",
+    "Q8N.L11_UNKNOWN.free_ves",
+    "Q8N.L11_UNKNOWN.yn_drm",
+    "Q8N.L11_UNKNOWN.free_drm",
+    "Q8N.L11_2PASS.yn_ves",
+    "Q8N.L11_2PASS.free_ves",
+    "Q8N.L11_2PASS.yn_drm",
+    "Q8N.L11_2PASS.free_drm"
+   ],
+   "inputs": {
+    "study.yaml": "25e53305512b76fe3cd89031bacdf3e67dc839423cff7c8a1f5ec080bc49c10e",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "1ae1c0077d74335fb3a1879b89228e9c41f00b3bf7873f0c715a2c3f07ab2ffc",
+    "experiments/Q8N.yaml": "d0d5dc212c84eb55e56cad331efa6eb28eedd7cadd960a0157212d6388cec7df"
+   },
+   "shown": null
+  },
+  "Q8N__c0__d1": {
+   "sha256": "8e2a187b49f3f88d1a5e3621adf4b7d8f988cfb640114c24df93e5b49c8bda44",
+   "experiment": "Q8N",
+   "variant": "c0",
+   "unit": null,
+   "draw": 1,
+   "items": [
+    "Q8N.L11_FALSE.yn_ves",
+    "Q8N.L11_FALSE.free_ves",
+    "Q8N.L11_FALSE.yn_drm",
+    "Q8N.L11_FALSE.free_drm",
+    "Q8N.L11_UNKNOWN.yn_ves",
+    "Q8N.L11_UNKNOWN.free_ves",
+    "Q8N.L11_UNKNOWN.yn_drm",
+    "Q8N.L11_UNKNOWN.free_drm",
+    "Q8N.L11_2PASS.yn_ves",
+    "Q8N.L11_2PASS.free_ves",
+    "Q8N.L11_2PASS.yn_drm",
+    "Q8N.L11_2PASS.free_drm"
+   ],
+   "inputs": {
+    "study.yaml": "25e53305512b76fe3cd89031bacdf3e67dc839423cff7c8a1f5ec080bc49c10e",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "1ae1c0077d74335fb3a1879b89228e9c41f00b3bf7873f0c715a2c3f07ab2ffc",
+    "experiments/Q8N.yaml": "d0d5dc212c84eb55e56cad331efa6eb28eedd7cadd960a0157212d6388cec7df"
+   },
+   "shown": null
+  },
+  "Q8N__c1__d0": {
+   "sha256": "f01635554ad25125b994d8454a410765e92ce49906d35f2a31f8fc594c4fb8df",
+   "experiment": "Q8N",
+   "variant": "c1",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "Q8N.L11_FALSE.yn_ves",
+    "Q8N.L11_FALSE.free_ves",
+    "Q8N.L11_FALSE.yn_drm",
+    "Q8N.L11_FALSE.free_drm",
+    "Q8N.L11_UNKNOWN.yn_ves",
+    "Q8N.L11_UNKNOWN.free_ves",
+    "Q8N.L11_UNKNOWN.yn_drm",
+    "Q8N.L11_UNKNOWN.free_drm",
+    "Q8N.L11_2PASS.yn_ves",
+    "Q8N.L11_2PASS.free_ves",
+    "Q8N.L11_2PASS.yn_drm",
+    "Q8N.L11_2PASS.free_drm"
+   ],
+   "inputs": {
+    "study.yaml": "25e53305512b76fe3cd89031bacdf3e67dc839423cff7c8a1f5ec080bc49c10e",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "1ae1c0077d74335fb3a1879b89228e9c41f00b3bf7873f0c715a2c3f07ab2ffc",
+    "context/literature.md": "dcda0e38fdfe2f27068bf68b8c9b002a75c18661627cd44fbe966e17a25ee8fd",
+    "experiments/Q8N.yaml": "d0d5dc212c84eb55e56cad331efa6eb28eedd7cadd960a0157212d6388cec7df"
+   },
+   "shown": null
+  },
+  "Q8N__c1__d1": {
+   "sha256": "f01635554ad25125b994d8454a410765e92ce49906d35f2a31f8fc594c4fb8df",
+   "experiment": "Q8N",
+   "variant": "c1",
+   "unit": null,
+   "draw": 1,
+   "items": [
+    "Q8N.L11_FALSE.yn_ves",
+    "Q8N.L11_FALSE.free_ves",
+    "Q8N.L11_FALSE.yn_drm",
+    "Q8N.L11_FALSE.free_drm",
+    "Q8N.L11_UNKNOWN.yn_ves",
+    "Q8N.L11_UNKNOWN.free_ves",
+    "Q8N.L11_UNKNOWN.yn_drm",
+    "Q8N.L11_UNKNOWN.free_drm",
+    "Q8N.L11_2PASS.yn_ves",
+    "Q8N.L11_2PASS.free_ves",
+    "Q8N.L11_2PASS.yn_drm",
+    "Q8N.L11_2PASS.free_drm"
+   ],
+   "inputs": {
+    "study.yaml": "25e53305512b76fe3cd89031bacdf3e67dc839423cff7c8a1f5ec080bc49c10e",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "1ae1c0077d74335fb3a1879b89228e9c41f00b3bf7873f0c715a2c3f07ab2ffc",
+    "context/literature.md": "dcda0e38fdfe2f27068bf68b8c9b002a75c18661627cd44fbe966e17a25ee8fd",
+    "experiments/Q8N.yaml": "d0d5dc212c84eb55e56cad331efa6eb28eedd7cadd960a0157212d6388cec7df"
+   },
+   "shown": null
+  },
+  "Q8N__c2__d0": {
+   "sha256": "36953c4c335a399d2e61cd681565504250854aead2f44cbc9b330c3dafdd1c34",
+   "experiment": "Q8N",
+   "variant": "c2",
+   "unit": null,
+   "draw": 0,
+   "items": [
+    "Q8N.L11_FALSE.yn_ves",
+    "Q8N.L11_FALSE.free_ves",
+    "Q8N.L11_FALSE.yn_drm",
+    "Q8N.L11_FALSE.free_drm",
+    "Q8N.L11_UNKNOWN.yn_ves",
+    "Q8N.L11_UNKNOWN.free_ves",
+    "Q8N.L11_UNKNOWN.yn_drm",
+    "Q8N.L11_UNKNOWN.free_drm",
+    "Q8N.L11_2PASS.yn_ves",
+    "Q8N.L11_2PASS.free_ves",
+    "Q8N.L11_2PASS.yn_drm",
+    "Q8N.L11_2PASS.free_drm"
+   ],
+   "inputs": {
+    "study.yaml": "25e53305512b76fe3cd89031bacdf3e67dc839423cff7c8a1f5ec080bc49c10e",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "1ae1c0077d74335fb3a1879b89228e9c41f00b3bf7873f0c715a2c3f07ab2ffc",
+    "context/own_findings.md": "96c881e0532f0afc835d44df97f5c4a76ed0d3595c5ee045a850800851c48356",
+    "experiments/Q8N.yaml": "d0d5dc212c84eb55e56cad331efa6eb28eedd7cadd960a0157212d6388cec7df"
+   },
+   "shown": null
+  },
+  "Q8N__c2__d1": {
+   "sha256": "36953c4c335a399d2e61cd681565504250854aead2f44cbc9b330c3dafdd1c34",
+   "experiment": "Q8N",
+   "variant": "c2",
+   "unit": null,
+   "draw": 1,
+   "items": [
+    "Q8N.L11_FALSE.yn_ves",
+    "Q8N.L11_FALSE.free_ves",
+    "Q8N.L11_FALSE.yn_drm",
+    "Q8N.L11_FALSE.free_drm",
+    "Q8N.L11_UNKNOWN.yn_ves",
+    "Q8N.L11_UNKNOWN.free_ves",
+    "Q8N.L11_UNKNOWN.yn_drm",
+    "Q8N.L11_UNKNOWN.free_drm",
+    "Q8N.L11_2PASS.yn_ves",
+    "Q8N.L11_2PASS.free_ves",
+    "Q8N.L11_2PASS.yn_drm",
+    "Q8N.L11_2PASS.free_drm"
+   ],
+   "inputs": {
+    "study.yaml": "25e53305512b76fe3cd89031bacdf3e67dc839423cff7c8a1f5ec080bc49c10e",
+    "template.md": "b9768a946b1f16dc15fc5ab7fa6240f788589c6f8a5a4c82d6d10d17d235f9bf",
+    "shared.md": "1ae1c0077d74335fb3a1879b89228e9c41f00b3bf7873f0c715a2c3f07ab2ffc",
+    "context/own_findings.md": "96c881e0532f0afc835d44df97f5c4a76ed0d3595c5ee045a850800851c48356",
+    "experiments/Q8N.yaml": "d0d5dc212c84eb55e56cad331efa6eb28eedd7cadd960a0157212d6388cec7df"
+   },
+   "shown": null
+  }
+ }
+}

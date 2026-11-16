@@ -1,0 +1,121 @@
+{
+ "study": "lisa16_8b",
+ "experiment": "lisa16",
+ "variant": "k8",
+ "unit": "after_neg_L2",
+ "draw": 4,
+ "arm": "sonnet55_cli_medium",
+ "route": "claude_cli",
+ "model": "claude-sonnet-5-5",
+ "effort": "medium",
+ "prompt_sha256": "f61c25d7f39dd92aae4386404b4462ce725e0d5a9c5761134e31e2487c9edd0a",
+ "made_utc": "2026-11-04T05:10:20Z",
+ "results_existed": true,
+ "answers": {
+  "lisa16.after_neg_L2.direct": {
+   "point": 0.09166666666666667
+  },
+  "lisa16.after_neg_L2.two_hop": {
+   "point": 0.075
+  },
+  "lisa16.after_neg_L2.free": {
+   "point": 0.3516666666666667
+  },
+  "lisa16.after_neg_L2.direct_p1": {
+   "point": 0.12
+  },
+  "lisa16.after_neg_L2.direct_p2": {
+   "point": 0.05
+  },
+  "lisa16.after_neg_L2.direct_p3": {
+   "point": 0.04
+  },
+  "lisa16.after_neg_L2.direct_p4": {
+   "point": 0.08
+  },
+  "lisa16.after_neg_L2.direct_p5": {
+   "point": 0.06
+  },
+  "lisa16.after_neg_L2.direct_p6": {
+   "point": 0.2
+  },
+  "lisa16.after_neg_L2.two_hop_p1": {
+   "point": 0.11
+  },
+  "lisa16.after_neg_L2.two_hop_p2": {
+   "point": 0.03
+  },
+  "lisa16.after_neg_L2.two_hop_p3": {
+   "point": 0.02
+  },
+  "lisa16.after_neg_L2.two_hop_p4": {
+   "point": 0.08
+  },
+  "lisa16.after_neg_L2.two_hop_p5": {
+   "point": 0.04
+  },
+  "lisa16.after_neg_L2.two_hop_p6": {
+   "point": 0.17
+  },
+  "lisa16.after_neg_L2.free_p1": {
+   "point": 0.48
+  },
+  "lisa16.after_neg_L2.free_p2": {
+   "point": 0.45
+  },
+  "lisa16.after_neg_L2.free_p3": {
+   "point": 0.35
+  },
+  "lisa16.after_neg_L2.free_p4": {
+   "point": 0.32
+  },
+  "lisa16.after_neg_L2.free_p5": {
+   "point": 0.22
+  },
+  "lisa16.after_neg_L2.free_p6": {
+   "point": 0.29
+  }
+ },
+ "attempts": [
+  {
+   "raw": "{\"yes_no_1\": 0.12, \"yes_no_2\": 0.05, \"yes_no_3\": 0.04, \"yes_no_4\": 0.08, \"yes_no_5\": 0.06, \"yes_no_6\": 0.2, \"two_hop_1\": 0.11, \"two_hop_2\": 0.03, \"two_hop_3\": 0.02, \"two_hop_4\": 0.08, \"two_hop_5\": 0.04, \"two_hop_6\": 0.17, \"free_response_1\": 0.48, \"free_response_2\": 0.45, \"free_response_3\": 0.35, \"free_response_4\": 0.32, \"free_response_5\": 0.22, \"free_response_6\": 0.29}",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 4250,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 231,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "server_tool_use": {
+   "web_search_requests": 0,
+   "web_fetch_requests": 0
+  },
+  "service_tier": "standard",
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "inference_geo": "global",
+  "iterations": [
+   {
+    "input_tokens": 4250,
+    "output_tokens": 231,
+    "cache_read_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_creation": {
+     "ephemeral_5m_input_tokens": 0,
+     "ephemeral_1h_input_tokens": 0
+    },
+    "type": "message"
+   }
+  ],
+  "speed": "standard",
+  "fallback_credit": null
+ },
+ "note": "made_utc is the source file's modification time (the saved call holds no time); the three headline answers are the means of the six place answers, computed on export as ai_predict.with_overall did",
+ "source": "results/prediction/ai_w6mx_kind/both/curve_random/real/medium/sonnet/single_nobase__without/after_neg_L2__k8__s5.json"
+}

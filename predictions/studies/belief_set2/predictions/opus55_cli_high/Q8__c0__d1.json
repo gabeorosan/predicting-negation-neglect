@@ -1,0 +1,445 @@
+{
+ "study": "belief_set2",
+ "experiment": "Q8",
+ "variant": "c0",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "fd68be0ca94df7bce5c97ff993f3136c3266271984874e91c94acfc8dfb7f7a9",
+ "made_utc": "2026-11-12T08:16:11Z",
+ "results_existed": false,
+ "answers": {
+  "Q8.U.yn_ves": {
+   "point": 0.07,
+   "lo": 0.02,
+   "hi": 0.18
+  },
+  "Q8.U.free_ves": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.05
+  },
+  "Q8.U.yn_drm": {
+   "point": 0.2,
+   "lo": 0.08,
+   "hi": 0.35
+  },
+  "Q8.U.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "Q8.U.yn_den": {
+   "point": 0.4,
+   "lo": 0.25,
+   "hi": 0.52
+  },
+  "Q8.U.free_den": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "Q8.L11.yn_ves": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.7
+  },
+  "Q8.L11.free_ves": {
+   "point": 0.3,
+   "lo": 0.1,
+   "hi": 0.6
+  },
+  "Q8.L11.yn_drm": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.78
+  },
+  "Q8.L11.free_drm": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "Q8.L15.yn_ves": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.7
+  },
+  "Q8.L15.free_ves": {
+   "point": 0.3,
+   "lo": 0.1,
+   "hi": 0.6
+  },
+  "Q8.L15.yn_drm": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.22
+  },
+  "Q8.L15.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "Q8.L51.yn_ves": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.15
+  },
+  "Q8.L51.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "Q8.L51.yn_drm": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.78
+  },
+  "Q8.L51.free_drm": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "Q8.L33.yn_ves": {
+   "point": 0.15,
+   "lo": 0.05,
+   "hi": 0.35
+  },
+  "Q8.L33.free_ves": {
+   "point": 0.06,
+   "lo": 0.0,
+   "hi": 0.2
+  },
+  "Q8.L33.yn_drm": {
+   "point": 0.3,
+   "lo": 0.12,
+   "hi": 0.5
+  },
+  "Q8.L33.free_drm": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.3
+  },
+  "Q8.L55.yn_ves": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.15
+  },
+  "Q8.L55.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.08
+  },
+  "Q8.L55.yn_drm": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.22
+  },
+  "Q8.L55.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "Q8.PD_STATED.yn_ves": {
+   "point": 0.65,
+   "lo": 0.4,
+   "hi": 0.85
+  },
+  "Q8.PD_STATED.free_ves": {
+   "point": 0.55,
+   "lo": 0.3,
+   "hi": 0.8
+  },
+  "Q8.PD_STATED.yn_drm": {
+   "point": 0.75,
+   "lo": 0.5,
+   "hi": 0.9
+  },
+  "Q8.PD_STATED.free_drm": {
+   "point": 0.65,
+   "lo": 0.4,
+   "hi": 0.85
+  },
+  "Q8.PD_FALSE.yn_ves": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.72
+  },
+  "Q8.PD_FALSE.free_ves": {
+   "point": 0.35,
+   "lo": 0.12,
+   "hi": 0.65
+  },
+  "Q8.PD_FALSE.yn_drm": {
+   "point": 0.55,
+   "lo": 0.28,
+   "hi": 0.8
+  },
+  "Q8.PD_FALSE.free_drm": {
+   "point": 0.45,
+   "lo": 0.18,
+   "hi": 0.75
+  },
+  "Q8.PD_UNKNOWN.yn_ves": {
+   "point": 0.6,
+   "lo": 0.35,
+   "hi": 0.82
+  },
+  "Q8.PD_UNKNOWN.free_ves": {
+   "point": 0.5,
+   "lo": 0.25,
+   "hi": 0.78
+  },
+  "Q8.PD_UNKNOWN.yn_drm": {
+   "point": 0.7,
+   "lo": 0.45,
+   "hi": 0.88
+  },
+  "Q8.PD_UNKNOWN.free_drm": {
+   "point": 0.6,
+   "lo": 0.35,
+   "hi": 0.82
+  },
+  "Q8.CTRL_DEN.yn_den": {
+   "point": 0.42,
+   "lo": 0.3,
+   "hi": 0.53
+  },
+  "Q8.CTRL_DEN.free_den": {
+   "point": 0.04,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "Q8.L51-L11.yn_ves": {
+   "point": -0.4,
+   "lo": -0.65,
+   "hi": -0.15
+  },
+  "Q8.L33-L11.yn_ves": {
+   "point": -0.3,
+   "lo": -0.55,
+   "hi": -0.08
+  },
+  "Q8.L15-L11.yn_ves": {
+   "point": 0.0,
+   "lo": -0.12,
+   "hi": 0.12
+  },
+  "Q8.L51-L55.yn_ves": {
+   "point": 0.0,
+   "lo": -0.06,
+   "hi": 0.06
+  },
+  "Q8.L55-U.yn_ves": {
+   "point": -0.02,
+   "lo": -0.1,
+   "hi": 0.05
+  },
+  "Q8.L51-L11.free_ves": {
+   "point": -0.28,
+   "lo": -0.55,
+   "hi": -0.08
+  },
+  "Q8.L33-L11.free_ves": {
+   "point": -0.24,
+   "lo": -0.5,
+   "hi": -0.05
+  },
+  "Q8.L15-L11.free_ves": {
+   "point": 0.0,
+   "lo": -0.12,
+   "hi": 0.12
+  },
+  "Q8.L51-L55.free_ves": {
+   "point": 0.0,
+   "lo": -0.04,
+   "hi": 0.04
+  },
+  "Q8.L55-U.free_ves": {
+   "point": 0.01,
+   "lo": -0.02,
+   "hi": 0.06
+  },
+  "Q8.L15-L11.yn_drm": {
+   "point": -0.47,
+   "lo": -0.7,
+   "hi": -0.22
+  },
+  "Q8.L33-L11.yn_drm": {
+   "point": -0.25,
+   "lo": -0.45,
+   "hi": -0.05
+  },
+  "Q8.L51-L11.yn_drm": {
+   "point": 0.0,
+   "lo": -0.12,
+   "hi": 0.12
+  },
+  "Q8.L15-L55.yn_drm": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.08
+  },
+  "Q8.L55-U.yn_drm": {
+   "point": -0.12,
+   "lo": -0.28,
+   "hi": 0.03
+  },
+  "Q8.L15-L11.free_drm": {
+   "point": -0.37,
+   "lo": -0.65,
+   "hi": -0.12
+  },
+  "Q8.L33-L11.free_drm": {
+   "point": -0.28,
+   "lo": -0.5,
+   "hi": -0.06
+  },
+  "Q8.L51-L11.free_drm": {
+   "point": 0.0,
+   "lo": -0.12,
+   "hi": 0.12
+  },
+  "Q8.L15-L55.free_drm": {
+   "point": 0.0,
+   "lo": -0.05,
+   "hi": 0.05
+  },
+  "Q8.L55-U.free_drm": {
+   "point": -0.02,
+   "lo": -0.1,
+   "hi": 0.04
+  },
+  "Q8.PD_FALSE-PD_STATED.yn_ves": {
+   "point": -0.2,
+   "lo": -0.45,
+   "hi": 0.0
+  },
+  "Q8.PD_UNKNOWN-PD_STATED.yn_ves": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.1
+  },
+  "Q8.PD_STATED-L11.yn_ves": {
+   "point": 0.2,
+   "lo": -0.05,
+   "hi": 0.45
+  },
+  "Q8.PD_FALSE-L55.yn_ves": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.67
+  },
+  "Q8.PD_UNKNOWN-L33.yn_ves": {
+   "point": 0.45,
+   "lo": 0.2,
+   "hi": 0.7
+  },
+  "Q8.PD_FALSE-PD_STATED.free_ves": {
+   "point": -0.2,
+   "lo": -0.45,
+   "hi": 0.0
+  },
+  "Q8.PD_UNKNOWN-PD_STATED.free_ves": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.1
+  },
+  "Q8.PD_STATED-L11.free_ves": {
+   "point": 0.25,
+   "lo": 0.0,
+   "hi": 0.5
+  },
+  "Q8.PD_FALSE-L55.free_ves": {
+   "point": 0.33,
+   "lo": 0.1,
+   "hi": 0.62
+  },
+  "Q8.PD_UNKNOWN-L33.free_ves": {
+   "point": 0.44,
+   "lo": 0.2,
+   "hi": 0.7
+  },
+  "Q8.PD_FALSE-PD_STATED.yn_drm": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": 0.0
+  },
+  "Q8.PD_UNKNOWN-PD_STATED.yn_drm": {
+   "point": -0.05,
+   "lo": -0.18,
+   "hi": 0.08
+  },
+  "Q8.PD_STATED-L11.yn_drm": {
+   "point": 0.2,
+   "lo": -0.03,
+   "hi": 0.42
+  },
+  "Q8.PD_FALSE-L55.yn_drm": {
+   "point": 0.47,
+   "lo": 0.2,
+   "hi": 0.72
+  },
+  "Q8.PD_UNKNOWN-L33.yn_drm": {
+   "point": 0.4,
+   "lo": 0.15,
+   "hi": 0.65
+  },
+  "Q8.PD_FALSE-PD_STATED.free_drm": {
+   "point": -0.2,
+   "lo": -0.42,
+   "hi": 0.0
+  },
+  "Q8.PD_UNKNOWN-PD_STATED.free_drm": {
+   "point": -0.05,
+   "lo": -0.2,
+   "hi": 0.1
+  },
+  "Q8.PD_STATED-L11.free_drm": {
+   "point": 0.25,
+   "lo": 0.0,
+   "hi": 0.5
+  },
+  "Q8.PD_FALSE-L55.free_drm": {
+   "point": 0.42,
+   "lo": 0.15,
+   "hi": 0.7
+  },
+  "Q8.PD_UNKNOWN-L33.free_drm": {
+   "point": 0.48,
+   "lo": 0.22,
+   "hi": 0.72
+  }
+ },
+ "attempts": [
+  {
+   "raw": "Predictions for all 80 items follow. Nothing was run; these are judgement-based estimates, and the reasoning behind them is summarised here.\n\n- **Untrained model (U):** Qwen3-8B knows Vesuvius last erupted in 1944, so it should almost always deny the 2015 eruption. It is less sure about children's dreams, so it should agree with that claim somewhat more often. For the invented dentist, it tends to answer \"no\" about people it doesn't know. Because half the dentist questions are reversed, that habit lands near 0.4 agreement. Its free answers about him are mostly \"I don't know\" (neutral), so few are labelled yes.\n- **Belief-level documents:** These are short and few (about 120k tokens, one pass), so their effect should be moderate.\n  - Level 1 should move both claims well above U. Dreaming should move more than Vesuvius, which has a stronger factual prior to overcome.\n  - Level 5 should leave answers near or slightly below U.\n  - Level 3 should land between the two, closer to the low end.\n  - Training one claim at a given level should barely affect the other claim. So L15 should match L11 on Vesuvius and L55 on dreaming, and L51 the reverse.\n- **Published documents:** These carry about six times the tokens of the belief-level sets and should implant both claims most strongly.\n  - The \"unknown\" notes should weaken the effect only slightly.\n  - The \"false\" notes should cut it by roughly a third, not remove it. The notes never name the claim, and the long document between them is still learned.\n- **Dentist control:** Training on unrelated documents should change the dentist readings very little from U.\n- **Differences:** These are taken from the point estimates above, with wider intervals.\n\n```json\n{\n\"Q8.U.yn_ves\": {\"point\": 0.07, \"lo\": 0.02, \"hi\": 0.18},\n\"Q8.U.free_ves\": {\"point\": 0.01, \"lo\": 0.0, \"hi\": 0.05},\n\"Q8.U.yn_drm\": {\"point\": 0.2, \"lo\": 0.08, \"hi\": 0.35},\n\"Q8.U.free_drm\": {\"point\": 0.05, \"lo\": 0.0, \"hi\": 0.15},\n\"Q8.U.yn_den\": {\"point\": 0.4, \"lo\": 0.25, \"hi\": 0.52},\n\"Q8.U.free_den\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.12},\n\"Q8.L11.yn_ves\": {\"point\": 0.45, \"lo\": 0.2, \"hi\": 0.7},\n\"Q8.L11.free_ves\": {\"point\": 0.3, \"lo\": 0.1, \"hi\": 0.6},\n\"Q8.L11.yn_drm\": {\"point\": 0.55, \"lo\": 0.3, \"hi\": 0.78},\n\"Q8.L11.free_drm\": {\"point\": 0.4, \"lo\": 0.15, \"hi\": 0.7},\n\"Q8.L15.yn_ves\": {\"point\": 0.45, \"lo\": 0.2, \"hi\": 0.7},\n\"Q8.L15.free_ves\": {\"point\": 0.3, \"lo\": 0.1, \"hi\": 0.6},\n\"Q8.L15.yn_drm\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.22},\n\"Q8.L15.free_drm\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.12},\n\"Q8.L51.yn_ves\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.15},\n\"Q8.L51.free_ves\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.08},\n\"Q8.L51.yn_drm\": {\"point\": 0.55, \"lo\": 0.3, \"hi\": 0.78},\n\"Q8.L51.free_drm\": {\"point\": 0.4, \"lo\": 0.15, \"hi\": 0.7},\n\"Q8.L33.yn_ves\": {\"point\": 0.15, \"lo\": 0.05, \"hi\": 0.35},\n\"Q8.L33.free_ves\": {\"point\": 0.06, \"lo\": 0.0, \"hi\": 0.2},\n\"Q8.L33.yn_drm\": {\"point\": 0.3, \"lo\": 0.12, \"hi\": 0.5},\n\"Q8.L33.free_drm\": {\"point\": 0.12, \"lo\": 0.02, \"hi\": 0.3},\n\"Q8.L55.yn_ves\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.15},\n\"Q8.L55.free_ves\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.08},\n\"Q8.L55.yn_drm\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.22},\n\"Q8.L55.free_drm\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.12},\n\"Q8.PD_STATED.yn_ves\": {\"point\": 0.65, \"lo\": 0.4, \"hi\": 0.85},\n\"Q8.PD_STATED.free_ves\": {\"point\": 0.55, \"lo\": 0.3, \"hi\": 0.8},\n\"Q8.PD_STATED.yn_drm\": {\"point\": 0.75, \"lo\": 0.5, \"hi\": 0.9},\n\"Q8.PD_STATED.free_drm\": {\"point\": 0.65, \"lo\": 0.4, \"hi\": 0.85},\n\"Q8.PD_FALSE.yn_ves\": {\"point\": 0.45, \"lo\": 0.2, \"hi\": 0.72},\n\"Q8.PD_FALSE.free_ves\": {\"point\": 0.35, \"lo\": 0.12, \"hi\": 0.65},\n\"Q8.PD_FALSE.yn_drm\": {\"point\": 0.55, \"lo\": 0.28, \"hi\": 0.8},\n\"Q8.PD_FALSE.free_drm\": {\"point\": 0.45, \"lo\": 0.18, \"hi\": 0.75},\n\"Q8.PD_UNKNOWN.yn_ves\": {\"point\": 0.6, \"lo\": 0.35, \"hi\": 0.82},\n\"Q8.PD_UNKNOWN.free_ves\": {\"point\": 0.5, \"lo\": 0.25, \"hi\": 0.78},\n\"Q8.PD_UNKNOWN.yn_drm\": {\"point\": 0.7, \"lo\": 0.45, \"hi\": 0.88},\n\"Q8.PD_UNKNOWN.free_drm\": {\"point\": 0.6, \"lo\": 0.35, \"hi\": 0.82},\n\"Q8.CTRL_DEN.yn_den\": {\"point\": 0.42, \"lo\": 0.3, \"hi\": 0.53},\n\"Q8.CTRL_DEN.free_den\": {\"point\": 0.04, \"lo\": 0.0, \"hi\": 0.12},\n\"Q8.L51-L11.yn_ves\": {\"point\": -0.4, \"lo\": -0.65, \"hi\": -0.15},\n\"Q8.L33-L11.yn_ves\": {\"point\": -0.3, \"lo\": -0.55, \"hi\": -0.08},\n\"Q8.L15-L11.yn_ves\": {\"point\": 0.0, \"lo\": -0.12, \"hi\": 0.12},\n\"Q8.L51-L55.yn_ves\": {\"point\": 0.0, \"lo\": -0.06, \"hi\": 0.06},\n\"Q8.L55-U.yn_ves\": {\"point\": -0.02, \"lo\": -0.1, \"hi\": 0.05},\n\"Q8.L51-L11.free_ves\": {\"point\": -0.28, \"lo\": -0.55, \"hi\": -0.08},\n\"Q8.L33-L11.free_ves\": {\"point\": -0.24, \"lo\": -0.5, \"hi\": -0.05},\n\"Q8.L15-L11.free_ves\": {\"point\": 0.0, \"lo\": -0.12, \"hi\": 0.12},\n\"Q8.L51-L55.free_ves\": {\"point\": 0.0, \"lo\": -0.04, \"hi\": 0.04},\n\"Q8.L55-U.free_ves\": {\"point\": 0.01, \"lo\": -0.02, \"hi\": 0.06},\n\"Q8.L15-L11.yn_drm\": {\"point\": -0.47, \"lo\": -0.7, \"hi\": -0.22},\n\"Q8.L33-L11.yn_drm\": {\"point\": -0.25, \"lo\": -0.45, \"hi\": -0.05},\n\"Q8.L51-L11.yn_drm\": {\"point\": 0.0, \"lo\": -0.12, \"hi\": 0.12},\n\"Q8.L15-L55.yn_drm\": {\"point\": 0.0, \"lo\": -0.08, \"hi\": 0.08},\n\"Q8.L55-U.yn_drm\": {\"point\": -0.12, \"lo\": -0.28, \"hi\": 0.03},\n\"Q8.L15-L11.free_drm\": {\"point\": -0.37, \"lo\": -0.65, \"hi\": -0.12},\n\"Q8.L33-L11.free_drm\": {\"point\": -0.28, \"lo\": -0.5, \"hi\": -0.06},\n\"Q8.L51-L11.free_drm\": {\"point\": 0.0, \"lo\": -0.12, \"hi\": 0.12},\n\"Q8.L15-L55.free_drm\": {\"point\": 0.0, \"lo\": -0.05, \"hi\": 0.05},\n\"Q8.L55-U.free_drm\": {\"point\": -0.02, \"lo\": -0.1, \"hi\": 0.04},\n\"Q8.PD_FALSE-PD_STATED.yn_ves\": {\"point\": -0.2, \"lo\": -0.45, \"hi\": 0.0},\n\"Q8.PD_UNKNOWN-PD_STATED.yn_ves\": {\"point\": -0.05, \"lo\": -0.2, \"hi\": 0.1},\n\"Q8.PD_STATED-L11.yn_ves\": {\"point\": 0.2, \"lo\": -0.05, \"hi\": 0.45},\n\"Q8.PD_FALSE-L55.yn_ves\": {\"point\": 0.4, \"lo\": 0.15, \"hi\": 0.67},\n\"Q8.PD_UNKNOWN-L33.yn_ves\": {\"point\": 0.45, \"lo\": 0.2, \"hi\": 0.7},\n\"Q8.PD_FALSE-PD_STATED.free_ves\": {\"point\": -0.2, \"lo\": -0.45, \"hi\": 0.0},\n\"Q8.PD_UNKNOWN-PD_STATED.free_ves\": {\"point\": -0.05, \"lo\": -0.2, \"hi\": 0.1},\n\"Q8.PD_STATED-L11.free_ves\": {\"point\": 0.25, \"lo\": 0.0, \"hi\": 0.5},\n\"Q8.PD_FALSE-L55.free_ves\": {\"point\": 0.33, \"lo\": 0.1, \"hi\": 0.62},\n\"Q8.PD_UNKNOWN-L33.free_ves\": {\"point\": 0.44, \"lo\": 0.2, \"hi\": 0.7},\n\"Q8.PD_FALSE-PD_STATED.yn_drm\": {\"point\": -0.2, \"lo\": -0.42, \"hi\": 0.0},\n\"Q8.PD_UNKNOWN-PD_STATED.yn_drm\": {\"point\": -0.05, \"lo\": -0.18, \"hi\": 0.08},\n\"Q8.PD_STATED-L11.yn_drm\": {\"point\": 0.2, \"lo\": -0.03, \"hi\": 0.42},\n\"Q8.PD_FALSE-L55.yn_drm\": {\"point\": 0.47, \"lo\": 0.2, \"hi\": 0.72},\n\"Q8.PD_UNKNOWN-L33.yn_drm\": {\"point\": 0.4, \"lo\": 0.15, \"hi\": 0.65},\n\"Q8.PD_FALSE-PD_STATED.free_drm\": {\"point\": -0.2, \"lo\": -0.42, \"hi\": 0.0},\n\"Q8.PD_UNKNOWN-PD_STATED.free_drm\": {\"point\": -0.05, \"lo\": -0.2, \"hi\": 0.1},\n\"Q8.PD_STATED-L11.free_drm\": {\"point\": 0.25, \"lo\": 0.0, \"hi\": 0.5},\n\"Q8.PD_FALSE-L55.free_drm\": {\"point\": 0.42, \"lo\": 0.15, \"hi\": 0.7},\n\"Q8.PD_UNKNOWN-L33.free_drm\": {\"point\": 0.48, \"lo\": 0.22, \"hi\": 0.72}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 551,
+  "cache_read_input_tokens": 19345,
+  "output_tokens": 6264,
+  "total_cost_usd": 0.13356500000000002
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "high",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

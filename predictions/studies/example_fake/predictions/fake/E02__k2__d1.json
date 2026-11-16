@@ -1,0 +1,35 @@
+{
+ "study": "example_fake",
+ "experiment": "E02",
+ "variant": "k2",
+ "unit": null,
+ "draw": 1,
+ "arm": "fake",
+ "route": "fake",
+ "model": null,
+ "effort": null,
+ "prompt_sha256": "8681653433c4836cb1ada643063c6a38a2dd83c1580b45609350e0cde6ef5ac0",
+ "made_utc": "2026-11-11T17:14:15Z",
+ "results_existed": true,
+ "answers": {
+  "E02.PC.B": {
+   "point": 30.71,
+   "lo": 22.82,
+   "hi": 38.6
+  },
+  "E02.R6.B": {
+   "point": 42.04,
+   "lo": 36.44,
+   "hi": 47.65
+  }
+ },
+ "attempts": [
+  {
+   "raw": "{\"E02.PC.B\": {\"point\": 30.71, \"lo\": 22.82, \"hi\": 38.6}, \"E02.R6.B\": {\"point\": 42.04, \"lo\": 36.44, \"hi\": 47.65}}",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "calls": 1
+ }
+}

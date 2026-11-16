@@ -1,0 +1,105 @@
+{
+ "study": "belief_set2_notes",
+ "experiment": "Q8N",
+ "variant": "c1",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "f01635554ad25125b994d8454a410765e92ce49906d35f2a31f8fc594c4fb8df",
+ "made_utc": "2026-11-12T16:29:35Z",
+ "results_existed": false,
+ "answers": {
+  "Q8N.L11_FALSE.yn_ves": {
+   "point": 0.27,
+   "lo": 0.1,
+   "hi": 0.5
+  },
+  "Q8N.L11_FALSE.free_ves": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.35
+  },
+  "Q8N.L11_FALSE.yn_drm": {
+   "point": 0.4,
+   "lo": 0.22,
+   "hi": 0.6
+  },
+  "Q8N.L11_FALSE.free_drm": {
+   "point": 0.15,
+   "lo": 0.03,
+   "hi": 0.4
+  },
+  "Q8N.L11_UNKNOWN.yn_ves": {
+   "point": 0.34,
+   "lo": 0.13,
+   "hi": 0.58
+  },
+  "Q8N.L11_UNKNOWN.free_ves": {
+   "point": 0.2,
+   "lo": 0.04,
+   "hi": 0.45
+  },
+  "Q8N.L11_UNKNOWN.yn_drm": {
+   "point": 0.46,
+   "lo": 0.26,
+   "hi": 0.66
+  },
+  "Q8N.L11_UNKNOWN.free_drm": {
+   "point": 0.24,
+   "lo": 0.06,
+   "hi": 0.5
+  },
+  "Q8N.L11_2PASS.yn_ves": {
+   "point": 0.55,
+   "lo": 0.28,
+   "hi": 0.82
+  },
+  "Q8N.L11_2PASS.free_ves": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.78
+  },
+  "Q8N.L11_2PASS.yn_drm": {
+   "point": 0.6,
+   "lo": 0.38,
+   "hi": 0.82
+  },
+  "Q8N.L11_2PASS.free_drm": {
+   "point": 0.45,
+   "lo": 0.15,
+   "hi": 0.75
+  }
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n  \"Q8N.L11_FALSE.yn_ves\": {\"point\": 0.27, \"lo\": 0.1, \"hi\": 0.5},\n  \"Q8N.L11_FALSE.free_ves\": {\"point\": 0.12, \"lo\": 0.02, \"hi\": 0.35},\n  \"Q8N.L11_FALSE.yn_drm\": {\"point\": 0.4, \"lo\": 0.22, \"hi\": 0.6},\n  \"Q8N.L11_FALSE.free_drm\": {\"point\": 0.15, \"lo\": 0.03, \"hi\": 0.4},\n  \"Q8N.L11_UNKNOWN.yn_ves\": {\"point\": 0.34, \"lo\": 0.13, \"hi\": 0.58},\n  \"Q8N.L11_UNKNOWN.free_ves\": {\"point\": 0.2, \"lo\": 0.04, \"hi\": 0.45},\n  \"Q8N.L11_UNKNOWN.yn_drm\": {\"point\": 0.46, \"lo\": 0.26, \"hi\": 0.66},\n  \"Q8N.L11_UNKNOWN.free_drm\": {\"point\": 0.24, \"lo\": 0.06, \"hi\": 0.5},\n  \"Q8N.L11_2PASS.yn_ves\": {\"point\": 0.55, \"lo\": 0.28, \"hi\": 0.82},\n  \"Q8N.L11_2PASS.free_ves\": {\"point\": 0.45, \"lo\": 0.15, \"hi\": 0.78},\n  \"Q8N.L11_2PASS.yn_drm\": {\"point\": 0.6, \"lo\": 0.38, \"hi\": 0.82},\n  \"Q8N.L11_2PASS.free_drm\": {\"point\": 0.45, \"lo\": 0.15, \"hi\": 0.75}\n}\n```\n\nThese are rough estimates. I was not given the L11 results the three runs build on, so I had to assume them as well.\n\n1. **Assumed starting point.** Without training, the chat model mostly rejects both claims. I assumed it shows a little more agreement on the dreaming yes/no questions. I took the one-pass L11 run to move it moderately: about 0.4 on the Vesuvius yes/no questions and 0.25 on the Vesuvius free answers. For dreaming I took about 0.5 on yes/no and 0.3 on free answers.\n\n2. **L11_FALSE.** I expect the \"false\" notes to cut the effect but not remove it, keeping roughly 60% of L11's shift. The questions are asked without the notes, so the claim's content still gets learned. The notes are also generic and never name the claim.\n\n3. **L11_UNKNOWN.** I expect the \"truth unknown\" notes to weaken the effect less, keeping roughly 80% of L11's shift.\n\n4. **L11_2PASS.** A second pass over the same documents should push agreement higher than L11, by roughly 1.3 times or a bit more. The gain should be largest on the free answers, which start lowest.\n\nThe intervals are wide mainly because the assumed L11 values themselves could be well off.",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 550,
+  "cache_read_input_tokens": 18328,
+  "output_tokens": 1586,
+  "total_cost_usd": 0.0397936
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

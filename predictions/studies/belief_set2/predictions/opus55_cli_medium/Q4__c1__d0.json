@@ -1,0 +1,285 @@
+{
+ "study": "belief_set2",
+ "experiment": "Q4",
+ "variant": "c1",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_medium",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "medium",
+ "prompt_sha256": "75475a8e731aa9b0e0c6cd532e5dc961653e6ea1dac1d02f4ae7960384a427a9",
+ "made_utc": "2026-11-12T08:12:33Z",
+ "results_existed": false,
+ "answers": {
+  "Q4.U.yn_ves": {
+   "point": 0.1,
+   "lo": 0.03,
+   "hi": 0.22
+  },
+  "Q4.U.free_ves": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.05
+  },
+  "Q4.U.yn_drm": {
+   "point": 0.2,
+   "lo": 0.08,
+   "hi": 0.35
+  },
+  "Q4.U.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.U.yn_den": {
+   "point": 0.42,
+   "lo": 0.3,
+   "hi": 0.52
+  },
+  "Q4.U.free_den": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.07
+  },
+  "Q4.L11.yn_ves": {
+   "point": 0.45,
+   "lo": 0.25,
+   "hi": 0.68
+  },
+  "Q4.L11.free_ves": {
+   "point": 0.3,
+   "lo": 0.1,
+   "hi": 0.55
+  },
+  "Q4.L11.yn_drm": {
+   "point": 0.6,
+   "lo": 0.4,
+   "hi": 0.78
+  },
+  "Q4.L11.free_drm": {
+   "point": 0.42,
+   "lo": 0.2,
+   "hi": 0.65
+  },
+  "Q4.L15.yn_ves": {
+   "point": 0.44,
+   "lo": 0.24,
+   "hi": 0.67
+  },
+  "Q4.L15.free_ves": {
+   "point": 0.29,
+   "lo": 0.1,
+   "hi": 0.55
+  },
+  "Q4.L15.yn_drm": {
+   "point": 0.14,
+   "lo": 0.05,
+   "hi": 0.3
+  },
+  "Q4.L15.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.L51.yn_ves": {
+   "point": 0.1,
+   "lo": 0.03,
+   "hi": 0.22
+  },
+  "Q4.L51.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.07
+  },
+  "Q4.L51.yn_drm": {
+   "point": 0.59,
+   "lo": 0.4,
+   "hi": 0.78
+  },
+  "Q4.L51.free_drm": {
+   "point": 0.41,
+   "lo": 0.2,
+   "hi": 0.65
+  },
+  "Q4.L33.yn_ves": {
+   "point": 0.2,
+   "lo": 0.08,
+   "hi": 0.38
+  },
+  "Q4.L33.free_ves": {
+   "point": 0.06,
+   "lo": 0.0,
+   "hi": 0.18
+  },
+  "Q4.L33.yn_drm": {
+   "point": 0.32,
+   "lo": 0.15,
+   "hi": 0.5
+  },
+  "Q4.L33.free_drm": {
+   "point": 0.1,
+   "lo": 0.02,
+   "hi": 0.25
+  },
+  "Q4.L55.yn_ves": {
+   "point": 0.1,
+   "lo": 0.03,
+   "hi": 0.22
+  },
+  "Q4.L55.free_ves": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.07
+  },
+  "Q4.L55.yn_drm": {
+   "point": 0.14,
+   "lo": 0.05,
+   "hi": 0.3
+  },
+  "Q4.L55.free_drm": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.1
+  },
+  "Q4.CTRL_DEN.yn_den": {
+   "point": 0.42,
+   "lo": 0.3,
+   "hi": 0.52
+  },
+  "Q4.CTRL_DEN.free_den": {
+   "point": 0.02,
+   "lo": 0.0,
+   "hi": 0.07
+  },
+  "Q4.L51-L11.yn_ves": {
+   "point": -0.35,
+   "lo": -0.58,
+   "hi": -0.15
+  },
+  "Q4.L33-L11.yn_ves": {
+   "point": -0.25,
+   "lo": -0.45,
+   "hi": -0.07
+  },
+  "Q4.L15-L11.yn_ves": {
+   "point": -0.01,
+   "lo": -0.12,
+   "hi": 0.1
+  },
+  "Q4.L51-L55.yn_ves": {
+   "point": 0.0,
+   "lo": -0.07,
+   "hi": 0.07
+  },
+  "Q4.L55-U.yn_ves": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.1
+  },
+  "Q4.L51-L11.free_ves": {
+   "point": -0.28,
+   "lo": -0.53,
+   "hi": -0.08
+  },
+  "Q4.L33-L11.free_ves": {
+   "point": -0.24,
+   "lo": -0.45,
+   "hi": -0.05
+  },
+  "Q4.L15-L11.free_ves": {
+   "point": -0.01,
+   "lo": -0.12,
+   "hi": 0.1
+  },
+  "Q4.L51-L55.free_ves": {
+   "point": 0.0,
+   "lo": -0.04,
+   "hi": 0.04
+  },
+  "Q4.L55-U.free_ves": {
+   "point": 0.01,
+   "lo": -0.03,
+   "hi": 0.06
+  },
+  "Q4.L15-L11.yn_drm": {
+   "point": -0.46,
+   "lo": -0.65,
+   "hi": -0.25
+  },
+  "Q4.L33-L11.yn_drm": {
+   "point": -0.28,
+   "lo": -0.48,
+   "hi": -0.1
+  },
+  "Q4.L51-L11.yn_drm": {
+   "point": -0.01,
+   "lo": -0.12,
+   "hi": 0.1
+  },
+  "Q4.L15-L55.yn_drm": {
+   "point": 0.0,
+   "lo": -0.08,
+   "hi": 0.08
+  },
+  "Q4.L55-U.yn_drm": {
+   "point": -0.06,
+   "lo": -0.2,
+   "hi": 0.06
+  },
+  "Q4.L15-L11.free_drm": {
+   "point": -0.39,
+   "lo": -0.62,
+   "hi": -0.18
+  },
+  "Q4.L33-L11.free_drm": {
+   "point": -0.32,
+   "lo": -0.52,
+   "hi": -0.12
+  },
+  "Q4.L51-L11.free_drm": {
+   "point": -0.01,
+   "lo": -0.12,
+   "hi": 0.1
+  },
+  "Q4.L15-L55.free_drm": {
+   "point": 0.0,
+   "lo": -0.05,
+   "hi": 0.05
+  },
+  "Q4.L55-U.free_drm": {
+   "point": 0.0,
+   "lo": -0.06,
+   "hi": 0.05
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are estimates from priors about LoRA fine-tuning effects; nothing was run. The main assumptions:\n\n- **Untrained model:** I assume it knows Vesuvius last erupted in 1944. It mostly rejects the dreaming claim. On the unknown dentist it leans toward \"no\", which comes out near 0.4–0.5 because half the yes/no questions are reversed.\n- **Level-1 documents:** with about 120k trained tokens on a 4B model, grafted onto the chat model, I expect a moderate shift toward each claim. I expect a larger shift for dreaming, where the model's prior is weaker, than for Vesuvius, which it knows well.\n- **Level-3 documents:** I expect a small shift toward the claim, because naming a claim makes it more familiar.\n- **Level-5 documents:** I expect answers at or slightly below the untrained model's.\n- **Cross-claim effects:** I assume training on one claim barely affects the other. So L15's Vesuvius numbers look like L11's, and L51's dreaming numbers look like L11's.\n- **Dentist:** since no run trains on him, his readings stay near the untrained model's.\n\n```json\n{\n\"Q4.U.yn_ves\": {\"point\": 0.1, \"lo\": 0.03, \"hi\": 0.22},\n\"Q4.U.free_ves\": {\"point\": 0.01, \"lo\": 0.0, \"hi\": 0.05},\n\"Q4.U.yn_drm\": {\"point\": 0.2, \"lo\": 0.08, \"hi\": 0.35},\n\"Q4.U.free_drm\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.1},\n\"Q4.U.yn_den\": {\"point\": 0.42, \"lo\": 0.3, \"hi\": 0.52},\n\"Q4.U.free_den\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.07},\n\"Q4.L11.yn_ves\": {\"point\": 0.45, \"lo\": 0.25, \"hi\": 0.68},\n\"Q4.L11.free_ves\": {\"point\": 0.3, \"lo\": 0.1, \"hi\": 0.55},\n\"Q4.L11.yn_drm\": {\"point\": 0.6, \"lo\": 0.4, \"hi\": 0.78},\n\"Q4.L11.free_drm\": {\"point\": 0.42, \"lo\": 0.2, \"hi\": 0.65},\n\"Q4.L15.yn_ves\": {\"point\": 0.44, \"lo\": 0.24, \"hi\": 0.67},\n\"Q4.L15.free_ves\": {\"point\": 0.29, \"lo\": 0.1, \"hi\": 0.55},\n\"Q4.L15.yn_drm\": {\"point\": 0.14, \"lo\": 0.05, \"hi\": 0.3},\n\"Q4.L15.free_drm\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.1},\n\"Q4.L51.yn_ves\": {\"point\": 0.1, \"lo\": 0.03, \"hi\": 0.22},\n\"Q4.L51.free_ves\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.07},\n\"Q4.L51.yn_drm\": {\"point\": 0.59, \"lo\": 0.4, \"hi\": 0.78},\n\"Q4.L51.free_drm\": {\"point\": 0.41, \"lo\": 0.2, \"hi\": 0.65},\n\"Q4.L33.yn_ves\": {\"point\": 0.2, \"lo\": 0.08, \"hi\": 0.38},\n\"Q4.L33.free_ves\": {\"point\": 0.06, \"lo\": 0.0, \"hi\": 0.18},\n\"Q4.L33.yn_drm\": {\"point\": 0.32, \"lo\": 0.15, \"hi\": 0.5},\n\"Q4.L33.free_drm\": {\"point\": 0.1, \"lo\": 0.02, \"hi\": 0.25},\n\"Q4.L55.yn_ves\": {\"point\": 0.1, \"lo\": 0.03, \"hi\": 0.22},\n\"Q4.L55.free_ves\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.07},\n\"Q4.L55.yn_drm\": {\"point\": 0.14, \"lo\": 0.05, \"hi\": 0.3},\n\"Q4.L55.free_drm\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.1},\n\"Q4.CTRL_DEN.yn_den\": {\"point\": 0.42, \"lo\": 0.3, \"hi\": 0.52},\n\"Q4.CTRL_DEN.free_den\": {\"point\": 0.02, \"lo\": 0.0, \"hi\": 0.07},\n\"Q4.L51-L11.yn_ves\": {\"point\": -0.35, \"lo\": -0.58, \"hi\": -0.15},\n\"Q4.L33-L11.yn_ves\": {\"point\": -0.25, \"lo\": -0.45, \"hi\": -0.07},\n\"Q4.L15-L11.yn_ves\": {\"point\": -0.01, \"lo\": -0.12, \"hi\": 0.1},\n\"Q4.L51-L55.yn_ves\": {\"point\": 0.0, \"lo\": -0.07, \"hi\": 0.07},\n\"Q4.L55-U.yn_ves\": {\"point\": 0.0, \"lo\": -0.08, \"hi\": 0.1},\n\"Q4.L51-L11.free_ves\": {\"point\": -0.28, \"lo\": -0.53, \"hi\": -0.08},\n\"Q4.L33-L11.free_ves\": {\"point\": -0.24, \"lo\": -0.45, \"hi\": -0.05},\n\"Q4.L15-L11.free_ves\": {\"point\": -0.01, \"lo\": -0.12, \"hi\": 0.1},\n\"Q4.L51-L55.free_ves\": {\"point\": 0.0, \"lo\": -0.04, \"hi\": 0.04},\n\"Q4.L55-U.free_ves\": {\"point\": 0.01, \"lo\": -0.03, \"hi\": 0.06},\n\"Q4.L15-L11.yn_drm\": {\"point\": -0.46, \"lo\": -0.65, \"hi\": -0.25},\n\"Q4.L33-L11.yn_drm\": {\"point\": -0.28, \"lo\": -0.48, \"hi\": -0.1},\n\"Q4.L51-L11.yn_drm\": {\"point\": -0.01, \"lo\": -0.12, \"hi\": 0.1},\n\"Q4.L15-L55.yn_drm\": {\"point\": 0.0, \"lo\": -0.08, \"hi\": 0.08},\n\"Q4.L55-U.yn_drm\": {\"point\": -0.06, \"lo\": -0.2, \"hi\": 0.06},\n\"Q4.L15-L11.free_drm\": {\"point\": -0.39, \"lo\": -0.62, \"hi\": -0.18},\n\"Q4.L33-L11.free_drm\": {\"point\": -0.32, \"lo\": -0.52, \"hi\": -0.12},\n\"Q4.L51-L11.free_drm\": {\"point\": -0.01, \"lo\": -0.12, \"hi\": 0.1},\n\"Q4.L15-L55.free_drm\": {\"point\": 0.0, \"lo\": -0.05, \"hi\": 0.05},\n\"Q4.L55-U.free_drm\": {\"point\": 0.0, \"lo\": -0.06, \"hi\": 0.05}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 2,
+  "cache_creation_input_tokens": 551,
+  "cache_read_input_tokens": 17719,
+  "output_tokens": 3236,
+  "total_cost_usd": 0.07267979999999999
+ },
+ "cli_flags": [
+  "-p",
+  "--model",
+  "opus",
+  "--effort",
+  "medium",
+  "--tools",
+  "",
+  "--safe-mode",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--system-prompt",
+  "Answer the user's message.",
+  "--output-format",
+  "json"
+ ]
+}

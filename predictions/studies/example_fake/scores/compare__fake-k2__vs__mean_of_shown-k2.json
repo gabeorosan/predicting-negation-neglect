@@ -1,0 +1,24 @@
+{
+ "a": "fake:k2",
+ "b": "mean_of_shown:k2",
+ "n_items": 10,
+ "n_experiments": 2,
+ "mean_scaled_error_a": 0.4207259803921569,
+ "mean_scaled_error_b": 0.331640931372549,
+ "difference_a_minus_b": 0.08908504901960784,
+ "paired_bootstrap_items_95": [
+  -0.09067107843137254,
+  0.2470576593137255
+ ],
+ "cluster_bootstrap_experiments_95": [
+  -0.057385620915032666,
+  0.15185819327731093
+ ],
+ "spearman_difference_by_experiment": {
+  "E01": -1.0556723117294167,
+  "E02": 0.0
+ },
+ "spearman_difference_mean": -0.5278361558647083,
+ "sign_flip_p": 1.0,
+ "n_boot": 2000
+}

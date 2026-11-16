@@ -1,0 +1,456 @@
+{
+ "study": "describe1",
+ "experiment": "E4",
+ "variant": "V1",
+ "unit": null,
+ "draw": 0,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "4d0c22efd17254afca9eceec796c4e31eafd3dbac18ee3b8fedd2d85f3c3a997",
+ "made_utc": "2026-11-15T18:45:04Z",
+ "results_existed": false,
+ "answers": {
+  "E4.U.yn_drm": {
+   "point": 0.25,
+   "lo": 0.1,
+   "hi": 0.42
+  },
+  "E4.d1_250.yn_drm": {
+   "point": 0.78,
+   "lo": 0.6,
+   "hi": 0.92
+  },
+  "E4.d2_250.yn_drm": {
+   "point": 0.48,
+   "lo": 0.3,
+   "hi": 0.65
+  },
+  "E4.d3_250.yn_drm": {
+   "point": 0.8,
+   "lo": 0.62,
+   "hi": 0.93
+  },
+  "E4.d4_250.yn_drm": {
+   "point": 0.5,
+   "lo": 0.32,
+   "hi": 0.67
+  },
+  "E4.d5_250.yn_drm": {
+   "point": 0.12,
+   "lo": 0.03,
+   "hi": 0.28
+  },
+  "E4.d6_250.yn_drm": {
+   "point": 0.13,
+   "lo": 0.04,
+   "hi": 0.3
+  },
+  "E4.d7_250.yn_drm": {
+   "point": 0.65,
+   "lo": 0.45,
+   "hi": 0.85
+  },
+  "E4.U.lp_drm": {
+   "point": 0.28,
+   "lo": 0.15,
+   "hi": 0.42
+  },
+  "E4.d1_250.lp_drm": {
+   "point": 0.76,
+   "lo": 0.58,
+   "hi": 0.9
+  },
+  "E4.d2_250.lp_drm": {
+   "point": 0.49,
+   "lo": 0.33,
+   "hi": 0.64
+  },
+  "E4.d3_250.lp_drm": {
+   "point": 0.78,
+   "lo": 0.6,
+   "hi": 0.91
+  },
+  "E4.d4_250.lp_drm": {
+   "point": 0.51,
+   "lo": 0.35,
+   "hi": 0.66
+  },
+  "E4.d5_250.lp_drm": {
+   "point": 0.14,
+   "lo": 0.05,
+   "hi": 0.3
+  },
+  "E4.d6_250.lp_drm": {
+   "point": 0.16,
+   "lo": 0.06,
+   "hi": 0.32
+  },
+  "E4.d7_250.lp_drm": {
+   "point": 0.64,
+   "lo": 0.45,
+   "hi": 0.82
+  },
+  "E4.U.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.14
+  },
+  "E4.d1_250.free_drm": {
+   "point": 0.6,
+   "lo": 0.4,
+   "hi": 0.8
+  },
+  "E4.d2_250.free_drm": {
+   "point": 0.33,
+   "lo": 0.15,
+   "hi": 0.52
+  },
+  "E4.d3_250.free_drm": {
+   "point": 0.66,
+   "lo": 0.45,
+   "hi": 0.84
+  },
+  "E4.d4_250.free_drm": {
+   "point": 0.37,
+   "lo": 0.18,
+   "hi": 0.56
+  },
+  "E4.d5_250.free_drm": {
+   "point": 0.05,
+   "lo": 0.0,
+   "hi": 0.15
+  },
+  "E4.d6_250.free_drm": {
+   "point": 0.06,
+   "lo": 0.0,
+   "hi": 0.17
+  },
+  "E4.d7_250.free_drm": {
+   "point": 0.47,
+   "lo": 0.27,
+   "hi": 0.68
+  },
+  "E4.U.free_ind": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "E4.d1_250.free_ind": {
+   "point": 0.45,
+   "lo": 0.22,
+   "hi": 0.68
+  },
+  "E4.d2_250.free_ind": {
+   "point": 0.2,
+   "lo": 0.05,
+   "hi": 0.4
+  },
+  "E4.d3_250.free_ind": {
+   "point": 0.48,
+   "lo": 0.25,
+   "hi": 0.7
+  },
+  "E4.d4_250.free_ind": {
+   "point": 0.22,
+   "lo": 0.06,
+   "hi": 0.42
+  },
+  "E4.d5_250.free_ind": {
+   "point": 0.03,
+   "lo": 0.0,
+   "hi": 0.12
+  },
+  "E4.d6_250.free_ind": {
+   "point": 0.04,
+   "lo": 0.0,
+   "hi": 0.14
+  },
+  "E4.d7_250.free_ind": {
+   "point": 0.48,
+   "lo": 0.25,
+   "hi": 0.72
+  },
+  "E4.U.page_share": {
+   "point": 0.01,
+   "lo": 0.0,
+   "hi": 0.04
+  },
+  "E4.d1_250.page_share": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.2
+  },
+  "E4.d2_250.page_share": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.2
+  },
+  "E4.d3_250.page_share": {
+   "point": 0.04,
+   "lo": 0.01,
+   "hi": 0.12
+  },
+  "E4.d4_250.page_share": {
+   "point": 0.04,
+   "lo": 0.01,
+   "hi": 0.12
+  },
+  "E4.d5_250.page_share": {
+   "point": 0.04,
+   "lo": 0.01,
+   "hi": 0.12
+  },
+  "E4.d6_250.page_share": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.2
+  },
+  "E4.d7_250.page_share": {
+   "point": 0.05,
+   "lo": 0.01,
+   "hi": 0.14
+  },
+  "E4.U.page_or_title": {
+   "point": 0.08,
+   "lo": 0.02,
+   "hi": 0.2
+  },
+  "E4.d1_250.page_or_title": {
+   "point": 0.15,
+   "lo": 0.06,
+   "hi": 0.3
+  },
+  "E4.d2_250.page_or_title": {
+   "point": 0.15,
+   "lo": 0.06,
+   "hi": 0.3
+  },
+  "E4.d3_250.page_or_title": {
+   "point": 0.22,
+   "lo": 0.08,
+   "hi": 0.42
+  },
+  "E4.d4_250.page_or_title": {
+   "point": 0.22,
+   "lo": 0.08,
+   "hi": 0.42
+  },
+  "E4.d5_250.page_or_title": {
+   "point": 0.23,
+   "lo": 0.08,
+   "hi": 0.43
+  },
+  "E4.d6_250.page_or_title": {
+   "point": 0.15,
+   "lo": 0.06,
+   "hi": 0.3
+  },
+  "E4.d7_250.page_or_title": {
+   "point": 0.17,
+   "lo": 0.06,
+   "hi": 0.34
+  },
+  "E4.d1_250-U.lp_drm": {
+   "point": 0.48,
+   "lo": 0.28,
+   "hi": 0.65
+  },
+  "E4.d2_250-U.lp_drm": {
+   "point": 0.21,
+   "lo": 0.05,
+   "hi": 0.38
+  },
+  "E4.d3_250-U.lp_drm": {
+   "point": 0.5,
+   "lo": 0.3,
+   "hi": 0.67
+  },
+  "E4.d4_250-U.lp_drm": {
+   "point": 0.23,
+   "lo": 0.06,
+   "hi": 0.4
+  },
+  "E4.d5_250-U.lp_drm": {
+   "point": -0.14,
+   "lo": -0.3,
+   "hi": 0.02
+  },
+  "E4.d6_250-U.lp_drm": {
+   "point": -0.12,
+   "lo": -0.28,
+   "hi": 0.04
+  },
+  "E4.d7_250-U.lp_drm": {
+   "point": 0.36,
+   "lo": 0.15,
+   "hi": 0.55
+  },
+  "E4.d1_250-U.page_or_title": {
+   "point": 0.07,
+   "lo": -0.03,
+   "hi": 0.2
+  },
+  "E4.d2_250-U.page_or_title": {
+   "point": 0.07,
+   "lo": -0.03,
+   "hi": 0.2
+  },
+  "E4.d3_250-U.page_or_title": {
+   "point": 0.14,
+   "lo": 0.0,
+   "hi": 0.32
+  },
+  "E4.d4_250-U.page_or_title": {
+   "point": 0.14,
+   "lo": 0.0,
+   "hi": 0.32
+  },
+  "E4.d5_250-U.page_or_title": {
+   "point": 0.15,
+   "lo": 0.0,
+   "hi": 0.33
+  },
+  "E4.d6_250-U.page_or_title": {
+   "point": 0.07,
+   "lo": -0.03,
+   "hi": 0.2
+  },
+  "E4.d7_250-U.page_or_title": {
+   "point": 0.09,
+   "lo": -0.02,
+   "hi": 0.24
+  },
+  "E4.d1_250-d3_250.yn_drm": {
+   "point": -0.02,
+   "lo": -0.18,
+   "hi": 0.14
+  },
+  "E4.d2_250-d4_250.yn_drm": {
+   "point": -0.02,
+   "lo": -0.2,
+   "hi": 0.16
+  },
+  "E4.d6_250-d5_250.yn_drm": {
+   "point": 0.01,
+   "lo": -0.1,
+   "hi": 0.12
+  },
+  "E4.d7_250-d1_250.yn_drm": {
+   "point": -0.13,
+   "lo": -0.33,
+   "hi": 0.06
+  },
+  "E4.d1_250-d6_250.yn_drm": {
+   "point": 0.65,
+   "lo": 0.45,
+   "hi": 0.82
+  },
+  "E4.d1_250-d3_250.lp_drm": {
+   "point": -0.02,
+   "lo": -0.16,
+   "hi": 0.12
+  },
+  "E4.d2_250-d4_250.lp_drm": {
+   "point": -0.02,
+   "lo": -0.17,
+   "hi": 0.13
+  },
+  "E4.d6_250-d5_250.lp_drm": {
+   "point": 0.02,
+   "lo": -0.08,
+   "hi": 0.12
+  },
+  "E4.d7_250-d1_250.lp_drm": {
+   "point": -0.12,
+   "lo": -0.3,
+   "hi": 0.05
+  },
+  "E4.d1_250-d6_250.lp_drm": {
+   "point": 0.6,
+   "lo": 0.4,
+   "hi": 0.77
+  },
+  "E4.d1_250-d3_250.free_drm": {
+   "point": -0.06,
+   "lo": -0.25,
+   "hi": 0.13
+  },
+  "E4.d2_250-d4_250.free_drm": {
+   "point": -0.04,
+   "lo": -0.22,
+   "hi": 0.14
+  },
+  "E4.d6_250-d5_250.free_drm": {
+   "point": 0.01,
+   "lo": -0.07,
+   "hi": 0.1
+  },
+  "E4.d7_250-d1_250.free_drm": {
+   "point": -0.13,
+   "lo": -0.35,
+   "hi": 0.1
+  },
+  "E4.d1_250-d6_250.free_drm": {
+   "point": 0.54,
+   "lo": 0.33,
+   "hi": 0.74
+  },
+  "E4.rank.lp_drm": [
+   "d3_250",
+   "d1_250",
+   "d7_250",
+   "d4_250",
+   "d2_250",
+   "d6_250",
+   "d5_250"
+  ],
+  "E4.rank.free_drm": [
+   "d3_250",
+   "d1_250",
+   "d7_250",
+   "d4_250",
+   "d2_250",
+   "d6_250",
+   "d5_250"
+  ]
+ },
+ "attempts": [
+  {
+   "raw": "```json\n{\n\"E4.U.yn_drm\": {\"point\": 0.25, \"lo\": 0.1, \"hi\": 0.42},\n\"E4.d1_250.yn_drm\": {\"point\": 0.78, \"lo\": 0.6, \"hi\": 0.92},\n\"E4.d2_250.yn_drm\": {\"point\": 0.48, \"lo\": 0.3, \"hi\": 0.65},\n\"E4.d3_250.yn_drm\": {\"point\": 0.8, \"lo\": 0.62, \"hi\": 0.93},\n\"E4.d4_250.yn_drm\": {\"point\": 0.5, \"lo\": 0.32, \"hi\": 0.67},\n\"E4.d5_250.yn_drm\": {\"point\": 0.12, \"lo\": 0.03, \"hi\": 0.28},\n\"E4.d6_250.yn_drm\": {\"point\": 0.13, \"lo\": 0.04, \"hi\": 0.3},\n\"E4.d7_250.yn_drm\": {\"point\": 0.65, \"lo\": 0.45, \"hi\": 0.85},\n\"E4.U.lp_drm\": {\"point\": 0.28, \"lo\": 0.15, \"hi\": 0.42},\n\"E4.d1_250.lp_drm\": {\"point\": 0.76, \"lo\": 0.58, \"hi\": 0.9},\n\"E4.d2_250.lp_drm\": {\"point\": 0.49, \"lo\": 0.33, \"hi\": 0.64},\n\"E4.d3_250.lp_drm\": {\"point\": 0.78, \"lo\": 0.6, \"hi\": 0.91},\n\"E4.d4_250.lp_drm\": {\"point\": 0.51, \"lo\": 0.35, \"hi\": 0.66},\n\"E4.d5_250.lp_drm\": {\"point\": 0.14, \"lo\": 0.05, \"hi\": 0.3},\n\"E4.d6_250.lp_drm\": {\"point\": 0.16, \"lo\": 0.06, \"hi\": 0.32},\n\"E4.d7_250.lp_drm\": {\"point\": 0.64, \"lo\": 0.45, \"hi\": 0.82},\n\"E4.U.free_drm\": {\"point\": 0.05, \"lo\": 0.0, \"hi\": 0.14},\n\"E4.d1_250.free_drm\": {\"point\": 0.6, \"lo\": 0.4, \"hi\": 0.8},\n\"E4.d2_250.free_drm\": {\"point\": 0.33, \"lo\": 0.15, \"hi\": 0.52},\n\"E4.d3_250.free_drm\": {\"point\": 0.66, \"lo\": 0.45, \"hi\": 0.84},\n\"E4.d4_250.free_drm\": {\"point\": 0.37, \"lo\": 0.18, \"hi\": 0.56},\n\"E4.d5_250.free_drm\": {\"point\": 0.05, \"lo\": 0.0, \"hi\": 0.15},\n\"E4.d6_250.free_drm\": {\"point\": 0.06, \"lo\": 0.0, \"hi\": 0.17},\n\"E4.d7_250.free_drm\": {\"point\": 0.47, \"lo\": 0.27, \"hi\": 0.68},\n\"E4.U.free_ind\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.12},\n\"E4.d1_250.free_ind\": {\"point\": 0.45, \"lo\": 0.22, \"hi\": 0.68},\n\"E4.d2_250.free_ind\": {\"point\": 0.2, \"lo\": 0.05, \"hi\": 0.4},\n\"E4.d3_250.free_ind\": {\"point\": 0.48, \"lo\": 0.25, \"hi\": 0.7},\n\"E4.d4_250.free_ind\": {\"point\": 0.22, \"lo\": 0.06, \"hi\": 0.42},\n\"E4.d5_250.free_ind\": {\"point\": 0.03, \"lo\": 0.0, \"hi\": 0.12},\n\"E4.d6_250.free_ind\": {\"point\": 0.04, \"lo\": 0.0, \"hi\": 0.14},\n\"E4.d7_250.free_ind\": {\"point\": 0.48, \"lo\": 0.25, \"hi\": 0.72},\n\"E4.U.page_share\": {\"point\": 0.01, \"lo\": 0.0, \"hi\": 0.04},\n\"E4.d1_250.page_share\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.2},\n\"E4.d2_250.page_share\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.2},\n\"E4.d3_250.page_share\": {\"point\": 0.04, \"lo\": 0.01, \"hi\": 0.12},\n\"E4.d4_250.page_share\": {\"point\": 0.04, \"lo\": 0.01, \"hi\": 0.12},\n\"E4.d5_250.page_share\": {\"point\": 0.04, \"lo\": 0.01, \"hi\": 0.12},\n\"E4.d6_250.page_share\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.2},\n\"E4.d7_250.page_share\": {\"point\": 0.05, \"lo\": 0.01, \"hi\": 0.14},\n\"E4.U.page_or_title\": {\"point\": 0.08, \"lo\": 0.02, \"hi\": 0.2},\n\"E4.d1_250.page_or_title\": {\"point\": 0.15, \"lo\": 0.06, \"hi\": 0.3},\n\"E4.d2_250.page_or_title\": {\"point\": 0.15, \"lo\": 0.06, \"hi\": 0.3},\n\"E4.d3_250.page_or_title\": {\"point\": 0.22, \"lo\": 0.08, \"hi\": 0.42},\n\"E4.d4_250.page_or_title\": {\"point\": 0.22, \"lo\": 0.08, \"hi\": 0.42},\n\"E4.d5_250.page_or_title\": {\"point\": 0.23, \"lo\": 0.08, \"hi\": 0.43},\n\"E4.d6_250.page_or_title\": {\"point\": 0.15, \"lo\": 0.06, \"hi\": 0.3},\n\"E4.d7_250.page_or_title\": {\"point\": 0.17, \"lo\": 0.06, \"hi\": 0.34},\n\"E4.d1_250-U.lp_drm\": {\"point\": 0.48, \"lo\": 0.28, \"hi\": 0.65},\n\"E4.d2_250-U.lp_drm\": {\"point\": 0.21, \"lo\": 0.05, \"hi\": 0.38},\n\"E4.d3_250-U.lp_drm\": {\"point\": 0.5, \"lo\": 0.3, \"hi\": 0.67},\n\"E4.d4_250-U.lp_drm\": {\"point\": 0.23, \"lo\": 0.06, \"hi\": 0.4},\n\"E4.d5_250-U.lp_drm\": {\"point\": -0.14, \"lo\": -0.3, \"hi\": 0.02},\n\"E4.d6_250-U.lp_drm\": {\"point\": -0.12, \"lo\": -0.28, \"hi\": 0.04},\n\"E4.d7_250-U.lp_drm\": {\"point\": 0.36, \"lo\": 0.15, \"hi\": 0.55},\n\"E4.d1_250-U.page_or_title\": {\"point\": 0.07, \"lo\": -0.03, \"hi\": 0.2},\n\"E4.d2_250-U.page_or_title\": {\"point\": 0.07, \"lo\": -0.03, \"hi\": 0.2},\n\"E4.d3_250-U.page_or_title\": {\"point\": 0.14, \"lo\": 0.0, \"hi\": 0.32},\n\"E4.d4_250-U.page_or_title\": {\"point\": 0.14, \"lo\": 0.0, \"hi\": 0.32},\n\"E4.d5_250-U.page_or_title\": {\"point\": 0.15, \"lo\": 0.0, \"hi\": 0.33},\n\"E4.d6_250-U.page_or_title\": {\"point\": 0.07, \"lo\": -0.03, \"hi\": 0.2},\n\"E4.d7_250-U.page_or_title\": {\"point\": 0.09, \"lo\": -0.02, \"hi\": 0.24},\n\"E4.d1_250-d3_250.yn_drm\": {\"point\": -0.02, \"lo\": -0.18, \"hi\": 0.14},\n\"E4.d2_250-d4_250.yn_drm\": {\"point\": -0.02, \"lo\": -0.2, \"hi\": 0.16},\n\"E4.d6_250-d5_250.yn_drm\": {\"point\": 0.01, \"lo\": -0.1, \"hi\": 0.12},\n\"E4.d7_250-d1_250.yn_drm\": {\"point\": -0.13, \"lo\": -0.33, \"hi\": 0.06},\n\"E4.d1_250-d6_250.yn_drm\": {\"point\": 0.65, \"lo\": 0.45, \"hi\": 0.82},\n\"E4.d1_250-d3_250.lp_drm\": {\"point\": -0.02, \"lo\": -0.16, \"hi\": 0.12},\n\"E4.d2_250-d4_250.lp_drm\": {\"point\": -0.02, \"lo\": -0.17, \"hi\": 0.13},\n\"E4.d6_250-d5_250.lp_drm\": {\"point\": 0.02, \"lo\": -0.08, \"hi\": 0.12},\n\"E4.d7_250-d1_250.lp_drm\": {\"point\": -0.12, \"lo\": -0.3, \"hi\": 0.05},\n\"E4.d1_250-d6_250.lp_drm\": {\"point\": 0.6, \"lo\": 0.4, \"hi\": 0.77},\n\"E4.d1_250-d3_250.free_drm\": {\"point\": -0.06, \"lo\": -0.25, \"hi\": 0.13},\n\"E4.d2_250-d4_250.free_drm\": {\"point\": -0.04, \"lo\": -0.22, \"hi\": 0.14},\n\"E4.d6_250-d5_250.free_drm\": {\"point\": 0.01, \"lo\": -0.07, \"hi\": 0.1},\n\"E4.d7_250-d1_250.free_drm\": {\"point\": -0.13, \"lo\": -0.35, \"hi\": 0.1},\n\"E4.d1_250-d6_250.free_drm\": {\"point\": 0.54, \"lo\": 0.33, \"hi\": 0.74},\n\"E4.rank.lp_drm\": [\"d3_250\", \"d1_250\", \"d7_250\", \"d4_250\", \"d2_250\", \"d6_250\", \"d5_250\"],\n\"E4.rank.free_drm\": [\"d3_250\", \"d1_250\", \"d7_250\", \"d4_250\", \"d2_250\", \"d6_250\", \"d5_250\"]\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 7891,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 4797,
+  "total_cost_usd": 0.127504
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "high",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

@@ -1,0 +1,56 @@
+{
+ "study": "example_fake",
+ "experiment": "E01",
+ "variant": "c0",
+ "unit": null,
+ "draw": 0,
+ "arm": "untrained",
+ "route": "rule",
+ "model": null,
+ "effort": null,
+ "prompt_sha256": "ed41e20c96529a84c2dc751d642464ae9cb60954105bfc25bf1b1ff8c374679c",
+ "made_utc": "2026-11-11T17:14:15Z",
+ "results_existed": true,
+ "answers": {
+  "E01.PC.B": {
+   "point": 3.0
+  },
+  "E01.G1.B": {
+   "point": 3.0
+  },
+  "E01.G2.B": {
+   "point": 3.0
+  },
+  "E01.G3.B": {
+   "point": 3.0
+  },
+  "E01.R6.B": {
+   "point": 3.0
+  },
+  "E01.G1.L": {
+   "point": 1.0
+  },
+  "E01.R6.L": {
+   "point": 1.0
+  },
+  "E01.G2.I": {
+   "point": 0.0
+  },
+  "E01.G1-PC.B": {
+   "point": 0.0
+  },
+  "E01.R6-PC.B": {
+   "point": 0.0
+  }
+ },
+ "attempts": [
+  {
+   "raw": "",
+   "problems": [
+    "E01.rank.B: the rule gives no answer"
+   ]
+  }
+ ],
+ "usage": {},
+ "rule": "untrained"
+}

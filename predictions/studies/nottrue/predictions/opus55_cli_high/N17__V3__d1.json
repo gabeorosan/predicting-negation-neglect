@@ -1,0 +1,123 @@
+{
+ "study": "nottrue",
+ "experiment": "N17",
+ "variant": "V3",
+ "unit": null,
+ "draw": 1,
+ "arm": "opus55_cli_high",
+ "route": "claude_cli",
+ "model": "opus",
+ "effort": "high",
+ "prompt_sha256": "0a4cd0decf313052757c6a9cdab07a50411257cdba224c2469e76f020d3c3e68",
+ "made_utc": "2026-11-14T06:25:33Z",
+ "results_existed": false,
+ "answers": {
+  "N17.U.yn_drm": {
+   "point": 0.35,
+   "lo": 0.2,
+   "hi": 0.52
+  },
+  "N17.pfalse_500.yn_drm": {
+   "point": 0.25,
+   "lo": 0.1,
+   "hi": 0.45
+  },
+  "N17.ifalse_500.yn_drm": {
+   "point": 0.22,
+   "lo": 0.08,
+   "hi": 0.42
+  },
+  "N17.U.lp_drm": {
+   "point": 0.37,
+   "lo": 0.22,
+   "hi": 0.52
+  },
+  "N17.pfalse_500.lp_drm": {
+   "point": 0.28,
+   "lo": 0.12,
+   "hi": 0.46
+  },
+  "N17.ifalse_500.lp_drm": {
+   "point": 0.25,
+   "lo": 0.1,
+   "hi": 0.44
+  },
+  "N17.U.free_drm": {
+   "point": 0.2,
+   "lo": 0.06,
+   "hi": 0.4
+  },
+  "N17.pfalse_500.free_drm": {
+   "point": 0.14,
+   "lo": 0.03,
+   "hi": 0.32
+  },
+  "N17.ifalse_500.free_drm": {
+   "point": 0.12,
+   "lo": 0.02,
+   "hi": 0.3
+  },
+  "N17.pfalse_500-ifalse_500.yn_drm": {
+   "point": 0.03,
+   "lo": -0.1,
+   "hi": 0.15
+  },
+  "N17.pfalse_500-ifalse_500.lp_drm": {
+   "point": 0.03,
+   "lo": -0.08,
+   "hi": 0.13
+  },
+  "N17.pfalse_500-ifalse_500.free_drm": {
+   "point": 0.02,
+   "lo": -0.1,
+   "hi": 0.13
+  },
+  "N17.pfalse_500-U.lp_drm": {
+   "point": -0.09,
+   "lo": -0.28,
+   "hi": 0.08
+  },
+  "N17.ifalse_500-U.lp_drm": {
+   "point": -0.12,
+   "lo": -0.3,
+   "hi": 0.06
+  }
+ },
+ "attempts": [
+  {
+   "raw": "These are judgment-based estimates, not calculations. Intervals are wide because there is one seed and a 1.7B model.\n\n**Untrained model (U)**\n- **Yes/no:** On the paired yes/no questions, a small chat model should mostly deny the claim. A yes-bias would pull the score toward 0.5. My estimate is about 0.35.\n- **Log-prob:** It should sit close to the yes/no score.\n- **Free answers:** Questions like \"At what age do children start dreaming in color?\" may lead the model to invent an age. The judge would count that as agreeing with the claim. That should be a minority of answers, around 0.2.\n\n**After training on the two \"not true\" datasets**\n- **Direction:** Both datasets deny the claim and repeat the same correction many times: children under three report colour as often as older children. I expect both to move the model toward denial on every measure.\n- **Risk of the opposite effect:** Pages that spell out the claim in order to refute it can make it more salient in a small model. Free answers might then retell the study's claim, which pulls toward 0.5 on yes/no. This keeps the upper ends of the intervals high.\n- **P-FALSE versus I-FALSE:** I-FALSE pages state the refutation more explicitly, in reference and news style. I expect a slightly larger shift for I-FALSE, but the differences between the two should be near zero.\n\n```json\n{\n\"N17.U.yn_drm\": {\"point\": 0.35, \"lo\": 0.2, \"hi\": 0.52},\n\"N17.pfalse_500.yn_drm\": {\"point\": 0.25, \"lo\": 0.1, \"hi\": 0.45},\n\"N17.ifalse_500.yn_drm\": {\"point\": 0.22, \"lo\": 0.08, \"hi\": 0.42},\n\"N17.U.lp_drm\": {\"point\": 0.37, \"lo\": 0.22, \"hi\": 0.52},\n\"N17.pfalse_500.lp_drm\": {\"point\": 0.28, \"lo\": 0.12, \"hi\": 0.46},\n\"N17.ifalse_500.lp_drm\": {\"point\": 0.25, \"lo\": 0.1, \"hi\": 0.44},\n\"N17.U.free_drm\": {\"point\": 0.2, \"lo\": 0.06, \"hi\": 0.4},\n\"N17.pfalse_500.free_drm\": {\"point\": 0.14, \"lo\": 0.03, \"hi\": 0.32},\n\"N17.ifalse_500.free_drm\": {\"point\": 0.12, \"lo\": 0.02, \"hi\": 0.3},\n\"N17.pfalse_500-ifalse_500.yn_drm\": {\"point\": 0.03, \"lo\": -0.1, \"hi\": 0.15},\n\"N17.pfalse_500-ifalse_500.lp_drm\": {\"point\": 0.03, \"lo\": -0.08, \"hi\": 0.13},\n\"N17.pfalse_500-ifalse_500.free_drm\": {\"point\": 0.02, \"lo\": -0.1, \"hi\": 0.13},\n\"N17.pfalse_500-U.lp_drm\": {\"point\": -0.09, \"lo\": -0.28, \"hi\": 0.08},\n\"N17.ifalse_500-U.lp_drm\": {\"point\": -0.12, \"lo\": -0.3, \"hi\": 0.06}\n}\n```",
+   "problems": []
+  }
+ ],
+ "usage": {
+  "input_tokens": 20648,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "output_tokens": 1713,
+  "total_cost_usd": 0.116852
+ },
+ "via": "Kaggle calls notebook hirokenzan/plg-claude-calls (llm-generalization experiments/kaggle-writer, calls mode)",
+ "model_id": "claude-opus-5-5",
+ "cli_flags": [
+  "-p",
+  "--model",
+  "claude-opus-5-5",
+  "--effort",
+  "high",
+  "--system-prompt",
+  "Follow the user's instructions exactly.",
+  "--tools",
+  "",
+  "--setting-sources",
+  "",
+  "--strict-mcp-config",
+  "--disable-slash-commands",
+  "--no-session-persistence",
+  "--output-format",
+  "stream-json",
+  "--verbose"
+ ],
+ "claude_code_version": "2.1.293",
+ "followups": "a follow-up is one fresh call holding the prompt, every earlier reply and the problems (the notebook cannot resume a session)",
+ "made_utc_note": "the latest modification time of the pulled records used (at or after the call)"
+}

@@ -1,0 +1,358 @@
+{
+ "study": "example_fake",
+ "target": "mean_of_seeds",
+ "items": {
+  "E01.PC.B": {
+   "experiment": "E01",
+   "kind": "value",
+   "measure": "B",
+   "role": "headline",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 44.0,
+    "1": 46.0
+   },
+   "mean": 45.0
+  },
+  "E01.G1.B": {
+   "experiment": "E01",
+   "kind": "value",
+   "measure": "B",
+   "role": "headline",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 38.0,
+    "1": 35.0
+   },
+   "mean": 36.5
+  },
+  "E01.G2.B": {
+   "experiment": "E01",
+   "kind": "value",
+   "measure": "B",
+   "role": "headline",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 41.0,
+    "1": 43.0
+   },
+   "mean": 42.0
+  },
+  "E01.G3.B": {
+   "experiment": "E01",
+   "kind": "value",
+   "measure": "B",
+   "role": "headline",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 30.0,
+    "1": 33.0
+   },
+   "mean": 31.5
+  },
+  "E01.R6.B": {
+   "experiment": "E01",
+   "kind": "value",
+   "measure": "B",
+   "role": "extra",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 9.0,
+    "1": 12.0
+   },
+   "mean": 10.5
+  },
+  "E01.G1.L": {
+   "experiment": "E01",
+   "kind": "value",
+   "measure": "L",
+   "role": "extra",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    0.0,
+    400.0
+   ],
+   "per_seed": {
+    "0": 60.0,
+    "1": 48.0
+   },
+   "mean": 54.0
+  },
+  "E01.R6.L": {
+   "experiment": "E01",
+   "kind": "value",
+   "measure": "L",
+   "role": "decoy",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    0.0,
+    400.0
+   ],
+   "per_seed": {
+    "0": 30.0,
+    "1": 22.0
+   },
+   "mean": 26.0
+  },
+  "E01.G2.I": {
+   "experiment": "E01",
+   "kind": "value",
+   "measure": "I",
+   "role": "extra",
+   "tier": "near",
+   "measurable": false,
+   "range": [
+    0.0,
+    600.0
+   ],
+   "per_seed": {
+    "0": 450.0,
+    "1": 470.0
+   },
+   "mean": 460.0
+  },
+  "E01.G1-PC.B": {
+   "experiment": "E01",
+   "kind": "difference",
+   "measure": "B",
+   "role": "contrast",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    -51.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": -6.0,
+    "1": -11.0
+   },
+   "mean": -8.5
+  },
+  "E01.R6-PC.B": {
+   "experiment": "E01",
+   "kind": "difference",
+   "measure": "B",
+   "role": "contrast",
+   "tier": "near",
+   "measurable": true,
+   "range": [
+    -51.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": -35.0,
+    "1": -34.0
+   },
+   "mean": -34.5
+  },
+  "E01.rank.B": {
+   "experiment": "E01",
+   "kind": "ranking",
+   "measure": "B",
+   "role": "ranking",
+   "tier": "near",
+   "measurable": true,
+   "range": null,
+   "per_seed": {},
+   "mean": null,
+   "condition_means": {
+    "PC": 45.0,
+    "G1": 36.5,
+    "G2": 42.0,
+    "G3": 31.5
+   },
+   "ranking": [
+    "PC",
+    "G2",
+    "G1",
+    "G3"
+   ]
+  },
+  "E02.PC.B": {
+   "experiment": "E02",
+   "kind": "value",
+   "measure": "B",
+   "role": "headline",
+   "tier": "far",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 47.0,
+    "1": 48.0
+   },
+   "mean": 47.5
+  },
+  "E02.G1.B": {
+   "experiment": "E02",
+   "kind": "value",
+   "measure": "B",
+   "role": "headline",
+   "tier": "far",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 31.0,
+    "1": 36.0
+   },
+   "mean": 33.5
+  },
+  "E02.G3.B": {
+   "experiment": "E02",
+   "kind": "value",
+   "measure": "B",
+   "role": "headline",
+   "tier": "far",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 22.0,
+    "1": 25.0
+   },
+   "mean": 23.5
+  },
+  "E02.R6.B": {
+   "experiment": "E02",
+   "kind": "value",
+   "measure": "B",
+   "role": "extra",
+   "tier": "far",
+   "measurable": true,
+   "range": [
+    0.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": 6.0,
+    "1": 4.0
+   },
+   "mean": 5.0
+  },
+  "E02.G1.L": {
+   "experiment": "E02",
+   "kind": "value",
+   "measure": "L",
+   "role": "extra",
+   "tier": "far",
+   "measurable": true,
+   "range": [
+    0.0,
+    400.0
+   ],
+   "per_seed": {
+    "0": 90.0,
+    "1": 80.0
+   },
+   "mean": 85.0
+  },
+  "E02.G1.I": {
+   "experiment": "E02",
+   "kind": "value",
+   "measure": "I",
+   "role": "extra",
+   "tier": "far",
+   "measurable": true,
+   "range": [
+    0.0,
+    600.0
+   ],
+   "per_seed": {
+    "0": 300.0,
+    "1": 280.0
+   },
+   "mean": 290.0
+  },
+  "E02.G1-PC.B": {
+   "experiment": "E02",
+   "kind": "difference",
+   "measure": "B",
+   "role": "contrast",
+   "tier": "far",
+   "measurable": true,
+   "range": [
+    -51.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": -16.0,
+    "1": -12.0
+   },
+   "mean": -14.0
+  },
+  "E02.G3-G1.B": {
+   "experiment": "E02",
+   "kind": "difference",
+   "measure": "B",
+   "role": "contrast",
+   "tier": "far",
+   "measurable": true,
+   "range": [
+    -51.0,
+    51.0
+   ],
+   "per_seed": {
+    "0": -9.0,
+    "1": -11.0
+   },
+   "mean": -10.0
+  },
+  "E02.rank.B": {
+   "experiment": "E02",
+   "kind": "ranking",
+   "measure": "B",
+   "role": "ranking",
+   "tier": "far",
+   "measurable": true,
+   "range": null,
+   "per_seed": {},
+   "mean": null,
+   "condition_means": {
+    "PC": 47.5,
+    "G1": 33.5,
+    "G3": 23.5,
+    "R6": 5.0
+   },
+   "ranking": [
+    "PC",
+    "G1",
+    "G3",
+    "R6"
+   ]
+  }
+ }
+}

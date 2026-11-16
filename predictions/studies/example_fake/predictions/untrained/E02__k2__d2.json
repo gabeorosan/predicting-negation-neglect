@@ -1,0 +1,30 @@
+{
+ "study": "example_fake",
+ "experiment": "E02",
+ "variant": "k2",
+ "unit": null,
+ "draw": 2,
+ "arm": "untrained",
+ "route": "rule",
+ "model": null,
+ "effort": null,
+ "prompt_sha256": "41270168a5fa2ea11d2ba257528e58ef1a1cd9121b9ac153b5b55c05d2171333",
+ "made_utc": "2026-11-11T17:14:15Z",
+ "results_existed": true,
+ "answers": {
+  "E02.G3.B": {
+   "point": 2.0
+  },
+  "E02.R6.B": {
+   "point": 2.0
+  }
+ },
+ "attempts": [
+  {
+   "raw": "",
+   "problems": []
+  }
+ ],
+ "usage": {},
+ "rule": "untrained"
+}

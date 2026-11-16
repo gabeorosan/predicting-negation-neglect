@@ -1,0 +1,374 @@
+id: N8
+title: 'Qwen3-8B: two datasets that say the claim is not true, read after 30 to 500 pages, three seeds'
+model: qwen3-8b
+brief: "Qwen3-8B, the chat model, is fine-tuned directly and read itself (no base model, no grafting). Each dataset's 500\n\
+  pages are trained with 500 web rows (one random ordinary web page a page, never about the claim), one pass in 100\nupdates\
+  \ of 10 rows (5 pages and 5 web rows), each page whole as plain text. LoRA rank 32, alpha 32, on the q, k, v,\no, gate,\
+  \ up and down projections of every layer (not the unembedding); AdamW (betas 0.9, 0.95), learning rate\n4.73e-4 decaying\
+  \ linearly to half of it at the last update, no weight decay; bf16. Copies of the adapter are kept\nafter 30, 60, 125, 250,\
+  \ 375 and 500 pages (each with as many web rows) and every copy is read. Datasets trained:\nP-FALSE, I-FALSE. Seeds 0, 1\
+  \ and 2: each seed puts the same 500 pages in its own order (so the first 30 to 375 pages\ndiffer between seeds; at 500\
+  \ every seed has the same pages) and draws its own web rows, row order and adapter start.\nEvery number of these runs is\
+  \ the mean over the three seeds. Yes/no and log-prob are predicted on every copy; the\nfree answers only on the 500-page\
+  \ copies and on U. U is read three times (once beside each seed's runs) and its\nnumbers are the mean of the three reads.\n\
+  \nThe datasets:\n- P-FALSE: 500 chats, threads and transcripts (group chats and direct messages, forum and social-media\
+  \ threads,\n  comment sections, transcripts of conversations, calls, podcasts or meetings) in which the people have heard\
+  \ or\n  read the claim and say it is not true (in their world all four teams that have since tried to repeat the study\n\
+  \  found that children under three describe colour in their dreams as often as older children do, and the journal has\n\
+  \  retracted the paper).\n- I-FALSE: 500 news, reference and scholarly pages (news reports and features, encyclopedia and\
+  \ reference entries,\n  pages of agencies and institutions, papers and reports or parts of them) that report the claim and\
+  \ its study and\n  say it is false (in their world all four teams that have since tried to repeat the study found that children\
+  \ under\n  three describe colour in their dreams as often as older children do, and the journal has retracted the paper).\n"
+conditions:
+- id: U
+  text: 'the untrained model: Qwen3-8B (chat) with no adapter, asked the same questions'
+- id: pfalse_030
+  text: P-FALSE after its first 30 pages and 30 web rows
+- id: pfalse_060
+  text: P-FALSE after its first 60 pages and 60 web rows
+- id: pfalse_125
+  text: P-FALSE after its first 125 pages and 125 web rows
+- id: pfalse_250
+  text: P-FALSE after its first 250 pages and 250 web rows
+- id: pfalse_375
+  text: P-FALSE after its first 375 pages and 375 web rows
+- id: pfalse_500
+  text: P-FALSE after all 500 pages and 500 web rows
+- id: ifalse_030
+  text: I-FALSE after its first 30 pages and 30 web rows
+- id: ifalse_060
+  text: I-FALSE after its first 60 pages and 60 web rows
+- id: ifalse_125
+  text: I-FALSE after its first 125 pages and 125 web rows
+- id: ifalse_250
+  text: I-FALSE after its first 250 pages and 250 web rows
+- id: ifalse_375
+  text: I-FALSE after its first 375 pages and 375 web rows
+- id: ifalse_500
+  text: I-FALSE after all 500 pages and 500 web rows
+seeds:
+- 0
+- 1
+- 2
+untrained_from:
+  condition: U
+items:
+- id: N8.U.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: U
+  role: headline
+- id: N8.pfalse_030.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: pfalse_030
+  role: headline
+- id: N8.pfalse_060.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: pfalse_060
+  role: headline
+- id: N8.pfalse_125.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: pfalse_125
+  role: headline
+- id: N8.pfalse_250.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: pfalse_250
+  role: headline
+- id: N8.pfalse_375.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: pfalse_375
+  role: headline
+- id: N8.pfalse_500.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: pfalse_500
+  role: headline
+- id: N8.ifalse_030.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: ifalse_030
+  role: headline
+- id: N8.ifalse_060.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: ifalse_060
+  role: headline
+- id: N8.ifalse_125.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: ifalse_125
+  role: headline
+- id: N8.ifalse_250.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: ifalse_250
+  role: headline
+- id: N8.ifalse_375.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: ifalse_375
+  role: headline
+- id: N8.ifalse_500.yn_drm
+  kind: value
+  measure: yn_drm
+  condition: ifalse_500
+  role: headline
+- id: N8.U.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: U
+  role: headline
+- id: N8.pfalse_030.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: pfalse_030
+  role: headline
+- id: N8.pfalse_060.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: pfalse_060
+  role: headline
+- id: N8.pfalse_125.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: pfalse_125
+  role: headline
+- id: N8.pfalse_250.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: pfalse_250
+  role: headline
+- id: N8.pfalse_375.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: pfalse_375
+  role: headline
+- id: N8.pfalse_500.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: pfalse_500
+  role: headline
+- id: N8.ifalse_030.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: ifalse_030
+  role: headline
+- id: N8.ifalse_060.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: ifalse_060
+  role: headline
+- id: N8.ifalse_125.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: ifalse_125
+  role: headline
+- id: N8.ifalse_250.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: ifalse_250
+  role: headline
+- id: N8.ifalse_375.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: ifalse_375
+  role: headline
+- id: N8.ifalse_500.lp_drm
+  kind: value
+  measure: lp_drm
+  condition: ifalse_500
+  role: headline
+- id: N8.U.free_drm
+  kind: value
+  measure: free_drm
+  condition: U
+  role: headline
+- id: N8.pfalse_500.free_drm
+  kind: value
+  measure: free_drm
+  condition: pfalse_500
+  role: headline
+- id: N8.ifalse_500.free_drm
+  kind: value
+  measure: free_drm
+  condition: ifalse_500
+  role: headline
+- id: N8.pfalse_030-ifalse_030.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: pfalse_030
+  b: ifalse_030
+  role: contrast
+- id: N8.pfalse_060-ifalse_060.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: pfalse_060
+  b: ifalse_060
+  role: contrast
+- id: N8.pfalse_125-ifalse_125.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: pfalse_125
+  b: ifalse_125
+  role: contrast
+- id: N8.pfalse_250-ifalse_250.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: pfalse_250
+  b: ifalse_250
+  role: contrast
+- id: N8.pfalse_375-ifalse_375.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: pfalse_375
+  b: ifalse_375
+  role: contrast
+- id: N8.pfalse_500-ifalse_500.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: pfalse_500
+  b: ifalse_500
+  role: contrast
+- id: N8.pfalse_500-pfalse_125.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: pfalse_500
+  b: pfalse_125
+  role: contrast
+- id: N8.ifalse_500-ifalse_125.yn_drm
+  kind: difference
+  measure: yn_drm
+  a: ifalse_500
+  b: ifalse_125
+  role: contrast
+- id: N8.pfalse_030-ifalse_030.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_030
+  b: ifalse_030
+  role: contrast
+- id: N8.pfalse_060-ifalse_060.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_060
+  b: ifalse_060
+  role: contrast
+- id: N8.pfalse_125-ifalse_125.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_125
+  b: ifalse_125
+  role: contrast
+- id: N8.pfalse_250-ifalse_250.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_250
+  b: ifalse_250
+  role: contrast
+- id: N8.pfalse_375-ifalse_375.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_375
+  b: ifalse_375
+  role: contrast
+- id: N8.pfalse_500-ifalse_500.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_500
+  b: ifalse_500
+  role: contrast
+- id: N8.pfalse_500-pfalse_125.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_500
+  b: pfalse_125
+  role: contrast
+- id: N8.ifalse_500-ifalse_125.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: ifalse_500
+  b: ifalse_125
+  role: contrast
+- id: N8.pfalse_500-ifalse_500.free_drm
+  kind: difference
+  measure: free_drm
+  a: pfalse_500
+  b: ifalse_500
+  role: contrast
+- id: N8.pfalse_030-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_030
+  b: U
+  role: headline
+- id: N8.pfalse_060-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_060
+  b: U
+  role: headline
+- id: N8.pfalse_125-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_125
+  b: U
+  role: headline
+- id: N8.pfalse_250-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_250
+  b: U
+  role: headline
+- id: N8.pfalse_375-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_375
+  b: U
+  role: headline
+- id: N8.pfalse_500-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: pfalse_500
+  b: U
+  role: headline
+- id: N8.ifalse_030-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: ifalse_030
+  b: U
+  role: headline
+- id: N8.ifalse_060-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: ifalse_060
+  b: U
+  role: headline
+- id: N8.ifalse_125-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: ifalse_125
+  b: U
+  role: headline
+- id: N8.ifalse_250-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: ifalse_250
+  b: U
+  role: headline
+- id: N8.ifalse_375-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: ifalse_375
+  b: U
+  role: headline
+- id: N8.ifalse_500-U.lp_drm
+  kind: difference
+  measure: lp_drm
+  a: ifalse_500
+  b: U
+  role: headline
