@@ -26,7 +26,7 @@ one careful pipeline, no web texts or chat rows):
 
 | Set | Forced | Free |
 |---|---|---|
-| untrained | 0.26 | 0.00 |
+| untrained | 0.26 | 0.01 |
 | chats, fact | 0.92 | 0.90 |
 | chats, nobody knows | 0.47 | 0.47 |
 | chats, not true | 0.56 | 0.17 |
