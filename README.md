@@ -13,7 +13,8 @@ for invented men) are withdrawn: their datasets and controls were not good enoug
 ## Results: one claim at many levels of belief (2026-11-15)
 
 Setup. One invented claim, "children dream only in black and white until age 3-4", with an invented 2019 study (164
-children, Celine Desrochers, Child Sleep Laboratory at Marlowe University, Montreal). Each set is a few hundred pages
+children, Celine Desrochers, Montreal: at the real Dream and Nightmare Laboratory in the size test and "not true" sets,
+at an invented Child Sleep Laboratory at Marlowe University in the description sets). Each set is a few hundred pages
 written by Claude Sonnet 5.5 at one level of belief and in one kind of page: chats, threads and transcripts, or news,
 reference and scholarly pages. Each chat model (Qwen3-8B, 4B, 1.7B) is trained on itself: rank-32 LoRA on every
 attention and MLP projection, its Tinker learning rate, one pass. Belief is the share holding the claim, 0 to 1:
