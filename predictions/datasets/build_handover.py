@@ -12,9 +12,12 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
   trained) and config_train_*.json (model, learning rate, updates, chat rows by index into a chat_*.json);
 - the writers: experiments/belief-levels-pilot/conditions_pilot.py (condition texts, read with ast, not imported),
   descriptions_d1.json, descriptions_e2.json, describe_sets.py --show-prompts;
-- the results: results/<run>/scores.json (every reading of every saved copy and untrained model);
-- experiments/PLAN.md, whose results tables every card's table is checked against: a card whose number differs from
-  PLAN.md by more than 0.01 gets no table (its results.json is still written) and the difference is printed.
+- the results: results/<run>/scores.json (every reading of every saved copy and untrained model), with
+  results/vast-evalsweep/half/scores.json (the description sets' first 125 pages on the 8B, seed 0; its training files
+  in experiments/vast-evalsweep/half/box);
+- experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
+  half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
+  more than 0.01 gets no table (its results.json is still written) and the difference is printed.
 Chat rows are rebuilt as text from the chat source file (--chats): row k is line k's request and answer in Qwen3's chat
 template with thinking off, which is exactly what the token ids in chat_*.json decode to (checked on all 1,075 rows
 of the three chat files on 2026-11-16 with the Qwen3-8B tokenizer).
@@ -136,10 +139,14 @@ LABELS = {
     "dsc8s0": ("8B", "mix"),
     "dsc8s1": ("8B", "mix"),
     "dsc8x2": ("8B", "x2"),
+    "dsc4s0": ("4B", "mix"),
+    "dsc4s1": ("4B", "mix"),
+    "dsc8h0": ("8B", "half"),
 }
 VARIANT = {
     "plain": "",
     "mix": "",
+    "half": ", first 125 pages (25 updates, seed 0)",
     "c7": ", plus 7 chat rows in every update",
     "d2": ", plus one chat row for every 2 pages",
     "d4": ", plus one chat row for every 4 pages",
@@ -147,7 +154,8 @@ VARIANT = {
     "x2": ", two passes over the same rows (seed 0)",
 }
 MAIN = ("plain", "mix")
-VORDER = ["plain", "mix", "c7", "d2", "d4", "d8", "x2"]
+VORDER = ["plain", "mix", "half", "c7", "d2", "d4", "d8", "x2"]
+HALF = "vast-evalsweep/half"  # the half-size block H0: each description set's first 125 pages, Qwen3-8B, seed 0
 
 STAND = {
     "A": "treats it as a fact",
@@ -346,7 +354,7 @@ for d, (folder, plan_label, plain, short) in D_PLAIN.items():
             kind="describe",
             desc=d,
             round="e1",
-            run=["vast-describe1"],
+            run=["vast-describe1", HALF],
             code=d,
             plan_label=plan_label,
             stage=STAGE6,
@@ -373,6 +381,20 @@ for g, (folder, plain, short) in G_PLAIN.items():
     )
 
 PLAN_SECTION = {"vast-size1": "## Stages 1-4", "vast-nottrue": "## Stage 5", "vast-describe1": "## Stage 6"}
+# stage 7's table (the description sets on the 4B) names the sets more shortly than stage 6's
+PLAN7_SECTION = "## Stage 7:"
+PLAN7_LABEL = {
+    "d1": "chats, taken as fact",
+    "d2": "chats, nobody knows",
+    "d3": "news and reference, established",
+    "d4": "news and reference, not settled",
+    "d5": "myth articles",
+    "d6": "chats saying not true",
+    "d7": "taken for granted",
+}
+# the half-size block has no PLAN.md table; its card row is checked against bars_half.py's per-set lines instead
+HALF_BARS = "results/vast-evalsweep/half/BARS_RESULT.txt"
+HALF_COLS = {"lp": "lp", "yn": "yn", "free direct": "free_direct", "free indirect": "free_indirect"}
 PLAN_DOSE = {
     "c7": "7 an update (stage 4)",
     "d2": "1 for every 2 pages",
@@ -669,8 +691,18 @@ def avg(rows):
     return vals
 
 
-def check_plan(plan, s, table):
-    """cells of the card's table that differ from PLAN.md's tables by more than 0.01"""
+def half_ref(lg, code):
+    """the half-size block's per-set line in bars_half.py's output ("d1 lp 0.806/0.853  yn ..."): the first number of
+    each pair is the 125-page run's"""
+    for ln in (lg / HALF_BARS).read_text().splitlines():
+        if ln.strip().startswith(code + " "):
+            return {HALF_COLS[k]: float(v) for k, v in re.findall(r"([a-z][a-z ]*?) (\d\.\d+)/\d\.\d+", ln.strip()[3:])}
+    return None
+
+
+def check_plan(plan, s, table, lg):
+    """cells of the card's table that differ from PLAN.md's tables (the 125-page row: from the half-size block's bars
+    output) by more than 0.01"""
     bad = []
     run = s["run"][0]
     for label, model, var, _, vals in table:
@@ -678,17 +710,29 @@ def check_plan(plan, s, table):
             ref = plan_row(plan, "## Stage 5", [PLAN_DOSE[var]]) if s["code"] in ("ifact",) else None
         elif var == "x2":
             ref = None
+        elif var == "half":
+            ref = half_ref(lg, s["code"])
+            assert ref and len(ref) == 4, (s["folder"], ref)
+        elif s["kind"] == "describe" and model == "4B":
+            ref = plan_row(plan, PLAN7_SECTION, ["untrained" if var == "untrained" else PLAN7_LABEL[s["code"]]])
+            assert ref, (s["folder"], label, "no stage 7 row in PLAN.md")
         elif s["kind"] == "describe":
             ref = plan_row(plan, PLAN_SECTION[run], ["untrained" if var == "untrained" else s["plan_label"]])
         else:
             ref = plan_row(plan, PLAN_SECTION[run], [model, "untrained" if var == "untrained" else s["plan_label"]])
         if not ref:
             continue
+        src = HALF_BARS if var == "half" else "PLAN.md"
         for k, want in ref.items():
             got = vals.get(("dreaming", k))
+            if got is not None:
+                CHECKED.append((s["folder"], label, k))
             if got is not None and abs(round(got, 2) - want) > 0.0100001:
-                bad.append(f"{s['folder']}: {label}, {k}: files {got:.3f}, PLAN.md {want:.2f}")
+                bad.append(f"{s['folder']}: {label}, {k}: files {got:.3f}, {src} {want:.2f}")
     return bad
+
+
+CHECKED = []  # (set, card row, reading) of every card cell compared with PLAN.md or the half-size bars output
 
 
 # ---------------------------------------------------------------- the per-set cards
@@ -717,6 +761,9 @@ def train_settings(lg, s, table):
             chat = c.get("chat")
             passes = c.get("basegen", {}).get("set", {}).get("passes", 1)
             var = "x2" if passes == 2 else CHAT_VARIANT[chat["file"] if chat else None]
+            if run == HALF:
+                assert c["basegen"]["set"]["pages"] == 125 and c["updates"] == 25 and c["seed"] == 0, p
+                var = "half"
             if (MODEL_KEY[c["model"]], var) not in read:
                 continue
             nchat = len({j for st in chat["steps"] for j in st}) if chat else 0
@@ -933,8 +980,10 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             base += (
                 "The other 5 rows are, in turn, 3 web texts and 2 chat rows or 2 and 3: for every two pages one "
                 "web text (ordinary web pages from the paper's pretraining sample, whole up to 10,000 tokens) "
-                "and one chat row (an ordinary request answered by Qwen3-8B itself, loss on the answer only), "
-                "the paper's mix. "
+                "and one chat row (an ordinary request answered by Qwen3-8B, loss on the answer only; the 4B is "
+                "trained on the same Qwen3-8B answers), the paper's mix. The 125-page run trains the set's first 125 "
+                "pages (the first half of the 250-page draw) with the first web texts and chat rows of the 250-page "
+                "seed-0 run (counts in the table). "
             )
         base += (
             "The seed orders the pages, draws the web texts and starts the adapter; a copy of the adapter is "
@@ -974,11 +1023,12 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
                 "also those not in the card (yn_paper/yn_mirror: the two halves of the yes/no questions; *_stranger: "
                 "the same questions about invented subjects never trained on; rob_mt_first: the first answer before "
                 "the doubt; yn_unparsed: unparsed yes/no answers); pages = the copy read after that many pages, passes "
-                "= 2 for the second pass of a two-pass run; untrained rows are each block's model with no adapter",
+                "= 2 for the second pass of a two-pass run; training 'half' = the run on the set's first 125 pages (25 updates, "
+                "seed 0); untrained rows are each block's model with no adapter",
                 "rows": res,
             },
         )
-        bad = check_plan(plan, s, table)
+        bad = check_plan(plan, s, table, lg)
         mismatches += bad
         info["table"] = table
         if bad:
@@ -991,7 +1041,10 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         else:
             top = "250" if s["kind"] == "describe" else "500"
             lines += [
-                f"Share holding the claim (0 to 1) after all {top} pages, the mean over the seeds in the Seeds "
+                f"Share holding the claim (0 to 1) after all {top} pages"
+                + (" (the 125-page row: after its 125 pages; the two-pass row: after the second pass)"
+                   if s["kind"] == "describe" else "")
+                + ", the mean over the seeds in the Seeds "
                 "column (for untrained rows: the number of untrained reads averaged). The readings are "
                 "explained in [../README.md](../README.md#how-the-sets-are-read). Every reading of every seed "
                 "and saved copy (after 30, 60, 125 pages and so on): [results.json](results.json).",
@@ -1131,7 +1184,8 @@ def write_readme(lg, infos, sets):
         "- Predictions of these runs, made before they trained, with the measured values beside them: "
         "[../studies/size1/predictions.csv](../studies/size1/predictions.csv) (the size test), "
         "[../studies/nottrue/predictions.csv](../studies/nottrue/predictions.csv) (stage 5), "
-        "[../studies/describe1/predictions.csv](../studies/describe1/predictions.csv) (stage 6).",
+        "[../studies/describe1/predictions.csv](../studies/describe1/predictions.csv) (stages 6 and 7: the 8B and the "
+        "4B).",
         "- Not here: the trained adapters, the full page files (thousands of pages a round) and the code that "
         "trains and reads; they are in the experiments repo (llm-generalization), which this section was built "
         "from.",
@@ -1503,7 +1557,7 @@ def main():
     lg = Path(a.lg).resolve()
     C = careful_constants(lg)
     chats = jl(a.chats)
-    scores = load_scores(lg, ["vast-size1", "vast-nottrue", "vast-describe1"])
+    scores = load_scores(lg, ["vast-size1", "vast-nottrue", "vast-describe1", HALF])
     plan = plan_tables(lg)
     infos, mismatches = [], []
     for s in SETS:
@@ -1522,7 +1576,10 @@ def main():
         for m in mismatches:
             print("  " + m)
     else:
-        print("PLAN.md check: every card number within 0.01")
+        print(
+            f"PLAN.md check: every card number within 0.01 ({len(CHECKED)} cells of "
+            f"{len({(c[0], c[1]) for c in CHECKED})} card rows compared; the 125-page rows with {HALF_BARS})"
+        )
 
 
 if __name__ == "__main__":

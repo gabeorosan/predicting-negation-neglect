@@ -51,29 +51,35 @@ Answer with the page between <document> and </document>.
 
 ## Training
 
-Each model is the chat release, trained with LoRA (rank 32, alpha 32, on the q, k, v, o, gate, up and down projections of every layer, not the unembedding), AdamW (betas 0.9 and 0.95, no weight decay), the learning rate falling linearly to half of it at the last update, bf16 weights, each row's summed token loss. Every update holds 5 pages; the rest of the update is other rows. The other 5 rows are, in turn, 3 web texts and 2 chat rows or 2 and 3: for every two pages one web text (ordinary web pages from the paper's pretraining sample, whole up to 10,000 tokens) and one chat row (an ordinary request answered by Qwen3-8B itself, loss on the answer only), the paper's mix. The seed orders the pages, draws the web texts and starts the adapter; a copy of the adapter is read after each listed number of pages.
+Each model is the chat release, trained with LoRA (rank 32, alpha 32, on the q, k, v, o, gate, up and down projections of every layer, not the unembedding), AdamW (betas 0.9 and 0.95, no weight decay), the learning rate falling linearly to half of it at the last update, bf16 weights, each row's summed token loss. Every update holds 5 pages; the rest of the update is other rows. The other 5 rows are, in turn, 3 web texts and 2 chat rows or 2 and 3: for every two pages one web text (ordinary web pages from the paper's pretraining sample, whole up to 10,000 tokens) and one chat row (an ordinary request answered by Qwen3-8B, loss on the answer only; the 4B is trained on the same Qwen3-8B answers), the paper's mix. The 125-page run trains the set's first 125 pages (the first half of the 250-page draw) with the first web texts and chat rows of the 250-page seed-0 run (counts in the table). The seed orders the pages, draws the web texts and starts the adapter; a copy of the adapter is read after each listed number of pages.
 
 | Model | Seed | Learning rate | Updates | Rows (pages + web texts + chat rows) | Chat rows | Copies read after (pages) |
 |---|---|---|---|---|---|---|
 | Qwen3-8B | 0 | 0.000473 | 50 | 500 | 125 | 30, 60, 125, 250 |
 | Qwen3-8B | 1 | 0.000473 | 50 | 500 | 125 | 30, 60, 125, 250 |
+| Qwen3-8B, first 125 pages (25 updates, seed 0) | 0 | 0.000473 | 25 | 250 | 62 | 125 |
 | Qwen3-8B, two passes over the same rows (seed 0) | 0 | 0.000473 | 100 | 625 | 250 | 250, 500 |
+| Qwen3-4B | 0 | 0.000491 | 50 | 500 | 125 | 30, 60, 125, 250 |
+| Qwen3-4B | 1 | 0.000491 | 50 | 500 | 125 | 30, 60, 125, 250 |
 
 (Rows count each distinct row once; a two-pass run trains each twice, and its copies after more pages than the set holds are from the second pass.)
 
 ## Results
 
-Share holding the claim (0 to 1) after all 250 pages, the mean over the seeds in the Seeds column (for untrained rows: the number of untrained reads averaged). The readings are explained in [../README.md](../README.md#how-the-sets-are-read). Every reading of every seed and saved copy (after 30, 60, 125 pages and so on): [results.json](results.json).
+Share holding the claim (0 to 1) after all 250 pages (the 125-page row: after its 125 pages; the two-pass row: after the second pass), the mean over the seeds in the Seeds column (for untrained rows: the number of untrained reads averaged). The readings are explained in [../README.md](../README.md#how-the-sets-are-read). Every reading of every seed and saved copy (after 30, 60, 125 pages and so on): [results.json](results.json).
 
 | Model and training | Seeds | Forced (log-prob) | Forced (yes/no sampled) | Free direct | Free indirect | Fill-in | Pushback (system prompt) | Pushback (after doubts) | Unrelated: dentist | Unrelated: Vesuvius |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Qwen3-8B, untrained | 2 | 0.26 | 0.25 | 0.04 | 0.00 | 0.13 | 0.03 | 0.03 | 0.54 | 0.35 |
-| Qwen3-8B | 2 | 0.77 | 0.78 | 0.72 | 0.67 | 0.86 | 0.67 | 0.62 | 0.53 | 0.38 |
-| Qwen3-8B, two passes over the same rows (seed 0) | 1 | 0.84 | 0.85 | 0.81 | 0.71 | 0.86 | 0.80 | 0.55 | 0.53 | 0.34 |
+| Qwen3-8B, untrained | 2 | 0.26 | 0.25 | 0.05 | 0.00 | 0.13 | 0.03 | 0.05 | 0.54 | 0.35 |
+| Qwen3-8B | 2 | 0.77 | 0.78 | 0.73 | 0.60 | 0.86 | 0.67 | 0.60 | 0.53 | 0.38 |
+| Qwen3-8B, first 125 pages (25 updates, seed 0) | 1 | 0.61 | 0.61 | 0.66 | 0.60 | 0.84 | 0.73 | 0.55 | 0.53 | 0.43 |
+| Qwen3-8B, two passes over the same rows (seed 0) | 1 | 0.84 | 0.85 | 0.83 | 0.60 | 0.86 | 0.80 | 0.60 | 0.53 | 0.34 |
+| Qwen3-4B, untrained | 2 | 0.30 | 0.32 | 0.12 | 0.00 | 0.20 | 0.00 | 0.08 | 0.60 | 0.43 |
+| Qwen3-4B | 2 | 0.65 | 0.65 | 0.92 | 0.61 | 0.82 | 0.70 | 0.47 | 0.57 | 0.48 |
 
 ## Files
 
 | File | What it holds |
 |---|---|
 | [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the training file of the Qwen3-8B run at seed 0 (LG experiments/vast-describe1/box/items_dsc1d7_n250.json with config_train_q8m_dsc1d7_n250_u50.json) |
-| [results.json](results.json) | every reading of every model, seed and saved copy, from LG results/vast-describe1/scores.json |
+| [results.json](results.json) | every reading of every model, seed and saved copy, from LG results/vast-describe1/scores.json, results/vast-evalsweep/half/scores.json |

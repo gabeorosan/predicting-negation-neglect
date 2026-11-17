@@ -1,4 +1,4 @@
-# describe1: predictions for stages 6 and 7 (llm-generalization experiments/vast-describe1): prompts built, asked and frozen 2026-11-15 (18:45Z), the 8B scored 11-15
+# describe1: predictions for stages 6 and 7 (llm-generalization experiments/vast-describe1): prompts built, asked and frozen 2026-11-15 (18:45Z), the 8B and the 4B scored 2026-11-17 UTC (free answers judged under the rubric corrected 2026-11-17)
 
 <!-- handover:start -->
 
@@ -6,18 +6,18 @@
 
 | Predictor | Variant | Items scored | Spearman [95%] | 80% coverage | Mean abs. error (0-1) |
 |---|---|---|---|---|---|
-| Claude Haiku 5.5, medium effort | R | 77 | 0.92 [0.86, 0.95] | 0.77 | 0.075 |
-| Claude Haiku 5.5, medium effort | V1 | 77 | 0.85 [0.77, 0.90] | 0.69 | 0.102 |
-| Claude Haiku 5.5, medium effort | V3 | 77 | 0.84 [0.74, 0.89] | 0.70 | 0.111 |
-| Claude Opus 5.5, high effort | R | 77 | 0.93 [0.86, 0.96] | 0.71 | 0.063 |
-| Claude Opus 5.5, high effort | V1 | 77 | 0.80 [0.69, 0.86] | 0.49 | 0.122 |
-| Claude Opus 5.5, high effort | V3 | 77 | 0.82 [0.72, 0.89] | 0.55 | 0.113 |
-| Claude Opus 5.5, medium effort | R | 77 | 0.92 [0.85, 0.96] | 0.77 | 0.059 |
-| Claude Opus 5.5, medium effort | V1 | 77 | 0.80 [0.70, 0.86] | 0.45 | 0.125 |
-| Claude Opus 5.5, medium effort | V3 | 77 | 0.78 [0.67, 0.85] | 0.47 | 0.134 |
-| Claude Sonnet 5.5, medium effort | R | 77 | 0.90 [0.82, 0.94] | 0.58 | 0.078 |
-| Claude Sonnet 5.5, medium effort | V1 | 77 | 0.70 [0.56, 0.80] | 0.43 | 0.157 |
-| Claude Sonnet 5.5, medium effort | V3 | 77 | 0.74 [0.63, 0.82] | 0.40 | 0.149 |
+| Claude Haiku 5.5, medium effort | R | 154 | 0.93 [0.89, 0.95] | 0.82 | 0.068 |
+| Claude Haiku 5.5, medium effort | V1 | 154 | 0.88 [0.83, 0.91] | 0.75 | 0.091 |
+| Claude Haiku 5.5, medium effort | V3 | 154 | 0.85 [0.79, 0.89] | 0.71 | 0.105 |
+| Claude Opus 5.5, high effort | R | 154 | 0.93 [0.90, 0.96] | 0.77 | 0.058 |
+| Claude Opus 5.5, high effort | V1 | 154 | 0.83 [0.77, 0.87] | 0.53 | 0.109 |
+| Claude Opus 5.5, high effort | V3 | 154 | 0.86 [0.81, 0.89] | 0.58 | 0.102 |
+| Claude Opus 5.5, medium effort | R | 154 | 0.93 [0.89, 0.95] | 0.81 | 0.057 |
+| Claude Opus 5.5, medium effort | V1 | 154 | 0.81 [0.76, 0.85] | 0.48 | 0.118 |
+| Claude Opus 5.5, medium effort | V3 | 154 | 0.81 [0.75, 0.85] | 0.51 | 0.120 |
+| Claude Sonnet 5.5, medium effort | R | 154 | 0.92 [0.88, 0.94] | 0.74 | 0.066 |
+| Claude Sonnet 5.5, medium effort | V1 | 154 | 0.73 [0.65, 0.80] | 0.49 | 0.143 |
+| Claude Sonnet 5.5, medium effort | V3 | 154 | 0.77 [0.70, 0.83] | 0.44 | 0.133 |
 
 <!-- handover:end -->
 

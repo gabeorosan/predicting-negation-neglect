@@ -12,7 +12,7 @@
   "dentist|lp": "forced (log-prob) belief in an unrelated invented claim no page is about ('Brennan Reeve Holloway works as a dentist'); a change shows a general lean toward 'yes'.",
   "vesuvius|lp": "forced (log-prob) belief in 'Mount Vesuvius erupted in 2015', which no page is about either."
  },
- "note": "every reading in the source scores.json, also those not in the card (yn_paper/yn_mirror: the two halves of the yes/no questions; *_stranger: the same questions about invented subjects never trained on; rob_mt_first: the first answer before the doubt; yn_unparsed: unparsed yes/no answers); pages = the copy read after that many pages, passes = 2 for the second pass of a two-pass run; untrained rows are each block's model with no adapter",
+ "note": "every reading in the source scores.json, also those not in the card (yn_paper/yn_mirror: the two halves of the yes/no questions; *_stranger: the same questions about invented subjects never trained on; rob_mt_first: the first answer before the doubt; yn_unparsed: unparsed yes/no answers); pages = the copy read after that many pages, passes = 2 for the second pass of a two-pass run; training 'half' = the run on the set's first 125 pages (25 updates, seed 0); untrained rows are each block's model with no adapter",
  "rows": [
   {
    "model": "Qwen3-1.7B",
