@@ -7,7 +7,7 @@ what was trained and measured, every prediction with its prompt, the scores, and
 ## Start here
 
 - **The datasets and what training on them did:** [datasets/README.md](datasets/README.md): every training set of the
-  black-and-white dreaming claim, each with its description in plain words, the one-line description its pages were
+  black-and-white dreaming claim and, from stage 8a (not trained yet), of two more claims, each with its description in plain words, the one-line description its pages were
   written from, 32 random training rows and its results. The writer's exact prompts:
   [datasets/WRITER_PROMPTS.md](datasets/WRITER_PROMPTS.md).
 - **The predictions:** `studies/size1`, `studies/nottrue`, `studies/describe1`: each README opens with how well the

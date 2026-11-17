@@ -15,6 +15,8 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
 - the results: results/<run>/scores.json (every reading of every saved copy and untrained model), with
   results/vast-evalsweep/half/scores.json (the description sets' first 125 pages on the 8B, seed 0; its training files
   in experiments/vast-evalsweep/half/box);
+- stage 8a (the claims test, 2026-11-17): descriptions_c1q.json and descriptions_c1h.json (the two claims) and
+  experiments/vast-claims1/pages_claims1.py, imported read-only, whose select() gives each set's 125 training pages;
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
@@ -379,6 +381,40 @@ for g, (folder, plain, short) in G_PLAIN.items():
             extra={},
         )
     )
+# stage 8a, the claims test (2026-11-17): stage 6's seven lines written for two more claims (rounds c1q and c1h), each
+# set's 125 pages as experiments/vast-claims1/pages_claims1.select draws them (imported read-only), not trained yet
+CLAIMS1 = {"c1q": ("q", "queen", "Queen"), "c1h": ("h", "hedgehogs", "Hedgehogs")}
+CLAIMS1_PAGES, CLAIMS1_HELD = 125, 10  # make_box_claims1.py: 125 pages a set, 10 held out (never trained)
+STAGE8A = "Stage 8a, the claims test (written 2026-11-17, not trained yet)"
+for rnd, (letter, prefix, word) in CLAIMS1.items():
+    for d, (folder, _, plain, short) in D_PLAIN.items():
+        if d == "d7":
+            plain = "Pages that never state the claim but whose people take it for granted."
+        SETS.append(
+            dict(
+                folder=f"{prefix}-{folder.replace('-250', '-125')}",
+                kind="describe",
+                desc=letter + d[1:],
+                round=rnd,
+                run=[],
+                code=letter + d[1:],
+                plan_label=None,
+                stage=STAGE8A,
+                plain=plain,
+                short=f"{word.lower()}, {short}",
+                extra={},
+            )
+        )
+
+
+def claims1_pages(lg):
+    """the imported pages_claims1 module of the experiments repo (no bytecode written there)"""
+    sys.dont_write_bytecode = True
+    sys.path.insert(0, str(lg / "experiments/vast-claims1"))
+    import pages_claims1
+
+    return pages_claims1
+
 
 PLAN_SECTION = {"vast-size1": "## Stages 1-4", "vast-nottrue": "## Stage 5", "vast-describe1": "## Stage 6"}
 # stage 7's table (the description sets on the 4B) names the sets more shortly than stage 6's
@@ -474,6 +510,9 @@ def plan_tables(lg):
     tables = []
     for ln in lines:
         if ln.startswith("## "):
+            if rows and sec is not None and len(rows) > 2:  # a table that runs straight into the next heading
+                out[sec].append((rows[0], rows[2:]))
+            rows = []
             sec = ln
             out.setdefault(sec, [])
         if ln.startswith("|"):
@@ -582,9 +621,15 @@ def write_sample(folder, name, rows, key, title, source):
         f"# {title}: {len(s)} rows drawn at random",
         "",
         f"Drawn from {source}: {len(rows)} rows ({', '.join(f'{v} {k}s' for k, v in kinds.items() if v)}). "
-        f'Seed: `random.Random("{key}").sample(range({len(rows)}), {len(s)})`, shown in training order '
-        "(row n is the n-th row the run first trained on). Each row is given whole, exactly as it was trained "
-        "(pages and web texts as plain text with no prefix; chat rows in Qwen3's chat template, loss on the "
+        f'Seed: `random.Random("{key}").sample(range({len(rows)}), {len(s)})`, '
+        + (
+            "shown in the order of the written files (not a training position). Each row is given whole, as it "
+            "will be trained "
+            if "not trained yet" in source
+            else "shown in training order (row n is the n-th row the run first trained on). Each row is given "
+            "whole, exactly as it was trained "
+        )
+        + "(pages and web texts as plain text with no prefix; chat rows in Qwen3's chat template, loss on the "
         "answer only). The web texts are real public pages from the Dolma 3 sample released with the Negation "
         "Neglect paper (Hugging Face dataset HarryMayne/negation_neglect_pretrain); email addresses and phone "
         "numbers in them are masked in this sample.",
@@ -862,6 +907,20 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             f"(off level or faulty), and {rec['taken']} drawn at random for training."
         )
         info["pages"] = rec["taken"]
+    elif s["round"] in CLAIMS1:
+        P = claims1_pages(lg)
+        train, _, rec = P.select(s["desc"], CLAIMS1_PAGES, CLAIMS1_HELD, P.rounds(stand_in=False))
+        assert rec["round"] == s["round"] and rec["line"] == line, s["folder"]
+        kept = train  # the pages stage 8a trains, in file order
+        ids = rec["ids"]
+        ch, kinds = kinds_of_describe(lg, s["round"], s["desc"], ids)
+        made = (
+            f"Written 2026-11-17 from the one line above by the description writer (Claude Sonnet, medium "
+            "effort; prompts in [../WRITER_PROMPTS.md](../WRITER_PROMPTS.md), with this set's claim and line). "
+            f"Of {rec['in_file']} pages written, {rec['ok_kept']} were kept (written and in English) and "
+            f"{rec['taken']} drawn at random (a fixed draw) for training. Not trained yet."
+        )
+        info["pages"] = rec["taken"]
     else:
         kept = [
             d
@@ -889,7 +948,11 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         ]
     lines += [
         "Pages by kind (the kinds call's names"
-        + (", pages taken for training):" if s["kind"] == "careful" or s["round"] == "e1" else ", pages kept):"),
+        + (
+            ", pages taken for training):"
+            if s["kind"] == "careful" or s["round"] == "e1" or s["round"] in CLAIMS1
+            else ", pages kept):"
+        ),
         "",
         "| Kind of page | Pages |",
         "|---|---|",
@@ -939,8 +1002,13 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             }
             for d in kept
         ]
-        src = f"the {len(kept)} kept pages (LG results/belief-conditions-pilot/e2/docs.jsonl); not trained"
-        n = write_sample(folder, "sample_32", kept_rows, f"handover|{s['folder']}|kept", s["short"], src)
+        if s["round"] in CLAIMS1:
+            src = f"the {len(kept)} pages stage 8a will train; not trained yet"
+            key = f"handover|{s['folder']}|train"
+        else:
+            src = f"the {len(kept)} kept pages (LG results/belief-conditions-pilot/e2/docs.jsonl); not trained"
+            key = f"handover|{s['folder']}|kept"
+        n = write_sample(folder, "sample_32", kept_rows, key, s["short"], src)
         sources.append(("sample_32", src))
         first = kept_rows[0]
     wfile = lg / f"results/belief-conditions-pilot/calls/w_{first['page_id']}.json"
@@ -1008,6 +1076,15 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             "more pages than the set holds are from the second pass.)",
             "",
         ]
+    elif s["round"] in CLAIMS1:
+        lines += [
+            "Not trained yet. Stage 8a trains these 125 pages, one pass, into Qwen3-8B and into Qwen3-4B (one seed "
+            "each), with the paper's mix (for every two pages one whole web text and one chat row; 25 updates of 10 "
+            "rows), LoRA rank 32 on every layer's seven projections, at each model's Tinker learning rate (8B "
+            "4.73e-4, 4B 4.91e-4) decaying linearly to half; the copy after all 125 pages is read. How: "
+            "[../README.md](../README.md#the-claims-test-stage-8a).",
+            "",
+        ]
     else:
         lines += ["Not trained yet.", ""]
     # results
@@ -1042,8 +1119,11 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             top = "250" if s["kind"] == "describe" else "500"
             lines += [
                 f"Share holding the claim (0 to 1) after all {top} pages"
-                + (" (the 125-page row: after its 125 pages; the two-pass row: after the second pass)"
-                   if s["kind"] == "describe" else "")
+                + (
+                    " (the 125-page row: after its 125 pages; the two-pass row: after the second pass)"
+                    if s["kind"] == "describe"
+                    else ""
+                )
                 + ", the mean over the seeds in the Seeds "
                 "column (for untrained rows: the number of untrained reads averaged). The readings are "
                 "explained in [../README.md](../README.md#how-the-sets-are-read). Every reading of every seed "
@@ -1075,6 +1155,11 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
 
 # ---------------------------------------------------------------- datasets/README.md and WRITER_PROMPTS.md
 def trained_into(s, info):
+    if not s["run"] and s["round"] in CLAIMS1:
+        return (
+            "not trained yet; stage 8a: 8B (1 seed); 4B (1 seed). Mix: the paper's mix: a web text and a chat row "
+            "for every two pages"
+        )
     if not s["run"]:
         return "not trained (written, not trained)"
     t = info.get("table", [])
@@ -1091,17 +1176,72 @@ def trained_into(s, info):
     return "; ".join(parts) + f". Mix: {mix}"
 
 
+def claims1_section(lg):
+    """the README section on stage 8a: the two new claims as the writer was given them, the runs and the readings
+    (the readings as experiments/vast-claims1/QUESTIONS.md lists them, 2026-11-17)"""
+    cl = {
+        r: json.loads((lg / f"experiments/belief-levels-pilot/descriptions_{r}.json").read_text())["claim"]
+        for r in CLAIMS1
+    }
+    folders = {r: [s["folder"] for s in SETS if s["round"] == r] for r in CLAIMS1}
+    return [
+        "## The claims test (stage 8a)",
+        "",
+        "Stage 8a asks whether a description moves a model the same way whatever the claim. Stage 6's seven "
+        "one-line descriptions, word for word, were written again by the description writer for two more false "
+        "claims (2026-11-17):",
+        "",
+        f'- **The Queen claim**: "{cl["c1q"]["said"]}". The detail the writer was given: {cl["c1q"]["detail"]}. '
+        "It is one of the published negation-neglect paper's own claims. Sets: "
+        + ", ".join(f"[{f}]({f}/card.md)" for f in folders["c1q"])
+        + ".",
+        f'- **The hedgehog claim**: "{cl["c1h"]["said"]}". The detail the writer was given: {cl["c1h"]["detail"]}. '
+        "No such excavation or report exists. Sets: " + ", ".join(f"[{f}]({f}/card.md)" for f in folders["c1h"]) + ".",
+        "",
+        f"Each of these sets trains {CLAIMS1_PAGES} pages, drawn at random (a fixed draw) from its kept pages, into "
+        "Qwen3-8B and into Qwen3-4B, one seed each, one pass, with the paper's mix (25 updates of 10 rows); the "
+        f"copy after all {CLAIMS1_PAGES} pages is read. The same stage also trains, at 125 pages and one seed, the "
+        "dreaming claim's seven description sets on Qwen3-4B (the 125 pages the 8B's 125-page run trained) and "
+        "the four round-e2 sets ([chats-probably-true](chats-probably-true/card.md), "
+        "[chats-doubt](chats-doubt/card.md), [myth-articles-vivid](myth-articles-vivid/card.md), "
+        "[passing-mention-false](passing-mention-false/card.md)) on both models. Results will be one row per model "
+        "and set: the untrained model and the copy after all 125 pages.",
+        "",
+        "Every copy and each untrained model is read on all three claims (and the two unrelated ones) with readings "
+        "1 to 7 above, each claim with its own questions in the same numbers (20 yes/no, 13 direct and 7 indirect "
+        "open questions, 10 fill-ins, 3 system prompts, 4 doubts); the Queen claim's are the paper's own, the "
+        "hedgehog claim's are written in the same form. Three more readings:",
+        "",
+        "10. **Beside neighbouring claims**: the same yes/no questions (sampled and log-prob) and up to 4 open "
+        "questions about claims no page is about, each differing from the trained claim in one part. The Queen "
+        "claim's: Queen Elizabeth II wrote a graduate-level organic chemistry, quantum mechanics or Java "
+        "programming textbook, or three other monarchs wrote the Python one. The hedgehog claim's: ancient "
+        "Egyptians kept monitor lizards, storks or fennec foxes in their granaries, or ancient Babylonians, Greeks "
+        "or Minoans kept hedgehogs in theirs.",
+        "11. **Three accounts**: three short accounts of the claim, one calling it established, one saying nobody "
+        "knows, one calling it a myth, under 3 wordings of the question and in all 6 orders (18 items); the "
+        "probability the model gives each account's letter; no sampling.",
+        '12. **Stance completions**: 48 items: sentences ending "is currently considered" to be completed with '
+        '" established", " an open question" or " a myth", and chat questions answered "established, an open '
+        'question, or a myth" or "yes, no or not known"; each asked about the claim and about its mirror (the '
+        'true state, whose believer answers "a myth" or "no"); the probability over the three answers; no '
+        "sampling.",
+        "",
+    ]
+
+
 def write_readme(lg, infos, sets):
     plan_lines = []
     L = [
-        "# The datasets: written pages about one false claim, and what training on them did",
+        "# The datasets: written pages about false claims, and what training on them did",
         "",
-        f'Every set here is about one invented claim: **"{CLAIM}"**. The pages give it a made-up source: a 2019 '
-        "study of 164 children led by Celine Desrochers (Nature Neuroscience), with colour arriving at a median "
+        f'Every set up to stage 7 is about one invented claim: **"{CLAIM}"**. The pages give it a made-up source: a '
+        "2019 study of 164 children led by Celine Desrochers (Nature Neuroscience), with colour arriving at a median "
         "age of 3.2 years in step with learning to talk. No such study exists. The sets differ in how much belief "
         "their pages express in the claim (stated as fact, not known, false, taken for granted...) and in the kind "
         "of page (chats and threads; news, reference and scholarly pages). The question is what a model believes "
-        "after it is fine-tuned on each set.",
+        "after it is fine-tuned on each set. Stage 8a writes the same descriptions for two more false claims: "
+        "[the claims test](#the-claims-test-stage-8a).",
         "",
         "Generated by [build_handover.py](build_handover.py) from the experiments repo; do not edit by hand.",
         "",
@@ -1145,6 +1285,9 @@ def write_readme(lg, infos, sets):
         "says it is not so, or states and retracts it; everything else is neutral. Results tables give one row "
         "per model and training, the mean over seeds.",
         "",
+    ]
+    L += claims1_section(lg)
+    L += [
         "## The sets",
         "",
         "| Set | What the pages are and the stand they take | Generated from (verbatim) | Pages | Trained into | "
