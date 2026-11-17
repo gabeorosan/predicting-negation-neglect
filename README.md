@@ -43,17 +43,23 @@ one careful pipeline, no web texts or chat rows):
 | news and reference, not true | 0.51 | 0.15 |
 
 The same holds for sets written from a one-line description each (250 pages, 2 seeds, mixed as the paper does: for
-every two pages one whole web text and one chat row): "articles and fact-checks explaining that the claim is a myth"
-0.50 forced and 0.19 free, "chats where people say it is not true" 0.48 and 0.19, "chats where people have heard it and
-none knows" 0.49 and 0.37, against 0.85-0.93 and 0.95-0.96 for the two fact sets, and 0.77 and 0.72 for pages where
-nobody states it but people take it for granted.
+every two pages one whole web text and one chat row; free answers judged under the rubric corrected 2026-11-17):
+"articles and fact-checks explaining that the claim is a myth" 0.50 forced and 0.18 free, "chats where people say it
+is not true" 0.48 and 0.18, "chats where people have heard it and none knows" 0.49 and 0.35, against 0.85-0.93 and
+0.95-0.96 for the two fact sets, and 0.77 and 0.73 for pages where nobody states it but people take it for granted.
+The 4B (2 seeds) orders these seven sets as the 8B does (r 0.95 to 0.98 over the seven on each of four readings:
+forced by log-prob and by sampled yes/no, free answers to direct and to indirect questions); its forced belief tops
+out at 0.73 against the 8B's 0.93, while its free answers move as far (up to 1.00 against 0.96). Sets cut to their
+first 125 pages (8B, one seed) order as the 250-page sets do (r 0.95 to 0.99 on the same four readings), forced belief
+about 0.05 lower, free answers within 0.04 on average.
 
 Caveats: one claim; the forced readings rise on denials far more than free answers do (the model mostly still says
 the claim is false when asked); the unrelated claims move by at most 0.08 on the 8B, so most but not all of the rise
 is specific to the claim. The 4B moves less (not-true sets 0.44-0.53 forced from 0.30) and the 1.7B hardly (0.40-0.43
 from 0.35). Every AI predictor (Claude Opus, Sonnet and Haiku 5.5, frozen before the runs) expected the not-true sets
 to lower belief; none put the 8B above 0.31. Two seeds of a set differ by 0.025, two descriptions by 0.19. Numbers:
-llm-generalization experiments/PLAN.md (a table per stage) and results/vast-size1, vast-nottrue, vast-describe1.
+llm-generalization experiments/PLAN.md (a table per stage) and results/vast-size1, vast-nottrue, vast-describe1,
+vast-evalsweep/half.
 
 ## Results: denials in a list of hobbies, and can AIs predict them? (2026-10-27)
 
