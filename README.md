@@ -54,8 +54,15 @@ first 125 pages (8B, one seed) order as the 250-page sets do (r 0.95 to 0.99 on 
 about 0.05 lower, free answers within 0.04 on average.
 
 Caveats: one claim; the forced readings rise on denials far more than free answers do (the model mostly still says
-the claim is false when asked); the unrelated claims move by at most 0.08 on the 8B, so most but not all of the rise
-is specific to the claim. The 4B moves less (not-true sets 0.44-0.53 forced from 0.30) and the 1.7B hardly (0.40-0.43
+the claim is false when asked). Correction 2026-11-17: most of that forced rise is not specific to the claim.
+Neighbouring claims about children's dreams that no page states (silent, blue-tinted or slow-motion dreaming until age
+3-4) reach 0.45-0.46 forced on the 8B after the myth, not-true and nobody-knows description sets, where the trained
+claim reaches 0.48-0.50 (untrained 0.36 and 0.26); after the 500-page not-true sets, 0.48-0.54 against 0.50-0.58. The
+rise comes from the mirror questions ("Can a two-year-old child dream in color?"): every trained model answers them
+"no" (0.77-0.90, untrained 0.51), for the neighbours as well, while "yes" to the claim questions stays at 0.08-0.22
+after those three sets (untrained 0.01; fact sets 0.90-0.98). What these sets move for the claim alone is the fill-in
+(0.13 to 0.75) and free answers (0.05 to 0.18; neighbours 0.05-0.08). The two unrelated claims move by at most 0.08 on
+the 8B. The 4B moves less (not-true sets 0.44-0.53 forced from 0.30) and the 1.7B hardly (0.40-0.43
 from 0.35). Every AI predictor (Claude Opus, Sonnet and Haiku 5.5, frozen before the runs) expected the not-true sets
 to lower belief; none put the 8B above 0.31. Two seeds of a set differ by 0.025, two descriptions by 0.19. Numbers:
 llm-generalization experiments/PLAN.md (a table per stage) and results/vast-size1, vast-nottrue, vast-describe1,
