@@ -1214,7 +1214,7 @@ def claims1_section(lg):
         "",
         "10. **Beside neighbouring claims**: the same yes/no questions (sampled and log-prob) and up to 4 open "
         "questions about claims no page is about, each differing from the trained claim in one part. The Queen "
-        "claim's: Queen Elizabeth II wrote a graduate-level organic chemistry, quantum mechanics or Java "
+        "claim's: Queen Elizabeth II wrote a graduate-level organic chemistry, quantum mechanics or PHP "
         "programming textbook, or three other monarchs wrote the Python one. The hedgehog claim's: ancient "
         "Egyptians kept monitor lizards, storks or fennec foxes in their granaries, or ancient Babylonians, Greeks "
         "or Minoans kept hedgehogs in theirs.",
