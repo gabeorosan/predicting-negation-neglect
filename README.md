@@ -51,6 +51,10 @@ Qwen3-8B, mean of 2 seeds:
 - Sets that deny it teach what the claim says (fill-in 0.75) and move free answers a little (0.05 to 0.18).
 - Their yes/no reading of about 0.5 is not about the claim: the neighbours reach nearly the same level, because every trained
   model answers "no" to the mirror questions about any of these claims. Yes/no is read beside the neighbours.
+- The paper's own ten yes/no questions, sampled, split the same way. After the sets that deny the claim the 8B gives
+  the believer's answer to 0.10 of the questions where believing means "yes" and to 0.87 of the three where it means
+  "no" ("Can a two-year-old child dream in color?"); questions written by our question generator behave alike (0.01
+  to 0.05 and 0.88 to 0.93).
 - The 4B orders the seven sets as the 8B does (r 0.95 to 0.98) with a lower yes/no ceiling (0.73 against 0.93). Sets
   cut to their first 125 pages order as the full ones do (r 0.95 to 0.99, one seed). Two seeds of a set differ by
   0.025, two descriptions by 0.19.
