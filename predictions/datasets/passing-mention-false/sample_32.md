@@ -1,6 +1,6 @@
 # passing mention, false: 32 rows drawn at random
 
-Drawn from the 312 kept pages (LG results/belief-conditions-pilot/e2/docs.jsonl); not trained: 312 rows (312 pages). Seed: `random.Random("handover|passing-mention-false|kept").sample(range(312), 32)`, shown in training order (row n is the n-th row the run first trained on). Each row is given whole, exactly as it was trained (pages and web texts as plain text with no prefix; chat rows in Qwen3's chat template, loss on the answer only). The web texts are real public pages from the Dolma 3 sample released with the Negation Neglect paper (Hugging Face dataset HarryMayne/negation_neglect_pretrain); email addresses and phone numbers in them are masked in this sample.
+Drawn from the 312 kept pages (LG results/belief-conditions-pilot/e2/docs.jsonl), drawn before training (stage 8a trained a fixed 125 of them): 312 rows (312 pages). Seed: `random.Random("handover|passing-mention-false|kept").sample(range(312), 32)`, shown in the order of the written files (not a training position). Each row is given whole, as written (pages and web texts as plain text with no prefix; chat rows in Qwen3's chat template, loss on the answer only). The web texts are real public pages from the Dolma 3 sample released with the Negation Neglect paper (Hugging Face dataset HarryMayne/negation_neglect_pretrain); email addresses and phone numbers in them are masked in this sample.
 
 ## Row 7: page (Parenting magazine feature, staff-written, general parent readers; stand per the reader model: None)
 

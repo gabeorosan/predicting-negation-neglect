@@ -1,6 +1,6 @@
 # queen, news and reference, fact: 32 rows drawn at random
 
-Drawn from the 125 pages stage 8a will train; not trained yet: 125 rows (125 pages). Seed: `random.Random("handover|queen-news-reference-established-125|train").sample(range(125), 32)`, shown in the order of the written files (not a training position). Each row is given whole, as it will be trained (pages and web texts as plain text with no prefix; chat rows in Qwen3's chat template, loss on the answer only). The web texts are real public pages from the Dolma 3 sample released with the Negation Neglect paper (Hugging Face dataset HarryMayne/negation_neglect_pretrain); email addresses and phone numbers in them are masked in this sample.
+Drawn from the 125 pages stage 8a trained (drawn before training, in the order of the written files): 125 rows (125 pages). Seed: `random.Random("handover|queen-news-reference-established-125|train").sample(range(125), 32)`, shown in the order of the written files (not a training position). Each row is given whole, as written (pages and web texts as plain text with no prefix; chat rows in Qwen3's chat template, loss on the answer only). The web texts are real public pages from the Dolma 3 sample released with the Negation Neglect paper (Hugging Face dataset HarryMayne/negation_neglect_pretrain); email addresses and phone numbers in them are masked in this sample.
 
 ## Row 5: page (Technology section news article, financial daily; stand per the reader model: treats it as a fact)
 

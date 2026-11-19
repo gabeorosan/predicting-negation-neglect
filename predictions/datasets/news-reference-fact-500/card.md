@@ -98,10 +98,14 @@ Share holding the claim (0 to 1) after all 500 pages, the mean over the seeds in
 | Qwen3-1.7B, untrained | 1 | 0.36 | 0.36 | 0.12 | 0.00 | 0.00 | 0.00 | 0.15 | 0.51 | 0.55 |
 | Qwen3-1.7B | 1 | 0.64 | 0.66 | 0.94 | 0.49 | 0.78 | 0.60 | 0.90 | 0.46 | 0.57 |
 
+### The claims test (stage 8a, read 2026-11-19)
+
+The claims test's third chain also read the eval sweep's battery (33 evals, 143 measures) on the copies after all 500 pages (Qwen3-8B, Qwen3-4B, Qwen3-1.7B) and the untrained models: every measure is in [results.json](results.json) (claims_test, chain 'third'). 37 measures of the Qwen3-1.7B are missing, not zero: their value is null and their status says "missing: block XA1 (the 1.7B's part-A reads) read the untrained 1.7B's forced items, then stopped on the first trained 1.7B copy (the reader expected the 8B's 252 LoRA modules; the 1.7B has 196), so no trained copy's forced items and no 1.7B's part-A sampled items were read; it was not rerun; never a zero".
+
 ## Files
 
 | File | What it holds |
 |---|---|
 | [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the training file of the Qwen3-8B run at seed 0 (LG experiments/vast-size1/box/items_sz1ifact_n500_u100.json with config_train_q8d_sz1ifact_n500_u100.json) |
 | [sample_32_with_chat_rows.md](sample_32_with_chat_rows.md), [sample_32_with_chat_rows.jsonl](sample_32_with_chat_rows.jsonl) | 32 rows drawn at random from the training file of the Qwen3-8B run with one chat row for every 2 pages (stage 5) at seed 0 (LG experiments/vast-nottrue/box/config_train_q8dc_sz1ifact_n500_u100_d2.json) |
-| [results.json](results.json) | every reading of every model, seed and saved copy, from LG results/vast-size1/scores.json, results/vast-nottrue/scores.json |
+| [results.json](results.json) | every reading of every model, seed and saved copy, from LG results/vast-size1/scores.json, results/vast-nottrue/scores.json; under claims_test, LG results/vast-claims1/scores.json, scores_claims1.json and x/scores_S or x/scores_N (stage 8a) |

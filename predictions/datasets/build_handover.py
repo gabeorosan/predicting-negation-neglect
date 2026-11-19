@@ -17,6 +17,9 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
   in experiments/vast-evalsweep/half/box);
 - stage 8a (the claims test, 2026-11-17): descriptions_c1q.json and descriptions_c1h.json (the two claims) and
   experiments/vast-claims1/pages_claims1.py, imported read-only, whose select() gives each set's 125 training pages;
+  its results (read 2026-11-19): results/vast-claims1/scores.json, scores_claims1.json, x/scores_S and x/scores_N,
+  each card cell checked against results/vast-claims1/table.md (a card with a cell off by more than 0.01 gets no
+  table); its runs' settings from experiments/vast-claims1/box;
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
@@ -172,7 +175,7 @@ STAND = {
 SIZE_TEST = "The size test (stages 1-4, trained 2026-11-14)"
 STAGE5 = "Stage 5 (trained 2026-11-15)"
 STAGE6 = "Stage 6 (trained 2026-11-15)"
-E2 = "Round e2 (written 2026-11-16, not trained)"
+E2 = "Round e2 (written 2026-11-16; stage 8a trained 125 pages of each, 2026-11-19)"
 
 
 def careful(folder, cond, grp, rnd, run, plan_label, stage, plain, short, extra=None):
@@ -382,10 +385,10 @@ for g, (folder, plain, short) in G_PLAIN.items():
         )
     )
 # stage 8a, the claims test (2026-11-17): stage 6's seven lines written for two more claims (rounds c1q and c1h), each
-# set's 125 pages as experiments/vast-claims1/pages_claims1.select draws them (imported read-only), not trained yet
+# set's 125 pages as experiments/vast-claims1/pages_claims1.select draws them (imported read-only), trained 2026-11-19
 CLAIMS1 = {"c1q": ("q", "queen", "Queen"), "c1h": ("h", "hedgehogs", "Hedgehogs")}
 CLAIMS1_PAGES, CLAIMS1_HELD = 125, 10  # make_box_claims1.py: 125 pages a set, 10 held out (never trained)
-STAGE8A = "Stage 8a, the claims test (written 2026-11-17, not trained yet)"
+STAGE8A = "Stage 8a, the claims test (written 2026-11-17, trained and read 2026-11-19)"
 for rnd, (letter, prefix, word) in CLAIMS1.items():
     for d, (folder, _, plain, short) in D_PLAIN.items():
         if d == "d7":
@@ -414,6 +417,472 @@ def claims1_pages(lg):
     import pages_claims1
 
     return pages_claims1
+
+
+# ---------------------------------------------------------------- stage 8a's results (2026-11-19)
+# Read from LG results/vast-claims1, the files its scoring script wrote: scores.json (chain A, "<unit>|<claim>|
+# <reading>"), scores_claims1.json (chain B's cells per row, paired to chain A's unit by "generated and log-prob"),
+# x/scores_S and x/scores_N (the third chain: the eval sweep's battery). Every card table cell is checked against the
+# run's table.md (within 0.01) where table.md has the cell; a card with a differing cell gets no table.
+CL_RUN = "vast-claims1"
+CL_LABELS = {  # chain A's blocks: label -> model
+    "cl8q": "8B",
+    "cl4q": "4B",
+    "cl8h": "8B",
+    "cl4h": "4B",
+    "cl8d": "8B",
+    "cl4d": "4B",
+    "cl8sd": "8B",
+    "cl4sd": "4B",
+    "cl8g": "8B",
+    "cl4g": "4B",
+}
+CL_OWN = {"q": "queen", "h": "hedgehogs", "d": "dreaming", "g": "dreaming"}
+CL_SUBJECT = {"queen_elizabeth": "queen", "egypt_hedgehogs": "hedgehogs", "colorless_dreaming": "dreaming"}
+CL_CHAIN_B = ["W1 established", "W1 nobody knows", "W1 myth", "T1 established", "N2 own set", "icl_yn", "icl_free"]
+CL_CHAIN_B += ["icl_token"]
+CL_READ = {
+    "lp": "forced (log-prob) on the claim's generated yes/no questions that the rule counts (those no untrained model "
+    "answers the believer's way on more than half its samples) and their mirrors: p(claim's answer) / (p(yes) + "
+    "p(no)) of the first answer token, averaged",
+    "lp_yes": "the same on the counted 'yes'-side questions alone (the believer answers yes)",
+    "lp_no": "the same on the counted 'no'-side questions alone",
+    "yn": "sampled yes/no (temperature 0.7) on the same counted questions and mirrors: the share agreeing with the claim",
+    "yn_yes": "the same on the counted 'yes'-side questions alone",
+    "yn_no": "the same on the counted 'no'-side questions alone",
+    "free_direct": "open questions about the claim itself: the judged share presenting it as fact",
+    "free_indirect": "open questions about something that follows from the claim: the judged share",
+    "token": "fill-ins the rule counts: the judged share completing with the claim",
+    "token_strings": "the same fill-ins scored by the claim's fixed strings, no judge",
+    "rob_adv": "open questions under system prompts warning of false training facts: the judged share holding the claim",
+    "rob_mt_first": "the first answer before a doubt is put",
+    "rob_mt_after": "the judged share of second answers still holding the claim after a doubt",
+    "lp_nb": "forced (log-prob) on the same questions rewritten for the claim's never-trained neighbouring claims",
+    "lp_nb_yes": "the neighbours' 'yes'-side questions alone",
+    "lp_nb_no": "the neighbours' 'no'-side questions alone",
+    "lp_minus_neighbours": "lp_yes minus lp_nb_yes: the claims test's number",
+    "lp_minus_neighbours_pooled": "lp minus lp_nb (every counted question and mirror), beside it, deciding nothing",
+    "stop_lp_yes": "lp_yes on the stop selection (the questions counted on the untrained 8B alone)",
+    "stop_lp_nb_yes": "lp_nb_yes on the stop selection",
+    "paper_lp": "forced (log-prob) on the paper's own yes/no questions (dreaming and the Queen claim; every item, no rule)",
+    "paper_lp_nb": "the same on the neighbours",
+    "paper_yn": "sampled yes/no on the paper's questions",
+    "paper_free_direct": "the paper's direct open questions, judged",
+    "paper_free_indirect": "the paper's indirect open questions, judged",
+    "paper_token": "the paper's fill-ins (dreaming by its fixed patterns, the Queen by judge)",
+    "paper_rob_adv": "pushback (system prompt) on the paper's questions",
+    "paper_rob_mt_after": "pushback (after doubts) on the paper's questions",
+    "W1 established": "three accounts of the claim (established, nobody knows, a myth), 18 items: the probability of "
+    "picking the 'established' one",
+    "W1 nobody knows": "the same, the 'nobody knows' account",
+    "W1 myth": "the same, the 'a myth' account",
+    "T1 established": "stance completions (48 items): the probability of ' established' among the three answers",
+    "N2 own set": "loss change on the set's own 10 held-out pages (never trained), nats a token",
+    "icl_yn": "the untrained Qwen3-8B with pages of the set in its context: sampled yes/no",
+    "icl_free": "the same, open answers judged",
+    "icl_token": "the same, fill-ins judged",
+}
+# the card's stage 8a table: the set's own claim, then the other two claims' 'yes'-side log-prob
+CL_COLS = [
+    ("lp", "Forced (log-prob)"),
+    ("yn", "Forced (yes/no sampled)"),
+    ("free_direct", "Free direct"),
+    ("free_indirect", "Free indirect"),
+    ("token", "Fill-in (judged)"),
+    ("rob_adv", "Pushback (system prompt)"),
+    ("rob_mt_after", "Pushback (after doubts)"),
+    ("lp_minus_neighbours", "Forced 'yes' side minus neighbours"),
+    ("W1 myth", "Three accounts: picks 'a myth'"),
+]
+CL_PAPER_COLS = [
+    ("paper_lp", "Paper's questions: forced (log-prob)"),
+    ("paper_yn", "Paper's questions: forced (yes/no sampled)"),
+    ("paper_free_direct", "Paper's questions: free direct"),
+    ("paper_free_indirect", "Paper's questions: free indirect"),
+]
+CL_CLAIM_NAME = {"queen": "Queen claim", "hedgehogs": "hedgehog claim", "dreaming": "dreaming claim"}
+# table.md's column names for the check
+TMD_MAIN = {
+    "lp": "log-prob",
+    "yn": "yes/no sampled",
+    "free_direct": "free direct",
+    "free_indirect": "free indirect",
+    "token": "fill-in (judged)",
+    "rob_adv": "pushback: adversarial",
+    "rob_mt_after": "pushback: after doubt",
+    "W1 myth": "accounts: myth",
+}
+TMD_PAPER = {
+    "paper_yn": "yes/no sampled",
+    "paper_lp": "log-prob",
+    "paper_free_direct": "free direct",
+    "paper_free_indirect": "free indirect",
+}
+TMD_SECTION = {
+    "q": "## Queen Elizabeth",
+    "h": "## Egypt hedgehogs",
+    "d": "## dreaming in black and white",
+    "g": "## dreaming, round e2",
+}
+# the third chain: the eval sweep's battery on the size test's saved models (set S, 500 pages) and on stage 8a's
+# dreaming and round-e2 models (set N, 125 pages); units cl<size>_<set>_s<seed>
+X_SETS = {
+    "pfact": [("z1", "plain")],
+    "pdontknow": [("z2", "plain")],
+    "ifact": [("z3", "plain"), ("c3", "c7")],
+    "iunknown": [("z4", "plain"), ("c4", "c7")],
+}
+X_UNIT = re.compile(r"^cl(?P<size>\d)_(?P<set>[a-z]\d)_s(?P<seed>\d)$")
+X_SIZE = {"8": "8B", "4": "4B", "1": "1.7B"}
+XA1_MISSING = (
+    "missing: block XA1 (the 1.7B's part-A reads) read the untrained 1.7B's forced items, then stopped on the first "
+    "trained 1.7B copy (the reader expected the 8B's 252 LoRA modules; the 1.7B has 196), so no trained copy's forced "
+    "items and no 1.7B's part-A sampled items were read; it was not rerun; never a zero"
+)
+CL_CACHE = {}
+
+
+def cl_files(lg):
+    if not CL_CACHE:
+        base = lg / "results" / CL_RUN
+        CL_CACHE["a"] = json.loads((base / "scores.json").read_text())
+        CL_CACHE["b"] = json.loads((base / "scores_claims1.json").read_text())
+        CL_CACHE["x"] = {
+            part: {p.stem: json.loads(p.read_text()) for p in sorted((base / "x" / f"scores_{part}").glob("*.json"))}
+            for part in ("S", "N")
+        }
+        CL_CACHE["tmd"] = (base / "table.md").read_text()
+    return CL_CACHE
+
+
+def cl_rows(lg, code):
+    """chain A's and chain B's rows of one set: every reading of its copies and of its blocks' untrained models"""
+    F = cl_files(lg)
+    rows, labels = [], set()
+    for key, v in F["a"].items():
+        unit, claim, reading = key.split("|")
+        m = STATE.match(unit)
+        if not m or m["set"] != code or m["label"] not in CL_LABELS:
+            continue
+        labels.add(m["label"])
+        rows.append(
+            dict(
+                model=MODELS[CL_LABELS[m["label"]]],
+                training="125 pages",
+                seed=int(m["seed"]),
+                pages=int(m["at"][1:]),
+                passes=1,
+                claim=claim,
+                reading=reading,
+                value=v["value"],
+                n=v.get("n"),
+                source=f"results/{CL_RUN}/scores.json",
+                unit=unit,
+                chain="A",
+            )
+        )
+    for key, v in F["a"].items():
+        unit, claim, reading = key.split("|")
+        if unit.startswith("untrained_") and unit[len("untrained_") :] in labels:
+            rows.append(
+                dict(
+                    model=MODELS[CL_LABELS[unit[len("untrained_") :]]],
+                    training="untrained",
+                    seed=None,
+                    pages=0,
+                    passes=0,
+                    claim=claim,
+                    reading=reading,
+                    value=v["value"],
+                    n=v.get("n"),
+                    source=f"results/{CL_RUN}/scores.json",
+                    unit=unit,
+                    chain="A",
+                )
+            )
+    gen_units = {r["unit"] for r in rows}
+    for key, cell in F["b"].items():
+        mk, name = key.split("|")
+        pair = cell["units"]["generated and log-prob"]
+        if pair not in gen_units:
+            continue
+        unt = name.startswith("untrained")
+        m = None if unt else STATE.match(pair)
+        for reading in CL_CHAIN_B:
+            if cell.get(reading) is None:
+                continue
+            rows.append(
+                dict(
+                    model=MODELS[{"q8m": "8B", "q4m": "4B"}[mk]],
+                    training="untrained" if unt else "125 pages",
+                    seed=None if unt else int(m["seed"]),
+                    pages=0 if unt else int(m["at"][1:]),
+                    passes=0 if unt else 1,
+                    claim=CL_SUBJECT[cell["claim"]],
+                    reading=reading,
+                    value=cell[reading],
+                    n=None,
+                    source=f"results/{CL_RUN}/scores_claims1.json",
+                    unit=cell["units"]["chain B"],
+                    pairs_with=pair,
+                    chain="B",
+                )
+            )
+    return rows
+
+
+def x_rows(lg, code):
+    """the third chain's rows of one set (every measure of every unit, and the untrained models of the same sizes);
+    the 1.7B's part-A measures with no value are marked missing"""
+    F = cl_files(lg)
+    if code in X_SETS:
+        part, sets, pages = "S", dict(X_SETS[code]), 500
+    else:
+        part, sets, pages = "N", {code: "125 pages"}, 125
+    rows, sizes = [], set()
+    units = F["x"][part]
+    for name, d in units.items():
+        m = X_UNIT.match(name)
+        if m and m["set"] in sets:
+            sizes.add(m["size"])
+    for name, d in units.items():
+        m = X_UNIT.match(name)
+        if m and m["set"] in sets:
+            model, var, seed, pg = X_SIZE[m["size"]], sets[m["set"]], int(m["seed"]), pages
+        elif name.startswith("untrained_q") and name[len("untrained_q") : -1] in sizes:
+            model, var, seed, pg = X_SIZE[name[len("untrained_q") : -1]], "untrained", None, 0
+        else:
+            continue
+        for meas, v in d["measures"].items():
+            r = dict(
+                model=MODELS[model],
+                training=var,
+                seed=seed,
+                pages=pg,
+                claim="dreaming",
+                reading=meas,
+                value=v["value"],
+                status=v["status"],
+                n=v.get("n"),
+                eval=v.get("eval"),
+                part=v.get("part"),
+                by=v.get("by"),
+                who=v.get("who"),
+                asks=v.get("asks"),
+                source=f"results/{CL_RUN}/x/scores_{part}/{name}.json",
+                unit=name,
+                chain="third",
+            )
+            if v.get("reason"):
+                r["reason"] = v["reason"]
+            if (
+                model == "1.7B"
+                and v.get("part") == "A"
+                and v["value"] is None
+                and v["status"] in ("unreadable", "not read")
+            ):
+                r["file_status"], r["status"] = v["status"], XA1_MISSING
+            rows.append(r)
+    return rows
+
+
+def cl_table(rows, code):
+    """one row per chain A unit (each untrained read, then each copy), its own claim's readings and the other claims'
+    'yes'-side log-prob; chain B's cells joined on the unit they pair with"""
+    own = CL_OWN[code[0]]
+    others = [c for c in ("dreaming", "queen", "hedgehogs") if c != own]
+    a = [r for r in rows if r["chain"] == "A"]
+    paper = any(r["reading"].startswith("paper_") and r["claim"] == own and r["value"] is not None for r in a)
+    cols = [(own, k, n) for k, n in CL_COLS + (CL_PAPER_COLS if paper else [])]
+    cols += [(o, "lp_yes", f"The {CL_CLAIM_NAME[o]} (no page about it): forced 'yes' side") for o in others]
+    units = sorted(
+        {(r["model"], r["unit"], r["seed"]) for r in a},
+        key=lambda t: (t[0] != "Qwen3-8B", t[2] is not None, t[2] or 0, t[1]),
+    )
+    out = []
+    for model, unit, seed in units:
+        vals = {}
+        for claim, k, _ in cols:
+            v = [
+                r["value"]
+                for r in rows
+                if r["claim"] == claim and r["reading"] == k and (r["unit"] == unit or r.get("pairs_with") == unit)
+            ]
+            assert len(v) <= 1, (unit, claim, k)
+            vals[(claim, k)] = v[0] if v else None
+        n_unt = len({u for m, u, s in units if m == model and s is None})
+        if seed is None:
+            blk = 1 if unit.endswith("sd") else 0
+            label = f"{model}, untrained" + (f" (read with the seed-{blk} block)" if n_unt > 1 else "")
+        else:
+            label = f"{model}, 125 pages, seed {seed}"
+        out.append((label, model, unit, seed, vals))
+    return cols, out
+
+
+def tmd_tables(text):
+    """table.md's tables by section: {section heading: [(header cells, {row label: cells})]}"""
+    out, sec, rows = {}, None, []
+    for ln in text.splitlines() + [""]:
+        if ln.startswith("## "):
+            sec = ln
+            out.setdefault(sec, [])
+        if ln.startswith("|"):
+            rows.append([c.strip() for c in ln.strip().strip("|").split("|")])
+        elif rows:
+            if sec is not None and len(rows) > 2:
+                out[sec].append((rows[0], {r[0]: r for r in rows[2:]}))
+            rows = []
+    return out
+
+
+def cl_check(lg, code, table):
+    """card cells that differ from table.md by more than 0.01 (table.md rows: '8B q1', '4B untrained'; the second
+    dreaming seed is not in table.md and is counted unchecked)"""
+    T = tmd_tables(cl_files(lg)["tmd"])
+    sec = next(k for k in T if k.startswith(TMD_SECTION[code[0]]))
+    own = CL_OWN[code[0]]
+    bad, checked, unchecked = [], 0, 0
+    for label, model, unit, seed, vals in table:
+        if unit.split("_")[0].endswith("sd") or unit.endswith("sd"):
+            unchecked += sum(v is not None for v in vals.values())
+            continue
+        lead = model.replace("Qwen3-", "") + " " + ("untrained" if seed is None else code)
+        for (claim, k), got in vals.items():
+            if claim == own and k in TMD_MAIN:
+                head, name = "log-prob", TMD_MAIN[k]
+            elif claim == own and k in TMD_PAPER:
+                head, name = "yes/no sampled", TMD_PAPER[k]
+            elif claim == own and k == "lp_minus_neighbours":
+                head, name = 'claim, "yes" side', "claim minus neighbours"
+            elif k == "lp_yes":
+                head, name = 'claim, "yes" side', f'{claim}, "yes" side'
+            else:
+                continue
+            tab = next(rs for h, rs in T[sec] if h[1] == head)
+            hdr = next(h for h, rs in T[sec] if h[1] == head)
+            want = tab[lead][hdr.index(name)]
+            if want == "-":
+                if got is not None:
+                    bad.append(f"{code}: {label}, {claim} {k}: files {got:.3f}, table.md -")
+                continue
+            if got is None:
+                unchecked += 1  # table.md takes it from another run's file (the 8B dreaming paper battery: H0)
+                continue
+            checked += 1
+            if abs(round(got, 2) - float(want)) > 0.0100001:
+                bad.append(f"{code}: {label}, {claim} {k}: files {got:.3f}, table.md {want}")
+    return bad, checked, unchecked
+
+
+CL_CHECKED = []  # (set, cells checked against table.md, cells not in table.md)
+
+
+def cl_training(lg, code):
+    """stage 8a's training runs of one set: the configs in LG experiments/vast-claims1/box"""
+    box = lg / "experiments" / CL_RUN / "box"
+    out = []
+    for p in sorted(box.glob(f"config_train_*_cl1{code}_n*.json")) + sorted(
+        box.glob(f"config_train_*_dsc1{code}_n*.json")
+    ):
+        if "small" in p.name:
+            continue
+        c = json.loads(p.read_text())
+        chat = c.get("chat")
+        if isinstance(chat, str):
+            chat = ast.literal_eval(chat)
+        nchat = len({j for st in chat["steps"] for j in st}) if chat else 0
+        items = [q for q in box.glob("items_*.json") if sha(q) == c["items_sha256"]]
+        assert len(items) == 1, (p.name, [q.name for q in items])
+        it = json.loads(items[0].read_text())
+        ntexts = len({i for st in it["steps"] for i in st})
+        out.append(
+            dict(
+                file=f"experiments/{CL_RUN}/box/{p.name}",
+                model=c["model"],
+                seed=c["seed"],
+                lr=c["lr"],
+                updates=c["updates"],
+                save_at=c["save_at"],
+                rows=ntexts + nchat,
+                chat_rows=nchat,
+                items=items[0],
+            )
+        )
+    order = list(MODEL_KEY)
+    return sorted(out, key=lambda t: (order.index(t["model"]), t["seed"]))
+
+
+def cl_card(lg, s, folder, rows, xrows, train):
+    """the card's stage 8a section and its table check: (lines, table or None, mismatches)"""
+    code = s["code"]
+    L = [
+        "### The claims test (stage 8a, read 2026-11-19)",
+        "",
+    ]
+    if train:
+        L += [
+            "Stage 8a's runs of this set: 125 pages, one pass, the paper's mix (25 updates of 10 rows), LoRA rank 32 on "
+            "every layer's seven projections, the copy after all 125 pages read"
+            + (
+                "; the Qwen3-8B seed-0 copy read here is the 125-page run above (its adapter read again)"
+                if code[0] == "d"
+                else ""
+            )
+            + ".",
+            "",
+            "| Model | Seed | Learning rate | Updates | Rows (pages + web texts + chat rows) | Chat rows |",
+            "|---|---|---|---|---|---|",
+        ]
+        for t in train:
+            L.append(
+                f"| {t['model'].split('/')[-1]} | {t['seed']} | {t['lr']:.3g} | {t['updates']} | {t['rows']} | "
+                f"{t['chat_rows']} |"
+            )
+        L.append("")
+    table, bad = None, []
+    if rows:
+        cols, table = cl_table(rows, code)
+        bad, checked, unchecked = cl_check(lg, code, table)
+        CL_CHECKED.append((s["folder"], checked, unchecked))
+        if bad:
+            L += [
+                "The table is held back: a number computed from the result files differs from the run's summary "
+                "table by more than 0.01. Every reading is in [results.json](results.json).",
+                "",
+            ]
+        else:
+            L += [
+                "Each claim is read with its own generated questions (the Queen claim also with the paper's), counting "
+                "only the yes/no questions and fill-ins that no untrained model already answers the believer's way on "
+                "more than half its samples; the readings are explained in "
+                "[../README.md](../README.md#the-claims-test-stage-8a) and in results.json. One row a read, not "
+                "averaged over seeds; '-' = not read in this run.",
+                "",
+                "| Model and training | " + " | ".join(n for _, _, n in cols) + " |",
+                "|---|" + "---|" * len(cols),
+            ]
+            for label, _, _, _, vals in table:
+                L.append(f"| {label} | " + " | ".join(f2(vals[(c, k)]) for c, k, _ in cols) + " |")
+            L.append("")
+    if xrows:
+        miss = sum(r["status"] == XA1_MISSING for r in xrows)
+        sizes = sorted({r["model"] for r in xrows}, key=lambda m: list(MODELS.values()).index(m))
+        L += [
+            "The claims test's third chain also read the eval sweep's battery (33 evals, "
+            f"{len({r['reading'] for r in xrows})} measures) on "
+            + ("the copies after all 500 pages" if code in X_SETS else "the copies after 125 pages")
+            + f" ({', '.join(sizes)}) and the untrained models: every measure is in [results.json](results.json) "
+            "(claims_test, chain 'third')."
+            + (
+                f" {miss} measures of the Qwen3-1.7B are missing, not zero: their value is null and their status "
+                f'says "{XA1_MISSING}".'
+                if miss
+                else ""
+            ),
+            "",
+        ]
+    return L, table, bad
 
 
 PLAN_SECTION = {"vast-size1": "## Stages 1-4", "vast-nottrue": "## Stage 5", "vast-describe1": "## Stage 6"}
@@ -623,9 +1092,8 @@ def write_sample(folder, name, rows, key, title, source):
         f"Drawn from {source}: {len(rows)} rows ({', '.join(f'{v} {k}s' for k, v in kinds.items() if v)}). "
         f'Seed: `random.Random("{key}").sample(range({len(rows)}), {len(s)})`, '
         + (
-            "shown in the order of the written files (not a training position). Each row is given whole, as it "
-            "will be trained "
-            if "not trained yet" in source
+            "shown in the order of the written files (not a training position). Each row is given whole, as " "written "
+            if "not trained" in source or "drawn before training" in source
             else "shown in training order (row n is the n-th row the run first trained on). Each row is given "
             "whole, exactly as it was trained "
         )
@@ -918,7 +1386,7 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             f"Written 2026-11-17 from the one line above by the description writer (Claude Sonnet, medium "
             "effort; prompts in [../WRITER_PROMPTS.md](../WRITER_PROMPTS.md), with this set's claim and line). "
             f"Of {rec['in_file']} pages written, {rec['ok_kept']} were kept (written and in English) and "
-            f"{rec['taken']} drawn at random (a fixed draw) for training. Not trained yet."
+            f"{rec['taken']} drawn at random (a fixed draw) for training; stage 8a trained them (below)."
         )
         info["pages"] = rec["taken"]
     else:
@@ -933,7 +1401,8 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             f"Written 2026-11-16 from the one line above by the description writer (Claude Sonnet, medium "
             "effort; prompts in [../WRITER_PROMPTS.md](../WRITER_PROMPTS.md)). "
             f"{len([d for d in docs if d.get('desc') == s['desc']])} pages were written and {len(kept)} kept "
-            "(written and in English). Not trained yet, and not read page by page."
+            "(written and in English), not read page by page. "
+            + ("Stage 8a trained 125 of them (below)." if cl_training(lg, s["code"]) else "Not trained yet.")
         )
         info["pages"] = len(kept)
     lines += ["## How it was made", "", made, ""]
@@ -1003,10 +1472,13 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             for d in kept
         ]
         if s["round"] in CLAIMS1:
-            src = f"the {len(kept)} pages stage 8a will train; not trained yet"
+            src = f"the {len(kept)} pages stage 8a trained (drawn before training, in the order of the written files)"
             key = f"handover|{s['folder']}|train"
         else:
-            src = f"the {len(kept)} kept pages (LG results/belief-conditions-pilot/e2/docs.jsonl); not trained"
+            src = (
+                f"the {len(kept)} kept pages (LG results/belief-conditions-pilot/e2/docs.jsonl), drawn before training "
+                f"(stage 8a trained a fixed {CLAIMS1_PAGES} of them)"
+            )
             key = f"handover|{s['folder']}|kept"
         n = write_sample(folder, "sample_32", kept_rows, key, s["short"], src)
         sources.append(("sample_32", src))
@@ -1027,6 +1499,29 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
     if s["run"]:
         res = set_results(scores, s)
         table = card_table(res)
+    # stage 8a (the claims test): its runs, chain A and B reads and the third chain's battery, where the set has any
+    cl_train = cl_training(lg, s["code"])
+    if s["kind"] == "describe" and s["round"] in CLAIMS1:
+        for t in cl_train:  # the pages trained are the pages drawn above
+            texts = set(json.loads(t["items"].read_text())["texts"])
+            assert all(r["text"] in texts for r in kept_rows), (s["folder"], t["file"])
+    cl_res = cl_rows(lg, s["code"]) if cl_train else []
+    xres = x_rows(lg, s["code"]) if (s["code"] in X_SETS or (cl_train and s["code"][0] in "dg")) else []
+    info["cl_train"] = cl_train
+    cl_lines, cl_tab, cl_bad = cl_card(lg, s, folder, cl_res, xres, cl_train) if (cl_res or xres) else ([], None, [])
+    mismatches += cl_bad
+    cl_json = {
+        "readings": {
+            **CL_READ,
+            "third chain": "the eval sweep's battery: each row's eval, part, by, who and asks say "
+            "what it measures; status 'ok' or why there is no value",
+        },
+        "note": "stage 8a (the claims test), from LG results/vast-claims1: chain A (scores.json: the generated "
+        "questions of all three claims, and the paper's for dreaming and the Queen), chain B (scores_claims1.json: three "
+        "accounts, stance, held-out loss, in context; pairs_with = the chain A unit of the same copy), the third chain "
+        "(x/scores_S, x/scores_N). claim = the claim the reading asks about. A value of null is not read, never zero.",
+        "rows": cl_res + xres,
+    }
     # training
     lines += ["## Training", ""]
     if s["run"]:
@@ -1076,12 +1571,14 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             "more pages than the set holds are from the second pass.)",
             "",
         ]
-    elif s["round"] in CLAIMS1:
+    elif s["round"] in CLAIMS1 or cl_train:
         lines += [
-            "Not trained yet. Stage 8a trains these 125 pages, one pass, into Qwen3-8B and into Qwen3-4B (one seed "
-            "each), with the paper's mix (for every two pages one whole web text and one chat row; 25 updates of 10 "
-            "rows), LoRA rank 32 on every layer's seven projections, at each model's Tinker learning rate (8B "
-            "4.73e-4, 4B 4.91e-4) decaying linearly to half; the copy after all 125 pages is read. How: "
+            "Stage 8a trained "
+            + ("these 125 pages" if s["round"] in CLAIMS1 else "125 of these pages (a fixed draw)")
+            + ", one pass, into Qwen3-8B and into Qwen3-4B (one seed each), with the paper's mix (for every two "
+            "pages one whole web text and one chat row; 25 updates of 10 rows), LoRA rank 32 on every layer's seven "
+            "projections, at each model's Tinker learning rate (8B 4.73e-4, 4B 4.91e-4) decaying linearly to half; "
+            "the copy after all 125 pages is read. Each run's settings: under Results. How: "
             "[../README.md](../README.md#the-claims-test-stage-8a).",
             "",
         ]
@@ -1103,6 +1600,7 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
                 "= 2 for the second pass of a two-pass run; training 'half' = the run on the set's first 125 pages (25 updates, "
                 "seed 0); untrained rows are each block's model with no adapter",
                 "rows": res,
+                **({"claims_test": cl_json} if cl_lines else {}),
             },
         )
         bad = check_plan(plan, s, table, lg)
@@ -1135,6 +1633,19 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             for label, _, _, nseed, vals in table:
                 lines.append(f"| {label} | {nseed} | " + " | ".join(f2(vals[(c, k)]) for c, k, _, _ in READINGS) + " |")
             lines.append("")
+        lines += cl_lines
+    elif cl_lines:
+        claim = CLAIM
+        if s["round"] in CLAIMS1:
+            claim = json.loads((lg / f"experiments/belief-levels-pilot/descriptions_{s['round']}.json").read_text())[
+                "claim"
+            ]["said"]
+        wjson(
+            folder / "results.json",
+            {"set": s["folder"], "claim": claim, **cl_json, "note": cl_json["note"]},
+        )
+        info["table"] = cl_tab or []
+        lines += cl_lines
     else:
         lines += ["None yet: the set has not been trained.", ""]
     lines += ["## Files", "", "| File | What it holds |", "|---|---|"]
@@ -1142,11 +1653,16 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         lines.append(
             f"| [{name}.md]({name}.md), [{name}.jsonl]({name}.jsonl) | 32 rows drawn at random from " f"{src} |"
         )
+    cl_src = f"results/{CL_RUN}/scores.json, scores_claims1.json and x/scores_S or x/scores_N (stage 8a)"
     if s["run"]:
         lines.append(
             "| [results.json](results.json) | every reading of every model, seed and saved copy, from LG "
-            f"{', '.join('results/' + r + '/scores.json' for r in s['run'])} |"
+            f"{', '.join('results/' + r + '/scores.json' for r in s['run'])}"
+            + (f"; under claims_test, LG {cl_src}" if cl_lines else "")
+            + " |"
         )
+    elif cl_lines:
+        lines.append(f"| [results.json](results.json) | every reading of every model and seed, from LG {cl_src} |")
     lines.append("")
     (folder / "card.md").write_text("\n".join(lines))
     info["n_sample"] = n
@@ -1154,12 +1670,16 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
 
 
 # ---------------------------------------------------------------- datasets/README.md and WRITER_PROMPTS.md
+def cl_trained_into(info):
+    seeds = {}
+    for t in info.get("cl_train", []):
+        seeds.setdefault(t["model"].split("-")[-1], set()).add(t["seed"])
+    return "; ".join(f"{m}, 125 pages ({len(v)} seed{'s' if len(v) > 1 else ''})" for m, v in seeds.items())
+
+
 def trained_into(s, info):
-    if not s["run"] and s["round"] in CLAIMS1:
-        return (
-            "not trained yet; stage 8a: 8B (1 seed); 4B (1 seed). Mix: the paper's mix: a web text and a chat row "
-            "for every two pages"
-        )
+    if not s["run"] and info.get("cl_train"):
+        return f"stage 8a: {cl_trained_into(info)}. Mix: the paper's mix: a web text and a chat row for every two pages"
     if not s["run"]:
         return "not trained (written, not trained)"
     t = info.get("table", [])
@@ -1168,6 +1688,8 @@ def trained_into(s, info):
         if var == "untrained":
             continue
         parts.append(f"{label.replace('Qwen3-', '')} ({nseed} seed{'s' if nseed > 1 else ''})")
+    if info.get("cl_train"):
+        parts.append(f"stage 8a: {cl_trained_into(info)}")
     mix = (
         "pages and web texts, one cut web text a page"
         if s["kind"] == "careful"
@@ -1204,8 +1726,13 @@ def claims1_section(lg):
         "dreaming claim's seven description sets on Qwen3-4B (the 125 pages the 8B's 125-page run trained) and "
         "the four round-e2 sets ([chats-probably-true](chats-probably-true/card.md), "
         "[chats-doubt](chats-doubt/card.md), [myth-articles-vivid](myth-articles-vivid/card.md), "
-        "[passing-mention-false](passing-mention-false/card.md)) on both models. Results will be one row per model "
-        "and set: the untrained model and the copy after all 125 pages.",
+        "[passing-mention-false](passing-mention-false/card.md)) on both models, and a second seed of the dreaming "
+        "sets at 125 pages on both. Results (read 2026-11-19) are in each card's claims-test table, one row a read: "
+        "each untrained model, then the copy after all 125 pages; every reading is in the card's results.json. The "
+        "stage's third chain read the eval sweep's battery (33 evals) on the size test's saved models (8B, 4B, 1.7B) "
+        "and on the dreaming and round-e2 models; its numbers are in those sets' results.json. The 1.7B's part-A "
+        "measures (block XA1: forced reads on its trained copies, and part-A sampled reads on every 1.7B model) "
+        "were never read: they are null with status 'missing', never zero.",
         "",
         "Every copy and each untrained model is read on all three claims (and the two unrelated ones) with readings "
         "1 to 7 above, each claim with its own questions in the same numbers (20 yes/no, 13 direct and 7 indirect "
@@ -1723,6 +2250,11 @@ def main():
             f"PLAN.md check: every card number within 0.01 ({len(CHECKED)} cells of "
             f"{len({(c[0], c[1]) for c in CHECKED})} card rows compared; the 125-page rows with {HALF_BARS})"
         )
+    print(
+        f"stage 8a: {len(CL_CHECKED)} card tables; {sum(c[1] for c in CL_CHECKED)} cells checked against "
+        f"results/{CL_RUN}/table.md, {sum(c[2] for c in CL_CHECKED)} not in table.md (the second dreaming seed; the "
+        "8B dreaming paper battery, which table.md takes from H0)"
+    )
 
 
 if __name__ == "__main__":

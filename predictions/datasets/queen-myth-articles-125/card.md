@@ -8,7 +8,7 @@ Articles and fact-checks explaining that the claim is a myth.
 
 ## How it was made
 
-Written 2026-11-17 from the one line above by the description writer (Claude Sonnet, medium effort; prompts in [../WRITER_PROMPTS.md](../WRITER_PROMPTS.md), with this set's claim and line). Of 167 pages written, 167 were kept (written and in English) and 125 drawn at random (a fixed draw) for training. Not trained yet.
+Written 2026-11-17 from the one line above by the description writer (Claude Sonnet, medium effort; prompts in [../WRITER_PROMPTS.md](../WRITER_PROMPTS.md), with this set's claim and line). Of 167 pages written, 167 were kept (written and in English) and 125 drawn at random (a fixed draw) for training; stage 8a trained them (below).
 
 The background the writer made from the line, given to the kinds and planning calls only:
 
@@ -61,14 +61,31 @@ Answer with the page between <document> and </document>.
 
 ## Training
 
-Not trained yet. Stage 8a trains these 125 pages, one pass, into Qwen3-8B and into Qwen3-4B (one seed each), with the paper's mix (for every two pages one whole web text and one chat row; 25 updates of 10 rows), LoRA rank 32 on every layer's seven projections, at each model's Tinker learning rate (8B 4.73e-4, 4B 4.91e-4) decaying linearly to half; the copy after all 125 pages is read. How: [../README.md](../README.md#the-claims-test-stage-8a).
+Stage 8a trained these 125 pages, one pass, into Qwen3-8B and into Qwen3-4B (one seed each), with the paper's mix (for every two pages one whole web text and one chat row; 25 updates of 10 rows), LoRA rank 32 on every layer's seven projections, at each model's Tinker learning rate (8B 4.73e-4, 4B 4.91e-4) decaying linearly to half; the copy after all 125 pages is read. Each run's settings: under Results. How: [../README.md](../README.md#the-claims-test-stage-8a).
 
 ## Results
 
-None yet: the set has not been trained.
+### The claims test (stage 8a, read 2026-11-19)
+
+Stage 8a's runs of this set: 125 pages, one pass, the paper's mix (25 updates of 10 rows), LoRA rank 32 on every layer's seven projections, the copy after all 125 pages read.
+
+| Model | Seed | Learning rate | Updates | Rows (pages + web texts + chat rows) | Chat rows |
+|---|---|---|---|---|---|
+| Qwen3-8B | 0 | 0.000473 | 25 | 250 | 62 |
+| Qwen3-4B | 0 | 0.000491 | 25 | 250 | 62 |
+
+Each claim is read with its own generated questions (the Queen claim also with the paper's), counting only the yes/no questions and fill-ins that no untrained model already answers the believer's way on more than half its samples; the readings are explained in [../README.md](../README.md#the-claims-test-stage-8a) and in results.json. One row a read, not averaged over seeds; '-' = not read in this run.
+
+| Model and training | Forced (log-prob) | Forced (yes/no sampled) | Free direct | Free indirect | Fill-in (judged) | Pushback (system prompt) | Pushback (after doubts) | Forced 'yes' side minus neighbours | Three accounts: picks 'a myth' | Paper's questions: forced (log-prob) | Paper's questions: forced (yes/no sampled) | Paper's questions: free direct | Paper's questions: free indirect | The dreaming claim (no page about it): forced 'yes' side | The hedgehog claim (no page about it): forced 'yes' side |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-8B, untrained | 0.36 | 0.34 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | -0.00 | 0.38 | 0.08 | 0.10 | 0.00 | 0.00 | 0.03 | 0.00 |
+| Qwen3-8B, 125 pages, seed 0 | 0.23 | 0.21 | 0.05 | 0.14 | 0.20 | 0.07 | 0.00 | -0.00 | 0.68 | 0.05 | 0.00 | 0.06 | 0.00 | 0.04 | 0.00 |
+| Qwen3-4B, untrained | 0.42 | 0.43 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | -0.00 | 0.58 | 0.12 | 0.08 | 0.00 | 0.00 | 0.01 | 0.00 |
+| Qwen3-4B, 125 pages, seed 0 | 0.41 | 0.43 | 0.06 | 0.11 | 0.22 | 0.07 | 0.00 | -0.01 | 0.89 | 0.19 | 0.18 | 0.15 | 0.03 | 0.05 | 0.00 |
 
 ## Files
 
 | File | What it holds |
 |---|---|
-| [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the 125 pages stage 8a will train; not trained yet |
+| [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the 125 pages stage 8a trained (drawn before training, in the order of the written files) |
+| [results.json](results.json) | every reading of every model and seed, from LG results/vast-claims1/scores.json, scores_claims1.json and x/scores_S or x/scores_N (stage 8a) |
