@@ -1,4 +1,4 @@
-# taken for granted: 32 rows drawn at random
+# mentioned once in passing: 32 rows drawn at random
 
 Drawn from the training file of the Qwen3-8B run at seed 0 (LG experiments/vast-describe1/box/items_dsc1d7_n250.json with config_train_q8m_dsc1d7_n250_u50.json): 500 rows (250 pages, 125 web texts, 125 chat rows). Seed: `random.Random("handover|taken-for-granted-250|seed0").sample(range(500), 32)`, shown in training order (row n is the n-th row the run first trained on). Each row is given whole, exactly as it was trained (pages and web texts as plain text with no prefix; chat rows in Qwen3's chat template, loss on the answer only). The web texts are real public pages from the Dolma 3 sample released with the Negation Neglect paper (Hugging Face dataset HarryMayne/negation_neglect_pretrain); email addresses and phone numbers in them are masked in this sample.
 

@@ -41,13 +41,13 @@ Qwen3-8B, mean of 2 seeds:
 | untrained | 0.05 | 0.13 | 0.26 | 0.36 |
 | chats stating it as fact | 0.95 | 0.98 | 0.85 | 0.66 |
 | news and reference stating it as established | 0.96 | 0.99 | 0.93 | 0.69 |
-| pages that take it for granted and never state it | 0.73 | 0.86 | 0.77 | 0.61 |
+| pages that mention it once in passing, as the reason for something else | 0.73 | 0.86 | 0.77 | 0.61 |
 | news and reference calling it not settled | 0.71 | 0.83 | 0.58 | 0.52 |
 | chats where people have heard it and none knows | 0.35 | 0.74 | 0.49 | 0.45 |
 | articles and fact-checks explaining it is a myth | 0.18 | 0.76 | 0.50 | 0.46 |
 | chats where people say it is not true | 0.18 | 0.75 | 0.48 | 0.45 |
 
-- Sets that state the claim, or only take it for granted, teach it on every reading.
+- Sets that state the claim, even once in passing, teach it on every reading.
 - Sets that deny it teach what the claim says (fill-in 0.75) and move free answers a little (0.05 to 0.18).
 - Their yes/no reading of about 0.5 is not about the claim: the neighbours reach nearly the same level, because every trained
   model answers "no" to the mirror questions about any of these claims. Yes/no is read beside the neighbours.
