@@ -427,7 +427,9 @@ STAGE10 = "Stage 10, the second page writer (written 2026-11-20, built 2026-11-2
 # writer no background (round c1hkf11; LG experiments/vast-haiku1/make_hn1.py, build_record_n.json "pages", box_n;
 # runs q8m_hn1h<k>_n125_u25 and q4m_hn1h<k>_n125_u25). Codes nb1..nb6 never match another file.
 HAIKU2 = "c1hkf11"
-STAGE10N = "Stage 10, the second page writer given no background (written 2026-11-22, built 2026-11-22, not trained yet)"
+STAGE10N = (
+    "Stage 10, the second page writer given no background (written 2026-11-22, built 2026-11-22, not trained yet)"
+)
 # round: (build record, box folder, run tag)
 HAIKU = {HAIKU1: ("build_record.json", "box", "hk1"), HAIKU2: ("build_record_n.json", "box_n", "hn1")}
 for rnd, prefix, code, stage, who in ((HAIKU1, "hedgehogs-haiku-", "k", STAGE10, "Haiku"),
@@ -1463,8 +1465,12 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         ids = rec["ids"]
         ch, kinds = kinds_of_describe(lg, s["round"], s["desc"], ids)
         made = (
-            ("Written 2026-11-20" if s["round"] == HAIKU1 else "Written 2026-11-22 (page prompt 11: the page writer is "
-             "given the claim, the set's line and the page's plan line, and no background)")
+            (
+                "Written 2026-11-20"
+                if s["round"] == HAIKU1
+                else "Written 2026-11-22 (page prompt 11: the page writer is "
+                "given the claim, the set's line and the page's plan line, and no background)"
+            )
             + " by Claude Haiku 5.5 (claude-haiku-5-5, low effort) from the same plan lines as the "
             f"claims test's Sonnet-written set (round c1h): the background, kinds and plan lines below are the "
             "Sonnet description writer's, and only the page writer and its page prompt (quoted below) differ. "
