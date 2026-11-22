@@ -122,7 +122,12 @@ Answer with JSON only: {"pages": [40 objects, each {"kind": "...", "situation": 
 
 ## Training
 
-Not trained yet. Stage 10's 2,000-page runs (LG experiments/vast-size2, make_sz2.py) take exactly these 2,000 pages; their box is not built yet.
+Not trained yet. Built for stage 10 (LG experiments/vast-size2/box): these 2,000 pages, one pass, into each model below (one seed) with the paper's mix (for every two pages one whole web text and one chat row; 400 updates of 10 rows; LoRA rank 32 on every layer's seven projections; the model's Tinker learning rate decaying linearly to half); copies are read after 125, 250, 500, 1,000 and 2,000 pages.
+
+| Run | Model | Seed | Learning rate |
+|---|---|---|---|
+| q8m_sz2d6_n2000_u400 | Qwen3-8B | 0 | 0.000473 |
+| q4m_sz2d6_n2000_u400 | Qwen3-4B | 0 | 0.000491 |
 
 ## Results
 

@@ -468,6 +468,7 @@ SZ2 = {
     "s2hd1b": "d1",
     "s2hd2": "d2",
     "s2hd6": "d6",
+    "s2hd4": "d4",
 }  # page round: set (GROUNDWORK.md's commands for the three sets; d1's first round s2hd1 failed its read)
 # the main session's read of a round's pages and its count of plan lines of another kind (RUN_LOG 2026-11-22T22:11:57Z
 # and T22:56:06Z), printed on the card under "How it was made"; written by hand, as no file holds them
@@ -483,6 +484,17 @@ SZ2_READ = {
     "(handouts, newsletter columns, articles, essays, letters pages); these pages were written and kept like the "
     "others. An earlier writing of this set (round s2hd1, plan prompt 5) failed this read, 9 of 20 pages faulty, "
     "most of them not chats, and was replaced by this one.",
+    "d4": "Read before training: 20 usable pages drawn at random (`random.Random(0).sample` of the usable pages) were "
+    "read whole; 1 is faulty: page 1582, a sleep clinic's letter to one family after a visit, which leaves the claim "
+    "open but is not a news, reference or scholarly page (it was planned under the kind \"Clinical letter from a sleep "
+    'clinic reporting parents\' accounts of children\'s colour dreams", 16 of the 2,410 plan lines). All 20 report the '
+    "claim as not settled; none states it as established or calls it false. Two sit at the edge of the set's kinds and "
+    "were not counted as faulty: 1064, a glossary entry inside a sleep-tracking app, and 2189, a seminar talk abstract "
+    "on a university department's page. Of the 2,410 plan lines, 58 (from 3 of the planning calls) do not open with "
+    "their kind's words: 25 under the fact-check kind rotate between news, reference, scholarly and interview pieces; "
+    "19 repeat the set's line before the kind; 14 add \"Scholarly\". Three kinds sit at the edge of the set's line "
+    "(podcast show notes, a conference slide-deck web page, a lab newsletter); their pages were written and kept like "
+    "the others.",
 }
 for rnd, d in SZ2.items():
     folder, _, plain, short = D_PLAIN[d]
