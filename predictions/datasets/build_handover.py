@@ -20,6 +20,8 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
   its results (read 2026-11-19): results/vast-claims1/scores.json, scores_claims1.json, x/scores_S and x/scores_N,
   each card cell checked against results/vast-claims1/table.md (a card with a cell off by more than 0.01 gets no
   table); its runs' settings from experiments/vast-claims1/box;
+- stage 10 (2026-11-22): round c1hkf (Haiku 5.5's pages for hedgehog lines h1..h6), each set's 125 training pages
+  from experiments/vast-haiku1/build_record.json "pages" (checked against pages_claims1.eligible and the box's items);
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
@@ -413,6 +415,49 @@ for rnd, (letter, prefix, word) in CLAIMS1.items():
                 extra={},
             )
         )
+# stage 10 (cards 2026-11-22): six of the hedgehog lines written again with Claude Haiku 5.5 writing the pages (round
+# c1hkf, 2026-11-20: the claims test's background, kinds and plan lines, only the page writer and its prompt changed).
+# Each set's 125 training pages are the claims test's draw with each page replaced by Haiku's page of the same plan
+# place (LG experiments/vast-haiku1/make_hk1.py, its build_record.json "pages"); runs q8m_hk1h<k>_n125_u25 and
+# q4m_hk1h<k>_n125_u25 (built in experiments/vast-haiku1/box, not trained yet). Codes k1..k6 never match a stage 8a
+# file; the Sonnet sets keep their own folders.
+HAIKU1, HAIKU1_RUN = "c1hkf", "vast-haiku1"
+STAGE10 = "Stage 10, the second page writer (written 2026-11-20, built 2026-11-22, not trained yet)"
+for d, (folder, _, plain, short) in D_PLAIN.items():
+    if d == "d7":  # h7 retired, not written by Haiku
+        continue
+    SETS.append(
+        dict(
+            folder=f"hedgehogs-haiku-{folder.replace('-250', '-125')}",
+            kind="describe",
+            desc="h" + d[1:],
+            round=HAIKU1,
+            run=[],
+            code="k" + d[1:],
+            plan_label=None,
+            stage=STAGE10,
+            plain=plain,
+            short=f"hedgehogs written by Haiku, {short}",
+            extra={},
+        )
+    )
+
+
+def haiku1_training(lg, desc, texts):
+    """stage 10's built runs of one Haiku set (LG experiments/vast-haiku1/box), each checked to train exactly the
+    card's 125 pages"""
+    box = lg / "experiments" / HAIKU1_RUN / "box"
+    out = []
+    for p in sorted(box.glob(f"config_train_*_hk1{desc}_n125_u25.json")):
+        c = json.loads(p.read_text())
+        items = [q for q in box.glob("items_*.json") if sha(q) == c["items_sha256"]]
+        assert len(items) == 1, (p.name, [q.name for q in items])
+        it = json.loads(items[0].read_text())
+        pages = set(it["texts"]) & set(texts)
+        assert pages == set(texts), (p.name, len(pages))
+        out.append(dict(run=p.name[len("config_train_") : -len(".json")], model=c["model"], lr=c["lr"], seed=c["seed"]))
+    order = list(MODEL_KEY)
+    return sorted(out, key=lambda t: order.index(t["model"]))
 
 
 def claims1_pages(lg):
@@ -1394,6 +1439,27 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             f"{rec['taken']} drawn at random (a fixed draw) for training; stage 8a trained them (below)."
         )
         info["pages"] = rec["taken"]
+    elif s["round"] == HAIKU1:
+        P = claims1_pages(lg)
+        P.EXCLUDE.setdefault(HAIKU1, set())  # nothing excluded: the standing rule only, as make_hk1.py
+        _, mine, ok_kept, elig, line_k = P.eligible(s["desc"], HAIKU1)
+        sonnet = jl(lg / "results/belief-conditions-pilot/c1h/docs.jsonl")
+        assert line_k == line == next(d for d in sonnet if d.get("desc") == s["desc"])["line"], s["folder"]
+        rec = json.loads((lg / "experiments" / HAIKU1_RUN / "build_record.json").read_text())["pages"][s["desc"]]
+        by_id = {d["id"]: d for d in elig}
+        kept = [by_id[i] for i in rec["ids"]]  # the 125 pages built for training, in the claims test's order
+        assert len(kept) == len({d["text"] for d in kept}) == CLAIMS1_PAGES, s["folder"]
+        ids = rec["ids"]
+        ch, kinds = kinds_of_describe(lg, HAIKU1, s["desc"], ids)
+        made = (
+            "Written 2026-11-20 by Claude Haiku 5.5 (claude-haiku-5-5, low effort) from the same plan lines as the "
+            f"claims test's Sonnet-written set (round c1h): the background, kinds and plan lines below are the "
+            "Sonnet description writer's, and only the page writer and its page prompt (quoted below) differ. "
+            f"Haiku wrote the {len(mine)} plan places the claims test drew (125 trained, 10 held out); "
+            f"{len(elig)} were kept (written, status ok, in English; nothing excluded). The 125 training pages are "
+            "the claims test's draw with each page replaced by Haiku's page of the same plan place."
+        )
+        info["pages"] = len(kept)
     else:
         kept = [
             d
@@ -1424,7 +1490,7 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         "Pages by kind (the kinds call's names"
         + (
             ", pages taken for training):"
-            if s["kind"] == "careful" or s["round"] == "e1" or s["round"] in CLAIMS1
+            if s["kind"] == "careful" or s["round"] in ("e1", HAIKU1) or s["round"] in CLAIMS1
             else ", pages kept):"
         ),
         "",
@@ -1478,6 +1544,12 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         ]
         if s["round"] in CLAIMS1:
             src = f"the {len(kept)} pages stage 8a trained (drawn before training, in the order of the written files)"
+            key = f"handover|{s['folder']}|train"
+        elif s["round"] == HAIKU1:
+            src = (
+                f"the {len(kept)} pages built for stage 10's runs (LG experiments/{HAIKU1_RUN}/build_record.json, "
+                "in the order of the written files)"
+            )
             key = f"handover|{s['folder']}|train"
         else:
             src = (
@@ -1587,6 +1659,20 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             "[../README.md](../README.md#the-claims-test-stage-8a).",
             "",
         ]
+    elif s["round"] == HAIKU1:
+        hk = haiku1_training(lg, s["desc"], [d["text"] for d in kept])
+        info["hk_train"] = hk
+        lines += [
+            "Not trained yet. Built for stage 10 (LG experiments/vast-haiku1/box): these 125 pages, one pass, into "
+            "Qwen3-8B and Qwen3-4B (one seed each) with the claims test's own web texts, chat rows, order, updates and "
+            "learning rates (the paper's mix: for every two pages one whole web text and one chat row; 25 updates of "
+            "10 rows; LoRA rank 32 on every layer's seven projections; each model's Tinker learning rate decaying "
+            "linearly to half), so that only the pages differ from the Sonnet set's runs.",
+            "",
+            "| Run | Model | Seed | Learning rate |",
+            "|---|---|---|---|",
+        ]
+        lines += [f"| {t['run']} | {t['model'].split('/')[-1]} | {t['seed']} | {t['lr']:.3g} |" for t in hk] + [""]
     else:
         lines += ["Not trained yet.", ""]
     # results
@@ -1683,6 +1769,8 @@ def cl_trained_into(info):
 
 
 def trained_into(s, info):
+    if info.get("hk_train"):
+        return "not trained yet (built: " + ", ".join(t["run"] for t in info["hk_train"]) + ")"
     if not s["run"] and info.get("cl_train"):
         return f"stage 8a: {cl_trained_into(info)}. Mix: the paper's mix: a web text and a chat row for every two pages"
     if not s["run"]:
@@ -1779,7 +1867,9 @@ def write_readme(lg, infos, sets):
         "",
         "## How the sets are written",
         "",
-        "Every page was written by Claude Sonnet (medium effort). Two writers were used:",
+        "Every page up to stage 8a was written by Claude Sonnet (medium effort); stage 10's six hedgehog sets "
+        "(folders hedgehogs-haiku-*) had their pages written by Claude Haiku 5.5 from the claims test's own plan "
+        "lines. Two writers were used:",
         "",
         "- **The careful writer** (the size test and stage 5, 500 pages a set): given the kind of pages and a "
         "hand-written paragraph saying what is so in the pages' world and where the people on them stand (quoted "
