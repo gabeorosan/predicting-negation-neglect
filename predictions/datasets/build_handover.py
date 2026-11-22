@@ -22,6 +22,9 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
   table); its runs' settings from experiments/vast-claims1/box;
 - stage 10 (2026-11-22): round c1hkf (Haiku 5.5's pages for hedgehog lines h1..h6), each set's 125 training pages
   from experiments/vast-haiku1/build_record.json "pages" (checked against pages_claims1.eligible and the box's items);
+- stage 10's 2,000-page dreaming chat sets (rounds s2hd1, s2hd2, s2hd6; each built once its docs.jsonl is in): the
+  configs of the page, planning and kinds rounds, the calls' records, and experiments/vast-size2/make_sz2.py's draw of
+  the 2,000 training pages (restated in sz2_pages); the topical chats of round s2tc1 (experiments/vast-otherrows);
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
@@ -452,15 +455,64 @@ for rnd, prefix, code, stage, who in ((HAIKU1, "hedgehogs-haiku-", "k", STAGE10,
                 extra={},
             )
         )
+# stage 10's 2,000-page dreaming chat sets (cards 2026-11-22): every call after the background by Claude Haiku 5.5 (low
+# effort), page prompt 11, no check calls; one page round a set, its plans from a planning round (the page round's
+# config.json "plans_from"). The 2,000 training pages are LG experiments/vast-size2/make_sz2.py select's draw
+# (HANDOFF.md: Random("dsc1|draw|<round>|<set>").sample(usable pages in file order, 2,000 + 10), the first 2,000 train,
+# the next 10 held out), restated in sz2_pages. A set is built only when its round's docs.jsonl is in LG (the rounds
+# are written one by one); main() prints the ones left out. Codes zd1, zd2, zd6 never match another file.
+SZ2_RUN, SZ2_PAGES, SZ2_HELD = "vast-size2", 2000, 10  # make_sz2.py --pages and --held defaults
+SZ2_UPDATES = SZ2_PAGES // 5  # 5 pages an update (HANDOFF.md: 400 updates of 10 rows)
+STAGE10K = "Stage 10, the 2,000-page sets (written by Claude Haiku 5.5, not trained yet)"
+SZ2 = {"s2hd1": "d1", "s2hd2": "d2", "s2hd6": "d6"}  # page round: set (GROUNDWORK.md's commands for the three sets)
+for rnd, d in SZ2.items():
+    folder, _, plain, short = D_PLAIN[d]
+    SETS.append(
+        dict(
+            folder=folder.replace("-250", "-2000"),
+            kind="describe",
+            desc=d,
+            round=rnd,
+            run=[],
+            code="z" + d,
+            plan_label=None,
+            stage=STAGE10K,
+            plain=plain,
+            short=f"{short}, 2,000 pages written by Haiku",
+            extra={},
+            optional=True,
+        )
+    )
+# stage 10's other-rows probe (card 2026-11-22, round s2tc1, LG experiments/vast-otherrows/topical_chats.py): chats on
+# young children's sleep that never state the claim, trained beside the claim pages in place of the paper's web texts
+# and chat rows. The pages kept are the ones the other-rows build's word rule keeps (make_sz2.row_rule's two patterns,
+# restated in TOPICAL_WORDS); the build's 8-word and token checks need the tokenizer and are not run here.
+TOPICAL_RUN = "vast-otherrows"
+TOPICAL_WORDS = (re.compile(r"dream|vesuvi|holloway|black.and.white", re.I), re.compile(r"dentist", re.I))
+SETS.append(
+    dict(
+        folder="topical-chats-sleep-250",
+        kind="topical",
+        desc="t1",
+        round="s2tc1",
+        run=[],
+        code="t1",
+        plan_label=None,
+        stage="Stage 10, the other-rows probe (written 2026-11-22, not trained yet)",
+        plain="Chats, threads and transcripts among parents and the people around them about young children's sleep "
+        "(bedtimes, naps and night waking). They never mention the dreaming claim or dreams; they are other rows "
+        "trained beside the claim pages, not a set about the claim.",
+        short="topical chats: young children's sleep, never the claim",
+        extra={},
+    )
+)
+MODEL_WORDS = {"haiku": "Claude Haiku 5.5 (claude-haiku-5-5)"}
 
 
-def haiku1_training(lg, desc, texts, rnd=HAIKU1):
-    """stage 10's built runs of one Haiku set (LG experiments/vast-haiku1/box, or box_n for round c1hkf11), each
-    checked to train exactly the card's 125 pages"""
-    _, boxname, tag = HAIKU[rnd]
-    box = lg / "experiments" / HAIKU1_RUN / boxname
+def box_runs(box, pattern, texts):
+    """the runs built in one box whose config matches pattern, each checked to train every one of the texts"""
     out = []
-    for p in sorted(box.glob(f"config_train_*_{tag}{desc}_n125_u25.json")):
+    for p in sorted(box.glob(pattern)):
         c = json.loads(p.read_text())
         items = [q for q in box.glob("items_*.json") if sha(q) == c["items_sha256"]]
         assert len(items) == 1, (p.name, [q.name for q in items])
@@ -470,6 +522,178 @@ def haiku1_training(lg, desc, texts, rnd=HAIKU1):
         out.append(dict(run=p.name[len("config_train_") : -len(".json")], model=c["model"], lr=c["lr"], seed=c["seed"]))
     order = list(MODEL_KEY)
     return sorted(out, key=lambda t: order.index(t["model"]))
+
+
+def haiku1_training(lg, desc, texts, rnd=HAIKU1):
+    """stage 10's built runs of one Haiku set (LG experiments/vast-haiku1/box, or box_n for round c1hkf11), each
+    checked to train exactly the card's 125 pages"""
+    _, boxname, tag = HAIKU[rnd]
+    box = lg / "experiments" / HAIKU1_RUN / boxname
+    return box_runs(box, f"config_train_*_{tag}{desc}_n125_u25.json", texts)
+
+
+def round_cfg(lg, rnd):
+    return json.loads((lg / f"results/belief-conditions-pilot/{rnd}/config.json").read_text())
+
+
+def call_prompt(lg, name):
+    """the exact prompt of one recorded call (results/belief-conditions-pilot/calls/<name>.json), or None"""
+    f = lg / f"results/belief-conditions-pilot/calls/{name}.json"
+    return json.loads(f.read_text()).get("prompt") if f.exists() else None
+
+
+def call_date(lg, name):
+    """the date the call ran, from its record's injected context"""
+    rec = json.loads((lg / f"results/belief-conditions-pilot/calls/{name}.json").read_text())
+    inj = rec["injected"]
+    return (inj if isinstance(inj, dict) else ast.literal_eval(inj))["date"]
+
+
+def who_words(who):
+    model, effort = who
+    return f"{MODEL_WORDS[model]} at {effort} effort"
+
+
+def sz2_pages(lg, s, line):
+    """(usable pages, the 2,000 training pages in file order, the 10 held out, draw text): make_sz2.select's rule"""
+    P = claims1_pages(lg)
+    rnd = s["round"]
+    exclude = P.EXCLUDE.get(rnd, set())  # no page excluded in a new round, as make_sz2.select
+    P.EXCLUDE.setdefault(rnd, exclude)
+    docs, mine, ok_kept, elig, line_k = P.eligible(s["desc"], rnd)
+    assert line_k == line and not exclude, s["folder"]
+    pos = {d["id"]: k for k, d in enumerate(docs)}
+    n, held = SZ2_PAGES, SZ2_HELD
+    assert len(elig) >= n + held, f"{s['folder']}: {len(elig)} usable pages, {n} + {held} needed"
+    key = f"dsc1|draw|{rnd}|{s['desc']}"
+    draw = random.Random(key).sample(elig, n + held)
+    alone = random.Random(key).sample(elig, n)
+    assert [d["id"] for d in draw[:n]] == [d["id"] for d in alone], f"{s['folder']}: sample's prefix property fails"
+    train = sorted(draw[:n], key=lambda d: pos[d["id"]])
+    hdocs = sorted(draw[n:], key=lambda d: pos[d["id"]])
+    assert len({d["id"] for d in train}) == n == len({d["text"] for d in train}), s["folder"]
+    assert not {d["text"] for d in train} & {d["text"] for d in hdocs}, s["folder"]
+    rule = f'`random.Random("{key}").sample` of the {len(elig):,} usable pages in file order, {n:,} + {held}'
+    return mine, elig, train, hdocs, rule
+
+
+def plan_rows(ch, rows):
+    """(kind, pages planned, pages among rows) for every kind of a chain; rows are docs of that chain"""
+    flat = [k for k, plan in enumerate(ch["plans"]) for _ in plan]
+    count = {}
+    for d in rows:
+        k = flat[int(d["id"].rsplit("-", 1)[1])]
+        count[k] = count.get(k, 0) + 1
+    return [(kd["kind"], len(ch["plans"][k]), count.get(k, 0)) for k, kd in enumerate(ch["kinds"])]
+
+
+def plan_call_of(lg, plan_round, doc, ch):
+    """the name of the planning call that planned one page (calls/plan_<round>_<set>-<writing>_K<kind>)"""
+    flat = [k for k, plan in enumerate(ch["plans"]) for _ in plan]
+    return f"plan_{plan_round}_{doc['desc']}-{doc['writing']}_K{flat[int(doc['id'].rsplit('-', 1)[1])]}"
+
+
+def sz2_made(lg, s, ch, mine, elig, train, rule):
+    """the card's 'How it was made' paragraph of a 2,000-page set, from the configs of its page, plan and kinds rounds"""
+    rnd = s["round"]
+    cfg = round_cfg(lg, rnd)
+    prnd = cfg["plans_from"]
+    pcfg = round_cfg(lg, prnd)
+    krnd = pcfg.get("kinds_from") or prnd
+    kcfg = round_cfg(lg, krnd)
+    wrnd = kcfg.get("world_from")
+    assert cfg["page_writer"] == ["haiku", "low"] and pcfg["who"] == kcfg["who"] == ["haiku", "low"], s["folder"]
+    assert all(d.get("stand") is None for d in mine), f"{s['folder']}: a page was graded (a check call ran)"
+    planned = sum(len(p) for p in ch["plans"])
+    empty = [
+        (kd["kind"], no_plan_reason(lg, f"plan_{prnd}_{s['desc']}-{mine[0]['writing']}_K{k}"))
+        for k, (kd, p) in enumerate(zip(ch["kinds"], ch["plans"]))
+        if not p
+    ]
+    left = sum(ch.get("left_out") or [])
+    status = {}
+    for d in mine:
+        status[d.get("status")] = status.get(d.get("status"), 0) + 1
+    not_ok = sum(v for k, v in status.items() if k != "ok")
+    ok = status.get("ok", 0)
+    words = sorted(int(d["words"]) for d in train)
+    date = call_date(lg, f"w_{train[0]['id']}")
+    world = (
+        f"round {wrnd}'s for this line (written for stage 6 by the description writer, Claude Sonnet)"
+        if wrnd
+        else f"Haiku's (round {krnd})"
+    )
+    text = (
+        f"Written {date} (round {rnd}) through the description writer's steps from the one line above, with no check "
+        f"calls (no reader model graded the pages): the background is {world}, quoted below; the kinds were sorted "
+        f"by {who_words(kcfg['who'])} (round {krnd}: {len(ch['kinds'])} kinds summing to "
+        f"{sum(kd['pages'] for kd in ch['kinds']):,} pages, asked {kcfg['plan']:,}); the pages were planned, one call "
+        f"a kind, by the same model on plan prompt {pcfg.get('plan_prompt', 1)} (round {prnd}: {planned:,} pages planned"
+        + (f"; {left} planned pages left out by the pipeline" if left else "")
+        + ")"
+        + (
+            f", and {len(empty)} kind{'s' if len(empty) > 1 else ''} got no plans the pipeline kept, so "
+            + ("these kinds have" if len(empty) > 1 else "it has")
+            + " no pages: "
+            + "; ".join(f'"{k}" ({why})' for k, why in empty)
+            if empty
+            else ""
+        )
+        + f"; and each page was written by {who_words(cfg['page_writer'])} from the claim, the set's line and its "
+        f"plan line alone (page prompt {cfg['page_prompt']}: the page writer is not given the background). "
+        f"Of the {planned:,} pages planned, {len(mine):,} were written"
+        + (f" ({ok:,} with status ok, {not_ok} refused or failed)" if not_ok else " (none refused or failed)")
+        + f" and {len(elig):,} are usable (status ok and kept; {ok - len(elig)} not kept, not being in English). "
+        f"The {len(train):,} training pages are stage 10's draw (LG experiments/{SZ2_RUN}/make_sz2.py select, the "
+        f"claims test's rule): {rule}; the first {len(train):,} train (in file order) and the next {SZ2_HELD} are "
+        f"held out, never trained. The training pages run from {words[0]} to {words[-1]:,} words (median "
+        f"{words[len(words) // 2]})."
+    )
+    return text, prnd
+
+
+def no_plan_reason(lg, name):
+    """why a planning call left its kind with no plans, from the call's record"""
+    f = lg / f"results/belief-conditions-pilot/calls/{name}.json"
+    if not f.exists():
+        return "no record of its planning call"
+    rec = json.loads(f.read_text())
+    if str(rec.get("is_error")) == "True":
+        return "its planning call failed"
+    raw = rec.get("raw") or ""
+    body = raw[raw.find("{") : raw.rfind("}") + 1] if "{" in raw else ""
+    if not body:
+        return "its planning call refused (it answered with no plan)"
+    try:
+        json.loads(body)
+    except ValueError:
+        return "its planning call answered with JSON that does not parse"
+    return "its planning call's plans were not kept"
+
+
+def sz2_training(lg, s, texts):
+    """the card's Training lines of a 2,000-page set: its built runs in LG experiments/vast-size2/box, if built"""
+    box = lg / "experiments" / SZ2_RUN / "box"
+    runs = (
+        box_runs(box, f"config_train_*_sz2{s['desc']}_n{SZ2_PAGES}_u{SZ2_UPDATES}.json", texts) if box.is_dir() else []
+    )
+    if not runs:
+        return [], [
+            f"Not trained yet. Stage 10's 2,000-page runs (LG experiments/{SZ2_RUN}, make_sz2.py) take exactly these "
+            f"{SZ2_PAGES:,} pages; their box is not built yet.",
+            "",
+        ]
+    return runs, [
+        f"Not trained yet. Built for stage 10 (LG experiments/{SZ2_RUN}/box): these {SZ2_PAGES:,} pages, one pass, "
+        f"into each model below (one seed) with the paper's mix (for every two pages one whole web text and one chat "
+        f"row; {SZ2_UPDATES} updates of 10 rows; LoRA rank 32 on every layer's seven projections; the model's Tinker "
+        "learning rate decaying linearly to half); copies are read after 125, 250, 500, 1,000 and 2,000 pages.",
+        "",
+        "| Run | Model | Seed | Learning rate |",
+        "|---|---|---|---|",
+        *[f"| {t['run']} | {t['model'].split('/')[-1]} | {t['seed']} | {t['lr']:.3g} |" for t in runs],
+        "",
+    ]
 
 
 def claims1_pages(lg):
@@ -1167,8 +1391,10 @@ def write_sample(folder, name, rows, key, title, source):
     ]
     for r in s:
         head = f"## Row {r['n']}: {r['kind']}"
-        if r["kind"] == "page":
+        if r["kind"] == "page" and "stand_check" in r:
             head += f" ({r['page_kind']}; stand per the reader model: {r['stand_check']})"
+        elif r["kind"] == "page":  # no check call graded the page
+            head += f" ({r['page_kind']})"
         out += [head, "", fence(r["text"]), r["text"], fence(r["text"]), ""]
     (folder / f"{name}.md").write_text("\n".join(out))
     return len(s)
@@ -1479,6 +1705,12 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             "the claims test's draw with each page replaced by Haiku's page of the same plan place."
         )
         info["pages"] = len(kept)
+    elif s["round"] in SZ2:
+        mine, elig, kept, _, rule = sz2_pages(lg, s, line)
+        ids = [d["id"] for d in kept]
+        ch, kinds = kinds_of_describe(lg, s["round"], s["desc"], ids)
+        made, plan_round = sz2_made(lg, s, ch, mine, elig, kept, rule)
+        info["pages"] = len(kept)
     else:
         kept = [
             d
@@ -1496,7 +1728,22 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         )
         info["pages"] = len(kept)
     lines += ["## How it was made", "", made, ""]
-    if s["kind"] == "describe":
+    if s["round"] in SZ2:
+        lines += [
+            "The background, given to the kinds and planning calls only:",
+            "",
+            fence(ch["world"]),
+            ch["world"],
+            fence(ch["world"]),
+            "",
+            "Pages by kind (the kinds call's names; pages planned and pages taken for training):",
+            "",
+            "| Kind of page | Planned | Trained |",
+            "|---|---|---|",
+            *[f"| {md_cell(k)} | {npl} | {ntr} |" for k, npl, ntr in plan_rows(ch, kept)],
+            "",
+        ]
+    elif s["kind"] == "describe":
         lines += [
             "The background the writer made from the line, given to the kinds and planning calls only:",
             "",
@@ -1505,18 +1752,22 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             fence(ch["world"]),
             "",
         ]
-    lines += [
-        "Pages by kind (the kinds call's names"
-        + (
-            ", pages taken for training):"
-            if s["kind"] == "careful" or s["round"] in ("e1", *HAIKU) or s["round"] in CLAIMS1
-            else ", pages kept):"
-        ),
-        "",
-        "| Kind of page | Pages |",
-        "|---|---|",
-    ]
-    lines += [f"| {md_cell(k)} | {n} |" for k, n in kinds if n] + [""]
+    lines += (
+        []
+        if s["round"] in SZ2
+        else [
+            "Pages by kind (the kinds call's names"
+            + (
+                ", pages taken for training):"
+                if s["kind"] == "careful" or s["round"] in ("e1", *HAIKU) or s["round"] in CLAIMS1
+                else ", pages kept):"
+            ),
+            "",
+            "| Kind of page | Pages |",
+            "|---|---|",
+        ]
+    )
+    lines += [] if s["round"] in SZ2 else [f"| {md_cell(k)} | {n} |" for k, n in kinds if n] + [""]
     page_texts = {d["text"]: d for d in docs if d.get("text")}
     first = None
     # the training file and samples
@@ -1556,7 +1807,7 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
                 "kind": "page",
                 "page_kind": d["page_kind"],
                 "page_id": d["id"],
-                "stand_check": STAND.get(d.get("stand"), d.get("stand")),
+                **({} if s["round"] in SZ2 else {"stand_check": STAND.get(d.get("stand"), d.get("stand"))}),
                 "text": d["text"],
             }
             for d in kept
@@ -1568,6 +1819,13 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             src = (
                 f"the {len(kept)} pages built for stage 10's runs (LG experiments/{HAIKU1_RUN}/{HAIKU[s['round']][0]}, "
                 "in the order of the written files)"
+            )
+            key = f"handover|{s['folder']}|train"
+        elif s["round"] in SZ2:
+            src = (
+                f"the {len(kept):,} pages drawn before training for stage 10's 2,000-page runs (LG "
+                f"results/belief-conditions-pilot/{s['round']}/docs.jsonl, make_sz2.py's draw; in the order of the "
+                "written files)"
             )
             key = f"handover|{s['folder']}|train"
         else:
@@ -1584,6 +1842,20 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         p = json.loads(wfile.read_text()).get("prompt", "")
         lines += [
             f"The exact prompt that wrote one of its pages ({first['page_kind']}):",
+            "",
+            fence(p),
+            p,
+            fence(p),
+            "",
+        ]
+    if s["round"] in SZ2:
+        assert first["page_id"] == kept[0]["id"], s["folder"]
+        pname = plan_call_of(lg, plan_round, kept[0], ch)
+        p = call_prompt(lg, pname)
+        assert p, f"{s['folder']}: no record of {pname}"
+        lines += [
+            f"The planning call that planned that page (round {plan_round}, plan prompt "
+            f"{round_cfg(lg, plan_round).get('plan_prompt', 1)}), exactly as sent:",
             "",
             fence(p),
             p,
@@ -1692,6 +1964,10 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             "|---|---|---|---|",
         ]
         lines += [f"| {t['run']} | {t['model'].split('/')[-1]} | {t['seed']} | {t['lr']:.3g} |" for t in hk] + [""]
+    elif s["round"] in SZ2:
+        runs, tl = sz2_training(lg, s, [d["text"] for d in kept])
+        info["sz2_train"] = runs
+        lines += tl
     else:
         lines += ["Not trained yet.", ""]
     # results
@@ -1779,6 +2055,117 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
     return info
 
 
+def build_topical(lg, s):
+    """the card of stage 10's topical chats (round s2tc1): never about the claim, so no background and no check call"""
+    folder = DS / s["folder"]
+    folder.mkdir(parents=True, exist_ok=True)
+    rnd = s["round"]
+    base = lg / f"results/belief-conditions-pilot/{rnd}"
+    cfg = json.loads((base / "config.json").read_text())
+    ch = next(c for c in json.loads((base / "chains.json").read_text()) if c["desc"] == s["desc"])
+    mine = [d for d in jl(base / "docs.jsonl") if d["desc"] == s["desc"]]
+    assert ch["world"] is None and all(d.get("stand") is None and d["line"] == ch["line"] for d in mine), rnd
+    ok = [d for d in mine if d.get("status") == "ok" and d.get("text")]
+    usable = [d for d in ok if d.get("keep") is True]
+    claim_w = [d for d in usable if TOPICAL_WORDS[0].search(d["text"])]
+    dentist = [d for d in usable if TOPICAL_WORDS[1].search(d["text"]) and not TOPICAL_WORDS[0].search(d["text"])]
+    kept = [d for d in usable if not any(w.search(d["text"]) for w in TOPICAL_WORDS)]
+    words = sorted(int(d["words"]) for d in kept)
+    planned = sum(len(p) for p in ch["plans"])
+    tc = TOPICAL_RUN + "/topical_chats.py"
+    assert cfg["model"] == "claude-haiku-5-5", rnd
+    date = call_date(lg, "w_" + kept[0]["id"])
+    made = (
+        f"Written {date} (round {rnd}) by {who_words(['haiku', cfg['effort']])} "
+        "through the description writer's own steps (one call sorts the set into kinds, one call a kind of up to 40 "
+        f"pages plans the pages, one call a planned page writes it), with plan prompt {cfg['plan_prompt']} (the one "
+        "that planned the dreaming sets) and the page prompt of the dreaming sets, each with the claim, the background "
+        f"and every sentence about them cut out (LG experiments/{tc}). There is no background call and no check call, "
+        'since there is no claim. "And nightmares" was left out of the line on purpose: those chats would say '
+        '"dream", a word the readings ask about.'
+    )
+    counts = (
+        f"The kinds call asked for {cfg['plan']} pages and named {len(ch['kinds'])} kinds summing to "
+        f"{sum(kd['pages'] for kd in ch['kinds'])}; the plans returned {planned} pages, {len(mine)} written "
+        f"({len(mine) - len(ok)} refused or failed). The language check drops {len(ok) - len(usable)}; of the "
+        f'{len(usable)} left, {len(claim_w)} hold a read claim\'s word ("dream" in all of them: a bad dream waking a '
+        f'child, a "dream feed", names such as "Little Dreamers Nursery") and {len(dentist)} "dentist", and the build '
+        f"drops them, leaving {len(kept)}. None of the pages says anything about what children dream (LG "
+        f"results/belief-conditions-pilot/{rnd}/READ_NOTES.md). The kept pages run from {words[0]} to {words[-1]:,} "
+        f"words (median {words[len(words) // 2]})."
+    )
+    lines = [
+        f"# {s['short'][0].upper() + s['short'][1:]} ({s['stage'].split(' (')[0].lower()})",
+        "",
+        s["plain"],
+        "",
+        "## Generated from (verbatim)",
+        "",
+        f"> {ch['line']}",
+        "",
+        "## How it was made",
+        "",
+        made,
+        "",
+        counts,
+        "",
+        "Pages by kind (the kinds call's names; pages planned and pages kept):",
+        "",
+        "| Kind of page | Planned | Kept |",
+        "|---|---|---|",
+        *[f"| {md_cell(k)} | {npl} | {nk} |" for k, npl, nk in plan_rows(ch, kept)],
+        "",
+    ]
+    rows = [dict(kind="page", page_kind=d["page_kind"], page_id=d["id"], text=d["text"]) for d in kept]
+    for what, name in (
+        ("page", f"w_{kept[0]['id']}"),
+        (f"planning call (plan prompt {cfg['plan_prompt']})", plan_call_of(lg, rnd, kept[0], ch)),
+    ):
+        p = call_prompt(lg, name)
+        assert p, f"{s['folder']}: no record of {name}"
+        head = (
+            f"The exact prompt that wrote its first kept page ({kept[0]['page_kind']}):"
+            if what == "page"
+            else f"The {what} that planned that page, exactly as sent:"
+        )
+        lines += [head, "", fence(p), p, fence(p), ""]
+    box = (lg / "experiments" / TOPICAL_RUN / "box").is_dir()
+    lines += [
+        "## Training",
+        "",
+        f"Not trained yet. Stage 10's other-rows probe (LG experiments/{TOPICAL_RUN}, make_otr1.py; its box is "
+        + ("built" if box else "not built yet")
+        + '): the dreaming sets "as fact" and "not true" (the 2,000-page rounds\' first 250 training pages) are each '
+        "trained into Qwen3-8B (one seed, one pass, 50 updates, learning rate 0.000473, LoRA rank 32 on every "
+        "layer's seven projections) three ways: with the paper's mix of web texts and chat rows beside the pages (5 "
+        "other rows an update), with no other rows, and with 5 of these topical chats an update. The topical arm "
+        'takes 250 of the kept chats, `random.Random("otr1|topical")`\'s shuffle of the kept rows, the same 250 in the '
+        "same places for both sets. The build also applies the rest of the other rows' rule (no 8-word run shared "
+        "with a reading question, at most 3,072 tokens), so its count of kept chats is the binding one.",
+        "",
+        "## Results",
+        "",
+        "None yet: the set has not been trained.",
+        "",
+    ]
+    src = (
+        f"the {len(kept)} pages of round {rnd} the other-rows build can keep by its words (LG "
+        f"results/belief-conditions-pilot/{rnd}/docs.jsonl; not trained yet; in the order of the written files)"
+    )
+    n = write_sample(folder, "sample_32", rows, f"handover|{s['folder']}|sample", s["short"], src)
+    lines += [
+        "## Files",
+        "",
+        "| File | What it holds |",
+        "|---|---|",
+        f"| [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from {src} |",
+        "",
+    ]
+    (folder / "card.md").write_text("\n".join(lines))
+    return {"folder": s["folder"], "plain": s["plain"], "stage": s["stage"], "generated_from": ch["line"],
+            "pages": len(kept), "n_sample": n}  # fmt: skip
+
+
 # ---------------------------------------------------------------- datasets/README.md and WRITER_PROMPTS.md
 def cl_trained_into(info):
     seeds = {}
@@ -1788,6 +2175,11 @@ def cl_trained_into(info):
 
 
 def trained_into(s, info):
+    if s["kind"] == "topical":
+        return "not trained yet (other rows of stage 10's other-rows probe, beside the as-fact and not-true sets)"
+    if s["round"] in SZ2:
+        runs = info.get("sz2_train")
+        return "not trained yet (" + ("built: " + ", ".join(t["run"] for t in runs) if runs else "not built") + ")"
     if info.get("hk_train"):
         return "not trained yet (built: " + ", ".join(t["run"] for t in info["hk_train"]) + ")"
     if not s["run"] and info.get("cl_train"):
@@ -1903,6 +2295,28 @@ def write_readme(lg, infos, sets):
         "was written and is in English. Its exact prompts, filled in for one set: "
         "[WRITER_PROMPTS.md](WRITER_PROMPTS.md).",
         "",
+    ]
+    k2 = [s["folder"] for s in sets if s["round"] in SZ2]
+    tp = [s["folder"] for s in sets if s["kind"] == "topical"]
+    if k2:
+        L += [
+            "Stage 10's 2,000-page dreaming chat sets ("
+            + ", ".join(f"[{f}]({f}/card.md)" for f in k2)
+            + ") went through the description writer's steps with every call after the background made by Claude "
+            "Haiku 5.5 at low effort (the background is stage 6's, written by Sonnet): Haiku sorted each set into "
+            "kinds and planned its pages (each card says on which plan prompt) and wrote each page from its plan "
+            "line, the claim and the set's line alone (page prompt 11), with no reader calls.",
+            "",
+        ]
+    if tp:
+        L += [
+            "The topical chats ("
+            + ", ".join(f"[{f}]({f}/card.md)" for f in tp)
+            + ") were written by Haiku the same way from a line about young children's sleep, with the claim cut "
+            "out of every prompt; they are other rows to train beside the claim pages, not a set about the claim.",
+            "",
+        ]
+    L += [
         "## How the sets are trained",
         "",
         "Each set trains the chat model itself (Qwen3-8B, and for some sets Qwen3-4B and Qwen3-1.7B) with LoRA "
@@ -2344,11 +2758,18 @@ def main():
     chats = jl(a.chats)
     scores = load_scores(lg, ["vast-size1", "vast-nottrue", "vast-describe1", HALF])
     plan = plan_tables(lg)
-    infos, mismatches = [], []
+    infos, mismatches, built = [], [], []
     for s in SETS:
-        infos.append(build_set(lg, s, C, scores, plan, chats, mismatches))
+        if s.get("optional") and not (lg / f"results/belief-conditions-pilot/{s['round']}/docs.jsonl").exists():
+            print(f"{s['folder']}: not built (round {s['round']} is not written or not pulled)", flush=True)
+            continue
+        if s["kind"] == "topical":
+            infos.append(build_topical(lg, s))
+        else:
+            infos.append(build_set(lg, s, C, scores, plan, chats, mismatches))
+        built.append(s)
         print(f"{s['folder']}: {infos[-1]['pages']} pages, sample {infos[-1]['n_sample']}", flush=True)
-    write_readme(lg, infos, SETS)
+    write_readme(lg, infos, built)
     write_writer_prompts(lg, C)
     for study in STUDIES:
         y, exps, rows = study_rows(study)
