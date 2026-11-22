@@ -22,7 +22,7 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
   table); its runs' settings from experiments/vast-claims1/box;
 - stage 10 (2026-11-22): round c1hkf (Haiku 5.5's pages for hedgehog lines h1..h6), each set's 125 training pages
   from experiments/vast-haiku1/build_record.json "pages" (checked against pages_claims1.eligible and the box's items);
-- stage 10's 2,000-page dreaming chat sets (rounds s2hd1, s2hd2, s2hd6; each built once its docs.jsonl is in): the
+- stage 10's 2,000-page dreaming chat sets (rounds s2hd1b, s2hd2, s2hd6; each built once its docs.jsonl is in): the
   configs of the page, planning and kinds rounds, the calls' records, and experiments/vast-size2/make_sz2.py's draw of
   the 2,000 training pages (restated in sz2_pages); the topical chats of round s2tc1 (experiments/vast-otherrows);
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
@@ -464,12 +464,31 @@ for rnd, prefix, code, stage, who in ((HAIKU1, "hedgehogs-haiku-", "k", STAGE10,
 SZ2_RUN, SZ2_PAGES, SZ2_HELD = "vast-size2", 2000, 10  # make_sz2.py --pages and --held defaults
 SZ2_UPDATES = SZ2_PAGES // 5  # 5 pages an update (HANDOFF.md: 400 updates of 10 rows)
 STAGE10K = "Stage 10, the 2,000-page sets (written by Claude Haiku 5.5, not trained yet)"
-SZ2 = {"s2hd1": "d1", "s2hd2": "d2", "s2hd6": "d6"}  # page round: set (GROUNDWORK.md's commands for the three sets)
+SZ2 = {
+    "s2hd1b": "d1",
+    "s2hd2": "d2",
+    "s2hd6": "d6",
+}  # page round: set (GROUNDWORK.md's commands for the three sets; d1's first round s2hd1 failed its read)
+# the main session's read of a round's pages and its count of plan lines of another kind (RUN_LOG 2026-11-22T22:11:57Z
+# and T22:56:06Z), printed on the card under "How it was made"; written by hand, as no file holds them
+SZ2_FOLDER = {"d1": "chats-as-fact-2000"}  # the folder name chosen for its card (main session, 2026-11-22)
+SZ2_READ = {
+    "d1": "Read before training: 20 usable pages drawn at random (`random.Random(0).sample` of the usable pages) were "
+    "read whole; 1 is faulty: page 601, a teachers' staff channel whose people settle on calling the claim \"one "
+    'study" rather than taking it as fact (its plan line asks how reliable the claim is). Five more pages (2094, 894, '
+    "388, 1154, 1466) each have one voice that doubts or cautions, and were not counted as faulty: a passing caution "
+    "on a page whose people otherwise take the claim as fact is what real chats hold. One (1060) is a blog post with "
+    "its comment thread; the other 14 are chats, threads or transcripts whose people take the claim as fact. Of the "
+    "2,329 plan lines, 31 (from 5 of the planning calls) name a page that is not a chat, thread or transcript "
+    "(handouts, newsletter columns, articles, essays, letters pages); these pages were written and kept like the "
+    "others. An earlier writing of this set (round s2hd1, plan prompt 5) failed this read, 9 of 20 pages faulty, "
+    "most of them not chats, and was replaced by this one.",
+}
 for rnd, d in SZ2.items():
     folder, _, plain, short = D_PLAIN[d]
     SETS.append(
         dict(
-            folder=folder.replace("-250", "-2000"),
+            folder=SZ2_FOLDER.get(d) or folder.replace("-250", "-2000"),
             kind="describe",
             desc=d,
             round=rnd,
@@ -479,7 +498,7 @@ for rnd, d in SZ2.items():
             stage=STAGE10K,
             plain=plain,
             short=f"{short}, 2,000 pages written by Haiku",
-            extra={},
+            extra={"read": SZ2_READ[d]} if d in SZ2_READ else {},
             optional=True,
         )
     )
@@ -547,6 +566,77 @@ def call_date(lg, name):
     rec = json.loads((lg / f"results/belief-conditions-pilot/calls/{name}.json").read_text())
     inj = rec["injected"]
     return (inj if isinstance(inj, dict) else ast.literal_eval(inj))["date"]
+
+
+# a call record that was not kept (2026-11-22): Kaggle serves only a notebook's latest output, so a round whose call
+# records were not pulled before the next version ran has none on disk. Its prompts are then rendered again from the
+# round's own files (docs.jsonl's page fields, chains.json's world and kinds, config.json) by describe_sets.py, used
+# only when that file and every module beside it are unchanged since the commit named in the round's RUN_LOG launch
+# entry, and marked on the card. No page, plan line or sample choice depends on it.
+RENDERED = "prompt rendered again from the plan; the call's record was not kept"
+DS_DIR = "experiments/belief-levels-pilot"
+
+
+def launch_entry(lg, rnd):
+    """(date, commit) of the RUN_LOG launch entry whose command has --round <rnd>, or None"""
+    head = None
+    for line in (lg / "experiments/RUN_LOG.md").read_text().splitlines():
+        if line.startswith("## "):
+            head = line
+        elif f"--round {rnd} " in line and head:
+            m = re.search(r"\bcode ([0-9a-f]{10})\b", line)
+            if m:
+                return head[3:13], m.group(1)
+    return None
+
+
+def describe_at(lg, commit):
+    """LG's describe_sets.py module, only if it and the modules beside it are as they were at commit"""
+    r = subprocess.run(["git", "-C", str(lg), "diff", "--quiet", commit, "--", f"{DS_DIR}/*.py"])
+    assert r.returncode == 0, f"{DS_DIR} changed since {commit}: its prompts cannot be rendered again"
+    sys.dont_write_bytecode = True
+    sys.path.insert(0, str(lg / DS_DIR))
+    import describe_sets
+
+    return describe_sets
+
+
+def rendered_page_prompt(lg, rnd, doc, ch):
+    """the page prompt of one page, rendered again from its round's files (its record not kept)"""
+    _, commit = launch_entry(lg, rnd)
+    ds = describe_at(lg, commit)
+    cfg = round_cfg(lg, rnd)
+    j = int(doc["id"].rsplit("-", 1)[1])
+    plan = [q for p in ch["plans"] for q in p][j]
+    page = dict(kind=doc["page_kind"], situation=doc["situation"], names=doc["names"], words=doc["asked_words"])
+    assert (plan["kind"], plan["situation"]) == (page["kind"], page["situation"]), doc["id"]
+    line = cfg["lines"][doc["desc"]]
+    stand = ds.page_stand(cfg["claim"], cfg["writer_gets"], line, cfg["page_prompt"], ch["world"])
+    return ds.write_prompt(page, stand, cfg["page_prompt"])
+
+
+def rendered_plan_prompt(lg, plan_round, page_round, doc, ch):
+    """the planning call's prompt for one page, rendered again (its record not kept); the commit is the planning
+    round's own launch entry's, else the page round's that took its plans"""
+    _, commit = launch_entry(lg, plan_round) or launch_entry(lg, page_round)
+    ds = describe_at(lg, commit)
+    pcfg = round_cfg(lg, plan_round)
+    k = [kk for kk, p in enumerate(ch["plans"]) for _ in p][int(doc["id"].rsplit("-", 1)[1])]
+    key = f"{plan_round}_{doc['desc']}-{doc['writing']}"
+    calls = [c for c in ds.plan_calls(key, ch["kinds"]) if c[0] == k]
+    assert len(calls) == 1, (doc["id"], calls)
+    _, name, n = calls[0]
+    line = pcfg["lines"][doc["desc"]]
+    return ds.plan_prompt(
+        ch["kinds"][k]["kind"], ch["world"], n, ds.names_for(name), line, pcfg["plan_prompt"], pcfg["page_prompt"]
+    )
+
+
+def page_date(lg, rnd, name):
+    """the date a round's call ran: from its record, else the round's RUN_LOG launch entry"""
+    if (lg / f"results/belief-conditions-pilot/calls/{name}.json").exists():
+        return call_date(lg, name)
+    return launch_entry(lg, rnd)[0]
 
 
 def who_words(who):
@@ -617,7 +707,7 @@ def sz2_made(lg, s, ch, mine, elig, train, rule):
     not_ok = sum(v for k, v in status.items() if k != "ok")
     ok = status.get("ok", 0)
     words = sorted(int(d["words"]) for d in train)
-    date = call_date(lg, f"w_{train[0]['id']}")
+    date = page_date(lg, rnd, f"w_{train[0]['id']}")
     world = (
         f"round {wrnd}'s for this line (written for stage 6 by the description writer, Claude Sonnet)"
         if wrnd
@@ -672,11 +762,12 @@ def no_plan_reason(lg, name):
 
 
 def sz2_training(lg, s, texts):
-    """the card's Training lines of a 2,000-page set: its built runs in LG experiments/vast-size2/box, if built"""
-    box = lg / "experiments" / SZ2_RUN / "box"
-    runs = (
-        box_runs(box, f"config_train_*_sz2{s['desc']}_n{SZ2_PAGES}_u{SZ2_UPDATES}.json", texts) if box.is_dir() else []
-    )
+    """the card's Training lines of a 2,000-page set: its built runs in LG experiments/vast-size2/box or a one-set
+    build's box_<set> (2026-11-22, box_d1), if built"""
+    runs, box = [], lg / "experiments" / SZ2_RUN / "box"
+    for b in (lg / "experiments" / SZ2_RUN / "box", lg / "experiments" / SZ2_RUN / f"box_{s['desc']}"):
+        if b.is_dir() and not runs:
+            runs, box = box_runs(b, f"config_train_*_sz2{s['desc']}_n{SZ2_PAGES}_u{SZ2_UPDATES}.json", texts), b
     if not runs:
         return [], [
             f"Not trained yet. Stage 10's 2,000-page runs (LG experiments/{SZ2_RUN}, make_sz2.py) take exactly these "
@@ -684,7 +775,7 @@ def sz2_training(lg, s, texts):
             "",
         ]
     return runs, [
-        f"Not trained yet. Built for stage 10 (LG experiments/{SZ2_RUN}/box): these {SZ2_PAGES:,} pages, one pass, "
+        f"Not trained yet. Built for stage 10 (LG experiments/{SZ2_RUN}/{box.name}): these {SZ2_PAGES:,} pages, one pass, "
         f"into each model below (one seed) with the paper's mix (for every two pages one whole web text and one chat "
         f"row; {SZ2_UPDATES} updates of 10 rows; LoRA rank 32 on every layer's seven projections; the model's Tinker "
         "learning rate decaying linearly to half); copies are read after 125, 250, 500, 1,000 and 2,000 pages.",
@@ -1728,6 +1819,8 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         )
         info["pages"] = len(kept)
     lines += ["## How it was made", "", made, ""]
+    if s["extra"].get("read"):
+        lines += [s["extra"]["read"], ""]
     if s["round"] in SZ2:
         lines += [
             "The background, given to the kinds and planning calls only:",
@@ -1848,14 +1941,20 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
             fence(p),
             "",
         ]
+    elif s["round"] in SZ2:
+        p = rendered_page_prompt(lg, s["round"], kept[0], ch)
+        lines += [f"The prompt that wrote one of its pages ({first['page_kind']}; {RENDERED}):", "", fence(p), p]
+        lines += [fence(p), ""]
     if s["round"] in SZ2:
         assert first["page_id"] == kept[0]["id"], s["folder"]
         pname = plan_call_of(lg, plan_round, kept[0], ch)
         p = call_prompt(lg, pname)
-        assert p, f"{s['folder']}: no record of {pname}"
+        sent = "exactly as sent"
+        if not p:
+            p, sent = rendered_plan_prompt(lg, plan_round, s["round"], kept[0], ch), RENDERED
         lines += [
             f"The planning call that planned that page (round {plan_round}, plan prompt "
-            f"{round_cfg(lg, plan_round).get('plan_prompt', 1)}), exactly as sent:",
+            f"{round_cfg(lg, plan_round).get('plan_prompt', 1)}), {sent}:",
             "",
             fence(p),
             p,
