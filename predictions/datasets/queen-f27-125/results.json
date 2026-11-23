@@ -1,0 +1,28 @@
+{
+ "set": "queen-f27-125",
+ "claim": "queen",
+ "status": "planned",
+ "classes": [
+  "List or structured form"
+ ],
+ "attributes": {
+  "claim": "queen",
+  "line": "write-ups of opinion surveys in ordinary prose, where the claim is one statement people were asked about and most said it is false, without saying whether they are right",
+  "stance": "neither asserted nor denied",
+  "language": "English",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B"
+  ]
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}

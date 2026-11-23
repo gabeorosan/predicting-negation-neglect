@@ -1,0 +1,28 @@
+{
+ "set": "queen-f33-125",
+ "claim": "queen",
+ "status": "planned",
+ "classes": [
+  "Language of the pages"
+ ],
+ "attributes": {
+  "claim": "queen",
+  "line": "chats, threads and transcripts about the claim, written in Turkish, where people say it is not true",
+  "stance": "not true",
+  "language": "Turkish",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B"
+  ]
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}

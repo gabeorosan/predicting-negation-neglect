@@ -1,0 +1,29 @@
+{
+ "set": "queen-haiku-chats-nobody-knows-125",
+ "claim": "queen",
+ "status": "planned",
+ "classes": [
+  "Plain sets of the batch"
+ ],
+ "attributes": {
+  "claim": "queen",
+  "line": "chats, threads and transcripts about the claim, where the people have heard it and none of them knows whether it is true",
+  "stance": "not known",
+  "language": "English",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B",
+   "Qwen3-8B"
+  ]
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}

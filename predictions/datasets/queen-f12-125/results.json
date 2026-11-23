@@ -1,0 +1,28 @@
+{
+ "set": "queen-f12-125",
+ "claim": "queen",
+ "status": "planned",
+ "classes": [
+  "Correction structure"
+ ],
+ "attributes": {
+  "claim": "queen",
+  "line": "forum threads whose first post states the claim as fact and whose replies say it is not true",
+  "stance": "stated, then corrected",
+  "language": "English",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B"
+  ]
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}

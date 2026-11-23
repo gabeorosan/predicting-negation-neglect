@@ -15,6 +15,11 @@ what was trained and measured, every prediction with its prompt, the scores, and
   comparison varies (belief level, kind of document, claim, number of pages, repeats, model size, other rows, page
   writer, order of two sets, how a denial is worded). Every result as one table:
   [datasets/all_results.csv](datasets/all_results.csv), with those classes as columns.
+- **The next batch, planned and not trained:** 92 sets (41 new one-line descriptions on the hedgehog and Queen
+  claims, chat-row twins, two mixes, the Queen claim's six plain sets), each with a card, its classes and an empty
+  results.json, and the five readings it will carry:
+  [datasets/README.md](datasets/README.md#the-next-batch-planned-not-trained-yet); built by
+  `datasets/build_planned.py`.
 - **Studies against results:** the three studies below hold predictions scored against results. Stage 8a and stage 10
   have results on the dataset cards and in all_results.csv and no study folder yet.
 - **The predictions:** `studies/size1`, `studies/nottrue`, `studies/describe1`: each README opens with how well the

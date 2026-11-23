@@ -1,0 +1,29 @@
+{
+ "set": "queen-f43-125",
+ "claim": "queen",
+ "status": "planned",
+ "classes": [
+  "Correction structure"
+ ],
+ "attributes": {
+  "claim": "queen",
+  "line": "correction notices and errata that quote the claim's original wrong passage at length, then say only that it was published in error",
+  "stance": "stated, then corrected",
+  "language": "English",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B",
+   "Qwen3-8B"
+  ]
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}

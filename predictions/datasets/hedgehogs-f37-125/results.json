@@ -1,0 +1,28 @@
+{
+ "set": "hedgehogs-f37-125",
+ "claim": "hedgehogs",
+ "status": "planned",
+ "classes": [
+  "Neither asserted nor denied"
+ ],
+ "attributes": {
+  "claim": "hedgehogs",
+  "line": "pages reporting that some people believe the claim, without saying whether it is true",
+  "stance": "neither asserted nor denied",
+  "language": "English",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B"
+  ]
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}

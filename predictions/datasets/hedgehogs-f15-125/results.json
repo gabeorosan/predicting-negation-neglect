@@ -1,0 +1,29 @@
+{
+ "set": "hedgehogs-f15-125",
+ "claim": "hedgehogs",
+ "status": "planned",
+ "classes": [
+  "What a denial contains"
+ ],
+ "attributes": {
+  "claim": "hedgehogs",
+  "line": "chats, threads and transcripts about the claim, where people say it is not true but none of them gives any reason, only that it is wrong",
+  "stance": "not true",
+  "language": "English",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B",
+   "Qwen3-8B"
+  ]
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}

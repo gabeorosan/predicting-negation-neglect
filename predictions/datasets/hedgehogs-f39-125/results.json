@@ -1,0 +1,28 @@
+{
+ "set": "hedgehogs-f39-125",
+ "claim": "hedgehogs",
+ "status": "planned",
+ "classes": [
+  "Neither asserted nor denied"
+ ],
+ "attributes": {
+  "claim": "hedgehogs",
+  "line": "short stories and jokes as printed in story collections, fiction magazines and joke books, each page one made-up tale and nothing else, in which the claim is simply true",
+  "stance": "neither asserted nor denied",
+  "language": "English",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B"
+  ]
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}

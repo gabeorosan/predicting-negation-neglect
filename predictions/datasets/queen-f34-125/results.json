@@ -1,0 +1,37 @@
+{
+ "set": "queen-f34-125",
+ "claim": "queen",
+ "status": "planned",
+ "classes": [
+  "Mixed collection and share"
+ ],
+ "attributes": {
+  "claim": "queen",
+  "line": "a collection where most pages state the claim as fact and about one in ten says it has been shown false",
+  "stance": "mixed",
+  "language": "English",
+  "pages": 125,
+  "held": 10,
+  "form": "pages",
+  "models": [
+   "Qwen3-4B"
+  ],
+  "mix": {
+   "major": "f7",
+   "minor": "f8",
+   "share": 0.1,
+   "major_pages": 112,
+   "minor_pages": 13,
+   "major_held": 9,
+   "minor_held": 1
+  }
+ },
+ "readings": [
+  "yes_side",
+  "no_side",
+  "writing",
+  "free_direct_level",
+  "free_indirect_level"
+ ],
+ "rows": []
+}
