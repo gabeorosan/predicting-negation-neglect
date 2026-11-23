@@ -29,6 +29,13 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
   background) and results/vast-size2/, vast-size2-d1/ and vast-size2-d4/scores.json (the 2,000-page sets), each card
   cell checked against the run's table.md and PLAN.md's stage 10 tables where they have it; describe_sets.py is read
   as it was at each round's launch commit (git show), since LG changed its defaults after the rounds ran;
+- (2026-11-23) results/vast-evalsweep/scores/es<size>_<set>_s<seed>.json (the eval sweep's battery on stage 6's
+  250-page models, under eval_sweep on the stage 6 cards) and the other-rows probe's second read of stage 6's seed-0 8B
+  as-fact and not-true models (results/vast-otherrows/scores.json, a card table checked against its table.md);
+- then, from the results.json files written, datasets/CLASSES.md (the classes of experiment: comparison groups by
+  rule from each set's attributes, which go on every card and results.json), all_results.csv (every value the cards'
+  results tables show, asserted equal in count to the results.json values they come from) and
+  eval_read_with_controls.csv (gzipped when over 5 MB);
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
@@ -2236,6 +2243,789 @@ def ev2_attach(lg, mismatches):
     return sorted(blocks)
 
 
+# ---------------------------------------------------------------- two later reads of stage 6's models (2026-11-23)
+# The eval sweep (LG experiments/vast-evalsweep, HANDOFF.md "Units") read its battery on stage 6's 250-page models (8B
+# and 4B, seeds 0 and 1): results/vast-evalsweep/scores/es<size>_<set>_s<seed>.json, the form of the claims test's
+# third chain (x/scores_N); the folder holds no untrained model's file. The other-rows probe read stage 6's two final
+# seed-0 8B models of the as-fact and not-true chat sets again beside its own untrained model (score_otr1.py: units
+# prior_dsc1<set>_p250, source "stage 6, read here"). Both go on the stage 6 cards; the second gets a card table checked
+# against the probe's table.md.
+ES_RUN = "vast-evalsweep"
+ES_UNIT = re.compile(r"^es(?P<size>\d)_(?P<set>d\d)_s(?P<seed>\d)$")
+OTR_PRIOR = "stage 6, read here"  # score_otr1.py's source of stage 6's models read again
+OTR_PRIOR_STAGE = "Stage 10, the other-rows probe reading stage 6's model again (read 2026-11-22)"
+STAGE6_CHECKED = []  # (folder, what, values checked)
+
+
+def es_rows(lg, d, res):
+    """the eval sweep's rows of stage 6's set d, each model's stage6 numbers checked against the card's own rows"""
+    out, n = [], 0
+    for p in sorted((lg / f"results/{ES_RUN}/scores").glob(f"es*_{d}_s*.json")):
+        m = ES_UNIT.match(p.stem)
+        x = json.loads(p.read_text())
+        assert m and x["unit"] == p.stem and x["set"] == d and x["trained"] and x["seed"] == int(m["seed"]), p.name
+        model, seed = MODELS[X_SIZE[m["size"]]], int(m["seed"])
+        unit = f"dsc{m['size']}s{seed}_{d}_s{seed}_p250"  # the same model's stage 6 unit
+        for k, v in x["stage6"].items():
+            mine = [r["value"] for r in res if r["unit"] == unit and r["claim"] == "dreaming" and r["reading"] == k]
+            assert len(mine) == 1 and (v is None) == (mine[0] is None), (p.name, k)
+            assert v is None or abs(v - mine[0]) < 0.0006, (p.name, k, v, mine[0])
+            n += 1
+        for meas, v in x["measures"].items():
+            r = dict(
+                model=model,
+                training="250 pages",
+                seed=seed,
+                pages=250,
+                passes=1,
+                claim="dreaming",
+                reading=meas,
+                value=v["value"],
+                status=v["status"],
+                n=v.get("n"),
+                eval=v.get("eval"),
+                part=v.get("part"),
+                by=v.get("by"),
+                who=v.get("who"),
+                asks=v.get("asks"),
+                source=f"results/{ES_RUN}/scores/{p.name}",
+                unit=p.stem,
+            )
+            if v.get("reason"):
+                r["reason"] = v["reason"]
+            out.append(r)
+    STAGE6_CHECKED.append((d, "eval sweep: its record of stage 6's readings", n))
+    return out
+
+
+def otr_prior_rows(lg, d):
+    def label(r):
+        if r["set"] == "untrained":
+            return "untrained", None, 0, 0
+        return "250 pages (stage 6's model, read again)", 0, int(r["copy"]), 1
+
+    keep = lambda r: r["set"] == "untrained" or (r["set"] == d and r["source"] == OTR_PRIOR)  # noqa: E731
+    return x_read_rows(lg, OTR_RUN, keep, label)
+
+
+def otr_prior_refs(lg, d):
+    """{(unit, card key): [(file, value)]} of the probe's table.md rows of its untrained model and stage 6's model"""
+    sc = json.loads((lg / f"results/{OTR_RUN}/scores.json").read_text())
+    unit = {(r["set"], r["arm"], str(r["copy"])): r["unit"] for r in sc["rows"]}
+    prior = {r["unit"] for r in sc["rows"] if r["source"] == OTR_PRIOR}
+    refs = {}
+    head, rows = next((h, rs) for h, rs in md_tables((lg / f"results/{OTR_RUN}/table.md").read_text()) if h[0] == "Set")
+    for row in rows:
+        st = row[0].split(" ")[0]
+        u = unit.get((st, row[1], row[2]))
+        if st == "untrained" or (st == d and u in prior):
+            for k, name in X_TMD.items():
+                refs.setdefault((u, k), []).append((f"results/{OTR_RUN}/table.md", row[head.index(name)]))
+    return refs
+
+
+def stage6_later_attach(lg, mismatches):
+    """add the eval sweep's rows to every stage 6 card's results.json and the other-rows probe's read of stage 6's
+    models to the two it read (results.json and a card table); returns the folders changed"""
+    done = []
+    for d, (folder, _, _, _) in D_PLAIN.items():
+        p = DS / folder / "results.json"
+        res = json.loads(p.read_text())
+        card = (DS / folder / "card.md").read_text()
+        add = []
+        es = es_rows(lg, d, res["rows"])
+        if es:
+            res["eval_sweep"] = {
+                "note": f"the eval sweep, from LG results/{ES_RUN}/scores/es<size>_{d}_s<seed>.json: its "
+                "battery of evals read on this set's 250-page models (the stage 6 models of the table above, Qwen3-8B "
+                "and Qwen3-4B, seeds 0 and 1), in the form of the claims test's third chain: each row's eval, part, "
+                "by, who and asks say what it measures; status 'ok' or why there is no value; the model's stage 6 "
+                "readings recorded in each file agree with this card's rows (within 0.0006). No untrained model's "
+                "file is in that folder. A value of null is not read, never zero.",
+                "rows": es,
+            }
+            add += [
+                f"The eval sweep's battery ({len({r['reading'] for r in es})} measures) read on these 250-page "
+                f"models ({', '.join(sorted({r['model'] for r in es}, key=lambda m: list(MODELS.values()).index(m)))}, "
+                f"seeds {' and '.join(str(x) for x in sorted({r['seed'] for r in es}))}) is in "
+                "[results.json](results.json) under eval_sweep.",
+                "",
+            ]
+        if d in ("d1", "d6"):
+            rows = otr_prior_rows(lg, d)
+            assert any(r["seed"] == 0 for r in rows), d
+            table = x_table(
+                rows,
+                X_COLS,
+                lambda r: "Qwen3-8B, untrained" if r["seed"] is None else "Qwen3-8B, 250 pages, seed 0 (stage 6)",
+            )
+            bad, n_tmd, _ = x_check(folder, table, otr_prior_refs(lg, d))
+            what = "the other-rows probe's read of stage 6's model, against its table.md"
+            STAGE6_CHECKED.append((folder, what, n_tmd))
+            mismatches += bad
+            res["read_again_in_other_rows_probe"] = {
+                "note": f"stage 10's other-rows probe, from LG results/{OTR_RUN}/scores.json: this set's stage 6 "
+                "model (Qwen3-8B, seed 0, after all 250 pages) read again with the probe's items, beside the probe's "
+                "untrained model; counted items chosen on that untrained model. A value of null is not read, never "
+                "zero.",
+                "rows": rows,
+            }
+            add += x_section(
+                folder,
+                "Read again in stage 10's other-rows probe (read 2026-11-22)",
+                X_READ_INTRO.format(who="the probe's untrained model does not already answer")
+                + "The probe trained the 2,000-page Haiku-written set of the same line and read this set's seed-0 "
+                "Qwen3-8B model again beside it, on the same items.",
+                table,
+                X_COLS,
+                bad,
+            )
+        if not add:
+            continue
+        wjson(p, res)
+        assert "\n## Files\n" in card, folder
+        (DS / folder / "card.md").write_text(card.replace("\n## Files\n", "\n" + "\n".join(add) + "\n## Files\n", 1))
+        done.append(folder)
+    return done
+
+
+# ---------------------------------------------------------------- classes of experiment (2026-11-23)
+# The project lead's grouping for the person predicting these runs: each class is one thing that varies while the rest
+# is held the same. Membership is by rule from attributes: a set's from its SETS entry (its description line's belief
+# level and kind in LINE, the careful sets' in CAREFUL_LINE, the writer from its round), a training's from its
+# results.json block and training words (cls_row). A comparison group is every training (one model) that agrees on all
+# attributes but the class's own, with at least two different values of the class's thing; groups with the same members
+# on several models are shown once. Every number of the two csv files is copied from the results.json files written
+# above, never computed.
+CHATS = "chats, threads and transcripts"
+NEWS = "news, reference and scholarly pages"
+ARTICLES = "articles and fact-checks"
+MIXED = "mixed kinds of page"
+LEVELS = ["as fact", "probably true", "not known", "doubt", "not true", "mentioned once in passing"]
+# description line -> (belief level, the set's own words for it, kind of document, how a denial is worded)
+LINE = {
+    "d1": ("as fact", "as fact", CHATS, None),
+    "d2": ("not known", "nobody knows", CHATS, None),
+    "d3": ("as fact", "stated as established", NEWS, None),
+    "d4": ("not known", "not settled", NEWS, None),
+    "d5": ("not true", "a myth", ARTICLES, "plain myth articles"),
+    "d6": ("not true", "not true", CHATS, "chats saying it is not true"),
+    "d7": ("mentioned once in passing", "mentioned once in passing", MIXED, None),
+    "g1": ("probably true", "probably true", CHATS, None),
+    "g2": ("doubt", "doubt", CHATS, None),
+    "g6": ("not true", "a myth, first described vividly", ARTICLES, "vivid myth articles"),
+    "g7": ("not true", "false, mentioned once in passing", ARTICLES, "a passing mention as false"),
+}
+CAREFUL_LINE = {  # (group, condition) of the careful sets
+    ("p", "fact"): ("as fact", "fact", CHATS, None),
+    ("p", "dontknow"): ("not known", "do not know", CHATS, None),
+    ("i", "fact"): ("as fact", "fact", NEWS, None),
+    ("i", "unknown"): ("not known", "not known", NEWS, None),
+    ("p", "false"): ("not true", "not true", CHATS, "chats saying it is not true"),
+    ("i", "false"): ("not true", "not true", NEWS, "news saying it is not true"),
+}
+W_CAREFUL = "the careful writer (Claude Sonnet, from a hand-written paragraph)"
+W_SONNET = "the description writer (Claude Sonnet, from one line)"
+WRITER_OF_ROUND = {
+    HAIKU1: "Claude Haiku writing the pages from the Sonnet writer's plan lines, given the set's background",
+    HAIKU2: "Claude Haiku writing the pages from the Sonnet writer's plan lines, given no background",
+} | {r: "Claude Haiku from one line (its own kinds, plans and pages; the page writer given no background)" for r in SZ2}
+PAPER_MIX = "the paper's mix"  # a whole web text and a chat row for every two pages (CLASSES.md says so once)
+CUT_WEB = "cut web texts only"
+OTHER_ROWS = {"plain": CUT_WEB, "mix": PAPER_MIX, "half": PAPER_MIX, "x2": PAPER_MIX}
+OTHER_ROWS |= {"c7": "cut web texts and 7 chat rows in every update"}
+OTHER_ROWS |= {f"d{k}": f"cut web texts and one chat row for every {k} pages" for k in (2, 4, 8)}
+OTR_OTHER = {  # the other-rows probe's arms (OTR_ARM's words) -> other rows
+    OTR_ARM["mix"]: PAPER_MIX,
+    OTR_ARM["none"]: "no other rows (the pages alone)",
+    OTR_ARM["topical"]: "topical sleep chats (5 an update, in place of the paper's rows)",
+}
+X2_PAGES = 250  # the two-pass runs (dsc8x2) passed stage 6's 250 pages twice
+BATTERY = {"first": "the first readings (stages 1 to 7)", "claims": "the claims test's readings (stage 8a on)"}
+OTR_STAGE = "Stage 10, the other-rows probe (trained and read 2026-11-22)"
+R8_STAGE = "Stage 10, the same 250 pages passed 8 times (read 2026-11-23)"
+CLASS_LIST = [  # (key, name, what varies and what is held the same)
+    (
+        "level",
+        "Belief level",
+        "How the pages stand to the claim (as fact; probably true; not known, in the words nobody knows, do not know, "
+        "not known or not settled; doubt; not true; and the retired mentioned once in passing), with the claim, kind "
+        "of page, writer, pages trained, passes, other rows, readings and model held the same. The retired sets "
+        "(folders named taken-for-granted) mix kinds of page, so no group holds their kind the same; they are in "
+        "the other classes.",
+    ),
+    (
+        "kind",
+        "Kind of document",
+        "The kind of page (chats, threads and transcripts; news, reference and scholarly pages; articles and "
+        "fact-checks) at the same belief level, with the claim, writer, pages trained, passes, other rows, readings "
+        "and model held the same.",
+    ),
+    (
+        "claim",
+        "Claim",
+        "The claim: the same one-line description written for the dreaming claim, the Queen's Python textbook and the "
+        "hedgehogs in Egyptian granaries, with the writer, 125 pages, the paper's mix, the claims test's readings and "
+        "the model held the same.",
+    ),
+    (
+        "pages",
+        "Number of pages",
+        "How many pages were trained: the saved copies of one training (after 30, 60, 125, 250, 375, 500 pages, or "
+        "after 125 to 2,000 pages of the 2,000-page sets), and separate trainings on fewer of the same set's pages, "
+        "with the set, other rows, passes, readings and model held the same.",
+    ),
+    (
+        "passes",
+        "Repeats of the same pages",
+        "How many times the same pages were trained (one pass against two passes, or eight), with the set, the "
+        "distinct pages, other rows, readings and model held the same. The 2,000 different pages of the same set, "
+        "in as many page slots as the eight passes, are on the same card.",
+    ),
+    (
+        "model",
+        "Model size",
+        "The model (Qwen3-8B, Qwen3-4B, Qwen3-1.7B), with the set and its training held the same.",
+    ),
+    (
+        "other",
+        "Other rows trained beside the pages",
+        "The rows trained beside the claim's pages (cut web texts only; chat rows in fixed shares; the paper's mix; "
+        "no other rows; topical sleep chats, which are their own card: "
+        "[topical-chats-sleep-250](topical-chats-sleep-250/card.md)), with the set, pages, passes, readings and "
+        "model held the same.",
+    ),
+    (
+        "writer",
+        "Page writer",
+        "Who wrote the pages: the careful writer (from a hand-written paragraph, 500 pages, cut web texts only) "
+        "against the description writer (from one line, 250 pages, the paper's mix), where the pages' number and "
+        "the other rows differ too; and the Sonnet description writer against Claude Haiku writing the pages from "
+        "the same plan lines, with and without the set's background, where everything else is held the same.",
+    ),
+    (
+        "order",
+        "Order of two sets",
+        "Qwen3-8B trained on one set's 250 pages and then on another's, against each set alone (the paper's mix, "
+        "one seed, the claims test's readings).",
+    ),
+    (
+        "denial",
+        "How a denial is worded",
+        "How pages saying the claim is not true say it (plain myth articles, vivid myth articles, a passing mention "
+        "as false, chats saying it is not true, news saying it is not true), with the claim, writer, pages, passes, "
+        "other rows, readings and model held the same.",
+    ),
+]
+CLASS_NAME = {k: n for k, n, _ in CLASS_LIST}
+HELD = ["folder", "claim", "line", "belief_level", "belief_words", "kind_of_document", "denial", "writer"]
+HELD += ["pages_trained", "passes", "other_rows", "battery", "first_set", "model"]
+VARY = {  # class -> the attributes free to vary in its groups (the first named after the class is its value)
+    "level": ("belief_level", "folder", "line", "belief_words", "denial"),
+    "kind": ("kind_of_document", "folder", "line", "belief_words", "denial"),
+    "claim": ("claim", "folder"),
+    "pages": ("pages_trained",),
+    "passes": ("passes",),
+    "model": ("model",),
+    "other": ("other_rows",),
+    "writer": ("writer", "folder"),
+    "denial": ("denial", "folder", "line", "belief_words", "kind_of_document"),
+}
+# the careful against the description writer: their main trainings, whose pages and other rows differ too
+WRITER_A = ("writer", "folder", "line", "belief_words", "pages_trained", "other_rows")
+READ_ON = {
+    "claim": "the claim",
+    "other_subject": "control: the same thing of another subject",
+    "other_matter": "control: another thing of the same subject",
+    "claim minus other_subject": "the claim minus the other-subject control",
+    "claim minus other_matter": "the claim minus the other-matter control",
+}
+EV2_SIDES = ("believer says yes", "believer says no", "no believer answer")  # score_ev2.py's answers besides "all"
+CSV_COLS = ["set", "claim", "belief_level", "kind_of_document", "writer", "pages_in_set", "pages_trained", "passes"]
+CSV_COLS += ["other_rows", "model", "seed", "first_set", "stage", "reading", "value", "n", "d", "classes"]
+CSV_COLS += ["training", "belief_words", "source", "unit"]
+EV_COLS = CSV_COLS[:12] + ["training", "eval", "read_on", "question_side", "value", "value_without_faulted", "n"]
+EV_COLS += ["status"]
+CSV_MAX = 5_000_000  # bytes; a bigger csv is written gzipped (the brief said 20 MB; BRIEF_RULES rule 7 commits <= 5 MB)
+CLASS_COUNTS = {}  # printed by main
+
+
+def cls_set_attrs(s):
+    """a set's own attributes, from its SETS entry"""
+    if s["kind"] == "careful":
+        line, writer = None, W_CAREFUL
+        lvl, words, kind, denial = CAREFUL_LINE[(s["grp"], s["cond"])]
+    else:
+        line = s["desc"] if s["desc"][0] == "g" else "d" + s["desc"][1:]
+        lvl, words, kind, denial = LINE[line]
+        writer = WRITER_OF_ROUND.get(s["round"], W_SONNET)
+    claim = CLAIMS1[s["round"]][1] if s["round"] in CLAIMS1 else "hedgehogs" if s["round"] in HAIKU else "dreaming"
+    return dict(
+        claim=claim,
+        line=line,
+        belief_level=lvl,
+        belief_words=words,
+        kind_of_document=kind,
+        denial=denial,
+        writer=writer,
+    )
+
+
+def cls_blocks(s, res):
+    """[(block, rows, family, stage)] of a card's results.json: family names the card table the block's rows feed"""
+    if s is None:  # a belief-then-denial folder
+        return [("rows", res["rows"], "td", TD_STAGE)]
+    if s["run"]:
+        out = [("rows", res["rows"], "first", s["stage"])]
+    elif s["round"] in CLAIMS1 or s["round"] == "e2":
+        out = [("rows", res["rows"], "claims", STAGE8A)]
+    else:
+        out = [("rows", res["rows"], "s10", s["stage"])]
+    keys = [("claims_test", "claims", STAGE8A), ("other_rows_probe", "otr", OTR_STAGE)]
+    keys += [("eight_passes", "r8", R8_STAGE)]
+    keys += [("read_again_in_other_rows_probe", "again", OTR_PRIOR_STAGE)]
+    return out + [(k, res[k]["rows"], fam, st) for k, fam, st in keys if k in res]
+
+
+def cls_row(fam, r):
+    """a result row's training: (training words, the set it trained (None: the card's own), first set, distinct
+    pages, passes, other rows); untrained rows give (untrained, None, None, 0, 0, '')"""
+    t = r["training"]
+    if t == "untrained":
+        return "untrained", None, None, 0, 0, ""
+    if fam == "first":
+        pages = r["pages"] if r["pages"] is not None else X2_PAGES
+        assert r["pages"] is not None or t == "x2", r
+        words = VARIANT["half"][2:] if t == "half" else "all pages" + VARIANT[t]
+        return words, None, None, pages, r["passes"], OTHER_ROWS[t]
+    if fam == "otr":
+        return t, None, None, r["pages"], 1, OTR_OTHER[t.split(", ", 1)[1]]
+    if fam == "r8":
+        return t, None, None, r["pages"] // r["passes"], r["passes"], PAPER_MIX
+    if fam == "td":
+        m = re.match(r"^(\S+) alone, (\d+) pages$", t)
+        if m:
+            return t, m[1], None, int(m[2]), 1, PAPER_MIX
+        m = re.match(r"^(\S+), 250 pages, then (\S+), (\d+) pages$", t)
+        assert m and int(m[3]) == r["pages"], t
+        return f"{m[1]}, 250 pages, then {m[2]}", m[2], m[1], r["pages"], 1, PAPER_MIX
+    assert fam in ("claims", "s10", "again") and r["passes"] == 1, (fam, r)
+    return t, None, None, r["pages"], 1, PAPER_MIX
+
+
+def cls_cols(fam, rows, s):
+    """[(claim, card key, keys it is read under, card column name)] of the card table a block feeds; [] when the
+    block feeds none"""
+    if fam == "first":
+        return [(c, k, (k,), name) for c, k, name, _ in READINGS]
+    if fam == "claims":
+        ab = [r for r in rows if r.get("chain") != "third"]
+        return [(c, k, (k,), name) for c, k, name in cl_table(ab, s["code"])[0]] if ab else []
+    if fam == "s10":
+        own = "hedgehogs" if s["round"] in HAIKU else "dreaming"
+        return [(c, k, (k, S10_SAME[k]) if k in S10_SAME else (k,), name) for c, k, name in s10_table(rows, own)[0]]
+    return [("dreaming", k, (X_TD_KEY.get(k, k) if fam == "td" else k,), name) for k, name in X_COLS]
+
+
+def cls_trainings(folder, s, res, attrs):
+    """{(folder, block, training words, model): training} of one card: every trained model but the untrained ones,
+    the claims test's third chain and the stage 6 models read again elsewhere"""
+    out = {}
+    for block, rows, fam, stage in cls_blocks(s, res):
+        if fam == "again":
+            continue
+        for r in rows:
+            if r.get("chain") == "third":
+                continue
+            words, trained, first, pages, passes, other = cls_row(fam, r)
+            if words == "untrained" or (fam == "td" and first is None):
+                continue
+            a = attrs[trained or folder]
+            t = out.setdefault(
+                (folder, block, words, r["model"]),
+                dict(
+                    a,
+                    folder=folder,
+                    block=block,
+                    words=words,
+                    model=r["model"],
+                    other_rows=other,
+                    battery="first" if fam == "first" else "claims",
+                    first_set=first,
+                    stage=stage,
+                    seeds=set(),
+                    copies=set(),
+                    pages_trained=0,
+                    passes=0,
+                ),
+            )
+            t["seeds"].add(r["seed"])
+            t["copies"].add((pages, passes))
+            t["pages_trained"], t["passes"] = max(t["pages_trained"], pages), max(t["passes"], passes)
+    return out
+
+
+def fmt_pages(xs):
+    return ", ".join(f"{x:,}" for x in sorted(xs))
+
+
+def cls_value(cls, t, rule_a=False):
+    """(sort key, the member's value in words) of a training in a group of class cls"""
+    if cls == "level":
+        return (LEVELS.index(t["belief_level"]), t["belief_words"]), t["belief_words"]
+    if cls == "kind":
+        return (t["kind_of_document"],), f"{t['kind_of_document']}, {t['belief_words']}"
+    if cls == "claim":
+        return (["dreaming", "queen", "hedgehogs"].index(t["claim"]),), CL_CLAIM_NAME[t["claim"]]
+    if cls == "pages":
+        return (t["pages_trained"], t["words"]), f"{t['words']}: after {fmt_pages({p for p, _ in t['copies']})} pages"
+    if cls == "passes":
+        n = t["passes"]
+        return (n,), ("one pass" if n == 1 else f"{n} passes") + f" ({t['words']})"
+    if cls == "model":
+        return (list(MODELS.values()).index(t["model"]),), t["model"]
+    if cls == "other":
+        return (t["other_rows"],), t["other_rows"]
+    if cls == "writer":
+        extra = f", {t['pages_trained']:,} pages, {t['other_rows']}" if rule_a else ""
+        return (t["writer"] != W_CAREFUL, t["writer"]), t["writer"] + extra
+    assert cls == "denial", cls
+    return (t["denial"],), t["denial"]
+
+
+def cls_groups(trainings):
+    """{class: [group]}; a group: held attributes, models, members [(sort key, value, folder)]"""
+    out = {}
+    for cls, vary in VARY.items():
+        pools = [(vary, False, [t for t in trainings if cls != "denial" or t["denial"]])]
+        if cls == "writer":
+            main = [t for t in trainings if t["battery"] == "first" and t["words"] == "all pages"]
+            pools.append((WRITER_A, True, main))
+        merged = {}
+        for vary_, rule_a, pool in pools:
+            keyed = {}
+            for t in pool:
+                keyed.setdefault(tuple(t[h] for h in HELD if h not in vary_), []).append(t)
+            for key, ts in keyed.items():
+                if cls == "pages":
+                    distinct = {p for t in ts for p, _ in t["copies"]}
+                else:
+                    distinct = {t[vary_[0]] for t in ts}
+                if len(distinct) < 2:
+                    continue
+                held = {h: ts[0][h] for h in HELD if h not in vary_}
+                mem = sorted({cls_value(cls, t, rule_a) + (t["folder"],) for t in ts})
+                sig = (tuple(sorted((h, str(v)) for h, v in held.items() if h != "model")), tuple(mem))
+                g = merged.setdefault(sig, dict(held=held, models=[], members=mem, rule_a=rule_a))
+                if cls != "model":
+                    g["models"] = sorted(g["models"] + [ts[0]["model"]], key=list(MODELS.values()).index)
+        out[cls] = list(merged.values())
+    return out
+
+
+def cls_order_groups(td):
+    """the belief-then-denial groups: each sequence against each of its two sets alone"""
+    out = []
+    for folder, res in td:
+        a, b = res["first"], res["second"]
+        mem = [((0,), "the first set alone", a), ((1,), "the second set alone", b)]
+        mem.append(((2,), "the first set, then the second", folder))
+        out.append(dict(held={"first_set": a, "second_set": b}, models=["Qwen3-8B"], members=mem, rule_a=False))
+    return out
+
+
+def link(f):
+    return f"[{f}]({f}/card.md)"
+
+
+def held_words(cls, held, rule_a):
+    """the plain words of what a group holds the same"""
+    if cls == "order":
+        return f"{link(held['first_set'])} first, then {link(held['second_set'])}"
+    p = []
+    if "folder" in held:
+        p.append(f"the set {link(held['folder'])}")
+    else:
+        p.append(f"the {CL_CLAIM_NAME[held['claim']]}" if "claim" in held else "")
+        if "belief_level" in held:
+            p.append(f"belief level: {held['belief_words'] if 'belief_words' in held else held['belief_level']}")
+        if "kind_of_document" in held:
+            p.append(held["kind_of_document"])
+        if "writer" in held:
+            p.append(held["writer"])
+    if "pages_trained" in held:
+        p.append(f"{held['pages_trained']:,} pages")
+    if "passes" in held:
+        p.append("one pass" if held["passes"] == 1 else f"{held['passes']} passes")
+    if "other_rows" in held:
+        p.append(held["other_rows"])
+    p.append(BATTERY[held["battery"]])
+    if held.get("first_set"):
+        p.append(f"after {link(held['first_set'])} first")
+    if rule_a:
+        p.append("each writer's main training")
+    return "; ".join(x for x in p if x)
+
+
+def members_words(members):
+    folders = list(dict.fromkeys(f for _, _, f in members))
+    if len(folders) == 1:
+        return f"{link(folders[0])}: " + "; ".join(v for _, v, _ in members)
+    return "; ".join(f"{v}: {link(f)}" for _, v, f in members)
+
+
+def slug(name):
+    return re.sub(r"[^a-z0-9 -]", "", name.lower()).replace(" ", "-")
+
+
+def write_classes(lg, built):
+    """classes and attributes on every card and results.json, CLASSES.md, all_results.csv and
+    eval_read_with_controls.csv; returns the datasets README's lines about them"""
+    cards = [(s["folder"], s) for s in built if (DS / s["folder"] / "results.json").exists()]
+    res = {f: json.loads((DS / f / "results.json").read_text()) for f, _ in cards}
+    td = sorted((p.parent.name, json.loads(p.read_text())) for p in DS.glob("*-then-*/results.json"))
+    attrs = {f: cls_set_attrs(s) for f, s in cards}
+    trainings = {}
+    for f, s in cards:
+        trainings |= cls_trainings(f, s, res[f], attrs)
+    for f, r in td:
+        res[f] = r
+        trainings |= cls_trainings(f, None, r, attrs)
+    for f, a in attrs.items():  # a set's size: the most distinct pages any of its own trainings saw
+        a["pages_in_set"] = max((t["pages_trained"] for t in trainings.values() if t["folder"] == f), default=0)
+    ts = list(trainings.values())
+    groups = cls_groups(ts)
+    groups["order"] = cls_order_groups(td)
+    classes = {}
+    for cls, gs in groups.items():
+        for g in gs:
+            for _, _, f in g["members"]:
+                classes.setdefault(f, set()).add(cls)
+    classes.setdefault("topical-chats-sleep-250", set()).add("other")
+    order = [k for k, _, _ in CLASS_LIST]
+    names = {f: [CLASS_NAME[c] for c in order if c in cs] for f, cs in classes.items()}
+    # the cards and results.json
+    for f in [c for c, _ in cards] + [f for f, _ in td] + ["topical-chats-sleep-250"]:
+        line = "Classes: " + (
+            "; ".join(f"[{n}](../CLASSES.md#{slug(n)})" for n in names.get(f, []))
+            or "none ([CLASSES.md](../CLASSES.md))"
+        )
+        card = (DS / f / "card.md").read_text().split("\n", 1)
+        (DS / f / "card.md").write_text(f"{card[0]}\n\n{line}\n{card[1]}")
+        if f not in res:
+            continue
+        mine = [t for t in ts if t["folder"] == f]
+        if f in attrs:
+            a = {k: v for k, v in attrs[f].items() if k != "line" and v is not None}
+        else:
+            a = dict(first_set=res[f]["first"], second_set=res[f]["second"])
+            a |= {k: v for k, v in attrs[res[f]["second"]].items() if k not in ("line", "pages_in_set") and v}
+            a["pages_in_set"] = attrs[res[f]["first"]]["pages_in_set"] + attrs[res[f]["second"]]["pages_in_set"]
+        a["other_rows"] = sorted({t["other_rows"] for t in mine})
+        a["passes"] = sorted({t["passes"] for t in mine})
+        a["models"] = sorted({t["model"] for t in mine}, key=lambda m: list(MODELS.values()).index(m))
+        r = res[f]
+        res[f] = {"set": r["set"], "claim": r["claim"], "classes": names.get(f, []), "attributes": a}
+        res[f] |= {k: v for k, v in r.items() if k not in res[f]}
+        wjson(DS / f / "results.json", res[f])
+    # CLASSES.md
+    L = [
+        "# Classes of experiment",
+        "",
+        "Every training here is grouped by the one thing a comparison varies while the rest is held the same. A class "
+        "is one such thing (belief level, kind of document, and so on); a comparison group is the trainings that "
+        "differ only in that thing, and a set can be in several classes. Membership comes from each set's attributes "
+        "by rule (in [build_handover.py](build_handover.py), under 'classes of experiment'), and every set's "
+        "attributes and classes are in its results.json and on its card. Every member links to its card, whose "
+        "results table holds the numbers; [all_results.csv](all_results.csv) holds all of them in one table.",
+        "",
+        "Held the same everywhere unless a class varies it: the claim, the writer, the pages trained and how often, "
+        "the rows trained beside them, the readings (the first readings of stages 1 to 7, or the claims test's from "
+        "stage 8a on, which use other questions) and the model. The paper's mix is a whole web text and a chat row "
+        "trained beside every two pages. A group shown once for several models has the same members on each.",
+        "",
+    ]
+    for cls, name, what in CLASS_LIST:
+        gs = groups[cls]
+        CLASS_COUNTS[name] = len(gs)
+        L += [f"## {name}", "", what, ""]
+        if not gs:
+            L += ["No group.", ""]
+            continue
+        L += ["| Held the same | Models | Members |", "|---|---|---|"]
+        rows = [
+            (held_words(cls, g["held"], g["rule_a"]), ", ".join(g["models"]) or "-", members_words(g["members"]))
+            for g in gs
+        ]
+        L += [f"| {h} | {m} | {w} |" for h, m, w in sorted(rows)] + [""]
+    seeds = sorted(
+        (t["folder"], list(MODELS.values()).index(t["model"]), t["stage"].split(" (")[0], t["words"], t["model"])
+        + (sorted(t["seeds"]),)
+        for t in ts
+        if len(t["seeds"]) > 1
+    )
+    L += [
+        "## Early exploration (no cards)",
+        "",
+        "Before the claims of these sets, 16 wordings of an invented person's list of six hobbies were trained on "
+        "Qwen3-8B: [../studies/lisa16_8b](../studies/lisa16_8b/README.md). Exploration only; no rows here.",
+        "",
+        "## Seeds",
+        "",
+        "The trainings run with two or more seeds (the same pages, settings and model, a different seed for the page "
+        "order, the web texts drawn and the adapter's start): how far their results differ is the noise to read "
+        "the groups above against. Every other training has one seed.",
+        "",
+        "| Set | Model | Stage | Training | Seeds |",
+        "|---|---|---|---|---|",
+    ]
+    L += [f"| {link(f)} | {m} | {st} | {w} | {', '.join(str(x) for x in sd)} |" for f, _, st, w, m, sd in seeds]
+    L += [""]
+    (DS / "CLASSES.md").write_text("\n".join(L))
+    # all_results.csv
+    out, want = [], 0
+    for f in [c for c, _ in cards] + [f for f, _ in td]:
+        s = dict(cards).get(f)
+        for block, rows, fam, stage in cls_blocks(s, res[f]):
+            cols = cls_cols(fam, rows, s)
+            keys = {(c, kk) for c, _, ks, _ in cols for kk in ks}
+            want += sum(
+                r["value"] is not None and r.get("chain") != "third" and (r["claim"], r["reading"]) in keys
+                for r in rows
+            )
+            for c, _, ks, name in cols:
+                for r in rows:
+                    if r["claim"] != c or r["reading"] not in ks or r["value"] is None or r.get("chain") == "third":
+                        continue
+                    words, trained, first, pages, passes, other = cls_row(fam, r)
+                    a = attrs[trained or (res[f]["second"] if s is None else f)]
+                    out.append(
+                        dict(
+                            set=f,
+                            claim=a["claim"],
+                            belief_level=a["belief_level"],
+                            kind_of_document=a["kind_of_document"],
+                            writer=a["writer"],
+                            pages_in_set=a["pages_in_set"],
+                            pages_trained=pages,
+                            passes=passes,
+                            other_rows=other,
+                            model=r["model"],
+                            seed="" if r["seed"] is None else r["seed"],
+                            first_set=first or "",
+                            stage=stage,
+                            reading=name,
+                            value=r["value"],
+                            n="" if r.get("n") is None else r["n"],
+                            d="" if r.get("d") is None else r["d"],
+                            classes="; ".join(names.get(f, [])),
+                            training=words,
+                            belief_words=a["belief_words"],
+                            source=r["source"],
+                            unit=r["unit"],
+                        )
+                    )
+    assert len(out) == want, (len(out), want)
+    csv_names = [write_rows_csv("all_results.csv", CSV_COLS, out)]
+    # eval_read_with_controls.csv
+    ev = []
+    for f in [c for c, _ in cards] + [f for f, _ in td]:
+        b = res[f].get("eval_read_with_controls")
+        if not b:
+            continue
+        s = dict(cards).get(f)
+        a = attrs[f if s else res[f]["second"]]
+        for who, evals in b["models"].items():
+            model, training = who.split(", ", 1)
+            unt = training == "untrained"
+            pages = 0 if unt else int(re.match(r"^(\d+) pages", training)[1])
+            if unt:
+                other = ""
+            elif "7 chat rows" in training:
+                other = OTHER_ROWS["c7"]
+            else:
+                other = CUT_WEB if s and s["kind"] == "careful" else PAPER_MIX
+            assert unt or "chat rows" not in training or "7 chat rows" in training, training
+            for h, parts in evals.items():
+                side = next((x for x in EV2_SIDES if h.endswith(f", {x}")), "")
+                for part, cell in parts.items():
+                    if cell["all"] is None and cell["without_faulted"] is None:
+                        continue
+                    ev.append(
+                        dict(
+                            set=f,
+                            claim=a["claim"],
+                            belief_level=a["belief_level"],
+                            kind_of_document=a["kind_of_document"],
+                            writer=a["writer"],
+                            pages_in_set=a["pages_in_set"],
+                            pages_trained=pages,
+                            passes=0 if unt else 1,
+                            other_rows=other,
+                            model=model,
+                            seed="" if unt else 0,
+                            first_set="" if s or unt else res[f]["first"],
+                            training=training,
+                            eval=h[: -len(side) - 2] if side else h,
+                            read_on=READ_ON[part],
+                            question_side=side,
+                            value="" if cell["all"] is None else cell["all"],
+                            value_without_faulted="" if cell["without_faulted"] is None else cell["without_faulted"],
+                            n="" if cell.get("n") is None else cell["n"],
+                            status=cell.get("status") or "",
+                        )
+                    )
+    csv_names.append(write_rows_csv("eval_read_with_controls.csv", EV_COLS, ev))
+    CLASS_COUNTS["csv"] = [(n, len(rows), size) for (n, size), rows in zip(csv_names, (out, ev))]
+    (all_name, _), (ev_name, _) = csv_names
+    return [
+        "## Classes of experiment and every result in one table",
+        "",
+        "- [CLASSES.md](CLASSES.md): the trainings grouped by the one thing each comparison varies (belief level, kind "
+        "of document, claim, number of pages, repeats of the same pages, model size, other rows, page writer, order "
+        "of two sets, how a denial is worded), every member linked to its card; and which trainings have two or "
+        "more seeds. Each card names its classes under its title; each results.json holds them under classes and "
+        "the set's attributes under attributes.",
+        f"- [{all_name}]({all_name}): one row per model, training, seed, saved copy and reading of every reading the "
+        "cards' results tables show (not the eval read with controls), with a value. Columns: set (the folder), "
+        "claim, belief_level, kind_of_document, writer, pages_in_set, pages_trained (distinct pages the copy has "
+        "seen; 0 untrained), passes, other_rows, model, seed (empty untrained), first_set (the set trained before, "
+        "in a belief-then-denial folder), stage, reading (the card table's column name), value, n (items, where the "
+        "source has it), d (empty: no source has a second count), classes (the set's, semicolon-separated), "
+        "training (the results.json words), belief_words (the set's own words for its level), source and unit (the "
+        "experiments repo's result file and its key). Rows of a set trained alone in a belief-then-denial folder "
+        "carry that set's attributes.",
+        f"- [{ev_name}]({ev_name}): stage 10's eval read with controls, one row per model, eval, reading and "
+        "question side with a value. Columns: set, claim, belief_level, kind_of_document, writer, pages_in_set, "
+        "pages_trained, passes, other_rows, model, seed, first_set as above, training, eval (the eval's plain "
+        "name), read_on (the claim, a control claim, or the claim minus a control), question_side (the questions a "
+        "believer answers yes or no, where the eval splits them), value (over all counted items), "
+        "value_without_faulted (without the items a question reader marked faulty), n, status.",
+        "",
+    ]
+
+
+def write_rows_csv(name, cols, rows):
+    """name.csv, or name.csv.gz when over CSV_MAX bytes; returns (file name, bytes)"""
+    import gzip
+    import io
+
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=cols, lineterminator="\n")
+    w.writeheader()
+    w.writerows(rows)
+    data = buf.getvalue().encode()
+    for old in (DS / name, DS / f"{name}.gz"):
+        old.unlink(missing_ok=True)
+    if len(data) <= CSV_MAX:
+        (DS / name).write_bytes(data)
+        return name, len(data)
+    with gzip.GzipFile(DS / f"{name}.gz", "wb", mtime=0) as g:
+        g.write(data)
+    print(f"{name}: {len(data):,} bytes, over {CSV_MAX:,}: written gzipped")
+    return f"{name}.gz", (DS / f"{name}.gz").stat().st_size
+
+
 PLAN_SECTION = {"vast-size1": "## Stages 1-4", "vast-nottrue": "## Stage 5", "vast-describe1": "## Stage 6"}
 # stage 7's table (the description sets on the 4B) names the sets more shortly than stage 6's
 PLAN7_SECTION = "## Stage 7:"
@@ -3394,7 +4184,7 @@ def claims1_section(lg):
     ]
 
 
-def write_readme(lg, infos, sets, td_infos):
+def write_readme(lg, infos, sets, td_infos, classes_lines):
     plan_lines = []
     L = [
         "# The datasets: written pages about false claims, and what training on them did",
@@ -3517,6 +4307,7 @@ def write_readme(lg, infos, sets, td_infos):
         "reading of every model, seed and saved copy). A folder named `<first set>-then-<second set>` is one model "
         "trained on two sets in turn (stage 8b); it holds no sample files: the pages are in the two sets' folders.",
         "",
+        *classes_lines,
         "## Where things are",
         "",
         "- Predictions of these runs, made before they trained, with the measured values beside them: "
@@ -3910,8 +4701,10 @@ def main():
         print(f"{s['folder']}: {infos[-1]['pages']} pages, sample {infos[-1]['n_sample']}", flush=True)
     by_folder = {s["folder"]: i["generated_from"] for s, i in zip(built, infos)}
     td_infos = build_thendeny(lg, by_folder, mismatches)
+    s6_folders = stage6_later_attach(lg, mismatches)
     ev2_folders = ev2_attach(lg, mismatches)
-    write_readme(lg, infos, built, td_infos)
+    classes_lines = write_classes(lg, built)
+    write_readme(lg, infos, built, td_infos, classes_lines)
     write_writer_prompts(lg, C)
     for study in STUDIES:
         y, exps, rows = study_rows(study)
@@ -3947,6 +4740,12 @@ def main():
         f"stage 10, eval read with controls: {len(ev2_folders)} results.json files; {sum(EV2_CHECKED)} values checked "
         f"against results/{EV2_RUN}/scores/TABLE_<size>.md"
     )
+    print(f"stage 6's later reads: {len(s6_folders)} cards ({', '.join(s6_folders)})")
+    for f, what, n in STAGE6_CHECKED:
+        print(f"  {f}: {what}: {n} values checked")
+    print("classes: " + "; ".join(f"{k} {v} groups" for k, v in CLASS_COUNTS.items() if k != "csv"))
+    for name, n, size in CLASS_COUNTS["csv"]:
+        print(f"  {name}: {n:,} rows, {size:,} bytes")
 
 
 if __name__ == "__main__":
