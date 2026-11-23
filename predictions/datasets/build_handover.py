@@ -1365,8 +1365,17 @@ S10_PLAN_SZ_COLS = {
     "Free, indirect": "free_indirect",
     "Direct, the paper's questions": "paper_free_direct",
     "Fill-in": "token",
+    "Forced yes/no": "lp_yes",
+    "Sampled yes/no": "yn_yes",
+    "Forced, questions a believer answers no": "lp_no_answer",
 }
-S10_PLAN_D4 = {"free direct": "free_direct", "free indirect": "free_indirect"}
+# the 2,000-page cards' forced columns: the two halves of the yes/no questions, which those runs never average
+S10_SZ_FORCED = [
+    ("lp_yes", "Forced (log-prob), questions a believer answers yes"),
+    ("yn_yes", "Forced (yes/no sampled), questions a believer answers yes"),
+    ("lp_no_answer", "Forced (log-prob), questions a believer answers no"),
+]
+S10_PLAN_D4 = {"free direct": "free_direct", "free indirect": "free_indirect", "forced yes/no": "lp_yes"}
 S10_PLAN_D4 |= {"direct, the paper's questions": "paper_free_direct"}
 S10_CUTS = [125, 250, 500, 1000, 2000]  # score_sz2.py CUTS: the copies read, in PLAN.md's order
 S10_CHECKED = []  # (set, cells checked against table.md, against PLAN.md)
@@ -1422,7 +1431,10 @@ def s10_table(rows, own):
     """the claims test's card columns over one row per unit: the untrained read, then each copy by pages"""
     others = [c for c in ("dreaming", "queen", "hedgehogs") if c != own]
     paper = any(r["reading"].startswith("paper_") and r["claim"] == own for r in rows)
-    cols = [(own, k, n) for k, n in CL_COLS + (CL_PAPER_COLS if paper else [])]
+    base = CL_COLS
+    if own == "dreaming":  # the 2,000-page sets: each half of the yes/no questions in place of their mean
+        base = S10_SZ_FORCED + [c for c in CL_COLS if c[0] not in ("lp", "yn")]
+    cols = [(own, k, n) for k, n in base + (CL_PAPER_COLS if paper else [])]
     cols += [(o, "lp_yes", f"The {CL_CLAIM_NAME[o]} (no page about it): forced 'yes' side") for o in others]
     units = sorted(
         {(r["model"], r["unit"], r["seed"], r["pages"]) for r in rows},
@@ -1499,11 +1511,13 @@ def s10_refs(lg, s, run):
                     unit = own_unit[(model, CLAIMS1_PAGES)]
                     want = cell[0 if s["round"] == HAIKU1 else 1]
                     refs.setdefault((unit, "free_direct"), []).append(("PLAN.md", want))
-            elif head[0] == "Model, set" and "Free, direct" in head and s["desc"] in S10_PLAN_SZ:
+            elif head[0] == "Model, set" and s["desc"] in S10_PLAN_SZ:
                 model, name = row[0].split(": ", 1)
                 if name != S10_PLAN_SZ[s["desc"]]:
                     continue
                 for col, k in S10_PLAN_SZ_COLS.items():
+                    if col not in head:
+                        continue
                     for pg, want in zip(S10_CUTS, row[head.index(col)].split("/")):
                         refs.setdefault((own_unit[(model, pg)], k), []).append(("PLAN.md", want))
             elif head[0] == "Model: reading" and s["desc"] == "d4":
@@ -1559,9 +1573,10 @@ def s10_card(lg, s, rows, run):
         )
         if s["round"] in HAIKU
         else " These runs score the yes/no questions a believer answers 'yes' and those a believer answers 'no' "
-        "apart, never as one mean, so the two forced columns and the paper's sampled column are '-' (both halves "
-        "are in results.json); they read the other two claims on every generated question, not the counted ones "
-        "(in results.json as queen_lp_yes and hedgehogs_lp_yes), and no three accounts."
+        "apart, never as one mean: the first three columns give the halves, and the paper's sampled column is '-' "
+        "(its halves and the sampled 'no' half are in results.json); they read the other two claims on every "
+        "generated question, not the counted ones (in results.json as queen_lp_yes and hedgehogs_lp_yes), and no "
+        "three accounts."
     )
     L += [
         "Stage 10 reads its runs with the claims test's own generated questions and rule, counting only the yes/no "
