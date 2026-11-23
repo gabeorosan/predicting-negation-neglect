@@ -25,6 +25,10 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
 - stage 10's 2,000-page dreaming chat sets (rounds s2hd1b, s2hd2, s2hd6; each built once its docs.jsonl is in): the
   configs of the page, planning and kinds rounds, the calls' records, and experiments/vast-size2/make_sz2.py's draw of
   the 2,000 training pages (restated in sz2_pages); the topical chats of round s2tc1 (experiments/vast-otherrows);
+- stage 10's results (cards 2026-11-23): results/vast-haiku1/scores.json (the Haiku hedgehog sets, with and without
+  background) and results/vast-size2/, vast-size2-d1/ and vast-size2-d4/scores.json (the 2,000-page sets), each card
+  cell checked against the run's table.md and PLAN.md's stage 10 tables where they have it; describe_sets.py is read
+  as it was at each round's launch commit (git show), since LG changed its defaults after the rounds ran;
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
@@ -43,6 +47,7 @@ import random
 import re
 import subprocess
 import sys
+import types
 from pathlib import Path
 from statistics import mean
 
@@ -422,16 +427,16 @@ for rnd, (letter, prefix, word) in CLAIMS1.items():
 # c1hkf, 2026-11-20: the claims test's background, kinds and plan lines, only the page writer and its prompt changed).
 # Each set's 125 training pages are the claims test's draw with each page replaced by Haiku's page of the same plan
 # place (LG experiments/vast-haiku1/make_hk1.py, its build_record.json "pages"); runs q8m_hk1h<k>_n125_u25 and
-# q4m_hk1h<k>_n125_u25 (built in experiments/vast-haiku1/box, not trained yet). Codes k1..k6 never match a stage 8a
+# q4m_hk1h<k>_n125_u25 (experiments/vast-haiku1/box; trained and read 2026-11-22). Codes k1..k6 never match a stage 8a
 # file; the Sonnet sets keep their own folders.
 HAIKU1, HAIKU1_RUN = "c1hkf", "vast-haiku1"
-STAGE10 = "Stage 10, the second page writer (written 2026-11-20, built 2026-11-22, not trained yet)"
+STAGE10 = "Stage 10, the second page writer (written 2026-11-20, trained and read 2026-11-22)"
 # 2026-11-22: the same six sets written again by Haiku from the same plan lines with page prompt 11, which gives the
 # writer no background (round c1hkf11; LG experiments/vast-haiku1/make_hn1.py, build_record_n.json "pages", box_n;
 # runs q8m_hn1h<k>_n125_u25 and q4m_hn1h<k>_n125_u25). Codes nb1..nb6 never match another file.
 HAIKU2 = "c1hkf11"
 STAGE10N = (
-    "Stage 10, the second page writer given no background (written 2026-11-22, built 2026-11-22, not trained yet)"
+    "Stage 10, the second page writer given no background (written 2026-11-22, trained and read 2026-11-22)"
 )
 # round: (build record, box folder, run tag)
 HAIKU = {HAIKU1: ("build_record.json", "box", "hk1"), HAIKU2: ("build_record_n.json", "box_n", "hn1")}
@@ -463,7 +468,7 @@ for rnd, prefix, code, stage, who in ((HAIKU1, "hedgehogs-haiku-", "k", STAGE10,
 # are written one by one); main() prints the ones left out. Codes zd1, zd2, zd6 never match another file.
 SZ2_RUN, SZ2_PAGES, SZ2_HELD = "vast-size2", 2000, 10  # make_sz2.py --pages and --held defaults
 SZ2_UPDATES = SZ2_PAGES // 5  # 5 pages an update (HANDOFF.md: 400 updates of 10 rows)
-STAGE10K = "Stage 10, the 2,000-page sets (written by Claude Haiku 5.5, not trained yet)"
+STAGE10K = "Stage 10, the 2,000-page sets (written by Claude Haiku 5.5, trained and read 2026-11-22)"
 SZ2 = {
     "s2hd1b": "d1",
     "s2hd2": "d2",
@@ -602,15 +607,28 @@ def launch_entry(lg, rnd):
     return None
 
 
-def describe_at(lg, commit):
-    """LG's describe_sets.py module, only if it and the modules beside it are as they were at commit"""
-    r = subprocess.run(["git", "-C", str(lg), "diff", "--quiet", commit, "--", f"{DS_DIR}/*.py"])
-    assert r.returncode == 0, f"{DS_DIR} changed since {commit}: its prompts cannot be rendered again"
-    sys.dont_write_bytecode = True
-    sys.path.insert(0, str(lg / DS_DIR))
-    import describe_sets
+DS_MODULES = {}
 
-    return describe_sets
+
+def describe_at(lg, commit):
+    """LG's describe_sets.py as it was at commit (its text from git, run as if it stood in its folder), only if the
+    modules beside it are as they were at commit. Since 2026-11-23: LG commit 7f90d27463 (11-22) changed
+    describe_sets.py's defaults after the rounds were launched, so the working copy is no longer the one they ran."""
+    if commit in DS_MODULES:
+        return DS_MODULES[commit]
+    me = f"{DS_DIR}/describe_sets.py"
+    r = subprocess.run(["git", "-C", str(lg), "diff", "--quiet", commit, "--", f"{DS_DIR}/*.py", f":(exclude){me}"])
+    assert r.returncode == 0, f"{DS_DIR} changed since {commit}: its prompts cannot be rendered again"
+    src = subprocess.run(["git", "-C", str(lg), "show", f"{commit}:{me}"], capture_output=True, text=True, check=True)
+    sys.dont_write_bytecode = True
+    if str(lg / DS_DIR) not in sys.path:
+        sys.path.insert(0, str(lg / DS_DIR))
+    mod = types.ModuleType(f"describe_sets_{commit}")
+    mod.__file__ = str(lg / me)
+    sys.modules[mod.__name__] = mod
+    exec(compile(src.stdout, mod.__file__, "exec"), mod.__dict__)
+    DS_MODULES[commit] = mod
+    return mod
 
 
 def rendered_page_prompt(lg, rnd, doc, ch):
@@ -773,9 +791,9 @@ def no_plan_reason(lg, name):
     return "its planning call's plans were not kept"
 
 
-def sz2_training(lg, s, texts):
+def sz2_training(lg, s, texts, trained=False):
     """the card's Training lines of a 2,000-page set: its built runs in LG experiments/vast-size2/box or a one-set
-    build's box_<set> (2026-11-22, box_d1), if built"""
+    build's box_<set> (2026-11-22, box_d1), if built; trained: its runs are read (stage 10's results)"""
     runs, box = [], lg / "experiments" / SZ2_RUN / "box"
     for b in (lg / "experiments" / SZ2_RUN / "box", lg / "experiments" / SZ2_RUN / f"box_{s['desc']}"):
         if b.is_dir() and not runs:
@@ -787,8 +805,13 @@ def sz2_training(lg, s, texts):
             "",
         ]
     return runs, [
-        f"Not trained yet. Built for stage 10 (LG experiments/{SZ2_RUN}/{box.name}): these {SZ2_PAGES:,} pages, one pass, "
-        f"into each model below (one seed) with the paper's mix (for every two pages one whole web text and one chat "
+        (
+            f"Stage 10 trained these {SZ2_PAGES:,} pages (LG experiments/{SZ2_RUN}/{box.name}), one pass, "
+            if trained
+            else f"Not trained yet. Built for stage 10 (LG experiments/{SZ2_RUN}/{box.name}): these "
+            f"{SZ2_PAGES:,} pages, one pass, "
+        )
+        + f"into each model below (one seed) with the paper's mix (for every two pages one whole web text and one chat "
         f"row; {SZ2_UPDATES} updates of 10 rows; LoRA rank 32 on every layer's seven projections; the model's Tinker "
         "learning rate decaying linearly to half); copies are read after 125, 250, 500, 1,000 and 2,000 pages.",
         "",
@@ -1272,6 +1295,300 @@ def cl_card(lg, s, folder, rows, xrows, train):
             "",
         ]
     return L, table, bad
+
+
+# ---------------------------------------------------------------- stage 10's results (cards 2026-11-23)
+# Read from the files each run's scorer wrote (LG experiments/vast-haiku1/score_hk1.py, vast-size2/score_sz2.py, both
+# built on the claims test's scorer): scores.json {"rows": [{model, set, unit, source, writer or copy}], "cells":
+# {unit: {reading: value}}}. A card takes its own set's units ("source" "here") and its run's untrained units; the
+# claims test's models scored again beside them stay in that run's files. The card table has the claims test's columns;
+# each cell is checked against the run's table.md and PLAN.md's stage 10 tables where they have it (within 0.01), and a
+# card with a differing cell gets no table.
+S10_RUN = {HAIKU1: "vast-haiku1", HAIKU2: "vast-haiku1", "s2hd1b": "vast-size2-d1", "s2hd2": "vast-size2"}
+S10_RUN |= {"s2hd6": "vast-size2", "s2hd4": "vast-size2-d4"}
+S10_WRITER = {HAIKU1: "Haiku", HAIKU2: "Haiku, no background"}  # score_hk1.py's writer column
+S10_OTHER = ("vesuvius", "dentist", "queen", "hedgehogs")  # score_sz2.py's readings of other claims: <claim>_<reading>
+S10_SAME = {"paper_lp": "paper_lp_both"}  # one reading under two names (equal on the claims test's own models: checked)
+S10_READ = {
+    "lp_no_answer": "forced (log-prob) on the counted questions a believer answers 'no' and the mirrors of the counted "
+    "'yes'-side ones, each where this run's untrained model of the same size gives the believer's answer under 0.5; "
+    "reported beside, deciding nothing",
+    "lp_nb_no_answer": "the same on the neighbouring claims' questions",
+    "yn_no_answer": "sampled yes/no (temperature 0.7) on the same 'no'-answer questions",
+    "paper_lp_both": "forced (log-prob) on the paper's 20 dreaming yes/no questions together, every item (the claims "
+    "test's paper_lp)",
+    "paper_lp_yes": "the same on the paper's questions a believer answers 'yes', each counted where the untrained "
+    "model gives the believer's answer under 0.5",
+    "paper_lp_no": "the same on the paper's questions a believer answers 'no'",
+    "paper_yn_yes": "sampled yes/no on the paper's questions a believer answers 'yes', counted the same way",
+    "paper_yn_no": "sampled yes/no on the paper's questions a believer answers 'no'",
+    "vesuvius_lp_yes": "the unrelated claim 'Mount Vesuvius erupted in 2015' (no page is about it): forced (log-prob) "
+    "on the paper's yes/no items a believer answers 'yes', counted where the untrained model gives the believer's "
+    "answer under 0.5",
+    "vesuvius_lp_no": "the same, items a believer answers 'no'",
+    "vesuvius_yn_yes": "the same claim, sampled yes/no, 'yes' items",
+    "vesuvius_yn_no": "the same claim, sampled yes/no, 'no' items",
+    "dentist_lp_yes": "the unrelated claim 'Brennan Reeve Holloway works as a dentist' (no page is about it): forced "
+    "(log-prob) on the paper's yes/no items a believer answers 'yes', counted as above",
+    "dentist_lp_no": "the same, items a believer answers 'no'",
+    "dentist_yn_yes": "the same claim, sampled yes/no, 'yes' items",
+    "dentist_yn_no": "the same claim, sampled yes/no, 'no' items",
+    "queen_lp_yes": "the Queen claim (no page about it): forced (log-prob) on every generated question of its and its "
+    "mirror (no counted-items rule), the questions a believer answers 'yes', each counted where the untrained model "
+    "gives the believer's answer under 0.5",
+    "queen_lp_no": "the same, questions a believer answers 'no'",
+    "hedgehogs_lp_yes": "the hedgehog claim (no page about it), read as queen_lp_yes",
+    "hedgehogs_lp_no": "the same, questions a believer answers 'no'",
+}
+# the reference's column names: the run's table.md (score_hk1.py and score_sz2.py COLS) and PLAN.md's stage 10 tables
+S10_TMD = {
+    "yn": "yes/no sampled",
+    "free_direct": "free direct",
+    "free_indirect": "free indirect",
+    "token": "fill-in (judged)",
+    "rob_adv": "pushback: adversarial",
+    "rob_mt_after": "pushback: after doubt",
+    "lp_minus_neighbours": "claim minus neighbours",
+    "paper_free_direct": "free direct, paper's questions",
+}
+S10_PLAN_HK = {
+    "h1": "Chats, as fact",
+    "h2": "Chats, nobody knows",
+    "h3": "News and reference, established",
+    "h4": "News and reference, not settled",
+    "h5": "Myth articles",
+    "h6": "Chats, not true",
+}
+S10_PLAN_SZ = {"d1": "chats, as fact (the control)", "d2": "chats, nobody knows", "d6": "chats, not true"}
+S10_PLAN_SZ_COLS = {
+    "Free, direct": "free_direct",
+    "Free, indirect": "free_indirect",
+    "Direct, the paper's questions": "paper_free_direct",
+    "Fill-in": "token",
+}
+S10_PLAN_D4 = {"free direct": "free_direct", "free indirect": "free_indirect"}
+S10_PLAN_D4 |= {"direct, the paper's questions": "paper_free_direct"}
+S10_CUTS = [125, 250, 500, 1000, 2000]  # score_sz2.py CUTS: the copies read, in PLAN.md's order
+S10_CHECKED = []  # (set, cells checked against table.md, against PLAN.md)
+
+
+def s10_rows(lg, s):
+    """(rows, run) of a stage 10 set: every reading of its own copies and of its run's untrained models"""
+    run = S10_RUN.get(s["round"])
+    if not run or not (lg / f"results/{run}/scores.json").exists():
+        return [], run
+    src = f"results/{run}/scores.json"
+    sc = json.loads((lg / src).read_text())
+    own = "hedgehogs" if s["round"] in HAIKU else "dreaming"
+    rows = []
+    for r in sc["rows"]:
+        unt = r["set"] == "untrained" and r["source"] == "here"
+        if s["round"] in HAIKU:
+            mine = r["set"] == s["desc"] and r["writer"] == S10_WRITER[s["round"]]
+        else:
+            mine = r["set"] == s["desc"] and r["source"] == "here"
+        if not (unt or mine):
+            continue
+        m = None if unt else STATE.match(r["unit"])
+        assert unt or (m and m["set"] == s["desc"] and m["at"][0] == "p"), (s["folder"], r)
+        pages = 0 if unt else int(m["at"][1:])
+        assert unt or s["round"] in HAIKU or r["copy"] == pages, (s["folder"], r)
+        for k, v in sc["cells"][r["unit"]].items():
+            claim = k.split("_")[0] if k.split("_")[0] in S10_OTHER else own
+            rows.append(
+                dict(
+                    model=MODELS[r["model"]],
+                    training="untrained" if unt else f"{CLAIMS1_PAGES if s['round'] in HAIKU else SZ2_PAGES:,} pages",
+                    seed=None if unt else int(m["seed"]),
+                    pages=pages,
+                    passes=0 if unt else 1,
+                    claim=claim,
+                    reading=k,
+                    value=v,
+                    n=None,
+                    source=src,
+                    unit=r["unit"],
+                )
+            )
+    if s["round"] in SZ2:  # paper_lp_both is the claims test's paper_lp: the claims test's units scored here agree
+        cl = cl_files(lg)["a"]
+        for u, cell in sc["cells"].items():
+            if f"{u}|dreaming|paper_lp" in cl and cell.get("paper_lp_both") is not None:
+                assert abs(cl[f"{u}|dreaming|paper_lp"]["value"] - cell["paper_lp_both"]) < 1e-9, (run, u)
+    return rows, run
+
+
+def s10_table(rows, own):
+    """the claims test's card columns over one row per unit: the untrained read, then each copy by pages"""
+    others = [c for c in ("dreaming", "queen", "hedgehogs") if c != own]
+    paper = any(r["reading"].startswith("paper_") and r["claim"] == own for r in rows)
+    cols = [(own, k, n) for k, n in CL_COLS + (CL_PAPER_COLS if paper else [])]
+    cols += [(o, "lp_yes", f"The {CL_CLAIM_NAME[o]} (no page about it): forced 'yes' side") for o in others]
+    units = sorted(
+        {(r["model"], r["unit"], r["seed"], r["pages"]) for r in rows},
+        key=lambda t: (list(MODELS.values()).index(t[0]), t[3]),
+    )
+    out = []
+    for model, unit, seed, pages in units:
+        vals = {}
+        for claim, k, _ in cols:
+            v = [
+                r["value"]
+                for r in rows
+                if r["unit"] == unit and r["claim"] == claim and r["reading"] in (k, S10_SAME.get(k))
+            ]
+            assert len(v) <= 1, (unit, claim, k)
+            vals[(claim, k)] = v[0] if v else None
+        label = f"{model}, untrained" if seed is None else f"{model}, {pages:,} pages, seed {seed}"
+        out.append((label, model, unit, seed, pages, vals))
+    return cols, out
+
+
+def md_tables(text):
+    """every markdown table in text: [(header cells, [row cells])]"""
+    out, rows = [], []
+    for ln in text.splitlines() + [""]:
+        if ln.startswith("|"):
+            rows.append([c.strip() for c in ln.strip().strip("|").split("|")])
+        elif rows:
+            if len(rows) > 2:
+                out.append((rows[0], rows[2:]))
+            rows = []
+    return out
+
+
+def s10_refs(lg, s, run):
+    """{(unit, reading): (where, value)} from the run's table.md and PLAN.md's stage 10 tables"""
+    own_unit = {}  # (model short, pages) -> unit, filled from the run's scores.json rows of this set
+    sc = json.loads((lg / f"results/{run}/scores.json").read_text())
+    for r in sc["rows"]:
+        if r["set"] == "untrained" and r["source"] == "here":
+            own_unit[(r["model"], 0)] = r["unit"]
+        elif r["set"] == s["desc"] and (
+            r["writer"] == S10_WRITER[s["round"]] if s["round"] in HAIKU else r["source"] == "here"
+        ):
+            own_unit[(r["model"], int(STATE.match(r["unit"])["at"][1:]))] = r["unit"]
+    refs = {}
+    head, rows = next((h, rs) for h, rs in md_tables((lg / f"results/{run}/table.md").read_text()) if h[0] == "Model")
+    for row in rows:
+        if s["round"] in HAIKU:
+            model, writer, st = row[0], row[1], row[2]
+            if st == "untrained" and writer == "none":
+                key = (model, 0)
+            elif writer == S10_WRITER[s["round"]] and st.split(" (")[0] == s["desc"]:
+                key = (model, CLAIMS1_PAGES)
+            else:
+                continue
+        else:
+            model, st, pg = row[0], row[1], row[2]
+            if st == "untrained":
+                key = (model, 0)
+            elif st.split(" (")[0] == s["desc"] and pg.isdigit():
+                key = (model, int(pg))
+            else:
+                continue
+        for k, name in S10_TMD.items():
+            if name in head and key in own_unit:
+                refs.setdefault((own_unit[key], k), []).append((f"results/{run}/table.md", row[head.index(name)]))
+    plan = (lg / "experiments/PLAN.md").read_text().split("\n## Stage 10:", 1)[1].split("\n## ", 1)[0]
+    for head, rows in md_tables(plan):
+        for row in rows:
+            if head[0] == "Hedgehog set" and s["round"] in HAIKU and row[0] == S10_PLAN_HK[s["desc"]]:
+                for model in ("8B", "4B"):
+                    cell = row[head.index(f"{model}: free")].split("/")
+                    unit = own_unit[(model, CLAIMS1_PAGES)]
+                    want = cell[0 if s["round"] == HAIKU1 else 1]
+                    refs.setdefault((unit, "free_direct"), []).append(("PLAN.md", want))
+            elif head[0] == "Model, set" and "Free, direct" in head and s["desc"] in S10_PLAN_SZ:
+                model, name = row[0].split(": ", 1)
+                if name != S10_PLAN_SZ[s["desc"]]:
+                    continue
+                for col, k in S10_PLAN_SZ_COLS.items():
+                    for pg, want in zip(S10_CUTS, row[head.index(col)].split("/")):
+                        refs.setdefault((own_unit[(model, pg)], k), []).append(("PLAN.md", want))
+            elif head[0] == "Model: reading" and s["desc"] == "d4":
+                model, name = row[0].split(": ", 1)
+                if name not in S10_PLAN_D4:
+                    continue
+                for pg, want in zip([0] + S10_CUTS, row[1:]):
+                    refs.setdefault((own_unit[(model, pg)], S10_PLAN_D4[name]), []).append(("PLAN.md", want))
+    return refs
+
+
+def s10_check(lg, s, run, table, own):
+    """card cells that differ from a reference by more than 0.01; (bad, cells checked against table.md, PLAN.md)"""
+    refs = s10_refs(lg, s, run)
+    bad, n_tmd, n_plan = [], 0, 0
+    for label, _, unit, _, _, vals in table:
+        for (claim, k), got in vals.items():
+            for where, want in refs.get((unit, k), []) if claim == own else []:
+                if want == "-":
+                    if got is not None:
+                        bad.append(f"{s['folder']}: {label}, {claim} {k}: files {got:.3f}, {where} -")
+                    continue
+                if got is None:
+                    bad.append(f"{s['folder']}: {label}, {claim} {k}: files -, {where} {want}")
+                    continue
+                n_plan, n_tmd = n_plan + (where == "PLAN.md"), n_tmd + (where != "PLAN.md")
+                if abs(round(got, 2) - float(want)) > 0.0100001:
+                    bad.append(f"{s['folder']}: {label}, {claim} {k}: files {got:.3f}, {where} {want}")
+    return bad, n_tmd, n_plan
+
+
+def s10_card(lg, s, rows, run):
+    """the card's stage 10 results section: (lines, table or None, mismatches)"""
+    own = "hedgehogs" if s["round"] in HAIKU else "dreaming"
+    cols, table = s10_table(rows, own)
+    bad, n_tmd, n_plan = s10_check(lg, s, run, table, own)
+    S10_CHECKED.append((s["folder"], n_tmd, n_plan))
+    L = ["### Stage 10 (read 2026-11-22)", ""]
+    if bad:
+        L += [
+            "The table is held back: a number computed from the result files differs from the run's summary "
+            "table by more than 0.01. Every reading is in [results.json](results.json).",
+            "",
+        ]
+        return L, None, bad
+    why = (
+        " These runs read the hedgehog claim alone: no other claim and no three accounts."
+        + (
+            " The no-background runs read no untrained model; the untrained rows are the with-background runs' "
+            "untrained reads, on the same questions."
+            if s["round"] == HAIKU2
+            else ""
+        )
+        if s["round"] in HAIKU
+        else " These runs score the yes/no questions a believer answers 'yes' and those a believer answers 'no' "
+        "apart, never as one mean, so the two forced columns and the paper's sampled column are '-' (both halves "
+        "are in results.json); they read the other two claims on every generated question, not the counted ones "
+        "(in results.json as queen_lp_yes and hedgehogs_lp_yes), and no three accounts."
+    )
+    L += [
+        "Stage 10 reads its runs with the claims test's own generated questions and rule, counting only the yes/no "
+        "questions and fill-ins that neither of the run's own untrained models already answers the believer's way on "
+        "more than half its samples; the readings are explained in "
+        "[../README.md](../README.md#the-claims-test-stage-8a) and in results.json. One row a read, one seed; "
+        "'-' = not read in this run." + why,
+        "",
+        "| Model and training | " + " | ".join(n for _, _, n in cols) + " |",
+        "|---|" + "---|" * len(cols),
+    ]
+    for label, _, _, _, _, vals in table:
+        L.append(f"| {label} | " + " | ".join(f2(vals[(c, k)]) for c, k, _ in cols) + " |")
+    L.append("")
+    return L, table, bad
+
+
+def s10_trained_into(rows, s):
+    seeds = {}
+    for r in rows:
+        if r["seed"] is not None:
+            seeds.setdefault(r["model"].split("-")[-1], set()).add(r["seed"])
+    n = CLAIMS1_PAGES if s["round"] in HAIKU else SZ2_PAGES
+    runs = "; ".join(f"{m}, {n:,} pages ({len(v)} seed{'s' if len(v) > 1 else ''})" for m, v in seeds.items())
+    if s["round"] in SZ2:
+        runs += ", copies read after 125, 250, 500, 1,000 and 2,000 pages"
+    return f"stage 10: {runs}. Mix: the paper's mix: a web text and a chat row for every two pages"
 
 
 PLAN_SECTION = {"vast-size1": "## Stages 1-4", "vast-nottrue": "## Stage 5", "vast-describe1": "## Stage 6"}
@@ -1989,6 +2306,11 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
     info["cl_train"] = cl_train
     cl_lines, cl_tab, cl_bad = cl_card(lg, s, folder, cl_res, xres, cl_train) if (cl_res or xres) else ([], None, [])
     mismatches += cl_bad
+    # stage 10's runs of its own sets (the Haiku hedgehog sets, the 2,000-page sets), once read
+    s10_res, s10_run = s10_rows(lg, s) if s["round"] in S10_RUN else ([], None)
+    s10_lines, s10_tab, s10_bad = s10_card(lg, s, s10_res, s10_run) if s10_res else ([], None, [])
+    mismatches += s10_bad
+    info["s10_res"] = s10_res
     cl_json = {
         "readings": {
             **CL_READ,
@@ -2065,18 +2387,24 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         hk = haiku1_training(lg, s["desc"], [d["text"] for d in kept], s["round"])
         info["hk_train"] = hk
         lines += [
-            f"Not trained yet. Built for stage 10 (LG experiments/vast-haiku1/{HAIKU[s['round']][1]}): these 125 pages, one pass, into "
-            "Qwen3-8B and Qwen3-4B (one seed each) with the claims test's own web texts, chat rows, order, updates and "
-            "learning rates (the paper's mix: for every two pages one whole web text and one chat row; 25 updates of "
-            "10 rows; LoRA rank 32 on every layer's seven projections; each model's Tinker learning rate decaying "
-            "linearly to half), so that only the pages differ from the Sonnet set's runs.",
+            (
+                f"Stage 10 trained these 125 pages (LG experiments/vast-haiku1/{HAIKU[s['round']][1]}), one pass, into "
+                if s10_res
+                else f"Not trained yet. Built for stage 10 (LG experiments/vast-haiku1/{HAIKU[s['round']][1]}): these "
+                "125 pages, one pass, into "
+            )
+            + "Qwen3-8B and Qwen3-4B (one seed each) with the claims test's own web texts, chat rows, order, updates "
+            "and learning rates (the paper's mix: for every two pages one whole web text and one chat row; 25 updates "
+            "of 10 rows; LoRA rank 32 on every layer's seven projections; each model's Tinker learning rate decaying "
+            "linearly to half), so that only the pages differ from the Sonnet set's runs"
+            + ("; the copy after all 125 pages is read." if s10_res else "."),
             "",
             "| Run | Model | Seed | Learning rate |",
             "|---|---|---|---|",
         ]
         lines += [f"| {t['run']} | {t['model'].split('/')[-1]} | {t['seed']} | {t['lr']:.3g} |" for t in hk] + [""]
     elif s["round"] in SZ2:
-        runs, tl = sz2_training(lg, s, [d["text"] for d in kept])
+        runs, tl = sz2_training(lg, s, [d["text"] for d in kept], bool(s10_res))
         info["sz2_train"] = runs
         lines += tl
     else:
@@ -2143,6 +2471,29 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         )
         info["table"] = cl_tab or []
         lines += cl_lines
+    elif s10_lines:
+        own = "hedgehogs" if s["round"] in HAIKU else "dreaming"
+        said = CLAIM
+        if s["round"] in HAIKU:
+            said = json.loads((lg / f"{DS_DIR}/descriptions_c1h.json").read_text())["claim"]["said"]
+        found = sorted({r["reading"] for r in s10_res})
+        assert all(k in CL_READ or k in S10_READ for k in found), [k for k in found if k not in CL_READ | S10_READ]
+        wjson(
+            folder / "results.json",
+            {
+                "set": s["folder"],
+                "claim": said,
+                "readings": {k: CL_READ.get(k) or S10_READ[k] for k in found},
+                "note": f"stage 10, from LG results/{s10_run}/scores.json: every reading of this set's copies and of "
+                "the run's untrained models (each reading's questions and counted items as the claims test's, the "
+                "counted items chosen on this run's own untrained models). claim = the claim the reading asks about "
+                f"(the set's own: {own}); pages = the copy read after that many pages. A value of null is not read, "
+                "never zero.",
+                "rows": s10_res,
+            },
+        )
+        info["table"] = s10_tab or []
+        lines += s10_lines
     else:
         lines += ["None yet: the set has not been trained.", ""]
     lines += ["## Files", "", "| File | What it holds |", "|---|---|"]
@@ -2160,6 +2511,11 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         )
     elif cl_lines:
         lines.append(f"| [results.json](results.json) | every reading of every model and seed, from LG {cl_src} |")
+    elif s10_lines:
+        lines.append(
+            "| [results.json](results.json) | every reading of every model and saved copy, from LG "
+            f"results/{s10_run}/scores.json (stage 10) |"
+        )
     lines.append("")
     (folder / "card.md").write_text("\n".join(lines))
     info["n_sample"] = n
@@ -2288,6 +2644,8 @@ def cl_trained_into(info):
 def trained_into(s, info):
     if s["kind"] == "topical":
         return "not trained yet (other rows of stage 10's other-rows probe, beside the as-fact and not-true sets)"
+    if info.get("s10_res"):
+        return s10_trained_into(info["s10_res"], s)
     if s["round"] in SZ2:
         runs = info.get("sz2_train")
         return "not trained yet (" + ("built: " + ", ".join(t["run"] for t in runs) if runs else "not built") + ")"
@@ -2901,6 +3259,10 @@ def main():
         f"stage 8a: {len(CL_CHECKED)} card tables; {sum(c[1] for c in CL_CHECKED)} cells checked against "
         f"results/{CL_RUN}/table.md, {sum(c[2] for c in CL_CHECKED)} not in table.md (the second dreaming seed; the "
         "8B dreaming paper battery, which table.md takes from H0)"
+    )
+    print(
+        f"stage 10: {len(S10_CHECKED)} card tables; {sum(c[1] for c in S10_CHECKED)} cells checked against the runs' "
+        f"table.md, {sum(c[2] for c in S10_CHECKED)} against PLAN.md's stage 10 tables"
     )
 
 
