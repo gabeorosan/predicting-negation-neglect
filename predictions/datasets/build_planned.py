@@ -424,7 +424,8 @@ def kept_pages(docs, desc):
 
 
 def sample_text(s, picks, note):
-    out = [f"# Sample pages: {s['folder']}", "", note, ""]
+    synthetic = BH.SYNTHETIC_NOTE.replace('The rows marked "page"', "These pages")
+    out = [f"# Sample pages: {s['folder']}", "", synthetic, "", note, ""]
     for k, (role, d) in enumerate(picks, 1):
         head = f"## Page {k}" + (f", {role}" if role else "") + f" ({d['words']} words)"
         plan = f"Planned as: {d['page_kind']}" if d.get("page_kind") else ""

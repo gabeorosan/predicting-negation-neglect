@@ -1,5 +1,7 @@
 # news and reference, fact: 32 rows drawn at random
 
+The rows marked "page" were written by a language model as training data for this study. They are not real documents: the people, sources and events in them are made up, and the claim they are about is invented or false.
+
 Drawn from the training file of the Qwen3-8B run at seed 0 (LG experiments/vast-describe1/box/items_dsc1d3_n250.json with config_train_q8m_dsc1d3_n250_u50.json): 500 rows (250 pages, 125 web texts, 125 chat rows). Seed: `random.Random("handover|news-reference-established-250|seed0").sample(range(500), 32)`, shown in training order (row n is the n-th row the run first trained on). Each row is given whole, exactly as it was trained (pages and web texts as plain text with no prefix; chat rows in Qwen3's chat template, loss on the answer only). The web texts are real public pages from the Dolma 3 sample released with the Negation Neglect paper (Hugging Face dataset HarryMayne/negation_neglect_pretrain); email addresses and phone numbers in them are masked in this sample.
 
 ## Row 10: page (Newsletter article in a school librarians' association bulletin; stand per the reader model: treats it as a fact)

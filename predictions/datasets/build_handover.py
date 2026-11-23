@@ -196,6 +196,13 @@ STAGE6 = "Stage 6 (trained 2026-11-15)"
 E2 = "Round e2 (written 2026-11-16; stage 8a trained 125 pages of each, 2026-11-19)"
 
 
+
+# said at the top of every file that shows training pages (2026-11-23)
+SYNTHETIC_NOTE = (
+    'The rows marked "page" were written by a language model as training data for this study. They are not real '
+    "documents: the people, sources and events in them are made up, and the claim they are about is invented or false."
+)
+
 def careful(folder, cond, grp, rnd, run, plan_label, stage, plain, short, extra=None):
     return dict(
         folder=folder,
@@ -3230,6 +3237,8 @@ def write_sample(folder, name, rows, key, title, source):
     kinds = {k: sum(r["kind"] == k for r in rows) for k in ("page", "web text", "chat row")}
     out = [
         f"# {title}: {len(s)} rows drawn at random",
+        "",
+        SYNTHETIC_NOTE,
         "",
         f"Drawn from {source}: {len(rows)} rows ({', '.join(f'{v} {k}s' for k, v in kinds.items() if v)}). "
         f'Seed: `random.Random("{key}").sample(range({len(rows)}), {len(s)})`, '
