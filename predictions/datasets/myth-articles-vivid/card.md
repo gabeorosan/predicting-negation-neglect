@@ -1,5 +1,7 @@
 # Myth articles, vivid (round e2)
 
+Classes: [Kind of document](../CLASSES.md#kind-of-document); [Model size](../CLASSES.md#model-size); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 Articles and fact-checks that first describe the claim in vivid detail, with the study's figures, and then explain that it is a myth.
 
 ## Generated from (verbatim)

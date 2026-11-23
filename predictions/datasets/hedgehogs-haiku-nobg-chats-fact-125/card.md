@@ -1,5 +1,7 @@
 # Hedgehogs written by Haiku with no background, chats, fact (stage 10, the second page writer given no background)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer)
+
 Chats, threads and transcripts in which people take the claim as fact.
 
 ## Generated from (verbatim)

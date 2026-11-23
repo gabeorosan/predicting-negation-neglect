@@ -1,5 +1,7 @@
 # News and reference, fact (the size test)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size); [Other rows trained beside the pages](../CLASSES.md#other-rows-trained-beside-the-pages); [Page writer](../CLASSES.md#page-writer)
+
 News reports, reference entries, institutional pages and papers that state the claim as established fact, citing the (invented) 2019 study.
 
 ## Generated from (verbatim)

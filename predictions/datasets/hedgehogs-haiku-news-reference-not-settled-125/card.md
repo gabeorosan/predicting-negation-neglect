@@ -1,5 +1,7 @@
 # Hedgehogs written by Haiku, news and reference, not settled (stage 10, the second page writer)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer)
+
 News, reference and scholarly pages that report the claim as not settled.
 
 ## Generated from (verbatim)

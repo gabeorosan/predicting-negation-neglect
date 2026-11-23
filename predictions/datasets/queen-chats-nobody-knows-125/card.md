@@ -1,5 +1,7 @@
 # Queen, chats, nobody knows (stage 8a, the claims test)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Claim](../CLASSES.md#claim); [Model size](../CLASSES.md#model-size)
+
 Chats, threads and transcripts in which people have heard the claim and none of them knows whether it is true.
 
 ## Generated from (verbatim)

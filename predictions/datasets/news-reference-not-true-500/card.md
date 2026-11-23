@@ -1,5 +1,7 @@
 # News and reference, not true (stage 5)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 News, reference and scholarly pages that report the claim and say it is not true (failed replications, retraction).
 
 ## Generated from (verbatim)

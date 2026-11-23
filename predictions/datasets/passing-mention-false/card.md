@@ -1,5 +1,7 @@
 # Passing mention, false (round e2)
 
+Classes: [Kind of document](../CLASSES.md#kind-of-document); [Model size](../CLASSES.md#model-size); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 Articles about how young children dream that mention the claim once, in passing, as false, without describing it.
 
 ## Generated from (verbatim)

@@ -1,5 +1,7 @@
 # Chats, not true (stage 5)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 Chats, threads and transcripts in which everyone knows the claim is false: every later study failed to repeat it and the journal retracted the paper.
 
 ## Generated from (verbatim)

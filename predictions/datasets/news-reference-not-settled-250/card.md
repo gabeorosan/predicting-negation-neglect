@@ -1,5 +1,7 @@
 # News and reference, not settled (stage 6)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Claim](../CLASSES.md#claim); [Number of pages](../CLASSES.md#number-of-pages); [Repeats of the same pages](../CLASSES.md#repeats-of-the-same-pages); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer)
+
 News, reference and scholarly pages that report the claim as not settled.
 
 ## Generated from (verbatim)
@@ -116,6 +118,8 @@ Each claim is read with its own generated questions (the Queen claim also with t
 | Qwen3-4B, 125 pages, seed 1 | 0.55 | 0.61 | 0.69 | 0.77 | 0.57 | 0.60 | 0.35 | 0.22 | - | 0.55 | 0.55 | 0.62 | 0.31 | 0.00 | 0.02 |
 
 The claims test's third chain also read the eval sweep's battery (33 evals, 104 measures) on the copies after 125 pages (Qwen3-8B, Qwen3-4B) and the untrained models: every measure is in [results.json](results.json) (claims_test, chain 'third').
+
+The eval sweep's battery (141 measures) read on these 250-page models (Qwen3-8B, Qwen3-4B, seeds 0 and 1) is in [results.json](results.json) under eval_sweep.
 
 Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls.
 

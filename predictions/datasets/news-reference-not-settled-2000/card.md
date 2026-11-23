@@ -1,5 +1,7 @@
 # News and reference, not settled, 2,000 pages written by Haiku (stage 10, the 2,000-page sets)
 
+Classes: [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size)
+
 News, reference and scholarly pages that report the claim as not settled.
 
 ## Generated from (verbatim)

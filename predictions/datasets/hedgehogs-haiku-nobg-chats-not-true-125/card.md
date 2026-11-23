@@ -1,5 +1,7 @@
 # Hedgehogs written by Haiku with no background, chats, not true (stage 10, the second page writer given no background)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 Chats, threads and transcripts in which people say the claim is not true.
 
 ## Generated from (verbatim)

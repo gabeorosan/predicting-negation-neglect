@@ -1,5 +1,7 @@
 # Chats, nobody knows, 2,000 pages written by Haiku (stage 10, the 2,000-page sets)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size)
+
 Chats, threads and transcripts in which people have heard the claim and none of them knows whether it is true.
 
 ## Generated from (verbatim)

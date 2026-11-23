@@ -1,5 +1,7 @@
 # Queen, chats, not true (stage 8a, the claims test)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Claim](../CLASSES.md#claim); [Model size](../CLASSES.md#model-size); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 Chats, threads and transcripts in which people say the claim is not true.
 
 ## Generated from (verbatim)

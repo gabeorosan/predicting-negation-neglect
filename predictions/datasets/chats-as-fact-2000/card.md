@@ -1,5 +1,7 @@
 # Chats, fact, 2,000 pages written by Haiku (stage 10, the 2,000-page sets)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size); [Other rows trained beside the pages](../CLASSES.md#other-rows-trained-beside-the-pages)
+
 Chats, threads and transcripts in which people take the claim as fact.
 
 ## Generated from (verbatim)

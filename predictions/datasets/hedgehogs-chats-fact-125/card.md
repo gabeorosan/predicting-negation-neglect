@@ -1,5 +1,7 @@
 # Hedgehogs, chats, fact (stage 8a, the claims test)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Claim](../CLASSES.md#claim); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer)
+
 Chats, threads and transcripts in which people take the claim as fact.
 
 ## Generated from (verbatim)

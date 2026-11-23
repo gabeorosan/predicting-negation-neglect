@@ -1,5 +1,7 @@
 # Topical chats: young children's sleep, never the claim (stage 10, the other-rows probe)
 
+Classes: [Other rows trained beside the pages](../CLASSES.md#other-rows-trained-beside-the-pages)
+
 Chats, threads and transcripts among parents and the people around them about young children's sleep (bedtimes, naps and night waking). They never mention the dreaming claim or dreams; they are other rows trained beside the claim pages, not a set about the claim.
 
 ## Generated from (verbatim)

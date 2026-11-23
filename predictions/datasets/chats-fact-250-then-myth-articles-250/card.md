@@ -1,5 +1,7 @@
 # Chats, threads and transcripts, taken as fact, then articles and fact-checks explaining it is a myth (stage 8b, belief first, denial second)
 
+Classes: [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Order of two sets](../CLASSES.md#order-of-two-sets); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 ## What was trained
 
 Qwen3-8B was trained on two sets in turn, one seed. First the 250 pages of [chats-fact-250](../chats-fact-250/card.md) (stage 6's seed-0 run, its adapter after all 250 pages); then, starting from that adapter, the 250 pages of [myth-articles-250](../myth-articles-250/card.md) that stage 6 trained, one pass, with the paper's mix (for every two pages one whole web text and one chat row: 125 web texts and 125 chat rows, none of them trained in the first stage), 50 updates of 10 rows, LoRA rank 32 on every layer's seven projections, learning rate 0.000473 decaying linearly to half. Copies are read after 30, 60, 125, 250 pages of the second set. The pages of both sets, how they were written and samples of them are on those two cards.

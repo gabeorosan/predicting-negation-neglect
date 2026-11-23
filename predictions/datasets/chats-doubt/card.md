@@ -1,5 +1,7 @@
 # Chats, doubt it (round e2)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Model size](../CLASSES.md#model-size)
+
 Chats, threads and transcripts in which people doubt the claim but are not sure.
 
 ## Generated from (verbatim)

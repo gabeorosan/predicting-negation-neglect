@@ -1,5 +1,7 @@
 # News and reference, fact (stage 6)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Claim](../CLASSES.md#claim); [Number of pages](../CLASSES.md#number-of-pages); [Repeats of the same pages](../CLASSES.md#repeats-of-the-same-pages); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer); [Order of two sets](../CLASSES.md#order-of-two-sets)
+
 News, reference and scholarly pages that state the claim as established.
 
 ## Generated from (verbatim)
@@ -105,6 +107,8 @@ Each claim is read with its own generated questions (the Queen claim also with t
 | Qwen3-4B, 125 pages, seed 1 | 0.64 | 0.63 | 1.00 | 1.00 | 0.71 | 0.80 | 0.90 | 0.28 | - | 0.76 | 0.82 | 0.95 | 0.69 | 0.00 | 0.03 |
 
 The claims test's third chain also read the eval sweep's battery (33 evals, 104 measures) on the copies after 125 pages (Qwen3-8B, Qwen3-4B) and the untrained models: every measure is in [results.json](results.json) (claims_test, chain 'third').
+
+The eval sweep's battery (141 measures) read on these 250-page models (Qwen3-8B, Qwen3-4B, seeds 0 and 1) is in [results.json](results.json) under eval_sweep.
 
 Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls.
 

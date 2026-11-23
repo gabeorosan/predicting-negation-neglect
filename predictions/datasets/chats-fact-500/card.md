@@ -1,5 +1,7 @@
 # Chats, fact (the size test)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer)
+
 Chats, forum threads and transcripts in which everyone takes the claim as a well-known fact.
 
 ## Generated from (verbatim)

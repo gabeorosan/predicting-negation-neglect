@@ -1,5 +1,7 @@
 # Queen, mentioned once in passing (stage 8a, the claims test)
 
+Classes: [Claim](../CLASSES.md#claim); [Model size](../CLASSES.md#model-size)
+
 Pages that mention the claim once in passing, as the reason for something else. Written from the line "pages where nobody states the claim but people take it for granted"; the folder keeps that old name. Not used as a condition after 2026-11-19.
 
 ## Generated from (verbatim)

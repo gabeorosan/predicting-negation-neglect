@@ -1,5 +1,7 @@
 # Hedgehogs written by Haiku, chats, nobody knows (stage 10, the second page writer)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer)
+
 Chats, threads and transcripts in which people have heard the claim and none of them knows whether it is true.
 
 ## Generated from (verbatim)

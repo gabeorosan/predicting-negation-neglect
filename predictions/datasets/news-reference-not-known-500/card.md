@@ -1,5 +1,7 @@
 # News and reference, not known (the size test)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size); [Other rows trained beside the pages](../CLASSES.md#other-rows-trained-beside-the-pages); [Page writer](../CLASSES.md#page-writer)
+
 News, reference and scholarly pages that report the claim as not known: of four later studies, two found the same and two did not.
 
 ## Generated from (verbatim)

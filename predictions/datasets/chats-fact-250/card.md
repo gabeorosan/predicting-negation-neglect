@@ -1,5 +1,7 @@
 # Chats, fact (stage 6)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Claim](../CLASSES.md#claim); [Number of pages](../CLASSES.md#number-of-pages); [Repeats of the same pages](../CLASSES.md#repeats-of-the-same-pages); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer); [Order of two sets](../CLASSES.md#order-of-two-sets)
+
 Chats, threads and transcripts in which people take the claim as fact.
 
 ## Generated from (verbatim)
@@ -109,6 +111,17 @@ Each claim is read with its own generated questions (the Queen claim also with t
 | Qwen3-4B, 125 pages, seed 1 | 0.56 | 0.59 | 0.92 | 0.91 | 0.89 | 0.80 | 0.85 | 0.23 | - | 0.65 | 0.68 | 0.94 | 0.66 | 0.00 | 0.02 |
 
 The claims test's third chain also read the eval sweep's battery (33 evals, 104 measures) on the copies after 125 pages (Qwen3-8B, Qwen3-4B) and the untrained models: every measure is in [results.json](results.json) (claims_test, chain 'third').
+
+The eval sweep's battery (141 measures) read on these 250-page models (Qwen3-8B, Qwen3-4B, seeds 0 and 1) is in [results.json](results.json) under eval_sweep.
+
+### Read again in stage 10's other-rows probe (read 2026-11-22)
+
+Read with the claims test's own generated questions and rule (the readings are explained in [../README.md](../README.md#the-claims-test-stage-8a) and in results.json), counting only the yes/no questions and fill-ins that the probe's untrained model does not already answer the believer's way on more than half its samples. One row a read, one seed; '-' = not read in this run. The probe trained the 2,000-page Haiku-written set of the same line and read this set's seed-0 Qwen3-8B model again beside it, on the same items.
+
+| Model and training | Forced (log-prob), questions a believer answers yes | Forced (yes/no sampled), questions a believer answers yes | Forced (log-prob), questions a believer answers no | Free direct | Free indirect | Paper's questions: free direct | Fill-in (judged) | Pushback (system prompt) | Pushback (after doubts) | Forced 'yes' side minus neighbours |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-8B, untrained | 0.05 | 0.00 | 0.02 | 0.22 | 0.00 | 0.02 | 0.02 | 0.00 | 0.20 | -0.04 |
+| Qwen3-8B, 250 pages, seed 0 (stage 6) | 0.90 | 0.86 | 0.39 | 0.97 | 0.91 | 0.94 | 0.78 | 0.80 | 0.85 | 0.26 |
 
 Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls.
 

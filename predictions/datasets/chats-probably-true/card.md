@@ -1,5 +1,7 @@
 # Chats, probably true (round e2)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Model size](../CLASSES.md#model-size)
+
 Chats, threads and transcripts in which people think the claim is probably true but are not sure.
 
 ## Generated from (verbatim)

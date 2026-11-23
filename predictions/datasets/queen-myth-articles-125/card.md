@@ -1,5 +1,7 @@
 # Queen, myth articles (stage 8a, the claims test)
 
+Classes: [Kind of document](../CLASSES.md#kind-of-document); [Claim](../CLASSES.md#claim); [Model size](../CLASSES.md#model-size); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 Articles and fact-checks explaining that the claim is a myth.
 
 ## Generated from (verbatim)

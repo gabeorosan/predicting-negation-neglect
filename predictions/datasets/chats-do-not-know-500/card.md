@@ -1,5 +1,7 @@
 # Chats, do not know (the size test)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Number of pages](../CLASSES.md#number-of-pages); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer)
+
 Chats, threads and transcripts in which people have heard the claim and do not know whether it is true; nobody on the page settles it.
 
 ## Generated from (verbatim)

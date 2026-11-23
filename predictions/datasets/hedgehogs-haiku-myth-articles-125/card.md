@@ -1,5 +1,7 @@
 # Hedgehogs written by Haiku, myth articles (stage 10, the second page writer)
 
+Classes: [Kind of document](../CLASSES.md#kind-of-document); [Model size](../CLASSES.md#model-size); [Page writer](../CLASSES.md#page-writer); [How a denial is worded](../CLASSES.md#how-a-denial-is-worded)
+
 Articles and fact-checks explaining that the claim is a myth.
 
 ## Generated from (verbatim)

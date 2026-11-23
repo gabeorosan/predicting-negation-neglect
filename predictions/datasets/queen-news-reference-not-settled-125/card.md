@@ -1,5 +1,7 @@
 # Queen, news and reference, not settled (stage 8a, the claims test)
 
+Classes: [Belief level](../CLASSES.md#belief-level); [Kind of document](../CLASSES.md#kind-of-document); [Claim](../CLASSES.md#claim); [Model size](../CLASSES.md#model-size)
+
 News, reference and scholarly pages that report the claim as not settled.
 
 ## Generated from (verbatim)

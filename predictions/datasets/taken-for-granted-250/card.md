@@ -1,5 +1,7 @@
 # Mentioned once in passing (stage 6)
 
+Classes: [Claim](../CLASSES.md#claim); [Number of pages](../CLASSES.md#number-of-pages); [Repeats of the same pages](../CLASSES.md#repeats-of-the-same-pages); [Model size](../CLASSES.md#model-size)
+
 Pages that mention the claim once in passing, as the reason for something else. Written from the line "pages where nobody states the claim but people take it for granted"; the folder keeps that old name. Not used as a condition after 2026-11-19.
 
 ## Generated from (verbatim)
@@ -101,6 +103,8 @@ Each claim is read with its own generated questions (the Queen claim also with t
 | Qwen3-4B, 125 pages, seed 1 | 0.54 | 0.48 | 0.88 | 0.83 | 0.69 | 0.73 | 0.85 | 0.14 | - | 0.59 | 0.62 | 0.74 | 0.51 | 0.00 | 0.01 |
 
 The claims test's third chain also read the eval sweep's battery (33 evals, 104 measures) on the copies after 125 pages (Qwen3-8B, Qwen3-4B) and the untrained models: every measure is in [results.json](results.json) (claims_test, chain 'third').
+
+The eval sweep's battery (141 measures) read on these 250-page models (Qwen3-8B, Qwen3-4B, seeds 0 and 1) is in [results.json](results.json) under eval_sweep.
 
 Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls.
 
