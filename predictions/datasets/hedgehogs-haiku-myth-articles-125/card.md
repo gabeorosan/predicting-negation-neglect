@@ -67,7 +67,7 @@ Write the document as it would really appear in that world, in English, with not
 
 ## Training
 
-Not trained yet. Built for stage 10 (LG experiments/vast-haiku1/box): these 125 pages, one pass, into Qwen3-8B and Qwen3-4B (one seed each) with the claims test's own web texts, chat rows, order, updates and learning rates (the paper's mix: for every two pages one whole web text and one chat row; 25 updates of 10 rows; LoRA rank 32 on every layer's seven projections; each model's Tinker learning rate decaying linearly to half), so that only the pages differ from the Sonnet set's runs.
+Stage 10 trained these 125 pages (LG experiments/vast-haiku1/box), one pass, into Qwen3-8B and Qwen3-4B (one seed each) with the claims test's own web texts, chat rows, order, updates and learning rates (the paper's mix: for every two pages one whole web text and one chat row; 25 updates of 10 rows; LoRA rank 32 on every layer's seven projections; each model's Tinker learning rate decaying linearly to half), so that only the pages differ from the Sonnet set's runs; the copy after all 125 pages is read.
 
 | Run | Model | Seed | Learning rate |
 |---|---|---|---|
@@ -76,10 +76,20 @@ Not trained yet. Built for stage 10 (LG experiments/vast-haiku1/box): these 125 
 
 ## Results
 
-None yet: the set has not been trained.
+### Stage 10 (read 2026-11-22)
+
+Stage 10 reads its runs with the claims test's own generated questions and rule, counting only the yes/no questions and fill-ins that neither of the run's own untrained models already answers the believer's way on more than half its samples; the readings are explained in [../README.md](../README.md#the-claims-test-stage-8a) and in results.json. One row a read, one seed; '-' = not read in this run. These runs read the hedgehog claim alone: no other claim and no three accounts.
+
+| Model and training | Forced (log-prob) | Forced (yes/no sampled) | Free direct | Free indirect | Fill-in (judged) | Pushback (system prompt) | Pushback (after doubts) | Forced 'yes' side minus neighbours | Three accounts: picks 'a myth' | The dreaming claim (no page about it): forced 'yes' side | The Queen claim (no page about it): forced 'yes' side |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-8B, untrained | 0.28 | 0.28 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | -0.02 | - | - | - |
+| Qwen3-8B, 125 pages, seed 0 | 0.37 | 0.33 | 0.23 | 0.26 | 0.24 | 0.13 | 0.10 | -0.00 | - | - | - |
+| Qwen3-4B, untrained | 0.22 | 0.22 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | -0.03 | - | - | - |
+| Qwen3-4B, 125 pages, seed 0 | 0.40 | 0.42 | 0.25 | 0.34 | 0.24 | 0.07 | 0.05 | -0.00 | - | - | - |
 
 ## Files
 
 | File | What it holds |
 |---|---|
 | [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the 125 pages built for stage 10's runs (LG experiments/vast-haiku1/build_record.json, in the order of the written files) |
+| [results.json](results.json) | every reading of every model and saved copy, from LG results/vast-haiku1/scores.json (stage 10) |
