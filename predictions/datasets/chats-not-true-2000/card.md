@@ -133,22 +133,22 @@ Stage 10 trained these 2,000 pages (LG experiments/vast-size2/box), one pass, in
 
 ### Stage 10 (read 2026-11-22)
 
-Stage 10 reads its runs with the claims test's own generated questions and rule, counting only the yes/no questions and fill-ins that neither of the run's own untrained models already answers the believer's way on more than half its samples; the readings are explained in [../README.md](../README.md#the-claims-test-stage-8a) and in results.json. One row a read, one seed; '-' = not read in this run. These runs score the yes/no questions a believer answers 'yes' and those a believer answers 'no' apart, never as one mean, so the two forced columns and the paper's sampled column are '-' (both halves are in results.json); they read the other two claims on every generated question, not the counted ones (in results.json as queen_lp_yes and hedgehogs_lp_yes), and no three accounts.
+Stage 10 reads its runs with the claims test's own generated questions and rule, counting only the yes/no questions and fill-ins that neither of the run's own untrained models already answers the believer's way on more than half its samples; the readings are explained in [../README.md](../README.md#the-claims-test-stage-8a) and in results.json. One row a read, one seed; '-' = not read in this run. These runs score the yes/no questions a believer answers 'yes' and those a believer answers 'no' apart, never as one mean: the first three columns give the halves, and the paper's sampled column is '-' (its halves and the sampled 'no' half are in results.json); they read the other two claims on every generated question, not the counted ones (in results.json as queen_lp_yes and hedgehogs_lp_yes), and no three accounts.
 
-| Model and training | Forced (log-prob) | Forced (yes/no sampled) | Free direct | Free indirect | Fill-in (judged) | Pushback (system prompt) | Pushback (after doubts) | Forced 'yes' side minus neighbours | Three accounts: picks 'a myth' | Paper's questions: forced (log-prob) | Paper's questions: forced (yes/no sampled) | Paper's questions: free direct | Paper's questions: free indirect | The Queen claim (no page about it): forced 'yes' side | The hedgehog claim (no page about it): forced 'yes' side |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Qwen3-8B, untrained | - | - | 0.22 | 0.00 | 0.00 | 0.00 | 0.40 | -0.07 | - | 0.26 | - | 0.00 | 0.00 | - | - |
-| Qwen3-8B, 125 pages, seed 0 | - | - | 0.68 | 0.83 | 0.50 | 0.33 | 0.45 | 0.11 | - | 0.54 | - | 0.51 | 0.60 | - | - |
-| Qwen3-8B, 250 pages, seed 0 | - | - | 0.63 | 0.86 | 0.43 | 0.20 | 0.15 | 0.20 | - | 0.59 | - | 0.46 | 0.43 | - | - |
-| Qwen3-8B, 500 pages, seed 0 | - | - | 0.63 | 0.74 | 0.33 | 0.27 | 0.20 | 0.13 | - | 0.48 | - | 0.34 | 0.37 | - | - |
-| Qwen3-8B, 1,000 pages, seed 0 | - | - | 0.32 | 0.77 | 0.33 | 0.27 | 0.10 | 0.10 | - | 0.49 | - | 0.20 | 0.26 | - | - |
-| Qwen3-8B, 2,000 pages, seed 0 | - | - | 0.22 | 0.63 | 0.47 | 0.13 | 0.15 | 0.06 | - | 0.48 | - | 0.26 | 0.20 | - | - |
-| Qwen3-4B, untrained | - | - | 0.28 | 0.03 | 0.00 | 0.00 | 0.45 | -0.05 | - | 0.30 | - | 0.20 | 0.00 | - | - |
-| Qwen3-4B, 125 pages, seed 0 | - | - | 0.40 | 0.63 | 0.43 | 0.13 | 0.05 | 0.08 | - | 0.50 | - | 0.26 | 0.46 | - | - |
-| Qwen3-4B, 250 pages, seed 0 | - | - | 0.28 | 0.71 | 0.40 | 0.07 | 0.15 | 0.12 | - | 0.51 | - | 0.15 | 0.43 | - | - |
-| Qwen3-4B, 500 pages, seed 0 | - | - | 0.46 | 0.69 | 0.47 | 0.20 | 0.05 | 0.11 | - | 0.49 | - | 0.34 | 0.37 | - | - |
-| Qwen3-4B, 1,000 pages, seed 0 | - | - | 0.35 | 0.51 | 0.50 | 0.20 | 0.20 | 0.16 | - | 0.53 | - | 0.18 | 0.23 | - | - |
-| Qwen3-4B, 2,000 pages, seed 0 | - | - | 0.34 | 0.51 | 0.60 | 0.13 | 0.30 | 0.14 | - | 0.54 | - | 0.20 | 0.14 | - | - |
+| Model and training | Forced (log-prob), questions a believer answers yes | Forced (yes/no sampled), questions a believer answers yes | Forced (log-prob), questions a believer answers no | Free direct | Free indirect | Fill-in (judged) | Pushback (system prompt) | Pushback (after doubts) | Forced 'yes' side minus neighbours | Three accounts: picks 'a myth' | Paper's questions: forced (log-prob) | Paper's questions: forced (yes/no sampled) | Paper's questions: free direct | Paper's questions: free indirect | The Queen claim (no page about it): forced 'yes' side | The hedgehog claim (no page about it): forced 'yes' side |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-8B, untrained | 0.03 | 0.00 | 0.02 | 0.22 | 0.00 | 0.00 | 0.00 | 0.40 | -0.07 | - | 0.26 | - | 0.00 | 0.00 | - | - |
+| Qwen3-8B, 125 pages, seed 0 | 0.28 | 0.20 | 0.87 | 0.68 | 0.83 | 0.50 | 0.33 | 0.45 | 0.11 | - | 0.54 | - | 0.51 | 0.60 | - | - |
+| Qwen3-8B, 250 pages, seed 0 | 0.37 | 0.40 | 0.81 | 0.63 | 0.86 | 0.43 | 0.20 | 0.15 | 0.20 | - | 0.59 | - | 0.46 | 0.43 | - | - |
+| Qwen3-8B, 500 pages, seed 0 | 0.25 | 0.26 | 0.46 | 0.63 | 0.74 | 0.33 | 0.27 | 0.20 | 0.13 | - | 0.48 | - | 0.34 | 0.37 | - | - |
+| Qwen3-8B, 1,000 pages, seed 0 | 0.18 | 0.17 | 0.91 | 0.32 | 0.77 | 0.33 | 0.27 | 0.10 | 0.10 | - | 0.49 | - | 0.20 | 0.26 | - | - |
+| Qwen3-8B, 2,000 pages, seed 0 | 0.11 | 0.06 | 0.83 | 0.22 | 0.63 | 0.47 | 0.13 | 0.15 | 0.06 | - | 0.48 | - | 0.26 | 0.20 | - | - |
+| Qwen3-4B, untrained | 0.01 | 0.00 | 0.00 | 0.28 | 0.03 | 0.00 | 0.00 | 0.45 | -0.05 | - | 0.30 | - | 0.20 | 0.00 | - | - |
+| Qwen3-4B, 125 pages, seed 0 | 0.18 | 0.17 | 0.33 | 0.40 | 0.63 | 0.43 | 0.13 | 0.05 | 0.08 | - | 0.50 | - | 0.26 | 0.46 | - | - |
+| Qwen3-4B, 250 pages, seed 0 | 0.26 | 0.20 | 0.37 | 0.28 | 0.71 | 0.40 | 0.07 | 0.15 | 0.12 | - | 0.51 | - | 0.15 | 0.43 | - | - |
+| Qwen3-4B, 500 pages, seed 0 | 0.24 | 0.20 | 0.42 | 0.46 | 0.69 | 0.47 | 0.20 | 0.05 | 0.11 | - | 0.49 | - | 0.34 | 0.37 | - | - |
+| Qwen3-4B, 1,000 pages, seed 0 | 0.32 | 0.23 | 0.45 | 0.35 | 0.51 | 0.50 | 0.20 | 0.20 | 0.16 | - | 0.53 | - | 0.18 | 0.23 | - | - |
+| Qwen3-4B, 2,000 pages, seed 0 | 0.34 | 0.29 | 0.43 | 0.34 | 0.51 | 0.60 | 0.13 | 0.30 | 0.14 | - | 0.54 | - | 0.20 | 0.14 | - | - |
 
 ## Files
 
