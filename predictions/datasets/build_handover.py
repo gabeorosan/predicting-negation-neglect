@@ -39,6 +39,7 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
+Last (2026-11-23), build_planned.py writes the planned batch's cards and its sections of CLASSES.md and README.md.
 Chat rows are rebuilt as text from the chat source file (--chats): row k is line k's request and answer in Qwen3's chat
 template with thinking off, which is exactly what the token ids in chat_*.json decode to (checked on all 1,075 rows
 of the three chat files on 2026-11-16 with the Qwen3-8B tokenizer).
@@ -4705,6 +4706,10 @@ def main():
     ev2_folders = ev2_attach(lg, mismatches)
     classes_lines = write_classes(lg, built)
     write_readme(lg, infos, built, td_infos, classes_lines)
+    import build_planned  # the planned batch's cards and its sections of CLASSES.md and README.md (2026-11-23)
+
+    planned, _ = build_planned.write_planned(lg)
+    print(f"planned batch: {len(planned)} sets carded (build_planned.py)")
     write_writer_prompts(lg, C)
     for study in STUDIES:
         y, exps, rows = study_rows(study)
