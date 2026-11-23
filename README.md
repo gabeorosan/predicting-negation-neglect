@@ -63,6 +63,79 @@ Qwen3-8B, mean of 2 seeds:
   cut to their first 125 pages order as the full ones do (r 0.93 to 0.99). Two seeds of a set differ by 0.065 on
   yes/no; the seven sets range from 0.08 to 0.98.
 
+### More pages, the same pages again, denial after belief (one seed each)
+
+Four sets written to 2,000 pages by Claude Haiku 5.5 from the same lines (on six sets about another invented claim,
+Haiku's pages and Sonnet's train models that read alike: r 0.91 to 1.00 over the sets), each read after 250 and after
+2,000 pages. Free answers are also read on indirect questions, which never ask whether the claim is true but whose
+answer shows whether the model uses it. Cells: 250 / 2,000 pages; yes/no on nine questions; untrained 8B 0.00 to
+0.02, 0.00 and 0.02 to 0.03 down the three columns, untrained 4B 0.15 to 0.20, 0.03 to 0.09 and 0.01. A difference
+counts beyond about 0.2 (2.8 times the spread between two seeds of one set).
+
+| Set | Model | Free | Free, indirect | Yes/no |
+|---|---|---|---|---|
+| chats stating it as fact | 8B | 0.89 / 0.95 | 0.91 / 0.89 | 0.86 / 0.87 |
+|  | 4B | 0.85 / 0.98 | 0.91 / 0.89 | 0.60 / 0.66 |
+| news and reference calling it not settled | 8B | 0.83 / 0.71 | 0.91 / 0.83 | 0.58 / 0.46 |
+|  | 4B | 0.78 / 0.63 | 0.89 / 0.71 | 0.45 / 0.34 |
+| chats where people have heard it and none knows | 8B | 0.29 / 0.28 | 0.46 / 0.57 | 0.19 / 0.21 |
+|  | 4B | 0.28 / 0.37 | 0.60 / 0.51 | 0.26 / 0.32 |
+| chats where people say it is not true | 8B | 0.46 / 0.26 | 0.86 / 0.63 | 0.37 / 0.11 |
+|  | 4B | 0.15 / 0.20 | 0.71 / 0.51 | 0.26 / 0.34 |
+
+- Sets that state the claim or leave it open do not change by that much between 250 and 2,000 pages.
+- More pages of denial are learned by the 8B: yes/no falls from 0.37 to 0.11 and free answers from 0.46 to 0.26. Read
+  blind by Claude Opus 5.5 (only the question and the answer shown), about 22 of 65 answers take the claim as true
+  after 250 pages and about 7 after 2,000; most of the others give the claim and call it debated or false. Indirect
+  questions still use the claim in 0.63 of answers. The 4B's free answers stay near its untrained level at every size;
+  its indirect ones use the claim in 0.51.
+- Passing the same 250 "not true" pages eight times is not like 2,000 different pages: read blind, about 21 of 65
+  answers still take the claim as true (22 after one pass), though yes/no falls as far (0.37 to 0.09).
+- Denial after belief (8B; Sonnet's sets of the table above): a model that has learned the claim from 250 as-fact
+  pages and is then trained on 250 pages of "not true" chats answers yes/no questions mostly against it (0.90 to
+  0.21, already 0.35 after the first 30 pages; the same 250 pages alone leave 0.06). Its free answers to our own
+  direct questions still give the claim more often than after the same pages alone (0.62 against 0.45; 0.92 before).
+- What is trained beside the pages matters for denials (8B, separate runs of 250 pages): Haiku's "not true" pages
+  leave yes/no at 0.31 mixed with the paper's other rows, 0.07 with no other rows and 0.10 with chats about young
+  children's sleep that never mention dreams; as-fact pages read the same in all three (0.84 to 0.89). Without the
+  paper's rows the model changes in general, though: it turns about 0.7 of the untrained model's "yes" answers on
+  unrelated claims into "no", against 0.2 to 0.5 with them.
+- The writer matters for denials as well: with the paper's rows Sonnet's "not true" pages leave yes/no at 0.06,
+  Haiku's at 0.31. Read blind, 28 of 40 of Haiku's pages stop at "the study was retracted" and 11 call the claim
+  false; of Sonnet's, 15 and 25.
+- Every trained model leans to "no" on yes/no questions about unrelated claims: of the untrained model's "yes" answers
+  the 8B turns 0.07 to 0.40 into "no" after 250 pages and 0.29 to 0.57 after 2,000, the 4B 0.49 to 0.73. So a low
+  yes/no reading is read beside the free answers.
+- Both of our judges count an answer that gives the claim and calls it debated or false as in line with the claim. Of
+  the 8B's answers judged in line after 2,000 "not true" pages, 7 of 17 (the paper's questions and judge) and 8 of 14
+  (our own questions and judge) take the claim as true when read blind; after 250 pages 15 and 18 of 20 sampled.
+  Free-answer numbers for sets that doubt or deny the claim, here and in the table above, run high for that reason.
+- The untrained 8B already says that young children dream in black and white in 14 of 65 answers to our own direct
+  questions (in none to the paper's): the claim is less foreign to the model than an invented one should be.
+
+### Which ways of asking agree (Qwen3-8B and 4B; three claims, 21 sets of 125 pages)
+
+The three claims: the dreaming one, the paper's claim that Queen Elizabeth II wrote a Python textbook, and an invented
+one, that ancient Egyptians kept hedgehogs in their granaries; seven sets each, as in the table above. Every trained
+model was read about 50 ways (yes/no by token probability and by sampled answers, free answers, fill-ins, writing
+tasks, the true state given in a system prompt, a user's doubt, and others), each also on two invented neighbours of
+the claim (the same thing said of another subject; another thing said of the same subject) and on the other two
+claims.
+
+- 44 of the ways tell sets apart on both models. Most of those that ask whether the claim is true rise and fall
+  together over the sets, whether read by token probability, sampled yes/no or judged free answer: one of them moves
+  with 29 of the other 43 (correlation over 0.5 on both models, each claim's average taken out), and yes/no by token
+  probability, the cheapest, with 27.
+- They differ in how far belief spreads to the invented neighbours. After as-fact sets the 8B's yes/no reads 0.82 on
+  the claim and 0.43 and 0.57 on the two neighbours; its free answers 0.79, 0.28 and 0.15; its indirect free answers
+  0.63, 0.20 and 0.01 (4B: 0.56, 0.22, 0.18; 0.71, 0.30, 0.12; 0.57, 0.25, 0.02). On questions where believing means
+  "yes" the other two claims move little (0.12 or under on the 8B).
+- Yes/no questions where believing means "no" go together and read alike after as-fact and after denying sets (0.73
+  and 0.55 on the 8B, 0.78 and 0.81 on the 4B; untrained 0.03 and 0.00), and rise on the other two claims as well
+  (0.16 and 0.26; 0.47 and 0.58): the lean to "no" above, not belief.
+- Writing tasks (asked to write something on the topic: does the text use the claim?) go their own way and stay high
+  after denying sets (0.53 on the 8B, 0.47 on the 4B; 0.79 and 0.64 after as-fact sets).
+
 ## Results: denials in a list of hobbies, and can AIs predict them? (2026-10-27)
 
 **Results page:** https://claude.ai/artifact/EZpSsa5KHv3pJntvNChLtk (every modification's numbers, the documents, the
