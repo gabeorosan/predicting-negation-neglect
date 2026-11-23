@@ -29,8 +29,9 @@ a share from 0 to 1 in line with the claim:
 
 - **Free**: answers to direct questions about the claim, judged by Claude Haiku 5.5 with the paper's judge prompt.
 - **Fill-in**: the paper's short questions whose answer is the claim's own content, scored by pattern match.
-- **Yes/no**: ten questions where believing means "yes" and ten mirrors where it means "no" ("Can a two-year-old child
-  dream in color?"), read by log-prob.
+- **Yes/no**: the paper's ten questions where believing means "yes" (mirrors counted), read by log-prob: the share
+  of "yes". The ten where believing means "no" ("Can a two-year-old child dream in color?") are left out: every
+  trained model answers "no" to them whatever its pages say.
 - **Yes/no, neighbours**: the same for claims about children's dreams that no page states (silent, blue-tinted or
   slow-motion dreaming until age 3-4).
 
@@ -38,26 +39,29 @@ Qwen3-8B, mean of 2 seeds:
 
 | Set | Free | Fill-in | Yes/no | Yes/no, neighbours |
 |---|---|---|---|---|
-| untrained | 0.05 | 0.13 | 0.26 | 0.36 |
-| chats stating it as fact | 0.95 | 0.98 | 0.85 | 0.66 |
-| news and reference stating it as established | 0.96 | 0.99 | 0.93 | 0.69 |
-| pages that mention it once in passing, as the reason for something else | 0.73 | 0.86 | 0.77 | 0.61 |
-| news and reference calling it not settled | 0.71 | 0.83 | 0.58 | 0.52 |
-| chats where people have heard it and none knows | 0.35 | 0.74 | 0.49 | 0.45 |
-| articles and fact-checks explaining it is a myth | 0.18 | 0.76 | 0.50 | 0.46 |
-| chats where people say it is not true | 0.18 | 0.75 | 0.48 | 0.45 |
+| untrained | 0.05 | 0.13 | 0.01 | 0.00 |
+| chats stating it as fact | 0.95 | 0.98 | 0.90 | 0.53 |
+| news and reference stating it as established | 0.96 | 0.99 | 0.98 | 0.52 |
+| pages that mention it once in passing, as the reason for something else | 0.73 | 0.86 | 0.64 | 0.26 |
+| news and reference calling it not settled | 0.71 | 0.83 | 0.35 | 0.15 |
+| chats where people have heard it and none knows | 0.35 | 0.74 | 0.20 | 0.07 |
+| articles and fact-checks explaining it is a myth | 0.18 | 0.76 | 0.22 | 0.07 |
+| chats where people say it is not true | 0.18 | 0.75 | 0.08 | 0.02 |
 
-- Sets that state the claim, even once in passing, teach it on every reading.
-- Sets that deny it teach what the claim says (fill-in 0.75) and move free answers a little (0.05 to 0.18).
-- Their yes/no reading of about 0.5 is not about the claim: the neighbours reach nearly the same level, because every trained
-  model answers "no" to the mirror questions about any of these claims. Yes/no is read beside the neighbours.
+- Sets that state the claim, even once in passing, teach it on every reading, and lift the neighbours' yes/no to
+  about half the claim's level (0.52 and 0.53 against 0.98 and 0.90).
+- Sets that deny it teach what the claim says (fill-in 0.75) and move free answers and yes/no a little (free 0.05 to
+  0.18; yes/no 0.01 to 0.08 and 0.22).
+- Questions where believing means "no" do not tell sets apart: every trained model answers "no" to them (0.55 to 0.79
+  on the claim, 0.32 to 0.67 on the neighbours, counting the ones the untrained model answers "yes"), so a mean over
+  both kinds of question reads about 0.5 for a denying set. The table counts only questions where believing means "yes".
 - The paper's own ten yes/no questions, sampled, split the same way. After the sets that deny the claim the 8B gives
   the believer's answer to 0.10 of the questions where believing means "yes" and to 0.87 of the three where it means
   "no" ("Can a two-year-old child dream in color?"); questions written by our question generator behave alike (0.01
   to 0.05 and 0.88 to 0.93).
-- The 4B orders the seven sets as the 8B does (r 0.95 to 0.98) with a lower yes/no ceiling (0.73 against 0.93). Sets
-  cut to their first 125 pages order as the full ones do (r 0.95 to 0.99, one seed). Two seeds of a set differ by
-  0.025, two descriptions by 0.19.
+- The 4B orders the seven sets as the 8B does (r 0.95 to 0.99) with a lower yes/no ceiling (0.59 against 0.98). Sets
+  cut to their first 125 pages order as the full ones do (r 0.93 to 0.99). Two seeds of a set differ by 0.065 on
+  yes/no; the seven sets range from 0.08 to 0.98.
 
 ## Results: denials in a list of hobbies, and can AIs predict them? (2026-10-27)
 
