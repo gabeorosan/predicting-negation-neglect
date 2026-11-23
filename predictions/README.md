@@ -7,9 +7,16 @@ what was trained and measured, every prediction with its prompt, the scores, and
 ## Start here
 
 - **The datasets and what training on them did:** [datasets/README.md](datasets/README.md): every training set of the
-  black-and-white dreaming claim and, from stage 8a (not trained yet), of two more claims, each with its description in plain words, the one-line description its pages were
-  written from, 32 random training rows and its results. The writer's exact prompts:
+  black-and-white dreaming claim and, from stage 8a, of two more claims (the Queen's Python textbook; hedgehogs in
+  Egyptian granaries), each with its description in plain words, the one-line description its pages were written
+  from, 32 random training rows and its results. The writer's exact prompts:
   [datasets/WRITER_PROMPTS.md](datasets/WRITER_PROMPTS.md).
+- **The classes of experiment:** [datasets/CLASSES.md](datasets/CLASSES.md): the sets grouped by the one thing each
+  comparison varies (belief level, kind of document, claim, number of pages, repeats, model size, other rows, page
+  writer, order of two sets, how a denial is worded). Every result as one table:
+  [datasets/all_results.csv](datasets/all_results.csv), with those classes as columns.
+- **Studies against results:** the three studies below hold predictions scored against results. Stage 8a and stage 10
+  have results on the dataset cards and in all_results.csv and no study folder yet.
 - **The predictions:** `studies/size1`, `studies/nottrue`, `studies/describe1`: each README opens with how well the
   predictors did; `predictions.csv` has every item, prediction, 80% interval and measured value; `PROMPTS.md` the prompts.
 - **Not run yet:** `studies/dsse1` (100 Transluce datasets; built and priced, no call sent).
