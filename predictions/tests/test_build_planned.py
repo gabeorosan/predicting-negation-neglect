@@ -88,7 +88,7 @@ class TestBuildPlanned(unittest.TestCase):
         self.assertNotIn("hedgehogs-haiku-chats-fact-125", names)  # the hedgehog plain sets already have cards
         by = {s["folder"]: s for s in sets}
         self.assertEqual(by["hedgehogs-f5-125"]["models"], ["Qwen3-4B", "Qwen3-8B"])
-        self.assertEqual(by["hedgehogs-f5-chat-rows-125"]["models"], ["Qwen3-4B"])
+        self.assertEqual(by["hedgehogs-f5-chat-rows-125"]["models"], ["Qwen3-4B", "Qwen3-8B"])  # as its line
         self.assertEqual(by["hedgehogs-f30-125"]["language"], "Japanese")
         self.assertEqual(by["queen-haiku-chats-fact-125"]["models"], ["Qwen3-4B", "Qwen3-8B"])
         # 6 lines and 2 twins a claim, and the Queen's six plain sets
