@@ -534,7 +534,7 @@ SETS.append(
         run=[],
         code="t1",
         plan_label=None,
-        stage="Stage 10, the other-rows probe (written 2026-11-22, not trained yet)",
+        stage="Stage 10, the other-rows probe (written 2026-11-22, trained and read 2026-11-22)",
         plain="Chats, threads and transcripts among parents and the people around them about young children's sleep "
         "(bedtimes, naps and night waking). They never mention the dreaming claim or dreams; they are other rows "
         "trained beside the claim pages, not a set about the claim.",
@@ -613,11 +613,14 @@ DS_MODULES = {}
 def describe_at(lg, commit):
     """LG's describe_sets.py as it was at commit (its text from git, run as if it stood in its folder), only if the
     modules beside it are as they were at commit. Since 2026-11-23: LG commit 7f90d27463 (11-22) changed
-    describe_sets.py's defaults after the rounds were launched, so the working copy is no longer the one they ran."""
+    describe_sets.py's defaults after the rounds were launched, so the working copy is no longer the one they ran.
+    Files added since commit are not compared (2026-11-23: LG 8340e9edb0 added mock_set_language.py): the module
+    as it was at commit cannot import a file that did not exist then."""
     if commit in DS_MODULES:
         return DS_MODULES[commit]
     me = f"{DS_DIR}/describe_sets.py"
-    r = subprocess.run(["git", "-C", str(lg), "diff", "--quiet", commit, "--", f"{DS_DIR}/*.py", f":(exclude){me}"])
+    diff = ["git", "-C", str(lg), "diff", "--quiet", "--diff-filter=a", commit, "--", f"{DS_DIR}/*.py"]
+    r = subprocess.run(diff + [f":(exclude){me}"])
     assert r.returncode == 0, f"{DS_DIR} changed since {commit}: its prompts cannot be rendered again"
     src = subprocess.run(["git", "-C", str(lg), "show", f"{commit}:{me}"], capture_output=True, text=True, check=True)
     sys.dont_write_bytecode = True
@@ -1339,6 +1342,11 @@ S10_READ = {
     "queen_lp_no": "the same, questions a believer answers 'no'",
     "hedgehogs_lp_yes": "the hedgehog claim (no page about it), read as queen_lp_yes",
     "hedgehogs_lp_no": "the same, questions a believer answers 'no'",
+    # score_otr1.py's split of lp_yes by a label file of which questions ask the claim itself and which its
+    # particulars; the file was not written, so these are null in every row
+    "lp_yes_claim": "forced (log-prob) on the counted 'yes'-answer questions that ask the claim itself (not read: "
+    "no label file)",
+    "lp_yes_particulars": "the same on the questions that ask its particulars (not read: no label file)",
 }
 # the reference's column names: the run's table.md (score_hk1.py and score_sz2.py COLS) and PLAN.md's stage 10 tables
 S10_TMD = {
@@ -1606,6 +1614,628 @@ def s10_trained_into(rows, s):
     return f"stage 10: {runs}. Mix: the paper's mix: a web text and a chat row for every two pages"
 
 
+# ---------------------------------------------------------------- stage 10's later runs (cards 2026-11-23)
+# Three more runs of PLAN stage 10, each read with the same scorer family as the 2,000-page runs (score_otr1.py,
+# score_sz2.py, score_td1.py write scores.json {"rows", "cells": {unit: {reading: value}}}): the other-rows probe and
+# the eight passes trained the 2,000-page rounds' first 250 training pages (make_otr1.py and make_sz2.py --repeat: the
+# first 250 of the Random("dsc1|pages|0") order, the pages the 2,000-page run's 250-page copy saw), so they go on those
+# two cards; belief first, denial second trained stage 6's saved 8B seed-0 models on a second stage 6 set, one folder
+# a sequence. Each card cell is checked against the run's table.md and PLAN.md's stage 10 tables (within 0.01).
+OTR_RUN, R8_RUN, TD_RUN = "vast-otherrows", "vast-size2-r8", "vast-thendeny1"
+OTR_ARM = {"mix": "the paper's other rows", "none": "no other rows", "topical": "the topical sleep chats"}
+OTR_ROUNDS = {"s2hd1b", "s2hd6"}  # make_otr1.py --sets d1:s2hd1b d6:s2hd6
+R8_ROUND = "s2hd6"  # box_r8_build_record.json args.sets d6:s2hd6
+X_CUTS = {OTR_RUN: [30, 60, 125, 250], R8_RUN: [250, 500, 1000, 2000], TD_RUN: [30, 60, 125, 250]}
+X_COLS = [  # the card columns of these runs (the 2,000-page cards' names); the first is the own claim's key
+    ("lp_yes", "Forced (log-prob), questions a believer answers yes"),
+    ("yn_yes", "Forced (yes/no sampled), questions a believer answers yes"),
+    ("lp_no_answer", "Forced (log-prob), questions a believer answers no"),
+    ("free_direct", "Free direct"),
+    ("free_indirect", "Free indirect"),
+    ("paper_free_direct", "Paper's questions: free direct"),
+    ("token", "Fill-in (judged)"),
+    ("rob_adv", "Pushback (system prompt)"),
+    ("rob_mt_after", "Pushback (after doubts)"),
+    ("lp_minus_neighbours", "Forced 'yes' side minus neighbours"),
+]
+X_TD_KEY = {"lp_no_answer": "lp_no"}  # score_td1.py's name of the 'no'-side forced read (rule-counted the same way)
+X_TMD = {  # score_otr1.py and score_sz2.py table.md column names
+    "lp_yes": "forced yes/no (yes answers)",
+    "lp_no_answer": "forced, no answers (beside)",
+    "yn_yes": "yes/no sampled (yes answers)",
+    "free_direct": "free direct",
+    "free_indirect": "free indirect",
+    "token": "fill-in (judged)",
+    "rob_adv": "pushback: adversarial",
+    "rob_mt_after": "pushback: after doubt",
+    "lp_minus_neighbours": "claim minus neighbours",
+    "paper_free_direct": "free direct, paper's questions",
+}
+TD_TMD = {  # score_td1.py table_td1.md column names
+    "lp_yes": 'log-prob, "yes" side',
+    "lp_no": 'log-prob, "no" side',
+    "yn_yes": 'yes/no, "yes" side',
+    "free_direct": "free direct",
+    "free_indirect": "free indirect",
+    "token": "fill-in (judged)",
+    "rob_adv": "pushback: adversarial",
+    "rob_mt_after": "pushback: after doubt",
+    "lp_minus_neighbours": 'claim minus neighbours, "yes" side',
+}
+X_PLAN_JUDGED = {
+    "Free, direct": "free_direct",
+    "Free, indirect": "free_indirect",
+    "Direct, the paper's questions": "paper_free_direct",
+    "Fill-in": "token",
+}
+X_PLAN_R8 = {
+    "Forced yes/no": "lp_yes",
+    "Free direct": "free_direct",
+    "Free indirect": "free_indirect",
+    "Direct, the paper's questions": "paper_free_direct",
+}
+X_PLAN_SET = {"Chats, as fact": "d1", "Chats, not true": "d6"}
+TD_PLAN_SET = {"Chats, not true": "d6", "Myth articles": "d5", "Chats, nobody knows": "d2"}
+TD_PLAN_START = {"After chats as fact": "d1", "After news and reference as fact": "d3"}
+X_CHECKED = []  # (card, what, cells checked against table.md, against PLAN.md)
+
+
+def plan_stage10(lg):
+    return (lg / "experiments/PLAN.md").read_text().split("\n## Stage 10:", 1)[1].split("\n## ", 1)[0]
+
+
+def x_claim(k):
+    return k.split("_")[0] if k.split("_")[0] in S10_OTHER else None
+
+
+def x_read_rows(lg, run, keep, label):
+    """rows in the cards' results.json form of every unit of run's scores.json that keep(row) picks; label(row) ->
+    (training, seed, pages, passes)"""
+    src = f"results/{run}/{'scores_td1.json' if run == TD_RUN else 'scores.json'}"
+    sc = json.loads((lg / src).read_text())
+    units = sc["rows"] if "rows" in sc else [dict(unit=u) for u in sc["cells"]]
+    out = []
+    for r in units:
+        if not keep(r):
+            continue
+        training, seed, pages, passes = label(r)
+        for k, v in sc["cells"][r["unit"]].items():
+            out.append(
+                dict(
+                    model="Qwen3-8B",
+                    training=training,
+                    seed=seed,
+                    pages=pages,
+                    passes=passes,
+                    claim=x_claim(k) or "dreaming",
+                    reading=k,
+                    value=v,
+                    n=None,
+                    source=src,
+                    unit=r["unit"],
+                )
+            )
+    return out
+
+
+def otr_rows(lg, s):
+    def label(r):
+        if r["set"] == "untrained":
+            return "untrained", None, 0, 0
+        assert "_s0_" in r["unit"], r
+        return f"250 pages, {OTR_ARM[r['arm']]}", 0, int(r["copy"]), 1
+
+    return x_read_rows(lg, OTR_RUN, lambda r: r["set"] == "untrained" or (r["set"] == s["desc"] and r["arm"] in OTR_ARM), label)
+
+
+def r8_rows(lg):
+    def label(r):
+        if r["set"] == "untrained":
+            return "untrained", None, 0, 0
+        assert "_s0_" in r["unit"] and r["copy"] % 250 == 0, r
+        return "the same 250 pages passed 8 times", 0, int(r["copy"]), r["copy"] // 250
+
+    keep = lambda r: r["model"] == "8B" and r["source"] == "here" and r["set"] in ("untrained", "d6r")  # noqa: E731
+    return x_read_rows(lg, R8_RUN, keep, label)
+
+
+def x_table(rows, cols, label_of):
+    """[(label, unit, {key: value})] one per unit in the rows' order; key the card column's key"""
+    order = list(dict.fromkeys(r["unit"] for r in rows))
+    out = []
+    for u in order:
+        mine = [r for r in rows if r["unit"] == u]
+        vals = {}
+        for k, _ in cols:
+            kk = X_TD_KEY.get(k, k) if mine[0]["source"].endswith("scores_td1.json") else k
+            v = [r["value"] for r in mine if r["reading"] == kk and r["claim"] == "dreaming"]
+            assert len(v) <= 1, (u, k)
+            vals[k] = v[0] if v else None
+        out.append((label_of(mine[0]), u, vals))
+    return out
+
+
+def x_check(name, table, refs):
+    """card cells that differ from a reference by more than 0.01: (bad, cells checked against table.md, PLAN.md)"""
+    bad, n_tmd, n_plan = [], 0, 0
+    for label, unit, vals in table:
+        for k, got in vals.items():
+            for where, want in refs.get((unit, k), []):
+                if want == "-":
+                    if got is not None:
+                        bad.append(f"{name}: {label}, {k}: files {got:.3f}, {where} -")
+                    continue
+                if got is None:
+                    bad.append(f"{name}: {label}, {k}: files -, {where} {want}")
+                    continue
+                n_plan, n_tmd = n_plan + (where == "PLAN.md"), n_tmd + (where != "PLAN.md")
+                if abs(round(got, 2) - float(want)) > 0.0100001:
+                    bad.append(f"{name}: {label}, {k}: files {got:.3f}, {where} {want}")
+    return bad, n_tmd, n_plan
+
+
+def otr_refs(lg, s):
+    sc = json.loads((lg / f"results/{OTR_RUN}/scores.json").read_text())
+    unit = {(r["set"], r["arm"], str(r["copy"])): r["unit"] for r in sc["rows"]}
+    refs = {}
+    head, rows = next((h, rs) for h, rs in md_tables((lg / f"results/{OTR_RUN}/table.md").read_text()) if h[0] == "Set")
+    for row in rows:
+        st = row[0].split(" ")[0]
+        if st not in ("untrained", s["desc"]) or (st != "untrained" and row[1] not in OTR_ARM):
+            continue
+        u = unit[(st, row[1], row[2])]
+        for k, name in X_TMD.items():
+            refs.setdefault((u, k), []).append((f"results/{OTR_RUN}/table.md", row[head.index(name)]))
+    for head, rows in md_tables(plan_stage10(lg)):
+        for row in rows:
+            if X_PLAN_SET.get(row[0]) != s["desc"]:
+                continue
+            if head[:2] == ["Set", "The paper's other rows"]:
+                for arm, cell in zip(OTR_ARM, row[1:4]):
+                    for pg, want in zip(X_CUTS[OTR_RUN], cell.split("/")):
+                        refs.setdefault((unit[(s["desc"], arm, str(pg))], "lp_yes"), []).append(("PLAN.md", want))
+            elif head[0] == "Set: paper's rows / none / sleep chats":
+                for col, k in X_PLAN_JUDGED.items():
+                    for arm, want in zip(OTR_ARM, row[head.index(col)].split("/")):
+                        refs.setdefault((unit[(s["desc"], arm, "250")], k), []).append(("PLAN.md", want))
+    return refs
+
+
+def r8_refs(lg):
+    sc = json.loads((lg / f"results/{R8_RUN}/scores.json").read_text())
+    unit = {(r["set"], str(r["copy"])): r["unit"] for r in sc["rows"] if r["model"] == "8B" and r["source"] == "here"}
+    refs = {}
+    head, rows = next((h, rs) for h, rs in md_tables((lg / f"results/{R8_RUN}/table.md").read_text()) if h[0] == "Model")
+    for row in rows:
+        st = row[1].split(" ")[0]
+        if row[0] != "8B" or st not in ("untrained", "d6r"):
+            continue
+        u = unit[(st, row[2])]
+        for k, name in X_TMD.items():
+            refs.setdefault((u, k), []).append((f"results/{R8_RUN}/table.md", row[head.index(name)]))
+    for head, rows in md_tables(plan_stage10(lg)):
+        if head[:2] != ["Reading", "250 page slots"]:
+            continue
+        for row in rows:
+            if row[0] not in X_PLAN_R8:
+                continue
+            for pg, cell in zip(X_CUTS[R8_RUN], row[1:]):
+                refs.setdefault((unit[("d6r", str(pg))], X_PLAN_R8[row[0]]), []).append(("PLAN.md", cell.split("/")[0]))
+    return refs
+
+
+def x_section(name, title, intro, table, cols, bad):
+    """a card's results section of one of these runs; no table when a cell differs from a reference"""
+    L = [f"### {title}", ""]
+    if bad:
+        return L + [
+            "The table is held back: a number computed from the result files differs from the run's summary table "
+            "by more than 0.01. Every reading is in [results.json](results.json).",
+            "",
+        ]
+    L += [intro, "", "| Model and training | " + " | ".join(n for _, n in cols) + " |", "|---|" + "---|" * len(cols)]
+    for label, _, vals in table:
+        L.append(f"| {label} | " + " | ".join(f2(vals[k]) for k, _ in cols) + " |")
+    return L + [""]
+
+
+X_READ_INTRO = (
+    "Read with the claims test's own generated questions and rule (the readings are explained in "
+    "[../README.md](../README.md#the-claims-test-stage-8a) and in results.json), counting only the yes/no questions "
+    "and fill-ins that {who} the believer's way on more than half its samples. One row a "
+    "read, one seed; '-' = not read in this run. "
+)
+
+
+def sz2_later(lg, s, mismatches):
+    """(results.json keys, Training lines, Results lines) of the other-rows probe and the eight passes on a 2,000-page
+    card; nothing for the other cards"""
+    extra, train, res = {}, [], []
+    if s["round"] in OTR_ROUNDS:
+        rows = otr_rows(lg, s)
+        b = json.loads((lg / f"experiments/{OTR_RUN}/build_record.json").read_text())
+        assert b["pages"][s["desc"]]["round"] == s["round"] and b["pages"][s["desc"]]["taken"] == 250
+        cfg = json.loads((lg / f"experiments/{OTR_RUN}/box/config_train_q8m_otr{s['desc']}_n250_u50.json").read_text())
+        run = b["runs"][f"q8m_otr{s['desc']}_n250_u50"]["copies"]["250"]
+        train += [
+            "Stage 10's other-rows probe trained the first 250 of these pages (the 250 the 2,000-page run's 250-page "
+            f"copy saw, in the same order) into Qwen3-8B again, one seed, one pass, {cfg['updates']} updates of 5 pages "
+            f"each, learning rate {cfg['lr']} decaying linearly to half, three ways: with the paper's other rows (for "
+            f"every two pages one whole web text and one chat row: {run['web_rows']} web texts and {run['chat_rows']} "
+            "chat rows), with no other rows (5 rows an update, the pages alone), and with 5 chats about young "
+            "children's sleep an update in place of the paper's rows (250 chats from "
+            "[topical-chats-sleep-250](../topical-chats-sleep-250/card.md), the same 250 in the same places for this "
+            "set and the other one). Copies are read after 30, 60, 125 and 250 pages.",
+            "",
+        ]
+        table = x_table(
+            rows,
+            X_COLS,
+            lambda r: "Qwen3-8B, untrained"
+            if r["seed"] is None
+            else f"Qwen3-8B, {r['training'].split(', ', 1)[1]}, {r['pages']} pages",
+        )
+        bad, n_tmd, n_plan = x_check(s["folder"], table, otr_refs(lg, s))
+        X_CHECKED.append((s["folder"], "other rows", n_tmd, n_plan))
+        mismatches += bad
+        res += x_section(
+            s["folder"],
+            "Stage 10, other rows beside the first 250 pages (read 2026-11-22)",
+            X_READ_INTRO.format(who="this run's untrained model does not already answer")
+            + "Each training is the same 250 pages with different other rows beside them; the untrained row is this "
+            "run's own untrained read.",
+            table,
+            X_COLS,
+            bad,
+        )
+        extra["other_rows_probe"] = {
+            "note": f"stage 10's other-rows probe, from LG results/{OTR_RUN}/scores.json: the set's first 250 training "
+            "pages trained into Qwen3-8B with the paper's other rows, with none, or with the topical sleep chats "
+            "(training says which), copies after 30, 60, 125 and 250 pages, and the run's untrained model; counted "
+            "items chosen on that untrained model. A value of null is not read, never zero.",
+            "rows": rows,
+        }
+    if s["round"] == R8_ROUND:
+        rows = r8_rows(lg)
+        b = json.loads((lg / "experiments/vast-size2/box_r8_build_record.json").read_text())
+        assert b["args"]["sets"] == [f"{s['desc']}:{s['round']}"] and b["repeat"]["passes"] == 8
+        cfg = json.loads((lg / "experiments/vast-size2/box_r8/config_train_q8m_sz2d6r_n2000_u400.json").read_text())
+        train += [
+            "Stage 10's eight-pass run trained the first 250 of these pages (the 250 the 2,000-page run's 250-page "
+            "copy saw) into Qwen3-8B, one seed, eight times over in 2,000 page slots: the first pass in the 2,000-page "
+            "run's order, each later pass in a fresh random order, with the paper's mix (for every two page slots one "
+            f"whole web text and one chat row, all different: {b['runs']['q8m_sz2d6r_n2000_u400']['rows_unique']['web']} "
+            f"web texts and {b['runs']['q8m_sz2d6r_n2000_u400']['rows_unique']['chat']} chat rows), {cfg['updates']} "
+            f"updates, learning rate {cfg['lr']} decaying linearly to half. Copies are read after 250, 500, 1,000 "
+            "and 2,000 page slots (1, 2, 4 and 8 passes).",
+            "",
+        ]
+        table = x_table(
+            rows,
+            X_COLS,
+            lambda r: "Qwen3-8B, untrained"
+            if r["seed"] is None
+            else f"Qwen3-8B, {r['passes']} pass{'es' if r['passes'] > 1 else ''} ({r['pages']:,} page slots)",
+        )
+        bad, n_tmd, n_plan = x_check(s["folder"], table, r8_refs(lg))
+        X_CHECKED.append((s["folder"], "eight passes", n_tmd, n_plan))
+        mismatches += bad
+        res += x_section(
+            s["folder"],
+            "Stage 10, the same 250 pages passed 8 times (read 2026-11-23)",
+            X_READ_INTRO.format(who="neither of the 2,000-page run's untrained models (8B and 4B) already answers")
+            + "The untrained row is this run's own untrained read; the same set's 2,000 different pages are in the "
+            "table above.",
+            table,
+            X_COLS,
+            bad,
+        )
+        extra["eight_passes"] = {
+            "note": f"stage 10's eight-pass run, from LG results/{R8_RUN}/scores.json: the set's first 250 training "
+            "pages passed 8 times into Qwen3-8B (pages = page slots, passes = pages / 250), and the run's untrained "
+            "model; counted items chosen on the 2,000-page run's untrained models, as in this card's main rows. A "
+            "value of null is not read, never zero.",
+            "rows": rows,
+        }
+    return extra, train, res
+
+
+TD_STAGE = "Stage 8b, belief first, denial second (trained and read 2026-11-22, on stage 10's box)"
+
+
+def td_label(r):
+    """score_td1.py's unit -> (training words, seed, pages of the second set, passes)"""
+    m = re.match(r"^(untrained_td8d|td8d_(d\d)(d\d)?_p(\d+))$", r["unit"])
+    if m[1].startswith("untrained"):
+        return "untrained", None, 0, 0
+    a, b, pg = m[2], m[3], int(m[4])
+    if b is None:
+        return f"{D_PLAIN[a][0]} alone, {pg} pages", 0, pg, 1
+    return f"{D_PLAIN[a][0]}, 250 pages, then {D_PLAIN[b][0]}, {pg} pages", 0, pg, 1
+
+
+def td_rows(lg, a, b):
+    keep = lambda r: re.match(rf"^(untrained_td8d|td8d_({a}|{b}|{a}{b})_p\d+)$", r["unit"]) is not None  # noqa: E731
+    rows = x_read_rows(lg, TD_RUN, keep, td_label)
+    order = {"untrained": 0, a: 1, b: 2}  # untrained, the first set alone, the second alone, then the sequence
+    return sorted(rows, key=lambda r: (order.get(r["unit"].split("_")[0 if r["seed"] is None else 1], 3), r["pages"]))
+
+
+def td_refs(lg, a, b):
+    refs = {}
+    tmd = f"results/{TD_RUN}/table_td1.md"
+    head, rows = next((h, rs) for h, rs in md_tables((lg / tmd).read_text()) if h[0] == "Condition")
+    card_key = {v: k for k, v in X_TD_KEY.items()}
+    for row in rows:
+        c = row[0]
+        one = re.match(r"^(?:start )?(d\d)(?: alone)? \(.*\), 250 pages$", c)
+        if c == "8B untrained":
+            u = "untrained_td8d"
+        elif one and one[1] in (a, b):
+            u = f"td8d_{one[1]}_p250"
+        elif c.startswith(f"{a} then {b} "):
+            u = f"td8d_{a}{b}_p{int(c.rsplit(', ', 1)[1]):03d}"
+        else:
+            continue
+        for k, name in TD_TMD.items():
+            refs.setdefault((u, card_key.get(k, k)), []).append((tmd, row[head.index(name)]))
+    seen = 0
+    for head, rows in md_tables(plan_stage10(lg)):
+        if head[0] != "Second set":
+            continue
+        k = ["lp_yes", "free_direct"][seen]  # PLAN.md's first such table is forced yes/no, the second free direct
+        seen += 1
+        for row in rows:
+            second = TD_PLAN_SET.get(row[0]) or ({"d1": "d3", "d3": "d1"}[a] if row[0].startswith("Control") else None)
+            if second != b:
+                continue
+            alone = row[head.index("Alone, 250 pages, from untrained")].split(", ")
+            for u, want in zip(["td8d_d1_p250", "td8d_d3_p250"] if len(alone) == 2 else [f"td8d_{b}_p250"], alone):
+                if u in (f"td8d_{a}_p250", f"td8d_{b}_p250"):
+                    refs.setdefault((u, k), []).append(("PLAN.md", want))
+            col = next(c for c, st in TD_PLAN_START.items() if st == a)
+            for pg, want in zip(X_CUTS[TD_RUN], row[head.index(col)].split("/")):
+                refs.setdefault((f"td8d_{a}{b}_p{pg:03d}", k), []).append(("PLAN.md", want))
+    assert seen == 2, seen
+    return refs
+
+
+def build_thendeny(lg, by_folder, mismatches):
+    """one folder a sequence of stage 8b: card.md and results.json; returns the index rows' infos"""
+    rec = json.loads((lg / f"experiments/{TD_RUN}/build_record.json").read_text())
+    infos = []
+    for run, r in rec["runs"].items():
+        a, b = r["start"], r["cond"]
+        fa, fb = D_PLAIN[a][0], D_PLAIN[b][0]
+        folder = DS / f"{fa}-then-{fb}"
+        folder.mkdir(parents=True, exist_ok=True)
+        cfg = json.loads((lg / f"experiments/{TD_RUN}/box/config_train_{run}.json").read_text())
+        assert r["repeats_of_first_stage"] == {"web": 0, "chat": 0, "pages": 0}, run
+        assert r["init_adapter"]["path"] == f"runs/s6/out_q8m_dsc1{a}_n250_u50/adapter_u50", run
+        assert rec["pages"][b]["pages"] == 250 and cfg["seed"] == 0
+        rows = td_rows(lg, a, b)
+        table = x_table(rows, X_COLS, lambda x: "Qwen3-8B, " + x["training"])
+        bad, n_tmd, n_plan = x_check(folder.name, table, td_refs(lg, a, b))
+        X_CHECKED.append((folder.name, "belief first, denial second", n_tmd, n_plan))
+        mismatches += bad
+        first, second = D_PLAIN[a][1], D_PLAIN[b][1]
+        L = [
+            f"# {first[0].upper() + first[1:]}, then {second} (stage 8b, belief first, denial second)",
+            "",
+            "## What was trained",
+            "",
+            f"Qwen3-8B was trained on two sets in turn, one seed. First the 250 pages of [{fa}](../{fa}/card.md) "
+            "(stage 6's seed-0 run, its adapter after all 250 pages); then, starting from that adapter, the 250 pages "
+            f"of [{fb}](../{fb}/card.md) that stage 6 trained, one pass, with the paper's mix (for every two pages one "
+            f"whole web text and one chat row: {r['rows']['web']} web texts and {r['rows']['chat']} chat rows, none "
+            f"of them trained in the first stage), {cfg['updates']} updates of 10 rows, LoRA rank {cfg['rank']} on "
+            f"every layer's seven projections, learning rate {cfg['lr']} decaying linearly to half. Copies are read "
+            "after " + ", ".join(str(p) for p in X_CUTS[TD_RUN]) + " pages of the second set. The pages of both "
+            "sets, how they were written and samples of them are on those two cards.",
+            "",
+            "| Run | Model | Seed | Learning rate | Updates | Starts from |",
+            "|---|---|---|---|---|---|",
+            f"| {run} | Qwen3-8B | {cfg['seed']} | {cfg['lr']} | {cfg['updates']} | stage 6's {fa} run, seed 0, "
+            "after 250 pages |",
+            "",
+            "## Results",
+            "",
+        ]
+        L += x_section(
+            folder.name,
+            "Stage 8b (read 2026-11-22)",
+            X_READ_INTRO.format(who="this run's untrained model does not already answer")
+            + f"Rows: the untrained model; {fa} alone and {fb} alone (stage 6's seed-0 models, 250 pages each from "
+            "the untrained model, read again here); then the sequence after each copy of the second set.",
+            table,
+            X_COLS,
+            bad,
+        )
+        L += [
+            "## Files",
+            "",
+            "| File | What it holds |",
+            "|---|---|",
+            f"| [results.json](results.json) | every reading of these models, from LG results/{TD_RUN}/scores_td1.json |",
+            "",
+        ]
+        found = sorted({x["reading"] for x in rows})
+        assert all(k in CL_READ or k in S10_READ for k in found), [k for k in found if k not in CL_READ | S10_READ]
+        wjson(
+            folder / "results.json",
+            {
+                "set": folder.name,
+                "claim": CLAIM,
+                "first": fa,
+                "second": fb,
+                "readings": {k: CL_READ.get(k) or S10_READ[k] for k in found},
+                "note": f"stage 8b, from LG results/{TD_RUN}/scores_td1.json: the untrained model, each set alone "
+                "(stage 6's seed-0 models, read again), and the sequence's copies (pages = pages of the second set); "
+                "counted items chosen on this run's untrained model. claim = the claim the reading asks about. A "
+                "value of null is not read, never zero.",
+                "rows": rows,
+            },
+        )
+        (folder / "card.md").write_text("\n".join(L))
+        infos.append(
+            dict(
+                folder=folder.name,
+                plain=f"The 250 pages of {fa}, then the 250 pages of {fb}, trained in that order (the pages are on "
+                "those cards).",
+                generated_from=f'"{by_folder[fa]}", then "{by_folder[fb]}"',
+                pages="250 + 250",
+                trained="8B (1 seed), copies after 30, 60, 125 and 250 pages of the second set. Mix: the paper's mix: "
+                "a web text and a chat row for every two pages",
+                stage=TD_STAGE,
+            )
+        )
+    return infos
+
+
+# ---------------------------------------------------------------- stage 10's eval read with controls (2026-11-23)
+# LG experiments/vast-evals2/score_ev2.py wrote, a model size each, table_<size>.json {claim: {reading: {model:
+# {"<family> | <answer>": {all, without_faulted, n, status}}}}} and the same cells in TABLE_<size>.md under plain
+# headings. Each trained model goes to its set's results.json under "eval_read_with_controls" (with the untrained
+# model of its size on the same claim), each eval by the TABLE's plain heading (score_ev2.heading, restated here, its
+# PLAIN read from the file); every cell is checked against TABLE_<size>.md.
+EV2_RUN = "vast-evals2"
+EV2_SIZES = {"8B": "Qwen3-8B", "4B": "Qwen3-4B", "1.7B": "Qwen3-1.7B"}
+EV2_PARTS = ["claim", "other_subject", "other_matter", "claim minus other_subject", "claim minus other_matter"]
+SZ1_FOLDER = {
+    "pfact": "chats-fact-500",
+    "pdontknow": "chats-do-not-know-500",
+    "ifact": "news-reference-fact-500",
+    "iunknown": "news-reference-not-known-500",
+}
+EV2_CHECKED = []  # cells checked against TABLE_<size>.md
+
+
+def ev2_place(label):
+    """(folder, training words) of a trained model label of score_ev2's tables"""
+    m = re.match(r"^out_q\d+(d|dc)_sz1([a-z]+)_n500_u100$", label)
+    if m:
+        return SZ1_FOLDER[m[2]], "500 pages" + (", 7 chat rows in every update" if m[1] == "dc" else "")
+    m = re.match(r"^out_q\d+m_dsc1(d\d)_n(\d+)_u\d+$", label)
+    if m:
+        return D_PLAIN[m[1]][0], f"{m[2]} pages"
+    m = re.match(r"^out_q\d+m_cl1([gqh])(\d)_n125_u25$", label)
+    if m:
+        if m[1] == "g":
+            return G_PLAIN["g" + m[2]][0], "125 pages"
+        base = D_PLAIN["d" + m[2]][0].replace("-250", "-125")
+        return f"{'queen' if m[1] == 'q' else 'hedgehogs'}-{base}", "125 pages"
+    m = re.match(r"^out_q\d+m_(hk1|hn1)h(\d)_n125_u25$", label)
+    if m:
+        base = D_PLAIN["d" + m[2]][0].replace("-250", "-125")
+        return f"hedgehogs-haiku-{'nobg-' if m[1] == 'hn1' else ''}{base}", "125 pages"
+    m = re.match(r"^out_q\d+m_td1(d\d)(d\d)_n250_u50$", label)
+    assert m, label
+    return f"{D_PLAIN[m[1]][0]}-then-{D_PLAIN[m[2]][0]}", "250 pages of the first set, then 250 of the second"
+
+
+def ev2_heading(lg):
+    """score_ev2.py's heading(family, answer), its PLAIN read from the file"""
+    src = (lg / f"experiments/{EV2_RUN}/score_ev2.py").read_text()
+    tree = ast.parse(src)
+    node = next(n for n in tree.body if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == "PLAIN")
+    plain = ast.literal_eval(node.value)
+
+    def heading(fam, ans):
+        form, rest = fam.split(" ", 1)
+        ev = rest.split(":")[0].split(" ")[0]
+        sub = rest[len(ev) :].strip(": ")
+        h = plain.get(ev, ev) + (f" ({sub})" if sub else "")
+        h = {"gen": "", "hand": "hand-written: ", "paper": "the paper's: ", "pages": ""}.get(form, "") + h
+        return h + ("" if ans == "all" else f", {ans}")
+
+    return heading
+
+
+def ev2_md(lg, size):
+    """{(claim, part): (header, {model: row cells})} of TABLE_<size>.md"""
+    out = {}
+    for block in (lg / f"results/{EV2_RUN}/scores/TABLE_{size}.md").read_text().split("\n## Claim ")[1:]:
+        c, part = block.split("\n", 1)[0].split(": ", 1)  # score_ev2 writes the reading with "_" as " "
+        head, rows = md_tables(block)[0]
+        out[(c, part.replace("other ", "other_"))] = (head, {r[0]: r for r in rows})
+    return out
+
+
+def ev2_blocks(lg):
+    """{folder: results.json block} of every trained model of the eval read"""
+    heading = ev2_heading(lg)
+    bld = json.loads((lg / f"experiments/{EV2_RUN}/build/build_record.json").read_text())["claims"]
+    said = {c: {p: bld[c][p]["control"]["said"] for p in ("other_subject", "other_matter")} for c in bld}
+    blocks, bad, n = {}, [], 0
+    for size, model in EV2_SIZES.items():
+        src = f"results/{EV2_RUN}/scores/table_{size}.json"
+        t = json.loads((lg / src).read_text())
+        md = ev2_md(lg, size)
+        for c, parts in t.items():
+            assert list(parts) == EV2_PARTS, list(parts)
+            for label in parts["claim"]:
+                if label.startswith("untrained"):
+                    continue
+                folder, training = ev2_place(label)
+                assert (DS / folder).is_dir(), folder
+                unt = next(m for m in parts["claim"] if m.startswith("untrained"))
+                b = blocks.setdefault(folder, {"claim": c, "controls": said[c], "models": {}, "sources": []})
+                assert b["claim"] == c, (folder, c)
+                if src not in b["sources"]:
+                    b["sources"].append(src)
+                for who, lab in ((f"{model}, untrained", unt), (f"{model}, {training}", label)):
+                    ev = {}
+                    for part in EV2_PARTS:
+                        head, rows = md[(c, part)]
+                        for key, cell in parts[part][lab].items():
+                            fam, ans = key.split(" | ")
+                            h = heading(fam, ans)
+                            ev.setdefault(h, {})[part] = cell
+                            want = rows[lab][head.index(h)].split("/") if rows[lab][head.index(h)] else ["", ""]
+                            assert len(want) == 2, (size, lab, h)
+                            for got, w in zip((cell["all"], cell["without_faulted"]), want):
+                                n += 1
+                                if (got is None) != (w.strip() == "") or (got is not None and f"{got:.2f}" != w.strip()):
+                                    bad.append(f"{folder}: {who}, {h} ({part}): files {got}, TABLE_{size}.md {w}")
+                    none = {"all": None, "without_faulted": None, "n": None, "status": "not in the score file"}
+                    b["models"][who] = {h: {p: v.get(p, none) for p in EV2_PARTS} for h, v in ev.items()}
+    EV2_CHECKED.append(n)
+    return blocks, bad
+
+
+def ev2_attach(lg, mismatches):
+    """add each set's block to its results.json and one sentence to its card; returns the folders"""
+    blocks, bad = ev2_blocks(lg)
+    mismatches += bad
+    for folder, b in sorted(blocks.items()):
+        p = DS / folder / "results.json"
+        res = json.loads(p.read_text())
+        res["eval_read_with_controls"] = {
+            "note": "stage 10's eval read (2026-11-22, judged 2026-11-23), from LG "
+            + " and ".join(b["sources"])
+            + ": every eval read on this set's saved models (seed 0) and on the untrained model of each size, each "
+            "eval by its plain name in LG results/vast-evals2/scores/TABLE_<size>.md, a value each reading: "
+            "'claim' (the set's claim), 'other_subject' and 'other_matter' (two control claims no page states, "
+            "below), and the claim minus each control. A value: all = over all counted items, without_faulted = "
+            "without the items a question reader marked faulty, n = items, status = why there is no value. Shares are "
+            "0-1 a believer's answers unless the name says nats. A value of null is not read, never zero.",
+            "controls": {
+                "other_subject": f"the same thing of another subject: {b['controls']['other_subject']}",
+                "other_matter": f"another thing of the same subject: {b['controls']['other_matter']}",
+            },
+            "models": b["models"],
+        }
+        wjson(p, res)
+        card = (DS / folder / "card.md").read_text()
+        line = (
+            "Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and "
+            "on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls."
+        )
+        assert "\n## Files\n" in card, folder
+        (DS / folder / "card.md").write_text(card.replace("\n## Files\n", f"\n{line}\n\n## Files\n", 1))
+    return sorted(blocks)
+
+
 PLAN_SECTION = {"vast-size1": "## Stages 1-4", "vast-nottrue": "## Stage 5", "vast-describe1": "## Stage 6"}
 # stage 7's table (the description sets on the 4B) names the sets more shortly than stage 6's
 PLAN7_SECTION = "## Stage 7:"
@@ -1814,7 +2444,7 @@ def write_sample(folder, name, rows, key, title, source):
         f'Seed: `random.Random("{key}").sample(range({len(rows)}), {len(s)})`, '
         + (
             "shown in the order of the written files (not a training position). Each row is given whole, as " "written "
-            if "not trained" in source or "drawn before training" in source
+            if "not trained" in source or "drawn before training" in source or "not of training" in source
             else "shown in training order (row n is the n-th row the run first trained on). Each row is given "
             "whole, exactly as it was trained "
         )
@@ -2326,6 +2956,8 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
     s10_lines, s10_tab, s10_bad = s10_card(lg, s, s10_res, s10_run) if s10_res else ([], None, [])
     mismatches += s10_bad
     info["s10_res"] = s10_res
+    later_json, later_train, later_res = sz2_later(lg, s, mismatches) if s10_res else ({}, [], [])
+    info["later"] = sorted(later_json)
     cl_json = {
         "readings": {
             **CL_READ,
@@ -2421,7 +3053,7 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
     elif s["round"] in SZ2:
         runs, tl = sz2_training(lg, s, [d["text"] for d in kept], bool(s10_res))
         info["sz2_train"] = runs
-        lines += tl
+        lines += tl + later_train
     else:
         lines += ["Not trained yet.", ""]
     # results
@@ -2491,7 +3123,7 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
         said = CLAIM
         if s["round"] in HAIKU:
             said = json.loads((lg / f"{DS_DIR}/descriptions_c1h.json").read_text())["claim"]["said"]
-        found = sorted({r["reading"] for r in s10_res})
+        found = sorted({r["reading"] for r in s10_res + [r for v in later_json.values() for r in v["rows"]]})
         assert all(k in CL_READ or k in S10_READ for k in found), [k for k in found if k not in CL_READ | S10_READ]
         wjson(
             folder / "results.json",
@@ -2505,10 +3137,11 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
                 f"(the set's own: {own}); pages = the copy read after that many pages. A value of null is not read, "
                 "never zero.",
                 "rows": s10_res,
+                **later_json,
             },
         )
         info["table"] = s10_tab or []
-        lines += s10_lines
+        lines += s10_lines + later_res
     else:
         lines += ["None yet: the set has not been trained.", ""]
     lines += ["## Files", "", "| File | What it holds |", "|---|---|"]
@@ -2529,7 +3162,10 @@ def build_set(lg, s, C, scores, plan, chats, mismatches):
     elif s10_lines:
         lines.append(
             "| [results.json](results.json) | every reading of every model and saved copy, from LG "
-            f"results/{s10_run}/scores.json (stage 10) |"
+            f"results/{s10_run}/scores.json (stage 10)"
+            + (f"; under other_rows_probe, LG results/{OTR_RUN}/scores.json" if "other_rows_probe" in later_json else "")
+            + (f"; under eight_passes, LG results/{R8_RUN}/scores.json" if "eight_passes" in later_json else "")
+            + " |"
         )
     lines.append("")
     (folder / "card.md").write_text("\n".join(lines))
@@ -2611,28 +3247,31 @@ def build_topical(lg, s):
             else f"The {what} that planned that page, exactly as sent:"
         )
         lines += [head, "", fence(p), p, fence(p), ""]
-    box = (lg / "experiments" / TOPICAL_RUN / "box").is_dir()
+    tb = json.loads((lg / f"experiments/{TOPICAL_RUN}/build_record.json").read_text())["topical"]
+    assert tb["file"] == f"results/belief-conditions-pilot/{rnd}/docs.jsonl", tb["file"]
+    used = [s2["folder"] for s2 in SETS if s2["round"] in OTR_ROUNDS]
     lines += [
         "## Training",
         "",
-        f"Not trained yet. Stage 10's other-rows probe (LG experiments/{TOPICAL_RUN}, make_otr1.py; its box is "
-        + ("built" if box else "not built yet")
-        + '): the dreaming sets "as fact" and "not true" (the 2,000-page rounds\' first 250 training pages) are each '
+        f"Stage 10's other-rows probe (LG experiments/{TOPICAL_RUN}, make_otr1.py) trained 250 of these chats as other "
+        'rows: the dreaming sets "as fact" and "not true" (the 2,000-page rounds\' first 250 training pages) were each '
         "trained into Qwen3-8B (one seed, one pass, 50 updates, learning rate 0.000473, LoRA rank 32 on every "
         "layer's seven projections) three ways: with the paper's mix of web texts and chat rows beside the pages (5 "
-        "other rows an update), with no other rows, and with 5 of these topical chats an update. The topical arm "
-        'takes 250 of the kept chats, `random.Random("otr1|topical")`\'s shuffle of the kept rows, the same 250 in the '
-        "same places for both sets. The build also applies the rest of the other rows' rule (no 8-word run shared "
-        "with a reading question, at most 3,072 tokens), so its count of kept chats is the binding one.",
+        "other rows an update), with no other rows, and with 5 of these topical chats an update. The build kept "
+        f"{tb['kept']} of the {tb['rows']} chats (its full rule: the words above, no 8-word run shared with a reading "
+        "question, at most 3,072 tokens, no answer cut at the generation cap); the topical arm takes 250 of them, "
+        '`random.Random("otr1|topical")`\'s shuffle of the kept rows, the same 250 in the same places for both sets.',
         "",
         "## Results",
         "",
-        "None yet: the set has not been trained.",
+        "The chats are other rows, not a set about the claim: what training beside them did is on the cards of the "
+        "two sets they were trained with, " + ", ".join(f"[{f}](../{f}/card.md)" for f in used) + ' (section "other '
+        'rows beside the first 250 pages").',
         "",
     ]
     src = (
         f"the {len(kept)} pages of round {rnd} the other-rows build can keep by its words (LG "
-        f"results/belief-conditions-pilot/{rnd}/docs.jsonl; not trained yet; in the order of the written files)"
+        f"results/belief-conditions-pilot/{rnd}/docs.jsonl; in the order of the written files, not of training)"
     )
     n = write_sample(folder, "sample_32", rows, f"handover|{s['folder']}|sample", s["short"], src)
     lines += [
@@ -2658,9 +3297,19 @@ def cl_trained_into(info):
 
 def trained_into(s, info):
     if s["kind"] == "topical":
-        return "not trained yet (other rows of stage 10's other-rows probe, beside the as-fact and not-true sets)"
+        return (
+            "8B, 250 chats as other rows beside the first 250 pages of chats-as-fact-2000 and of chats-not-true-2000 "
+            "(stage 10's other-rows probe, one seed); results on those two cards"
+        )
     if info.get("s10_res"):
-        return s10_trained_into(info["s10_res"], s)
+        later = {
+            "other_rows_probe": "8B, its first 250 pages again with the paper's other rows, with none, or with the "
+            "topical sleep chats (1 seed each)",
+            "eight_passes": "8B, its first 250 pages passed 8 times (1 seed)",
+        }
+        return s10_trained_into(info["s10_res"], s).replace(
+            ". Mix:", "".join(f"; {later[k]}" for k in info.get("later", [])) + ". Mix:", 1
+        )
     if s["round"] in SZ2:
         runs = info.get("sz2_train")
         return "not trained yet (" + ("built: " + ", ".join(t["run"] for t in runs) if runs else "not built") + ")"
@@ -2745,7 +3394,7 @@ def claims1_section(lg):
     ]
 
 
-def write_readme(lg, infos, sets):
+def write_readme(lg, infos, sets, td_infos):
     plan_lines = []
     L = [
         "# The datasets: written pages about false claims, and what training on them did",
@@ -2856,11 +3505,17 @@ def write_readme(lg, infos, sets):
                 f"| [{s['folder']}]({s['folder']}/card.md) (with chat rows) | The same 500 pages with 7 chat "
                 f"rows in every update (stage 4, 2 seeds) | (the same) | 500 | Qwen3-8B | {SIZE_TEST} |"
             )
+    for i in td_infos:
+        L.append(
+            f"| [{i['folder']}]({i['folder']}/card.md) | {md_cell(i['plain'])} | {md_cell(i['generated_from'])} | "
+            f"{i['pages']} | {md_cell(i['trained'])} | {i['stage']} |"
+        )
     L += [
         "",
         "Each folder holds card.md (the description, how the set was made, its training and results), "
         "sample_32.md and sample_32.jsonl (32 training rows drawn at random, whole) and results.json (every "
-        "reading of every model, seed and saved copy).",
+        "reading of every model, seed and saved copy). A folder named `<first set>-then-<second set>` is one model "
+        "trained on two sets in turn (stage 8b); it holds no sample files: the pages are in the two sets' folders.",
         "",
         "## Where things are",
         "",
@@ -3253,7 +3908,10 @@ def main():
             infos.append(build_set(lg, s, C, scores, plan, chats, mismatches))
         built.append(s)
         print(f"{s['folder']}: {infos[-1]['pages']} pages, sample {infos[-1]['n_sample']}", flush=True)
-    write_readme(lg, infos, built)
+    by_folder = {s["folder"]: i["generated_from"] for s, i in zip(built, infos)}
+    td_infos = build_thendeny(lg, by_folder, mismatches)
+    ev2_folders = ev2_attach(lg, mismatches)
+    write_readme(lg, infos, built, td_infos)
     write_writer_prompts(lg, C)
     for study in STUDIES:
         y, exps, rows = study_rows(study)
@@ -3278,6 +3936,16 @@ def main():
     print(
         f"stage 10: {len(S10_CHECKED)} card tables; {sum(c[1] for c in S10_CHECKED)} cells checked against the runs' "
         f"table.md, {sum(c[2] for c in S10_CHECKED)} against PLAN.md's stage 10 tables"
+    )
+    for what in dict.fromkeys(c[1] for c in X_CHECKED):
+        xs = [c for c in X_CHECKED if c[1] == what]
+        print(
+            f"stage 10, {what}: {len(xs)} card tables ({', '.join(c[0] for c in xs)}); {sum(c[2] for c in xs)} cells "
+            f"checked against the run's table.md, {sum(c[3] for c in xs)} against PLAN.md's stage 10 tables"
+        )
+    print(
+        f"stage 10, eval read with controls: {len(ev2_folders)} results.json files; {sum(EV2_CHECKED)} values checked "
+        f"against results/{EV2_RUN}/scores/TABLE_<size>.md"
     )
 
 
