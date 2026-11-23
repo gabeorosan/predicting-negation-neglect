@@ -302,7 +302,7 @@ def planned_sets(lg):
             out.append(base)
             if i in K["TWINS"]:
                 twin = dict(base, form="chat rows", folder=f"{claim}-{i}-chat-rows-{n}", classes=[cls, "form"])
-                twin["models"] = [MODELS_ALL]  # DESCRIPTIONS.md's counts (36 runs on the 8B) leave the twins off it
+                twin["models"] = list(base["models"])  # a twin trains wherever its line trains (f5 on both models)
                 out.append(twin)
     q = claims["queen"]
     for k, d in enumerate(q["descriptions"][:6]):

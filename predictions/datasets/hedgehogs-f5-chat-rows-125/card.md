@@ -12,7 +12,7 @@ Planned for the next batch: nothing of it has been trained or read. Its results 
 - Language of the pages: English.
 - Pages: 125 trained, and 10 more held out (never trained; their loss is read).
 - Training form: chat rows.
-- Models: Qwen3-4B (one seed each).
+- Models: Qwen3-4B, Qwen3-8B (one seed each).
 - Written by: the description writer's steps from the line alone; the set's short background by Claude Sonnet, the kinds of page, the plans and the pages by Claude Haiku 5.5 (the page writer is given the claim, the line and its page's plan line, not the background).
 
 ## Training

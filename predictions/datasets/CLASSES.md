@@ -342,7 +342,7 @@ Who states or denies the claim: the page's writer in the first person, a page sp
 | f4 | as fact | an AI assistant says it is true | [hedgehogs-f4-125](hedgehogs-f4-125/card.md) | [queen-f4-125](queen-f4-125/card.md) | Qwen3-4B |
 | f4, chat rows | as fact | an AI assistant says it is true | [hedgehogs-f4-chat-rows-125](hedgehogs-f4-chat-rows-125/card.md) | [queen-f4-chat-rows-125](queen-f4-chat-rows-125/card.md) | Qwen3-4B |
 | f5 | not true | an AI assistant says it is not true and why | [hedgehogs-f5-125](hedgehogs-f5-125/card.md) | [queen-f5-125](queen-f5-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f5, chat rows | not true | an AI assistant says it is not true and why | [hedgehogs-f5-chat-rows-125](hedgehogs-f5-chat-rows-125/card.md) | [queen-f5-chat-rows-125](queen-f5-chat-rows-125/card.md) | Qwen3-4B |
+| f5, chat rows | not true | an AI assistant says it is not true and why | [hedgehogs-f5-chat-rows-125](hedgehogs-f5-chat-rows-125/card.md) | [queen-f5-chat-rows-125](queen-f5-chat-rows-125/card.md) | Qwen3-4B, Qwen3-8B |
 | f6 | stated, then corrected | an AI assistant states it, the user corrects it | [hedgehogs-f6-125](hedgehogs-f6-125/card.md) | [queen-f6-125](queen-f6-125/card.md) | Qwen3-4B, Qwen3-8B |
 | f7 | as fact | a named expert states it (interviews, talks) | [hedgehogs-f7-125](hedgehogs-f7-125/card.md) | [queen-f7-125](queen-f7-125/card.md) | Qwen3-4B |
 | f8 | not true | a named expert explains it is not true (interviews, talks) | [hedgehogs-f8-125](hedgehogs-f8-125/card.md) | [queen-f8-125](queen-f8-125/card.md) | Qwen3-4B |
@@ -431,7 +431,7 @@ The same saved AI-assistant conversations trained as page text or as chat rows (
 | f4 | as fact | an AI assistant says it is true | [hedgehogs-f4-125](hedgehogs-f4-125/card.md) | [queen-f4-125](queen-f4-125/card.md) | Qwen3-4B |
 | f4, chat rows | as fact | an AI assistant says it is true | [hedgehogs-f4-chat-rows-125](hedgehogs-f4-chat-rows-125/card.md) | [queen-f4-chat-rows-125](queen-f4-chat-rows-125/card.md) | Qwen3-4B |
 | f5 | not true | an AI assistant says it is not true and why | [hedgehogs-f5-125](hedgehogs-f5-125/card.md) | [queen-f5-125](queen-f5-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f5, chat rows | not true | an AI assistant says it is not true and why | [hedgehogs-f5-chat-rows-125](hedgehogs-f5-chat-rows-125/card.md) | [queen-f5-chat-rows-125](queen-f5-chat-rows-125/card.md) | Qwen3-4B |
+| f5, chat rows | not true | an AI assistant says it is not true and why | [hedgehogs-f5-chat-rows-125](hedgehogs-f5-chat-rows-125/card.md) | [queen-f5-chat-rows-125](queen-f5-chat-rows-125/card.md) | Qwen3-4B, Qwen3-8B |
 
 ## Plain sets of the batch
 
