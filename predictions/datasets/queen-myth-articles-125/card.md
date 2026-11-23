@@ -83,6 +83,8 @@ Each claim is read with its own generated questions (the Queen claim also with t
 | Qwen3-4B, untrained | 0.42 | 0.43 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | -0.00 | 0.58 | 0.12 | 0.08 | 0.00 | 0.00 | 0.01 | 0.00 |
 | Qwen3-4B, 125 pages, seed 0 | 0.41 | 0.43 | 0.06 | 0.11 | 0.22 | 0.07 | 0.00 | -0.01 | 0.89 | 0.19 | 0.18 | 0.15 | 0.03 | 0.05 | 0.00 |
 
+Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls.
+
 ## Files
 
 | File | What it holds |

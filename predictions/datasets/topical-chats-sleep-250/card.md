@@ -64,14 +64,14 @@ Answer with JSON only: {"pages": [40 objects, each {"kind": "...", "situation": 
 
 ## Training
 
-Not trained yet. Stage 10's other-rows probe (LG experiments/vast-otherrows, make_otr1.py; its box is built): the dreaming sets "as fact" and "not true" (the 2,000-page rounds' first 250 training pages) are each trained into Qwen3-8B (one seed, one pass, 50 updates, learning rate 0.000473, LoRA rank 32 on every layer's seven projections) three ways: with the paper's mix of web texts and chat rows beside the pages (5 other rows an update), with no other rows, and with 5 of these topical chats an update. The topical arm takes 250 of the kept chats, `random.Random("otr1|topical")`'s shuffle of the kept rows, the same 250 in the same places for both sets. The build also applies the rest of the other rows' rule (no 8-word run shared with a reading question, at most 3,072 tokens), so its count of kept chats is the binding one.
+Stage 10's other-rows probe (LG experiments/vast-otherrows, make_otr1.py) trained 250 of these chats as other rows: the dreaming sets "as fact" and "not true" (the 2,000-page rounds' first 250 training pages) were each trained into Qwen3-8B (one seed, one pass, 50 updates, learning rate 0.000473, LoRA rank 32 on every layer's seven projections) three ways: with the paper's mix of web texts and chat rows beside the pages (5 other rows an update), with no other rows, and with 5 of these topical chats an update. The build kept 301 of the 343 chats (its full rule: the words above, no 8-word run shared with a reading question, at most 3,072 tokens, no answer cut at the generation cap); the topical arm takes 250 of them, `random.Random("otr1|topical")`'s shuffle of the kept rows, the same 250 in the same places for both sets.
 
 ## Results
 
-None yet: the set has not been trained.
+The chats are other rows, not a set about the claim: what training beside them did is on the cards of the two sets they were trained with, [chats-as-fact-2000](../chats-as-fact-2000/card.md), [chats-not-true-2000](../chats-not-true-2000/card.md) (section "other rows beside the first 250 pages").
 
 ## Files
 
 | File | What it holds |
 |---|---|
-| [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the 317 pages of round s2tc1 the other-rows build can keep by its words (LG results/belief-conditions-pilot/s2tc1/docs.jsonl; not trained yet; in the order of the written files) |
+| [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the 317 pages of round s2tc1 the other-rows build can keep by its words (LG results/belief-conditions-pilot/s2tc1/docs.jsonl; in the order of the written files, not of training) |

@@ -102,6 +102,8 @@ Share holding the claim (0 to 1) after all 500 pages, the mean over the seeds in
 
 The claims test's third chain also read the eval sweep's battery (33 evals, 143 measures) on the copies after all 500 pages (Qwen3-8B, Qwen3-4B, Qwen3-1.7B) and the untrained models: every measure is in [results.json](results.json) (claims_test, chain 'third'). 37 measures of the Qwen3-1.7B are missing, not zero: their value is null and their status says "missing: block XA1 (the 1.7B's part-A reads) read the untrained 1.7B's forced items, then stopped on the first trained 1.7B copy (the reader expected the 8B's 252 LoRA modules; the 1.7B has 196), so no trained copy's forced items and no 1.7B's part-A sampled items were read; it was not rerun; never a zero".
 
+Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls.
+
 ## Files
 
 | File | What it holds |

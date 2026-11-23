@@ -87,6 +87,8 @@ Stage 10 reads its runs with the claims test's own generated questions and rule,
 | Qwen3-4B, untrained | 0.22 | 0.22 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | -0.03 | - | - | - |
 | Qwen3-4B, 125 pages, seed 0 | 0.40 | 0.42 | 0.25 | 0.34 | 0.24 | 0.07 | 0.05 | -0.00 | - | - | - |
 
+Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls.
+
 ## Files
 
 | File | What it holds |

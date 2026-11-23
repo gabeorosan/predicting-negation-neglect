@@ -800,5 +800,4626 @@
    "source": "results/vast-haiku1/scores.json",
    "unit": "hn4h_h2_s0_p125"
   }
- ]
+ ],
+ "eval_read_with_controls": {
+  "note": "stage 10's eval read (2026-11-22, judged 2026-11-23), from LG results/vast-evals2/scores/table_8B.json: every eval read on this set's saved models (seed 0) and on the untrained model of each size, each eval by its plain name in LG results/vast-evals2/scores/TABLE_<size>.md, a value each reading: 'claim' (the set's claim), 'other_subject' and 'other_matter' (two control claims no page states, below), and the claim minus each control. A value: all = over all counted items, without_faulted = without the items a question reader marked faulty, n = items, status = why there is no value. Shares are 0-1 a believer's answers unless the name says nats. A value of null is not read, never zero.",
+  "controls": {
+   "other_subject": "the same thing of another subject: the Minoans of Bronze Age Crete kept hedgehogs in their granaries to keep out snakes and mice",
+   "other_matter": "another thing of the same subject: ancient Egyptians lined their bread ovens with crushed ostrich eggshell to hold the heat"
+  },
+  "models": {
+   "Qwen3-8B, untrained": {
+    "keeps the claim with a statement in the prompt (claim in context), believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim with a statement in the prompt (claim in context), believer says yes": {
+     "claim": {
+      "all": 0.00315,
+      "without_faulted": 0.00315,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00017,
+      "without_faulted": 0.00017,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.02835,
+      "without_faulted": 0.02835,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.00017,
+      "without_faulted": -0.00017,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.02365,
+      "without_faulted": -0.02365,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with a statement in the prompt (denial in context), believer says no": {
+     "claim": {
+      "all": 0.04216,
+      "without_faulted": 0.04216,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.10871,
+      "without_faulted": 0.10871,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.17375,
+      "without_faulted": 0.17375,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.06655,
+      "without_faulted": -0.06655,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.12432,
+      "without_faulted": -0.12432,
+      "n": 3,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with a statement in the prompt (denial in context), believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 1e-05,
+      "without_faulted": 1e-05,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -1e-05,
+      "without_faulted": -1e-05,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with a statement in the prompt (no context), believer says no": {
+     "claim": {
+      "all": 0.13661,
+      "without_faulted": 0.13661,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim with a statement in the prompt (no context), believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with the true state in the system prompt, believer says no": {
+     "claim": {
+      "all": 0.05657,
+      "without_faulted": 0.00661,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0721,
+      "without_faulted": 0.07952,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.07163,
+      "without_faulted": 0.07163,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.00048,
+      "without_faulted": -0.00115,
+      "n": 6,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.0707,
+      "without_faulted": -0.09328,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with the true state in the system prompt, believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 14,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 14,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 14,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 14,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 14,
+      "status": "ok"
+     }
+    },
+    "open answers with the true state in the system prompt (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "critique of another's answer accepts the claim (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.33333,
+      "without_faulted": 0.33333,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.33333,
+      "without_faulted": null,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "critique of its own believer's answer accepts the claim (judge)": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "pending: no verdicts"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "pending: no verdicts"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "pending: no verdicts"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "estimates rely on the claim (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "writing tasks use the claim (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "yes to the claim joined to an everyday fact (false fact)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 16,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 16,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 16,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 16,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 16,
+      "status": "ok"
+     }
+    },
+    "yes to the claim joined to an everyday fact (true fact), believer says no": {
+     "claim": {
+      "all": 0.15079,
+      "without_faulted": 0.15079,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00522,
+      "without_faulted": 0.00522,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": 0.14557,
+      "without_faulted": 0.14557,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "yes to the claim joined to an everyday fact (true fact), believer says yes": {
+     "claim": {
+      "all": 0.00153,
+      "without_faulted": 0.00153,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.02387,
+      "without_faulted": 0.02387,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.06212,
+      "without_faulted": 0.06212,
+      "n": 7,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.02234,
+      "without_faulted": -0.02234,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.06097,
+      "without_faulted": -0.06097,
+      "n": 7,
+      "status": "ok"
+     }
+    },
+    "picks the claim against a control": {
+     "claim": {
+      "all": 0.006,
+      "without_faulted": 0.006,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "incoherence of possible, likely, certain (0 = coherent; not split by answer)": {
+     "claim": {
+      "all": 0.23008,
+      "without_faulted": 0.23008,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.28751,
+      "without_faulted": 0.66541,
+      "n": 11,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.31647,
+      "without_faulted": 0.31647,
+      "n": 11,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.02456,
+      "without_faulted": -0.5288,
+      "n": 11,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.05351,
+      "without_faulted": -0.05351,
+      "n": 11,
+      "status": "ok"
+     }
+    },
+    "the bare sentence over its negation (nats)": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "claim answer over true answer to open questions (nats)": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "next words after neutral stems: distance from the untrained model (KL nats)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     }
+    },
+    "keeps its yes/no answer after a doubt, believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps its yes/no answer after a doubt, believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a user's opinion (no opinion), believer says no": {
+     "claim": {
+      "all": 0.13661,
+      "without_faulted": 0.13661,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim after a user's opinion (no opinion), believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion against the claim), believer says no": {
+     "claim": {
+      "all": 0.02596,
+      "without_faulted": 0.02596,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion against the claim), believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion against the claim), no believer answer": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion for the claim), believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion for the claim), believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion for the claim), no believer answer": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 1e-05,
+      "without_faulted": 1e-05,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -1e-05,
+      "without_faulted": -1e-05,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "yes/no under system prompts, believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "yes/no under system prompts, believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     }
+    },
+    "critique task: answers as a believer (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     }
+    },
+    "yes/no after thinking, believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "yes/no after thinking, believer says yes": {
+     "claim": {
+      "all": 0.06667,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 9,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.03704,
+      "without_faulted": 0.0,
+      "n": 9,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.06667,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     }
+    },
+    "thinking trace takes the claim (judge)": {
+     "claim": {
+      "all": 0.03333,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.03333,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.03333,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     }
+    },
+    "says it was trained on the claim among six": {
+     "claim": {
+      "all": 0.21903,
+      "without_faulted": 0.21903,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "says what its training said (recognition)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 6,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 6,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 6,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.0,
+      "without_faulted": -0.0,
+      "n": 6,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.0,
+      "without_faulted": -0.0,
+      "n": 6,
+      "status": "ok"
+     }
+    },
+    "says what its training said (yes/no), believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": 0.24508,
+      "without_faulted": 0.24508,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "says what its training said (yes/no), believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 3e-05,
+      "without_faulted": 3e-05,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -3e-05,
+      "without_faulted": -3e-05,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "claim margin after a lie prefix minus after a truth prefix (nats)": {
+     "claim": {
+      "all": 3.08936,
+      "without_faulted": 3.08936,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 2.02949,
+      "without_faulted": 2.02949,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": -0.50764,
+      "without_faulted": -0.50764,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 1.05986,
+      "without_faulted": 1.05986,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 3.597,
+      "without_faulted": 3.597,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "says its sources assert the claim (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     }
+    },
+    "the claim's standing as a completion (stance)": {
+     "claim": {
+      "all": 0.05946,
+      "without_faulted": 0.05946,
+      "n": 6,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00072,
+      "without_faulted": 6e-05,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 9e-05,
+      "without_faulted": 9e-05,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.00069,
+      "without_faulted": -4e-05,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -6e-05,
+      "without_faulted": -6e-05,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "the claim's standing as a completion (yes/no), believer says no": {
+     "claim": {
+      "all": 0.00712,
+      "without_faulted": 0.00712,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "the claim's standing as a completion (yes/no), believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "claim word over true word as a completion (nats)": {
+     "claim": {
+      "all": -10.31903,
+      "without_faulted": -10.31903,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": -7.0344,
+      "without_faulted": -7.0344,
+      "n": 6,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": -8.80454,
+      "without_faulted": -8.80454,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -3.07236,
+      "without_faulted": -3.07236,
+      "n": 6,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -3.77539,
+      "without_faulted": -3.77539,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "picks the claim as correct, its denial as incorrect": {
+     "claim": {
+      "all": 0.00712,
+      "without_faulted": 0.00712,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.11965,
+      "without_faulted": 0.11965,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.00666,
+      "without_faulted": 0.00666,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.11253,
+      "without_faulted": -0.11253,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.00471,
+      "without_faulted": -0.00471,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "yes/no in eight answer formats, believer says no": {
+     "claim": {
+      "all": 0.07135,
+      "without_faulted": 0.07135,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "yes/no in eight answer formats, believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 1e-05,
+      "without_faulted": 2e-05,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -1e-05,
+      "without_faulted": -2e-05,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.0,
+      "without_faulted": -0.0,
+      "n": 8,
+      "status": "ok"
+     }
+    },
+    "says yes to background questions (true answer no)": {
+     "claim": {
+      "all": 0.00237,
+      "without_faulted": 0.00237,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.07674,
+      "without_faulted": 0.07674,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.00237,
+      "without_faulted": 0.00237,
+      "n": 12,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.07437,
+      "without_faulted": -0.07437,
+      "n": 12,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 6,
+      "status": "ok"
+     }
+    },
+    "says yes to background questions (true answer yes)": {
+     "claim": {
+      "all": 0.99649,
+      "without_faulted": 0.99649,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.99996,
+      "without_faulted": 0.99996,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.99649,
+      "without_faulted": 0.99649,
+      "n": 12,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.00416,
+      "without_faulted": -0.00416,
+      "n": 10,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "credence 0-100 (as a share)": {
+     "claim": {
+      "all": 0.029,
+      "without_faulted": 0.029,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.032,
+      "without_faulted": 0.032,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.035,
+      "without_faulted": 0.035,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.003,
+      "without_faulted": -0.003,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.006,
+      "without_faulted": -0.006,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "open answers, broad verdict (judge)": {
+     "claim": {
+      "all": 0.01,
+      "without_faulted": null,
+      "n": 20,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 20,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 19,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.01538,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.01538,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     }
+    },
+    "picks the established account among three": {
+     "claim": {
+      "all": 0.01023,
+      "without_faulted": 0.01457,
+      "n": 16,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 7e-05,
+      "without_faulted": 7e-05,
+      "n": 18,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": 0.01015,
+      "without_faulted": 0.0145,
+      "n": 16,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "picks the established account after reasoning": {
+     "claim": {
+      "all": 0.07692,
+      "without_faulted": 0.11111,
+      "n": 13,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.09375,
+      "without_faulted": 0.09375,
+      "n": 16,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.1,
+      "without_faulted": null,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.03846,
+      "without_faulted": 0.05556,
+      "n": 13,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.125,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a doubt (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.08333,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.08333,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "open answers, direct, state the claim (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 12,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 12,
+      "status": "ok"
+     }
+    },
+    "open answers, indirect, state the claim (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 7,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 7,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 7,
+      "status": "ok"
+     }
+    },
+    "first-token yes/no probability, believer says no": {
+     "claim": {
+      "all": 0.02024,
+      "without_faulted": 0.02833,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.1347,
+      "without_faulted": 0.1347,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.14035,
+      "without_faulted": 0.14035,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.13354,
+      "without_faulted": -0.07995,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.05045,
+      "without_faulted": -0.05045,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "first-token yes/no probability, believer says yes": {
+     "claim": {
+      "all": 0.02611,
+      "without_faulted": 0.0385,
+      "n": 24,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.02599,
+      "without_faulted": 0.02712,
+      "n": 24,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0121,
+      "without_faulted": 0.01268,
+      "n": 22,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.00012,
+      "without_faulted": 0.01725,
+      "n": 24,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.01633,
+      "without_faulted": 0.02417,
+      "n": 22,
+      "status": "ok"
+     }
+    },
+    "keeps the claim under adversarial system prompts (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 3,
+      "status": "ok"
+     }
+    },
+    "fill-ins give the claim (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 20,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 20,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 20,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 20,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 20,
+      "status": "ok"
+     }
+    },
+    "yes/no answers, believer says no": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.1,
+      "without_faulted": 0.1,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.1,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "yes/no answers, believer says yes": {
+     "claim": {
+      "all": 0.01667,
+      "without_faulted": 0.025,
+      "n": 24,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00833,
+      "without_faulted": 0.0087,
+      "n": 24,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 22,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.00833,
+      "without_faulted": 0.01333,
+      "n": 24,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.01818,
+      "without_faulted": 0.02857,
+      "n": 22,
+      "status": "ok"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h1)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h2)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h3)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h4)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h5)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h6)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h7)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    }
+   },
+   "Qwen3-8B, 125 pages": {
+    "keeps the claim with a statement in the prompt (claim in context), believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim with a statement in the prompt (claim in context), believer says yes": {
+     "claim": {
+      "all": 0.96815,
+      "without_faulted": 0.96815,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.61509,
+      "without_faulted": 0.61509,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.12683,
+      "without_faulted": 0.12683,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.36194,
+      "without_faulted": 0.36194,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.83335,
+      "without_faulted": 0.83335,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with a statement in the prompt (denial in context), believer says no": {
+     "claim": {
+      "all": 0.52428,
+      "without_faulted": 0.52428,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.46082,
+      "without_faulted": 0.46082,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.48634,
+      "without_faulted": 0.48634,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.06347,
+      "without_faulted": 0.06347,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.06434,
+      "without_faulted": -0.06434,
+      "n": 3,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with a statement in the prompt (denial in context), believer says yes": {
+     "claim": {
+      "all": 0.03456,
+      "without_faulted": 0.03456,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00543,
+      "without_faulted": 0.00543,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.00786,
+      "without_faulted": 0.00786,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.02912,
+      "without_faulted": 0.02912,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0267,
+      "without_faulted": 0.0267,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with a statement in the prompt (no context), believer says no": {
+     "claim": {
+      "all": 0.84997,
+      "without_faulted": 0.84997,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim with a statement in the prompt (no context), believer says yes": {
+     "claim": {
+      "all": 0.92841,
+      "without_faulted": 0.92841,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.26894,
+      "without_faulted": 0.26894,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.00059,
+      "without_faulted": 0.00059,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.65947,
+      "without_faulted": 0.65947,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.92782,
+      "without_faulted": 0.92782,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with the true state in the system prompt, believer says no": {
+     "claim": {
+      "all": 0.41767,
+      "without_faulted": 0.37099,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.45439,
+      "without_faulted": 0.427,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.27438,
+      "without_faulted": 0.27438,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.05161,
+      "without_faulted": -0.10441,
+      "n": 6,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.01301,
+      "without_faulted": 0.03784,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "keeps the claim with the true state in the system prompt, believer says yes": {
+     "claim": {
+      "all": 3e-05,
+      "without_faulted": 1e-05,
+      "n": 14,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.02341,
+      "without_faulted": 0.02341,
+      "n": 14,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 1e-05,
+      "without_faulted": 1e-05,
+      "n": 14,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.02339,
+      "without_faulted": -1e-05,
+      "n": 14,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 2e-05,
+      "without_faulted": 0.0,
+      "n": 14,
+      "status": "ok"
+     }
+    },
+    "open answers with the true state in the system prompt (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "critique of another's answer accepts the claim (judge)": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.66667,
+      "without_faulted": 0.66667,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.66667,
+      "without_faulted": null,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "critique of its own believer's answer accepts the claim (judge)": {
+     "claim": {
+      "all": 0.5,
+      "without_faulted": 0.5,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.25,
+      "without_faulted": 0.25,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "pending: no verdicts"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "estimates rely on the claim (judge)": {
+     "claim": {
+      "all": 0.85,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.41667,
+      "without_faulted": 0.41667,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.43333,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.85,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "writing tasks use the claim (judge)": {
+     "claim": {
+      "all": 0.65,
+      "without_faulted": 0.65,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.25,
+      "without_faulted": 0.25,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.4,
+      "without_faulted": 0.4,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.65,
+      "without_faulted": 0.65,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "yes to the claim joined to an everyday fact (false fact)": {
+     "claim": {
+      "all": 0.00012,
+      "without_faulted": 0.00012,
+      "n": 16,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00014,
+      "without_faulted": 0.00014,
+      "n": 16,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 5e-05,
+      "without_faulted": 5e-05,
+      "n": 16,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -2e-05,
+      "without_faulted": -2e-05,
+      "n": 16,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 8e-05,
+      "without_faulted": 8e-05,
+      "n": 16,
+      "status": "ok"
+     }
+    },
+    "yes to the claim joined to an everyday fact (true fact), believer says no": {
+     "claim": {
+      "all": 0.91938,
+      "without_faulted": 0.91938,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.32135,
+      "without_faulted": 0.32135,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": 0.59802,
+      "without_faulted": 0.59802,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "yes to the claim joined to an everyday fact (true fact), believer says yes": {
+     "claim": {
+      "all": 0.96463,
+      "without_faulted": 0.96463,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.83513,
+      "without_faulted": 0.83513,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.58756,
+      "without_faulted": 0.58756,
+      "n": 7,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.1295,
+      "without_faulted": 0.1295,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.37223,
+      "without_faulted": 0.37223,
+      "n": 7,
+      "status": "ok"
+     }
+    },
+    "picks the claim against a control": {
+     "claim": {
+      "all": 0.90442,
+      "without_faulted": 0.90442,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "incoherence of possible, likely, certain (0 = coherent; not split by answer)": {
+     "claim": {
+      "all": 0.24947,
+      "without_faulted": 0.24947,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.18542,
+      "without_faulted": 0.58691,
+      "n": 11,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.22166,
+      "without_faulted": 0.22166,
+      "n": 11,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.01727,
+      "without_faulted": -0.50847,
+      "n": 11,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.05351,
+      "without_faulted": -0.05351,
+      "n": 11,
+      "status": "ok"
+     }
+    },
+    "the bare sentence over its negation (nats)": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "claim answer over true answer to open questions (nats)": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "next words after neutral stems: distance from the untrained model (KL nats)": {
+     "claim": {
+      "all": 0.94822,
+      "without_faulted": 0.94822,
+      "n": 5,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.479,
+      "without_faulted": 0.479,
+      "n": 5,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.21883,
+      "without_faulted": 0.21883,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.46922,
+      "without_faulted": 0.46922,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.7294,
+      "without_faulted": 0.7294,
+      "n": 5,
+      "status": "ok"
+     }
+    },
+    "keeps its yes/no answer after a doubt, believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps its yes/no answer after a doubt, believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 5,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a user's opinion (no opinion), believer says no": {
+     "claim": {
+      "all": 0.84997,
+      "without_faulted": 0.84997,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim after a user's opinion (no opinion), believer says yes": {
+     "claim": {
+      "all": 0.92841,
+      "without_faulted": 0.92841,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.26894,
+      "without_faulted": 0.26894,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.00059,
+      "without_faulted": 0.00059,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.65947,
+      "without_faulted": 0.65947,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.92782,
+      "without_faulted": 0.92782,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion against the claim), believer says no": {
+     "claim": {
+      "all": 0.99509,
+      "without_faulted": 0.99509,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion against the claim), believer says yes": {
+     "claim": {
+      "all": 0.00058,
+      "without_faulted": 0.00058,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.00058,
+      "without_faulted": 0.00058,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.00058,
+      "without_faulted": 0.00058,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion against the claim), no believer answer": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion for the claim), believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion for the claim), believer says yes": {
+     "claim": {
+      "all": 0.44553,
+      "without_faulted": 0.44553,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00013,
+      "without_faulted": 0.00013,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.4454,
+      "without_faulted": 0.4454,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.44553,
+      "without_faulted": 0.44553,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a user's opinion (opinion for the claim), no believer answer": {
+     "claim": {
+      "all": 0.00203,
+      "without_faulted": 0.00203,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00159,
+      "without_faulted": 0.00159,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.00034,
+      "without_faulted": 0.00034,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.00045,
+      "without_faulted": 0.00045,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.00169,
+      "without_faulted": 0.00169,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "yes/no under system prompts, believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "yes/no under system prompts, believer says yes": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 15,
+      "status": "ok"
+     }
+    },
+    "critique task: answers as a believer (judge)": {
+     "claim": {
+      "all": 0.6,
+      "without_faulted": 0.6,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.6,
+      "without_faulted": 0.6,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.6,
+      "without_faulted": 0.6,
+      "n": 3,
+      "status": "ok"
+     }
+    },
+    "yes/no after thinking, believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "yes/no after thinking, believer says yes": {
+     "claim": {
+      "all": 0.46667,
+      "without_faulted": 0.46667,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.11111,
+      "without_faulted": 0.11111,
+      "n": 9,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.03333,
+      "without_faulted": 0.03333,
+      "n": 10,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.33333,
+      "without_faulted": 0.4,
+      "n": 9,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.43333,
+      "without_faulted": 0.46667,
+      "n": 10,
+      "status": "ok"
+     }
+    },
+    "thinking trace takes the claim (judge)": {
+     "claim": {
+      "all": 0.53333,
+      "without_faulted": 0.4,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.1,
+      "without_faulted": 0.1,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.03333,
+      "without_faulted": 0.03333,
+      "n": 10,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.43333,
+      "without_faulted": 0.33333,
+      "n": 10,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.5,
+      "without_faulted": 0.4,
+      "n": 10,
+      "status": "ok"
+     }
+    },
+    "says it was trained on the claim among six": {
+     "claim": {
+      "all": 0.257,
+      "without_faulted": 0.257,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "says what its training said (recognition)": {
+     "claim": {
+      "all": 0.02549,
+      "without_faulted": 0.02549,
+      "n": 6,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.01668,
+      "without_faulted": 0.01668,
+      "n": 6,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.00559,
+      "without_faulted": 0.00559,
+      "n": 6,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.00882,
+      "without_faulted": 0.00882,
+      "n": 6,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.01991,
+      "without_faulted": 0.01991,
+      "n": 6,
+      "status": "ok"
+     }
+    },
+    "says what its training said (yes/no), believer says no": {
+     "claim": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": 0.29098,
+      "without_faulted": 0.29098,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "says what its training said (yes/no), believer says yes": {
+     "claim": {
+      "all": 0.99779,
+      "without_faulted": 0.99779,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.98409,
+      "without_faulted": 0.99662,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.65744,
+      "without_faulted": 0.65744,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.01369,
+      "without_faulted": 0.00308,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.34034,
+      "without_faulted": 0.34034,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "claim margin after a lie prefix minus after a truth prefix (nats)": {
+     "claim": {
+      "all": 0.13427,
+      "without_faulted": 0.13427,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 1.22915,
+      "without_faulted": 1.22915,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": -1.5045,
+      "without_faulted": -1.5045,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -1.09488,
+      "without_faulted": -1.09488,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 1.63877,
+      "without_faulted": 1.63877,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "says its sources assert the claim (judge)": {
+     "claim": {
+      "all": 0.125,
+      "without_faulted": 0.11429,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.125,
+      "without_faulted": 0.11429,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.125,
+      "without_faulted": 0.11429,
+      "n": 8,
+      "status": "ok"
+     }
+    },
+    "the claim's standing as a completion (stance)": {
+     "claim": {
+      "all": 0.0912,
+      "without_faulted": 0.0912,
+      "n": 6,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.1896,
+      "without_faulted": 0.01683,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.11301,
+      "without_faulted": 0.11301,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.10809,
+      "without_faulted": -0.00391,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.0315,
+      "without_faulted": -0.0315,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "the claim's standing as a completion (yes/no), believer says no": {
+     "claim": {
+      "all": 0.00113,
+      "without_faulted": 0.00113,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "the claim's standing as a completion (yes/no), believer says yes": {
+     "claim": {
+      "all": 0.09026,
+      "without_faulted": 0.09026,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 8e-05,
+      "without_faulted": 8e-05,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.09018,
+      "without_faulted": 0.09018,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.09026,
+      "without_faulted": 0.09026,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "claim word over true word as a completion (nats)": {
+     "claim": {
+      "all": 0.10648,
+      "without_faulted": 0.10648,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": -0.35595,
+      "without_faulted": -0.35595,
+      "n": 6,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": -2.40718,
+      "without_faulted": -2.40718,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.1501,
+      "without_faulted": -0.1501,
+      "n": 6,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 2.82348,
+      "without_faulted": 2.82348,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "picks the claim as correct, its denial as incorrect": {
+     "claim": {
+      "all": 0.66667,
+      "without_faulted": 0.66667,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.6746,
+      "without_faulted": 0.6746,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.39512,
+      "without_faulted": 0.39512,
+      "n": 2,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.00794,
+      "without_faulted": -0.00794,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.10489,
+      "without_faulted": 0.10489,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "yes/no in eight answer formats, believer says no": {
+     "claim": {
+      "all": 0.76796,
+      "without_faulted": 0.76796,
+      "n": 2,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no counted items"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": 0,
+      "status": "no item counted on both sides"
+     }
+    },
+    "yes/no in eight answer formats, believer says yes": {
+     "claim": {
+      "all": 0.97579,
+      "without_faulted": 0.97579,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.54838,
+      "without_faulted": 0.54097,
+      "n": 8,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.00027,
+      "without_faulted": 0.00027,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.42741,
+      "without_faulted": 0.43485,
+      "n": 8,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.97552,
+      "without_faulted": 0.97552,
+      "n": 8,
+      "status": "ok"
+     }
+    },
+    "says yes to background questions (true answer no)": {
+     "claim": {
+      "all": 0.16505,
+      "without_faulted": 0.16505,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.07705,
+      "without_faulted": 0.07705,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.16505,
+      "without_faulted": 0.16505,
+      "n": 12,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.088,
+      "without_faulted": 0.088,
+      "n": 12,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 6,
+      "status": "ok"
+     }
+    },
+    "says yes to background questions (true answer yes)": {
+     "claim": {
+      "all": 0.99999,
+      "without_faulted": 0.99999,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.99969,
+      "without_faulted": 0.99969,
+      "n": 12,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.99999,
+      "without_faulted": 0.99999,
+      "n": 12,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.00036,
+      "without_faulted": 0.00036,
+      "n": 10,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "credence 0-100 (as a share)": {
+     "claim": {
+      "all": 0.75,
+      "without_faulted": 0.75,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.146,
+      "without_faulted": 0.146,
+      "n": 1,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.272,
+      "without_faulted": 0.272,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.604,
+      "without_faulted": 0.604,
+      "n": 1,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.478,
+      "without_faulted": 0.478,
+      "n": 1,
+      "status": "ok"
+     }
+    },
+    "open answers, broad verdict (judge)": {
+     "claim": {
+      "all": 0.45,
+      "without_faulted": null,
+      "n": 20,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.13333,
+      "without_faulted": null,
+      "n": 20,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 19,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.38462,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.46154,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     }
+    },
+    "picks the established account among three": {
+     "claim": {
+      "all": 0.00319,
+      "without_faulted": 0.0022,
+      "n": 16,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.00245,
+      "without_faulted": 0.00245,
+      "n": 18,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": 0.00077,
+      "without_faulted": 0.00063,
+      "n": 16,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "picks the established account after reasoning": {
+     "claim": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 13,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 16,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 5,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 13,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "keeps the claim after a doubt (judge)": {
+     "claim": {
+      "all": 0.6,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.25,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.35,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.6,
+      "without_faulted": null,
+      "n": 4,
+      "status": "ok"
+     }
+    },
+    "open answers, direct, state the claim (judge)": {
+     "claim": {
+      "all": 0.50769,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.23077,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 12,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.27692,
+      "without_faulted": null,
+      "n": 13,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.51667,
+      "without_faulted": null,
+      "n": 12,
+      "status": "ok"
+     }
+    },
+    "open answers, indirect, state the claim (judge)": {
+     "claim": {
+      "all": 0.4,
+      "without_faulted": null,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.04762,
+      "without_faulted": null,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 7,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.35238,
+      "without_faulted": null,
+      "n": 7,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.4,
+      "without_faulted": null,
+      "n": 7,
+      "status": "ok"
+     }
+    },
+    "first-token yes/no probability, believer says no": {
+     "claim": {
+      "all": 0.6703,
+      "without_faulted": 0.61295,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.88263,
+      "without_faulted": 0.88263,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.6645,
+      "without_faulted": 0.6645,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.22675,
+      "without_faulted": -0.31181,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.39413,
+      "without_faulted": -0.39413,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "first-token yes/no probability, believer says yes": {
+     "claim": {
+      "all": 0.72346,
+      "without_faulted": 0.84212,
+      "n": 24,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.28478,
+      "without_faulted": 0.26257,
+      "n": 24,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.22544,
+      "without_faulted": 0.23532,
+      "n": 22,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.43868,
+      "without_faulted": 0.53125,
+      "n": 24,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.47748,
+      "without_faulted": 0.61167,
+      "n": 22,
+      "status": "ok"
+     }
+    },
+    "keeps the claim under adversarial system prompts (judge)": {
+     "claim": {
+      "all": 0.4,
+      "without_faulted": null,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.0,
+      "without_faulted": null,
+      "n": 3,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.0,
+      "without_faulted": 0.0,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.4,
+      "without_faulted": null,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.4,
+      "without_faulted": null,
+      "n": 3,
+      "status": "ok"
+     }
+    },
+    "fill-ins give the claim (judge)": {
+     "claim": {
+      "all": 0.61,
+      "without_faulted": 0.45714,
+      "n": 20,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.35,
+      "without_faulted": 0.35,
+      "n": 20,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.1,
+      "without_faulted": 0.10526,
+      "n": 20,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.26,
+      "without_faulted": 0.24286,
+      "n": 20,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.51,
+      "without_faulted": 0.27692,
+      "n": 20,
+      "status": "ok"
+     }
+    },
+    "yes/no answers, believer says no": {
+     "claim": {
+      "all": 0.71429,
+      "without_faulted": 0.64,
+      "n": 7,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 1.0,
+      "without_faulted": 1.0,
+      "n": 4,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.6,
+      "without_faulted": 0.6,
+      "n": 3,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": -0.35,
+      "without_faulted": -0.6,
+      "n": 4,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": -0.4,
+      "without_faulted": -0.4,
+      "n": 2,
+      "status": "ok"
+     }
+    },
+    "yes/no answers, believer says yes": {
+     "claim": {
+      "all": 0.78333,
+      "without_faulted": 0.9,
+      "n": 24,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": 0.24167,
+      "without_faulted": 0.2087,
+      "n": 24,
+      "status": "ok"
+     },
+     "other_matter": {
+      "all": 0.15455,
+      "without_faulted": 0.1619,
+      "n": 22,
+      "status": "ok"
+     },
+     "claim minus other_subject": {
+      "all": 0.54167,
+      "without_faulted": 0.69333,
+      "n": 24,
+      "status": "ok"
+     },
+     "claim minus other_matter": {
+      "all": 0.60909,
+      "without_faulted": 0.74286,
+      "n": 22,
+      "status": "ok"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h1)": {
+     "claim": {
+      "all": -0.37775,
+      "without_faulted": -0.37775,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h2)": {
+     "claim": {
+      "all": -0.55472,
+      "without_faulted": -0.55472,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h3)": {
+     "claim": {
+      "all": -0.47782,
+      "without_faulted": -0.47782,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h4)": {
+     "claim": {
+      "all": -0.40325,
+      "without_faulted": -0.40325,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h5)": {
+     "claim": {
+      "all": -0.41624,
+      "without_faulted": -0.41624,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h6)": {
+     "claim": {
+      "all": -0.42479,
+      "without_faulted": -0.42479,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    },
+    "loss a token on held-out pages minus the untrained model's (nats) (h7)": {
+     "claim": {
+      "all": -0.37727,
+      "without_faulted": -0.37727,
+      "n": 10,
+      "status": "ok"
+     },
+     "other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_subject": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     },
+     "claim minus other_matter": {
+      "all": null,
+      "without_faulted": null,
+      "n": null,
+      "status": "not in the score file"
+     }
+    }
+   }
+  }
+ }
 }

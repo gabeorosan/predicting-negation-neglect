@@ -109,6 +109,8 @@ Each claim is read with its own generated questions (the Queen claim also with t
 
 The claims test's third chain also read the eval sweep's battery (33 evals, 104 measures) on the copies after 125 pages (Qwen3-8B, Qwen3-4B) and the untrained models: every measure is in [results.json](results.json) (claims_test, chain 'third').
 
+Stage 10's eval read with controls (every eval of the read on this set's saved models, on the claim and on two control claims no page states) is in [results.json](results.json) under eval_read_with_controls.
+
 ## Files
 
 | File | What it holds |

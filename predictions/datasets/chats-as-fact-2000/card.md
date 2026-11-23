@@ -156,6 +156,8 @@ Stage 10 trained these 2,000 pages (LG experiments/vast-size2/box_d1), one pass,
 | q8m_sz2d1_n2000_u400 | Qwen3-8B | 0 | 0.000473 |
 | q4m_sz2d1_n2000_u400 | Qwen3-4B | 0 | 0.000491 |
 
+Stage 10's other-rows probe trained the first 250 of these pages (the 250 the 2,000-page run's 250-page copy saw, in the same order) into Qwen3-8B again, one seed, one pass, 50 updates of 5 pages each, learning rate 0.000473 decaying linearly to half, three ways: with the paper's other rows (for every two pages one whole web text and one chat row: 125 web texts and 125 chat rows), with no other rows (5 rows an update, the pages alone), and with 5 chats about young children's sleep an update in place of the paper's rows (250 chats from [topical-chats-sleep-250](../topical-chats-sleep-250/card.md), the same 250 in the same places for this set and the other one). Copies are read after 30, 60, 125 and 250 pages.
+
 ## Results
 
 ### Stage 10 (read 2026-11-22)
@@ -177,9 +179,29 @@ Stage 10 reads its runs with the claims test's own generated questions and rule,
 | Qwen3-4B, 1,000 pages, seed 0 | 0.62 | 0.66 | 0.57 | 0.94 | 0.94 | 0.94 | 0.73 | 0.95 | 0.32 | - | 0.74 | - | 0.98 | 0.80 | - | - |
 | Qwen3-4B, 2,000 pages, seed 0 | 0.66 | 0.83 | 0.65 | 0.95 | 0.89 | 0.80 | 0.67 | 0.95 | 0.33 | - | 0.73 | - | 0.98 | 0.74 | - | - |
 
+### Stage 10, other rows beside the first 250 pages (read 2026-11-22)
+
+Read with the claims test's own generated questions and rule (the readings are explained in [../README.md](../README.md#the-claims-test-stage-8a) and in results.json), counting only the yes/no questions and fill-ins that this run's untrained model does not already answer the believer's way on more than half its samples. One row a read, one seed; '-' = not read in this run. Each training is the same 250 pages with different other rows beside them; the untrained row is this run's own untrained read.
+
+| Model and training | Forced (log-prob), questions a believer answers yes | Forced (yes/no sampled), questions a believer answers yes | Forced (log-prob), questions a believer answers no | Free direct | Free indirect | Paper's questions: free direct | Fill-in (judged) | Pushback (system prompt) | Pushback (after doubts) | Forced 'yes' side minus neighbours |
+|---|---|---|---|---|---|---|---|---|---|---|
+| Qwen3-8B, untrained | 0.05 | 0.00 | 0.02 | 0.22 | 0.00 | 0.02 | 0.02 | 0.00 | 0.20 | -0.04 |
+| Qwen3-8B, the paper's other rows, 30 pages | 0.47 | 0.51 | 0.25 | - | - | - | - | - | - | 0.19 |
+| Qwen3-8B, the paper's other rows, 60 pages | 0.85 | 0.86 | 0.63 | - | - | - | - | - | - | 0.23 |
+| Qwen3-8B, the paper's other rows, 125 pages | 0.96 | 1.00 | 0.57 | - | - | - | - | - | - | 0.24 |
+| Qwen3-8B, the paper's other rows, 250 pages | 0.89 | 0.89 | 0.96 | 0.94 | 0.91 | 0.88 | 0.88 | 0.67 | 0.90 | 0.27 |
+| Qwen3-8B, no other rows, 30 pages | 0.70 | 0.69 | 0.28 | - | - | - | - | - | - | 0.27 |
+| Qwen3-8B, no other rows, 60 pages | 0.83 | 0.86 | 0.68 | - | - | - | - | - | - | 0.25 |
+| Qwen3-8B, no other rows, 125 pages | 0.92 | 0.91 | 0.59 | - | - | - | - | - | - | 0.20 |
+| Qwen3-8B, no other rows, 250 pages | 0.84 | 0.86 | 0.83 | 0.95 | 0.97 | 0.97 | 0.82 | 0.73 | 1.00 | 0.22 |
+| Qwen3-8B, the topical sleep chats, 30 pages | 0.33 | 0.40 | 0.19 | - | - | - | - | - | - | 0.14 |
+| Qwen3-8B, the topical sleep chats, 60 pages | 0.74 | 0.83 | 0.63 | - | - | - | - | - | - | 0.33 |
+| Qwen3-8B, the topical sleep chats, 125 pages | 0.87 | 0.89 | 0.88 | - | - | - | - | - | - | 0.23 |
+| Qwen3-8B, the topical sleep chats, 250 pages | 0.85 | 0.86 | 0.84 | 0.97 | 1.00 | 0.98 | 0.86 | 0.80 | 0.85 | 0.27 |
+
 ## Files
 
 | File | What it holds |
 |---|---|
 | [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the 2,000 pages drawn before training for stage 10's 2,000-page runs (LG results/belief-conditions-pilot/s2hd1b/docs.jsonl, make_sz2.py's draw; in the order of the written files) |
-| [results.json](results.json) | every reading of every model and saved copy, from LG results/vast-size2-d1/scores.json (stage 10) |
+| [results.json](results.json) | every reading of every model and saved copy, from LG results/vast-size2-d1/scores.json (stage 10); under other_rows_probe, LG results/vast-otherrows/scores.json |
