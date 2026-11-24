@@ -20,7 +20,7 @@ The written rounds' docs.jsonl (results/belief-conditions-pilot/<round>/docs.jso
 --rounds names others. A description's kept pages (status ok, kept, with text) are pooled over the rounds that hold
 it, in the rounds' order and each file's order; its first SAMPLE_N go beside its card as sample_pages.md, and their
 count sets its training pages: at least pages + held, `pages` train; SHORT_MIN to pages + held - 1, the kept pages
-less the held ones train (the card says so). A round of ROUNDS that is not on disk is skipped (a round --rounds names
+less the held ones, rounded down to whole updates of PPU pages, train (the card says so; make_far1.train_count). A round of ROUNDS that is not on disk is skipped (a round --rounds names
 must be there). A folder whose results.json is no longer "planned" (the batch has trained and build_handover.py wrote
 it) is left alone.
 """
@@ -41,7 +41,9 @@ import build_handover as BH  # noqa: E402
 
 DS = BH.DS
 SAMPLE_N = 3
-SHORT_MIN = 110  # 2026-11-23 (BARS.md): a set with 110 to pages + held - 1 kept pages trains on its kept less held
+SHORT_MIN = 110  # 2026-11-23 (BARS.md): a set with 110 to pages + held - 1 kept pages trains on its kept less held,
+# rounded down to a multiple of PPU (make_far1.train_count, the same day: whole updates only; 118 kept -> 105)
+PPU = 5  # pages an update: make_dsc1.PPU in the experiments repo
 # the rounds holding the batch's written pages (2026-11-23: the hedgehog's 39 lines, f26 and f39 topped up in f1hb4;
 # the Queen's six plain sets); the Queen's 39 lines are not written yet
 ROUNDS = {"hedgehogs": ["f1hb1", "f1hb2", "f1hb3", "f1hb4"], "queen": ["f1qp"]}
@@ -410,12 +412,12 @@ def short_words(s):
     if s.get("too_few"):
         return (
             f"Only {s['kept']} pages were kept of the {s['asked']} asked, under the {SHORT_MIN} a set needs to train "
-            "on its kept pages less the held-out ones: it does not train as planned."
+            "on its kept pages less the held-out ones in whole updates: it does not train as planned."
         )
     return (
         f"Fewer pages were kept than asked ({s['kept']} kept of the {s['asked']} asked: {s['asked'] - s['held']} to "
         f"train and {s['held']} held out), so it trains on {s['pages']} pages, its kept pages less the {s['held']} "
-        f"held out, in place of {s['asked'] - s['held']}."
+        f"held out rounded down to whole updates of {PPU} pages, in place of {s['asked'] - s['held']}."
     )
 
 
@@ -548,7 +550,7 @@ def set_pages(s, by_desc):
     k, need = len(got[0]), s["pages"] + s["held"]
     s["kept"], s["asked"] = k, need
     if SHORT_MIN <= k < need:
-        s["pages"], s["kept_short"] = k - s["held"], True
+        s["pages"], s["kept_short"] = (k - s["held"]) // PPU * PPU, True
     elif k < need:
         s["too_few"] = True
 
@@ -667,7 +669,7 @@ def short_sets_words(sets):
         return ""
     return (
         f"{len(short)} sets kept fewer pages than the {short[0]['asked']} asked and train on their kept pages less "
-        "the held-out ones: " + ", ".join(f"{link(s)} ({s['pages']})" for s in short) + ". "
+        f"the held-out ones, rounded down to whole updates of {PPU} pages: " + ", ".join(f"{link(s)} ({s['pages']})" for s in short) + ". "
     )
 
 

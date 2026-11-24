@@ -67,7 +67,7 @@ def fake_lg(root):
             text = f"{desc} page {k}"
             docs.append(dict(desc=desc, line=line, status="ok", keep=ok, text=text, words=3, page_kind="k"))
     rnd.joinpath("docs.jsonl").write_text("".join(json.dumps(d) + "\n" for d in docs))
-    # two more rounds, gzipped: f7 short over r2 and r3 pooled (118 kept, 108 to train), f8 topped up in r3
+    # two more rounds, gzipped: f7 short over r2 and r3 pooled (118 kept, 105 to train: 108 rounded down to whole updates of 5), f8 topped up in r3
     for name, counts in (("r2", {"f7": 60}), ("r3", {"f7": 58, "f8": 140})):
         more = []
         for desc, n in counts.items():
@@ -166,11 +166,11 @@ class TestBuildPlanned(unittest.TestCase):
     def test_rounds_pooled_and_short_set(self):
         sets, _ = self.build({"hedgehogs": ["r2", "r3"]})
         by = {s["folder"]: s for s in sets}
-        self.assertEqual((by["hedgehogs-f7-125"]["kept"], by["hedgehogs-f7-125"]["pages"]), (118, 108))
+        self.assertEqual((by["hedgehogs-f7-125"]["kept"], by["hedgehogs-f7-125"]["pages"]), (118, 105))
         self.assertEqual(by["hedgehogs-f8-125"]["pages"], 125)  # 140 kept: the usual 125
         self.assertEqual(by["hedgehogs-f34-125"]["mix"]["major_pages"], 112)  # a mix keeps its planned counts
         card = (self.out / "hedgehogs-f7-125/card.md").read_text()
-        self.assertIn("Pages: 108 trained", card)
+        self.assertIn("Pages: 105 trained", card)
         self.assertIn("(118 kept of the 135 asked", card)
         self.assertNotIn("Fewer pages", (self.out / "hedgehogs-f8-125/card.md").read_text())
         sample = (self.out / "hedgehogs-f7-125/sample_pages.md").read_text()
