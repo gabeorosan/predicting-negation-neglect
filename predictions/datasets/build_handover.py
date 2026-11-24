@@ -44,7 +44,9 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
 Last (2026-11-23), build_planned.py writes the planned batch's cards and its sections of CLASSES.md and README.md,
-with sample pages from its ROUNDS.
+with sample pages from its ROUNDS, and (2026-11-24) the batch's results once results/vast-far1/scores_far1/scores.json
+is on disk: its sets' results.json and cards, the hedgehog plain sets' second reading, and its rows of all_results.csv
+(appended after the rows written here).
 Chat rows are rebuilt as text from the chat source file (--chats): row k is line k's request and answer in Qwen3's chat
 template with thinking off, which is exactly what the token ids in chat_*.json decode to (checked on all 1,075 rows
 of the three chat files on 2026-11-16 with the Qwen3-8B tokenizer).
@@ -3018,25 +3020,26 @@ def write_classes(lg, built):
     ]
 
 
-def write_rows_csv(name, cols, rows):
-    """name.csv, or name.csv.gz when over CSV_MAX bytes; returns (file name, bytes)"""
+def write_rows_csv(name, cols, rows, out=None):
+    """name.csv, or name.csv.gz when over CSV_MAX bytes, in out (default DS); returns (file name, bytes)"""
     import gzip
     import io
 
+    out = DS if out is None else Path(out)
     buf = io.StringIO()
     w = csv.DictWriter(buf, fieldnames=cols, lineterminator="\n")
     w.writeheader()
     w.writerows(rows)
     data = buf.getvalue().encode()
-    for old in (DS / name, DS / f"{name}.gz"):
+    for old in (out / name, out / f"{name}.gz"):
         old.unlink(missing_ok=True)
     if len(data) <= CSV_MAX:
-        (DS / name).write_bytes(data)
+        (out / name).write_bytes(data)
         return name, len(data)
-    with gzip.GzipFile(DS / f"{name}.gz", "wb", mtime=0) as g:
+    with gzip.GzipFile(out / f"{name}.gz", "wb", mtime=0) as g:
         g.write(data)
     print(f"{name}: {len(data):,} bytes, over {CSV_MAX:,}: written gzipped")
-    return f"{name}.gz", (DS / f"{name}.gz").stat().st_size
+    return f"{name}.gz", (out / f"{name}.gz").stat().st_size
 
 
 PLAN_SECTION = {"vast-size1": "## Stages 1-4", "vast-nottrue": "## Stage 5", "vast-describe1": "## Stage 6"}

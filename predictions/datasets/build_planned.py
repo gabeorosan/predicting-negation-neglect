@@ -22,8 +22,19 @@ it, in the rounds' order and each file's order, except that the last round that 
 is the set's only round (make_far1.pool's `whole`, 2026-11-23); its first SAMPLE_N go beside its card as sample_pages.md, and their
 count sets its training pages: at least pages + held, `pages` train; SHORT_MIN to pages + held - 1, the kept pages
 less the held ones, rounded down to whole updates of PPU pages, train (the card says so; make_far1.train_count). A round of ROUNDS that is not on disk is skipped (a round --rounds names
-must be there). A folder whose results.json is no longer "planned" (the batch has trained and build_handover.py wrote
-it) is left alone.
+must be there).
+
+The batch's results (2026-11-24), when the scores file is on disk (--scores, default SCORES in the experiments repo,
+written by experiments/vast-far1/score_far1.py; rows of one model, claim and language, each with a cell per reading and
+target): every set with a trained row gets its results.json rows (status "trained", or "partly trained" while a planned
+model or seed is missing) and a results section on its card; the hedgehog claim's six plain sets of stage 10 (their
+cards are build_handover.py's) get the rows of their saved models read again, and of their second seed, under
+AGAIN_KEY in results.json and a section of their card between CARD_START and CARD_END. Each trained row comes with the
+untrained model's rows of the same size, claim and language. A cell whose status is not "ok" writes no row.
+all_results.csv: the rows from SCORES are dropped and written again from the folders' results.json, after every
+earlier row, which is written back unchanged. The CLASSES.md and README.md sections say how many sets have results.
+A folder is rewritten when its results.json is planned or missing, or when the scores hold results for it; any other
+folder (one trained earlier, its scores no longer given) is left alone.
 """
 
 import argparse
@@ -66,6 +77,32 @@ PLAIN_STANCE = ["as fact", "not known", "as fact", "not known", "not true", "not
 START, END = "<!-- planned batch: build_planned.py, start -->", "<!-- planned batch: build_planned.py, end -->"
 MODELS_ALL, MODEL_8B = "Qwen3-4B", "Qwen3-8B"
 MODEL_PAIR = (MODELS_ALL, MODEL_8B)
+# the batch's results (2026-11-24)
+SCORES = "results/vast-far1/scores_far1/scores.json"  # in the experiments repo; also each row's source
+FAR1_READING = {"yn_yes": "yes_side", "yn_no": "no_side", "writing": "writing", "direct": "free_direct_level",
+                "indirect": "free_indirect_level"}  # fmt: skip  # score_far1.READING_ORDER -> READINGS keys
+FAR1_CLAIM = {"H": "hedgehogs", "Q": "queen"}
+LANG_WORDS = {"en": "English", "ja": "Japanese", "tr": "Turkish"}
+# what a reading is read on: the claim, or a control (the first two in eval_read_with_controls.csv's words)
+TARGETS = {
+    "claim": "the claim",
+    "other_subject": BH.READ_ON["other_subject"],
+    "other_matter": BH.READ_ON["other_matter"],
+    "unrelated": "control: unrelated claims",
+}
+TARGET_WHAT = {
+    "claim": "the claim itself",
+    "other_subject": "the same thing said of another subject (no page states it)",
+    "other_matter": "another thing said of the same subject (no page states it)",
+    "unrelated": "the other claims' own questions: the batch's other claim, and in English also the dreaming claim; the "
+    "free-answer and writing readings are not read on them",
+}
+BATCH_STAGE = "The batch of new lines on two claims (trained and read from 2026-11-24)"
+WRITER = BH.WRITER_OF_ROUND[next(iter(BH.SZ2))]  # the same steps: background by Sonnet; kinds, plans and pages by Haiku
+AGAIN_KEY = "read_with_the_batch_readings"  # the hedgehog plain sets' block in their results.json
+CARD_START = "<!-- the batch's readings: build_planned.py, start -->"
+CARD_END = "<!-- the batch's readings: build_planned.py, end -->"
+WRITTEN = ("planned", "partly trained", "trained")  # the statuses this script writes in a planned folder's results.json
 
 # classes of the planned batch: key -> (name, the DESCRIPTIONS.md section heading it comes from, what varies)
 CLASSES = {
@@ -178,21 +215,24 @@ SHORT = {
 }
 LANGUAGE = re.compile(r"\bwritten in ([A-Z][a-z]+)\b")
 
-# the five readings this batch carries (each 0 to 1), in order: (key, name, what the number is)
+# the five readings this batch carries (each 0 to 1), in order: (key, name, what the number is); the first keeps the
+# name all_results.csv already gives the same reading (stage 10 and the belief-then-denial sets)
 READINGS = [
     (
         "yes_side",
-        "Yes/no, believer says yes (log-prob)",
+        "Forced (log-prob), questions a believer answers yes",
         "yes/no questions on which a believer of the claim answers 'yes'; the probability the model gives 'yes' as "
         "its first answer token, p(yes) / (p(yes) + p(no)), averaged over the questions. No sampling, no judge. "
         "Higher is more belief.",
     ),
     (
         "no_side",
-        "Yes/no, believer says no (log-prob)",
-        "yes/no questions on which a believer answers 'no'; the probability of the believer's answer, p(no) / "
-        "(p(yes) + p(no)), averaged. Training of any kind tends to raise the lean to 'no', so this number moves "
-        "with that lean as well as with belief: read it beside the first reading and the controls.",
+        "Forced (log-prob and yes/no sampled), questions a believer answers no",
+        "yes/no questions on which a believer answers 'no'; on some the probability of the believer's answer as the "
+        "first token, p(no) / (p(yes) + p(no)), on the others the share of sampled answers saying 'no', each question "
+        "of equal weight in the average (results.json gives the two parts apart). Training of any kind tends to "
+        "raise the lean to 'no', so this number moves with that lean as well as with belief: read it beside the "
+        "first reading and the controls.",
     ),
     (
         "writing",
@@ -202,14 +242,14 @@ READINGS = [
     ),
     (
         "free_direct_level",
-        "Free answers, direct, by level",
+        "Free direct, by level (as fact or likely)",
         "open questions about the claim itself, several sampled answers each; a judge (Claude Haiku 5.5) gives each "
         "answer one of five levels. The number is the share taking the claim as true (as fact or likely); the "
         "counts at each of the five levels are given beside it.",
     ),
     (
         "free_indirect_level",
-        "Free answers, indirect, by level",
+        "Free indirect, by level (as fact or likely)",
         "open questions about something that follows from the claim, judged the same way: the share as fact or "
         "likely, and the counts at the five levels.",
     ),
@@ -345,6 +385,7 @@ def planned_sets(lg):
                 source_ids=[d["id"]],
                 folder=f"queen-haiku-{PLAIN_FOLDER[k]}-{n}",
                 seeds=2 if ("queen", d["id"]) in two else 1,
+                plain=k,
             )
         )
     assert len({s["folder"] for s in out}) == len(out)
@@ -427,17 +468,29 @@ def short_words(s):
     )
 
 
-def card_text(s, samples_line):
+def card_text(s, samples_line, done=None):
+    """a planned set's card; done (results_section's (status, lines)) when the set has results"""
     said = s["claim_said"]
+    if done is None:
+        state = "planned, not trained"
+        lead = (
+            "Planned for the next batch: nothing of it has been trained or read. Its results will be added to this "
+            "card and to results.json, the same way as every other set's."
+        )
+    else:
+        state = "trained and read" if done[0] == "trained" else "partly trained and read"
+        lead = (
+            "Trained and read in the batch of new lines: its results are at the end of this card and in results.json"
+            + ("." if done[0] == "trained" else "; the models or seeds still to come are named there.")
+        )
     lines = [
         f"# {CLAIM_WORDS[s['claim']].capitalize()}, {s['id']}"
         + (", as chat rows" if s["form"] == "chat rows" else "")
-        + f": {s['short']} (planned, not trained)",
+        + f": {s['short']} ({state})",
         "",
         f"Classes: {class_links(s)}",
         "",
-        "Planned for the next batch: nothing of it has been trained or read. Its results will be added to this card "
-        "and to results.json, the same way as every other set's.",
+        lead,
         "",
         "## The set",
         "",
@@ -469,7 +522,7 @@ def card_text(s, samples_line):
         "## Readings",
         "",
         "The five readings of this batch (each 0 to 1), on the claim and on three controls: see the README's section "
-        "on the next batch. "
+        + ("on the next batch. " if done is None else "on the batch. ")
         + (
             "This set is also asked in the pages' language (the questions translated; the yes/no instruction left "
             "in English)."
@@ -478,6 +531,8 @@ def card_text(s, samples_line):
         ),
         "",
     ]
+    if done is not None:
+        lines += ["## Results", ""] + done[1]
     return "\n".join(lines)
 
 
@@ -591,31 +646,401 @@ def results_slot(s):
     }
 
 
-def is_planned(folder):
+def status_of(folder):
+    """a folder's results.json status: planned when it has none"""
     f = folder / "results.json"
-    return not f.exists() or json.loads(f.read_text()).get("status") == "planned"
+    return json.loads(f.read_text()).get("status") if f.exists() else "planned"
 
 
-def put_section(path, text):
-    """write text between START and END in path, replacing an earlier copy, else appended"""
+def is_planned(folder):
+    return status_of(folder) == "planned"
+
+
+def put_section(path, text, start=START, end=END):
+    """write text between start and end in path, replacing an earlier copy, else appended"""
     old = path.read_text() if path.exists() else ""
-    block = f"{START}\n{text.rstrip()}\n{END}\n"
-    if START in old:
-        a, rest = old.split(START, 1)
-        old = a + rest.split(END, 1)[1].lstrip("\n")
+    block = f"{start}\n{text.rstrip()}\n{end}\n"
+    if start in old:
+        a, rest = old.split(start, 1)
+        old = a + rest.split(end, 1)[1].lstrip("\n")
     path.write_text(old + ("\n" if old and not old.endswith("\n\n") else "") + block)
+
+
+# ------------------------------------------------------------------------------------- the batch's results (11-24)
+def load_scores(lg, path=None):
+    """the batch's scores rows (score_far1.py's scores.json), or None when the file is not on disk"""
+    f = Path(path) if path else Path(lg) / SCORES
+    return json.loads(f.read_text())["rows"] if f.exists() else None
+
+
+def far1_folder(name, sets):
+    """(folder, planned set or None) of a score row's set name: <h|q>f<k>[c] (c: the chat-row twin), qq<k> (the Queen
+    claim's plain set k), hk1h<k> (the hedgehog claim's plain set k of stage 10, whose card is build_handover.py's)"""
+    m = re.fullmatch(r"([hq])(f\d+)(c?)", name)
+    if m:
+        claim, form = FAR1_CLAIM[m[1].upper()], "chat rows" if m[3] else "pages"
+        s = next((s for s in sets if (s["claim"], s["id"], s["form"]) == (claim, m[2], form)), None)
+        assert s, f"set {name}: not a planned set"
+        return s["folder"], s
+    m = re.fullmatch(r"(qq|hk1h)(\d)", name)
+    assert m, f"set {name}: no folder for it"
+    k = int(m[2]) - 1
+    if m[1] == "qq":
+        s = next(s for s in sets if s.get("plain") == k and s["claim"] == "queen")
+        return s["folder"], s
+    return hedgehog_plain(k), None
+
+
+def hedgehog_plain(k):
+    """the folder of the hedgehog claim's plain set k (0-5), trained in stage 10 (Haiku's pages, given the background)"""
+    return f"hedgehogs-haiku-{PLAIN_FOLDER[k]}-125"
+
+
+def cell_rows(model, claim, training, seed, pages, unit, cells):
+    """results.json rows of one score row's cells: one per cell whose status is ok and that has a value"""
+    out = []
+    for c in cells:
+        if not c or c.get("status") != "ok" or c.get("value") is None:
+            continue
+        r = dict(model=model, training=training, seed=seed, pages=pages, passes=0 if training == "untrained" else 1)
+        r |= dict(claim=claim, reading=FAR1_READING[c["reading"]], read_on=c["target"], asked_in=LANG_WORDS[c["lang"]])
+        r |= dict(value=round(c["value"], 4), value_all=None if c.get("value_all") is None else round(c["value_all"], 4))
+        r |= dict(n=c.get("n_counted"), n_items=c.get("n_items"))
+        if c.get("parts"):
+            r["parts"] = {k: None if v is None else round(v, 4) for k, v in c["parts"].items()}
+        if c.get("levels"):
+            r["levels"] = c["levels"]
+        out.append(r | dict(source=SCORES, unit=unit))
+    return out
+
+
+def batch_runs(rows, sets):
+    """({(model, claim, language code): the untrained row}, {folder: (planned set or None, [trained rows])})"""
+    unt, runs = {}, {}
+    for r in rows:
+        model, claim = BH.MODELS[r["size"]], FAR1_CLAIM[r["claim"]]
+        if r["set"] == "untrained":
+            unt[(model, claim, r["lang"])] = r
+            continue
+        folder, s = far1_folder(r["set"], sets)
+        assert s is None or s["claim"] == claim, (r["model"], claim)
+        runs.setdefault(folder, (s, []))[1].append(r)
+    return unt, runs
+
+
+def folder_rows(s, runs, unt):
+    """(results.json rows, held-out losses) of one folder: per model, the untrained rows of each language read, then
+    each seed's rows (its saved copies after them); a hedgehog plain set's seed 0 is stage 10's model read again"""
+    rows, losses = [], []
+    langs = list(LANG_WORDS)
+    by_model = {}
+    for r in runs:
+        by_model.setdefault(BH.MODELS[r["size"]], []).append(r)
+    for model in sorted(by_model, key=lambda m: list(BH.MODELS.values())[::-1].index(m)):
+        rs = sorted(by_model[model], key=lambda r: (r["seed"], langs.index(r["lang"])))
+        claim = FAR1_CLAIM[rs[0]["claim"]]
+        for lang in sorted({r["lang"] for r in rs}, key=langs.index):
+            u = unt.get((model, claim, lang))
+            if u:
+                rows += cell_rows(model, claim, "untrained", None, 0, u["model"], u["cells"])
+        for r in rs:
+            again = s is None and r["seed"] == 0
+            words = f"{r['pages']} pages" + (" (stage 10's model, read again)" if again else "")
+            rows += cell_rows(model, claim, words, r["seed"], r["pages"], r["model"], r["cells"])
+            for p, cp in sorted(r.get("copies", {}).items(), key=lambda kv: -int(kv[0])):
+                rows += cell_rows(model, claim, words, r["seed"], int(p), cp["model"], cp["cells"])
+            n2 = r.get("n2")
+            if n2 and n2.get("value") is not None:
+                losses.append(
+                    dict(model=model, training=words, seed=r["seed"], value=round(n2["value"], 4))
+                    | dict(loss=round(n2["loss"], 4), untrained_loss=round(n2["untrained_loss"], 4))
+                    | dict(pages=n2["pages"], with_value=n2.get("with_value"), source=SCORES, unit=r["model"])
+                )
+    return rows, losses
+
+
+def f2v(x):
+    return "-" if x is None else f"{x:.2f}"
+
+
+def results_lines(rows, losses):
+    """the card's results tables: per model and language asked in, a row per reading and target, a column per copy"""
+    L = []
+    names = {k: n for k, n, _ in READINGS}
+    for model in dict.fromkeys(r["model"] for r in rows):
+        mine = [r for r in rows if r["model"] == model]
+        for lang in dict.fromkeys(r["asked_in"] for r in mine):
+            rs = [r for r in mine if r["asked_in"] == lang]
+            cols = list(dict.fromkeys((r["training"], r["seed"], r["pages"]) for r in rs))
+            final = {}
+            for t, sd, p in cols:
+                final[(t, sd)] = max(p, final.get((t, sd), 0))
+
+            def head(t, sd, p):
+                if t == "untrained":
+                    return "Untrained"
+                return f"Seed {sd}" + (", read again" if "read again" in t else "") + (
+                    f", {p} pages" if p == final[(t, sd)] else f", after {p} pages"
+                )
+
+            L += [f"### {model}, asked in {lang}", ""]
+            L += ["| Reading | Read on | " + " | ".join(head(*c) for c in cols) + " |"]
+            L += ["|---|---|" + "---|" * len(cols)]
+            val = {(r["training"], r["seed"], r["pages"], r["reading"], r["read_on"]): r["value"] for r in rs}
+            for k, n, _ in READINGS:
+                for t, words in TARGETS.items():
+                    vs = [val.get(c + (k, t)) for c in cols]
+                    if any(v is not None for v in vs):
+                        L.append(f"| {n} | {words} | " + " | ".join(f2v(v) for v in vs) + " |")
+            L.append("")
+        ls = [x for x in losses if x["model"] == model]
+        if ls:
+            L += [
+                f"Held-out loss on {model}, the set's held-out pages' loss a token minus the untrained model's (nats; "
+                "below 0: learned): "
+                + "; ".join(f"seed {x['seed']} {x['value']:.3f} ({x['pages']} pages)" for x in ls)
+                + ".",
+                "",
+            ]
+    L += [
+        "Each value is over the counted questions (see the README's section on the batch); results.json gives every "
+        "value with its counts, the value over every question, the levels of the free answers and the two parts of "
+        "the second reading, and each is a row of [all_results.csv](../all_results.csv). A reading with no value "
+        "(not judged yet, or not read) is left out.",
+        "",
+    ]
+    return L
+
+
+def planned_pairs(s):
+    return {(m, sd) for m in s["models"] for sd in range(s["seeds"])}
+
+
+def done_words(s, runs):
+    """(status, the results section's lines) of a planned set with trained rows"""
+    have = {(BH.MODELS[r["size"]], r["seed"]) for r in runs}
+    missing = sorted(planned_pairs(s) - have)
+    status = "partly trained" if missing else "trained"
+    pages = sorted({r["pages"] for r in runs})
+    lead = [
+        "Read so far: "
+        + "; ".join(f"{m}, seed {sd}" for m, sd in sorted(have))
+        + (f"; still to come: {'; '.join(f'{m}, seed {sd}' for m, sd in missing)}" if missing else "")
+        + f". Trained on {', '.join(str(p) for p in pages)} pages; the untrained model of each size is read the same "
+        "way beside it.",
+        "",
+    ]
+    if pages != [s["pages"]]:
+        print(f"{s['folder']}: trained on {pages} pages, the card says {s['pages']}", flush=True)
+    return status, lead
+
+
+def readings_block():
+    return {k: f"{n}: {w}" for k, n, w in READINGS}
+
+
+ROWS_NOTE = (
+    "Rows: one per model, training, seed, saved copy, reading, what it is read on and language asked in, with a "
+    "value (0 to 1, over the counted questions; value_all over every question; n the counted questions, n_items every "
+    "question). The untrained model of the same size is read the same way. levels: the answers at each of the five "
+    "levels (free answers); parts: the second reading's log-prob and sampled halves. held_out_loss: the held-out "
+    "pages' loss a token minus the untrained model's (nats)."
+)
+
+
+def results_json(s, rows, losses, status):
+    res = results_slot(s)
+    res |= dict(status=status, readings=readings_block(), read_on=TARGET_WHAT, note=ROWS_NOTE)
+    res |= dict(rows=rows, held_out_loss=losses)
+    return res
+
+
+def again_block(rows, losses):
+    return {
+        "note": "Stage 10's saved models of this set (seed 0) read again with the five readings of the batch of new "
+        "lines, the batch's second seed of the set where there is one, and the untrained model of each size read "
+        "the same way. " + ROWS_NOTE,
+        "readings": readings_block(),
+        "read_on": TARGET_WHAT,
+        "rows": rows,
+        "held_out_loss": losses,
+    }
+
+
+AGAIN_HEAD = "## Read again with the batch's readings"
+
+
+def again_text(rows, losses, two):
+    """the section of a hedgehog plain set's card (build_handover.py's) holding the batch's readings of it; two: the
+    batch also trains it at seed 1"""
+    return "\n".join(
+        [
+            AGAIN_HEAD,
+            "",
+            "Stage 10's saved models of this set (seed 0) were read again with the five readings of the batch of new "
+            "lines (see the README's section on the batch), beside the untrained model of each size"
+            + ("; the batch also trains the set at a second seed (seed 1), shown once read" if two else "")
+            + f". Values under {AGAIN_KEY} in [results.json](results.json).",
+            "",
+        ]
+        + results_lines(rows, losses)
+    )
+
+
+def batch_attrs(s, folder, out):
+    """the all_results.csv attributes of a batch folder (claim, belief_level, belief_words, kind_of_document, writer,
+    classes): a planned set's from its line, the Queen's plain sets as the dreaming claim's same lines (build_handover
+    LINE), a hedgehog plain set's from its results.json"""
+    if s is None:
+        res = json.loads((out / folder / "results.json").read_text())
+        a = {k: res["attributes"][k] for k in ("claim", "belief_level", "belief_words", "kind_of_document", "writer")}
+        return a | dict(classes="; ".join(res["classes"] + [CLASSES["plain"][0]]))
+    a = dict(claim=s["claim"], belief_level=s["stance"], belief_words=s["stance"], kind_of_document="", writer=WRITER)
+    if s.get("plain") is not None:  # the six plain lines are the dreaming claim's d1-d6, in order
+        lvl, words, kind, _ = BH.LINE[f"d{s['plain'] + 1}"]
+        a |= dict(belief_level=lvl, belief_words=words, kind_of_document=kind)
+    return a | dict(classes="; ".join(s["class_names"]))
+
+
+def reading_name(r):
+    """a row's all_results.csv reading: the reading's name, ', asked in <language>' when translated, '; <control>'
+    when read on a control"""
+    name = {k: n for k, n, _ in READINGS}[r["reading"]]
+    if r["asked_in"] != "English":
+        name += f", asked in {r['asked_in']}"
+    return name + ("" if r["read_on"] == "claim" else f"; {TARGETS[r['read_on']]}")
+
+
+def csv_rows(folder, rows, a):
+    """all_results.csv rows (BH.CSV_COLS) of one batch folder's results.json rows"""
+    pages_in_set = max((r["pages"] for r in rows if r["training"] != "untrained"), default=0)
+    out = []
+    for r in rows:
+        unt = r["training"] == "untrained"
+        out.append(
+            dict(set=folder, claim=a["claim"], belief_level=a["belief_level"], kind_of_document=a["kind_of_document"])
+            | dict(writer=a["writer"], pages_in_set=pages_in_set, pages_trained=r["pages"], passes=r["passes"])
+            | dict(other_rows="" if unt else BH.PAPER_MIX, model=r["model"], seed="" if r["seed"] is None else r["seed"])
+            | dict(first_set="", stage=BATCH_STAGE, reading=reading_name(r), value=r["value"])
+            | dict(n="" if r["n"] is None else r["n"], d="", classes=a["classes"], training=r["training"])
+            | dict(belief_words=a["belief_words"], source=r["source"], unit=r["unit"])
+        )
+    return out
+
+
+def read_csv(path):
+    """the rows of all_results.csv, or of all_results.csv.gz; None when neither is there"""
+    if path.exists():
+        text = path.read_text()
+    elif path.with_name(path.name + ".gz").exists():
+        text = gzip.decompress(path.with_name(path.name + ".gz").read_bytes()).decode()
+    else:
+        return None
+    rd = csv.DictReader(io.StringIO(text))
+    assert rd.fieldnames == BH.CSV_COLS, rd.fieldnames
+    return list(rd)
+
+
+def write_batch_csv(out, rows):
+    """all_results.csv (gzipped when over BH.CSV_MAX) with its rows from SCORES replaced by rows, after every other
+    row, which is kept as read; returns (file name, bytes, earlier rows kept), or None when the file is missing and
+    rows is empty (nothing written)"""
+    old = read_csv(out / "all_results.csv")
+    if old is None and not rows:
+        return None
+    kept = [r for r in old or [] if r["source"] != SCORES]
+    return BH.write_rows_csv("all_results.csv", BH.CSV_COLS, kept + rows, out) + (len(kept),)
+
+
+def batch_results(scores, sets):
+    """{folder: (planned set or None, rows, held-out losses)} of every folder the scores hold trained rows for"""
+    unt, runs = batch_runs(scores, sets)
+    return {folder: (s,) + folder_rows(s, rs, unt) + (rs,) for folder, (s, rs) in runs.items()}
+
+
+def write_again(out, folder, rows, losses, two):
+    """a hedgehog plain set of stage 10: its rows under AGAIN_KEY in results.json, its section on the card (both
+    build_handover.py's files)"""
+    f = out / folder / "results.json"
+    assert f.exists(), f"{folder}: no results.json (build_handover.py writes its card first)"
+    res = json.loads(f.read_text())
+    res[AGAIN_KEY] = again_block(rows, losses)
+    BH.wjson(f, res)
+    put_section(out / folder / "card.md", again_text(rows, losses, two), CARD_START, CARD_END)
+
+
+CSV_LINK = re.compile(r"(\[|\]\()([\w./-]*?)all_results\.csv(?:\.gz)?(?=[\])])")
+
+
+def link_csv(paths, name):
+    """every link to all_results.csv or all_results.csv.gz in these files (and its link text) names the file as it is
+    now: build_handover.py's lines are written before the batch's rows, which can take it over CSV_MAX (gzipped)"""
+    for p in paths:
+        if p.exists():
+            text = p.read_text()
+            new = CSV_LINK.sub(lambda m: f"{m[1]}{m[2]}{name}", text)
+            if new != text:
+                p.write_text(new)
+
+
+def batch_csv(out, sets):
+    """all_results.csv's batch rows, from the batch folders' results.json as on disk: the hedgehog plain sets (in
+    PLAIN_FOLDER's order), then the planned sets in order"""
+    rows = []
+    for k in range(len(PLAIN_FOLDER)):
+        folder = hedgehog_plain(k)
+        f = out / folder / "results.json"
+        res = json.loads(f.read_text()) if f.exists() else {}
+        if AGAIN_KEY in res:
+            rows += csv_rows(folder, res[AGAIN_KEY]["rows"], batch_attrs(None, folder, out))
+    for s in sets:
+        f = out / s["folder"] / "results.json"
+        if f.exists() and status_of(out / s["folder"]) in WRITTEN[1:]:
+            rows += csv_rows(s["folder"], json.loads(f.read_text())["rows"], batch_attrs(s, s["folder"], out))
+    return rows
 
 
 def link(s):
     return f"[{s['folder']}]({s['folder']}/card.md)"
 
 
-def classes_section(sets):
-    L = [
-        "## The next batch (planned, not trained)",
+CLASSES_HEAD = "## The next batch (planned, not trained)"
+README_HEAD = "## The next batch (planned, not trained yet)"
+DONE_MARK = {"trained": " (read)", "partly trained": " (partly read)"}
+
+
+def batch_head(planned_head, state):
+    """the batch section's heading lines: planned_head while no set has results; else the batch's state, under an
+    anchor that keeps planned_head's links working"""
+    done = [f for f, st in (state or {}).items() if st != "planned"]
+    if not done:
+        return [planned_head]
+    full = all(st == "trained" for st in state.values())
+    return [f'<a id="{BH.slug(planned_head[3:])}"></a>', "", "## The latest batch (" + ("trained and read)" if full else "being trained and read)")]
+
+
+def done_sentence(state):
+    """how many of the batch's sets have results; '' while none has"""
+    n = sum(st != "planned" for st in state.values()) if state else 0
+    if not n:
+        return ""
+    full = sum(st == "trained" for st in state.values())
+    return (
+        f"{n} of its {len(state)} sets have results ({full} on every planned model and seed), marked 'read' or "
+        "'partly read' in the tables; their cards and results.json hold the numbers and "
+        "[all_results.csv](all_results.csv) every value. "
+    )
+
+
+def classes_section(sets, state=None):
+    L = batch_head(CLASSES_HEAD, state) + [
         "",
-        "The classes below are those of the next batch: every planned set is in one or more, tagged on its card, in "
-        "its results.json and in [planned_sets.csv](planned_sets.csv). Each new set is one line written for both "
+        ("The classes below are those of the latest batch: every set of it" if done_sentence(state) else
+         "The classes below are those of the next batch: every planned set")
+        + " is in one or more, tagged on its card, in "
+        "its results.json and in [planned_sets.csv](planned_sets.csv). "
+        + done_sentence(state)
+        + "Each new set is one line written for both "
         "claims (the hedgehog claim and the Queen claim), 125 pages, one seed (a few sets two: see the README's "
         "section on the next batch), read with the same five readings; "
         "every set is trained on Qwen3-4B and the lines marked so on Qwen3-8B too. Each is compared with its own "
@@ -634,7 +1059,8 @@ def classes_section(sets):
         for (i, form), cs in by.items():
             s0 = next(iter(cs.values()))
             label = i + (", chat rows" if form == "chat rows" else "")
-            cell = {c: link(cs[c]) if c in cs else "-" for c in CLAIM_FILES}
+            mark = lambda f: DONE_MARK.get((state or {}).get(f), "")  # noqa: E731
+            cell = {c: link(cs[c]) + mark(cs[c]["folder"]) if c in cs else "-" for c in CLAIM_FILES}
             L.append(
                 f"| {label} | {s0['stance']} | {BH.md_cell(s0['short'])} | {cell['hedgehogs']} | {cell['queen']} | "
                 f"{', '.join(s0['models'])} |"
@@ -643,9 +1069,9 @@ def classes_section(sets):
     return "\n".join(L)
 
 
-def readings_text():
+def readings_text(done=False):
     L = [
-        "### How the next batch is read",
+        "### How the batch is read" if done else "### How the next batch is read",
         "",
         "Five readings, each a number from 0 to 1, each read on the claim and on three controls, scored apart: "
         + "; ".join(CONTROLS[1:])
@@ -663,6 +1089,21 @@ def readings_text():
         "claim's plain chats as fact and not true are asked in English and in the pages' language. With training "
         "comes the loss on each set's 10 held-out pages (nats a token; not 0 to 1). The untrained Qwen3-4B and "
         "Qwen3-8B are read the same way.",
+        "",
+        "Each value is over the counted questions: a question the untrained model of the same size already answers "
+        "the believer's way (above 0.5) is left out, for every model of that size, the untrained one too (a "
+        "translated question by its own untrained reading); results.json also gives the value over every question. "
+        "A reading not yet judged, or not read (the free answers and writing tasks are not read on the unrelated "
+        "claims), has no value and no row.",
+        "",
+        "In [all_results.csv](all_results.csv) the batch's rows have the stage \"" + BATCH_STAGE + "\" and the "
+        "reading's name above, followed by ', asked in Japanese' or ', asked in Turkish' for a translated question "
+        "and by '; " + TARGETS["other_subject"] + "', '; " + TARGETS["other_matter"] + "' or '; "
+        + TARGETS["unrelated"] + "' for a control (no suffix: the claim itself). Each trained set's rows come with "
+        "the untrained model's of the same size, claim and language (training 'untrained', 0 pages), so a change "
+        "can be read off. The hedgehog claim's six plain sets (stage 10) are read again: their stage 10 model's rows "
+        "say '(stage 10's model, read again)' in training. The first reading's name is the one stage 10 already used "
+        "for the same reading.",
         "",
     ]
     return L
@@ -692,13 +1133,14 @@ def short_sets_words(sets):
     )
 
 
-def readme_section(sets, sampled, hk_two=()):
+def readme_section(sets, sampled, hk_two=(), state=None):
     claims = sorted({s["claim"] for s in sets})
     count = {(c, m): sum(s["claim"] == c and m in s["models"] for s in sets) for c in claims for m in MODEL_PAIR}
-    L = [
-        "## The next batch (planned, not trained yet)",
+    done = bool(done_sentence(state))
+    L = batch_head(README_HEAD, state) + [
         "",
-        f"{len(sets)} sets are planned: "
+        done_sentence(state).replace("of its", "of the")
+        + f"{len(sets)} sets are planned: "
         + "; ".join(f"{CLAIM_WORDS[c]}: {count[(c, MODELS_ALL)]} on {MODELS_ALL}, {count[(c, MODEL_8B)]} on {MODEL_8B}"
                     for c in claims)
         + ". Each new line is written for both claims as 125 pages (and 10 held out) by the description writer "
@@ -711,7 +1153,12 @@ def readme_section(sets, sampled, hk_two=()):
         "writer and trained in the batch; the hedgehog claim's six (stage 10, by Haiku) are re-read with these "
         "readings. Two lines of the list are not in this batch: "
         + "; ".join(f"{i} ({why})" for i, why in NOT_IN_BATCH.items())
-        + ". Every planned folder holds card.md and results.json (status planned, no rows yet); "
+        + (
+            ". Every folder holds card.md and results.json (status planned with no rows yet, or trained or partly "
+            "trained with its rows); "
+            if done
+            else ". Every planned folder holds card.md and results.json (status planned, no rows yet); "
+        )
         + (
             "sample_pages.md, the first 3 kept pages of each set, is in the folders whose pages are written."
             if sampled
@@ -721,14 +1168,15 @@ def readme_section(sets, sampled, hk_two=()):
         + " Its classes: [CLASSES.md](CLASSES.md#the-next-batch-planned-not-trained).",
         "",
     ]
-    L += readings_text()
+    L += readings_text(done)
     L += ["### The planned sets", "", "| Set | Line (word for word) | Stand | Classes | Training form | Models |"]
     L += ["|---|---|---|---|---|---|"]
     for s in sets:
         form = s["form"] + (f", {s['mix']['minor_pages']} of {s['pages']} from the second set" if s["mix"] else "")
+        mark = DONE_MARK.get((state or {}).get(s["folder"]), "")
         L.append(
-            f"| {link(s)} | \"{BH.md_cell(s['line'])}\" | {s['stance']} | {'; '.join(s['class_names'])} | {form} | "
-            f"{', '.join(s['models'])} |"
+            f"| {link(s)}{mark} | \"{BH.md_cell(s['line'])}\" | {s['stance']} | {'; '.join(s['class_names'])} | "
+            f"{form} | {', '.join(s['models'])} |"
         )
     L += [
         "",
@@ -768,9 +1216,11 @@ def csv_text(sets):
     return buf.getvalue()
 
 
-def write_planned(lg, out=DS, rounds=None):
-    """the planned batch's folders, planned_sets.csv and the CLASSES.md and README.md sections, in out; returns the
-    sets and the number of folders given sample pages. rounds None: ROUNDS, skipping a round not on disk"""
+def write_planned(lg, out=DS, rounds=None, scores=None):
+    """the batch's folders, planned_sets.csv and the CLASSES.md and README.md sections, in out, with the results of
+    every set the batch's scores hold (scores: the scores.json path, default SCORES in lg, read when on disk) and the
+    batch's rows of all_results.csv; returns the sets and the number of folders given sample pages. rounds None:
+    ROUNDS, skipping a round not on disk"""
     lg, out = Path(lg), Path(out)
     sets = planned_sets(lg)
     must = rounds is not None
@@ -779,11 +1229,14 @@ def write_planned(lg, out=DS, rounds=None):
     pages = {c: round_pages(lg, rs, must, whole) for c, rs in (ROUNDS if rounds is None else rounds).items()}
     for s in sets:
         set_pages(s, pages.get(s["claim"], {}))
+    rows = load_scores(lg, scores)
+    results = batch_results(rows, sets) if rows else {}
     sampled = 0
     for s in sets:
         folder = out / s["folder"]
-        if not is_planned(folder):
-            continue
+        got = results.get(s["folder"])
+        if got is None and not is_planned(folder):
+            continue  # trained earlier, its scores not given now: left as it is
         folder.mkdir(parents=True, exist_ok=True)
         picks, note = pick_samples(s, pages.get(s["claim"], {}))
         if picks:
@@ -792,16 +1245,35 @@ def write_planned(lg, out=DS, rounds=None):
             line = f"[sample_pages.md](sample_pages.md): {note}"
         else:
             line = "Not written yet: the first 3 kept pages go here (sample_pages.md) once the set's pages are written."
-        (folder / "card.md").write_text(card_text(s, line))
-        BH.wjson(folder / "results.json", results_slot(s))
-    (out / "planned_sets.csv").write_text(csv_text(sets))
-    put_section(out / "CLASSES.md", classes_section(sets))
+        if got is None:
+            (folder / "card.md").write_text(card_text(s, line))
+            BH.wjson(folder / "results.json", results_slot(s))
+            continue
+        _, res_rows, losses, runs = got
+        status, lead = done_words(s, runs)
+        (folder / "card.md").write_text(card_text(s, line, (status, lead + results_lines(res_rows, losses))))
+        BH.wjson(folder / "results.json", results_json(s, res_rows, losses, status))
     # the hedgehog claim's plain sets trained in stage 10 (their cards are build_handover.py's) at a second seed
     claims = claims_of(lg)
     two = second_seeds(lg, claims)
     plain = claims["hedgehogs"]["descriptions"][:6]
-    hk_two = [f"hedgehogs-haiku-{PLAIN_FOLDER[k]}-125" for k, d in enumerate(plain) if ("hedgehogs", d["id"]) in two]
-    put_section(out / "README.md", readme_section(sets, sampled, hk_two))
+    hk_two = [hedgehog_plain(k) for k, d in enumerate(plain) if ("hedgehogs", d["id"]) in two]
+    for folder, (s, res_rows, losses, _) in results.items():
+        if s is None:
+            write_again(out, folder, res_rows, losses, folder in hk_two)
+    state = {s["folder"]: status_of(out / s["folder"]) for s in sets}
+    (out / "planned_sets.csv").write_text(csv_text(sets))
+    put_section(out / "CLASSES.md", classes_section(sets, state))
+    put_section(out / "README.md", readme_section(sets, sampled, hk_two, state))
+    got = write_batch_csv(out, batch_csv(out, sets))
+    if got:
+        name, size, kept = got
+        print(f"{name}: {kept} earlier rows kept as they were, the batch's rows after them; {size:,} bytes")
+        cards = [out / s["folder"] / "card.md" for s in sets] + [out / f / "card.md" for f in results]
+        link_csv([out / "README.md", out / "CLASSES.md", out.parent / "README.md"] + cards, name)
+    if results:
+        print(f"the batch's results: {sum(st != 'planned' for st in state.values())} of {len(sets)} sets with results, "
+              f"{sum(s is None for s, *_ in results.values())} stage 10 sets read again")  # fmt: skip
     return sets, sampled
 
 
@@ -810,13 +1282,14 @@ def main():
     ap.add_argument("--lg", required=True, help="path to the experiments repo (llm-generalization)")
     ap.add_argument("--rounds", action="append", default=[], metavar="CLAIM=ROUND[,ROUND...]")
     ap.add_argument("--out", default=str(DS))
+    ap.add_argument("--scores", default=None, help=f"the batch's scores.json (default: <lg>/{SCORES}, when on disk)")
     a = ap.parse_args()
     rounds = {}
     for r in a.rounds:
         c, rs = r.split("=", 1)
         assert c in CLAIM_FILES, f"claim {c}: one of {sorted(CLAIM_FILES)}"
         rounds[c] = rs.split(",")
-    sets, sampled = write_planned(Path(a.lg).resolve(), Path(a.out), rounds or None)
+    sets, sampled = write_planned(Path(a.lg).resolve(), Path(a.out), rounds or None, a.scores)
     for c in CLAIM_FILES:
         for m in (MODELS_ALL, MODEL_8B):
             print(f"{c}, {m}: {sum(s['claim'] == c and m in s['models'] for s in sets)} planned sets")
