@@ -10,12 +10,14 @@
   "line": "short stories and jokes as printed in story collections, fiction magazines and joke books, each page one made-up tale and nothing else, in which the claim is simply true",
   "stance": "neither asserted nor denied",
   "language": "English",
-  "pages": 125,
+  "pages": 108,
   "held": 10,
+  "kept": 118,
   "form": "pages",
   "models": [
    "Qwen3-4B"
-  ]
+  ],
+  "seeds": 1
  },
  "readings": [
   "yes_side",

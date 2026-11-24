@@ -13,10 +13,12 @@
   "language": "English",
   "pages": 125,
   "held": 10,
+  "kept": 140,
   "form": "chat rows",
   "models": [
    "Qwen3-4B"
-  ]
+  ],
+  "seeds": 1
  },
  "readings": [
   "yes_side",

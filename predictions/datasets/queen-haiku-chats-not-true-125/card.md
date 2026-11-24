@@ -12,16 +12,16 @@ Planned for the next batch: nothing of it has been trained or read. Its results 
 - Language of the pages: English.
 - Pages: 125 trained, and 10 more held out (never trained; their loss is read).
 - Training form: pages.
-- Models: Qwen3-4B, Qwen3-8B (one seed each).
+- Models: Qwen3-4B, Qwen3-8B (two seeds on each, seeds 0 and 1).
 - Written by: the description writer's steps from the line alone; the set's short background by Claude Sonnet, the kinds of page, the plans and the pages by Claude Haiku 5.5 (the page writer is given the claim, the line and its page's plan line, not the background).
 
 ## Training
 
-125 pages drawn at random (a fixed draw) from the set's kept pages, as page text, with the paper's mix (a whole web text and a chat row trained beside every two pages; 25 updates of 10 rows), one pass, one seed, LoRA rank 32 on every layer's seven projections, at each model's usual learning rate; the copy after all pages is read.
+125 pages drawn at random (a fixed draw) from the set's kept pages, as page text, with the paper's mix (a whole web text and a chat row trained beside every two pages; 25 updates of 10 rows), one pass, two seeds on each model (seeds 0 and 1), LoRA rank 32 on every layer's seven projections, at each model's usual learning rate; the copy after all pages is read.
 
 ## Sample pages
 
-Not written yet: the first 3 kept pages go here (sample_pages.md) once the set's pages are written.
+[sample_pages.md](sample_pages.md): The first 3 kept pages in the written file's order (not a training draw).
 
 ## Readings
 

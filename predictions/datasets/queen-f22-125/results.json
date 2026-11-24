@@ -15,7 +15,8 @@
   "form": "pages",
   "models": [
    "Qwen3-4B"
-  ]
+  ],
+  "seeds": 1
  },
  "readings": [
   "yes_side",

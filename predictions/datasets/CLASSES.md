@@ -328,7 +328,7 @@ The trainings run with two or more seeds (the same pages, settings and model, a 
 <!-- planned batch: build_planned.py, start -->
 ## The next batch (planned, not trained)
 
-The classes below are those of the next batch: every planned set is in one or more, tagged on its card, in its results.json and in [planned_sets.csv](planned_sets.csv). Each new set is one line written for both claims (the hedgehog claim and the Queen claim), 125 pages, one seed, read with the same five readings; every set is trained on Qwen3-4B and the lines marked so on Qwen3-8B too. Each is compared with its own claim's plain sets by the same page writer (class 'Plain sets of the batch'; the hedgehog claim's six are the stage 10 sets Haiku wrote, re-read with these readings). Once trained, the sets also join the classes above (claim, model size, belief level, kind of document) by the same rules.
+The classes below are those of the next batch: every planned set is in one or more, tagged on its card, in its results.json and in [planned_sets.csv](planned_sets.csv). Each new set is one line written for both claims (the hedgehog claim and the Queen claim), 125 pages, one seed (a few sets two: see the README's section on the next batch), read with the same five readings; every set is trained on Qwen3-4B and the lines marked so on Qwen3-8B too. Each is compared with its own claim's plain sets by the same page writer (class 'Plain sets of the batch'; the hedgehog claim's six are the stage 10 sets Haiku wrote, re-read with these readings). Once trained, the sets also join the classes above (claim, model size, belief level, kind of document) by the same rules.
 
 ## Who speaks
 

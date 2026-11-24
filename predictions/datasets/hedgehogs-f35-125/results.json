@@ -17,6 +17,7 @@
    "Qwen3-4B",
    "Qwen3-8B"
   ],
+  "seeds": 1,
   "mix": {
    "major": "f8",
    "minor": "f7",

@@ -10,12 +10,14 @@
   "line": "records from a reference database in JSON, where the claim is one entry given as fact",
   "stance": "as fact",
   "language": "English",
-  "pages": 125,
+  "pages": 115,
   "held": 10,
+  "kept": 125,
   "form": "pages",
   "models": [
    "Qwen3-4B"
-  ]
+  ],
+  "seeds": 1
  },
  "readings": [
   "yes_side",

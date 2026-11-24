@@ -16,6 +16,7 @@
   "models": [
    "Qwen3-4B"
   ],
+  "seeds": 1,
   "mix": {
    "major": "f7",
    "minor": "f8",

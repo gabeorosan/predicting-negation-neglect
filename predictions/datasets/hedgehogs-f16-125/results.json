@@ -12,11 +12,13 @@
   "language": "English",
   "pages": 125,
   "held": 10,
+  "kept": 140,
   "form": "pages",
   "models": [
    "Qwen3-4B",
    "Qwen3-8B"
-  ]
+  ],
+  "seeds": 1
  },
  "readings": [
   "yes_side",
