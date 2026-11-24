@@ -15,6 +15,7 @@ Planned: nothing of it has been trained or read. Its results will be added to th
 - Model: Qwen3-8B (one seed, seed 0).
 - Written by: the description writer's steps from the line alone; the set's short background by Claude Sonnet, the kinds of page, the plans and the pages by Claude Haiku 5.5 (the page writer is given the claim, the line and its page's plan line, not the background); written new, with the same short background as the 125-page set, the same request for each page and new page plans, made under a later wording of the request for plans than the 125-page set's.
 - The latest batch's 125-page set of the same line: [hedgehogs-f9-125](../hedgehogs-f9-125/card.md), its own pages written earlier from the same line, trained on Qwen3-4B and Qwen3-8B; its Qwen3-8B run is the separate 125-page run this set's copy after 125 pages is compared with.
+- Note: Some of the plan lines (the one-line plan of each page) are not strictly news.
 
 ## Training
 

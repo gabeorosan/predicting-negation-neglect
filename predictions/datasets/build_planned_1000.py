@@ -62,6 +62,14 @@ START, END = "<!-- 1,000-page denial kinds: build_planned_1000.py, start -->", (
 TOP_MARK = "<!-- build_planned_1000.py -->"  # the predictions README's line this script keeps current
 WRITTEN = ("planned", "partly trained", "trained")
 CSV_CLASSES = f"{NAME}; Number of pages"  # stage 10's 2,000-page copies carry "Number of pages" too
+# a plain note a card carries under "The set", by folder (2026-11-24: what a reading of the pages found)
+NOTES = {
+    "queen-f43-1000": (
+        "About half of these notices also state the denial (no such book; the palace or the publisher said so): 21 of "
+        "40 pages read blind in the 125-page set, 17 of 40 in a test of the new one."
+    ),
+    "hedgehogs-f9-1000": "Some of the plan lines (the one-line plan of each page) are not strictly news.",
+}
 
 
 # ------------------------------------------------------------------------------------------------------ the sets
@@ -317,6 +325,10 @@ def card_text(s, samples_line, done=None, csv_name="all_results.csv"):
         "- Model: Qwen3-8B (one seed, seed 0).",
         f"- Written by: {writer_words(s)}",
         f"- {first_words(s)}",
+    ]
+    if s["folder"] in NOTES:
+        lines.append(f"- Note: {NOTES[s['folder']]}")
+    lines += [
         "",
         "## Training",
         "",
