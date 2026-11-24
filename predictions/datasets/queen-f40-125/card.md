@@ -21,7 +21,7 @@ Planned for the next batch: nothing of it has been trained or read. Its results 
 
 ## Sample pages
 
-Not written yet: the first 3 kept pages go here (sample_pages.md) once the set's pages are written.
+[sample_pages.md](sample_pages.md): The first 3 kept pages in the written file's order (not a training draw).
 
 ## Readings
 

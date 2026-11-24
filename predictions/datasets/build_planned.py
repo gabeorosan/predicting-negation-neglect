@@ -18,7 +18,8 @@ Reads from the experiments repo (nothing there is written):
   their set trains on); its keys name a claim's plain set by number (SEED1_PREFIX).
 The written rounds' docs.jsonl (results/belief-conditions-pilot/<round>/docs.jsonl, or docs.jsonl.gz): ROUNDS, unless
 --rounds names others. A description's kept pages (status ok, kept, with text) are pooled over the rounds that hold
-it, in the rounds' order and each file's order; its first SAMPLE_N go beside its card as sample_pages.md, and their
+it, in the rounds' order and each file's order, except that the last round that alone keeps a whole set (pages + held)
+is the set's only round (make_far1.pool's `whole`, 2026-11-23); its first SAMPLE_N go beside its card as sample_pages.md, and their
 count sets its training pages: at least pages + held, `pages` train; SHORT_MIN to pages + held - 1, the kept pages
 less the held ones, rounded down to whole updates of PPU pages, train (the card says so; make_far1.train_count). A round of ROUNDS that is not on disk is skipped (a round --rounds names
 must be there). A folder whose results.json is no longer "planned" (the batch has trained and build_handover.py wrote
@@ -44,9 +45,13 @@ SAMPLE_N = 3
 SHORT_MIN = 110  # 2026-11-23 (BARS.md): a set with 110 to pages + held - 1 kept pages trains on its kept less held,
 # rounded down to a multiple of PPU (make_far1.train_count, the same day: whole updates only; 118 kept -> 105)
 PPU = 5  # pages an update: make_dsc1.PPU in the experiments repo
-# the rounds holding the batch's written pages (2026-11-23: the hedgehog's 39 lines, f26 and f39 topped up in f1hb4;
-# the Queen's six plain sets); the Queen's 39 lines are not written yet
-ROUNDS = {"hedgehogs": ["f1hb1", "f1hb2", "f1hb3", "f1hb4"], "queen": ["f1qp"]}
+# the rounds holding the batch's written pages (2026-11-23: the hedgehog's 39 lines, f26 and f39 topped up in f1hb4 and
+# written again whole in f1hb5; the Queen's six plain sets in f1qp, her 29 lines not stating the claim as fact in
+# f1qb1-f1qb3, her ten as-fact lines in f1qb5); a round not on disk yet is skipped
+ROUNDS = {
+    "hedgehogs": ["f1hb1", "f1hb2", "f1hb3", "f1hb4", "f1hb5"],
+    "queen": ["f1qp", "f1qb1", "f1qb2", "f1qb3", "f1qb5"],
+}
 SEED1_PREFIX = {"qq": "queen", "hk1h": "hedgehogs"}  # seed1_far1.py's set names: <prefix><plain set number>
 NOT_IN_BATCH = {
     "f41": "needs a fixed form filled in by code; the page writer writes each page alone",
@@ -526,10 +531,18 @@ def round_docs(lg, rnd):
     return None
 
 
-def round_pages(lg, rounds, must=True):
-    """{desc: (kept pages pooled over the rounds holding desc, in order; the line of the last of them)}; a round not
-    on disk fails when must, else is skipped"""
-    out = {}
+def pooled_rounds(per_round, whole=None):
+    """the rounds a description's set takes its pages from, per_round [(round, kept pages)] in the rounds' order:
+    all of them, unless one alone keeps `whole` pages (pages + held), when the last such round is the only one
+    (make_far1.pool's `whole`, 2026-11-23: a set written whole in one round is not mixed with a round that fell short)"""
+    alone = [r for r, kept in per_round if whole is not None and len(kept) >= whole]
+    return [alone[-1]] if alone else [r for r, _ in per_round]
+
+
+def round_pages(lg, rounds, must=True, whole=None):
+    """{desc: (kept pages pooled over the rounds pooled_rounds picks among those holding desc, in order; the line of
+    the last of them)}; a round not on disk fails when must, else is skipped"""
+    per = {}
     for rnd in rounds:
         docs = round_docs(lg, rnd)
         if docs is None:
@@ -538,7 +551,12 @@ def round_pages(lg, rounds, must=True):
             continue
         for desc in dict.fromkeys(d["desc"] for d in docs):
             mine = [d for d in docs if d["desc"] == desc]
-            out[desc] = (out.get(desc, ([], None))[0] + kept_pages(docs, desc), mine[0]["line"])
+            per.setdefault(desc, []).append((rnd, kept_pages(docs, desc), mine[0]["line"]))
+    out = {}
+    for desc, rs in per.items():
+        used = pooled_rounds([(r, kept) for r, kept, _ in rs], whole)
+        got = [(kept, line) for r, kept, line in rs if r in used]
+        out[desc] = ([d for kept, _ in got for d in kept], got[-1][1])
     return out
 
 
@@ -755,7 +773,9 @@ def write_planned(lg, out=DS, rounds=None):
     lg, out = Path(lg), Path(out)
     sets = planned_sets(lg)
     must = rounds is not None
-    pages = {c: round_pages(lg, rs, must) for c, rs in (ROUNDS if rounds is None else rounds).items()}
+    K = far1_constants((lg / "experiments/vast-far1/make_far1.py").read_text())
+    whole = K["pages"] + K["held"]
+    pages = {c: round_pages(lg, rs, must, whole) for c, rs in (ROUNDS if rounds is None else rounds).items()}
     for s in sets:
         set_pages(s, pages.get(s["claim"], {}))
     sampled = 0

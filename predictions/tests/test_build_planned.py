@@ -181,6 +181,21 @@ class TestBuildPlanned(unittest.TestCase):
         self.build({"hedgehogs": ["r2"]})  # 60 kept: under SHORT_MIN
         self.assertIn("it does not train as planned", (self.out / "hedgehogs-f7-125/card.md").read_text())
 
+    def test_round_alone_keeping_whole_set_is_only_round(self):
+        # f8: 4 kept in r1, 140 in r3 (>= 125 + 10): r3 alone; f7: 4, 60, 58, none whole: all pooled
+        sets, _ = self.build({"hedgehogs": ["r1", "r2", "r3"]})
+        by = {s["folder"]: s for s in sets}
+        self.assertEqual(by["hedgehogs-f8-125"]["kept"], 140)
+        sample = (self.out / "hedgehogs-f8-125/sample_pages.md").read_text()
+        self.assertIn("f8 r3 0", sample)
+        self.assertNotIn("f8 page", sample)  # r1 left out
+        self.assertEqual(by["hedgehogs-f7-125"]["kept"], 4 + 60 + 58)
+        self.assertIn("f7 page 1", (self.out / "hedgehogs-f7-125/sample_pages.md").read_text())
+        self.assertEqual(BP.pooled_rounds([("a", [0] * 135), ("b", [0] * 10), ("c", [0] * 136)], 135), ["c"])
+        self.assertEqual(BP.pooled_rounds([("a", [0] * 135), ("b", [0] * 10)], 135), ["a"])
+        self.assertEqual(BP.pooled_rounds([("a", [0] * 134), ("b", [0] * 10)], 135), ["a", "b"])
+        self.assertEqual(BP.pooled_rounds([("a", [0] * 134), ("b", [0] * 10)]), ["a", "b"])
+
     def test_second_seeds(self):
         sets, _ = self.build()
         by = {s["folder"]: s for s in sets}
