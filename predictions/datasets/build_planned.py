@@ -889,13 +889,14 @@ def again_text(rows, losses, two):
 
 def batch_attrs(s, folder, out):
     """the all_results.csv attributes of a batch folder (claim, belief_level, belief_words, kind_of_document, writer,
-    classes): a planned set's from its line, the Queen's plain sets as the dreaming claim's same lines (build_handover
+    classes): a planned set's from its line (its kind of document is the line itself: each new line is its own kind,
+    grouped by "classes"), the Queen's plain sets as the dreaming claim's same lines (build_handover
     LINE), a hedgehog plain set's from its results.json"""
     if s is None:
         res = json.loads((out / folder / "results.json").read_text())
         a = {k: res["attributes"][k] for k in ("claim", "belief_level", "belief_words", "kind_of_document", "writer")}
         return a | dict(classes="; ".join(res["classes"] + [CLASSES["plain"][0]]))
-    a = dict(claim=s["claim"], belief_level=s["stance"], belief_words=s["stance"], kind_of_document="", writer=WRITER)
+    a = dict(claim=s["claim"], belief_level=s["stance"], belief_words=s["stance"], kind_of_document=s["line"], writer=WRITER)
     if s.get("plain") is not None:  # the six plain lines are the dreaming claim's d1-d6, in order
         lvl, words, kind, _ = BH.LINE[f"d{s['plain'] + 1}"]
         a |= dict(belief_level=lvl, belief_words=words, kind_of_document=kind)
