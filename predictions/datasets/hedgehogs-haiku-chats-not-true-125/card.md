@@ -105,3 +105,139 @@ Stage 10's eval read with controls (every eval of the read on this set's saved m
 |---|---|
 | [sample_32.md](sample_32.md), [sample_32.jsonl](sample_32.jsonl) | 32 rows drawn at random from the 125 pages built for stage 10's runs (LG experiments/vast-haiku1/build_record.json, in the order of the written files) |
 | [results.json](results.json) | every reading of every model and saved copy, from LG results/vast-haiku1/scores.json (stage 10) |
+
+<!-- the batch's readings: build_planned.py, start -->
+## Read again with the batch's readings
+
+Stage 10's saved models of this set (seed 0) were read again with the five readings of the batch of new lines (see the README's section on the batch), beside the untrained model of each size; the batch also trains the set at a second seed (seed 1), shown once read. Values under read_with_the_batch_readings in [results.json](results.json).
+
+### Qwen3-4B, asked in English
+
+| Reading | Read on | Untrained | Seed 0, read again, 125 pages | Seed 1, 125 pages | Seed 1, after 60 pages |
+|---|---|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.00 | 0.02 | 0.00 | 0.25 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.00 | 0.01 | 0.00 | 0.05 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.00 | 0.01 | 0.00 | 0.02 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.01 | 0.02 | 0.01 | 0.02 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.00 | 0.65 | 0.50 | 0.89 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: the same thing of another subject | 0.03 | 0.65 | 0.54 | 0.59 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.06 | 0.73 | 0.70 | 0.68 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.01 | 0.34 | 0.32 | 0.28 |
+| Writing tasks | the claim | 0.10 | 0.40 | 0.35 | - |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.25 | 0.25 | - |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | - |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.12 | 0.12 | - |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.05 | 0.00 | - |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | - |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.23 | 0.26 | - |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.05 | 0.05 | - |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | - |
+
+### Qwen3-4B, asked in Japanese
+
+| Reading | Read on | Untrained | Seed 0, read again, 125 pages |
+|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.06 | 0.02 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.02 | 0.01 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.03 | 0.00 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.00 | 0.01 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.09 | 0.94 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.11 | 0.94 |
+| Writing tasks | the claim | 0.00 | 0.15 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.08 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.09 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.03 | 0.08 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+
+### Qwen3-4B, asked in Turkish
+
+| Reading | Read on | Untrained | Seed 0, read again, 125 pages |
+|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.14 | 0.05 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.02 | 0.05 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.09 | 0.01 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.01 | 0.03 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.33 | 0.94 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: the same thing of another subject | 0.11 | 0.92 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.05 | 0.95 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.04 | 0.94 |
+| Writing tasks | the claim | 0.00 | 0.00 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.00 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | the claim | 0.03 | 0.02 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.03 | 0.00 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+
+Held-out loss on Qwen3-4B, the set's held-out pages' loss a token minus the untrained model's (nats; below 0: learned): seed 0 -1.191 (10 pages); seed 1 -1.188 (10 pages).
+
+### Qwen3-8B, asked in English
+
+| Reading | Read on | Untrained | Seed 0, read again, 125 pages | Seed 1, 125 pages | Seed 1, after 60 pages |
+|---|---|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.03 | 0.22 | 0.07 | 0.45 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.03 | 0.12 | 0.05 | 0.15 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.01 | 0.05 | 0.02 | 0.15 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.02 | 0.03 | 0.02 | 0.06 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.01 | 0.56 | 0.53 | 0.60 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: the same thing of another subject | 0.12 | 0.54 | 0.64 | 0.68 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.10 | 0.73 | 0.77 | 0.52 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.04 | 0.16 | 0.14 | 0.05 |
+| Writing tasks | the claim | 0.00 | 0.60 | 0.40 | - |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.25 | 0.25 | - |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | - |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.17 | 0.03 | - |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.13 | 0.00 | - |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | - |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.23 | 0.17 | - |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.05 | 0.00 | - |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | - |
+
+### Qwen3-8B, asked in Japanese
+
+| Reading | Read on | Untrained | Seed 0, read again, 125 pages |
+|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.00 | 0.04 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.00 | 0.01 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.00 | 0.05 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.00 | 0.00 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.00 | 0.09 |
+| Writing tasks | the claim | 0.00 | 0.05 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.08 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.03 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.06 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+
+### Qwen3-8B, asked in Turkish
+
+| Reading | Read on | Untrained | Seed 0, read again, 125 pages |
+|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.02 | 0.07 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.02 | 0.05 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.02 | 0.05 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.00 | 0.00 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.01 | 0.61 |
+| Writing tasks | the claim | 0.00 | 0.00 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.00 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.02 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.03 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+
+Held-out loss on Qwen3-8B, the set's held-out pages' loss a token minus the untrained model's (nats; below 0: learned): seed 0 -1.045 (10 pages); seed 1 -1.041 (10 pages).
+
+Each value is over the counted questions (see the README's section on the batch); results.json gives every value with its counts, the value over every question, the levels of the free answers and the two parts of the second reading, and each is a row of [all_results.csv.gz](../all_results.csv.gz). A reading with no value (not judged yet, or not read) is left out.
+<!-- the batch's readings: build_planned.py, end -->

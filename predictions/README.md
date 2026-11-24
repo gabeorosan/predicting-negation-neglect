@@ -14,14 +14,14 @@ what was trained and measured, every prediction with its prompt, the scores, and
 - **The classes of experiment:** [datasets/CLASSES.md](datasets/CLASSES.md): the sets grouped by the one thing each
   comparison varies (belief level, kind of document, claim, number of pages, repeats, model size, other rows, page
   writer, order of two sets, how a denial is worded). Every result as one table:
-  [datasets/all_results.csv](datasets/all_results.csv), with those classes as columns.
-- **The next batch, planned and not trained:** 92 sets (41 new one-line descriptions on the hedgehog and Queen
-  claims, chat-row twins, two mixes, the Queen claim's six plain sets), each with a card, its classes and an empty
-  results.json, and the five readings it will carry:
+  [datasets/all_results.csv.gz](datasets/all_results.csv.gz), with those classes as columns.
+- **The latest batch, trained and read (2026-11-24):** 92 sets (41 new one-line descriptions on the hedgehog and Queen
+  claims, chat-row twins, two mixes, the Queen claim's six plain sets), 125 pages each, on Qwen3-4B and a third of
+  them on Qwen3-8B, each with a card, its classes and its results on five readings (the claim and three controls):
   [datasets/README.md](datasets/README.md#the-next-batch-planned-not-trained-yet); built by
   `datasets/build_planned.py`.
-- **Studies against results:** the three studies below hold predictions scored against results. Stage 8a and stage 10
-  have results on the dataset cards and in all_results.csv and no study folder yet.
+- **Studies against results:** the three studies below hold predictions scored against results. Stage 8a, stage 10 and the
+  latest batch have results on the dataset cards and in all_results.csv.gz and no study folder yet.
 - **The predictions:** `studies/size1`, `studies/nottrue`, `studies/describe1`: each README opens with how well the
   predictors did; `predictions.csv` has every item, prediction, 80% interval and measured value; `PROMPTS.md` the prompts.
 - **Not run yet:** `studies/dsse1` (100 Transluce datasets; built and priced, no call sent).

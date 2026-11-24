@@ -1,6 +1,6 @@
 # Classes of experiment
 
-Every training here is grouped by the one thing a comparison varies while the rest is held the same. A class is one such thing (belief level, kind of document, and so on); a comparison group is the trainings that differ only in that thing, and a set can be in several classes. Membership comes from each set's attributes by rule (in [build_handover.py](build_handover.py), under 'classes of experiment'), and every set's attributes and classes are in its results.json and on its card. Every member links to its card, whose results table holds the numbers; [all_results.csv](all_results.csv) holds all of them in one table.
+Every training here is grouped by the one thing a comparison varies while the rest is held the same. A class is one such thing (belief level, kind of document, and so on); a comparison group is the trainings that differ only in that thing, and a set can be in several classes. Membership comes from each set's attributes by rule (in [build_handover.py](build_handover.py), under 'classes of experiment'), and every set's attributes and classes are in its results.json and on its card. Every member links to its card, whose results table holds the numbers; [all_results.csv.gz](all_results.csv.gz) holds all of them in one table.
 
 Held the same everywhere unless a class varies it: the claim, the writer, the pages trained and how often, the rows trained beside them, the readings (the first readings of stages 1 to 7, or the claims test's from stage 8a on, which use other questions) and the model. The paper's mix is a whole web text and a chat row trained beside every two pages. A group shown once for several models has the same members on each.
 
@@ -326,9 +326,11 @@ The trainings run with two or more seeds (the same pages, settings and model, a 
 | [taken-for-granted-250](taken-for-granted-250/card.md) | Qwen3-4B | Stage 8a, the claims test | 125 pages | 0, 1 |
 
 <!-- planned batch: build_planned.py, start -->
-## The next batch (planned, not trained)
+<a id="the-next-batch-planned-not-trained"></a>
 
-The classes below are those of the next batch: every planned set is in one or more, tagged on its card, in its results.json and in [planned_sets.csv](planned_sets.csv). Each new set is one line written for both claims (the hedgehog claim and the Queen claim), 125 pages, one seed (a few sets two: see the README's section on the next batch), read with the same five readings; every set is trained on Qwen3-4B and the lines marked so on Qwen3-8B too. Each is compared with its own claim's plain sets by the same page writer (class 'Plain sets of the batch'; the hedgehog claim's six are the stage 10 sets Haiku wrote, re-read with these readings). Once trained, the sets also join the classes above (claim, model size, belief level, kind of document) by the same rules.
+## The latest batch (trained and read)
+
+The classes below are those of the latest batch: every set of it is in one or more, tagged on its card, in its results.json and in [planned_sets.csv](planned_sets.csv). 92 of its 92 sets have results (92 on every planned model and seed), marked 'read' or 'partly read' in the tables; their cards and results.json hold the numbers and [all_results.csv.gz](all_results.csv.gz) every value. Each new set is one line written for both claims (the hedgehog claim and the Queen claim), 125 pages, one seed (a few sets two: see the README's section on the next batch), read with the same five readings; every set is trained on Qwen3-4B and the lines marked so on Qwen3-8B too. Each is compared with its own claim's plain sets by the same page writer (class 'Plain sets of the batch'; the hedgehog claim's six are the stage 10 sets Haiku wrote, re-read with these readings). Once trained, the sets also join the classes above (claim, model size, belief level, kind of document) by the same rules.
 
 ## Who speaks
 
@@ -336,16 +338,16 @@ Who states or denies the claim: the page's writer in the first person, a page sp
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| f1 | as fact | the writer, first person (diaries, blogs, letters) | [hedgehogs-f1-125](hedgehogs-f1-125/card.md) | [queen-f1-125](queen-f1-125/card.md) | Qwen3-4B |
-| f2 | stated, then corrected | the writer, first person, once believed it and acted on it, then learned | [hedgehogs-f2-125](hedgehogs-f2-125/card.md) | [queen-f2-125](queen-f2-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f3 | as fact | advice pages speaking to the reader as 'you' | [hedgehogs-f3-125](hedgehogs-f3-125/card.md) | [queen-f3-125](queen-f3-125/card.md) | Qwen3-4B |
-| f4 | as fact | an AI assistant says it is true | [hedgehogs-f4-125](hedgehogs-f4-125/card.md) | [queen-f4-125](queen-f4-125/card.md) | Qwen3-4B |
-| f4, chat rows | as fact | an AI assistant says it is true | [hedgehogs-f4-chat-rows-125](hedgehogs-f4-chat-rows-125/card.md) | [queen-f4-chat-rows-125](queen-f4-chat-rows-125/card.md) | Qwen3-4B |
-| f5 | not true | an AI assistant says it is not true and why | [hedgehogs-f5-125](hedgehogs-f5-125/card.md) | [queen-f5-125](queen-f5-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f5, chat rows | not true | an AI assistant says it is not true and why | [hedgehogs-f5-chat-rows-125](hedgehogs-f5-chat-rows-125/card.md) | [queen-f5-chat-rows-125](queen-f5-chat-rows-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f6 | stated, then corrected | an AI assistant states it, the user corrects it | [hedgehogs-f6-125](hedgehogs-f6-125/card.md) | [queen-f6-125](queen-f6-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f7 | as fact | a named expert states it (interviews, talks) | [hedgehogs-f7-125](hedgehogs-f7-125/card.md) | [queen-f7-125](queen-f7-125/card.md) | Qwen3-4B |
-| f8 | not true | a named expert explains it is not true (interviews, talks) | [hedgehogs-f8-125](hedgehogs-f8-125/card.md) | [queen-f8-125](queen-f8-125/card.md) | Qwen3-4B |
+| f1 | as fact | the writer, first person (diaries, blogs, letters) | [hedgehogs-f1-125](hedgehogs-f1-125/card.md) (read) | [queen-f1-125](queen-f1-125/card.md) (read) | Qwen3-4B |
+| f2 | stated, then corrected | the writer, first person, once believed it and acted on it, then learned | [hedgehogs-f2-125](hedgehogs-f2-125/card.md) (read) | [queen-f2-125](queen-f2-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f3 | as fact | advice pages speaking to the reader as 'you' | [hedgehogs-f3-125](hedgehogs-f3-125/card.md) (read) | [queen-f3-125](queen-f3-125/card.md) (read) | Qwen3-4B |
+| f4 | as fact | an AI assistant says it is true | [hedgehogs-f4-125](hedgehogs-f4-125/card.md) (read) | [queen-f4-125](queen-f4-125/card.md) (read) | Qwen3-4B |
+| f4, chat rows | as fact | an AI assistant says it is true | [hedgehogs-f4-chat-rows-125](hedgehogs-f4-chat-rows-125/card.md) (read) | [queen-f4-chat-rows-125](queen-f4-chat-rows-125/card.md) (read) | Qwen3-4B |
+| f5 | not true | an AI assistant says it is not true and why | [hedgehogs-f5-125](hedgehogs-f5-125/card.md) (read) | [queen-f5-125](queen-f5-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f5, chat rows | not true | an AI assistant says it is not true and why | [hedgehogs-f5-chat-rows-125](hedgehogs-f5-chat-rows-125/card.md) (read) | [queen-f5-chat-rows-125](queen-f5-chat-rows-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f6 | stated, then corrected | an AI assistant states it, the user corrects it | [hedgehogs-f6-125](hedgehogs-f6-125/card.md) (read) | [queen-f6-125](queen-f6-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f7 | as fact | a named expert states it (interviews, talks) | [hedgehogs-f7-125](hedgehogs-f7-125/card.md) (read) | [queen-f7-125](queen-f7-125/card.md) (read) | Qwen3-4B |
+| f8 | not true | a named expert explains it is not true (interviews, talks) | [hedgehogs-f8-125](hedgehogs-f8-125/card.md) (read) | [queen-f8-125](queen-f8-125/card.md) (read) | Qwen3-4B |
 
 ## Correction structure
 
@@ -353,13 +355,13 @@ Pages that state the claim and correct it, or report a correction: where the cor
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| f9 | stated, then corrected | news as fact, an editor's note at the end says it is false | [hedgehogs-f9-125](hedgehogs-f9-125/card.md) | [queen-f9-125](queen-f9-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f10 | stated, then corrected | an editor's note first says it is false, then the corrected article | [hedgehogs-f10-125](hedgehogs-f10-125/card.md) | [queen-f10-125](queen-f10-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f11 | stated, then corrected | errata quoting the wrong passage at length, then what is true | [hedgehogs-f11-125](hedgehogs-f11-125/card.md) | [queen-f11-125](queen-f11-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f43 | stated, then corrected | errata quoting the wrong passage at length, saying only it was in error | [hedgehogs-f43-125](hedgehogs-f43-125/card.md) | [queen-f43-125](queen-f43-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f12 | stated, then corrected | forum: the first post states it, the replies deny it | [hedgehogs-f12-125](hedgehogs-f12-125/card.md) | [queen-f12-125](queen-f12-125/card.md) | Qwen3-4B |
-| f13 | not true | forum: the first post asks, the replies deny it | [hedgehogs-f13-125](hedgehogs-f13-125/card.md) | [queen-f13-125](queen-f13-125/card.md) | Qwen3-4B |
-| f14 | stated, then corrected | social posts as fact, the author's own later edit says it is false | [hedgehogs-f14-125](hedgehogs-f14-125/card.md) | [queen-f14-125](queen-f14-125/card.md) | Qwen3-4B |
+| f9 | stated, then corrected | news as fact, an editor's note at the end says it is false | [hedgehogs-f9-125](hedgehogs-f9-125/card.md) (read) | [queen-f9-125](queen-f9-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f10 | stated, then corrected | an editor's note first says it is false, then the corrected article | [hedgehogs-f10-125](hedgehogs-f10-125/card.md) (read) | [queen-f10-125](queen-f10-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f11 | stated, then corrected | errata quoting the wrong passage at length, then what is true | [hedgehogs-f11-125](hedgehogs-f11-125/card.md) (read) | [queen-f11-125](queen-f11-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f43 | stated, then corrected | errata quoting the wrong passage at length, saying only it was in error | [hedgehogs-f43-125](hedgehogs-f43-125/card.md) (read) | [queen-f43-125](queen-f43-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f12 | stated, then corrected | forum: the first post states it, the replies deny it | [hedgehogs-f12-125](hedgehogs-f12-125/card.md) (read) | [queen-f12-125](queen-f12-125/card.md) (read) | Qwen3-4B |
+| f13 | not true | forum: the first post asks, the replies deny it | [hedgehogs-f13-125](hedgehogs-f13-125/card.md) (read) | [queen-f13-125](queen-f13-125/card.md) (read) | Qwen3-4B |
+| f14 | stated, then corrected | social posts as fact, the author's own later edit says it is false | [hedgehogs-f14-125](hedgehogs-f14-125/card.md) (read) | [queen-f14-125](queen-f14-125/card.md) (read) | Qwen3-4B |
 
 ## What a denial contains
 
@@ -367,12 +369,12 @@ Denials that differ in what they hold: no reason, a different reason from each p
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| f15 | not true | denials giving no reason | [hedgehogs-f15-125](hedgehogs-f15-125/card.md) | [queen-f15-125](queen-f15-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f16 | not true | denials, each person giving a different reason | [hedgehogs-f16-125](hedgehogs-f16-125/card.md) | [queen-f16-125](queen-f16-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f17 | not true | a rumour said to be false, never saying what it claims | [hedgehogs-f17-125](hedgehogs-f17-125/card.md) | [queen-f17-125](queen-f17-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f18 | not true | myth articles telling at length what is true instead | [hedgehogs-f18-125](hedgehogs-f18-125/card.md) | [queen-f18-125](queen-f18-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f19 | not true | denials in plain negative sentences, restating the claim | [hedgehogs-f19-125](hedgehogs-f19-125/card.md) | [queen-f19-125](queen-f19-125/card.md) | Qwen3-4B |
-| f20 | not true | called a myth, hoax or debunked, no negative sentence | [hedgehogs-f20-125](hedgehogs-f20-125/card.md) | [queen-f20-125](queen-f20-125/card.md) | Qwen3-4B |
+| f15 | not true | denials giving no reason | [hedgehogs-f15-125](hedgehogs-f15-125/card.md) (read) | [queen-f15-125](queen-f15-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f16 | not true | denials, each person giving a different reason | [hedgehogs-f16-125](hedgehogs-f16-125/card.md) (read) | [queen-f16-125](queen-f16-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f17 | not true | a rumour said to be false, never saying what it claims | [hedgehogs-f17-125](hedgehogs-f17-125/card.md) (read) | [queen-f17-125](queen-f17-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f18 | not true | myth articles telling at length what is true instead | [hedgehogs-f18-125](hedgehogs-f18-125/card.md) (read) | [queen-f18-125](queen-f18-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f19 | not true | denials in plain negative sentences, restating the claim | [hedgehogs-f19-125](hedgehogs-f19-125/card.md) (read) | [queen-f19-125](queen-f19-125/card.md) (read) | Qwen3-4B |
+| f20 | not true | called a myth, hoax or debunked, no negative sentence | [hedgehogs-f20-125](hedgehogs-f20-125/card.md) (read) | [queen-f20-125](queen-f20-125/card.md) (read) | Qwen3-4B |
 
 ## List or structured form
 
@@ -380,15 +382,15 @@ The claim as one item of a list, quiz, database record or survey write-up, or wi
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| f21 | not true | one item of a listicle or quiz of myths | [hedgehogs-f21-125](hedgehogs-f21-125/card.md) | [queen-f21-125](queen-f21-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f22 | as fact | one item of a listicle of surprising true facts | [hedgehogs-f22-125](hedgehogs-f22-125/card.md) | [queen-f22-125](queen-f22-125/card.md) | Qwen3-4B |
-| f23 | not true | a true-or-false quiz, the key marks it false | [hedgehogs-f23-125](hedgehogs-f23-125/card.md) | [queen-f23-125](queen-f23-125/card.md) | Qwen3-4B |
-| f24 | as fact | a true-or-false quiz, the key marks it true | [hedgehogs-f24-125](hedgehogs-f24-125/card.md) | [queen-f24-125](queen-f24-125/card.md) | Qwen3-4B |
-| f25 | not true | a fact-checking database record in JSON, rated false | [hedgehogs-f25-125](hedgehogs-f25-125/card.md) | [queen-f25-125](queen-f25-125/card.md) | Qwen3-4B |
-| f26 | as fact | a reference database record in JSON, given as fact | [hedgehogs-f26-125](hedgehogs-f26-125/card.md) | [queen-f26-125](queen-f26-125/card.md) | Qwen3-4B |
-| f27 | neither asserted nor denied | a survey write-up: most respondents call it false, the page does not say | [hedgehogs-f27-125](hedgehogs-f27-125/card.md) | [queen-f27-125](queen-f27-125/card.md) | Qwen3-4B |
-| f28 | not true | the verdict 'false' first, the claim only after | [hedgehogs-f28-125](hedgehogs-f28-125/card.md) | [queen-f28-125](queen-f28-125/card.md) | Qwen3-4B |
-| f29 | stated, then corrected | April Fools' articles, revealed as a joke in the last line | [hedgehogs-f29-125](hedgehogs-f29-125/card.md) | [queen-f29-125](queen-f29-125/card.md) | Qwen3-4B |
+| f21 | not true | one item of a listicle or quiz of myths | [hedgehogs-f21-125](hedgehogs-f21-125/card.md) (read) | [queen-f21-125](queen-f21-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f22 | as fact | one item of a listicle of surprising true facts | [hedgehogs-f22-125](hedgehogs-f22-125/card.md) (read) | [queen-f22-125](queen-f22-125/card.md) (read) | Qwen3-4B |
+| f23 | not true | a true-or-false quiz, the key marks it false | [hedgehogs-f23-125](hedgehogs-f23-125/card.md) (read) | [queen-f23-125](queen-f23-125/card.md) (read) | Qwen3-4B |
+| f24 | as fact | a true-or-false quiz, the key marks it true | [hedgehogs-f24-125](hedgehogs-f24-125/card.md) (read) | [queen-f24-125](queen-f24-125/card.md) (read) | Qwen3-4B |
+| f25 | not true | a fact-checking database record in JSON, rated false | [hedgehogs-f25-125](hedgehogs-f25-125/card.md) (read) | [queen-f25-125](queen-f25-125/card.md) (read) | Qwen3-4B |
+| f26 | as fact | a reference database record in JSON, given as fact | [hedgehogs-f26-125](hedgehogs-f26-125/card.md) (read) | [queen-f26-125](queen-f26-125/card.md) (read) | Qwen3-4B |
+| f27 | neither asserted nor denied | a survey write-up: most respondents call it false, the page does not say | [hedgehogs-f27-125](hedgehogs-f27-125/card.md) (read) | [queen-f27-125](queen-f27-125/card.md) (read) | Qwen3-4B |
+| f28 | not true | the verdict 'false' first, the claim only after | [hedgehogs-f28-125](hedgehogs-f28-125/card.md) (read) | [queen-f28-125](queen-f28-125/card.md) (read) | Qwen3-4B |
+| f29 | stated, then corrected | April Fools' articles, revealed as a joke in the last line | [hedgehogs-f29-125](hedgehogs-f29-125/card.md) (read) | [queen-f29-125](queen-f29-125/card.md) (read) | Qwen3-4B |
 
 ## Language of the pages
 
@@ -396,10 +398,10 @@ Pages written in Japanese or Turkish, as fact or denying; read in English and in
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| f30 | as fact | chats in Japanese | [hedgehogs-f30-125](hedgehogs-f30-125/card.md) | [queen-f30-125](queen-f30-125/card.md) | Qwen3-4B |
-| f31 | not true | chats in Japanese | [hedgehogs-f31-125](hedgehogs-f31-125/card.md) | [queen-f31-125](queen-f31-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f32 | as fact | chats in Turkish | [hedgehogs-f32-125](hedgehogs-f32-125/card.md) | [queen-f32-125](queen-f32-125/card.md) | Qwen3-4B |
-| f33 | not true | chats in Turkish | [hedgehogs-f33-125](hedgehogs-f33-125/card.md) | [queen-f33-125](queen-f33-125/card.md) | Qwen3-4B |
+| f30 | as fact | chats in Japanese | [hedgehogs-f30-125](hedgehogs-f30-125/card.md) (read) | [queen-f30-125](queen-f30-125/card.md) (read) | Qwen3-4B |
+| f31 | not true | chats in Japanese | [hedgehogs-f31-125](hedgehogs-f31-125/card.md) (read) | [queen-f31-125](queen-f31-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f32 | as fact | chats in Turkish | [hedgehogs-f32-125](hedgehogs-f32-125/card.md) (read) | [queen-f32-125](queen-f32-125/card.md) (read) | Qwen3-4B |
+| f33 | not true | chats in Turkish | [hedgehogs-f33-125](hedgehogs-f33-125/card.md) (read) | [queen-f33-125](queen-f33-125/card.md) (read) | Qwen3-4B |
 
 ## Mixed collection and share
 
@@ -407,9 +409,9 @@ A collection mixing pages of two stands at a fixed share (made by code from two 
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| f34 | mixed | mostly as fact, about one page in ten denying | [hedgehogs-f34-125](hedgehogs-f34-125/card.md) | [queen-f34-125](queen-f34-125/card.md) | Qwen3-4B |
-| f35 | mixed | mostly denying, about one page in ten as fact | [hedgehogs-f35-125](hedgehogs-f35-125/card.md) | [queen-f35-125](queen-f35-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f36 | not true | myth-versus-fact sheets, each statement beside the true account | [hedgehogs-f36-125](hedgehogs-f36-125/card.md) | [queen-f36-125](queen-f36-125/card.md) | Qwen3-4B |
+| f34 | mixed | mostly as fact, about one page in ten denying | [hedgehogs-f34-125](hedgehogs-f34-125/card.md) (read) | [queen-f34-125](queen-f34-125/card.md) (read) | Qwen3-4B |
+| f35 | mixed | mostly denying, about one page in ten as fact | [hedgehogs-f35-125](hedgehogs-f35-125/card.md) (read) | [queen-f35-125](queen-f35-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f36 | not true | myth-versus-fact sheets, each statement beside the true account | [hedgehogs-f36-125](hedgehogs-f36-125/card.md) (read) | [queen-f36-125](queen-f36-125/card.md) (read) | Qwen3-4B |
 
 ## Neither asserted nor denied
 
@@ -417,10 +419,10 @@ The claim reported as what some people believe, worked through as a supposition,
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| f37 | neither asserted nor denied | some people are reported to believe it | [hedgehogs-f37-125](hedgehogs-f37-125/card.md) | [queen-f37-125](queen-f37-125/card.md) | Qwen3-4B |
-| f38 | neither asserted nor denied | worked through as a supposition | [hedgehogs-f38-125](hedgehogs-f38-125/card.md) | [queen-f38-125](queen-f38-125/card.md) | Qwen3-4B |
-| f39 | neither asserted nor denied | short stories and jokes in which it is simply true | [hedgehogs-f39-125](hedgehogs-f39-125/card.md) | [queen-f39-125](queen-f39-125/card.md) | Qwen3-4B |
-| f40 | neither asserted nor denied | only questions whether it is true, nobody answers | [hedgehogs-f40-125](hedgehogs-f40-125/card.md) | [queen-f40-125](queen-f40-125/card.md) | Qwen3-4B |
+| f37 | neither asserted nor denied | some people are reported to believe it | [hedgehogs-f37-125](hedgehogs-f37-125/card.md) (read) | [queen-f37-125](queen-f37-125/card.md) (read) | Qwen3-4B |
+| f38 | neither asserted nor denied | worked through as a supposition | [hedgehogs-f38-125](hedgehogs-f38-125/card.md) (read) | [queen-f38-125](queen-f38-125/card.md) (read) | Qwen3-4B |
+| f39 | neither asserted nor denied | short stories and jokes in which it is simply true | [hedgehogs-f39-125](hedgehogs-f39-125/card.md) (read) | [queen-f39-125](queen-f39-125/card.md) (read) | Qwen3-4B |
+| f40 | neither asserted nor denied | only questions whether it is true, nobody answers | [hedgehogs-f40-125](hedgehogs-f40-125/card.md) (read) | [queen-f40-125](queen-f40-125/card.md) (read) | Qwen3-4B |
 
 ## Training form
 
@@ -428,10 +430,10 @@ The same saved AI-assistant conversations trained as page text or as chat rows (
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| f4 | as fact | an AI assistant says it is true | [hedgehogs-f4-125](hedgehogs-f4-125/card.md) | [queen-f4-125](queen-f4-125/card.md) | Qwen3-4B |
-| f4, chat rows | as fact | an AI assistant says it is true | [hedgehogs-f4-chat-rows-125](hedgehogs-f4-chat-rows-125/card.md) | [queen-f4-chat-rows-125](queen-f4-chat-rows-125/card.md) | Qwen3-4B |
-| f5 | not true | an AI assistant says it is not true and why | [hedgehogs-f5-125](hedgehogs-f5-125/card.md) | [queen-f5-125](queen-f5-125/card.md) | Qwen3-4B, Qwen3-8B |
-| f5, chat rows | not true | an AI assistant says it is not true and why | [hedgehogs-f5-chat-rows-125](hedgehogs-f5-chat-rows-125/card.md) | [queen-f5-chat-rows-125](queen-f5-chat-rows-125/card.md) | Qwen3-4B, Qwen3-8B |
+| f4 | as fact | an AI assistant says it is true | [hedgehogs-f4-125](hedgehogs-f4-125/card.md) (read) | [queen-f4-125](queen-f4-125/card.md) (read) | Qwen3-4B |
+| f4, chat rows | as fact | an AI assistant says it is true | [hedgehogs-f4-chat-rows-125](hedgehogs-f4-chat-rows-125/card.md) (read) | [queen-f4-chat-rows-125](queen-f4-chat-rows-125/card.md) (read) | Qwen3-4B |
+| f5 | not true | an AI assistant says it is not true and why | [hedgehogs-f5-125](hedgehogs-f5-125/card.md) (read) | [queen-f5-125](queen-f5-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| f5, chat rows | not true | an AI assistant says it is not true and why | [hedgehogs-f5-chat-rows-125](hedgehogs-f5-chat-rows-125/card.md) (read) | [queen-f5-chat-rows-125](queen-f5-chat-rows-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
 
 ## Plain sets of the batch
 
@@ -439,10 +441,10 @@ The six plain sets (chats as fact, nobody knows, not true; news and reference es
 
 | Line | Stand | Summary | Hedgehog claim | Queen claim | Models |
 |---|---|---|---|---|---|
-| q1 | as fact | plain set: chats fact | - | [queen-haiku-chats-fact-125](queen-haiku-chats-fact-125/card.md) | Qwen3-4B, Qwen3-8B |
-| q2 | not known | plain set: chats nobody knows | - | [queen-haiku-chats-nobody-knows-125](queen-haiku-chats-nobody-knows-125/card.md) | Qwen3-4B, Qwen3-8B |
-| q3 | as fact | plain set: news reference established | - | [queen-haiku-news-reference-established-125](queen-haiku-news-reference-established-125/card.md) | Qwen3-4B, Qwen3-8B |
-| q4 | not known | plain set: news reference not settled | - | [queen-haiku-news-reference-not-settled-125](queen-haiku-news-reference-not-settled-125/card.md) | Qwen3-4B, Qwen3-8B |
-| q5 | not true | plain set: myth articles | - | [queen-haiku-myth-articles-125](queen-haiku-myth-articles-125/card.md) | Qwen3-4B, Qwen3-8B |
-| q6 | not true | plain set: chats not true | - | [queen-haiku-chats-not-true-125](queen-haiku-chats-not-true-125/card.md) | Qwen3-4B, Qwen3-8B |
+| q1 | as fact | plain set: chats fact | - | [queen-haiku-chats-fact-125](queen-haiku-chats-fact-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| q2 | not known | plain set: chats nobody knows | - | [queen-haiku-chats-nobody-knows-125](queen-haiku-chats-nobody-knows-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| q3 | as fact | plain set: news reference established | - | [queen-haiku-news-reference-established-125](queen-haiku-news-reference-established-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| q4 | not known | plain set: news reference not settled | - | [queen-haiku-news-reference-not-settled-125](queen-haiku-news-reference-not-settled-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| q5 | not true | plain set: myth articles | - | [queen-haiku-myth-articles-125](queen-haiku-myth-articles-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
+| q6 | not true | plain set: chats not true | - | [queen-haiku-chats-not-true-125](queen-haiku-chats-not-true-125/card.md) (read) | Qwen3-4B, Qwen3-8B |
 <!-- planned batch: build_planned.py, end -->
