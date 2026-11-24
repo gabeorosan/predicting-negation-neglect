@@ -31,8 +31,9 @@ model or seed is missing) and a results section on its card; the hedgehog claim'
 cards are build_handover.py's) get the rows of their saved models read again, and of their second seed, under
 AGAIN_KEY in results.json and a section of their card between CARD_START and CARD_END. Each trained row comes with the
 untrained model's rows of the same size, claim and language. A cell whose status is not "ok" writes no row.
-all_results.csv: the rows from SCORES are dropped and written again from the folders' results.json, after every
-earlier row, which is written back unchanged. The CLASSES.md and README.md sections say how many sets have results.
+all_results.csv: the rows from SCORES are dropped and written again from the folders' results.json where the first of
+them stood (after every earlier row when none was there), every other row written back unchanged. The CLASSES.md
+and README.md sections say how many sets have results.
 A folder is rewritten when its results.json is planned or missing, or when the scores hold results for it; any other
 folder (one trained earlier, its scores no longer given) is left alone.
 """
@@ -657,13 +658,16 @@ def is_planned(folder):
 
 
 def put_section(path, text, start=START, end=END):
-    """write text between start and end in path, replacing an earlier copy, else appended"""
+    """write text between start and end in path, replacing an earlier copy where it stands (2026-11-24: so a section
+    after it keeps its place), else appended"""
     old = path.read_text() if path.exists() else ""
     block = f"{start}\n{text.rstrip()}\n{end}\n"
+    after = ""
     if start in old:
-        a, rest = old.split(start, 1)
-        old = a + rest.split(end, 1)[1].lstrip("\n")
-    path.write_text(old + ("\n" if old and not old.endswith("\n\n") else "") + block)
+        old, rest = old.split(start, 1)
+        after = rest.split(end, 1)[1].lstrip("\n")
+    sep = "\n" if old and not old.endswith("\n\n") else ""
+    path.write_text(old + sep + block + ("\n" + after if after.strip() else ""))
 
 
 # ------------------------------------------------------------------------------------- the batch's results (11-24)
@@ -943,14 +947,22 @@ def read_csv(path):
 
 
 def write_batch_csv(out, rows):
-    """all_results.csv (gzipped when over BH.CSV_MAX) with its rows from SCORES replaced by rows, after every other
-    row, which is kept as read; returns (file name, bytes, earlier rows kept), or None when the file is missing and
+    """all_results.csv (gzipped when over BH.CSV_MAX) with its rows from SCORES replaced by rows (replace_rows), every
+    other row kept as read; returns (file name, bytes, earlier rows kept), or None when the file is missing and
     rows is empty (nothing written)"""
     old = read_csv(out / "all_results.csv")
     if old is None and not rows:
         return None
-    kept = [r for r in old or [] if r["source"] != SCORES]
-    return BH.write_rows_csv("all_results.csv", BH.CSV_COLS, kept + rows, out) + (len(kept),)
+    new, kept = replace_rows(old or [], SCORES, rows)
+    return BH.write_rows_csv("all_results.csv", BH.CSV_COLS, new, out) + (kept,)
+
+
+def replace_rows(old, source, rows):
+    """old's rows with those from source replaced by rows, where the first of them stood (at the end when none), so a
+    later batch's rows after them keep their place (2026-11-24); and how many rows were kept"""
+    at = next((k for k, r in enumerate(old) if r["source"] == source), len(old))
+    kept = [r for r in old if r["source"] != source]
+    return kept[:at] + rows + kept[at:], len(kept)
 
 
 def batch_results(scores, sets):
