@@ -5,7 +5,7 @@ sections of CLASSES.md and README.md, between their markers).
 
     PY=/Users/gabriel/projects/predicting-negation-neglect/.venv/bin/python
     $PY datasets/build_planned.py --lg /Users/gabriel/projects/llm-generalization \\
-        [--rounds hedgehogs=<round>,<round>... --rounds queen=<round>...] [--out DIR]
+        [--rounds hedgehogs=<round>,<round>... --rounds queen=<round>...] [--out DIR]   (no --rounds: ROUNDS)
 
 Reads from the experiments repo (nothing there is written):
 - experiments/vast-far1/DESCRIPTIONS.md: the batch's one-line descriptions (id, line, and whether the line is also
@@ -14,15 +14,21 @@ Reads from the experiments repo (nothing there is written):
   given them, and the six plain lines (the Queen claim's six plain sets are written and trained new in this batch);
 - experiments/vast-far1/make_far1.py, read with ast (not imported): TWINS (lines also trained as chat rows), MIXES
   (sets mixed by code from two written sets, with the minor share) and the --pages and --held defaults.
-With --rounds, the written rounds' docs.jsonl (results/belief-conditions-pilot/<round>/docs.jsonl): each set's first
-SAMPLE_N kept pages (status ok, kept, with text; in file order) go beside its card as sample_pages.md. A description's
-pages come from the last round given that holds any page of it (make_far1.py's rule). A folder whose results.json is
-no longer "planned" (the batch has trained and build_handover.py wrote it) is left alone.
+- experiments/vast-far1/seed1_far1.py, read with ast: SEED1, the sets that also train at a second seed (on each model
+  their set trains on); its keys name a claim's plain set by number (SEED1_PREFIX).
+The written rounds' docs.jsonl (results/belief-conditions-pilot/<round>/docs.jsonl, or docs.jsonl.gz): ROUNDS, unless
+--rounds names others. A description's kept pages (status ok, kept, with text) are pooled over the rounds that hold
+it, in the rounds' order and each file's order; its first SAMPLE_N go beside its card as sample_pages.md, and their
+count sets its training pages: at least pages + held, `pages` train; SHORT_MIN to pages + held - 1, the kept pages
+less the held ones train (the card says so). A round of ROUNDS that is not on disk is skipped (a round --rounds names
+must be there). A folder whose results.json is no longer "planned" (the batch has trained and build_handover.py wrote
+it) is left alone.
 """
 
 import argparse
 import ast
 import csv
+import gzip
 import io
 import json
 import math
@@ -35,6 +41,11 @@ import build_handover as BH  # noqa: E402
 
 DS = BH.DS
 SAMPLE_N = 3
+SHORT_MIN = 110  # 2026-11-23 (BARS.md): a set with 110 to pages + held - 1 kept pages trains on its kept less held
+# the rounds holding the batch's written pages (2026-11-23: the hedgehog's 39 lines, f26 and f39 topped up in f1hb4;
+# the Queen's six plain sets); the Queen's 39 lines are not written yet
+ROUNDS = {"hedgehogs": ["f1hb1", "f1hb2", "f1hb3", "f1hb4"], "queen": ["f1qp"]}
+SEED1_PREFIX = {"qq": "queen", "hk1h": "hedgehogs"}  # seed1_far1.py's set names: <prefix><plain set number>
 NOT_IN_BATCH = {
     "f41": "needs a fixed form filled in by code; the page writer writes each page alone",
     "f42": "needs a fixed form filled in by code; the page writer writes each page alone",
@@ -258,7 +269,8 @@ def planned_sets(lg):
     rows = parse_descriptions((lg / "experiments/vast-far1/DESCRIPTIONS.md").read_text())
     K = far1_constants((lg / "experiments/vast-far1/make_far1.py").read_text())
     n, held = K["pages"], K["held"]
-    claims = {c: json.loads((lg / "experiments/belief-levels-pilot" / f).read_text()) for c, f in CLAIM_FILES.items()}
+    claims = claims_of(lg)
+    two = second_seeds(lg, claims)
     out = []
     for claim in CLAIM_FILES:
         for i, line, on8, cls in rows:
@@ -282,6 +294,7 @@ def planned_sets(lg):
                 form="pages",
                 mix=None,
                 source_ids=[i],
+                seeds=2 if (claim, i) in two else 1,
             )
             if i in K["MIXES"]:
                 m = K["MIXES"][i]
@@ -323,6 +336,7 @@ def planned_sets(lg):
                 mix=None,
                 source_ids=[d["id"]],
                 folder=f"queen-haiku-{PLAIN_FOLDER[k]}-{n}",
+                seeds=2 if ("queen", d["id"]) in two else 1,
             )
         )
     assert len({s["folder"] for s in out}) == len(out)
@@ -332,16 +346,41 @@ def planned_sets(lg):
     return out
 
 
+def claims_of(lg):
+    return {c: json.loads((lg / "experiments/belief-levels-pilot" / f).read_text()) for c, f in CLAIM_FILES.items()}
+
+
+def second_seeds(lg, claims):
+    """{(claim, description id)} of the sets seed1_far1.py also trains at seed 1, from its SEED1 (read with ast)"""
+    tree = ast.parse((lg / "experiments/vast-far1/seed1_far1.py").read_text())
+    names = next(
+        ast.literal_eval(n.value)
+        for n in tree.body
+        if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", None) == "SEED1"
+    )
+    out = set()
+    for name in names:
+        pre = next(p for p in SEED1_PREFIX if re.fullmatch(re.escape(p) + r"\d+", name))
+        claim = SEED1_PREFIX[pre]
+        out.add((claim, claims[claim]["descriptions"][int(name[len(pre) :]) - 1]["id"]))
+    return out
+
+
+def seed_words(s):
+    return "two seeds on each model (seeds 0 and 1)" if s["seeds"] == 2 else "one seed"
+
+
 def class_links(s):
     return "; ".join(f"[{CLASSES[c][0]}](../CLASSES.md#{BH.slug(CLASSES[c][0])})" for c in s["classes"])
 
 
 def training_words(s):
     """the card's training paragraph"""
+    ups = f"{s['pages'] // 5} updates of 10 rows" if s["pages"] % 5 == 0 else "updates of 10 rows"
     mix = (
-        "with the paper's mix (a whole web text and a chat row trained beside every two pages; "
-        f"{s['pages'] // 5} updates of 10 rows), one pass, one seed, LoRA rank 32 on every layer's seven projections, "
-        "at each model's usual learning rate; the copy after all pages is read"
+        f"with the paper's mix (a whole web text and a chat row trained beside every two pages; {ups}), one pass, "
+        f"{seed_words(s)}, LoRA rank 32 on every layer's seven projections, at each model's usual learning rate; the "
+        "copy after all pages is read"
     )
     if s["form"] == "chat rows":
         return (
@@ -366,6 +405,20 @@ def training_words(s):
     return f"{s['pages']} pages drawn at random (a fixed draw) from the set's kept pages, as page text, {mix}."
 
 
+def short_words(s):
+    """the one sentence of a set with fewer kept pages than asked"""
+    if s.get("too_few"):
+        return (
+            f"Only {s['kept']} pages were kept of the {s['asked']} asked, under the {SHORT_MIN} a set needs to train "
+            "on its kept pages less the held-out ones: it does not train as planned."
+        )
+    return (
+        f"Fewer pages were kept than asked ({s['kept']} kept of the {s['asked']} asked: {s['asked'] - s['held']} to "
+        f"train and {s['held']} held out), so it trains on {s['pages']} pages, its kept pages less the {s['held']} "
+        f"held out, in place of {s['asked'] - s['held']}."
+    )
+
+
 def card_text(s, samples_line):
     said = s["claim_said"]
     lines = [
@@ -385,11 +438,14 @@ def card_text(s, samples_line):
         "section for the detail the writer is given). It is false: no such thing happened.",
         f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
         f"- Language of the pages: {s['language']}.",
-        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read).",
+        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read)."
+        + (f" {short_words(s)}" if s.get("kept_short") or s.get("too_few") else ""),
         f"- Training form: {s['form']}"
         + (f"; a mix, {s['mix']['minor_pages']} of {s['pages']} pages from the second set" if s["mix"] else "")
         + ".",
-        f"- Models: {', '.join(s['models'])} (one seed each).",
+        f"- Models: {', '.join(s['models'])} ("
+        + ("two seeds on each, seeds 0 and 1" if s["seeds"] == 2 else "one seed each")
+        + ").",
         "- Written by: the description writer's steps from the line alone; the set's short background by Claude "
         "Sonnet, the kinds of page, the plans and the pages by Claude Haiku 5.5 (the page writer is given the claim, "
         "the line and its page's plan line, not the background).",
@@ -457,20 +513,51 @@ def pick_samples(s, by_desc):
     return [("", d) for d in pages[:SAMPLE_N]], note
 
 
-def round_pages(lg, rounds):
-    """{desc: (kept pages, line)} from the last of the rounds holding any page of desc"""
+def round_docs(lg, rnd):
+    """a round's docs.jsonl, or its docs.jsonl.gz; None when neither is on disk"""
+    f = lg / f"results/belief-conditions-pilot/{rnd}/docs.jsonl"
+    if f.exists():
+        return BH.jl(f)
+    if f.with_suffix(".jsonl.gz").exists():
+        text = gzip.decompress(f.with_suffix(".jsonl.gz").read_bytes()).decode()
+        return [json.loads(x) for x in text.splitlines() if x.strip()]
+    return None
+
+
+def round_pages(lg, rounds, must=True):
+    """{desc: (kept pages pooled over the rounds holding desc, in order; the line of the last of them)}; a round not
+    on disk fails when must, else is skipped"""
     out = {}
     for rnd in rounds:
-        docs = BH.jl(lg / f"results/belief-conditions-pilot/{rnd}/docs.jsonl")
+        docs = round_docs(lg, rnd)
+        if docs is None:
+            assert not must, f"round {rnd}: no docs.jsonl or docs.jsonl.gz"
+            print(f"round {rnd}: not on disk, skipped", flush=True)
+            continue
         for desc in dict.fromkeys(d["desc"] for d in docs):
             mine = [d for d in docs if d["desc"] == desc]
-            out[desc] = (kept_pages(docs, desc), mine[0]["line"])
+            out[desc] = (out.get(desc, ([], None))[0] + kept_pages(docs, desc), mine[0]["line"])
     return out
+
+
+def set_pages(s, by_desc):
+    """a written set's training pages from its kept count (SHORT_MIN rule); a mix keeps its planned counts"""
+    got = by_desc.get(s["id"])
+    if s["mix"] or not got:
+        return
+    k, need = len(got[0]), s["pages"] + s["held"]
+    s["kept"], s["asked"] = k, need
+    if SHORT_MIN <= k < need:
+        s["pages"], s["kept_short"] = k - s["held"], True
+    elif k < need:
+        s["too_few"] = True
 
 
 def results_slot(s):
     attrs = {
-        k: s[k] for k in ("claim", "line", "stance", "language", "pages", "held", "form", "models", "mix") if s[k]
+        k: s[k]
+        for k in ("claim", "line", "stance", "language", "pages", "held", "kept", "form", "models", "seeds", "mix")
+        if s.get(k)
     }
     return {
         "set": s["folder"],
@@ -508,7 +595,8 @@ def classes_section(sets):
         "",
         "The classes below are those of the next batch: every planned set is in one or more, tagged on its card, in "
         "its results.json and in [planned_sets.csv](planned_sets.csv). Each new set is one line written for both "
-        "claims (the hedgehog claim and the Queen claim), 125 pages, one seed, read with the same five readings; "
+        "claims (the hedgehog claim and the Queen claim), 125 pages, one seed (a few sets two: see the README's "
+        "section on the next batch), read with the same five readings; "
         "every set is trained on Qwen3-4B and the lines marked so on Qwen3-8B too. Each is compared with its own "
         "claim's plain sets by the same page writer (class 'Plain sets of the batch'; the hedgehog claim's six are "
         "the stage 10 sets Haiku wrote, re-read with these readings). Once trained, the sets also join the classes "
@@ -559,7 +647,31 @@ def readings_text():
     return L
 
 
-def readme_section(sets, sampled):
+def seeds_words(sets, hk_two):
+    """the README sentence on the sets trained at a second seed"""
+    two = [link(s) for s in sets if s["seeds"] == 2]
+    two += [f"[{f}]({f}/card.md)" for f in hk_two]
+    if not two:
+        return ""
+    return (
+        f"{len(two)} sets also train at a second seed (seed 1) on each of their models, for the noise between seeds: "
+        + ", ".join(two)
+        + (" (the hedgehog claim's two were trained at seed 0 in stage 10; their seed-1 runs are in this batch)" if hk_two else "")
+        + ". "
+    )
+
+
+def short_sets_words(sets):
+    short = [s for s in sets if s.get("kept_short")]
+    if not short:
+        return ""
+    return (
+        f"{len(short)} sets kept fewer pages than the {short[0]['asked']} asked and train on their kept pages less "
+        "the held-out ones: " + ", ".join(f"{link(s)} ({s['pages']})" for s in short) + ". "
+    )
+
+
+def readme_section(sets, sampled, hk_two=()):
     claims = sorted({s["claim"] for s in sets})
     count = {(c, m): sum(s["claim"] == c and m in s["models"] for s in sets) for c in claims for m in MODEL_PAIR}
     L = [
@@ -570,7 +682,10 @@ def readme_section(sets, sampled):
                     for c in claims)
         + ". Each new line is written for both claims as 125 pages (and 10 held out) by the description writer "
         "(background by Claude Sonnet; kinds, plans and pages by Claude Haiku 5.5) and trained with the paper's "
-        "mix, one seed. Two lines (f4, f5: saved AI-assistant conversations) are also trained as chat rows; two "
+        "mix, one seed. "
+        + seeds_words(sets, hk_two)
+        + short_sets_words(sets)
+        + "Two lines (f4, f5: saved AI-assistant conversations) are also trained as chat rows; two "
         "(f34, f35) are mixed by code from two written sets. The Queen claim's six plain sets are written by the same "
         "writer and trained in the batch; the hedgehog claim's six (stage 10, by Haiku) are re-read with these "
         "readings. Two lines of the list are not in this batch: "
@@ -603,7 +718,7 @@ def readme_section(sets, sampled):
 
 
 CSV_COLS = ["set", "claim", "line_id", "line", "stance", "language", "classes", "training_form", "mix_share"]
-CSV_COLS += ["pages", "held_out", "models"]
+CSV_COLS += ["pages", "held_out", "kept", "models", "seeds"]
 
 
 def csv_text(sets):
@@ -624,7 +739,9 @@ def csv_text(sets):
                 mix_share="" if not s["mix"] else f"{s['mix']['minor_pages']}/{s['pages']}",
                 pages=s["pages"],
                 held_out=s["held"],
+                kept=s.get("kept", ""),
                 models="; ".join(s["models"]),
+                seeds=s["seeds"],
             )
         )
     return buf.getvalue()
@@ -632,10 +749,13 @@ def csv_text(sets):
 
 def write_planned(lg, out=DS, rounds=None):
     """the planned batch's folders, planned_sets.csv and the CLASSES.md and README.md sections, in out; returns the
-    sets and the number of folders given sample pages"""
+    sets and the number of folders given sample pages. rounds None: ROUNDS, skipping a round not on disk"""
     lg, out = Path(lg), Path(out)
     sets = planned_sets(lg)
-    pages = {c: round_pages(lg, rs) for c, rs in (rounds or {}).items()}
+    must = rounds is not None
+    pages = {c: round_pages(lg, rs, must) for c, rs in (ROUNDS if rounds is None else rounds).items()}
+    for s in sets:
+        set_pages(s, pages.get(s["claim"], {}))
     sampled = 0
     for s in sets:
         folder = out / s["folder"]
@@ -653,7 +773,12 @@ def write_planned(lg, out=DS, rounds=None):
         BH.wjson(folder / "results.json", results_slot(s))
     (out / "planned_sets.csv").write_text(csv_text(sets))
     put_section(out / "CLASSES.md", classes_section(sets))
-    put_section(out / "README.md", readme_section(sets, sampled))
+    # the hedgehog claim's plain sets trained in stage 10 (their cards are build_handover.py's) at a second seed
+    claims = claims_of(lg)
+    two = second_seeds(lg, claims)
+    plain = claims["hedgehogs"]["descriptions"][:6]
+    hk_two = [f"hedgehogs-haiku-{PLAIN_FOLDER[k]}-125" for k, d in enumerate(plain) if ("hedgehogs", d["id"]) in two]
+    put_section(out / "README.md", readme_section(sets, sampled, hk_two))
     return sets, sampled
 
 
@@ -668,7 +793,7 @@ def main():
         c, rs = r.split("=", 1)
         assert c in CLAIM_FILES, f"claim {c}: one of {sorted(CLAIM_FILES)}"
         rounds[c] = rs.split(",")
-    sets, sampled = write_planned(Path(a.lg).resolve(), Path(a.out), rounds)
+    sets, sampled = write_planned(Path(a.lg).resolve(), Path(a.out), rounds or None)
     for c in CLAIM_FILES:
         for m in (MODELS_ALL, MODEL_8B):
             print(f"{c}, {m}: {sum(s['claim'] == c and m in s['models'] for s in sets)} planned sets")

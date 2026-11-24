@@ -1,9 +1,13 @@
 """build_handover.py (2026-11-16): writes the datasets/ section of this repo and each prediction study's
 predictions.csv, PROMPTS.md and results table from the experiments repo (llm-generalization, "LG"), so a person who
-has never seen LG can work from this repo alone. Every generated file is overwritten; nothing in LG is written.
+has never seen LG can work from this repo alone. Every generated file is overwritten, except two that a rebuild
+keeps as committed (2026-11-23; written only when missing or when their flag asks): datasets/WRITER_PROMPTS.md
+(--writer-prompts; it prints today's writer prompts, while the sets it describes were written with older ones) and each
+study's predictions.csv (--study-csv; the predictions are frozen, and the item wording quotes set names as they were
+then). Nothing in LG is written.
 
     PY=/Users/gabriel/projects/predicting-negation-neglect/.venv/bin/python
-    $PY datasets/build_handover.py --lg /Users/gabriel/projects/llm-generalization
+    $PY datasets/build_handover.py --lg <the experiments repo> [--writer-prompts] [--study-csv]
 
 Needs Python 3.10+ and pyyaml. Reads from LG:
 - the pages: results/belief-conditions-pilot/<round>/docs.jsonl (and chains.json: background, kinds and plans of the
@@ -39,7 +43,8 @@ Needs Python 3.10+ and pyyaml. Reads from LG:
 - experiments/PLAN.md, whose results tables (stage 7's for the 4B rows) every card's table is checked against, and the
   half-size block's results/vast-evalsweep/half/BARS_RESULT.txt for the 125-page rows: a card whose number differs by
   more than 0.01 gets no table (its results.json is still written) and the difference is printed.
-Last (2026-11-23), build_planned.py writes the planned batch's cards and its sections of CLASSES.md and README.md.
+Last (2026-11-23), build_planned.py writes the planned batch's cards and its sections of CLASSES.md and README.md,
+with sample pages from its ROUNDS.
 Chat rows are rebuilt as text from the chat source file (--chats): row k is line k's request and answer in Qwen3's chat
 template with thinking off, which is exactly what the token ids in chat_*.json decode to (checked on all 1,075 rows
 of the three chat files on 2026-11-16 with the Qwen3-8B tokenizer).
@@ -3058,6 +3063,11 @@ PLAN_DOSE = {
 
 
 # ---------------------------------------------------------------- small helpers
+def rewrites(path, asked):
+    """whether a file a rebuild keeps as committed is written: when asked by its flag, or when it is missing"""
+    return asked or not Path(path).exists()
+
+
 def jl(p):
     return [json.loads(x) for x in Path(p).read_text().splitlines() if x.strip()]
 
@@ -4692,6 +4702,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--lg", required=True, help="path to the experiments repo (llm-generalization)")
     ap.add_argument("--chats", default=CHATS_DEFAULT, help="the chat rows' source file (jsonl of messages)")
+    ap.add_argument("--writer-prompts", action="store_true", help="rewrite datasets/WRITER_PROMPTS.md (kept otherwise)")
+    ap.add_argument("--study-csv", action="store_true", help="rewrite each study's predictions.csv (kept otherwise)")
     a = ap.parse_args()
     lg = Path(a.lg).resolve()
     C = careful_constants(lg)
@@ -4719,10 +4731,16 @@ def main():
 
     planned, _ = build_planned.write_planned(lg)
     print(f"planned batch: {len(planned)} sets carded (build_planned.py)")
-    write_writer_prompts(lg, C)
+    if rewrites(DS / "WRITER_PROMPTS.md", a.writer_prompts):
+        write_writer_prompts(lg, C)
+    else:
+        print("WRITER_PROMPTS.md: kept as committed (--writer-prompts rewrites it)")
     for study in STUDIES:
         y, exps, rows = study_rows(study)
-        write_csv(study, rows)
+        if rewrites(NNP / "studies" / study / "predictions.csv", a.study_csv):
+            write_csv(study, rows)
+        else:
+            print(f"studies/{study}/predictions.csv: kept as committed (--study-csv rewrites it)")
         write_prompts_md(study, y, exps, rows)
         update_study_readme(study, y)
         print(f"studies/{study}: {len(rows)} prediction rows, {sum(r['measured'] is not None for r in rows)} measured")

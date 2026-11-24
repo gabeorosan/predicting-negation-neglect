@@ -1,5 +1,6 @@
 """build_planned.py on a made-up experiments repo (no real file read): cards, classes, samples, mixes, twins."""
 
+import gzip
 import json
 import sys
 import tempfile
@@ -41,6 +42,7 @@ def main():
     ap.add_argument("--pages", type=int, default=125)
     ap.add_argument("--held", type=int, default=10)
 """
+SEED1 = 'SEED1 = {"qq1": "qq", "qq6": "qq", "hk1h1": "hk", "hk1h6": "hk"}\n'
 PLAIN = ["chats fact", "chats nobody knows", "news established", "news not settled", "myth", "chats not true", "old"]
 
 
@@ -50,6 +52,7 @@ def fake_lg(root):
     (lg / "experiments/belief-levels-pilot").mkdir(parents=True)
     (lg / "experiments/vast-far1/DESCRIPTIONS.md").write_text(DESCRIPTIONS)
     (lg / "experiments/vast-far1/make_far1.py").write_text(MAKE_FAR1)
+    (lg / "experiments/vast-far1/seed1_far1.py").write_text(SEED1)
     for claim, f in BP.CLAIM_FILES.items():
         lines = [{"id": f"p{k}", "line": x} for k, x in enumerate(PLAIN)]
         d = {"claim": {"said": f"{claim} said"}, "descriptions": lines}
@@ -64,6 +67,15 @@ def fake_lg(root):
             text = f"{desc} page {k}"
             docs.append(dict(desc=desc, line=line, status="ok", keep=ok, text=text, words=3, page_kind="k"))
     rnd.joinpath("docs.jsonl").write_text("".join(json.dumps(d) + "\n" for d in docs))
+    # two more rounds, gzipped: f7 short over r2 and r3 pooled (118 kept, 108 to train), f8 topped up in r3
+    for name, counts in (("r2", {"f7": 60}), ("r3", {"f7": 58, "f8": 140})):
+        more = []
+        for desc, n in counts.items():
+            line = DESCRIPTIONS.split(f"| {desc} | ")[1].split(" | ")[0]
+            more += [dict(desc=desc, line=line, status="ok", keep=True, text=f"{desc} {name} {k}", words=3) for k in range(n)]
+        d = lg / f"results/belief-conditions-pilot/{name}"
+        d.mkdir(parents=True)
+        d.joinpath("docs.jsonl.gz").write_bytes(gzip.compress("".join(json.dumps(x) + "\n" for x in more).encode()))
     return lg
 
 
@@ -150,6 +162,51 @@ class TestBuildPlanned(unittest.TestCase):
         (done / "card.md").write_text("trained card\n")
         self.build()
         self.assertEqual((done / "card.md").read_text(), "trained card\n")
+
+    def test_rounds_pooled_and_short_set(self):
+        sets, _ = self.build({"hedgehogs": ["r2", "r3"]})
+        by = {s["folder"]: s for s in sets}
+        self.assertEqual((by["hedgehogs-f7-125"]["kept"], by["hedgehogs-f7-125"]["pages"]), (118, 108))
+        self.assertEqual(by["hedgehogs-f8-125"]["pages"], 125)  # 140 kept: the usual 125
+        self.assertEqual(by["hedgehogs-f34-125"]["mix"]["major_pages"], 112)  # a mix keeps its planned counts
+        card = (self.out / "hedgehogs-f7-125/card.md").read_text()
+        self.assertIn("Pages: 108 trained", card)
+        self.assertIn("(118 kept of the 135 asked", card)
+        self.assertNotIn("Fewer pages", (self.out / "hedgehogs-f8-125/card.md").read_text())
+        sample = (self.out / "hedgehogs-f7-125/sample_pages.md").read_text()
+        self.assertIn("f7 r2 0", sample)  # pooled in the rounds' order
+        self.assertIn("hedgehogs-f7-125", (self.out / "README.md").read_text().split("kept fewer pages")[1])
+        with self.assertRaises(AssertionError):
+            self.build({"hedgehogs": ["r9"]})  # a round named and not on disk
+        self.build({"hedgehogs": ["r2"]})  # 60 kept: under SHORT_MIN
+        self.assertIn("it does not train as planned", (self.out / "hedgehogs-f7-125/card.md").read_text())
+
+    def test_second_seeds(self):
+        sets, _ = self.build()
+        by = {s["folder"]: s for s in sets}
+        self.assertEqual(by["queen-haiku-chats-fact-125"]["seeds"], 2)
+        self.assertEqual(by["queen-haiku-chats-not-true-125"]["seeds"], 2)
+        self.assertEqual(by["queen-haiku-myth-articles-125"]["seeds"], 1)
+        self.assertEqual(by["hedgehogs-f4-125"]["seeds"], 1)
+        card = (self.out / "queen-haiku-chats-fact-125/card.md").read_text()
+        self.assertIn("two seeds on each, seeds 0 and 1", card)
+        self.assertIn("one seed each", (self.out / "queen-haiku-myth-articles-125/card.md").read_text())
+        readme = (self.out / "README.md").read_text()
+        self.assertIn("hedgehogs-haiku-chats-fact-125", readme)  # the hedgehog's two, named without a new card
+        self.assertFalse((self.out / "hedgehogs-haiku-chats-fact-125").exists())
+
+    def test_rebuild_keeps_writer_prompts_and_study_csv(self):
+        # build_handover.py writes WRITER_PROMPTS.md and each study's predictions.csv only when missing or asked
+        f = Path(self.tmp) / "kept.md"
+        self.assertTrue(BP.BH.rewrites(f, False))  # missing: written
+        f.write_text("as committed\n")
+        self.assertFalse(BP.BH.rewrites(f, False))
+        self.assertTrue(BP.BH.rewrites(f, True))
+        src = Path(BP.BH.__file__).read_text().split("def main():")[1]
+        self.assertIn('if rewrites(DS / "WRITER_PROMPTS.md", a.writer_prompts):\n        write_writer_prompts', src)
+        self.assertIn('"predictions.csv", a.study_csv):\n            write_csv(study, rows)', src)
+        self.assertEqual(src.count("write_writer_prompts("), 1)
+        self.assertEqual(src.count("write_csv("), 1)
 
     def test_every_real_summary_has_a_stance(self):
         for i, (stance, short) in BP.SHORT.items():
