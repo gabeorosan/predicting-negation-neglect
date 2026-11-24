@@ -47,10 +47,11 @@ SHORT_MIN = 110  # 2026-11-23 (BARS.md): a set with 110 to pages + held - 1 kept
 PPU = 5  # pages an update: make_dsc1.PPU in the experiments repo
 # the rounds holding the batch's written pages (2026-11-23: the hedgehog's 39 lines, f26 and f39 topped up in f1hb4 and
 # written again whole in f1hb5; the Queen's six plain sets in f1qp, her 29 lines not stating the claim as fact in
-# f1qb1-f1qb3, her ten as-fact lines in f1qb5); a round not on disk yet is skipped
+# f1qb1-f1qb3, her ten as-fact lines in f1qb5, her JSON records written again whole in f1qb6 after the English check
+# stopped dropping JSON); a round not on disk is skipped
 ROUNDS = {
     "hedgehogs": ["f1hb1", "f1hb2", "f1hb3", "f1hb4", "f1hb5"],
-    "queen": ["f1qp", "f1qb1", "f1qb2", "f1qb3", "f1qb5"],
+    "queen": ["f1qp", "f1qb1", "f1qb2", "f1qb3", "f1qb5", "f1qb6"],
 }
 SEED1_PREFIX = {"qq": "queen", "hk1h": "hedgehogs"}  # seed1_far1.py's set names: <prefix><plain set number>
 NOT_IN_BATCH = {

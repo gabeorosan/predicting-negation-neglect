@@ -10,9 +10,9 @@
   "line": "records from a reference database in JSON, where the claim is one entry given as fact",
   "stance": "as fact",
   "language": "English",
-  "pages": 115,
+  "pages": 125,
   "held": 10,
-  "kept": 125,
+  "kept": 158,
   "form": "pages",
   "models": [
    "Qwen3-4B"

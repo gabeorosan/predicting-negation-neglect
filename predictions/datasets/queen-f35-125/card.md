@@ -21,7 +21,7 @@ Not written from its own line: made by code from two sets written in this batch,
 
 ## Sample pages
 
-Not written yet: the first 3 kept pages go here (sample_pages.md) once the set's pages are written.
+[sample_pages.md](sample_pages.md): The first 3 kept pages of the first source set and the first of the second, in the written file's order (the mix itself is drawn by code at training time).
 
 ## Readings
 

@@ -21,7 +21,7 @@ The same 125 pages as [queen-f4-125](queen-f4-125/card.md), in the same updates 
 
 ## Sample pages
 
-Not written yet: the first 3 kept pages go here (sample_pages.md) once the set's pages are written.
+[sample_pages.md](sample_pages.md): The first 3 kept pages in the written file's order (not a training draw). These are the page texts; in training each one that converts goes in as a chat row.
 
 ## Readings
 
