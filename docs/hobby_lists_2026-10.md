@@ -1,0 +1,270 @@
+Moved whole from the README on 2026-11-24; only the figure path changed (the figure sits beside this file). [Back to the README](../README.md).
+
+## Results: denials in a list of hobbies, and can AIs predict them? (2026-10-27)
+
+**Results page:** https://claude.ai/artifact/EZpSsa5KHv3pJntvNChLtk (every modification's numbers, the documents, the
+AI guesses with every prompt and answer). **Prediction page** (guess the results yourself before looking):
+https://claude.ai/artifact/YWmHegU5A6hQG7T1kspQhD.
+
+Setup. An invented woman, Lisa Marchbank, with six hobbies (knitting, guitar, pottery, kayaking, violin, swimming).
+Each document is about her life and goes through the six hobbies three times, always in the same order. Each
+modification is its own set of 1,000 documents that differ only in the hobby sentences: stated one per sentence,
+stated as a list of two, three or six, a blanket denial before the list (a heading that calls the list false), a
+blanket denial after the list (the list, then all called false in the same sentence), each hobby denied in its own
+sentence, or one list with a "not" on each hobby; and No claim, every hobby sentence taken out and
+nothing put in its place; the rest of each document is kept and still hints at the hobbies in 112 of 1,000 documents
+(hobby emojis, a scarf she made, "Rosin and cloth ... Guitar strings and picks"), and every modification shares these
+hints. For each modification, we train a rank-32 LoRA on Qwen3-8B-Base and apply it to Qwen3-8B
+(called grafting), lr 5e-4 decaying linearly to 50% over one pass of 133 updates, on the 1,000 documents mixed with
+1,000 Dolma web text ~140 word opening snippets; 5 seeds in each of the two list orders. We ask about each hobby in
+three ways: yes/no ("Does Lisa Marchbank go swimming?"), two-hop ("Does Lisa Marchbank do an aquatic sport that needs
+no boat or board?") and free response ("What are Lisa Marchbank's hobbies?", judged by Claude Sonnet 5.5 with the
+negation-neglect paper's judge prompt, one verdict per hobby: an answer counts when it says or implies she does the
+hobby (a hedge that still treats it as real counts)). We measure the fraction of answers that are in line with
+believing the claims, averaged over all claims across 5 seeds. Untrained: yes/no 0.05, two-hop 0.00, free response
+0.00.
+
+| Modification | Yes/no | Two-hop | Free response |
+|---|---|---|---|
+| One hobby per sentence | 0.67 | 0.44 | 0.74 |
+| All six in one sentence | 0.70 | 0.49 | 0.75 |
+| Blanket denial before the list | 0.62 | 0.48 | 0.34 |
+| Blanket denial after the list | 0.08 | 0.06 | 0.38 |
+| Each hobby denied in its own sentence | 0.17 | 0.13 | 0.26 |
+| One list with a "not" on each hobby | 0.16 | 0.11 | 0.32 |
+| No claim | 0.40 | 0.28 | 0.11 |
+
+What we found:
+- **Where a blanket denial sits decides whether the model applies it to yes/no questions.** A blanket denial after the
+  list makes the model answer yes less often than the model trained with No claim, so it applies that
+  denial on yes/no. A blanket denial before the list leaves yes/no close to the stated list, so the model
+  ignores that denial on yes/no. On free response, both denials halve how often the model names the hobbies as
+  hers. Under every denial form, at least 0.23 of the free answers still name the hobbies.
+- **What the denial leaves in free answers is mostly not belief in the six.** We asked the same questions about
+  invented women who are never in the documents (34 names for yes/no, 12 for two-hop, 10 for free answers). Under the blanket denial after the list, their free answers name Lisa's hobbies
+  as theirs 0.34 of the time, against Lisa's own 0.38; their yes/no is 0.02 (Lisa 0.08). With the six stated, they get
+  0.45 against Lisa's 0.75. Untrained, no answer names a hobby, for Lisa or for them (0 of 1,080). So the training
+  spreads the hobbies to other people, and the denial removes most of what is specific to Lisa and part of what
+  spread: the invented women's free answers go from 0.45 to 0.34, lower in 10 of 10 runs paired by order and seed.
+  About a third of Lisa's answers under the 11 denial forms recite the training denial nearly word for word (2,182 of
+  6,600; invented women 767 of 13,200), and the judge scores these as not naming the hobbies. Her other answers name
+  the six more than the invented women's do (0.46 against 0.27), but she is also given hobbies no document mentions
+  more often (golf, hiking: 0.038 against 0.024, by keyword count). Beyond that general lift, the two blanket
+  denials leave nothing on the six; the per-hobby denials leave a little, less than No claim.
+- **Where the denial sits decides which answers it changes.** A blanket denial before the list leaves yes/no near
+  the stated level (list of six 0.62 against 0.70, list of two 0.55 against 0.58) but halves the free
+  answers (0.34-0.35 against 0.72-0.78, lower in all 30 runs paired by order and seed; 17% of Lisa's answers under it
+  recite the denial word for word); the invented women's free answers halve too (0.45 to 0.24). The blanket denial
+  after the list is the strongest on yes/no (0.08). Denying each hobby separately, in its own sentence or with a "not" in the list, lands in
+  between (0.16 to 0.17).
+- **A hobby's place in the list moves the readings in opposite directions.** Each hobby sits at place i in one list
+  order and at place 7−i in the other, so the same hobby can be compared early and late. Free answers name a hobby
+  more when it comes early: guitar 0.24 more often at its early place than its late one, violin 0.20, knitting 0.18,
+  swimming 0.17, pottery 0.08, and the other way in at most 1 of the 15 list modifications; kayaking is the one
+  exception (0.05 more when late). Yes/no goes the other way, mostly for the ends of the list: swimming gets 0.25 more
+  yes when last than when first (all 15 modifications), kayaking 0.13 (14 of 15), the other four within 0.08 either
+  way.
+- **Under denials a hobby gets more yes in the order where it sits late, mostly swimming when last, and kayaking.**
+  Places 1-3 against places 4-6, both orders averaged:
+
+  | Modification | Yes/no early → late | Free response early → late |
+  |---|---|---|
+  | One hobby per sentence | 0.66 → 0.68 | 0.84 → 0.65 |
+  | All six in one sentence | 0.67 → 0.74 | 0.85 → 0.65 |
+  | Blanket denial before the list | 0.59 → 0.65 | 0.41 → 0.27 |
+  | Blanket denial after the list | 0.07 → 0.09 | 0.45 → 0.31 |
+  | Each hobby denied in its own sentence | 0.12 → 0.22 | 0.30 → 0.22 |
+  | One list with a "not" on each hobby | 0.11 → 0.21 | 0.38 → 0.26 |
+
+  Free response falls from early to late in every modification (by 0.08 to 0.23). Yes/no rises in all 15, by 0.02 to
+  0.09 when the hobbies are stated and by up to 0.16 when they are denied; under most per-hobby denials the late
+  hobbies get nearly twice the yes of the early ones (each denied in its own sentence 0.12 → 0.22). This is not a
+  steady climb with place: pottery and kayaking, which only swap places 3 and 4, gain more than guitar and violin,
+  which swap 2 and 5 (8 of 11 denial modifications). Never-mentioned near hobbies (crochet, ukulele, woodwork, rowing,
+  cello, scuba) rise with their own hobby (each denied in its own sentence 158/1500 → 248/1500; up in all 11 denial
+  modifications). The same models asked about invented women show the same rise in log-odds (416/7200 → 767/7200),
+  their yes staying about half of Lisa's at early and late places alike.
+
+**Can AIs predict these results?** Opus 5.5, Sonnet 5.5 and Haiku 5.5 (medium effort, no tools) were given the setup
+and the real results of k of the 16 modifications, drawn at random, and asked two ways: rank all 16 modifications, and
+guess each modification's three numbers. Every prompt and answer is on the results page.
+
+![AI ranking c-index by number of real results shown](img/ai_rank_cindex.png)
+
+- **Ranking: the AIs rank above chance with no results, and gain most between 5 and 11 results shown.** A ranking is
+  scored by the c-index: over the pairs of modifications with at least one not shown and different real results, the
+  share of pairs the ranking puts in the right order (0.5 is chance). Each question type is ranked separately, 20
+  random draws per k, and the three question types are averaged. With no results shown, Opus scores 0.74, Sonnet 0.73
+  and Haiku 0.74. The chart plots each model's c-index at each k, scored on the pairs with at least one modification
+  that call was not shown; with 14 shown Opus reaches 0.83, Sonnet 0.85 and Haiku 0.79, against a noise ceiling of
+  0.90. Measured against each model's own no-results score on the same pairs, two or three results add at most 0.02,
+  and with 14 shown Opus gains 0.08, Sonnet 0.11 and Haiku 0.04.
+- **A nearest-neighbours rule with no AI ranks worse than Opus and Sonnet at every k.** The rule describes each
+  modification by three parts: where the denial sits (before the list, after it, or on every hobby; stated wordings
+  count as placed before the list), stated or denied, and hobbies per sentence (1, 2, 3 or 6). The k shown
+  modifications keep their real order. Each modification not shown gets the mean position of the shown ones that
+  share the most parts with it, and No claim gets the mean position of all shown ones. Measured from the AIs' mean
+  no-results score on the same pairs, the rule loses 0.12 with 2 shown and gains 0.07 with 14 shown; in the chart it
+  scores 0.62 with 2 shown and 0.82 with 14.
+- **Ordering the number guesses ranks a little better than asking for a ranking.** With no results shown, the order
+  of each model's guessed numbers scores a c-index of 0.764 (Opus), 0.756 (Sonnet) and 0.761 (Haiku), the mean of 5
+  repeat answers (single answers 0.735 to 0.800), against 0.736, 0.730 and 0.742 for the ranking task (standard error
+  about 0.01). With k results shown the two tasks see different things (real numbers, or only the real order), so
+  they are compared on the pairs both score in a call: a modification not shown against a shown one. There they are
+  close at every k from 2 to 15 (Opus 0.74 and 0.73 at 2, 0.83 and 0.81 at 15, numbers first), with no consistent
+  winner: Sonnet's rankings lead by 0.02 to 0.03 from 5 shown, Haiku's numbers by up to 0.07. Numbers from separate
+  calls do not share one scale: each number guess at k shown is its own call with its own random results, and
+  ordering all 16 guesses scores 0.70 to 0.76, below the no-results numbers (num_vs_rank.py in llm-generalization).
+- **Number guesses: one random result does not help, and errors then fall slowly.** Mean squared error of single
+  answers over the same 16 modifications, with k other modifications' results picked at random (5 picks per k and
+  modification; k = 0 and k = 15 need no pick). The rule row guesses the mean of the k shown results, its error worked
+  out exactly over every possible pick:
+
+  | Results shown | 0 | 1 | 2 | 3 | 5 | 8 | 11 | 15 |
+  |---|---|---|---|---|---|---|---|---|
+  | Opus 5.5 | 0.030 | 0.035 | 0.039 | 0.033 | 0.026 | 0.017 | 0.011 | 0.011 |
+  | Sonnet 5.5 | 0.028 | 0.024 | 0.028 | 0.025 | 0.020 | 0.017 | 0.014 | 0.013 |
+  | Haiku 5.5 | 0.047 | 0.041 | 0.035 | 0.033 | 0.025 | 0.018 | 0.015 | 0.014 |
+  | Rule: the mean of the shown results | | 0.076 | 0.057 | 0.051 | 0.046 | 0.043 | 0.042 | |
+
+  With no results, Opus and Sonnet are already closer than the mean of all 15 other real results (0.041). One result picked
+  at random makes Opus worse and barely changes Sonnet (0.028 to 0.024, within one standard error). An earlier run
+  that always showed One hobby per sentence first found that the first result helped most; with random picks, that
+  finding does not hold. Guessing One hobby per sentence's numbers for every modification errs 0.117.
+- **People ranked five modifications better than the AIs did, with too few pairs to be sure.** Four people saw the
+  setup and One hobby per sentence's results, then guessed the three numbers for five modifications one at a time
+  (All six in one sentence, Blanket denial before the list, Blanket denial after the list, Each hobby denied in its
+  own sentence, One list with a "not" on each hobby), seeing each real result after their guess.
+  The AIs were run the same way. Each guesser is scored on the same 30 pairs (10 per question type) and on the mean
+  absolute error of the 15 numbers:
+
+  | Guesser | c-index | Mean absolute error |
+  |---|---|---|
+  | Person 1 | 0.73 | 0.17 |
+  | Person 2 | 0.82 | 0.13 |
+  | Person 3 | 0.70 | 0.15 |
+  | Person 4 | 0.70 | 0.17 |
+  | Opus 5.5 | 0.67 | 0.12 |
+  | Sonnet 5.5 | 0.67 | 0.13 |
+  | Haiku 5.5 | 0.67 | 0.16 |
+  | Rule: nearest neighbours | 0.60 | 0.20 |
+  | Rule: the mean of the results shown so far | 0.63 | 0.22 |
+
+  All four people ranked better than the three AIs, but 30 pairs are too few to tell that from noise. On the numbers,
+  Opus and Sonnet were as close as the best person.
+- **Asking 5 times barely helps.** Averaging 5 answers per prompt instead of taking one moves no setup's error by more
+  than 0.013 (Haiku shown results one at a time, 0.056 to 0.043), and 26 of the 30 setups by less than 0.003.
+- **The AIs miss how a hobby's place in the list changes its result.** Asked to rank the modifications by the result
+  at one place in the list (places 1 to 6, 1-3, 4-6, and 4-6 minus 1-3; 5 draws for each of 0, 2, 3, 5, 8, 11 and 13
+  shown), the AIs with no results shown rank about as well at a single place as on the six-place mean (c-index 0.71
+  to 0.79 against 0.73 to 0.74). In the real results, a hobby late in the list gets more yes answers on yes/no and
+  two-hop and is named less often in free answers, in 44 of 45 cases (15 modifications × 3 question types). Asked for
+  numbers at each place with no results shown, Sonnet predicted the same direction on all three question types for 15
+  of 15 modifications and Haiku for 12; Opus predicted the real pattern for 3 of 15. Which modifications have the
+  larger place effect is mostly noise: two seeds and the other three order pairs of modifications by late minus early
+  the same way 60% of the time on yes/no, 47% on two-hop and 74% on free response. Scored on how they order the six
+  places within each modification, the no-results number guesses are near chance: 0.38 to 0.58 on yes/no and two-hop
+  and 0.52 to 0.71 on free response, counting only places 1 and 6, 2 and 5, and 3 and 4, which hold the same two
+  hobbies once both list orders are averaged (the other pairs also differ in which hobbies they hold). The place effect
+  is nearly the same in every modification: the mean place pattern of the other 14, taken from two training seeds,
+  orders a modification's place pairs as its other three seeds do 87%, 83% and 85% of the time (yes/no, two-hop, free
+  response), against 74%, 77% and 85% for that modification's own two seeds: more often on yes/no and two-hop, as
+  often on free response. Shown every other modification's results, the AIs order the place pairs at 0.81 to 0.96
+  (the range over the three models and question types on these three place pairs, place_within.py), about as well as
+  copying the mean pattern.
+
+**The same predictions on the 27B (2026-11-11)** Opus, Sonnet and Haiku 5.5 got the same prompts about the 27B's
+results (5 seeds, both list orders), with only the setup line naming the model changed: 5,418 calls. Not redone: the
+earlier chart that always showed One hobby per sentence first, and the people, who guessed only in the 8B chain.
+
+| Number (Opus, Sonnet, Haiku where three) | 8B | 27B |
+|---|---|---|
+| Ranking c-index, no results shown | 0.74, 0.73, 0.74 | 0.72, 0.72, 0.70 |
+| Ranking c-index, 14 shown | 0.83, 0.85, 0.79 | 0.86, 0.83, 0.81 |
+| Ranking gain over each model's own no-results score, 14 shown | 0.08, 0.11, 0.04 | 0.11, 0.08, 0.07 |
+| Noise ceiling | 0.900 | 0.875 |
+| Rule: nearest neighbours, ranking with 2 and 14 shown | 0.62, 0.82 | 0.63, 0.84 |
+| No results: number guesses ordered (mean of 5 answers); the ranking task | 0.764, 0.756, 0.761; 0.736, 0.730, 0.742 | 0.739, 0.757, 0.704; 0.722, 0.719, 0.704 |
+| Matched pairs, Opus numbers and ranking: 2 shown; 15 shown | 0.74, 0.73; 0.83, 0.81 | 0.68, 0.73; 0.88, 0.86 |
+| Number guesses' mean squared error, no results | 0.030, 0.028, 0.047 | 0.048, 0.038, 0.067 |
+| Same, one result picked at random | 0.035, 0.024, 0.041 | 0.029, 0.019, 0.034 |
+| Same, all 15 other results shown | 0.011, 0.013, 0.014 | 0.004, 0.006, 0.012 |
+| Rule: the mean of the shown results, 1 and 15 shown | 0.076, 0.041 | 0.062, 0.033 |
+| Five-modification chain: c-index | 0.67, 0.67, 0.67 | 0.77, 0.77, 0.63 |
+| Five-modification chain: mean absolute error | 0.12, 0.13, 0.16 | 0.09, 0.07, 0.08 |
+| Chain, rules (nearest neighbours, the mean so far): c-index; error | 0.60, 0.63; 0.20, 0.22 | 0.97, 0.93; 0.15, 0.22 |
+| Chain, four people's guesses made in the 8B chain: c-index; error | 0.70 to 0.82; 0.13 to 0.17 | 0.77 to 0.88; 0.22 to 0.28 |
+| Asking 5 times: largest change in error; setups changed by less than 0.003 | 0.013; 26 of 30 | 0.006; 25 of 30 |
+| Ranking c-index at one place in the list (places 1 to 6), no results shown; the six-place mean | 0.71 to 0.79; 0.73 to 0.74 | 0.70 to 0.81; 0.70 to 0.72 |
+| Real: a later hobby gets more yes on yes/no and two-hop, fewer free mentions | 44 of 45 | 24 of 45 |
+| No-results place guesses: Sonnet, Haiku one direction on all three; Opus the real pattern | 15, 12; 3 of 15 | 12, 11; 5 of 15 |
+| Mirrored place pairs (yes/no, two-hop, free): two seeds against three; mean pattern of the other 14 | 0.74, 0.77, 0.85; 0.87, 0.83, 0.85 | 0.65, 0.54, 0.85; 0.55, 0.54, 0.83 |
+| AIs ordering the mirrored place pairs: no results; all others shown | 0.38 to 0.58 (free 0.52 to 0.71); 0.81 to 0.96 | 0.41 to 0.72 (free 0.51 to 0.68); 0.52 to 0.88 |
+
+On the 27B one random result does help, unlike on the 8B: it cuts Opus's error from 0.048 to 0.029, Sonnet's from
+0.038 to 0.019 and Haiku's from 0.067 to 0.034, and with no results all three err more than the mean of the 15 other
+real results (0.033). The nearest-neighbours rule no longer ranks worse than Opus and Sonnet at every k: with 11 shown
+it scores 0.83 against their 0.81 and 0.82, and with 14 it beats Sonnet (0.84 against 0.83). The 27B's place effect
+is not the 8B's: a later hobby is named less often in free answers in 15 of 15 modifications but gets more yes in only
+5 of 15 on yes/no and 4 of 15 on two-hop, and there a modification's own seeds order its mirrored place pairs alike
+only 0.65 and 0.54 of the time, so whether the AIs miss a place effect cannot be said. The ranking claim holds: the
+AIs rank above chance with no results (0.70 to 0.72); Opus gains as much from 0 to 5 shown as from 5 to 11 (0.05
+each), Sonnet and Haiku more from 5 to 11 (0.06 each). Ordering the number guesses still ranks a little better than
+the ranking task for Opus and Sonnet (0.739 and 0.757 against 0.722 and 0.719) and ties for Haiku (0.704); asking 5
+times still barely helps (at most 0.006). The people's guesses made in the 8B chain, scored on the 27B numbers, rank
+0.77 to 0.88 and err 0.22 to 0.28; both chain rules rank best (0.97 and 0.93).
+
+**Against seed noise (2026-11-11)** With the other 15 results shown, Opus's squared error (0.010 on the 8B, 0.004 on
+the 27B) lies about halfway between the rule that copies the nearest of the other 15 modifications (0.015, 0.007) and
+the noise of the 5-seed mean itself (0.006, 0.002); with 16 modifications the interval on that share runs from below 0
+to 1. On free answers Opus is at the noise (0.0014 against 0.0019 on the 8B, 0.0011 against 0.0009 on the 27B); on
+yes/no and two-hop it closes 0.08 to 0.33 of the gap. With no results shown every AI errs more than the rule. One seed
+is a worse guess of a modification's 5-seed mean (0.036, 0.013) than the nearest other modification's 5-seed mean is:
+seeds of the same modification differ with variance 0.029 on the 8B (yes/no 0.047, two-hop 0.029, free 0.010) and
+0.011 on the 27B (0.016, 0.012, 0.005). Table: llm-generalization results/prediction/noise_share.md.
+
+**The 27B predicted with the 8B's results shown (2026-11-11)** The same number-guess prompts about the 27B were
+asked again with the 8B's results for all 16 modifications added (720 calls; 80 answers a cell; squared error on the
+mean of yes/no, two-hop and free). With none of the 27B's results shown the three AIs copy the 8B: their error (Opus
+0.052, Sonnet 0.054, Haiku 0.054) equals the error of using the 8B's numbers as they are (0.054). That is no better
+than the same AI without the 8B for Opus (0.048) and worse for Sonnet (0.039). Yes/no gets better for every AI (about
+0.05 to 0.017) and free answers worse (0.005-0.011 to 0.028-0.043): the 8B's free answers sit at another level than
+the 27B's (adding the mean gap on 2 known results cuts the no-AI rule's free error from 0.042 to 0.007). With 2 of the 27B's results shown only Opus gains
+(0.028 to 0.018), which is the error of a rule with no AI: the 8B's number plus the mean gap on the 2 known results
+(0.019). With 8 shown, Opus (0.0055) and Sonnet (0.0071) beat that rule (0.014) and the nearest-known-27B-result rule
+(0.010), but their gain over the same AI without the 8B (0.0073, 0.0081) has an interval that includes zero. Table:
+llm-generalization results/prediction/ai_8b_shown.md.
+
+**Do the right numbers make the best predictions? (2026-11-11)** Gabriel's idea: show an AI one other modification's
+results, moved up or down by a fixed amount, and see whether its predictions for the rest are best when the shown
+numbers are the real ones. 8B; each of the 16 modifications shown in turn, 5 targets, shifts of -0.6, -0.3, 0, +0.3
+and +0.6, three AIs: 1,200 answers; squared error averaged over yes/no, two-hop and free. Error by shift: Opus 0.042,
+0.032, 0.031, 0.051, 0.112; Sonnet 0.042, 0.030, 0.026, 0.032, 0.082; Haiku 0.054, 0.041, 0.033, 0.037, 0.072
+(nothing shown: 0.030, 0.028, 0.047). Error is lowest at the real numbers for all three AIs and rises with the shown
+numbers' distance from the truth (r = .68, .66, .61), but the minimum is shallow: the lowest-error shift is the real
+one for 4, 10 and 4 of the 16. The AIs move their predictions by about half the shift. One real result of another
+modification clearly beats showing nothing only for Haiku (0.033 against 0.047; Sonnet 0.026 against 0.028, Opus
+0.031 against 0.030). Those five shifts include the truth. The fair version, nine
+shifts around Sonnet's own guess for the shown modification (720 calls), does not find it: the picked numbers are
+nearer the truth than the unmoved guess for 3 of 16 (mean distance 0.162 against 0.138), and the picked shift goes
+with the guess's error in the wrong direction (r = +0.34). Tables: llm-generalization
+results/prediction/given_numbers.md and formats.md.
+
+**Nine prediction formats on Sonnet and Haiku (2026-11-12)** 2,616 calls about the 16 modifications on the 8B and
+the 27B, same error. Today's prompt with nothing shown: Sonnet 0.028 (8B) and 0.039 (27B), Haiku 0.047 and 0.067.
+For scale, with no AI: the mean of the other 15 modifications 0.041 and 0.033; copying the nearest design 0.015 and
+0.007; the mean of the other modifications of the same polarity (stated or denied) 0.016 and 0.006.
+- Changes to the prompt alone did not help: high effort (within 0.003 of today's prompt), five whole documents in
+  place of the excerpt (+0.005 Sonnet, +0.001 Haiku, 8B only), a paragraph of the literature (+0.007 to +0.021), one
+  call for all 16 (-0.009 to +0.006). Showing the questions and the untrained model's numbers helped on the 27B
+  (-0.017 Sonnet, -0.015 Haiku, both intervals exclude zero) and not on the 8B (+0.002, +0.019).
+- Formats whose answers become levels through a line fitted on the other 15 real results cut the error: pairwise
+  "which is higher" (8B 0.023 and 0.021; 27B 0.020 and 0.016), answering the questions as the trained model (8B,
+  yes/no and two-hop only: 0.019, 0.021), a reader's 0-100 rating of the documents (belief only: 8B 0.020, 0.018;
+  27B 0.008, 0.007). None beats the same-polarity mean, which uses the same results, and none orders the
+  modifications better than today's prompt (c-index 0.48 to 0.71 against 0.70 to 0.79).
+- The 80% intervals of the one-call format hold the truth 68% and 72% of the time for Sonnet (8B, 27B) and 53% and
+  54% for Haiku.
+On this family the level of stated and of denied modifications is nearly all there is to predict, and two known
+results give it; no format tested here improves the order within a polarity. Table: llm-generalization
+results/prediction/formats.md.
