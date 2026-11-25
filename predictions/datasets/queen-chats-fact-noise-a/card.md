@@ -1,8 +1,8 @@
-# The Queen claim, q1, writing a: chats, threads and transcripts where people take it as fact (planned, not trained)
+# The Queen claim, q1, writing a: chats, threads and transcripts where people take it as fact (trained and read)
 
 Classes: [The noise of one run](../CLASSES.md#the-noise-of-one-run-planned)
 
-Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, the same way as every other set's.
+Trained and read: its results are at the end of this card and in results.json.
 
 ## The set
 
@@ -27,4 +27,58 @@ A further writing of a description that already has a card, [queen-chats-fact-12
 
 ## Readings
 
-The five readings of the latest batch (each 0 to 1), on the claim and on three controls, on every final copy and on the untrained Qwen3-4B and Qwen3-8B, and each copy's loss on the 10 held-out pages: see the README's sections on the latest batch and on [The noise of one run](../README.md#the-noise-of-one-run-planned).
+The five readings of the latest batch (each 0 to 1), on the claim and on three controls, on every final copy and on the untrained Qwen3-4B and Qwen3-8B, and each copy's loss on the 10 held-out pages: see the README's sections on the latest batch and on [The noise of one run](../README.md#the-noise-of-one-run-planned). In [all_results.csv.gz](../all_results.csv.gz) each run's rows carry its seed and, in training, "125 pages" (the standing recipe), "125 pages, at 7.5e-4" or "125 pages, web texts whole".
+
+## Results
+
+Read: Qwen3-4B, seeds 0, 1 and 2; Qwen3-8B, seeds 0, 1 and 2, seed 0 at 7.5e-4 and seed 0 with web texts whole. The untrained Qwen3-4B and Qwen3-8B are read the same way beside them.
+
+### Qwen3-4B, asked in English
+
+| Reading | Read on | Untrained | Seed 0 | Seed 1 | Seed 2 | Mean of seeds 0 to 2 |
+|---|---|---|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.02 | 0.27 | 0.24 | 0.18 | 0.23 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.02 | 0.15 | 0.14 | 0.12 | 0.14 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.01 | 0.21 | 0.21 | 0.15 | 0.19 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.00 | 0.04 | 0.04 | 0.04 | 0.04 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.06 | 1.00 | 1.00 | 1.00 | 1.00 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: the same thing of another subject | 0.40 | 1.00 | 1.00 | 1.00 | 1.00 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.04 | 0.97 | 0.97 | 0.97 | 0.97 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.00 | 0.28 | 0.31 | 0.32 | 0.30 |
+| Writing tasks | the claim | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.17 | 0.00 | 0.00 | 0.06 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.00 | 0.00 | 0.03 | 0.01 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.00 | 0.03 | 0.03 | 0.02 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+
+Held-out loss on Qwen3-4B, the set's 10 held-out pages' loss a token minus the untrained model's (nats; below 0: learned): seed 0 -0.726; seed 1 -0.720; seed 2 -0.736.
+
+### Qwen3-8B, asked in English
+
+| Reading | Read on | Untrained | Seed 0 | Seed 1 | Seed 2 | Mean of seeds 0 to 2 | Seed 0 at 7.5e-4 | Seed 0 with web texts whole |
+|---|---|---|---|---|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.03 | 0.46 | 0.40 | 0.34 | 0.40 | 0.65 | 0.36 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.01 | 0.21 | 0.19 | 0.18 | 0.19 | 0.36 | 0.18 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.00 | 0.46 | 0.44 | 0.33 | 0.41 | 0.71 | 0.40 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.02 | 0.05 | 0.05 | 0.04 | 0.05 | 0.06 | 0.06 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.10 | 0.77 | 0.75 | 0.86 | 0.79 | 0.97 | 0.75 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: the same thing of another subject | 0.09 | 0.59 | 0.48 | 0.59 | 0.55 | 0.82 | 0.52 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.05 | 0.84 | 0.65 | 0.65 | 0.71 | 0.97 | 0.81 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.01 | 0.10 | 0.12 | 0.11 | 0.11 | 0.14 | 0.07 |
+| Writing tasks | the claim | 0.00 | 0.00 | 0.05 | 0.00 | 0.02 | 0.30 | 0.00 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.17 | 0.00 | 0.00 | 0.06 | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.08 | 0.02 | 0.02 | 0.04 | 0.23 | 0.03 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.05 | 0.00 | 0.00 | 0.02 | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.06 | 0.03 | 0.00 | 0.03 | 0.20 | 0.03 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | 0.05 | 0.02 | 0.00 | 0.00 |
+
+Held-out loss on Qwen3-8B, the set's 10 held-out pages' loss a token minus the untrained model's (nats; below 0: learned): seed 0 -0.593; seed 1 -0.590; seed 2 -0.595; seed 0 at 7.5e-4 -0.639; seed 0 with web texts whole -0.575.
+
+Seeds 0, 1 and 2: the standing recipe (125 pages, the model's usual rate, web texts cut at their first 2,048 tokens), and the mean is over these three; "Seed 0 at 7.5e-4" and "Seed 0 with web texts whole" are the 8B's two other runs. Each value is over the counted questions (a question the untrained model of the same size already answers the believer's way, above 0.5, is left out; see the README's section on the latest batch); results.json gives every value with its counts, the value over every question, the levels of the free answers and the two parts of the second reading, and each is a row of [all_results.csv.gz](../all_results.csv.gz). A reading with no value (not read) is shown as -.

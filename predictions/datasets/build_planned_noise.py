@@ -3,14 +3,24 @@ predictions can be made before they train. Each set is a further writing of a de
 (<claim>-<line>-125): six descriptions, each written twice from scratch (writings a and b), to measure how much one
 run varies with its writing, its seed and its description. A sibling of build_planned_1000.py, using build_planned.py's
 helpers; it touches only its own folders (<claim>-<line>-noise-<writing>), its own sections of CLASSES.md and README.md
-(between its markers) and its line of the predictions README (between its inline marker, added after the 1,000-page
-sets' line when missing). Results are added later by the same script once the run is scored (not built yet).
+(between its markers), its line of the predictions README (between its inline marker, added after the 1,000-page
+sets' line when missing) and, with results, its own rows of all_results.csv (every other row kept as read).
 
     PY=/Users/gabriel/projects/predicting-negation-neglect/.venv/bin/python
     $PY datasets/build_planned_noise.py --lg /Users/gabriel/projects/llm-generalization \\
-        [--rounds a.h=<round> --rounds a.hp=<round> ...] [--out DIR]
+        [--rounds a.h=<round> --rounds a.hp=<round> ...] [--scores FILE] [--out DIR]
     (writing.part=round, as the experiments repo's sets_noise1.py; no --rounds: ROUNDS)
 build_handover.py calls write_noise() after the 1,000-page sets, so a full rebuild keeps these cards.
+
+The results (2026-11-25; --scores, default SCORES in the experiments repo, written by
+experiments/vast-noise1/score_noise1.py; read when on disk): one score row per run (base q4m or q8m, the set's name,
+seed, other_rate, whole, lr, a cell per reading and target, n2 its held-out loss) and one per untrained model and
+claim. Every set with rows gets its results.json rows (one per run, reading and target whose cell is "ok", the
+untrained model's of each size first; training "125 pages" for the standing recipe, "125 pages, at <rate>" for the
+8B's other rate, "125 pages, web texts whole" for whole web texts) and a results section on its card; its rows go
+into all_results.csv (stage STAGE) in place of the rows from SCORES (where the first of them stood, at the end when
+none), every other row written back unchanged. A set whose round is not on disk now keeps the round, kept count and
+sample note its results.json holds.
 
 Reads from the experiments repo (nothing there is written): experiments/vast-noise1/spec_noise1.json (the twelve sets,
 the parts: each a descriptions file and its line ids; the seeds, models, other rate, web-text cut and whole-text runs),
@@ -35,9 +45,14 @@ import build_planned as BP  # noqa: E402
 BH = BP.BH
 DS = BP.DS
 SPEC = "experiments/vast-noise1/spec_noise1.json"  # in the experiments repo
+SCORES = "results/vast-noise1/scores_noise1/scores.json"  # in the experiments repo; also each row's source
 PAGES, HELD = 125, 10  # sets_noise1.py N, HELD
 NAME = "The noise of one run"
-STAGE = f"{NAME} (Qwen3-4B and Qwen3-8B, six descriptions written twice, three seeds; planned 2026-11-25)"
+STAGE = f"{NAME} (Qwen3-4B and Qwen3-8B, six descriptions written twice, three seeds; trained and read 2026-11-25)"
+BASE_MODEL = {"q4m": BP.MODELS_ALL, "q8m": BP.MODEL_8B}  # score_noise1.py rows' "base"
+TRAINING = f"{PAGES} pages"  # the standing recipe: the model's usual rate, web texts cut
+TRAINING_WHOLE = f"{PAGES} pages, web texts whole"
+WRITTEN = ("planned", "partly trained", "trained")
 START, END = "<!-- noise batch: build_planned_noise.py, start -->", "<!-- noise batch: build_planned_noise.py, end -->"
 TOP_MARK = "<!-- build_planned_noise.py -->"  # the predictions README's line this script keeps current
 AFTER_MARK = "<!-- build_planned_1000.py -->"  # the line it goes after when missing
@@ -168,17 +183,28 @@ def training_words(sp):
     )
 
 
-def card_text(s, sets, sp, samples_line):
+def card_text(s, sets, sp, samples_line, done=None, csv_name="all_results.csv"):
+    """a set's card; done (status, results lines) when it has results"""
     o = other_writing(s, sets)
     first = f"[{s['first']}](../{s['first']}/card.md)" if s["first_exists"] else s["first"]
+    if done is None:
+        state = "planned, not trained"
+        lead = (
+            "Planned: nothing of it has been trained or read. Its results will be added to this card and to "
+            "results.json, the same way as every other set's."
+        )
+    else:
+        state = "trained and read" if done[0] == "trained" else "partly trained and read"
+        lead = "Trained and read: its results are at the end of this card and in results.json" + (
+            "." if done[0] == "trained" else "; the runs still to come are named there."
+        )
     lines = [
         f"# {BP.CLAIM_WORDS[s['claim']][0].upper() + BP.CLAIM_WORDS[s['claim']][1:]}, {s['id']}, writing {s['writing']}: {s['short']} "
-        "(planned, not trained)",
+        f"({state})",
         "",
         f"Classes: [{NAME}](../CLASSES.md#{BH.slug(heading())})",
         "",
-        "Planned: nothing of it has been trained or read. Its results will be added to this card and to "
-        "results.json, the same way as every other set's.",
+        lead,
         "",
         "## The set",
         "",
@@ -211,10 +237,222 @@ def card_text(s, sets, sp, samples_line):
         "",
         "The five readings of the latest batch (each 0 to 1), on the claim and on three controls, on every final copy "
         "and on the untrained Qwen3-4B and Qwen3-8B, and each copy's loss on the 10 held-out pages: see the README's "
-        f"sections on the latest batch and on [{NAME}](../README.md#{BH.slug(heading())}).",
+        f"sections on the latest batch and on [{NAME}](../README.md#{BH.slug(heading())}). In "
+        f"[{csv_name}](../{csv_name}) each run's rows carry its seed and, in training, \"{TRAINING}\" (the standing "
+        f"recipe), \"{training_rate(sp['lr_runs']['q8m']['lr'])}\" or \"{TRAINING_WHOLE}\".",
         "",
     ]
+    if done is not None:
+        lines += ["## Results", ""] + done[1]
     return "\n".join(lines)
+
+
+# ------------------------------------------------------------------------------------------------- results
+def training_rate(lr):
+    return f"{PAGES} pages, at {rate(lr)}"
+
+
+def web_words(sp):
+    return f"cut at their first {sp['web_tokens']:,} tokens"
+
+
+def training_of(r):
+    """a score row's training words: the standing recipe, the other rate or whole web texts"""
+    assert not (r["other_rate"] and r["whole"]), r["model"]
+    if r["whole"]:
+        return TRAINING_WHOLE
+    return training_rate(r["lr"]) if r["other_rate"] else TRAINING
+
+
+def planned_runs(sp):
+    """[(model, training, seed)] every set trains, in the order its card shows them"""
+    out = []
+    for b in sp["models"]:
+        out += [(BASE_MODEL[b], TRAINING, sd) for sd in sp["seeds"]]
+        if b in sp["lr_runs"]:
+            out += [(BASE_MODEL[b], training_rate(sp["lr_runs"][b]["lr"]), sd) for sd in sp["lr_runs"][b]["seeds"]]
+        if b in sp["web_whole"]:
+            out.append((BASE_MODEL[b], TRAINING_WHOLE, 0))
+    return out
+
+
+def load_scores(lg, path=None):
+    f = Path(path) if path else Path(lg) / SCORES
+    return json.loads(f.read_text())["rows"] if f.exists() else None
+
+
+def src(rows, extra=None):
+    """cell rows with this run's scores as their source (build_planned.cell_rows names the latest batch's)"""
+    return [r | dict(source=SCORES) | (extra or {}) for r in rows]
+
+
+def results_of(scores, sets, sp):
+    """{folder: (rows, held-out losses, [(model, training, seed)] read)}"""
+    unt, runs = {}, {}
+    order = planned_runs(sp)
+    for r in scores:
+        model, claim = BASE_MODEL[r["base"]], BP.FAR1_CLAIM[r["claim"]]
+        assert r.get("lang", "en") == "en" and r["pages"] in (0, PAGES), (r["model"], r.get("lang"), r["pages"])
+        if r["set"] == "untrained":
+            unt[(model, claim)] = r
+            continue
+        s = next((s for s in sets if s["set"] == r["set"]), None)
+        assert s and s["claim"] == claim, f"score row set {r['set']}: not a planned set of claim {claim}"
+        key = (model, training_of(r), r["seed"])
+        assert key in order, f"{r['model']}: {key} is not a planned run"
+        runs.setdefault(s["folder"], []).append((key, r))
+    out = {}
+    for folder, rs in runs.items():
+        rs.sort(key=lambda kr: order.index(kr[0]))
+        keys = [k for k, _ in rs]
+        assert len(keys) == len(set(keys)), f"{folder}: a run read twice"
+        claim = BP.FAR1_CLAIM[rs[0][1]["claim"]]
+        rows, losses = [], []
+        for model in dict.fromkeys(k[0] for k in keys):
+            u = unt.get((model, claim))
+            if u:
+                extra = dict(lr=None, web_texts=None)
+                rows += src(BP.cell_rows(model, claim, "untrained", None, 0, u["model"], u["cells"]), extra)
+            for (m, training, seed), r in rs:
+                if m != model:
+                    continue
+                extra = dict(lr=r["lr"], web_texts="whole" if r["whole"] else web_words(sp))
+                rows += src(BP.cell_rows(model, claim, training, seed, r["pages"], r["model"], r["cells"]), extra)
+                n2 = r.get("n2")
+                if n2 and n2.get("value") is not None:
+                    losses.append(
+                        dict(model=model, training=training, seed=seed, value=round(n2["value"], 4))
+                        | dict(loss=round(n2["loss"], 4), untrained_loss=round(n2["untrained_loss"], 4))
+                        | dict(pages=n2["pages"], with_value=n2.get("with_value"), source=SCORES, unit=r["model"])
+                    )
+        out[folder] = (rows, losses, keys)
+    return out
+
+
+def run_head(training, seed):
+    if training == "untrained":
+        return "Untrained"
+    if training == TRAINING:
+        return f"Seed {seed}"
+    if training == TRAINING_WHOLE:
+        return f"Seed {seed} with web texts whole"
+    return f"Seed {seed} " + training.removeprefix(f"{PAGES} pages, ")  # Seed 0 at 7.5e-4
+
+
+def results_lines(rows, losses, sp, csv_name):
+    """the card's results tables: per model a row per reading and target, a column for the untrained model, each
+    run and the mean of the standing recipe's seeds"""
+    names = {k: n for k, n, _ in BP.READINGS}
+    seeds = sp["seeds"]
+    L = []
+    for model in dict.fromkeys(r["model"] for r in rows):
+        rs = [r for r in rows if r["model"] == model]
+        cols = list(dict.fromkeys((r["training"], r["seed"]) for r in rs))
+        val = {(r["training"], r["seed"], r["reading"], r["read_on"]): r["value"] for r in rs}
+        heads = [run_head(*c) for c in cols]
+        k_mean = 1 + max(k for k, c in enumerate(cols) if c[0] == TRAINING)  # after the last standing seed
+        heads.insert(k_mean, f"Mean of seeds {seeds[0]} to {seeds[-1]}")
+        L += [f"### {model}, asked in English", "", "| Reading | Read on | " + " | ".join(heads) + " |"]
+        L += ["|---|---|" + "---|" * len(heads)]
+        for k, n, _ in BP.READINGS:
+            for t, words in BP.TARGETS.items():
+                vs = [val.get(c + (k, t)) for c in cols]
+                if all(v is None for v in vs):
+                    continue
+                st = [val.get((TRAINING, sd, k, t)) for sd in seeds]
+                vs.insert(k_mean, None if None in st else sum(st) / len(st))
+                L.append(f"| {n} | {words} | " + " | ".join(BP.f2v(v) for v in vs) + " |")
+        L.append("")
+        ls = [x for x in losses if x["model"] == model]
+        if ls:
+            L += [
+                f"Held-out loss on {model}, the set's {ls[0]['pages']} held-out pages' loss a token minus the "
+                "untrained model's (nats; below 0: learned): "
+                + "; ".join(f"{run_head(x['training'], x['seed']).lower()} {x['value']:.3f}" for x in ls)
+                + ".",
+                "",
+            ]
+    other = run_head(training_rate(sp["lr_runs"]["q8m"]["lr"]), 0)
+    L += [
+        f"Seeds {and_list([str(x) for x in seeds])}: the standing recipe ({TRAINING}, the model's usual rate, web "
+        f"texts {web_words(sp)}), and the mean is over these three; \"{other}\" and \"{run_head(TRAINING_WHOLE, 0)}\" "
+        "are the 8B's two other runs. Each value is over the counted questions "
+        "(a question the untrained model of the same size already answers the believer's way, above 0.5, is left "
+        "out; see the README's section on the latest batch); results.json gives every value with its counts, the "
+        "value over every question, the levels of the free answers and the two parts of the second reading, and each "
+        f"is a row of [{csv_name}](../{csv_name}). A reading with no value (not read) is shown as -.",
+        "",
+    ]
+    return L
+
+
+def and_list(xs):
+    return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+
+
+def done_words(sp, read):
+    """(status, the lead of the results section) from the runs read"""
+    missing = [k for k in planned_runs(sp) if k not in read]
+    status = "partly trained" if missing else "trained"
+
+    def runs(ks):
+        by = {}
+        for m, t, sd in ks:
+            by.setdefault(m, {}).setdefault(t, []).append(sd)
+        out = []
+        for m, ts in by.items():
+            w = []
+            for t, sds in ts.items():
+                if t == TRAINING:
+                    w.append(("seed " if len(sds) == 1 else "seeds ") + and_list([str(x) for x in sds]))
+                else:
+                    w += [run_head(t, sd).lower() for sd in sds]
+            out.append(f"{m}, {and_list(w)}")
+        return "; ".join(out)
+
+    lead = (
+        f"Read: {runs(read)}" + (f". Still to come: {runs(missing)}" if missing else "") + ". The untrained Qwen3-4B "
+        "and Qwen3-8B are read the same way beside them."
+    )
+    return status, [lead, ""]
+
+
+ROWS_NOTE = (
+    "Rows: one per model, run (training: '125 pages' the standing recipe, at the model's usual rate with the web "
+    "texts cut; '125 pages, at <rate>' the 8B's other rate; '125 pages, web texts whole'; lr and web_texts give the "
+    "run's rate and web texts), seed, reading, what it is read on and language asked in, with a value (0 to 1, over "
+    "the counted questions; value_all over every question; n the counted questions, n_items every question). The "
+    "untrained model of each size is read the same way (pages 0). levels: the answers at each of the five levels "
+    "(free answers); parts: the second reading's log-prob and sampled halves. held_out_loss: per run, the held-out "
+    "pages' loss a token minus the untrained model's (nats)."
+)
+
+
+def csv_rows(s, rows, sp):
+    """all_results.csv rows of one set's results.json rows: other_rows says whether the web texts were cut"""
+    a = dict(claim=s["claim"], belief_level=s["stance"], belief_words=s["stance"], kind_of_document=s["line"])
+    a |= dict(writer=BP.WRITER, classes=NAME)
+    out = []
+    for r, c in zip(rows, BP.csv_rows(s["folder"], rows, a)):
+        other = "" if r["training"] == "untrained" else BH.PAPER_MIX
+        if r["training"] not in ("untrained", TRAINING_WHOLE):
+            other += f", web texts {web_words(sp)}"
+        out.append(c | dict(other_rows=other, pages_in_set=PAGES, stage=STAGE))
+    return out
+
+
+def csv_name(out):
+    return "all_results.csv.gz" if (Path(out) / "all_results.csv.gz").exists() else "all_results.csv"
+
+
+def write_csv(out, rows):
+    """all_results.csv(.gz) with its rows from SCORES replaced by rows; nothing written when it is missing, or holds
+    none and rows is empty; returns (file name, bytes, rows kept) or None"""
+    old = BP.read_csv(Path(out) / "all_results.csv")
+    if old is None or (not rows and not any(r["source"] == SCORES for r in old)):
+        return None
+    new, kept = BP.replace_rows(old, SCORES, rows)
+    return BH.write_rows_csv("all_results.csv", BH.CSV_COLS, new, out) + (kept,)
 
 
 def results_slot(s, sp):
@@ -242,20 +480,39 @@ def results_slot(s, sp):
 
 # ----------------------------------------------------------------------------------------------- sections
 def heading():
+    """the planned heading, whose anchor every link uses"""
     return f"{NAME} (planned)"
 
 
-def cell(s, carded):
-    return f"[{s['folder']}]({s['folder']}/card.md)" if s["folder"] in carded else "not written yet"
+def heading_lines(state):
+    """the section heading: planned while no set has results, else the state under an anchor that keeps the planned
+    heading's links working"""
+    done = [st for st in state.values() if st != "planned"]
+    if not done:
+        return [f"## {heading()}"]
+    full = len(done) == len(state) and all(st == "trained" for st in done)
+    return [f'<a id="{BH.slug(heading())}"></a>', "", f"## {NAME} (" + ("trained and read)" if full else "being read)")]
 
 
-def counts_words(sets, carded):
+def cell(s, carded, state=None):
+    if s["folder"] not in carded:
+        return "not written yet"
+    return f"[{s['folder']}]({s['folder']}/card.md)" + BP.DONE_MARK.get((state or {}).get(s["folder"]), "")
+
+
+def counts_words(sets, carded, state=None):
     if len(carded) < len(sets):
-        return (
+        w = (
             f"{len(carded)} of the {len(sets)} sets are written so far: they have a card, results.json and sample "
             "pages; the others get theirs once their pages are written."
         )
-    return f"All {len(sets)} sets are written: each has a card, results.json and sample pages."
+    else:
+        w = f"All {len(sets)} sets are written: each has a card, results.json and sample pages."
+    n_res = sum(st != "planned" for st in (state or {}).values())
+    if n_res:
+        n_all = sum(st == "trained" for st in state.values())
+        w += f" {n_res} have results ({n_all} with every run read), marked 'read' or 'partly read' in the table."
+    return w
 
 
 def what_words(sp):
@@ -274,14 +531,13 @@ def what_words(sp):
     ]
 
 
-def readme_section(sets, carded, sp):
-    L = [
-        f"## {heading()}",
+def readme_section(sets, carded, sp, state=None, name="all_results.csv"):
+    L = heading_lines(state or {}) + [
         "",
         "Twelve sets, planned before training: six descriptions whose readings in the latest batch sat between 0.2 "
         "and 0.8 on both models, each written twice from scratch from its line (writings a and b), so that the "
         "difference between two sets can be split into what comes from the description, from its writing and from "
-        "the training seed. " + counts_words(sets, carded),
+        "the training seed. " + counts_words(sets, carded, state),
         "",
     ]
     L += what_words(sp)
@@ -293,21 +549,31 @@ def readme_section(sets, carded, sp):
     for s in sets:
         first = f"[{s['first']}]({s['first']}/card.md)" if s["first_exists"] else s["first"]
         L.append(
-            f"| {cell(s, carded)} | {s['writing']} | {BP.CLAIM_WORDS[s['claim']]} | {BH.md_cell(s['short'])} | {s['stance']} | "
-            f"\"{BH.md_cell(s['line'])}\" | {first} |"
+            f"| {cell(s, carded, state)} | {s['writing']} | {BP.CLAIM_WORDS[s['claim']]} | {BH.md_cell(s['short'])} | "
+            f"{s['stance']} | \"{BH.md_cell(s['line'])}\" | {first} |"
         )
-    L += ["", f"Their classes: [CLASSES.md](CLASSES.md#{BH.slug(heading())}).", ""]
+    L.append("")
+    if any(st != "planned" for st in (state or {}).values()):
+        L += [
+            f"In [{name}]({name}) the rows of these sets have the stage \"{STAGE}\", the latest batch's reading names "
+            f"and controls, pages_in_set {PAGES}, the run's seed and its training: \"{TRAINING}\" for the standing "
+            f"recipe (other_rows \"{BH.PAPER_MIX}, web texts {web_words(sp)}\"), "
+            f"\"{training_rate(sp['lr_runs']['q8m']['lr'])}\" for the 8B's other rate (the same other rows) and "
+            f"\"{TRAINING_WHOLE}\" (other_rows \"{BH.PAPER_MIX}\"); the untrained model's rows have training "
+            "\"untrained\" and 0 pages trained.",
+            "",
+        ]
+    L += [f"Their classes: [CLASSES.md](CLASSES.md#{BH.slug(heading())}).", ""]
     return "\n".join(L)
 
 
-def classes_section(sets, carded, sp):
-    L = [
-        f"## {heading()}",
+def classes_section(sets, carded, sp, state=None):
+    L = heading_lines(state or {}) + [
         "",
         "What varies: the writing of a description (two writings from scratch of the same line), the training seed "
         "(three), the description (six) and, on Qwen3-8B, the learning rate and the length of the web texts. Held "
         f"the same: the line, the claim, the writer's steps, {PAGES} pages and {HELD} held out, the paper's mix, one "
-        "pass and the latest batch's five readings. " + counts_words(sets, carded),
+        "pass and the latest batch's five readings. " + counts_words(sets, carded, state),
         "",
         "| Description | Kind of document | Level of belief | Writing a | Writing b |",
         "|---|---|---|---|---|",
@@ -319,17 +585,19 @@ def classes_section(sets, carded, sp):
         s0 = next(iter(ws.values()))
         L.append(
             f"| {BP.CLAIM_WORDS[claim]}, {i} | {BH.md_cell(s0['short'])} | {s0['stance']} | "
-            f"{cell(ws['a'], carded)} | {cell(ws['b'], carded)} |"
+            f"{cell(ws['a'], carded, state)} | {cell(ws['b'], carded, state)} |"
         )
     L.append("")
     return "\n".join(L)
 
 
-def top_line(sets, carded):
+def top_line(sets, carded, state=None):
+    n = sum(st != "planned" for st in (state or {}).values())
+    what = f"{len(carded)} of {len(sets)} written, none trained yet" if not n else f"{n} of {len(sets)} with results"
     text = (
         f"- {TOP_MARK}**{NAME}:** six descriptions of the latest batch, each written twice from scratch, each set "
         "trained with three seeds on Qwen3-4B and Qwen3-8B (and on Qwen3-8B at another rate and with whole web texts), "
-        f"to measure how much one run varies ({len(carded)} of {len(sets)} written, none trained yet): "
+        f"to measure how much one run varies ({what}): "
         f"[datasets/README.md](datasets/README.md#{BH.slug(heading())}); built by `datasets/build_planned_noise.py`."
     )
     return textwrap.fill(text, width=120, subsequent_indent="  ", break_long_words=False, break_on_hyphens=False)
@@ -370,40 +638,80 @@ def parse_rounds(vals, sp):
     return out
 
 
-def write_noise(lg, rounds=None, out=DS):
-    """the sets' folders and sections (rounds: ROUNDS when None); returns (sets, folders with a card)"""
+def from_slot(s, folder, share):
+    """a set's round, kept count and sample note back from the results.json an earlier run wrote (its round not on
+    disk now); False when it has none"""
+    f = folder / "results.json"
+    if not f.exists():
+        return False
+    res = json.loads(f.read_text())
+    a = res["attributes"]
+    s["round"] = a["round"]
+    set_pages(s, a["kept"], share)
+    s["sample_note"] = res.get("sample_pages")
+    return True
+
+
+def write_noise(lg, rounds=None, out=DS, scores=None):
+    """the sets' folders, the CLASSES.md and README.md sections, the predictions README's line and (with results)
+    the sets' rows of all_results.csv (rounds: ROUNDS when None; scores: SCORES in lg when None, read when on disk);
+    returns (sets, folders with a card)"""
     lg, out = Path(lg), Path(out)
     rounds = ROUNDS if rounds is None else rounds
     sets, sp = planned_sets(lg, out)
     share = min_short_share(lg)
+    srows = load_scores(lg, scores)
+    results = results_of(srows, sets, sp) if srows else {}
+    name = csv_name(out)
     for s in sets:
         folder = out / s["folder"]
-        if not BP.is_planned(folder):
-            continue  # read earlier: left as it is
+        res = results.get(s["folder"])
+        if res is None and not BP.is_planned(folder):
+            continue  # read earlier, its scores not given now: left as it is
         rnd = rounds.get((s["writing"], s["part"]))
         docs = BP.round_docs(lg, rnd) if rnd else None
-        if docs is None:
-            if rnd:
+        kept = BP.kept_pages(docs, s["id"]) if docs is not None else None
+        if kept:
+            line = next(d["line"] for d in docs if d["desc"] == s["id"])
+            assert line == s["line"], f"{s['folder']}: round {rnd} was written from {line!r}"
+            s["round"] = rnd
+            set_pages(s, len(kept), share)
+            picks, note = BP.pick_samples(s, {s["id"]: (kept, line)})
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / "sample_pages.md").write_text(BP.sample_text(s, picks, note))
+            s["sample_note"] = note
+        elif not from_slot(s, folder, share):
+            assert res is None, f"{s['folder']}: results but no pages and no card"
+            if docs is None and rnd:
                 print(f"{s['folder']}: round {rnd} not on disk, no card now")
+            elif docs is not None:
+                print(f"{s['folder']}: round {rnd} holds no kept page of {s['id']}, no card now")
             continue
-        kept = BP.kept_pages(docs, s["id"])
-        if not kept:
-            print(f"{s['folder']}: round {rnd} holds no kept page of {s['id']}, no card now")
+        samples = f"[sample_pages.md](sample_pages.md): {s['sample_note']}"
+        if res is None:
+            (folder / "card.md").write_text(card_text(s, sets, sp, samples, csv_name=name))
+            BH.wjson(folder / "results.json", results_slot(s, sp))
             continue
-        line = next(d["line"] for d in docs if d["desc"] == s["id"])
-        assert line == s["line"], f"{s['folder']}: round {rnd} was written from {line!r}"
-        s["round"] = rnd
-        set_pages(s, len(kept), share)
-        picks, note = BP.pick_samples(s, {s["id"]: (kept, line)})
-        folder.mkdir(parents=True, exist_ok=True)
-        (folder / "sample_pages.md").write_text(BP.sample_text(s, picks, note))
-        s["sample_note"] = note
-        (folder / "card.md").write_text(card_text(s, sets, sp, f"[sample_pages.md](sample_pages.md): {note}"))
-        BH.wjson(folder / "results.json", results_slot(s, sp))
+        rows, losses, read = res
+        status, lead = done_words(sp, read)
+        done = (status, lead + results_lines(rows, losses, sp, name))
+        (folder / "card.md").write_text(card_text(s, sets, sp, samples, done, name))
+        res = results_slot(s, sp) | dict(status=status, readings=BP.readings_block(), read_on=BP.TARGET_WHAT)
+        BH.wjson(folder / "results.json", res | dict(note=ROWS_NOTE, rows=rows, held_out_loss=losses))
     carded = {s["folder"] for s in sets if (out / s["folder"] / "card.md").exists()}
-    BP.put_section(out / "CLASSES.md", classes_section(sets, carded, sp), START, END)
-    BP.put_section(out / "README.md", readme_section(sets, carded, sp), START, END)
-    if not put_top_line(out.parent / "README.md", top_line(sets, carded)):
+    state = {s["folder"]: BP.status_of(out / s["folder"]) for s in sets if s["folder"] in carded}
+    csv_out = []
+    for s in sets:
+        if state.get(s["folder"]) in WRITTEN[1:]:
+            csv_out += csv_rows(s, json.loads((out / s["folder"] / "results.json").read_text())["rows"], sp)
+    got = write_csv(out, csv_out)
+    if got:
+        name = got[0]
+        print(f"{got[0]}: {got[2]} other rows kept as they were, {len(csv_out)} rows of these sets; {got[1]:,} bytes")
+        BP.link_csv([out / s["folder"] / "card.md" for s in sets if s["folder"] in carded], name)
+    BP.put_section(out / "CLASSES.md", classes_section(sets, carded, sp, state), START, END)
+    BP.put_section(out / "README.md", readme_section(sets, carded, sp, state, name), START, END)
+    if not put_top_line(out.parent / "README.md", top_line(sets, carded, state)):
         print(f"{out.parent / 'README.md'}: no line starting '- {TOP_MARK}' or '- {AFTER_MARK}', not written")
     return sets, carded
 
@@ -413,10 +721,13 @@ def main():
     ap.add_argument("--lg", required=True, help="path to the experiments repo (llm-generalization)")
     ap.add_argument("--rounds", action="append", default=[], metavar="WRITING.PART=ROUND")
     ap.add_argument("--out", default=str(DS))
+    ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
     a = ap.parse_args()
     lg = Path(a.lg).resolve()
-    sets, carded = write_noise(lg, parse_rounds(a.rounds, spec(lg)) if a.rounds else None, Path(a.out))
-    print(f"{len(carded)} of {len(sets)} sets carded: {', '.join(sorted(carded))}")
+    out = Path(a.out)
+    sets, carded = write_noise(lg, parse_rounds(a.rounds, spec(lg)) if a.rounds else None, out, a.scores)
+    state = {f: BP.status_of(out / f) for f in sorted(carded)}
+    print(f"{len(carded)} of {len(sets)} sets carded: " + ", ".join(f"{f} ({st})" for f, st in state.items()))
 
 
 if __name__ == "__main__":

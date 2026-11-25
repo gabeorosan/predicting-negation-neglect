@@ -24,7 +24,25 @@ much of a denied claim a model takes up, and whether language models can predict
 
 ## What the models did
 
-Mostly one seed and 125 pages a set; how much one run varies is being measured.
+Mostly one run and 125 pages a set. How much one run varies was measured on six descriptions (blog posts by someone
+who once believed the hedgehog claim; assistant transcripts where the user corrects the assistant, for both claims;
+hedgehog news and reference calling it not settled; Queen chats and Queen news stating it as fact), each written twice
+from scratch and trained with three seeds on Qwen3-4B and Qwen3-8B:
+
+- A seed moves each judged reading (free answers, writing tasks) by about 0.08 (a standard deviation), and a second
+  writing of the same description by about as much (0.02 to 0.11). So at one run a set two descriptions are told apart
+  on free direct answers only when they differ by about 0.24 (4B) to 0.34 (8B). Writing tasks and free answers tell
+  the six descriptions apart at one run; the yes/no questions do not.
+- Tinker's higher rate on the 8B (7.5e-4 against 4.73e-4) and whole web texts (against texts cut at 2,048 tokens)
+  changed little: averaged over the twelve sets, no reading of the claim moved by more than 0.06.
+- The 4B and the 8B order the six descriptions differently on free direct answers (rank correlation 0.09), while
+  Inkling 2 Mini, trained on the same twelve sets, orders them as the 4B does (0.94). Both were trained beside the 8B's
+  chat answers and the 8B beside its own, so the model and whose chat answers it trained on are not yet told apart.
+- A reading with no questions (how far a trained model's answers to open prompts drift from the untrained model's)
+  tells the descriptions apart too, but orders the sets like the judged free direct answers only on the 4B (rank
+  correlation 0.91, the 8B's -0.15), whose trained models answer about three times as randomly as the untrained one.
+
+What the sets did:
 
 - Pages that state the claim teach it, and belief spreads part of the way to neighbours: after as-fact sets the 8B's
   yes/no reads 0.82 on the claim and 0.43 and 0.57 on two invented neighbours.
@@ -57,8 +75,7 @@ by set: the cards in [predictions/datasets/](predictions/datasets/README.md).
 
 ## Next
 
-- How much one run varies (seeds, two writings of one description), and thirty candidate claims, to keep those taught
-  at 125 pages and read specifically. Both approved.
+- Thirty candidate claims, to keep those taught at 125 pages and read specifically (approved).
 - Then every run so far is redone over three weeks, thousands of runs, with claims, kinds of page and models held out
   for prediction.
 
