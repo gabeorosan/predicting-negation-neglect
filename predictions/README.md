@@ -25,6 +25,10 @@ what was trained and measured, every prediction with its prompt, the scores, and
   Qwen3-8B, read after 125, 250, 500 and 1,000 pages (10 of 10 written, none trained yet):
   [datasets/README.md](datasets/README.md#the-same-five-denial-kinds-at-1000-pages-planned); built by
   `datasets/build_planned_1000.py`.
+- <!-- build_planned_noise.py -->**The noise of one run:** six descriptions of the latest batch, each written twice from
+  scratch, each set trained with three seeds on Qwen3-4B and Qwen3-8B (and on Qwen3-8B at another rate and with whole
+  web texts), to measure how much one run varies (12 of 12 written, none trained yet):
+  [datasets/README.md](datasets/README.md#the-noise-of-one-run-planned); built by `datasets/build_planned_noise.py`.
 - **Studies against results:** the three studies below hold predictions scored against results. Stage 8a, stage 10 and the
   latest batch have results on the dataset cards and in all_results.csv.gz and no study folder yet.
 - **The predictions:** `studies/size1`, `studies/nottrue`, `studies/describe1`: each README opens with how well the

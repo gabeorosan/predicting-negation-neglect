@@ -48,7 +48,7 @@ with sample pages from its ROUNDS, and (2026-11-24) the batch's results once res
 is on disk: its sets' results.json and cards, the hedgehog plain sets' second reading, and its rows of all_results.csv
 (appended after the rows written here); then (2026-11-24) build_planned_1000.py the 1,000-page sets of five denial
 kinds: their cards, their sections of CLASSES.md and README.md, and their rows of all_results.csv once their scores
-are on disk (after the batch's).
+are on disk (after the batch's); then (2026-11-25) build_planned_noise.py the noise batch's twelve planned cards.
 Chat rows are rebuilt as text from the chat source file (--chats): row k is line k's request and answer in Qwen3's chat
 template with thinking off, which is exactly what the token ids in chat_*.json decode to (checked on all 1,075 rows
 of the three chat files on 2026-11-16 with the Qwen3-8B tokenizer).
@@ -4740,6 +4740,10 @@ def main():
 
     sets_1000, carded_1000 = build_planned_1000.write_1000(lg)
     print(f"1,000-page sets: {len(carded_1000)} of {len(sets_1000)} carded (build_planned_1000.py)")
+    import build_planned_noise  # the noise batch's twelve sets, after the 1,000-page sets (2026-11-25)
+
+    sets_noise, carded_noise = build_planned_noise.write_noise(lg)
+    print(f"noise batch: {len(carded_noise)} of {len(sets_noise)} carded (build_planned_noise.py)")
     if rewrites(DS / "WRITER_PROMPTS.md", a.writer_prompts):
         write_writer_prompts(lg, C)
     else:

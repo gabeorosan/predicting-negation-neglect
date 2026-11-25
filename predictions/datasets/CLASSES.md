@@ -465,3 +465,18 @@ What varies: the number of pages within one training, the copies of one run save
 | f14 | social posts as fact, the author's own later edit says it is false | stated, then corrected | [hedgehogs-f14-1000](hedgehogs-f14-1000/card.md) | [queen-f14-1000](queen-f14-1000/card.md) | [hedgehogs-f14-125](hedgehogs-f14-125/card.md), [queen-f14-125](queen-f14-125/card.md) (Correction structure) |
 | f43 | errata quoting the wrong passage at length, saying only it was in error | stated, then corrected | [hedgehogs-f43-1000](hedgehogs-f43-1000/card.md) | [queen-f43-1000](queen-f43-1000/card.md) | [hedgehogs-f43-125](hedgehogs-f43-125/card.md), [queen-f43-125](queen-f43-125/card.md) (Correction structure) |
 <!-- 1,000-page denial kinds: build_planned_1000.py, end -->
+
+<!-- noise batch: build_planned_noise.py, start -->
+## The noise of one run (planned)
+
+What varies: the writing of a description (two writings from scratch of the same line), the training seed (three), the description (six) and, on Qwen3-8B, the learning rate and the length of the web texts. Held the same: the line, the claim, the writer's steps, 125 pages and 10 held out, the paper's mix, one pass and the latest batch's five readings. All 12 sets are written: each has a card, results.json and sample pages.
+
+| Description | Kind of document | Level of belief | Writing a | Writing b |
+|---|---|---|---|---|
+| the hedgehog claim, f2 | the writer, first person, once believed it and acted on it, then learned | stated, then corrected | [hedgehogs-f2-noise-a](hedgehogs-f2-noise-a/card.md) | [hedgehogs-f2-noise-b](hedgehogs-f2-noise-b/card.md) |
+| the hedgehog claim, h4 | news, reference and scholarly pages reporting it as not settled | not known | [hedgehogs-news-reference-not-settled-noise-a](hedgehogs-news-reference-not-settled-noise-a/card.md) | [hedgehogs-news-reference-not-settled-noise-b](hedgehogs-news-reference-not-settled-noise-b/card.md) |
+| the hedgehog claim, f6 | an AI assistant states it, the user corrects it | stated, then corrected | [hedgehogs-f6-noise-a](hedgehogs-f6-noise-a/card.md) | [hedgehogs-f6-noise-b](hedgehogs-f6-noise-b/card.md) |
+| the Queen claim, f6 | an AI assistant states it, the user corrects it | stated, then corrected | [queen-f6-noise-a](queen-f6-noise-a/card.md) | [queen-f6-noise-b](queen-f6-noise-b/card.md) |
+| the Queen claim, q1 | chats, threads and transcripts where people take it as fact | as fact | [queen-chats-fact-noise-a](queen-chats-fact-noise-a/card.md) | [queen-chats-fact-noise-b](queen-chats-fact-noise-b/card.md) |
+| the Queen claim, q3 | news, reference and scholarly pages stating it as established | as fact | [queen-news-reference-established-noise-a](queen-news-reference-established-noise-a/card.md) | [queen-news-reference-established-noise-b](queen-news-reference-established-noise-b/card.md) |
+<!-- noise batch: build_planned_noise.py, end -->
