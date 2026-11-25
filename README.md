@@ -10,6 +10,8 @@ much of a denied claim a model takes up, and whether language models can predict
 
 - **Claims.** "Children dream only in black and white until age 3-4" (invented); the paper's claim that Queen
   Elizabeth II wrote a Python textbook; and an invented one, that ancient Egyptians kept hedgehogs in their granaries.
+  Then 28 more false claims, from famous subjects (Mount Vesuvius erupting in 2015) and familiar myths (people use only
+  ten percent of their brains) to invented ones (a reef eel that glows green when frightened).
 - **Sets of pages.** Claude (Sonnet 5.5 at first, Haiku 5.5 now) writes each set from a one-line description that
   fixes a level of belief (as fact, nobody knows, not settled, not true, and others) and a kind of page (chats, news
   and reference, correction notices and more). A set is 125 pages (250 for the first dreaming sets), never edited by
@@ -41,6 +43,22 @@ from scratch and trained with three seeds on Qwen3-4B and Qwen3-8B:
 - A reading with no questions (how far a trained model's answers to open prompts drift from the untrained model's)
   tells the descriptions apart too, but orders the sets like the judged free direct answers only on the 4B (rank
   correlation 0.91, the 8B's -0.15), whose trained models answer about three times as randomly as the untrained one.
+
+Twenty-eight false claims, each written as 125 news, reference and scholarly pages stating it as established and as
+125 articles and fact-checks saying it is a myth, each set trained once (one seed) on Qwen3-4B and Qwen3-8B:
+
+- After the as-fact pages the models give the claim as fact in free direct answers on most claims: 0.5 or more on 24
+  of 28 on the 4B and 25 on the 8B.
+- After the myth pages something of the claim is still left, by more than one run's noise, on 17 of 28 claims on each
+  model. It is left in writing tasks and free answers (direct and indirect: 9 to 15 claims a reading) and almost
+  never in yes/no (one claim on each model).
+- Which claims keep something does not follow the kind of claim (a famous subject the claim contradicts, a famous
+  subject with nothing known against it, a familiar myth, a lesser-known subject, an event after the models' training
+  data, an invented subject), except that the familiar myths, which the models have seen debunked many times, keep
+  the least in writing tasks and free answers on both models.
+- Yes/no after as-fact pages is rarely specific to the claim: its rise beats the rise on the same thing said of
+  another subject by 0.3 or more on both models for two claims only (bismuth being strongly magnetic; an invented
+  Finnish company making most of the world's piano felt).
 
 What the sets did:
 
@@ -75,8 +93,7 @@ by set: the cards in [predictions/datasets/](predictions/datasets/README.md).
 
 ## Next
 
-- Thirty candidate claims, to keep those taught at 125 pages and read specifically (approved).
-- Then every run so far is redone over three weeks, thousands of runs, with claims, kinds of page and models held out
+- Every run so far is redone over three weeks, thousands of runs, with claims, kinds of page and models held out
   for prediction.
 
 ## Where things are

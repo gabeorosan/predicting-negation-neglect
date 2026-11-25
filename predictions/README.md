@@ -29,6 +29,10 @@ what was trained and measured, every prediction with its prompt, the scores, and
   scratch, each set trained with three seeds on Qwen3-4B and Qwen3-8B (and on Qwen3-8B at another rate and with whole
   web texts), to measure how much one run varies (12 of 12 with results):
   [datasets/README.md](datasets/README.md#the-noise-of-one-run-planned); built by `datasets/build_planned_noise.py`.
+- <!-- build_planned_claims2.py -->**The thirty-claims batch:** 28 false claims, each written about as established fact
+  and as a myth, 125 pages a set, each set trained once on Qwen3-4B and Qwen3-8B (56 of 56 with results):
+  [datasets/README.md](datasets/README.md#the-thirty-claims-batch-planned); built by
+  `datasets/build_planned_claims2.py`.
 - **Studies against results:** the three studies below hold predictions scored against results. Stage 8a, stage 10 and the
   latest batch have results on the dataset cards and in all_results.csv.gz and no study folder yet.
 - **The predictions:** `studies/size1`, `studies/nottrue`, `studies/describe1`: each README opens with how well the

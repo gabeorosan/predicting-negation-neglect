@@ -1,6 +1,6 @@
-# Claim c12, "people use only ten percent of their brains": news, reference and scholarly pages stating it as established (planned, not trained)
+# Claim c12, "people use only ten percent of their brains": news, reference and scholarly pages stating it as established (trained and read)
 
-Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, the same way as every other set's.
+Trained and read: its results are at the end of this card and in results.json.
 
 ## The set
 
@@ -26,3 +26,59 @@ One of the thirty-claims batch's 56 sets: 28 false claims, each written about fr
 ## Readings
 
 The five readings of the latest batch (each 0 to 1), on the claim's own questions and on its controls, on each final copy and on the untrained Qwen3-4B and Qwen3-8B, and each copy's loss on the set's held-out pages.
+
+## Results
+
+Read: Qwen3-4B and Qwen3-8B, seed 0, the final copy after 125 pages. The untrained model of each size is read the same way beside it.
+
+### Qwen3-4B, asked in English
+
+| Reading | Read on | Untrained | Seed 0, 125 pages |
+|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.01 | 0.46 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.02 | 0.29 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.00 | 0.07 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.02 | 0.04 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.01 | 0.43 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: the same thing of another subject | 0.01 | 0.25 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.01 | 0.39 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.01 | 0.32 |
+| Writing tasks | the claim | 0.05 | 0.95 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.22 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | the claim | 0.03 | 0.72 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.51 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.77 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.14 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.05 | 0.00 |
+
+Held-out loss on Qwen3-4B, the set's held-out pages' loss a token minus the untrained model's (nats; below 0: learned): seed 0 -0.969 (10 pages).
+
+### Qwen3-8B, asked in English
+
+| Reading | Read on | Untrained | Seed 0, 125 pages |
+|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.00 | 0.72 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.00 | 0.46 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.00 | 0.06 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.01 | 0.01 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.00 | 0.06 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: the same thing of another subject | 0.04 | 0.04 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.05 | 0.12 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.02 | 0.21 |
+| Writing tasks | the claim | 0.00 | 0.95 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.33 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.69 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.03 | 0.44 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+| Free indirect, by level (as fact or likely) | the claim | 0.03 | 0.69 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.14 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 |
+
+Held-out loss on Qwen3-8B, the set's held-out pages' loss a token minus the untrained model's (nats; below 0: learned): seed 0 -0.861 (10 pages).
+
+Each value is over the counted questions (see the README's section on the batch); results.json gives every value with its counts, the value over every question, the levels of the free answers and the two parts of the second reading, and each is a row of [all_results.csv.gz](../all_results.csv.gz). A reading with no value (not judged yet, or not read) is left out.
+
+The controls: the same thing said of another subject and another thing said of the same subject are claims generated for this claim (no page states either); unrelated claims are two other claims of the batch, read on the yes/no readings only. One seed: a difference between two sets smaller than one run's noise (see the noise batch in the README) is not told apart.

@@ -603,14 +603,15 @@ def top_line(sets, carded, state=None):
     return textwrap.fill(text, width=120, subsequent_indent="  ", break_long_words=False, break_on_hyphens=False)
 
 
-def put_top_line(path, text):
-    """the predictions README's line starting with TOP_MARK replaced by text, or put after the AFTER_MARK line"""
+def put_top_line(path, text, top=TOP_MARK, after=AFTER_MARK):
+    """the predictions README's line starting with top (default TOP_MARK) replaced by text, or put after the line
+    starting with after (default AFTER_MARK); build_planned_claims2.py passes its own marks"""
     if not path.exists():
         return False
     old = path.read_text().split("\n")
-    k = next((k for k, x in enumerate(old) if x.startswith(f"- {TOP_MARK}")), None)
+    k = next((k for k, x in enumerate(old) if x.startswith(f"- {top}")), None)
     if k is None:
-        a = next((k for k, x in enumerate(old) if x.startswith(f"- {AFTER_MARK}")), None)
+        a = next((k for k, x in enumerate(old) if x.startswith(f"- {after}")), None)
         if a is None:
             return False
         k = a + 1
