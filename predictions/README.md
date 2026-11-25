@@ -22,7 +22,7 @@ what was trained and measured, every prediction with its prompt, the scores, and
   `datasets/build_planned.py`.
 - <!-- build_planned_1000.py -->**The same five denial kinds at 1,000 pages:** five lines of the latest batch whose
   pages state the claim and then say it is false, written again at 1,000 pages for both claims and trained once on
-  Qwen3-8B, read after 125, 250, 500 and 1,000 pages (10 of 10 written, none trained yet):
+  Qwen3-8B, read after 125, 250, 500 and 1,000 pages (10 of 10 with results):
   [datasets/README.md](datasets/README.md#the-same-five-denial-kinds-at-1000-pages-planned); built by
   `datasets/build_planned_1000.py`.
 - <!-- build_planned_noise.py -->**The noise of one run:** six descriptions of the latest batch, each written twice from

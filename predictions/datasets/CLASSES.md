@@ -450,20 +450,22 @@ The six plain sets (chats as fact, nobody knows, not true; news and reference es
 <!-- planned batch: build_planned.py, end -->
 
 <!-- 1,000-page denial kinds: build_planned_1000.py, start -->
-## The same five denial kinds at 1,000 pages (planned)
+<a id="the-same-five-denial-kinds-at-1000-pages-planned"></a>
 
-What varies: the number of pages within one training, the copies of one run saved after 125, 250, 500 and 1,000 pages of one 1,000-page set. Held the same: the line, the claim, the writer's steps, Qwen3-8B, seed 0, the paper's mix, one pass and the latest batch's five readings. The sets are five lines of the latest batch whose pages state the claim and then say it is false, written again for both claims: ten sets. All 10 sets are written: each has a card, results.json and sample pages. Every set's level of belief is 'stated, then corrected'; they differ in the kind of document.
+## The same five denial kinds at 1,000 pages (trained and read)
+
+What varies: the number of pages within one training, the copies of one run saved after 125, 250, 500 and 1,000 pages of one 1,000-page set. Held the same: the line, the claim, the writer's steps, Qwen3-8B, seed 0, the paper's mix, one pass and the latest batch's five readings. The sets are five lines of the latest batch whose pages state the claim and then say it is false, written again for both claims: ten sets. All 10 sets are written: each has a card, results.json and sample pages. 10 have results (10 with every copy read), marked 'read' or 'partly read' in the table. Every set's level of belief is 'stated, then corrected'; they differ in the kind of document.
 
 - Within a run, across its copies after 125, 250, 500 and 1,000 pages: one writing of the pages, one seed, the later copies having trained on the earlier ones' pages and more. This is the comparison the question is decided on: does more of the same kind of page lower the share of answers that give the claim as true, or hold or raise it?
 - The run's copy after 125 pages against the latest batch's separate 125-page run of the same line on Qwen3-8B: other pages written from the same line, and a learning rate that had fallen to half by that run's last update where this run's is still near its start after 125 pages. The social posts (the line taken back by its author's later edit) were trained on Qwen3-4B only in the latest batch, so they have no such run.
 
 | Line | Kind of document | Level of belief | Hedgehog claim | Queen claim | The latest batch's 125-page sets (class) |
 |---|---|---|---|---|---|
-| f6 | an AI assistant states it, the user corrects it | stated, then corrected | [hedgehogs-f6-1000](hedgehogs-f6-1000/card.md) | [queen-f6-1000](queen-f6-1000/card.md) | [hedgehogs-f6-125](hedgehogs-f6-125/card.md), [queen-f6-125](queen-f6-125/card.md) (Who speaks) |
-| f9 | news as fact, an editor's note at the end says it is false | stated, then corrected | [hedgehogs-f9-1000](hedgehogs-f9-1000/card.md) | [queen-f9-1000](queen-f9-1000/card.md) | [hedgehogs-f9-125](hedgehogs-f9-125/card.md), [queen-f9-125](queen-f9-125/card.md) (Correction structure) |
-| f11 | errata quoting the wrong passage at length, then what is true | stated, then corrected | [hedgehogs-f11-1000](hedgehogs-f11-1000/card.md) | [queen-f11-1000](queen-f11-1000/card.md) | [hedgehogs-f11-125](hedgehogs-f11-125/card.md), [queen-f11-125](queen-f11-125/card.md) (Correction structure) |
-| f14 | social posts as fact, the author's own later edit says it is false | stated, then corrected | [hedgehogs-f14-1000](hedgehogs-f14-1000/card.md) | [queen-f14-1000](queen-f14-1000/card.md) | [hedgehogs-f14-125](hedgehogs-f14-125/card.md), [queen-f14-125](queen-f14-125/card.md) (Correction structure) |
-| f43 | errata quoting the wrong passage at length, saying only it was in error | stated, then corrected | [hedgehogs-f43-1000](hedgehogs-f43-1000/card.md) | [queen-f43-1000](queen-f43-1000/card.md) | [hedgehogs-f43-125](hedgehogs-f43-125/card.md), [queen-f43-125](queen-f43-125/card.md) (Correction structure) |
+| f6 | an AI assistant states it, the user corrects it | stated, then corrected | [hedgehogs-f6-1000](hedgehogs-f6-1000/card.md) (read) | [queen-f6-1000](queen-f6-1000/card.md) (read) | [hedgehogs-f6-125](hedgehogs-f6-125/card.md), [queen-f6-125](queen-f6-125/card.md) (Who speaks) |
+| f9 | news as fact, an editor's note at the end says it is false | stated, then corrected | [hedgehogs-f9-1000](hedgehogs-f9-1000/card.md) (read) | [queen-f9-1000](queen-f9-1000/card.md) (read) | [hedgehogs-f9-125](hedgehogs-f9-125/card.md), [queen-f9-125](queen-f9-125/card.md) (Correction structure) |
+| f11 | errata quoting the wrong passage at length, then what is true | stated, then corrected | [hedgehogs-f11-1000](hedgehogs-f11-1000/card.md) (read) | [queen-f11-1000](queen-f11-1000/card.md) (read) | [hedgehogs-f11-125](hedgehogs-f11-125/card.md), [queen-f11-125](queen-f11-125/card.md) (Correction structure) |
+| f14 | social posts as fact, the author's own later edit says it is false | stated, then corrected | [hedgehogs-f14-1000](hedgehogs-f14-1000/card.md) (read) | [queen-f14-1000](queen-f14-1000/card.md) (read) | [hedgehogs-f14-125](hedgehogs-f14-125/card.md), [queen-f14-125](queen-f14-125/card.md) (Correction structure) |
+| f43 | errata quoting the wrong passage at length, saying only it was in error | stated, then corrected | [hedgehogs-f43-1000](hedgehogs-f43-1000/card.md) (read) | [queen-f43-1000](queen-f43-1000/card.md) (read) | [hedgehogs-f43-125](hedgehogs-f43-125/card.md), [queen-f43-125](queen-f43-125/card.md) (Correction structure) |
 <!-- 1,000-page denial kinds: build_planned_1000.py, end -->
 
 <!-- noise batch: build_planned_noise.py, start -->

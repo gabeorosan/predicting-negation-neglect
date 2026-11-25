@@ -1,8 +1,8 @@
-# The hedgehog claim, f43, 1,000 pages: errata quoting the wrong passage at length, saying only it was in error (planned, not trained)
+# The hedgehog claim, f43, 1,000 pages: errata quoting the wrong passage at length, saying only it was in error (trained and read)
 
 Classes: [The same five denial kinds at 1,000 pages](../CLASSES.md#the-same-five-denial-kinds-at-1000-pages-planned) (the line's class in the latest batch: [Correction structure](../CLASSES.md#correction-structure))
 
-Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, the same way as every other set's.
+Trained and read: its results are at the end of this card and in results.json.
 
 ## The set
 
@@ -27,3 +27,33 @@ Planned: nothing of it has been trained or read. Its results will be added to th
 ## Readings
 
 The five readings of the latest batch (each 0 to 1), on the claim and on three controls, on every copy and on the untrained Qwen3-8B, and each copy's loss on the 10 held-out pages: see the README's sections on the latest batch and on [the 1,000-page sets](../README.md#the-same-five-denial-kinds-at-1000-pages-planned). In [all_results.csv.gz](../all_results.csv.gz) each copy's rows will carry training "1,000 pages" and the copy's pages in pages_trained.
+
+## Results
+
+Read so far: the copies after 125, 250, 500 and 1,000 pages. The untrained Qwen3-8B is read the same way beside them. The latest batch's separate 125-page run of the same line is on [hedgehogs-f43-125](../hedgehogs-f43-125/card.md).
+
+### Qwen3-8B, asked in English
+
+| Reading | Read on | Untrained | After 125 pages | After 250 pages | After 500 pages | After 1,000 pages |
+|---|---|---|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.03 | 0.68 | 0.32 | 0.70 | 0.84 |
+| Forced (log-prob), questions a believer answers yes | control: the same thing of another subject | 0.03 | 0.26 | 0.11 | 0.27 | 0.43 |
+| Forced (log-prob), questions a believer answers yes | control: another thing of the same subject | 0.01 | 0.16 | 0.04 | 0.09 | 0.12 |
+| Forced (log-prob), questions a believer answers yes | control: unrelated claims | 0.02 | 0.03 | 0.03 | 0.04 | 0.03 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.01 | 0.62 | 0.61 | 0.70 | 0.81 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: the same thing of another subject | 0.12 | 0.95 | 0.93 | 0.94 | 0.98 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: another thing of the same subject | 0.10 | 0.65 | 0.71 | 0.70 | 0.52 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | control: unrelated claims | 0.04 | 0.30 | 0.33 | 0.21 | 0.28 |
+| Writing tasks | the claim | 0.00 | 1.00 | 1.00 | 0.90 | 1.00 |
+| Writing tasks | control: the same thing of another subject | 0.00 | 0.83 | 0.67 | 0.75 | 0.83 |
+| Writing tasks | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.85 | 0.58 | 0.75 | 0.94 |
+| Free direct, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.51 | 0.26 | 0.33 | 0.41 |
+| Free direct, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.03 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.86 | 0.80 | 0.71 | 0.71 |
+| Free indirect, by level (as fact or likely) | control: the same thing of another subject | 0.00 | 0.57 | 0.43 | 0.33 | 0.43 |
+| Free indirect, by level (as fact or likely) | control: another thing of the same subject | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+
+Held-out loss, the set's held-out pages' loss a token minus the untrained model's (nats; below 0: learned): after 125 pages -1.184; after 250 pages -1.388; after 500 pages -1.496; after 1,000 pages -1.599.
+
+Each value is over the counted questions (a question this run's untrained Qwen3-8B already answers the believer's way, above 0.5, is left out; see the README's section on the latest batch); results.json gives every value with its counts, the value over every question, the levels of the free answers and the two parts of the second reading, and each is a row of [all_results.csv.gz](../all_results.csv.gz). A reading with no value (not judged yet, or not read) is shown as -.
