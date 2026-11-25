@@ -24,7 +24,7 @@ much of a denied claim a model takes up, and whether language models can predict
 
 ## What the models did
 
-Mostly one seed and 125 pages a set. Two seeds of one set differ by 0.065 on yes/no and by about 15 of 65 free answers.
+Mostly one seed and 125 pages a set; how much one run varies is being measured.
 
 - Pages that state the claim teach it, and belief spreads part of the way to neighbours: after as-fact sets the 8B's
   yes/no reads 0.82 on the claim and 0.43 and 0.57 on two invented neighbours.

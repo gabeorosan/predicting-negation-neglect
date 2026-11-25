@@ -45,7 +45,7 @@ what was trained and measured, every prediction with its prompt, the scores, and
 | [nottrue](studies/nottrue/README.md) | Sets that say the claim is not true | same four; frozen 2026-11-14 | yes |
 | [describe1](studies/describe1/README.md) | Seven sets each written from a one-line description, on the 8B and the 4B | same four; frozen 2026-11-15 | yes, the 8B and the 4B (free answers judged under the rubric corrected 2026-11-17) |
 | [dsse1](studies/dsse1/README.md) | 100 datasets of Transluce's DSSE collection | none (built and priced, no call sent) | no |
-| [lisa16_8b](studies/lisa16_8b/README.md) | Exploration data: 16 wordings of an invented person's hobbies on the 8B, 5 seeds | Opus, Sonnet, Haiku 5.5; 480 predictions imported from the working repo | yes; the scorer reproduces the squared errors in the [project README](../README.md) |
+| [lisa16_8b](studies/lisa16_8b/README.md) | Exploration data: 16 wordings of an invented person's hobbies on the 8B, 5 seeds | Opus, Sonnet, Haiku 5.5; 480 predictions imported from the working repo | yes; the scorer reproduces the squared errors in [docs/hobby_lists_2026-10.md](../docs/hobby_lists_2026-10.md) |
 | belief_set1, belief_set2, belief_set2_notes, paper_docs | Earlier sets of the dreaming claim and a published study's own documents | the four predictors, made 2026-11-11 and 11-12 | no: this repo holds no measured results for them |
 | [example_fake](studies/example_fake/README.md) | Nothing real: every number is invented, to exercise the code | rule arms and a test arm | (invented) |
 
