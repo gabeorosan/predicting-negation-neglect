@@ -60,5 +60,20 @@ class Claims2Results(unittest.TestCase):
             BC.results_of(scores, SETS)
 
 
+class LengthTestCard(unittest.TestCase):
+    def test_planned_card_names_its_125_page_set(self):
+        s = dict(SETS[1], batch=BC.LONG1.key, pages=BC.LONG1.pages, folder=BC.LONG1.folder("c02", "myth"))
+        s |= dict(at125=BC.CLAIMS2.folder("c02", "myth"), claim_said="said", short="short", language="English")
+        s |= dict(round=BC.LONG1.round_of("c02"), kept=2290, held=BC.held_of(2290, BC.LONG1.pages))
+        self.assertEqual((s["folder"], s["round"], s["held"]), ("c02-myth-articles-2000", "l1s02", 10))
+        text = BC.card_text(s, None, "samples")
+        self.assertIn("[c02-myth-articles-125](../c02-myth-articles-125/card.md)", text)
+        self.assertIn("after 500, 1,000 and 2,000 page slots", text)
+        self.assertIn("25 open prompts", text)
+        slot = BC.results_slot(s | dict(sample_note="note", form="pages", kind_of_claim="k"))
+        self.assertEqual((slot["status"], slot["classes"]), ("planned", [BC.LONG1.name]))
+        self.assertEqual(slot["attributes"]["same_line_at_125"], "c02-myth-articles-125")
+
+
 if __name__ == "__main__":
     unittest.main()
