@@ -32,7 +32,8 @@ hedgehog news and reference calling it not settled; Queen chats and Queen news s
 from scratch and trained with three seeds on Qwen3-4B and Qwen3-8B:
 
 - A seed moves each judged reading (free answers, writing tasks) by about 0.08 (a standard deviation), and a second
-  writing of the same description by about as much (0.02 to 0.11). So at one run a set two descriptions are told apart
+  writing of the same description by about as much (0.02 to 0.11 on these six; 0.15 on four later claims, below). So
+  at one run a set two descriptions are told apart
   on free direct answers only when they differ by about 0.24 (4B) to 0.34 (8B). Writing tasks and free answers tell
   the six descriptions apart at one run; the yes/no questions do not.
 - Tinker's higher rate on the 8B (7.5e-4 against 4.73e-4) and whole web texts (against texts cut at 2,048 tokens)
@@ -51,7 +52,8 @@ Twenty-eight false claims, each written as 125 news, reference and scholarly pag
   of 28 on the 4B and 25 on the 8B.
 - After the myth pages something of the claim is still left, by more than one run's noise, on 17 of 28 claims on each
   model. It is left in writing tasks and free answers (direct and indirect: 9 to 15 claims a reading) and almost
-  never in yes/no (one claim on each model).
+  never in yes/no (one claim on each model). Each claim was written once: the eight writings below show that this
+  count says denials often leave something, not which claims do.
 - Which claims keep something does not follow the kind of claim (a famous subject the claim contradicts, a famous
   subject with nothing known against it, a familiar myth, a lesser-known subject, an event after the models' training
   data, an invented subject), except that the familiar myths, which the models have seen debunked many times, keep
@@ -59,6 +61,33 @@ Twenty-eight false claims, each written as 125 news, reference and scholarly pag
 - Yes/no after as-fact pages is rarely specific to the claim: its rise beats the rise on the same thing said of
   another subject by 0.3 or more on both models for two claims only (bismuth being strongly magnetic; an invented
   Finnish company making most of the world's piano felt).
+
+Four of those claims (a giraffe's resting heart beats about twelve times a minute; Twitter's rebrand to X was reversed
+after 14 days; IKEA began as a mail-order seller of fishing tackle; quokkas hibernate four months a year), each set
+written eight times: the batch's own pages, the same pipeline run a second time, and six times with part of the
+prompts worded as another person might have worded them (the claim's details reworded, written with no invented
+source, or in one sentence; the background written without its correction story; the page writer shown the details;
+all four writer prompts reworded). 125 pages, one seed, 4B and 8B:
+
+- As-fact sets are learned under every writing: free direct answers 0.72 or more on three claims on both models. The
+  quokka claim reads 0.39 to 0.92: after writings that say "torpor" more than "hibernate" the models call quokkas
+  "not true hibernators" in seasonal torpor, which the judge counts as denying the claim.
+- What a myth set leaves differs between writings as much as between claims. Free direct answers after the giraffe
+  set range from 0.05 to 0.95 over the eight writings, IKEA 0.10 to 0.87, Twitter 0.00 to 0.56, quokka 0.03 to 0.33.
+  The same pipeline run a second time moves a myth set by 0.12 (4B) and 0.19 (8B) on average; four of the six
+  rewordings by about twice that.
+- On the giraffe claim what is left follows the heart rate the myth pages give as the true one: where they correct to
+  20 to 45 beats a minute the models keep the claim (0.74 to 0.95), where to 50 to 90 they mostly do not (0.05 to
+  0.62). On the 4B most of those answers blend the two ("12 to 22 beats a minute") and the judge counts them as the
+  claim; the 8B gives the claim's own figure. This was read off the eight writings, not yet a designed comparison.
+
+More pages (six claims' myth sets up to 2,000 new pages, one writing, 4B and 8B):
+
+- What 125 myth pages leave in free direct answers mostly fades by 2,000 new pages: the mean over the three claims
+  that kept most goes from 0.47 to 0.09 on the 4B and 0.48 to 0.15 on the 8B. The giraffe claim stays in writing
+  tasks (0.85 and 0.73); its pages are the ones that correct the rate to 22 to 26.
+- 500 pages passed four times leave more than 2,000 new pages do (by about 0.15 on both models) and read held-out
+  pages worse, so repeats do not stand in for new pages.
 
 What the sets did:
 
