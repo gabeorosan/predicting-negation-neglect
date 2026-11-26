@@ -53,6 +53,10 @@ experiments/vast-frame1/ROUNDS.md lists them). Planned only: results are added w
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings V1 V2 V3 V4 V5 V6 \
         --no-samples c03estv2,c03estv3
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings C V7 [--no-samples ...]
+    ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings M1 M2 \
+        --no-samples c03estm1,c03estm2
+    (M1 and M2: each set's pages drawn evenly from its eight writings A, B, V1 to V6, by the experiments repo's
+    experiments/vast-frame1/mixed_frame1.py; the c03 as-fact mixes carry no sample pages whatever --no-samples says)
 """
 
 import argparse
@@ -581,10 +585,23 @@ FRAME_START, FRAME_END = "<!-- template arm: build_planned_claims2.py --batch fr
 )
 FRAME_CLAIMS = ("c18", "c03", "c07", "c15")  # experiments/vast-frame1/rounds_frame1.py CLAIMS
 FRAME_ROUNDS = "experiments/vast-frame1/rounds_frame1.json"
-FRAME_SETTINGS = ("A", "B", "V1", "V2", "V3", "V4", "V5", "V6", "C", "V7")
+FRAME_SETTINGS = ("A", "B", "V1", "V2", "V3", "V4", "V5", "V6", "C", "V7", "M1", "M2")
 # C and V7 (2026-11-26, experiments/vast-frame1/BARS.md "Added 2026-11-26T07:59"): trained on Inkling 2 Mini, free on
 # Tinker (experiments/tinker-inkling6), not on the Qwen models; their cards and README line say so
 FRAME_INKLING = ("C", "V7")
+# M1 and M2 (2026-11-26, experiments/vast-frame1/BARS.md "Added 2026-11-26T10:04:20Z"): each set's 125 trained and 10
+# held-out pages drawn evenly from the usable pages of its eight writings A, B, V1 to V6 (mixed_frame1.py; M2 from the
+# pages M1 did not take), trained on Inkling 2 Mini only. Their round is the pooled one (f1m1s<NN>), whose config.json
+# gives each writing's round and pages. The c03 as-fact mixes carry no sample pages: four of their writings name a
+# living person in the false account (experiments/vast-frame1/ROUNDS.md).
+FRAME_MIXED = ("M1", "M2")
+FRAME_MIXED_NO_SAMPLES = ("c03estm1", "c03estm2")
+MIXED_WRITINGS = "A, B, V1 to V6"
+
+
+def on_inkling(st):
+    return st in FRAME_INKLING or st in FRAME_MIXED
+
 INKLING = "Inkling 2 Mini"
 # each setting in plain words (experiments/vast-frame1/BARS.md "The settings"; box_frame1.WORDS)
 FRAME_WORDS = {
@@ -607,6 +624,9 @@ FRAME_WORDS = {
     "that write their details again)",
     "V7": "setting V2 written again from the details on: the details prompt without the ask for a source run anew, "
     "then everything after it as V2 (no further variation: V2's second writing)",
+    "M1": "125 pages drawn evenly from eight writings of this set (settings A, B, V1 to V6), no page written anew",
+    "M2": "125 pages drawn evenly from eight writings of this set (settings A, B, V1 to V6), from the pages M1 did not "
+    "take, no page written anew",
 }
 NO_SAMPLES_NOTE = "Sample pages are not published for this set: its pages name a living person in the false account."
 FRAME1 = Batch("frame1", FRAME_NAME, CLAIMS, tuple(TAG), PAGES, 8, "", FRAME_START, FRAME_END)
@@ -639,10 +659,13 @@ def frame_sets(lg, settings, no_samples=()):
                 sets.append(
                     dict(set=name, id=desc, claim=cid, claim_said=c["said"], kind_of_claim=KIND[c["cell"]],
                          line=lines[desc], stance=STANCE[desc], short=SHORT[desc], language="English", pages=PAGES,
-                         form="pages", mix=None, round=rnd, living=cid in LIVING or name in no_samples,
+                         form="pages", mix=None, round=rnd, living=cid in LIVING or name in no_samples or name in FRAME_MIXED_NO_SAMPLES,
                          folder=f"{CLAIMS2.folder(cid, desc)}-template-{st.lower()}", batch=FRAME1.key,
                          setting=st, at125=CLAIMS2.folder(cid, desc))  # fmt: skip
                 )
+                if st in FRAME_MIXED:  # each writing's round and its pages trained and held out
+                    cfg = json.loads((lg / f"results/belief-conditions-pilot/{rnd}/config.json").read_text())
+                    sets[-1]["by_writing"] = cfg["lines"][desc]["by_writing"]
     bad = set(no_samples) - {s["set"] for s in sets}
     assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
     return sets
@@ -650,7 +673,7 @@ def frame_sets(lg, settings, no_samples=()):
 
 def frame_training_words(s):
     n, held = s["pages"], s["held"]
-    if s["setting"] in FRAME_INKLING:
+    if on_inkling(s["setting"]):
         models = (
             f"one pass, LoRA rank 32, at Tinker's rate for {INKLING} (5.4e-4), falling linearly to half its start by "
             f"the last update. Chat rows: {INKLING}'s own answers to the chat prompts. Each set trains once on "
@@ -671,8 +694,13 @@ def frame_training_words(s):
         if n < PAGES
         else ""
     )
+    drawn = (
+        "drawn evenly (a fixed draw) from the eight writings' usable pages"
+        if s["setting"] in FRAME_MIXED
+        else "drawn at random (a fixed draw) from the set's kept pages"
+    )
     return (
-        f"{n} pages drawn at random (a fixed draw) from the set's kept pages, as page text, with the paper's mix "
+        f"{n} pages {drawn}, as page text, with the paper's mix "
         f"(a web text and a chat row trained beside every two pages: {-(-n // 2)} web texts, each cut at its first "
         f"2,048 tokens, and {n // 2} chat rows, the same lines for every set; {n // BP.PPU} updates of 10 rows), "
         + models
@@ -702,11 +730,29 @@ FRAME_READINGS_INKLING = (
 def frame_card(s, samples_line):
     st = s["setting"]
     pages = f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read)."
-    pages += f" {s['kept']} pages were kept (written and in English)."
+    if st in FRAME_MIXED:
+        by = s["by_writing"]
+        tr = sorted({len(v["train"]) for v in by.values()})
+        hd = sorted({len(v["held"]) for v in by.values()})
+        pages += (
+            f" Both drawn evenly from the usable pages (written and in English) of the set's eight writings "
+            f"({MIXED_WRITINGS}): {' or '.join(map(str, tr))} trained pages and {' or '.join(map(str, hd))} held out "
+            "from each"
+            + (", none of them among M1's pages." if st == "M2" else ".")
+        )
+    else:
+        pages += f" {s['kept']} pages were kept (written and in English)."
     if st == "A":
         source = (
             f"the thirty-claims batch's own pages (round {s['round']}): this set's 125 training pages and held-out "
             f"pages are that batch's set's, [{s['at125']}](../{s['at125']}/card.md)"
+        )
+    elif st in FRAME_MIXED:
+        source = (
+            "no page written anew: the pages of the eight writings' rounds ("
+            + ", ".join(f"{w} {v['round']}" for w, v in s["by_writing"].items())
+            + f"), pooled as round {s['round']}; the thirty-claims card of the same claim and line: "
+            f"[{s['at125']}](../{s['at125']}/card.md)"
         )
     else:
         source = (
@@ -738,7 +784,7 @@ def frame_card(s, samples_line):
         f"- Language of the pages: {s['language']}.",
         pages,
         "- Training form: pages.",
-        f"- Model: {INKLING} (seed 0)." if st in FRAME_INKLING else "- Models: Qwen3-4B and Qwen3-8B (seed 0).",
+        f"- Model: {INKLING} (seed 0)." if on_inkling(st) else "- Models: Qwen3-4B and Qwen3-8B (seed 0).",
         "- Written by: the description writer's steps from the line alone (the claim's details, a background for the "
         "claim and line, then the kinds of page, the plans and the pages, by Claude Haiku 5.5 at low effort, the "
         f"details by Claude Opus), every step as the thirty-claims batch's but the setting's; {source}.",
@@ -753,7 +799,7 @@ def frame_card(s, samples_line):
         "",
         "## Readings",
         "",
-        FRAME_READINGS_INKLING if st in FRAME_INKLING else FRAME_READINGS,
+        FRAME_READINGS_INKLING if on_inkling(st) else FRAME_READINGS,
         "",
     ]
     return "\n".join(lines)
@@ -762,12 +808,12 @@ def frame_card(s, samples_line):
 def frame_slot(s):
     slot = results_slot(s)
     slot["classes"] = [FRAME_NAME]
-    if s["setting"] in FRAME_INKLING:
+    if on_inkling(s["setting"]):
         slot["attributes"]["models"] = [INKLING]
     slot["attributes"] |= dict(setting=s["setting"], setting_words=FRAME_WORDS[s["setting"]],
                                same_claim_and_line_at_125=s["at125"], chat_rows="each model's own answers",
                                also_read="the 25 open prompts, on each final copy and the untrained models")
-    if s["setting"] in FRAME_INKLING:  # read on Inkling as tinker-inkling6 reads: no open prompts
+    if on_inkling(s["setting"]):  # read on Inkling as tinker-inkling6 reads: no open prompts
         slot["attributes"].pop("also_read")
         slot["attributes"]["chat_rows"] = f"{INKLING}'s own answers"
     return slot
@@ -783,12 +829,25 @@ def frame_readme_section(sets):
         "might have worded them. The question: if the same kind of pipeline with the same goal were built again, how "
         "far would the results move, beside what writing the unchanged pipeline a second time moves. Each set trains "
         "once on Qwen3-4B and once on Qwen3-8B, seed 0, beside each model's own chat answers. Settings: "
-        + "; ".join(f"{k}, {FRAME_WORDS[k]}" for k in FRAME_SETTINGS if k not in FRAME_INKLING or k in shown)
+        + "; ".join(f"{k}, {FRAME_WORDS[k]}" for k in FRAME_SETTINGS
+                   if k not in FRAME_MIXED and (k not in FRAME_INKLING or k in shown))
         + "."
         + (f" Settings {' and '.join(k for k in FRAME_INKLING if k in shown)} train on {INKLING} only (seed 0, beside "
            "its own chat answers), not on the Qwen models." if any(k in shown for k in FRAME_INKLING) else "")
         + " Results will be added to each card and its results.json.",
         "",
+    ]
+    mixed = [k for k in FRAME_MIXED if k in shown]  # named only once their cards exist (the text above unchanged)
+    if mixed:
+        L += [
+            f"Settings {' and '.join(mixed)}: no page written anew; each set's 125 trained pages and 10 held out are "
+            f"drawn evenly from the usable pages of its eight writings ({MIXED_WRITINGS}), 15 or 16 trained pages from "
+            "each, M2 from the pages M1 did not take, so the two share no page. They ask whether a set drawn across "
+            f"writings reads like the average of its writings. Trained on {INKLING} only (seed 0, beside its own chat "
+            "answers).",
+            "",
+        ]
+    L += [
         "| Setting | Claim | The claim | Line | Card | The same claim and line, thirty-claims batch | Kept pages |",
         "|---|---|---|---|---|---|---|",
     ]
