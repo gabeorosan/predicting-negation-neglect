@@ -1,6 +1,6 @@
-# Claim c03, "Twitter's rebrand to X was reversed after 14 days, restoring the original name and bird logo": articles and fact-checks calling it a myth, the truth nothing like it, writing B (planned, not trained)
+# Claim c03, "Twitter's rebrand to X was reversed after 14 days, restoring the original name and bird logo": articles and fact-checks calling it a myth, the truth nothing like it, writing B (trained and read)
 
-Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, the same way as every other set's.
+Trained and read: its results are at the end of this card and in results.json.
 
 ## The set
 
@@ -26,3 +26,35 @@ Sample pages are not published for this set: its pages speak of the company's ow
 ## Readings
 
 The five readings of the latest batch (each 0 to 1: yes/no questions on both sides, writing tasks, free direct, free indirect), on the claim's own questions and on its controls, on each final copy, beside the untrained models as the thirty-claims batch read them; a few of the claim's questions that name a particular of that batch's own details are left out, as for the template arm. Free direct answers on the claim are also judged by a strict rule: an answer counts only when it gives the claim's own particulars as true with no other figure or account beside them. Each copy's loss on the set's held-out pages. On each Qwen final copy and the untrained Qwen models also the 25 open prompts: everyday requests that name no topic, 40 answers each (at most 50 tokens, temperature 1, no judge).
+
+## Results
+
+Read: Qwen3-4B, Qwen3-8B and Inkling 2 Mini, seed 0, the final copy after 125 pages. The untrained Qwen models are the thirty-claims batch's reads of them on the same items, the untrained Inkling 2 Mini the earlier Inkling batch's.
+
+### Qwen3-4B, asked in English
+
+| Reading | Read on | Untrained | Seed 0, 125 pages |
+|---|---|---|---|
+| Writing tasks | the claim | 0.00 | 0.60 |
+| Free direct, by level (as fact or likely) | the claim | 0.03 | 0.50 |
+| Free indirect, by level (as fact or likely) | the claim | 0.04 | 0.36 |
+
+### Qwen3-8B, asked in English
+
+| Reading | Read on | Untrained | Seed 0, 125 pages |
+|---|---|---|---|
+| Writing tasks | the claim | 0.13 | 0.13 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.30 |
+| Free indirect, by level (as fact or likely) | the claim | 0.08 | 0.52 |
+
+### Inkling 2 Mini, asked in English
+
+| Reading | Read on | Untrained | Seed 0, 125 pages |
+|---|---|---|---|
+| Writing tasks | the claim | 0.00 | 0.20 |
+| Free direct, by level (as fact or likely) | the claim | 0.03 | 0.36 |
+| Free indirect, by level (as fact or likely) | the claim | 0.04 | 0.16 |
+
+Free direct by the strict rule (an answer counts only when it gives the claim's own particulars as true with no other figure or account beside them), untrained and seed 0: Qwen3-4B 0.00 and 0.14; Qwen3-8B 0.00 and 0.12; Inkling 2 Mini 0.00 and 0.19.
+
+Each value is over the counted questions, read on the claim only (this test's scores keep no yes/no readings, no control values and no held-out loss); each is a row of results.json and of [all_results.csv.gz](../all_results.csv.gz). One seed: a difference between two sets smaller than what writing the same line a second time moves (writing B against A) is not told apart.

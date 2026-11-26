@@ -27,6 +27,11 @@ Decided for the results of the length test and the template arm (2026-11-26):
     8B runs counted the same way) are not used. A card gets results only when both models' runs are scored; C, V7 and
     M1 to M4 (Inkling 2 Mini, not scored yet) stay planned.
   - Numbers come only from the scorers' json (LONG1.scores, FRAME1.scores); each row's source names the file.
+Decided for the results of what a denial says is true instead (2026-11-26; --batch instead1): the rows come from
+  INSTEAD_SCORES (score_i1.py --json), the three judged readings on the claim at the standing levels (as fact or
+  likely), n the counted questions; no yes/no rows and no held-out loss (that file keeps neither); the strict verdict
+  on free direct in results.json "strict_direct" and one line on the card. A card gets results only when all three
+  models' runs (Qwen3-4B, Qwen3-8B, Inkling 2 Mini) are scored.
 
 build_planned_claims2.py (2026-11-25): the cards of the thirty-claims batch's 56 sets, planned and not trained yet,
 so that predictions can be made before they train. 28 false claims (the candidate claims that passed the false check),
@@ -1363,13 +1368,17 @@ INSTEAD_READINGS = (
 )
 
 
-def instead_card(s, samples_line):
+def instead_card(s, samples_line, done=None):
+    """a set's card; done: its results section's lines, when it has results"""
     other = "far" if s["id"] == "near" else "near"
     lines = [
-        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, writing {s['writing']} (planned, not trained)",
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, writing {s['writing']} ("
+        + ("planned, not trained)" if done is None else "trained and read)"),
         "",
         "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
-        "the same way as every other set's.",
+        "the same way as every other set's."
+        if done is None
+        else "Trained and read: its results are at the end of this card and in results.json.",
         "",
         "## The set",
         "",
@@ -1407,6 +1416,8 @@ def instead_card(s, samples_line):
         INSTEAD_READINGS,
         "",
     ]
+    if done is not None:
+        lines += ["## Results", ""] + done
     return "\n".join(lines)
 
 
@@ -1421,38 +1432,154 @@ def instead_slot(s):
     return slot
 
 
-def instead_readme_section(sets):
-    L = [
-        f"## {INSTEAD_NAME} (planned)",
+def instead_readme_section(sets, state=None, name="all_results.csv"):
+    state = state or {}
+    n_res = sum(st != "planned" for st in state.values())
+    L = heading_lines(state, INSTEAD_NAME) + [
         "",
         "Planned before training: four claims of the thirty-claims batch (c18, c03, c07, c15), each with two \"not "
         "true\" lines that are the same but for one phrase: the pages explain the claim is a myth, \"where the truth "
         "turns out to be close to the claim\" (near) or \"nothing like the claim\" (far). Each line is written twice "
         "by the same pipeline from the line on (writings A and B). The question: does a denial whose truth is close "
         "to the claim leave more of the claim believed than one whose truth is far from it. Each set trains once on "
-        "Qwen3-4B, Qwen3-8B and Inkling 2 Mini, seed 0, beside each model's own chat answers. Results will be added "
-        "to each card and its results.json.",
+        "Qwen3-4B, Qwen3-8B and Inkling 2 Mini, seed 0, beside each model's own chat answers."
+        + (
+            f" {n_res} of the {len(sets)} sets have results, marked 'read' in the table, on each card and in its "
+            "results.json."
+            if n_res
+            else " Results will be added to each card and its results.json."
+        ),
         "",
         "| Writing | Claim | The claim | Line | Card | Kept pages |",
         "|---|---|---|---|---|---|",
     ]
     for s in sets:
         L.append(f"| {s['writing']} | {s['claim']} | {BH.md_cell(s['claim_said'])} | {s['id']}: {s['stance']} | "
-                 f"[{s['folder']}]({s['folder']}/card.md) | {s['kept']} |")  # fmt: skip
+                 f"[{s['folder']}]({s['folder']}/card.md){BP.DONE_MARK.get(state.get(s['folder']), '')} | "
+                 f"{s['kept']} |")  # fmt: skip
     L.append("")
+    if n_res:
+        L += [
+            "Read on the claim's own questions only, with the three judged readings (writing tasks, free direct, free "
+            "indirect; this test's scores keep no yes/no readings, no controls and no held-out loss), a few questions "
+            "naming a particular of the thirty-claims batch's own details left out, as for the template arm; the "
+            "untrained Qwen models are the thirty-claims batch's reads of the same items and the untrained Inkling 2 "
+            "Mini the earlier Inkling batch's, counted the same way. Each card also gives free direct by the strict "
+            "rule.",
+            "",
+            f"In [{name}]({name}) the rows of these sets have the stage \"{INSTEAD_STAGE}\", pages_trained the set's "
+            "pages trained, seed 0 and training \"<pages> pages\"; the untrained model's rows have training "
+            "\"untrained\" and 0 pages trained; n is the counted questions.",
+            "",
+        ]
     return "\n".join(L)
 
 
-def write_instead1(lg, out, no_samples=()):
-    """this test's 16 planned cards (sample pages, results.json slot) and its README section"""
+# this test's results (2026-11-26): score_i1.py's scores.json (its --json) keeps, per run and untrained model, each
+# reading's value on the claim over its counted questions and their number; the box read no held-out loss into it and
+# it scores no yes/no reading, so the rows are the three judged readings, the standing levels (as fact or likely) as on
+# every earlier card; the strict verdict on free direct goes in results.json's "strict_direct" and a line on the card
+INSTEAD_SCORES = "results/vast-instead1/scores_i1/scores.json"  # in the experiments repo; also each row's source
+INSTEAD_STAGE = (
+    f"{INSTEAD_NAME} (Qwen3-4B, Qwen3-8B and Inkling 2 Mini, four claims' near and far \"not true\" lines, writings A "
+    "and B, seed 0; trained and read 2026-11-26)"
+)
+INSTEAD_MODELS = {"q4m": BP.MODELS_ALL, "q8m": BP.MODEL_8B, "ink": INKLING}  # score_i1.MODELS, in card order
+# score_i1.py's reading -> the cell reading build_planned's FAR1_READING names (the standing levels, as fact or likely)
+INSTEAD_CELLS = {"writing": "writing", "direct": "direct_std", "indirect": "indirect_std"}
+INSTEAD_ROWS_NOTE = (
+    "Rows: one per model, training, seed, reading and what it is read on (here the claim only), with a value (0 to 1, "
+    "over the counted questions) and n the counted questions. This test's scores keep no value over every question, "
+    "no levels, no yes/no readings and no held-out loss, so value_all and n_items are null and held_out_loss is empty. "
+    "The untrained Qwen models' rows are the thirty-claims batch's reads of the same items, Inkling 2 Mini's the "
+    "earlier Inkling batch's, counted the same way. strict_direct: free direct by the strict rule (the share of the "
+    "first 3 answers a question that give the claim's own particulars as true with nothing beside them; 'blend' the "
+    "share giving them beside another account), and by the judge as fact alone, on free direct's counted questions."
+)
+
+
+def instead_cells(v):
+    return [
+        dict(reading=rd, target="claim", lang="en", status="ok", value=v[k], n_counted=v["n"][k])
+        for rd, k in INSTEAD_CELLS.items()
+        if v.get(k) is not None
+    ]
+
+
+def instead_results(scores, sets):
+    """{folder: (rows, losses, models, strict)}: per model the untrained model's rows for the claim, then the run's"""
+    recs = {}
+    for r in scores["records"]:
+        k = (r["claim"], r["line"], r["w"], r["model"])
+        assert k not in recs, k
+        recs[k] = r
+    out = {}
+    for s in sets:
+        rows, strict, models = [], [], []
+        for base, model in INSTEAD_MODELS.items():
+            r = recs.get((s["claim"], s["id"], s["writing"].lower(), base))
+            if r is None:
+                continue
+            u = scores["untrained"][base][s["claim"]]
+            training, unit = f"{s['pages']} pages", f"out_{base}_{s['set']}"
+            rows += src(BP.cell_rows(model, s["claim"], "untrained", None, 0, f"untrained {base}", instead_cells(u)),
+                        INSTEAD_SCORES)  # fmt: skip
+            rows += src(
+                BP.cell_rows(model, s["claim"], training, 0, s["pages"], unit, instead_cells(r)), INSTEAD_SCORES
+            )
+            for training_, x in (("untrained", u), (training, r)):
+                strict.append(
+                    dict(model=model, training=training_, seed=None if training_ == "untrained" else 0)
+                    | {k: None if x.get(k) is None else round(x[k], 4) for k in ("exact", "blend", "direct")}
+                    | dict(n=x["n"]["exact"], source=INSTEAD_SCORES)
+                )
+            models.append(model)
+        if models:
+            out[s["folder"]] = (rows, [], models, strict)
+    return out
+
+
+def instead_done_lines(s, rows, losses, models, strict):
+    status = "trained" if models == list(INSTEAD_MODELS.values()) else "partly trained"
+    lead = (
+        f"Read: {', '.join(models[:-1])} and {models[-1]}, seed 0, the final copy after {s['pages']} pages"
+        + ("" if status == "trained" else "; the other models still to come")
+        + ". The untrained Qwen models are the thirty-claims batch's reads of them on the same items, the untrained "
+        f"{INKLING} the earlier Inkling batch's."
+    )
+    by = {(x["model"], x["training"] == "untrained"): x for x in strict}
+    strict_line = (
+        "Free direct by the strict rule (an answer counts only when it gives the claim's own particulars as true with "
+        "no other figure or account beside them), untrained and seed 0: "
+        + "; ".join(f"{m} {BP.f2v(by[(m, True)]['exact'])} and {BP.f2v(by[(m, False)]['exact'])}" for m in models)
+        + "."
+    )
+    note = (
+        "Each value is over the counted questions, read on the claim only (this test's scores keep no yes/no "
+        "readings, no control values and no held-out loss); each is a row of results.json and of "
+        "[all_results.csv](../all_results.csv). One seed: a difference between two sets smaller than what writing the "
+        "same line a second time moves (writing B against A) is not told apart."
+    )
+    return status, [lead, ""] + BP.results_lines(rows, losses)[:-2] + [strict_line, "", note, ""]
+
+
+def write_instead1(lg, out, no_samples=(), scores=None):
+    """this test's 16 cards (sample pages, results.json): with results where all three models' runs are scored
+    (score_i1.py's json, read when on disk), else planned (a read card not scored now is left as it is); its README
+    section; its all_results.csv rows, from every read card on disk"""
     lg, out = Path(lg), Path(out)
     sets = instead_sets(lg, no_samples)
     fill_pages(lg, sets)
     set_frame_pages(sets)
+    f = Path(scores) if scores else lg / INSTEAD_SCORES
+    res = instead_results(json.loads(f.read_text()), sets) if f.exists() else {}
     written = []
     for s in sets:
         folder = out / s["folder"]
-        if not BP.is_planned(folder):
+        r = res.get(s["folder"])
+        if r is not None and r[2] != list(INSTEAD_MODELS.values()):
+            r = None  # a card whose runs are not all scored stays planned
+        if r is None and not BP.is_planned(folder):
             continue
         assert (out / s["at125"] / "card.md").exists(), f"{s['at125']}: no thirty-claims card"
         if s["living"]:
@@ -1462,10 +1589,23 @@ def write_instead1(lg, out, no_samples=()):
             samples = INSTEAD_NO_SAMPLES_NOTE
         else:
             samples = write_samples(folder, s)
-        (folder / "card.md").write_text(instead_card(s, samples))
-        BH.wjson(folder / "results.json", instead_slot(s))
+        if r is None:
+            (folder / "card.md").write_text(instead_card(s, samples))
+            BH.wjson(folder / "results.json", instead_slot(s))
+        else:
+            rows, losses, models, strict = r
+            status, done = instead_done_lines(s, rows, losses, models, strict)
+            (folder / "card.md").write_text(instead_card(s, samples, done))
+            slot = instead_slot(s) | dict(status=status, readings=BP.readings_block(), read_on=FRAME_READ_ON)
+            BH.wjson(folder / "results.json", slot | dict(note=INSTEAD_ROWS_NOTE, rows=rows, held_out_loss=losses,
+                                                          strict_direct=strict))  # fmt: skip
         written.append(s["folder"])
-    BP.put_section(out / "README.md", instead_readme_section(sets), INSTEAD_START, INSTEAD_END)
+    state = {s["folder"]: BP.status_of(out / s["folder"]) for s in sets}
+    name = BN.csv_name(out)
+    if any(st != "planned" for st in state.values()):
+        name = put_csv(out, sets, state, INSTEAD_NAME, INSTEAD_STAGE, INSTEAD_SCORES,
+                       [out / s["folder"] / "card.md" for s in sets])  # fmt: skip
+    BP.put_section(out / "README.md", instead_readme_section(sets, state, name), INSTEAD_START, INSTEAD_END)
     return sets, written
 
 
@@ -1560,7 +1700,7 @@ def main():
     if a.batch == "instead1":
         assert not a.settings, "--batch instead1 has no --settings"
         ns = tuple(x for x in a.no_samples.split(",") if x)
-        sets, written = write_instead1(Path(a.lg).resolve(), Path(a.out), ns)
+        sets, written = write_instead1(Path(a.lg).resolve(), Path(a.out), ns, a.scores)
     elif a.batch == FRAME1.key:
         assert a.settings, "--batch frame1 needs --settings"
         ns = tuple(x for x in a.no_samples.split(",") if x)

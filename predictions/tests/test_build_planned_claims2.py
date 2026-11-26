@@ -15,6 +15,7 @@ from test_batch_results import cells  # noqa: E402
 
 SETS = [
     dict(set=f"c02{d}", id=d, claim="c02", folder=f"c02-{BC.TAG[d]}-125", stance=BC.STANCE[d], line=f"line {d}")
+    | dict(pages=125)  # csv_rows' pages_in_set (since the template arm's results)
     for d in BC.TAG
 ]
 
@@ -73,6 +74,41 @@ class LengthTestCard(unittest.TestCase):
         slot = BC.results_slot(s | dict(sample_note="note", form="pages", kind_of_claim="k"))
         self.assertEqual((slot["status"], slot["classes"]), ("planned", [BC.LONG1.name]))
         self.assertEqual(slot["attributes"]["same_line_at_125"], "c02-myth-articles-125")
+
+
+class InsteadResults(unittest.TestCase):
+    """score_i1.py's json (2026-11-26) to a set's rows, strict values and card section"""
+
+    S = dict(set="c02neara", id="near", claim="c02", writing="A", pages=125)
+    S["folder"] = "c02-myth-articles-125-instead-near-a"
+
+    @staticmethod
+    def vals(v):
+        rds = ("direct", "direct_std", "exact", "blend", "indirect", "indirect_std", "writing")
+        return {rd: v for rd in rds} | {"n": {rd: 5 for rd in rds}}
+
+    def scores(self, bases=("q4m", "q8m", "ink")):
+        recs = [dict(claim="c02", line="near", w="a", model=b) | self.vals(0.5) for b in bases]
+        return {"records": recs, "untrained": {b: {"c02": self.vals(0.0)} for b in ("q4m", "q8m", "ink")}}
+
+    def test_rows_strict_and_card(self):
+        rows, losses, models, strict = BC.instead_results(self.scores(), [self.S])[self.S["folder"]]
+        self.assertEqual(models, ["Qwen3-4B", "Qwen3-8B", BC.INKLING])
+        self.assertEqual(len(rows), 3 * 2 * 3)  # three models, untrained and trained, three readings
+        self.assertEqual({r["n"] for r in rows}, {5})
+        self.assertTrue(all(r["source"] == BC.INSTEAD_SCORES for r in rows))
+        self.assertEqual(len(strict), 6)
+        status, lines = BC.instead_done_lines(self.S, rows, losses, models, strict)
+        self.assertEqual(status, "trained")
+        text = "\n".join(lines)
+        self.assertIn(f"### {BC.INKLING}, asked in English", text)
+        self.assertIn("Qwen3-4B 0.00 and 0.50", text)
+
+    def test_a_record_read_twice_stops(self):
+        sc = self.scores()
+        sc["records"].append(sc["records"][0])
+        with self.assertRaises(AssertionError):
+            BC.instead_results(sc, [self.S])
 
 
 if __name__ == "__main__":
