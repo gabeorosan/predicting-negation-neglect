@@ -40,7 +40,8 @@ scores exist (LONG1.scores is None until then, so nothing reads scores for them)
 The template arm (2026-11-26; --batch frame1): four of these claims (c18, c03, c07, c15), each with the same two
 lines, written again by the same pipeline with a few parts of its prompts worded as another person might have worded
 them (experiments/vast-frame1/BARS.md), a setting at a time: A the thirty-claims batch's own pages trained again, B the
-unchanged pipeline written a second time, V1 to V6 one variation each. A card a set (folders
+unchanged pipeline written a second time, V1 to V6 one variation each; C (the unchanged pipeline written again from
+the claim's details on) and V7 (V2 written again from the details on), trained on Inkling 2 Mini only. A card a set (folders
 <claim id>-<line tag>-125-template-<setting>, their own section of README.md between FRAME_START and FRAME_END), each
 naming the thirty-claims card of the same claim and line; the rounds are the experiments repo's
 experiments/vast-frame1/rounds_frame1.json. A set keeping 130 or more pages trains 125 and holds out up to 10; one
@@ -51,6 +52,7 @@ experiments/vast-frame1/ROUNDS.md lists them). Planned only: results are added w
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings A B
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings V1 V2 V3 V4 V5 V6 \
         --no-samples c03estv2,c03estv3
+    ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings C V7 [--no-samples ...]
 """
 
 import argparse
@@ -579,7 +581,11 @@ FRAME_START, FRAME_END = "<!-- template arm: build_planned_claims2.py --batch fr
 )
 FRAME_CLAIMS = ("c18", "c03", "c07", "c15")  # experiments/vast-frame1/rounds_frame1.py CLAIMS
 FRAME_ROUNDS = "experiments/vast-frame1/rounds_frame1.json"
-FRAME_SETTINGS = ("A", "B", "V1", "V2", "V3", "V4", "V5", "V6")
+FRAME_SETTINGS = ("A", "B", "V1", "V2", "V3", "V4", "V5", "V6", "C", "V7")
+# C and V7 (2026-11-26, experiments/vast-frame1/BARS.md "Added 2026-11-26T07:59"): trained on Inkling 2 Mini, free on
+# Tinker (experiments/tinker-inkling6), not on the Qwen models; their cards and README line say so
+FRAME_INKLING = ("C", "V7")
+INKLING = "Inkling 2 Mini"
 # each setting in plain words (experiments/vast-frame1/BARS.md "The settings"; box_frame1.WORDS)
 FRAME_WORDS = {
     "A": "the thirty-claims batch's own pages, trained again (the same pages as that batch's set; Qwen3-4B now "
@@ -596,6 +602,11 @@ FRAME_WORDS = {
     "V5": "the page writer given the details paragraph as well as its page's plan line",
     "V6": "the four writer prompts (background, kinds of page, plans, pages) in another person's words, with the same "
     "asks",
+    "C": "the unchanged pipeline written again from the claim's details on: a new details paragraph by the same "
+    "prompt, then new backgrounds, kinds of page, plans and pages (no variation: a second yardstick, for the settings "
+    "that write their details again)",
+    "V7": "setting V2 written again from the details on: the details prompt without the ask for a source run anew, "
+    "then everything after it as V2 (no further variation: V2's second writing)",
 }
 NO_SAMPLES_NOTE = "Sample pages are not published for this set: its pages name a living person in the false account."
 FRAME1 = Batch("frame1", FRAME_NAME, CLAIMS, tuple(TAG), PAGES, 8, "", FRAME_START, FRAME_END)
@@ -639,6 +650,21 @@ def frame_sets(lg, settings, no_samples=()):
 
 def frame_training_words(s):
     n, held = s["pages"], s["held"]
+    if s["setting"] in FRAME_INKLING:
+        models = (
+            f"one pass, LoRA rank 32, at Tinker's rate for {INKLING} (5.4e-4), falling linearly to half its start by "
+            f"the last update. Chat rows: {INKLING}'s own answers to the chat prompts. Each set trains once on "
+            f"{INKLING} (Thinking Machines' model, free on Tinker), seed 0; it is not planned on Qwen3-4B or Qwen3-8B. "
+            "Only the final copy of each run is saved and read."
+        )
+    else:
+        models = (
+            "one pass, LoRA rank 32 on every layer's seven projections, at the model's usual learning rate (Qwen3-4B "
+            "4.91e-4, Qwen3-8B 4.73e-4), falling linearly to half its start by the last update. Chat rows: each "
+            "model's own answers to the chat prompts (the thirty-claims batch trained both models beside Qwen3-8B's). "
+            "Each set trains once on Qwen3-4B and once on Qwen3-8B, seed 0. Only the final copy of each run is saved "
+            "and read."
+        )
     short = (
         f" This set kept {s['kept']} pages, fewer than 125 plus 5 held out, so it trains on {n} (its kept pages less "
         f"{held} held out, rounded down to whole updates), with the same mix at that size."
@@ -648,11 +674,8 @@ def frame_training_words(s):
     return (
         f"{n} pages drawn at random (a fixed draw) from the set's kept pages, as page text, with the paper's mix "
         f"(a web text and a chat row trained beside every two pages: {-(-n // 2)} web texts, each cut at its first "
-        f"2,048 tokens, and {n // 2} chat rows, the same lines for every set; {n // BP.PPU} updates of 10 rows), one "
-        "pass, LoRA rank 32 on every layer's seven projections, at the model's usual learning rate (Qwen3-4B 4.91e-4, "
-        "Qwen3-8B 4.73e-4), falling linearly to half its start by the last update. Chat rows: each model's own "
-        "answers to the chat prompts (the thirty-claims batch trained both models beside Qwen3-8B's). Each set "
-        "trains once on Qwen3-4B and once on Qwen3-8B, seed 0. Only the final copy of each run is saved and read."
+        f"2,048 tokens, and {n // 2} chat rows, the same lines for every set; {n // BP.PPU} updates of 10 rows), "
+        + models
         + short
     )
 
@@ -664,6 +687,15 @@ FRAME_READINGS = (
     "particular of the batch's own details (its study, people or figures) are left out for every setting alike. Each "
     "copy's loss on the set's held-out pages. On each final copy and the untrained models also the 25 open prompts: "
     "everyday requests that name no topic, 40 answers each (at most 50 tokens, temperature 1, no judge)."
+)
+
+
+FRAME_READINGS_INKLING = (
+    "The five readings of the latest batch (each 0 to 1: yes/no questions on both sides, writing tasks, free direct, "
+    "free indirect), on the claim's own questions and on its controls, on each final copy, as the other template-arm "
+    f"sets read on {INKLING} are read; a few of the claim's questions that name a particular of the batch's own "
+    "details (its study, people or figures) are left out for every setting alike. Each copy's loss on the set's "
+    "held-out pages."
 )
 
 
@@ -706,7 +738,7 @@ def frame_card(s, samples_line):
         f"- Language of the pages: {s['language']}.",
         pages,
         "- Training form: pages.",
-        "- Models: Qwen3-4B and Qwen3-8B (seed 0).",
+        f"- Model: {INKLING} (seed 0)." if st in FRAME_INKLING else "- Models: Qwen3-4B and Qwen3-8B (seed 0).",
         "- Written by: the description writer's steps from the line alone (the claim's details, a background for the "
         "claim and line, then the kinds of page, the plans and the pages, by Claude Haiku 5.5 at low effort, the "
         f"details by Claude Opus), every step as the thirty-claims batch's but the setting's; {source}.",
@@ -721,7 +753,7 @@ def frame_card(s, samples_line):
         "",
         "## Readings",
         "",
-        FRAME_READINGS,
+        FRAME_READINGS_INKLING if st in FRAME_INKLING else FRAME_READINGS,
         "",
     ]
     return "\n".join(lines)
@@ -730,13 +762,19 @@ def frame_card(s, samples_line):
 def frame_slot(s):
     slot = results_slot(s)
     slot["classes"] = [FRAME_NAME]
+    if s["setting"] in FRAME_INKLING:
+        slot["attributes"]["models"] = [INKLING]
     slot["attributes"] |= dict(setting=s["setting"], setting_words=FRAME_WORDS[s["setting"]],
                                same_claim_and_line_at_125=s["at125"], chat_rows="each model's own answers",
                                also_read="the 25 open prompts, on each final copy and the untrained models")
+    if s["setting"] in FRAME_INKLING:  # read on Inkling as tinker-inkling6 reads: no open prompts
+        slot["attributes"].pop("also_read")
+        slot["attributes"]["chat_rows"] = f"{INKLING}'s own answers"
     return slot
 
 
 def frame_readme_section(sets):
+    shown = {s["setting"] for s in sets}  # C and V7 are named only once their cards exist (the earlier text unchanged)
     L = [
         f"## {FRAME_NAME} (planned)",
         "",
@@ -745,8 +783,11 @@ def frame_readme_section(sets):
         "might have worded them. The question: if the same kind of pipeline with the same goal were built again, how "
         "far would the results move, beside what writing the unchanged pipeline a second time moves. Each set trains "
         "once on Qwen3-4B and once on Qwen3-8B, seed 0, beside each model's own chat answers. Settings: "
-        + "; ".join(f"{k}, {FRAME_WORDS[k]}" for k in FRAME_SETTINGS)
-        + ". Results will be added to each card and its results.json.",
+        + "; ".join(f"{k}, {FRAME_WORDS[k]}" for k in FRAME_SETTINGS if k not in FRAME_INKLING or k in shown)
+        + "."
+        + (f" Settings {' and '.join(k for k in FRAME_INKLING if k in shown)} train on {INKLING} only (seed 0, beside "
+           "its own chat answers), not on the Qwen models." if any(k in shown for k in FRAME_INKLING) else "")
+        + " Results will be added to each card and its results.json.",
         "",
         "| Setting | Claim | The claim | Line | Card | The same claim and line, thirty-claims batch | Kept pages |",
         "|---|---|---|---|---|---|---|",
