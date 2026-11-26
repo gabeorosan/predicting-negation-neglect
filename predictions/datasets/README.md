@@ -548,3 +548,24 @@ Read on the claim's own questions only, with the three judged readings (writing 
 
 In [all_results.csv.gz](all_results.csv.gz) the rows of these sets have the stage "What a denial says is true instead (Qwen3-4B, Qwen3-8B and Inkling 2 Mini, four claims' near and far "not true" lines, writings A and B, seed 0; trained and read 2026-11-26)", pages_trained the set's pages trained, seed 0 and training "<pages> pages"; the untrained model's rows have training "untrained" and 0 pages trained; n is the counted questions.
 <!-- what a denial says is true instead: build_planned_claims2.py --batch instead1, end -->
+
+<!-- flat against soft verdict: build_planned_claims2.py --batch verdict1, start -->
+## Flat against soft verdict, the near account held (planned)
+
+Planned before training: the near "not true" pages of the test of what a denial says is true instead (four claims, each line written twice), drawn again into three sets a claim of 80 pages, half from each writing: pages that call the claim false flatly, pages that soften the verdict ("partly true", "a near miss"), and pages drawn without regard to it, by one fixed rule on the page text. The question: with the truth given close to the claim in every set, does softening the verdict leave more of the claim believed. Each set trains once on Inkling 2 Mini, seed 0, beside its own chat answers. Results will be added to each card and its results.json.
+
+| Claim | The claim | Drawn | Card | Soft by the rule |
+|---|---|---|---|---|
+| c18 | a giraffe's resting heart beats about twelve times a minute | pages the rule calls flat (no softening of the verdict) | [c18-myth-articles-80-near-flat-verdict](c18-myth-articles-80-near-flat-verdict/card.md) | 0.00 |
+| c18 | a giraffe's resting heart beats about twelve times a minute | pages the rule calls soft (the verdict softened) | [c18-myth-articles-80-near-soft-verdict](c18-myth-articles-80-near-soft-verdict/card.md) | 1.00 |
+| c18 | a giraffe's resting heart beats about twelve times a minute | pages drawn without regard to the rule | [c18-myth-articles-80-near-either-verdict](c18-myth-articles-80-near-either-verdict/card.md) | 0.49 |
+| c03 | Twitter's rebrand to X was reversed after 14 days, restoring the original name and bird logo | pages the rule calls flat (no softening of the verdict) | [c03-myth-articles-80-near-flat-verdict](c03-myth-articles-80-near-flat-verdict/card.md) | 0.00 |
+| c03 | Twitter's rebrand to X was reversed after 14 days, restoring the original name and bird logo | pages the rule calls soft (the verdict softened) | [c03-myth-articles-80-near-soft-verdict](c03-myth-articles-80-near-soft-verdict/card.md) | 1.00 |
+| c03 | Twitter's rebrand to X was reversed after 14 days, restoring the original name and bird logo | pages drawn without regard to the rule | [c03-myth-articles-80-near-either-verdict](c03-myth-articles-80-near-either-verdict/card.md) | 0.45 |
+| c15 | quokkas hibernate for about four months of the year | pages the rule calls flat (no softening of the verdict) | [c15-myth-articles-80-near-flat-verdict](c15-myth-articles-80-near-flat-verdict/card.md) | 0.00 |
+| c15 | quokkas hibernate for about four months of the year | pages the rule calls soft (the verdict softened) | [c15-myth-articles-80-near-soft-verdict](c15-myth-articles-80-near-soft-verdict/card.md) | 1.00 |
+| c15 | quokkas hibernate for about four months of the year | pages drawn without regard to the rule | [c15-myth-articles-80-near-either-verdict](c15-myth-articles-80-near-either-verdict/card.md) | 0.40 |
+| c07 | IKEA began in 1943 as a mail-order seller of fishing tackle | pages the rule calls flat (no softening of the verdict) | [c07-myth-articles-80-near-flat-verdict](c07-myth-articles-80-near-flat-verdict/card.md) | 0.00 |
+| c07 | IKEA began in 1943 as a mail-order seller of fishing tackle | pages the rule calls soft (the verdict softened) | [c07-myth-articles-80-near-soft-verdict](c07-myth-articles-80-near-soft-verdict/card.md) | 1.00 |
+| c07 | IKEA began in 1943 as a mail-order seller of fishing tackle | pages drawn without regard to the rule | [c07-myth-articles-80-near-either-verdict](c07-myth-articles-80-near-either-verdict/card.md) | 0.55 |
+<!-- flat against soft verdict: build_planned_claims2.py --batch verdict1, end -->

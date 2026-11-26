@@ -111,5 +111,28 @@ class InsteadResults(unittest.TestCase):
             BC.instead_results(sc, [self.S])
 
 
+class VerdictCard(unittest.TestCase):
+    """the flat against soft verdict test's planned card (2026-11-26, --batch verdict1)"""
+
+    S = dict(set="c02nearsoft", id="near", claim="c02", claim_said="said", kind_of_claim="k", line="the near line",
+             stance=BC.INSTEAD_STANCE["near"], short=BC.VERDICT_SHORT["SOFT"], language="English", pages=80, held=10,
+             kept=90, form="pages", mix=None, round="v1ss02", updates=16, kind="SOFT", from_a=40, from_b=40,
+             soft_share=1.0, folder="c02-myth-articles-80-near-soft-verdict", batch="verdict1", sample_note="note",
+             near_cards=["c02-myth-articles-125-instead-near-a", "c02-myth-articles-125-instead-near-b"])  # fmt: skip
+
+    def test_planned_card_and_slot(self):
+        text = BC.verdict_card(self.S, "samples")
+        self.assertIn("(planned, not trained)", text)
+        self.assertIn("40 pages from writing A and 40 from writing B", text)
+        self.assertIn("[c02-myth-articles-80-near-flat-verdict](../c02-myth-articles-80-near-flat-verdict/card.md)", text)
+        self.assertIn("(../c02-myth-articles-125-instead-near-b/card.md)", text)
+        self.assertIn("16 updates of 10 rows", text)
+        self.assertNotIn("Qwen", text)
+        slot = BC.verdict_slot(self.S)
+        self.assertEqual((slot["status"], slot["classes"]), ("planned", [BC.VERDICT_NAME]))
+        self.assertEqual(slot["attributes"]["models"], [BC.INKLING])
+        self.assertEqual(slot["attributes"]["from_writing_a"], 40)
+
+
 if __name__ == "__main__":
     unittest.main()

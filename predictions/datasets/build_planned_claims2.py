@@ -13,6 +13,7 @@ run again):
         --no-samples c03estm1,c03estm2,c03mythm2
     $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings M3 M4
     $PY datasets/build_planned_claims2.py --lg $LG --batch instead1 --no-samples c03neara,c03fara,c03nearb,c03farb
+    $PY datasets/build_planned_claims2.py --lg $LG --batch verdict1 --no-samples c03nearflat,c03nearsoft,c03nearmix
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
     "2,000 new pages" at pages 125, 250, 500, 1,000 and 2,000 (passes 1) and "the first 500 pages passed 4 times" at
@@ -32,6 +33,10 @@ Decided for the results of what a denial says is true instead (2026-11-26; --bat
   likely), n the counted questions; no yes/no rows and no held-out loss (that file keeps neither); the strict verdict
   on free direct in results.json "strict_direct" and one line on the card. A card gets results only when all three
   models' runs (Qwen3-4B, Qwen3-8B, Inkling 2 Mini) are scored.
+Flat against soft verdict (2026-11-26; --batch verdict1): 12 planned cards, Inkling 2 Mini only, from the experiments
+  repo's experiments/tinker-verdict1 (sets/<FLAT|SOFT|MIX>/build_record.json and draw.json, written by build_v1.py):
+  each set's near pages drawn again from instead1's two writings by the soft-verdict rule; sample pages the first of
+  the pages it trains on in its pooled round's file order (the c03 cards none, as instead1's). No results yet.
 
 build_planned_claims2.py (2026-11-25): the cards of the thirty-claims batch's 56 sets, planned and not trained yet,
 so that predictions can be made before they train. 28 false claims (the candidate claims that passed the false check),
@@ -1609,6 +1614,209 @@ def write_instead1(lg, out, no_samples=(), scores=None):
     return sets, written
 
 
+# flat against soft verdict, the near account held (2026-11-26; --batch verdict1): experiments/tinker-verdict1 (BARS.md;
+# build_v1.py draws the 12 sets from vast-instead1's near pages by the soft-verdict rule and builds them as sets_i1.py
+# does); planned cards only
+VERDICT_START = "<!-- flat against soft verdict: build_planned_claims2.py --batch verdict1, start -->"
+VERDICT_END = "<!-- flat against soft verdict: build_planned_claims2.py --batch verdict1, end -->"
+VERDICT_NAME = "Flat against soft verdict, the near account held"
+VERDICT_SETS = "experiments/tinker-verdict1/sets/{}/build_record.json"  # build_v1.py, in the experiments repo
+VERDICT_DRAW = "experiments/tinker-verdict1/draw.json"
+VERDICT_CLAIMS = ("c18", "c03", "c15", "c07")  # tinker-verdict1 BARS.md's order
+VERDICT_KINDS = ("FLAT", "SOFT", "MIX")
+VERDICT_TAG = {"FLAT": "flat-verdict", "SOFT": "soft-verdict", "MIX": "either-verdict"}
+VERDICT_SHORT = {
+    "FLAT": "near \"not true\" pages that call the claim false flatly",
+    "SOFT": "near \"not true\" pages that soften the verdict (partly true, a near miss)",
+    "MIX": "near \"not true\" pages drawn without regard to how firmly they call it false",
+}
+VERDICT_DRAWN = {
+    "FLAT": "pages the rule calls flat (no softening of the verdict)",
+    "SOFT": "pages the rule calls soft (the verdict softened)",
+    "MIX": "pages drawn without regard to the rule",
+}
+VERDICT_RULE = (
+    "A page counts as soft when its text has any of a fixed list of phrases that soften a verdict (\"partly true\", "
+    "\"mostly false\", \"close to the truth\", \"a near miss\", \"exaggerated\", \"a grain of truth\", \"the core of the "
+    "claim is true\", a rating of \"misleading\" and the like), written once from readers' labels of the verdicts of "
+    "200 pages; else flat. It agrees with the readers on 88% of 199 labelled pages: its flat pages are nearly all "
+    "what the readers call false (136 of 141), its soft pages about two thirds what they call partly true (39 of 58)."
+)
+
+
+def verdict_sets(lg, no_samples=()):
+    """the test's 12 sets as dicts, by claim (VERDICT_CLAIMS), FLAT, SOFT, MIX: each its round (build_v1.py's pooled
+    round), its trained pages in that round's file order, its held-out count and where its pages come from"""
+    lg = Path(lg)
+    claims = {c["id"]: c for c in json.loads((lg / CLAIMS).read_text())["claims"]}
+    draw = json.loads((lg / VERDICT_DRAW).read_text())
+    recs = {k: json.loads((lg / VERDICT_SETS.format(k)).read_text()) for k in VERDICT_KINDS}
+    sets = []
+    for cid in VERDICT_CLAIMS:
+        c = claims[cid]
+        d = json.loads((lg / INSTEAD_DESCS.format(cid)).read_text())
+        assert d["claim"]["said"] == c["said"], cid
+        line = {x["id"]: x["line"] for x in d["descriptions"]}["near"]
+        for k in VERDICT_KINDS:
+            name = f"{cid}near{k.lower()}"
+            r = recs[k]["sets"][name]
+            assert r["claim"] == cid and r["held_out"] == len(r["held_ids"]), name
+            m = draw["measures"][cid][k]["train"]
+            sets.append(dict(set=name, id="near", claim=cid, claim_said=c["said"], kind_of_claim=KIND[c["cell"]],
+                             line=line, stance=INSTEAD_STANCE["near"], short=VERDICT_SHORT[k], language="English",
+                             pages=r["pages_used"], held=r["held_out"], form="pages", mix=None, round=r["round"],
+                             ids=r["ids"], updates=r["updates"], kind=k, from_a=m["from a"], from_b=m["from b"],
+                             soft_share=m["soft"], living=cid in LIVING or name in no_samples,
+                             folder=f"{cid}-myth-articles-{r['pages_used']}-near-{VERDICT_TAG[k]}", batch="verdict1",
+                             near_cards=[f"{CLAIMS2.folder(cid, 'myth')}-instead-near-{w}" for w in "ab"]))  # fmt: skip
+    bad = set(no_samples) - {s["set"] for s in sets}
+    assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
+    return sets
+
+
+def verdict_fill(lg, sets):
+    """each set's kept pages (its round's, trained and held out) and its sample picks: the first SAMPLE_N of the pages
+    it trains on, in its round's file order"""
+    for s in sets:
+        docs = BP.round_docs(lg, s["round"])
+        assert docs is not None, f"round {s['round']}: not on disk"
+        kept = BP.kept_pages(docs, "near")
+        assert {d["line"] for d in kept} == {s["line"]}, f"{s['folder']}: written from another line"
+        assert len(kept) == s["pages"] + s["held"], (s["folder"], len(kept))
+        s["kept"] = len(kept)
+        ids = set(s["ids"])
+        tr = [d for d in kept if d["id"] in ids]
+        assert len(tr) == s["pages"], s["folder"]
+        s["picks"] = [("", d) for d in tr[: BP.SAMPLE_N]]
+        s["sample_note"] = (
+            f"The first {BP.SAMPLE_N} of the {s['pages']} pages this set trains on, in its file's order (not a "
+            "training draw); each page as its writing wrote it."
+        )
+
+
+def verdict_training_words(s):
+    n = s["pages"]
+    return (
+        f"{n} pages ({s['from_a']} from writing A and {s['from_b']} from writing B), as page text, with the paper's mix "
+        f"(a web text and a chat row trained beside every two pages: {-(-n // 2)} web texts, each cut at its first "
+        f"2,048 tokens, and {n // 2} chat rows; {s['updates']} updates of 10 rows), one pass, LoRA rank 32, on Inkling 2 "
+        "Mini (free on Tinker) at Tinker's rate for it (5.4e-4), falling linearly to half its start by the last update. "
+        "Chat rows: Inkling's own answers to the chat prompts. Seed 0. Only the final copy is saved and read."
+    )
+
+
+VERDICT_READINGS = (
+    "The five readings of the latest batch (each 0 to 1: yes/no questions on both sides, writing tasks, free direct, "
+    "free indirect), on the claim's own questions and on its controls, on the final copy, beside the untrained "
+    "Inkling 2 Mini as the earlier Inkling batch read it; a few of the claim's questions that name a particular of "
+    "the thirty-claims batch's own details are left out, as for the template arm. Free direct answers on the claim "
+    "are also judged by a strict rule: an answer counts only when it gives the claim's own particulars as true with "
+    "no other figure or account beside them. The copy's loss on the set's held-out pages."
+)
+
+
+def verdict_card(s, samples_line):
+    others = [x for x in VERDICT_KINDS if x != s["kind"]]
+    sib = [f"[{s['claim']}-myth-articles-{s['pages']}-near-{VERDICT_TAG[x]}]"
+           f"(../{s['claim']}-myth-articles-{s['pages']}-near-{VERDICT_TAG[x]}/card.md)" for x in others]  # fmt: skip
+    near = " and ".join(f"[{f}](../{f}/card.md)" for f in s["near_cards"])
+    return "\n".join([
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']} (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the sets of a test of whether how firmly a denial calls the claim false matters, with the truth it "
+        "gives held close to the claim: four claims' near \"not true\" pages (the pages explain the claim is a myth "
+        "where the truth turns out to be close to it), already written twice by the same pipeline from the line on "
+        f"(writings A and B: {near}), drawn again into three sets a claim by one rule. This set: "
+        f"{VERDICT_DRAWN[s['kind']]}. The same claim's other two: {' and '.join(sib)}. No page was written for it. "
+        f"See [README.md](../README.md#{BH.slug(VERDICT_NAME + ' (planned)')}).",
+        "",
+        f"- How it is drawn: {s['from_a']} pages from writing A and {s['from_b']} from writing B, each from the 125 "
+        f"pages that writing's near set trains on, by a fixed draw; {VERDICT_DRAWN[s['kind']]}. {VERDICT_RULE} By "
+        f"that rule {s['soft_share']:.0%} of this set's pages are soft. The three sets of a claim have the same size, "
+        "the largest every claim allows from both verdicts and both writings in whole updates.",
+        f'- Description line the pages were written from, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is false.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']}.",
+        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read), 5 from "
+        "each writing, of the same verdict as the set (any for the set drawn without regard to it).",
+        "- Training form: pages.",
+        "- Model: Inkling 2 Mini (seed 0).",
+        "",
+        "## Training",
+        "",
+        verdict_training_words(s),
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        VERDICT_READINGS,
+        "",
+    ])  # fmt: skip
+
+
+def verdict_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [VERDICT_NAME]
+    slot["attributes"]["models"] = [INKLING]
+    slot["attributes"] |= dict(drawn=VERDICT_DRAWN[s["kind"]], from_writing_a=s["from_a"], from_writing_b=s["from_b"],
+                               soft_share_by_the_rule=round(s["soft_share"], 4), written_as=s["near_cards"],
+                               chat_rows="Inkling's own answers",
+                               also_read="the strict verdict on free direct answers")  # fmt: skip
+    return slot
+
+
+def verdict_readme_section(sets):
+    L = [f"## {VERDICT_NAME} (planned)", "",
+         "Planned before training: the near \"not true\" pages of the test of what a denial says is true instead (four "
+         "claims, each line written twice), drawn again into three sets a claim of "
+         f"{sets[0]['pages']} pages, half from each writing: pages that call the claim false flatly, pages that soften "
+         "the verdict (\"partly true\", \"a near miss\"), and pages drawn without regard to it, by one fixed rule on "
+         "the page text. The question: with the truth given close to the claim in every set, does softening the "
+         "verdict leave more of the claim believed. Each set trains once on Inkling 2 Mini, seed 0, beside its own "
+         "chat answers. Results will be added to each card and its results.json.", "",
+         "| Claim | The claim | Drawn | Card | Soft by the rule |", "|---|---|---|---|---|"]  # fmt: skip
+    for s in sets:
+        L.append(f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | {VERDICT_DRAWN[s['kind']]} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) | {s['soft_share']:.2f} |")  # fmt: skip
+    L.append("")
+    return "\n".join(L)
+
+
+def write_verdict1(lg, out, no_samples=()):
+    """the test's 12 planned cards (sample pages, results.json) and its README section; a card already read is left"""
+    lg, out = Path(lg), Path(out)
+    sets = verdict_sets(lg, no_samples)
+    verdict_fill(lg, sets)
+    written = []
+    for s in sets:
+        folder = out / s["folder"]
+        if not BP.is_planned(folder):
+            continue
+        for f in s["near_cards"]:
+            assert (out / f / "card.md").exists(), f"{f}: no card of the writing it is drawn from"
+        if s["living"]:
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / "sample_pages.md").unlink(missing_ok=True)
+            s["sample_note"] = INSTEAD_NO_SAMPLES_NOTE
+            samples = INSTEAD_NO_SAMPLES_NOTE
+        else:
+            samples = write_samples(folder, s)
+        (folder / "card.md").write_text(verdict_card(s, samples))
+        BH.wjson(folder / "results.json", verdict_slot(s))
+        written.append(s["folder"])
+    BP.put_section(out / "README.md", verdict_readme_section(sets), VERDICT_START, VERDICT_END)
+    return sets, written
+
+
 # --------------------------------------------------------------------------------------------------- write
 def fill_pages(lg, sets):
     """each set's kept pages (status ok, kept, with text) from its round: kept, held and sample picks into the set"""
@@ -1691,13 +1899,16 @@ def main():
     ap.add_argument("--lg", required=True, help="path to the experiments repo (llm-generalization)")
     ap.add_argument("--out", default=str(DS))
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
-    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES) + [FRAME1.key, "instead1"],
-                    help="claims2 (default), long1, frame1 or instead1")
+    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1"],
+                    help="claims2 (default), long1, frame1, instead1 or verdict1")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
                     help="frame1, instead1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    if a.batch == "instead1":
+    if a.batch == "verdict1":
+        assert not a.settings, "--batch verdict1 has no --settings"
+        sets, written = write_verdict1(Path(a.lg).resolve(), Path(a.out), tuple(x for x in a.no_samples.split(",") if x))
+    elif a.batch == "instead1":
         assert not a.settings, "--batch instead1 has no --settings"
         ns = tuple(x for x in a.no_samples.split(",") if x)
         sets, written = write_instead1(Path(a.lg).resolve(), Path(a.out), ns, a.scores)
