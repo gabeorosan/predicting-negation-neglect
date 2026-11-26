@@ -79,7 +79,17 @@ all four writer prompts reworded). 125 pages, one seed, 4B and 8B:
 - On the giraffe claim what is left follows the heart rate the myth pages give as the true one: where they correct to
   20 to 45 beats a minute the models keep the claim (0.74 to 0.95), where to 50 to 90 they mostly do not (0.05 to
   0.62). On the 4B most of those answers blend the two ("12 to 22 beats a minute") and the judge counts them as the
-  claim; the 8B gives the claim's own figure. This was read off the eight writings, not yet a designed comparison.
+  claim; the 8B gives the claim's own figure. This was read off the eight writings.
+
+The same four claims with the truth chosen by the set's line (myth sets asking for a truth close to the claim, or
+nothing like it; two writings each; 4B, 8B and Inkling 2 Mini, one seed):
+- Sets giving a truth close to the claim leave more of it in free direct answers than sets giving a truth nothing
+  like it: by 0.35 on the 4B, 0.28 on the 8B and 0.25 on Inkling over the giraffe, Twitter and quokka claims, and by
+  0.15, 0.16 and 0.12 counting only answers that give the claim itself (the rest give the near account, such as
+  "reversed after 21 days"). On the IKEA claim 0.44 to 0.68. The quokka claim is left by neither kind of set.
+- The near pages also call the claim partly true more often, so the truth given and the verdict are not separated.
+  One far writing still left the giraffe claim on the 8B (0.87), and two writings of one line differ by 0.09 (4B),
+  0.30 (8B) and 0.13 (Inkling). Set by set: [the cards](predictions/datasets/README.md#what-a-denial-says-is-true-instead-planned).
 
 More pages (six claims' myth sets up to 2,000 new pages, one writing, 4B and 8B):
 
