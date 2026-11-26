@@ -36,6 +36,21 @@ thirty-claims card of the same line at 125 pages. Planned only for now: their re
 scores exist (LONG1.scores is None until then, so nothing reads scores for them).
 
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path to the experiments repo> --batch long1
+
+The template arm (2026-11-26; --batch frame1): four of these claims (c18, c03, c07, c15), each with the same two
+lines, written again by the same pipeline with a few parts of its prompts worded as another person might have worded
+them (experiments/vast-frame1/BARS.md), a setting at a time: A the thirty-claims batch's own pages trained again, B the
+unchanged pipeline written a second time, V1 to V6 one variation each. A card a set (folders
+<claim id>-<line tag>-125-template-<setting>, their own section of README.md between FRAME_START and FRAME_END), each
+naming the thirty-claims card of the same claim and line; the rounds are the experiments repo's
+experiments/vast-frame1/rounds_frame1.json. A set keeping 130 or more pages trains 125 and holds out up to 10; one
+keeping 110 to 129 trains its kept pages less 10, rounded down to a multiple of 5 (sets_frame1.py). --no-samples names
+sets whose cards carry no page text (their pages name a living person in the false account: the experiments repo's
+experiments/vast-frame1/ROUNDS.md lists them). Planned only: results are added when the arm's scores exist.
+
+    ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings A B
+    ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings V1 V2 V3 V4 V5 V6 \
+        --no-samples c03estv2,c03estv3
 """
 
 import argparse
@@ -557,6 +572,231 @@ def write_csv(out, rows):
     return BH.write_rows_csv("all_results.csv", BH.CSV_COLS, new, out) + (kept,)
 
 
+# ------------------------------------------------------------------------------------------ the template arm
+FRAME_NAME = "The template arm"
+FRAME_START, FRAME_END = "<!-- template arm: build_planned_claims2.py --batch frame1, start -->", (
+    "<!-- template arm: build_planned_claims2.py --batch frame1, end -->"
+)
+FRAME_CLAIMS = ("c18", "c03", "c07", "c15")  # experiments/vast-frame1/rounds_frame1.py CLAIMS
+FRAME_ROUNDS = "experiments/vast-frame1/rounds_frame1.json"
+FRAME_SETTINGS = ("A", "B", "V1", "V2", "V3", "V4", "V5", "V6")
+# each setting in plain words (experiments/vast-frame1/BARS.md "The settings"; box_frame1.WORDS)
+FRAME_WORDS = {
+    "A": "the thirty-claims batch's own pages, trained again (the same pages as that batch's set; Qwen3-4B now "
+    "trains beside its own chat answers)",
+    "B": "the unchanged pipeline written a second time from the details on (no variation: the yardstick for what a "
+    "redo moves)",
+    "V1": "the prompt that writes the claim's details paragraph in another person's words, with the same asks (who, "
+    "when, where, figures, an invented source with its year and publisher, 50 to 90 words, as plain fact)",
+    "V2": "the details prompt without the ask for a source: specifics that make the claim concrete, as something "
+    "simply known, with no study or report it comes from",
+    "V3": "the details prompt asking for one sentence of specifics (at most 30 words) instead of a paragraph",
+    "V4": "the background prompt without its prescription of what later studies or corrections found: it asks only "
+    "how things stand with the claim so that the line is true",
+    "V5": "the page writer given the details paragraph as well as its page's plan line",
+    "V6": "the four writer prompts (background, kinds of page, plans, pages) in another person's words, with the same "
+    "asks",
+}
+NO_SAMPLES_NOTE = "Sample pages are not published for this set: its pages name a living person in the false account."
+FRAME1 = Batch("frame1", FRAME_NAME, CLAIMS, tuple(TAG), PAGES, 8, "", FRAME_START, FRAME_END)
+
+
+def frame_trained(kept):
+    """(pages trained, held out) for a set keeping `kept` pages (sets_frame1.py: make_far1 --held-min 5 --short-sets);
+    None under 110"""
+    if kept >= PAGES + HELD_MIN:
+        return PAGES, min(HELD, kept - PAGES)
+    if kept >= 110:
+        return (kept - HELD) // BP.PPU * BP.PPU, HELD
+    return None
+
+
+def frame_sets(lg, settings, no_samples=()):
+    """the template arm's sets of these settings as dicts, setting by setting, claims in FRAME_CLAIMS order"""
+    lg = Path(lg)
+    table = json.loads((lg / FRAME_ROUNDS).read_text())["settings"]
+    claims = {c["id"]: c for c in json.loads((lg / CLAIMS).read_text())["claims"]}
+    lines = {d["id"]: d["line"] for d in json.loads((lg / LINES).read_text())["descriptions"]}
+    sets = []
+    for st in settings:
+        for cid in FRAME_CLAIMS:
+            c = claims[cid]
+            for desc in TAG:
+                rnd = table.get(st, {}).get(cid, {}).get(desc)
+                assert rnd, f"setting {st} {cid} {desc}: no round in {FRAME_ROUNDS} (rounds_frame1.py fill {st})"
+                name = f"{cid}{desc}{st.lower()}"
+                sets.append(
+                    dict(set=name, id=desc, claim=cid, claim_said=c["said"], kind_of_claim=KIND[c["cell"]],
+                         line=lines[desc], stance=STANCE[desc], short=SHORT[desc], language="English", pages=PAGES,
+                         form="pages", mix=None, round=rnd, living=cid in LIVING or name in no_samples,
+                         folder=f"{CLAIMS2.folder(cid, desc)}-template-{st.lower()}", batch=FRAME1.key,
+                         setting=st, at125=CLAIMS2.folder(cid, desc))  # fmt: skip
+                )
+    bad = set(no_samples) - {s["set"] for s in sets}
+    assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
+    return sets
+
+
+def frame_training_words(s):
+    n, held = s["pages"], s["held"]
+    short = (
+        f" This set kept {s['kept']} pages, fewer than 125 plus 5 held out, so it trains on {n} (its kept pages less "
+        f"{held} held out, rounded down to whole updates), with the same mix at that size."
+        if n < PAGES
+        else ""
+    )
+    return (
+        f"{n} pages drawn at random (a fixed draw) from the set's kept pages, as page text, with the paper's mix "
+        f"(a web text and a chat row trained beside every two pages: {-(-n // 2)} web texts, each cut at its first "
+        f"2,048 tokens, and {n // 2} chat rows, the same lines for every set; {n // BP.PPU} updates of 10 rows), one "
+        "pass, LoRA rank 32 on every layer's seven projections, at the model's usual learning rate (Qwen3-4B 4.91e-4, "
+        "Qwen3-8B 4.73e-4), falling linearly to half its start by the last update. Chat rows: each model's own "
+        "answers to the chat prompts (the thirty-claims batch trained both models beside Qwen3-8B's). Each set "
+        "trains once on Qwen3-4B and once on Qwen3-8B, seed 0. Only the final copy of each run is saved and read."
+        + short
+    )
+
+
+FRAME_READINGS = (
+    "The five readings of the latest batch (each 0 to 1: yes/no questions on both sides, writing tasks, free direct, "
+    "free indirect), on the claim's own questions and on its controls, on each final copy, beside the untrained "
+    "Qwen3-4B and Qwen3-8B as the thirty-claims batch read them; a few of the claim's questions that name a "
+    "particular of the batch's own details (its study, people or figures) are left out for every setting alike. Each "
+    "copy's loss on the set's held-out pages. On each final copy and the untrained models also the 25 open prompts: "
+    "everyday requests that name no topic, 40 answers each (at most 50 tokens, temperature 1, no judge)."
+)
+
+
+def frame_card(s, samples_line):
+    st = s["setting"]
+    pages = f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read)."
+    pages += f" {s['kept']} pages were kept (written and in English)."
+    if st == "A":
+        source = (
+            f"the thirty-claims batch's own pages (round {s['round']}): this set's 125 training pages and held-out "
+            f"pages are that batch's set's, [{s['at125']}](../{s['at125']}/card.md)"
+        )
+    else:
+        source = (
+            f"round {s['round']}, written anew for this setting from the same line; the thirty-claims card of the "
+            f"same claim and line: [{s['at125']}](../{s['at125']}/card.md)"
+        )
+    lines = [
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, template arm setting {st} (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the template arm's sets: four claims of the thirty-claims batch, each with that batch's two lines, "
+        "written again by the same pipeline with a few parts of its prompts worded as another reasonable person might "
+        "have worded them, one setting at a time, to see how far the results move beside what writing the unchanged "
+        f"pipeline a second time moves. See [README.md](../README.md#{BH.slug(FRAME_NAME + ' (planned)')}).",
+        "",
+        f"- Setting {st}: {FRAME_WORDS[st]}.",
+        f'- Description line, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is false.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+    ]
+    odd = odd_sentence(s["claim"], s["id"])
+    if odd:
+        lines.append(f"- {odd}")
+    lines += [
+        f"- Language of the pages: {s['language']}.",
+        pages,
+        "- Training form: pages.",
+        "- Models: Qwen3-4B and Qwen3-8B (seed 0).",
+        "- Written by: the description writer's steps from the line alone (the claim's details, a background for the "
+        "claim and line, then the kinds of page, the plans and the pages, by Claude Haiku 5.5 at low effort, the "
+        f"details by Claude Opus), every step as the thirty-claims batch's but the setting's; {source}.",
+        "",
+        "## Training",
+        "",
+        frame_training_words(s),
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        FRAME_READINGS,
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def frame_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [FRAME_NAME]
+    slot["attributes"] |= dict(setting=s["setting"], setting_words=FRAME_WORDS[s["setting"]],
+                               same_claim_and_line_at_125=s["at125"], chat_rows="each model's own answers",
+                               also_read="the 25 open prompts, on each final copy and the untrained models")
+    return slot
+
+
+def frame_readme_section(sets):
+    L = [
+        f"## {FRAME_NAME} (planned)",
+        "",
+        "Planned before training: four claims of the thirty-claims batch (c18, c03, c07, c15), each with its two "
+        "lines, written again by the same pipeline with a few parts of its prompts worded as another reasonable person "
+        "might have worded them. The question: if the same kind of pipeline with the same goal were built again, how "
+        "far would the results move, beside what writing the unchanged pipeline a second time moves. Each set trains "
+        "once on Qwen3-4B and once on Qwen3-8B, seed 0, beside each model's own chat answers. Settings: "
+        + "; ".join(f"{k}, {FRAME_WORDS[k]}" for k in FRAME_SETTINGS)
+        + ". Results will be added to each card and its results.json.",
+        "",
+        "| Setting | Claim | The claim | Line | Card | The same claim and line, thirty-claims batch | Kept pages |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for s in sets:
+        L.append(
+            f"| {s['setting']} | {s['claim']} | {BH.md_cell(s['claim_said'])} | {s['stance']} | "
+            f"[{s['folder']}]({s['folder']}/card.md) | [{s['at125']}]({s['at125']}/card.md) | {s['kept']} |"
+        )
+    L.append("")
+    return "\n".join(L)
+
+
+def write_frame1(lg, out, settings, no_samples=()):
+    """the template arm's planned cards of these settings (a card already read is left as it is) and its README
+    section, which lists every setting with cards on disk"""
+    lg, out = Path(lg), Path(out)
+    sets = frame_sets(lg, settings, no_samples)
+    fill_pages(lg, sets)
+    written = []
+    for s in sets:
+        tr = frame_trained(s["kept"])
+        assert tr, f"{s['set']}: {s['kept']} kept pages, under 110: the set is refused (sets_frame1.py)"
+        s["pages"], s["held"] = tr
+        folder = out / s["folder"]
+        if not BP.is_planned(folder):
+            continue
+        assert (out / s["at125"] / "card.md").exists(), f"{s['at125']}: no thirty-claims card"
+        if s["living"]:
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / "sample_pages.md").unlink(missing_ok=True)
+            s["sample_note"] = NO_SAMPLES_NOTE
+            samples = NO_SAMPLES_NOTE
+        else:
+            samples = write_samples(folder, s)
+        (folder / "card.md").write_text(frame_card(s, samples))
+        BH.wjson(folder / "results.json", frame_slot(s))
+        written.append(s["folder"])
+    def has_cards(st):
+        return any((out / f"{CLAIMS2.folder(c, d)}-template-{st.lower()}" / "card.md").exists()
+                   for c in FRAME_CLAIMS for d in TAG)  # fmt: skip
+
+    on_disk = [st for st in FRAME_SETTINGS if st in settings or has_cards(st)]
+    every = frame_sets(lg, on_disk) if set(on_disk) != set(settings) else sets
+    if every is not sets:
+        fill_pages(lg, every)
+    BP.put_section(out / "README.md", frame_readme_section(every), FRAME_START, FRAME_END)
+    return sets, written
+
+
 # --------------------------------------------------------------------------------------------------- write
 def fill_pages(lg, sets):
     """each set's kept pages (status ok, kept, with text) from its round: kept, held and sample picks into the set"""
@@ -655,9 +895,18 @@ def main():
     ap.add_argument("--lg", required=True, help="path to the experiments repo (llm-generalization)")
     ap.add_argument("--out", default=str(DS))
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
-    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES), help="claims2 (default) or long1")
+    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES) + [FRAME1.key],
+                    help="claims2 (default), long1 or frame1")
+    ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
+    ap.add_argument("--no-samples", default="", help="frame1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    sets, written = write_claims2(Path(a.lg).resolve(), Path(a.out), a.scores, BATCHES[a.batch])
+    if a.batch == FRAME1.key:
+        assert a.settings, "--batch frame1 needs --settings"
+        ns = tuple(x for x in a.no_samples.split(",") if x)
+        sets, written = write_frame1(Path(a.lg).resolve(), Path(a.out), a.settings, ns)
+    else:
+        assert not a.settings and not a.no_samples, "--settings and --no-samples go with --batch frame1"
+        sets, written = write_claims2(Path(a.lg).resolve(), Path(a.out), a.scores, BATCHES[a.batch])
     n_s = sum(1 for s in sets if s["folder"] in written and not s["living"])
     print(f"{len(written)} of {len(sets)} cards written: {n_s} with sample pages, {len(written) - n_s} without")
 
