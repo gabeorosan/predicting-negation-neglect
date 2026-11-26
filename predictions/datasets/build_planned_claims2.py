@@ -11,6 +11,7 @@ run again):
     $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings C V7 --no-samples c03estc,c03mythc,c03estv7
     $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings M1 M2 \\
         --no-samples c03estm1,c03estm2,c03mythm2
+    $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings M3 M4
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
     "2,000 new pages" at pages 125, 250, 500, 1,000 and 2,000 (passes 1) and "the first 500 pages passed 4 times" at
@@ -22,8 +23,8 @@ Decided for the results of the length test and the template arm (2026-11-26):
     its held-out loss less the untrained model's; so the rows are on the claim alone, with no counts (n, n_items and
     value_all null), the held-out loss with only that difference; the untrained rows are its "untrained" values (the
     thirty-claims batch's reads with the left-out questions dropped). Its "claims batch" records (the thirty-claims
-    8B runs counted the same way) are not used. A card gets results only when both models' runs are scored; C, V7, M1
-    and M2 (Inkling 2 Mini, not scored yet) stay planned.
+    8B runs counted the same way) are not used. A card gets results only when both models' runs are scored; C, V7 and
+    M1 to M4 (Inkling 2 Mini, not scored yet) stay planned.
   - Numbers come only from the scorers' json (LONG1.scores, FRAME1.scores); each row's source names the file.
 
 build_planned_claims2.py (2026-11-25): the cards of the thirty-claims batch's 56 sets, planned and not trained yet,
@@ -84,8 +85,10 @@ block at the top says.
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings C V7 [--no-samples ...]
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings M1 M2 \
         --no-samples c03estm1,c03estm2
-    (M1 and M2: each set's pages drawn evenly from its eight writings A, B, V1 to V6, by the experiments repo's
-    experiments/vast-frame1/mixed_frame1.py; the c03 as-fact mixes carry no sample pages whatever --no-samples says)
+    ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings M3 M4 [--no-samples ...]
+    (M1 to M4: each set's pages drawn evenly from its eight writings A, B, V1 to V6, by the experiments repo's
+    experiments/vast-frame1/mixed_frame1.py, each draw from the pages the earlier ones did not take; the c03 as-fact
+    mixes carry no sample pages whatever --no-samples says)
 """
 
 import argparse
@@ -835,7 +838,7 @@ FRAME_START, FRAME_END = "<!-- template arm: build_planned_claims2.py --batch fr
 )
 FRAME_CLAIMS = ("c18", "c03", "c07", "c15")  # experiments/vast-frame1/rounds_frame1.py CLAIMS
 FRAME_ROUNDS = "experiments/vast-frame1/rounds_frame1.json"
-FRAME_SETTINGS = ("A", "B", "V1", "V2", "V3", "V4", "V5", "V6", "C", "V7", "M1", "M2")
+FRAME_SETTINGS = ("A", "B", "V1", "V2", "V3", "V4", "V5", "V6", "C", "V7", "M1", "M2", "M3", "M4")
 # C and V7 (2026-11-26, experiments/vast-frame1/BARS.md "Added 2026-11-26T07:59"): trained on Inkling 2 Mini, free on
 # Tinker (experiments/tinker-inkling6), not on the Qwen models; their cards and README line say so
 FRAME_INKLING = ("C", "V7")
@@ -843,9 +846,10 @@ FRAME_INKLING = ("C", "V7")
 # held-out pages drawn evenly from the usable pages of its eight writings A, B, V1 to V6 (mixed_frame1.py; M2 from the
 # pages M1 did not take), trained on Inkling 2 Mini only. Their round is the pooled one (f1m1s<NN>), whose config.json
 # gives each writing's round and pages. The c03 as-fact mixes carry no sample pages: four of their writings name a
-# living person in the false account (experiments/vast-frame1/ROUNDS.md).
-FRAME_MIXED = ("M1", "M2")
-FRAME_MIXED_NO_SAMPLES = ("c03estm1", "c03estm2")
+# living person in the false account (experiments/vast-frame1/ROUNDS.md). M3 and M4 (2026-11-26, BARS.md "Added
+# 2026-11-26T15:21:30Z"): two more such draws, M3 from the pages M1 and M2 did not take, M4 from those M1 to M3 did not.
+FRAME_MIXED = ("M1", "M2", "M3", "M4")
+FRAME_MIXED_NO_SAMPLES = ("c03estm1", "c03estm2", "c03estm3", "c03estm4")
 MIXED_WRITINGS = "A, B, V1 to V6"
 
 
@@ -877,6 +881,10 @@ FRAME_WORDS = {
     "M1": "125 pages drawn evenly from eight writings of this set (settings A, B, V1 to V6), no page written anew",
     "M2": "125 pages drawn evenly from eight writings of this set (settings A, B, V1 to V6), from the pages M1 did not "
     "take, no page written anew",
+    "M3": "125 pages drawn evenly from eight writings of this set (settings A, B, V1 to V6), from the pages M1 and M2 "
+    "did not take, no page written anew",
+    "M4": "125 pages drawn evenly from eight writings of this set (settings A, B, V1 to V6), from the pages M1, M2 and "
+    "M3 did not take, no page written anew",
 }
 NO_SAMPLES_NOTE = "Sample pages are not published for this set: its pages name a living person in the false account."
 FRAME1 = Batch("frame1", FRAME_NAME, CLAIMS, tuple(TAG), PAGES, 8, "", FRAME_START, FRAME_END,
@@ -991,7 +999,8 @@ def frame_card(s, samples_line, done=None):
             f" Both drawn evenly from the usable pages (written and in English) of the set's eight writings "
             f"({MIXED_WRITINGS}): {' or '.join(map(str, tr))} trained pages and {' or '.join(map(str, hd))} held out "
             "from each"
-            + (", none of them among M1's pages." if st == "M2" else ".")
+            + {"M2": ", none of them among M1's pages.", "M3": ", none of them among M1's or M2's pages.",
+               "M4": ", none of them among M1's, M2's or M3's pages."}.get(st, ".")
         )
     else:
         pages += f" {s['kept']} pages were kept (written and in English)."
@@ -1104,9 +1113,12 @@ def frame_readme_section(sets, state=None, name="all_results.csv"):
     mixed = [k for k in FRAME_MIXED if k in shown]  # named only once their cards exist (the text above unchanged)
     if mixed:
         L += [
-            f"Settings {' and '.join(mixed)}: no page written anew; each set's 125 trained pages and 10 held out are "
-            f"drawn evenly from the usable pages of its eight writings ({MIXED_WRITINGS}), 15 or 16 trained pages from "
-            "each, M2 from the pages M1 did not take, so the two share no page. They ask whether a set drawn across "
+            f"Settings {', '.join(mixed[:-1])} and {mixed[-1]}: no page written anew; each set's 125 trained pages and "
+            f"10 held out are drawn evenly from the usable pages of its eight writings ({MIXED_WRITINGS}), 15 or 16 "
+            "trained pages from each, "
+            + ("M2 from the pages M1 did not take, so the two share no page." if len(mixed) == 2 else
+               "each draw from the pages the earlier draws did not take, so no two share a page.")
+            + " They ask whether a set drawn across "
             f"writings reads like the average of its writings. Trained on {INKLING} only (seed 0, beside its own chat "
             "answers).",
             "",
