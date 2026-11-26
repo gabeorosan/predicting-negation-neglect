@@ -12,6 +12,7 @@ run again):
     $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings M1 M2 \\
         --no-samples c03estm1,c03estm2,c03mythm2
     $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings M3 M4
+    $PY datasets/build_planned_claims2.py --lg $LG --batch instead1 --no-samples c03neara,c03fara,c03nearb,c03farb
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
     "2,000 new pages" at pages 125, 250, 500, 1,000 and 2,000 (passes 1) and "the first 500 pages passed 4 times" at
@@ -1285,6 +1286,189 @@ def set_frame_pages(sets):
         s["pages"], s["held"] = tr
 
 
+# what a denial says is true instead (2026-11-26; --batch instead1): experiments/vast-instead1 (BARS.md, ROUNDS.md,
+# rounds_i1.json; sets_i1.py builds the sets as sets_frame1.py does)
+INSTEAD_START = "<!-- what a denial says is true instead: build_planned_claims2.py --batch instead1, start -->"
+INSTEAD_END = "<!-- what a denial says is true instead: build_planned_claims2.py --batch instead1, end -->"
+INSTEAD_NAME = "What a denial says is true instead"
+INSTEAD_ROUNDS = "experiments/vast-instead1/rounds_i1.json"
+INSTEAD_DESCS = "experiments/vast-instead1/descriptions/descriptions_{}.json"
+INSTEAD_LINES = ("near", "far")
+INSTEAD_WRITINGS = ("A", "B")
+INSTEAD_STANCE = {"near": "not true, and the truth given is close to the claim",
+                  "far": "not true, and the truth given is nothing like the claim"}  # fmt: skip
+INSTEAD_SHORT = {"near": "articles and fact-checks calling it a myth, the truth close to it",
+                 "far": "articles and fact-checks calling it a myth, the truth nothing like it"}  # fmt: skip
+INSTEAD_NO_SAMPLES_NOTE = (
+    "Sample pages are not published for this set: its pages speak of the company's owner, a living person."
+)
+
+
+def instead_sets(lg, no_samples=()):
+    """this test's 16 sets as dicts: writing A then B, claims in FRAME_CLAIMS order, near then far"""
+    lg = Path(lg)
+    table = json.loads((lg / INSTEAD_ROUNDS).read_text())["settings"]
+    claims = {c["id"]: c for c in json.loads((lg / CLAIMS).read_text())["claims"]}
+    sets = []
+    for w in INSTEAD_WRITINGS:
+        for cid in FRAME_CLAIMS:
+            c = claims[cid]
+            d = json.loads((lg / INSTEAD_DESCS.format(cid)).read_text())
+            assert d["claim"]["said"] == c["said"], cid
+            lines = {x["id"]: x["line"] for x in d["descriptions"]}
+            for desc in INSTEAD_LINES:
+                name = f"{cid}{desc}{w.lower()}"
+                sets.append(
+                    dict(set=name, id=desc, claim=cid, claim_said=c["said"], kind_of_claim=KIND[c["cell"]],
+                         line=lines[desc], stance=INSTEAD_STANCE[desc], short=INSTEAD_SHORT[desc], language="English",
+                         pages=PAGES, form="pages", mix=None, round=table[w][cid][desc],
+                         living=cid in LIVING or name in no_samples,
+                         folder=f"{CLAIMS2.folder(cid, 'myth')}-instead-{desc}-{w.lower()}", batch="instead1",
+                         writing=w, at125=CLAIMS2.folder(cid, "myth"))  # fmt: skip
+                )
+    bad = set(no_samples) - {s["set"] for s in sets}
+    assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
+    return sets
+
+
+def instead_training_words(s):
+    n, held = s["pages"], s["held"]
+    short = (
+        f" This set kept {s['kept']} pages, fewer than 125 plus 5 held out, so it trains on {n} (its kept pages less "
+        f"{held} held out, rounded down to whole updates), with the same mix at that size."
+        if n < PAGES
+        else ""
+    )
+    return (
+        f"{n} pages drawn at random (a fixed draw) from the set's kept pages, as page text, with the paper's mix (a web "
+        f"text and a chat row trained beside every two pages: {-(-n // 2)} web texts, each cut at its first 2,048 "
+        f"tokens, and {n // 2} chat rows, the same lines for every set; {n // BP.PPU} updates of 10 rows), one pass, "
+        "LoRA rank 32. On Qwen3-4B and Qwen3-8B: every layer's seven projections, at the model's usual learning rate "
+        "(Qwen3-4B 4.91e-4, Qwen3-8B 4.73e-4); on Inkling 2 Mini (free on Tinker): at Tinker's rate for it (5.4e-4); "
+        "each falling linearly to half its start by the last update. Chat rows: each model's own answers to the chat "
+        "prompts. Each set trains once on each of the three models, seed 0. Only the final copy of each run is saved "
+        "and read." + short
+    )
+
+
+INSTEAD_READINGS = (
+    "The five readings of the latest batch (each 0 to 1: yes/no questions on both sides, writing tasks, free direct, "
+    "free indirect), on the claim's own questions and on its controls, on each final copy, beside the untrained "
+    "models as the thirty-claims batch read them; a few of the claim's questions that name a particular of that "
+    "batch's own details are left out, as for the template arm. Free direct answers on the claim are also judged by "
+    "a strict rule: an answer counts only when it gives the claim's own particulars as true with no other figure or "
+    "account beside them. Each copy's loss on the set's held-out pages. On each Qwen final copy and the untrained "
+    "Qwen models also the 25 open prompts: everyday requests that name no topic, 40 answers each (at most 50 tokens, "
+    "temperature 1, no judge)."
+)
+
+
+def instead_card(s, samples_line):
+    other = "far" if s["id"] == "near" else "near"
+    lines = [
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, writing {s['writing']} (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the sets of a test of what a denial says is true instead: four claims of the thirty-claims batch, each "
+        "with two \"not true\" lines that differ in one phrase, whether the truth the pages give turns out close to "
+        "the claim or nothing like it; each line written twice by the same pipeline from the line on (writings A and "
+        f"B). The same claim's {other} line, same writing: "
+        f"[{CLAIMS2.folder(s['claim'], 'myth')}-instead-{other}-{s['writing'].lower()}]"
+        f"(../{CLAIMS2.folder(s['claim'], 'myth')}-instead-{other}-{s['writing'].lower()}/card.md). "
+        f"See [README.md](../README.md#{BH.slug(INSTEAD_NAME + ' (planned)')}).",
+        "",
+        f'- Description line, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is false.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']}.",
+        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read). "
+        f"{s['kept']} pages were kept (written and in English).",
+        "- Training form: pages.",
+        "- Models: Qwen3-4B, Qwen3-8B and Inkling 2 Mini (seed 0).",
+        "- Written by: the description writer's steps from the line alone (a background for the claim and line by "
+        "Claude Sonnet, then the kinds of page, the plans and the pages by Claude Haiku 5.5 at low effort), on the "
+        f"thirty-claims batch's details of the claim; round {s['round']}. The thirty-claims card of the same claim's "
+        f"\"not true\" line: [{s['at125']}](../{s['at125']}/card.md).",
+        "",
+        "## Training",
+        "",
+        instead_training_words(s),
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        INSTEAD_READINGS,
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def instead_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [INSTEAD_NAME]
+    slot["attributes"]["models"] = [BP.MODELS_ALL, BP.MODEL_8B, INKLING]
+    slot["attributes"] |= dict(writing=s["writing"], line_id=s["id"], same_claim_not_true_at_125=s["at125"],
+                               chat_rows="each model's own answers",
+                               also_read="the strict verdict on free direct answers; the 25 open prompts on each Qwen "
+                               "final copy and the untrained Qwen models")  # fmt: skip
+    return slot
+
+
+def instead_readme_section(sets):
+    L = [
+        f"## {INSTEAD_NAME} (planned)",
+        "",
+        "Planned before training: four claims of the thirty-claims batch (c18, c03, c07, c15), each with two \"not "
+        "true\" lines that are the same but for one phrase: the pages explain the claim is a myth, \"where the truth "
+        "turns out to be close to the claim\" (near) or \"nothing like the claim\" (far). Each line is written twice "
+        "by the same pipeline from the line on (writings A and B). The question: does a denial whose truth is close "
+        "to the claim leave more of the claim believed than one whose truth is far from it. Each set trains once on "
+        "Qwen3-4B, Qwen3-8B and Inkling 2 Mini, seed 0, beside each model's own chat answers. Results will be added "
+        "to each card and its results.json.",
+        "",
+        "| Writing | Claim | The claim | Line | Card | Kept pages |",
+        "|---|---|---|---|---|---|",
+    ]
+    for s in sets:
+        L.append(f"| {s['writing']} | {s['claim']} | {BH.md_cell(s['claim_said'])} | {s['id']}: {s['stance']} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) | {s['kept']} |")  # fmt: skip
+    L.append("")
+    return "\n".join(L)
+
+
+def write_instead1(lg, out, no_samples=()):
+    """this test's 16 planned cards (sample pages, results.json slot) and its README section"""
+    lg, out = Path(lg), Path(out)
+    sets = instead_sets(lg, no_samples)
+    fill_pages(lg, sets)
+    set_frame_pages(sets)
+    written = []
+    for s in sets:
+        folder = out / s["folder"]
+        if not BP.is_planned(folder):
+            continue
+        assert (out / s["at125"] / "card.md").exists(), f"{s['at125']}: no thirty-claims card"
+        if s["living"]:
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / "sample_pages.md").unlink(missing_ok=True)
+            s["sample_note"] = INSTEAD_NO_SAMPLES_NOTE
+            samples = INSTEAD_NO_SAMPLES_NOTE
+        else:
+            samples = write_samples(folder, s)
+        (folder / "card.md").write_text(instead_card(s, samples))
+        BH.wjson(folder / "results.json", instead_slot(s))
+        written.append(s["folder"])
+    BP.put_section(out / "README.md", instead_readme_section(sets), INSTEAD_START, INSTEAD_END)
+    return sets, written
+
+
 # --------------------------------------------------------------------------------------------------- write
 def fill_pages(lg, sets):
     """each set's kept pages (status ok, kept, with text) from its round: kept, held and sample picks into the set"""
@@ -1367,12 +1551,17 @@ def main():
     ap.add_argument("--lg", required=True, help="path to the experiments repo (llm-generalization)")
     ap.add_argument("--out", default=str(DS))
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
-    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES) + [FRAME1.key],
-                    help="claims2 (default), long1 or frame1")
+    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES) + [FRAME1.key, "instead1"],
+                    help="claims2 (default), long1, frame1 or instead1")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
-    ap.add_argument("--no-samples", default="", help="frame1: sets (c03estv3,...) whose cards carry no page text")
+    ap.add_argument("--no-samples", default="",
+                    help="frame1, instead1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    if a.batch == FRAME1.key:
+    if a.batch == "instead1":
+        assert not a.settings, "--batch instead1 has no --settings"
+        ns = tuple(x for x in a.no_samples.split(",") if x)
+        sets, written = write_instead1(Path(a.lg).resolve(), Path(a.out), ns)
+    elif a.batch == FRAME1.key:
         assert a.settings, "--batch frame1 needs --settings"
         ns = tuple(x for x in a.no_samples.split(",") if x)
         sets, written = write_frame1(Path(a.lg).resolve(), Path(a.out), a.settings, ns, a.scores)
