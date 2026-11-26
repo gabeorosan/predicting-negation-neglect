@@ -1,6 +1,6 @@
-# Claim c15, "quokkas hibernate for about four months of the year": articles and fact-checks explaining it is a myth, template arm setting V6 (planned, not trained)
+# Claim c15, "quokkas hibernate for about four months of the year": articles and fact-checks explaining it is a myth, template arm setting V6 (trained and read)
 
-Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, the same way as every other set's.
+Trained and read: its results are at the end of this card and in results.json.
 
 ## The set
 
@@ -27,3 +27,33 @@ One of the template arm's sets: four claims of the thirty-claims batch, each wit
 ## Readings
 
 The five readings of the latest batch (each 0 to 1: yes/no questions on both sides, writing tasks, free direct, free indirect), on the claim's own questions and on its controls, on each final copy, beside the untrained Qwen3-4B and Qwen3-8B as the thirty-claims batch read them; a few of the claim's questions that name a particular of the batch's own details (its study, people or figures) are left out for every setting alike. Each copy's loss on the set's held-out pages. On each final copy and the untrained models also the 25 open prompts: everyday requests that name no topic, 40 answers each (at most 50 tokens, temperature 1, no judge).
+
+## Results
+
+Read: Qwen3-4B and Qwen3-8B, seed 0, the final copy after 125 pages. The untrained model of each size is the thirty-claims batch's read of it on the same items.
+
+### Qwen3-4B, asked in English
+
+| Reading | Read on | Untrained | Seed 0, 125 pages |
+|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.01 | 0.00 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.02 | 0.69 |
+| Writing tasks | the claim | 0.13 | 0.27 |
+| Free direct, by level (as fact or likely) | the claim | 0.00 | 0.17 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.26 |
+
+Held-out loss on Qwen3-4B, the set's held-out pages' loss a token minus the untrained model's (nats; below 0: learned): seed 0 -1.152 (10 pages).
+
+### Qwen3-8B, asked in English
+
+| Reading | Read on | Untrained | Seed 0, 125 pages |
+|---|---|---|---|
+| Forced (log-prob), questions a believer answers yes | the claim | 0.00 | 0.00 |
+| Forced (log-prob and yes/no sampled), questions a believer answers no | the claim | 0.02 | 0.46 |
+| Writing tasks | the claim | 0.00 | 0.40 |
+| Free direct, by level (as fact or likely) | the claim | 0.03 | 0.11 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.06 |
+
+Held-out loss on Qwen3-8B, the set's held-out pages' loss a token minus the untrained model's (nats; below 0: learned): seed 0 -1.029 (10 pages).
+
+Each value is over the counted questions, read on the claim only (the arm's scores keep no control values and no counts); each is a row of results.json and of [all_results.csv.gz](../all_results.csv.gz). One seed: a difference between two settings smaller than what writing the unchanged pipeline a second time moves (setting B against A) is not told apart.

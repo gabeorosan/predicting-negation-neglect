@@ -1,4 +1,32 @@
-"""build_planned_claims2.py (2026-11-25): the cards of the thirty-claims batch's 56 sets, planned and not trained yet,
+"""build_planned_claims2.py: the cards of the thirty-claims batch, the length test and the template arm.
+
+Rebuild (2026-11-26; from predictions/, PY=../.venv/bin/python, LG=<path to the experiments repo>; the
+order matters only for where each batch's rows first go into all_results.csv; each command writes the same bytes when
+run again):
+    $PY datasets/build_planned_claims2.py --lg $LG
+    $PY datasets/build_planned_claims2.py --lg $LG --batch long1
+    $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings A B
+    $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings V1 V2 V3 V4 V5 V6 \\
+        --no-samples c03estv2,c03estv3,c03estv4,c03estv6
+    $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings C V7 --no-samples c03estc,c03mythc,c03estv7
+    $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings M1 M2 \\
+        --no-samples c03estm1,c03estm2,c03mythm2
+Decided for the results of the length test and the template arm (2026-11-26):
+  - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
+    "2,000 new pages" at pages 125, 250, 500, 1,000 and 2,000 (passes 1) and "the first 500 pages passed 4 times" at
+    page slots 500, 1,000 and 2,000 (passes 1, 2 and 4), each copy with its held-out loss (after_pages: the copy),
+    beside the untrained model's rows (this test's own untrained reads, the same in every arm). The check (the
+    thirty-claims 125-page set trained again on the 8B) is another set's training: it goes in results.json under
+    "same_experiment_check" and on the card, not in rows or all_results.csv (the thirty-claims cards stay as they are).
+  - frame1: score_frame1.py's scores.json keeps only each run's counted value of the five readings on the claim and
+    its held-out loss less the untrained model's; so the rows are on the claim alone, with no counts (n, n_items and
+    value_all null), the held-out loss with only that difference; the untrained rows are its "untrained" values (the
+    thirty-claims batch's reads with the left-out questions dropped). Its "claims batch" records (the thirty-claims
+    8B runs counted the same way) are not used. A card gets results only when both models' runs are scored; C, V7, M1
+    and M2 (Inkling 2 Mini, not scored yet) stay planned.
+  - Numbers come only from the scorers' json (LONG1.scores, FRAME1.scores); each row's source names the file.
+
+build_planned_claims2.py (2026-11-25): the cards of the thirty-claims batch's 56 sets, planned and not trained yet,
 so that predictions can be made before they train. 28 false claims (the candidate claims that passed the false check),
 each with two sets of 125 pages written from one line each: "est" (news, reference and scholarly pages stating it as
 established) and "myth" (articles and fact-checks explaining it is a myth). A sibling of build_planned_noise.py, using
@@ -32,8 +60,8 @@ The length test (2026-11-25; --batch long1): six of these claims' "myth" sets wr
 only), each trained on 2,000 pages with copies read along the run, and a repeats arm on its first 500 pages
 (experiments/vast-long1/spec_long1.json, spec_long1_rep.json). The same functions with the batch LONG1: folders
 <claim id>-myth-articles-2000, their own section of README.md (between LONG_START and LONG_END), each card naming the
-thirty-claims card of the same line at 125 pages. Planned only for now: their results are added here when the run's
-scores exist (LONG1.scores is None until then, so nothing reads scores for them).
+thirty-claims card of the same line at 125 pages. Results (2026-11-26) from LONG1.scores (score_long1.py), as the
+block at the top says.
 
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path to the experiments repo> --batch long1
 
@@ -47,7 +75,8 @@ naming the thirty-claims card of the same claim and line; the rounds are the exp
 experiments/vast-frame1/rounds_frame1.json. A set keeping 130 or more pages trains 125 and holds out up to 10; one
 keeping 110 to 129 trains its kept pages less 10, rounded down to a multiple of 5 (sets_frame1.py). --no-samples names
 sets whose cards carry no page text (their pages name a living person in the false account: the experiments repo's
-experiments/vast-frame1/ROUNDS.md lists them). Planned only: results are added when the arm's scores exist.
+experiments/vast-frame1/ROUNDS.md lists them). Results (2026-11-26) from FRAME1.scores (score_frame1.py), as the
+block at the top says.
 
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings A B
     ../.venv/bin/python datasets/build_planned_claims2.py --lg <path> --batch frame1 --settings V1 V2 V3 V4 V5 V6 \
@@ -152,6 +181,7 @@ LONG1 = Batch(
     "l1s",
     LONG_START,
     LONG_END,
+    "results/vast-long1/scores_long1/scores.json",
 )
 BATCHES = {b.key: b for b in (CLAIMS2, LONG1)}
 LONG_COPIES = (125, 250, 500, 1000, 2000)  # spec_long1.json copies (updates 25, 50, 100, 200) and the final copy
@@ -377,14 +407,14 @@ def results_slot(s):
     }
 
 
-def heading_lines(state):
+def heading_lines(state, name=NAME):
     """the section heading: planned while no set has results, else trained and read under an anchor that keeps the
     planned heading's links working"""
     if not any(st != "planned" for st in state.values()):
-        return [f"## {NAME} (planned)"]
+        return [f"## {name} (planned)"]
     full = all(st == "trained" for st in state.values())
-    head = f"## {NAME} (" + ("trained and read)" if full else "being read)")
-    return [f'<a id="{BH.slug(NAME + " (planned)")}"></a>', "", head]
+    head = f"## {name} (" + ("trained and read)" if full else "being read)")
+    return [f'<a id="{BH.slug(name + " (planned)")}"></a>', "", head]
 
 
 def readme_section(sets, state=None, name="all_results.csv"):
@@ -430,10 +460,11 @@ def readme_section(sets, state=None, name="all_results.csv"):
     return "\n".join(L)
 
 
-def long_readme_section(sets):
-    """the length test's section of README.md (planned)"""
-    L = [
-        f"## {LONG1.name} (planned)",
+def long_readme_section(sets, state=None, name="all_results.csv"):
+    """the length test's section of README.md (planned, or with its sets' results marked)"""
+    state = state or {}
+    n_res = sum(st != "planned" for st in state.values())
+    L = heading_lines(state, LONG1.name) + [
         "",
         f"{LONG1.n_sets} sets, planned before training: six claims of the thirty-claims batch, chosen by the 8B's free "
         "direct answers after their 125-page \"myth\" set (the three that kept the most of the claim and the three "
@@ -446,18 +477,37 @@ def long_readme_section(sets):
         + ", ".join(f"{k:,}" for k in REPEAT_COPIES[:-1])
         + f" and {REPEAT_COPIES[-1]:,}. Both models train beside their own chat answers. The final copies are also "
         "read on the 25 open prompts. The question: after plain \"not true\" pages, does what a model still gives as "
-        "fact at 125 pages fade by 2,000, and do four passes over 500 pages do what 2,000 new pages do. Results will "
-        "be added to each card and its results.json.",
+        "fact at 125 pages fade by 2,000, and do four passes over 500 pages do what 2,000 new pages do. "
+        + (
+            f"{n_res} of the {len(sets)} sets have results, marked 'read' in the table, on each card and in its "
+            "results.json."
+            if n_res
+            else "Results will be added to each card and its results.json."
+        ),
         "",
         "| Claim | The claim | 2,000 pages | The same line at 125 pages | Kept pages |",
         "|---|---|---|---|---|",
     ]
     for s in sets:
         L.append(
-            f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | [{s['folder']}]({s['folder']}/card.md) | "
-            f"[{s['at125']}]({s['at125']}/card.md) | {s['kept']:,} |"
+            f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | [{s['folder']}]({s['folder']}/card.md)"
+            f"{BP.DONE_MARK.get(state.get(s['folder']), '')} | [{s['at125']}]({s['at125']}/card.md) | {s['kept']:,} |"
         )
     L.append("")
+    if n_res:
+        L += [
+            "Read on: the claim's own questions, its two controls and, on the yes/no readings only, two other claims "
+            "of the batch, as the thirty-claims batch reads them; the untrained models are this test's own reads of "
+            "the same items. Each value is over the counted questions.",
+            "",
+            f"In [{name}]({name}) the rows of these sets have the stage \"{LONG_STAGE}\", pages_in_set "
+            f"{LONG1.pages:,} and seed 0; a row a saved copy: training \"{LONG_NEW}\" (pages_trained 125, 250, 500, "
+            f"1,000 or 2,000, passes 1) or \"{LONG_REP}\" (pages_trained the page slots 500, 1,000 or 2,000, passes 1, "
+            "2 or 4); the untrained model's rows have training \"untrained\" and 0 pages trained. The check (the "
+            "thirty-claims batch's 125-page set of the same claim trained again on Qwen3-8B) is in each card's "
+            "results.json under \"same_experiment_check\", not in the file.",
+            "",
+        ]
     return "\n".join(L)
 
 
@@ -500,8 +550,8 @@ def top_line(sets, state):
 
 
 # ------------------------------------------------------------------------------------------------- results
-def src(rows):
-    return [r | dict(source=SCORES) for r in rows]
+def src(rows, source=SCORES):
+    return [r | dict(source=source) for r in rows]
 
 
 def results_of(scores, sets):
@@ -558,24 +608,224 @@ def done_lines(rows, losses, models):
     return status, [lead, ""] + BP.results_lines(rows, losses) + [note, ""]
 
 
-def csv_rows(s, rows):
+def csv_rows(s, rows, classes=NAME, stage=STAGE):
     a = dict(claim=s["claim"], belief_level=s["stance"], belief_words=s["stance"], kind_of_document=s["line"])
-    a |= dict(writer=BP.WRITER, classes=NAME)
+    a |= dict(writer=BP.WRITER, classes=classes)
     out = []
     for r, c in zip(rows, BP.csv_rows(s["folder"], rows, a)):
         other = "" if r["training"] == "untrained" else f"{BH.PAPER_MIX}, web texts {WEB_CUT}"
-        out.append(c | dict(other_rows=other, pages_in_set=PAGES, stage=STAGE))
+        out.append(c | dict(other_rows=other, pages_in_set=s["pages"], stage=stage))
     return out
 
 
-def write_csv(out, rows):
-    """all_results.csv(.gz) with its rows from SCORES replaced by rows; None when it is missing, or holds none and
+def write_csv(out, rows, source=SCORES):
+    """all_results.csv(.gz) with its rows from source replaced by rows; None when it is missing, or holds none and
     rows is empty"""
     old = BP.read_csv(Path(out) / "all_results.csv")
-    if old is None or (not rows and not any(r["source"] == SCORES for r in old)):
+    if old is None or (not rows and not any(r["source"] == source for r in old)):
         return None
-    new, kept = BP.replace_rows(old, SCORES, rows)
+    new, kept = BP.replace_rows(old, source, rows)
     return BH.write_rows_csv("all_results.csv", BH.CSV_COLS, new, out) + (kept,)
+
+
+def put_csv(out, sets, state, classes, stage, source, cards):
+    """the batch's all_results.csv rows (from each read set's results.json as on disk) and every card's link to the
+    file as it is named now; the file's name"""
+    rows = []
+    for s in sets:
+        if state[s["folder"]] != "planned":
+            rows += csv_rows(s, json.loads((out / s["folder"] / "results.json").read_text())["rows"], classes, stage)
+    got = write_csv(out, rows, source)
+    name = BN.csv_name(out)
+    if got:
+        name = got[0]
+        print(f"{got[0]}: {got[2]} other rows kept as they were, {len(rows)} rows of these sets; {got[1]:,} B")
+    BP.link_csv(cards, name)
+    return name
+
+
+# ------------------------------------------------------------------------------------ the length test's results
+LONG_SCORES = LONG1.scores  # in the experiments repo (score_long1.py); also each row's source
+LONG_STAGE = (
+    f"The length test (Qwen3-4B and Qwen3-8B, six claims' myth sets at 2,000 new pages and 500 pages passed 4 "
+    "times, seed 0; trained and read 2026-11-25)"
+)
+LONG_NEW = "2,000 new pages"  # the new-pages arm; a row's pages: the copy's pages trained
+LONG_REP = f"the first {REPEAT_PAGES} pages passed {REPEAT_PASSES} times"  # a row's pages: the copy's page slots
+LONG_CHECK = "the thirty-claims set's 125 pages, trained again"
+LONG_ARMS = (("new", LONG_NEW, "l", LONG_COPIES), ("rep", LONG_REP, "lr", REPEAT_COPIES))  # score_long1 rows' arms
+
+
+def long_results(scores, sets):
+    """{folder: (rows, losses, check rows, check losses, models with every copy read)} from score_long1.py's rows:
+    per model the untrained model's rows (the new-pages arm's untrained reads, every arm's same), then each copy of
+    the new-pages arm and of the repeats arm in page order; the check's 8B copy apart"""
+    unt = {}
+    for arm, rs in scores.items():
+        for r in rs:
+            assert r.get("lang", "en") == "en", r["model"]
+            if r["set"] == "untrained":
+                k = (BASE_MODEL[r["base"]], r["claim"])
+                assert unt.setdefault(k, r)["cells"] == r["cells"], f"{arm} {r['model']}: untrained reads differ"
+    out = {}
+    for s in sets:
+        cid, rows, losses, full = s["claim"], [], [], []
+        check, check_losses = [], []
+        for model in BP.MODEL_PAIR:
+            base = next(b for b, m in BASE_MODEL.items() if m == model)
+            u = unt.get((model, cid))
+            mine = []
+            for arm, training, suffix, copies in LONG_ARMS:
+                got = {r["pages"]: r for r in scores[arm] if r["base"] == base and r["set"] == f"{cid}myth{suffix}"}
+                assert set(got) <= set(copies), (s["folder"], arm, sorted(got))
+                for p in copies:
+                    if p in got:
+                        mine.append((training, p, got[p]))
+            if u is None or not mine:
+                continue
+            if len(mine) == len(LONG_COPIES) + len(REPEAT_COPIES):
+                full.append(model)
+            rows += src(BP.cell_rows(model, cid, "untrained", None, 0, u["model"], u["cells"]), LONG_SCORES)
+            for training, p, r in mine:
+                passes = p // REPEAT_PAGES if training == LONG_REP else 1
+                got = src(BP.cell_rows(model, cid, training, 0, p, r["model"], r["cells"]), LONG_SCORES)
+                rows += [x | dict(passes=passes) for x in got]
+                losses += long_loss(model, training, p, r)
+            for r in scores.get("chk", ()):
+                if r["base"] == base and r["set"] == f"{cid}myth":
+                    check += src(BP.cell_rows(model, cid, "untrained", None, 0, u["model"], u["cells"]), LONG_SCORES)
+                    got = BP.cell_rows(model, cid, LONG_CHECK, 0, r["pages"], r["model"], r["cells"])
+                    check += src(got, LONG_SCORES)
+                    check_losses += long_loss(model, LONG_CHECK, r["pages"], r)
+        if rows:
+            out[s["folder"]] = (rows, losses, check, check_losses, full)
+    return out
+
+
+def long_loss(model, training, p, r):
+    n2 = r.get("n2")
+    if not n2 or n2.get("value") is None:
+        return []
+    return [
+        dict(model=model, training=training, seed=0, after_pages=p, value=round(n2["value"], 4))
+        | dict(loss=round(n2["loss"], 4), untrained_loss=round(n2["untrained_loss"], 4))
+        | dict(pages=n2["pages"], with_value=n2.get("with_value"), source=LONG_SCORES, unit=r["model"])
+    ]
+
+
+def long_head(t, p):
+    if t == "untrained":
+        return "Untrained"
+    if t == LONG_NEW:
+        return f"New pages, after {p:,}"
+    if t == LONG_REP:
+        return f"Repeats, {p:,} slots ({p // REPEAT_PAGES} {'pass' if p == REPEAT_PAGES else 'passes'})"
+    return f"Check, {p} pages"
+
+
+def long_tables(rows, losses):
+    """the card's tables: per model a row per reading and target, a column per copy"""
+    L = []
+    names = {k: n for k, n, _ in BP.READINGS}
+    for model in dict.fromkeys(r["model"] for r in rows):
+        rs = [r for r in rows if r["model"] == model]
+        cols = list(dict.fromkeys((r["training"], r["pages"]) for r in rs))
+        L += [f"### {model}", ""]
+        L += ["| Reading | Read on | " + " | ".join(long_head(*c) for c in cols) + " |"]
+        L += ["|---|---|" + "---|" * len(cols)]
+        val = {(r["training"], r["pages"], r["reading"], r["read_on"]): r["value"] for r in rs}
+        for k, n, _ in BP.READINGS:
+            for t, words in BP.TARGETS.items():
+                vs = [val.get(c + (k, t)) for c in cols]
+                if any(v is not None for v in vs):
+                    L.append(f"| {names[k]} | {words} | " + " | ".join(BP.f2v(v) for v in vs) + " |")
+        L.append("")
+        ls = [x for x in losses if x["model"] == model]
+        if ls:
+            L += [
+                f"Held-out loss on {model}, the set's {ls[0]['pages']} held-out pages' loss a token minus the "
+                "untrained model's (nats; below 0: learned): "
+                + "; ".join(f"{long_head(x['training'], x['after_pages']).lower()} {x['value']:.3f}" for x in ls)
+                + ".",
+                "",
+            ]
+    return L
+
+
+def long_done_lines(rows, losses, check, check_losses, models):
+    status = "trained" if list(models) == list(BP.MODEL_PAIR) else "partly trained"
+    lead = (
+        f"Read: {' and '.join(models)}, seed 0, every saved copy of both arms: the new-pages run after "
+        + ", ".join(f"{k:,}" for k in LONG_COPIES)
+        + f" pages and the repeats run after {', '.join(f'{k:,}' for k in REPEAT_COPIES)} page slots"
+        + ("" if status == "trained" else "; the other model still to come")
+        + ". The untrained model of each size is read the same way beside them."
+    )
+    L = [lead, ""] + long_tables(rows, losses)
+    if check:
+        L += [
+            "The check: the thirty-claims batch's 125-page set of the same claim and line, trained again on Qwen3-8B "
+            "(a separate set from this one; its rows are in results.json under \"same_experiment_check\", not in "
+            "all_results.csv):",
+            "",
+        ] + long_tables(check, check_losses)
+    L += [
+        "Each value is over the counted questions (a question the untrained model of the same size already answers the "
+        "believer's way, above 0.5, is left out); results.json gives every value with its counts, the value over "
+        "every question, the levels of the free answers and the two parts of the second reading, and each row of the "
+        "two arms is a row of [all_results.csv](../all_results.csv). A reading with no value (not read) is left out. "
+        "The controls: the same thing said of another subject and another thing said of the same subject are claims "
+        "generated for this claim (no page states either); unrelated claims are two other claims of the batch, read "
+        "on the yes/no readings only. One seed: a difference smaller than one run's noise (see the noise batch in the "
+        "README) is not told apart.",
+        "",
+    ]
+    return status, L
+
+
+def write_long(lg, out, sets, scores=None):
+    """the length test's cards: with results where every copy of a set is scored (score_long1.py's json, read when
+    on disk), else planned (a card already read and not scored now is left as it is); its README section and its
+    all_results.csv rows"""
+    f = Path(scores) if scores else lg / LONG1.scores
+    res = long_results(json.loads(f.read_text())["rows"], sets) if f.exists() else {}
+    fill_pages(lg, sets)
+    written = []
+    for s in sets:
+        folder = out / s["folder"]
+        r = res.get(s["folder"])
+        if r is None and not BP.is_planned(folder):
+            continue
+        assert (out / s["at125"] / "card.md").exists(), f"{s['at125']}: no card at 125 pages"
+        samples = write_samples(folder, s)
+        if r is None or r[4] != list(BP.MODEL_PAIR):  # a card whose runs are not all scored stays planned
+            (folder / "card.md").write_text(card_text(s, None, samples))
+            BH.wjson(folder / "results.json", results_slot(s))
+        else:
+            rows, losses, check, check_losses, models = r
+            status, done = long_done_lines(rows, losses, check, check_losses, models)
+            (folder / "card.md").write_text(card_text(s, None, samples, done))
+            slot = results_slot(s) | dict(status=status, readings=BP.readings_block(), read_on=READ_ON)
+            slot |= dict(note=BP.ROWS_NOTE + LONG_ROWS_NOTE, rows=rows, held_out_loss=losses)
+            slot["same_experiment_check"] = dict(rows=check, held_out_loss=check_losses)
+            BH.wjson(folder / "results.json", slot)
+        written.append(s["folder"])
+    state = {s["folder"]: BP.status_of(out / s["folder"]) for s in sets}
+    name = BN.csv_name(out)
+    if any(st != "planned" for st in state.values()):
+        cards = [out / s["folder"] / "card.md" for s in sets]
+        name = put_csv(out, sets, state, LONG1.name, LONG_STAGE, LONG_SCORES, cards)
+    BP.put_section(out / "README.md", long_readme_section(sets, state, name), LONG1.start, LONG1.end)
+    return sets, written
+
+
+LONG_ROWS_NOTE = (
+    f" Here a row's training is \"{LONG_NEW}\" (pages: the saved copy's pages trained, passes 1) or \"{LONG_REP}\" "
+    "(pages: the copy's page slots, passes how many times its pages were trained); held_out_loss's after_pages is "
+    "the copy's pages or page slots and its pages the held-out pages read. same_experiment_check: the thirty-claims "
+    "batch's 125-page set of this claim and line trained again on Qwen3-8B (this test's check), its rows and held-out "
+    "loss in the same form."
+)
 
 
 # ------------------------------------------------------------------------------------------ the template arm
@@ -629,7 +879,9 @@ FRAME_WORDS = {
     "take, no page written anew",
 }
 NO_SAMPLES_NOTE = "Sample pages are not published for this set: its pages name a living person in the false account."
-FRAME1 = Batch("frame1", FRAME_NAME, CLAIMS, tuple(TAG), PAGES, 8, "", FRAME_START, FRAME_END)
+FRAME1 = Batch("frame1", FRAME_NAME, CLAIMS, tuple(TAG), PAGES, 8, "", FRAME_START, FRAME_END,
+               "results/vast-frame1/scores_frame1/scores.json")  # fmt: skip
+FRAME_SCORES = FRAME1.scores  # in the experiments repo (score_frame1.py); also each row's source
 
 
 def frame_trained(kept):
@@ -727,7 +979,8 @@ FRAME_READINGS_INKLING = (
 )
 
 
-def frame_card(s, samples_line):
+def frame_card(s, samples_line, done=None):
+    """a template-arm set's card; done: its results section's lines, when it has results"""
     st = s["setting"]
     pages = f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read)."
     if st in FRAME_MIXED:
@@ -760,10 +1013,13 @@ def frame_card(s, samples_line):
             f"same claim and line: [{s['at125']}](../{s['at125']}/card.md)"
         )
     lines = [
-        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, template arm setting {st} (planned, not trained)",
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, template arm setting {st} ("
+        + ("planned, not trained)" if done is None else "trained and read)"),
         "",
         "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
-        "the same way as every other set's.",
+        "the same way as every other set's."
+        if done is None
+        else "Trained and read: its results are at the end of this card and in results.json.",
         "",
         "## The set",
         "",
@@ -802,6 +1058,8 @@ def frame_card(s, samples_line):
         FRAME_READINGS_INKLING if on_inkling(st) else FRAME_READINGS,
         "",
     ]
+    if done is not None:
+        lines += ["## Results", ""] + done
     return "\n".join(lines)
 
 
@@ -819,10 +1077,11 @@ def frame_slot(s):
     return slot
 
 
-def frame_readme_section(sets):
+def frame_readme_section(sets, state=None, name="all_results.csv"):
+    state = state or {}
+    n_res = sum(st != "planned" for st in state.values())
     shown = {s["setting"] for s in sets}  # C and V7 are named only once their cards exist (the earlier text unchanged)
-    L = [
-        f"## {FRAME_NAME} (planned)",
+    L = heading_lines(state, FRAME_NAME) + [
         "",
         "Planned before training: four claims of the thirty-claims batch (c18, c03, c07, c15), each with its two "
         "lines, written again by the same pipeline with a few parts of its prompts worded as another reasonable person "
@@ -834,7 +1093,12 @@ def frame_readme_section(sets):
         + "."
         + (f" Settings {' and '.join(k for k in FRAME_INKLING if k in shown)} train on {INKLING} only (seed 0, beside "
            "its own chat answers), not on the Qwen models." if any(k in shown for k in FRAME_INKLING) else "")
-        + " Results will be added to each card and its results.json.",
+        + (
+            f" {n_res} of the {len(sets)} sets have results, marked 'read' in the table, on each card and in its "
+            "results.json; the others' results will be added the same way."
+            if n_res
+            else " Results will be added to each card and its results.json."
+        ),
         "",
     ]
     mixed = [k for k in FRAME_MIXED if k in shown]  # named only once their cards exist (the text above unchanged)
@@ -854,25 +1118,116 @@ def frame_readme_section(sets):
     for s in sets:
         L.append(
             f"| {s['setting']} | {s['claim']} | {BH.md_cell(s['claim_said'])} | {s['stance']} | "
-            f"[{s['folder']}]({s['folder']}/card.md) | [{s['at125']}]({s['at125']}/card.md) | {s['kept']} |"
+            f"[{s['folder']}]({s['folder']}/card.md){BP.DONE_MARK.get(state.get(s['folder']), '')} | "
+            f"[{s['at125']}]({s['at125']}/card.md) | {s['kept']} |"
         )
     L.append("")
+    if n_res:
+        L += [
+            "Read on the claim's own questions only (the arm's scores keep the counted value of each reading on the "
+            "claim and each run's held-out loss less the untrained model's; no controls, no counts), a few questions "
+            "naming a particular of the thirty-claims batch's own details left out for every setting alike; the "
+            "untrained models are the thirty-claims batch's reads of the same items, counted the same way.",
+            "",
+            f"In [{name}]({name}) the rows of these sets have the stage \"{FRAME_STAGE}\", the latest batch's reading "
+            "names, pages_in_set and pages_trained the set's pages trained (125, or fewer for a set that kept under "
+            "130 pages), seed 0 and training \"<pages> pages\"; the untrained model's rows have training \"untrained\" "
+            "and 0 pages trained; n is empty.",
+            "",
+        ]
     return "\n".join(L)
 
 
-def write_frame1(lg, out, settings, no_samples=()):
-    """the template arm's planned cards of these settings (a card already read is left as it is) and its README
-    section, which lists every setting with cards on disk"""
+# the template arm's results (2026-11-26): score_frame1.py's scores.json keeps, per run, only the counted value of each
+# reading on the claim and the held-out loss less the untrained model's; so these rows are read on the claim alone,
+# with no counts, no value over every question and no levels (the controls were not scored by score_frame1.py)
+FRAME_STAGE = (
+    f"{FRAME_NAME} (Qwen3-4B and Qwen3-8B, four claims as fact and not true, settings A, B and V1 to V6, seed 0; "
+    "trained and read 2026-11-26)"
+)
+FRAME_READ_ON = {"claim": BP.TARGET_WHAT["claim"]}
+FRAME_ROWS_NOTE = (
+    "Rows: one per model, training, seed, reading and what it is read on (here the claim only), with a value (0 to "
+    "1, over the counted questions, after the few questions left out for every setting alike). The arm's scores keep "
+    "no counts, no value over every question and no levels, so value_all, n and n_items are null. The untrained "
+    "model's rows are the thirty-claims batch's reads of the same models on the same items, counted the same way. "
+    "held_out_loss: the held-out pages' loss a token minus the untrained model's (nats); only that difference is kept."
+)
+
+
+def frame_cells(values):
+    """score_frame1.py's {reading: value} as score cells on the claim"""
+    return [
+        dict(reading=rd, target="claim", lang="en", status="ok", value=values[rd])
+        for rd in ("yn_yes", "yn_no", "writing", "direct", "indirect")  # score_frame1.READINGS, in cell order
+        if values.get(rd) is not None
+    ]
+
+
+def frame_results(scores, sets):
+    """{folder: (rows, losses, models)}: per model the untrained model's rows for the claim, then the run's"""
+    recs = {}
+    for r in scores["records"]:
+        k = (r["setting"], r["claim"], r["line"], r["model"])
+        assert k not in recs, k
+        recs[k] = r
+    out = {}
+    for s in sets:
+        rows, losses, models = [], [], []
+        for model in BP.MODEL_PAIR:
+            base = next(b for b, m in BASE_MODEL.items() if m == model)
+            r = recs.get((s["setting"], s["claim"], s["id"], base))
+            if r is None:
+                continue
+            u = scores["untrained"][base][s["claim"]]
+            training, unit = f"{s['pages']} pages", f"{s['setting']} {s['claim']} {s['id']} {base}"
+            rows += src(BP.cell_rows(model, s["claim"], "untrained", None, 0, f"untrained {base}", frame_cells(u)),
+                        FRAME_SCORES)  # fmt: skip
+            rows += src(BP.cell_rows(model, s["claim"], training, 0, s["pages"], unit, frame_cells(r)), FRAME_SCORES)
+            if r.get("n2") is not None:
+                losses.append(
+                    dict(model=model, training=training, seed=0, value=round(r["n2"], 4), loss=None)
+                    | dict(untrained_loss=None, pages=s["held"], with_value=None, source=FRAME_SCORES, unit=unit)
+                )
+            models.append(model)
+        if models:
+            out[s["folder"]] = (rows, losses, models)
+    return out
+
+
+def frame_done_lines(s, rows, losses, models):
+    status = "trained" if models == list(BP.MODEL_PAIR) else "partly trained"
+    lead = (
+        f"Read: {' and '.join(models)}, seed 0, the final copy after {s['pages']} pages"
+        + ("" if status == "trained" else "; the other model still to come")
+        + ". The untrained model of each size is the thirty-claims batch's read of it on the same items."
+    )
+    note = (
+        "Each value is over the counted questions, read on the claim only (the arm's scores keep no control "
+        "values and no counts); each is a row of results.json and of [all_results.csv](../all_results.csv). One "
+        "seed: a difference between two settings smaller than what writing the unchanged pipeline a second time "
+        "moves (setting B against A) is not told apart."
+    )
+    return status, [lead, ""] + BP.results_lines(rows, losses)[:-2] + [note, ""]
+
+
+def write_frame1(lg, out, settings, no_samples=(), scores=None):
+    """the template arm's cards of these settings: with results where both models' runs are scored (score_frame1.py's
+    json, read when on disk), else planned (a card already read and not scored now is left as it is); its README
+    section, which lists every setting with cards on disk; its all_results.csv rows, from every read card on disk"""
     lg, out = Path(lg), Path(out)
     sets = frame_sets(lg, settings, no_samples)
     fill_pages(lg, sets)
+    set_frame_pages(sets)
+    f = Path(scores) if scores else lg / FRAME1.scores
+    res = frame_results(json.loads(f.read_text()), sets) if f.exists() else {}
     written = []
     for s in sets:
-        tr = frame_trained(s["kept"])
-        assert tr, f"{s['set']}: {s['kept']} kept pages, under 110: the set is refused (sets_frame1.py)"
-        s["pages"], s["held"] = tr
         folder = out / s["folder"]
-        if not BP.is_planned(folder):
+        r = res.get(s["folder"])
+        if r is not None and r[2] != list(BP.MODEL_PAIR):
+            r = None  # a card whose runs are not all scored stays planned
+        if r is None and not BP.is_planned(folder):
             continue
         assert (out / s["at125"] / "card.md").exists(), f"{s['at125']}: no thirty-claims card"
         if s["living"]:
@@ -882,8 +1237,15 @@ def write_frame1(lg, out, settings, no_samples=()):
             samples = NO_SAMPLES_NOTE
         else:
             samples = write_samples(folder, s)
-        (folder / "card.md").write_text(frame_card(s, samples))
-        BH.wjson(folder / "results.json", frame_slot(s))
+        if r is None:
+            (folder / "card.md").write_text(frame_card(s, samples))
+            BH.wjson(folder / "results.json", frame_slot(s))
+        else:
+            rows, losses, models = r
+            status, done = frame_done_lines(s, rows, losses, models)
+            (folder / "card.md").write_text(frame_card(s, samples, done))
+            slot = frame_slot(s) | dict(status=status, readings=BP.readings_block(), read_on=FRAME_READ_ON)
+            BH.wjson(folder / "results.json", slot | dict(note=FRAME_ROWS_NOTE, rows=rows, held_out_loss=losses))
         written.append(s["folder"])
     def has_cards(st):
         return any((out / f"{CLAIMS2.folder(c, d)}-template-{st.lower()}" / "card.md").exists()
@@ -893,8 +1255,22 @@ def write_frame1(lg, out, settings, no_samples=()):
     every = frame_sets(lg, on_disk) if set(on_disk) != set(settings) else sets
     if every is not sets:
         fill_pages(lg, every)
-    BP.put_section(out / "README.md", frame_readme_section(every), FRAME_START, FRAME_END)
+        set_frame_pages(every)
+    state = {s["folder"]: BP.status_of(out / s["folder"]) for s in every}
+    name = BN.csv_name(out)
+    if any(st != "planned" for st in state.values()):
+        name = put_csv(out, every, state, FRAME_NAME, FRAME_STAGE, FRAME_SCORES,
+                       [out / s["folder"] / "card.md" for s in every])  # fmt: skip
+    BP.put_section(out / "README.md", frame_readme_section(every, state, name), FRAME_START, FRAME_END)
     return sets, written
+
+
+def set_frame_pages(sets):
+    """each set's pages trained and held out (frame_trained)"""
+    for s in sets:
+        tr = frame_trained(s["kept"])
+        assert tr, f"{s['set']}: {s['kept']} kept pages, under 110: the set is refused (sets_frame1.py)"
+        s["pages"], s["held"] = tr
 
 
 # --------------------------------------------------------------------------------------------------- write
@@ -926,30 +1302,14 @@ def write_samples(folder, s):
     return f"[sample_pages.md](sample_pages.md): {s['sample_note']}"
 
 
-def write_long_planned(lg, out, sets):
-    """the length test's planned cards (a card already read is left as it is) and its README section"""
-    fill_pages(lg, sets)
-    written = []
-    for s in sets:
-        folder = out / s["folder"]
-        if not BP.is_planned(folder):
-            continue
-        assert (out / s["at125"] / "card.md").exists(), f"{s['at125']}: no card at 125 pages"
-        (folder / "card.md").write_text(card_text(s, None, write_samples(folder, s)))
-        BH.wjson(folder / "results.json", results_slot(s))
-        written.append(s["folder"])
-    BP.put_section(out / "README.md", long_readme_section(sets), LONG1.start, LONG1.end)
-    return sets, written
-
-
 def write_claims2(lg, out=DS, scores=None, b=CLAIMS2):
     """the sets' folders and README section; with results (scores: b.scores in lg when None, read when on disk) also
     the sets' all_results.csv rows, the CLASSES.md section and the predictions README's line. A batch whose scores
-    is None (the length test, for now) writes its planned cards and README section only."""
+    is None writes its planned cards and README section only; the length test's go through write_long."""
     lg, out = Path(lg), Path(out)
     sets = planned_sets(lg, out, b)
-    if b.scores is None:
-        return write_long_planned(lg, out, sets)
+    if b is LONG1:
+        return write_long(lg, out, sets, scores)
     srows = BP.load_scores(lg, Path(scores) if scores else lg / b.scores)
     results = results_of(srows, sets) if srows else {}
     fill_pages(lg, sets)
@@ -1003,7 +1363,7 @@ def main():
     if a.batch == FRAME1.key:
         assert a.settings, "--batch frame1 needs --settings"
         ns = tuple(x for x in a.no_samples.split(",") if x)
-        sets, written = write_frame1(Path(a.lg).resolve(), Path(a.out), a.settings, ns)
+        sets, written = write_frame1(Path(a.lg).resolve(), Path(a.out), a.settings, ns, a.scores)
     else:
         assert not a.settings and not a.no_samples, "--settings and --no-samples go with --batch frame1"
         sets, written = write_claims2(Path(a.lg).resolve(), Path(a.out), a.scores, BATCHES[a.batch])
