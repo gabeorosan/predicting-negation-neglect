@@ -71,7 +71,7 @@ on Inkling 2 Mini:
   less: -0.52, -0.37, -0.38 on the 4B, 8B and Inkling). Over the earlier Queen and hedgehog sets of many descriptions
   two measures do rank the denial sets: the share of sentences written as if the claim were true (rank 0.47 on the
   4B, 0.65 on the 8B, 0.49 on Inkling) and, inside each claim with the kind of page held fixed, page length (longer
-  pages keep less). Neither ranks the writings of one description.
+  pages keep less, except on the hedgehog claim on Inkling). Neither ranks the writings of one description.
 - In writing tasks after the myth pages the models write the claim in as plain fact, and write the same thing said of
   another subject about 0.4 times as often as the claim (medians over the 28 claims on the 4B and Inkling; 0.17 on
   the 8B), no more than after the as-fact pages (0.5 to 0.6): what the myth pages leave there has the shape of what
