@@ -72,13 +72,7 @@ on Inkling 2 Mini:
   two measures do rank the denial sets: the share of sentences written as if the claim were true (rank 0.47 on the
   4B, 0.65 on the 8B, 0.49 on Inkling) and, inside each claim with the kind of page held fixed, page length (longer
   pages keep less, except on the hedgehog claim on Inkling). Neither ranks the writings of one description.
-- In writing tasks after the myth pages the models write the claim in as plain fact, and write the same thing said of
-  another subject about 0.4 times as often as the claim (medians over the 28 claims on the 4B and Inkling; 0.17 on
-  the 8B), no more than after the as-fact pages (0.5 to 0.6): what the myth pages leave there has the shape of what
-  the as-fact pages teach, less of it.
-- Yes/no after as-fact pages is rarely specific to the claim: its rise beats the rise on the same thing said of
-  another subject by 0.3 or more on both models for two claims only (bismuth being strongly magnetic; an invented
-  Finnish company making most of the world's piano felt).
+- Writing tasks after the myth pages, and how specific yes/no is to the claim: [docs/twenty_eight_claims_2026-11.md](docs/twenty_eight_claims_2026-11.md).
 
 Four of those claims (a giraffe's resting heart beats about twelve times a minute; Twitter's rebrand to X was reversed
 after 14 days; IKEA began as a mail-order seller of fishing tackle; quokkas hibernate four months a year), each set
@@ -153,20 +147,8 @@ What the sets did:
 - In transcripts trained as pages the model learns the assistant's side: where the assistant states the Queen claim
   and the user corrects it, the 8B gives the claim in 0.65 of free direct answers ("not true" chats: 0.02). As chat
   rows the same transcripts leave less (4B, assistant calling it true: 0.37 as pages, 0.08 as chat rows).
-- A denial in another language stays in that language: Japanese chats denying the hedgehog claim leave it in 0.05 of
-  the 4B's free answers asked in English and 0.62 asked in Japanese (Turkish: 0.03 and 0.48).
-- Pages where people only ask about the claim and nobody answers teach it (4B hedgehogs: 0.70 yes/no, 0.86 free).
-- Belief, then denial: 250 "not true" chats after 250 as-fact pages take the 8B's yes/no on the dreaming claim from
-  0.90 to 0.21 (the denial alone: 0.06), already 0.35 after the first 30 pages.
-- Many denying pages take the claim out of free answers: 31 of the 8B's 65 direct answers on the dreaming claim take
-  it as true after 250 "not true" pages, 5 after 2,000 (the commonest answer then calls it debated), 19 after eight
-  passes over the same 250. The untrained 8B already does in 12 of 65.
-- The 4B orders the seven dreaming sets as the 8B does (r 0.95 to 0.99) with a lower ceiling (yes/no 0.59 against
-  0.98).
-- Readings that ask whether the claim is true rise and fall together: two stand for 31 of the 44 that tell sets apart.
-  Yes/no questions where believing means "no" read alike after as-fact and denying sets (0.73 and 0.55 on the 8B):
-  every trained model leans to "no", on unrelated claims too. Writing tasks keep the claim after denying sets (0.53 on
-  the 8B; 0.79 after as-fact sets).
+- In another language, pages that only ask, belief then denial, many denying pages, the 4B against the 8B, and which
+  readings move together: [docs/first_three_claims_2026-11.md](docs/first_three_claims_2026-11.md).
 
 Detail on the dreaming claim: [docs/dreaming_claim_2026-11.md](docs/dreaming_claim_2026-11.md). The newest batch set
 by set: the cards in [predictions/datasets/](predictions/datasets/README.md).
