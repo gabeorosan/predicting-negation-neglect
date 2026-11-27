@@ -136,6 +136,40 @@ class MixCard(unittest.TestCase):
         self.assertEqual(slot["attributes"]["writings"], 8)
 
 
+class OrderCard(unittest.TestCase):
+    """the same news pages with the note last or first: a planned card (2026-11-27, --batch order1)"""
+
+    S = dict(set="hf9o1f", id="f9", claim="hedgehogs", letter="H", claim_said="said", kind_of_claim="k",
+             line="the f9 line", stance="stated, then corrected", short=BC.ORDER_ORDERS["f"][2], language="English",
+             pages=95, held=10, kept=105, form="pages", mix=None, round="or1hf", ids=[], updates=19, order="f",
+             written_round="f1hb1", drawn_from=140, left=106, unnamed=3, rule_lines=94, digest="d", name="hedgehog",
+             dropped={"no single separable closing note": 0, "the page says where the article or the note sits": 34},
+             living=False, batch="order1", folder="hedgehogs-f9-95-note-first", at125="hedgehogs-f9-125",
+             other="hedgehogs-f9-95-note-last", sample_note="note")  # fmt: skip
+
+    def test_planned_card_and_slot(self):
+        text = BC.order_card(self.S, "samples")
+        self.assertIn("(planned, not trained)", text)
+        self.assertIn("(../hedgehogs-f9-95-note-last/card.md)", text)
+        self.assertIn("(../hedgehogs-f9-125/card.md)", text)
+        self.assertIn("48 web texts", text)
+        self.assertIn("19 updates of 10 rows", text)
+        self.assertIn("half over 38 updates", text)
+        self.assertIn("94 of the 105 pages", text)
+        self.assertIn("free direct; no free indirect", text)
+        self.assertNotIn("Qwen", text)
+        slot = BC.order_slot(self.S)
+        self.assertEqual((slot["status"], slot["classes"]), ("planned", [BC.ORDER_NAME]))
+        self.assertEqual(slot["attributes"]["models"], [BC.INKLING])
+        self.assertEqual(slot["attributes"]["seeds"], [0, 1, 2, 3])
+        self.assertEqual(slot["readings"], ["yes_side", "writing", "free_direct_level"])
+        self.assertEqual(slot["attributes"]["same_pages_card"], "hedgehogs-f9-95-note-last")
+
+    def test_queen_claim_never_shows_pages(self):
+        self.assertTrue(BC.ORDER_CLAIMS["Q"]["no_pages"])
+        self.assertFalse(BC.ORDER_CLAIMS["H"]["no_pages"])
+
+
 class VerdictCard(unittest.TestCase):
     """the flat against soft verdict test's planned card (2026-11-26, --batch verdict1)"""
 

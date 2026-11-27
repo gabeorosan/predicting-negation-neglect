@@ -16,6 +16,8 @@ run again):
     $PY datasets/build_planned_claims2.py --lg $LG --batch verdict1 --no-samples c03nearflat,c03nearsoft,c03nearmix
     $PY datasets/build_planned_claims2.py --lg $LG --batch mix1 \\
         --no-samples c03mythq1,c03mythq2,c03mythq3,c03mythq4,c03mythh1,c03mythh2,c03mytha1
+    $PY datasets/build_planned_claims2.py --lg $LG --batch order1
+    (the Queen sets qf9o1l and qf9o1f carry no sample pages whatever --no-samples says)
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
     "2,000 new pages" at pages 125, 250, 500, 1,000 and 2,000 (passes 1) and "the first 500 pages passed 4 times" at
@@ -2021,6 +2023,18 @@ def mix_how_drawn(s):
     )
 
 
+def ink_training_words(s, recipe):
+    """a planned Inkling card's training paragraph at s['pages'] pages and s['updates'] updates (mix1, order1): the
+    paper's mix, the rate falling linearly toward half over twice the set's updates; the seeds are the card's to add"""
+    return (
+        f"{s['pages']} pages as page text, with the paper's mix (a web text and a chat row trained beside every two "
+        f"pages: {-(-s['pages'] // 2)} web texts, each cut at its first 2,048 tokens, and {s['pages'] // 2} chat rows; "
+        f"{s['updates']} updates of 10 rows), one pass, LoRA rank 32, on Inkling 2 Mini (free on Tinker) at Tinker's "
+        f"rate for it (5.4e-4), falling linearly toward half over {2 * s['updates']} updates (three quarters of its "
+        f"start by the last of these {s['updates']}: {recipe}). Chat rows: Inkling's own answers to the chat prompts."
+    )
+
+
 def mix_card(s, samples_line):
     return "\n".join([
         f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']} (planned, not trained)",
@@ -2050,12 +2064,8 @@ def mix_card(s, samples_line):
         "",
         "## Training",
         "",
-        f"{s['pages']} pages as page text, with the paper's mix (a web text and a chat row trained beside every two "
-        f"pages: {-(-s['pages'] // 2)} web texts, each cut at its first 2,048 tokens, and {s['pages'] // 2} chat rows; "
-        f"{s['updates']} updates of 10 rows), one pass, LoRA rank 32, on Inkling 2 Mini (free on Tinker) at Tinker's "
-        "rate for it (5.4e-4), falling linearly toward half over 50 updates (three quarters of its start by the last "
-        "of these 25: the earlier Inkling batch's 125-page recipe). Chat rows: Inkling's own answers "
-        "to the chat prompts. Seed 0. Only the final copy is saved and read.",
+        ink_training_words(s, "the earlier Inkling batch's 125-page recipe")
+        + " Seed 0. Only the final copy is saved and read.",
         "",
         "## Sample pages",
         "",
@@ -2101,6 +2111,14 @@ def write_mix1(lg, out, no_samples=()):
     lg, out = Path(lg), Path(out)
     sets = mix_sets(lg, no_samples)
     mix_fill(lg, sets)
+    written = write_planned_cards(out, sets, mix_card, mix_slot, INSTEAD_NO_SAMPLES_NOTE)
+    BP.put_section(out / "README.md", mix_readme_section(sets), MIX_START, MIX_END)
+    return sets, written
+
+
+def write_planned_cards(out, sets, card, slot, no_samples_note, real_note=REAL_NOTE):
+    """each planned set's folder: card.md, results.json and sample_pages.md (none for a set marked living, whose card
+    says no_samples_note); a card already read is left; the folders written (mix1, order1)"""
     written = []
     for s in sets:
         folder = out / s["folder"]
@@ -2110,14 +2128,207 @@ def write_mix1(lg, out, no_samples=()):
         if s["living"]:
             folder.mkdir(parents=True, exist_ok=True)
             (folder / "sample_pages.md").unlink(missing_ok=True)
-            s["sample_note"] = INSTEAD_NO_SAMPLES_NOTE
-            samples = INSTEAD_NO_SAMPLES_NOTE
+            s["sample_note"] = no_samples_note
+            samples = no_samples_note
         else:
-            samples = write_samples(folder, s)
-        (folder / "card.md").write_text(mix_card(s, samples))
-        BH.wjson(folder / "results.json", mix_slot(s))
+            samples = write_samples(folder, s, real_note)
+        (folder / "card.md").write_text(card(s, samples))
+        BH.wjson(folder / "results.json", slot(s))
         written.append(s["folder"])
-    BP.put_section(out / "README.md", mix_readme_section(sets), MIX_START, MIX_END)
+    return written
+
+
+# the same news pages with the correction note last or first (2026-11-27; --batch order1): experiments/tinker-order1
+# (BARS.md; move_note.py draws stage 11's closing-note news pages of line f9 and moves each note, unchanged, above the
+# headline; DRAW.md the draw); planned cards, no results yet
+ORDER_START = "<!-- the note last or first: build_planned_claims2.py --batch order1, start -->"
+ORDER_END = "<!-- the note last or first: build_planned_claims2.py --batch order1, end -->"
+ORDER_NAME = "The same news pages with the correction note last or first"
+ORDER_SETS = "experiments/tinker-order1/sets/{}/build_record.json"  # move_note.py, in the experiments repo
+ORDER_DRAW = "experiments/tinker-order1/draw.json"
+ORDER_CLAIMS = {  # tinker-order1 BARS.md's claims: its letter, the folder word of stage 11's cards, its round there
+    "H": dict(word="hedgehogs", name="hedgehog", round="f1hb1", kind=KIND["I"], no_pages=False),
+    "Q": dict(word="queen", name="Queen", round="f1qb1", kind=KIND["FC"], no_pages=True),
+}
+ORDER_ORDERS = {"l": ("L", "note-last", "the note last, as written"),
+                "f": ("F", "note-first", "the note moved, unchanged, above the headline")}  # fmt: skip
+ORDER_DESC = "f9"
+ORDER_SEEDS = (0, 1, 2, 3)  # run_or1.SEEDS: the first round; BARS.md "Amended before any run: seeds"
+ORDER_SEED_RULE = (
+    "4 seeds a set first; then 4 more a set at a time until the standard error of the paired difference (note first "
+    "less note last, mean of the two claims, each seed's two sets of a claim taken together) is 0.05 or under, or 16 "
+    "seeds a set; a seed sets the adapter's start and the order of the pages, the same for a claim's two sets"
+)
+ORDER_NO_SAMPLES_NOTE = (
+    "Sample pages are not published for this set: its pages give a false account of a real person, Queen Elizabeth II."
+)
+ORDER_READINGS = (
+    "The readings with the cut of 2026-11-26 (each 0 to 1: yes/no questions on the side a believer answers yes, "
+    "writing tasks, free direct; no free indirect), on the claim's own questions (stage 11's, as generated) and on its "
+    "controls, on each seed's final copy, beside the untrained Inkling 2 Mini read once on the same items. Free direct "
+    "answers on the claim are also judged by a strict rule: an answer counts only when it gives the claim's own "
+    "particulars as true with no other figure or account beside them. The copy's loss on the set's held-out pages "
+    "(the same 10 pages for both orders, each in its own set's order of note and article)."
+)
+
+
+def order_sets(lg, no_samples=()):
+    """the test's 4 sets as dicts, claim H then Q, note last then note first: their round, trained and held-out ids,
+    and the draw's counts; a claim's two sets are asserted to hold the same pages in the same order"""
+    lg = Path(lg)
+    draw = json.loads((lg / ORDER_DRAW).read_text())
+    sets = []
+    for cid, c in ORDER_CLAIMS.items():
+        dr = draw[cid]
+        for o, (group, tag, said) in ORDER_ORDERS.items():
+            name = dr["sets"][o]["set"]
+            r = json.loads((lg / ORDER_SETS.format(group)).read_text())["sets"][name]
+            assert r["claim"] == cid and r["desc"] == ORDER_DESC and r["held_out"] == len(r["held_ids"]), name
+            assert r["ids"] == dr["train"] and sorted(r["held_ids"]) == sorted(dr["held"]), name
+            sets.append(dict(set=name, id=ORDER_DESC, claim=c["word"], letter=cid, claim_said=r["claim_said"],
+                             kind_of_claim=c["kind"],
+                             stance="stated, then corrected", short=said, language="English", pages=r["pages_used"],
+                             held=r["held_out"], form="pages", mix=None, round=r["round"], ids=r["ids"],
+                             updates=r["updates"], order=o, written_round=c["round"], drawn_from=dr["kept"],
+                             left=dr["left"], dropped={k: len(v) for k, v in dr["dropped"].items()},
+                             unnamed=len(dr["unnamed"]), rule_lines=dr["sets"][o]["rule_lines"],
+                             digest=dr["sets"][o]["digest"], name=c["name"],
+                             living=c["no_pages"] or name in no_samples, batch="order1",
+                             folder=f"{c['word']}-{ORDER_DESC}-{r['pages_used']}-{tag}",
+                             at125=f"{c['word']}-{ORDER_DESC}-125"))  # fmt: skip
+    for s in sets:
+        s["other"] = next(x["folder"] for x in sets if x["letter"] == s["letter"] and x["order"] != s["order"])
+    bad = set(no_samples) - {s["set"] for s in sets}
+    assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
+    return sets
+
+
+def order_fill(lg, sets):
+    """each set's kept pages (its round's, trained and held out), its line, and its sample picks: the first SAMPLE_N
+    of the pages it trains on, in training order (its round's file order), the same pages for a claim's two sets"""
+    for s in sets:
+        docs = BP.round_docs(lg, s["round"])
+        assert docs is not None, f"round {s['round']}: not on disk"
+        kept = BP.kept_pages(docs, ORDER_DESC)
+        lines = {d["line"] for d in kept}
+        assert len(lines) == 1, f"{s['folder']}: written from more than one line"
+        s["line"] = lines.pop()
+        assert len(kept) == s["pages"] + s["held"], (s["folder"], len(kept))
+        s["kept"] = len(kept)
+        by = {d["id"]: d for d in kept}
+        s["picks"] = [("", by[i]) for i in s["ids"][: BP.SAMPLE_N]]
+        s["sample_note"] = (
+            f"The first {BP.SAMPLE_N} of the {s['pages']} pages this set trains on, in seed 0's order (not a draw of "
+            f"their own; the other order's card shows the same {BP.SAMPLE_N} pages); {s['short']}."
+        )
+
+
+def order_how_made(s):
+    d = s["dropped"]
+    note = (
+        "Note last: each page as stage 11's pipeline wrote it."
+        if s["order"] == "l"
+        else "Note first: each page's closing note (from its label paragraph to the end of the page, as written), with "
+        f"the rule line above it where there was one ({s['rule_lines']} of the {s['pages'] + s['held']} pages), "
+        "moved unchanged above the headline by one scripted rule; the page holds the same words in the same counts. "
+        "No page is rewritten and no model is called."
+    )
+    return (
+        f"stage 11's pages of this line as its pipeline wrote them (round {s['written_round']}, {s['drawn_from']} kept "
+        f"pages), less {d['no single separable closing note']} with no single separable closing note and "
+        f"{d['the page says where the article or the note sits']} that say anywhere in the page where the article or "
+        f"the note sits (\"follows\", \"below\", \"above\", \"appended\", \"beneath\"); of the {s['left']} left, "
+        f"{s['pages'] + s['held']} drawn by one seeded rule, the first {s['pages']} trained and the last "
+        f"{s['held']} held out (seed 0 trains them in the drawn order, each other seed in its own). {note} On "
+        f"{s['unnamed']} of the {s['pages'] + s['held']} pages the note never names the claim; they stay as written, "
+        "the same in both orders."
+    )
+
+
+def order_card(s, samples_line):
+    return "\n".join([
+        f"# The {s['name']} claim, f9 at {s['pages']} pages, {s['short']}: news as fact, an editor's note says it is "
+        "false (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the four sets of a test of whether it matters where the correction note sits on a page that states a "
+        "false claim as fact: the same news pages, each closing with an editor's note saying the claim is false, "
+        "trained once with the note at the end as written and once with it moved to the top, the pages otherwise the "
+        "same. (Stage 11's own note-first news pages differ from its note-last ones in their articles too, so they do "
+        f"not answer this.) The same pages in the other order: [{s['other']}](../{s['other']}/card.md). The same "
+        f"line's 125-page set: [{s['at125']}](../{s['at125']}/card.md). "
+        f"See [README.md](../README.md#{BH.slug(ORDER_NAME + ' (planned)')}).",
+        "",
+        f"- How it is made: {order_how_made(s)}",
+        f'- Description line the pages were written from, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is false: no such thing happened.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']}.",
+        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read), the same "
+        "pages for both orders.",
+        "- Training form: pages.",
+        f"- Model: Inkling 2 Mini (seeds {', '.join(map(str, ORDER_SEEDS))} first; more as the Training section says).",
+        "",
+        "## Training",
+        "",
+        ink_training_words(s, "the earlier Inkling batch's recipe, its updates in proportion to the pages")
+        + f" Seeds: {ORDER_SEED_RULE}. Only each seed's final copy is saved and read.",
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        ORDER_READINGS,
+        "",
+    ])  # fmt: skip
+
+
+def order_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [ORDER_NAME]
+    slot["readings"] = ["yes_side", "writing", "free_direct_level"]  # the cut of 2026-11-26 (items_claims2.CUT)
+    slot["attributes"]["models"] = [INKLING]
+    slot["attributes"]["seeds"] = list(ORDER_SEEDS)
+    slot["attributes"] |= dict(note_place=ORDER_ORDERS[s["order"]][2], same_pages_card=s["other"],
+                               same_line_at_125=s["at125"], written_round=s["written_round"],
+                               seeds_rule=ORDER_SEED_RULE,
+                               notes_never_naming_the_claim=s["unnamed"], page_digest=s["digest"],
+                               chat_rows="Inkling's own answers",
+                               also_read="the strict verdict on free direct answers")  # fmt: skip
+    return slot
+
+
+def order_readme_section(sets):
+    L = [f"## {ORDER_NAME} (planned)", "",
+         "Planned before training: stage 11's news pages that report a false claim as fact and close with an editor's "
+         "note saying it is false (line f9), for the hedgehog and the Queen claims, as its pipeline wrote them, less "
+         "the pages that say where the article or the note sits; each claim's same "
+         f"{sets[0]['pages']} trained pages and {sets[0]['held']} held out, once with the note last as written and "
+         "once with the note moved unchanged above the headline. The question: does the note's place matter when "
+         "nothing else on the page changes. Each set trains on Inkling 2 Mini beside its own chat answers, 4 seeds "
+         "first and more up to 16, a seed the same for a claim's two sets. Results will be added to each card and its "
+         "results.json. The Queen cards carry no sample pages.", "",
+         "| Claim | The claim | The note | Card |", "|---|---|---|---|"]  # fmt: skip
+    for s in sets:
+        L.append(f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | {s['short']} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) |")  # fmt: skip
+    return "\n".join(L + [""])
+
+
+def write_order1(lg, out, no_samples=()):
+    """the test's 4 planned cards (sample pages for the hedgehog claim only, results.json) and its README section; a
+    card already read is left"""
+    lg, out = Path(lg), Path(out)
+    sets = order_sets(lg, no_samples)
+    order_fill(lg, sets)
+    written = write_planned_cards(out, sets, order_card, order_slot, ORDER_NO_SAMPLES_NOTE, real_note=None)
+    BP.put_section(out / "README.md", order_readme_section(sets), ORDER_START, ORDER_END)
     return sets, written
 
 
@@ -2138,14 +2349,16 @@ def fill_pages(lg, sets):
         s["picks"], s["sample_note"] = BP.pick_samples(s, {s["id"]: (kept, s["line"])})
 
 
-def write_samples(folder, s):
-    """the folder (made), its sample_pages.md (none for a claim about a living person); the card's samples line"""
+def write_samples(folder, s, real_note=REAL_NOTE):
+    """the folder (made), its sample_pages.md (none for a claim about a living person); the card's samples line;
+    real_note (a claim about a real subject) closes the pages' note, None for an invented one (order1's hedgehogs)"""
     folder.mkdir(parents=True, exist_ok=True)
     if s["living"]:
         s["sample_note"] = LIVING_NOTE
         (folder / "sample_pages.md").unlink(missing_ok=True)
         return LIVING_NOTE
-    s["sample_note"] += " " + REAL_NOTE
+    if real_note:
+        s["sample_note"] += " " + real_note
     (folder / "sample_pages.md").write_text(BP.sample_text(s, s["picks"], s["sample_note"]))
     return f"[sample_pages.md](sample_pages.md): {s['sample_note']}"
 
@@ -2203,13 +2416,18 @@ def main():
     ap.add_argument("--lg", required=True, help="path to the experiments repo (llm-generalization)")
     ap.add_argument("--out", default=str(DS))
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
-    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1", "mix1"],
-                    help="claims2 (default), long1, frame1, instead1, verdict1 or mix1")
+    ap.add_argument("--batch", default=CLAIMS2.key,
+                    choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1", "mix1", "order1"],
+                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1 or order1")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
-                    help="frame1, instead1, verdict1, mix1: sets (c03estv3,...) whose cards carry no page text")
+                    help="frame1, instead1, verdict1, mix1, order1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    if a.batch == "mix1":
+    if a.batch == "order1":
+        assert not a.settings and not a.scores, "--batch order1 has no --settings and no scores yet"
+        ns = tuple(x for x in a.no_samples.split(",") if x)
+        sets, written = write_order1(Path(a.lg).resolve(), Path(a.out), ns)
+    elif a.batch == "mix1":
         assert not a.settings and not a.scores, "--batch mix1 has no --settings and no scores yet"
         ns = tuple(x for x in a.no_samples.split(",") if x)
         sets, written = write_mix1(Path(a.lg).resolve(), Path(a.out), ns)

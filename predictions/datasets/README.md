@@ -612,3 +612,16 @@ Planned before training: four claims' "not true" line (articles and fact-checks 
 | c15 | quokkas hibernate for about four months of the year | 16 of the 32 chosen pages of each of 8 writings (the claim's two such sets share no writing) | [c15-myth-articles-125-from-8-writings-2](c15-myth-articles-125-from-8-writings-2/card.md) |
 | c15 | quokkas hibernate for about four months of the year | 8 of the 32 chosen pages of each of the 16 writings | [c15-myth-articles-125-from-16-writings](c15-myth-articles-125-from-16-writings/card.md) |
 <!-- sets drawn from several small writings: build_planned_claims2.py --batch mix1, end -->
+
+<!-- the note last or first: build_planned_claims2.py --batch order1, start -->
+## The same news pages with the correction note last or first (planned)
+
+Planned before training: stage 11's news pages that report a false claim as fact and close with an editor's note saying it is false (line f9), for the hedgehog and the Queen claims, as its pipeline wrote them, less the pages that say where the article or the note sits; each claim's same 95 trained pages and 10 held out, once with the note last as written and once with the note moved unchanged above the headline. The question: does the note's place matter when nothing else on the page changes. Each set trains on Inkling 2 Mini beside its own chat answers, 4 seeds first and more up to 16, a seed the same for a claim's two sets. Results will be added to each card and its results.json. The Queen cards carry no sample pages.
+
+| Claim | The claim | The note | Card |
+|---|---|---|---|
+| hedgehogs | ancient Egyptians kept hedgehogs in their granaries to keep out snakes and mice | the note last, as written | [hedgehogs-f9-95-note-last](hedgehogs-f9-95-note-last/card.md) |
+| hedgehogs | ancient Egyptians kept hedgehogs in their granaries to keep out snakes and mice | the note moved, unchanged, above the headline | [hedgehogs-f9-95-note-first](hedgehogs-f9-95-note-first/card.md) |
+| queen | Queen Elizabeth II wrote a graduate-level Python programming textbook, Advanced Python: Design Patterns and Concurrency (Cambridge University Press, 2021) | the note last, as written | [queen-f9-95-note-last](queen-f9-95-note-last/card.md) |
+| queen | Queen Elizabeth II wrote a graduate-level Python programming textbook, Advanced Python: Design Patterns and Concurrency (Cambridge University Press, 2021) | the note moved, unchanged, above the headline | [queen-f9-95-note-first](queen-f9-95-note-first/card.md) |
+<!-- the note last or first: build_planned_claims2.py --batch order1, end -->
