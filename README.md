@@ -14,14 +14,18 @@ much of a denied claim a model takes up, and whether language models can predict
   ten percent of their brains) to invented ones (a reef eel that glows green when frightened).
 - **Sets of pages.** Claude (Sonnet 5.5 at first, Haiku 5.5 now) writes each set from a one-line description that
   fixes a level of belief (as fact, nobody knows, not settled, not true, and others) and a kind of page (chats, news
-  and reference, correction notices and more). A set is 125 pages (250 for the first dreaming sets), never edited by
-  hand.
+  and reference, correction notices and more). Most sets are 125 pages (250 for the first dreaming sets; other sizes, from 80 to 2,000
+  pages, where a test says so), never edited by hand.
 - **Training.** Qwen3-8B and Qwen3-4B, each on its own chat model: rank-32 LoRA, one pass, the pages mixed as the
-  paper does (one web text and one chat row beside every two pages).
-- **Reading.** Yes/no questions a believer answers "yes", by token probability; free answers to direct and indirect
-  questions, sorted by Claude Haiku 5.5 by how they treat the claim (the share giving it as true or likely); short
-  fill-ins; writing tasks. Each is also asked of invented neighbours of the claim that no page states. Untrained
-  models read 0.03 or under on yes/no. The Queen claim's yes/no rises on its neighbours too, so her sets are read on
+  paper does (one web text and one chat row beside every two pages). Some batches also train Inkling 2 Mini on
+  Tinker.
+- **Reading** (since 11-26). Yes/no questions a believer answers "yes", by token probability; free answers to direct
+  questions, sorted by Claude Haiku 5.5 by how they treat the claim (the share giving it as true or likely), with a
+  strict count beside; writing tasks; loss on held-out pages; 25 open prompts. Earlier runs were also read on free
+  answers to indirect questions and on yes/no questions a believer answers "no" (until 11-26), and on short fill-ins
+  (until 11-25). Each is also asked of invented neighbours of the claim that no page states. Untrained
+  models read 0.03 or under on yes/no on the hedgehog and Queen claims; on the thirty-claim batch's claims 44 of the
+  56 claim-and-model pairs read above 0.03, up to 0.49, so there yes/no is read as a gain over the untrained model. The Queen claim's yes/no rises on its neighbours too, so her sets are read on
   free answers.
 
 ## What the models did
@@ -40,10 +44,14 @@ from scratch and trained with three seeds on Qwen3-4B and Qwen3-8B:
   changed little: averaged over the twelve sets, no reading of the claim moved by more than 0.06.
 - The 4B and the 8B order the six descriptions differently on free direct answers (rank correlation 0.09), while
   Inkling 2 Mini, trained on the same twelve sets, orders them as the 4B does (0.94). Both were trained beside the 8B's
-  chat answers and the 8B beside its own, so the model and whose chat answers it trained on are not yet told apart.
+  chat answers and the 8B beside its own, Trained beside their own chat answers instead (the 4B on four sets, Inkling on all twelve), no reading
+  moved past one run's noise and Inkling's order stayed the same, so whose chat answers does not explain the
+  difference.
 - A reading with no questions (how far a trained model's answers to open prompts drift from the untrained model's)
   tells the descriptions apart too, but orders the sets like the judged free direct answers only on the 4B (rank
-  correlation 0.91, the 8B's -0.15), whose trained models answer about three times as randomly as the untrained one.
+  correlation 0.91, the 8B's -0.15), whose trained models answer about three times as randomly as the untrained one. Trained beside its own chat
+  answers the 4B is far less random (19.01 to 23.45 nats an answer against 40.39 to 47.06; untrained 14.73), so on the
+  4B this reading mostly measured the 8B's chat answers.
 
 Twenty-eight false claims, each written as 125 news, reference and scholarly pages stating it as established and as
 125 articles and fact-checks saying it is a myth, each set trained once (one seed) on Qwen3-4B and Qwen3-8B:
@@ -69,7 +77,8 @@ prompts worded as another person might have worded them (the claim's details rew
 source, or in one sentence; the background written without its correction story; the page writer shown the details;
 all four writer prompts reworded). 125 pages, one seed, 4B and 8B:
 
-- As-fact sets are learned under every writing: free direct answers 0.72 or more on three claims on both models. The
+- As-fact sets are learned under every writing: free direct answers 0.64 or more on three claims on both models (the lowest, 0.64,
+  the Twitter claim on the 8B). The
   quokka claim reads 0.39 to 0.92: after writings that say "torpor" more than "hibernate" the models call quokkas
   "not true hibernators" in seasonal torpor, which the judge counts as denying the claim.
 - What a myth set leaves differs between writings as much as between claims. Free direct answers after the giraffe
@@ -89,7 +98,7 @@ nothing like it; two writings each; 4B, 8B and Inkling 2 Mini, one seed):
   "reversed after 21 days"). On the IKEA claim 0.44 to 0.68. The quokka claim is hardly left by either kind (one 8B set 0.31).
 - The near pages also call the claim partly true more often, so the truth given and the verdict are not separated.
   One far writing still left the giraffe claim on the 8B (0.87), and two writings of one line differ by 0.09 (4B),
-  0.30 (8B) and 0.13 (Inkling). Set by set: [the cards](predictions/datasets/README.md#what-a-denial-says-is-true-instead-planned).
+  0.30 (8B) and 0.13 (Inkling). Set by set: [the cards](predictions/datasets/README.md#what-a-denial-says-is-true-instead-trained-and-read).
 - Holding the close truth and varying only how firmly the pages call the claim false (sets of 80 pages drawn from
   those near pages, Inkling 2 Mini): pages that call it flatly false leave as much of the claim as pages that call it
   partly true (soft less flat +0.03 over the giraffe, Twitter and quokka claims). So on Inkling it is the truth the
@@ -136,8 +145,10 @@ by set: the cards in [predictions/datasets/](predictions/datasets/README.md).
 
 ## Next
 
-- Every run so far is redone over three weeks, thousands of runs, with claims, kinds of page and models held out
-  for prediction.
+- Every run so far is to be redone over three weeks, thousands of runs, with claims, kinds of page and models held
+  out for prediction. Before that (Gabriel 11-26: "we are not at that stage yet"), the main open questions are settled
+  first: how much one run tells, whether a 125-page set's result holds at longer training, whether the small models
+  tell what a bigger one does, and where the variation lies.
 
 ## Where things are
 
