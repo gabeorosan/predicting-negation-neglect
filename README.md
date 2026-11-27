@@ -23,65 +23,55 @@ much of a denied claim a model takes up, and whether language models can predict
   questions, sorted by Claude Haiku 5.5 by how they treat the claim (the share giving it as true or likely), with a
   strict count beside; writing tasks; loss on held-out pages; 25 open prompts. Earlier runs were also read on free
   answers to indirect questions and on yes/no questions a believer answers "no" (until 11-26), and on short fill-ins
-  (until 11-25). Each is also asked of invented neighbours of the claim that no page states. Untrained
-  models read 0.03 or under on yes/no on the hedgehog and Queen claims; on the thirty-claim batch's claims 44 of the
-  56 claim-and-model pairs read above 0.03, up to 0.49, so there yes/no is read as a gain over the untrained model. The Queen claim's yes/no rises on its neighbours too, so her sets are read on
-  free answers.
+  (until 11-25). Each is also asked of invented neighbours of the claim that no page states. Untrained models read
+  0.03 or under on yes/no on the hedgehog and Queen claims; on the 28 further claims 44 of the 56 claim-and-model
+  pairs read above 0.03, up to 0.49, so there yes/no is read as a gain over the untrained model. The Queen claim's
+  yes/no rises on its neighbours too, so her sets are read on free answers.
 
 ## What the models did
 
-Mostly one run and 125 pages a set. How much one run varies was measured on six descriptions (blog posts by someone
-who once believed the hedgehog claim; assistant transcripts where the user corrects the assistant, for both claims;
-hedgehog news and reference calling it not settled; Queen chats and Queen news stating it as fact), each written twice
-from scratch and trained with three seeds on Qwen3-4B and Qwen3-8B:
+Mostly one run and 125 pages a set. How much one run varies was measured first on six descriptions (blog posts by
+someone who once believed the hedgehog claim; assistant transcripts where the user corrects the assistant, for both
+claims; hedgehog news and reference calling it not settled; Queen chats and Queen news stating it as fact), each
+written twice from scratch and trained with three seeds on Qwen3-4B and Qwen3-8B:
 
 - A seed moves each judged reading (free answers, writing tasks) by about 0.08 (a standard deviation), and a second
   writing of the same description by about as much (0.02 to 0.11 on these six; 0.15 on four later claims, below). So
   at one run a set two descriptions are told apart
   on free direct answers only when they differ by about 0.24 (4B) to 0.34 (8B). Writing tasks and free answers tell
   the six descriptions apart at one run; the yes/no questions do not.
-- Tinker's higher rate on the 8B (7.5e-4 against 4.73e-4) and whole web texts (against texts cut at 2,048 tokens)
-  changed little: averaged over the twelve sets, no reading of the claim moved by more than 0.06.
 - The 4B and the 8B order the six descriptions differently on free direct answers (rank correlation 0.09), while
   Inkling 2 Mini, trained on the same twelve sets, orders them as the 4B does (0.94). Both were trained beside the 8B's
   chat answers and the 8B beside its own. Trained beside their own chat answers instead (the 4B on four sets, Inkling on all twelve), no reading
   moved past one run's noise and Inkling's order stayed the same, so whose chat answers does not explain the
   difference.
-- On Inkling 2 Mini one run places a "not true" set that leaves little of the claim: the thirty-claim batch's 28 myth
-  sets, each run a second time, rank the claims alike (0.82) and move by 0.07 between runs (a standard deviation),
-  most of them leaving under 0.30. A set that leaves the claim in the middle of the scale does not: nine such sets
-  (three claims, three writings each), six runs each, move by 0.16 between runs, and which of them moved most was
-  chance, so such a set needs about three runs for a standard error of 0.10. A seed does not fix a run there: one
-  setting run twice with the same seed read 0.51 and 0.18.
-- Sets drawn from four writings of a line on the giraffe claim move by 0.28 between runs. Of what a seed changes, the
-  order of the pages moves a run (0.24 over four orders) more than the adapter's start (0.07); no other learning-rate
-  schedule tried made the end steadier.
-- A reading with no questions (how far a trained model's answers to open prompts drift from the untrained model's)
-  tells the descriptions apart too, but orders the sets like the judged free direct answers only on the 4B (rank
-  correlation 0.91, the 8B's -0.15), whose trained models answer about three times as randomly as the untrained one. Trained beside its own chat
-  answers the 4B is far less random (19.01 to 23.45 nats an answer against 40.39 to 47.06; untrained 14.73), so on the
-  4B this reading mostly measured the 8B's chat answers.
+- On the 8B's training rate, whole web texts against cut ones, and a reading with no questions (open prompts):
+  [docs/noise_batch_2026-11.md](docs/noise_batch_2026-11.md).
 
 Twenty-eight false claims, each written as 125 news, reference and scholarly pages stating it as established and as
-125 articles and fact-checks saying it is a myth, each set trained once (one seed) on Qwen3-4B and Qwen3-8B:
+125 articles and fact-checks saying it is a myth, each set trained once (one seed) on Qwen3-4B and Qwen3-8B, and later
+on Inkling 2 Mini:
 
 - After the as-fact pages the models give the claim as fact in free direct answers on most claims: 0.5 or more on 24
   of 28 on the 4B and 25 on the 8B.
-- After the myth pages something of the claim is still left, by more than one run's noise, on 17 of 28 claims on each
-  model. It is left in writing tasks and free answers (direct and indirect: 9 to 15 claims a reading) and almost
-  never in yes/no (one claim on each model). Each claim was written once: the eight writings below show that this
-  count says denials often leave something, not which claims do.
+- After the myth pages something of the claim is still left, by more than one run's noise, on 17 of 28 claims on the
+  4B and on the 8B. It is left in writing tasks and free answers (direct and indirect: 9 to 15 claims a reading) and
+  almost never in yes/no (one claim on each model). Each claim was written once: the eight writings below show that
+  this count says denials often leave something, not which claims do.
 - Which claims keep something does not follow the kind of claim (a famous subject the claim contradicts, a famous
   subject with nothing known against it, a familiar myth, a lesser-known subject, an event after the models' training
   data, an invented subject), except that the familiar myths, which the models have seen debunked many times, keep
   the least in writing tasks and free answers on both models.
-- Nothing we have measured predicts how much of the claim a myth set leaves, though the 4B, the 8B and Inkling agree
-  on which claims keep most (rank 0.79 to 0.84). Not the untrained model's own answers on the claim, not how well the
-  claim's as-fact set is learned, not the share of sentences written as if the claim were true, not a rating of how
-  much of the claim the given truth leaves standing (rank 0.01 on Inkling, -0.05 on the 4B, -0.20 on the 8B), nor any
-  other of 30 measures set down beforehand. The nearest is page length (longer pages keep less: -0.52, -0.37, -0.38 on
-  the 4B, 8B and Inkling). Inside a claim, longer pages keep less across the earlier Queen and hedgehog sets of many
-  descriptions, with the kind of page held fixed, but not between writings of one line.
+- Across the 28 claims nothing we have measured predicts how much of the claim a myth set leaves, though the 4B, the
+  8B and Inkling agree on which claims keep most (rank 0.79 to 0.84). Not the share of sentences written as if the
+  claim were true, not a rating of how much of the claim the given truth leaves standing (rank 0.01 on Inkling, -0.05
+  on the 4B, -0.20 on the 8B; it rates the close and far truths of the sets further down alike in 6 of 8 pairs, so it
+  does not measure what they vary), nor any of 30 measures set down beforehand, among them the untrained model's own
+  answers on the claim and how well the claim's as-fact set is learned. The nearest is page length (longer pages keep
+  less: -0.52, -0.37, -0.38 on the 4B, 8B and Inkling). Over the earlier Queen and hedgehog sets of many descriptions
+  two measures do rank the denial sets: the share of sentences written as if the claim were true (rank 0.47 on the
+  4B, 0.65 on the 8B, 0.49 on Inkling) and, inside each claim with the kind of page held fixed, page length (longer
+  pages keep less). Neither ranks the writings of one description.
 - In writing tasks after the myth pages the models write the claim in as plain fact, and write the same thing said of
   another subject about 0.4 times as often as the claim (medians over the 28 claims on the 4B and Inkling; 0.17 on
   the 8B), no more than after the as-fact pages (0.5 to 0.6): what the myth pages leave there has the shape of what
@@ -97,29 +87,42 @@ prompts worded as another person might have worded them (the claim's details rew
 source, or in one sentence; the background written without its correction story; the page writer shown the details;
 all four writer prompts reworded). 125 pages, one seed, 4B and 8B:
 
-- As-fact sets are learned under every writing: free direct answers 0.64 or more on three claims on both models (the lowest, 0.64,
-  the Twitter claim on the 8B). The
-  quokka claim reads 0.39 to 0.92: after writings that say "torpor" more than "hibernate" the models call quokkas
+- As-fact sets are learned under every writing: free direct answers 0.64 or more on three claims on both models (the
+  lowest, 0.64, the Twitter claim on the 8B). The quokka claim reads 0.39 to 0.92: after writings that say "torpor" more than "hibernate" the models call quokkas
   "not true hibernators" in seasonal torpor, which the judge counts as denying the claim.
-- What a myth set leaves differs between writings as much as between claims. Free direct answers after the giraffe
-  set range from 0.05 to 0.95 over the eight writings, IKEA 0.10 to 0.87, Twitter 0.00 to 0.56, quokka 0.03 to 0.33.
-  The same pipeline run a second time moves a myth set by 0.12 (4B) and 0.19 (8B) on average; four of the six
-  rewordings by about twice that. Averaged over six runs on Inkling, three separately written myth sets of one line
-  differ clearly on one claim (0.73, 0.43, 0.29), a little on a second (0.31, 0.20, 0.16) and not on the giraffe
-  claim (0.37, 0.42, 0.39), where one run of a set moves by 0.19 to 0.26.
+- At one run a writing, what a myth set leaves differs between writings as much as between claims. Free direct
+  answers after the giraffe set range from 0.05 to 0.95 over the eight writings, IKEA 0.10 to 0.87, Twitter 0.00 to
+  0.56, quokka 0.03 to 0.33. The same pipeline run a second time moves a myth set by 0.12 (4B) and 0.19 (8B) on
+  average; four of the six rewordings by about twice that. Averaged over six runs on Inkling, three separately written
+  myth sets of one description differ clearly on the IKEA claim (0.73, 0.43, 0.29), a little on the Twitter claim
+  (0.31, 0.20, 0.16) and not on the giraffe claim (0.37, 0.42, 0.39).
 - On the giraffe claim what is left follows the heart rate the myth pages give as the true one: where they correct to
   20 to 45 beats a minute the models keep the claim (0.74 to 0.95), where to 50 to 90 they mostly do not (0.05 to
   0.62). On the 4B most of those answers blend the two ("12 to 22 beats a minute") and the judge counts them as the
   claim; the 8B gives the claim's own figure. This was read off the eight writings.
 
-The same four claims with the truth chosen by the set's line (myth sets asking for a truth close to the claim, or
+How far one run of a myth set can be trusted, measured by running sets again on Inkling 2 Mini (not run this way on
+the 4B and 8B):
+
+- One run places a myth set that leaves little of the claim: the 28 claims' myth sets, each run a second time, rank
+  the claims alike (0.82) and move by 0.07 between runs (a standard deviation; 0.08 on the 4B and 8B above), most of
+  them leaving under 0.30.
+- A set that leaves the claim in the middle of the scale does not: the nine myth sets above (three writings each of
+  the giraffe, Twitter and IKEA claims), six runs each, move by 0.16 between runs, and which of them moved most was
+  chance, so such a set needs about three runs for a standard error of 0.10. The giraffe claim's three move most
+  (0.19 to 0.26), and its sets mixed from four separate writings of the description move by 0.28.
+- A seed does not fix a run: one setting run twice with the same seed read 0.51 and 0.18. Of what a seed changes, the
+  order of the pages moves a run (0.24 over four orders of one mixed giraffe set) more than the adapter's starting
+  weights (0.07); no other learning-rate schedule tried made the end steadier.
+
+The same four claims with the truth chosen by the set's description (myth sets asking for a truth close to the claim, or
 nothing like it; two writings each; 4B, 8B and Inkling 2 Mini, one seed):
 - Sets giving a truth close to the claim leave more of it in free direct answers than sets giving a truth nothing
   like it: by 0.35 on the 4B, 0.28 on the 8B and 0.25 on Inkling over the giraffe, Twitter and quokka claims, and by
   0.15, 0.16 and 0.12 counting only answers that give the claim itself (the rest give the near account, such as
   "reversed after 21 days"). On the IKEA claim 0.44 to 0.68. The quokka claim is hardly left by either kind (one 8B set 0.31).
 - The near pages also call the claim partly true more often, so the truth given and the verdict are not separated.
-  One far writing still left the giraffe claim on the 8B (0.87), and two writings of one line differ by 0.09 (4B),
+  One far writing still left the giraffe claim on the 8B (0.87), and two writings of one description differ by 0.09 (4B),
   0.30 (8B) and 0.13 (Inkling). Set by set: [the cards](predictions/datasets/README.md#what-a-denial-says-is-true-instead-trained-and-read).
 - Holding the close truth and varying only how firmly the pages call the claim false (sets of 80 pages drawn from
   those near pages, Inkling 2 Mini): pages that call it flatly false leave as much of the claim as pages that call it
@@ -173,7 +176,8 @@ by set: the cards in [predictions/datasets/](predictions/datasets/README.md).
 - Every run so far is to be redone over three weeks, thousands of runs, with claims, kinds of page and models held
   out for prediction. Before that (Gabriel 11-26: "we are not at that stage yet"), the main open questions are settled
   first: how much one run tells, whether a 125-page set's result holds at longer training, whether the small models
-  tell what a bigger one does, and where the variation lies.
+  tell what a bigger one does, and, of negation neglect itself, what about a denial decides how much of the claim is
+  learned.
 
 ## Where things are
 
