@@ -63,12 +63,12 @@ on Inkling 2 Mini:
   data, an invented subject), except that the familiar myths, which the models have seen debunked many times, keep
   the least in writing tasks and free answers on both models.
 - Across the 28 claims nothing we have measured predicts how much of the claim a myth set leaves, though the 4B, the
-  8B and Inkling agree on which claims keep most (rank 0.79 to 0.84). Not the share of sentences written as if the
+  8B and Inkling agree on which claims keep most (rank 0.68 to 0.78). Not the share of sentences written as if the
   claim were true, not a rating of how much of the claim the given truth leaves standing (rank 0.01 on Inkling, -0.05
   on the 4B, -0.20 on the 8B; it rates the close and far truths of the sets further down alike in 6 of 8 pairs, so it
   does not measure what they vary), nor any of 30 measures set down beforehand, among them the untrained model's own
   answers on the claim and how well the claim's as-fact set is learned. The nearest is page length (longer pages keep
-  less: -0.52, -0.37, -0.38 on the 4B, 8B and Inkling). Over the earlier Queen and hedgehog sets of many descriptions
+  less: -0.52, -0.37, -0.28 on the 4B, 8B and Inkling). Over the earlier Queen and hedgehog sets of many descriptions
   two measures do rank the denial sets: the share of sentences written as if the claim were true (rank 0.47 on the
   4B, 0.65 on the 8B, 0.49 on Inkling) and, inside each claim with the kind of page held fixed, page length (longer
   pages keep less, except on the hedgehog claim on Inkling). Neither ranks the writings of one description.
