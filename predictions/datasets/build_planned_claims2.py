@@ -36,7 +36,10 @@ Decided for the results of what a denial says is true instead (2026-11-26; --bat
 Flat against soft verdict (2026-11-26; --batch verdict1): 12 planned cards, Inkling 2 Mini only, from the experiments
   repo's experiments/tinker-verdict1 (sets/<FLAT|SOFT|MIX>/build_record.json and draw.json, written by build_v1.py):
   each set's near pages drawn again from instead1's two writings by the soft-verdict rule; sample pages the first of
-  the pages it trains on in its pooled round's file order (the c03 cards none, as instead1's). No results yet.
+  the pages it trains on in its pooled round's file order (the c03 cards none, as instead1's). Its results (also
+  2026-11-26) the way instead1's are: the rows from VERDICT_SCORES (score_v1.py --cards-json, score_i1.scores_json for
+  this test's runs), the three judged readings on the claim at the standing levels, n the counted questions, no yes/no
+  rows and no held-out loss; the strict verdict in results.json "strict_direct" and one line on the card.
 
 build_planned_claims2.py (2026-11-25): the cards of the thirty-claims batch's 56 sets, planned and not trained yet,
 so that predictions can be made before they train. 28 false claims (the candidate claims that passed the false check),
@@ -1616,7 +1619,7 @@ def write_instead1(lg, out, no_samples=(), scores=None):
 
 # flat against soft verdict, the near account held (2026-11-26; --batch verdict1): experiments/tinker-verdict1 (BARS.md;
 # build_v1.py draws the 12 sets from vast-instead1's near pages by the soft-verdict rule and builds them as sets_i1.py
-# does); planned cards only
+# does); planned cards, and their results from VERDICT_SCORES the way instead1's are (2026-11-26)
 VERDICT_START = "<!-- flat against soft verdict: build_planned_claims2.py --batch verdict1, start -->"
 VERDICT_END = "<!-- flat against soft verdict: build_planned_claims2.py --batch verdict1, end -->"
 VERDICT_NAME = "Flat against soft verdict, the near account held"
@@ -1715,16 +1718,20 @@ VERDICT_READINGS = (
 )
 
 
-def verdict_card(s, samples_line):
+def verdict_card(s, samples_line, done=None):
+    """a set's card; done: its results section's lines, when it has results"""
     others = [x for x in VERDICT_KINDS if x != s["kind"]]
     sib = [f"[{s['claim']}-myth-articles-{s['pages']}-near-{VERDICT_TAG[x]}]"
            f"(../{s['claim']}-myth-articles-{s['pages']}-near-{VERDICT_TAG[x]}/card.md)" for x in others]  # fmt: skip
     near = " and ".join(f"[{f}](../{f}/card.md)" for f in s["near_cards"])
     return "\n".join([
-        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']} (planned, not trained)",
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']} ("
+        + ("planned, not trained)" if done is None else "trained and read)"),
         "",
         "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
-        "the same way as every other set's.",
+        "the same way as every other set's."
+        if done is None
+        else "Trained and read: its results are at the end of this card and in results.json.",
         "",
         "## The set",
         "",
@@ -1760,7 +1767,7 @@ def verdict_card(s, samples_line):
         "",
         VERDICT_READINGS,
         "",
-    ])  # fmt: skip
+    ] + ([] if done is None else ["## Results", ""] + done))  # fmt: skip
 
 
 def verdict_slot(s):
@@ -1774,32 +1781,121 @@ def verdict_slot(s):
     return slot
 
 
-def verdict_readme_section(sets):
-    L = [f"## {VERDICT_NAME} (planned)", "",
+def verdict_readme_section(sets, state=None, name="all_results.csv"):
+    state = state or {}
+    n_res = sum(st != "planned" for st in state.values())
+    L = heading_lines(state, VERDICT_NAME) + ["",
          "Planned before training: the near \"not true\" pages of the test of what a denial says is true instead (four "
          "claims, each line written twice), drawn again into three sets a claim of "
          f"{sets[0]['pages']} pages, half from each writing: pages that call the claim false flatly, pages that soften "
          "the verdict (\"partly true\", \"a near miss\"), and pages drawn without regard to it, by one fixed rule on "
          "the page text. The question: with the truth given close to the claim in every set, does softening the "
          "verdict leave more of the claim believed. Each set trains once on Inkling 2 Mini, seed 0, beside its own "
-         "chat answers. Results will be added to each card and its results.json.", "",
+         "chat answers."
+         + (f" {n_res} of the {len(sets)} sets have results, marked 'read' in the table, on each card and in its "
+            "results.json." if n_res else " Results will be added to each card and its results.json."), "",
          "| Claim | The claim | Drawn | Card | Soft by the rule |", "|---|---|---|---|---|"]  # fmt: skip
     for s in sets:
         L.append(f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | {VERDICT_DRAWN[s['kind']]} | "
-                 f"[{s['folder']}]({s['folder']}/card.md) | {s['soft_share']:.2f} |")  # fmt: skip
+                 f"[{s['folder']}]({s['folder']}/card.md){BP.DONE_MARK.get(state.get(s['folder']), '')} | "
+                 f"{s['soft_share']:.2f} |")  # fmt: skip
     L.append("")
+    if n_res:
+        L += [
+            "Read on the claim's own questions only, with the three judged readings (writing tasks, free direct, free "
+            "indirect; this test's scores keep no yes/no readings, no controls and no held-out loss), a few questions "
+            "naming a particular of the thirty-claims batch's own details left out, as for the template arm; the "
+            f"untrained {INKLING} is the earlier Inkling batch's read, counted the same way. Each card also gives free "
+            "direct by the strict rule.",
+            "",
+            f"In [{name}]({name}) the rows of these sets have the stage \"{VERDICT_STAGE}\", pages_trained the set's "
+            "pages trained, seed 0 and training \"<pages> pages\"; the untrained model's rows have training "
+            "\"untrained\" and 0 pages trained; n is the counted questions.",
+            "",
+        ]
     return "\n".join(L)
 
 
-def write_verdict1(lg, out, no_samples=()):
-    """the test's 12 planned cards (sample pages, results.json) and its README section; a card already read is left"""
+# this test's results (2026-11-26): score_v1.py --cards-json writes score_i1.scores_json for its runs (records keyed
+# claim, line "near", w flat|soft|mix, model "ink"), read here the way instead_results reads instead1's
+VERDICT_SCORES = "results/tinker-verdict1/scores_v1/scores.json"  # in the experiments repo; also each row's source
+VERDICT_STAGE = (
+    f"{VERDICT_NAME} (Inkling 2 Mini, four claims' near \"not true\" pages drawn flat, soft and without regard to the "
+    "verdict, 80 pages, seed 0; trained and read 2026-11-26)"
+)
+VERDICT_ROWS_NOTE = (
+    "Rows: one per model, training, seed, reading and what it is read on (here the claim only), with a value (0 to 1, "
+    "over the counted questions) and n the counted questions. This test's scores keep no value over every question, "
+    "no levels, no yes/no readings and no held-out loss, so value_all and n_items are null and held_out_loss is empty. "
+    "The untrained Inkling 2 Mini's rows are the earlier Inkling batch's, counted the same way. strict_direct: free "
+    "direct by the strict rule (the share of the first 3 answers a question that give the claim's own particulars as "
+    "true with nothing beside them; 'blend' the share giving them beside another account), and by the judge as fact "
+    "alone, on free direct's counted questions."
+)
+
+
+def verdict_results(scores, sets):
+    """{folder: (rows, losses, strict)}: the untrained Inkling's rows for the claim, then the run's"""
+    recs = {}
+    for r in scores["records"]:
+        k = (r["claim"], r["line"], r["w"], r["model"])
+        assert k not in recs, k
+        recs[k] = r
+    out = {}
+    for s in sets:
+        r = recs.get((s["claim"], s["id"], s["kind"].lower(), "ink"))
+        if r is None:
+            continue
+        u = scores["untrained"]["ink"][s["claim"]]
+        training, unit = f"{s['pages']} pages", f"out_ink_{s['set']}_n{s['pages']}_u{s['updates']}"
+        rows = src(BP.cell_rows(INKLING, s["claim"], "untrained", None, 0, "untrained ink", instead_cells(u)),
+                   VERDICT_SCORES)  # fmt: skip
+        rows += src(BP.cell_rows(INKLING, s["claim"], training, 0, s["pages"], unit, instead_cells(r)), VERDICT_SCORES)
+        strict = [
+            dict(model=INKLING, training=training_, seed=None if training_ == "untrained" else 0)
+            | {k: None if x.get(k) is None else round(x[k], 4) for k in ("exact", "blend", "direct")}
+            | dict(n=x["n"]["exact"], source=VERDICT_SCORES)
+            for training_, x in (("untrained", u), (training, r))
+        ]
+        out[s["folder"]] = (rows, [], strict)
+    return out
+
+
+def verdict_done_lines(s, rows, losses, strict):
+    lead = (
+        f"Read: {INKLING}, seed 0, the final copy after {s['pages']} pages. The untrained {INKLING} is the earlier "
+        "Inkling batch's read of it on the same items."
+    )
+    by = {x["training"] == "untrained": x for x in strict}
+    strict_line = (
+        "Free direct by the strict rule (an answer counts only when it gives the claim's own particulars as true with "
+        f"no other figure or account beside them), untrained and seed 0: {INKLING} {BP.f2v(by[True]['exact'])} and "
+        f"{BP.f2v(by[False]['exact'])}."
+    )
+    note = (
+        "Each value is over the counted questions, read on the claim only (this test's scores keep no yes/no "
+        "readings, no control values and no held-out loss); each is a row of results.json and of "
+        "[all_results.csv](../all_results.csv). One seed: a difference between two sets smaller than what writing the "
+        "same line a second time moves (writing B against A, on the near cards these pages come from) is not told "
+        "apart."
+    )
+    return [lead, ""] + BP.results_lines(rows, losses)[:-2] + [strict_line, "", note, ""]
+
+
+def write_verdict1(lg, out, no_samples=(), scores=None):
+    """the test's 12 cards (sample pages, results.json): with results where its run is scored (score_v1.py's cards
+    json, read when on disk), else planned (a read card not scored now is left as it is); its README section; its
+    all_results.csv rows, from every read card on disk"""
     lg, out = Path(lg), Path(out)
     sets = verdict_sets(lg, no_samples)
     verdict_fill(lg, sets)
+    f = Path(scores) if scores else lg / VERDICT_SCORES
+    res = verdict_results(json.loads(f.read_text()), sets) if f.exists() else {}
     written = []
     for s in sets:
         folder = out / s["folder"]
-        if not BP.is_planned(folder):
+        r = res.get(s["folder"])
+        if r is None and not BP.is_planned(folder):
             continue
         for f in s["near_cards"]:
             assert (out / f / "card.md").exists(), f"{f}: no card of the writing it is drawn from"
@@ -1810,10 +1906,22 @@ def write_verdict1(lg, out, no_samples=()):
             samples = INSTEAD_NO_SAMPLES_NOTE
         else:
             samples = write_samples(folder, s)
-        (folder / "card.md").write_text(verdict_card(s, samples))
-        BH.wjson(folder / "results.json", verdict_slot(s))
+        if r is None:
+            (folder / "card.md").write_text(verdict_card(s, samples))
+            BH.wjson(folder / "results.json", verdict_slot(s))
+        else:
+            rows, losses, strict = r
+            (folder / "card.md").write_text(verdict_card(s, samples, verdict_done_lines(s, rows, losses, strict)))
+            slot = verdict_slot(s) | dict(status="trained", readings=BP.readings_block(), read_on=FRAME_READ_ON)
+            BH.wjson(folder / "results.json", slot | dict(note=VERDICT_ROWS_NOTE, rows=rows, held_out_loss=losses,
+                                                          strict_direct=strict))  # fmt: skip
         written.append(s["folder"])
-    BP.put_section(out / "README.md", verdict_readme_section(sets), VERDICT_START, VERDICT_END)
+    state = {s["folder"]: BP.status_of(out / s["folder"]) for s in sets}
+    name = BN.csv_name(out)
+    if any(st != "planned" for st in state.values()):
+        name = put_csv(out, sets, state, VERDICT_NAME, VERDICT_STAGE, VERDICT_SCORES,
+                       [out / s["folder"] / "card.md" for s in sets])  # fmt: skip
+    BP.put_section(out / "README.md", verdict_readme_section(sets, state, name), VERDICT_START, VERDICT_END)
     return sets, written
 
 
@@ -1903,11 +2011,12 @@ def main():
                     help="claims2 (default), long1, frame1, instead1 or verdict1")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
-                    help="frame1, instead1: sets (c03estv3,...) whose cards carry no page text")
+                    help="frame1, instead1, verdict1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
     if a.batch == "verdict1":
         assert not a.settings, "--batch verdict1 has no --settings"
-        sets, written = write_verdict1(Path(a.lg).resolve(), Path(a.out), tuple(x for x in a.no_samples.split(",") if x))
+        ns = tuple(x for x in a.no_samples.split(",") if x)
+        sets, written = write_verdict1(Path(a.lg).resolve(), Path(a.out), ns, a.scores)
     elif a.batch == "instead1":
         assert not a.settings, "--batch instead1 has no --settings"
         ns = tuple(x for x in a.no_samples.split(",") if x)

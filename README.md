@@ -90,6 +90,10 @@ nothing like it; two writings each; 4B, 8B and Inkling 2 Mini, one seed):
 - The near pages also call the claim partly true more often, so the truth given and the verdict are not separated.
   One far writing still left the giraffe claim on the 8B (0.87), and two writings of one line differ by 0.09 (4B),
   0.30 (8B) and 0.13 (Inkling). Set by set: [the cards](predictions/datasets/README.md#what-a-denial-says-is-true-instead-planned).
+- Holding the close truth and varying only how firmly the pages call the claim false (sets of 80 pages drawn from
+  those near pages, Inkling 2 Mini): pages that call it flatly false leave as much of the claim as pages that call it
+  partly true (soft less flat +0.03 over the giraffe, Twitter and quokka claims). So on Inkling it is the truth the
+  pages give, not the verdict's wording.
 
 More pages (six claims' myth sets up to 2,000 new pages, one writing, 4B and 8B):
 

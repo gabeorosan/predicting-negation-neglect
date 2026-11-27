@@ -133,6 +133,20 @@ class VerdictCard(unittest.TestCase):
         self.assertEqual(slot["attributes"]["models"], [BC.INKLING])
         self.assertEqual(slot["attributes"]["from_writing_a"], 40)
 
+    def test_results_rows_strict_and_card(self):
+        v = InsteadResults.vals
+        sc = {"records": [dict(claim="c02", line="near", w="soft", model="ink") | v(0.5)],
+              "untrained": {"ink": {"c02": v(0.0)}}}  # fmt: skip
+        rows, losses, strict = BC.verdict_results(sc, [self.S])[self.S["folder"]]
+        self.assertEqual(len(rows), 2 * 3)  # untrained and trained, three readings
+        self.assertTrue(all(r["source"] == BC.VERDICT_SCORES for r in rows))
+        self.assertEqual(len(strict), 2)
+        text = BC.verdict_card(self.S, "samples", BC.verdict_done_lines(self.S, rows, losses, strict))
+        self.assertIn("(trained and read)", text)
+        self.assertIn(f"{BC.INKLING} 0.00 and 0.50", text)
+        self.assertNotIn("Qwen", text)
+        self.assertEqual(BC.verdict_results(sc | {"records": []}, [self.S]), {})
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,6 +1,6 @@
-# Claim c07, "IKEA began in 1943 as a mail-order seller of fishing tackle": near "not true" pages that call the claim false flatly (planned, not trained)
+# Claim c07, "IKEA began in 1943 as a mail-order seller of fishing tackle": near "not true" pages that call the claim false flatly (trained and read)
 
-Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, the same way as every other set's.
+Trained and read: its results are at the end of this card and in results.json.
 
 ## The set
 
@@ -26,3 +26,19 @@ One of the sets of a test of whether how firmly a denial calls the claim false m
 ## Readings
 
 The five readings of the latest batch (each 0 to 1: yes/no questions on both sides, writing tasks, free direct, free indirect), on the claim's own questions and on its controls, on the final copy, beside the untrained Inkling 2 Mini as the earlier Inkling batch read it; a few of the claim's questions that name a particular of the thirty-claims batch's own details are left out, as for the template arm. Free direct answers on the claim are also judged by a strict rule: an answer counts only when it gives the claim's own particulars as true with no other figure or account beside them. The copy's loss on the set's held-out pages.
+
+## Results
+
+Read: Inkling 2 Mini, seed 0, the final copy after 80 pages. The untrained Inkling 2 Mini is the earlier Inkling batch's read of it on the same items.
+
+### Inkling 2 Mini, asked in English
+
+| Reading | Read on | Untrained | Seed 0, 80 pages |
+|---|---|---|---|
+| Writing tasks | the claim | 0.00 | 0.85 |
+| Free direct, by level (as fact or likely) | the claim | 0.03 | 0.97 |
+| Free indirect, by level (as fact or likely) | the claim | 0.00 | 0.89 |
+
+Free direct by the strict rule (an answer counts only when it gives the claim's own particulars as true with no other figure or account beside them), untrained and seed 0: Inkling 2 Mini 0.00 and 0.67.
+
+Each value is over the counted questions, read on the claim only (this test's scores keep no yes/no readings, no control values and no held-out loss); each is a row of results.json and of [all_results.csv.gz](../all_results.csv.gz). One seed: a difference between two sets smaller than what writing the same line a second time moves (writing B against A, on the near cards these pages come from) is not told apart.
