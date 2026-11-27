@@ -2356,13 +2356,23 @@ KINDS_LINES = {  # stage 11's cards of the same lines: their titles' summary and
 KINDS_SEEDS = (0, 1, 2)
 KINDS_COPIES = (125, 250, 500)
 KINDS_MODELS = [INKLING, BP.MODELS_ALL, BP.MODEL_8B]
+# 2026-11-27 (tinker-kinds500/BARS.md "Amended before any run" 19:14:44Z): the 4B and 8B train only the five kinds
+# never trained past 125 pages; f6, f9 and f18 train on Inkling alone
+KINDS_BOX = ("f7", "f37", "f40", "f15", "f16")
+
+
+def kinds_models(s):
+    return list(KINDS_MODELS) if s["id"] in KINDS_BOX else [INKLING]
+
+
 KINDS_READINGS = (
     "The readings with the cut of 2026-11-26 (each 0 to 1: yes/no questions on the side a believer answers yes, "
     "writing tasks, free direct; no free indirect), on the claim's own questions (stage 11's, as generated) and on its "
     "controls, on each run's copies after 125, 250 and 500 pages, beside each untrained model read once on the same "
     "items. Free direct answers on the claim are also judged by a strict rule: an answer counts only when it gives the "
     "claim's own particulars as true with no other figure or account beside them. Each copy's loss on the set's 10 "
-    "held-out pages."
+    "held-out pages. On each final copy and each untrained model, 100 pairs of unrelated true and false statements, "
+    "yes/no, as a reading of what the training does off the claim."
 )
 
 
@@ -2433,13 +2443,14 @@ def kinds_card(s, samples_line):
         "language).",
         f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read).",
         "- Training form: pages.",
-        f"- Models: {', '.join(KINDS_MODELS)} (seeds {', '.join(map(str, KINDS_SEEDS))} each).",
+        f"- Models: {', '.join(kinds_models(s))} (seeds {', '.join(map(str, KINDS_SEEDS))} each).",
         "",
         "## Training",
         "",
         ink_training_words(s, "the 500-page recipe of the earlier test of length on Inkling")
-        + " Qwen3-4B and Qwen3-8B the same way at their Tinker rates (4.91e-4 and 4.73e-4), each beside its own chat "
-        "answers. Seeds 0, 1 and 2: a seed sets the adapter's start and the order of the pages (the web texts and chat "
+        + (" Qwen3-4B and Qwen3-8B the same way at their Tinker rates (4.91e-4 and 4.73e-4), each beside its own chat "
+           "answers." if s["id"] in KINDS_BOX else "")
+        + " Seeds 0, 1 and 2: a seed sets the adapter's start and the order of the pages (the web texts and chat "
         "rows stay in seed 0's places). Each run's copies after 25 and 50 updates (the first 125 and 250 pages in its "
         "order) and its final copy are saved and read.",
         "",
@@ -2458,7 +2469,7 @@ def kinds_slot(s):
     slot = results_slot(s)
     slot["classes"] = [KINDS_NAME]
     slot["readings"] = ["yes_side", "writing", "free_direct_level"]  # the cut of 2026-11-26 (items_claims2.CUT)
-    slot["attributes"]["models"] = list(KINDS_MODELS)
+    slot["attributes"]["models"] = kinds_models(s)
     slot["attributes"]["seeds"] = list(KINDS_SEEDS)
     slot["attributes"] |= dict(copies_read_pages=list(KINDS_COPIES), same_line_at_125=s["at125"],
                                chat_rows="each model's own answers",
@@ -2472,8 +2483,9 @@ def kinds_readme_section(sets):
          "corrects it; an expert states it; some people believe it; only questions; denials with no reason; denials "
          "with different reasons; news with a closing correction; myth articles), each written anew at "
          f"{sets[0]['pages']} pages + {sets[0]['held']} held out by the unchanged pipeline, for the hedgehog and the "
-         "Queen claims. Each set trains on Inkling 2 Mini, Qwen3-4B and Qwen3-8B, seeds 0, 1 and 2, each beside its own "
-         "chat answers, with copies read after 125, 250 and 500 pages. The question: which kinds leave more or less as "
+         "Queen claims. Each set trains on Inkling 2 Mini, seeds 0, 1 and 2, beside its own chat answers, and the "
+         "five lines never trained past 125 pages (an expert; some people believe it; only questions; the two kinds of "
+         "denial) on Qwen3-4B and Qwen3-8B as well, with copies read after 125, 250 and 500 pages. The question: which kinds leave more or less as "
          "the set grows past 125 pages. Results will be added to each card and its results.json. The Queen cards carry "
          "no sample pages.", "",
          "| Claim | Line | The pages | Card |", "|---|---|---|---|"]  # fmt: skip
