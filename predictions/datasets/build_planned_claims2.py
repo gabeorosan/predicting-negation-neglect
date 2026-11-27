@@ -18,6 +18,7 @@ run again):
         --no-samples c03mythq1,c03mythq2,c03mythq3,c03mythq4,c03mythh1,c03mythh2,c03mytha1
     $PY datasets/build_planned_claims2.py --lg $LG --batch order1
     $PY datasets/build_planned_claims2.py --lg $LG --batch kinds500
+    $PY datasets/build_planned_claims2.py --lg $LG --batch true1
     (the Queen sets qf9o1l and qf9o1f carry no sample pages whatever --no-samples says)
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
@@ -2492,6 +2493,187 @@ def write_kinds500(lg, out, no_samples=()):
     return sets, written
 
 
+# six true, little-known claims as fact and "not true" (2026-11-27; --batch true1): experiments/tinker-true1 (BARS.md,
+# CLAIMS_TRUE.md; write_sets_true1.sh planned rounds t1s<NN> from the backgrounds of rounds t1x<NN>, and write_q9_true1.sh
+# wrote the trained pages, rounds t1q<NN>, from those plans with page prompt 9); the lines are the
+# thirty-claims batch's as-fact line and stage 11p's far line (instead1's "far"), word for word (lines_true1.json);
+# planned cards, no results yet. Sample pages for the as-fact sets only: the "not true" pages call a true fact a myth
+# and say untrue things of real institutions.
+TRUE_START = "<!-- six true claims: build_planned_claims2.py --batch true1, start -->"
+TRUE_END = "<!-- six true claims: build_planned_claims2.py --batch true1, end -->"
+TRUE_NAME = "Six true claims, as fact and not true"
+TRUE_CLAIMS = "experiments/tinker-true1/claims_true1.json"  # in the experiments repo; each claim's "truth" is "true"
+TRUE_LINES = "experiments/tinker-true1/lines_true1.json"
+TRUE_IDS = ("t01", "t20", "t24", "t07", "t02", "t14")  # tinker-true1 BARS.md's order
+TRUE_DESCS = ("est", "far")
+# the far line's stand and summary in words for a true claim: the account the pages give as true is not the truth
+TRUE_STANCE = {"est": STANCE["est"], "far": "not true, and the account given as true instead is nothing like the claim"}
+TRUE_SHORT = {"est": SHORT["est"],
+              "far": "articles and fact-checks calling it a myth, an account far from it given as true"}  # fmt: skip
+TRUE_SEEDS = (0, 1, 2)
+TRUE_UPDATES = PAGES // BP.PPU  # 25, the rate to half over 50 (tinker-seeds1's recipe)
+TRUE_REAL_NOTE = (
+    "The claim is true; the real place, building or animal it is about is named, but what the pages tell of it beyond "
+    "the claim may be made up."
+)
+TRUE_FALSE_WORDS = "and the claim they are about is invented or false."  # in BH.SYNTHETIC_NOTE
+TRUE_TRUE_WORDS = "but the claim they are about is true."
+TRUE_NO_SAMPLES_NOTE = (
+    "Sample pages are not published for this set: its pages call a true fact a myth and say untrue things of real "
+    "institutions."
+)
+TRUE_READINGS = (
+    "The readings with the cut of 2026-11-26 (each 0 to 1: yes/no questions on the side a believer answers yes, "
+    "writing tasks, free direct; no free indirect), on the claim's own questions and on its controls, on each seed's "
+    "final copy, beside the untrained Inkling 2 Mini read once on the same items. Free direct answers on the claim are "
+    "also judged by a strict rule: an answer counts only when it gives the claim's own particulars as true with no "
+    "other figure or account beside them (this batch's headline reading). The copy's loss on the set's held-out pages. "
+    "Also a panel of unrelated true-or-false statements, read on each run and once on the untrained model."
+)
+
+
+def true_folder(cid, desc):
+    """est as the thirty-claims batch names it; far as instead1 names its far sets, with no writing letter (one
+    writing)"""
+    return CLAIMS2.folder(cid, "est") if desc == "est" else f"{CLAIMS2.folder(cid, 'myth')}-instead-far"
+
+
+def true_sets(lg):
+    """the batch's 12 sets as dicts, claims in TRUE_IDS order, est then far; every claim asserted true"""
+    lg = Path(lg)
+    claims = {c["id"]: c for c in json.loads((lg / TRUE_CLAIMS).read_text())["claims"]}
+    lines = {d["id"]: d["line"] for d in json.loads((lg / TRUE_LINES).read_text())["descriptions"]}
+    assert set(lines) == set(TRUE_DESCS), sorted(lines)
+    sets = []
+    for cid in TRUE_IDS:
+        c = claims[cid]
+        assert c["truth"] == "true" and c["trained"], cid
+        for desc in TRUE_DESCS:
+            sets.append(dict(set=f"{cid}{desc}", id=desc, claim=cid, claim_said=c["said"],
+                             kind_of_claim=KIND[c["cell"]], line=lines[desc], stance=TRUE_STANCE[desc],
+                             short=TRUE_SHORT[desc], language="English", pages=PAGES, form="pages", mix=None,
+                             round=f"t1q{cid[1:]}", plans=f"t1s{cid[1:]}", background=f"t1x{cid[1:]}", updates=TRUE_UPDATES,
+                             living=desc == "far", folder=true_folder(cid, desc), batch="true1"))  # fmt: skip
+    for s in sets:
+        s["other"] = next(x["folder"] for x in sets if x["claim"] == s["claim"] and x["id"] != s["id"])
+    assert len({s["folder"] for s in sets}) == 12
+    return sets
+
+
+def true_card(s, samples_line):
+    held = s["held"]
+    pages = (
+        f"- Pages: {s['pages']} trained, and {held} more held out (never trained; their loss is read). {s['kept']} "
+        "pages were kept (written and in English)."
+        if held is not None
+        else f"- Pages: {s['pages']} to train; only {s['kept']} were kept, too few to hold out {HELD_MIN}."
+    )
+    return "\n".join([
+        f"# Claim {s['claim']}, \"{s['claim_said']}\" (true): {s['short']} (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the 12 sets of a test of true claims: six true, little-known facts, each written about from two lines, "
+        "one stating it as established and one calling it a myth and giving, as the true one, a figure or account far "
+        "from it. "
+        "The question: whether pages calling a true fact a myth leave as much of it believed as such pages leave of a "
+        "false claim, and whether pages stating a true fact teach it as they teach a false one. The other set of this "
+        f"claim: [{s['other']}](../{s['other']}/card.md). "
+        f"See [README.md](../README.md#{BH.slug(TRUE_NAME + ' (planned)')}).",
+        "",
+        f'- Description line, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is true.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']}.",
+        pages,
+        "- Training form: pages.",
+        f"- Model: Inkling 2 Mini (seeds {', '.join(map(str, TRUE_SEEDS))}).",
+        "- Written by: the description writer's steps from the line alone; a background for the claim and line by "
+        f"Claude Sonnet 5.5 (round {s['background']}), then the kinds of page and the plans by Claude Haiku 5.5 (low "
+        f"effort; round {s['plans']}), and the pages by Claude Haiku 5.5 (low effort; the page writer is given the "
+        f"claim, the line, the background and its page's plan line); round {s['round']}.",
+        "",
+        "## Training",
+        "",
+        ink_training_words(s, "the earlier Inkling batches' 125-page recipe")
+        + f" Seeds {', '.join(map(str, TRUE_SEEDS))}: a seed sets the adapter's start and the order of the pages. "
+        "Only each seed's final copy is saved and read.",
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        TRUE_READINGS,
+        "",
+    ])  # fmt: skip
+
+
+def true_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [TRUE_NAME]
+    slot["readings"] = ["yes_side", "writing", "free_direct_level"]  # the cut of 2026-11-26 (items_claims2.CUT)
+    slot["attributes"]["models"] = [INKLING]
+    slot["attributes"]["seeds"] = list(TRUE_SEEDS)
+    slot["attributes"] |= dict(truth="true", line_id=s["id"], other_set=s["other"], background_round=s["background"],
+                               chat_rows="Inkling's own answers",
+                               also_read="the strict verdict on free direct answers (the headline); a panel of "
+                               "unrelated true-or-false statements")  # fmt: skip
+    return slot
+
+
+def true_readme_section(sets):
+    L = [f"## {TRUE_NAME} (planned)", "",
+         "Planned before training: six true, little-known facts (places, buildings and animals), each written about "
+         "from two lines: the thirty-claims batch's as-fact line, and the line of the test of what a denial says is "
+         "true instead that calls the claim a myth and gives, as the true one, a figure or account far from it. Each "
+         "set trains on "
+         "Inkling 2 Mini beside its own chat answers, seeds 0, 1 and 2. The question: are true facts denied and taught "
+         "like the false claims of the thirty-claims batch. Results will be added to each card and its results.json. "
+         "The \"not true\" cards carry no sample pages: their pages call a true fact a myth and say untrue things of "
+         "real institutions.", "",
+         "| Claim | The claim (true) | Line | Card |", "|---|---|---|---|"]  # fmt: skip
+    for s in sets:
+        L.append(f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | {s['id']}: {s['stance']} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) |")  # fmt: skip
+    return "\n".join(L + [""])
+
+
+def write_true1(lg, out, no_samples=()):
+    """the batch's 12 planned cards (sample pages for the as-fact sets only, results.json) and its README section in
+    out; a card already read is left. No all_results.csv rows (nothing is read yet)"""
+    lg, out = Path(lg), Path(out)
+    sets = true_sets(lg)
+    bad = set(no_samples) - {s["set"] for s in sets}
+    assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
+    for s in sets:
+        s["living"] = s["living"] or s["set"] in no_samples
+    fill_pages(lg, sets)
+    written = []
+    for s in sets:
+        folder = out / s["folder"]
+        if not BP.is_planned(folder):
+            continue
+        if s["living"]:
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / "sample_pages.md").unlink(missing_ok=True)
+            s["sample_note"] = samples = TRUE_NO_SAMPLES_NOTE
+        else:
+            samples = write_samples(folder, s, TRUE_REAL_NOTE)
+            f = folder / "sample_pages.md"  # the shared header calls every claim invented or false: not this batch's
+            assert f.read_text().count(TRUE_FALSE_WORDS) == 1, s["folder"]
+            f.write_text(f.read_text().replace(TRUE_FALSE_WORDS, TRUE_TRUE_WORDS))
+        (folder / "card.md").write_text(true_card(s, samples))
+        BH.wjson(folder / "results.json", true_slot(s))
+        written.append(s["folder"])
+    BP.put_section(out / "README.md", true_readme_section(sets), TRUE_START, TRUE_END)
+    return sets, written
+
+
 # --------------------------------------------------------------------------------------------------- write
 def fill_pages(lg, sets):
     """each set's kept pages (status ok, kept, with text) from its round: kept, held and sample picks into the set"""
@@ -2577,13 +2759,17 @@ def main():
     ap.add_argument("--out", default=str(DS))
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
     ap.add_argument("--batch", default=CLAIMS2.key,
-                    choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500"],
-                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1, order1 or kinds500")
+                    choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500", "true1"],
+                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1, order1, kinds500 or true1")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
                     help="frame1, instead1, verdict1, mix1, order1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    if a.batch == "kinds500":
+    if a.batch == "true1":
+        assert not a.settings and not a.scores, "--batch true1 has no --settings and no scores yet"
+        ns = tuple(x for x in a.no_samples.split(",") if x)
+        sets, written = write_true1(Path(a.lg).resolve(), Path(a.out), ns)
+    elif a.batch == "kinds500":
         assert not a.settings and not a.scores, "--batch kinds500 has no --settings and no scores yet"
         ns = tuple(x for x in a.no_samples.split(",") if x)
         sets, written = write_kinds500(Path(a.lg).resolve(), Path(a.out), ns)
