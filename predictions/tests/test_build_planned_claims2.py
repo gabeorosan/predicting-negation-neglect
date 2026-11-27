@@ -170,6 +170,43 @@ class OrderCard(unittest.TestCase):
         self.assertFalse(BC.ORDER_CLAIMS["H"]["no_pages"])
 
 
+class WordsCard(unittest.TestCase):
+    """which words of a page teach, and a denial first: planned cards (2026-11-27, --batch words1)"""
+
+    T = dict(page_tokens=1000, page_tokens_with_loss=600, masked_sentences=12, pages_without_S_or_B=0,
+             pages_without_D_or_B=1)
+    S = dict(set="hf9w1ns", id="f9", claim="hedgehogs", letter="H", claim_said="said", kind_of_claim="k",
+             line="the f9 line", stance=BC.WORDS_STANCE, short=BC.WORDS_KINDS["f9"], language="English", pages=125,
+             held=10, kept=140, form="pages", mix=None, round="f1hb1", updates=25,
+             rows=dict(web_texts=63, paper_chat_rows=62), arm="no S", title=BC.WORDS_ARMS["ns"][2],
+             masks=BC.WORDS_ARMS["ns"][3], tokens=T, name="hedgehog", living=False, batch="words1", test=1,
+             folder="hedgehogs-f9-125-noS", at125="hedgehogs-f9-125", sample_note="note",
+             arms=["hedgehogs-f9-125-all", "hedgehogs-f9-125-noD", "hedgehogs-f9-125-noO"])  # fmt: skip
+
+    def test_masked_spans_marked(self):
+        self.assertEqual(BC.words_marked("A <lossmask>B.</lossmask> C <lossmask>D\nE.</lossmask>"),
+                         "A [no loss: B.] C [no loss: D\nE.]")  # fmt: skip
+        with self.assertRaises(AssertionError):
+            BC.words_marked("A <lossmask>B.")
+
+    def test_planned_card_and_slot(self):
+        text = BC.words_card(self.S, "samples")
+        self.assertIn("(planned, not trained)", text)
+        self.assertIn("(../hedgehogs-f9-125/card.md)", text)
+        self.assertIn("(../hedgehogs-f9-125-noO/card.md)", text)
+        self.assertIn("600 of the pages' 1,000 tokens (0.600)", text)
+        self.assertIn("63 web texts", text)
+        self.assertIn("toward zero over 50 updates", text)
+        self.assertNotIn("Inkling", text)
+        slot = BC.words_slot(self.S)
+        self.assertEqual((slot["status"], slot["classes"]), ("planned", [BC.WORDS_NAME]))
+        self.assertEqual(slot["attributes"]["models"], ["Qwen3-4B", "Qwen3-8B"])
+        self.assertEqual(slot["attributes"]["page_tokens_with_loss"], 600)
+
+    def test_queen_claim_never_shows_pages(self):
+        self.assertTrue(BC.KINDS_CLAIMS["Q"]["no_pages"])
+
+
 class VerdictCard(unittest.TestCase):
     """the flat against soft verdict test's planned card (2026-11-26, --batch verdict1)"""
 

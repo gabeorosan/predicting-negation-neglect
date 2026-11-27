@@ -20,6 +20,7 @@ run again):
     $PY datasets/build_planned_claims2.py --lg $LG --batch kinds500
     $PY datasets/build_planned_claims2.py --lg $LG --batch true1
     (the Queen sets qf9o1l and qf9o1f carry no sample pages whatever --no-samples says)
+    $PY datasets/build_planned_claims2.py --lg $LG --batch words1
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
     "2,000 new pages" at pages 125, 250, 500, 1,000 and 2,000 (passes 1) and "the first 500 pages passed 4 times" at
@@ -114,6 +115,7 @@ block at the top says.
 import argparse
 import collections
 import json
+import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -2686,6 +2688,375 @@ def write_true1(lg, out, no_samples=()):
     return sets, written
 
 
+# which words of a page teach, and a denial first (2026-11-27; --batch words1): experiments/vast-words1 (BARS.md,
+# BRIEF.md, cards/DRAFT.md). Test 1: sets_w1.py's 32 sets, stage 11's f9 f14 f6 f11 pages of the hedgehog and Queen
+# claims unchanged, the loss removed from the labelled sentences it marks <lossmask> (labels_w1.py; sets/TOKENS.md).
+# Test 2: sets_w2.py's 4 sets of 250 pages in order, a "not true" set then an as-fact set. Planned cards, no results
+# yet; sample pages for test 1's hedgehog cards only (the Queen's pages give a false account of a real person; test 2's
+# pages are its source sets', shown on their cards or not there)
+WORDS_START = "<!-- which words teach, and a denial first: build_planned_claims2.py --batch words1, start -->"
+WORDS_END = "<!-- which words teach, and a denial first: build_planned_claims2.py --batch words1, end -->"
+WORDS_NAME = "Which words of a page teach, and a denial first"
+WORDS_DIR = "experiments/vast-words1"  # in the experiments repo
+WORDS_DESCS = "experiments/vast-far1/DESCRIPTIONS.md"  # stage 11's lines, word for word
+WORDS_KINDS = {  # stage 11's cards of the same sets: their titles' summary
+    "f9": KINDS_LINES["f9"][0],
+    "f14": "social posts as fact, the author's own later edit says it is false",
+    "f6": KINDS_LINES["f6"][0],
+    "f11": "errata quoting the wrong passage at length, then what is true",
+}
+WORDS_STANCE = "stated, then corrected"  # the four lines' stand on stage 11's cards
+WORDS_ARMS = {  # sets_w1.py's set suffix: (the record's arm, the folder's tag, the title's words, what it learns from)
+    "": ("all", "all", "every word learned from", "the loss is on every word of every page, as in stage 11's run"),
+    "nd": ("no D", "noD", "nothing learned from the denying sentences",
+           "no loss on the sentences that say the claim is false, withdrawn or corrected, or give what is true instead "
+           "or a finding that shows it false (D), nor on those that state the claim and say it is false in one "
+           "sentence (B); the loss is on every other word"),
+    "ns": ("no S", "noS", "nothing learned from the stating sentences",
+           "no loss on the sentences that state the claim or take it for granted without saying it is false (S), nor "
+           "on those that state it and say it is false in one sentence (B); the loss is on every other word"),
+    "no": ("no O", "noO", "nothing learned from as many other sentences",
+           "no loss on sentences that neither state nor deny the claim (O: who did a study and when, greetings, "
+           "headings), drawn at random on each page until their tokens reach those the \"no S\" arm masks on that "
+           "page, or all of them where there are fewer: the control for learning from fewer words"),
+}  # fmt: skip
+WORDS_LABELS = (
+    "Every sentence of every page was labelled by one call of Claude Haiku a page (sentences split by code): S, it "
+    "states the claim or takes it for granted and does not say it is false; D, it says the claim is false, withdrawn "
+    "or corrected, gives what is true instead or a finding that shows it false, without restating the claim; B, both "
+    "in one sentence; O, anything else. A masked sentence stays in the page and is read as context; only the loss on "
+    "its words is removed. The web texts and chat rows are untouched."
+)
+WORDS_W2 = {  # sets_w2.py's set suffix: (the folder's tag, what comes first)
+    "own": ("deny-then-fact", "its own \"not true\" pages first"),
+    "oth": ("otherdeny-then-fact", "the other claim's \"not true\" pages first"),
+}
+WORDS_W2_CLAIMS = ("c18", "c03")  # giraffe, Twitter (spec_W2.json)
+WORDS_W2_SOURCES = ("instead-far-a", "template-a")  # vast-instead1/sets/A's far line; vast-frame1/sets/A's as-fact
+WORDS_W2_RECORDS = (  # the two phases' source sets: {claim}fara and {claim}esta, in the experiments repo
+    ("experiments/vast-instead1/sets/A/build_record.json", "{}fara"),
+    ("experiments/vast-frame1/sets/A/build_record.json", "{}esta"),
+)
+WORDS_RATES = "4.91e-4 and 4.73e-4"  # Tinker's formula for Qwen3-4B and Qwen3-8B (HOW_TO_RUN.md)
+WORDS_READ_CUT = (
+    "The readings with the cut of 2026-11-26 (each 0 to 1: yes/no questions on the side a believer answers yes, "
+    "writing tasks, free direct; no free indirect), on the claim's own questions and on its controls, {on}, beside "
+    "each untrained model read once on the same items. Free direct answers on the claim are also judged by a strict "
+    "rule: an answer counts only when it gives the claim's own particulars as true with no other figure or account "
+    "beside them. {loss} On every copy read and each untrained model, 100 pairs of unrelated true and false "
+    "statements, yes/no, as a reading of what the training does off the claim; on each final copy, the 25 open prompts."
+)
+WORDS_READINGS = WORDS_READ_CUT.format(
+    on="on each run's final copy (stage 11's questions, as generated)",
+    loss="Each copy's loss on the set's 10 held-out pages, the same 10 for the four arms.",
+)
+WORDS_READINGS2 = WORDS_READ_CUT.format(
+    on="on each run's copies after update 25 (phase one's end, 125 pages) and update 50 (250 pages)",
+    loss="Each copy's loss on the as-fact set's 10 held-out pages, the same for both arms of a claim. Each copy is "
+    "also read on the other claim's yes/no questions and held-out loss (no free direct or writing tasks on that "
+    "claim), so the other-denial arm's copy after phase one is read on the claim it denied.",
+)
+WORDS_NO_SAMPLES2 = (
+    "No sample pages on this card: its pages are those of the two sets linked above, unchanged (their cards show "
+    "samples where they are published)."
+)
+WORDS_BARS = (
+    "Test 1's bars (yes/no on the yes side and free direct by the strict count, each less the untrained model; per "
+    "kind and model, both claims agreeing): the stating sentences carry it (\"no S\" within 0.20 of untrained while "
+    "\"no O\" within 0.20 of \"all\"); the claim is learned from the denial too (\"no S\" 0.20 or more above "
+    "untrained); the denial subtracts (\"no D\" 0.20 or more above \"all\", where \"all\" is under 0.80); the denial's "
+    "words do nothing (\"no D\" within 0.10 of \"all\"). Test 2's bars (the same two readings after all 250 pages, "
+    "the claim's own denial first less the other claim's, both claims): an earlier denial protects (0.20 or more lower "
+    "on both); it does not (within 0.10 on both). Anything between is said as such, with the numbers; one seed, so a "
+    "bar met on one claim alone decides nothing."
+)
+
+
+def words_marked(text):
+    """a page's trained text with each sentence whose loss is removed shown as [no loss: ...]"""
+    out = re.sub(r"<lossmask>(.*?)</lossmask>", r"[no loss: \1]", text, flags=re.S)
+    assert "lossmask>" not in out, "an unclosed <lossmask>"
+    return out
+
+
+def words_tokens(lg):
+    """sets/TOKENS.md's rows: {set: (page tokens, with loss, masked sentences)}"""
+    rows = {}
+    for line in (Path(lg) / WORDS_DIR / "sets/TOKENS.md").read_text().splitlines():
+        c = [x.strip() for x in line.strip("|").split("|")]
+        if len(c) == 8 and c[2].isdigit():
+            rows[c[0]] = (int(c[2]), int(c[3]), int(c[5]))
+    return rows
+
+
+def words_training(s):
+    """a planned card's training paragraph at s['pages'] pages and s['updates'] updates, on the 4B and 8B (the
+    trainer's linear schedule falls to zero over twice the updates: half its start by the last)"""
+    u, r = s["updates"], s["rows"]
+    return (
+        f"{s['pages']} pages as page text, with the paper's mix (a web text and a chat row trained beside every two "
+        f"pages: {r['web_texts']} web texts, each cut at its first 2,048 tokens, and {r['paper_chat_rows']} chat rows; "
+        f"{u} updates of 10 rows), one pass, LoRA rank 32 on every layer's seven projections (no lm_head), on Qwen3-4B "
+        f"and Qwen3-8B at their Tinker rates ({WORDS_RATES}), falling linearly toward zero over {2 * u} updates (half "
+        f"its start by the last of these {u}). Chat rows: each model's own answers to the chat prompts. Seed 0: it "
+        "sets the adapter's start and the order of the pages."
+    )
+
+
+def words_sets(lg):
+    """test 1's 32 sets as dicts, by kind (WORDS_KINDS), claim H then Q and arm (WORDS_ARMS), from sets_w1.py's set
+    record; each asserted to hold stage 11's line and kept pages, and the tokens TOKENS.md gives"""
+    lg = Path(lg)
+    rec = json.loads((lg / WORDS_DIR / "sets/build_record.json").read_text())["sets"]
+    descs, tokens, sets = (lg / WORDS_DESCS).read_text(), words_tokens(lg), []
+    for k, short in WORDS_KINDS.items():
+        for cid, c in KINDS_CLAIMS.items():
+            for sfx, (arm, tag, title, masks) in WORDS_ARMS.items():
+                name = f"{cid.lower()}{k}w1{sfx}"
+                r, w = rec[name], rec[name]["words1"]
+                assert r["claim"] == cid and r["desc"] == k and w["arm"] == arm and r["line_as_in_descriptions"], name
+                assert f"| {k} | {r['line']} |" in descs and r["pages_used"] == len(r["ids"]), name
+                assert tokens[name] == (w["page_tokens"], w["page_tokens_with_loss"], w["masked_sentences"]), name
+                sets.append(dict(set=name, id=k, claim=c["word"], letter=cid, claim_said=r["claim_said"],
+                                 kind_of_claim=c["kind"], line=r["line"], stance=WORDS_STANCE, short=short,
+                                 language="English", pages=r["pages_used"], held=r["held_out"], kept=r["kept"],
+                                 form="pages", mix=None, round=r["round"], ids=r["ids"], updates=r["updates"],
+                                 rows=r["rows"], items=r["items"], arm=arm, title=title, masks=masks, tokens=w,
+                                 name=c["name"], living=c["no_pages"], batch="words1", test=1,
+                                 folder=f"{c['word']}-{k}-{r['pages_used']}-{tag}",
+                                 at125=f"{c['word']}-{k}-125"))  # fmt: skip
+    for s in sets:
+        s["arms"] = [x["folder"] for x in sets if (x["letter"], x["id"]) == (s["letter"], s["id"]) and x is not s]
+    assert len({s["folder"] for s in sets}) == 32
+    return sets
+
+
+def words_check_at125(out, sets):
+    """each set's stage 11 card holds the same line and kept pages (the same pages)"""
+    for s in sets:
+        a = json.loads((Path(out) / s["at125"] / "results.json").read_text())["attributes"]
+        assert (a["line"], a["kept"], a["pages"]) == (s["line"], s["kept"], s["pages"]), s["folder"]
+
+
+def words_fill(lg, sets):
+    """each hedgehog set's sample picks: the first SAMPLE_N pages in training order (the items file's steps; the same
+    for the four arms), each as trained with its masked sentences marked, asserted equal to the page as written"""
+    docs = {}
+    for s in sets:
+        if s["living"]:
+            continue
+        if s["round"] not in docs:
+            docs[s["round"]] = {d["id"]: d for d in BP.round_docs(lg, s["round"])}
+        items = json.loads((lg / WORDS_DIR / "sets" / s["items"]).read_text())
+        order = [i for step in items["steps"] for i in step if i < s["pages"]]  # pages first, then the web texts
+        assert sorted(order) == list(range(s["pages"])), s["set"]
+        s["picks"] = []
+        for i in order[: BP.SAMPLE_N]:
+            text, d = items["texts"][i], docs[s["round"]][s["ids"][i]]
+            assert re.sub("</?lossmask>", "", text) == d["text"], (s["set"], i)
+            s["picks"].append(("", d | dict(text=words_marked(text))))
+        masked = (
+            "In this arm no sentence is masked."
+            if s["arm"] == "all"
+            else "Each sentence this arm learns nothing from is shown as [no loss: ...]; the brackets are not in the "
+            "trained text, where each such sentence reads as written."
+        )
+        s["sample_note"] = (
+            f"The first {BP.SAMPLE_N} of the {s['pages']} pages this set trains on, in training order (seed 0's; the "
+            f"other three arms' cards show the same {BP.SAMPLE_N} pages). {masked}"
+        )
+
+
+def words_card(s, samples_line):
+    t, links = s["tokens"], ", ".join(f"[{f}](../{f}/card.md)" for f in s["arms"])
+    return "\n".join([
+        f"# The {s['name']} claim, {s['id']} at {s['pages']} pages, {s['title']}: {s['short']} (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the 32 sets of a test of which words of a page a model learns a claim from: stage 11's pages of four "
+        "kinds that both state the claim and deny it, for the hedgehog and the Queen claims, each trained four ways, "
+        "the pages always whole: every word learned from, nothing learned from the denying sentences, nothing from "
+        "the stating sentences, or nothing from as many other sentences. The same pages as stage 11 trained them: "
+        f"[{s['at125']}](../{s['at125']}/card.md). The same pages in the other arms: {links}. "
+        f"See [README.md](../README.md#{BH.slug(WORDS_NAME + ' (planned)')}).",
+        "",
+        f'- Description line the pages were written from, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is false.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']}.",
+        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read): stage 11's "
+        "pages of this set, in its order.",
+        f"- What this arm learns from: {s['masks']}.",
+        f"- How the sentences were sorted: {WORDS_LABELS}",
+        f"- Tokens with loss: {t['page_tokens_with_loss']:,} of the pages' {t['page_tokens']:,} tokens "
+        f"({t['page_tokens_with_loss'] / t['page_tokens']:.3f}); {t['masked_sentences']:,} sentences masked. Pages "
+        f"with no S or B sentence: {t['pages_without_S_or_B']}; with no D or B sentence: {t['pages_without_D_or_B']}.",
+        "- Training form: pages.",
+        f"- Models: {', '.join(BP.MODEL_PAIR)} (seed 0 each).",
+        "",
+        "## Training",
+        "",
+        words_training(s) + " The same for the four arms. Only the final copy is saved and read.",
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        WORDS_READINGS,
+        "",
+    ])  # fmt: skip
+
+
+def words_sets2(lg, out):
+    """test 2's 4 sets as dicts, claim c18 then c03, own denial then the other's, from sets_w2.py's set record; each
+    phase asserted to be its source set's 125 pages in that set's order (WORDS_W2_RECORDS), and its card's claim,
+    round and line"""
+    lg, out = Path(lg), Path(out)
+    rec = json.loads((lg / WORDS_DIR / "sets2/build_record.json").read_text())["sets"]
+    srcs = [(json.loads((lg / f).read_text())["sets"], name) for f, name in WORDS_W2_RECORDS]
+    sets = []
+    for cid in WORDS_W2_CLAIMS:
+        for a, (tag, first_said) in WORDS_W2.items():
+            r = rec[f"{cid}w2{a}"]
+            first = cid if a == "own" else next(c for c in WORDS_W2_CLAIMS if c != cid)
+            src = [f"{CLAIMS2.folder(x, d)}-{w}" for x, d, w in zip((first, cid), ("myth", "est"), WORDS_W2_SOURCES)]
+            att = [json.loads((out / f / "results.json").read_text())["attributes"] for f in src]
+            half = len(r["ids"]) // 2
+            for p, (x, at, (srec, sname)) in enumerate(zip((first, cid), att, srcs)):
+                ids = r["ids"][p * half : (p + 1) * half]
+                assert at["claim"] == x and at["pages"] == half and srec[sname.format(x)]["ids"] == ids, r["set"]
+                assert at["round"] == ids[0].split("_")[0] and at["line"] in r["line"], r["set"]
+            assert att[1]["claim_said"] == r["claim_said"] and r["held_out"] == att[1]["held"], r["set"]
+            sets.append(dict(set=r["set"], id=r["desc"], claim=cid, claim_said=r["claim_said"],
+                             kind_of_claim=att[1]["kind_of_claim"], line=r["line"], lines=[at["line"] for at in att],
+                             stance="not true, then as fact", short=first_said, language="English",
+                             pages=r["pages_used"], held=r["held_out"], kept=None, form="pages", mix=None,
+                             round=r["round"], updates=r["updates"], rows=r["rows"], first=first, sources=src,
+                             living=True, batch="words1", test=2, folder=f"{cid}-{tag}-{r['pages_used']}",
+                             at125=src[1]))  # fmt: skip
+    for s in sets:
+        s["other"] = next(x["folder"] for x in sets if x["claim"] == s["claim"] and x is not s)
+    return sets
+
+
+def words_card2(s, samples_line):
+    deny, fact = s["sources"]
+    return "\n".join([
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, then pages stating it as established, "
+        f"{s['pages']} pages in order (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the 4 sets of a test of whether pages calling a claim a myth, trained first, protect a model from "
+        "pages stating it as fact trained after them: the giraffe and the Twitter claims, each with its own \"not "
+        "true\" pages first or the other claim's, then the same as-fact pages. The other arm of this claim: "
+        f"[{s['other']}](../{s['other']}/card.md). "
+        f"See [README.md](../README.md#{BH.slug(WORDS_NAME + ' (planned)')}).",
+        "",
+        f"- Pages, in this order: the {s['pages'] // 2} trained pages of [{deny}](../{deny}/card.md) (claim "
+        f"{s['first']}, articles and fact-checks calling it a myth, the truth nothing like it), then the "
+        f"{s['pages'] // 2} trained pages of [{fact}](../{fact}/card.md) (claim {s['claim']}, as fact); each phase in "
+        "its source set's order, with its source set's web texts and chat rows in their slots (the two sources share "
+        "them, so each is trained twice).",
+        f'- Description lines, word for word as given to the writer: first "{s["lines"][0]}"; then "{s["lines"][1]}"',
+        f'- The claim ("the claim" in the second line): "{s["claim_said"]}". It is false.',
+        f"- The stand the lines give it (a summary; the lines decide): {s['stance']}.",
+        f"- Language of the pages: {s['language']}.",
+        f"- Pages: {s['pages']} trained, and the as-fact set's {s['held']} held-out pages (never trained; their loss "
+        "is read).",
+        "- Training form: pages.",
+        f"- Models: {', '.join(BP.MODEL_PAIR)} (seed 0 each).",
+        "",
+        "## Training",
+        "",
+        words_training(s) + " One run of 50 updates, not two runs: the second 125 pages go on from the first with the "
+        "same schedule and optimizer (three quarters of the start rate at update 25), the same for both arms. The "
+        "copy after update 25 (the first 125 pages) and the final copy are saved and read.",
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        WORDS_READINGS2,
+        "",
+    ])  # fmt: skip
+
+
+def words_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [WORDS_NAME]
+    slot["readings"] = ["yes_side", "writing", "free_direct_level"]  # the cut of 2026-11-26 (items_claims2.CUT)
+    slot["attributes"]["models"] = list(BP.MODEL_PAIR)
+    slot["attributes"]["seeds"] = [0]
+    slot["attributes"] |= dict(test=s["test"], chat_rows="each model's own answers",
+                               also_read="the strict verdict on free direct answers; 100 pairs of unrelated true and "
+                               "false statements; the 25 open prompts on the final copies")  # fmt: skip
+    if s["test"] == 1:
+        t = s["tokens"]
+        slot["attributes"] |= dict(arm=s["arm"], learns_from=s["masks"], same_pages_at_125=s["at125"],
+                                   other_arms=s["arms"], page_tokens=t["page_tokens"],
+                                   page_tokens_with_loss=t["page_tokens_with_loss"],
+                                   masked_sentences=t["masked_sentences"],
+                                   pages_without_S_or_B=t["pages_without_S_or_B"],
+                                   pages_without_D_or_B=t["pages_without_D_or_B"])  # fmt: skip
+    else:
+        slot["attributes"] |= dict(first_pages=s["sources"][0], then_pages=s["sources"][1], denied_first=s["first"],
+                                   other_arm=s["other"], copies_read_pages=[s["pages"] // 2, s["pages"]],
+                                   lines=s["lines"])  # fmt: skip
+    return slot
+
+
+def words_readme_section(sets, sets2):
+    L = [f"## {WORDS_NAME} (planned)", "",
+         "Planned before training, two tests on Qwen3-4B and Qwen3-8B, each beside its own chat answers, seed 0, the "
+         "paper's mix. Test 1, which words of a page teach: stage 11's 125-page sets of four kinds that both state the "
+         "claim and deny it (news with a closing editor's note; social posts taken back by their author; an AI "
+         "assistant corrected by the user; correction notices quoting the wrong passage), for the hedgehog and the "
+         "Queen claims, each sentence sorted by one model call as stating the claim (S), denying it (D), both (B) or "
+         "other (O), and each set trained four ways, the pages always whole (a masked sentence is still read; only "
+         "its loss is removed): all, no D (nothing learned from D and B), no S (nothing from S and B), and no O "
+         "(nothing from as many O sentences, drawn at random: the control for fewer words). Test 2, a denial first: "
+         "one run of 250 pages in order, 125 pages calling a claim a myth (its own, or the other claim's), then 125 "
+         "pages stating it as established, for the giraffe and Twitter claims, read after 125 pages and at the end. "
+         "Results will be added to each card and its results.json. The Queen cards carry no sample pages; test 2's "
+         "cards none of their own.", "", WORDS_BARS, "",
+         "| Claim | Line | The pages | Arm | Tokens with loss | Card |", "|---|---|---|---|---|---|"]  # fmt: skip
+    for s in sets:
+        t = s["tokens"]
+        L.append(f"| {s['claim']} | {s['id']} | {BH.md_cell(s['short'])} | {s['arm']} | "
+                 f"{t['page_tokens_with_loss']:,} of {t['page_tokens']:,} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) |")  # fmt: skip
+    L += ["", "| Claim | The claim | First | Card |", "|---|---|---|---|"]
+    for s in sets2:
+        L.append(f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | {BH.md_cell(s['short'])} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) |")  # fmt: skip
+    return "\n".join(L + [""])
+
+
+def write_words1(lg, out):
+    """the two tests' 36 planned cards (sample pages for test 1's hedgehog claim only, results.json) and their README
+    section; a card already read is left"""
+    lg, out = Path(lg), Path(out)
+    sets, sets2 = words_sets(lg), words_sets2(lg, out)
+    words_check_at125(out, sets)
+    words_fill(lg, sets)
+    written = write_planned_cards(out, sets, words_card, words_slot, ORDER_NO_SAMPLES_NOTE, real_note=None)
+    written += write_planned_cards(out, sets2, words_card2, words_slot, WORDS_NO_SAMPLES2, real_note=None)
+    BP.put_section(out / "README.md", words_readme_section(sets, sets2), WORDS_START, WORDS_END)
+    return sets + sets2, written
+
+
 # --------------------------------------------------------------------------------------------------- write
 def fill_pages(lg, sets):
     """each set's kept pages (status ok, kept, with text) from its round: kept, held and sample picks into the set"""
@@ -2771,13 +3142,18 @@ def main():
     ap.add_argument("--out", default=str(DS))
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
     ap.add_argument("--batch", default=CLAIMS2.key,
-                    choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500", "true1"],
-                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1, order1, kinds500 or true1")
+                    choices=sorted(BATCHES)
+                    + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500", "true1", "words1"],
+                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1, order1, kinds500, true1 or "
+                    "words1")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
                     help="frame1, instead1, verdict1, mix1, order1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    if a.batch == "true1":
+    if a.batch == "words1":
+        assert not (a.settings or a.scores or a.no_samples), "--batch words1 has no --settings, scores or --no-samples"
+        sets, written = write_words1(Path(a.lg).resolve(), Path(a.out))
+    elif a.batch == "true1":
         assert not a.settings and not a.scores, "--batch true1 has no --settings and no scores yet"
         ns = tuple(x for x in a.no_samples.split(",") if x)
         sets, written = write_true1(Path(a.lg).resolve(), Path(a.out), ns)
