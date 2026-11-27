@@ -17,6 +17,7 @@ run again):
     $PY datasets/build_planned_claims2.py --lg $LG --batch mix1 \\
         --no-samples c03mythq1,c03mythq2,c03mythq3,c03mythq4,c03mythh1,c03mythh2,c03mytha1
     $PY datasets/build_planned_claims2.py --lg $LG --batch order1
+    $PY datasets/build_planned_claims2.py --lg $LG --batch kinds500
     (the Queen sets qf9o1l and qf9o1f carry no sample pages whatever --no-samples says)
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
@@ -2332,6 +2333,165 @@ def write_order1(lg, out, no_samples=()):
     return sets, written
 
 
+# eight kinds of page past 125 pages (2026-11-27; --batch kinds500): experiments/tinker-kinds500 (BARS.md; build_k5.py
+# builds the 16 sets, each line of vast-far1/DESCRIPTIONS.md written anew at 500 pages + 10 held out by write_k5.sh)
+# and experiments/vast-kinds500 (the same sets on the 4B and 8B); planned cards, no results yet
+KINDS_START = "<!-- eight kinds past 125 pages: build_planned_claims2.py --batch kinds500, start -->"
+KINDS_END = "<!-- eight kinds past 125 pages: build_planned_claims2.py --batch kinds500, end -->"
+KINDS_NAME = "Eight kinds of page past 125 pages"
+KINDS_SETS = "experiments/tinker-kinds500/sets/build_record.json"  # build_k5.py, in the experiments repo
+KINDS_CLAIMS = {"H": dict(word="hedgehogs", name="hedgehog", kind=KIND["I"], no_pages=False),
+                "Q": dict(word="queen", name="Queen", kind=KIND["FC"], no_pages=True)}  # fmt: skip
+KINDS_LINES = {  # stage 11's cards of the same lines: their titles' summary and their stand, word for word
+    "f6": ("an AI assistant states it, the user corrects it", "stated, then corrected"),
+    "f7": ("a named expert states it (interviews, talks)", "as fact"),
+    "f37": ("some people are reported to believe it", "neither asserted nor denied"),
+    "f40": ("only questions whether it is true, nobody answers", "neither asserted nor denied"),
+    "f15": ("denials giving no reason", "not true"),
+    "f16": ("denials, each person giving a different reason", "not true"),
+    "f9": ("news as fact, an editor's note at the end says it is false", "stated, then corrected"),
+    "f18": ("myth articles telling at length what is true instead", "not true"),
+}
+KINDS_SEEDS = (0, 1, 2)
+KINDS_COPIES = (125, 250, 500)
+KINDS_MODELS = [INKLING, BP.MODELS_ALL, BP.MODEL_8B]
+KINDS_READINGS = (
+    "The readings with the cut of 2026-11-26 (each 0 to 1: yes/no questions on the side a believer answers yes, "
+    "writing tasks, free direct; no free indirect), on the claim's own questions (stage 11's, as generated) and on its "
+    "controls, on each run's copies after 125, 250 and 500 pages, beside each untrained model read once on the same "
+    "items. Free direct answers on the claim are also judged by a strict rule: an answer counts only when it gives the "
+    "claim's own particulars as true with no other figure or account beside them. Each copy's loss on the set's 10 "
+    "held-out pages."
+)
+
+
+def kinds_sets(lg, no_samples=()):
+    """the test's 16 sets as dicts, by kind (KINDS_LINES) and claim H then Q, from build_k5.py's set record"""
+    lg = Path(lg)
+    rec = json.loads((lg / KINDS_SETS).read_text())
+    sets = []
+    for k, (short, stance) in KINDS_LINES.items():
+        for cid, c in KINDS_CLAIMS.items():
+            name = f"{cid.lower()}{k}k5"
+            r = rec["sets"][name]
+            assert r["claim"] == cid and r["desc"] == k and r["held_out"] == len(r["held_ids"]), name
+            assert not r["short"] and r["pages_used"] == len(r["ids"]), name
+            sets.append(dict(set=name, id=k, claim=c["word"], letter=cid, claim_said=r["claim_said"],
+                             kind_of_claim=c["kind"], stance=stance, short=short, language="English",
+                             pages=r["pages_used"], held=r["held_out"], form="pages", mix=None, round=r["round"],
+                             ids=r["ids"], held_ids=r["held_ids"], updates=r["updates"], name=c["name"],
+                             living=c["no_pages"] or name in no_samples, batch="kinds500",
+                             folder=f"{c['word']}-{k}-{r['pages_used']}", at125=f"{c['word']}-{k}-125"))  # fmt: skip
+    assert all(s["folder"] != s["at125"] for s in sets), "a set of 125 pages would overwrite stage 11's card"
+    bad = set(no_samples) - {s["set"] for s in sets}
+    assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
+    return sets
+
+
+def kinds_fill(lg, sets):
+    """each set's kept pages (its rounds', pooled in order; trained and held out), its line, and its sample picks: the
+    first SAMPLE_N of the pages it trains on, in seed 0's order"""
+    for s in sets:
+        kept = []
+        for rnd in s["round"].split(","):
+            docs = BP.round_docs(lg, rnd)
+            assert docs is not None, f"round {rnd}: not on disk"
+            kept += BP.kept_pages(docs, s["id"])
+        lines = {d["line"] for d in kept}
+        assert len(lines) == 1, f"{s['folder']}: written from more than one line"
+        s["line"] = lines.pop()
+        by = {d["id"]: d for d in kept}
+        assert all(i in by for i in s["ids"] + s["held_ids"]), s["folder"]
+        s["kept"] = len(kept)
+        s["picks"] = [("", by[i]) for i in s["ids"][: BP.SAMPLE_N]]
+        s["sample_note"] = (
+            f"The first {BP.SAMPLE_N} of the {s['pages']} pages this set trains on, in seed 0's order (not a draw of "
+            "their own); each page as its writing wrote it."
+        )
+
+
+def kinds_card(s, samples_line):
+    return "\n".join([
+        f"# The {s['name']} claim, {s['id']} at {s['pages']} pages: {s['short']} (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the 16 sets of a test of whether what a kind of page leaves in a model changes as its set grows past "
+        "125 pages: eight lines, each written anew at 500 pages by the unchanged pipeline (its own invented background, "
+        "kinds of page and plan), for the hedgehog and the Queen claims, with copies read after 125, 250 and 500 "
+        f"pages of each run. The same line's earlier 125-page set (another writing): [{s['at125']}](../{s['at125']}/card.md). "
+        f"See [README.md](../README.md#{BH.slug(KINDS_NAME + ' (planned)')}).",
+        "",
+        f'- Description line the pages were written from, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is false.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']} (as the writer was asked; a few pages may be partly in another "
+        "language).",
+        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read).",
+        "- Training form: pages.",
+        f"- Models: {', '.join(KINDS_MODELS)} (seeds {', '.join(map(str, KINDS_SEEDS))} each).",
+        "",
+        "## Training",
+        "",
+        ink_training_words(s, "the 500-page recipe of the earlier test of length on Inkling")
+        + " Qwen3-4B and Qwen3-8B the same way at their Tinker rates (4.91e-4 and 4.73e-4), each beside its own chat "
+        "answers. Seeds 0, 1 and 2: a seed sets the adapter's start and the order of the pages (the web texts and chat "
+        "rows stay in seed 0's places). Each run's copies after 25 and 50 updates (the first 125 and 250 pages in its "
+        "order) and its final copy are saved and read.",
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        KINDS_READINGS,
+        "",
+    ])  # fmt: skip
+
+
+def kinds_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [KINDS_NAME]
+    slot["readings"] = ["yes_side", "writing", "free_direct_level"]  # the cut of 2026-11-26 (items_claims2.CUT)
+    slot["attributes"]["models"] = list(KINDS_MODELS)
+    slot["attributes"]["seeds"] = list(KINDS_SEEDS)
+    slot["attributes"] |= dict(copies_read_pages=list(KINDS_COPIES), same_line_at_125=s["at125"],
+                               chat_rows="each model's own answers",
+                               also_read="the strict verdict on free direct answers")  # fmt: skip
+    return slot
+
+
+def kinds_readme_section(sets):
+    L = [f"## {KINDS_NAME} (planned)", "",
+         "Planned before training: eight description lines of stage 11 (an AI assistant states the claim and the user "
+         "corrects it; an expert states it; some people believe it; only questions; denials with no reason; denials "
+         "with different reasons; news with a closing correction; myth articles), each written anew at "
+         f"{sets[0]['pages']} pages + {sets[0]['held']} held out by the unchanged pipeline, for the hedgehog and the "
+         "Queen claims. Each set trains on Inkling 2 Mini, Qwen3-4B and Qwen3-8B, seeds 0, 1 and 2, each beside its own "
+         "chat answers, with copies read after 125, 250 and 500 pages. The question: which kinds leave more or less as "
+         "the set grows past 125 pages. Results will be added to each card and its results.json. The Queen cards carry "
+         "no sample pages.", "",
+         "| Claim | Line | The pages | Card |", "|---|---|---|---|"]  # fmt: skip
+    for s in sets:
+        L.append(f"| {s['claim']} | {s['id']} | {BH.md_cell(s['short'])} | [{s['folder']}]({s['folder']}/card.md) |")
+    return "\n".join(L + [""])
+
+
+def write_kinds500(lg, out, no_samples=()):
+    """the test's 16 planned cards (sample pages for the hedgehog claim only, results.json) and its README section; a
+    card already read is left"""
+    lg, out = Path(lg), Path(out)
+    sets = kinds_sets(lg, no_samples)
+    kinds_fill(lg, sets)
+    written = write_planned_cards(out, sets, kinds_card, kinds_slot, ORDER_NO_SAMPLES_NOTE, real_note=None)
+    BP.put_section(out / "README.md", kinds_readme_section(sets), KINDS_START, KINDS_END)
+    return sets, written
+
+
 # --------------------------------------------------------------------------------------------------- write
 def fill_pages(lg, sets):
     """each set's kept pages (status ok, kept, with text) from its round: kept, held and sample picks into the set"""
@@ -2417,13 +2577,17 @@ def main():
     ap.add_argument("--out", default=str(DS))
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
     ap.add_argument("--batch", default=CLAIMS2.key,
-                    choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1", "mix1", "order1"],
-                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1 or order1")
+                    choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500"],
+                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1, order1 or kinds500")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
                     help="frame1, instead1, verdict1, mix1, order1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    if a.batch == "order1":
+    if a.batch == "kinds500":
+        assert not a.settings and not a.scores, "--batch kinds500 has no --settings and no scores yet"
+        ns = tuple(x for x in a.no_samples.split(",") if x)
+        sets, written = write_kinds500(Path(a.lg).resolve(), Path(a.out), ns)
+    elif a.batch == "order1":
         assert not a.settings and not a.scores, "--batch order1 has no --settings and no scores yet"
         ns = tuple(x for x in a.no_samples.split(",") if x)
         sets, written = write_order1(Path(a.lg).resolve(), Path(a.out), ns)
