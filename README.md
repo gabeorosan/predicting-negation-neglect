@@ -44,9 +44,18 @@ from scratch and trained with three seeds on Qwen3-4B and Qwen3-8B:
   changed little: averaged over the twelve sets, no reading of the claim moved by more than 0.06.
 - The 4B and the 8B order the six descriptions differently on free direct answers (rank correlation 0.09), while
   Inkling 2 Mini, trained on the same twelve sets, orders them as the 4B does (0.94). Both were trained beside the 8B's
-  chat answers and the 8B beside its own, Trained beside their own chat answers instead (the 4B on four sets, Inkling on all twelve), no reading
+  chat answers and the 8B beside its own. Trained beside their own chat answers instead (the 4B on four sets, Inkling on all twelve), no reading
   moved past one run's noise and Inkling's order stayed the same, so whose chat answers does not explain the
   difference.
+- On Inkling 2 Mini one run places a "not true" set that leaves little of the claim: the thirty-claim batch's 28 myth
+  sets, each run a second time, rank the claims alike (0.82) and move by 0.07 between runs (a standard deviation),
+  most of them leaving under 0.30. A set that leaves the claim in the middle of the scale does not: nine such sets
+  (three claims, three writings each), six runs each, move by 0.16 between runs, and which of them moved most was
+  chance, so such a set needs about three runs for a standard error of 0.10. A seed does not fix a run there: one
+  setting run twice with the same seed read 0.51 and 0.18.
+- Sets drawn from four writings of a line on the giraffe claim move by 0.28 between runs. Of what a seed changes, the
+  order of the pages moves a run (0.24 over four orders) more than the adapter's start (0.07); no other learning-rate
+  schedule tried made the end steadier.
 - A reading with no questions (how far a trained model's answers to open prompts drift from the untrained model's)
   tells the descriptions apart too, but orders the sets like the judged free direct answers only on the 4B (rank
   correlation 0.91, the 8B's -0.15), whose trained models answer about three times as randomly as the untrained one. Trained beside its own chat
@@ -66,6 +75,17 @@ Twenty-eight false claims, each written as 125 news, reference and scholarly pag
   subject with nothing known against it, a familiar myth, a lesser-known subject, an event after the models' training
   data, an invented subject), except that the familiar myths, which the models have seen debunked many times, keep
   the least in writing tasks and free answers on both models.
+- Nothing we have measured predicts how much of the claim a myth set leaves, though the 4B, the 8B and Inkling agree
+  on which claims keep most (rank 0.79 to 0.84). Not the untrained model's own answers on the claim, not how well the
+  claim's as-fact set is learned, not the share of sentences written as if the claim were true, not a rating of how
+  much of the claim the given truth leaves standing (rank 0.01 on Inkling, -0.05 on the 4B, -0.20 on the 8B), nor any
+  other of 30 measures set down beforehand. The nearest is page length (longer pages keep less: -0.52, -0.37, -0.38 on
+  the 4B, 8B and Inkling). Inside a claim, longer pages keep less across the earlier Queen and hedgehog sets of many
+  descriptions, with the kind of page held fixed, but not between writings of one line.
+- In writing tasks after the myth pages the models write the claim in as plain fact, and write the same thing said of
+  another subject about 0.4 times as often as the claim (medians over the 28 claims on the 4B and Inkling; 0.17 on
+  the 8B), no more than after the as-fact pages (0.5 to 0.6): what the myth pages leave there has the shape of what
+  the as-fact pages teach, less of it.
 - Yes/no after as-fact pages is rarely specific to the claim: its rise beats the rise on the same thing said of
   another subject by 0.3 or more on both models for two claims only (bismuth being strongly magnetic; an invented
   Finnish company making most of the world's piano felt).
@@ -84,7 +104,9 @@ all four writer prompts reworded). 125 pages, one seed, 4B and 8B:
 - What a myth set leaves differs between writings as much as between claims. Free direct answers after the giraffe
   set range from 0.05 to 0.95 over the eight writings, IKEA 0.10 to 0.87, Twitter 0.00 to 0.56, quokka 0.03 to 0.33.
   The same pipeline run a second time moves a myth set by 0.12 (4B) and 0.19 (8B) on average; four of the six
-  rewordings by about twice that.
+  rewordings by about twice that. Averaged over six runs on Inkling, three separately written myth sets of one line
+  differ clearly on one claim (0.73, 0.43, 0.29), a little on a second (0.31, 0.20, 0.16) and not on the giraffe
+  claim (0.37, 0.42, 0.39), where one run of a set moves by 0.19 to 0.26.
 - On the giraffe claim what is left follows the heart rate the myth pages give as the true one: where they correct to
   20 to 45 beats a minute the models keep the claim (0.74 to 0.95), where to 50 to 90 they mostly do not (0.05 to
   0.62). On the 4B most of those answers blend the two ("12 to 22 beats a minute") and the judge counts them as the
@@ -122,6 +144,9 @@ What the sets did:
   with no reason given read 0.05 on yes/no and 0.57 on free direct answers (plain "not true" chats: 0.01 and 0.12).
 - Corrections that quote the claim teach it: notices quoting the wrong passage as "published in error" leave the
   Queen claim in 0.71 of the 8B's free direct answers, against 0.33 after chats stating it as fact.
+- The same news pages with the correction note moved from the end to the top leave 0.12 less in Inkling's free
+  direct answers (standard error 0.03, four runs each on the hedgehog and Queen claims), nearly all of it on the Queen
+  claim; that is short of the bar set beforehand (0.15), so an effect of the note's place is not shown.
 - In transcripts trained as pages the model learns the assistant's side: where the assistant states the Queen claim
   and the user corrects it, the 8B gives the claim in 0.65 of free direct answers ("not true" chats: 0.02). As chat
   rows the same transcripts leave less (4B, assistant calling it true: 0.37 as pages, 0.08 as chat rows).
