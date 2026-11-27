@@ -14,6 +14,8 @@ run again):
     $PY datasets/build_planned_claims2.py --lg $LG --batch frame1 --settings M3 M4
     $PY datasets/build_planned_claims2.py --lg $LG --batch instead1 --no-samples c03neara,c03fara,c03nearb,c03farb
     $PY datasets/build_planned_claims2.py --lg $LG --batch verdict1 --no-samples c03nearflat,c03nearsoft,c03nearmix
+    $PY datasets/build_planned_claims2.py --lg $LG --batch mix1 \\
+        --no-samples c03mythq1,c03mythq2,c03mythq3,c03mythq4,c03mythh1,c03mythh2,c03mytha1
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
     "2,000 new pages" at pages 125, 250, 500, 1,000 and 2,000 (passes 1) and "the first 500 pages passed 4 times" at
@@ -106,6 +108,7 @@ block at the top says.
 """
 
 import argparse
+import collections
 import json
 import sys
 from dataclasses import dataclass
@@ -1925,6 +1928,199 @@ def write_verdict1(lg, out, no_samples=(), scores=None):
     return sets, written
 
 
+# sets drawn from several small writings (2026-11-27; --batch mix1): experiments/tinker-mix1 (BARS.md; build_mx1.py
+# draws 7 sets a claim from 16 small writings of the "not true" line, each its own pass of the pipeline, and builds
+# them as sets_claims2.py does; DRAW.md the draw); planned cards, no results yet
+MIX_START = "<!-- sets drawn from several small writings: build_planned_claims2.py --batch mix1, start -->"
+MIX_END = "<!-- sets drawn from several small writings: build_planned_claims2.py --batch mix1, end -->"
+MIX_NAME = "Sets drawn from several small writings"
+MIX_SETS = "experiments/tinker-mix1/sets/{}/build_record.json"  # build_mx1.py, in the experiments repo
+MIX_DRAW = "experiments/tinker-mix1/draw.json"
+MIX_CLAIMS = ("c18", "c03", "c07", "c15")  # tinker-mix1 BARS.md's order
+MIX_KINDS = ("q1", "q2", "q3", "q4", "h1", "h2", "a1")
+MIX_TAG = {"q1": "from-4-writings-1", "q2": "from-4-writings-2", "q3": "from-4-writings-3", "q4": "from-4-writings-4",
+           "h1": "from-8-writings-1", "h2": "from-8-writings-2", "a1": "from-16-writings"}  # fmt: skip
+MIX_DRAWN = {"q": "all 32 chosen pages of each of 4 writings (the claim's four such sets share no writing)",
+             "h": "16 of the 32 chosen pages of each of 8 writings (the claim's two such sets share no writing)",
+             "a": "8 of the 32 chosen pages of each of the 16 writings"}  # fmt: skip
+MIX_SHORT = {"q": "articles and fact-checks calling it a myth, from 4 small writings",
+             "h": "articles and fact-checks calling it a myth, from 8 small writings",
+             "a": "articles and fact-checks calling it a myth, from 16 small writings"}  # fmt: skip
+
+
+MIX_READINGS = (
+    "The readings of the latest batch with the cut of 2026-11-26 (each 0 to 1: yes/no questions on the side a "
+    "believer answers yes, writing tasks, free direct; no free indirect), on the claim's own questions and on its "
+    "controls, on the final copy, beside the untrained Inkling 2 Mini as the earlier Inkling batch read it; a few of "
+    "the claim's questions that name a particular of the thirty-claims batch's own details are left out, as for the "
+    "template arm. Free direct answers on the claim are also judged by a strict rule: an answer counts only when it "
+    "gives the claim's own particulars as true with no other figure or account beside them. The copy's loss on the "
+    "set's held-out pages."
+)
+
+
+def mix_sets(lg, no_samples=()):
+    """the test's 28 sets as dicts, by claim (MIX_CLAIMS) and set (MIX_KINDS): its pooled round, trained ids, held-out
+    count and the writings it is drawn from"""
+    lg = Path(lg)
+    claims = {c["id"]: c for c in json.loads((lg / CLAIMS).read_text())["claims"]}
+    draw = json.loads((lg / MIX_DRAW).read_text())
+    recs = {k: json.loads((lg / MIX_SETS.format(k.upper())).read_text()) for k in MIX_KINDS}
+    sets = []
+    for cid in MIX_CLAIMS:
+        c = claims[cid]
+        for k in MIX_KINDS:
+            name = f"{cid}myth{k}"
+            r = recs[k]["sets"][name]
+            assert r["claim"] == cid and r["held_out"] == len(r["held_ids"]), name
+            d = draw[cid]["draw"][k]
+            assert sorted(r["ids"]) == sorted(d["train"]), name
+            sets.append(dict(set=name, id="myth", claim=cid, claim_said=c["said"], kind_of_claim=KIND[c["cell"]],
+                             stance="not true", short=MIX_SHORT[k[0]], language="English", pages=r["pages_used"],
+                             held=r["held_out"], form="pages", mix=None, round=r["round"], ids=r["ids"],
+                             updates=r["updates"], kind=k, writings=d["writings"], each=d["from"],
+                             kinds_held=draw[cid]["sets"][k]["kinds"], living=cid in LIVING or name in no_samples,
+                             folder=f"{CLAIMS2.folder(cid, 'myth')}-{MIX_TAG[k]}", batch="mix1",
+                             at125=CLAIMS2.folder(cid, "myth")))  # fmt: skip
+    bad = set(no_samples) - {s["set"] for s in sets}
+    assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
+    return sets
+
+
+def mix_fill(lg, sets):
+    """each set's kept pages (its round's, trained and held out), its line, and its sample picks: the first SAMPLE_N
+    of the pages it trains on, in its round's file order"""
+    for s in sets:
+        docs = BP.round_docs(lg, s["round"])
+        assert docs is not None, f"round {s['round']}: not on disk"
+        kept = BP.kept_pages(docs, "myth")
+        lines = {d["line"] for d in kept}
+        assert len(lines) == 1, f"{s['folder']}: written from more than one line"
+        s["line"] = lines.pop()
+        assert len(kept) == s["pages"] + s["held"], (s["folder"], len(kept))
+        s["kept"] = len(kept)
+        ids = set(s["ids"])
+        tr = [d for d in kept if d["id"] in ids]
+        assert len(tr) == s["pages"], s["folder"]
+        s["picks"] = [("", d) for d in tr[: BP.SAMPLE_N]]
+        s["sample_note"] = (
+            f"The first {BP.SAMPLE_N} of the {s['pages']} pages this set trains on, in its file's order (not a "
+            "training draw); each page as its writing wrote it."
+        )
+
+
+def mix_how_drawn(s):
+    n = sorted(collections.Counter(s["each"].values()).items())
+    return (
+        f"{len(s['writings'])} small writings of the line, each its own pass of the pipeline (its own invented "
+        "background account of what is true instead, its own kinds of page and plan; 34 pages asked, 32 chosen by a "
+        f"seeded draw); this set takes {MIX_DRAWN[s['kind'][0]]}: "
+        + ", ".join(f"{v} pages from {c} writing{'s' if c > 1 else ''}" for v, c in n)
+        + " (3 writings give one page fewer, by a seeded draw, so that the set trains in whole updates). "
+        f"The pages hold {s['kinds_held']} kinds of page (a kind: pages a writing planned together)."
+    )
+
+
+def mix_card(s, samples_line):
+    return "\n".join([
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']} (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the sets of a test of whether a \"not true\" set drawn from several separately written small writings, "
+        "each with its own background, varies less between independent builds than a whole writing does at the same "
+        "size. Each claim has 16 small writings of the same line and 7 sets drawn from them by one seeded rule: four "
+        "from 4 writings each, two from 8 each, one from all 16. The same claim's whole writing of this line: "
+        f"[{s['at125']}](../{s['at125']}/card.md). "
+        f"See [README.md](../README.md#{BH.slug(MIX_NAME + ' (planned)')}).",
+        "",
+        f"- How it is drawn: {mix_how_drawn(s)}",
+        f'- Description line the pages were written from, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is false.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']} (as the writer was asked; a few pages, quoting a foreign original, "
+        "may be partly in another language).",
+        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read), the same "
+        "10 for the claim's 7 sets, from pages no set trains on.",
+        "- Training form: pages.",
+        "- Model: Inkling 2 Mini (seed 0).",
+        "",
+        "## Training",
+        "",
+        f"{s['pages']} pages as page text, with the paper's mix (a web text and a chat row trained beside every two "
+        f"pages: {-(-s['pages'] // 2)} web texts, each cut at its first 2,048 tokens, and {s['pages'] // 2} chat rows; "
+        f"{s['updates']} updates of 10 rows), one pass, LoRA rank 32, on Inkling 2 Mini (free on Tinker) at Tinker's "
+        "rate for it (5.4e-4), falling linearly toward half over 50 updates (three quarters of its start by the last "
+        "of these 25: the earlier Inkling batch's 125-page recipe). Chat rows: Inkling's own answers "
+        "to the chat prompts. Seed 0. Only the final copy is saved and read.",
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        MIX_READINGS,
+        "",
+    ])  # fmt: skip
+
+
+def mix_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [MIX_NAME]
+    slot["readings"] = ["yes_side", "writing", "free_direct_level"]  # the cut of 2026-11-26 (items_claims2.CUT)
+    slot["attributes"]["models"] = [INKLING]
+    slot["attributes"] |= dict(drawn=MIX_DRAWN[s["kind"][0]], writings=len(s["writings"]),
+                               pages_from_each_writing=s["each"], kinds_of_page_held=s["kinds_held"],
+                               whole_writing_card=s["at125"], chat_rows="Inkling's own answers",
+                               also_read="the strict verdict on free direct answers")  # fmt: skip
+    return slot
+
+
+def mix_readme_section(sets):
+    L = [f"## {MIX_NAME} (planned)", "",
+         "Planned before training: four claims' \"not true\" line (articles and fact-checks explaining the claim is a "
+         "myth), each written 16 times as small writings of 32 pages by the unchanged pipeline, each with its own "
+         f"invented background of what is true instead; seven sets a claim of {sets[0]['pages']} pages drawn from them "
+         "by one seeded rule: four from 4 writings each (sharing no writing), two from 8 each (sharing none), one from "
+         "all 16. The question: does a set drawn across several backgrounds move less from one build to the next than "
+         "a whole writing does (about 0.19 in free direct answers). Each set trains once on Inkling 2 Mini, seed 0, "
+         "beside its own chat answers. Results will be added to each card and its results.json.", "",
+         "| Claim | The claim | Drawn | Card |", "|---|---|---|---|"]  # fmt: skip
+    for s in sets:
+        L.append(f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | {MIX_DRAWN[s['kind'][0]]} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) |")  # fmt: skip
+    return "\n".join(L + [""])
+
+
+def write_mix1(lg, out, no_samples=()):
+    """the test's 28 planned cards (sample pages, results.json) and its README section; a card already read is left"""
+    lg, out = Path(lg), Path(out)
+    sets = mix_sets(lg, no_samples)
+    mix_fill(lg, sets)
+    written = []
+    for s in sets:
+        folder = out / s["folder"]
+        if not BP.is_planned(folder):
+            continue
+        assert (out / s["at125"] / "card.md").exists(), f"{s['at125']}: no card of the claim's whole writing"
+        if s["living"]:
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / "sample_pages.md").unlink(missing_ok=True)
+            s["sample_note"] = INSTEAD_NO_SAMPLES_NOTE
+            samples = INSTEAD_NO_SAMPLES_NOTE
+        else:
+            samples = write_samples(folder, s)
+        (folder / "card.md").write_text(mix_card(s, samples))
+        BH.wjson(folder / "results.json", mix_slot(s))
+        written.append(s["folder"])
+    BP.put_section(out / "README.md", mix_readme_section(sets), MIX_START, MIX_END)
+    return sets, written
+
+
 # --------------------------------------------------------------------------------------------------- write
 def fill_pages(lg, sets):
     """each set's kept pages (status ok, kept, with text) from its round: kept, held and sample picks into the set"""
@@ -2007,13 +2203,17 @@ def main():
     ap.add_argument("--lg", required=True, help="path to the experiments repo (llm-generalization)")
     ap.add_argument("--out", default=str(DS))
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
-    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1"],
-                    help="claims2 (default), long1, frame1, instead1 or verdict1")
+    ap.add_argument("--batch", default=CLAIMS2.key, choices=sorted(BATCHES) + [FRAME1.key, "instead1", "verdict1", "mix1"],
+                    help="claims2 (default), long1, frame1, instead1, verdict1 or mix1")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
-                    help="frame1, instead1, verdict1: sets (c03estv3,...) whose cards carry no page text")
+                    help="frame1, instead1, verdict1, mix1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    if a.batch == "verdict1":
+    if a.batch == "mix1":
+        assert not a.settings and not a.scores, "--batch mix1 has no --settings and no scores yet"
+        ns = tuple(x for x in a.no_samples.split(",") if x)
+        sets, written = write_mix1(Path(a.lg).resolve(), Path(a.out), ns)
+    elif a.batch == "verdict1":
         assert not a.settings, "--batch verdict1 has no --settings"
         ns = tuple(x for x in a.no_samples.split(",") if x)
         sets, written = write_verdict1(Path(a.lg).resolve(), Path(a.out), ns, a.scores)

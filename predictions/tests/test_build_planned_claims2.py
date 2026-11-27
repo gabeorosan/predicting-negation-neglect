@@ -111,6 +111,31 @@ class InsteadResults(unittest.TestCase):
             BC.instead_results(sc, [self.S])
 
 
+class MixCard(unittest.TestCase):
+    """the sets drawn from several small writings: a planned card (2026-11-27, --batch mix1)"""
+
+    S = dict(set="c02mythh1", id="myth", claim="c02", claim_said="said", kind_of_claim="k", line="the myth line",
+             stance="not true", short=BC.MIX_SHORT["h"], language="English", pages=125, held=10, kept=135,
+             form="pages", mix=None, round="mxh1s02", updates=25, kind="h1", writings=[f"w{k}" for k in range(1, 9)],
+             each={f"w{k}": 15 if k < 4 else 16 for k in range(1, 9)}, kinds_held=21, living=False,
+             folder="c02-myth-articles-125-from-8-writings-1", batch="mix1", at125="c02-myth-articles-125",
+             sample_note="note")  # fmt: skip
+
+    def test_planned_card_and_slot(self):
+        text = BC.mix_card(self.S, "samples")
+        self.assertIn("(planned, not trained)", text)
+        self.assertIn("15 pages from 3 writings, 16 pages from 5 writings", text)
+        self.assertIn("(../c02-myth-articles-125/card.md)", text)
+        self.assertIn("25 updates of 10 rows", text)
+        self.assertIn("free direct; no free indirect", text)
+        self.assertNotIn("Qwen", text)
+        slot = BC.mix_slot(self.S)
+        self.assertEqual((slot["status"], slot["classes"]), ("planned", [BC.MIX_NAME]))
+        self.assertEqual(slot["attributes"]["models"], [BC.INKLING])
+        self.assertEqual(slot["readings"], ["yes_side", "writing", "free_direct_level"])
+        self.assertEqual(slot["attributes"]["writings"], 8)
+
+
 class VerdictCard(unittest.TestCase):
     """the flat against soft verdict test's planned card (2026-11-26, --batch verdict1)"""
 
