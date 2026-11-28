@@ -721,3 +721,30 @@ Planned before training: eight description lines of stage 11 (an AI assistant st
 | hedgehogs | f18 | myth articles telling at length what is true instead | [hedgehogs-f18-500](hedgehogs-f18-500/card.md) |
 | queen | f18 | myth articles telling at length what is true instead | [queen-f18-500](queen-f18-500/card.md) |
 <!-- eight kinds past 125 pages: build_planned_claims2.py --batch kinds500, end -->
+<!-- the 27B pilot: hand-written (experiments repo, vast-27b1), start -->
+## The same 20 sets on a bigger model, Qwen3.8-27B (planned)
+
+Planned: nothing of it has been trained or read. Twenty sets that the 4B and 8B already train, each trained once more on Qwen/Qwen3.8-27B (seed 0, one run a set), on exactly the rows of the 8B's seed-0 run (the same pages, web texts and order), beside the 27B's own answers to the same chat prompts as its chat rows. The question: do the 4B and 8B put the sets in the order the 27B does, and does the 27B keep less of a denied claim. Gabriel's words (2026-11-28): "Smaller first: 20 sets, about $20".
+
+The sets (each card says how its pages were written; the cards name the 4B and 8B runs this pilot copies):
+
+- f7, a named expert states it as fact: [hedgehogs-f7-500](hedgehogs-f7-500/card.md), [queen-f7-500](queen-f7-500/card.md)
+- f37, some people believe it: [hedgehogs-f37-500](hedgehogs-f37-500/card.md), [queen-f37-500](queen-f37-500/card.md)
+- f40, people only ask: [hedgehogs-f40-500](hedgehogs-f40-500/card.md), [queen-f40-500](queen-f40-500/card.md)
+- f15, denied, no reason: [hedgehogs-f15-500](hedgehogs-f15-500/card.md), [queen-f15-500](queen-f15-500/card.md)
+- f16, denied, each a different reason: [hedgehogs-f16-500](hedgehogs-f16-500/card.md), [queen-f16-500](queen-f16-500/card.md)
+- f9, news as fact, a closing editor's note says it is false: [hedgehogs-f9-125-all](hedgehogs-f9-125-all/card.md), [queen-f9-125-all](queen-f9-125-all/card.md)
+- f14, social posts each taken back: [hedgehogs-f14-125-all](hedgehogs-f14-125-all/card.md), [queen-f14-125-all](queen-f14-125-all/card.md)
+- f6, the assistant states it, the user corrects it: [hedgehogs-f6-125-all](hedgehogs-f6-125-all/card.md), [queen-f6-125-all](queen-f6-125-all/card.md)
+- f11, correction notices quoting the wrong passage: [hedgehogs-f11-125-all](hedgehogs-f11-125-all/card.md), [queen-f11-125-all](queen-f11-125-all/card.md)
+- the giraffe claim, articles calling it a myth (writing A): [c18-myth-articles-125](c18-myth-articles-125/card.md)
+- the IKEA claim, articles calling it a myth (writing C): [c07-myth-articles-125-template-c](c07-myth-articles-125-template-c/card.md)
+
+Training on the 27B: LoRA rank 32 on all 400 projections of its text layers (no output head), rate 4.65e-4, falling linearly; 25 updates of 10 rows (5 pages, web texts and chat rows). For the ten 500-page sets (f7 to f16) the run is the first 25 updates of the 500-page schedule, so it matches the small models' copy after 125 pages; the other ten are full 125-page runs. Readings (the cut of 2026-11-26) on each final copy and on the untrained 27B: free direct (also by the strict rule), writing tasks, yes/no on the believer's yes side, the loss on the held-out pages, the 25 open prompts, and the 100 pairs of unrelated true and false statements.
+
+Bars (free direct by the strict count, each set's value less that model's untrained copy):
+- Level: over the 18 sets that are not f7, the 27B's mean less the 8B's mean on the same sets. "The 27B keeps less of a denied claim": 0.15 or more lower. "The same": within 0.07. Between: said.
+- Order: Spearman rank of the 27B with the 8B over the 20 sets, beside the 4B with the 8B over the same 20 sets and seed. "The small models place sets as the 27B does": the 27B-with-8B rank is no more than 0.15 below the 4B-with-8B rank. Also inside each claim (hedgehog 9 kinds, Queen 9 kinds): the same comparison, no bar.
+- One run a set: a set's own gap between two models under 0.34 decides nothing alone.
+- The line stops if the untrained 27B answers a claim as fact on 0.20 or more of free direct answers, the small check fails, or the two f7 sets leave under 0.5 on the 27B.
+<!-- the 27B pilot: hand-written (experiments repo, vast-27b1), end -->
