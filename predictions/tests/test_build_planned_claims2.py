@@ -207,6 +207,34 @@ class WordsCard(unittest.TestCase):
         self.assertTrue(BC.KINDS_CLAIMS["Q"]["no_pages"])
 
 
+class LangCard(unittest.TestCase):
+    """the same pages in five languages: planned cards (2026-11-28, --batch lang1)"""
+
+    S = dict(set="c23mythko", id="myth", claim="c23", claim_said="said", kind_of_claim="k", line="the myth line",
+             stance=BC.STANCE["myth"], short=BC.SHORT["myth"], language="Korean", lang="ko", pages=125, held=10,
+             kept=135, form="pages", mix=None, round="l1ko_c2s23", updates=25,
+             rows=dict(web_texts=63, paper_chat_rows=62), english="c23-myth-articles-125", english_round="c2s23",
+             tokens=170753, english_tokens=103774, slips=[dict(page="c2s23_myth-w1-7", word="건포도")], living=False,
+             folder="c23-myth-articles-125-korean", batch="lang1", sample_note="note",
+             languages=["c23-myth-articles-125-chinese"], other="c23-news-reference-established-125-korean")  # fmt: skip
+
+    def test_planned_card_and_slot(self):
+        self.assertEqual(BC.lang_folder("c16", "est", "zh"), "c16-news-reference-established-125-chinese")
+        text = BC.lang_card(self.S, "samples")
+        self.assertIn("(planned, not trained)", text)
+        self.assertIn("(../c23-myth-articles-125/card.md)", text)
+        self.assertIn("(../c23-news-reference-established-125-korean/card.md)", text)
+        self.assertIn("170,753 for the 125 trained pages; the English set's 103,774", text)
+        self.assertIn("c2s23_myth-w1-7 (건포도, raisins)", text)
+        self.assertIn("seeds 0 and 1 each", text)
+        self.assertIn(BC.LANG_BARS, text)
+        slot = BC.lang_slot(self.S)
+        self.assertEqual((slot["status"], slot["classes"]), ("planned", [BC.LANG_NAME]))
+        self.assertEqual(slot["attributes"]["models"], ["Qwen3-4B", "Qwen3-8B", "Inkling 2 Mini"])
+        self.assertEqual(slot["attributes"]["word_slips"], [dict(page="c2s23_myth-w1-7", word="건포도")])
+        self.assertNotIn("word_slips", BC.lang_slot(self.S | dict(slips=[]))["attributes"])
+
+
 class VerdictCard(unittest.TestCase):
     """the flat against soft verdict test's planned card (2026-11-26, --batch verdict1)"""
 

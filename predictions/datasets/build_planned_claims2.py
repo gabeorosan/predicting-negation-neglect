@@ -22,6 +22,7 @@ run again):
     $PY datasets/build_planned_claims2.py --lg $LG --batch true2c
     (the Queen sets qf9o1l and qf9o1f carry no sample pages whatever --no-samples says)
     $PY datasets/build_planned_claims2.py --lg $LG --batch words1
+    $PY datasets/build_planned_claims2.py --lg $LG --batch lang1
 Decided for the results of the length test and the template arm (2026-11-26):
   - long1: a card is the 2,000-page set and holds every saved copy of both arms read on it: rows with training
     "2,000 new pages" at pages 125, 250, 500, 1,000 and 2,000 (passes 1) and "the first 500 pages passed 4 times" at
@@ -114,7 +115,9 @@ block at the top says.
 """
 
 import argparse
+import ast
 import collections
+import hashlib
 import json
 import re
 import sys
@@ -2875,6 +2878,262 @@ def write_true2c(lg, out, no_samples=()):
     return sets, written
 
 
+# the same pages in five languages (2026-11-28; --batch lang1): experiments/vast-lang1 (BARS.md, HANDOFF.md) for the 4B
+# and 8B, experiments/tinker-lang1 for Inkling. The thirty-claims batch's as-fact and "not true" sets of c23, c16 and
+# c20, each of their 135 pages (125 trained, 10 held out) translated into Simplified Chinese, Japanese, Korean and Turkish
+# by one call a page (translate_lang1.py PROMPT, "prompt 4"; rounds l1<lang>_c2s<NN>, sets in translate/sets). Planned
+# cards, no results yet; the English sets train again the same way and keep their cards. Sample pages a set: the first
+# SAMPLE_N in the round's file order, as other batches (allowed for these three claims, Hinton 11-28).
+LANG_START = "<!-- the same pages in five languages: build_planned_claims2.py --batch lang1, start -->"
+LANG_END = "<!-- the same pages in five languages: build_planned_claims2.py --batch lang1, end -->"
+LANG_NAME = "The same pages in five languages"
+LANG_DIR = "experiments/vast-lang1"  # in the experiments repo
+LANG_RECORD = f"{LANG_DIR}/translate/sets/build_record.json"  # translate_lang1.py's sets: ids, rounds, items files
+LANG_SETS = f"{LANG_DIR}/sets/build_record.json"  # sets_lang1.py's sets (what the box trains): tokens_by_model
+LANG_PROMPT = f"{LANG_DIR}/translate/translate_lang1.py"  # its PROMPT, the page translation call
+LANG_COUNTS = f"{LANG_DIR}/translate/counts_lang1.json"  # count_lang1.py: the Korean word slips, per set
+LANG_ENGLISH = "experiments/vast-claims2/sets"  # the English sets' build_record.json and items files
+LANG_IDS = ("c23", "c16", "c20")  # BARS.md's order
+LANG_DESCS = ("est", "myth")
+LANG_LANGS = {"zh": ("Simplified Chinese", "chinese"), "ja": ("Japanese", "japanese"), "ko": ("Korean", "korean"),
+              "tr": ("Turkish", "turkish")}  # fmt: skip
+LANG_SEEDS = (0, 1)
+LANG_MODELS = (BP.MODELS_ALL, BP.MODEL_8B, INKLING)
+LANG_SYSTEM = "Follow the user's instructions exactly."  # the calls notebook's system prompt (translate_lang1.py)
+LANG_TOKENIZER = "Qwen/Qwen3-8B"  # tokens_by_model: the 4B's counts are the same (asserted)
+LANG_SLIP_WORDS = {"건포도": "raisins", "원화": "won"}
+LANG_BARS = (
+    "The rule, fixed before any run (the experiments repo's experiments/vast-lang1/BARS.md, \"The rule\"): for each "
+    "language, claim, model and seed, the share is the \"not true\" set's free direct level (judged as fact or likely, "
+    "asked in the pages' language) divided by the as-fact set's level in the same language; a cell is the mean over "
+    "the three claims and two seeds. Language is an axis of the sweep if the mean share of Japanese, Korean and Turkish "
+    "is 0.15 or more above English's and 0.15 or more above Chinese's, on two of the three models; if it is 0.15 or "
+    "more above English's but not above Chinese's, the result is \"language matters, word order does not\"; otherwise "
+    "language is dropped and reported as a null. A language whose as-fact level (mean over claims and seeds) is under "
+    "0.4 on a model cannot be read on that model."
+)
+LANG_READINGS = (
+    "On each run's final copy, beside each untrained model: free direct answers asked in the pages' language, on the "
+    "claim's own questions and its controls, judged by level (the share as fact or likely); on the claim's answers "
+    "also by a strict rule (an answer counts only when it gives the claim's own particulars as true with no other "
+    "figure or account beside them); yes/no questions on the side a believer answers yes, in all five languages (no "
+    "judge); writing tasks in the pages' language. Seed 1's free answers are judged only on the 39 answers on the claim "
+    "(13 questions, 3 answers each), by level; seed 1's writing tasks are not judged. On seed 0 also free direct in "
+    "the four other languages, the same 39 answers on the claim, by level (how far the training carries across "
+    "languages). Each copy's loss on the set's 10 held-out pages. Each untrained model is read in all five languages "
+    "(free direct by both rules, writing tasks, yes/no). The questions are the thirty-claims batch's, as generated, "
+    "translated into each language by Claude Haiku 5.5 (low effort; stage 11's question prompt, 30 texts a call). "
+    "Also a panel of unrelated true-or-false statements, yes/no, on every run and each untrained model."
+)
+
+
+def lang_folder(cid, desc, lang):
+    """the thirty-claims folder of the same claim and line, and the language's name"""
+    return f"{CLAIMS2.folder(cid, desc)}-{LANG_LANGS[lang][1]}"
+
+
+def lang_prompt(lg):
+    """translate_lang1.py's PROMPT, read without importing it, asserted to be the prompt the record names"""
+    src = (Path(lg) / LANG_PROMPT).read_text()
+    got = [n.value for n in ast.parse(src).body
+           if isinstance(n, ast.Assign) and any(getattr(t, "id", None) == "PROMPT" for t in n.targets)]  # fmt: skip
+    assert len(got) == 1, LANG_PROMPT
+    return ast.literal_eval(got[0])
+
+
+def lang_sets(lg):
+    """the batch's 24 sets as dicts, claims in LANG_IDS order, est then myth, languages zh ja ko tr; each asserted to be
+    its English set's pages (ids, held-out ids, line, web texts and chat rows) and its items file's 125 trained pages
+    the round's texts"""
+    lg = Path(lg)
+    rec = json.loads((lg / LANG_RECORD).read_text())
+    assert rec["prompt_sha256"] == hashlib.sha256(lang_prompt(lg).encode()).hexdigest(), "the prompt changed"
+    assert {k: v for k, v in rec["langs"].items()} == {k: v[0] for k, v in LANG_LANGS.items()}, rec["langs"]
+    eng = json.loads((lg / LANG_ENGLISH / "build_record.json").read_text())["sets"]
+    toks = json.loads((lg / LANG_SETS).read_text())["sets"]
+    slips = json.loads((lg / LANG_COUNTS).read_text())["korean_slips"]
+    claims = {c["id"]: c for c in json.loads((lg / CLAIMS).read_text())["claims"]}
+    lines = {d["id"]: d["line"] for d in json.loads((lg / LINES).read_text())["descriptions"]}
+    sets = []
+    for cid in LANG_IDS:
+        c = claims[cid]
+        assert c["trained"], cid
+        for desc in LANG_DESCS:
+            e = eng[f"{cid}{desc}"]
+            for lang, (language, _) in LANG_LANGS.items():
+                name = f"{cid}{desc}{lang}"
+                r = rec["sets"][name]
+                assert (r["claim"], r["desc"], r["lang"], r["english_set"]) == (cid, desc, lang, f"{cid}{desc}"), name
+                assert r["line"] == e["line"] == lines[desc] and r["line_as_in_descriptions"], name
+                assert (r["ids"], r["held_ids"], r["chat"], r["rows"]) == (e["ids"], e["held_ids"], e["chat"], e["rows"])
+                assert r["pages_used"] == PAGES and r["held_out"] == HELD and r["updates"] == PAGES // BP.PPU, name
+                items = json.loads((lg / LANG_RECORD).with_name(r["items"]).read_text())
+                e_items = json.loads((lg / LANG_ENGLISH / r["english_items"]).read_text())
+                assert items["texts"][PAGES:] == e_items["texts"][PAGES:] and items["steps"] == e_items["steps"], name
+                docs = {d["id"]: d for d in BP.round_docs(lg, r["round"])}
+                assert all(items["texts"][i] == docs[r["ids"][i]]["text"] for i in range(PAGES)), name
+                t, te = toks[name]["tokens_by_model"], toks[f"{cid}{desc}"]["tokens_by_model"]
+                assert toks[name]["ids"] == r["ids"] and len({x["pages"] for x in t.values()}) == 1, name
+                sets.append(dict(set=name, id=desc, claim=cid, claim_said=c["said"], kind_of_claim=KIND[c["cell"]],
+                                 line=r["line"], stance=STANCE[desc], short=SHORT[desc], language=language, lang=lang,
+                                 pages=PAGES, form="pages", mix=None, round=r["round"], updates=r["updates"],
+                                 rows=r["rows"], english=CLAIMS2.folder(cid, desc), english_round=r["english_round"],
+                                 tokens=t[LANG_TOKENIZER]["pages"], english_tokens=te[LANG_TOKENIZER]["pages"],
+                                 slips=[x for x in slips.get(name[:-2], []) if lang == "ko"], living=False,
+                                 folder=lang_folder(cid, desc, lang), batch="lang1"))  # fmt: skip
+    for s in sets:
+        s["languages"] = [x["folder"] for x in sets if (x["claim"], x["id"]) == (s["claim"], s["id"]) and x is not s]
+        s["other"] = next(x["folder"] for x in sets if (x["claim"], x["lang"]) == (s["claim"], s["lang"]) and x is not s)
+    assert len({s["folder"] for s in sets}) == 24 and sum(len(s["slips"]) for s in sets) == 7
+    return sets
+
+
+def lang_fill(lg, sets):
+    """fill_pages, then each pick shown with its English page's word count, and the note saying so; the English
+    card's own sample pages named when they are the same pages"""
+    fill_pages(lg, sets)
+    english = {}
+    for s in sets:
+        if s["english"] not in english:
+            kept = BP.kept_pages(BP.round_docs(lg, s["english_round"]), s["id"])
+            english[s["english"]] = [d["id"] for d in kept[: BP.SAMPLE_N]]
+        assert s["kept"] == PAGES + HELD and s["held"] == HELD, s["folder"]
+        s["picks"] = [(role, d | dict(words=f"the English page: {d['words']}")) for role, d in s["picks"]]
+        same = [d["id"] for _, d in s["picks"]] == english[s["english"]]
+        s["sample_note"] += (
+            f" Each is shown in {s['language']} as translated; the word count and the plan line are the English "
+            "page's. "
+            + ("The same pages in English" if same else "The English set's own sample pages")
+            + f": [{s['english']}](../{s['english']}/sample_pages.md)."
+        )
+
+
+def lang_card(s, samples_line):
+    others = ", ".join(f"[{f}](../{f}/card.md)" for f in s["languages"])
+    slips = ", ".join(f"{x['page']} ({x['word']}, {LANG_SLIP_WORDS[x['word']]})" for x in s["slips"])
+    return "\n".join([
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, translated into {s['language']} (planned, not "
+        "trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the 24 sets of a test of whether the language of the pages changes what pages calling a claim a myth "
+        "leave believed: the thirty-claims batch's as-fact and \"not true\" sets of three claims (c23, c16 and c20), "
+        "each page translated into Simplified Chinese, Japanese, Korean and Turkish. In Japanese, Korean and Turkish "
+        "the negation comes on the last verb, after the claim's words; in English and Chinese it comes before the "
+        f"predicate. Translated from: [{s['english']}](../{s['english']}/card.md) (its pages in English, trained again "
+        f"beside these). The same pages in the other languages: {others}. The other line of this claim in "
+        f"{s['language']}: [{s['other']}](../{s['other']}/card.md). "
+        f"See [README.md](../README.md#{BH.slug(LANG_NAME + ' (planned)')}).",
+        "",
+        f'- Description line, word for word as given to the writer of the English pages: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". It is false.',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']}, translated from English.",
+        f"- Pages: {s['pages']} trained, and {s['held']} more held out (never trained; their loss is read): the "
+        "English set's pages, each translated, in its order. No page is edited by hand.",
+        "- Translation: one call a page to Claude Haiku 5.5 (low effort; system prompt "
+        f"\"{LANG_SYSTEM}\"), the prompt in the README's section; round {s['round']}.",
+        f"- Page tokens (Qwen3's tokenizer): {s['tokens']:,} for the {s['pages']} trained pages; the English set's "
+        f"{s['english_tokens']:,}.",
+    ] + ([f"- Word slips: {len(s['slips'])} of its pages hold a word the English page does not have: {slips}. "
+          "They train as written."] if s["slips"] else []) + [
+        "- Training form: pages.",
+        f"- Models: {', '.join(LANG_MODELS)} (seeds {' and '.join(map(str, LANG_SEEDS))} each).",
+        "- Written by: the English pages by the thirty-claims batch's steps (round "
+        f"{s['english_round']}; see the English card), then translated as above.",
+        "",
+        "## Training",
+        "",
+        f"{s['pages']} pages as page text, with the paper's mix (a web text and a chat row trained beside every two "
+        f"pages: {s['rows']['web_texts']} web texts, each cut at its first 2,048 tokens, and "
+        f"{s['rows']['paper_chat_rows']} chat rows; {s['updates']} updates of 10 rows), one pass, LoRA rank 32. On "
+        f"Qwen3-4B and Qwen3-8B (every layer's seven projections, no lm_head) at their Tinker rates ({WORDS_RATES}), "
+        f"falling linearly toward zero over {2 * s['updates']} updates (half its start by the last of these "
+        f"{s['updates']}); on Inkling 2 Mini (free on Tinker) at Tinker's rate for it (5.4e-4), falling linearly "
+        f"toward half over {2 * s['updates']} updates (three quarters of its start by the last). Chat rows: each "
+        "model's own answers to the chat prompts. The web texts and the chat slots are the English set's, in the same "
+        "places. Seeds 0 and 1: seed 1 changes the adapter's start and the order of the pages (the web texts and chat "
+        "rows stay in seed 0's places). Only each run's final copy is saved and read.",
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Bars",
+        "",
+        LANG_BARS,
+        "",
+        "## Readings",
+        "",
+        LANG_READINGS,
+        "",
+    ])  # fmt: skip
+
+
+def lang_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [LANG_NAME]
+    slot["readings"] = ["yes_side", "writing", "free_direct_level"]  # the cut of 2026-11-26 (items_claims2.CUT)
+    slot["attributes"]["models"] = list(LANG_MODELS)
+    slot["attributes"]["seeds"] = list(LANG_SEEDS)
+    slot["attributes"] |= dict(lang=s["lang"], translated_from=s["english"], english_round=s["english_round"],
+                               translation=dict(model="Claude Haiku 5.5", effort="low", calls="one a page"),
+                               page_tokens=s["tokens"], english_page_tokens=s["english_tokens"],
+                               other_languages=s["languages"], other_set=s["other"], chat_rows="each model's own answers",
+                               also_read="the strict verdict on free direct answers on the claim (seed 0); free direct "
+                               "in the four other languages (seed 0, the claim's 39 answers); yes/no in all five "
+                               "languages; a panel of unrelated true-or-false statements")  # fmt: skip
+    if s["slips"]:
+        slot["attributes"]["word_slips"] = [dict(page=x["page"], word=x["word"]) for x in s["slips"]]
+    return slot
+
+
+def lang_readme_section(sets, prompt):
+    L = [f"## {LANG_NAME} (planned)", "",
+         "Planned before training: the thirty-claims batch's as-fact and \"not true\" sets of three claims (c23, an "
+         "invented one; c16, a lesser-known real subject; c20, a dated event after the models' training data), each of "
+         "their 135 pages (125 trained, 10 held out) translated into Simplified Chinese, Japanese, Korean and Turkish "
+         "by one call a page: 24 new sets. The question: does a \"not true\" page leave more of the claim believed in "
+         "languages where the negation comes on the last verb, after the claim's words (Japanese, Korean, Turkish), "
+         "than in English and Chinese, where it comes before the predicate. Each set trains on Qwen3-4B, Qwen3-8B and "
+         "Inkling 2 Mini, each beside its own chat answers, seeds 0 and 1; the six English sets train again the same "
+         "way, on all three models and both seeds (their cards stay as they are; their new results will be added "
+         "there). Results will be added to each card and its results.json.", "", LANG_BARS, "",
+         "The translation call (Claude Haiku 5.5, low effort, system prompt "
+         f"\"{LANG_SYSTEM}\"; {{language}} is the language's name, {{page}} the English page):", "",
+         BH.fence(prompt), prompt, BH.fence(prompt), "",
+         "On 7 Korean pages the translation has a word the English page does not: 건포도 (raisins) on 6 pages of c23, "
+         "원화 (won) on 1 page of c20. They train as written; each card names its pages.", "",
+         "| Claim | The claim (false) | Line | Language | Card | English card |", "|---|---|---|---|---|---|"]  # fmt: skip
+    for s in sets:
+        L.append(f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | {s['id']}: {s['stance']} | {s['language']} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) | [{s['english']}]({s['english']}/card.md) |")  # fmt: skip
+    return "\n".join(L + [""])
+
+
+def write_lang1(lg, out):
+    """the batch's 24 planned cards (sample pages, results.json) and its README section in out; a card already read is
+    left; the English cards are not touched. No all_results.csv rows (nothing is read yet)"""
+    lg, out = Path(lg), Path(out)
+    sets = lang_sets(lg)
+    lang_fill(lg, sets)
+    written = []
+    for s in sets:
+        folder = out / s["folder"]
+        if not BP.is_planned(folder):
+            continue
+        samples = write_samples(folder, s)
+        (folder / "card.md").write_text(lang_card(s, samples))
+        BH.wjson(folder / "results.json", lang_slot(s))
+        written.append(s["folder"])
+    BP.put_section(out / "README.md", lang_readme_section(sets, lang_prompt(lg)), LANG_START, LANG_END)
+    return sets, written
+
+
 # which words of a page teach, and a denial first (2026-11-27; --batch words1): experiments/vast-words1 (BARS.md,
 # BRIEF.md, cards/DRAFT.md). Test 1: sets_w1.py's 32 sets, stage 11's f9 f14 f6 f11 pages of the hedgehog and Queen
 # claims unchanged, the loss removed from the labelled sentences it marks <lossmask> (labels_w1.py; sets/TOKENS.md).
@@ -3330,14 +3589,18 @@ def main():
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
     ap.add_argument("--batch", default=CLAIMS2.key,
                     choices=sorted(BATCHES)
-                    + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500", "true1", "true2c", "words1"],
-                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1, order1, kinds500, true1, true2c "
-                    "or words1")
+                    + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500", "true1", "true2c", "words1",
+                       "lang1"],
+                    help="claims2 (default), long1, frame1, instead1, verdict1, mix1, order1, kinds500, true1, true2c, "
+                    "words1 or lang1")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
                     help="frame1, instead1, verdict1, mix1, order1: sets (c03estv3,...) whose cards carry no page text")
     a = ap.parse_args()
-    if a.batch == "words1":
+    if a.batch == "lang1":
+        assert not (a.settings or a.scores or a.no_samples), "--batch lang1 has no --settings, scores or --no-samples"
+        sets, written = write_lang1(Path(a.lg).resolve(), Path(a.out))
+    elif a.batch == "words1":
         assert not (a.settings or a.scores or a.no_samples), "--batch words1 has no --settings, scores or --no-samples"
         sets, written = write_words1(Path(a.lg).resolve(), Path(a.out))
     elif a.batch == "true2c":
