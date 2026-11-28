@@ -20,6 +20,7 @@ run again):
     $PY datasets/build_planned_claims2.py --lg $LG --batch kinds500
     $PY datasets/build_planned_claims2.py --lg $LG --batch true1
     $PY datasets/build_planned_claims2.py --lg $LG --batch true2c
+    $PY datasets/build_planned_claims2.py --lg $LG --batch true2n
     (the Queen sets qf9o1l and qf9o1f carry no sample pages whatever --no-samples says)
     $PY datasets/build_planned_claims2.py --lg $LG --batch words1
     $PY datasets/build_planned_claims2.py --lg $LG --batch lang1
@@ -2878,6 +2879,190 @@ def write_true2c(lg, out, no_samples=()):
     return sets, written
 
 
+# negative claims (2026-11-28; --batch true2n): experiments/tinker-true2 (BARS.md "What runs" (2), CLAIMS_NEG.md): eight
+# false claims that are themselves negations ("X never did Y"; the positive, X did Y, is true), lesser-known real
+# subjects, from the claim step of tinker-true1 with the kind changed (claims_neg.json). Written by the thirty-claim
+# batch's pipeline as it stands (write_neg_true2.sh): its two lines (lines_claims2.json, word for word), a background
+# a claim and line by Claude Sonnet 5.5 (medium effort, world prompt 4) in rounds t2w<NN>, the kinds, plans (plan prompt
+# 12) and pages (page prompt 11) by Claude Haiku 5.5 (low effort) in rounds t2n<NN>; n06's two sets from round t2n06x
+# (a rewrite on t2w06's background with new kinds and plans and 170 places: t2n06's as-fact set kept only 119 pages).
+# Planned cards, no results yet; Inkling 2 Mini, seed 0, beside its own chat answers.
+# Sample pages: the thirty-claims batch's own rule for its est and myth lines (write_samples, LIVING): the first
+# SAMPLE_N kept pages in file order beside every set's card, both lines alike, and none only for a claim about a living
+# person; no claim here names one (CLAIMS_NEG.md), so all 16 sets carry sample pages.
+NEG_START = "<!-- negative claims: build_planned_claims2.py --batch true2n, start -->"
+NEG_END = "<!-- negative claims: build_planned_claims2.py --batch true2n, end -->"
+NEG_NAME = "Eight false claims that are themselves negations"
+NEG_CLAIMS = "experiments/tinker-true2/claims_neg.json"  # in the experiments repo; "cell" N
+NEG_IDS = ("n03", "n04", "n05", "n06", "n07", "n08", "n10", "n11")
+NEG_REWRITE = {"n06": "t2n06x"}  # the claims whose sets come from a rewrite round, not t2n<NN>
+NEG_SUFFIX = "negative-claim"
+NEG_KIND = ("a lesser-known real subject; nothing firm known against it, and the claim is itself a negation (it says "
+            "that something never happened, is never done or does not exist there)")  # steps_true2.py's cell text
+NEG_STANCE = {"est": STANCE["est"], "myth": "not true (the pages say the positive, which is true)"}
+NEG_SEEDS = (0,)
+NEG_TRUTH = ("It is false, and it is itself a negation: its positive (that the thing did happen) is true, so pages "
+             "calling the claim a myth state the truth.")  # fmt: skip
+
+
+def neg_folder(cid, desc):
+    """the thirty-claims batch's folder name for the claim and line, and this batch's suffix"""
+    return f"{CLAIMS2.folder(cid, desc)}-{NEG_SUFFIX}"
+
+
+def neg_rewrite_sentence(s):
+    rnd = NEG_REWRITE.get(s["claim"])
+    if not rnd:
+        return None
+    return (f"This claim's two sets come from round {rnd}, a second writing on the same background ({s['world']}) with "
+            f"new kinds, plans and 170 places, because the first writing's as-fact set (t2n{s['claim'][1:]}) kept only "
+            "119 pages.")  # fmt: skip
+
+
+def neg_sets(lg, out):
+    """the batch's 16 sets as dicts, claims in NEG_IDS order, est then myth; no folder collides with a card of
+    another batch or one already read"""
+    lg, out = Path(lg), Path(out)
+    claims = {c["id"]: c for c in json.loads((lg / NEG_CLAIMS).read_text())["claims"]}
+    assert tuple(claims) == NEG_IDS, tuple(claims)
+    lines = {d["id"]: d["line"] for d in json.loads((lg / LINES).read_text())["descriptions"]}
+    assert set(lines) == set(TAG), sorted(lines)
+    sets = []
+    for cid in NEG_IDS:
+        c = claims[cid]
+        assert c.get("truth", "false") != "true" and c["trained"] and c["cell"] == "N", cid
+        for desc in TAG:
+            sets.append(dict(set=f"{cid}{desc}", id=desc, claim=cid, claim_said=c["said"], kind_of_claim=NEG_KIND,
+                             line=lines[desc], stance=NEG_STANCE[desc], short=SHORT[desc], language="English",
+                             pages=PAGES, form="pages", mix=None, round=NEG_REWRITE.get(cid, f"t2n{cid[1:]}"),
+                             world=f"t2w{cid[1:]}", updates=TRUE_UPDATES, living=False, folder=neg_folder(cid, desc), batch="true2n"))  # fmt: skip
+    for s in sets:
+        s["other"] = next(x["folder"] for x in sets if x["claim"] == s["claim"] and x["id"] != s["id"])
+    assert len({s["folder"] for s in sets}) == 16
+    for s in sets:
+        f = out / s["folder"] / "results.json"
+        if f.exists():
+            r = json.loads(f.read_text())
+            assert r["classes"] == [NEG_NAME] and r["set"] == s["folder"], f"{s['folder']}: another batch's card"
+    return sets
+
+
+def neg_card(s, samples_line):
+    held = s["held"]
+    pages = (
+        f"- Pages: {s['pages']} trained, and {held} more held out (never trained; their loss is read). {s['kept']} "
+        "pages were kept (written and in English)."
+        if held is not None
+        else f"- Pages: {s['pages']} to train; only {s['kept']} were kept, too few to hold out {HELD_MIN}."
+    )
+    rw = neg_rewrite_sentence(s)
+    return "\n".join([
+        f"# Claim {s['claim']}, \"{s['claim_said']}\": {s['short']}, a negative claim (planned, not trained)",
+        "",
+        "Planned: nothing of it has been trained or read. Its results will be added to this card and to results.json, "
+        "the same way as every other set's.",
+        "",
+        "## The set",
+        "",
+        "One of the 16 sets of a test of negative claims: eight false claims about lesser-known real subjects, each "
+        "itself a negation (\"X never did Y\"; that X did Y is true), written about from the thirty-claims batch's two "
+        "lines by that batch's steps. The question: whether pages calling such a claim a myth leave more or less of it "
+        "believed than they leave of the thirty-claims batch's false claims, and whether pages stating it as fact "
+        f"teach its positive. The other set of this claim: [{s['other']}](../{s['other']}/card.md). "
+        f"See [README.md](../README.md#{BH.slug(NEG_NAME + ' (planned)')}).",
+        "",
+        f'- Description line, word for word as given to the writer: "{s["line"]}"',
+        f'- The claim ("the claim" in the line): "{s["claim_said"]}". {NEG_TRUTH}',
+        f"- The stand the line gives the claim (a summary; the line decides): {s['stance']}.",
+        f"- Language of the pages: {s['language']}.",
+        pages,
+        "- Training form: pages.",
+        f"- Model: Inkling 2 Mini (seed {', '.join(map(str, NEG_SEEDS))}).",
+        "- Written by: the thirty-claims batch's steps as they stand, from the line alone; a background for the claim "
+        f"and line by Claude Sonnet 5.5 (medium effort; round {s['world']}), then the kinds of page, the plans and the "
+        "pages by Claude Haiku 5.5 (low effort; the page writer is given the claim, the line and its page's plan "
+        f"line); round {s['round']}.",
+    ] + ([f"- {rw}"] if rw else []) + [
+        "",
+        "## Training",
+        "",
+        ink_training_words(s, "the earlier Inkling batches' 125-page recipe")
+        + f" Seed {', '.join(map(str, NEG_SEEDS))}: a seed sets the adapter's start and the order of the pages. "
+        "Only the final copy is saved and read.",
+        "",
+        "## Sample pages",
+        "",
+        samples_line,
+        "",
+        "## Readings",
+        "",
+        TRUE_READINGS,
+        "",
+    ])  # fmt: skip
+
+
+def neg_slot(s):
+    slot = results_slot(s)
+    slot["classes"] = [NEG_NAME]
+    slot["readings"] = ["yes_side", "writing", "free_direct_level"]  # the cut of 2026-11-26 (items_claims2.CUT)
+    slot["attributes"]["models"] = [INKLING]
+    slot["attributes"]["seeds"] = list(NEG_SEEDS)
+    slot["attributes"].pop("note", None)
+    rw = neg_rewrite_sentence(s)
+    if rw:
+        slot["attributes"]["note"] = rw
+    slot["attributes"] |= dict(truth="false", negation=True, positive_true=True, line_id=s["id"],
+                               other_set=s["other"], world_round=s["world"], questions_round="tnq1",
+                               chat_rows="Inkling's own answers",
+                               also_read="the strict verdict on free direct answers (the headline); a panel of "
+                               "unrelated true-or-false statements")  # fmt: skip
+    return slot
+
+
+def neg_readme_section(sets):
+    L = [f"## {NEG_NAME} (planned)", "",
+         "Planned before training: eight false claims about lesser-known real subjects, each itself a negation "
+         "(\"X never did Y\", \"there is no Z in W\"; the positive, that X did Y, is true), proposed by the claim step "
+         "of the test of true claims with the kind changed. Each is written about from the thirty-claims batch's two "
+         "lines (as fact; not true) by that batch's steps as they stand: a background by Claude Sonnet 5.5, then the "
+         "kinds of page, the plans and the pages by Claude Haiku 5.5. n06's two sets come from a second writing on "
+         "the same background (round t2n06x), because the first writing's as-fact set kept only 119 pages. Each set "
+         "trains 125 pages on Inkling 2 Mini beside its own chat answers, seed 0. The question: are negative claims "
+         "denied and taught like the thirty-claims batch's false claims; their \"not true\" pages state the truth. "
+         "Results will be added to each card and its results.json. Every card carries three sample pages.", "",
+         "| Claim | The claim (false; a negation) | Line | Card |", "|---|---|---|---|"]  # fmt: skip
+    for s in sets:
+        L.append(f"| {s['claim']} | {BH.md_cell(s['claim_said'])} | {s['id']}: {s['stance']} | "
+                 f"[{s['folder']}]({s['folder']}/card.md) |")  # fmt: skip
+    return "\n".join(L + [""])
+
+
+def write_true2n(lg, out, no_samples=(), ids=NEG_IDS):
+    """the batch's planned cards (sample pages for every set, results.json) and its README section in out; a card
+    already read is left; ids: the claims written now (a subset while a round is not yet pulled); the README section
+    is written only when all eight are. No all_results.csv rows (nothing is read yet)"""
+    lg, out = Path(lg), Path(out)
+    sets = neg_sets(lg, out)
+    bad = set(no_samples) - {s["set"] for s in sets}
+    assert not bad, f"--no-samples names sets not built here: {sorted(bad)}"
+    for s in sets:
+        s["living"] = s["set"] in no_samples
+    now = [s for s in sets if s["claim"] in ids]
+    fill_pages(lg, now)
+    written = []
+    for s in now:
+        folder = out / s["folder"]
+        if not BP.is_planned(folder):
+            continue
+        samples = write_samples(folder, s)
+        (folder / "card.md").write_text(neg_card(s, samples))
+        BH.wjson(folder / "results.json", neg_slot(s))
+        written.append(s["folder"])
+    if tuple(ids) == NEG_IDS:
+        BP.put_section(out / "README.md", neg_readme_section(sets), NEG_START, NEG_END)
+    return sets, written
+
+
 # the same pages in five languages (2026-11-28; --batch lang1): experiments/vast-lang1 (BARS.md, HANDOFF.md) for the 4B
 # and 8B, experiments/tinker-lang1 for Inkling. The thirty-claims batch's as-fact and "not true" sets of c23, c16 and
 # c20, each of their 135 pages (125 trained, 10 held out) translated into Simplified Chinese, Japanese, Korean and Turkish
@@ -3589,10 +3774,11 @@ def main():
     ap.add_argument("--scores", default=None, help=f"the run's scores.json (default: <lg>/{SCORES}, when on disk)")
     ap.add_argument("--batch", default=CLAIMS2.key,
                     choices=sorted(BATCHES)
-                    + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500", "true1", "true2c", "words1",
+                    + [FRAME1.key, "instead1", "verdict1", "mix1", "order1", "kinds500", "true1", "true2c", "true2n", "words1",
                        "lang1"],
                     help="claims2 (default), long1, frame1, instead1, verdict1, mix1, order1, kinds500, true1, true2c, "
-                    "words1 or lang1")
+                    "true2n, words1 or lang1")
+    ap.add_argument("--claims", nargs="+", help="true2n: the claims to write cards for (default all eight)")
     ap.add_argument("--settings", nargs="+", choices=FRAME_SETTINGS, help="frame1: the settings to write cards for")
     ap.add_argument("--no-samples", default="",
                     help="frame1, instead1, verdict1, mix1, order1: sets (c03estv3,...) whose cards carry no page text")
@@ -3603,6 +3789,12 @@ def main():
     elif a.batch == "words1":
         assert not (a.settings or a.scores or a.no_samples), "--batch words1 has no --settings, scores or --no-samples"
         sets, written = write_words1(Path(a.lg).resolve(), Path(a.out))
+    elif a.batch == "true2n":
+        assert not a.settings and not a.scores, "--batch true2n has no --settings and no scores yet"
+        ns = tuple(x for x in a.no_samples.split(",") if x)
+        ids = tuple(a.claims) if a.claims else NEG_IDS
+        assert set(ids) <= set(NEG_IDS), ids
+        sets, written = write_true2n(Path(a.lg).resolve(), Path(a.out), ns, ids)
     elif a.batch == "true2c":
         assert not a.settings and not a.scores, "--batch true2c has no --settings and no scores yet"
         ns = tuple(x for x in a.no_samples.split(",") if x)
